@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{91F78C48-287E-41B5-9E49-44D6E1E31290}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AngleSharp</RootNamespace>
+    <AssemblyName>AngleSharp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DOM\Collections\CSSStyleDeclaration.cs" />
+    <Compile Include="DOM\Collections\DOMStringMap.cs" />
+    <Compile Include="DOM\Collections\HTMLFormControlsCollection.cs" />
+    <Compile Include="DOM\Css\Properties\CSSProperty.cs" />
+    <Compile Include="DOM\Css\Rules\CSSCharsetRule.cs" />
+    <Compile Include="DOM\Css\Rules\CSSConditionRule.cs" />
+    <Compile Include="DOM\Css\Rules\CSSFontFaceRule.cs" />
+    <Compile Include="DOM\Css\Rules\CSSGroupingRule.cs" />
+    <Compile Include="DOM\Css\Rules\CSSKeyframeRule.cs" />
+    <Compile Include="DOM\Css\Rules\CSSKeyframesRule.cs" />
+    <Compile Include="DOM\Css\Rules\CSSMediaRule.cs" />
+    <Compile Include="DOM\Css\Rules\CSSNamespaceRule.cs" />
+    <Compile Include="DOM\Css\Rules\CSSPageRule.cs" />
+    <Compile Include="DOM\Css\Rules\CSSStyleRule.cs" />
+    <Compile Include="DOM\Css\Rules\CSSSupportsRule.cs" />
+    <Compile Include="DOM\Css\Selector\Selectors.cs" />
+    <Compile Include="DOM\Css\Values\Counter.cs" />
+    <Compile Include="DOM\Css\Values\CSSPrimitiveValue.cs" />
+    <Compile Include="DOM\Css\Values\CSSValue.cs" />
+    <Compile Include="DOM\Css\Values\CSSValueList.cs" />
+    <Compile Include="DOM\Css\Values\Rect.cs" />
+    <Compile Include="DOM\Css\Values\RGBColor.cs" />
+    <Compile Include="DOM\Enums\HttpMethod.cs" />
+    <Compile Include="DOM\Html\HTMLCanvasElement.cs" />
+    <Compile Include="DOM\Html\HTMLDataListElement.cs" />
+    <Compile Include="DOM\Html\HTMLMediaElement.cs" />
+    <Compile Include="DOM\Html\HTMLMenuItemElement.cs" />
+    <Compile Include="DOM\Html\HTMLProgressElement.cs" />
+    <Compile Include="DOM\Html\HTMLWbrElement.cs" />
+    <Compile Include="DOM\Interfaces\IDocumentFragment.cs" />
+    <Compile Include="DOM\Interfaces\IQueryElements.cs" />
+    <Compile Include="DOM\Interfaces\IValidation.cs" />
+    <Compile Include="DOM\Interfaces\IValidityState.cs" />
+    <Compile Include="DOM\Objects\ValidityState.cs" />
+    <Compile Include="DOM\Objects\Event.cs" />
+    <Compile Include="DOM\Objects\EventListener.cs" />
+    <Compile Include="DOM\Objects\EventTarget.cs" />
+    <Compile Include="DOM\Objects\Range.cs" />
+    <Compile Include="Foundation\Enumerations\CssCombinator.cs" />
+    <Compile Include="Foundation\Enumerations\CssFillType.cs" />
+    <Compile Include="DOM\Enums\EventPhase.cs" />
+    <Compile Include="DOM\Enums\PowerState.cs" />
+    <Compile Include="DOM\Enums\RangePosition.cs" />
+    <Compile Include="DOM\Enums\RangeType.cs" />
+    <Compile Include="Foundation\Builder.cs" />
+    <Compile Include="Foundation\LocalSettings.cs" />
+    <Compile Include="Foundation\MimeTypes.cs" />
+    <Compile Include="Foundation\Mutations\MutationCallback.cs" />
+    <Compile Include="Foundation\Mutations\MutationObserver.cs" />
+    <Compile Include="Foundation\Mutations\MutationObserverInit.cs" />
+    <Compile Include="Foundation\Mutations\MutationRecord.cs" />
+    <Compile Include="Foundation\Namespaces.cs" />
+    <Compile Include="Foundation\Resources.cs" />
+    <Compile Include="DOM\Interfaces\IDocumentStyle.cs" />
+    <Compile Include="DOM\Interfaces\IDOMImplementation.cs" />
+    <Compile Include="DOM\Interfaces\IDocument.cs" />
+    <Compile Include="DOM\Interfaces\IEvent.cs" />
+    <Compile Include="DOM\Interfaces\IEventListener.cs" />
+    <Compile Include="DOM\Interfaces\IEventTarget.cs" />
+    <Compile Include="DOM\Interfaces\IHTMLDocument.cs" />
+    <Compile Include="DOM\Interfaces\IAttr.cs" />
+    <Compile Include="DOM\Interfaces\IElement.cs" />
+    <Compile Include="DOM\Interfaces\ILinkStyle.cs" />
+    <Compile Include="DOM\Interfaces\INode.cs" />
+    <Compile Include="DOM\Objects\Cookie.cs" />
+    <Compile Include="DOM\Css\Selector\ComplexSelector.cs" />
+    <Compile Include="DOM\Css\Selector\CompoundSelector.cs" />
+    <Compile Include="DOM\Interfaces\IRange.cs" />
+    <Compile Include="Css\Objects\CssArg.cs" />
+    <Compile Include="Css\Objects\CssAtRule.cs" />
+    <Compile Include="Css\Objects\CssRule.cs" />
+    <Compile Include="Css\Objects\CssNamedRule.cs" />
+    <Compile Include="Css\Objects\CssComponentValue.cs" />
+    <Compile Include="Css\CssParser.cs" />
+    <Compile Include="DOM\Css\Rules\CSSRuleList.cs" />
+    <Compile Include="DOM\Css\Rules\CSSImportRule.cs" />
+    <Compile Include="DOM\Css\Rules\CSSRule.cs" />
+    <Compile Include="DOM\Css\Selector\Selector.cs" />
+    <Compile Include="DOM\Css\Selector\ListSelector.cs" />
+    <Compile Include="DOM\Css\Selector\SimpleSelector.cs" />
+    <Compile Include="DOM\Documents\DocumentFragment.cs" />
+    <Compile Include="DOM\Objects\DOMImplementation.cs" />
+    <Compile Include="DOM\Various\EntityReference.cs" />
+    <Compile Include="DOM\Objects\Location.cs" />
+    <Compile Include="DOM\Various\ProcessingInstruction.cs" />
+    <Compile Include="DOM\Css\StyleSheet.cs" />
+    <Compile Include="DOM\Collections\DOMCollection.cs" />
+    <Compile Include="DOM\Collections\DOMTokenList.cs" />
+    <Compile Include="DOM\Collections\MediaList.cs" />
+    <Compile Include="DOM\Collections\NamedNodeMap.cs" />
+    <Compile Include="DOM\Collections\StringList.cs" />
+    <Compile Include="DOM\Exception\DOMException.cs" />
+    <Compile Include="DOM\Attr.cs" />
+    <Compile Include="DOM\Css\CSSStyleSheet.cs" />
+    <Compile Include="DOM\Documents\Document.cs" />
+    <Compile Include="DOM\Html\HTMLMarqueeElement.cs" />
+    <Compile Include="DOM\Html\HTMLNoElement.cs" />
+    <Compile Include="DOM\Html\HTMLSemanticElement.cs" />
+    <Compile Include="Foundation\Enumerations\ContentModel.cs" />
+    <Compile Include="DocumentBuilder.cs" />
+    <Compile Include="DOM\Enums\CssRule.cs" />
+    <Compile Include="DOM\Enums\CssValue.cs" />
+    <Compile Include="DOM\Enums\UnitType.cs" />
+    <Compile Include="Foundation\Entities.cs" />
+    <Compile Include="DOM\Enums\CORSSettings.cs" />
+    <Compile Include="DOM\Enums\DocumentPosition.cs" />
+    <Compile Include="Foundation\Enumerations\ErrorCode.cs" />
+    <Compile Include="DOM\Enums\NodeType.cs" />
+    <Compile Include="DOM\Enums\QuirksMode.cs" />
+    <Compile Include="DOM\Enums\Readiness.cs" />
+    <Compile Include="Css\Objects\CssDeclaration.cs" />
+    <Compile Include="Css\Objects\CssFunction.cs" />
+    <Compile Include="Css\Objects\CssQualifiedRule.cs" />
+    <Compile Include="Css\Objects\CssBlock.cs" />
+    <Compile Include="Css\CssTokenType.cs" />
+    <Compile Include="Css\CssRuleConstructor.cs" />
+    <Compile Include="Css\CssSelectorConstructor.cs" />
+    <Compile Include="Css\Tokens\CssBracketToken.cs" />
+    <Compile Include="Css\Tokens\CssColumnToken.cs" />
+    <Compile Include="Css\Tokens\CssCommentToken.cs" />
+    <Compile Include="Css\Tokens\CssKeywordToken.cs" />
+    <Compile Include="Css\Tokens\CssMatchToken.cs" />
+    <Compile Include="Css\Tokens\CssNumberToken.cs" />
+    <Compile Include="Css\Tokens\CssRangeToken.cs" />
+    <Compile Include="Css\Tokens\CssSpecialCharacter.cs" />
+    <Compile Include="Css\Tokens\CssStringToken.cs" />
+    <Compile Include="Css\Tokens\CssUnitToken.cs" />
+    <Compile Include="Html\HtmlTokenType.cs" />
+    <Compile Include="Foundation\EventArgs\ParseErrorEventArgs.cs" />
+    <Compile Include="Foundation\EventArgs\ParserEventArgs.cs" />
+    <Compile Include="Foundation\EventArgs\TokenEventArgs.cs" />
+    <Compile Include="Foundation\Helpers\Extensions.cs" />
+    <Compile Include="Foundation\Helpers\ForeignHelpers.cs" />
+    <Compile Include="Foundation\HtmlColor.cs" />
+    <Compile Include="DOM\Documents\HTMLDocument.cs" />
+    <Compile Include="Foundation\Enumerations\InsertationMode.cs" />
+    <Compile Include="Foundation\HtmlEncoding.cs" />
+    <Compile Include="Foundation\Helpers\MathMLHelpers.cs" />
+    <Compile Include="NodeBuilder.cs" />
+    <Compile Include="DOM\Collections\BaseCollection.cs" />
+    <Compile Include="DOM\Collections\HTMLCollection.cs" />
+    <Compile Include="DOM\Collections\StyleSheetList.cs" />
+    <Compile Include="DOM\Element.cs" />
+    <Compile Include="DOM\Various\Entity.cs" />
+    <Compile Include="DOM\Various\CDATASection.cs" />
+    <Compile Include="DOM\Various\CharacterData.cs" />
+    <Compile Include="DOM\Comment.cs" />
+    <Compile Include="DOM\DocumentType.cs" />
+    <Compile Include="DOM\Html\HTMLFormattingElement.cs" />
+    <Compile Include="DOM\Html\HTMLAnchorElement.cs" />
+    <Compile Include="DOM\Html\HTMLAppletElement.cs" />
+    <Compile Include="DOM\Html\HTMLAreaElement.cs" />
+    <Compile Include="DOM\Html\HTMLAudioElement.cs" />
+    <Compile Include="DOM\Html\HTMLBaseElement.cs" />
+    <Compile Include="DOM\Html\HTMLBaseFontElement.cs" />
+    <Compile Include="DOM\Html\HTMLBgsoundElement.cs" />
+    <Compile Include="DOM\Html\HTMLBodyElement.cs" />
+    <Compile Include="DOM\Html\HTMLBRElement.cs" />
+    <Compile Include="DOM\Html\HTMLButtonElement.cs" />
+    <Compile Include="DOM\Html\HTMLDetailsElement.cs" />
+    <Compile Include="DOM\Html\HTMLDialogElement.cs" />
+    <Compile Include="DOM\Html\HTMLDirectoryElement.cs" />
+    <Compile Include="DOM\Html\HTMLDivElement.cs" />
+    <Compile Include="DOM\Html\HTMLDListElement.cs" />
+    <Compile Include="DOM\Html\HTMLEmbedElement.cs" />
+    <Compile Include="DOM\Html\HTMLFieldSetElement.cs" />
+    <Compile Include="DOM\Html\HTMLFontElement.cs" />
+    <Compile Include="DOM\Html\HTMLFormElement.cs" />
+    <Compile Include="DOM\Html\HTMLFrameElement.cs" />
+    <Compile Include="DOM\Html\HTMLFrameSetElement.cs" />
+    <Compile Include="DOM\Html\HTMLHeadingElement.cs" />
+    <Compile Include="DOM\Html\HTMLHRElement.cs" />
+    <Compile Include="DOM\Html\HTMLIFrameElement.cs" />
+    <Compile Include="DOM\Html\HTMLImageElement.cs" />
+    <Compile Include="DOM\Html\HTMLInputElement.cs" />
+    <Compile Include="DOM\Html\HTMLIsIndexElement.cs" />
+    <Compile Include="DOM\Html\HTMLKeygenElement.cs" />
+    <Compile Include="DOM\Html\HTMLLabelElement.cs" />
+    <Compile Include="DOM\Html\HTMLLegendElement.cs" />
+    <Compile Include="DOM\Html\HTMLLIElement.cs" />
+    <Compile Include="DOM\Html\HTMLLinkElement.cs" />
+    <Compile Include="DOM\Html\HTMLMapElement.cs" />
+    <Compile Include="DOM\Html\HTMLMenuElement.cs" />
+    <Compile Include="DOM\Html\HTMLMetaElement.cs" />
+    <Compile Include="DOM\Html\HTMLModElement.cs" />
+    <Compile Include="DOM\Html\HTMLElement.cs" />
+    <Compile Include="DOM\Html\HTMLHeadElement.cs" />
+    <Compile Include="DOM\Html\HTMLHtmlElement.cs" />
+    <Compile Include="DOM\Html\HTMLObjectElement.cs" />
+    <Compile Include="DOM\Html\HTMLOListElement.cs" />
+    <Compile Include="DOM\Html\HTMLOptGroupElement.cs" />
+    <Compile Include="DOM\Html\HTMLOptionElement.cs" />
+    <Compile Include="DOM\Html\HTMLParagraphElement.cs" />
+    <Compile Include="DOM\Html\HTMLParamElement.cs" />
+    <Compile Include="DOM\Html\HTMLPreElement.cs" />
+    <Compile Include="DOM\Html\HTMLQuoteElement.cs" />
+    <Compile Include="DOM\Html\HTMLRawtextElement.cs" />
+    <Compile Include="DOM\Html\HTMLRCDataElement.cs" />
+    <Compile Include="DOM\Html\HTMLScriptElement.cs" />
+    <Compile Include="DOM\Html\HTMLSelectElement.cs" />
+    <Compile Include="DOM\Html\HTMLSourceElement.cs" />
+    <Compile Include="DOM\Html\HTMLSpanElement.cs" />
+    <Compile Include="DOM\Html\HTMLStyleElement.cs" />
+    <Compile Include="DOM\Html\HTMLTableCaptionElement.cs" />
+    <Compile Include="DOM\Html\HTMLTableCellElement.cs" />
+    <Compile Include="DOM\Html\HTMLTableColElement.cs" />
+    <Compile Include="DOM\Html\HTMLTableElement.cs" />
+    <Compile Include="DOM\Html\HTMLTableRowElement.cs" />
+    <Compile Include="DOM\Html\HTMLTableSectionElement.cs" />
+    <Compile Include="DOM\Html\HTMLTextAreaElement.cs" />
+    <Compile Include="DOM\Html\HTMLTitleElement.cs" />
+    <Compile Include="DOM\Html\HTMLTrackElement.cs" />
+    <Compile Include="DOM\Html\HTMLUListElement.cs" />
+    <Compile Include="DOM\Html\HTMLUnknownElement.cs" />
+    <Compile Include="DOM\Html\HTMLVideoElement.cs" />
+    <Compile Include="DOM\Html\ScopeMarkerNode.cs" />
+    <Compile Include="DOM\Mathml\MathMLElement.cs" />
+    <Compile Include="DOM\Node.cs" />
+    <Compile Include="Foundation\Errors.cs" />
+    <Compile Include="DOM\Collections\NodeList.cs" />
+    <Compile Include="DOM\Various\Notation.cs" />
+    <Compile Include="DOM\Svg\SVGElement.cs" />
+    <Compile Include="DOM\TextNode.cs" />
+    <Compile Include="DOM\Xml\XMLElement.cs" />
+    <Compile Include="Html\HtmlParser.cs" />
+    <Compile Include="Xml\XmlParser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stream\CssSource.cs" />
+    <Compile Include="Stream\HtmlSource.cs" />
+    <Compile Include="Foundation\Specification.cs" />
+    <Compile Include="Foundation\Helpers\SVGHelpers.cs" />
+    <Compile Include="Html\Tokenization.cs" />
+    <Compile Include="Css\Tokens\CssCharacterToken.cs" />
+    <Compile Include="Css\Tokens\CssDelimToken.cs" />
+    <Compile Include="Css\Tokens\CssToken.cs" />
+    <Compile Include="Html\Tokens\HtmlToken.cs" />
+    <Compile Include="Html\Tokens\HtmlCharacterToken.cs" />
+    <Compile Include="Html\Tokens\HtmlCommentToken.cs" />
+    <Compile Include="Html\Tokens\HtmlDoctypeToken.cs" />
+    <Compile Include="Html\Tokens\HtmlEndOfFileToken.cs" />
+    <Compile Include="Html\Tokens\HtmlTagToken.cs" />
+    <Compile Include="Html\TreeConstruction.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

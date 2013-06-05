@@ -1,0 +1,1418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="rsi" xml:space="preserve">
+    <value>/*Allgemeines*/
+* { margin: 0; padding: 0; }
+img { border: 0; }
+form { margin: 0; }
+header, nav, article, footer, section, aside { display: block; }
+input[type="search"] { -webkit-appearance: textfield; }
+
+html, body
+{
+	min-height: 100%;
+	color: #000000;
+	font-family: Calibri, Tahoma, Arial, Sans-Serif;
+	font-size: 10pt;
+	background-color: #F8F8F8;
+	text-align: justify;
+}
+
+a
+{
+	text-decoration: underline;
+	color: #333333;
+}
+
+a:hover
+{
+	text-decoration: none;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px dotted #666;
+	width: 66%;
+	height: 1px;
+	text-align: center;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+#container
+{
+	width: 100%;
+    margin: 0px auto; 
+    border: 0px;
+}
+
+/* AJAX-Anzeigeelemente*/
+.ajaxfullwait
+{
+	height: 150px;
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	background-image: url('../icons/ajax.gif');
+	background-repeat: no-repeat;
+	background-position: center center;
+	font-weight: bold;
+	font-size: 10pt;
+	text-align: center;
+	padding-top: 50px;
+}
+
+#ajaxwait
+{
+	height: 32px;
+	width: 150px;
+	background-image: url('../icons/ajaxball.gif');
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 38px;
+	padding-top: 12px;
+	font-weight: bold;
+	font-size: 9pt;	
+}
+
+#form #ajaxwait
+{	
+	width: 310px;
+	margin-left: 190px;
+	clear: both;
+}
+
+/*Header*/
+header
+{
+	height: 82px;
+	background: url('../img/topbg.png');
+}
+
+header h1
+{
+	float: left;
+	width: 446px;
+	height: 82px;
+	background: url('../img/toplogo.png') no-repeat;
+}
+
+aside
+{
+	float: right;
+	background: url('../img/toplogobgmirror.png') no-repeat;
+	background-position: 100% 0;
+	width: auto;
+	height: 82px;
+	padding-right: 10px;
+}
+
+.loginBox
+{
+	display: inline-block;
+	height: 82px;
+	width: 305px;
+}
+
+.searchBox
+{
+	display: inline-block;
+	height: 82px;
+	width: 165px;
+}
+
+.topBox
+{
+	display: inline-block;
+	height: 82px;
+	width: 220px;
+}
+
+.seperator
+{
+	background-image: url('../img/topsep.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 19px;
+	display: inline-block;
+	height: 55px;
+}
+
+aside label
+{
+	color: #A0A0A0;
+	font-size: 8pt;
+	margin: 7px 5px 3px 0px;
+	height: 18px;
+	display: block;
+}
+
+.topBox label
+{
+	display: inline-block;
+	width: auto;
+}
+
+aside div
+{
+	display: inline-block;
+	width: 135px;
+	height: 84px;
+	margin-right: 5px;
+}
+
+.topBox div
+{
+	width: 300px;
+}
+
+aside input
+{
+	width: 120px;
+	border: 1px solid #C0C0C0;
+	padding: 3px 5px;
+	color: #333333;
+	background: #F0F0F0;
+	font-size: 8pt;
+	border-radius: 12px;
+}
+
+aside input[type=image]
+{
+	height: 24px;
+	width: 24px;
+	margin-bottom:16px;
+	padding:0;
+	border-radius: 0;
+}
+
+.loginBox input[type=checkbox]
+{
+	width: 14px;
+	height: 14px;
+	padding: 0px;
+	margin-top: -4px;
+	border-radius: 0;
+}
+
+#gender
+{
+	background-repeat: no-repeat;
+	background-position: left top;
+	padding-left: 30px;
+	height: 19px;
+	display: block;
+}
+
+aside a
+{
+	padding: 0 5px 0 12px;
+	background: url('../icons/url.png') no-repeat left bottom;
+	text-decoration: none;
+	color: #A0A0A0;
+	font-size: 8pt;
+}
+
+aside a:hover
+{
+	color: #404040;
+	text-decoration: underline;
+}
+
+/*Main Content*/
+section
+{
+	width: 1000px;
+	margin: 10px auto 10px auto;
+}
+
+section section
+{
+	display: inline;
+	width: 740px;
+	float: right;
+}
+
+article
+ {
+	width: 740px; 
+	margin-bottom: 10px;
+}
+
+article header
+{
+	background: url('../img/contenttop.gif') no-repeat;
+	width: 740px; 
+	height: 16px; 
+	text-align: left; 
+	padding-left: 5px;
+}
+
+article header span
+{
+	background: url('../icons/pageinfo.gif') no-repeat left 1px;
+	padding-left: 13px;
+	font-size: 8pt;
+	line-height: 200%;
+	font-variant: small-caps;
+}
+
+article .footer
+{
+	width: 740px; 
+	height: 15px;
+	background: url('../img/contentbottom.gif') no-repeat;
+}
+
+.contentBox 
+{
+	width: 740px; 
+	background: url('../img/contentmiddle.gif') repeat-y;
+}
+
+.content
+{
+	width: auto;
+	margin: 0 17px 0 8px;
+	padding-top: 10px;
+	line-height: 170%;
+}
+
+article h2
+{
+	font-weight: bold;
+	font-size: 11pt;
+	color: #222;
+	margin: 4px 0 4px 0;
+}
+
+article h3
+{
+	font-weight: bold;
+	font-size: 10pt;
+	color: #808080;
+}
+
+#payment
+{
+	font-size: 8pt;
+	color: #C0C0C0;
+	margin-top: 10px;
+}
+
+#payment img
+{
+	vertical-align: middle;
+	margin-right: 3px;
+}
+
+#payment span
+{
+	color: #000000;
+	padding: 0 10px 0 10px;
+}
+
+article li
+{
+	margin-left: 30px;
+	line-height: 200%;
+	text-align: left;	
+}
+
+article .ref
+{
+	padding: 7px 0 0 20px;
+	height: 18px;
+	margin: 2px;
+	background: url('../icons/refurl.png') no-repeat left bottom;
+}
+
+.smp
+{
+	display: inline-block;
+	margin-top: 10px;
+	padding: 0 13px 0 3px;
+}
+
+.smp .ref
+{
+	margin-left: 50px;
+}
+
+article .link
+{
+	background: url('../icons/url.png') no-repeat left bottom;
+	padding-left: 12px;
+}
+
+article .download
+{
+	padding: 7px 0 0 20px;
+	height: 18px;
+	margin: 2px;
+	background: url('../icons/refdl.png') no-repeat left bottom;
+}
+
+article .filedownload a
+{
+	padding: 4px 0 7px 29px;
+	height: 40px;
+	margin: 2px;
+	background: url('../icons/savesymbol.png') no-repeat left center;
+}
+
+article .functions, article .requirements, article .movie, article .status
+{
+	font-size: 14pt;
+	padding: 18px 0 0 55px;
+	line-height: 30px;
+	background: no-repeat left center;
+	height: 50px;
+	border-bottom: 1px solid #E0E0E0;
+	margin-bottom: 20px;
+}
+
+article .functions { background-image: url('../icons/func.png'); }
+article .requirements { background-image: url('../icons/requ.png'); }
+article .movie { background-image: url('../icons/movie.png'); }
+article .status { background-image: url('../icons/status.png'); }
+
+.shoppingListEntry
+{
+	display: inline-block;
+	width: 212px;
+	vertical-align: top;
+	border: 1px dashed #C0C0C0;
+	padding: 5px;
+	margin: 0 5px 0 5px;
+}
+
+.shoppingListEntry img
+{
+	margin: auto;
+	display: block;
+}
+
+.shoppingListEntry a
+{
+	font-weight: bold;
+	font-size: 11pt;
+}
+
+.shoppingListEntry div
+{
+	padding-left: 54px;
+	line-height: 38px;
+	background: no-repeat left center;
+	height: 48px;
+}
+
+.shoppingListEntry span
+{
+	font-size: 16pt;
+	display: block;
+	width: 40px;
+	color: #A0A0A0;
+	text-align: right;
+	position: relative;
+	left: 118px;
+	top: -40px;
+}
+
+.shoppingListEntry hr
+{
+	width: auto;
+	height: 1px;
+	margin: 20px 0 10px 0;
+	border-top: 1px solid #C0C0C0;
+}
+
+.shoppingListEntry small
+{
+	padding: 0 5px 0 5px;
+	font-size: 9pt;
+}
+
+.shoppingListEntry p
+{
+	font-size: 8pt;
+	text-align: left;
+	padding: 0 2px 0 5px;
+	margin-bottom: 5px;
+	color: #404040;
+}
+
+article .spacer
+{
+	height: 2px;
+}
+
+article .helpspacer
+{
+	height: 10px;
+	margin-top: 10px;
+	width: 720px;
+	border-top: dashed 1px #C0C0C0;
+}
+
+article .content small
+{
+	font-size: 8pt;
+	color: #808080;
+}
+
+/*SearchResult*/
+.searchresult { margin: 15px; }
+
+.searchresult span
+{
+	font-size: smaller;
+	font-weight: bold;
+}
+
+.searchresult h4
+{
+	font-weight: bold;
+	font-size: 10pt;
+}
+
+#soptions
+{
+	height: 190px;
+	margin-left: 50px;
+}
+
+/*Footer*/
+footer
+{
+	clear: both;
+    background: url('../img/footer.png') no-repeat center center #FD9;
+    height: 59px;
+    border: 1px solid #FF8040;
+    border-left: 0;
+    border-right: 0;
+    text-align: center;
+	font-size: 8pt;
+}
+
+footer span
+{
+	margin: 0 3px 0 3px;
+	font-size: 6pt;
+}
+
+footer div { margin-top: 12px; }
+footer a { font-weight: bold; }
+
+/*Menu*/
+nav
+{
+	width: 200px;
+	padding: 10px 20px 0 10px;
+}
+
+nav section
+{
+	width: 200px;
+	overflow: hidden;
+	margin: 0 0 10px 0;
+}
+
+nav header
+{
+	width: 200px;
+	height: 22px;
+	text-align: left;
+	background: url('../img/sidebar_top.gif') no-repeat;
+	padding: 8px 0 0 50px;
+	color: white;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+nav article
+{
+	width: 200px;
+	overflow: auto; 
+	background: url('../img/sidebar_middle.gif') repeat-y; 
+	padding: 10px 10px 0 10px;
+	margin-bottom: 0px;
+}
+
+nav span
+{
+	line-height: 150%;
+	color: #0081cc;
+	background: url('../icons/arrow2.png') no-repeat left center;
+	padding-left: 10px;
+}
+
+#shoppingCount
+{
+	line-height: 100%;
+	color: #F00;
+	background-image: none;
+	padding-left: 4px;
+	font-weight: bold;
+}
+
+nav a 
+{
+	line-height: 150%;
+	color: #3681cc;
+	background: url('../icons/arrow.png') no-repeat left center;
+	padding-left: 10px;
+}
+
+nav .footer
+{
+	width: 200px;
+	height: 15px;
+	background: url('../img/sidebar_bottom.gif') no-repeat;
+}
+
+/*SelectionBox*/
+section section nav
+{
+	width: auto;
+	margin-bottom: -2px;
+}
+
+#navul
+{
+	list-style: none;
+	padding-bottom: 10px;
+}	
+
+#navul li
+{
+	display: inline;
+	margin-right: 5px;
+}	
+
+#navul li a
+{
+	font-weight: bold;
+	background: #f7f7f7;
+	border: 1px #CCC solid;
+	border-bottom: 0;
+	padding: 9px 10px 10px 10px;
+	text-decoration: underline;
+}	
+
+#navul li a.selected
+{
+	color: #666;
+	background: #FFF;
+	border: 1px #999 solid;
+	border-bottom: 1px #FFF solid;
+	padding: 12px 10px 10px 10px;	
+	text-decoration: none;
+}
+
+#navul li a.selected:hover
+{
+	text-decoration: none;
+	border-top: 1px #999 solid;
+	padding: 12px 10px 10px 10px;	
+}
+
+nav ul#navul li a:hover
+{
+	padding: 9px 10px 10px 10px;
+	border-top: 4px #F00 solid;	
+	text-decoration: none;
+}
+
+/*Search-Form*/
+input[type="image"]
+{
+	margin-top: 0;
+	width: auto;
+	height: auto;
+	background: none;
+	border: 0;
+}
+
+/*Text-Styler*/
+.success, .missing { padding-left: 20px; }
+.success { background: url('../icons/ok16.png') no-repeat left center; color: green; }
+.missing { background: url('../icons/nok16.png') no-repeat left center; color: #F00; }
+
+.meldung, .ausblick
+{
+	 padding: 8px 0 0 35px;
+	 margin-top: 10px;
+	 height: 32px;
+}
+
+.meldung { background: url('../icons/rss.png') no-repeat; }
+.ausblick { background: url('../icons/pre.png') no-repeat; }
+
+span.upgradeVersion
+{
+	color: #A0A0A0;
+	font-size: 9pt;
+}
+
+div.upgradeVersion
+{
+	padding: 14px 0 0 39px;
+	background: url('../icons/cart_add.png') no-repeat left center;
+	height: 32px;
+}
+
+div.upgradeVersion div
+{
+	font-weight: bold;
+	height: 22px;
+	border-left: 2px solid #F00;
+	padding-left: 10px;
+	font-size: 11pt;
+}
+
+/*Form*/
+button, input[type=submit]
+{
+	display: inline-block;
+	padding: 5px 10px 6px;
+	background: #2981e4;
+	color: #FFF;
+	text-decoration: none;
+	border: 0;
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	font-weight: bold;
+	
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	
+	box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	cursor: pointer;
+}
+
+button.disabled
+{
+	background: #CCC;
+	cursor: default;
+}
+
+button.disabled:hover { background: #CCC; }
+button:hover, input[type=submit]:hover { background: #3991f4; }
+#form button { margin-left: 190px; }
+table.prof button { float: right; }
+
+#form, #payform
+{
+	margin: 0 auto;
+	width: 600px;
+	padding: 14px;
+}
+
+#form p
+{
+	font-size: 10pt;
+	color: #666;
+	margin-bottom: 20px;
+	border-bottom: solid 1px #3681cc;
+	padding-bottom: 10px;
+}
+
+#form small, #payform small
+{
+	color: #666;
+	display: block;
+	font-size: 8pt;
+	font-weight: normal;
+	height: 8px;
+}
+
+#form small
+{
+	text-align: right;
+	width: 180px;
+	margin-top: -6px;
+}
+
+#form label
+{
+	display: block;
+	font-weight: bold;
+	text-align: right;
+	width: 180px;
+	float: left;
+	height: 20px;
+}
+
+#payform label
+{
+	margin-top: 10px;
+	display: block;
+	height: 70px;
+}
+
+#form .mixed
+{	
+	height: 25px;
+	float: left;
+	font-size: 12px;
+	padding: 0px;
+	width: 360px;
+	margin: 0px;
+	margin-bottom: 20px;
+	background: #FFF;
+}
+
+#form .row
+{
+	width: 310px;
+	margin-left: 190px;
+}
+
+#form .mixed select
+{
+	width: 70px;
+	float: none;
+}
+
+#form ul
+{
+	margin-top: 20px;
+	border-top: 1px dashed #808080;
+	padding-top: 15px;
+	list-style: none inside;
+	margin-left: 0px;
+}
+
+#form li
+{
+	margin-left: 0;
+	padding: 1px 0 0 8px;
+	background: url('../icons/arrow.png') no-repeat left center;
+	font-size: 8pt;
+	color: #808080;
+}
+
+.captcha { border: 1px solid #CCC; }
+
+#form input, #form select, #form textarea
+{
+	height: 19px;
+	color: #000;
+	float: left;
+	font-size: 12px;
+	padding: 4px 2px;
+	border: 1px solid #CCC;
+	width: 360px;
+	margin: 2px 0 20px 10px;
+	background: #FFF;
+}
+
+#payform input
+{
+	width: 18px;
+	color: #000;
+	font-size: 12px;
+	height: 18px;
+	float: left;
+	background: #FFF;
+	margin: 20px 10px 42px 80px;
+}
+
+#form select
+{
+	height: 29px;
+	width: 366px;
+}
+
+.bagField
+{
+	height: 25px;
+	width: 50px;
+	text-align: center;
+	font-weight: bold;
+	color: #404040;
+	border: 1px solid #D0D0D0;
+	background: #F9F9F9;
+}
+
+#form input:hover, #form select:hover, #form textarea:hover { background: #FFC; }
+#form input:focus, #form select:focus, #form textarea:focus { background: #FFD; }
+
+#form input[type="checkbox"]
+{
+	width: 18px;
+	height: 18px;
+	margin-right: 342px;
+}
+
+.formular
+{
+	margin: auto;
+	background: #C0C0C0;
+	padding: 1px;
+}
+
+.formgray
+{
+	background: #E0E0E0;
+	padding: 10px;
+}
+
+/*Tables*/
+table.prof, table.form, table.formMiddle, table.download
+{
+	width: 100%;
+	background-image: none;
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+
+table.form td, table.formMiddle td
+{
+	margin: 2px;
+	padding: 2px 2px 2px 0;
+	border: 0px;
+}
+
+table.formMiddle
+{
+	width: auto;
+	margin: 2px auto 2px auto;
+}
+
+table.prof td
+{
+	margin: 0px;
+	padding: 3px;
+	height: 32px;
+}
+
+tr.even { background-color: #F5F5F5; }
+tr.odd { background-color: #FFF; }
+
+table.prof tr.even:hover, table.prof tr.odd:hover { background-color: #FFF8C6; }
+table.prof th { border-bottom: 1px dashed #C0C0C0; }
+
+table.prof small
+{
+	font-size: 9pt;
+	border-left: 3px solid #F00;
+	padding-left: 5px;
+	color: #404040;
+}
+
+table.prof sub
+{
+	color: #808080;
+	border-left: 2px solid #00F;
+	padding-left: 4px;
+}
+
+/*Download*/
+table.download td
+{
+	padding-left: 10px;
+	height: 30px;
+}
+
+table.download td.dlbgimg
+{
+	background: url('../icons/download.png') no-repeat center center;
+	width: 100px;
+	border-right: 1px solid #C0C0C0;
+}
+
+table.download tr.filedownload td
+{
+	 background-color: #F0F0F0;
+	 border-top: 1px dashed #3681cc;
+	 border-bottom: 1px dashed #C0C0C0;
+}
+
+table.download small
+{
+	border-left: 2px solid #F00;
+	padding-left: 4px;
+	font-size: 8pt;
+	color: #808080;
+}
+
+/*FAQ*/
+.info
+{
+	padding-left: 45px;
+	background: url('../icons/comments.png') no-repeat;
+}
+
+.help
+{
+	padding-left: 45px;
+	font-weight: bold;
+}
+
+.help small
+{
+	color: #09F;
+}
+
+/*Screenshots*/
+figure
+{
+	width: 168px;
+	display: inline-block;
+}
+
+figcaption
+{
+	position: absolute;
+	z-index: 1000;
+	display: none;
+	text-align: center;
+	color: #444;
+	background: #EEE;
+	height: 20px;
+	border: 1px solid #DDD;
+	padding: 0 5px 0 5px;
+	
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	
+	box-shadow: 5px 5px 2px #888;
+	-moz-box-shadow: 5px 5px 2px #888;
+	-webkit-box-shadow: 5px 5px 2px #888;
+}
+
+/*Homepage*/
+.main_view
+{
+	display: block;
+	width: 730px;
+	float: left;
+	position: relative;
+}
+
+.window
+{
+	margin: auto;
+	height: 400px;	
+	width: 600px;
+	overflow: hidden;
+	position: relative;
+}
+
+.image_reel
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.image_reel img { float: left; }
+
+.paging
+{
+	position: absolute;
+	bottom: 60px;
+	right: -7px;
+	width: 178px;
+	height:47px;
+	z-index: 100;
+	text-align: center;
+	line-height: 40px;
+	background: url('../img/paging.png') no-repeat;
+	display: none;
+}
+
+.paging a
+{
+	padding: 5px;
+	text-decoration: none;
+	color: #FFF;
+}
+
+.paging a.active
+{
+	font-weight: bold;
+	background: #920000;
+	border: 1px solid #610000;
+	
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.paging a:hover
+{
+	font-weight: bold;
+}
+
+/*CMS-MANAGEMENT*/
+div#cms h1
+{
+	font-size: 14pt;
+	color: #808080;
+	font-weight: normal;
+	padding-left: 55px;
+	padding-top: 18px;
+	line-height: 30px;
+	background: no-repeat left center;
+	height: 50px;
+	border-bottom: 1px solid #E0E0E0;
+	margin-bottom: 20px;
+	background: url('../icons/cms/head.png') no-repeat left center;
+}
+
+div#cms div.bt
+{
+	clear: both;
+	padding-left: 55px;
+	font-size: 12pt;
+	padding-top: 17px;
+	background-repeat: no-repeat;
+	background-position: 15px center;
+	height: 40px;
+	font-weight: bold;
+	width: auto;
+	border-bottom: dashed 1px #C0C0C0;
+}
+
+div#cms div.bt:hover
+{
+	background-color: #FFF8C6;
+}
+
+div#cms div.bt a
+{
+	color: #3681cc;
+}
+
+div#cms span.online, div#cms span.offline, div#cms span.setting_on, div#cms span.setting_off
+{
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 20px;
+	margin-left: 20px;
+}
+
+div#cms span.setting_on
+{
+	background-image: url('../icons/cms/allow.png');
+}
+
+div#cms span.setting_off
+{
+	background-image: url('../icons/cms/allow_not.png');
+}
+
+div#cms span.online
+{
+	background-image: url('../icons/cms/page_on.png');
+}
+
+div#cms span.offline
+{
+	background-image: url('../icons/cms/page_off.png');
+}
+
+div#cms div#rcmsSide
+{
+	display: block;
+	width: 235px;
+	margin-left: -38px;
+	padding-right: 10px;
+	border-right: 1px solid #C0C0C0;
+	font-size: 8pt;
+}
+
+div#cms div#rcmsSide li
+{
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 19px;
+	height: 21px;
+	border-bottom: 1px dashed #C0C0C0;
+}
+
+div#cms div#rcmsSide li div.button
+{
+	float: right;
+	cursor: pointer;
+	height: 16px;
+	width: 16px;
+	padding-top: 3px;
+}
+
+div#cms div#rcmsSide div.closebutton
+{
+	float: right;
+	cursor: pointer;
+	height: 16px;
+	width: 16px;
+	padding-top: 0;
+	padding-right: 5px;
+}
+
+div#cms div#rcmsSide li div.selector
+{
+	position: absolute;
+	display: none;
+	width: 130px;
+	margin-left: 30px;
+	margin-top: -10px;
+	z-index: 100;
+	padding-top: 2px;
+	background: #FFFFFF;
+	border: 1px solid #C0C0C0;
+}
+
+div#cms div#rcmsSide li div.selector img
+{
+	float: left;
+	padding-right: 3px;
+	padding-left: 4px;
+	height: 16px;
+	width: 16px;
+}
+
+div#cms div#rcmsMain div.jsinserts
+{
+	border-top: 1px dashed #C0C0C0;
+	border-bottom: 1px dashed #C0C0C0;
+}
+
+div#cms div#rcmsMain div.jsinserts span
+{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+div#cms div#rcmsSide #insertpane
+{
+	display: none;
+	position: absolute;
+	background: #FFFFFF;
+	padding: 4px;
+	z-index: 101;
+	border: 1px solid #C0C0C0;
+	width: 220px;
+}
+
+div#cms div#rcmsSide #insertpane div.buttons
+{
+	float: right;
+	height: 16px;
+}
+
+div#cms div#rcmsSide #insertpane div.buttons img
+{
+	border: 1px solid #C0C0C0;
+	margin-left: 3px;
+	margin-right: 3px;
+	cursor: pointer;
+}
+
+div#cms div#rcmsSide #insertpane div.intend
+{
+	float: none;
+	margin-left: 10px;
+}
+
+div#cms div#rcmsSide #insertpane h3
+{
+	font-weight: bold;
+	width: auto;
+	border-bottom: 1px solid #E0E0E0;
+	margin-bottom: 5px;
+}
+
+div#cms div#rcmsSide li div.selector hr
+{
+	border-top: 1px solid #E0E0E0;
+	width: auto;
+	height: 3px;
+	margin-top: 2px;
+}
+
+div#cms div#rcmsSide li.add
+{
+	background-image: url('../icons/plus16.png');
+	background-color: #F5F5F5;
+}
+
+div#cms div#rcmsSide li.edit
+{
+	background-image: url('../icons/edit16.png');
+}
+
+div#cms div#rcmsMain
+{
+	padding-left: 10px;
+	float: right;
+	display: block;
+	width: 500px;
+}
+
+div#cms div#rcmsSide ul.subSide
+{
+	padding-left: 9px;
+	list-style-type: none;
+}
+
+div#cms div#rcmsSide ul.subSide a
+{
+	text-decoration: none;
+}
+
+div#cms div#rcmsSide ul.subSide a:hover
+{
+	text-decoration: underline;
+}
+
+div#cms div#rcmsSide ul.subSide a.selected
+{
+	font-weight: bold;
+	color: #FF0000;
+}
+
+div#cms div#rcmsMain .contentEdit
+{
+	border-top: 1px solid #C0C0C0;
+	padding-top: 5px;
+	margin-top: -4px;
+}
+
+div#cms div.restriction
+{
+	padding-left: 20px;
+	background-repeat: no-repeat;
+	background-position: left center;
+}</value>
+  </data>
+</root>

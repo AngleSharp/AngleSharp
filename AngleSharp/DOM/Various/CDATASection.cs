@@ -1,0 +1,40 @@
+﻿using System;
+
+namespace AngleSharp.DOM
+{
+    /// <summary>
+    /// Represents a CDATA section node.
+    /// </summary>
+    public sealed class CDATASection : CharacterData
+    {
+        #region ctor
+
+        /// <summary>
+        /// Creates a new CDATA Section node.
+        /// </summary>
+        public CDATASection()
+        {
+            _name = "#cdata-section";
+            NodeType = NodeType.CData;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns a duplicate of the node on which this method was called.
+        /// </summary>
+        /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
+        /// <returns>The duplicate node.</returns>
+        public override Node CloneNode(bool deep = true)
+        {
+            var node = new CDATASection();
+            CopyProperties(this, node, deep);
+            node.Data = this.Data;
+            return node;
+        }
+
+        #endregion
+    }
+}
