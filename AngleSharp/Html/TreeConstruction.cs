@@ -864,10 +864,11 @@ namespace AngleSharp.Html
                                     break;
                                 else if (formatting[i].NodeName == HTMLAnchorElement.Tag)
                                 {
+                                    var format = formatting[i];
                                     RaiseErrorOccurred(ErrorCode.AnchorNested);
                                     HeisenbergAlgorithm(HtmlTagToken.Close.SetName(HTMLAnchorElement.Tag));
-                                    open.Remove(formatting[i]);
-                                    formatting.RemoveAt(i);
+                                    if(open.Contains(format)) open.Remove(format);
+                                    if(formatting.Contains(format)) formatting.RemoveAt(i);
                                     break;
                                 }
                             }

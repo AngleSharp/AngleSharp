@@ -36,6 +36,12 @@ namespace ConsoleInteraction
 
             //TestHtml(Webpages.CodeProject);
 
+            TestWebRequest("http://www.huffingtonpost.com/", false);
+
+            TestWebRequest("http://www.nbcnews.com/", false);
+
+            TestWebRequest("http://www.amazon.com/", false);
+
             TestWebRequest("http://www.yahoo.com/", false);
 
             TestWebRequest("http://www.codeproject.com/", false);
