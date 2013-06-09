@@ -19,6 +19,7 @@ namespace AngleSharp.Html
         HtmlToken token;
         string lastStartTag;
         StringBuilder buffer;
+        StringBuilder reference;
 
         #endregion
 
@@ -48,6 +49,7 @@ namespace AngleSharp.Html
             IsCurrentNodeNotInHtmlNS = true;
             state = Data;
             buffer = new StringBuilder();
+            reference = new StringBuilder();
         }
 
         #endregion
@@ -642,7 +644,6 @@ namespace AngleSharp.Html
             char[] last = null;
             int consumed = 0;
             int start = _.InsertionPoint;
-            var local = new StringBuilder();
 
             do
             {
@@ -651,9 +652,9 @@ namespace AngleSharp.Html
                 if (chr == ';' || !Specification.IsAlphanumericAscii(chr))
                     break;
 
-                local.Append(chr);
+                reference.Append(chr);
                 consumed++;
-                var value = Entities.GetSymbol(local.ToString());
+                var value = Entities.GetSymbol(reference.ToString());
 
                 if (value != null)
                 {
@@ -665,7 +666,7 @@ namespace AngleSharp.Html
             }
             while (!_.IsEnded);
 
-            local.Clear();
+            reference.Clear();
 
             while (consumed != 0)
             {
@@ -2020,7 +2021,7 @@ namespace AngleSharp.Html
                 if (value == null)
                 {
                     buffer.Append(Specification.AMPERSAND);
-                    _.Back();
+                    //_.Back();
                 }
                 else
                     buffer.Append(value);
@@ -2061,7 +2062,7 @@ namespace AngleSharp.Html
                 if (value == null)
                 {
                     buffer.Append(Specification.AMPERSAND);
-                    _.Back();
+                    //_.Back();
                 }
                 else
                     buffer.Append(value);
@@ -2103,7 +2104,7 @@ namespace AngleSharp.Html
                 if (value == null)
                 {
                     value = new char[] { Specification.AMPERSAND };
-                    _.Back();
+                    //_.Back();
                 }
 
                 ((HtmlTagToken)token).SetAttributeValue(new string(value));

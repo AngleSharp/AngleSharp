@@ -57,7 +57,7 @@ namespace ConsoleInteraction
             _url = url;
             HttpClient client = new HttpClient();
             var content = client.GetAsync(url).Result.Content.ReadAsStreamAsync().Result;
-            _doc = DocumentBuilder.Build(content);
+            _doc = DocumentBuilder.Html(content);
             Console.WriteLine("loaded !");
             return this;
         }
@@ -71,7 +71,7 @@ namespace ConsoleInteraction
         /// <returns>The current instance.</returns>
         public CssSelectorTest LoadFromSource(string source)
         {
-            _doc = DocumentBuilder.Build(source);
+            _doc = DocumentBuilder.Html(source);
             return this;
         }
 

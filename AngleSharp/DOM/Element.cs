@@ -317,7 +317,7 @@ namespace AngleSharp.DOM
                     RemoveChild(_children[i]);
 
                 //TODO Fragment Mode has security consideration ??? i.e. Scripting should be TURNED OFF
-                var nodes = NodeBuilder.Build(value, this);
+                var nodes = DocumentBuilder.HtmlFragment(value, this);
                 n = nodes.Length;
 
                 for (int i = 0; i < n; i++)
@@ -340,7 +340,7 @@ namespace AngleSharp.DOM
 
                     var pos = _parent.IndexOf(this);
                     //TODO Fragment Mode has security consideration ??? i.e. Scripting should be TURNED OFF
-                    var nodes = NodeBuilder.Build(value, this);
+                    var nodes = DocumentBuilder.HtmlFragment(value, this);
                     var n = nodes.Length;
 
                     for (int i = 0; i < n; i++)

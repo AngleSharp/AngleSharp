@@ -16,7 +16,7 @@ namespace UnitTests
         [TestMethod]
         public void TreeHasOneBangComment()
         {
-            var doc = DocumentBuilder.Build("<!-- BANG IT --!>");
+            var doc = DocumentBuilder.Html("<!-- BANG IT --!>");
             Assert.AreEqual(2, doc.ChildNodes.Length);
         }
 
@@ -24,7 +24,7 @@ namespace UnitTests
         public void TreeNonConformingTable()
         {
             //8.2.5.4.7 The "in body" insertion mode - "In the non-conforming ..."
-            var doc = DocumentBuilder.Build(@"<a href=""a"">a<table><a href=""b"">b</table>x");
+            var doc = DocumentBuilder.Html(@"<a href=""a"">a<table><a href=""b"">b</table>x");
 
             var tree = new HTMLHtmlElement()
                 .AppendChild(new HTMLHeadElement()).ParentNode
@@ -44,7 +44,7 @@ namespace UnitTests
         public void TreeOneTextNodeTableBeforeABCD()
         {
             //One Text node before the table, containing "ABCD"
-            var doc = DocumentBuilder.Build(@"A<table>B<tr>C</tr>D</table>");
+            var doc = DocumentBuilder.Html(@"A<table>B<tr>C</tr>D</table>");
 
             var tree = new HTMLHtmlElement()
                 .AppendChild(new HTMLHeadElement()).ParentNode
@@ -61,7 +61,7 @@ namespace UnitTests
         public void TreeOneTextNodeTableBeforeAspaceBspaceC()
         {
             //One Text node before the table, containing "A B C" (A-space-B-space-C).
-            var doc = DocumentBuilder.Build(@"A<table><tr> B</tr> C</table>");
+            var doc = DocumentBuilder.Html(@"A<table><tr> B</tr> C</table>");
 
             var tree = new HTMLHtmlElement()
                 .AppendChild(new HTMLHeadElement()).ParentNode
@@ -78,7 +78,7 @@ namespace UnitTests
         public void TreeOneTextNodeTableBeforeAspaceBC()
         {
             //One Text node before the table, containing "A BC" (A-space-B-C), and one Text node inside the table (as a child of a tbody) with a single space character.
-            var doc = DocumentBuilder.Build(@"A<table><tr> B</tr> </em>C</table>");
+            var doc = DocumentBuilder.Html(@"A<table><tr> B</tr> </em>C</table>");
 
             var tree = new HTMLHtmlElement()
                 .AppendChild(new HTMLHeadElement()).ParentNode
@@ -96,7 +96,7 @@ namespace UnitTests
         public void TreeUnexpectedTableMarkup()
         {
             //8.2.8.3 Unexpected markup in tables
-            var doc = DocumentBuilder.Build(@"<table><b><tr><td>aaa</td></tr>bbb</table>ccc");
+            var doc = DocumentBuilder.Html(@"<table><b><tr><td>aaa</td></tr>bbb</table>ccc");
 
             var tree = new HTMLHtmlElement()
                 .AppendChild(new HTMLHeadElement()).ParentNode
@@ -119,7 +119,7 @@ namespace UnitTests
         public void TreeMisnestedTagsHeisenbergNoFurthest()
         {
             //8.2.8.1 Misnested tags: <b><i></b></i>
-            var doc = DocumentBuilder.Build(@"<p>1<b>2<i>3</b>4</i>5</p>");
+            var doc = DocumentBuilder.Html(@"<p>1<b>2<i>3</b>4</i>5</p>");
 
             var tree = new HTMLHtmlElement()
                 .AppendChild(new HTMLHeadElement()).ParentNode
@@ -141,7 +141,7 @@ namespace UnitTests
         public void TreeMisnestedTagsHeisenbergWithFurthest()
         {
             //8.2.8.2 Misnested tags: <b><p></b></p>
-            var doc = DocumentBuilder.Build(@"<b>1<p>2</b>3</p>");
+            var doc = DocumentBuilder.Html(@"<b>1<p>2</b>3</p>");
 
             var tree = new HTMLHtmlElement()
                 .AppendChild(new HTMLHeadElement()).ParentNode
@@ -160,7 +160,7 @@ namespace UnitTests
         public void TreeUnclosedFormattingElements()
         {
             //8.2.8.6 Unclosed formatting elements
-            var doc = DocumentBuilder.Build(@"<!DOCTYPE html>
+            var doc = DocumentBuilder.Html(@"<!DOCTYPE html>
 <p><b class=x><b class=x><b><b class=x><b class=x><b>X<p>X<p><b><b class=x><b>X<p></b></b></b></b></b></b>X");
 
             var tree = new HTMLHtmlElement()

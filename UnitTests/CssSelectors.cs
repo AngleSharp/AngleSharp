@@ -18,7 +18,7 @@ namespace UnitTests
 
         public CssSelectors()
         {
-            document = DocumentBuilder.Build(Assets.SelectorsWebpage);
+            document = DocumentBuilder.Html(Assets.SelectorsWebpage);
         }
 
         string GetAttributeValue(Node node, string attrName)

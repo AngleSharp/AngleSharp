@@ -178,7 +178,6 @@
     <Compile Include="Foundation\Enumerations\InsertationMode.cs" />
     <Compile Include="Foundation\HtmlEncoding.cs" />
     <Compile Include="Foundation\Helpers\MathMLHelpers.cs" />
-    <Compile Include="NodeBuilder.cs" />
     <Compile Include="DOM\Collections\BaseCollection.cs" />
     <Compile Include="DOM\Collections\HTMLCollection.cs" />
     <Compile Include="DOM\Collections\StyleSheetList.cs" />

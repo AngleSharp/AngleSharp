@@ -4,6 +4,7 @@ using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 using System.IO;
 using AngleSharp.Html;
+using AngleSharp.DOM.Collections;
 
 namespace AngleSharp
 {
@@ -21,18 +22,20 @@ namespace AngleSharp
 
         #endregion
 
-        #region Constructor
+        #region ctor
 
         /// <summary>
         /// Creates a new builder with the specified source.
         /// </summary>
         /// <param name="source">The code manager.</param>
+        /// <param name="document">The document to fill.</param>
         private DocumentBuilder(HtmlSource source, HTMLDocument document)
         {
             _ = source;
             this.document = document;
             tokenizer = new Tokenization(source);
             tree = new TreeConstruction(document, tokenizer);
+
             tokenizer.ErrorOccurred += ParseErrorOccurred;
             tree.ErrorOccurred += ParseErrorOccurred;
             tree.Stop += StopParsing;
@@ -47,7 +50,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static HTMLDocument Build(string sourceCode)
+        public static HTMLDocument Html(string sourceCode)
         {
             var source = new HtmlSource(sourceCode);
             var db = new DocumentBuilder(source, new HTMLDocument());
@@ -60,7 +63,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="sourceCode">The stream of chars to use as source code.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static HTMLDocument Build(Stream sourceCode)
+        public static HTMLDocument Html(Stream sourceCode)
         {
             var source = new HtmlSource(sourceCode);
             var db = new DocumentBuilder(source, new HTMLDocument());
@@ -69,12 +72,74 @@ namespace AngleSharp
         }
 
         /// <summary>
+        /// Builds a list of nodes according with 8.4 Parsing HTML fragments.
+        /// </summary>
+        /// <param name="sourceCode">The string to use as source code.</param>
+        /// <param name="context">The context node to use.</param>
+        /// <returns>A list of parsed nodes.</returns>
+        public static NodeList HtmlFragment(string sourceCode, Node context = null)
+        {
+            var source = new HtmlSource(sourceCode);
+            var doc = new HTMLDocument();
+            var nb = new DocumentBuilder(source, doc);
+
+            if (context != null)
+            {
+                if (context.OwnerDocument != null && context.OwnerDocument.QuirksMode != QuirksMode.Off)
+                    doc.QuirksMode = context.OwnerDocument.QuirksMode;
+
+                switch (context.NodeName)
+                {
+                    case HTMLTitleElement.Tag:
+                    case HTMLTextAreaElement.Tag:
+                        nb.tokenizer.Switch(ContentModel.RCData);
+                        break;
+
+                    case HTMLStyleElement.Tag:
+                    case "xmp":
+                    case HTMLIFrameElement.Tag:
+                    case HTMLNoElement.NoEmbedTag:
+                    case HTMLNoElement.NoFramesTag:
+                        nb.tokenizer.Switch(ContentModel.Rawtext);
+                        break;
+
+                    case HTMLScriptElement.Tag:
+                        nb.tokenizer.Switch(ContentModel.Script);
+                        break;
+
+                    case HTMLNoElement.NoScriptTag:
+                        if (nb.document.IsScripting)
+                            nb.tokenizer.Switch(ContentModel.Rawtext);
+                        break;
+
+                    case "plaintext":
+                        nb.tokenizer.Switch(ContentModel.Plaintext);
+                        break;
+                }
+
+                //    Note: For performance reasons, an implementation that does not report errors and that uses
+                //          the actual state machine described in this specification directly could use the
+                //          PLAINTEXT state instead of the RAWTEXT and script data states where those are mentioned
+                //          in the list above. Except for rules regarding parse errors, they are equivalent, since
+                //          there is no appropriate end tag token in the fragment case, yet they involve far
+                //          fewer state transitions.
+
+                nb.tree.SwitchToFragment(context);
+                nb.tokenizer.Start();
+                return doc.DocumentElement.ChildNodes;
+            }
+
+            nb.tokenizer.Start();
+            return doc.ChildNodes;
+        }
+
+        /// <summary>
         /// Builds content for a new HTMLDocument with the given source code.
         /// </summary>
         /// <param name="document">The document to use as a basis.</param>
         /// <param name="url">The URL where to get the source code.</param>
         /// <returns>The constructed HTML document.</returns>
-        internal static HTMLDocument Build(HTMLDocument document, string url)
+        internal static HTMLDocument Html(HTMLDocument document, string url)
         {
             var ms = new MemoryStream();
             var source = new HtmlSource(ms);

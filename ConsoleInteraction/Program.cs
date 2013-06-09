@@ -36,6 +36,8 @@ namespace ConsoleInteraction
 
             //TestHtml(Webpages.CodeProject);
 
+            TestWebRequest("http://www.yahoo.com/", false);
+
             TestWebRequest("http://www.codeproject.com/", false);
 
             TestWebRequest("http://www.florian-rappl.de/", true);
@@ -53,7 +55,7 @@ namespace ConsoleInteraction
             Console.WriteLine("Loading " + url + " took ... " + sw.ElapsedMilliseconds + "ms");
             sw.Restart();
 
-            var html = DocumentBuilder.Build(source);
+            var html = DocumentBuilder.Html(source);
             sw.Stop();
 
             Console.WriteLine("Parsing " + url + " took ... " + sw.ElapsedMilliseconds + "ms");
@@ -79,7 +81,7 @@ namespace ConsoleInteraction
         private static HTMLDocument TestHtml(string source)
         {
             var sw = Stopwatch.StartNew();
-            var html = DocumentBuilder.Build(source);
+            var html = DocumentBuilder.Html(source);
             sw.Stop();
             Console.WriteLine(">>> START");
             Console.WriteLine(html.ToHtml());
@@ -93,7 +95,7 @@ namespace ConsoleInteraction
         private static NodeList TestHtmlFragment(string source)
         {
             var sw = Stopwatch.StartNew();
-            var nodes = NodeBuilder.Build(source, new HTMLParagraphElement());
+            var nodes = DocumentBuilder.HtmlFragment(source, new HTMLParagraphElement());
             sw.Stop();
             Console.WriteLine(">>> START");
             Console.WriteLine(nodes.ToHtml());

@@ -228,7 +228,7 @@ namespace AngleSharp.DOM.Html
         /// <returns>The document with the parsed content.</returns>
         public static HTMLDocument LoadFromSource(string source)
         {
-            return DocumentBuilder.Build(source);
+            return DocumentBuilder.Html(source);
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace AngleSharp.DOM.Html
 
             ReadyState = Readiness.Loading;
             QuirksMode = QuirksMode.Off;
-            return DocumentBuilder.Build(this, url);
+            return DocumentBuilder.Html(this, url);
         }
 
         /// <summary>
