@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML link element.
     /// </summary>
-    public sealed class HTMLLinkElement : HTMLElement, ILinkStyle
+    public sealed class HTMLLinkElement : HTMLElement, IStyleSheet
     {
         #region Constant
 
@@ -14,6 +14,12 @@ namespace AngleSharp.DOM.Html
         /// The link tag.
         /// </summary>
         public const string Tag = "link";
+
+        #endregion
+
+        #region Members
+
+        StyleSheet _sheet;
 
         #endregion
 
@@ -25,6 +31,7 @@ namespace AngleSharp.DOM.Html
         public HTMLLinkElement()
         {
             _name = Tag;
+            Type = "text/css";
         }
 
         #endregion
@@ -112,8 +119,8 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         public bool Disabled
         {
-            get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? string.Empty : null); }
+            get { return Sheet.Disabled; }
+            set { Sheet.Disabled = value; }
         }
 
         /// <summary>
@@ -148,7 +155,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         public StyleSheet Sheet
         {
-            get { throw new NotImplementedException(); }
+            get { return _sheet ?? (_sheet = Builder.Style(this)); }
         }
 
         #endregion

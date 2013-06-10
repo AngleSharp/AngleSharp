@@ -11,13 +11,9 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
-        string _type;
-        Node _owner;
+        Element _owner;
         StyleSheet _parent;
-        string _href;
-        string _title;
         MediaList _media;
-        bool _disabled;
 
         #endregion
 
@@ -28,7 +24,6 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         public StyleSheet()
         {
-            _disabled = false;
             _media = new MediaList();
         }
 
@@ -40,7 +35,6 @@ namespace AngleSharp.DOM.Css
             : this()
         {
             _owner = parent._owner;
-            _type = parent._type;
             _parent = parent;
         }
 
@@ -51,10 +45,9 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the style sheet language for this style sheet.
         /// </summary>
-        public string Type 
+        public string Type
         {
-            get { return _type; }
-            internal set { _type = value; }
+            get { return _owner != null ? (_owner.GetAttribute("type") ?? string.Empty) : string.Empty; }
         }
 
         /// <summary>
@@ -63,14 +56,14 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         public bool Disabled
         {
-            get { return _disabled; }
-            set { _disabled = value; }
+            get { return _owner != null ? (_owner.GetAttribute("disabled") != null) : false; }
+            set { if(_owner != null) _owner.SetAttribute("disabled", value ? string.Empty : null); }
         }
 
         /// <summary>
-        /// Gets the node that associates this style sheet with the document.
+        /// Gets the element that associates this style sheet with the document.
         /// </summary>
-        public Node OwnerNode
+        public Element OwnerNode
         {
             get { return _owner; }
             internal set { _owner = value; }
@@ -89,8 +82,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         public string Href
         {
-            get { return _href; }
-            internal set { _href = value; }
+            get { return _owner != null ? (_owner.GetAttribute("href") ?? string.Empty) : string.Empty; }
         }
 
         /// <summary>
@@ -98,8 +90,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         public string Title
         {
-            get { return _title; }
-            internal set { _title = value; }
+            get { return _owner != null ? (_owner.GetAttribute("title") ?? string.Empty) : string.Empty; }
         }
 
         /// <summary>
@@ -109,20 +100,6 @@ namespace AngleSharp.DOM.Css
         public MediaList Media
         {
             get { return _media; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Clones the current stylesheet.
-        /// </summary>
-        /// <returns>The cloned stylesheet.</returns>
-        internal virtual StyleSheet Clone()
-        {
-            //TODO
-            return this;
         }
 
         #endregion

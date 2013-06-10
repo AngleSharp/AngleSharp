@@ -103,7 +103,7 @@
     <Compile Include="DOM\Interfaces\IHTMLDocument.cs" />
     <Compile Include="DOM\Interfaces\IAttr.cs" />
     <Compile Include="DOM\Interfaces\IElement.cs" />
-    <Compile Include="DOM\Interfaces\ILinkStyle.cs" />
+    <Compile Include="DOM\Interfaces\IStyleSheet.cs" />
     <Compile Include="DOM\Interfaces\INode.cs" />
     <Compile Include="DOM\Objects\Cookie.cs" />
     <Compile Include="DOM\Css\Selector\ComplexSelector.cs" />
@@ -271,7 +271,7 @@
     <Compile Include="Stream\HtmlSource.cs" />
     <Compile Include="Foundation\Specification.cs" />
     <Compile Include="Foundation\Helpers\SVGHelpers.cs" />
-    <Compile Include="Html\Tokenization.cs" />
+    <Compile Include="Html\HtmlTokenizer.cs" />
     <Compile Include="Css\Tokens\CssCharacterToken.cs" />
     <Compile Include="Css\Tokens\CssDelimToken.cs" />
     <Compile Include="Css\Tokens\CssToken.cs" />

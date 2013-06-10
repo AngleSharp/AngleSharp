@@ -16,14 +16,14 @@ namespace AngleSharp.DOM
 
         QuirksMode quirksMode;
         Readiness ready;
-        StyleSheetList styleSheets;
         DOMImplementation implementation;
 
-        string encoding;
-        string originalEncoding;
+        String encoding;
+        String originalEncoding;
 
-        protected string referrer;
-        protected string location;
+        protected StyleSheetList styleSheets;
+        protected String referrer;
+        protected String location;
         protected Element documentElement;
         protected DocumentType docType;
 
@@ -224,6 +224,19 @@ namespace AngleSharp.DOM
                 documentElement = FindChild<Element>(this);
             else if (docType == node)
                 docType = FindChild<DocumentType>(this);
+            else if (node is HTMLStyleElement)
+                styleSheets.Remove(((HTMLStyleElement)node).Sheet);
+            else if (node is HTMLLinkElement)
+            {
+                var link = (HTMLLinkElement)node;
+
+                switch (link.Rel)
+                {
+                    case "stylesheet":
+                        styleSheets.Remove(link.Sheet);
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -236,6 +249,43 @@ namespace AngleSharp.DOM
                 documentElement = (Element)node;
             else if (docType == null && node is DocumentType)
                 docType = (DocumentType)node;
+            else if (node is HTMLStyleElement)
+                styleSheets.Add(((HTMLStyleElement)node).Sheet);
+            else if (node is HTMLLinkElement)
+            {
+                var link = (HTMLLinkElement)node;
+
+                switch (link.Rel)
+                {
+                    // ext. resources
+                    case "prefetch":
+                    case "icon":
+                    case "pingback":
+                        break;
+
+                    case "stylesheet":
+                        styleSheets.Add(link.Sheet);
+                        break;
+
+                    // hyperlinks
+                    case "alternate":
+                    case "canonical":
+                    case "archives":
+                    case "author":
+                    case "first":
+                    case "help":
+                    case "sidebar":
+                    case "tag":
+                    case "search":
+                    case "index":
+                    case "license":
+                    case "up":
+                    case "next":
+                    case "last":
+                    case "prev":
+                        break;
+                }
+            }
         }
 
         #endregion

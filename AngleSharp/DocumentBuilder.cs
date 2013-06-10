@@ -17,7 +17,7 @@ namespace AngleSharp
 
         HtmlSource _;
         HTMLDocument document;
-        Tokenization tokenizer;
+        HtmlTokenizer tokenizer;
         TreeConstruction tree;
 
         #endregion
@@ -33,7 +33,7 @@ namespace AngleSharp
         {
             _ = source;
             this.document = document;
-            tokenizer = new Tokenization(source);
+            tokenizer = new HtmlTokenizer(source);
             tree = new TreeConstruction(document, tokenizer);
 
             tokenizer.ErrorOccurred += ParseErrorOccurred;

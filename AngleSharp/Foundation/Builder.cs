@@ -1,4 +1,5 @@
-﻿using AngleSharp.DOM;
+﻿using AngleSharp.Css;
+using AngleSharp.DOM;
 using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
@@ -14,21 +15,19 @@ namespace AngleSharp
     {
         public static StyleSheet Style(HTMLLinkElement link)
         {
-            //TODO
-            //link.Type
-            //link.Media
-            //link.Href
-            //link.Charset
-            throw new NotImplementedException();
+            //TODO Read content from ext. file
+            var sheet = CssParser.ParseStyleSheet(string.Empty);
+            sheet.Media.MediaText = link.Media;
+            sheet.OwnerNode = link;
+            return sheet;
         }
 
         public static StyleSheet Style(HTMLStyleElement style)
         {
-            //TODO
-            //style.Type
-            //style.Media
-            //style.TextContent
-            throw new NotImplementedException();
+            var sheet = CssParser.ParseStyleSheet(style.TextContent);
+            sheet.Media.MediaText = style.Media;
+            sheet.OwnerNode = style;
+            return sheet;
         }
 
         public static void Script(HTMLScriptElement script)

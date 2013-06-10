@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML style element.
     /// </summary>
-    public class HTMLStyleElement : HTMLRawtextElement, ILinkStyle
+    public class HTMLStyleElement : HTMLRawtextElement, IStyleSheet
     {
         #region Constant
 
@@ -50,8 +50,8 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         public bool Disabled
         {
-            get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? string.Empty : null); }
+            get { return Sheet.Disabled; }
+            set { Sheet.Disabled = value; }
         }
 
         /// <summary>

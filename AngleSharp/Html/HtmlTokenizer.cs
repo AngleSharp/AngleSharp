@@ -9,7 +9,7 @@ namespace AngleSharp.Html
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    class Tokenization
+    class HtmlTokenizer
     {
         #region Members
 
@@ -43,7 +43,7 @@ namespace AngleSharp.Html
         /// See 8.2.4 Tokenization
         /// </summary>
         /// <param name="source">The source code manager.</param>
-        public Tokenization(HtmlSource source)
+        public HtmlTokenizer(HtmlSource source)
         {
             _ = source;
             IsCurrentNodeNotInHtmlNS = true;

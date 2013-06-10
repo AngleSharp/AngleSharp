@@ -19,7 +19,7 @@ namespace AngleSharp.Html
     {
         #region Members
 
-        Tokenization tokenizer;
+        HtmlTokenizer tokenizer;
         HTMLDocument doc;
         InsertationMode insert;
         InsertationMode originalInsert;
@@ -59,7 +59,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="document">The document instance to be constructed.</param>
         /// <param name="tokenization">The used tokenizer.</param>
-        public TreeConstruction(HTMLDocument document, Tokenization tokenization)
+        public TreeConstruction(HTMLDocument document, HtmlTokenizer tokenization)
         {
             tokenizer = tokenization;
             doc = document;
@@ -3523,12 +3523,13 @@ namespace AngleSharp.Html
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         void AddElementToCurrentNode(Element element, HtmlToken elementToken, bool acknowledgeSelfClosing = false)
         {
+            SetupElement(element, elementToken, acknowledgeSelfClosing);
+
             if (foster && CurrentNode.IsTableElement())
                 AddElementWithFoster(element);
             else
                 CurrentNode.AppendChild(element);
 
-            SetupElement(element, elementToken, acknowledgeSelfClosing);
             open.Add(element);
             RaiseCurrentChanged();
         }

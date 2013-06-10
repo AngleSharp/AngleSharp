@@ -17,7 +17,7 @@ namespace UnitTests
         {
             HtmlToken token = null;
             var s = new HtmlSource("");
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 token = e.Token;
@@ -31,7 +31,7 @@ namespace UnitTests
         {
             HtmlToken token = null;
             var s = new HtmlSource("<p>");
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if(token == null)
@@ -46,7 +46,7 @@ namespace UnitTests
         {
             HtmlToken token = null;
             var s = new HtmlSource("<span>");
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if (token == null)
@@ -61,7 +61,7 @@ namespace UnitTests
         {
             HtmlToken token = null;
             var s = new HtmlSource("<img />");
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if (token == null)
@@ -76,7 +76,7 @@ namespace UnitTests
         {
             HtmlToken token = null;
             var s = new HtmlSource("<a target='_blank' href='http://whatever' title='ho'>");
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if (token == null)
@@ -91,7 +91,7 @@ namespace UnitTests
         {
             HtmlToken token = null;
             var s = new HtmlSource("<input required>");
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if (token == null)
@@ -106,7 +106,7 @@ namespace UnitTests
         {
             HtmlToken token = null;
             var s = new HtmlSource("<InpUT>");
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if (token == null)
@@ -121,7 +121,7 @@ namespace UnitTests
         {
             HtmlToken token = null;
             var s = new HtmlSource("<i   >");
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if (token == null)
@@ -137,7 +137,7 @@ namespace UnitTests
             var str = string.Empty;
             var src = "I'm &notin; I tell you";
             var s = new HtmlSource(src);
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if (e.Token.Type == HtmlTokenType.Character)
@@ -153,7 +153,7 @@ namespace UnitTests
             var str = string.Empty;
             var src = "I'm &notit; I tell you";
             var s = new HtmlSource(src);
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if(e.Token.Type == HtmlTokenType.Character)
@@ -168,7 +168,7 @@ namespace UnitTests
         {
             HtmlToken token = null;
             var s = new HtmlSource("<!doctype html>");
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if (token == null)
@@ -183,7 +183,7 @@ namespace UnitTests
         {
             HtmlToken token = null;
             var s = new HtmlSource("<!-- hi my friend -->");
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if (token == null)
@@ -198,7 +198,7 @@ namespace UnitTests
         {
             HtmlToken token = null;
             var s = new HtmlSource("<![CDATA[hi mum how <!-- are you doing />]]>");
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if (token == null)
@@ -213,7 +213,7 @@ namespace UnitTests
         {
             StringBuilder sb = new StringBuilder();
             var s = new HtmlSource("<![CDATA[hi mum how <!-- are you doing />]]>");
-            var t = new Tokenization(s);
+            var t = new HtmlTokenizer(s);
             t.TokenEmitted += (sender, e) =>
             {
                 if(e.Token is HtmlCharacterToken)

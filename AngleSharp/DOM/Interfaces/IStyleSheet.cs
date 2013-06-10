@@ -3,7 +3,7 @@ using System;
 
 namespace AngleSharp.DOM
 {
-    interface ILinkStyle
+    interface IStyleSheet
     {
         StyleSheet Sheet { get; }
     }

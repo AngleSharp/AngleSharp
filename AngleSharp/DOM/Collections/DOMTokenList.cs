@@ -12,10 +12,10 @@ namespace AngleSharp.DOM.Collections
     {
         #region Members
 
-        List<string> tokens;
-        string oldTokenString;
-        Func<string> getter;
-        Action<string> setter;
+        List<String> tokens;
+        String oldTokenString;
+        Func<String> getter;
+        Action<String> setter;
 
         #endregion
 
