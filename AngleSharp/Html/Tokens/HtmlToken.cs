@@ -10,19 +10,97 @@ namespace AngleSharp.Html
         #region Factory
 
         /// <summary>
+        /// Gets the end of file token.
+        /// </summary>
+        public static HtmlEndOfFileToken EOF
+        {
+            get { return eof ?? (eof = new HtmlEndOfFileToken()); }
+        }
+
+        /// <summary>
         /// Creates a new HTML character token based on the given string.
         /// </summary>
         /// <param name="characters">The characters to contain.</param>
         /// <returns>The generated token.</returns>
-        public static HtmlToken Characters(string characters)
+        public static HtmlCharacterToken Characters(String characters)
         {
-            return new HtmlCharacterToken(characters);
+            //TODO
+            return new HtmlCharacterToken(characters[0]);
+        }
+
+        /// <summary>
+        /// Creates a new HTML character token based on the given character.
+        /// </summary>
+        /// <param name="character">The character to contain.</param>
+        /// <returns>The generated token.</returns>
+        public static HtmlCharacterToken Character(Char character)
+        {
+            return new HtmlCharacterToken(character);
+        }
+
+        /// <summary>
+        /// Creates a new HTML comment token based on the given string.
+        /// </summary>
+        /// <param name="comment">The comment to contain.</param>
+        /// <returns>The generated token.</returns>
+        public static HtmlCommentToken Comment(String comment)
+        {
+            return new HtmlCommentToken(comment);
+        }
+
+        /// <summary>
+        /// Creates a new HTML doctype token.
+        /// </summary>
+        /// <param name="quirksmode">Determines if quirksmode will be forced.</param>
+        /// <returns>The generated token.</returns>
+        public static HtmlDoctypeToken Doctype(Boolean quirksmode)
+        {
+            return new HtmlDoctypeToken(quirksmode);
+        }
+
+        /// <summary>
+        /// Creates a new opening HtmlTagToken.
+        /// </summary>
+        /// <returns>The new HTML tag token.</returns>
+        public static HtmlTagToken OpenTag()
+        {
+            return new HtmlTagToken() { _type = HtmlTokenType.StartTag };
+        }
+
+        /// <summary>
+        /// Creates a new closing HtmlTagToken.
+        /// </summary>
+        /// <returns>The new HTML tag token.</returns>
+        public static HtmlTagToken CloseTag()
+        {
+            return new HtmlTagToken() { _type = HtmlTokenType.EndTag };
+        }
+
+        /// <summary>
+        /// Creates a new opening HtmlTagToken for the given name.
+        /// </summary>
+        /// <param name="name">The name of the tag.</param>
+        /// <returns>The new HTML tag token.</returns>
+        public static HtmlTagToken OpenTag(String name)
+        {
+            return new HtmlTagToken(name) { _type = HtmlTokenType.StartTag };
+        }
+
+        /// <summary>
+        /// Creates a new closing HtmlTagToken for the given name.
+        /// </summary>
+        /// <param name="name">The name of the tag.</param>
+        /// <returns>The new HTML tag token.</returns>
+        public static HtmlTagToken CloseTag(String name)
+        {
+            return new HtmlTagToken(name) { _type = HtmlTokenType.EndTag };
         }
 
         #endregion
 
         #region Members
 
+        static HtmlEndOfFileToken eof;
         protected HtmlTokenType _type;
 
         #endregion
@@ -37,33 +115,22 @@ namespace AngleSharp.Html
             get { return _type; }
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
-        /// Looks up if the token is a character token with NULL being the character data.
+        /// Gets if the character data is NULL.
         /// </summary>
-        /// <returns>True if the passed token is a character token and contains NULL, otherwise false.</returns>
-        public bool IsNullChar
+        /// <returns>True if the character token is NULL, otherwise false.</returns>
+        public virtual bool IsNullChar
         {
-            get
-            {
-                return Type == HtmlTokenType.Character && ((HtmlCharacterToken)this).Data == Specification.NULL;
-            }
+            get { return false; }
         }
 
         /// <summary>
-        /// Looks up if the token is a character token and if the data is actually a space character.
+        /// Gets if the character data is actually a space character.
         /// </summary>
-        /// <returns>True if the token is a CharacterToken and the data of the
-        /// character token is a space character.</returns>
-        public bool IsIgnoreable
+        /// <returns>True if the character data is a space character.</returns>
+        public virtual bool IsIgnoreable
         {
-            get
-            {
-                return Type == HtmlTokenType.Character && Specification.IsSpaceCharacter(((HtmlCharacterToken)this).Data);
-            }
+            get { return false; }
         }
 
         #endregion

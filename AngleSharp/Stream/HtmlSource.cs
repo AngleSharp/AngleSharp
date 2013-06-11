@@ -13,15 +13,15 @@ namespace AngleSharp
     {
         #region Members
 
-        int _column;
-        int _row;
-        int _insertion;
-        Stack<int> _collengths;
-        char _current;
+        Int32 _column;
+        Int32 _row;
+        Int32 _insertion;
+        Stack<Int32> _collengths;
+        Char _current;
         TextReader _reader;
         StringBuilder _buffer;
-        bool _ended;
-        bool _lwcr;
+        Boolean _ended;
+        Boolean _lwcr;
         Encoding _encoding;
 
         #endregion
@@ -29,9 +29,9 @@ namespace AngleSharp
         #region Constructor
 
         /// <summary>
-        /// Prepares everything
+        /// Prepares everything.
         /// </summary>
-        private HtmlSource()
+        HtmlSource()
         {
             _encoding = HtmlEncoding.Suggest(LocalSettings.Language);
             _buffer = new StringBuilder();
@@ -44,7 +44,7 @@ namespace AngleSharp
         /// Constructs a new instance of the source code manager.
         /// </summary>
         /// <param name="html">The source code string to manage.</param>
-        public HtmlSource(string html)
+        public HtmlSource(String html)
             : this()
         {
             _reader = new StringReader(html);

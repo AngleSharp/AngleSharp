@@ -34,7 +34,11 @@ namespace ConsoleInteraction
 
             //TestHtml("<div id=mydiv class=hi></div>", true);
 
-            //TestHtml(Webpages.CodeProject);
+            TestHtml(Webpages.CodeProject);
+            TestHtml(Webpages.CodeProject);
+            TestHtml(Webpages.CodeProject);
+
+            return;
 
             TestWebRequest("http://www.huffingtonpost.com/", false);
 
@@ -90,7 +94,7 @@ namespace ConsoleInteraction
             var html = DocumentBuilder.Html(source);
             sw.Stop();
             Console.WriteLine(">>> START");
-            Console.WriteLine(html.ToHtml());
+            //sConsole.WriteLine(html.ToHtml());
             Console.WriteLine(">>> END");
             Console.WriteLine();
             Console.WriteLine("... " + sw.ElapsedMilliseconds + "ms");

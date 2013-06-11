@@ -408,7 +408,7 @@ namespace AngleSharp.Html
             else if(!token.IsIgnoreable)
             {
                 var element = new HTMLHtmlElement();
-                AddElementToDocument(element, HtmlTagToken.Open.SetName(HTMLHtmlElement.Tag));
+                AddElementToDocument(element, HtmlToken.OpenTag(HTMLHtmlElement.Tag));
                 //TODO
                 //If the Document is being loaded as part of navigation of a browsing context, then:
                 //  run the application cache selection algorithm with no manifest, passing it the Document object.
@@ -447,7 +447,7 @@ namespace AngleSharp.Html
             }
             else if(!token.IsIgnoreable)
             {
-                BeforeHead(HtmlTagToken.Open.SetName(HTMLHeadElement.Tag));
+                BeforeHead(HtmlToken.OpenTag(HTMLHeadElement.Tag));
                 InHead(token);
             }
         }
@@ -653,7 +653,7 @@ namespace AngleSharp.Html
             }
             else
             {
-                AfterHeadStartTagBody(HtmlTagToken.Open.SetName(HTMLBodyElement.Tag));
+                AfterHeadStartTagBody(HtmlToken.OpenTag(HTMLBodyElement.Tag));
                 frameset = true;
                 Consume(token);
             }
@@ -866,7 +866,7 @@ namespace AngleSharp.Html
                                 {
                                     var format = formatting[i];
                                     RaiseErrorOccurred(ErrorCode.AnchorNested);
-                                    HeisenbergAlgorithm(HtmlTagToken.Close.SetName(HTMLAnchorElement.Tag));
+                                    HeisenbergAlgorithm(HtmlToken.CloseTag(HTMLAnchorElement.Tag));
                                     if(open.Contains(format)) open.Remove(format);
                                     if(formatting.Contains(format)) formatting.RemoveAt(i);
                                     break;
@@ -995,20 +995,20 @@ namespace AngleSharp.Html
 
                             if (form == null)
                             {
-                                InBody(HtmlTagToken.Close.SetName(HTMLFormElement.Tag));
+                                InBody(HtmlToken.CloseTag(HTMLFormElement.Tag));
 
                                 if (tag.GetAttribute("action") != string.Empty)
                                     form.SetAttribute("action", tag.GetAttribute("action"));
 
-                                InBody(HtmlTagToken.Close.SetName(HTMLHRElement.Tag));
-                                InBody(HtmlTagToken.Close.SetName(HTMLLabelElement.Tag));
+                                InBody(HtmlToken.CloseTag(HTMLHRElement.Tag));
+                                InBody(HtmlToken.CloseTag(HTMLLabelElement.Tag));
 
                                 if (tag.GetAttribute("prompt") != string.Empty)
                                     InsertCharacters(tag.GetAttribute("prompt"));
                                 else
                                     InsertCharacters("This is a searchable index. Enter search keywords:");
 
-                                var input = HtmlTagToken.Close.SetName(HTMLInputElement.Tag);
+                                var input = HtmlToken.CloseTag(HTMLInputElement.Tag);
                                 input.AddAttribute("name", HTMLIsIndexElement.Tag);
 
                                 for (int i = 0; i < tag.Attributes.Count; i++)
@@ -1020,9 +1020,9 @@ namespace AngleSharp.Html
                                 }
 
                                 InBody(input);
-                                InBody(HtmlTagToken.Open.SetName(HTMLLabelElement.Tag));
-                                InBody(HtmlTagToken.Close.SetName(HTMLHRElement.Tag));
-                                InBody(HtmlTagToken.Open.SetName(HTMLFormElement.Tag));
+                                InBody(HtmlToken.OpenTag(HTMLLabelElement.Tag));
+                                InBody(HtmlToken.CloseTag(HTMLHRElement.Tag));
+                                InBody(HtmlToken.OpenTag(HTMLFormElement.Tag));
                             }
                         }
                         break;
@@ -1081,7 +1081,7 @@ namespace AngleSharp.Html
                     case HTMLOptionElement.Tag:
                         {
                             if (CurrentNode.NodeName == HTMLOptionElement.Tag)
-                                InBodyEndTagAnythingElse(HtmlTagToken.Close.SetName(HTMLOptionElement.Tag));
+                                InBodyEndTagAnythingElse(HtmlToken.CloseTag(HTMLOptionElement.Tag));
 
                             ReconstructFormatting();
                             var element = HTMLElement.Factory(tag.Name);
@@ -1346,7 +1346,7 @@ namespace AngleSharp.Html
 
                     case HTMLBRElement.Tag:
                         RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
-                        InBodyStartTagBreakrow(HtmlTagToken.Open.SetName(HTMLBRElement.Tag));
+                        InBodyStartTagBreakrow(HtmlToken.OpenTag(HTMLBRElement.Tag));
                         break;
 
                     default:
@@ -1505,7 +1505,7 @@ namespace AngleSharp.Html
 
                     case HTMLTableColElement.ColTag:
                         {
-                            InTable(HtmlTagToken.Open.SetName(HTMLTableColElement.ColgroupTag));
+                            InTable(HtmlToken.OpenTag(HTMLTableColElement.ColgroupTag));
                             InColumnGroup(token);
                         }
                         break;
@@ -1525,7 +1525,7 @@ namespace AngleSharp.Html
                     case HTMLTableCellElement.HeadTag:
                     case HTMLTableRowElement.Tag:
                         {
-                            InTable(HtmlTagToken.Open.SetName(HTMLTableSectionElement.BodyTag));
+                            InTable(HtmlToken.OpenTag(HTMLTableSectionElement.BodyTag));
                             InTableBody(token);
                         }
                         break;
@@ -1817,7 +1817,7 @@ namespace AngleSharp.Html
                 }
                 else if (tag.Name.IsTableCellElement())
                 {
-                    InTableBody(HtmlTagToken.Close.SetName(HTMLTableRowElement.Tag));
+                    InTableBody(HtmlToken.CloseTag(HTMLTableRowElement.Tag));
                     InRow(token);
                 }
                 else if (tag.Name.IsGeneralTableElement())
@@ -2466,7 +2466,7 @@ namespace AngleSharp.Html
             {
                 if (node.NodeName == HTMLLIElement.ItemTag)
                 {
-                    InBody(HtmlTagToken.Close.SetName(node.NodeName));
+                    InBody(HtmlToken.CloseTag(node.NodeName));
                     break;
                 }
 
@@ -2497,7 +2497,7 @@ namespace AngleSharp.Html
             {
                 if (node.NodeName == HTMLLIElement.DefinitionTag || node.NodeName == HTMLLIElement.DescriptionTag)
                 {
-                    InBody(HtmlTagToken.Close.SetName(node.NodeName));
+                    InBody(HtmlToken.CloseTag(node.NodeName));
                     break;
                 }
 
@@ -2828,7 +2828,7 @@ namespace AngleSharp.Html
             else
             {
                 RaiseErrorOccurred(ErrorCode.ParagraphNotInScope);
-                InBody(HtmlTagToken.Open.SetName(HTMLParagraphElement.Tag));
+                InBody(HtmlToken.OpenTag(HTMLParagraphElement.Tag));
                 InBodyEndTagParagraph();
                 return false;
             }
@@ -3086,7 +3086,7 @@ namespace AngleSharp.Html
                             if (!tag.IsSelfClosing)
                                 RaiseCurrentChanged();
                             else if (tag.Name == HTMLScriptElement.Tag)
-                                Foreign(HtmlTagToken.Close.SetName(HTMLScriptElement.Tag));
+                                Foreign(HtmlToken.CloseTag(HTMLScriptElement.Tag));
                         }
 
                         break;
@@ -3872,7 +3872,7 @@ namespace AngleSharp.Html
                 entry = formatting[index];
                 var element = HTMLElement.Factory(entry.NodeName);
 
-                AddElementToCurrentNode(element, HtmlTagToken.Open.SetName(entry.NodeName));
+                AddElementToCurrentNode(element, HtmlToken.OpenTag(entry.NodeName));
 
                 for (int i = 0; i < entry.Attributes.Length; i++)
                 {

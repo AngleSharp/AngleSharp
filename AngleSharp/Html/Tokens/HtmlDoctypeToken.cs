@@ -5,14 +5,14 @@ namespace AngleSharp.Html
     /// <summary>
     /// The DOCTYPE token.
     /// </summary>
-    class HtmlDoctypeToken : HtmlToken
+    sealed class HtmlDoctypeToken : HtmlToken
     {
         #region Members
 
-        bool quirks;
-        string name;
-        string publicIdentifier;
-        string systemIdentifier;
+        Boolean quirks;
+        String name;
+        String publicIdentifier;
+        String systemIdentifier;
 
         #endregion
 
@@ -136,7 +136,7 @@ namespace AngleSharp.Html
             {
                 if (IsQuirksForced)
                     return true;
-                else if (Name != "html")
+                else if (!Name.Equals("html"))
                     return true;
                 else if (PublicIdentifier.StartsWith("+//Silmaril//dtd html Pro v0r11 19970101//", StringComparison.InvariantCultureIgnoreCase))
                     return true;

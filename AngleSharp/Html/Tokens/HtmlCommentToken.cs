@@ -5,7 +5,7 @@ namespace AngleSharp.Html
     /// <summary>
     /// The token that is used for comments.
     /// </summary>
-    class HtmlCommentToken : HtmlToken
+    sealed class HtmlCommentToken : HtmlToken
     {
         #region Members
 
@@ -39,12 +39,11 @@ namespace AngleSharp.Html
         #region Properties
 
         /// <summary>
-        /// Gets or sets the data of the comment token.
+        /// Gets the data of the comment token.
         /// </summary>
         public string Data
         {
             get { return _data; }
-            set { _data = value; }
         }
 
         #endregion

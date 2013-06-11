@@ -215,6 +215,36 @@ namespace AngleSharp.DOM
             return this;
         }
 
+        /// <summary>
+        /// Returns an HTML-code representation of the character data.
+        /// </summary>
+        /// <returns>A string containing the HTML code.</returns>
+        public override string ToHtml()
+        {
+            var temp = new StringBuilder();
+
+            for (int i = 0; i < sb.Length; i++)
+            {
+                switch (sb[i])
+                {
+                    case '&':
+                        temp.Append("&amp;");
+                        break;
+                    case '<':
+                        temp.Append("&lt;");
+                        break;
+                    case '>':
+                        temp.Append("&gt;");
+                        break;
+                    default:
+                        temp.Append(sb[i]);
+                        break;
+                }
+            }
+            
+            return temp.ToString();
+        }
+
         #endregion
     }
 }

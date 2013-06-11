@@ -5,7 +5,7 @@ namespace AngleSharp.Html
     /// <summary>
     /// The character token that contains a series of characters.
     /// </summary>
-    class HtmlCharacterToken : HtmlToken
+    sealed class HtmlCharacterToken : HtmlToken
     {
         #region Members
 
@@ -30,19 +30,8 @@ namespace AngleSharp.Html
         /// <param name="data">The character.</param>
         public HtmlCharacterToken(char data)
         {
-            _type = HtmlTokenType.Character;
             _data = data;
-        }
-
-        /// <summary>
-        /// Creates a new character token with the given characters.
-        /// </summary>
-        /// <param name="data">The characters.</param>
-        public HtmlCharacterToken(string data)
-        {
             _type = HtmlTokenType.Character;
-            //TODO
-            //_data = data;
         }
 
         #endregion
@@ -55,6 +44,24 @@ namespace AngleSharp.Html
         public char Data
         {
             get { return _data; }
+        }
+
+        /// <summary>
+        /// Gets if the character data is NULL.
+        /// </summary>
+        /// <returns>True if the character token is NULL, otherwise false.</returns>
+        public override bool IsNullChar
+        {
+            get { return _data == Specification.NULL; }
+        }
+
+        /// <summary>
+        /// Gets if the character data is actually a space character.
+        /// </summary>
+        /// <returns>True if the character data is a space character.</returns>
+        public override bool IsIgnoreable
+        {
+            get { return Specification.IsSpaceCharacter(_data); }
         }
 
         #endregion
