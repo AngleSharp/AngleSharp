@@ -49,7 +49,7 @@ namespace ConsoleInteraction
             TestWebRequest("http://www.florian-rappl.de/", true);
         }
 
-        private static void TestWebRequest(string url, bool openConsole)
+        static void TestWebRequest(string url, bool openConsole)
         {
             var sw = Stopwatch.StartNew();
             HttpClient client = new HttpClient();
@@ -64,9 +64,6 @@ namespace ConsoleInteraction
             var html = DocumentBuilder.Html(source);
             sw.Stop();
 
-            var sheet = GetStylesheet(html).Result;
-            var styles = CssParser.ParseStyleSheet(sheet);
-
             Console.WriteLine("Parsing " + url + " took ... " + sw.ElapsedMilliseconds + "ms");
 
             if (openConsole)
@@ -76,31 +73,7 @@ namespace ConsoleInteraction
             }
         }
 
-        static async System.Threading.Tasks.Task<string> GetStylesheet(HTMLDocument document)
-        {
-            var str = new System.Text.StringBuilder();
-            var http = new HttpClient();
-
-            for (int i = 0; i < document.StyleSheets.Length; i++)
-            {
-                string content;
-
-                if (string.IsNullOrEmpty(document.StyleSheets[i].Href))
-                    content = document.StyleSheets[i].OwnerNode.TextContent;
-                else
-                {
-                    var src = document.StyleSheets[i].Href;
-                    var response = await http.GetAsync(src);
-                    content = await response.Content.ReadAsStringAsync();
-                }
-
-                str.Append(content);
-            }
-
-            return str.ToString();
-        }
-
-        private static void TestHtml(string source, bool openConsole)
+        static void TestHtml(string source, bool openConsole)
         {
             var doc = TestHtml(source);
 
@@ -111,7 +84,7 @@ namespace ConsoleInteraction
             }
         }
 
-        private static HTMLDocument TestHtml(string source)
+        static HTMLDocument TestHtml(string source)
         {
             var sw = Stopwatch.StartNew();
             var html = DocumentBuilder.Html(source);
@@ -125,7 +98,7 @@ namespace ConsoleInteraction
             return html;
         }
 
-        private static NodeList TestHtmlFragment(string source)
+        static NodeList TestHtmlFragment(string source)
         {
             var sw = Stopwatch.StartNew();
             var nodes = DocumentBuilder.HtmlFragment(source, new HTMLParagraphElement());
@@ -139,7 +112,7 @@ namespace ConsoleInteraction
             return nodes;
         }
 
-        private static void TestCSS(string source)
+        static void TestCSS(string source)
         {
             var parser = new CssParser(source);
             var sw = Stopwatch.StartNew();

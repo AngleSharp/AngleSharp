@@ -86,6 +86,7 @@
     <Compile Include="DOM\Enums\RangePosition.cs" />
     <Compile Include="DOM\Enums\RangeType.cs" />
     <Compile Include="Foundation\Builder.cs" />
+    <Compile Include="Foundation\Interfaces\IParser.cs" />
     <Compile Include="Foundation\LocalSettings.cs" />
     <Compile Include="Foundation\MimeTypes.cs" />
     <Compile Include="Foundation\Mutations\MutationCallback.cs" />

@@ -2,7 +2,7 @@
 
 namespace AngleSharp.Xml
 {
-    class XmlParser
+    public class XmlParser : IParser
     {
         //TODO
         //http://www.w3.org/html/wg/drafts/html/master/the-xhtml-syntax.html#xml-parser

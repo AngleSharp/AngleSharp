@@ -1,13 +1,14 @@
 ﻿using System;
 using AngleSharp.Css;
 using System.Collections.Generic;
+using System.Text;
 
 namespace AngleSharp.DOM.Css
 {
     /// <summary>
     /// Represents a CSS value.
     /// </summary>
-    public abstract class CSSValue
+    public class CSSValue
     {
         #region Members
 
@@ -20,8 +21,9 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new CSS value.
         /// </summary>
-        public CSSValue()
+        internal CSSValue()
         {
+            _type = CssValue.Custom;
         }
 
         #endregion
@@ -49,22 +51,22 @@ namespace AngleSharp.DOM.Css
 
         #region Factory
 
+        [ThreadStatic]
+        static StringBuilder str;
+
         internal static CSSValue Create(CssComponentValue value)
         {
-            //TODO
-            return null;
+            return new CSSValue() { CssText = value.ToString() };
         }
 
         internal static CSSValue Create(IEnumerable<CssComponentValue> value)
         {
-            //foreach (var val in value)
-            //{
-            //    Console.Write(val);
-            //    Console.Write(",");
-            //}
+            (str ?? (str = new StringBuilder())).Clear();
 
-            //TODO
-            return null;
+            foreach (var val in value)
+                str.Append(val);
+
+            return new CSSValue() { CssText = str.ToString() };
         }
 
         #endregion

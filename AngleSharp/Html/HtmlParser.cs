@@ -2,7 +2,7 @@
 
 namespace AngleSharp.Html
 {
-    public class HtmlParser
+    public class HtmlParser : IParser
     {
     }
 }

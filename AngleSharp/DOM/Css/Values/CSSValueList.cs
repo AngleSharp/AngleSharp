@@ -7,7 +7,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a list of values in the CSS context.
     /// </summary>
-    public class CSSValueList : CSSValue
+    class CSSValueList : CSSValue
     {
         #region Members
 

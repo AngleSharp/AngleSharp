@@ -11,7 +11,7 @@ namespace AngleSharp.Css
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    public class CssParser
+    public class CssParser : IParser
     {
         #region Members
 
@@ -2007,7 +2007,7 @@ namespace AngleSharp.Css
         /// <param name="values">The string to parse.</param>
         /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
         /// <returns>The CSSValueList object.</returns>
-        public static CSSValueList ParseValueList(string values, bool quirksMode = false)
+        internal static CSSValueList ParseValueList(string values, bool quirksMode = false)
         {
             var list = new List<CSSValue>();
             var parser = new CssParser(values);
@@ -2032,7 +2032,7 @@ namespace AngleSharp.Css
         /// <param name="values">The string to parse.</param>
         /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
         /// <returns>The CSSValueList object.</returns>
-        public static List<CSSValueList> ParseMultipleValues(string values, bool quirksMode = false)
+        internal static List<CSSValueList> ParseMultipleValues(string values, bool quirksMode = false)
         {
             var parser = new CssParser(values);
             parser.IsQuirksMode = quirksMode;

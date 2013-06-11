@@ -6,27 +6,27 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
-        string identifier;
-        string listStyle;
-        string separator;
+        String identifier;
+        String listStyle;
+        String separator;
 
         #endregion
 
         #region Properties
 
-        public string Identifier
+        public String Identifier
         {
             get { return identifier; }
             set { identifier = value; }
         }
 
-        public string ListStyle
+        public String ListStyle
         {
             get { return listStyle; }
             set { listStyle = value; }
         }
 
-        public string Separator
+        public String Separator
         {
             get { return separator; }
             set { separator = value; }

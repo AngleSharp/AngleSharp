@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS @keyframe rule.
     /// </summary>
-    public sealed class CSSKeyframeRule : CSSRule
+    sealed class CSSKeyframeRule : CSSRule
     {
         #region Members
 

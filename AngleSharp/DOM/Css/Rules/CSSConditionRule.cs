@@ -2,7 +2,7 @@
 
 namespace AngleSharp.DOM.Css
 {
-    public abstract class CSSConditionRule : CSSGroupingRule
+    abstract class CSSConditionRule : CSSGroupingRule
     {
         #region Members
 

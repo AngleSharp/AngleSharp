@@ -4,6 +4,7 @@ using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
 using System;
+using System.IO;
 
 namespace AngleSharp
 {
@@ -36,6 +37,11 @@ namespace AngleSharp
             //script.Src
             //script.Charset
             //script.Type
+            throw new NotImplementedException();
+        }
+
+        public static Stream Stream(Uri url)
+        {
             throw new NotImplementedException();
         }
     }

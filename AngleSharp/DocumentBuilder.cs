@@ -59,13 +59,27 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Builds a new HTMLDocument with the given source code stream.
+        /// Builds a new HTMLDocument with the given URL.
         /// </summary>
-        /// <param name="sourceCode">The stream of chars to use as source code.</param>
+        /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static HTMLDocument Html(Stream sourceCode)
+        public static HTMLDocument Html(Uri url)
         {
-            var source = new HtmlSource(sourceCode);
+            var stream = Builder.Stream(url);
+            var source = new HtmlSource(stream);
+            var db = new DocumentBuilder(source, new HTMLDocument());
+            db.tokenizer.Start();
+            return db.document;
+        }
+
+        /// <summary>
+        /// Builds a new HTMLDocument with the given network stream.
+        /// </summary>
+        /// <param name="networkStream">The stream of chars to use as source code.</param>
+        /// <returns>The constructed HTML document.</returns>
+        public static HTMLDocument Html(Stream networkStream)
+        {
+            var source = new HtmlSource(networkStream);
             var db = new DocumentBuilder(source, new HTMLDocument());
             db.tokenizer.Start();
             return db.document;
