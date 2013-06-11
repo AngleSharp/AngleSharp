@@ -38,12 +38,13 @@ namespace AngleSharp
 
             tokenizer.ErrorOccurred += ParseErrorOccurred;
             tree.ErrorOccurred += ParseErrorOccurred;
-            tree.Stop += StopParsing;
+            //TODO
+            //tree.Stop += StopParsing;
         }
 
         #endregion
 
-        #region Methods
+        #region Static Methods
 
         /// <summary>
         /// Builds a new HTMLDocument with the given source code string.
@@ -54,7 +55,7 @@ namespace AngleSharp
         {
             var source = new HtmlSource(sourceCode);
             var db = new DocumentBuilder(source, new HTMLDocument());
-            db.tokenizer.Start();
+            db.Run();
             return db.document;
         }
 
@@ -68,7 +69,7 @@ namespace AngleSharp
             var stream = Builder.Stream(url);
             var source = new HtmlSource(stream);
             var db = new DocumentBuilder(source, new HTMLDocument());
-            db.tokenizer.Start();
+            db.Run();
             return db.document;
         }
 
@@ -81,7 +82,7 @@ namespace AngleSharp
         {
             var source = new HtmlSource(networkStream);
             var db = new DocumentBuilder(source, new HTMLDocument());
-            db.tokenizer.Start();
+            db.Run();
             return db.document;
         }
 
@@ -95,7 +96,7 @@ namespace AngleSharp
         {
             var source = new HtmlSource(sourceCode);
             var doc = new HTMLDocument();
-            var nb = new DocumentBuilder(source, doc);
+            var db = new DocumentBuilder(source, doc);
 
             if (context != null)
             {
@@ -106,7 +107,7 @@ namespace AngleSharp
                 {
                     case HTMLTitleElement.Tag:
                     case HTMLTextAreaElement.Tag:
-                        nb.tokenizer.Switch(ContentModel.RCData);
+                        db.tokenizer.Switch(ContentModel.RCData);
                         break;
 
                     case HTMLStyleElement.Tag:
@@ -114,20 +115,20 @@ namespace AngleSharp
                     case HTMLIFrameElement.Tag:
                     case HTMLNoElement.NoEmbedTag:
                     case HTMLNoElement.NoFramesTag:
-                        nb.tokenizer.Switch(ContentModel.Rawtext);
+                        db.tokenizer.Switch(ContentModel.Rawtext);
                         break;
 
                     case HTMLScriptElement.Tag:
-                        nb.tokenizer.Switch(ContentModel.Script);
+                        db.tokenizer.Switch(ContentModel.Script);
                         break;
 
                     case HTMLNoElement.NoScriptTag:
-                        if (nb.document.IsScripting)
-                            nb.tokenizer.Switch(ContentModel.Rawtext);
+                        if (db.document.IsScripting)
+                            db.tokenizer.Switch(ContentModel.Rawtext);
                         break;
 
                     case "plaintext":
-                        nb.tokenizer.Switch(ContentModel.Plaintext);
+                        db.tokenizer.Switch(ContentModel.Plaintext);
                         break;
                 }
 
@@ -138,12 +139,12 @@ namespace AngleSharp
                 //          there is no appropriate end tag token in the fragment case, yet they involve far
                 //          fewer state transitions.
 
-                nb.tree.SwitchToFragment(context);
-                nb.tokenizer.Start();
+                db.tree.SwitchToFragment(context);
+                db.Run();
                 return doc.DocumentElement.ChildNodes;
             }
 
-            nb.tokenizer.Start();
+            db.Run();
             return doc.ChildNodes;
         }
 
@@ -158,8 +159,24 @@ namespace AngleSharp
             var ms = new MemoryStream();
             var source = new HtmlSource(ms);
             var db = new DocumentBuilder(source, document);
-            db.tokenizer.Start();
+            db.Run();
             return db.document;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void Run()
+        {
+            HtmlToken token;
+
+            do
+            {
+                token = tokenizer.Get();
+                tree.Consume(token);
+            }
+            while (token != HtmlToken.EOF);
         }
 
         #endregion
@@ -174,16 +191,6 @@ namespace AngleSharp
         void ParseErrorOccurred(object sender, ParseErrorEventArgs e)
         {
             Debug.WriteLine(e);
-        }
-
-        /// <summary>
-        /// Called once the tree builder requests the immediate stop of the parsing.
-        /// </summary>
-        /// <param name="sender">The tree builder instance.</param>
-        /// <param name="e">Nothing.</param>
-        void StopParsing(object sender, EventArgs e)
-        {
-            tokenizer.Stop();
         }
 
         #endregion

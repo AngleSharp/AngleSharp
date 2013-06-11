@@ -266,6 +266,7 @@
     <Compile Include="DOM\TextNode.cs" />
     <Compile Include="DOM\Xml\XMLElement.cs" />
     <Compile Include="Html\HtmlParser.cs" />
+    <Compile Include="Html\Tokens\HtmlCharactersToken.cs" />
     <Compile Include="Xml\XmlParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stream\CssSource.cs" />

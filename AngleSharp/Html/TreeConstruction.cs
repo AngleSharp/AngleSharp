@@ -68,7 +68,6 @@ namespace AngleSharp.Html
             frameset = true;
             insert = InsertationMode.Initial;
             tableCharacters = new StringBuilder();
-            tokenizer.TokenEmitted += (s, ev) => Consume(ev.Token);
         }
 
         #endregion
@@ -1439,10 +1438,12 @@ namespace AngleSharp.Html
                         {
                             script = pendingParsingBlock;
                             pendingParsingBlock = null;
-                            tokenizer.Block = true;
+                            //TODO Do not call Tokenizer HERE
                             //TODO
-                            //    3. If the parser's Document has a style sheet that is blocking scripts or the script's "ready to be parser-executed" flag is not set: spin the event loop until the parser's Document has no style sheet that is blocking scripts and the script's "ready to be parser-executed" flag is set.
-                            tokenizer.Block = false;
+                            //    3. If the parser's Document has a style sheet that is blocking scripts or the script's "ready to be parser-executed"
+                            //       flag is not set: spin the event loop until the parser's Document has no style sheet that is blocking scripts and
+                            //       the script's "ready to be parser-executed" flag is set.
+                            //TODO From here on Tokenizer can be called again
                             oldInsertion = tokenizer.Stream.InsertionPoint;
                             nesting++;
                             script.Execute();
@@ -3893,7 +3894,7 @@ namespace AngleSharp.Html
         /// </summary>
         void RaiseCurrentChanged()
         {
-            tokenizer.IsCurrentNodeNotInHtmlNS = CurrentNode == null || !CurrentNode.IsInHtml;
+            tokenizer.AcceptsCDATA = CurrentNode == null || !CurrentNode.IsInHtml;
         }
 
         /// <summary>

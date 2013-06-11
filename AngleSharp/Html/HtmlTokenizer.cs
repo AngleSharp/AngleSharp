@@ -14,12 +14,11 @@ namespace AngleSharp.Html
         #region Members
 
         HtmlSource _;
-        Boolean pause;
-        Action<Char> state;
-        HtmlToken token;
+        Boolean allowCdata;
         String lastStartTag;
         StringBuilder buffer;
         StringBuilder reference;
+        ContentModel model;
 
         #endregion
 
@@ -29,11 +28,6 @@ namespace AngleSharp.Html
         /// The event will be fired once an error has been detected.
         /// </summary>
         public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
-
-        /// <summary>
-        /// The event will be fired when a token is emitted.
-        /// </summary>
-        public event EventHandler<TokenEventArgs> TokenEmitted;
 
         #endregion
 
@@ -46,8 +40,8 @@ namespace AngleSharp.Html
         public HtmlTokenizer(HtmlSource source)
         {
             _ = source;
-            IsCurrentNodeNotInHtmlNS = true;
-            state = Data;
+            model = ContentModel.PCData;
+            allowCdata = true;
             buffer = new StringBuilder();
             reference = new StringBuilder();
         }
@@ -57,18 +51,12 @@ namespace AngleSharp.Html
         #region Properties
 
         /// <summary>
-        /// Gets or sets if the invocation should be blocked.
+        /// Gets or sets if CDATA sections are accepted.
         /// </summary>
-        public bool Block { get; set; }
-
-        /// <summary>
-        /// Gets or sets if the current node is not in the HTML
-        /// namespace.
-        /// </summary>
-        public bool IsCurrentNodeNotInHtmlNS
+        public bool AcceptsCDATA
         {
-            get;
-            set;
+            get { return allowCdata; }
+            set { allowCdata = value; }
         }
 
         /// <summary>
@@ -83,40 +71,34 @@ namespace AngleSharp.Html
 
         #region Methods
 
-        /// <summary>
-        /// Stops the tokenization process.
-        /// </summary>
-        public void Stop()
+        public HtmlToken Get()
         {
-            pause = true;
-        }
+            if (_.IsEnded)
+                return HtmlToken.EOF;
 
-        /// <summary>
-        /// Starts the tokenization process.
-        /// </summary>
-        public void Start()
-        {
-            if (Block)
-                return;
+            HtmlToken token = null;
 
-            pause = false;
-
-            do
+            switch (model)
             {
-                if (pause)
+                case ContentModel.PCData:
+                    token = Data(_.Current);
                     break;
-
-#if DEBUG
-
-                if (_.Current == Specification.CR)
-                    throw new Exception("According to the specification (8.2.2.4) the Tokenizer should never see a CR character.");
-
-#endif
-
-                state(_.Current);
-                _.Advance();
+                case ContentModel.RCData:
+                    token = RCData(_.Current);
+                    break;
+                case ContentModel.Plaintext:
+                    token = Plaintext(_.Current);
+                    break;
+                case ContentModel.Rawtext:
+                    token = Rawtext(_.Current);
+                    break;
+                case ContentModel.Script:
+                    token = ScriptData(_.Current);
+                    break;
             }
-            while (!_.IsEnded);
+
+            _.Advance();
+            return token;
         }
 
         /// <summary>
@@ -126,28 +108,7 @@ namespace AngleSharp.Html
         /// <param name="state">The new state.</param>
         public void Switch(ContentModel state)
         {
-            switch (state)
-            {
-                case ContentModel.PCData:
-                    this.state = Data;
-                    break;
-
-                case ContentModel.RCData:
-                    this.state = RCData;
-                    break;
-
-                case ContentModel.Plaintext:
-                    this.state = Plaintext;
-                    break;
-
-                case ContentModel.Rawtext:
-                    this.state = Rawtext;
-                    break;
-
-                case ContentModel.Script:
-                    this.state = ScriptData;
-                    break;
-            }
+            model = state;
         }
 
         #endregion
@@ -158,22 +119,19 @@ namespace AngleSharp.Html
         /// See 8.2.4.7 PLAINTEXT state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void Plaintext(char c)
+        HtmlToken Plaintext(Char c)
         {
             switch (c)
             {
                 case Specification.NULL:
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    RaiseTokenEmitted(HtmlToken.Character(Specification.REPLACEMENT));
-                    break;
+                    return HtmlToken.Character(Specification.REPLACEMENT);
 
                 case Specification.EOF:
-                    RaiseTokenEmitted(HtmlToken.EOF);
-                    break;
+                    return HtmlToken.EOF;
 
                 default:
-                    RaiseTokenEmitted(HtmlToken.Character(c));
-                    break;
+                    return HtmlToken.Character(c);
             }
         }
 
@@ -181,41 +139,30 @@ namespace AngleSharp.Html
         /// See 8.2.4.1 Data state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void Data(char c)
+        HtmlToken Data(Char c)
         {
             switch (c)
             {
                 case Specification.AMPERSAND:
-                    _.Advance();
-                    var value = CharacterReference(_.Current);
+                    var value = CharacterReference(_.Next);
 
                     if (value == null)
-                    {
-                        RaiseTokenEmitted(HtmlToken.Character(Specification.AMPERSAND));
-                    }
-                    else
-                    {
-                        for (var i = 0; i < value.Length; i++)
-                            RaiseTokenEmitted(HtmlToken.Character(value[i]));
-                    }
-
-                    break;
+                        return HtmlToken.Character(Specification.AMPERSAND);
+                    
+                    return HtmlToken.Characters(value);
 
                 case Specification.LT:
-                    state = TagOpen;
-                    break;
+                    return TagOpen(_.Next);
 
                 case Specification.NULL:
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    break;
+                    return Data(_.Next);
 
                 case Specification.EOF:
-                    RaiseTokenEmitted(HtmlToken.EOF);
-                    break;
+                    return HtmlToken.EOF;
 
                 default:
-                    RaiseTokenEmitted(HtmlToken.Character(c));
-                    break;
+                    return HtmlToken.Character(c);
             }
         }
 
@@ -227,43 +174,30 @@ namespace AngleSharp.Html
         /// See 8.2.4.3 RCDATA state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void RCData(char c)
+        HtmlToken RCData(Char c)
         {
             switch (c)
             {
                 case Specification.AMPERSAND:
-                    _.Advance();
-                    var value = CharacterReference(_.Current);
+                    var value = CharacterReference(_.Next);
 
                     if (value == null)
-                    {
-                        _.Back();
-                        RaiseTokenEmitted(HtmlToken.Character(Specification.AMPERSAND));
-                    }
-                    else
-                    {
-                        for (var i = 0; i < value.Length; i++)
-                            RaiseTokenEmitted(HtmlToken.Character(value[i]));
-                    }
-                    
-                    break;
+                        return HtmlToken.Character(Specification.AMPERSAND);
+
+                    return HtmlToken.Characters(value);
 
                 case Specification.LT:
-                    state = RCDataLT;
-                    break;
+                    return RCDataLT(_.Next);
 
                 case Specification.NULL:
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    RaiseTokenEmitted(HtmlToken.Character(Specification.REPLACEMENT));
-                    break;
+                    return HtmlToken.Character(Specification.REPLACEMENT);
 
                 case Specification.EOF:
-                    RaiseTokenEmitted(HtmlToken.EOF);
-                    break;
+                    return HtmlToken.EOF;
 
                 default:
-                    RaiseTokenEmitted(HtmlToken.Character(c));
-                    break;
+                    return HtmlToken.Character(c);
             }
         }
 
@@ -271,46 +205,39 @@ namespace AngleSharp.Html
         /// See 8.2.4.11 RCDATA less-than sign state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void RCDataLT(char c)
+        HtmlToken RCDataLT(Char c)
         {
             if (c == Specification.SOLIDUS)
             {
                 buffer.Clear();
-                state = RCDataEndTag;
+                return RCDataEndTag(_.Next);
             }
-            else
-            {
-                state = RCData;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-            }
+
+            return HtmlToken.Character(Specification.LT);
         }
 
         /// <summary>
         /// See 8.2.4.12 RCDATA end tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void RCDataEndTag(char c)
+        HtmlToken RCDataEndTag(Char c)
         {
             if (Specification.IsUppercaseAscii(c))
             {
-                token = HtmlToken.CloseTag();
-                state = RCDataNameEndTag;
                 buffer.Clear();
                 buffer.Append(c.ToLower());
+                return RCDataNameEndTag(_.Next, HtmlToken.CloseTag());
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                token = HtmlToken.CloseTag();
-                state = RCDataNameEndTag;
                 buffer.Clear();
                 buffer.Append(c);
+                return RCDataNameEndTag(_.Next, HtmlToken.CloseTag());
             }
             else
             {
-                state = RCData;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                RaiseTokenEmitted(HtmlToken.Character(Specification.SOLIDUS));
                 _.Back();
+                return HtmlToken.Characters(Specification.LT, Specification.SOLIDUS);
             }
         }
 
@@ -318,46 +245,42 @@ namespace AngleSharp.Html
         /// See 8.2.4.13 RCDATA end tag name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void RCDataNameEndTag(char c)
+        HtmlToken RCDataNameEndTag(Char c, HtmlTagToken tag)
         {
             var name = buffer.ToString();
             var appropriateTag = name == lastStartTag;
 
             if (appropriateTag && Specification.IsSpaceCharacter(c))
             {
-                ((HtmlTagToken)token).Name = name;
-                state = AttributeBeforeName;
+                tag.Name = name;
+                return AttributeBeforeName(_.Next, tag);
             }
             else if (appropriateTag && c == Specification.SOLIDUS)
             {
-                ((HtmlTagToken)token).Name = name;
-                state = TagSelfClosing;
+                tag.Name = name;
+                return TagSelfClosing(_.Next, tag);
             }
             else if (appropriateTag && c == Specification.GT)
             {
-                state = Data;
-                ((HtmlTagToken)token).Name = name;
-                RaiseTokenEmitted(token);
+                tag.Name = name;
+                model = ContentModel.PCData;
+                return tag;
             }
             else if (Specification.IsUppercaseAscii(c))
             {
                 buffer.Append(c.ToLower());
+                return RCDataNameEndTag(_.Next, tag);
             }
             else if (Specification.IsLowercaseAscii(c))
             {
                 buffer.Append(c);
+                return RCDataNameEndTag(_.Next, tag);
             }
             else
             {
-                state = RCData;
-                token = null;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                RaiseTokenEmitted(HtmlToken.Character(Specification.SOLIDUS));
-                
-                for(var i = 0; i < buffer.Length; i++)
-                    RaiseTokenEmitted(HtmlToken.Character(buffer[i]));
-
                 _.Back();
+                buffer.Insert(0, Specification.LT).Insert(1, Specification.SOLIDUS);
+                return HtmlToken.Characters(buffer.ToString());
             }
         }
 
@@ -369,26 +292,22 @@ namespace AngleSharp.Html
         /// See 8.2.4.5 RAWTEXT state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void Rawtext(char c)
+        HtmlToken Rawtext(Char c)
         {
             switch (c)
             {
                 case Specification.LT:
-                    state = RawtextLT;
-                    break;
+                    return RawtextLT(_.Next);
 
                 case Specification.NULL:
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    RaiseTokenEmitted(HtmlToken.Character(Specification.REPLACEMENT));
-                    break;
+                    return HtmlToken.Character(Specification.REPLACEMENT);
 
                 case Specification.EOF:
-                    RaiseTokenEmitted(HtmlToken.EOF);
-                    break;
+                    return HtmlToken.EOF;
 
                 default:
-                    RaiseTokenEmitted(HtmlToken.Character(c));
-                    break;
+                    return HtmlToken.Character(c);
             }
         }
 
@@ -396,47 +315,40 @@ namespace AngleSharp.Html
         /// See 8.2.4.14 RAWTEXT less-than sign state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void RawtextLT(char c)
+        HtmlToken RawtextLT(Char c)
         {
             if (c == Specification.SOLIDUS)
             {
                 buffer.Clear();
-                state = RawtextEndTag;
+                return RawtextEndTag(_.Next);
             }
-            else
-            {
-                state = Rawtext;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                _.Back();
-            }
+
+            _.Back();
+            return HtmlToken.Character(Specification.LT);
         }
 
         /// <summary>
         /// See 8.2.4.15 RAWTEXT end tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void RawtextEndTag(char c)
+        HtmlToken RawtextEndTag(Char c)
         {
             if (Specification.IsUppercaseAscii(c))
             {
-                token = HtmlToken.CloseTag();
-                state = RawtextNameEndTag;
                 buffer.Clear();
                 buffer.Append(c.ToLower());
+                return RawtextNameEndTag(_.Next, HtmlToken.CloseTag());
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                token = HtmlToken.CloseTag();
-                state = RawtextNameEndTag;
                 buffer.Clear();
                 buffer.Append(c);
+                return RawtextNameEndTag(_.Next, HtmlToken.CloseTag());
             }
             else
             {
-                state = Rawtext;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                RaiseTokenEmitted(HtmlToken.Character(Specification.SOLIDUS));
                 _.Back();
+                return HtmlToken.Characters(Specification.LT, Specification.SOLIDUS);
             }
         }
 
@@ -444,46 +356,43 @@ namespace AngleSharp.Html
         /// See 8.2.4.16 RAWTEXT end tag name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void RawtextNameEndTag(char c)
+        HtmlToken RawtextNameEndTag(Char c, HtmlTagToken tag)
         {
             var name = buffer.ToString();
             var appropriateTag = name == lastStartTag;
 
             if (appropriateTag && Specification.IsSpaceCharacter(c))
             {
-                ((HtmlTagToken)token).Name = name;
-                state = AttributeBeforeName;
+                tag.Name = name;
+                return AttributeBeforeName(_.Next, tag);
             }
             else if (appropriateTag && c == Specification.SOLIDUS)
             {
-                ((HtmlTagToken)token).Name = name;
-                state = TagSelfClosing;
+                tag.Name = name;
+                return TagSelfClosing(_.Next, tag);
             }
             else if (appropriateTag && c == Specification.GT)
             {
-                state = Data;
-                ((HtmlTagToken)token).Name = name;
-                RaiseTokenEmitted(token);
+                tag.Name = name;
+                model = ContentModel.PCData;
+                return tag;
             }
             else if (Specification.IsUppercaseAscii(c))
             {
                 buffer.Append(c.ToLower());
+                return RawtextNameEndTag(_.Next, tag);
             }
             else if (Specification.IsLowercaseAscii(c))
             {
                 buffer.Append(c);
+                return RawtextNameEndTag(_.Next, tag);
             }
             else
             {
-                state = Rawtext;
-                token = null;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                RaiseTokenEmitted(HtmlToken.Character(Specification.SOLIDUS));
-
-                for (var i = 0; i < buffer.Length; i++)
-                    RaiseTokenEmitted(HtmlToken.Character(buffer[i]));
-
                 _.Back();
+                buffer.Insert(0, Specification.LT).Insert(1, Specification.SOLIDUS);
+                return HtmlToken.Characters(buffer.ToString());
+
             }
         }
 
@@ -494,7 +403,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// See 8.2.4.68 CDATA section state
         /// </summary>
-        void CData(char c)
+        HtmlToken CData(Char c)
         {
             buffer.Clear();
 
@@ -512,14 +421,10 @@ namespace AngleSharp.Html
                 }
 
                 buffer.Append(c);
-                _.Advance();
-                c = _.Current;
+                c = _.Next;
             }
 
-            for(var i = 0; i != buffer.Length; i++)
-                RaiseTokenEmitted(HtmlToken.Character(buffer[i]));
-
-            state = Data;
+            return HtmlToken.Characters(buffer.ToString());
         }
 
         /// <summary>
@@ -699,40 +604,37 @@ namespace AngleSharp.Html
         /// See 8.2.4.8 Tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void TagOpen(char c)
+        HtmlToken TagOpen(Char c)
         {
             if (c == Specification.EM)
             {
-                state = MarkupDeclaration;
+                return MarkupDeclaration(_.Next);
             }
             else if (c == Specification.SOLIDUS)
             {
-                state = TagEnd;
+                return TagEnd(_.Next);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                state = TagName;
-                token = HtmlToken.OpenTag();
                 buffer.Clear();
                 buffer.Append(c.ToLower());
+                return TagName(_.Next, HtmlToken.OpenTag());
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                state = TagName;
-                token = HtmlToken.OpenTag();
                 buffer.Clear();
                 buffer.Append(c);
+                return TagName(_.Next, HtmlToken.OpenTag());
             }
             else if (c == '?')
             {
                 RaiseErrorOccurred(ErrorCode.BogusComment);
-                state = BogusComment;
+                return BogusComment(c);
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.AmbiguousOpenTag);
-                state = Data;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
+                return HtmlToken.Character(Specification.LT);
             }
         }
 
@@ -740,38 +642,34 @@ namespace AngleSharp.Html
         /// See 8.2.4.9 End tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void TagEnd(char c)
+        HtmlToken TagEnd(Char c)
         {
             if (Specification.IsUppercaseAscii(c))
             {
-                state = TagName;
-                token = HtmlToken.CloseTag();
                 buffer.Clear();
                 buffer.Append(c.ToLower());
+                return TagName(_.Next, HtmlToken.CloseTag());
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                state = TagName;
-                token = HtmlToken.CloseTag();
                 buffer.Clear();
                 buffer.Append(c);
+                return TagName(_.Next, HtmlToken.CloseTag());
             }
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                state = Data;
+                return Data(_.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                RaiseTokenEmitted(HtmlToken.Character(Specification.SOLIDUS));
+                return HtmlToken.Characters(Specification.LT, Specification.SOLIDUS);
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.BogusComment);
-                state = BogusComment;
+                return BogusComment(c);
             }
         }
 
@@ -779,42 +677,43 @@ namespace AngleSharp.Html
         /// See 8.2.4.10 Tag name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void TagName(char c)
+        HtmlToken TagName(Char c, HtmlTagToken tag)
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                state = AttributeBeforeName;
-                ((HtmlTagToken)token).Name = buffer.ToString();
+                tag.Name = buffer.ToString();
+                return AttributeBeforeName(_.Next, tag);
             }
             else if (c == Specification.SOLIDUS)
             {
-                state = TagSelfClosing;
-                ((HtmlTagToken)token).Name = buffer.ToString();
+                tag.Name = buffer.ToString();
+                return TagSelfClosing(_.Next, tag);
             }
             else if (c == Specification.GT)
             {
-                state = Data;
-                ((HtmlTagToken)token).Name = buffer.ToString();
-                EmitTag();
+                tag.Name = buffer.ToString();
+                return tag;
             }
             else if (Specification.IsUppercaseAscii(c))
             {
                 buffer.Append(c.ToLower());
+                return TagName(_.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Append(Specification.REPLACEMENT);
+                return TagName(_.Next, tag);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
             else
             {
                 buffer.Append(c);
+                return TagName(_.Next, tag);
             }
         }
 
@@ -822,52 +721,50 @@ namespace AngleSharp.Html
         /// See 8.2.4.43 Self-closing start tag state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void TagSelfClosing(char c)
+        HtmlToken TagSelfClosing(Char c, HtmlTagToken tag)
         {
             if (c == Specification.GT)
             {
-                state = Data;
-                ((HtmlTagToken)token).IsSelfClosing = true;
-                EmitTag();
+                model = ContentModel.PCData;
+                tag.IsSelfClosing = true;
+                return tag;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.ClosingSlashMisplaced);
-                state = AttributeBeforeName;
-                _.Back();
+                return AttributeBeforeName(c, tag);
             }
         }
 
         /// <summary>
         /// See 8.2.4.45 Markup declaration open state
         /// </summary>
-        void MarkupDeclaration(char c)
+        HtmlToken MarkupDeclaration(Char c)
         {
             if (_.ContinuesWith("--"))
             {
                 _.Advance();
-                state = CommentStart;
+                return CommentStart(_.Next);
             }
             else if (_.ContinuesWith("doctype"))
             {
                 _.Advance(6);
-                state = Doctype;
+                return Doctype(_.Next);
             }
-            else if (IsCurrentNodeNotInHtmlNS && _.ContinuesWith("[CDATA[", false))
+            else if (allowCdata && _.ContinuesWith("[CDATA[", false))
             {
                 _.Advance(6);
-                state = CData;
+                return CData(_.Next);
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
-                state = BogusComment;
+                return BogusComment(c);
             }
         }
 
@@ -878,12 +775,12 @@ namespace AngleSharp.Html
         /// <summary>
         /// See 8.2.4.44 Bogus comment state
         /// </summary>
-        void BogusComment(char c)
+        HtmlToken BogusComment(Char c)
         {
             buffer.Clear();
-            buffer.Append(_.Back(3).Current);
-            buffer.Append(_.Advance().Current);
-            buffer.Append(_.Advance().Current);
+            buffer.Append(_.Back(2).Current);
+            buffer.Append(_.Next);
+            buffer.Append(_.Next);
             _.Advance();
 
             while(true)
@@ -905,45 +802,42 @@ namespace AngleSharp.Html
                 c = _.Current;
             }
 
-            RaiseTokenEmitted(HtmlToken.Comment(buffer.ToString()));
-            state = Data;
+            return HtmlToken.Comment(buffer.ToString());
         }
 
         /// <summary>
         /// See 8.2.4.46 Comment start state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void CommentStart(char c)
+        HtmlToken CommentStart(Char c)
         {
             buffer.Clear();
 
             if (c == Specification.DASH)
             {
-                state = CommentDashStart;
+                return CommentDashStart(_.Next);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                state = Comment;
                 buffer.Append(Specification.REPLACEMENT);
+                return Comment(_.Next);
             }
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                state = Data;
-                RaiseTokenEmitted(HtmlToken.Comment(buffer.ToString()));
+                return HtmlToken.Comment(buffer.ToString());
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 _.Back();
-                RaiseTokenEmitted(HtmlToken.Comment(buffer.ToString()));
+                return HtmlToken.Comment(buffer.ToString());
             }
             else
             {
-                state = Comment;
                 buffer.Append(c);
+                return Comment(_.Next);
             }
         }
 
@@ -951,37 +845,35 @@ namespace AngleSharp.Html
         /// See 8.2.4.47 Comment start dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void CommentDashStart(char c)
+        HtmlToken CommentDashStart(Char c)
         {
             if (c == Specification.DASH)
             {
-                state = CommentEnd;
+                return CommentEnd(_.Next);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                state = Comment;
                 buffer.Append(Specification.DASH);
                 buffer.Append(Specification.REPLACEMENT);
+                return Comment(_.Next);
             }
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                state = Data;
-                RaiseTokenEmitted(HtmlToken.Comment(buffer.ToString()));
+                return HtmlToken.Comment(buffer.ToString());
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 _.Back();
-                RaiseTokenEmitted(HtmlToken.Comment(buffer.ToString()));
+                return HtmlToken.Comment(buffer.ToString());
             }
             else
             {
-                state = Comment;
                 buffer.Append(Specification.DASH);
                 buffer.Append(c);
+                return Comment(_.Next);
             }
         }
 
@@ -989,27 +881,28 @@ namespace AngleSharp.Html
         /// See 8.2.4.48 Comment state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void Comment(char c)
+        HtmlToken Comment(Char c)
         {
             if (c == Specification.DASH)
             {
-                state = CommentDashEnd;
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
+                return CommentDashEnd(_.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 _.Back();
-                RaiseTokenEmitted(HtmlToken.Comment(buffer.ToString()));
+                return HtmlToken.Comment(buffer.ToString());
             }
             else
             {
+                if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    c = Specification.REPLACEMENT;
+                }
+
                 buffer.Append(c);
+                return Comment(_.Next);
             }
         }
 
@@ -1017,31 +910,29 @@ namespace AngleSharp.Html
         /// See 8.2.4.49 Comment end dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void CommentDashEnd(char c)
+        HtmlToken CommentDashEnd(Char c)
         {
             if (c == Specification.DASH)
             {
-                state = CommentEnd;
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                state = Comment;
-                buffer.Append(Specification.DASH);
-                buffer.Append(Specification.REPLACEMENT);
+                return CommentEnd(_.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 _.Back();
-                RaiseTokenEmitted(HtmlToken.Comment(buffer.ToString()));
+                return HtmlToken.Comment(buffer.ToString());
             }
             else
             {
-                state = Comment;
+                if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    c = Specification.REPLACEMENT;
+                }
+
                 buffer.Append(Specification.DASH);
                 buffer.Append(c);
+                return Comment(_.Next);
             }
         }
 
@@ -1049,44 +940,43 @@ namespace AngleSharp.Html
         /// See 8.2.4.50 Comment end state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void CommentEnd(char c)
+        HtmlToken CommentEnd(Char c)
         {
             if (c == Specification.GT)
             {
-                state = Data;
-                RaiseTokenEmitted(HtmlToken.Comment(buffer.ToString()));
+                return HtmlToken.Comment(buffer.ToString());
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Comment;
                 buffer.Append(Specification.DASH);
                 buffer.Append(Specification.REPLACEMENT);
+                return Comment(_.Next);
             }
             else if (c == Specification.EM)
             {
                 RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
-                state = CommentBangEnd;
+                return CommentBangEnd(_.Next);
             }
             else if (c == Specification.DASH)
             {
                 RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
                 buffer.Append(Specification.DASH);
+                return CommentEnd(_.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 _.Back();
-                RaiseTokenEmitted(HtmlToken.Comment(buffer.ToString()));
+                return HtmlToken.Comment(buffer.ToString());
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
-                state = Comment;
                 buffer.Append(Specification.DASH);
                 buffer.Append(Specification.DASH);
                 buffer.Append(c);
+                return Comment(_.Next);
             }
         }
 
@@ -1094,43 +984,41 @@ namespace AngleSharp.Html
         /// See 8.2.4.51 Comment end bang state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void CommentBangEnd(char c)
+        HtmlToken CommentBangEnd(Char c)
         {
             if (c == Specification.DASH)
             {
-                state = CommentDashEnd;
                 buffer.Append(Specification.DASH);
                 buffer.Append(Specification.DASH);
                 buffer.Append(Specification.EM);
+                return CommentDashEnd(_.Next);
             }
             else if (c == Specification.GT)
             {
-                state = Data;
-                RaiseTokenEmitted(HtmlToken.Comment(buffer.ToString()));
+                return HtmlToken.Comment(buffer.ToString());
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                state = Comment;
                 buffer.Append(Specification.DASH);
                 buffer.Append(Specification.DASH);
                 buffer.Append(Specification.EM);
                 buffer.Append(Specification.REPLACEMENT);
+                return Comment(_.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 _.Back();
-                RaiseTokenEmitted(HtmlToken.Comment(buffer.ToString()));
+                return HtmlToken.Comment(buffer.ToString());
             }
             else
             {
-                state = Comment;
                 buffer.Append(Specification.DASH);
                 buffer.Append(Specification.DASH);
                 buffer.Append(Specification.EM);
                 buffer.Append(c);
+                return Comment(_.Next);
             }
         }
 
@@ -1142,24 +1030,22 @@ namespace AngleSharp.Html
         /// See 8.2.4.52 DOCTYPE state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void Doctype(char c)
+        HtmlToken Doctype(Char c)
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                state = DoctypeNameBefore;
+                return DoctypeNameBefore(_.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 _.Back();
-                RaiseTokenEmitted(HtmlToken.Doctype(true));
+                return HtmlToken.Doctype(true);
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeUnexpected);
-                state = DoctypeNameBefore;
-                _.Back();
+                return DoctypeNameBefore(c);
             }
         }
 
@@ -1167,46 +1053,40 @@ namespace AngleSharp.Html
         /// See 8.2.4.53 Before DOCTYPE name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypeNameBefore(char c)
+        HtmlToken DoctypeNameBefore(Char c)
         {
-            if (Specification.IsSpaceCharacter(c))
+            while (Specification.IsSpaceCharacter(c))
+                c = _.Next;
+
+            if (Specification.IsUppercaseAscii(c))
             {
-                //Ignore
-            }
-            else if (Specification.IsUppercaseAscii(c))
-            {
-                state = DoctypeName;
-                token = HtmlToken.Doctype(false);
                 buffer.Clear();
                 buffer.Append(c.ToLower());
+                return DoctypeName(_.Next, HtmlToken.Doctype(false));
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                state = DoctypeName;
-                token = HtmlToken.Doctype(false);
                 buffer.Clear();
                 buffer.Append(Specification.REPLACEMENT);
+                return DoctypeName(_.Next, HtmlToken.Doctype(false));
             }
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                state = Data;
-                RaiseTokenEmitted(HtmlToken.Doctype(true));
+                return HtmlToken.Doctype(true);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 _.Back();
-                RaiseTokenEmitted(HtmlToken.Doctype(true));
+                return HtmlToken.Doctype(true);
             }
             else
             {
-                state = DoctypeName;
-                token = HtmlToken.Doctype(false);
                 buffer.Clear();
                 buffer.Append(c);
+                return DoctypeName(_.Next, HtmlToken.Doctype(false));
             }
         }
 
@@ -1214,41 +1094,41 @@ namespace AngleSharp.Html
         /// See 8.2.4.54 DOCTYPE name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypeName(char c)
+        HtmlToken DoctypeName(Char c, HtmlDoctypeToken doctype)
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                ((HtmlDoctypeToken)token).Name = buffer.ToString();
-                state = DoctypeNameAfter;
+                doctype.Name = buffer.ToString();
+                return DoctypeNameAfter(_.Next, doctype);
             }
             else if (c == Specification.GT)
             {
-                state = Data;
-                ((HtmlDoctypeToken)token).Name = buffer.ToString();
-                RaiseTokenEmitted(token);
+                doctype.Name = buffer.ToString();
+                return doctype;
             }
             else if (Specification.IsUppercaseAscii(c))
             {
                 buffer.Append(c.ToLower());
+                return DoctypeName(_.Next, doctype);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Append(Specification.REPLACEMENT);
+                return DoctypeName(_.Next, doctype);
             }
             else if (c == Specification.EOF)
             {
-                var doctype = (HtmlDoctypeToken)token;
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 _.Back();
                 doctype.IsQuirksForced = true;
                 doctype.Name = buffer.ToString();
-                RaiseTokenEmitted(token);
+                return doctype;
             }
             else
             {
                 buffer.Append(c);
+                return DoctypeName(c, doctype);
             }
         }
 
@@ -1256,40 +1136,37 @@ namespace AngleSharp.Html
         /// See 8.2.4.55 After DOCTYPE name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypeNameAfter(char c)
+        HtmlToken DoctypeNameAfter(Char c, HtmlDoctypeToken doctype)
         {
-            if (Specification.IsSpaceCharacter(c))
+            while (Specification.IsSpaceCharacter(c))
+                c = _.Next;
+
+            if (c == Specification.GT)
             {
-                //Ignore
-            }
-            else if (c == Specification.GT)
-            {
-                state = Data;
-                RaiseTokenEmitted(token);
+                return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 _.Back();
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                RaiseTokenEmitted(token);
+                doctype.IsQuirksForced = true;
+                return doctype;
             }
             else if (_.ContinuesWith("public"))
             {
                 _.Advance(5);
-                state = DoctypePublic;
+                return DoctypePublic(_.Next, doctype);
             }
             else if (_.ContinuesWith("system"))
             {
                 _.Advance(5);
-                state = DoctypeSystem;
+                return DoctypeSystem(_.Next, doctype);
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeUnexpectedAfterName);
-                state = BogusDoctype;
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(_.Next, doctype);
             }
         }
 
@@ -1297,44 +1174,42 @@ namespace AngleSharp.Html
         /// See 8.2.4.56 After DOCTYPE public keyword state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypePublic(char c)
+        HtmlToken DoctypePublic(Char c, HtmlDoctypeToken doctype)
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                state = DoctypePublicIdentifierBefore;
+                return DoctypePublicIdentifierBefore(_.Next, doctype);
             }
             else if (c == Specification.DQ)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
-                ((HtmlDoctypeToken)token).PublicIdentifier = string.Empty;
-                state = DoctypePublicIdentifierDoubleQuoted;
+                doctype.PublicIdentifier = String.Empty;
+                return DoctypePublicIdentifierDoubleQuoted(_.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
-                ((HtmlDoctypeToken)token).PublicIdentifier = string.Empty;
-                state = DoctypePublicIdentifierSingleQuoted;
+                doctype.PublicIdentifier = String.Empty;
+                return DoctypePublicIdentifierSingleQuoted(_.Next, doctype);
             }
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                state = Data;
-                RaiseTokenEmitted(token);
+                doctype.IsQuirksForced = true;
+                return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                state = Data;
-                RaiseTokenEmitted(token);
+                doctype.IsQuirksForced = true;
                 _.Back();
+                return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                state = BogusDoctype;
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(_.Next, doctype);
             }
         }
 
@@ -1342,44 +1217,41 @@ namespace AngleSharp.Html
         /// See 8.2.4.57 Before DOCTYPE public identifier state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypePublicIdentifierBefore(char c)
+        HtmlToken DoctypePublicIdentifierBefore(Char c, HtmlDoctypeToken doctype)
         {
-            if (Specification.IsSpaceCharacter(c))
-            {
-                //Ignore
-            }
-            else if (c == Specification.DQ)
+            while (Specification.IsSpaceCharacter(c))
+                c = _.Next;
+
+            if (c == Specification.DQ)
             {
                 buffer.Clear();
-                ((HtmlDoctypeToken)token).PublicIdentifier = string.Empty;
-                state = DoctypePublicIdentifierDoubleQuoted;
+                doctype.PublicIdentifier = String.Empty;
+                return DoctypePublicIdentifierDoubleQuoted(_.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
                 buffer.Clear();
-                ((HtmlDoctypeToken)token).PublicIdentifier = string.Empty;
-                state = DoctypePublicIdentifierSingleQuoted;
+                doctype.PublicIdentifier = String.Empty;
+                return DoctypePublicIdentifierSingleQuoted(_.Next, doctype);
             }
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                RaiseTokenEmitted(token);
-                state = Data;
+                doctype.IsQuirksForced = true;
+                return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                RaiseTokenEmitted(token);
-                state = Data;
+                doctype.IsQuirksForced = true;
                 _.Back();
+                return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                state = BogusDoctype;
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(_.Next, doctype);
             }
         }
 
@@ -1387,40 +1259,38 @@ namespace AngleSharp.Html
         /// See 8.2.4.58 DOCTYPE public identifier (double-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypePublicIdentifierDoubleQuoted(char c)
+        HtmlToken DoctypePublicIdentifierDoubleQuoted(Char c, HtmlDoctypeToken doctype)
         {
             if (c == Specification.DQ)
             {
-                ((HtmlDoctypeToken)token).PublicIdentifier = buffer.ToString();
-                state = DoctypePublicIdentifierAfter;
+                doctype.PublicIdentifier = buffer.ToString();
+                return DoctypePublicIdentifierAfter(_.Next, doctype); ;
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Append(Specification.REPLACEMENT);
+                return DoctypePublicIdentifierDoubleQuoted(_.Next, doctype);
             }
             else if (c == Specification.GT)
             {
-                var doctype = (HtmlDoctypeToken)token;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
                 doctype.PublicIdentifier = buffer.ToString();
-                state = Data;
-                RaiseTokenEmitted(token);
+                return doctype;
             }
             else if (c == Specification.EOF)
             {
-                var doctype = (HtmlDoctypeToken)token;
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 _.Back();
                 doctype.IsQuirksForced = true;
                 doctype.PublicIdentifier = buffer.ToString();
-                RaiseTokenEmitted(token);
+                return doctype;
             }
             else
             {
                 buffer.Append(c);
+                return DoctypePublicIdentifierDoubleQuoted(_.Next, doctype);
             }
         }
 
@@ -1428,40 +1298,38 @@ namespace AngleSharp.Html
         /// See 8.2.4.59 DOCTYPE public identifier (single-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypePublicIdentifierSingleQuoted(char c)
+        HtmlToken DoctypePublicIdentifierSingleQuoted(Char c, HtmlDoctypeToken doctype)
         {
             if (c == Specification.SQ)
             {
-                ((HtmlDoctypeToken)token).PublicIdentifier = buffer.ToString();
-                state = DoctypePublicIdentifierAfter;
+                doctype.PublicIdentifier = buffer.ToString();
+                return DoctypePublicIdentifierAfter(_.Next, doctype);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Append(Specification.REPLACEMENT);
+                return DoctypePublicIdentifierSingleQuoted(_.Next, doctype);
             }
             else if (c == Specification.GT)
             {
-                var doctype = (HtmlDoctypeToken)token;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
                 doctype.PublicIdentifier = buffer.ToString();
-                state = Data;
-                RaiseTokenEmitted(token);
+                return doctype;
             }
             else if (c == Specification.EOF)
             {
-                var doctype = (HtmlDoctypeToken)token;
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 doctype.IsQuirksForced = true;
                 doctype.PublicIdentifier = buffer.ToString();
-                RaiseTokenEmitted(token);
                 _.Back();
+                return doctype;
             }
             else
             {
                 buffer.Append(c);
+                return DoctypePublicIdentifierSingleQuoted(_.Next, doctype);
             }
         }
 
@@ -1469,45 +1337,41 @@ namespace AngleSharp.Html
         /// See 8.2.4.60 After DOCTYPE public identifier state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypePublicIdentifierAfter(char c)
+        HtmlToken DoctypePublicIdentifierAfter(Char c, HtmlDoctypeToken doctype)
         {
             if (Specification.IsSpaceCharacter(c))
             {
                 buffer.Clear();
-                state = DoctypeBetween;
+                return DoctypeBetween(_.Next, doctype);
             }
             else if (c == Specification.GT)
             {
-                state = Data;
-                RaiseTokenEmitted(token);
+                return doctype;
             }
             else if (c == Specification.DQ)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
-                ((HtmlDoctypeToken)token).SystemIdentifier = string.Empty;
-                RaiseTokenEmitted(token);
-                state = DoctypeSystemIdentifierDoubleQuoted;
+                doctype.SystemIdentifier = String.Empty;
+                return DoctypeSystemIdentifierDoubleQuoted(_.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
-                ((HtmlDoctypeToken)token).SystemIdentifier = string.Empty;
-                RaiseTokenEmitted(token);
-                state = DoctypeSystemIdentifierSingleQuoted;
+                doctype.SystemIdentifier = String.Empty;
+                return DoctypeSystemIdentifierSingleQuoted(_.Next, doctype);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                RaiseTokenEmitted(token);
+                doctype.IsQuirksForced = true;
                 _.Back();
+                return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-                state = BogusDoctype;
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(_.Next, doctype);
             }
         }
 
@@ -1515,40 +1379,37 @@ namespace AngleSharp.Html
         /// See 8.2.4.61 Between DOCTYPE public and system identifiers state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypeBetween(char c)
+        HtmlToken DoctypeBetween(Char c, HtmlDoctypeToken doctype)
         {
-            if (Specification.IsSpaceCharacter(c))
+            while (Specification.IsSpaceCharacter(c))
+                c = _.Next;
+
+            if (c == Specification.GT)
             {
-                //Ignore
-            }
-            else if (c == Specification.GT)
-            {
-                state = Data;
-                RaiseTokenEmitted(token);
+                return doctype;
             }
             else if (c == Specification.DQ)
             {
-                ((HtmlDoctypeToken)token).SystemIdentifier = string.Empty;
-                state = DoctypeSystemIdentifierDoubleQuoted;
+                doctype.SystemIdentifier = String.Empty;
+                return DoctypeSystemIdentifierDoubleQuoted(_.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
-                ((HtmlDoctypeToken)token).SystemIdentifier = string.Empty;
-                state = DoctypeSystemIdentifierSingleQuoted;
+                doctype.SystemIdentifier = String.Empty;
+                return DoctypeSystemIdentifierSingleQuoted(_.Next, doctype);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                RaiseTokenEmitted(token);
+                doctype.IsQuirksForced = true;
                 _.Back();
+                return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                state = BogusDoctype;
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(_.Next, doctype);
             }
         }
 
@@ -1556,46 +1417,43 @@ namespace AngleSharp.Html
         /// See 8.2.4.62 After DOCTYPE system keyword state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypeSystem(char c)
+        HtmlToken DoctypeSystem(Char c, HtmlDoctypeToken doctype)
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                state = DoctypeSystemIdentifierBefore;
+                return DoctypeSystemIdentifierBefore(_.Next, doctype);
             }
             else if (c == Specification.DQ)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
-                ((HtmlDoctypeToken)token).SystemIdentifier = string.Empty;
-                state = DoctypeSystemIdentifierDoubleQuoted;
+                doctype.SystemIdentifier = string.Empty;
+                return DoctypeSystemIdentifierDoubleQuoted(_.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
-                ((HtmlDoctypeToken)token).SystemIdentifier = string.Empty;
-                state = DoctypeSystemIdentifierSingleQuoted;
+                doctype.SystemIdentifier = string.Empty;
+                return DoctypeSystemIdentifierSingleQuoted(_.Next, doctype);
             }
             else if (c == Specification.GT)
             {
-                var doctype = (HtmlDoctypeToken)token;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                state = Data;
                 doctype.SystemIdentifier = buffer.ToString();
                 doctype.IsQuirksForced = true;
-                RaiseTokenEmitted(token);
+                return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                RaiseTokenEmitted(token);
+                doctype.IsQuirksForced = true;
                 _.Back();
+                return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeSystemInvalid);
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                state = BogusDoctype;
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(_.Next, doctype);
             }
         }
 
@@ -1603,46 +1461,41 @@ namespace AngleSharp.Html
         /// See 8.2.4.63 Before DOCTYPE system identifier state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypeSystemIdentifierBefore(char c)
+        HtmlToken DoctypeSystemIdentifierBefore(Char c, HtmlDoctypeToken doctype)
         {
-            if (Specification.IsSpaceCharacter(c))
+            while (Specification.IsSpaceCharacter(c))
+                c = _.Next;
+
+            if (c == Specification.DQ)
             {
-                //Ignore
-            }
-            else if (c == Specification.DQ)
-            {
-                state = DoctypeSystemIdentifierDoubleQuoted;
-                ((HtmlDoctypeToken)token).SystemIdentifier = string.Empty;
+                doctype.SystemIdentifier = String.Empty;
+                return DoctypeSystemIdentifierDoubleQuoted(_.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
-                state = DoctypeSystemIdentifierSingleQuoted;
-                ((HtmlDoctypeToken)token).SystemIdentifier = string.Empty;
+                doctype.SystemIdentifier = String.Empty;
+                return DoctypeSystemIdentifierSingleQuoted(_.Next, doctype);
             }
             else if (c == Specification.GT)
             {
-                var doctype = (HtmlDoctypeToken)token;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                state = Data;
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = buffer.ToString();
-                RaiseTokenEmitted(token);
+                return doctype;
             }
             else if (c == Specification.EOF)
             {
-                var doctype = (HtmlDoctypeToken)token;
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = buffer.ToString();
-                RaiseTokenEmitted(token);
                 _.Back();
+                return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-                state = BogusDoctype;
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(_.Next, doctype);
             }
         }
 
@@ -1650,40 +1503,38 @@ namespace AngleSharp.Html
         /// See 8.2.4.64 DOCTYPE system identifier (double-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypeSystemIdentifierDoubleQuoted(char c)
+        HtmlToken DoctypeSystemIdentifierDoubleQuoted(Char c, HtmlDoctypeToken doctype)
         {
             if (c == Specification.DQ)
             {
-                ((HtmlDoctypeToken)token).SystemIdentifier = buffer.ToString();
-                state = DoctypeSystemIdentifierAfter;
+                doctype.SystemIdentifier = buffer.ToString();
+                return DoctypeSystemIdentifierAfter(_.Next, doctype);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Append(Specification.REPLACEMENT);
+                return DoctypeSystemIdentifierDoubleQuoted(_.Next, doctype);
             }
             else if (c == Specification.GT)
             {
-                var doctype = (HtmlDoctypeToken)token;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                state = Data;
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = buffer.ToString();
-                RaiseTokenEmitted(token);
+                return doctype;
             }
             else if (c == Specification.EOF)
             {
-                var doctype = (HtmlDoctypeToken)token;
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = buffer.ToString();
-                RaiseTokenEmitted(token);
                 _.Back();
+                return doctype;
             }
             else
             {
                 buffer.Append(c);
+                return DoctypeSystemIdentifierDoubleQuoted(_.Next, doctype);
             }
         }
 
@@ -1691,40 +1542,38 @@ namespace AngleSharp.Html
         /// See 8.2.4.65 DOCTYPE system identifier (single-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypeSystemIdentifierSingleQuoted(char c)
+        HtmlToken DoctypeSystemIdentifierSingleQuoted(Char c, HtmlDoctypeToken doctype)
         {
             if (c == Specification.SQ)
             {
-                ((HtmlDoctypeToken)token).SystemIdentifier = buffer.ToString();
-                state = DoctypeSystemIdentifierAfter;
+                doctype.SystemIdentifier = buffer.ToString();
+                return DoctypeSystemIdentifierAfter(_.Next, doctype);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Append(Specification.REPLACEMENT);
+                return DoctypeSystemIdentifierSingleQuoted(_.Next, doctype);
             }
             else if (c == Specification.GT)
             {
-                var doctype = (HtmlDoctypeToken)token;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                state = Data;
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = buffer.ToString();
-                RaiseTokenEmitted(token);
+                return doctype;
             }
             else if (c == Specification.EOF)
             {
-                var doctype = (HtmlDoctypeToken)token;
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = buffer.ToString();
-                RaiseTokenEmitted(token);
                 _.Back();
+                return doctype;
             }
             else
             {
                 buffer.Append(c);
+                return DoctypeSystemIdentifierSingleQuoted(_.Next, doctype);
             }
         }
 
@@ -1732,29 +1581,26 @@ namespace AngleSharp.Html
         /// See 8.2.4.66 After DOCTYPE system identifier state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void DoctypeSystemIdentifierAfter(char c)
+        HtmlToken DoctypeSystemIdentifierAfter(Char c, HtmlDoctypeToken doctype)
         {
-            if (Specification.IsSpaceCharacter(c))
+            while (Specification.IsSpaceCharacter(c))
+                c = _.Next;
+
+            if (c == Specification.GT)
             {
-                //Ignore
-            }
-            else if (c == Specification.GT)
-            {
-                state = Data;
-                RaiseTokenEmitted(token);
+                return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                ((HtmlDoctypeToken)token).IsQuirksForced = true;
-                RaiseTokenEmitted(token);
+                doctype.IsQuirksForced = true;
                 _.Back();
+                return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-                state = BogusDoctype;
+                return BogusDoctype(_.Next, doctype);
             }
         }
 
@@ -1762,18 +1608,19 @@ namespace AngleSharp.Html
         /// See 8.2.4.67 Bogus DOCTYPE state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void BogusDoctype(char c)
+        HtmlToken BogusDoctype(Char c, HtmlDoctypeToken doctype)
         {
-            if (c == Specification.GT)
+            while (true)
             {
-                state = Data;
-                RaiseTokenEmitted(token);
-            }
-            else if (c == Specification.EOF)
-            {
-                state = Data;
-                RaiseTokenEmitted(token);
-                _.Back();
+                if (c == Specification.EOF)
+                {
+                    _.Back();
+                    return doctype;
+                }
+                else if (c == Specification.GT)
+                    return doctype;
+
+                c = _.Next;
             }
         }
 
@@ -1785,52 +1632,48 @@ namespace AngleSharp.Html
         /// See 8.2.4.34 Before attribute name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void AttributeBeforeName(char c)
+        HtmlToken AttributeBeforeName(Char c, HtmlTagToken tag)
         {
-            if (Specification.IsSpaceCharacter(c))
+            while (Specification.IsSpaceCharacter(c))
+                c = _.Next;
+
+            if (c == Specification.SOLIDUS)
             {
-                //Ignore
-            }
-            else if (c == Specification.SOLIDUS)
-            {
-                state = TagSelfClosing;
+                return TagSelfClosing(_.Next, tag);
             }
             else if (c == Specification.GT)
             {
-                state = Data;
-                EmitTag();
+                return EmitTag(tag);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
                 buffer.Clear();
                 buffer.Append(c.ToLower());
-                state = AttributeName;
+                return AttributeName(_.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Clear();
                 buffer.Append(Specification.REPLACEMENT);
-                state = AttributeName;
+                return AttributeName(_.Next, tag);
             }
             else if (c == Specification.SQ || c == Specification.DQ || c == Specification.EQ || c == Specification.LT)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                 buffer.Clear();
                 buffer.Append(c);
-                state = AttributeName;
+                return AttributeName(_.Next, tag);
             }
             else if (c == Specification.EOF)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
             else
             {
                 buffer.Clear();
                 buffer.Append(c);
-                state = AttributeName;
+                return AttributeName(_.Next, tag);
             }
         }
 
@@ -1838,52 +1681,53 @@ namespace AngleSharp.Html
         /// See 8.2.4.35 Attribute name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void AttributeName(char c)
+        HtmlToken AttributeName(Char c, HtmlTagToken tag)
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                ((HtmlTagToken)token).AddAttribute(buffer.ToString());
-                state = AttributeAfterName;
+                tag.AddAttribute(buffer.ToString());
+                return AttributeAfterName(_.Next, tag);
             }
             else if (c == Specification.SOLIDUS)
             {
-                ((HtmlTagToken)token).AddAttribute(buffer.ToString());
-                state = TagSelfClosing;
+                tag.AddAttribute(buffer.ToString());
+                return TagSelfClosing(_.Next, tag);
             }
             else if (c == Specification.EQ)
             {
-                ((HtmlTagToken)token).AddAttribute(buffer.ToString());
-                state = AttributeBeforeValue;
+                tag.AddAttribute(buffer.ToString());
+                return AttributeBeforeValue(_.Next, tag);
             }
             else if (c == Specification.GT)
             {
-                state = Data;
-                ((HtmlTagToken)token).AddAttribute(buffer.ToString());
-                EmitTag();
+                tag.AddAttribute(buffer.ToString());
+                return EmitTag(tag);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
                 buffer.Append(c.ToLower());
+                return AttributeName(_.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Append(Specification.REPLACEMENT);
+                return AttributeName(_.Next, tag);
             }
             else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                 buffer.Append(c);
+                return AttributeName(_.Next, tag);
             }
             else if (c == Specification.EOF)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
             else
             {
                 buffer.Append(c);
+                return AttributeName(_.Next, tag);
             }
         }
 
@@ -1891,51 +1735,48 @@ namespace AngleSharp.Html
         /// See 8.2.4.36 After attribute name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void AttributeAfterName(char c)
+        HtmlToken AttributeAfterName(Char c, HtmlTagToken tag)
         {
-            if (Specification.IsSpaceCharacter(c))
+            while (Specification.IsSpaceCharacter(c))
+                c = _.Next;
+
+            if (c == Specification.SOLIDUS)
             {
-                //Ignore
-            }
-            else if (c == Specification.SOLIDUS)
-            {
-                state = TagSelfClosing;
+                return TagSelfClosing(_.Next, tag);
             }
             else if (c == Specification.EQ)
             {
-                state = AttributeBeforeValue;
+                return AttributeBeforeValue(_.Next, tag);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
                 buffer.Clear();
                 buffer.Append(c.ToLower());
-                state = AttributeName;
+                return AttributeName(_.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Clear();
                 buffer.Append(Specification.REPLACEMENT);
-                state = AttributeName;
+                return AttributeName(_.Next, tag);
             }
             else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                 buffer.Clear();
                 buffer.Append(c);
-                state = AttributeName;
+                return AttributeName(_.Next, tag);
             }
             else if (c == Specification.EOF)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
             else
             {
                 buffer.Clear();
                 buffer.Append(c);
-                state = AttributeName;
+                return AttributeName(_.Next, tag);
             }
         }
 
@@ -1943,56 +1784,51 @@ namespace AngleSharp.Html
         /// See 8.2.4.37 Before attribute value state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void AttributeBeforeValue(char c)
+        HtmlToken AttributeBeforeValue(Char c, HtmlTagToken tag)
         {
-            if (Specification.IsSpaceCharacter(c))
-            {
-                //Ignore
-            }
-            else if (c == Specification.DQ)
+            while (Specification.IsSpaceCharacter(c))
+                c = _.Next;
+
+            if (c == Specification.DQ)
             {
                 buffer.Clear();
-                state = AttributeDoubleQuotedValue;
+                return AttributeDoubleQuotedValue(_.Next, tag);
             }
             else if (c == Specification.AMPERSAND)
             {
                 buffer.Clear();
-                state = AttributeUnquotedValue;
-                _.Back();
+                return AttributeUnquotedValue(c, tag);
             }
             else if (c == Specification.SQ)
             {
                 buffer.Clear();
-                state = AttributeSingleQuotedValue;
+                return AttributeSingleQuotedValue(_.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Append(Specification.REPLACEMENT);
-                state = AttributeUnquotedValue;
+                return AttributeUnquotedValue(_.Next, tag);
             }
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                state = Data;
-                EmitTag();
+                return EmitTag(tag);
             }
             else if (c == Specification.LT || c == Specification.EQ || c == Specification.CQ)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
                 buffer.Clear().Append(c);
-                state = AttributeUnquotedValue;
+                return AttributeUnquotedValue(_.Next, tag);
             }
             else if (c == Specification.EOF)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
             else
             {
                 buffer.Clear().Append(c);
-                state = AttributeUnquotedValue;
+                return AttributeUnquotedValue(_.Next, tag);
             }
         }
 
@@ -2000,40 +1836,38 @@ namespace AngleSharp.Html
         /// See 8.2.4.38 Attribute value (double-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void AttributeDoubleQuotedValue(char c)
+        HtmlToken AttributeDoubleQuotedValue(Char c, HtmlTagToken tag)
         {
             if (c == Specification.DQ)
             {
-                ((HtmlTagToken)token).SetAttributeValue(buffer.ToString());
-                state = AttributeAfterValue;
+                tag.SetAttributeValue(buffer.ToString());
+                return AttributeAfterValue(_.Next, tag);
             }
             else if (c == Specification.AMPERSAND)
             {
-                _.Advance();
-                var value = CharacterReference(_.Current, Specification.DQ);
+                var value = CharacterReference(_.Next, Specification.DQ);
 
                 if (value == null)
-                {
                     buffer.Append(Specification.AMPERSAND);
-                    //_.Back();
-                }
                 else
                     buffer.Append(value);
+
+                return AttributeDoubleQuotedValue(_.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Append(Specification.REPLACEMENT);
+                return AttributeDoubleQuotedValue(_.Next, tag);
             }
             else if (c == Specification.EOF)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
             else
             {
                 buffer.Append(c);
+                return AttributeDoubleQuotedValue(_.Next, tag);
             }
         }
 
@@ -2041,40 +1875,38 @@ namespace AngleSharp.Html
         /// See 8.2.4.39 Attribute value (single-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void AttributeSingleQuotedValue(char c)
+        HtmlToken AttributeSingleQuotedValue(Char c, HtmlTagToken tag)
         {
             if (c == Specification.SQ)
             {
-                ((HtmlTagToken)token).SetAttributeValue(buffer.ToString());
-                state = AttributeAfterValue;
+                tag.SetAttributeValue(buffer.ToString());
+                return AttributeAfterValue(_.Next, tag);
             }
             else if (c == Specification.AMPERSAND)
             {
-                _.Advance();
-                var value = CharacterReference(_.Current, Specification.SQ);
+                var value = CharacterReference(_.Next, Specification.SQ);
 
                 if (value == null)
-                {
                     buffer.Append(Specification.AMPERSAND);
-                    //_.Back();
-                }
                 else
                     buffer.Append(value);
+
+                return AttributeSingleQuotedValue(_.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Append(Specification.REPLACEMENT);
+                return AttributeSingleQuotedValue(_.Next, tag);
             }
             else if (c == Specification.EOF)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
             else
             {
                 buffer.Append(c);
+                return AttributeSingleQuotedValue(_.Next, tag);
             }
         }
 
@@ -2082,52 +1914,48 @@ namespace AngleSharp.Html
         /// See 8.2.4.40 Attribute value (unquoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void AttributeUnquotedValue(char c)
+        HtmlToken AttributeUnquotedValue(Char c, HtmlTagToken tag)
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                state = AttributeBeforeName;
-                ((HtmlTagToken)token).SetAttributeValue(buffer.ToString());
+                tag.SetAttributeValue(buffer.ToString());
+                return AttributeBeforeName(_.Next, tag);
             }
             else if (c == Specification.AMPERSAND)
             {
-                state = AttributeAfterValue;
-                _.Advance();
-                var value = CharacterReference(_.Current, Specification.GT);
+                var value = CharacterReference(_.Next, Specification.GT);
 
                 if (value == null)
-                {
                     value = new char[] { Specification.AMPERSAND };
-                    //_.Back();
-                }
 
-                ((HtmlTagToken)token).SetAttributeValue(new string(value));
+                tag.SetAttributeValue(new string(value));
+                return AttributeAfterValue(_.Next, tag);
             }
             else if (c == Specification.GT)
             {
-                state = Data;
-                ((HtmlTagToken)token).SetAttributeValue(buffer.ToString());
-                EmitTag();
+                tag.SetAttributeValue(buffer.ToString());
+                return EmitTag(tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 buffer.Append(Specification.REPLACEMENT);
+                return AttributeUnquotedValue(_.Next, tag);
             }
             else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT || c == Specification.EQ || c == Specification.CQ)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
                 buffer.Append(c);
+                return AttributeUnquotedValue(_.Next, tag);
             }
             else if (c == Specification.EOF)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
             else
             {
                 buffer.Append(c);
+                return AttributeUnquotedValue(_.Next, tag);
             }
         }
 
@@ -2135,32 +1963,28 @@ namespace AngleSharp.Html
         /// See 8.2.4.42 After attribute value (quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void AttributeAfterValue(char c)
+        HtmlToken AttributeAfterValue(Char c, HtmlTagToken tag)
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                state = AttributeBeforeName;
+                return AttributeBeforeName(_.Next, tag);
             }
             else if (c == Specification.SOLIDUS)
             {
-                state = TagSelfClosing;
+                return TagSelfClosing(_.Next, tag);
             }
             else if (c == Specification.GT)
             {
-                state = Data;
-                EmitTag();
+                return EmitTag(tag);
             }
             else if (c == Specification.EOF)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlTagToken.EOF;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameExpected);
-                state = AttributeBeforeName;
-                _.Back();
+                return AttributeBeforeName(c, tag);
             }
         }
 
@@ -2172,50 +1996,45 @@ namespace AngleSharp.Html
         /// See 8.2.4.6 Script data state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptData(char c)
+        HtmlToken ScriptData(Char c)
         {
             switch (c)
             {
                 case Specification.LT:
-                    state = ScriptDataLT;
-                    break;
+                    return HtmlToken.EOF;//TODO ScriptDataLT(_.Next);
 
                 case Specification.NULL:
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    RaiseTokenEmitted(HtmlToken.Character(Specification.REPLACEMENT));
-                    break;
+                    return HtmlToken.Character(Specification.REPLACEMENT);
 
                 case Specification.EOF:
-                    RaiseTokenEmitted(HtmlToken.EOF);
-                    break;
+                    return HtmlToken.EOF;
 
                 default:
-                    RaiseTokenEmitted(HtmlToken.Character(c));
-                    break;
+                    return HtmlToken.Character(c);
             }
         }
-
+        /*
         /// <summary>
         /// See 8.2.4.17 Script data less-than sign state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataLT(char c)
+        HtmlToken ScriptDataLT(Char c)
         {
             if (c == Specification.SOLIDUS)
             {
-                state = ScriptDataEndTag;
+                return ScriptDataEndTag(_.Next);
             }
             else if (c == Specification.EM)
             {
-                state = ScriptDataStartEscape;
                 RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
                 RaiseTokenEmitted(HtmlToken.Character(Specification.EM));
+                return ScriptDataStartEscape(_.Next);
             }
             else
             {
-                state = ScriptData;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
                 _.Back();
+                return HtmlToken.Character(Specification.LT);
             }
         }
 
@@ -2223,28 +2042,24 @@ namespace AngleSharp.Html
         /// See 8.2.4.18 Script data end tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataEndTag(char c)
+        HtmlToken ScriptDataEndTag(Char c)
         {
             if (Specification.IsUppercaseAscii(c))
             {
-                state = ScriptDataNameEndTag;
-                token = HtmlToken.CloseTag();
                 buffer.Clear();
                 buffer.Append(c.ToLower());
+                return ScriptDataNameEndTag(_.Next, HtmlToken.CloseTag());
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                state = ScriptDataNameEndTag;
-                token = HtmlToken.CloseTag();
                 buffer.Clear();
                 buffer.Append(c);
+                return ScriptDataNameEndTag(_.Next, HtmlToken.CloseTag());
             }
             else
             {
-                state = ScriptData;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                RaiseTokenEmitted(HtmlToken.Character(Specification.SOLIDUS));
                 _.Back();
+                return HtmlToken.Characters(Specification.LT, Specification.SOLIDUS);
             }
         }
 
@@ -2252,46 +2067,42 @@ namespace AngleSharp.Html
         /// See 8.2.4.19 Script data end tag name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataNameEndTag(char c)
+        HtmlToken ScriptDataNameEndTag(Char c, HtmlTagToken tag)
         {
             var name = buffer.ToString();
             var appropriateEndTag = name == lastStartTag;
 
             if (appropriateEndTag && Specification.IsSpaceCharacter(c))
             {
-                ((HtmlTagToken)token).Name = name;
-                state = AttributeBeforeName;
+                tag.Name = name;
+                return AttributeBeforeName(_.Next, tag);
             }
             else if (appropriateEndTag && c == Specification.SOLIDUS)
             {
-                ((HtmlTagToken)token).Name = name;
-                state = TagSelfClosing;
+                tag.Name = name;
+                return TagSelfClosing(_.Next, tag);
             }
             else if (appropriateEndTag && c == Specification.GT)
             {
-                ((HtmlTagToken)token).Name = name;
-                state = Data;
-                EmitTag();
+                tag.Name = name;
+                model = ContentModel.PCData;
+                return EmitTag(tag);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
                 buffer.Append(c.ToLower());
+                return ScriptDataNameEndTag(_.Next, tag);
             }
             else if (Specification.IsLowercaseAscii(c))
             {
                 buffer.Append(c);
+                return ScriptDataNameEndTag(_.Next, tag);
             }
             else
             {
-                state = ScriptData;
-                token = null;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                RaiseTokenEmitted(HtmlToken.Character(Specification.SOLIDUS));
-
-                for (var i = 0; i < buffer.Length; i++)
-                    RaiseTokenEmitted(HtmlToken.Character(buffer[i]));
-
                 _.Back();
+                buffer.Insert(0, Specification.LT).Insert(1, Specification.SOLIDUS);
+                return HtmlToken.Characters(buffer.ToString());
             }
         }
 
@@ -2299,25 +2110,22 @@ namespace AngleSharp.Html
         /// See 8.2.4.20 Script data escape start state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataStartEscape(char c)
+        HtmlToken ScriptDataStartEscape(Char c)
         {
             if (c == Specification.DASH)
             {
                 state = ScriptDataStartEscapeDash;
                 RaiseTokenEmitted(HtmlToken.Character(Specification.DASH));
             }
-            else
-            {
-                state = ScriptData;
-                _.Back();
-            }
+
+            return ScriptData(c);
         }
 
         /// <summary>
         /// See 8.2.4.22 Script data escaped state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataEscaped(char c)
+        HtmlToken ScriptDataEscaped(Char c)
         {
             if (c == Specification.DASH)
             {
@@ -2326,49 +2134,41 @@ namespace AngleSharp.Html
             }
             else if (c == Specification.LT)
             {
-                state = ScriptDataEscapedLT;
+                return ScriptDataEscapedLT(_.Next);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                RaiseTokenEmitted(HtmlToken.Character(Specification.REPLACEMENT));
+                return HtmlToken.Character(Specification.REPLACEMENT);
             }
             else if (c == Specification.EOF)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
-            else
-            {
-                state = ScriptData;
-                _.Back();
-            }
+
+            return ScriptData(c);
         }
 
         /// <summary>
         /// See 8.2.4.21 Script data escape start dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataStartEscapeDash(char c)
+        HtmlToken ScriptDataStartEscapeDash(Char c)
         {
             if (c == Specification.DASH)
             {
                 state = ScriptDataEscapedDashDash;
                 RaiseTokenEmitted(HtmlToken.Character(Specification.DASH));
             }
-            else
-            {
-                state = ScriptData;
-                _.Back();
-            }
+
+            return ScriptData(c);
         }
 
         /// <summary>
         /// See 8.2.4.23 Script data escaped dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataEscapedDash(char c)
+        HtmlToken ScriptDataEscapedDash(char c)
         {
             if (c == Specification.DASH)
             {
@@ -2377,7 +2177,7 @@ namespace AngleSharp.Html
             }
             else if (c == Specification.LT)
             {
-                state = ScriptDataEscapedLT;
+                return ScriptDataEscapedLT(_.Next);
             }
             else if (c == Specification.NULL)
             {
@@ -2387,9 +2187,7 @@ namespace AngleSharp.Html
             }
             else if (c == Specification.EOF)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
             else
             {
@@ -2402,7 +2200,7 @@ namespace AngleSharp.Html
         /// See 8.2.4.24 Script data escaped dash dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataEscapedDashDash(char c)
+        HtmlToken ScriptDataEscapedDashDash(Char c)
         {
             if (c == Specification.DASH)
             {
@@ -2411,12 +2209,11 @@ namespace AngleSharp.Html
             }
             else if (c == Specification.LT)
             {
-                state = ScriptDataEscapedLT;
+                return ScriptDataEscapedLT(_.Next);
             }
             else if (c == Specification.GT)
             {
-                state = ScriptData;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.GT));
+                return HtmlToken.Character(Specification.GT);
             }
             else if (c == Specification.NULL)
             {
@@ -2426,9 +2223,7 @@ namespace AngleSharp.Html
             }
             else if (c == Specification.EOF)
             {
-                state = Data;
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _.Back();
+                return HtmlToken.EOF;
             }
             else
             {
@@ -2441,11 +2236,11 @@ namespace AngleSharp.Html
         /// See 8.2.4.25 Script data escaped less-than sign state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataEscapedLT(char c)
+        HtmlToken ScriptDataEscapedLT(Char c)
         {
             if (c == Specification.SOLIDUS)
             {
-                state = ScriptDataEndTag;
+                return ScriptDataEndTag(_.Next);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
@@ -2476,21 +2271,19 @@ namespace AngleSharp.Html
         /// See 8.2.4.26 Script data escaped end tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataEscapedEndTag(char c)
+        HtmlToken ScriptDataEscapedEndTag(Char c)
         {
             if (Specification.IsUppercaseAscii(c))
             {
-                token = HtmlToken.CloseTag();
                 buffer.Clear();
                 buffer.Append(c.ToLower());
-                state = ScriptDataEscapedEndTag;
+                return ScriptDataEscapedEndTag(_.Next, HtmlToken.CloseTag());
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                token = HtmlToken.CloseTag();
                 buffer.Clear();
                 buffer.Append(c);
-                state = ScriptDataEscapedEndTag;
+                return ScriptDataEscapedEndTag(_.Next, HtmlToken.CloseTag());
             }
             else
             {
@@ -2505,26 +2298,26 @@ namespace AngleSharp.Html
         /// See 8.2.4.27 Script data escaped end tag name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataEscapedNameTag(char c)
+        HtmlToken ScriptDataEscapedNameTag(Char c, HtmlTagToken tag)
         {
             var name = buffer.ToString();
             var appropriateEndTag = name == lastStartTag;
 
             if (appropriateEndTag && Specification.IsSpaceCharacter(c))
             {
-                ((HtmlTagToken)token).Name = name;
-                state = AttributeBeforeName;
+                tag.Name = name;
+                return AttributeBeforeName(_.Next, tag);
             }
             else if (appropriateEndTag && c == Specification.SOLIDUS)
             {
-                ((HtmlTagToken)token).Name = name;
-                state = TagSelfClosing;
+                tag.Name = name;
+                return TagSelfClosing(_.Next, tag);
             }
             else if (appropriateEndTag && c == Specification.GT)
             {
-                ((HtmlTagToken)token).Name = name;
-                state = Data;
-                EmitTag();
+                tag.Name = name;
+                model = ContentModel.PCData;
+                EmitTag(tag);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
@@ -2552,12 +2345,12 @@ namespace AngleSharp.Html
         /// See 8.2.4.28 Script data double escape start state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataStartDoubleEscape(char c)
+        HtmlToken ScriptDataStartDoubleEscape(char c)
         {
             if (Specification.IsSpaceCharacter(c))
             {
                 if (buffer.ToString() == "script")
-                    state = ScriptDataEscapedDouble;
+                    return ScriptDataEscapedDouble(_.Next);
                 else
                 {
                     state = ScriptDataEscaped;
@@ -2567,17 +2360,16 @@ namespace AngleSharp.Html
             else if (Specification.IsUppercaseAscii(c))
             {
                 buffer.Append(c.ToLower());
-                RaiseTokenEmitted(HtmlToken.Character(c));
+                return HtmlToken.Character(c);
             }
             else if (Specification.IsLowercaseAscii(c))
             {
                 buffer.Append(c);
-                RaiseTokenEmitted(HtmlToken.Character(c));
+                return HtmlToken.Character(c);
             }
             else
             {
-                state = ScriptDataEscaped;
-                _.Back();
+                return ScriptDataEscaped(c);
             }
         }
 
@@ -2738,7 +2530,7 @@ namespace AngleSharp.Html
                 state = ScriptDataEscapedDouble;
                 _.Back();
             }
-        }
+        }*/
 
         #endregion
 
@@ -2747,11 +2539,9 @@ namespace AngleSharp.Html
         /// <summary>
         /// Emits the current token as a tag token.
         /// </summary>
-        void EmitTag()
+        HtmlTagToken EmitTag(HtmlTagToken tag)
         {
-            var tag = (HtmlTagToken)token;
-
-            if (token.Type == HtmlTokenType.StartTag)
+            if (tag.Type == HtmlTokenType.StartTag)
             {
                 for (var i = tag.Attributes.Count - 1; i > 0; i--)
                 {
@@ -2777,7 +2567,7 @@ namespace AngleSharp.Html
                     RaiseErrorOccurred(ErrorCode.EndTagCannotHaveAttributes);
             }
 
-            RaiseTokenEmitted(token);
+            return tag;
         }
 
         #endregion
@@ -2796,21 +2586,6 @@ namespace AngleSharp.Html
                 pck.Line = _.Line;
                 pck.Column = _.Column;
                 ErrorOccurred(this, pck);
-            }
-        }
-
-        /// <summary>
-        /// Fires a token emitted event.
-        /// </summary>
-        /// <param name="token">The token to emit.</param>
-        void RaiseTokenEmitted(HtmlToken token)
-        {
-            if (TokenEmitted != null)
-            {
-                var pck = new TokenEventArgs(token);
-                pck.Line = _.Line;
-                pck.Column = _.Column;
-                TokenEmitted(this, pck);
             }
         }
 

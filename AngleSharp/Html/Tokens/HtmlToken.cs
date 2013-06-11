@@ -18,17 +18,6 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
-        /// Creates a new HTML character token based on the given string.
-        /// </summary>
-        /// <param name="characters">The characters to contain.</param>
-        /// <returns>The generated token.</returns>
-        public static HtmlCharacterToken Characters(String characters)
-        {
-            //TODO
-            return new HtmlCharacterToken(characters[0]);
-        }
-
-        /// <summary>
         /// Creates a new HTML character token based on the given character.
         /// </summary>
         /// <param name="character">The character to contain.</param>
@@ -36,6 +25,37 @@ namespace AngleSharp.Html
         public static HtmlCharacterToken Character(Char character)
         {
             return new HtmlCharacterToken(character);
+        }
+
+        /// <summary>
+        /// Creates a new HTML characters token based on the given characters.
+        /// </summary>
+        /// <param name="characters">The characters to contain.</param>
+        /// <returns>The generated token.</returns>
+        public static HtmlCharactersToken Characters(String characters)
+        {
+            return new HtmlCharactersToken(characters);
+        }
+
+        /// <summary>
+        /// Creates a new HTML characters token based on the given characters.
+        /// </summary>
+        /// <param name="characters">The characters to contain.</param>
+        /// <returns>The generated token.</returns>
+        public static HtmlCharactersToken Characters(Char[] characters)
+        {
+            return new HtmlCharactersToken(new String(characters));
+        }
+
+        /// <summary>
+        /// Creates a new HTML characters token based on the given characters.
+        /// </summary>
+        /// <param name="character1">The first character to contain.</param>
+        /// <param name="character2">The second character to contain.</param>
+        /// <returns>The generated token.</returns>
+        public static HtmlCharactersToken Characters(Char character1, Char character2)
+        {
+            return new HtmlCharactersToken(new String(new char[] { character1, character2 }));
         }
 
         /// <summary>

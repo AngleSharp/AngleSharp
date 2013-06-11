@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace AngleSharp.Html
 {
     /// <summary>
-    /// The character token that contains a single character.
+    /// The character token that contains a series of characters.
     /// </summary>
-    sealed class HtmlCharacterToken : HtmlToken
+    sealed class HtmlCharactersToken : HtmlToken
     {
         #region Members
 
-        Char _data;
+        String _data;
 
         #endregion
 
@@ -18,20 +21,20 @@ namespace AngleSharp.Html
         /// <summary>
         /// Creates a new character token.
         /// </summary>
-        public HtmlCharacterToken()
+        public HtmlCharactersToken()
         {
-            _data = Specification.NULL;
-            _type = HtmlTokenType.Character;
+            _data = String.Empty;
+            _type = HtmlTokenType.Characters;
         }
 
         /// <summary>
         /// Creates a new character token with the given character.
         /// </summary>
         /// <param name="data">The character.</param>
-        public HtmlCharacterToken(Char data)
+        public HtmlCharactersToken(String data)
         {
             _data = data;
-            _type = HtmlTokenType.Character;
+            _type = HtmlTokenType.Characters;
         }
 
         #endregion
@@ -41,7 +44,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets the data of the character token.
         /// </summary>
-        public Char Data
+        public String Data
         {
             get { return _data; }
         }
@@ -52,7 +55,7 @@ namespace AngleSharp.Html
         /// <returns>True if the character token is NULL, otherwise false.</returns>
         public override Boolean IsNullChar
         {
-            get { return _data == Specification.NULL; }
+            get { return _data.Length == 1 && _data[0] == Specification.NULL; }
         }
 
         /// <summary>
@@ -61,7 +64,7 @@ namespace AngleSharp.Html
         /// <returns>True if the character data is a space character.</returns>
         public override Boolean IsIgnoreable
         {
-            get { return Specification.IsSpaceCharacter(_data); }
+            get { return false; }
         }
 
         #endregion

@@ -26,7 +26,7 @@ namespace AngleSharp
 
         #endregion
 
-        #region Constructor
+        #region ctor
 
         /// <summary>
         /// Prepares everything.
@@ -69,7 +69,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets if the position is at the moment at the beginning.
         /// </summary>
-        public bool IsBeginning 
+        public Boolean IsBeginning 
         { 
             get { return _insertion < 2; } 
         }
@@ -100,7 +100,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets or sets the insertion point.
         /// </summary>
-        public int InsertionPoint
+        public Int32 InsertionPoint
         {
             get { return _insertion; }
             set 
@@ -126,7 +126,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the current line within the source code.
         /// </summary>
-        public int Line
+        public Int32 Line
         {
             get { return _row; }
         }
@@ -134,7 +134,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the current column within the source code.
         /// </summary>
-        public int Column
+        public Int32 Column
         {
             get { return _column; }
         }
@@ -142,7 +142,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the status of reading the source code, are we beyond the stream?
         /// </summary>
-        public bool IsEnded
+        public Boolean IsEnded
         {
             get { return _ended; }
         }
@@ -150,7 +150,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the status of reading the source code, is the EOF currently given?
         /// </summary>
-        public bool IsEnding
+        public Boolean IsEnding
         {
             get { return _current == Specification.EOF; }
         }
@@ -158,9 +158,14 @@ namespace AngleSharp
         /// <summary>
         /// Gets the current character.
         /// </summary>
-        public char Current
+        public Char Current
         {
             get { return _current; }
+        }
+
+        public Char Next
+        {
+            get { Advance(); return _current; }
         }
 
         #endregion
@@ -196,7 +201,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="n">The number of characters to advance.</param>
         /// <returns>The current source manager.</returns>
-        public HtmlSource Advance(int n)
+        public HtmlSource Advance(Int32 n)
         {
             while(n-- > 0 && !IsEnding)
                 AdvanceUnsafe();
@@ -223,7 +228,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="n">The number of characters to rewind.</param>
         /// <returns>The current source manager.</returns>
-        public HtmlSource Back(int n)
+        public HtmlSource Back(Int32 n)
         {
             _ended = false;
 
@@ -239,7 +244,7 @@ namespace AngleSharp
         /// <param name="s">The string to compare to.</param>
         /// <param name="ignoreCase">Optional flag to unignore the case sensitivity.</param>
         /// <returns>The status of the check.</returns>
-        public bool ContinuesWith(string s, bool ignoreCase = true)
+        public bool ContinuesWith(String s, Boolean ignoreCase = true)
         {
             for (var index = 0; index < s.Length; index++)
             {

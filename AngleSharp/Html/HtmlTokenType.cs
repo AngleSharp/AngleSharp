@@ -24,9 +24,13 @@ namespace AngleSharp.Html
         /// </summary>
         Comment,
         /// <summary>
-        /// The character token to mark a series of characters.
+        /// The character token to mark a single character.
         /// </summary>
         Character,
+        /// <summary>
+        /// The characters token to mark a series of characters.
+        /// </summary>
+        Characters,
         /// <summary>
         /// The End-Of-File token to mark the end.
         /// </summary>
