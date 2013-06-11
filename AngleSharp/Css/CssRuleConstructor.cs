@@ -107,7 +107,7 @@ namespace AngleSharp.Css
                     return CreateKeyframesRule(rule);
 
                 default:
-                    return null;
+                    return CreateUnknownRule(rule);
             }
         }
 
@@ -143,6 +143,14 @@ namespace AngleSharp.Css
                 media.AppendMedium(sb.ToString());
                 sb.Clear();
             }
+        }
+
+        CSSRule CreateUnknownRule(CssAtRule rule)
+        {
+            return new CSSRule
+            {
+                CssText = rule.ToString()
+            };
         }
 
         CSSRule CreateKeyframesRule(CssAtRule rule)

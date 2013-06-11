@@ -64,6 +64,9 @@ namespace ConsoleInteraction
             var html = DocumentBuilder.Html(source);
             sw.Stop();
 
+            var sheet = GetStylesheet(html).Result;
+            var styles = CssParser.ParseStyleSheet(sheet);
+
             Console.WriteLine("Parsing " + url + " took ... " + sw.ElapsedMilliseconds + "ms");
 
             if (openConsole)
@@ -71,6 +74,30 @@ namespace ConsoleInteraction
                 var console = new HtmlSharpConsole(html);
                 console.Capture();
             }
+        }
+
+        static async System.Threading.Tasks.Task<string> GetStylesheet(HTMLDocument document)
+        {
+            var str = new System.Text.StringBuilder();
+            var http = new HttpClient();
+
+            for (int i = 0; i < document.StyleSheets.Length; i++)
+            {
+                string content;
+
+                if (string.IsNullOrEmpty(document.StyleSheets[i].Href))
+                    content = document.StyleSheets[i].OwnerNode.TextContent;
+                else
+                {
+                    var src = document.StyleSheets[i].Href;
+                    var response = await http.GetAsync(src);
+                    content = await response.Content.ReadAsStringAsync();
+                }
+
+                str.Append(content);
+            }
+
+            return str.ToString();
         }
 
         private static void TestHtml(string source, bool openConsole)

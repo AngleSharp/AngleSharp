@@ -23,7 +23,6 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         public CSSRule()
         {
-
         }
 
         #endregion
