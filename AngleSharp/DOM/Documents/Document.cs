@@ -40,10 +40,10 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new document node.
         /// </summary>
-        public Document()
+        internal Document()
         {
             _owner = this;
-            NodeType = NodeType.Document;
+            _type = NodeType.Document;
             Async = true;
             referrer = string.Empty;
             ready = Readiness.Complete;

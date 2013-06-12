@@ -23,16 +23,16 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new entity node.
         /// </summary>
-        public Entity()
+        internal Entity()
         {
-            NodeType = NodeType.Entity;
+            _type = NodeType.Entity;
         }
 
         /// <summary>
         /// Creates a new entity node.
         /// </summary>
         /// <param name="name">Name of the entity.</param>
-        public Entity(string name)
+        internal Entity(string name)
             : this()
         {
             _name = name;

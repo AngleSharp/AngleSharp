@@ -19,7 +19,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new instance of character data.
         /// </summary>
-        public CharacterData()
+        internal CharacterData()
         {
             sb = new StringBuilder();
         }

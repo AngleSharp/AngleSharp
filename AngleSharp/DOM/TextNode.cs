@@ -13,9 +13,9 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new empty text node.
         /// </summary>
-        public TextNode()
+        internal TextNode()
         {
-            NodeType = NodeType.Text;
+            _type = NodeType.Text;
             _name = "#text";
         }
 
@@ -23,7 +23,7 @@ namespace AngleSharp.DOM
         /// Creates a new text node with the given text.
         /// </summary>
         /// <param name="text">The text to set.</param>
-        public TextNode(string text)
+        internal TextNode(string text)
             : this()
         {
             AppendData(text);
@@ -33,7 +33,7 @@ namespace AngleSharp.DOM
         /// Creates a new text node with the given character.
         /// </summary>
         /// <param name="c">The character to set.</param>
-        public TextNode(char c)
+        internal TextNode(char c)
             : this()
         {
             AppendData(c);

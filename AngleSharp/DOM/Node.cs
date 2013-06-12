@@ -13,13 +13,38 @@ namespace AngleSharp.DOM
     {
         #region Members
 
+        /// <summary>
+        /// The responsible document.
+        /// </summary>
         protected Document _owner;
+        /// <summary>
+        /// The lower node.
+        /// </summary>
         protected Node _parent;
+        /// <summary>
+        /// The upper nodes.
+        /// </summary>
         protected NodeList _children;
+        /// <summary>
+        /// The attributes of the node.
+        /// </summary>
         protected NamedNodeMap _attributes;
+        /// <summary>
+        /// The node's name.
+        /// </summary>
         protected string _name;
+        /// <summary>
+        /// The node's namespace.
+        /// </summary>
         protected string _ns;
+        /// <summary>
+        /// The node's baseURI.
+        /// </summary>
         protected string _baseURI;
+        /// <summary>
+        /// The type of the node.
+        /// </summary>
+        protected NodeType _type;
 
         #endregion
 
@@ -156,8 +181,7 @@ namespace AngleSharp.DOM
         /// </summary>
         public NodeType NodeType 
         {
-            get; 
-            protected set; 
+            get { return _type; }
         }
 
         /// <summary>
@@ -778,7 +802,7 @@ namespace AngleSharp.DOM
         {
             target._baseURI = source._baseURI;
             target._name = source._name;
-            target.NodeType = source.NodeType;
+            target._type = source.NodeType;
             target._ns = source._ns;
 
             if (deep)

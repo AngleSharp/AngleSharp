@@ -13,9 +13,9 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new document fragment.
         /// </summary>
-        public DocumentFragment()
+        internal DocumentFragment()
         {
-            NodeType = NodeType.DocumentFragment;
+            _type = NodeType.DocumentFragment;
             _name = "#document-fragment";
         }
 

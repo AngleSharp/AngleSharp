@@ -18,7 +18,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new NodeAttribute with empty name and value.
         /// </summary>
-        public Attr()
+        internal Attr()
             : this(string.Empty, string.Empty, null)
         {
         }
@@ -27,7 +27,7 @@ namespace AngleSharp.DOM
         /// Creates a new NodeAttribute with empty value.
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
-        public Attr(string name)
+        internal Attr(string name)
             : this(name, string.Empty, null)
         {
         }
@@ -37,7 +37,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        public Attr(string name, string value)
+        internal Attr(string name, string value)
             : this(name, value, null)
         {
         }
@@ -48,9 +48,9 @@ namespace AngleSharp.DOM
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
         /// <param name="ns">The namespace of the attribute.</param>
-        public Attr(string name, string value, string ns)
+        internal Attr(string name, string value, string ns)
         {
-            NodeType = NodeType.Attribute;
+            _type = NodeType.Attribute;
             _name = name;
             _value = value;
             _ns = ns;

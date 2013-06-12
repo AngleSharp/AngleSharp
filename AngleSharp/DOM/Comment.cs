@@ -12,9 +12,9 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new comment node.
         /// </summary>
-        public Comment()
+        internal Comment()
         {
-            NodeType = NodeType.Comment;
+            _type = NodeType.Comment;
             _name = "#comment";
         }
 
@@ -22,7 +22,7 @@ namespace AngleSharp.DOM
         /// Creates a new comment node with the given data.
         /// </summary>
         /// <param name="data">The data to be initially set.</param>
-        public Comment(string data)
+        internal Comment(string data)
             : this()
         {
             AppendData(data);

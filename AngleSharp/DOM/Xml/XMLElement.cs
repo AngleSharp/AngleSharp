@@ -2,6 +2,9 @@
 
 namespace AngleSharp.DOM.Xml
 {
+    /// <summary>
+    /// The object representation of an XMLElement.
+    /// </summary>
     public class XMLElement : Element
     {        
         #region ctor

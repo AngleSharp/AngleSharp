@@ -12,16 +12,16 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new entity node.
         /// </summary>
-        public EntityReference()
+        internal EntityReference()
         {
-            NodeType = NodeType.EntityReference;
+            _type = NodeType.EntityReference;
         }
 
         /// <summary>
         /// Creates a new entity node.
         /// </summary>
         /// <param name="name">Name of the entity reference.</param>
-        public EntityReference(string name)
+        internal EntityReference(string name)
             : this()
         {
             _name = name;

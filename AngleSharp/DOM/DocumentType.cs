@@ -21,10 +21,10 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new document type node.
         /// </summary>
-        public DocumentType()
+        internal DocumentType()
         {
-            NodeType = NodeType.DocumentType;
-            NodeName = Tag;
+            _type = NodeType.DocumentType;
+            _name = Tag;
         }
 
         #endregion

@@ -12,10 +12,10 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new CDATA Section node.
         /// </summary>
-        public CDATASection()
+        internal CDATASection()
         {
             _name = "#cdata-section";
-            NodeType = NodeType.CData;
+            _type = NodeType.CData;
         }
 
         #endregion

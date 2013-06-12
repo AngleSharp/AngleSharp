@@ -24,9 +24,9 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new element node.
         /// </summary>
-        public Element()
+        internal Element()
         {
-            NodeType = NodeType.Element;
+            _type = NodeType.Element;
         }
 
         #endregion

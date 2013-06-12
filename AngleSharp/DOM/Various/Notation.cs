@@ -12,9 +12,9 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new notation node.
         /// </summary>
-        public Notation()
+        internal Notation()
         {
-            NodeType = NodeType.Notation;
+            _type = NodeType.Notation;
         }
 
         #endregion

@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a standard HTML element.
         /// </summary>
-        public HTMLElement()
+        internal HTMLElement()
         {
             NamespaceURI = Namespaces.Html; 
         }

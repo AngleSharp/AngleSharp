@@ -12,9 +12,9 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a new processing instruction node.
         /// </summary>
-        public ProcessingInstruction()
+        internal ProcessingInstruction()
         {
-            NodeType = NodeType.ProcessingInstruction;
+            _type = NodeType.ProcessingInstruction;
         }
 
         #endregion

@@ -174,6 +174,7 @@ namespace AngleSharp.Html
 
         /// <summary>
         /// Parses the given source asynchronously and creates the document.
+        /// WARNING: This method is not yet implemented.
         /// </summary>
         /// <returns>The task which could be awaited or continued differently.</returns>
         public Task ParseAsync()
