@@ -118,7 +118,7 @@ namespace AngleSharp.Css
                     else
                     {
                         ReadPrevious();
-                        EnqueueToken(new CssDelimToken(current));
+                        EnqueueToken(CssToken.Delim(current));
                     }
 
                     break;
@@ -143,7 +143,7 @@ namespace AngleSharp.Css
                     else
                     {
                         ReadPrevious();
-                        EnqueueToken(new CssDelimToken(current));
+                        EnqueueToken(CssToken.Delim(current));
                     }
 
                     break;
@@ -160,7 +160,7 @@ namespace AngleSharp.Css
                         if (Specification.IsDigit(c1) || (c1 == Specification.FS && Specification.IsDigit(c2)))
                             InstantSwitch(NumberStart);
                         else
-                            EnqueueToken(new CssDelimToken(current));
+                            EnqueueToken(CssToken.Delim(current));
                     }
 
                     break;
@@ -178,7 +178,7 @@ namespace AngleSharp.Css
                         if (Specification.IsDigit(c))
                             InstantSwitch(NumberStart);
                         else
-                            EnqueueToken(new CssDelimToken(current));
+                            EnqueueToken(CssToken.Delim(current));
                     }
 
                     break;
@@ -205,7 +205,7 @@ namespace AngleSharp.Css
                             EnqueueToken(CssCommentToken.Close);
                         }
                         else
-                            EnqueueToken(new CssDelimToken(current));
+                            EnqueueToken(CssToken.Delim(current));
                     }
 
                     break;
@@ -218,7 +218,7 @@ namespace AngleSharp.Css
                     else
                     {
                         ReadPrevious();
-                        EnqueueToken(new CssDelimToken(current));
+                        EnqueueToken(CssToken.Delim(current));
                     }
 
                     break;
@@ -230,7 +230,7 @@ namespace AngleSharp.Css
                     {
                         RaiseErrorOccurred(current == Specification.EOF ? ErrorCode.EOF : ErrorCode.LineBreakUnexpected);
                         ReadPrevious();
-                        EnqueueToken(new CssDelimToken(current));
+                        EnqueueToken(CssToken.Delim(current));
                     }
                     else
                     {
@@ -272,7 +272,7 @@ namespace AngleSharp.Css
                     }
 
                     ReadPrevious();
-                    EnqueueToken(new CssDelimToken(current));
+                    EnqueueToken(CssToken.Delim(current));
                     break;
 
                 case Specification.AT:
@@ -297,7 +297,7 @@ namespace AngleSharp.Css
                     else
                     {
                         ReadPrevious();
-                        EnqueueToken(new CssDelimToken(current));
+                        EnqueueToken(CssToken.Delim(current));
                     }
 
                     break;
@@ -351,11 +351,11 @@ namespace AngleSharp.Css
                     if (current == Specification.EQ)
                         EnqueueToken(CssMatchToken.Dash);
                     else if (current == Specification.PIPE)
-                        EnqueueToken(new CssColumnToken());
+                        EnqueueToken(CssToken.Column);
                     else
                     {
                         ReadPrevious();
-                        EnqueueToken(new CssDelimToken(current));
+                        EnqueueToken(CssToken.Delim(current));
                     }
 
                     break;
@@ -368,7 +368,7 @@ namespace AngleSharp.Css
                     else
                     {
                         ReadPrevious();
-                        EnqueueToken(new CssDelimToken(current));
+                        EnqueueToken(CssToken.Delim(current));
                     }
 
                     break;
@@ -385,7 +385,7 @@ namespace AngleSharp.Css
                     else
                     {
                         ReadPrevious();
-                        EnqueueToken(new CssDelimToken(current));
+                        EnqueueToken(CssToken.Delim(current));
                     }
 
                     break;
@@ -394,7 +394,7 @@ namespace AngleSharp.Css
                     if (Specification.IsNameStart(current))
                         InstantSwitch(IdentStart);
                     else
-                        EnqueueToken(new CssDelimToken(current));
+                        EnqueueToken(CssToken.Delim(current));
 
                     break;
             }
@@ -509,12 +509,12 @@ namespace AngleSharp.Css
             else if (current == Specification.RSOLIDUS)
             {
                 RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                EnqueueToken(new CssDelimToken(Specification.NUM));
+                EnqueueToken(CssToken.Delim(Specification.NUM));
                 InstantSwitch(Data);
             }
             else
             {
-                EnqueueToken(new CssDelimToken(Specification.NUM));
+                EnqueueToken(CssToken.Delim(Specification.NUM));
                 InstantSwitch(Data);
             }
         }
@@ -584,7 +584,7 @@ namespace AngleSharp.Css
                 else
                 {
                     ReadPrevious();
-                    EnqueueToken(new CssDelimToken(Specification.AT));
+                    EnqueueToken(CssToken.Delim(Specification.AT));
                     InstantSwitch(Data);
                 }
             }
@@ -601,7 +601,7 @@ namespace AngleSharp.Css
             }
             else
             {
-                EnqueueToken(new CssDelimToken(Specification.AT));
+                EnqueueToken(CssToken.Delim(Specification.AT));
                 InstantSwitch(Data);
             }
         }
@@ -642,7 +642,7 @@ namespace AngleSharp.Css
                 }
                 else
                 {
-                    EnqueueToken(new CssDelimToken(Specification.DASH));
+                    EnqueueToken(CssToken.Delim(Specification.DASH));
                     InstantSwitch(Data);
                 }
             }
@@ -783,7 +783,7 @@ namespace AngleSharp.Css
                     }
                     else
                     {
-                        EnqueueToken(new CssNumberToken(Interpret(stringBuffer.ToString())));
+                        EnqueueToken(CssToken.Number(Interpret(stringBuffer.ToString())));
                         stringBuffer.Clear();
                         InstantSwitch(Data);
                     }
@@ -806,7 +806,7 @@ namespace AngleSharp.Css
                     break;
 
                 default:
-                    EnqueueToken(new CssNumberToken(Interpret(stringBuffer.ToString())));
+                    EnqueueToken(CssToken.Number(Interpret(stringBuffer.ToString())));
                     stringBuffer.Clear();
                     InstantSwitch(Data);
                     break;
@@ -839,7 +839,7 @@ namespace AngleSharp.Css
                     break;
 
                 default:
-                    EnqueueToken(new CssNumberToken(Interpret(stringBuffer.ToString())));
+                    EnqueueToken(CssToken.Number(Interpret(stringBuffer.ToString())));
                     stringBuffer.Clear();
                     InstantSwitch(Data);
                     break;
@@ -875,7 +875,7 @@ namespace AngleSharp.Css
                 stringBuffer.Append(current);
             else
             {
-                EnqueueToken(new CssNumberToken(Interpret(stringBuffer.ToString())));
+                EnqueueToken(CssToken.Number(Interpret(stringBuffer.ToString())));
                 stringBuffer.Clear();
                 InstantSwitch(Data);
             }
@@ -893,7 +893,7 @@ namespace AngleSharp.Css
             {
                 case Specification.EOF:
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    EnqueueToken(CssStringToken.Url(string.Empty, true));
+                    EnqueueToken(CssStringToken.Url(String.Empty, true));
                     state = Data;
                     break;
 
@@ -906,7 +906,7 @@ namespace AngleSharp.Css
                     break;
 
                 case ')':
-                    EnqueueToken(CssStringToken.Url(string.Empty, false));
+                    EnqueueToken(CssStringToken.Url(String.Empty, false));
                     state = Data;
                     break;
 
@@ -1109,7 +1109,7 @@ namespace AngleSharp.Css
                 var range = stringBuffer.ToString();
                 var start = range.Replace(Specification.QM, '0');
                 var end = range.Replace(Specification.QM, 'F');
-                EnqueueToken(new CssRangeToken().SetRange(start, end));
+                EnqueueToken(CssToken.Range(start, end));
                 stringBuffer.Clear();
                 state = Data;
             }
@@ -1136,20 +1136,20 @@ namespace AngleSharp.Css
 
                     var end = stringBuffer.ToString();
                     stringBuffer.Clear();
-                    EnqueueToken(new CssRangeToken().SetRange(start, end));
+                    EnqueueToken(CssToken.Range(start, end));
                     state = Data;
                 }
                 else
                 {
                     ReadPrevious();
-                    EnqueueToken(new CssRangeToken().SetRange(stringBuffer.ToString(), null));
+                    EnqueueToken(CssToken.Range(stringBuffer.ToString(), null));
                     stringBuffer.Clear();
                     InstantSwitch(Data);
                 }
             }
             else
             {
-                EnqueueToken(new CssRangeToken().SetRange(stringBuffer.ToString(), null));
+                EnqueueToken(CssToken.Range(stringBuffer.ToString(), null));
                 stringBuffer.Clear();
                 InstantSwitch(Data);
             }
@@ -1236,7 +1236,7 @@ namespace AngleSharp.Css
             else
             {
                 ReadPrevious();
-                EnqueueToken(new CssNumberToken(Interpret(stringBuffer.ToString())));
+                EnqueueToken(CssToken.Number(Interpret(stringBuffer.ToString())));
                 stringBuffer.Clear();
                 InstantSwitch(Data);
             }

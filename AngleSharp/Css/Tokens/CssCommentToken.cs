@@ -7,15 +7,31 @@ namespace AngleSharp.Css
     /// </summary>
     sealed class CssCommentToken : CssToken
     {
-        readonly static CssCommentToken open = new CssCommentToken { _type = CssTokenType.Cdo };
-        readonly static CssCommentToken close = new CssCommentToken { _type = CssTokenType.Cdc };
+        #region Static instances
+
+        readonly static CssCommentToken open;
+        readonly static CssCommentToken close;
+
+        #endregion
+
+        #region ctor
+
+        static CssCommentToken()
+        {
+            open = new CssCommentToken { _type = CssTokenType.Cdo };
+            close = new CssCommentToken { _type = CssTokenType.Cdc };
+        }
 
         /// <summary>
         /// Creates a new comment.
         /// </summary>
-        private CssCommentToken()
+        CssCommentToken()
         {
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets a new CSS open comment token.
@@ -33,13 +49,19 @@ namespace AngleSharp.Css
             get { return close; }
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Gets a string which represents the original value.
         /// </summary>
         /// <returns>The original value.</returns>
-        public override string ToValue()
+        public override String ToValue()
         {
             return _type == CssTokenType.Cdo ? "<!--" : "-->";
         }
+
+        #endregion
     }
 }

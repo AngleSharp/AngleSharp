@@ -7,21 +7,39 @@ namespace AngleSharp.Css
     /// </summary>
     sealed class CssSpecialCharacter : CssCharacterToken
     {
-        static readonly CssSpecialCharacter colon = new CssSpecialCharacter(Specification.COL, CssTokenType.Colon);
-        static readonly CssSpecialCharacter comma = new CssSpecialCharacter(Specification.COMMA, CssTokenType.Comma);
-        static readonly CssSpecialCharacter semicolon = new CssSpecialCharacter(Specification.SC, CssTokenType.Semicolon);
-        static readonly CssSpecialCharacter whitespace = new CssSpecialCharacter(Specification.SPACE, CssTokenType.Whitespace);
+        #region Static instances
+
+        static readonly CssSpecialCharacter colon;
+        static readonly CssSpecialCharacter comma;
+        static readonly CssSpecialCharacter semicolon;
+        static readonly CssSpecialCharacter whitespace;
+
+        #endregion
+
+        #region ctor
+
+        static CssSpecialCharacter()
+        {
+            colon = new CssSpecialCharacter(Specification.COL, CssTokenType.Colon);
+            comma = new CssSpecialCharacter(Specification.COMMA, CssTokenType.Comma);
+            semicolon = new CssSpecialCharacter(Specification.SC, CssTokenType.Semicolon);
+            whitespace = new CssSpecialCharacter(Specification.SPACE, CssTokenType.Whitespace);
+        }
 
         /// <summary>
         /// Creates a new special character token.
         /// </summary>
         /// <param name="c">The character to contain.</param>
         /// <param name="type">The actual token type.</param>
-        private CssSpecialCharacter(char c, CssTokenType type)
+        CssSpecialCharacter(Char c, CssTokenType type)
             : base(c)
         {
             _type = type;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets a colon token.
@@ -55,13 +73,19 @@ namespace AngleSharp.Css
             get { return whitespace; }
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Gets a string which represents the original value.
         /// </summary>
         /// <returns>The original value.</returns>
-        public override string ToValue()
+        public override String ToValue()
         {
             return Data.ToString();
         }
+
+        #endregion
     }
 }

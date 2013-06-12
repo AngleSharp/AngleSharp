@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace AngleSharp.Css
 {
@@ -9,8 +10,8 @@ namespace AngleSharp.Css
     {
         #region Members
 
-        float _data;
-        string _unit;
+        Single _data;
+        String _unit;
 
         #endregion
 
@@ -20,7 +21,7 @@ namespace AngleSharp.Css
         /// Creates a new CSS unit token.
         /// </summary>
         /// <param name="type">The exact type.</param>
-        private CssUnitToken(CssTokenType type)
+        CssUnitToken(CssTokenType type)
         {
             _type = type;
         }
@@ -32,19 +33,17 @@ namespace AngleSharp.Css
         /// <summary>
         /// Gets the contained data.
         /// </summary>
-        public float Data
+        public Single Data
         {
             get { return _data; }
-            set { _data = value; }
         }
 
         /// <summary>
         /// Gets the contained unit.
         /// </summary>
-        public string Unit
+        public String Unit
         {
             get { return _unit; }
-            set { _unit = value; }
         }
 
         #endregion
@@ -56,7 +55,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The created token.</returns>
-        public static CssUnitToken Percentage(float value)
+        public static CssUnitToken Percentage(Single value)
         {
             return new CssUnitToken(CssTokenType.Percentage) { _data = value, _unit = "%" };
         }
@@ -67,22 +66,22 @@ namespace AngleSharp.Css
         /// <param name="value">The value.</param>
         /// <param name="dimension">The unit (dimension).</param>
         /// <returns>The created token.</returns>
-        public static CssUnitToken Dimension(float value, string dimension)
+        public static CssUnitToken Dimension(Single value, String dimension)
         {
             return new CssUnitToken(CssTokenType.Dimension) { _data = value, _unit = dimension };
         }
 
         #endregion
 
-        #region string representation
+        #region String representation
 
         /// <summary>
         /// Gets a string which represents the original value.
         /// </summary>
         /// <returns>The original value.</returns>
-        public override string ToValue()
+        public override String ToValue()
         {
-            return _data.ToString() + _unit;
+            return _data.ToString("0.0", CultureInfo.InvariantCulture) + _unit;
         }
 
         #endregion

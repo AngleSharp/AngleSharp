@@ -280,6 +280,7 @@ namespace AngleSharp
         /// Reads the current character (from the stream or
         /// from the buffer).
         /// </summary>
+        [DebuggerStepThrough]
         void ReadCurrent()
         {
             if (_insertion < _buffer.Length)
@@ -316,6 +317,7 @@ namespace AngleSharp
         /// Just advances one character without checking
         /// if the end is already reached.
         /// </summary>
+        [DebuggerStepThrough]
         void AdvanceUnsafe()
         {
             if (Specification.IsLineBreak(_current))
@@ -334,6 +336,7 @@ namespace AngleSharp
         /// Just goes back one character without checking
         /// if the beginning is already reached.
         /// </summary>
+        [DebuggerStepThrough]
         void BackUnsafe()
         {
             _insertion--;

@@ -44,6 +44,7 @@ namespace AngleSharp.Html
         public Char Data
         {
             get { return _data; }
+            set { _data = value; }
         }
 
         /// <summary>

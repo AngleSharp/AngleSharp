@@ -9,8 +9,8 @@ namespace AngleSharp.Css
     {
         #region Members
 
-        string _data;
-        bool _bad;
+        String _data;
+        Boolean _bad;
 
         #endregion
 
@@ -20,7 +20,7 @@ namespace AngleSharp.Css
         /// Creates a new CSS string token.
         /// </summary>
         /// <param name="type">The exact type.</param>
-        private CssStringToken(CssTokenType type)
+        CssStringToken(CssTokenType type)
         {
             _type = type;
         }
@@ -31,7 +31,7 @@ namespace AngleSharp.Css
         /// <param name="data">The string data.</param>
         /// <param name="bad">If the string was bad (optional).</param>
         /// <returns>The created string token.</returns>
-        public static CssStringToken Plain(string data, bool bad = false)
+        public static CssStringToken Plain(String data, Boolean bad = false)
         {
             return new CssStringToken(CssTokenType.String) { _data = data, _bad = bad };
         }
@@ -42,7 +42,7 @@ namespace AngleSharp.Css
         /// <param name="data">The URL string data.</param>
         /// <param name="bad">If the URL was bad (optional).</param>
         /// <returns>The created URL string token.</returns>
-        public static CssStringToken Url(string data, bool bad = false)
+        public static CssStringToken Url(String data, Boolean bad = false)
         {
             return new CssStringToken(CssTokenType.Url) { _data = data, _bad = bad };
         }
@@ -52,40 +52,35 @@ namespace AngleSharp.Css
         #region Properties
 
         /// <summary>
-        /// Gets or sets the contained data.
+        /// Gets the contained data.
         /// </summary>
-        public string Data
+        public String Data
         {
             get { return _data; }
-            set { _data = value; }
         }
 
         /// <summary>
-        /// Gets or sets if the data is bad.
+        /// Gets if the data is bad.
         /// </summary>
         public bool IsBad
         {
             get { return _bad; }
-            set { _bad = value; }
         }
 
         #endregion
 
-        #region string representation
+        #region String representation
 
         /// <summary>
         /// Gets a string which represents the original value.
         /// </summary>
         /// <returns>The original value.</returns>
-        public override string ToValue()
+        public override String ToValue()
         {
-            switch(_type)
-            {
-                case CssTokenType.Url:
-                    return "url('" + _data + "')";
-                default:
-                    return "'" + _data + "'";
-            }
+            if(_type == CssTokenType.Url)
+                return "url('" + _data + "')";
+
+            return "'" + _data + "'";
         }
 
         #endregion

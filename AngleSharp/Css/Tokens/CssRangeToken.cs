@@ -8,7 +8,13 @@ namespace AngleSharp.Css
     /// </summary>
     sealed class CssRangeToken : CssToken
     {
-        string[] _range;
+        #region Members
+
+        String[] _range;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new CSS range token.
@@ -18,13 +24,37 @@ namespace AngleSharp.Css
             _type = CssTokenType.Range;
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the status of the range.
+        /// </summary>
+        public Boolean IsEmpty
+        {
+            get { return _range == null || _range.Length == 0; }
+        }
+
+        /// <summary>
+        /// Gets the content of the range token.
+        /// </summary>
+        public String[] Range
+        {
+            get { return _range; }
+        }
+
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Sets the range in the token.
         /// </summary>
         /// <param name="start">The (hex-)string where to begin.</param>
         /// <param name="end">The (hex-)string where to end.</param>
         /// <returns>The token itself.</returns>
-        public CssRangeToken SetRange(string start, string end)
+        public CssRangeToken SetRange(String start, String end)
         {
             var i = int.Parse(start, System.Globalization.NumberStyles.HexNumber);
 
@@ -53,26 +83,10 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
-        /// Gets the status of the range.
-        /// </summary>
-        public bool IsEmpty
-        {
-            get { return _range == null || _range.Length == 0; }
-        }
-
-        /// <summary>
-        /// Gets the content of the range token.
-        /// </summary>
-        public string[] Range
-        {
-            get { return _range; }
-        }
-
-        /// <summary>
         /// Gets a string which represents the original value.
         /// </summary>
         /// <returns>The original value.</returns>
-        public override string ToValue()
+        public override String ToValue()
         {
             if (IsEmpty)
                 return string.Empty;
@@ -82,5 +96,7 @@ namespace AngleSharp.Css
 
             return "#" + char.ConvertToUtf32(_range[0], 0).ToString("x") + "-#" + char.ConvertToUtf32(_range[_range.Length - 1], 0).ToString("x");
         }
+
+        #endregion
     }
 }

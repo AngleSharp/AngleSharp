@@ -9,7 +9,7 @@ namespace AngleSharp.Css
     {
         #region Members
 
-        string _data;
+        String _data;
 
         #endregion
 
@@ -19,7 +19,7 @@ namespace AngleSharp.Css
         /// Creates a new CSS keyword token.
         /// </summary>
         /// <param name="type">The exact type.</param>
-        private CssKeywordToken(CssTokenType type)
+        CssKeywordToken(CssTokenType type)
         {
             _type = type;
         }
@@ -33,7 +33,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="name">The name of the function.</param>
         /// <returns>The created token.</returns>
-        public static CssKeywordToken Function(string name)
+        public static CssKeywordToken Function(String name)
         {
             return new CssKeywordToken(CssTokenType.Function) { _data = name };
         }
@@ -43,7 +43,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="name">The name of the identifier.</param>
         /// <returns>The created token.</returns>
-        public static CssKeywordToken Ident(string identifier)
+        public static CssKeywordToken Ident(String identifier)
         {
             return new CssKeywordToken(CssTokenType.Ident) { _data = identifier };
         }
@@ -53,7 +53,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="name">The name of the @-rule.</param>
         /// <returns>The created token.</returns>
-        public static CssKeywordToken At(string name)
+        public static CssKeywordToken At(String name)
         {
             return new CssKeywordToken(CssTokenType.AtKeyword) { _data = name };
         }
@@ -63,7 +63,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="name">The contained characters.</param>
         /// <returns>The created token.</returns>
-        public static CssKeywordToken Hash(string characters)
+        public static CssKeywordToken Hash(String characters)
         {
             return new CssKeywordToken(CssTokenType.Hash) { _data = characters };
         }
@@ -73,12 +73,11 @@ namespace AngleSharp.Css
         #region Properties
 
         /// <summary>
-        /// Gets or sets the contained data.
+        /// Gets the contained data.
         /// </summary>
-        public string Data
+        public String Data
         {
             get { return _data; }
-            set { _data = value; }
         }
 
         #endregion
@@ -89,7 +88,7 @@ namespace AngleSharp.Css
         /// Gets a string which represents the original value.
         /// </summary>
         /// <returns>The original value.</returns>
-        public override string ToValue()
+        public override String ToValue()
         {
             switch (_type)
             {
@@ -97,9 +96,9 @@ namespace AngleSharp.Css
                     return "#" + Data;
                 case CssTokenType.AtKeyword:
                     return "@" + Data;
-                default:
-                    return Data;
             }
+
+            return Data;
         }
 
         #endregion

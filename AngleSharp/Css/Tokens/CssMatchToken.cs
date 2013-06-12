@@ -7,19 +7,39 @@ namespace AngleSharp.Css
     /// </summary>
     sealed class CssMatchToken : CssToken
     {
-        readonly static CssMatchToken include = new CssMatchToken { _type = CssTokenType.IncludeMatch };
-        readonly static CssMatchToken dash = new CssMatchToken { _type = CssTokenType.DashMatch };
-        readonly static CssToken prefix = new CssMatchToken { _type = CssTokenType.PrefixMatch };
-        readonly static CssToken substring = new CssMatchToken { _type = CssTokenType.SubstringMatch };
-        readonly static CssToken suffix = new CssMatchToken { _type = CssTokenType.SuffixMatch };
-        readonly static CssToken not = new CssMatchToken { _type = CssTokenType.NotMatch };
+        #region Static instances
+
+        readonly static CssMatchToken include;
+        readonly static CssMatchToken dash;
+        readonly static CssToken prefix;
+        readonly static CssToken substring;
+        readonly static CssToken suffix;
+        readonly static CssToken not;
+
+        #endregion
+
+        #region ctor
+
+        static CssMatchToken()
+        {
+            include = new CssMatchToken { _type = CssTokenType.IncludeMatch };
+            dash = new CssMatchToken { _type = CssTokenType.DashMatch };
+            prefix = new CssMatchToken { _type = CssTokenType.PrefixMatch };
+            substring = new CssMatchToken { _type = CssTokenType.SubstringMatch };
+            suffix = new CssMatchToken { _type = CssTokenType.SuffixMatch };
+            not = new CssMatchToken { _type = CssTokenType.NotMatch };
+        }
 
         /// <summary>
         /// Creates a new CSS match token.
         /// </summary>
-        private CssMatchToken()
+        CssMatchToken()
         {
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets a new CSS include-match token.
@@ -69,11 +89,15 @@ namespace AngleSharp.Css
             get { return not; }
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Gets a string which represents the original value.
         /// </summary>
         /// <returns>The original value.</returns>
-        public override string ToValue()
+        public override String ToValue()
         {
             switch (_type)
             {
@@ -96,7 +120,9 @@ namespace AngleSharp.Css
                     return "!=";
             }
 
-            return string.Empty;
+            return String.Empty;
         }
+
+        #endregion
     }
 }

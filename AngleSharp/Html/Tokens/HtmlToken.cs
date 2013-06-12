@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace AngleSharp.Html
 {
     /// <summary>
     /// The abstract base class of any token.
     /// </summary>
+    [DebuggerStepThrough]
     abstract class HtmlToken
     {
         #region Factory
@@ -17,11 +19,14 @@ namespace AngleSharp.Html
             get { return eof ?? (eof = new HtmlEndOfFileToken()); }
         }
 
+        static HtmlCharacterToken buffer = new HtmlCharacterToken();
+
         /// <summary>
         /// Creates a new HTML character token based on the given character.
         /// </summary>
         /// <param name="character">The character to contain.</param>
         /// <returns>The generated token.</returns>
+        [DebuggerStepThrough]
         public static HtmlCharacterToken Character(Char character)
         {
             return new HtmlCharacterToken(character);
@@ -33,6 +38,7 @@ namespace AngleSharp.Html
         /// <param name="character1">The first character to contain.</param>
         /// <param name="character2">The second character to contain.</param>
         /// <returns>The generated token.</returns>
+        [DebuggerStepThrough]
         public static HtmlCharactersToken Characters(Char character1, Char character2)
         {
             return new HtmlCharactersToken(new Char[] { character1, character2 });
@@ -43,6 +49,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="characters">The characters to contain.</param>
         /// <returns>The generated token.</returns>
+        [DebuggerStepThrough]
         public static HtmlCharactersToken Characters(Char[] characters)
         {
             return new HtmlCharactersToken(characters);
@@ -53,6 +60,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="characters">The characters to contain.</param>
         /// <returns>The generated token.</returns>
+        [DebuggerStepThrough]
         public static HtmlCharactersToken Characters(String characters)
         {
             return new HtmlCharactersToken(characters);
@@ -63,6 +71,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="comment">The comment to contain.</param>
         /// <returns>The generated token.</returns>
+        [DebuggerStepThrough]
         public static HtmlCommentToken Comment(String comment)
         {
             return new HtmlCommentToken(comment);
@@ -73,6 +82,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="quirksmode">Determines if quirksmode will be forced.</param>
         /// <returns>The generated token.</returns>
+        [DebuggerStepThrough]
         public static HtmlDoctypeToken Doctype(Boolean quirksmode)
         {
             return new HtmlDoctypeToken(quirksmode);
@@ -82,6 +92,7 @@ namespace AngleSharp.Html
         /// Creates a new opening HtmlTagToken.
         /// </summary>
         /// <returns>The new HTML tag token.</returns>
+        [DebuggerStepThrough]
         public static HtmlTagToken OpenTag()
         {
             return new HtmlTagToken() { _type = HtmlTokenType.StartTag };
@@ -91,6 +102,7 @@ namespace AngleSharp.Html
         /// Creates a new closing HtmlTagToken.
         /// </summary>
         /// <returns>The new HTML tag token.</returns>
+        [DebuggerStepThrough]
         public static HtmlTagToken CloseTag()
         {
             return new HtmlTagToken() { _type = HtmlTokenType.EndTag };
@@ -101,6 +113,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="name">The name of the tag.</param>
         /// <returns>The new HTML tag token.</returns>
+        [DebuggerStepThrough]
         public static HtmlTagToken OpenTag(String name)
         {
             return new HtmlTagToken(name) { _type = HtmlTokenType.StartTag };
@@ -111,6 +124,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="name">The name of the tag.</param>
         /// <returns>The new HTML tag token.</returns>
+        [DebuggerStepThrough]
         public static HtmlTagToken CloseTag(String name)
         {
             return new HtmlTagToken(name) { _type = HtmlTokenType.EndTag };

@@ -21,7 +21,7 @@ namespace AngleSharp.Css
         /// Creates a new delimiter token with the given character.
         /// </summary>
         /// <param name="data">The character.</param>
-        public CssDelimToken(char data)
+        public CssDelimToken(Char data)
             : base(data)
         {
             _type = CssTokenType.Delim;
@@ -35,7 +35,7 @@ namespace AngleSharp.Css
         /// Gets a string which represents the original value.
         /// </summary>
         /// <returns>The original value.</returns>
-        public override string ToValue()
+        public override String ToValue()
         {
             return Data.ToString();
         }

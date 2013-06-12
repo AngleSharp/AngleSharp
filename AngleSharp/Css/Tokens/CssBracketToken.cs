@@ -9,12 +9,12 @@ namespace AngleSharp.Css
     {
         #region Static instances
 
-        readonly static CssBracketToken roundOpen = new CssBracketToken { _type = CssTokenType.RoundBracketOpen, _mirror = CssTokenType.RoundBracketClose };
-        readonly static CssBracketToken roundClose = new CssBracketToken { _type = CssTokenType.RoundBracketClose, _mirror = CssTokenType.RoundBracketOpen };
-        readonly static CssBracketToken curlyOpen = new CssBracketToken { _type = CssTokenType.CurlyBracketOpen, _mirror = CssTokenType.CurlyBracketClose };
-        readonly static CssBracketToken curlyClose = new CssBracketToken { _type = CssTokenType.CurlyBracketClose, _mirror = CssTokenType.CurlyBracketOpen };
-        readonly static CssBracketToken squareOpen = new CssBracketToken { _type = CssTokenType.SquareBracketOpen, _mirror = CssTokenType.SquareBracketClose };
-        readonly static CssBracketToken squareClose = new CssBracketToken { _type = CssTokenType.SquareBracketClose, _mirror = CssTokenType.SquareBracketOpen };
+        readonly static CssBracketToken roundOpen;
+        readonly static CssBracketToken roundClose;
+        readonly static CssBracketToken curlyOpen;
+        readonly static CssBracketToken curlyClose;
+        readonly static CssBracketToken squareOpen;
+        readonly static CssBracketToken squareClose;
 
         #endregion
 
@@ -26,10 +26,20 @@ namespace AngleSharp.Css
 
         #region ctor
 
+        static CssBracketToken()
+        {
+            roundOpen = new CssBracketToken { _type = CssTokenType.RoundBracketOpen, _mirror = CssTokenType.RoundBracketClose };
+            roundClose = new CssBracketToken { _type = CssTokenType.RoundBracketClose, _mirror = CssTokenType.RoundBracketOpen };
+            curlyOpen = new CssBracketToken { _type = CssTokenType.CurlyBracketOpen, _mirror = CssTokenType.CurlyBracketClose };
+            curlyClose = new CssBracketToken { _type = CssTokenType.CurlyBracketClose, _mirror = CssTokenType.CurlyBracketOpen };
+            squareOpen = new CssBracketToken { _type = CssTokenType.SquareBracketOpen, _mirror = CssTokenType.SquareBracketClose };
+            squareClose = new CssBracketToken { _type = CssTokenType.SquareBracketClose, _mirror = CssTokenType.SquareBracketOpen };
+        }
+
         /// <summary>
         /// Creates a new CSS bracket token.
         /// </summary>
-        private CssBracketToken()
+        CssBracketToken()
         {
         }
 
@@ -40,7 +50,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Gets the bracket symbol that opens this block.
         /// </summary>
-        public char Open
+        public Char Open
         {
             get
             {
@@ -52,10 +62,11 @@ namespace AngleSharp.Css
                     return '{';
             }
         }
+
         /// <summary>
         /// Gets the bracket symbol that closes this block.
         /// </summary>
-        public char Close
+        public Char Close
         {
             get
             {
@@ -132,7 +143,7 @@ namespace AngleSharp.Css
         /// Gets a string which represents the original value.
         /// </summary>
         /// <returns>The original value.</returns>
-        public override string ToValue()
+        public override String ToValue()
         {
             switch (_type)
             {
@@ -150,7 +161,7 @@ namespace AngleSharp.Css
                     return "[";
             }
 
-            return string.Empty;
+            return String.Empty;
         }
 
         #endregion

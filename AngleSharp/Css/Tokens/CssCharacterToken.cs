@@ -9,7 +9,7 @@ namespace AngleSharp.Css
     {
         #region Members
 
-        char _data;
+        Char _data;
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace AngleSharp.Css
         /// Creates a new character token with the given character.
         /// </summary>
         /// <param name="data">The character.</param>
-        public CssCharacterToken(char data)
+        public CssCharacterToken(Char data)
         {
             _data = data;
         }
@@ -39,7 +39,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Gets the data of the character token.
         /// </summary>
-        public char Data
+        public Char Data
         {
             get { return _data; }
         }
