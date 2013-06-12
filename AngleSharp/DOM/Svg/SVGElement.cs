@@ -7,6 +7,12 @@ namespace AngleSharp.DOM.Svg
     /// </summary>
     public class SVGElement : Element
     {
+        #region Constants
+
+        internal const string RootTag = "svg";
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -26,10 +32,7 @@ namespace AngleSharp.DOM.Svg
         /// </summary>
         internal protected override bool IsInSvg
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
 
         /// <summary>
@@ -37,11 +40,7 @@ namespace AngleSharp.DOM.Svg
         /// </summary>
         protected internal override bool IsHtmlTIP
         {
-            get
-            {
-                var name = NodeName;
-                return name == "foreignObject" || name == "desc" || name == "title";
-            }
+            get { return IsSpecial; }
         }
 
         /// <summary>
@@ -49,11 +48,7 @@ namespace AngleSharp.DOM.Svg
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                var name = NodeName;
-                return name == "foreignObject" || name == "desc" || name == "title";
-            }
+            get { return _name == "foreignObject" || _name == "desc" || _name == "title"; }
         }
 
         #endregion

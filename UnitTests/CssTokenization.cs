@@ -16,8 +16,8 @@ namespace UnitTests
         public void CssParserIdentifier()
         {
             var teststring = "h1 { background: blue; }";
-            var parser = new CssParser(teststring);
-            var list = parser.GetTokens();
+            var parser = new CssTokenizer(new SourceManager(teststring));
+            var list = parser.Tokens;
             CssToken token = null;
 
             foreach (var item in list)
@@ -33,8 +33,8 @@ namespace UnitTests
         public void CssParserAtRule()
         {
             var teststring = "@media { background: blue; }";
-            var parser = new CssParser(teststring);
-            var list = parser.GetTokens();
+            var parser = new CssTokenizer(new SourceManager(teststring));
+            var list = parser.Tokens;
             CssToken token = null;
 
             foreach (var item in list)
@@ -51,8 +51,8 @@ namespace UnitTests
         {
             var url = "http://someurl";
             var teststring = "url(" + url + ")";
-            var parser = new CssParser(teststring);
-            var list = parser.GetTokens();
+            var parser = new CssTokenizer(new SourceManager(teststring));
+            var list = parser.Tokens;
             CssStringToken token = null;
 
             foreach (var item in list)
@@ -69,8 +69,8 @@ namespace UnitTests
         {
             var url = "http://someurl";
             var teststring = "url(\"" + url + "\")";
-            var parser = new CssParser(teststring);
-            var list = parser.GetTokens();
+            var parser = new CssTokenizer(new SourceManager(teststring));
+            var list = parser.Tokens;
             CssStringToken token = null;
 
             foreach (var item in list)
@@ -87,8 +87,8 @@ namespace UnitTests
         {
             var url = "http://someurl";
             var teststring = "url('" + url + "')";
-            var parser = new CssParser(teststring);
-            var list = parser.GetTokens();
+            var parser = new CssTokenizer(new SourceManager(teststring));
+            var list = parser.Tokens;
             CssStringToken token = null;
 
             foreach (var item in list)

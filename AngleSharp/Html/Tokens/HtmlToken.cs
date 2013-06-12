@@ -30,11 +30,12 @@ namespace AngleSharp.Html
         /// <summary>
         /// Creates a new HTML characters token based on the given characters.
         /// </summary>
-        /// <param name="characters">The characters to contain.</param>
+        /// <param name="character1">The first character to contain.</param>
+        /// <param name="character2">The second character to contain.</param>
         /// <returns>The generated token.</returns>
-        public static HtmlCharactersToken Characters(String characters)
+        public static HtmlCharactersToken Characters(Char character1, Char character2)
         {
-            return new HtmlCharactersToken(characters);
+            return new HtmlCharactersToken(new Char[] { character1, character2 });
         }
 
         /// <summary>
@@ -44,18 +45,17 @@ namespace AngleSharp.Html
         /// <returns>The generated token.</returns>
         public static HtmlCharactersToken Characters(Char[] characters)
         {
-            return new HtmlCharactersToken(new String(characters));
+            return new HtmlCharactersToken(characters);
         }
 
         /// <summary>
         /// Creates a new HTML characters token based on the given characters.
         /// </summary>
-        /// <param name="character1">The first character to contain.</param>
-        /// <param name="character2">The second character to contain.</param>
+        /// <param name="characters">The characters to contain.</param>
         /// <returns>The generated token.</returns>
-        public static HtmlCharactersToken Characters(Char character1, Char character2)
+        public static HtmlCharactersToken Characters(String characters)
         {
-            return new HtmlCharactersToken(new String(new char[] { character1, character2 }));
+            return new HtmlCharactersToken(characters);
         }
 
         /// <summary>
@@ -145,12 +145,35 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
+        /// Gets if the character data is a new line.
+        /// </summary>
+        /// <returns>True if the character token is a new line, otherwise false.</returns>
+        public virtual bool IsNewLine
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         /// Gets if the character data is actually a space character.
         /// </summary>
         /// <returns>True if the character data is a space character.</returns>
         public virtual bool IsIgnoreable
         {
             get { return false; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Finds out if the current token is a start tag token with the given name.
+        /// </summary>
+        /// <param name="name">The name of the tag.</param>
+        /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
+        public virtual Boolean IsStartTag(String name)
+        {
+            return false;
         }
 
         #endregion

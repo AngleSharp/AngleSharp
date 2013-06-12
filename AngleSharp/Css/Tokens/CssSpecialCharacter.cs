@@ -5,7 +5,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// The special character token that contains a special character such as a colon.
     /// </summary>
-    class CssSpecialCharacter : CssCharacterToken
+    sealed class CssSpecialCharacter : CssCharacterToken
     {
         static readonly CssSpecialCharacter colon = new CssSpecialCharacter(Specification.COL, CssTokenType.Colon);
         static readonly CssSpecialCharacter comma = new CssSpecialCharacter(Specification.COMMA, CssTokenType.Comma);

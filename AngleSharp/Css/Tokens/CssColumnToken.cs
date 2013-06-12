@@ -5,7 +5,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// The column token that contains a column (||).
     /// </summary>
-    class CssColumnToken : CssToken
+    sealed class CssColumnToken : CssToken
     {
         /// <summary>
         /// Creates a new CSS column token.

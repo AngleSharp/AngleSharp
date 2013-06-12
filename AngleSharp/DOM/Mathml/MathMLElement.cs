@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AngleSharp.DOM.Xml;
+using System;
 
 namespace AngleSharp.DOM.Mathml
 {
@@ -7,6 +8,12 @@ namespace AngleSharp.DOM.Mathml
     /// </summary>
     public class MathMLElement : Element
     {
+        #region Constants
+
+        internal const string RootTag = "math";
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -26,10 +33,7 @@ namespace AngleSharp.DOM.Mathml
         /// </summary>
         internal protected override bool IsInMathML
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
 
         /// <summary>
@@ -37,11 +41,7 @@ namespace AngleSharp.DOM.Mathml
         /// </summary>
         protected internal override bool IsMathMLTIP
         {
-            get
-            {
-                var name = NodeName;
-                return name == "mo" || name == "mi" || name == "mn" || name == "ms" || name == "mtext";
-            }
+            get { return _name == "mo" || _name == "mi" || _name == "mn" || _name == "ms" || _name == "mtext"; }
         }
 
         /// <summary>
@@ -53,14 +53,14 @@ namespace AngleSharp.DOM.Mathml
             {
                 var name = NodeName;
 
-                if (name == "annotation-xml")
+                if (name.Equals(Specification.XML_ANNOTATION))
                 {
                     var value = GetAttribute("encoding");
 
                     if (value != null)
                     {
                         value = value.ToLower();
-                        return value == "text/html" || value == "application/xhtml+xml";
+                        return value.Equals(MimeTypes.Html) || value.Equals(MimeTypes.ApplicationXHtml);
                     }
                 }
 
@@ -73,11 +73,7 @@ namespace AngleSharp.DOM.Mathml
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                var name = NodeName;
-                return name == "mo" || name == "mi" || name == "mn" || name == "ms" || name == "mtext" || name == "annotation-xml";
-            }
+            get { return IsMathMLTIP || _name == Specification.XML_ANNOTATION; }
         }
 
         #endregion

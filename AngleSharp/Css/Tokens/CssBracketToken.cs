@@ -5,7 +5,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// The bracket token that contains the opening or closing of a bracket.
     /// </summary>
-    class CssBracketToken : CssToken
+    sealed class CssBracketToken : CssToken
     {
         #region Static instances
 

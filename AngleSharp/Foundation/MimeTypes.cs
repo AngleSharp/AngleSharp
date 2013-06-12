@@ -36,5 +36,15 @@ namespace AngleSharp
         {
             get { return applicationXml; }
         }
+
+        static readonly string applicationXHtml = "application/xhtml+xml";
+
+        /// <summary>
+        /// Gets the XML mime-type: application/xhtml+xml.
+        /// </summary>
+        public static string ApplicationXHtml
+        {
+            get { return applicationXHtml; }
+        }
     }
 }

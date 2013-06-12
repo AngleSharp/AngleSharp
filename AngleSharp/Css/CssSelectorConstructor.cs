@@ -1022,19 +1022,19 @@ namespace AngleSharp.Css
 
             repr = repr.Trim();
 
-            if (repr.Equals(NTH_CHILD_ODD, StringComparison.InvariantCultureIgnoreCase))
+            if (repr.Equals(NTH_CHILD_ODD, StringComparison.OrdinalIgnoreCase))
             {
                 f.step = 2;
                 f.offset = 1;
             }
-            else if (repr.Equals(NTH_CHILD_EVEN, StringComparison.InvariantCultureIgnoreCase))
+            else if (repr.Equals(NTH_CHILD_EVEN, StringComparison.OrdinalIgnoreCase))
             {
                 f.step = 2;
                 f.offset = 0;
             }
             else if (!int.TryParse(repr, out f.offset))
             {
-                var index = repr.IndexOf(NTH_CHILD_N, StringComparison.InvariantCultureIgnoreCase);
+                var index = repr.IndexOf(NTH_CHILD_N, StringComparison.OrdinalIgnoreCase);
 
                 if (repr.Length > 0 && index != -1)
                 {

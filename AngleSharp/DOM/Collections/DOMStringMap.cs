@@ -114,7 +114,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>The name again.</returns>
         string Check(string name)
         {
-            if (name.StartsWith("xml", StringComparison.InvariantCultureIgnoreCase))
+            if (name.StartsWith("xml", StringComparison.OrdinalIgnoreCase))
                 throw new DOMException(ErrorCode.SyntaxError);
 
             if (name.Contains(Specification.SC))

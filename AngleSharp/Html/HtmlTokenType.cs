@@ -28,7 +28,7 @@ namespace AngleSharp.Html
         /// </summary>
         Character,
         /// <summary>
-        /// The characters token to mark a series of characters.
+        /// The characters token to mark a sequence of characters.
         /// </summary>
         Characters,
         /// <summary>

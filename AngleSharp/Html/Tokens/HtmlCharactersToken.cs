@@ -12,26 +12,36 @@ namespace AngleSharp.Html
     {
         #region Members
 
-        String _data;
+        Char[] _data;
 
         #endregion
 
         #region ctor
 
         /// <summary>
-        /// Creates a new character token.
+        /// Creates a new characters token.
         /// </summary>
         public HtmlCharactersToken()
         {
-            _data = String.Empty;
+            _data = new Char[0];
             _type = HtmlTokenType.Characters;
         }
 
         /// <summary>
-        /// Creates a new character token with the given character.
+        /// Creates a new characters token with the given characters.
         /// </summary>
-        /// <param name="data">The character.</param>
+        /// <param name="data">The characters.</param>
         public HtmlCharactersToken(String data)
+        {
+            _data = data.ToCharArray();
+            _type = HtmlTokenType.Characters;
+        }
+
+        /// <summary>
+        /// Creates a new characters token with the given characters.
+        /// </summary>
+        /// <param name="data">The characters.</param>
+        public HtmlCharactersToken(Char[] data)
         {
             _data = data;
             _type = HtmlTokenType.Characters;
@@ -44,7 +54,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets the data of the character token.
         /// </summary>
-        public String Data
+        public Char[] Data
         {
             get { return _data; }
         }
@@ -55,7 +65,16 @@ namespace AngleSharp.Html
         /// <returns>True if the character token is NULL, otherwise false.</returns>
         public override Boolean IsNullChar
         {
-            get { return _data.Length == 1 && _data[0] == Specification.NULL; }
+            get { return false; }
+        }
+
+        /// <summary>
+        /// Gets if the character data is a new line.
+        /// </summary>
+        /// <returns>True if the character token is a new line, otherwise false.</returns>
+        public override Boolean IsNewLine
+        {
+            get { return false; }
         }
 
         /// <summary>

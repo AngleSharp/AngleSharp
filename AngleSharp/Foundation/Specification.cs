@@ -10,6 +10,11 @@ namespace AngleSharp
         #region Constants
 
         /// <summary>
+        /// Gets the XML annotation string annotation-xml
+        /// </summary>
+        public const string XML_ANNOTATION = "annotation-xml";
+
+        /// <summary>
         /// The end of file character 26.
         /// </summary>
         public const char EOF = (char)0x1a;

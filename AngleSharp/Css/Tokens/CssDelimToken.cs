@@ -5,7 +5,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// The delimiter token that contains a series of characters.
     /// </summary>
-    class CssDelimToken : CssCharacterToken
+    sealed class CssDelimToken : CssCharacterToken
     {
         #region ctor
 

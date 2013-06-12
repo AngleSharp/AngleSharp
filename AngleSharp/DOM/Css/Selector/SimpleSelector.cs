@@ -37,7 +37,7 @@ namespace AngleSharp.DOM.Css
         /// <param name="match">The type to match.</param>
         public SimpleSelector(string match)
         {
-            _matches = _ => _.TagName.Equals(match, StringComparison.InvariantCultureIgnoreCase);
+            _matches = _ => _.TagName.Equals(match, StringComparison.OrdinalIgnoreCase);
             _specifity = 1;
             _code = match;
         }

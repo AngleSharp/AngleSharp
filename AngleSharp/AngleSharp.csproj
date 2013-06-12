@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Css\CssTokenizer.cs" />
     <Compile Include="DOM\Collections\CSSStyleDeclaration.cs" />
     <Compile Include="DOM\Collections\DOMStringMap.cs" />
     <Compile Include="DOM\Collections\HTMLFormControlsCollection.cs" />
@@ -140,7 +141,7 @@
     <Compile Include="DOM\Html\HTMLMarqueeElement.cs" />
     <Compile Include="DOM\Html\HTMLNoElement.cs" />
     <Compile Include="DOM\Html\HTMLSemanticElement.cs" />
-    <Compile Include="Foundation\Enumerations\ContentModel.cs" />
+    <Compile Include="Html\HtmlParseMode.cs" />
     <Compile Include="DocumentBuilder.cs" />
     <Compile Include="DOM\Enums\CssRule.cs" />
     <Compile Include="DOM\Enums\CssValue.cs" />
@@ -269,8 +270,7 @@
     <Compile Include="Html\Tokens\HtmlCharactersToken.cs" />
     <Compile Include="Xml\XmlParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Stream\CssSource.cs" />
-    <Compile Include="Stream\HtmlSource.cs" />
+    <Compile Include="Stream\SourceManager.cs" />
     <Compile Include="Foundation\Specification.cs" />
     <Compile Include="Foundation\Helpers\SVGHelpers.cs" />
     <Compile Include="Html\HtmlTokenizer.cs" />
@@ -283,7 +283,6 @@
     <Compile Include="Html\Tokens\HtmlDoctypeToken.cs" />
     <Compile Include="Html\Tokens\HtmlEndOfFileToken.cs" />
     <Compile Include="Html\Tokens\HtmlTagToken.cs" />
-    <Compile Include="Html\TreeConstruction.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -6,7 +6,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// Represents the CSS range token.
     /// </summary>
-    class CssRangeToken : CssToken
+    sealed class CssRangeToken : CssToken
     {
         string[] _range;
 

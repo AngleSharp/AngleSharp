@@ -49,7 +49,7 @@ namespace UnitTests
             Assert.AreEqual(7, RunQuery("*:last-child").Length);
             Assert.AreEqual(2, RunQuery("p:last-child").Length);
         }
-
+        
         [TestMethod]
         public void PseudoSelectorOnlyChild()
         {
@@ -65,7 +65,7 @@ namespace UnitTests
             Assert.AreEqual("head", results[0].NodeName);
             Assert.AreEqual("input", results[1].NodeName);
         }
-
+        
         [TestMethod]
         public void NthChildNoPrefixWithDigit()
         {
@@ -111,7 +111,7 @@ namespace UnitTests
             Assert.AreEqual("span", result[2].NodeName);
             Assert.AreEqual("div", result[3].NodeName);
         }
-
+        
         [TestMethod]
         public void NthLastChildIdPrefixWithDigit()
         {
@@ -138,7 +138,7 @@ namespace UnitTests
             Assert.AreEqual(1, result.Length);
             Assert.AreEqual("span", result[0].NodeName);
         }
-
+        
         [TestMethod]
         public void MultipleSelectorsCommaSupportWithNoSpace()
         {
@@ -168,7 +168,7 @@ namespace UnitTests
             Assert.AreEqual("a", result[0].NodeName);
             Assert.AreEqual("p", result[1].NodeName);
         }
-
+        
         [TestMethod]
         public void MultipleSelectorsCommaSupportWithPrependedSpace()
         {
@@ -221,7 +221,7 @@ namespace UnitTests
 
             Assert.AreEqual(0, result.Length);
         }
-
+        
         [TestMethod]
         public void IdSelectorAllDescendantsOfId()
         {

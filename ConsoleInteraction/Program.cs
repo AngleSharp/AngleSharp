@@ -16,7 +16,7 @@ namespace ConsoleInteraction
             //IMPORTANT:
             //http://www.w3.org/TR/domcore/#interface-htmlcollection
 
-            TestCSS(Stylesheets.rsi);
+            //TestCSS(Stylesheets.rsi);
 
             //CssSelectorTest.Slickspeed();
 
@@ -34,11 +34,17 @@ namespace ConsoleInteraction
 
             //TestHtml("<div id=mydiv class=hi></div>", true);
 
-            TestHtml(Webpages.CodeProject);
-            TestHtml(Webpages.CodeProject);
-            TestHtml(Webpages.CodeProject);
+            TestHtml(Webpages.CodeProject, "CodeProject");
 
-            return;
+            TestHtml(Webpages.Simon, "Simon's HP");
+
+            TestHtml(Webpages.W3C, "W3C");
+
+            TestWebRequest("http://www.imdb.com/", false);
+
+            TestWebRequest("http://www.dailymail.co.uk/‎", false);
+
+            TestWebRequest("http://news.google.com/", false);
 
             TestWebRequest("http://www.huffingtonpost.com/", false);
 
@@ -50,7 +56,7 @@ namespace ConsoleInteraction
 
             TestWebRequest("http://www.codeproject.com/", false);
 
-            TestWebRequest("http://www.florian-rappl.de/", true);
+            TestWebRequest("http://www.florian-rappl.de/", false);
         }
 
         static void TestWebRequest(string url, bool openConsole)
@@ -88,17 +94,13 @@ namespace ConsoleInteraction
             }
         }
 
-        static HTMLDocument TestHtml(string source)
+        static HTMLDocument TestHtml(string source, string title = "the webpage")
         {
             var sw = Stopwatch.StartNew();
             var html = DocumentBuilder.Html(source);
             sw.Stop();
-            Console.WriteLine(">>> START");
-            //sConsole.WriteLine(html.ToHtml());
-            Console.WriteLine(">>> END");
-            Console.WriteLine();
-            Console.WriteLine("... " + sw.ElapsedMilliseconds + "ms");
-            Console.WriteLine("=====================================");
+            //Console.WriteLine(html.ToHtml());
+            Console.WriteLine("Parsing " + title + " took ... " + sw.ElapsedMilliseconds + "ms");
             return html;
         }
 
@@ -120,7 +122,7 @@ namespace ConsoleInteraction
         {
             var parser = new CssParser(source);
             var sw = Stopwatch.StartNew();
-            var doc = parser.Parse();
+            var doc = parser.Result;
             sw.Stop();
             Console.WriteLine("... " + sw.ElapsedMilliseconds + "ms");
         }

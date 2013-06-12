@@ -43,9 +43,9 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="selectors">A selector object.</param>
         /// <returns>An element object.</returns>
-        internal Element QuerySelector(Selector selector)
+        internal Element QuerySelector(Selector selectors)
         {
-            return QuerySelector(this, selector);
+            return QuerySelector(this, selectors);
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace AngleSharp.DOM.Collections
 
                 if (element != null)
                 {
-                    if (takeAll || element.NodeName.Equals(tagName, StringComparison.InvariantCultureIgnoreCase))
+                    if (takeAll || element.NodeName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
                         result.Add(element);
 
                     if (element.ChildElementCount != 0)
@@ -208,7 +208,7 @@ namespace AngleSharp.DOM.Collections
 
                 if (element != null)
                 {
-                    if(element.NamespaceURI == namespaceURI && (takeAll || element.LocalName.Equals(localName, StringComparison.InvariantCultureIgnoreCase)))
+                    if (element.NamespaceURI == namespaceURI && (takeAll || element.LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase)))
                         result.Add(element);
 
                     if (element.ChildElementCount != 0)

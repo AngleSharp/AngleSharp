@@ -56,6 +56,15 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
+        /// Gets if the character data is a new line.
+        /// </summary>
+        /// <returns>True if the character token is a new line, otherwise false.</returns>
+        public override Boolean IsNewLine
+        {
+            get { return _data == Specification.LF; }
+        }
+
+        /// <summary>
         /// Gets if the character data is actually a space character.
         /// </summary>
         /// <returns>True if the character data is a space character.</returns>

@@ -436,9 +436,9 @@ namespace AngleSharp
                     return Encoding.GetEncoding(874);
             }
 
-            if(local.Equals("zh-CN", StringComparison.InvariantCultureIgnoreCase))
+            if (local.Equals("zh-CN", StringComparison.OrdinalIgnoreCase))
                 return Encoding.GetEncoding(54936);
-            else if(local.Equals("zh-TW", StringComparison.InvariantCultureIgnoreCase))
+            else if (local.Equals("zh-TW", StringComparison.OrdinalIgnoreCase))
                 return Encoding.GetEncoding(950);
 
             return Encoding.GetEncoding(1252);

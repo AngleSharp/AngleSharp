@@ -5,6 +5,7 @@ using AngleSharp.DOM.Svg;
 using AngleSharp.DOM.Mathml;
 using AngleSharp.DOM.Xml;
 using AngleSharp.DOM.Css;
+using AngleSharp.Html;
 
 namespace AngleSharp.DOM.Html
 {
@@ -246,7 +247,10 @@ namespace AngleSharp.DOM.Html
 
             ReadyState = Readiness.Loading;
             QuirksMode = QuirksMode.Off;
-            return DocumentBuilder.Html(this, url);
+            var stream = Builder.Stream(url);
+            var source = new SourceManager(stream);
+            var parser = new HtmlParser(this, source);
+            return parser.Result;
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -7,9 +8,10 @@ using System.Threading;
 namespace AngleSharp
 {
     /// <summary>
-    /// Represents the HTML source code manager.
+    /// Represents the source code manager.
     /// </summary>
-    sealed class HtmlSource
+    [DebuggerStepThrough]
+    sealed class SourceManager
     {
         #region Members
 
@@ -31,7 +33,7 @@ namespace AngleSharp
         /// <summary>
         /// Prepares everything.
         /// </summary>
-        HtmlSource()
+        SourceManager()
         {
             _encoding = HtmlEncoding.Suggest(LocalSettings.Language);
             _buffer = new StringBuilder();
@@ -43,11 +45,11 @@ namespace AngleSharp
         /// <summary>
         /// Constructs a new instance of the source code manager.
         /// </summary>
-        /// <param name="html">The source code string to manage.</param>
-        public HtmlSource(String html)
+        /// <param name="source">The source code string to manage.</param>
+        public SourceManager(String source)
             : this()
         {
-            _reader = new StringReader(html);
+            _reader = new StringReader(source);
             ReadCurrent();
         }
 
@@ -55,7 +57,7 @@ namespace AngleSharp
         /// Constructs a new instance of the source code manager.
         /// </summary>
         /// <param name="stream">The source code stream to manage.</param>
-        public HtmlSource(Stream stream)
+        public SourceManager(Stream stream)
             : this()
         {
             _reader = new StreamReader(stream, true);
@@ -163,9 +165,20 @@ namespace AngleSharp
             get { return _current; }
         }
 
+        /// <summary>
+        /// Gets the next character (by advancing and returning the current character).
+        /// </summary>
         public Char Next
         {
             get { Advance(); return _current; }
+        }
+
+        /// <summary>
+        /// Gets the previous character (by rewinding and returning the current character).
+        /// </summary>
+        public Char Previous
+        {
+            get { Back(); return _current; }
         }
 
         #endregion
@@ -175,67 +188,59 @@ namespace AngleSharp
         /// <summary>
         /// Resets the insertion point to the end of the buffer.
         /// </summary>
-        /// <returns></returns>
-        public HtmlSource ResetInsertionPoint()
+        [DebuggerStepThrough]
+        public void ResetInsertionPoint()
         {
             InsertionPoint = _buffer.Length;
-            return this;
         }
 
         /// <summary>
         /// Advances one character in the source code.
         /// </summary>
         /// <returns>The current source manager.</returns>
-        public HtmlSource Advance()
+        [DebuggerStepThrough]
+        public void Advance()
         {
             if (!IsEnding)
                 AdvanceUnsafe();
             else if (!_ended)
                 _ended = true;
-
-            return this;
         }
 
         /// <summary>
         /// Advances n characters in the source code.
         /// </summary>
         /// <param name="n">The number of characters to advance.</param>
-        /// <returns>The current source manager.</returns>
-        public HtmlSource Advance(Int32 n)
+        [DebuggerStepThrough]
+        public void Advance(Int32 n)
         {
             while(n-- > 0 && !IsEnding)
                 AdvanceUnsafe();
-
-            return this;
         }
 
         /// <summary>
         /// Moves back one character in the source code.
         /// </summary>
-        /// <returns>The current source manager.</returns>
-        public HtmlSource Back()
+        [DebuggerStepThrough]
+        public void Back()
         {
             _ended = false;
 
             if (!IsBeginning)
                 BackUnsafe();
-
-            return this;
         }
 
         /// <summary>
         /// Moves back n characters in the source code.
         /// </summary>
         /// <param name="n">The number of characters to rewind.</param>
-        /// <returns>The current source manager.</returns>
-        public HtmlSource Back(Int32 n)
+        [DebuggerStepThrough]
+        public void Back(Int32 n)
         {
             _ended = false;
 
             while (n-- > 0 && !IsBeginning)
                 BackUnsafe();
-
-            return this;
         }
 
         /// <summary>
@@ -244,6 +249,7 @@ namespace AngleSharp
         /// <param name="s">The string to compare to.</param>
         /// <param name="ignoreCase">Optional flag to unignore the case sensitivity.</param>
         /// <returns>The status of the check.</returns>
+        [DebuggerStepThrough]
         public bool ContinuesWith(String s, Boolean ignoreCase = true)
         {
             for (var index = 0; index < s.Length; index++)
@@ -284,14 +290,7 @@ namespace AngleSharp
             }
 
             var tmp = _reader.Read();
-
-            if (tmp == -1)
-            {
-                _current = Specification.EOF;
-                return;
-            }
-
-            _current = (char)tmp;
+            _current = tmp == -1 ? Specification.EOF : (Char)tmp;
 
             if (_current == Specification.CR)
             {

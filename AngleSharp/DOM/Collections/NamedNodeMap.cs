@@ -67,7 +67,7 @@ namespace AngleSharp.DOM.Collections
             {
                 for (var i = 0; i < _entries.Count; i++)
                 {
-                    if (_entries[i].NodeName.Equals(name, StringComparison.InvariantCultureIgnoreCase))
+                    if (_entries[i].NodeName.Equals(name, StringComparison.OrdinalIgnoreCase))
                         return _entries[i];
                 }
 
@@ -110,7 +110,7 @@ namespace AngleSharp.DOM.Collections
         {
             for (var i = 0; i < _entries.Count; i++)
             {
-                if (_entries[i].NodeName.Equals(node.NodeName, StringComparison.InvariantCultureIgnoreCase))
+                if (_entries[i].NodeName.Equals(node.NodeName, StringComparison.OrdinalIgnoreCase))
                 {
                     var entry = _entries[i];
                     _entries[i] = node;
@@ -131,7 +131,7 @@ namespace AngleSharp.DOM.Collections
         {
             for (int i = 0; i < _entries.Count; i++)
             {
-                if (_entries[i].NodeName.Equals(nodeName, StringComparison.InvariantCultureIgnoreCase))
+                if (_entries[i].NodeName.Equals(nodeName, StringComparison.OrdinalIgnoreCase))
                 {
                     var entry = _entries[i];
                     _entries.RemoveAt(i);
@@ -151,7 +151,7 @@ namespace AngleSharp.DOM.Collections
         public Node GetNamedItemNS(string namespaceURI, string localName)
         {
             for (var i = 0; i < _entries.Count; i++)
-                if (_entries[i].NamespaceURI.Equals(namespaceURI, StringComparison.InvariantCultureIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.InvariantCultureIgnoreCase))
+                if (_entries[i].NamespaceURI.Equals(namespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase))
                     return _entries[i];
 
             return null;
@@ -166,7 +166,7 @@ namespace AngleSharp.DOM.Collections
         {
             for (var i = 0; i < _entries.Count; i++)
             {
-                if (_entries[i].NamespaceURI.Equals(node.NamespaceURI, StringComparison.InvariantCultureIgnoreCase) && _entries[i].LocalName.Equals(node.LocalName, StringComparison.InvariantCultureIgnoreCase))
+                if (_entries[i].NamespaceURI.Equals(node.NamespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(node.LocalName, StringComparison.OrdinalIgnoreCase))
                 {
                     _entries[i] = node;
                     return _entries[i];
@@ -187,7 +187,7 @@ namespace AngleSharp.DOM.Collections
         {
             for (var i = 0; i < _entries.Count; i++)
             {
-                if (_entries[i].NamespaceURI.Equals(namespaceURI, StringComparison.InvariantCultureIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.InvariantCultureIgnoreCase))
+                if (_entries[i].NamespaceURI.Equals(namespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase))
                 {
                     var entry = _entries[i];
                     _entries.RemoveAt(i);

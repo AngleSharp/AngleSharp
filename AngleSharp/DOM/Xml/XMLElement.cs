@@ -3,7 +3,7 @@
 namespace AngleSharp.DOM.Xml
 {
     public class XMLElement : Element
-    {
+    {        
         #region ctor
 
         /// <summary>

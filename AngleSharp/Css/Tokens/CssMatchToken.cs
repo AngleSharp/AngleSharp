@@ -5,7 +5,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// The match token that contains part of a selector.
     /// </summary>
-    class CssMatchToken : CssToken
+    sealed class CssMatchToken : CssToken
     {
         readonly static CssMatchToken include = new CssMatchToken { _type = CssTokenType.IncludeMatch };
         readonly static CssMatchToken dash = new CssMatchToken { _type = CssTokenType.DashMatch };

@@ -40,6 +40,11 @@ namespace AngleSharp
             throw new NotImplementedException();
         }
 
+        public static Stream Stream(String url)
+        {
+            throw new NotImplementedException();
+        }
+
         public static Stream Stream(Uri url)
         {
             throw new NotImplementedException();

@@ -5,7 +5,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// The comment token that contains an HTML comment.
     /// </summary>
-    class CssCommentToken : CssToken
+    sealed class CssCommentToken : CssToken
     {
         readonly static CssCommentToken open = new CssCommentToken { _type = CssTokenType.Cdo };
         readonly static CssCommentToken close = new CssCommentToken { _type = CssTokenType.Cdc };

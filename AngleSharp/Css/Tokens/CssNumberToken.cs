@@ -5,7 +5,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// Represents a CSS number token.
     /// </summary>
-    class CssNumberToken : CssToken
+    sealed class CssNumberToken : CssToken
     {
         float _data;
 

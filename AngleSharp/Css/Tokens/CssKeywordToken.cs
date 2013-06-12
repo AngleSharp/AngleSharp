@@ -5,7 +5,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// Represents a CSS keyword token.
     /// </summary>
-    class CssKeywordToken : CssToken
+    sealed class CssKeywordToken : CssToken
     {
         #region Members
 

@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace AngleSharp
+namespace AngleSharp.Html
 {
     /// <summary>
     /// Defines the different tokenization content models.
     /// </summary>
-    enum ContentModel
+    enum HtmlParseMode
     {
         /// <summary>
         /// Initial state: Parsed Character Data (characters will be parsed).

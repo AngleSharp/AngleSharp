@@ -74,7 +74,7 @@ namespace AngleSharp.DOM
         /// </summary>
         public bool IsId
         {
-            get { return _name.Equals("id", StringComparison.InvariantCultureIgnoreCase); }
+            get { return _name.Equals("id", StringComparison.OrdinalIgnoreCase); }
         }
 
         /// <summary>

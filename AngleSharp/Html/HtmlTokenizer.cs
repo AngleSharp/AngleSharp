@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -13,12 +14,14 @@ namespace AngleSharp.Html
     {
         #region Members
 
-        HtmlSource _;
+        SourceManager src;
         Boolean allowCdata;
         String lastStartTag;
-        StringBuilder buffer;
+        StringBuilder stringBuffer;
+        Queue<HtmlToken> tokenBuffer;
+        Boolean buffered;
         StringBuilder reference;
-        ContentModel model;
+        HtmlParseMode model;
 
         #endregion
 
@@ -37,13 +40,15 @@ namespace AngleSharp.Html
         /// See 8.2.4 Tokenization
         /// </summary>
         /// <param name="source">The source code manager.</param>
-        public HtmlTokenizer(HtmlSource source)
+        public HtmlTokenizer(SourceManager source)
         {
-            _ = source;
-            model = ContentModel.PCData;
+            src = source;
+            model = HtmlParseMode.PCData;
+            buffered = false;
             allowCdata = true;
-            buffer = new StringBuilder();
             reference = new StringBuilder();
+            stringBuffer = new StringBuilder();
+            tokenBuffer = new Queue<HtmlToken>();
         }
 
         #endregion
@@ -62,42 +67,45 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets the underlying stream.
         /// </summary>
-        public HtmlSource Stream
+        public SourceManager Stream
         {
-            get { return _; }
+            get { return src; }
         }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Gets the next available token.
+        /// </summary>
+        /// <returns>The next available token.</returns>
         public HtmlToken Get()
         {
-            if (_.IsEnded)
-                return HtmlToken.EOF;
-
+            if (buffered) return DequeueToken();
+            if (src.IsEnded) return HtmlToken.EOF;
             HtmlToken token = null;
 
             switch (model)
             {
-                case ContentModel.PCData:
-                    token = Data(_.Current);
+                case HtmlParseMode.PCData:
+                    token = Data(src.Current);
                     break;
-                case ContentModel.RCData:
-                    token = RCData(_.Current);
+                case HtmlParseMode.RCData:
+                    token = RCData(src.Current);
                     break;
-                case ContentModel.Plaintext:
-                    token = Plaintext(_.Current);
+                case HtmlParseMode.Plaintext:
+                    token = Plaintext(src.Current);
                     break;
-                case ContentModel.Rawtext:
-                    token = Rawtext(_.Current);
+                case HtmlParseMode.Rawtext:
+                    token = Rawtext(src.Current);
                     break;
-                case ContentModel.Script:
-                    token = ScriptData(_.Current);
+                case HtmlParseMode.Script:
+                    token = ScriptData(src.Current);
                     break;
             }
 
-            _.Advance();
+            src.Advance();
             return token;
         }
 
@@ -106,7 +114,7 @@ namespace AngleSharp.Html
         /// to the desired content model.
         /// </summary>
         /// <param name="state">The new state.</param>
-        public void Switch(ContentModel state)
+        public void Switch(HtmlParseMode state)
         {
             model = state;
         }
@@ -144,7 +152,7 @@ namespace AngleSharp.Html
             switch (c)
             {
                 case Specification.AMPERSAND:
-                    var value = CharacterReference(_.Next);
+                    var value = CharacterReference(src.Next);
 
                     if (value == null)
                         return HtmlToken.Character(Specification.AMPERSAND);
@@ -152,11 +160,11 @@ namespace AngleSharp.Html
                     return HtmlToken.Characters(value);
 
                 case Specification.LT:
-                    return TagOpen(_.Next);
+                    return TagOpen(src.Next);
 
                 case Specification.NULL:
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    return Data(_.Next);
+                    return Data(src.Next);
 
                 case Specification.EOF:
                     return HtmlToken.EOF;
@@ -179,7 +187,7 @@ namespace AngleSharp.Html
             switch (c)
             {
                 case Specification.AMPERSAND:
-                    var value = CharacterReference(_.Next);
+                    var value = CharacterReference(src.Next);
 
                     if (value == null)
                         return HtmlToken.Character(Specification.AMPERSAND);
@@ -187,7 +195,7 @@ namespace AngleSharp.Html
                     return HtmlToken.Characters(value);
 
                 case Specification.LT:
-                    return RCDataLT(_.Next);
+                    return RCDataLT(src.Next);
 
                 case Specification.NULL:
                     RaiseErrorOccurred(ErrorCode.NULL);
@@ -209,8 +217,8 @@ namespace AngleSharp.Html
         {
             if (c == Specification.SOLIDUS)
             {
-                buffer.Clear();
-                return RCDataEndTag(_.Next);
+                stringBuffer.Clear();
+                return RCDataEndTag(src.Next);
             }
 
             return HtmlToken.Character(Specification.LT);
@@ -224,19 +232,19 @@ namespace AngleSharp.Html
         {
             if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c.ToLower());
-                return RCDataNameEndTag(_.Next, HtmlToken.CloseTag());
+                stringBuffer.Clear();
+                stringBuffer.Append(c.ToLower());
+                return RCDataNameEndTag(src.Next, HtmlToken.CloseTag());
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c);
-                return RCDataNameEndTag(_.Next, HtmlToken.CloseTag());
+                stringBuffer.Clear();
+                stringBuffer.Append(c);
+                return RCDataNameEndTag(src.Next, HtmlToken.CloseTag());
             }
             else
             {
-                _.Back();
+                src.Back();
                 return HtmlToken.Characters(Specification.LT, Specification.SOLIDUS);
             }
         }
@@ -247,40 +255,39 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken RCDataNameEndTag(Char c, HtmlTagToken tag)
         {
-            var name = buffer.ToString();
+            var name = stringBuffer.ToString();
             var appropriateTag = name == lastStartTag;
 
             if (appropriateTag && Specification.IsSpaceCharacter(c))
             {
                 tag.Name = name;
-                return AttributeBeforeName(_.Next, tag);
+                return AttributeBeforeName(src.Next, tag);
             }
             else if (appropriateTag && c == Specification.SOLIDUS)
             {
                 tag.Name = name;
-                return TagSelfClosing(_.Next, tag);
+                return TagSelfClosing(src.Next, tag);
             }
             else if (appropriateTag && c == Specification.GT)
             {
                 tag.Name = name;
-                model = ContentModel.PCData;
-                return tag;
+                return EmitTag(tag);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Append(c.ToLower());
-                return RCDataNameEndTag(_.Next, tag);
+                stringBuffer.Append(c.ToLower());
+                return RCDataNameEndTag(src.Next, tag);
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Append(c);
-                return RCDataNameEndTag(_.Next, tag);
+                stringBuffer.Append(c);
+                return RCDataNameEndTag(src.Next, tag);
             }
             else
             {
-                _.Back();
-                buffer.Insert(0, Specification.LT).Insert(1, Specification.SOLIDUS);
-                return HtmlToken.Characters(buffer.ToString());
+                src.Back();
+                stringBuffer.Insert(0, Specification.LT).Insert(1, Specification.SOLIDUS);
+                return HtmlToken.Characters(stringBuffer.ToString());
             }
         }
 
@@ -297,7 +304,7 @@ namespace AngleSharp.Html
             switch (c)
             {
                 case Specification.LT:
-                    return RawtextLT(_.Next);
+                    return RawtextLT(src.Next);
 
                 case Specification.NULL:
                     RaiseErrorOccurred(ErrorCode.NULL);
@@ -319,11 +326,11 @@ namespace AngleSharp.Html
         {
             if (c == Specification.SOLIDUS)
             {
-                buffer.Clear();
-                return RawtextEndTag(_.Next);
+                stringBuffer.Clear();
+                return RawtextEndTag(src.Next);
             }
 
-            _.Back();
+            src.Back();
             return HtmlToken.Character(Specification.LT);
         }
 
@@ -335,21 +342,19 @@ namespace AngleSharp.Html
         {
             if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c.ToLower());
-                return RawtextNameEndTag(_.Next, HtmlToken.CloseTag());
+                stringBuffer.Clear();
+                stringBuffer.Append(c.ToLower());
+                return RawtextNameEndTag(src.Next, HtmlToken.CloseTag());
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c);
-                return RawtextNameEndTag(_.Next, HtmlToken.CloseTag());
+                stringBuffer.Clear();
+                stringBuffer.Append(c);
+                return RawtextNameEndTag(src.Next, HtmlToken.CloseTag());
             }
-            else
-            {
-                _.Back();
-                return HtmlToken.Characters(Specification.LT, Specification.SOLIDUS);
-            }
+
+            src.Back();
+            return HtmlToken.Characters(Specification.LT, Specification.SOLIDUS);
         }
 
         /// <summary>
@@ -358,40 +363,39 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken RawtextNameEndTag(Char c, HtmlTagToken tag)
         {
-            var name = buffer.ToString();
+            var name = stringBuffer.ToString();
             var appropriateTag = name == lastStartTag;
 
             if (appropriateTag && Specification.IsSpaceCharacter(c))
             {
                 tag.Name = name;
-                return AttributeBeforeName(_.Next, tag);
+                return AttributeBeforeName(src.Next, tag);
             }
             else if (appropriateTag && c == Specification.SOLIDUS)
             {
                 tag.Name = name;
-                return TagSelfClosing(_.Next, tag);
+                return TagSelfClosing(src.Next, tag);
             }
             else if (appropriateTag && c == Specification.GT)
             {
                 tag.Name = name;
-                model = ContentModel.PCData;
-                return tag;
+                return EmitTag(tag);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Append(c.ToLower());
-                return RawtextNameEndTag(_.Next, tag);
+                stringBuffer.Append(c.ToLower());
+                return RawtextNameEndTag(src.Next, tag);
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Append(c);
-                return RawtextNameEndTag(_.Next, tag);
+                stringBuffer.Append(c);
+                return RawtextNameEndTag(src.Next, tag);
             }
             else
             {
-                _.Back();
-                buffer.Insert(0, Specification.LT).Insert(1, Specification.SOLIDUS);
-                return HtmlToken.Characters(buffer.ToString());
+                src.Back();
+                stringBuffer.Insert(0, Specification.LT).Insert(1, Specification.SOLIDUS);
+                return HtmlToken.Characters(stringBuffer.ToString());
 
             }
         }
@@ -405,26 +409,26 @@ namespace AngleSharp.Html
         /// </summary>
         HtmlToken CData(Char c)
         {
-            buffer.Clear();
+            stringBuffer.Clear();
 
             while (true)
             {
                 if (c == Specification.EOF)
                 {
-                    _.Back();
+                    src.Back();
                     break;
                 }
-                else if (c == ']' && _.ContinuesWith("]]>"))
+                else if (c == ']' && src.ContinuesWith("]]>"))
                 {
-                    _.Advance(3);
+                    src.Advance(3);
                     break;
                 }
 
-                buffer.Append(c);
-                c = _.Next;
+                stringBuffer.Append(c);
+                c = src.Next;
             }
 
-            return HtmlToken.Characters(buffer.ToString());
+            return HtmlToken.Characters(stringBuffer.ToString());
         }
 
         /// <summary>
@@ -442,17 +446,17 @@ namespace AngleSharp.Html
             {
                 int num = 0;
                 var nums = new List<int>();
-                var isHex = _.Current == 'x' || _.Current == 'X';
-                _.Advance();
+                var isHex = src.Current == 'x' || src.Current == 'X';
+                src.Advance();
 
                 if (isHex)
                 {
-                    _.Advance();
+                    src.Advance();
 
-                    while (Specification.IsHex(_.Current))
+                    while (Specification.IsHex(src.Current))
                     {
-                        nums.Add(_.Current.FromHex());
-                        _.Advance();
+                        nums.Add(src.Current.FromHex());
+                        src.Advance();
                     }
 
                     var basis = 1;
@@ -465,10 +469,10 @@ namespace AngleSharp.Html
                 }
                 else
                 {
-                    while (Specification.IsDigit(_.Current))
+                    while (Specification.IsDigit(src.Current))
                     {
-                        nums.Add(_.Current.FromHex());
-                        _.Advance();
+                        nums.Add(src.Current.FromHex());
+                        src.Advance();
                     }
 
                     var basis = 1;
@@ -482,19 +486,19 @@ namespace AngleSharp.Html
 
                 if (nums.Count == 0)
                 {
-                    _.Back();
+                    src.Back();
 
                     if (isHex)
-                        _.Back();
+                        src.Back();
 
                     RaiseErrorOccurred(ErrorCode.CharacterReferenceWrongNumber);
                     return null;
                 }
 
-                if (_.Current != Specification.SC)
+                if (src.Current != Specification.SC)
                 {
                     RaiseErrorOccurred(ErrorCode.CharacterReferenceSemicolonMissing);
-                    _.Back();
+                    src.Back();
                 }
 
                 if (Entities.IsInCharacterTable(num))
@@ -544,11 +548,11 @@ namespace AngleSharp.Html
 
             char[] last = null;
             int consumed = 0;
-            int start = _.InsertionPoint;
+            int start = src.InsertionPoint;
 
             do
             {
-                var chr = _.Current;
+                var chr = src.Current;
 
                 if (chr == ';' || !Specification.IsAlphanumericAscii(chr))
                     break;
@@ -563,33 +567,33 @@ namespace AngleSharp.Html
                     last = value;
                 }
 
-                _.Advance();
+                src.Advance();
             }
-            while (!_.IsEnded);
+            while (!src.IsEnded);
 
             reference.Clear();
 
             while (consumed != 0)
             {
-                _.Back();
+                src.Back();
                 consumed--;
             }
 
-            if (_.Current != ';')
+            if (src.Current != ';')
             {
                 if (allowedCharacter != Specification.NULL)
                 {
-                    if (_.Current == Specification.EQ || Specification.IsAlphanumericAscii(_.Current))
+                    if (src.Current == Specification.EQ || Specification.IsAlphanumericAscii(src.Current))
                     {
-                        if (_.Current == Specification.EQ)
+                        if (src.Current == Specification.EQ)
                             RaiseErrorOccurred(ErrorCode.CharacterReferenceAttributeEqualsFound);
 
-                        _.InsertionPoint = start;
+                        src.InsertionPoint = start;
                         return null;
                     }
                 }
 
-                _.Back();
+                src.Back();
                 RaiseErrorOccurred(ErrorCode.CharacterReferenceNotTerminated);
             }
 
@@ -608,31 +612,32 @@ namespace AngleSharp.Html
         {
             if (c == Specification.EM)
             {
-                return MarkupDeclaration(_.Next);
+                return MarkupDeclaration(src.Next);
             }
             else if (c == Specification.SOLIDUS)
             {
-                return TagEnd(_.Next);
+                return TagEnd(src.Next);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c.ToLower());
-                return TagName(_.Next, HtmlToken.OpenTag());
+                stringBuffer.Clear();
+                stringBuffer.Append(c.ToLower());
+                return TagName(src.Next, HtmlToken.OpenTag());
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c);
-                return TagName(_.Next, HtmlToken.OpenTag());
+                stringBuffer.Clear();
+                stringBuffer.Append(c);
+                return TagName(src.Next, HtmlToken.OpenTag());
             }
-            else if (c == '?')
+            else if (c == Specification.QM)
             {
                 RaiseErrorOccurred(ErrorCode.BogusComment);
                 return BogusComment(c);
             }
             else
             {
+                model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.AmbiguousOpenTag);
                 return HtmlToken.Character(Specification.LT);
             }
@@ -646,23 +651,25 @@ namespace AngleSharp.Html
         {
             if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c.ToLower());
-                return TagName(_.Next, HtmlToken.CloseTag());
+                stringBuffer.Clear();
+                stringBuffer.Append(c.ToLower());
+                return TagName(src.Next, HtmlToken.CloseTag());
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c);
-                return TagName(_.Next, HtmlToken.CloseTag());
+                stringBuffer.Clear();
+                stringBuffer.Append(c);
+                return TagName(src.Next, HtmlToken.CloseTag());
             }
             else if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return Data(_.Next);
+                return Data(src.Next);
             }
             else if (c == Specification.EOF)
             {
+                src.Back();
                 RaiseErrorOccurred(ErrorCode.EOF);
                 return HtmlToken.Characters(Specification.LT, Specification.SOLIDUS);
             }
@@ -681,29 +688,29 @@ namespace AngleSharp.Html
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                tag.Name = buffer.ToString();
-                return AttributeBeforeName(_.Next, tag);
+                tag.Name = stringBuffer.ToString();
+                return AttributeBeforeName(src.Next, tag);
             }
             else if (c == Specification.SOLIDUS)
             {
-                tag.Name = buffer.ToString();
-                return TagSelfClosing(_.Next, tag);
+                tag.Name = stringBuffer.ToString();
+                return TagSelfClosing(src.Next, tag);
             }
             else if (c == Specification.GT)
             {
-                tag.Name = buffer.ToString();
-                return tag;
+                tag.Name = stringBuffer.ToString();
+                return EmitTag(tag);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Append(c.ToLower());
-                return TagName(_.Next, tag);
+                stringBuffer.Append(c.ToLower());
+                return TagName(src.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
-                return TagName(_.Next, tag);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return TagName(src.Next, tag);
             }
             else if (c == Specification.EOF)
             {
@@ -712,8 +719,8 @@ namespace AngleSharp.Html
             }
             else
             {
-                buffer.Append(c);
-                return TagName(_.Next, tag);
+                stringBuffer.Append(c);
+                return TagName(src.Next, tag);
             }
         }
 
@@ -725,9 +732,8 @@ namespace AngleSharp.Html
         {
             if (c == Specification.GT)
             {
-                model = ContentModel.PCData;
                 tag.IsSelfClosing = true;
-                return tag;
+                return EmitTag(tag);
             }
             else if (c == Specification.EOF)
             {
@@ -746,20 +752,20 @@ namespace AngleSharp.Html
         /// </summary>
         HtmlToken MarkupDeclaration(Char c)
         {
-            if (_.ContinuesWith("--"))
+            if (src.ContinuesWith("--"))
             {
-                _.Advance();
-                return CommentStart(_.Next);
+                src.Advance();
+                return CommentStart(src.Next);
             }
-            else if (_.ContinuesWith("doctype"))
+            else if (src.ContinuesWith("doctype"))
             {
-                _.Advance(6);
-                return Doctype(_.Next);
+                src.Advance(6);
+                return Doctype(src.Next);
             }
-            else if (allowCdata && _.ContinuesWith("[CDATA[", false))
+            else if (allowCdata && src.ContinuesWith("[CDATA[", false))
             {
-                _.Advance(6);
-                return CData(_.Next);
+                src.Advance(6);
+                return CData(src.Next);
             }
             else
             {
@@ -777,32 +783,28 @@ namespace AngleSharp.Html
         /// </summary>
         HtmlToken BogusComment(Char c)
         {
-            buffer.Clear();
-            buffer.Append(_.Back(2).Current);
-            buffer.Append(_.Next);
-            buffer.Append(_.Next);
-            _.Advance();
+            stringBuffer.Clear();
 
             while(true)
             {
-                if (c == Specification.NULL)
-                    buffer.Append(Specification.REPLACEMENT);
-                else
-                    buffer.Append(c);
 
                 if (c == Specification.GT)
                     break;
                 else if (c == Specification.EOF)
                 {
-                    _.Back();
+                    src.Back();
                     break;
                 }
+                else if (c == Specification.NULL)
+                    stringBuffer.Append(Specification.REPLACEMENT);
+                else
+                    stringBuffer.Append(c);
 
-                _.Advance();
-                c = _.Current;
+                c = src.Next;
             }
 
-            return HtmlToken.Comment(buffer.ToString());
+            model = HtmlParseMode.PCData;
+            return HtmlToken.Comment(stringBuffer.ToString());
         }
 
         /// <summary>
@@ -811,33 +813,34 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken CommentStart(Char c)
         {
-            buffer.Clear();
+            stringBuffer.Clear();
 
             if (c == Specification.DASH)
             {
-                return CommentDashStart(_.Next);
+                return CommentDashStart(src.Next);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
-                return Comment(_.Next);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return Comment(src.Next);
             }
             else if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return HtmlToken.Comment(buffer.ToString());
+                return HtmlToken.Comment(stringBuffer.ToString());
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _.Back();
-                return HtmlToken.Comment(buffer.ToString());
+                src.Back();
+                return HtmlToken.Comment(stringBuffer.ToString());
             }
             else
             {
-                buffer.Append(c);
-                return Comment(_.Next);
+                stringBuffer.Append(c);
+                return Comment(src.Next);
             }
         }
 
@@ -849,31 +852,32 @@ namespace AngleSharp.Html
         {
             if (c == Specification.DASH)
             {
-                return CommentEnd(_.Next);
+                return CommentEnd(src.Next);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.DASH);
-                buffer.Append(Specification.REPLACEMENT);
-                return Comment(_.Next);
+                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return Comment(src.Next);
             }
             else if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return HtmlToken.Comment(buffer.ToString());
+                return HtmlToken.Comment(stringBuffer.ToString());
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _.Back();
-                return HtmlToken.Comment(buffer.ToString());
+                src.Back();
+                return HtmlToken.Comment(stringBuffer.ToString());
             }
             else
             {
-                buffer.Append(Specification.DASH);
-                buffer.Append(c);
-                return Comment(_.Next);
+                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(c);
+                return Comment(src.Next);
             }
         }
 
@@ -885,13 +889,13 @@ namespace AngleSharp.Html
         {
             if (c == Specification.DASH)
             {
-                return CommentDashEnd(_.Next);
+                return CommentDashEnd(src.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _.Back();
-                return HtmlToken.Comment(buffer.ToString());
+                src.Back();
+                return HtmlToken.Comment(stringBuffer.ToString());
             }
             else
             {
@@ -901,8 +905,8 @@ namespace AngleSharp.Html
                     c = Specification.REPLACEMENT;
                 }
 
-                buffer.Append(c);
-                return Comment(_.Next);
+                stringBuffer.Append(c);
+                return Comment(src.Next);
             }
         }
 
@@ -914,13 +918,13 @@ namespace AngleSharp.Html
         {
             if (c == Specification.DASH)
             {
-                return CommentEnd(_.Next);
+                return CommentEnd(src.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _.Back();
-                return HtmlToken.Comment(buffer.ToString());
+                src.Back();
+                return HtmlToken.Comment(stringBuffer.ToString());
             }
             else
             {
@@ -930,9 +934,9 @@ namespace AngleSharp.Html
                     c = Specification.REPLACEMENT;
                 }
 
-                buffer.Append(Specification.DASH);
-                buffer.Append(c);
-                return Comment(_.Next);
+                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(c);
+                return Comment(src.Next);
             }
         }
 
@@ -944,39 +948,40 @@ namespace AngleSharp.Html
         {
             if (c == Specification.GT)
             {
-                return HtmlToken.Comment(buffer.ToString());
+                model = HtmlParseMode.PCData;
+                return HtmlToken.Comment(stringBuffer.ToString());
             }
             else if (c == Specification.NULL)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                buffer.Append(Specification.DASH);
-                buffer.Append(Specification.REPLACEMENT);
-                return Comment(_.Next);
+                RaiseErrorOccurred(ErrorCode.NULL);
+                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return Comment(src.Next);
             }
             else if (c == Specification.EM)
             {
                 RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
-                return CommentBangEnd(_.Next);
+                return CommentBangEnd(src.Next);
             }
             else if (c == Specification.DASH)
             {
                 RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
-                buffer.Append(Specification.DASH);
-                return CommentEnd(_.Next);
+                stringBuffer.Append(Specification.DASH);
+                return CommentEnd(src.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _.Back();
-                return HtmlToken.Comment(buffer.ToString());
+                src.Back();
+                return HtmlToken.Comment(stringBuffer.ToString());
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
-                buffer.Append(Specification.DASH);
-                buffer.Append(Specification.DASH);
-                buffer.Append(c);
-                return Comment(_.Next);
+                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(c);
+                return Comment(src.Next);
             }
         }
 
@@ -988,37 +993,38 @@ namespace AngleSharp.Html
         {
             if (c == Specification.DASH)
             {
-                buffer.Append(Specification.DASH);
-                buffer.Append(Specification.DASH);
-                buffer.Append(Specification.EM);
-                return CommentDashEnd(_.Next);
+                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.EM);
+                return CommentDashEnd(src.Next);
             }
             else if (c == Specification.GT)
             {
-                return HtmlToken.Comment(buffer.ToString());
+                model = HtmlParseMode.PCData;
+                return HtmlToken.Comment(stringBuffer.ToString());
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.DASH);
-                buffer.Append(Specification.DASH);
-                buffer.Append(Specification.EM);
-                buffer.Append(Specification.REPLACEMENT);
-                return Comment(_.Next);
+                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.EM);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return Comment(src.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _.Back();
-                return HtmlToken.Comment(buffer.ToString());
+                src.Back();
+                return HtmlToken.Comment(stringBuffer.ToString());
             }
             else
             {
-                buffer.Append(Specification.DASH);
-                buffer.Append(Specification.DASH);
-                buffer.Append(Specification.EM);
-                buffer.Append(c);
-                return Comment(_.Next);
+                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.EM);
+                stringBuffer.Append(c);
+                return Comment(src.Next);
             }
         }
 
@@ -1034,12 +1040,12 @@ namespace AngleSharp.Html
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                return DoctypeNameBefore(_.Next);
+                return DoctypeNameBefore(src.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _.Back();
+                src.Back();
                 return HtmlToken.Doctype(true);
             }
             else
@@ -1056,37 +1062,38 @@ namespace AngleSharp.Html
         HtmlToken DoctypeNameBefore(Char c)
         {
             while (Specification.IsSpaceCharacter(c))
-                c = _.Next;
+                c = src.Next;
 
             if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c.ToLower());
-                return DoctypeName(_.Next, HtmlToken.Doctype(false));
+                stringBuffer.Clear();
+                stringBuffer.Append(c.ToLower());
+                return DoctypeName(src.Next, HtmlToken.Doctype(false));
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Clear();
-                buffer.Append(Specification.REPLACEMENT);
-                return DoctypeName(_.Next, HtmlToken.Doctype(false));
+                stringBuffer.Clear();
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return DoctypeName(src.Next, HtmlToken.Doctype(false));
             }
             else if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 return HtmlToken.Doctype(true);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _.Back();
+                src.Back();
                 return HtmlToken.Doctype(true);
             }
             else
             {
-                buffer.Clear();
-                buffer.Append(c);
-                return DoctypeName(_.Next, HtmlToken.Doctype(false));
+                stringBuffer.Clear();
+                stringBuffer.Append(c);
+                return DoctypeName(src.Next, HtmlToken.Doctype(false));
             }
         }
 
@@ -1098,37 +1105,38 @@ namespace AngleSharp.Html
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                doctype.Name = buffer.ToString();
-                return DoctypeNameAfter(_.Next, doctype);
+                doctype.Name = stringBuffer.ToString();
+                return DoctypeNameAfter(src.Next, doctype);
             }
             else if (c == Specification.GT)
             {
-                doctype.Name = buffer.ToString();
+                model = HtmlParseMode.PCData;
+                doctype.Name = stringBuffer.ToString();
                 return doctype;
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Append(c.ToLower());
-                return DoctypeName(_.Next, doctype);
+                stringBuffer.Append(c.ToLower());
+                return DoctypeName(src.Next, doctype);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
-                return DoctypeName(_.Next, doctype);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return DoctypeName(src.Next, doctype);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _.Back();
+                src.Back();
                 doctype.IsQuirksForced = true;
-                doctype.Name = buffer.ToString();
+                doctype.Name = stringBuffer.ToString();
                 return doctype;
             }
             else
             {
-                buffer.Append(c);
-                return DoctypeName(c, doctype);
+                stringBuffer.Append(c);
+                return DoctypeName(src.Next, doctype);
             }
         }
 
@@ -1139,34 +1147,35 @@ namespace AngleSharp.Html
         HtmlToken DoctypeNameAfter(Char c, HtmlDoctypeToken doctype)
         {
             while (Specification.IsSpaceCharacter(c))
-                c = _.Next;
+                c = src.Next;
 
             if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _.Back();
+                src.Back();
                 doctype.IsQuirksForced = true;
                 return doctype;
             }
-            else if (_.ContinuesWith("public"))
+            else if (src.ContinuesWith("public"))
             {
-                _.Advance(5);
-                return DoctypePublic(_.Next, doctype);
+                src.Advance(5);
+                return DoctypePublic(src.Next, doctype);
             }
-            else if (_.ContinuesWith("system"))
+            else if (src.ContinuesWith("system"))
             {
-                _.Advance(5);
-                return DoctypeSystem(_.Next, doctype);
+                src.Advance(5);
+                return DoctypeSystem(src.Next, doctype);
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeUnexpectedAfterName);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(_.Next, doctype);
+                return BogusDoctype(src.Next, doctype);
             }
         }
 
@@ -1178,22 +1187,23 @@ namespace AngleSharp.Html
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                return DoctypePublicIdentifierBefore(_.Next, doctype);
+                return DoctypePublicIdentifierBefore(src.Next, doctype);
             }
             else if (c == Specification.DQ)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
                 doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierDoubleQuoted(_.Next, doctype);
+                return DoctypePublicIdentifierDoubleQuoted(src.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
                 doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierSingleQuoted(_.Next, doctype);
+                return DoctypePublicIdentifierSingleQuoted(src.Next, doctype);
             }
             else if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
                 return doctype;
@@ -1202,14 +1212,14 @@ namespace AngleSharp.Html
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                _.Back();
+                src.Back();
                 return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(_.Next, doctype);
+                return BogusDoctype(src.Next, doctype);
             }
         }
 
@@ -1220,22 +1230,23 @@ namespace AngleSharp.Html
         HtmlToken DoctypePublicIdentifierBefore(Char c, HtmlDoctypeToken doctype)
         {
             while (Specification.IsSpaceCharacter(c))
-                c = _.Next;
+                c = src.Next;
 
             if (c == Specification.DQ)
             {
-                buffer.Clear();
+                stringBuffer.Clear();
                 doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierDoubleQuoted(_.Next, doctype);
+                return DoctypePublicIdentifierDoubleQuoted(src.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
-                buffer.Clear();
+                stringBuffer.Clear();
                 doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierSingleQuoted(_.Next, doctype);
+                return DoctypePublicIdentifierSingleQuoted(src.Next, doctype);
             }
             else if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
                 return doctype;
@@ -1244,14 +1255,14 @@ namespace AngleSharp.Html
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                _.Back();
+                src.Back();
                 return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(_.Next, doctype);
+                return BogusDoctype(src.Next, doctype);
             }
         }
 
@@ -1263,34 +1274,35 @@ namespace AngleSharp.Html
         {
             if (c == Specification.DQ)
             {
-                doctype.PublicIdentifier = buffer.ToString();
-                return DoctypePublicIdentifierAfter(_.Next, doctype); ;
+                doctype.PublicIdentifier = stringBuffer.ToString();
+                return DoctypePublicIdentifierAfter(src.Next, doctype); ;
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
-                return DoctypePublicIdentifierDoubleQuoted(_.Next, doctype);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return DoctypePublicIdentifierDoubleQuoted(src.Next, doctype);
             }
             else if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
-                doctype.PublicIdentifier = buffer.ToString();
+                doctype.PublicIdentifier = stringBuffer.ToString();
                 return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _.Back();
+                src.Back();
                 doctype.IsQuirksForced = true;
-                doctype.PublicIdentifier = buffer.ToString();
+                doctype.PublicIdentifier = stringBuffer.ToString();
                 return doctype;
             }
             else
             {
-                buffer.Append(c);
-                return DoctypePublicIdentifierDoubleQuoted(_.Next, doctype);
+                stringBuffer.Append(c);
+                return DoctypePublicIdentifierDoubleQuoted(src.Next, doctype);
             }
         }
 
@@ -1302,34 +1314,35 @@ namespace AngleSharp.Html
         {
             if (c == Specification.SQ)
             {
-                doctype.PublicIdentifier = buffer.ToString();
-                return DoctypePublicIdentifierAfter(_.Next, doctype);
+                doctype.PublicIdentifier = stringBuffer.ToString();
+                return DoctypePublicIdentifierAfter(src.Next, doctype);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
-                return DoctypePublicIdentifierSingleQuoted(_.Next, doctype);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return DoctypePublicIdentifierSingleQuoted(src.Next, doctype);
             }
             else if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
-                doctype.PublicIdentifier = buffer.ToString();
+                doctype.PublicIdentifier = stringBuffer.ToString();
                 return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                doctype.PublicIdentifier = buffer.ToString();
-                _.Back();
+                doctype.PublicIdentifier = stringBuffer.ToString();
+                src.Back();
                 return doctype;
             }
             else
             {
-                buffer.Append(c);
-                return DoctypePublicIdentifierSingleQuoted(_.Next, doctype);
+                stringBuffer.Append(c);
+                return DoctypePublicIdentifierSingleQuoted(src.Next, doctype);
             }
         }
 
@@ -1341,37 +1354,38 @@ namespace AngleSharp.Html
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                buffer.Clear();
-                return DoctypeBetween(_.Next, doctype);
+                stringBuffer.Clear();
+                return DoctypeBetween(src.Next, doctype);
             }
             else if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 return doctype;
             }
             else if (c == Specification.DQ)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(_.Next, doctype);
+                return DoctypeSystemIdentifierDoubleQuoted(src.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(_.Next, doctype);
+                return DoctypeSystemIdentifierSingleQuoted(src.Next, doctype);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                _.Back();
+                src.Back();
                 return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(_.Next, doctype);
+                return BogusDoctype(src.Next, doctype);
             }
         }
 
@@ -1382,34 +1396,35 @@ namespace AngleSharp.Html
         HtmlToken DoctypeBetween(Char c, HtmlDoctypeToken doctype)
         {
             while (Specification.IsSpaceCharacter(c))
-                c = _.Next;
+                c = src.Next;
 
             if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 return doctype;
             }
             else if (c == Specification.DQ)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(_.Next, doctype);
+                return DoctypeSystemIdentifierDoubleQuoted(src.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(_.Next, doctype);
+                return DoctypeSystemIdentifierSingleQuoted(src.Next, doctype);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                _.Back();
+                src.Back();
                 return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(_.Next, doctype);
+                return BogusDoctype(src.Next, doctype);
             }
         }
 
@@ -1421,24 +1436,25 @@ namespace AngleSharp.Html
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                return DoctypeSystemIdentifierBefore(_.Next, doctype);
+                model = HtmlParseMode.PCData;
+                return DoctypeSystemIdentifierBefore(src.Next, doctype);
             }
             else if (c == Specification.DQ)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = string.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(_.Next, doctype);
+                return DoctypeSystemIdentifierDoubleQuoted(src.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = string.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(_.Next, doctype);
+                return DoctypeSystemIdentifierSingleQuoted(src.Next, doctype);
             }
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                doctype.SystemIdentifier = buffer.ToString();
+                doctype.SystemIdentifier = stringBuffer.ToString();
                 doctype.IsQuirksForced = true;
                 return doctype;
             }
@@ -1446,14 +1462,14 @@ namespace AngleSharp.Html
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                _.Back();
+                src.Back();
                 return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeSystemInvalid);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(_.Next, doctype);
+                return BogusDoctype(src.Next, doctype);
             }
         }
 
@@ -1464,38 +1480,39 @@ namespace AngleSharp.Html
         HtmlToken DoctypeSystemIdentifierBefore(Char c, HtmlDoctypeToken doctype)
         {
             while (Specification.IsSpaceCharacter(c))
-                c = _.Next;
+                c = src.Next;
 
             if (c == Specification.DQ)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(_.Next, doctype);
+                return DoctypeSystemIdentifierDoubleQuoted(src.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(_.Next, doctype);
+                return DoctypeSystemIdentifierSingleQuoted(src.Next, doctype);
             }
             else if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
-                doctype.SystemIdentifier = buffer.ToString();
+                doctype.SystemIdentifier = stringBuffer.ToString();
                 return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                doctype.SystemIdentifier = buffer.ToString();
-                _.Back();
+                doctype.SystemIdentifier = stringBuffer.ToString();
+                src.Back();
                 return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(_.Next, doctype);
+                return BogusDoctype(src.Next, doctype);
             }
         }
 
@@ -1507,34 +1524,35 @@ namespace AngleSharp.Html
         {
             if (c == Specification.DQ)
             {
-                doctype.SystemIdentifier = buffer.ToString();
-                return DoctypeSystemIdentifierAfter(_.Next, doctype);
+                doctype.SystemIdentifier = stringBuffer.ToString();
+                return DoctypeSystemIdentifierAfter(src.Next, doctype);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
-                return DoctypeSystemIdentifierDoubleQuoted(_.Next, doctype);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return DoctypeSystemIdentifierDoubleQuoted(src.Next, doctype);
             }
             else if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
-                doctype.SystemIdentifier = buffer.ToString();
+                doctype.SystemIdentifier = stringBuffer.ToString();
                 return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                doctype.SystemIdentifier = buffer.ToString();
-                _.Back();
+                doctype.SystemIdentifier = stringBuffer.ToString();
+                src.Back();
                 return doctype;
             }
             else
             {
-                buffer.Append(c);
-                return DoctypeSystemIdentifierDoubleQuoted(_.Next, doctype);
+                stringBuffer.Append(c);
+                return DoctypeSystemIdentifierDoubleQuoted(src.Next, doctype);
             }
         }
 
@@ -1546,34 +1564,35 @@ namespace AngleSharp.Html
         {
             if (c == Specification.SQ)
             {
-                doctype.SystemIdentifier = buffer.ToString();
-                return DoctypeSystemIdentifierAfter(_.Next, doctype);
+                doctype.SystemIdentifier = stringBuffer.ToString();
+                return DoctypeSystemIdentifierAfter(src.Next, doctype);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
-                return DoctypeSystemIdentifierSingleQuoted(_.Next, doctype);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return DoctypeSystemIdentifierSingleQuoted(src.Next, doctype);
             }
             else if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
-                doctype.SystemIdentifier = buffer.ToString();
+                doctype.SystemIdentifier = stringBuffer.ToString();
                 return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                doctype.SystemIdentifier = buffer.ToString();
-                _.Back();
+                doctype.SystemIdentifier = stringBuffer.ToString();
+                src.Back();
                 return doctype;
             }
             else
             {
-                buffer.Append(c);
-                return DoctypeSystemIdentifierSingleQuoted(_.Next, doctype);
+                stringBuffer.Append(c);
+                return DoctypeSystemIdentifierSingleQuoted(src.Next, doctype);
             }
         }
 
@@ -1584,23 +1603,24 @@ namespace AngleSharp.Html
         HtmlToken DoctypeSystemIdentifierAfter(Char c, HtmlDoctypeToken doctype)
         {
             while (Specification.IsSpaceCharacter(c))
-                c = _.Next;
+                c = src.Next;
 
             if (c == Specification.GT)
             {
+                model = HtmlParseMode.PCData;
                 return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                _.Back();
+                src.Back();
                 return doctype;
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-                return BogusDoctype(_.Next, doctype);
+                return BogusDoctype(src.Next, doctype);
             }
         }
 
@@ -1614,13 +1634,16 @@ namespace AngleSharp.Html
             {
                 if (c == Specification.EOF)
                 {
-                    _.Back();
+                    src.Back();
                     return doctype;
                 }
                 else if (c == Specification.GT)
+                {
+                    model = HtmlParseMode.PCData;
                     return doctype;
+                }
 
-                c = _.Next;
+                c = src.Next;
             }
         }
 
@@ -1635,11 +1658,11 @@ namespace AngleSharp.Html
         HtmlToken AttributeBeforeName(Char c, HtmlTagToken tag)
         {
             while (Specification.IsSpaceCharacter(c))
-                c = _.Next;
+                c = src.Next;
 
             if (c == Specification.SOLIDUS)
             {
-                return TagSelfClosing(_.Next, tag);
+                return TagSelfClosing(src.Next, tag);
             }
             else if (c == Specification.GT)
             {
@@ -1647,23 +1670,23 @@ namespace AngleSharp.Html
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c.ToLower());
-                return AttributeName(_.Next, tag);
+                stringBuffer.Clear();
+                stringBuffer.Append(c.ToLower());
+                return AttributeName(src.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Clear();
-                buffer.Append(Specification.REPLACEMENT);
-                return AttributeName(_.Next, tag);
+                stringBuffer.Clear();
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return AttributeName(src.Next, tag);
             }
             else if (c == Specification.SQ || c == Specification.DQ || c == Specification.EQ || c == Specification.LT)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
-                buffer.Clear();
-                buffer.Append(c);
-                return AttributeName(_.Next, tag);
+                stringBuffer.Clear();
+                stringBuffer.Append(c);
+                return AttributeName(src.Next, tag);
             }
             else if (c == Specification.EOF)
             {
@@ -1671,9 +1694,9 @@ namespace AngleSharp.Html
             }
             else
             {
-                buffer.Clear();
-                buffer.Append(c);
-                return AttributeName(_.Next, tag);
+                stringBuffer.Clear();
+                stringBuffer.Append(c);
+                return AttributeName(src.Next, tag);
             }
         }
 
@@ -1685,40 +1708,40 @@ namespace AngleSharp.Html
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                tag.AddAttribute(buffer.ToString());
-                return AttributeAfterName(_.Next, tag);
+                tag.AddAttribute(stringBuffer.ToString());
+                return AttributeAfterName(src.Next, tag);
             }
             else if (c == Specification.SOLIDUS)
             {
-                tag.AddAttribute(buffer.ToString());
-                return TagSelfClosing(_.Next, tag);
+                tag.AddAttribute(stringBuffer.ToString());
+                return TagSelfClosing(src.Next, tag);
             }
             else if (c == Specification.EQ)
             {
-                tag.AddAttribute(buffer.ToString());
-                return AttributeBeforeValue(_.Next, tag);
+                tag.AddAttribute(stringBuffer.ToString());
+                return AttributeBeforeValue(src.Next, tag);
             }
             else if (c == Specification.GT)
             {
-                tag.AddAttribute(buffer.ToString());
+                tag.AddAttribute(stringBuffer.ToString());
                 return EmitTag(tag);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Append(c.ToLower());
-                return AttributeName(_.Next, tag);
+                stringBuffer.Append(c.ToLower());
+                return AttributeName(src.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
-                return AttributeName(_.Next, tag);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return AttributeName(src.Next, tag);
             }
             else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
-                buffer.Append(c);
-                return AttributeName(_.Next, tag);
+                stringBuffer.Append(c);
+                return AttributeName(src.Next, tag);
             }
             else if (c == Specification.EOF)
             {
@@ -1726,8 +1749,8 @@ namespace AngleSharp.Html
             }
             else
             {
-                buffer.Append(c);
-                return AttributeName(_.Next, tag);
+                stringBuffer.Append(c);
+                return AttributeName(src.Next, tag);
             }
         }
 
@@ -1738,35 +1761,39 @@ namespace AngleSharp.Html
         HtmlToken AttributeAfterName(Char c, HtmlTagToken tag)
         {
             while (Specification.IsSpaceCharacter(c))
-                c = _.Next;
+                c = src.Next;
 
             if (c == Specification.SOLIDUS)
             {
-                return TagSelfClosing(_.Next, tag);
+                return TagSelfClosing(src.Next, tag);
             }
             else if (c == Specification.EQ)
             {
-                return AttributeBeforeValue(_.Next, tag);
+                return AttributeBeforeValue(src.Next, tag);
+            }
+            else if (c == Specification.GT)
+            {
+                return EmitTag(tag);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c.ToLower());
-                return AttributeName(_.Next, tag);
+                stringBuffer.Clear();
+                stringBuffer.Append(c.ToLower());
+                return AttributeName(src.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Clear();
-                buffer.Append(Specification.REPLACEMENT);
-                return AttributeName(_.Next, tag);
+                stringBuffer.Clear();
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return AttributeName(src.Next, tag);
             }
             else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
-                buffer.Clear();
-                buffer.Append(c);
-                return AttributeName(_.Next, tag);
+                stringBuffer.Clear();
+                stringBuffer.Append(c);
+                return AttributeName(src.Next, tag);
             }
             else if (c == Specification.EOF)
             {
@@ -1774,9 +1801,9 @@ namespace AngleSharp.Html
             }
             else
             {
-                buffer.Clear();
-                buffer.Append(c);
-                return AttributeName(_.Next, tag);
+                stringBuffer.Clear();
+                stringBuffer.Append(c);
+                return AttributeName(src.Next, tag);
             }
         }
 
@@ -1787,28 +1814,28 @@ namespace AngleSharp.Html
         HtmlToken AttributeBeforeValue(Char c, HtmlTagToken tag)
         {
             while (Specification.IsSpaceCharacter(c))
-                c = _.Next;
+                c = src.Next;
 
             if (c == Specification.DQ)
             {
-                buffer.Clear();
-                return AttributeDoubleQuotedValue(_.Next, tag);
+                stringBuffer.Clear();
+                return AttributeDoubleQuotedValue(src.Next, tag);
             }
             else if (c == Specification.AMPERSAND)
             {
-                buffer.Clear();
+                stringBuffer.Clear();
                 return AttributeUnquotedValue(c, tag);
             }
             else if (c == Specification.SQ)
             {
-                buffer.Clear();
-                return AttributeSingleQuotedValue(_.Next, tag);
+                stringBuffer.Clear();
+                return AttributeSingleQuotedValue(src.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
-                return AttributeUnquotedValue(_.Next, tag);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return AttributeUnquotedValue(src.Next, tag);
             }
             else if (c == Specification.GT)
             {
@@ -1818,8 +1845,8 @@ namespace AngleSharp.Html
             else if (c == Specification.LT || c == Specification.EQ || c == Specification.CQ)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
-                buffer.Clear().Append(c);
-                return AttributeUnquotedValue(_.Next, tag);
+                stringBuffer.Clear().Append(c);
+                return AttributeUnquotedValue(src.Next, tag);
             }
             else if (c == Specification.EOF)
             {
@@ -1827,8 +1854,8 @@ namespace AngleSharp.Html
             }
             else
             {
-                buffer.Clear().Append(c);
-                return AttributeUnquotedValue(_.Next, tag);
+                stringBuffer.Clear().Append(c);
+                return AttributeUnquotedValue(src.Next, tag);
             }
         }
 
@@ -1840,25 +1867,25 @@ namespace AngleSharp.Html
         {
             if (c == Specification.DQ)
             {
-                tag.SetAttributeValue(buffer.ToString());
-                return AttributeAfterValue(_.Next, tag);
+                tag.SetAttributeValue(stringBuffer.ToString());
+                return AttributeAfterValue(src.Next, tag);
             }
             else if (c == Specification.AMPERSAND)
             {
-                var value = CharacterReference(_.Next, Specification.DQ);
+                var value = CharacterReference(src.Next, Specification.DQ);
 
                 if (value == null)
-                    buffer.Append(Specification.AMPERSAND);
+                    stringBuffer.Append(Specification.AMPERSAND);
                 else
-                    buffer.Append(value);
+                    stringBuffer.Append(value);
 
-                return AttributeDoubleQuotedValue(_.Next, tag);
+                return AttributeDoubleQuotedValue(src.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
-                return AttributeDoubleQuotedValue(_.Next, tag);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return AttributeDoubleQuotedValue(src.Next, tag);
             }
             else if (c == Specification.EOF)
             {
@@ -1866,8 +1893,8 @@ namespace AngleSharp.Html
             }
             else
             {
-                buffer.Append(c);
-                return AttributeDoubleQuotedValue(_.Next, tag);
+                stringBuffer.Append(c);
+                return AttributeDoubleQuotedValue(src.Next, tag);
             }
         }
 
@@ -1879,25 +1906,25 @@ namespace AngleSharp.Html
         {
             if (c == Specification.SQ)
             {
-                tag.SetAttributeValue(buffer.ToString());
-                return AttributeAfterValue(_.Next, tag);
+                tag.SetAttributeValue(stringBuffer.ToString());
+                return AttributeAfterValue(src.Next, tag);
             }
             else if (c == Specification.AMPERSAND)
             {
-                var value = CharacterReference(_.Next, Specification.SQ);
+                var value = CharacterReference(src.Next, Specification.SQ);
 
                 if (value == null)
-                    buffer.Append(Specification.AMPERSAND);
+                    stringBuffer.Append(Specification.AMPERSAND);
                 else
-                    buffer.Append(value);
+                    stringBuffer.Append(value);
 
-                return AttributeSingleQuotedValue(_.Next, tag);
+                return AttributeSingleQuotedValue(src.Next, tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
-                return AttributeSingleQuotedValue(_.Next, tag);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return AttributeSingleQuotedValue(src.Next, tag);
             }
             else if (c == Specification.EOF)
             {
@@ -1905,8 +1932,8 @@ namespace AngleSharp.Html
             }
             else
             {
-                buffer.Append(c);
-                return AttributeSingleQuotedValue(_.Next, tag);
+                stringBuffer.Append(c);
+                return AttributeSingleQuotedValue(src.Next, tag);
             }
         }
 
@@ -1918,35 +1945,35 @@ namespace AngleSharp.Html
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                tag.SetAttributeValue(buffer.ToString());
-                return AttributeBeforeName(_.Next, tag);
+                tag.SetAttributeValue(stringBuffer.ToString());
+                return AttributeBeforeName(src.Next, tag);
             }
             else if (c == Specification.AMPERSAND)
             {
-                var value = CharacterReference(_.Next, Specification.GT);
+                var value = CharacterReference(src.Next, Specification.GT);
 
                 if (value == null)
                     value = new char[] { Specification.AMPERSAND };
 
                 tag.SetAttributeValue(new string(value));
-                return AttributeAfterValue(_.Next, tag);
+                return AttributeAfterValue(src.Next, tag);
             }
             else if (c == Specification.GT)
             {
-                tag.SetAttributeValue(buffer.ToString());
+                tag.SetAttributeValue(stringBuffer.ToString());
                 return EmitTag(tag);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                buffer.Append(Specification.REPLACEMENT);
-                return AttributeUnquotedValue(_.Next, tag);
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return AttributeUnquotedValue(src.Next, tag);
             }
             else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT || c == Specification.EQ || c == Specification.CQ)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
-                buffer.Append(c);
-                return AttributeUnquotedValue(_.Next, tag);
+                stringBuffer.Append(c);
+                return AttributeUnquotedValue(src.Next, tag);
             }
             else if (c == Specification.EOF)
             {
@@ -1954,8 +1981,8 @@ namespace AngleSharp.Html
             }
             else
             {
-                buffer.Append(c);
-                return AttributeUnquotedValue(_.Next, tag);
+                stringBuffer.Append(c);
+                return AttributeUnquotedValue(src.Next, tag);
             }
         }
 
@@ -1967,11 +1994,11 @@ namespace AngleSharp.Html
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                return AttributeBeforeName(_.Next, tag);
+                return AttributeBeforeName(src.Next, tag);
             }
             else if (c == Specification.SOLIDUS)
             {
-                return TagSelfClosing(_.Next, tag);
+                return TagSelfClosing(src.Next, tag);
             }
             else if (c == Specification.GT)
             {
@@ -2001,20 +2028,26 @@ namespace AngleSharp.Html
             switch (c)
             {
                 case Specification.LT:
-                    return HtmlToken.EOF;//TODO ScriptDataLT(_.Next);
+                    EnqueueToken(ScriptDataLT(src.Next));
+                    break;
 
                 case Specification.NULL:
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    return HtmlToken.Character(Specification.REPLACEMENT);
+                    EnqueueToken(HtmlToken.Character(Specification.REPLACEMENT));
+                    break;
 
                 case Specification.EOF:
-                    return HtmlToken.EOF;
+                    EnqueueToken(HtmlToken.EOF);
+                    break;
 
                 default:
-                    return HtmlToken.Character(c);
+                    EnqueueToken(HtmlToken.Character(c));
+                    break;
             }
+
+            return DequeueToken();
         }
-        /*
+        
         /// <summary>
         /// See 8.2.4.17 Script data less-than sign state
         /// </summary>
@@ -2023,19 +2056,16 @@ namespace AngleSharp.Html
         {
             if (c == Specification.SOLIDUS)
             {
-                return ScriptDataEndTag(_.Next);
+                return ScriptDataEndTag(src.Next);
             }
             else if (c == Specification.EM)
             {
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                RaiseTokenEmitted(HtmlToken.Character(Specification.EM));
-                return ScriptDataStartEscape(_.Next);
+                EnqueueToken(HtmlToken.Characters(Specification.LT, Specification.EM));
+                return ScriptDataStartEscape(src.Next);
             }
-            else
-            {
-                _.Back();
-                return HtmlToken.Character(Specification.LT);
-            }
+
+            EnqueueToken(HtmlToken.Character(Specification.LT));
+            return ScriptData(c);
         }
 
         /// <summary>
@@ -2046,21 +2076,19 @@ namespace AngleSharp.Html
         {
             if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c.ToLower());
-                return ScriptDataNameEndTag(_.Next, HtmlToken.CloseTag());
+                stringBuffer.Clear();
+                stringBuffer.Append(c.ToLower());
+                return ScriptDataNameEndTag(src.Next, HtmlToken.CloseTag());
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c);
-                return ScriptDataNameEndTag(_.Next, HtmlToken.CloseTag());
+                stringBuffer.Clear();
+                stringBuffer.Append(c);
+                return ScriptDataNameEndTag(src.Next, HtmlToken.CloseTag());
             }
-            else
-            {
-                _.Back();
-                return HtmlToken.Characters(Specification.LT, Specification.SOLIDUS);
-            }
+
+            EnqueueToken(HtmlToken.Characters(Specification.LT, Specification.SOLIDUS));
+            return ScriptData(c);
         }
 
         /// <summary>
@@ -2069,41 +2097,38 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataNameEndTag(Char c, HtmlTagToken tag)
         {
-            var name = buffer.ToString();
+            var name = stringBuffer.ToString();
             var appropriateEndTag = name == lastStartTag;
 
             if (appropriateEndTag && Specification.IsSpaceCharacter(c))
             {
                 tag.Name = name;
-                return AttributeBeforeName(_.Next, tag);
+                return AttributeBeforeName(src.Next, tag);
             }
             else if (appropriateEndTag && c == Specification.SOLIDUS)
             {
                 tag.Name = name;
-                return TagSelfClosing(_.Next, tag);
+                return TagSelfClosing(src.Next, tag);
             }
             else if (appropriateEndTag && c == Specification.GT)
             {
                 tag.Name = name;
-                model = ContentModel.PCData;
                 return EmitTag(tag);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Append(c.ToLower());
-                return ScriptDataNameEndTag(_.Next, tag);
+                stringBuffer.Append(c.ToLower());
+                return ScriptDataNameEndTag(src.Next, tag);
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Append(c);
-                return ScriptDataNameEndTag(_.Next, tag);
+                stringBuffer.Append(c);
+                return ScriptDataNameEndTag(src.Next, tag);
             }
-            else
-            {
-                _.Back();
-                buffer.Insert(0, Specification.LT).Insert(1, Specification.SOLIDUS);
-                return HtmlToken.Characters(buffer.ToString());
-            }
+
+            stringBuffer.Insert(0, Specification.LT).Insert(1, Specification.SOLIDUS);
+            EnqueueToken(HtmlToken.Characters(stringBuffer.ToString()));
+            return ScriptData(c);
         }
 
         /// <summary>
@@ -2114,8 +2139,8 @@ namespace AngleSharp.Html
         {
             if (c == Specification.DASH)
             {
-                state = ScriptDataStartEscapeDash;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                return ScriptDataStartEscapeDash(src.Next);
             }
 
             return ScriptData(c);
@@ -2129,17 +2154,18 @@ namespace AngleSharp.Html
         {
             if (c == Specification.DASH)
             {
-                state = ScriptDataEscapedDash;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                return ScriptDataEscapedDash(src.Next);
             }
             else if (c == Specification.LT)
             {
-                return ScriptDataEscapedLT(_.Next);
+                return ScriptDataEscapedLT(src.Next);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                return HtmlToken.Character(Specification.REPLACEMENT);
+                EnqueueToken(HtmlToken.Character(Specification.REPLACEMENT));
+                return ScriptDataEscaped(src.Next);
             }
             else if (c == Specification.EOF)
             {
@@ -2157,8 +2183,8 @@ namespace AngleSharp.Html
         {
             if (c == Specification.DASH)
             {
-                state = ScriptDataEscapedDashDash;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                return ScriptDataEscapedDashDash(src.Next);
             }
 
             return ScriptData(c);
@@ -2168,32 +2194,30 @@ namespace AngleSharp.Html
         /// See 8.2.4.23 Script data escaped dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedDash(char c)
+        HtmlToken ScriptDataEscapedDash(Char c)
         {
             if (c == Specification.DASH)
             {
-                state = ScriptDataEscapedDashDash;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                return ScriptDataEscapedDashDash(src.Next);
             }
             else if (c == Specification.LT)
             {
-                return ScriptDataEscapedLT(_.Next);
+                return ScriptDataEscapedLT(src.Next);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                state = ScriptDataEscaped;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.REPLACEMENT));
+                EnqueueToken(HtmlToken.Character(Specification.REPLACEMENT));
+                return ScriptDataEscaped(src.Next);
             }
             else if (c == Specification.EOF)
             {
                 return HtmlToken.EOF;
             }
-            else
-            {
-                state = ScriptDataEscaped;
-                RaiseTokenEmitted(HtmlToken.Character(c));
-            }
+
+            EnqueueToken(HtmlToken.Character(c));
+            return ScriptDataEscaped(src.Next);
         }
 
         /// <summary>
@@ -2204,12 +2228,12 @@ namespace AngleSharp.Html
         {
             if (c == Specification.DASH)
             {
-                state = ScriptDataEscapedDashDash;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                return ScriptDataEscapedDashDash(src.Next);
             }
             else if (c == Specification.LT)
             {
-                return ScriptDataEscapedLT(_.Next);
+                return ScriptDataEscapedLT(src.Next);
             }
             else if (c == Specification.GT)
             {
@@ -2218,18 +2242,16 @@ namespace AngleSharp.Html
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                state = ScriptDataEscaped;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.REPLACEMENT));
+                EnqueueToken(HtmlToken.Character(Specification.REPLACEMENT));
+                return ScriptDataEscaped(src.Next);
             }
             else if (c == Specification.EOF)
             {
                 return HtmlToken.EOF;
             }
-            else
-            {
-                state = ScriptDataEscaped;
-                RaiseTokenEmitted(HtmlToken.Character(c));
-            }
+
+            EnqueueToken(HtmlToken.Character(c));
+            return ScriptDataEscaped(src.Next);
         }
 
         /// <summary>
@@ -2240,58 +2262,52 @@ namespace AngleSharp.Html
         {
             if (c == Specification.SOLIDUS)
             {
-                return ScriptDataEndTag(_.Next);
+                return ScriptDataEndTag(src.Next);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c.ToLower());
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                RaiseTokenEmitted(HtmlToken.Character(c));
-                state = ScriptDataStartDoubleEscape;
+                stringBuffer.Clear();
+                stringBuffer.Append(c.ToLower());
+                EnqueueToken(HtmlToken.Character(Specification.LT));
+                EnqueueToken(HtmlToken.Character(c));
+                return ScriptDataStartDoubleEscape(src.Next);
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Clear();
-                buffer.Append(c);
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                RaiseTokenEmitted(HtmlToken.Character(c));
-                state = ScriptDataStartDoubleEscape;
+                stringBuffer.Clear();
+                stringBuffer.Clear();
+                stringBuffer.Append(c);
+                EnqueueToken(HtmlToken.Character(Specification.LT));
+                EnqueueToken(HtmlToken.Character(c));
+                return ScriptDataStartDoubleEscape(src.Next);
             }
-            else
-            {
-                state = ScriptDataEscaped;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                _.Back();
-            }
+
+            EnqueueToken(HtmlToken.Character(Specification.LT));
+            return ScriptDataEscaped(c);
         }
 
         /// <summary>
         /// See 8.2.4.26 Script data escaped end tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedEndTag(Char c)
+        HtmlToken ScriptDataEscapedEndTag(Char c, HtmlTagToken tag)
         {
             if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c.ToLower());
-                return ScriptDataEscapedEndTag(_.Next, HtmlToken.CloseTag());
+                stringBuffer.Clear();
+                stringBuffer.Append(c.ToLower());
+                return ScriptDataEscapedEndTag(src.Next, tag);
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Clear();
-                buffer.Append(c);
-                return ScriptDataEscapedEndTag(_.Next, HtmlToken.CloseTag());
+                stringBuffer.Clear();
+                stringBuffer.Append(c);
+                return ScriptDataEscapedEndTag(src.Next, tag);
             }
-            else
-            {
-                state = ScriptDataEscaped;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                RaiseTokenEmitted(HtmlToken.Character(Specification.SOLIDUS));
-                _.Back();
-            }
+
+            EnqueueToken(HtmlToken.Character(Specification.LT));
+            EnqueueToken(HtmlToken.Character(Specification.SOLIDUS));
+            return ScriptDataEscaped(c);
         }
 
         /// <summary>
@@ -2300,144 +2316,133 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedNameTag(Char c, HtmlTagToken tag)
         {
-            var name = buffer.ToString();
+            var name = stringBuffer.ToString();
             var appropriateEndTag = name == lastStartTag;
 
             if (appropriateEndTag && Specification.IsSpaceCharacter(c))
             {
                 tag.Name = name;
-                return AttributeBeforeName(_.Next, tag);
+                return AttributeBeforeName(src.Next, tag);
             }
             else if (appropriateEndTag && c == Specification.SOLIDUS)
             {
                 tag.Name = name;
-                return TagSelfClosing(_.Next, tag);
+                return TagSelfClosing(src.Next, tag);
             }
             else if (appropriateEndTag && c == Specification.GT)
             {
                 tag.Name = name;
-                model = ContentModel.PCData;
-                EmitTag(tag);
+                return EmitTag(tag);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Append(c.ToLower());
+                stringBuffer.Append(c.ToLower());
+                return ScriptDataEscapedNameTag(src.Next, tag);
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Append(c);
+                stringBuffer.Append(c);
+                return ScriptDataEscapedNameTag(src.Next, tag);
             }
-            else
-            {
-                state = ScriptDataEscaped;
-                token = null;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
-                RaiseTokenEmitted(HtmlToken.Character(Specification.SOLIDUS));
 
-                for (var i = 0; i < buffer.Length; i++)
-                    RaiseTokenEmitted(HtmlToken.Character(buffer[i]));
-
-                _.Back();
-            }
+            EnqueueToken(HtmlToken.Character(Specification.LT));
+            EnqueueToken(HtmlToken.Character(Specification.SOLIDUS));
+            EnqueueToken(HtmlToken.Characters(stringBuffer.ToString()));
+            return ScriptDataEscaped(c);
         }
 
         /// <summary>
         /// See 8.2.4.28 Script data double escape start state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataStartDoubleEscape(char c)
+        HtmlToken ScriptDataStartDoubleEscape(Char c)
         {
             if (Specification.IsSpaceCharacter(c))
             {
-                if (buffer.ToString() == "script")
-                    return ScriptDataEscapedDouble(_.Next);
-                else
-                {
-                    state = ScriptDataEscaped;
-                    RaiseTokenEmitted(HtmlToken.Character(c));
-                }
+                if (stringBuffer.ToString() == "script")
+                    return ScriptDataEscapedDouble(src.Next);
+
+                EnqueueToken(HtmlToken.Character(c));
+                return ScriptDataEscaped(src.Next);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Append(c.ToLower());
-                return HtmlToken.Character(c);
+                stringBuffer.Append(c.ToLower());
+                EnqueueToken(HtmlToken.Character(c));
+                return ScriptDataStartDoubleEscape(src.Next);
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Append(c);
-                return HtmlToken.Character(c);
+                stringBuffer.Append(c);
+                EnqueueToken(HtmlToken.Character(c));
+                return ScriptDataStartDoubleEscape(src.Next);
             }
-            else
-            {
-                return ScriptDataEscaped(c);
-            }
+
+            return ScriptDataEscaped(c);
         }
 
         /// <summary>
         /// See 8.2.4.29 Script data double escaped state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataEscapedDouble(char c)
+        HtmlToken ScriptDataEscapedDouble(Char c)
         {
             if (c == Specification.DASH)
             {
-                state = ScriptDataEscapedDoubleDash;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                return ScriptDataEscapedDoubleDash(src.Next);
             }
             else if (c == Specification.LT)
             {
-                state = ScriptDataEscapedDoubleLT;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
+                EnqueueToken(HtmlToken.Character(Specification.LT));
+                return ScriptDataEscapedDoubleLT(src.Next);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                RaiseTokenEmitted(HtmlToken.Character(Specification.REPLACEMENT));
+                EnqueueToken(HtmlToken.Character(Specification.REPLACEMENT));
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
-            else
-            {
-                RaiseTokenEmitted(HtmlToken.Character(c));
-            }
+
+            EnqueueToken(HtmlToken.Character(c));
+            return ScriptDataEscapedDouble(src.Next);
         }
 
         /// <summary>
         /// See 8.2.4.30 Script data double escaped dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataEscapedDoubleDash(char c)
+        HtmlToken ScriptDataEscapedDoubleDash(Char c)
         {
             if (c == Specification.DASH)
             {
-                state = ScriptDataEscapedDoubleDashDash;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                return ScriptDataEscapedDoubleDashDash(src.Next);
             }
             else if (c == Specification.LT)
             {
-                state = ScriptDataEscapedDoubleLT;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
+                EnqueueToken(HtmlToken.Character(Specification.LT));
+                return ScriptDataEscapedDoubleLT(src.Next);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                state = ScriptDataEscapedDouble;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.REPLACEMENT));
+                EnqueueToken(HtmlToken.Character(Specification.REPLACEMENT));
+                return ScriptDataEscapedDouble(src.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
             else
             {
-                state = ScriptDataEscapedDouble;
-                RaiseTokenEmitted(HtmlToken.Character(c));
+                EnqueueToken(HtmlToken.Character(c));
+                return ScriptDataEscapedDouble(src.Next);
             }
         }
 
@@ -2445,102 +2450,117 @@ namespace AngleSharp.Html
         /// See 8.2.4.31 Script data double escaped dash dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataEscapedDoubleDashDash(char c)
+        HtmlToken ScriptDataEscapedDoubleDashDash(Char c)
         {
             if (c == Specification.DASH)
             {
-                RaiseTokenEmitted(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                return ScriptDataEscapedDoubleDashDash(src.Next);
             }
             else if (c == Specification.LT)
             {
-                state = ScriptDataEscapedDoubleLT;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.LT));
+                EnqueueToken(HtmlToken.Character(Specification.LT));
+                return ScriptDataEscapedDoubleLT(src.Next);
             }
             else if (c == Specification.GT)
             {
-                state = ScriptData;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.GT));
+                return HtmlToken.Character(Specification.GT);
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                state = ScriptDataEscapedDouble;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.REPLACEMENT));
+                EnqueueToken(HtmlToken.Character(Specification.REPLACEMENT));
+                return ScriptDataEscapedDouble(src.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                state = Data;
-                _.Back();
+                return HtmlToken.EOF;
             }
-            else
-            {
-                state = ScriptDataEscapedDouble;
-                RaiseTokenEmitted(HtmlToken.Character(c));
-            }
+
+            EnqueueToken(HtmlToken.Character(c));
+            return ScriptDataEscapedDouble(src.Next);
         }
 
         /// <summary>
         /// See 8.2.4.32 Script data double escaped less-than sign state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataEscapedDoubleLT(char c)
+        HtmlToken ScriptDataEscapedDoubleLT(Char c)
         {
             if (c == Specification.SOLIDUS)
             {
-                buffer.Clear();
-                state = ScriptDataEndDoubleEscape;
-                RaiseTokenEmitted(HtmlToken.Character(Specification.SOLIDUS));
+                stringBuffer.Clear();
+                EnqueueToken(HtmlToken.Character(Specification.SOLIDUS));
+                return ScriptDataEndDoubleEscape(src.Next);
             }
-            else
-            {
-                state = ScriptDataEscapedDouble;
-                _.Back();
-            }
+
+            return ScriptDataEscapedDouble(c);
         }
 
         /// <summary>
         /// See 8.2.4.33 Script data double escape end state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        void ScriptDataEndDoubleEscape(char c)
+        HtmlToken ScriptDataEndDoubleEscape(Char c)
         {
             if (Specification.IsSpaceCharacter(c) || c == Specification.SOLIDUS || c == Specification.GT)
             {
-                if (buffer.ToString() == "script")
-                    state = ScriptDataEscaped;
-                else
-                {
-                    state = ScriptDataEscapedDouble;
-                    RaiseTokenEmitted(HtmlToken.Character(c));
-                }
+                if (stringBuffer.ToString().Equals("script", StringComparison.OrdinalIgnoreCase))
+                    return ScriptDataEscaped(src.Next);
+
+                EnqueueToken(HtmlToken.Character(c));
+                return ScriptDataEscapedDouble(src.Next);
             }
             else if (Specification.IsUppercaseAscii(c))
             {
-                buffer.Append(c.ToLower());
-                RaiseTokenEmitted(HtmlToken.Character(c));
+                stringBuffer.Append(c.ToLower());
+                EnqueueToken(HtmlToken.Character(c));
+                return ScriptDataEndDoubleEscape(src.Next);
             }
             else if (Specification.IsLowercaseAscii(c))
             {
-                buffer.Append(c);
-                RaiseTokenEmitted(HtmlToken.Character(c));
+                stringBuffer.Append(c);
+                EnqueueToken(HtmlToken.Character(c));
+                return ScriptDataEndDoubleEscape(src.Next);
             }
-            else
-            {
-                state = ScriptDataEscapedDouble;
-                _.Back();
-            }
-        }*/
+
+            return ScriptDataEscapedDouble(c);
+        }
 
         #endregion
 
         #region Helpers
 
         /// <summary>
+        /// Enqueues a token to be emitted as soon as possible.
+        /// </summary>
+        /// <param name="token">The token to queue.</param>
+        [DebuggerStepThrough]
+        void EnqueueToken(HtmlToken token)
+        {
+            buffered = true;
+            tokenBuffer.Enqueue(token);
+        }
+
+        /// <summary>
+        /// Dequeues a token which has been saved in the buffer.
+        /// </summary>
+        /// <returns>The dequeued token.</returns>
+        [DebuggerStepThrough]
+        HtmlToken DequeueToken()
+        {
+            buffered = tokenBuffer.Count > 1;
+            return tokenBuffer.Dequeue();
+        }
+
+        /// <summary>
         /// Emits the current token as a tag token.
         /// </summary>
         HtmlTagToken EmitTag(HtmlTagToken tag)
         {
+            model = HtmlParseMode.PCData;
+
             if (tag.Type == HtmlTokenType.StartTag)
             {
                 for (var i = tag.Attributes.Count - 1; i > 0; i--)
@@ -2583,8 +2603,8 @@ namespace AngleSharp.Html
             if (ErrorOccurred != null)
             {
                 var pck = new ParseErrorEventArgs((int)code, Errors.GetError(code));
-                pck.Line = _.Line;
-                pck.Column = _.Column;
+                pck.Line = src.Line;
+                pck.Column = src.Column;
                 ErrorOccurred(this, pck);
             }
         }
