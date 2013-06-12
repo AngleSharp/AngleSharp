@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 
 namespace AngleSharp.Css
@@ -13,13 +14,9 @@ namespace AngleSharp.Css
     {
         #region Members
 
-        Action state;
         Single number;
         StringBuilder stringBuffer;
-        Queue<CssToken> tokenBuffer;
-        Boolean buffered;
         SourceManager src;
-        Char current;
 
         #endregion
 
@@ -36,11 +33,8 @@ namespace AngleSharp.Css
 
         public CssTokenizer(SourceManager source)
         {
-            tokenBuffer = new Queue<CssToken>();
             stringBuffer = new StringBuilder();
             src = source;
-            state = Data;
-            current = src.Current;
         }
 
         #endregion
@@ -70,13 +64,17 @@ namespace AngleSharp.Css
         {
             get
             {
-                while (state != null)
-                {
-                    state();
-                    ReadNext();
+                CssToken token;
 
-                    while (buffered)
-                        yield return DequeueToken();
+                while(true)
+                {
+                    token = Data(src.Current);
+
+                    if (token == null)
+                        yield break;
+
+                    src.Advance();
+                    yield return token;
                 }
             }
         }
@@ -88,7 +86,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// 4.4.1. Data state
         /// </summary>
-        void Data()
+        CssToken Data(Char current)
         {
             switch (current)
             {
@@ -96,219 +94,157 @@ namespace AngleSharp.Css
                 case Specification.CR:
                 case Specification.TAB:
                 case Specification.SPACE:
-                    do { ReadNext(); }
+                    do { current = src.Next; }
                     while (Specification.IsSpaceCharacter(current));
-                    ReadPrevious();
-                    EnqueueToken(CssSpecialCharacter.Whitespace);
-                    break;
+                    src.Back();
+                    return CssSpecialCharacter.Whitespace;
 
                 case Specification.DQ:
-                    state = StringDQ;
-                    break;
+                    return StringDQ(src.Next);
 
                 case Specification.NUM:
-                    state = HashStart;
-                    break;
+                    return HashStart(src.Next);
 
                 case Specification.DOLLAR:
-                    ReadNext();
+                    current = src.Next;
 
                     if (current == Specification.EQ)
-                        EnqueueToken(CssMatchToken.Suffix);
-                    else
-                    {
-                        ReadPrevious();
-                        EnqueueToken(CssToken.Delim(current));
-                    }
+                        return CssMatchToken.Suffix;
 
-                    break;
+                    return CssToken.Delim(src.Previous);
 
                 case Specification.SQ:
-                    state = StringSQ;
-                    break;
+                    return StringSQ(src.Next);
 
                 case '(':
-                    EnqueueToken(CssBracketToken.OpenRound);
-                    break;
+                    return CssBracketToken.OpenRound;
 
                 case ')':
-                    EnqueueToken(CssBracketToken.CloseRound);
-                    break;
+                    return CssBracketToken.CloseRound;
 
                 case Specification.ASTERISK:
-                    ReadNext();
+                    current = src.Next;
 
                     if (current == Specification.EQ)
-                        EnqueueToken(CssMatchToken.Substring);
-                    else
-                    {
-                        ReadPrevious();
-                        EnqueueToken(CssToken.Delim(current));
-                    }
+                        return CssMatchToken.Substring;
 
-                    break;
+                    return CssToken.Delim(src.Previous);
 
                 case Specification.PLUS:
                     {
-                        ReadNext();
-                        var c1 = current;
-                        ReadNext();
-                        var c2 = current;
-                        ReadPrevious();
-                        ReadPrevious();
+                        var c1 = src.Next;
+                        var c2 = src.Next;
+                        src.Back(2);
 
                         if (Specification.IsDigit(c1) || (c1 == Specification.FS && Specification.IsDigit(c2)))
-                            InstantSwitch(NumberStart);
-                        else
-                            EnqueueToken(CssToken.Delim(current));
+                            return NumberStart(current);
+                        
+                        return CssToken.Delim(current);
                     }
 
-                    break;
-
                 case Specification.COMMA:
-                    EnqueueToken(CssSpecialCharacter.Comma);
-                    break;
+                    return CssSpecialCharacter.Comma;
 
                 case Specification.FS:
                     {
-                        ReadNext();
-                        var c = current;
-                        ReadPrevious();
+                        var c = src.Next;
 
                         if (Specification.IsDigit(c))
-                            InstantSwitch(NumberStart);
-                        else
-                            EnqueueToken(CssToken.Delim(current));
+                            return NumberStart(src.Previous);
+                        
+                        return CssToken.Delim(src.Previous);
                     }
-
-                    break;
 
                 case Specification.DASH:
                     {
-                        ReadNext();
-                        var c1 = current;
-                        ReadNext();
-                        var c2 = current;
-                        ReadPrevious();
-                        ReadPrevious();
+                        var c1 = src.Next;
+                        var c2 = src.Next;
+                        src.Back(2);
 
                         if (Specification.IsDigit(c1) || (c1 == Specification.FS && Specification.IsDigit(c2)))
-                            InstantSwitch(NumberStart);
+                            return NumberStart(current);
                         else if (Specification.IsNameStart(c1))
-                            InstantSwitch(IdentStart);
+                            return IdentStart(current);
                         else if (c1 == Specification.RSOLIDUS && !Specification.IsLineBreak(c2) && c2 != Specification.EOF)
-                            InstantSwitch(IdentStart);
+                            return IdentStart(current);
                         else if (c1 == Specification.DASH && c2 == Specification.GT)
                         {
-                            ReadNext();
-                            ReadNext();
-                            EnqueueToken(CssCommentToken.Close);
+                            src.Advance(2);
+                            return CssCommentToken.Close;
                         }
-                        else
-                            EnqueueToken(CssToken.Delim(current));
+                        
+                        return CssToken.Delim(current);
                     }
-
-                    break;
 
                 case Specification.SOLIDUS:
-                    ReadNext();
+                    current = src.Next;
 
                     if (current == Specification.ASTERISK)
-                        state = Comment;
-                    else
-                    {
-                        ReadPrevious();
-                        EnqueueToken(CssToken.Delim(current));
-                    }
-
-                    break;
+                        return Comment(src.Next);
+                        
+                    return CssToken.Delim(src.Previous);
 
                 case Specification.RSOLIDUS:
-                    ReadNext();
+                    current = src.Next;
 
                     if (Specification.IsLineBreak(current) || current == Specification.EOF)
                     {
                         RaiseErrorOccurred(current == Specification.EOF ? ErrorCode.EOF : ErrorCode.LineBreakUnexpected);
-                        ReadPrevious();
-                        EnqueueToken(CssToken.Delim(current));
-                    }
-                    else
-                    {
-                        ReadPrevious();
-                        InstantSwitch(IdentStart);
+                        return CssToken.Delim(src.Previous);
                     }
 
-                    break;
+                    return IdentStart(src.Previous);
 
                 case Specification.COL:
-                    EnqueueToken(CssSpecialCharacter.Colon);
-                    break;
+                    return CssSpecialCharacter.Colon;
 
                 case Specification.SC:
-                    EnqueueToken(CssSpecialCharacter.Semicolon);
-                    break;
+                    return CssSpecialCharacter.Semicolon;
 
                 case Specification.LT:
-                    ReadNext();
+                    current = src.Next;
 
                     if (current == Specification.EM)
                     {
-                        ReadNext();
+                        current = src.Next;
 
                         if (current == Specification.DASH)
                         {
-                            ReadNext();
+                            current = src.Next;
 
                             if (current == Specification.DASH)
-                            {
-                                EnqueueToken(CssCommentToken.Open);
-                                break;
-                            }
+                                return CssCommentToken.Open;
 
-                            ReadPrevious();
+                            current = src.Previous;
                         }
 
-                        ReadPrevious();
+                        current = src.Previous;
                     }
 
-                    ReadPrevious();
-                    EnqueueToken(CssToken.Delim(current));
-                    break;
+                    return CssToken.Delim(src.Previous);
 
                 case Specification.AT:
-                    state = AtKeywordStart;
-                    break;
+                    return AtKeywordStart(src.Next);
 
                 case '[':
-                    EnqueueToken(CssBracketToken.OpenSquare);
-                    break;
+                    return CssBracketToken.OpenSquare;
 
                 case ']':
-                    EnqueueToken(CssBracketToken.CloseSquare);
-                    break;
+                    return CssBracketToken.CloseSquare;
 
                 case Specification.CA:
-                    ReadNext();
+                    current = src.Next;
 
                     if (current == Specification.EQ)
-                    {
-                        EnqueueToken(CssMatchToken.Prefix);
-                    }
-                    else
-                    {
-                        ReadPrevious();
-                        EnqueueToken(CssToken.Delim(current));
-                    }
+                        return CssMatchToken.Prefix;
 
-                    break;
+                    return CssToken.Delim(src.Previous);
 
                 case '{':
-                    EnqueueToken(CssBracketToken.OpenCurly);
-                    break;
+                    return CssBracketToken.OpenCurly;
 
                 case '}':
-                    EnqueueToken(CssBracketToken.CloseCurly);
-                    break;
+                    return CssBracketToken.CloseCurly;
 
                 case '0':
                 case '1':
@@ -320,768 +256,773 @@ namespace AngleSharp.Css
                 case '7':
                 case '8':
                 case '9':
-                    InstantSwitch(NumberStart);
-                    break;
+                    return NumberStart(current);
 
                 case 'U':
                 case 'u':
-                    ReadNext();
+                    current = src.Next;
 
                     if (current == Specification.PLUS)
                     {
-                        ReadNext();
-                        var c = current;
-                        ReadPrevious();
+                        current = src.Next;
 
-                        if (Specification.IsHex(c) || c == Specification.QM)
-                        {
-                            state = UnicodeRange;
-                            break;
-                        }
+                        if (Specification.IsHex(current) || current == Specification.QM)
+                            return UnicodeRange(current);
+
+                        current = src.Previous;
                     }
 
-                    ReadPrevious();
-                    InstantSwitch(IdentStart);
-
-                    break;
+                    return IdentStart(src.Previous);
 
                 case Specification.PIPE:
-                    ReadNext();
+                    current = src.Next;
 
                     if (current == Specification.EQ)
-                        EnqueueToken(CssMatchToken.Dash);
+                        return CssMatchToken.Dash;
                     else if (current == Specification.PIPE)
-                        EnqueueToken(CssToken.Column);
-                    else
-                    {
-                        ReadPrevious();
-                        EnqueueToken(CssToken.Delim(current));
-                    }
+                        return CssToken.Column;
 
-                    break;
+                    return CssToken.Delim(src.Previous);
 
                 case Specification.TILDE:
-                    ReadNext();
+                    current = src.Next;
 
                     if (current == Specification.EQ)
-                        EnqueueToken(CssMatchToken.Include);
-                    else
-                    {
-                        ReadPrevious();
-                        EnqueueToken(CssToken.Delim(current));
-                    }
+                        return CssMatchToken.Include;
 
-                    break;
+                    return CssToken.Delim(src.Previous);
 
                 case Specification.EOF:
-                    state = null;
-                    break;
+                    return null;
 
                 case Specification.EM:
-                    ReadNext();
+                    current = src.Next;
 
                     if (current == Specification.EQ)
-                        EnqueueToken(CssMatchToken.Not);
-                    else
-                    {
-                        ReadPrevious();
-                        EnqueueToken(CssToken.Delim(current));
-                    }
+                        return CssMatchToken.Not;
 
-                    break;
+                    return CssToken.Delim(src.Previous);
 
                 default:
                     if (Specification.IsNameStart(current))
-                        InstantSwitch(IdentStart);
-                    else
-                        EnqueueToken(CssToken.Delim(current));
+                        return IdentStart(current);
 
-                    break;
+                    return CssToken.Delim(current);
             }
         }
 
         /// <summary>
         /// 4.4.2. Double quoted string state
         /// </summary>
-        void StringDQ()
+        CssToken StringDQ(Char current)
         {
-            switch (current)
+            while (true)
             {
-                case Specification.DQ:
-                case Specification.EOF:
-                    EnqueueToken(CssStringToken.Plain(stringBuffer.ToString()));
-                    stringBuffer.Clear();
-                    state = Data;
-                    break;
+                switch (current)
+                {
+                    case Specification.DQ:
+                    case Specification.EOF:
+                        return CssStringToken.Plain(FlushBuffer());
 
-                case Specification.FF:
-                case Specification.LF:
-                    RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
-                    EnqueueToken(CssStringToken.Plain(stringBuffer.ToString(), true));
-                    stringBuffer.Clear();
-                    InstantSwitch(Data);
-                    break;
+                    case Specification.FF:
+                    case Specification.LF:
+                        RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
+                        src.Back();
+                        return CssStringToken.Plain(FlushBuffer(), true);
 
-                case Specification.RSOLIDUS:
-                    ReadNext();
+                    case Specification.RSOLIDUS:
+                        current = src.Next;
 
-                    if (Specification.IsLineBreak(current))
-                        stringBuffer.AppendLine();
-                    else if (current != Specification.EOF)
-                        stringBuffer.Append(ConsumeEscape());
-                    else
-                    {
-                        RaiseErrorOccurred(ErrorCode.EOF);
-                        EnqueueToken(CssStringToken.Plain(stringBuffer.ToString(), true));
-                        stringBuffer.Clear();
-                        InstantSwitch(Data);
-                    }
+                        if (Specification.IsLineBreak(current))
+                            stringBuffer.AppendLine();
+                        else if (current != Specification.EOF)
+                            stringBuffer.Append(ConsumeEscape(current));
+                        else
+                        {
+                            RaiseErrorOccurred(ErrorCode.EOF);
+                            src.Back();
+                            return CssStringToken.Plain(FlushBuffer(), true);
+                        }
 
-                    break;
+                        break;
 
-                default:
-                    stringBuffer.Append(current);
-                    break;
+                    default:
+                        stringBuffer.Append(current);
+                        break;
+                }
+
+                current = src.Next;
             }
         }
 
         /// <summary>
         /// 4.4.3. Single quoted string state
         /// </summary>
-        void StringSQ()
+        CssToken StringSQ(Char current)
         {
-            switch (current)
+            while (true)
             {
-                case Specification.SQ:
-                case Specification.EOF:
-                    EnqueueToken(CssStringToken.Plain(stringBuffer.ToString()));
-                    stringBuffer.Clear();
-                    state = Data;
-                    break;
+                switch (current)
+                {
+                    case Specification.SQ:
+                    case Specification.EOF:
+                        return CssStringToken.Plain(FlushBuffer());
 
-                case Specification.FF:
-                case Specification.LF:
-                    RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
-                    EnqueueToken(CssStringToken.Plain(stringBuffer.ToString(), true));
-                    stringBuffer.Clear();
-                    InstantSwitch(Data);
-                    break;
+                    case Specification.FF:
+                    case Specification.LF:
+                        RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
+                        src.Back();
+                        return (CssStringToken.Plain(FlushBuffer(), true));
 
-                case Specification.RSOLIDUS:
-                    ReadNext();
+                    case Specification.RSOLIDUS:
+                        current = src.Next;
 
-                    if (Specification.IsLineBreak(current))
-                        stringBuffer.AppendLine();
-                    else if (current != Specification.EOF)
-                        stringBuffer.Append(ConsumeEscape());
-                    else
-                    {
-                        RaiseErrorOccurred(ErrorCode.EOF);
-                        EnqueueToken(CssStringToken.Plain(stringBuffer.ToString(), true));
-                        stringBuffer.Clear();
-                        InstantSwitch(Data);
-                    }
+                        if (Specification.IsLineBreak(current))
+                            stringBuffer.AppendLine();
+                        else if (current != Specification.EOF)
+                            stringBuffer.Append(ConsumeEscape(current));
+                        else
+                        {
+                            RaiseErrorOccurred(ErrorCode.EOF);
+                            src.Back();
+                            return(CssStringToken.Plain(FlushBuffer(), true));
+                        }
 
-                    break;
+                        break;
 
-                default:
-                    stringBuffer.Append(current);
-                    break;
+                    default:
+                        stringBuffer.Append(current);
+                        break;
+                }
+
+                current = src.Next;
             }
         }
 
         /// <summary>
         /// 4.4.4. Hash state
         /// </summary>
-        void HashStart()
+        CssToken HashStart(Char current)
         {
             if (Specification.IsNameStart(current))
             {
                 stringBuffer.Append(current);
-                state = HashRest;
+                return HashRest(src.Next);
             }
-            else if (IsValidEscape())
+            else if (IsValidEscape(current))
             {
-                ReadNext();
-                stringBuffer.Append(ConsumeEscape());
-                state = HashRest;
+                current = src.Next;
+                stringBuffer.Append(ConsumeEscape(current));
+                return HashRest(src.Next);
             }
             else if (current == Specification.RSOLIDUS)
             {
                 RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                EnqueueToken(CssToken.Delim(Specification.NUM));
-                InstantSwitch(Data);
+                src.Back();
+                return CssToken.Delim(Specification.NUM);
             }
             else
             {
-                EnqueueToken(CssToken.Delim(Specification.NUM));
-                InstantSwitch(Data);
+                src.Back();
+                return CssToken.Delim(Specification.NUM);
             }
         }
 
         /// <summary>
         /// 4.4.5. Hash-rest state
         /// </summary>
-        void HashRest()
+        CssToken HashRest(Char current)
         {
-            if (Specification.IsName(current))
-                stringBuffer.Append(current);
-            else if (IsValidEscape())
+            while (true)
             {
-                ReadNext();
-                stringBuffer.Append(ConsumeEscape());
-            }
-            else if (current == Specification.RSOLIDUS)
-            {
-                RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                EnqueueToken(CssKeywordToken.Hash(stringBuffer.ToString()));
-                stringBuffer.Clear();
-                InstantSwitch(Data);
-            }
-            else
-            {
-                EnqueueToken(CssKeywordToken.Hash(stringBuffer.ToString()));
-                stringBuffer.Clear();
-                InstantSwitch(Data);
+                if (Specification.IsName(current))
+                    stringBuffer.Append(current);
+                else if (IsValidEscape(current))
+                {
+                    current = src.Next;
+                    stringBuffer.Append(ConsumeEscape(current));
+                }
+                else if (current == Specification.RSOLIDUS)
+                {
+                    RaiseErrorOccurred(ErrorCode.InvalidCharacter);
+                    src.Back();
+                    return CssKeywordToken.Hash(FlushBuffer());
+                }
+                else
+                {
+                    src.Back();
+                    return CssKeywordToken.Hash(FlushBuffer());
+                }
+
+                current = src.Next;
             }
         }
 
         /// <summary>
         /// 4.4.6. Comment state
         /// </summary>
-        void Comment()
+        CssToken Comment(Char current)
         {
-            if (current == Specification.ASTERISK)
+            while (true)
             {
-                ReadNext();
+                if (current == Specification.ASTERISK)
+                {
+                    current = src.Next;
 
-                if (current == Specification.SOLIDUS)
-                    state = Data;
-                else
-                    Comment();
-            }
-            else if (current == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                InstantSwitch(Data);
+                    if (current == Specification.SOLIDUS)
+                        return Data(src.Next);
+                }
+                else if (current == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    return Data(current);
+                }
+
+                current = src.Next;
             }
         }
 
         /// <summary>
         /// 4.4.7. At-keyword state
         /// </summary>
-        void AtKeywordStart()
+        CssToken AtKeywordStart(Char current)
         {
             if (current == Specification.DASH)
             {
-                ReadNext();
+                current = src.Next;
 
-                if (Specification.IsNameStart(current) || IsValidEscape())
+                if (Specification.IsNameStart(current) || IsValidEscape(current))
                 {
                     stringBuffer.Append(Specification.DASH);
-                    InstantSwitch(AtKeywordRest);
+                    return AtKeywordRest(current);
                 }
-                else
-                {
-                    ReadPrevious();
-                    EnqueueToken(CssToken.Delim(Specification.AT));
-                    InstantSwitch(Data);
-                }
+
+                src.Back(2);
+                return CssToken.Delim(Specification.AT);
             }
             else if (Specification.IsNameStart(current))
             {
                 stringBuffer.Append(current);
-                state = AtKeywordRest;
+                return AtKeywordRest(src.Next);
             }
-            else if (IsValidEscape())
+            else if (IsValidEscape(current))
             {
-                ReadNext();
-                stringBuffer.Append(ConsumeEscape());
-                state = AtKeywordRest;
+                current = src.Next;
+                stringBuffer.Append(ConsumeEscape(current));
+                return AtKeywordRest(src.Next);
             }
             else
             {
-                EnqueueToken(CssToken.Delim(Specification.AT));
-                InstantSwitch(Data);
+                src.Back();
+                return CssToken.Delim(Specification.AT);
             }
         }
 
         /// <summary>
         /// 4.4.8. At-keyword-rest state
         /// </summary>
-        void AtKeywordRest()
+        CssToken AtKeywordRest(Char current)
         {
-            if (Specification.IsName(current))
-                stringBuffer.Append(current);
-            else if (IsValidEscape())
+            while (true)
             {
-                ReadNext();
-                stringBuffer.Append(ConsumeEscape());
-            }
-            else
-            {
-                EnqueueToken(CssKeywordToken.At(stringBuffer.ToString()));
-                stringBuffer.Clear();
-                InstantSwitch(Data);
+                if (Specification.IsName(current))
+                    stringBuffer.Append(current);
+                else if (IsValidEscape(current))
+                {
+                    current = src.Next;
+                    stringBuffer.Append(ConsumeEscape(current));
+                }
+                else
+                {
+                    src.Back();
+                    return CssKeywordToken.At(FlushBuffer());
+                }
+
+                current = src.Next;
             }
         }
 
         /// <summary>
         /// 4.4.9. Ident state
         /// </summary>
-        void IdentStart()
+        CssToken IdentStart(Char current)
         {
             if (current == Specification.DASH)
             {
-                ReadNext();
+                current = src.Next;
 
-                if (Specification.IsNameStart(current) || IsValidEscape())
+                if (Specification.IsNameStart(current) || IsValidEscape(current))
                 {
                     stringBuffer.Append(Specification.DASH);
-                    InstantSwitch(IdentRest);
+                    return IdentRest(current);
                 }
-                else
-                {
-                    EnqueueToken(CssToken.Delim(Specification.DASH));
-                    InstantSwitch(Data);
-                }
+
+                src.Back();
+                return CssToken.Delim(Specification.DASH);
             }
             else if (Specification.IsNameStart(current))
             {
                 stringBuffer.Append(current);
-                state = IdentRest;
+                return IdentRest(src.Next);
             }
             else if (current == Specification.RSOLIDUS)
             {
-                if (IsValidEscape())
+                if (IsValidEscape(current))
                 {
-                    ReadNext();
-                    stringBuffer.Append(ConsumeEscape());
-                    state = IdentRest;
+                    current = src.Next;
+                    stringBuffer.Append(ConsumeEscape(current));
+                    return IdentRest(src.Next);
                 }
-                else
-                    InstantSwitch(Data);
             }
+
+            return Data(current);
         }
 
         /// <summary>
         /// 4.4.10. Ident-rest state
         /// </summary>
-        void IdentRest()
+        CssToken IdentRest(Char current)
         {
-            if (Specification.IsName(current))
-                stringBuffer.Append(current);
-            else if (IsValidEscape())
+            while (true)
             {
-                ReadNext();
-                stringBuffer.Append(ConsumeEscape());
-            }
-            else if (current == '(')
-            {
-                if (stringBuffer.ToString().Equals("url", StringComparison.OrdinalIgnoreCase))
+                if (Specification.IsName(current))
+                    stringBuffer.Append(current);
+                else if (IsValidEscape(current))
                 {
-                    stringBuffer.Clear();
-                    state = UrlStart;
+                    current = src.Next;
+                    stringBuffer.Append(ConsumeEscape(current));
                 }
+                else if (current == '(')
+                {
+                    if (stringBuffer.ToString().Equals("url", StringComparison.OrdinalIgnoreCase))
+                    {
+                        stringBuffer.Clear();
+                        return UrlStart(src.Next);
+                    }
+
+                    return CssKeywordToken.Function(FlushBuffer());
+                }
+                //false could be replaced with a transform whitespace flag, which is set to true if in SVG transform mode.
+                //else if (false && Specification.IsSpaceCharacter(current))
+                //    InstantSwitch(TransformFunctionWhitespace);
                 else
                 {
-                    EnqueueToken(CssKeywordToken.Function(stringBuffer.ToString()));
-                    stringBuffer.Clear();
-                    state = Data;
+                    src.Back();
+                    return CssKeywordToken.Ident(FlushBuffer());
                 }
-            }
-            //false could be replaced with a transform whitespace flag, which is set to true if in SVG transform mode.
-            //else if (false && Specification.IsSpaceCharacter(current))
-            //    InstantSwitch(TransformFunctionWhitespace);
-            else
-            {
-                EnqueueToken(CssKeywordToken.Ident(stringBuffer.ToString()));
-                stringBuffer.Clear();
-                InstantSwitch(Data);
+
+                current = src.Next;
             }
         }
 
         /// <summary>
         /// 4.4.11. Transform-function-whitespace state
         /// </summary>
-        void TransformFunctionWhitespace()
+        CssToken TransformFunctionWhitespace(Char current)
         {
-            ReadNext();
+            while (true)
+            {
+                current = src.Next;
 
-            if (current == '(')
-            {
-                EnqueueToken(CssKeywordToken.Function(stringBuffer.ToString()));
-                stringBuffer.Clear();
-                InstantSwitch(Data);
+                if (current == '(')
+                {
+                    src.Back();
+                    return CssKeywordToken.Function(FlushBuffer());
+                }
+                else if (!Specification.IsSpaceCharacter(current))
+                {
+                    src.Back(2);
+                    return CssKeywordToken.Ident(FlushBuffer());
+                }
             }
-            else if (!Specification.IsSpaceCharacter(current))
-            {
-                ReadPrevious();
-                EnqueueToken(CssKeywordToken.Ident(stringBuffer.ToString()));
-                stringBuffer.Clear();
-                InstantSwitch(Data);
-            }
-            else
-                ReadPrevious();
         }
 
         /// <summary>
         /// 4.4.12. Number state
         /// </summary>
-        void NumberStart()
+        CssToken NumberStart(Char current)
         {
-            if (current == Specification.PLUS || current == Specification.DASH)
+            while (true)
             {
-                stringBuffer.Append(current);
-
-                ReadNext();
-
-                if (current == Specification.FS)
+                if (current == Specification.PLUS || current == Specification.DASH)
                 {
                     stringBuffer.Append(current);
-                    ReadNext();
+                    current = src.Next;
+
+                    if (current == Specification.FS)
+                    {
+                        stringBuffer.Append(current);
+                        stringBuffer.Append(src.Next);
+                        return NumberFraction(src.Next);
+                    }
+
                     stringBuffer.Append(current);
-                    state = NumberFraction;
+                    return NumberRest(src.Next);
                 }
-                else
+                else if (current == Specification.FS)
                 {
                     stringBuffer.Append(current);
-                    state = NumberRest;
+                    stringBuffer.Append(src.Next);
+                    return NumberFraction(src.Next);
                 }
-            }
-            else if (current == Specification.FS)
-            {
-                stringBuffer.Append(current);
-                ReadNext();
-                stringBuffer.Append(current);
-                state = NumberFraction;
-            }
-            else if (Specification.IsDigit(current))
-            {
-                stringBuffer.Append(current);
-                state = NumberRest;
+                else if (Specification.IsDigit(current))
+                {
+                    stringBuffer.Append(current);
+                    return NumberRest(src.Next);
+                }
+
+                current = src.Next;
             }
         }
 
         /// <summary>
         /// 4.4.13. Number-rest state
         /// </summary>
-        void NumberRest()
+        CssToken NumberRest(Char current)
         {
-            if (NumberCheck())
-                return;
+            while (true)
+            {
+                if (Specification.IsDigit(current))
+                    stringBuffer.Append(current);
+                else if (Specification.IsNameStart(current))
+                {
+                    number = Interpret(FlushBuffer());
+                    stringBuffer.Append(current);
+                    return Dimension(src.Next);
+                }
+                else if (IsValidEscape(current))
+                {
+                    current = src.Next;
+                    number = Interpret(FlushBuffer());
+                    stringBuffer.Append(ConsumeEscape(current));
+                    return Dimension(src.Next);
+                }
+                else
+                    break;
+
+                current = src.Next;
+            }
 
             switch (current)
             {
                 case Specification.FS:
-                    ReadNext();
+                    current = src.Next;
 
                     if (Specification.IsDigit(current))
                     {
                         stringBuffer.Append(Specification.FS).Append(current);
-                        state = NumberFraction;
-                    }
-                    else
-                    {
-                        EnqueueToken(CssToken.Number(Interpret(stringBuffer.ToString())));
-                        stringBuffer.Clear();
-                        InstantSwitch(Data);
+                        return NumberFraction(src.Next);
                     }
 
-                    break;
+                    src.Back();
+                    return CssToken.Number(Interpret(FlushBuffer()));
 
                 case '%':
-                    EnqueueToken(CssUnitToken.Percentage(Interpret(stringBuffer.ToString())));
-                    stringBuffer.Clear();
-                    state = Data;
-                    break;
+                    return CssUnitToken.Percentage(Interpret(FlushBuffer()));
 
                 case 'e':
                 case 'E':
-                    NumberExponential();
-                    break;
+                    return NumberExponential(current);
 
                 case Specification.DASH:
-                    NumberDash();
-                    break;
+                    return NumberDash(current);
 
                 default:
-                    EnqueueToken(CssToken.Number(Interpret(stringBuffer.ToString())));
-                    stringBuffer.Clear();
-                    InstantSwitch(Data);
-                    break;
+                    src.Back();
+                    return CssToken.Number(Interpret(FlushBuffer()));
             }
         }
 
         /// <summary>
         /// 4.4.14. Number-fraction state
         /// </summary>
-        void NumberFraction()
+        CssToken NumberFraction(Char current)
         {
-            if (NumberCheck())
-                return;
+            while (true)
+            {
+                if (Specification.IsDigit(current))
+                    stringBuffer.Append(current);
+                else if (Specification.IsNameStart(current))
+                {
+                    number = Interpret(FlushBuffer());
+                    stringBuffer.Append(current);
+                    return Dimension(src.Next);
+                }
+                else if (IsValidEscape(current))
+                {
+                    current = src.Next;
+                    number = Interpret(FlushBuffer());
+                    stringBuffer.Append(ConsumeEscape(current));
+                    return Dimension(src.Next);
+                }
+                else
+                    break;
+
+                current = src.Next;
+            }
 
             switch (current)
             {
                 case 'e':
                 case 'E':
-                    NumberExponential();
-                    break;
+                    return NumberExponential(current);
 
                 case '%':
-                    EnqueueToken(CssUnitToken.Percentage(Interpret(stringBuffer.ToString())));
-                    stringBuffer.Clear();
-                    state = Data;
-                    break;
+                    return CssUnitToken.Percentage(Interpret(FlushBuffer()));
 
                 case Specification.DASH:
-                    NumberDash();
-                    break;
+                    return NumberDash(current);
 
                 default:
-                    EnqueueToken(CssToken.Number(Interpret(stringBuffer.ToString())));
-                    stringBuffer.Clear();
-                    InstantSwitch(Data);
-                    break;
+                    src.Back();
+                    return CssToken.Number(Interpret(FlushBuffer()));
             }
         }
 
         /// <summary>
         /// 4.4.15. Dimension state
         /// </summary>
-        void Dimension()
+        CssToken Dimension(Char current)
         {
-            if (Specification.IsName(current))
-                stringBuffer.Append(current);
-            else if (IsValidEscape())
+            while (true)
             {
-                ReadNext();
-                stringBuffer.Append(ConsumeEscape());
-            }
-            else
-            {
-                EnqueueToken(CssUnitToken.Dimension(number, stringBuffer.ToString()));
-                stringBuffer.Clear();
-                InstantSwitch(Data);
+                if (Specification.IsName(current))
+                    stringBuffer.Append(current);
+                else if (IsValidEscape(current))
+                {
+                    current = src.Next;
+                    stringBuffer.Append(ConsumeEscape(current));
+                }
+                else
+                {
+                    src.Back();
+                    return CssUnitToken.Dimension(number, FlushBuffer());
+                }
+
+                current = src.Next;
             }
         }
 
         /// <summary>
         /// 4.4.16. SciNotation state
         /// </summary>
-        void SciNotation()
+        CssToken SciNotation(Char current)
         {
-            if (Specification.IsDigit(current))
-                stringBuffer.Append(current);
-            else
+            while (true)
             {
-                EnqueueToken(CssToken.Number(Interpret(stringBuffer.ToString())));
-                stringBuffer.Clear();
-                InstantSwitch(Data);
+                if (Specification.IsDigit(current))
+                    stringBuffer.Append(current);
+                else
+                {
+                    src.Back();
+                    return CssToken.Number(Interpret(FlushBuffer()));
+                }
+
+                current = src.Next;
             }
         }
 
         /// <summary>
         /// 4.4.17. URL state
         /// </summary>
-        void UrlStart()
+        CssToken UrlStart(Char current)
         {
-            if (Specification.IsSpaceCharacter(current))
-                return;
+            while (Specification.IsSpaceCharacter(current))
+                current = src.Next;
 
             switch (current)
             {
                 case Specification.EOF:
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    EnqueueToken(CssStringToken.Url(String.Empty, true));
-                    state = Data;
-                    break;
+                    return CssStringToken.Url(String.Empty, true);
 
                 case Specification.DQ:
-                    state = UrlDQ;
-                    break;
+                    return UrlDQ(src.Next);
 
                 case Specification.SQ:
-                    state = UrlSQ;
-                    break;
+                    return UrlSQ(src.Next);
 
                 case ')':
-                    EnqueueToken(CssStringToken.Url(String.Empty, false));
-                    state = Data;
-                    break;
+                    return CssStringToken.Url(String.Empty, false);
 
                 default:
-                    InstantSwitch(UrlUQ);
-                    break;
+                    return UrlUQ(current);
             }
         }
 
         /// <summary>
         /// 4.4.18. URL-double-quoted state
         /// </summary>
-        void UrlDQ()
+        CssToken UrlDQ(Char current)
         {
-            if (Specification.IsLineBreak(current))
+            while (true)
             {
-                RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
-                state = UrlBad;
-            }
-            else if (Specification.EOF == current)
-            {
-                EnqueueToken(CssStringToken.Url(stringBuffer.ToString()));
-                stringBuffer.Clear();
-                state = Data;
-            }
-            else if (current == Specification.DQ)
-            {
-                state = UrlEnd;
-            }
-            else if (current == Specification.RSOLIDUS)
-            {
-                ReadNext();
-
-                if (current == Specification.EOF)
+                if (Specification.IsLineBreak(current))
                 {
-                    ReadPrevious();
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    EnqueueToken(CssStringToken.Url(stringBuffer.ToString(), true));
-                    stringBuffer.Clear();
-                    InstantSwitch(Data);
+                    RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
+                    return UrlBad(src.Next);
                 }
-                else if (Specification.IsLineBreak(current))
-                    stringBuffer.AppendLine();
+                else if (Specification.EOF == current)
+                {
+                    return CssStringToken.Url(FlushBuffer());
+                }
+                else if (current == Specification.DQ)
+                {
+                    return UrlEnd(src.Next);
+                }
+                else if (current == Specification.RSOLIDUS)
+                {
+                    current = src.Next;
+
+                    if (current == Specification.EOF)
+                    {
+                        src.Back(2);
+                        RaiseErrorOccurred(ErrorCode.EOF);
+                        return CssStringToken.Url(FlushBuffer(), true);
+                    }
+                    else if (Specification.IsLineBreak(current))
+                        stringBuffer.AppendLine();
+                    else
+                        stringBuffer.Append(ConsumeEscape(current));
+                }
                 else
-                    stringBuffer.Append(ConsumeEscape());
+                    stringBuffer.Append(current);
+
+                current = src.Next;
             }
-            else
-                stringBuffer.Append(current);
         }
 
         /// <summary>
         /// 4.4.19. URL-single-quoted state
         /// </summary>
-        void UrlSQ()
+        CssToken UrlSQ(Char current)
         {
-            if (Specification.IsLineBreak(current))
+            while (true)
             {
-                RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
-                state = UrlBad;
-            }
-            else if (Specification.EOF == current)
-            {
-                EnqueueToken(CssStringToken.Url(stringBuffer.ToString()));
-                stringBuffer.Clear();
-                state = Data;
-            }
-            else if (current == Specification.SQ)
-            {
-                state = UrlEnd;
-            }
-            else if (current == Specification.RSOLIDUS)
-            {
-                ReadNext();
-
-                if (current == Specification.EOF)
+                if (Specification.IsLineBreak(current))
                 {
-                    ReadPrevious();
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    EnqueueToken(CssStringToken.Url(stringBuffer.ToString(), true));
-                    stringBuffer.Clear();
-                    InstantSwitch(Data);
+                    RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
+                    return UrlBad(src.Next);
                 }
-                else if (Specification.IsLineBreak(current))
-                    stringBuffer.AppendLine();
+                else if (Specification.EOF == current)
+                {
+                    return CssStringToken.Url(FlushBuffer());
+                }
+                else if (current == Specification.SQ)
+                {
+                    return UrlEnd(src.Next);
+                }
+                else if (current == Specification.RSOLIDUS)
+                {
+                    current = src.Next;
+
+                    if (current == Specification.EOF)
+                    {
+                        src.Back(2);
+                        RaiseErrorOccurred(ErrorCode.EOF);
+                        return CssStringToken.Url(FlushBuffer(), true);
+                    }
+                    else if (Specification.IsLineBreak(current))
+                        stringBuffer.AppendLine();
+                    else
+                        stringBuffer.Append(ConsumeEscape(current));
+                }
                 else
-                    stringBuffer.Append(ConsumeEscape());
+                    stringBuffer.Append(current);
+
+                current = src.Next;
             }
-            else
-                stringBuffer.Append(current);
         }
 
         /// <summary>
         /// 4.4.21. URL-unquoted state
         /// </summary>
-        void UrlUQ()
+        CssToken UrlUQ(Char current)
         {
-            if (Specification.IsSpaceCharacter(current))
+            while (true)
             {
-                state = UrlEnd;
-            }
-            else if (current == ')' || current == Specification.EOF)
-            {
-                EnqueueToken(CssStringToken.Url(stringBuffer.ToString()));
-                stringBuffer.Clear();
-                state = Data;
-            }
-            else if (current == Specification.DQ || current == Specification.SQ || current == '(' || Specification.IsNonPrintable(current))
-            {
-                RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                state = UrlBad;
-            }
-            else if (current == Specification.RSOLIDUS)
-            {
-                if (IsValidEscape())
+                if (Specification.IsSpaceCharacter(current))
                 {
-                    ReadNext();
-                    stringBuffer.Append(ConsumeEscape());
+                    return UrlEnd(src.Next);
                 }
-                else
+                else if (current == ')' || current == Specification.EOF)
+                {
+                    return CssStringToken.Url(FlushBuffer());
+                }
+                else if (current == Specification.DQ || current == Specification.SQ || current == '(' || Specification.IsNonPrintable(current))
                 {
                     RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                    state = UrlBad;
+                    return UrlBad(src.Next);
                 }
+                else if (current == Specification.RSOLIDUS)
+                {
+                    if (IsValidEscape(current))
+                    {
+                        current = src.Next;
+                        stringBuffer.Append(ConsumeEscape(current));
+                    }
+                    else
+                    {
+                        RaiseErrorOccurred(ErrorCode.InvalidCharacter);
+                        return UrlBad(src.Next);
+                    }
+                }
+                else
+                    stringBuffer.Append(current);
+
+                current = src.Next;
             }
-            else
-                stringBuffer.Append(current);
         }
 
         /// <summary>
         /// 4.4.20. URL-end state
         /// </summary>
-        void UrlEnd()
+        CssToken UrlEnd(Char current)
         {
-            if (current == ')')
+            while (true)
             {
-                EnqueueToken(CssStringToken.Url(stringBuffer.ToString()));
-                stringBuffer.Clear();
-                state = Data;
-            }
-            else if (!Specification.IsSpaceCharacter(current))
-            {
-                RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                InstantSwitch(UrlBad);
+                if (current == ')')
+                    return CssStringToken.Url(FlushBuffer());
+                else if (!Specification.IsSpaceCharacter(current))
+                {
+                    RaiseErrorOccurred(ErrorCode.InvalidCharacter);
+                    return UrlBad(current);
+                }
+
+                current = src.Next;
             }
         }
 
         /// <summary>
         /// 4.4.22. Bad URL state
         /// </summary>
-        void UrlBad()
+        CssToken UrlBad(Char current)
         {
-            if (current == Specification.EOF)
+            while (true)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                EnqueueToken(CssStringToken.Url(stringBuffer.ToString(), true));
-                stringBuffer.ToString();
-                state = Data;
-            }
-            else if (current == ')')
-            {
-                EnqueueToken(CssStringToken.Url(stringBuffer.ToString(), true));
-                stringBuffer.ToString();
-                state = Data;
-            }
-            else if (IsValidEscape())
-            {
-                ReadNext();
-                stringBuffer.Append(ConsumeEscape());
+                if (current == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    return CssStringToken.Url(FlushBuffer(), true);
+                }
+                else if (current == ')')
+                {
+                    return CssStringToken.Url(FlushBuffer(), true);
+                }
+                else if (IsValidEscape(current))
+                {
+                    current = src.Next;
+                    stringBuffer.Append(ConsumeEscape(current));
+                }
+
+                current = src.Next;
             }
         }
 
         /// <summary>
         /// 4.4.23. Unicode-range State
         /// </summary>
-        void UnicodeRange()
+        CssToken UnicodeRange(Char current)
         {
             for (int i = 0; i < 6; i++)
             {
@@ -1089,7 +1030,7 @@ namespace AngleSharp.Css
                     break;
 
                 stringBuffer.Append(current);
-                ReadNext();
+                current = src.Next;
             }
 
             if (stringBuffer.Length != 6)
@@ -1098,24 +1039,22 @@ namespace AngleSharp.Css
                 {
                     if (current != Specification.QM)
                     {
-                        ReadPrevious();
+                        current = src.Previous;
                         break;
                     }
 
                     stringBuffer.Append(current);
-                    ReadNext();
+                    current = src.Next;
                 }
 
-                var range = stringBuffer.ToString();
+                var range = FlushBuffer();
                 var start = range.Replace(Specification.QM, '0');
                 var end = range.Replace(Specification.QM, 'F');
-                EnqueueToken(CssToken.Range(start, end));
-                stringBuffer.Clear();
-                state = Data;
+                return CssToken.Range(start, end);
             }
             else if (current == Specification.DASH)
             {
-                ReadNext();
+                current = src.Next;
 
                 if (Specification.IsHex(current))
                 {
@@ -1126,32 +1065,27 @@ namespace AngleSharp.Css
                     {
                         if (!Specification.IsHex(current))
                         {
-                            ReadPrevious();
+                            current = src.Previous;
                             break;
                         }
 
                         stringBuffer.Append(current);
-                        ReadNext();
+                        current = src.Next;
                     }
 
-                    var end = stringBuffer.ToString();
-                    stringBuffer.Clear();
-                    EnqueueToken(CssToken.Range(start, end));
-                    state = Data;
+                    var end = FlushBuffer();
+                    return CssToken.Range(start, end);
                 }
                 else
                 {
-                    ReadPrevious();
-                    EnqueueToken(CssToken.Range(stringBuffer.ToString(), null));
-                    stringBuffer.Clear();
-                    InstantSwitch(Data);
+                    src.Back(2);
+                    return CssToken.Range(FlushBuffer(), null);
                 }
             }
             else
             {
-                EnqueueToken(CssToken.Range(stringBuffer.ToString(), null));
-                stringBuffer.Clear();
-                InstantSwitch(Data);
+                src.Back();
+                return CssToken.Range(FlushBuffer(), null);
             }
         }
 
@@ -1159,116 +1093,87 @@ namespace AngleSharp.Css
 
         #region Helpers
 
+        String FlushBuffer()
+        {
+            var tmp = stringBuffer.ToString();
+            stringBuffer.Clear();
+            return tmp;
+        }
+
         /// <summary>
         /// Checks if the current position is the start of an identifier.
         /// </summary>
         /// <returns>The result of the check.</returns>
-        bool StartsWithAnIdentifier()
-        {
-            if (current == Specification.DASH)
-            {
-                ReadNext();
-                var check = Specification.IsNameStart(current) || IsValidEscape();
-                ReadPrevious();
-                return check;
-            }
+        //bool StartsWithAnIdentifier()
+        //{
+        //    if (current == Specification.DASH)
+        //    {
+        //        ReadNext();
+        //        var check = Specification.IsNameStart(current) || IsValidEscape();
+        //        ReadPrevious();
+        //        return check;
+        //    }
 
-            return Specification.IsNameStart(current) || IsValidEscape();
-        }
+        //    return Specification.IsNameStart(current) || IsValidEscape();
+        //}
 
         /// <summary>
         /// Substate of several Number states.
         /// </summary>
-        void NumberExponential()
+        CssToken NumberExponential(Char current)
         {
-            ReadNext();
+            current = src.Next;
 
             if (Specification.IsDigit(current))
             {
                 stringBuffer.Append('e').Append(current);
-                state = SciNotation;
-                return;
+                return SciNotation(src.Next);
             }
             else if (current == Specification.PLUS || current == Specification.DASH)
             {
                 var op = current;
-                ReadNext();
+                current = src.Next;
 
                 if (Specification.IsDigit(current))
                 {
                     stringBuffer.Append('e').Append(op).Append(current);
-                    state = SciNotation;
-                    return;
+                    return SciNotation(src.Next);
                 }
 
-                ReadPrevious();
+                src.Back();
             }
 
-            ReadPrevious();
-            number = Interpret(stringBuffer.ToString());
-            stringBuffer.Clear();
+            current = src.Previous;
+            number = Interpret(FlushBuffer());
             stringBuffer.Append(current);
-            state = Dimension;
+            return Dimension(src.Next);
         }
 
         /// <summary>
         /// Substate of several Number states.
         /// </summary>
-        void NumberDash()
+        CssToken NumberDash(Char current)
         {
-            ReadNext();
+            current = src.Next;
 
             if (Specification.IsNameStart(current))
             {
-                number = Interpret(stringBuffer.ToString());
-                stringBuffer.Clear();
+                number = Interpret(FlushBuffer());
                 stringBuffer.Append(Specification.DASH).Append(current);
-                state = Dimension;
+                return Dimension(src.Next);
             }
-            else if (IsValidEscape())
+            else if (IsValidEscape(current))
             {
-                ReadNext();
-                number = Interpret(stringBuffer.ToString());
-                stringBuffer.Clear();
-                stringBuffer.Append(Specification.DASH).Append(ConsumeEscape());
-                state = Dimension;
+                current = src.Next;
+                number = Interpret(FlushBuffer());
+                stringBuffer.Append(Specification.DASH).Append(ConsumeEscape(current));
+                return Dimension(src.Next);
             }
             else
             {
-                ReadPrevious();
-                EnqueueToken(CssToken.Number(Interpret(stringBuffer.ToString())));
-                stringBuffer.Clear();
-                InstantSwitch(Data);
+                src.Back(2);
+                return CssToken.Number(Interpret(FlushBuffer()));
             }
-        }
-
-        /// <summary>
-        /// Substate of several Number states.
-        /// </summary>
-        /// <returns>True if the current character has been used, otherwise false.</returns>
-        bool NumberCheck()
-        {
-            if (Specification.IsDigit(current))
-                stringBuffer.Append(current);
-            else if (Specification.IsNameStart(current))
-            {
-                number = Interpret(stringBuffer.ToString());
-                stringBuffer.Clear();
-                stringBuffer.Append(current);
-                state = Dimension;
-            }
-            else if (IsValidEscape())
-            {
-                ReadNext();
-                number = Interpret(stringBuffer.ToString());
-                stringBuffer.Clear();
-                stringBuffer.Append(ConsumeEscape());
-                state = Dimension;
-            }
-            else
-                return false;
-
-            return true;
         }
 
         /// <summary>
@@ -1276,9 +1181,9 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="number">The string to interpret.</param>
         /// <returns>The floating point precision number.</returns>
-        float Interpret(string number)
+        Single Interpret(String number)
         {
-            return float.Parse(number, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+            return Single.Parse(number, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -1286,24 +1191,24 @@ namespace AngleSharp.Css
         /// consumed.
         /// </summary>
         /// <returns>The escaped character.</returns>
-        string ConsumeEscape()
+        String ConsumeEscape(Char current)
         {
             if (Specification.IsHex(current))
             {
-                var escape = new List<char>();
+                var escape = new List<Char>();
 
                 for (int i = 0; i < 6; i++)
                 {
                     escape.Add(current);
-                    ReadNext();
+                    current = src.Next;
 
                     if (!Specification.IsHex(current))
                         break;
                 }
 
-                ReadPrevious();
-                int code = int.Parse(new string(escape.ToArray()), System.Globalization.NumberStyles.HexNumber);
-                return char.ConvertFromUtf32(code);
+                current = src.Previous;
+                var code = Int32.Parse(new String(escape.ToArray()), NumberStyles.HexNumber);
+                return Char.ConvertFromUtf32(code);
             }
 
             return current.ToString();
@@ -1313,71 +1218,20 @@ namespace AngleSharp.Css
         /// Checks if the current position is the beginning of a valid escape sequence.
         /// </summary>
         /// <returns>The result of the check.</returns>
-        bool IsValidEscape()
+        Boolean IsValidEscape(Char current)
         {
             if (current != Specification.RSOLIDUS)
                 return false;
 
-            ReadNext();
-            var c = current;
-            ReadPrevious();
+            current = src.Next;
+            src.Back();
 
-            if (c == Specification.EOF)
+            if (current == Specification.EOF)
                 return false;
-            else if (Specification.IsLineBreak(c))
+            else if (Specification.IsLineBreak(current))
                 return false;
 
             return true;
-        }
-
-        /// <summary>
-        /// Switches to the specified state and reconsumes the current character.
-        /// </summary>
-        /// <param name="newState">The state to switch to.</param>
-        [DebuggerStepThrough]
-        void InstantSwitch(Action newState)
-        {
-            (state = newState)();
-        }
-
-        /// <summary>
-        /// Reads the previous character.
-        /// </summary>
-        [DebuggerStepThrough]
-        void ReadPrevious()
-        {
-            current = src.Previous;
-        }
-
-        /// <summary>
-        /// Reads the next character.
-        /// </summary>
-        [DebuggerStepThrough]
-        void ReadNext()
-        {
-            current = src.Next;
-        }
-
-        /// <summary>
-        /// Enqueues a token to be emitted as soon as possible.
-        /// </summary>
-        /// <param name="token">The token to queue.</param>
-        [DebuggerStepThrough]
-        void EnqueueToken(CssToken token)
-        {
-            buffered = true;
-            tokenBuffer.Enqueue(token);
-        }
-
-        /// <summary>
-        /// Dequeues a token which has been saved in the buffer.
-        /// </summary>
-        /// <returns>The dequeued token.</returns>
-        [DebuggerStepThrough]
-        CssToken DequeueToken()
-        {
-            buffered = tokenBuffer.Count > 1;
-            return tokenBuffer.Dequeue();
         }
 
         #endregion

@@ -2,16 +2,19 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLTableColElement : HTMLElement
+    public sealed class HTMLTableColElement : HTMLElement
     {
         public const string ColTag = "col";
         public const string ColgroupTag = "colgroup";
 
-        public HTMLTableColElement()
+        internal HTMLTableColElement()
         {
-            NodeName = ColTag;
+            _name = ColTag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get

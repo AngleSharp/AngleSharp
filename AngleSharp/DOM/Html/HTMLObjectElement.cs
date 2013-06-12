@@ -2,15 +2,18 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLObjectElement : HTMLElement
+    public sealed class HTMLObjectElement : HTMLElement
     {
         public const string Tag = "object";
 
-        public HTMLObjectElement()
+        internal HTMLObjectElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get

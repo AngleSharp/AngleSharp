@@ -2,15 +2,18 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLTableRowElement : HTMLElement
+    public sealed class HTMLTableRowElement : HTMLElement
     {
         public const string Tag = "tr";
 
-        public HTMLTableRowElement()
+        internal HTMLTableRowElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get

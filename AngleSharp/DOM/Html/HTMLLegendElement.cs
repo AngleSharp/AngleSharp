@@ -2,15 +2,18 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLLegendElement : HTMLElement
+    public sealed class HTMLLegendElement : HTMLElement
     {
         public const string Tag = "legend";
 
-        public HTMLLegendElement()
+        internal HTMLLegendElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get

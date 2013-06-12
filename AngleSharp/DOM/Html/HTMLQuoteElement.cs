@@ -2,17 +2,20 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLQuoteElement : HTMLElement
+    public sealed class HTMLQuoteElement : HTMLElement
     {
         public const string NormalTag = "quote";
         public const string BlockTag = "blockquote";
         public const string ShortTag = "q";
 
-        public HTMLQuoteElement()
+        internal HTMLQuoteElement()
         {
-            NodeName = NormalTag;
+            _name = NormalTag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get

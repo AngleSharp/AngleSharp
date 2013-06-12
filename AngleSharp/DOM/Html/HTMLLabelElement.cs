@@ -2,15 +2,18 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLLabelElement : HTMLElement
+    public sealed class HTMLLabelElement : HTMLElement
     {
         public const string Tag = "label";
 
-        public HTMLLabelElement()
+        internal HTMLLabelElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get

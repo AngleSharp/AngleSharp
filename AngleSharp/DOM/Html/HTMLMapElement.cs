@@ -2,13 +2,13 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLMapElement : HTMLElement
+    public sealed class HTMLMapElement : HTMLElement
     {
         public const string Tag = "map";
 
-        public HTMLMapElement()
+        internal HTMLMapElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
     }
 }

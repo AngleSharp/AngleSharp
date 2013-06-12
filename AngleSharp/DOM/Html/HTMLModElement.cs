@@ -2,15 +2,18 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLModElement : HTMLElement
+    public sealed class HTMLModElement : HTMLElement
     {
         public const string InsTag = "ins";
         public const string DelTag = "del";
 
-        public HTMLModElement()
+        internal HTMLModElement()
         {
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get

@@ -16,9 +16,7 @@ namespace ConsoleInteraction
             //IMPORTANT:
             //http://www.w3.org/TR/domcore/#interface-htmlcollection
 
-            //TestCSS(Stylesheets.rsi);
-
-            //CssSelectorTest.Slickspeed();
+            CssSelectorTest.Slickspeed();
 
             //TestHtml(Snippets.Invalid);
 

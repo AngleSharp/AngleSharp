@@ -1865,36 +1865,33 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken AttributeDoubleQuotedValue(Char c, HtmlTagToken tag)
         {
-            if (c == Specification.DQ)
+            while (true)
             {
-                tag.SetAttributeValue(stringBuffer.ToString());
-                return AttributeAfterValue(src.Next, tag);
-            }
-            else if (c == Specification.AMPERSAND)
-            {
-                var value = CharacterReference(src.Next, Specification.DQ);
+                if (c == Specification.DQ)
+                {
+                    tag.SetAttributeValue(stringBuffer.ToString());
+                    return AttributeAfterValue(src.Next, tag);
+                }
+                else if (c == Specification.AMPERSAND)
+                {
+                    var value = CharacterReference(src.Next, Specification.DQ);
 
-                if (value == null)
-                    stringBuffer.Append(Specification.AMPERSAND);
+                    if (value == null)
+                        stringBuffer.Append(Specification.AMPERSAND);
+                    else
+                        stringBuffer.Append(value);
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    stringBuffer.Append(Specification.REPLACEMENT);
+                }
+                else if (c == Specification.EOF)
+                    return HtmlToken.EOF;
                 else
-                    stringBuffer.Append(value);
+                    stringBuffer.Append(c);
 
-                return AttributeDoubleQuotedValue(src.Next, tag);
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.REPLACEMENT);
-                return AttributeDoubleQuotedValue(src.Next, tag);
-            }
-            else if (c == Specification.EOF)
-            {
-                return HtmlToken.EOF;
-            }
-            else
-            {
-                stringBuffer.Append(c);
-                return AttributeDoubleQuotedValue(src.Next, tag);
+                c = src.Next;
             }
         }
 
@@ -1904,36 +1901,33 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken AttributeSingleQuotedValue(Char c, HtmlTagToken tag)
         {
-            if (c == Specification.SQ)
+            while (true)
             {
-                tag.SetAttributeValue(stringBuffer.ToString());
-                return AttributeAfterValue(src.Next, tag);
-            }
-            else if (c == Specification.AMPERSAND)
-            {
-                var value = CharacterReference(src.Next, Specification.SQ);
+                if (c == Specification.SQ)
+                {
+                    tag.SetAttributeValue(stringBuffer.ToString());
+                    return AttributeAfterValue(src.Next, tag);
+                }
+                else if (c == Specification.AMPERSAND)
+                {
+                    var value = CharacterReference(src.Next, Specification.SQ);
 
-                if (value == null)
-                    stringBuffer.Append(Specification.AMPERSAND);
+                    if (value == null)
+                        stringBuffer.Append(Specification.AMPERSAND);
+                    else
+                        stringBuffer.Append(value);
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    stringBuffer.Append(Specification.REPLACEMENT);
+                }
+                else if (c == Specification.EOF)
+                    return HtmlToken.EOF;
                 else
-                    stringBuffer.Append(value);
+                    stringBuffer.Append(c);
 
-                return AttributeSingleQuotedValue(src.Next, tag);
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.REPLACEMENT);
-                return AttributeSingleQuotedValue(src.Next, tag);
-            }
-            else if (c == Specification.EOF)
-            {
-                return HtmlToken.EOF;
-            }
-            else
-            {
-                stringBuffer.Append(c);
-                return AttributeSingleQuotedValue(src.Next, tag);
+                c = src.Next;
             }
         }
 
@@ -1943,46 +1937,44 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken AttributeUnquotedValue(Char c, HtmlTagToken tag)
         {
-            if (Specification.IsSpaceCharacter(c))
+            while (true)
             {
-                tag.SetAttributeValue(stringBuffer.ToString());
-                return AttributeBeforeName(src.Next, tag);
-            }
-            else if (c == Specification.AMPERSAND)
-            {
-                var value = CharacterReference(src.Next, Specification.GT);
+                if (Specification.IsSpaceCharacter(c))
+                {
+                    tag.SetAttributeValue(stringBuffer.ToString());
+                    return AttributeBeforeName(src.Next, tag);
+                }
+                else if (c == Specification.AMPERSAND)
+                {
+                    var value = CharacterReference(src.Next, Specification.GT);
 
-                if (value == null)
-                    value = new char[] { Specification.AMPERSAND };
+                    if (value == null)
+                        value = new char[] { Specification.AMPERSAND };
 
-                tag.SetAttributeValue(new string(value));
-                return AttributeAfterValue(src.Next, tag);
-            }
-            else if (c == Specification.GT)
-            {
-                tag.SetAttributeValue(stringBuffer.ToString());
-                return EmitTag(tag);
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.REPLACEMENT);
-                return AttributeUnquotedValue(src.Next, tag);
-            }
-            else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT || c == Specification.EQ || c == Specification.CQ)
-            {
-                RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
-                stringBuffer.Append(c);
-                return AttributeUnquotedValue(src.Next, tag);
-            }
-            else if (c == Specification.EOF)
-            {
-                return HtmlToken.EOF;
-            }
-            else
-            {
-                stringBuffer.Append(c);
-                return AttributeUnquotedValue(src.Next, tag);
+                    tag.SetAttributeValue(new string(value));
+                    return AttributeAfterValue(src.Next, tag);
+                }
+                else if (c == Specification.GT)
+                {
+                    tag.SetAttributeValue(stringBuffer.ToString());
+                    return EmitTag(tag);
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    stringBuffer.Append(Specification.REPLACEMENT);
+                }
+                else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT || c == Specification.EQ || c == Specification.CQ)
+                {
+                    RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
+                    stringBuffer.Append(c);
+                }
+                else if (c == Specification.EOF)
+                    return HtmlToken.EOF;
+                else
+                    stringBuffer.Append(c);
+
+                c = src.Next;
             }
         }
 

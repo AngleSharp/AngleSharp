@@ -2,15 +2,18 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLTableCaptionElement : HTMLElement
+    public sealed class HTMLTableCaptionElement : HTMLElement
     {
         public const string Tag = "caption";
 
-        public HTMLTableCaptionElement()
+        internal HTMLTableCaptionElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get

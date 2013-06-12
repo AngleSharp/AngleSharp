@@ -2,15 +2,18 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLSpanElement : HTMLElement
+    public sealed class HTMLSpanElement : HTMLElement
     {
         public const string Tag = "span";
 
-        public HTMLSpanElement()
+        internal HTMLSpanElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get

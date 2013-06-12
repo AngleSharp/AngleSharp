@@ -2,15 +2,18 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLOListElement : HTMLElement
+    public sealed class HTMLOListElement : HTMLElement
     {
         public const string Tag = "ol";
 
-        public HTMLOListElement()
+        internal HTMLOListElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get

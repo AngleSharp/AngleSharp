@@ -48,7 +48,7 @@ namespace AngleSharp.Css
         /// <returns>The original value.</returns>
         public override String ToValue()
         {
-            return _data.ToString("0.0", CultureInfo.InvariantCulture);
+            return _data.ToString(CultureInfo.InvariantCulture);
         }
 
         #endregion

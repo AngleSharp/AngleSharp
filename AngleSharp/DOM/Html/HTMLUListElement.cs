@@ -2,21 +2,27 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLUListElement : HTMLElement
+    /// <summary>
+    /// The DOM Object representing the unordered list.
+    /// </summary>
+    public sealed class HTMLUListElement : HTMLElement
     {
+        /// <summary>
+        /// The tag ul.
+        /// </summary>
         public const string Tag = "ul";
 
-        public HTMLUListElement()
+        internal HTMLUListElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

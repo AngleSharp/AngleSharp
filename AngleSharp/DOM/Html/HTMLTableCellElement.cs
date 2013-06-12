@@ -2,16 +2,19 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLTableCellElement : HTMLElement
+    public sealed class HTMLTableCellElement : HTMLElement
     {
         public const string HeadTag = "th";
         public const string NormalTag = "td";
 
-        public HTMLTableCellElement()
+        internal HTMLTableCellElement()
         {
-            NodeName = NormalTag;
+            _name = NormalTag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get
