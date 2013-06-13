@@ -2,21 +2,27 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLDirectoryElement : HTMLElement
+    /// <summary>
+    /// Represents the HTML dir element.
+    /// </summary>
+    public sealed class HTMLDirectoryElement : HTMLElement
     {
-        public const string Tag = "dir";
+        /// <summary>
+        /// The dir tag.
+        /// </summary>
+        internal const string Tag = "dir";
 
-        public HTMLDirectoryElement()
+        internal HTMLDirectoryElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

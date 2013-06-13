@@ -5,14 +5,14 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML base element.
     /// </summary>
-    public class HTMLBaseElement : HTMLElement
+    public sealed class HTMLBaseElement : HTMLElement
     {
         #region Constant
 
         /// <summary>
         /// The base tag.
         /// </summary>
-        public const string Tag = "base";
+        internal const string Tag = "base";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a HTML base element.
         /// </summary>
-        public HTMLBaseElement()
+        internal HTMLBaseElement()
         {
             _name = Tag;
         }
@@ -52,6 +52,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

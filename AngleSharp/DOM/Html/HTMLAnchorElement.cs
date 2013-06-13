@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The a tag.
         /// </summary>
-        public const string Tag = "a";
+        internal const string Tag = "a";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new anchor element.
         /// </summary>
-        public HTMLAnchorElement()
+        internal HTMLAnchorElement()
         {
             _name = Tag;
         }

@@ -9,12 +9,38 @@ namespace AngleSharp.DOM.Html
     {
         #region Members
 
-        protected string source;
+        /// <summary>
+        /// The source url.
+        /// </summary>
+        protected String source;
+        /// <summary>
+        /// The state of the network.
+        /// </summary>
         protected MediaNetworkState network;
+        /// <summary>
+        /// The state of the media.
+        /// </summary>
         protected MediaReadyState ready;
-        protected bool seeking;
-        protected double duration;
-        protected double currentTime;
+        /// <summary>
+        /// Currently seeking ?
+        /// </summary>
+        protected Boolean seeking;
+        /// <summary>
+        /// The total time (duration).
+        /// </summary>
+        protected Double duration;
+        /// <summary>
+        /// The current time.
+        /// </summary>
+        protected Double currentTime;
+
+        #endregion
+
+        #region ctor
+
+        internal HTMLMediaElement()
+        {
+        }
 
         #endregion
 

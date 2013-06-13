@@ -2,21 +2,27 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLFrameSetElement : HTMLElement
+    /// <summary>
+    /// Represents the HTML frameset element.
+    /// </summary>
+    public sealed class HTMLFrameSetElement : HTMLElement
     {
-        public const string Tag = "frameset";
+        /// <summary>
+        /// The frameset tag.
+        /// </summary>
+        internal const string Tag = "frameset";
 
-        public HTMLFrameSetElement()
+        internal HTMLFrameSetElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

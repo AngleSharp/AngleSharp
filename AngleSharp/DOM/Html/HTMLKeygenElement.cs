@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The keygen tag.
         /// </summary>
-        public const string Tag = "keygen";
+        internal const string Tag = "keygen";
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML keygen element.
         /// </summary>
-        public HTMLKeygenElement()
+        internal HTMLKeygenElement()
         {
             vstate = new ValidityState();
             _name = Tag;
@@ -127,6 +127,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

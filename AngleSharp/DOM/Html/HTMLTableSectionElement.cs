@@ -2,11 +2,25 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the object for HTML table section (thead / tbody / tfoot) elements.
+    /// </summary>
     public sealed class HTMLTableSectionElement : HTMLElement
     {
-        public const string HeadTag = "thead";
-        public const string BodyTag = "tbody";
-        public const string FootTag = "tfoot";
+        /// <summary>
+        /// The dialog tag.
+        /// </summary>
+        internal const string HeadTag = "thead";
+
+        /// <summary>
+        /// The dialog tag.
+        /// </summary>
+        internal const string BodyTag = "tbody";
+
+        /// <summary>
+        /// The dialog tag.
+        /// </summary>
+        internal const string FootTag = "tfoot";
 
         internal HTMLTableSectionElement()
         {
@@ -18,10 +32,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

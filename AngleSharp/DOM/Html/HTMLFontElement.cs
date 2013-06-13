@@ -2,13 +2,19 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLFontElement : HTMLFormattingElement
+    /// <summary>
+    /// Represents a font element.
+    /// </summary>
+    public sealed class HTMLFontElement : HTMLFormattingElement
     {
-        public const string Tag = "font";
+        /// <summary>
+        /// The font tag.
+        /// </summary>
+        internal const string Tag = "font";
 
-        public HTMLFontElement()
+        internal HTMLFontElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
     }
 }

@@ -2,9 +2,15 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the HTML label element.
+    /// </summary>
     public sealed class HTMLLabelElement : HTMLElement
     {
-        public const string Tag = "label";
+        /// <summary>
+        /// The label tag.
+        /// </summary>
+        internal const string Tag = "label";
 
         internal HTMLLabelElement()
         {
@@ -16,10 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
     }
 }

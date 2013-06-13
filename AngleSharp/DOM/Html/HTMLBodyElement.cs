@@ -5,14 +5,14 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML body element.
     /// </summary>
-    public class HTMLBodyElement : HTMLElement
+    public sealed class HTMLBodyElement : HTMLElement
     {
         #region Constant
 
         /// <summary>
         /// The body tag.
         /// </summary>
-        public const string Tag = "body";
+        internal const string Tag = "body";
 
         #endregion
 
@@ -21,9 +21,9 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a HTML body element.
         /// </summary>
-        public HTMLBodyElement()
+        internal HTMLBodyElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
         #endregion
@@ -88,6 +88,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

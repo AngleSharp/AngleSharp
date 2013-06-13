@@ -2,9 +2,15 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the HTML legend element.
+    /// </summary>
     public sealed class HTMLLegendElement : HTMLElement
     {
-        public const string Tag = "legend";
+        /// <summary>
+        /// The legend tag.
+        /// </summary>
+        internal const string Tag = "legend";
 
         internal HTMLLegendElement()
         {
@@ -16,10 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
     }
 }

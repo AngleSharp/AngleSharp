@@ -5,14 +5,14 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an HTML button element.
     /// </summary>
-    public class HTMLButtonElement : HTMLElement
+    public sealed class HTMLButtonElement : HTMLElement
     {
         #region Constant
 
         /// <summary>
         /// The button tag.
         /// </summary>
-        public const string Tag = "button";
+        internal const string Tag = "button";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML button element.
         /// </summary>
-        public HTMLButtonElement()
+        internal HTMLButtonElement()
         {
             _name = Tag;
         }
@@ -82,6 +82,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

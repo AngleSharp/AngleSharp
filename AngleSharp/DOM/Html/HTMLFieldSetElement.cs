@@ -5,17 +5,17 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML fieldset element.
     /// </summary>
-    public class HTMLFieldSetElement : HTMLElement
+    public sealed class HTMLFieldSetElement : HTMLElement
     {
         /// <summary>
         /// THe fieldset tag.
         /// </summary>
-        public const string Tag = "fieldset";
+        internal const string Tag = "fieldset";
 
         /// <summary>
         /// Creates a new HTML fieldset element.
         /// </summary>
-        public HTMLFieldSetElement()
+        internal HTMLFieldSetElement()
         {
             _name = Tag;
         }
@@ -26,18 +26,15 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         public bool IsInvalid
         {
-            get
-            {
-                return _children.QuerySelector("*:invalid") != null;
-            }
+            get { return _children.QuerySelector("*:invalid") != null; }
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

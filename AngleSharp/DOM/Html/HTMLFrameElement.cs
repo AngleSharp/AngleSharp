@@ -2,21 +2,27 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLFrameElement : HTMLElement
+    /// <summary>
+    /// Represents the HTML frame element.
+    /// </summary>
+    public sealed class HTMLFrameElement : HTMLElement
     {
-        public const string Tag = "frame";
+        /// <summary>
+        /// The frame tag.
+        /// </summary>
+        internal const string Tag = "frame";
 
-        public HTMLFrameElement()
+        internal HTMLFrameElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

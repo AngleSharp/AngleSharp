@@ -2,10 +2,20 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the object for HTML table cell (td / th) elements.
+    /// </summary>
     public sealed class HTMLTableCellElement : HTMLElement
     {
-        public const string HeadTag = "th";
-        public const string NormalTag = "td";
+        /// <summary>
+        /// The th tag.
+        /// </summary>
+        internal const string HeadTag = "th";
+
+        /// <summary>
+        /// The td tag.
+        /// </summary>
+        internal const string NormalTag = "td";
 
         internal HTMLTableCellElement()
         {
@@ -17,10 +27,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

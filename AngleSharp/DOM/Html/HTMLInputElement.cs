@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The input tag.
         /// </summary>
-        public const string Tag = "input";
+        internal const string Tag = "input";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML input element.
         /// </summary>
-        public HTMLInputElement()
+        internal HTMLInputElement()
         {
             _name = Tag;
             
@@ -133,6 +133,9 @@ namespace AngleSharp.DOM.Html
             get { return !Disabled && !Readonly; }
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

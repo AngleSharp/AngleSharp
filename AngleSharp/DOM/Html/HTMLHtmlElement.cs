@@ -10,16 +10,19 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The html tag.
         /// </summary>
-        public const string Tag = "html";
+        internal const string Tag = "html";
 
         /// <summary>
         /// Creates a new HTML html tag.
         /// </summary>
-        public HTMLHtmlElement()
+        internal HTMLHtmlElement()
         {
             _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

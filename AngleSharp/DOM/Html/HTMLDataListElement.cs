@@ -14,7 +14,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The datalist tag.
         /// </summary>
-        public const string Tag = "datalist";
+        internal const string Tag = "datalist";
 
         static readonly SimpleSelector optionsQuery = SimpleSelector.Type(HTMLOptionElement.Tag);
 
@@ -25,7 +25,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new datalist element.
         /// </summary>
-        public HTMLDataListElement()
+        internal HTMLDataListElement()
         {
             _name = Tag;
         }

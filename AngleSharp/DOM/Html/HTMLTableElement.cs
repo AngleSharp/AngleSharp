@@ -2,9 +2,15 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the HTML table element.
+    /// </summary>
     public sealed class HTMLTableElement : HTMLElement
     {
-        public const string Tag = "table";
+        /// <summary>
+        /// The table tag.
+        /// </summary>
+        internal const string Tag = "table";
 
         internal HTMLTableElement()
         {
@@ -16,10 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

@@ -2,21 +2,27 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLDListElement : HTMLElement
+    /// <summary>
+    /// Represents the HTML dl element.
+    /// </summary>
+    public sealed class HTMLDListElement : HTMLElement
     {
-        public const string Tag = "dl";
+        /// <summary>
+        /// The dl tag.
+        /// </summary>
+        internal const string Tag = "dl";
 
-        public HTMLDListElement()
+        internal HTMLDListElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

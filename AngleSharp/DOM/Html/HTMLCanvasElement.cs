@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The canvas tag.
         /// </summary>
-        public const string Tag = "canvas";
+        internal const string Tag = "canvas";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML canvas element.
         /// </summary>
-        public HTMLCanvasElement()
+        internal HTMLCanvasElement()
         {
             _name = Tag;
         }
@@ -94,6 +94,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return false; }

@@ -5,14 +5,14 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the embed element.
     /// </summary>
-    public class HTMLEmbedElement : HTMLElement
+    public sealed class HTMLEmbedElement : HTMLElement
     {
         #region Constant
 
         /// <summary>
         /// The embed tag.
         /// </summary>
-        public const string Tag = "embed";
+        internal const string Tag = "embed";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new Embed element.
         /// </summary>
-        public HTMLEmbedElement()
+        internal HTMLEmbedElement()
         {
             _name = Tag;
         }
@@ -30,6 +30,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

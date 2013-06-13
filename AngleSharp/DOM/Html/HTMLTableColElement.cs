@@ -2,10 +2,20 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the HTML column (col / colgroup) element.
+    /// </summary>
     public sealed class HTMLTableColElement : HTMLElement
     {
-        public const string ColTag = "col";
-        public const string ColgroupTag = "colgroup";
+        /// <summary>
+        /// The col tag.
+        /// </summary>
+        internal const string ColTag = "col";
+
+        /// <summary>
+        /// The colgroup tag.
+        /// </summary>
+        internal const string ColgroupTag = "colgroup";
 
         internal HTMLTableColElement()
         {
@@ -17,10 +27,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

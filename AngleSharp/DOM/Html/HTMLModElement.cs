@@ -2,10 +2,20 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the HTML modifier (ins / del) element.
+    /// </summary>
     public sealed class HTMLModElement : HTMLElement
     {
-        public const string InsTag = "ins";
-        public const string DelTag = "del";
+        /// <summary>
+        /// The ins tag.
+        /// </summary>
+        internal const string InsTag = "ins";
+
+        /// <summary>
+        /// The del tag.
+        /// </summary>
+        internal const string DelTag = "del";
 
         internal HTMLModElement()
         {
@@ -16,10 +26,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
     }
 }

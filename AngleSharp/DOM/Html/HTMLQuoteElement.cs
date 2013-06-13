@@ -2,11 +2,25 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Rperesents the HTML quote element.
+    /// </summary>
     public sealed class HTMLQuoteElement : HTMLElement
     {
-        public const string NormalTag = "quote";
-        public const string BlockTag = "blockquote";
-        public const string ShortTag = "q";
+        /// <summary>
+        /// The quote tag.
+        /// </summary>
+        internal const string NormalTag = "quote";
+
+        /// <summary>
+        /// The blockquote tag.
+        /// </summary>
+        internal const string BlockTag = "blockquote";
+
+        /// <summary>
+        /// The q tag.
+        /// </summary>
+        internal const string ShortTag = "q";
 
         internal HTMLQuoteElement()
         {
@@ -18,10 +32,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return NodeName == BlockTag;
-            }
+            get { return _name.Equals(BlockTag); }
         }
     }
 }

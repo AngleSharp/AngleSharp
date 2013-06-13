@@ -5,14 +5,14 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML isindex element.
     /// </summary>
-    public class HTMLIsIndexElement : HTMLElement
+    public sealed class HTMLIsIndexElement : HTMLElement
     {
         #region Constant
 
         /// <summary>
         /// The isindex tag.
         /// </summary>
-        public const string Tag = "isindex";
+        internal const string Tag = "isindex";
 
         #endregion
 
@@ -21,9 +21,9 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new isindex element.
         /// </summary>
-        public HTMLIsIndexElement()
+        internal HTMLIsIndexElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
         #endregion
@@ -52,6 +52,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

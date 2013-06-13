@@ -2,9 +2,15 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the HTML object element.
+    /// </summary>
     public sealed class HTMLObjectElement : HTMLElement
     {
-        public const string Tag = "object";
+        /// <summary>
+        /// The object tag.
+        /// </summary>
+        internal const string Tag = "object";
 
         internal HTMLObjectElement()
         {
@@ -16,10 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

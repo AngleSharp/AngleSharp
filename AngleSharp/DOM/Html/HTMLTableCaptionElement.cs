@@ -2,9 +2,15 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the HTML caption element.
+    /// </summary>
     public sealed class HTMLTableCaptionElement : HTMLElement
     {
-        public const string Tag = "caption";
+        /// <summary>
+        /// The caption tag.
+        /// </summary>
+        internal const string Tag = "caption";
 
         internal HTMLTableCaptionElement()
         {
@@ -16,10 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

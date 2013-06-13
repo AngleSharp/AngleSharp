@@ -10,16 +10,19 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The audio tag.
         /// </summary>
-        public const string Tag = "audio";
+        internal const string Tag = "audio";
 
         /// <summary>
         /// Creates a new HTML audio element.
         /// </summary>
-        public HTMLAudioElement()
+        internal HTMLAudioElement()
         {
             _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return false; }

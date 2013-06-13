@@ -6,14 +6,14 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the form element.
     /// </summary>
-    public class HTMLFormElement : HTMLElement
+    public sealed class HTMLFormElement : HTMLElement
     {
         #region Constants
 
         /// <summary>
         /// The form tag.
         /// </summary>
-        public const string Tag = "form";
+        internal const string Tag = "form";
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML form element.
         /// </summary>
-        public HTMLFormElement()
+        internal HTMLFormElement()
         {
             _name = Tag;
             _elements = new HTMLFormControlsCollection();
@@ -225,6 +225,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

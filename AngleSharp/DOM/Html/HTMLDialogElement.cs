@@ -2,21 +2,27 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLDialogElement : HTMLElement
+    /// <summary>
+    /// Represents the object for HTML dialog elements.
+    /// </summary>
+    public sealed class HTMLDialogElement : HTMLElement
     {
-        public const string Tag = "dialog";
+        /// <summary>
+        /// The dialog tag.
+        /// </summary>
+        internal const string Tag = "dialog";
 
-        public HTMLDialogElement()
+        internal HTMLDialogElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
     }
 }

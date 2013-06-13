@@ -5,14 +5,14 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an HTML script element.
     /// </summary>
-    public class HTMLScriptElement : HTMLRawtextElement
+    public sealed class HTMLScriptElement : HTMLRawtextElement
     {
         #region Constant
 
         /// <summary>
         /// The script tag.
         /// </summary>
-        public const string Tag = "script";
+        internal const string Tag = "script";
 
         #endregion
 
@@ -21,9 +21,9 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML script element.
         /// </summary>
-        public HTMLScriptElement()
+        internal HTMLScriptElement()
         {
-            NodeName = Tag;
+            _name = Tag;
             IsAsyncForced = true;
         }
 

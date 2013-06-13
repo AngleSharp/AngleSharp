@@ -2,9 +2,15 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the HTML map element.
+    /// </summary>
     public sealed class HTMLMapElement : HTMLElement
     {
-        public const string Tag = "map";
+        /// <summary>
+        /// The map tag.
+        /// </summary>
+        internal const string Tag = "map";
 
         internal HTMLMapElement()
         {

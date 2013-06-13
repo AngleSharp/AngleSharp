@@ -12,7 +12,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the !DOCTYPE constant.
         /// </summary>
-        public const string Tag = "!DOCTYPE";
+        internal const string Tag = "!DOCTYPE";
 
         #endregion
 

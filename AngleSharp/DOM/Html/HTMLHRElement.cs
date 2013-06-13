@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The hr tag.
         /// </summary>
-        public const string Tag = "hr";
+        internal const string Tag = "hr";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new hr element.
         /// </summary>
-        public HTMLHRElement()
+        internal HTMLHRElement()
         {
             _name = Tag;
         }
@@ -30,6 +30,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

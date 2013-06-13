@@ -2,9 +2,15 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the HTML span element.
+    /// </summary>
     public sealed class HTMLSpanElement : HTMLElement
     {
-        public const string Tag = "span";
+        /// <summary>
+        /// The span tag.
+        /// </summary>
+        internal const string Tag = "span";
 
         internal HTMLSpanElement()
         {
@@ -16,10 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
     }
 }

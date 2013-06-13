@@ -2,21 +2,27 @@
 
 namespace AngleSharp.DOM.Html
 {
-    class HTMLMarqueeElement : HTMLElement
+    /// <summary>
+    /// Represents the HTML marquee element.
+    /// </summary>
+    sealed class HTMLMarqueeElement : HTMLElement
     {
-        public const string Tag = "marquee";
+        /// <summary>
+        /// The marquee tag.
+        /// </summary>
+        internal const string Tag = "marquee";
 
-        public HTMLMarqueeElement()
+        internal HTMLMarqueeElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

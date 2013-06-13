@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The area tag.
         /// </summary>
-        public const string Tag = "area";
+        internal const string Tag = "area";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new area element.
         /// </summary>
-        public HTMLAreaElement()
+        internal HTMLAreaElement()
         {
             _name = Tag;
         }

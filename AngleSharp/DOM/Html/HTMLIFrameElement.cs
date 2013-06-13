@@ -2,21 +2,27 @@
 
 namespace AngleSharp.DOM.Html
 {
-    public class HTMLIFrameElement : HTMLElement
+    /// <summary>
+    /// Represents the HTML iframe element.
+    /// </summary>
+    public sealed class HTMLIFrameElement : HTMLElement
     {
-        public const string Tag = "iframe";
+        /// <summary>
+        /// The iframe tag.
+        /// </summary>
+        internal const string Tag = "iframe";
 
-        public HTMLIFrameElement()
+        internal HTMLIFrameElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

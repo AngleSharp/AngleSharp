@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The menu tag.
         /// </summary>
-        public const string Tag = "menu";
+        internal const string Tag = "menu";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML menu element.
         /// </summary>
-        public HTMLMenuElement()
+        internal HTMLMenuElement()
         {
             _name = Tag;
         }
@@ -52,6 +52,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

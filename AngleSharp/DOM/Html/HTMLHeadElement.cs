@@ -2,9 +2,15 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the HTML head element.
+    /// </summary>
     public sealed class HTMLHeadElement : HTMLElement
     {
-        public const string Tag = "head";
+        /// <summary>
+        /// The head tag.
+        /// </summary>
+        internal const string Tag = "head";
 
         internal HTMLHeadElement()
         {
@@ -16,10 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

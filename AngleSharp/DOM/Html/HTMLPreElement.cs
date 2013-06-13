@@ -2,9 +2,15 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the HTML pre element.
+    /// </summary>
     public sealed class HTMLPreElement : HTMLElement
     {
-        public const string Tag = "pre";
+        /// <summary>
+        /// The pre tag.
+        /// </summary>
+        internal const string Tag = "pre";
 
         internal HTMLPreElement()
         {
@@ -16,10 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

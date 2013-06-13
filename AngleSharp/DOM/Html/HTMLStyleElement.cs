@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML style element.
     /// </summary>
-    public class HTMLStyleElement : HTMLRawtextElement, IStyleSheet
+    public sealed class HTMLStyleElement : HTMLRawtextElement, IStyleSheet
     {
         #region Constant
 
@@ -28,9 +28,9 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates an HTML style element.
         /// </summary>
-        public HTMLStyleElement()
+        internal HTMLStyleElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
         #endregion

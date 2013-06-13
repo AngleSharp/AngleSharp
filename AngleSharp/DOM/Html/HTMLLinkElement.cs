@@ -13,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The link tag.
         /// </summary>
-        public const string Tag = "link";
+        internal const string Tag = "link";
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML link element.
         /// </summary>
-        public HTMLLinkElement()
+        internal HTMLLinkElement()
         {
             _name = Tag;
             Type = "text/css";
@@ -38,6 +38,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

@@ -2,9 +2,15 @@
 
 namespace AngleSharp.DOM.Html
 {
+    /// <summary>
+    /// Represents the HTML ordered list (ol) element.
+    /// </summary>
     public sealed class HTMLOListElement : HTMLElement
     {
-        public const string Tag = "ol";
+        /// <summary>
+        /// The ol tag.
+        /// </summary>
+        internal const string Tag = "ol";
 
         internal HTMLOListElement()
         {
@@ -16,10 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

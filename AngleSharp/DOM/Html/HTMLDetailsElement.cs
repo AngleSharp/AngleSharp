@@ -10,12 +10,12 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The details tag.
         /// </summary>
-        public const string Tag = "details";
+        internal const string Tag = "details";
 
         /// <summary>
         /// Creates a new HTML details element.
         /// </summary>
-        public HTMLDetailsElement()
+        internal HTMLDetailsElement()
         {
             _name = Tag;
         }
@@ -29,6 +29,9 @@ namespace AngleSharp.DOM.Html
             set { SetAttribute("open", value ? string.Empty : null); }
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }
