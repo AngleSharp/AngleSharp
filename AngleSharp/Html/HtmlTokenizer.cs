@@ -228,6 +228,7 @@ namespace AngleSharp.Html
         /// See 8.2.4.12 RCDATA end tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken RCDataEndTag(Char c)
         {
             if (Specification.IsUppercaseAscii(c))
@@ -253,6 +254,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.13 RCDATA end tag name state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken RCDataNameEndTag(Char c, HtmlTagToken tag)
         {
             var name = stringBuffer.ToString();
@@ -361,6 +364,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.16 RAWTEXT end tag name state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken RawtextNameEndTag(Char c, HtmlTagToken tag)
         {
             var name = stringBuffer.ToString();
@@ -684,6 +689,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.10 Tag name state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken TagName(Char c, HtmlTagToken tag)
         {
             if (Specification.IsSpaceCharacter(c))
@@ -728,6 +735,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.43 Self-closing start tag state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken TagSelfClosing(Char c, HtmlTagToken tag)
         {
             if (c == Specification.GT)
@@ -1101,6 +1110,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.54 DOCTYPE name state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeName(Char c, HtmlDoctypeToken doctype)
         {
             if (Specification.IsSpaceCharacter(c))
@@ -1144,6 +1155,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.55 After DOCTYPE name state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeNameAfter(Char c, HtmlDoctypeToken doctype)
         {
             while (Specification.IsSpaceCharacter(c))
@@ -1183,6 +1196,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.56 After DOCTYPE public keyword state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublic(Char c, HtmlDoctypeToken doctype)
         {
             if (Specification.IsSpaceCharacter(c))
@@ -1227,6 +1242,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.57 Before DOCTYPE public identifier state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublicIdentifierBefore(Char c, HtmlDoctypeToken doctype)
         {
             while (Specification.IsSpaceCharacter(c))
@@ -1270,6 +1287,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.58 DOCTYPE public identifier (double-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublicIdentifierDoubleQuoted(Char c, HtmlDoctypeToken doctype)
         {
             if (c == Specification.DQ)
@@ -1310,6 +1329,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.59 DOCTYPE public identifier (single-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublicIdentifierSingleQuoted(Char c, HtmlDoctypeToken doctype)
         {
             if (c == Specification.SQ)
@@ -1350,6 +1371,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.60 After DOCTYPE public identifier state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublicIdentifierAfter(Char c, HtmlDoctypeToken doctype)
         {
             if (Specification.IsSpaceCharacter(c))
@@ -1393,6 +1416,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.61 Between DOCTYPE public and system identifiers state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeBetween(Char c, HtmlDoctypeToken doctype)
         {
             while (Specification.IsSpaceCharacter(c))
@@ -1432,6 +1457,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.62 After DOCTYPE system keyword state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystem(Char c, HtmlDoctypeToken doctype)
         {
             if (Specification.IsSpaceCharacter(c))
@@ -1477,6 +1504,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.63 Before DOCTYPE system identifier state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystemIdentifierBefore(Char c, HtmlDoctypeToken doctype)
         {
             while (Specification.IsSpaceCharacter(c))
@@ -1520,6 +1549,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.64 DOCTYPE system identifier (double-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystemIdentifierDoubleQuoted(Char c, HtmlDoctypeToken doctype)
         {
             if (c == Specification.DQ)
@@ -1560,6 +1591,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.65 DOCTYPE system identifier (single-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystemIdentifierSingleQuoted(Char c, HtmlDoctypeToken doctype)
         {
             if (c == Specification.SQ)
@@ -1600,6 +1633,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.66 After DOCTYPE system identifier state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystemIdentifierAfter(Char c, HtmlDoctypeToken doctype)
         {
             while (Specification.IsSpaceCharacter(c))
@@ -1628,6 +1663,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.67 Bogus DOCTYPE state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="doctype">The current doctype token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken BogusDoctype(Char c, HtmlDoctypeToken doctype)
         {
             while (true)
@@ -1655,6 +1692,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.34 Before attribute name state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken AttributeBeforeName(Char c, HtmlTagToken tag)
         {
             while (Specification.IsSpaceCharacter(c))
@@ -1704,6 +1743,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.35 Attribute name state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken AttributeName(Char c, HtmlTagToken tag)
         {
             if (Specification.IsSpaceCharacter(c))
@@ -1758,6 +1799,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.36 After attribute name state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken AttributeAfterName(Char c, HtmlTagToken tag)
         {
             while (Specification.IsSpaceCharacter(c))
@@ -1811,6 +1854,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.37 Before attribute value state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken AttributeBeforeValue(Char c, HtmlTagToken tag)
         {
             while (Specification.IsSpaceCharacter(c))
@@ -1863,6 +1908,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.38 Attribute value (double-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken AttributeDoubleQuotedValue(Char c, HtmlTagToken tag)
         {
             while (true)
@@ -1899,6 +1946,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.39 Attribute value (single-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken AttributeSingleQuotedValue(Char c, HtmlTagToken tag)
         {
             while (true)
@@ -1935,6 +1984,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.40 Attribute value (unquoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken AttributeUnquotedValue(Char c, HtmlTagToken tag)
         {
             while (true)
@@ -1982,6 +2033,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.42 After attribute value (quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken AttributeAfterValue(Char c, HtmlTagToken tag)
         {
             if (Specification.IsSpaceCharacter(c))
@@ -2087,6 +2140,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.19 Script data end tag name state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken ScriptDataNameEndTag(Char c, HtmlTagToken tag)
         {
             var name = stringBuffer.ToString();
@@ -2282,6 +2337,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.26 Script data escaped end tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken ScriptDataEscapedEndTag(Char c, HtmlTagToken tag)
         {
             if (Specification.IsUppercaseAscii(c))
@@ -2306,6 +2363,8 @@ namespace AngleSharp.Html
         /// See 8.2.4.27 Script data escaped end tag name state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="tag">The current tag token.</param>
+        /// <returns>The emitted token.</returns>
         HtmlToken ScriptDataEscapedNameTag(Char c, HtmlTagToken tag)
         {
             var name = stringBuffer.ToString();

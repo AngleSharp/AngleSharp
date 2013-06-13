@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The wbr tag.
         /// </summary>
-        public const string Tag = "wbr";
+        internal const string Tag = "wbr";
 
         #endregion
 
@@ -30,6 +30,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

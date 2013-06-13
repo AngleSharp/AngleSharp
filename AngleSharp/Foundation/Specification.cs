@@ -35,7 +35,7 @@ namespace AngleSharp
         public const char NULL = (char)0x0;
 
         /// <summary>
-        /// The ampersand character (&).
+        /// The ampersand character (&amp;).
         /// </summary>
         public const char AMPERSAND = (char)0x26;
 
@@ -231,8 +231,6 @@ namespace AngleSharp
         /// <summary>
         /// Determines if the given character is a valid character for starting an identifier.
         /// </summary>
-        /// <param name="c">The character to examine.</param>
-        /// <returns>The result of the test.</returns>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         public static bool IsNameStart(char c)

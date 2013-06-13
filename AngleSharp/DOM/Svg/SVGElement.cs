@@ -70,7 +70,7 @@ namespace AngleSharp.DOM.Svg
         /// <summary>
         /// Returns a specialized SVGElement instance for the given tag name.
         /// </summary>
-        /// <param name="tag">The given tag name.</param>
+        /// <param name="tagName">The given tag name.</param>
         /// <returns>The specialized SVGElement instance.</returns>
         public static SVGElement Factory(string tagName)
         {

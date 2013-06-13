@@ -10,7 +10,7 @@ namespace AngleSharp
         /// <summary>
         /// Adjusts the attribute name to the correct prefix.
         /// </summary>
-        /// <param name="tagName">The name of adjust.</param>
+        /// <param name="attributeName">The name of adjust.</param>
         /// <returns>The name with the correct capitalization.</returns>
         public static string AdjustAttributeName(string attributeName)
         {

@@ -5,14 +5,14 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML meta element.
     /// </summary>
-    public class HTMLMetaElement : HTMLElement
+    public sealed class HTMLMetaElement : HTMLElement
     {
         #region Constant
 
         /// <summary>
         /// The meta tag.
         /// </summary>
-        public const string Tag = "meta";
+        internal const string Tag = "meta";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML meta element.
         /// </summary>
-        public HTMLMetaElement()
+        internal HTMLMetaElement()
         {
             _name = Tag;
         }
@@ -61,6 +61,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

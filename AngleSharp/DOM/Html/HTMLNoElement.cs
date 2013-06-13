@@ -2,23 +2,49 @@
 
 namespace AngleSharp.DOM.Html
 {
-    class HTMLNoElement : HTMLElement
+    /// <summary>
+    /// Represents a no* HTML element (noembed, noscript, noframes).
+    /// </summary>
+    sealed class HTMLNoElement : HTMLElement
     {
-        public const string NoEmbedTag = "noembed";
-        public const string NoScriptTag = "noscript";
-        public const string NoFramesTag = "noframes";
+        #region Constants
 
-        public HTMLNoElement()
+        /// <summary>
+        /// The noembed tag.
+        /// </summary>
+        internal const string NoEmbedTag = "noembed";
+
+        /// <summary>
+        /// The noscript tag.
+        /// </summary>
+        internal const string NoScriptTag = "noscript";
+
+        /// <summary>
+        /// The noframes tag.
+        /// </summary>
+        internal const string NoFramesTag = "noframes";
+
+        #endregion
+
+        #region ctor
+
+        internal HTMLNoElement()
         {
-            NodeName = NoScriptTag;
+            _name = NoScriptTag;
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
+
+        #endregion
     }
 }

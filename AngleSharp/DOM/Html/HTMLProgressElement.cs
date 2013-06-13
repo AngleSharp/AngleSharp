@@ -8,18 +8,28 @@ namespace AngleSharp.DOM.Html
     /// </summary>
     public sealed class HTMLProgressElement : HTMLElement
     {
+        #region Constant
+
         /// <summary>
         /// The progress tag.
         /// </summary>
-        public const string Tag = "progress";
+        internal const string Tag = "progress";
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new HTML progress element.
         /// </summary>
-        public HTMLProgressElement()
+        internal HTMLProgressElement()
         {
             _name = Tag;
         }
+
+        #endregion
+
+        #region Properties
 
         //TODO
         //http://www.w3.org/html/wg/drafts/html/master/forms.html#the-progress-element
@@ -51,9 +61,18 @@ namespace AngleSharp.DOM.Html
             }
         }
 
+        #endregion
+
+        #region Internal properties
+
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return false; }
         }
+
+        #endregion
     }
 }

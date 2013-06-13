@@ -5,14 +5,14 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents a HTML textarea element.
     /// </summary>
-    public class HTMLTextAreaElement : HTMLRCDataElement
+    public sealed class HTMLTextAreaElement : HTMLRCDataElement
     {
         #region Constant
 
         /// <summary>
         /// The textarea tag.
         /// </summary>
-        public const string Tag = "textarea";
+        internal const string Tag = "textarea";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML textarea element.
         /// </summary>
-        public HTMLTextAreaElement()
+        internal HTMLTextAreaElement()
         {
             _name = Tag;
         }
@@ -70,6 +70,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

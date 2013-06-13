@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The track tag.
         /// </summary>
-        public const string Tag = "track";
+        internal const string Tag = "track";
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML track element.
         /// </summary>
-        public HTMLTrackElement()
+        internal HTMLTrackElement()
         {
             _name = Tag;
         }
@@ -102,6 +102,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

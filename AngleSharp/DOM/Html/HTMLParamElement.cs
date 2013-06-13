@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The param tag.
         /// </summary>
-        public const string Tag = "param";
+        internal const string Tag = "param";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML param element.
         /// </summary>
-        public HTMLParamElement()
+        internal HTMLParamElement()
         {
             _name = Tag;
         }
@@ -52,6 +52,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

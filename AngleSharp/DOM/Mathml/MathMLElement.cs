@@ -95,7 +95,7 @@ namespace AngleSharp.DOM.Mathml
         /// <summary>
         /// Returns a specialized MathMLElement instance for the given tag name.
         /// </summary>
-        /// <param name="tag">The given tag name.</param>
+        /// <param name="tagName">The given tag name.</param>
         /// <returns>The specialized MathMLElement instance.</returns>
         public static MathMLElement Factory(string tagName)
         {

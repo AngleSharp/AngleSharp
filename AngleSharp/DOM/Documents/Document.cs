@@ -21,16 +21,34 @@ namespace AngleSharp.DOM
         String encoding;
         String originalEncoding;
 
+        /// <summary>
+        /// The list of contained stylesheets.
+        /// </summary>
         protected StyleSheetList styleSheets;
+        /// <summary>
+        /// The original referrer to this document.
+        /// </summary>
         protected String referrer;
+        /// <summary>
+        /// The location of the document.
+        /// </summary>
         protected String location;
+        /// <summary>
+        /// The root element.
+        /// </summary>
         protected Element documentElement;
+        /// <summary>
+        /// The doctype element.
+        /// </summary>
         protected DocumentType docType;
 
         #endregion
 
         #region Events
 
+        /// <summary>
+        /// This event is fired when the ready state of the document changes.
+        /// </summary>
         public event EventHandler ReadyStateChange;
 
         #endregion

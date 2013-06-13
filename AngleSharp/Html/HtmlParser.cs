@@ -2796,7 +2796,6 @@ namespace AngleSharp.Html
         /// <summary>
         /// Act as if an body end tag has been found in the InBody state.
         /// </summary>
-        /// <param name="tag">The actual tag found.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         bool InBodyEndTagBody()
         {
@@ -2857,7 +2856,6 @@ namespace AngleSharp.Html
         /// <summary>
         /// Act as if an p end tag has been found in the InBody state.
         /// </summary>
-        /// <param name="tag">The actual tag found.</param>
         /// <returns>True if the token was found, otherwise false.</returns>
         bool InBodyEndTagParagraph()
         {

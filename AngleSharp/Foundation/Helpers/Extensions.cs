@@ -131,7 +131,7 @@ namespace AngleSharp
         /// <summary>
         /// Examines if the given element is one of the table elements (table, tbody, tfoot, thead, tr).
         /// </summary>
-        /// <param name="node">The tag name to examine</param>
+        /// <param name="tagName">The tag name to examine</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         public static bool IsTableElement(this string tagName)
         {

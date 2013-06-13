@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The video tag.
         /// </summary>
-        public const string Tag = "video";
+        internal const string Tag = "video";
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML video element.
         /// </summary>
-        public HTMLVideoElement()
+        internal HTMLVideoElement()
         {
             _name = Tag;
         }
@@ -84,6 +84,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return false; }

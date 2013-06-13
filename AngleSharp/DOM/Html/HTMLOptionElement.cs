@@ -5,14 +5,14 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML option element.
     /// </summary>
-    public class HTMLOptionElement : HTMLElement
+    public sealed class HTMLOptionElement : HTMLElement
     {
         #region Constant
 
         /// <summary>
         /// The option tag.
         /// </summary>
-        public const string Tag = "option";
+        internal const string Tag = "option";
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML option element.
         /// </summary>
-        public HTMLOptionElement()
+        internal HTMLOptionElement()
         {
             _name = Tag;
             Text = string.Empty;
@@ -136,6 +136,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return false; }

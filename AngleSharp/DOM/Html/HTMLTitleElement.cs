@@ -5,19 +5,19 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the title element.
     /// </summary>
-    public class HTMLTitleElement : HTMLRCDataElement
+    public sealed class HTMLTitleElement : HTMLRCDataElement
     {
         /// <summary>
         /// The title tag.
         /// </summary>
-        public const string Tag = "title";
+        internal const string Tag = "title";
 
         /// <summary>
         /// Creates a new HTML title element.
         /// </summary>
-        public HTMLTitleElement()
+        internal HTMLTitleElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
         /// <summary>
@@ -29,12 +29,12 @@ namespace AngleSharp.DOM.Html
             set { TextContent = value; }
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

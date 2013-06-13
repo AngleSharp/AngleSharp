@@ -53,7 +53,6 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Constructs a new node.
         /// </summary>
-        /// <param name="tag">The tag where this node belongs to.</param>
         public Node()
         {
             _name = string.Empty;

@@ -5,14 +5,14 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the select element.
     /// </summary>
-    public class HTMLSelectElement : HTMLElement
+    public sealed class HTMLSelectElement : HTMLElement
     {
         #region Constant
 
         /// <summary>
         /// The select tag.
         /// </summary>
-        public const string Tag = "select";
+        internal const string Tag = "select";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML select element.
         /// </summary>
-        public HTMLSelectElement()
+        internal HTMLSelectElement()
         {
             _name = Tag;
         }
@@ -61,6 +61,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return true; }

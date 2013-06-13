@@ -5,27 +5,27 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML paragraph element.
     /// </summary>
-    public class HTMLParagraphElement : HTMLElement
+    public sealed class HTMLParagraphElement : HTMLElement
     {
         /// <summary>
         /// The p tag.
         /// </summary>
-        public const string Tag = "p";
+        internal const string Tag = "p";
 
         /// <summary>
         /// Creates a new HTML paragraph element.
         /// </summary>
-        public HTMLParagraphElement()
+        internal HTMLParagraphElement()
         {
-            NodeName = Tag;
+            _name = Tag;
         }
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
     }
 }

@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The tag ul.
         /// </summary>
-        public const string Tag = "ul";
+        internal const string Tag = "ul";
 
         internal HTMLUListElement()
         {

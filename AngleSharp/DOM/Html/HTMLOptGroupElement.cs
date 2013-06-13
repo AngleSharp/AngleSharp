@@ -5,14 +5,14 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML optgroup element.
     /// </summary>
-    public class HTMLOptGroupElement : HTMLElement
+    public sealed class HTMLOptGroupElement : HTMLElement
     {
         #region Constants
 
         /// <summary>
         /// The optgroup tag.
         /// </summary>
-        public const string Tag = "optgroup";
+        internal const string Tag = "optgroup";
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML optgroup element.
         /// </summary>
-        public HTMLOptGroupElement()
+        internal HTMLOptGroupElement()
         {
             _name = Tag;
         }
@@ -52,6 +52,9 @@ namespace AngleSharp.DOM.Html
 
         #region Internal properties
 
+        /// <summary>
+        /// Gets if the node is in the special category.
+        /// </summary>
         protected internal override bool IsSpecial
         {
             get { return false; }
