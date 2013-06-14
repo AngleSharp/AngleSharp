@@ -19,7 +19,7 @@ namespace UnitTests
             var div = new HTMLDivElement();
             div.ClassName = "";
             div.ClassList.Add(testClass);
-            Assert.AreEqual(div.ClassName, testClass);
+            Assert.AreEqual(testClass, div.ClassName);
         }
 
         [TestMethod]

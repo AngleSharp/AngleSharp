@@ -6,6 +6,7 @@ using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Collections;
 using AngleSharp.Css;
+using AngleSharp.Html;
 
 namespace ConsoleInteraction
 {
@@ -105,7 +106,7 @@ namespace ConsoleInteraction
         static NodeList TestHtmlFragment(string source)
         {
             var sw = Stopwatch.StartNew();
-            var nodes = DocumentBuilder.HtmlFragment(source, new HTMLParagraphElement());
+            var nodes = DocumentBuilder.HtmlFragment(source);
             sw.Stop();
             Console.WriteLine(">>> START");
             Console.WriteLine(nodes.ToHtml());

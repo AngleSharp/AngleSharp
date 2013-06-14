@@ -66,7 +66,7 @@ namespace AngleSharp.Css
 
         Selector temp;
         ListSelector group;
-        bool hasCombinator;
+        Boolean hasCombinator;
         CssCombinator combinator;
         ComplexSelector complex;
 

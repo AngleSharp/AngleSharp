@@ -158,7 +158,6 @@
     <Compile Include="Css\Objects\CssQualifiedRule.cs" />
     <Compile Include="Css\Objects\CssBlock.cs" />
     <Compile Include="Css\CssTokenType.cs" />
-    <Compile Include="Css\CssRuleConstructor.cs" />
     <Compile Include="Css\CssSelectorConstructor.cs" />
     <Compile Include="Css\Tokens\CssBracketToken.cs" />
     <Compile Include="Css\Tokens\CssColumnToken.cs" />
