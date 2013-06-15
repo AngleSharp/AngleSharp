@@ -2,13 +2,21 @@
 
 namespace AngleSharp.DOM.Css
 {
-    struct Counter
+    public sealed class Counter
     {
         #region Members
 
         String identifier;
         String listStyle;
         String separator;
+
+        #endregion
+
+        #region ctor
+
+        internal Counter()
+        {
+        }
 
         #endregion
 

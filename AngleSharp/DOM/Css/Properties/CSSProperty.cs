@@ -3,7 +3,8 @@
 namespace AngleSharp.DOM.Css
 {
     /// <summary>
-    /// http://www.w3.org/TR/CSS21/propidx.html
+    /// Fore more information about CSS properties
+    /// see http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
     public class CSSProperty
     {

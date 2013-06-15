@@ -6,11 +6,11 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS @keyframe rule.
     /// </summary>
-    sealed class CSSKeyframeRule : CSSRule
+    public sealed class CSSKeyframeRule : CSSRule
     {
         #region Members
 
-        string keyText;
+        String keyText;
         CSSStyleDeclaration style;
 
         #endregion
@@ -20,9 +20,8 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new @keyframe rule.
         /// </summary>
-        public CSSKeyframeRule()
-        {
-        }
+        internal CSSKeyframeRule()
+        {}
 
         #endregion
 
@@ -31,7 +30,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the key of the keyframe, like '10%', '75%'. The from keyword maps to '0%' and the to keyword maps to '100%'.
         /// </summary>
-        public string KeyText
+        public String KeyText
         {
             get { return keyText; }
             set { keyText = value; }

@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents the @font-face rule.
     /// </summary>
-    class CSSFontFaceRule : CSSRule
+    public sealed class CSSFontFaceRule : CSSRule
     {
         #region Members
 

@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents an @namespace rule.
     /// </summary>
-    sealed class CSSNamespaceRule : CSSRule
+    public sealed class CSSNamespaceRule : CSSRule
     {
         #region Members
 

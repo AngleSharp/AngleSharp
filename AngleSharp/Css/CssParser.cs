@@ -229,10 +229,6 @@ namespace AngleSharp.Css
                     case CssTokenType.Semicolon:
                         break;
 
-                    case CssTokenType.AtKeyword:
-                        declarations.Add(CreateAtRule(source));
-                        break;
-
                     case CssTokenType.Ident:
                         var tokens = Jump(source, CssTokenType.Semicolon);
                         var it = tokens.GetEnumerator();
@@ -294,22 +290,41 @@ namespace AngleSharp.Css
         /// <returns>The value or NULL.</returns>
         CSSValue CreateValue(IEnumerator<CssToken> source)
         {
-            if (source.Current == null)
-                return null;
+            CSSValue value = null;
 
             switch (source.Current.Type)
             {
-                case CssTokenType.CurlyBracketOpen:
-                case CssTokenType.SquareBracketOpen:
-                case CssTokenType.RoundBracketOpen:
-                    return new CssComponentValue { Block = ConsumeSimpleBlock(source) };
+                case CssTokenType.String:
+                    value = new CSSPrimitiveValue(UnitType.String, ((CssStringToken)source.Current).Data);
+                    break;
+
+                case CssTokenType.Url:
+                    value = new CSSPrimitiveValue(UnitType.Uri, ((CssStringToken)source.Current).Data);
+                    break;
+
+                case CssTokenType.Ident:
+                    value = new CSSPrimitiveValue(UnitType.Ident, ((CssKeywordToken)source.Current).Data);
+                    break;
+
+                case CssTokenType.Percentage:
+                    value = new CSSPrimitiveValue(UnitType.Percentage, ((CssUnitToken)source.Current).Data);
+                    break;
+
+                case CssTokenType.Dimension:
+                    value = new CSSPrimitiveValue(((CssUnitToken)source.Current).Unit, ((CssUnitToken)source.Current).Data);
+                    break;
+
+                case CssTokenType.Number:
+                    value = new CSSPrimitiveValue(UnitType.Number, ((CssNumberToken)source.Current).Data);
+                    break;
 
                 case CssTokenType.Function:
-                    return new CssComponentValue { Function = CreateFunction(source) };
-
-                default:
-                    return new CssComponentValue { Preserved = source.Current };
+                    value = CreateFunction(source);
+                    break;
             }
+
+            SkipToNextSemicolon(source);
+            return value;
         }
 
         /// <summary>
@@ -1017,17 +1032,18 @@ namespace AngleSharp.Css
                 }
                 else
                 {
-                    var value = parser.CreateValue(it);
-                    temp.Add(value);
+                    temp.Add(parser.CreateValue(it));
                 }
-
-                if (!it.MoveNext())
-                    break;
             }
             while (it.MoveNext());
 
             if (temp.Count > 0) val.Add(new CSSValueList(temp));
             return val;
+        }
+
+        internal static CSSKeyframeRule ParseKeyframeRule(String rule, Boolean quirksMode = false)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

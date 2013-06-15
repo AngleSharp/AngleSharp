@@ -7,7 +7,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents the @page rule.
     /// </summary>
-    sealed class CSSPageRule : CSSRule
+    public sealed class CSSPageRule : CSSRule
     {
         #region Members
 

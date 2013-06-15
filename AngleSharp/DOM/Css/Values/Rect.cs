@@ -2,7 +2,7 @@
 
 namespace AngleSharp.DOM.Css
 {
-    struct Rect
+    public sealed class Rect
     {
         #region Members
 
@@ -10,6 +10,14 @@ namespace AngleSharp.DOM.Css
         CSSPrimitiveValue right;
         CSSPrimitiveValue bottom;
         CSSPrimitiveValue left;
+
+        #endregion
+
+        #region ctor
+
+        internal Rect()
+        {
+        }
 
         #endregion
 

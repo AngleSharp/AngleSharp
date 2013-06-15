@@ -2,13 +2,21 @@
 
 namespace AngleSharp.DOM.Css
 {
-    struct RGBColor
+    public sealed class RGBColor
     {
         #region Members
 
         CSSPrimitiveValue red;
         CSSPrimitiveValue blue;
         CSSPrimitiveValue green;
+
+        #endregion
+
+        #region ctor
+
+        internal RGBColor()
+        {
+        }
 
         #endregion
 

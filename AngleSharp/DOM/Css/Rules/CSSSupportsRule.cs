@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents an @supports rule.
     /// </summary>
-    sealed class CSSSupportsRule : CSSConditionRule
+    public sealed class CSSSupportsRule : CSSConditionRule
     {
         internal CSSSupportsRule()
         {

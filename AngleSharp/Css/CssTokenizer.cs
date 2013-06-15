@@ -1101,23 +1101,6 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
-        /// Checks if the current position is the start of an identifier.
-        /// </summary>
-        /// <returns>The result of the check.</returns>
-        //bool StartsWithAnIdentifier()
-        //{
-        //    if (current == Specification.DASH)
-        //    {
-        //        ReadNext();
-        //        var check = Specification.IsNameStart(current) || IsValidEscape();
-        //        ReadPrevious();
-        //        return check;
-        //    }
-
-        //    return Specification.IsNameStart(current) || IsValidEscape();
-        //}
-
-        /// <summary>
         /// Substate of several Number states.
         /// </summary>
         CssToken NumberExponential(Char current)

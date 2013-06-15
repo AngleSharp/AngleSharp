@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents the CSS @charset rule.
     /// </summary>
-    sealed class CSSCharsetRule : CSSRule
+    public sealed class CSSCharsetRule : CSSRule
     {
         #region ctor
 

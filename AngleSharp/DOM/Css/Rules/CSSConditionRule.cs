@@ -2,11 +2,25 @@
 
 namespace AngleSharp.DOM.Css
 {
-    abstract class CSSConditionRule : CSSGroupingRule
+    /// <summary>
+    /// Represents the abstract base class for
+    /// CSS media and CSS supports rules.
+    /// </summary>
+    public abstract class CSSConditionRule : CSSGroupingRule
     {
         #region Members
 
         String conditionText;
+
+        #endregion
+
+        #region ctor
+
+        /// <summary>
+        /// Constructs a new CSS condition rule.
+        /// </summary>
+        internal CSSConditionRule ()
+	    { }
 
         #endregion
 

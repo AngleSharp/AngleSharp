@@ -81,6 +81,7 @@
     <Compile Include="DOM\Objects\EventListener.cs" />
     <Compile Include="DOM\Objects\EventTarget.cs" />
     <Compile Include="DOM\Objects\Range.cs" />
+    <Compile Include="Foundation\Colors.cs" />
     <Compile Include="Foundation\Enumerations\CssCombinator.cs" />
     <Compile Include="Foundation\Enumerations\CssFillType.cs" />
     <Compile Include="DOM\Enums\EventPhase.cs" />

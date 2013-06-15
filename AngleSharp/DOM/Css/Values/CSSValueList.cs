@@ -7,7 +7,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a list of values in the CSS context.
     /// </summary>
-    class CSSValueList : CSSValue
+    sealed class CSSValueList : CSSValue
     {
         #region Members
 
@@ -20,7 +20,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new CSS value list.
         /// </summary>
-        public CSSValueList()
+        internal CSSValueList()
         {
             _items = new List<CSSValue>();
         }

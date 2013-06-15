@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS import rule.
     /// </summary>
-    sealed class CSSImportRule : CSSRule
+    public sealed class CSSImportRule : CSSRule
     {
         #region Members
 

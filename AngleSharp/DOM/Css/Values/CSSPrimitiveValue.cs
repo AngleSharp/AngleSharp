@@ -5,8 +5,32 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS primitive value.
     /// </summary>
-    class CSSPrimitiveValue : CSSValue
+    public sealed class CSSPrimitiveValue : CSSValue
     {
+        #region ctor
+
+        internal CSSPrimitiveValue()
+        {
+        }
+
+        internal CSSPrimitiveValue(UnitType unitType, String value)
+        {
+            SetStringValue(unitType, value);
+        }
+
+        internal CSSPrimitiveValue(UnitType unitType, Single value)
+        {
+            SetFloatValue(unitType, value);
+        }
+
+        internal CSSPrimitiveValue(String unit, Single value)
+        {
+            var unitType = ConvertStringToUnitType(unit);
+            SetFloatValue(unitType, value);
+        }
+
+        #endregion
+
         #region Properties 
 
         /// <summary>
@@ -22,25 +46,49 @@ namespace AngleSharp.DOM.Css
 
         #region Methods
 
-        public CSSPrimitiveValue SetFloatValue(UnitType unitType, float value)
+        internal static UnitType ConvertStringToUnitType(String unit)
+        {
+            switch (unit)
+            {
+                case "em": return UnitType.Ems;
+                case "cm": return UnitType.Cm;
+                case "deg": return UnitType.Deg;
+                case "ex": return UnitType.Exs;
+                case "°": return UnitType.Grad;
+                case "hz": return UnitType.Hz;
+                case "in": return UnitType.In;
+                case "khz": return UnitType.Khz;
+                case "mm": return UnitType.Mm;
+                case "ms": return UnitType.Ms;
+                case "s": return UnitType.S;
+                case "pc": return UnitType.Pc;
+                case "pt": return UnitType.Pt;
+                case "px": return UnitType.Px;
+                case "rad": return UnitType.Rad;
+            }
+
+            return UnitType.Unknown;
+        }
+
+        public CSSPrimitiveValue SetFloatValue(UnitType unitType, Single value)
         {
             //TODO
             return this;
         }
 
-        public float GetFloatValue(UnitType unitType)
+        public Single GetFloatValue(UnitType unitType)
         {
             //TODO
             return 0f;
         }
 
-        public CSSPrimitiveValue SetStringValue(UnitType unitType, string value)
+        public CSSPrimitiveValue SetStringValue(UnitType unitType, String value)
         {
             //TODO
             return this;
         }
 
-        public string GetStringValue()
+        public String GetStringValue()
         {
             //TODO
             return string.Empty;

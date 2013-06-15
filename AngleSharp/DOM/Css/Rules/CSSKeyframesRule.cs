@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AngleSharp.Css;
+using System;
 
 namespace AngleSharp.DOM.Css
 {
     /// <summary>
     /// Represents an @keyframes rule.
     /// </summary>
-    sealed class CSSKeyframesRule : CSSRule
+    public sealed class CSSKeyframesRule : CSSRule
     {
         #region Members
 
@@ -55,9 +56,12 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="rule">A string containing a keyframe in the same format as an entry of a @keyframes at-rule.</param>
         /// <returns>The current @keyframes rule.</returns>
-        public CSSKeyframesRule AppendRule(string rule)
+        public CSSKeyframesRule AppendRule(String rule)
         {
-            //TODO
+            var obj = CssParser.ParseKeyframeRule(rule);
+            obj.ParentStyleSheet = _parent;
+            obj.ParentRule = this;
+            _cssRules.InsertAt(_cssRules.Length, obj);
             return this;
         }
 
@@ -66,9 +70,17 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="key">The index of the keyframe to be deleted, expressed as a string resolving as a number between 0 and 1.</param>
         /// <returns>The current @keyframes rule.</returns>
-        public CSSKeyframesRule DeleteRule(string key)
+        public CSSKeyframesRule DeleteRule(String key)
         {
-            //TODO
+            for (int i = 0; i < _cssRules.Length; i++)
+            {
+                if ((_cssRules[i] as CSSKeyframeRule).KeyText.Equals(key, StringComparison.OrdinalIgnoreCase))
+                {
+                    _cssRules.RemoveAt(i);
+                    break;
+                }
+            }
+
             return this;
         }
 
@@ -77,9 +89,16 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="key">A string containing an index of the keyframe to be returned, resolving to a number between 0 and 1.</param>
         /// <returns>The keyframe or null.</returns>
-        public CSSKeyframeRule FindRule(string key)
+        public CSSKeyframeRule FindRule(String key)
         {
-            //TODO
+            for (int i = 0; i < _cssRules.Length; i++)
+            {
+                var rule = _cssRules[i] as CSSKeyframeRule;
+
+                if (rule.KeyText.Equals(key, StringComparison.OrdinalIgnoreCase))
+                    return rule;
+            }
+
             return null;
         }
 
