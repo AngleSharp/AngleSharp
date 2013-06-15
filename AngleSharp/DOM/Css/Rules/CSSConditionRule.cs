@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
-        string conditionText;
+        String conditionText;
 
         #endregion
 
@@ -15,7 +15,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the text of the condition of the rule.
         /// </summary>
-        public string ConditionText
+        public String ConditionText
         {
             get { return conditionText; }
             set { conditionText = value; }

@@ -56,7 +56,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="index">The index representing the position to be removed.</param>
         /// <returns>The current stylesheet.</returns>
-        public CSSStyleSheet DeleteRule(int index)
+        public CSSStyleSheet DeleteRule(Int32 index)
         {
             if (index >= 0 && index < cssRules.Length)
                 cssRules.RemoveAt(index);
@@ -70,7 +70,7 @@ namespace AngleSharp.DOM.Css
         /// <param name="rule">A string containing the rule to be inserted (selector and declaration).</param>
         /// <param name="index">The index representing the position to be inserted.</param>
         /// <returns>The current stylesheet.</returns>
-        public CSSStyleSheet InsertRule(string rule, int index)
+        public CSSStyleSheet InsertRule(String rule, Int32 index)
         {
             if (index >= 0 && index <= cssRules.Length)
             {

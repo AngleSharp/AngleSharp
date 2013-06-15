@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Css
         #region Members
 
         CSSRuleList _cssRules;
-        string _name;
+        String _name;
 
         #endregion
 
@@ -19,9 +19,10 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new @keyframes rule.
         /// </summary>
-        public CSSKeyframesRule()
+        internal CSSKeyframesRule()
         {
             _cssRules = new CSSRuleList();
+            _type = CssRule.Keyframes;
         }
 
         #endregion
@@ -31,7 +32,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the name of the animation, used by the animation-name property.
         /// </summary>
-        public string Name
+        public String Name
         {
             get { return _name; }
             set { _name = value; }

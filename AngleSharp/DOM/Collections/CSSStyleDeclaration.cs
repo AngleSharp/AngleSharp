@@ -16,9 +16,9 @@ namespace AngleSharp.DOM.Collections
         List<CSSProperty> _rules;
         CSSRule _parent;
 
-        string oldCssText;
-        Func<string> getter;
-        Action<string> setter;
+        String oldCssText;
+        Func<String> getter;
+        Action<String> setter;
 
         #endregion
 
@@ -27,18 +27,9 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Creates a new CSS style declaration.
         /// </summary>
-        public CSSStyleDeclaration()
+        internal CSSStyleDeclaration()
         {
             _rules = new List<CSSProperty>();
-        }
-
-        /// <summary>
-        /// Creates a new CSS style declaration using the given parser list.
-        /// </summary>
-        /// <param name="decl">The initial declaration.</param>
-        internal CSSStyleDeclaration(List<CssNamedRule> decl)
-        {
-            // TODO
         }
 
         /// <summary>
@@ -62,7 +53,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets or sets the textual representation of the declaration block.
         /// </summary>
-        public string CssText
+        public String CssText
         {
             get { GetValue(); return oldCssText; }
             set { Reset(value); }
@@ -71,7 +62,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets the number of properties in the declaration.
         /// </summary>
-        public int Length
+        public Int32 Length
         {
             get { return _rules.Count; }
         }
@@ -90,7 +81,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="index">The index of the property to retrieve.</param>
         /// <returns>The name of the property at the given index.</returns>
-        public string this[int index]
+        public String this[int index]
         {
             get
             {
@@ -108,7 +99,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="propertyName">The name of the property to be removed.</param>
         /// <returns>The value of the deleted property.</returns>
-        public string RemoveProperty(string propertyName)
+        public String RemoveProperty(string propertyName)
         {
             GetValue();
 
@@ -131,7 +122,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="propertyName">The name of the property to get the priority of.</param>
         /// <returns>A priority or null.</returns>
-        public string GetPropertyPriority(string propertyName)
+        public String GetPropertyPriority(string propertyName)
         {
             GetValue();
 
@@ -149,7 +140,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="propertyName">The name of the property to get the priority of.</param>
         /// <returns>A value or null if nothing has been set.</returns>
-        public string GetPropertyValue(string propertyName)
+        public String GetPropertyValue(string propertyName)
         {
             GetValue();
 
@@ -178,17 +169,14 @@ namespace AngleSharp.DOM.Collections
 
         #endregion
 
-        #region Internal methods
+        #region Internal properties
 
         /// <summary>
-        /// Appends a property to the list of rules.
+        /// Gets the list of CSS declarations.
         /// </summary>
-        /// <param name="rule">The rule to append.</param>
-        /// <returns>The current declaration list.</returns>
-        internal CSSStyleDeclaration AppendProperty(CSSProperty rule)
+        internal List<CSSProperty> List
         {
-            _rules.Add(rule);
-            return this;
+            get { return _rules; }
         }
 
         #endregion

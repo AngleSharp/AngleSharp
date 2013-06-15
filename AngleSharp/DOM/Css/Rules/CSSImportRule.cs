@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
-        string _href;
+        String _href;
         MediaList _media;
         CSSStyleSheet _styleSheet;
 
@@ -21,9 +21,10 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new CSS import rule
         /// </summary>
-        public CSSImportRule()
+        internal CSSImportRule()
         {
             _media = new MediaList();
+            _type = CssRule.Import;
         }
 
         #endregion
@@ -33,7 +34,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the location of the style sheet to be imported. 
         /// </summary>
-        public string Href
+        public String Href
         {
             get { return _href; }
             internal set { _href = value; }

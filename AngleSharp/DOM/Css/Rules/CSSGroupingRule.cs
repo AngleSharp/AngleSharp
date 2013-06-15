@@ -18,7 +18,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new CSS grouping rule.
         /// </summary>
-        public CSSGroupingRule()
+        internal CSSGroupingRule()
         {
             cssRules = new CSSRuleList();
         }

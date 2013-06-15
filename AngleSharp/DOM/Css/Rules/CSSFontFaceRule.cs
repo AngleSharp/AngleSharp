@@ -19,9 +19,10 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new @font-face rule.
         /// </summary>
-        public CSSFontFaceRule()
+        internal CSSFontFaceRule()
         {
             style = new CSSStyleDeclaration();
+            _type = CssRule.FontFace;
         }
 
         #endregion
@@ -35,7 +36,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>The current font-face rule.</returns>
         internal CSSFontFaceRule AppendRule(CSSProperty rule)
         {
-            style.AppendProperty(rule);
+            style.List.Add(rule);
             return this;
         }
 
@@ -44,9 +45,17 @@ namespace AngleSharp.DOM.Css
         #region Properties
 
         /// <summary>
+        /// Gets the declared CSS rules.
+        /// </summary>
+        public CSSStyleDeclaration CssRules
+        {
+            get { return style; }
+        }
+
+        /// <summary>
         /// Gets or sets the font-family.
         /// </summary>
-        public string Family
+        public String Family
         {
             get { return style.GetPropertyValue("font-family"); }
             set { style.SetProperty("font-family", value); }
@@ -55,7 +64,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the source of the font.
         /// </summary>
-        public string Src
+        public String Src
         {
             get { return style.GetPropertyValue("src"); }
             set { style.SetProperty("src", value); }
@@ -64,7 +73,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the style of the font.
         /// </summary>
-        public string Style
+        public String Style
         {
             get { return style.GetPropertyValue("font-style"); }
             set { style.SetProperty("font-style", value); }
@@ -73,7 +82,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the weight of the font.
         /// </summary>
-        public string Weight
+        public String Weight
         {
             get { return style.GetPropertyValue("font-weight"); }
             set { style.SetProperty("font-weight", value); }
@@ -82,7 +91,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the stretch value of the font.
         /// </summary>
-        public string Stretch
+        public String Stretch
         {
             get { return style.GetPropertyValue("stretch"); }
             set { style.SetProperty("stretch", value); }
@@ -91,7 +100,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the unicode range of the font.
         /// </summary>
-        public string UnicodeRange
+        public String UnicodeRange
         {
             get { return style.GetPropertyValue("unicode-range"); }
             set { style.SetProperty("unicode-range", value); }
@@ -100,7 +109,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the variant of the font.
         /// </summary>
-        public string Variant
+        public String Variant
         {
             get { return style.GetPropertyValue("font-variant"); }
             set { style.SetProperty("font-variant", value); }
@@ -109,7 +118,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the feature settings of the font.
         /// </summary>
-        public string FeatureSettings
+        public String FeatureSettings
         {
             get { return style.GetPropertyValue("font-feature-settings"); }
             set { style.SetProperty("font-feature-settings", value); }

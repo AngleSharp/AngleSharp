@@ -19,9 +19,10 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new CSS @media rule.
         /// </summary>
-        public CSSMediaRule()
+        internal CSSMediaRule()
         {
             media = new MediaList();
+            _type = CssRule.Media;
         }
 
         #endregion

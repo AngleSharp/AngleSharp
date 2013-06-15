@@ -8,6 +8,10 @@ namespace AngleSharp.DOM.Css
     public enum CssRule : ushort
     {  
         /// <summary>
+        /// The rule is not known and cannot be used.
+        /// </summary>
+        Unknown = 0,
+        /// <summary>
         /// A standard style rule.
         /// </summary>
         Style = 1,

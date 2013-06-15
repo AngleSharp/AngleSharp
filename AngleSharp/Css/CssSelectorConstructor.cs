@@ -67,6 +67,7 @@ namespace AngleSharp.Css
         Selector temp;
         ListSelector group;
         Boolean hasCombinator;
+        Boolean ignoreErrors;
         CssCombinator combinator;
         ComplexSelector complex;
 
@@ -90,10 +91,10 @@ namespace AngleSharp.Css
         /// <summary>
         /// Gets or sets if errors should be ignored.
         /// </summary>
-        public bool IgnoreErrors
+        public Boolean IgnoreErrors
         {
-            get;
-            set;
+            get { return ignoreErrors; }
+            set { ignoreErrors = value; }
         }
 
         /// <summary>
@@ -126,36 +127,6 @@ namespace AngleSharp.Css
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Constructs a new selector (complete) based on the list of component values.
-        /// </summary>
-        /// <param name="values">The list of component values.</param>
-        /// <returns>The created selector.</returns>
-        public static Selector Create(List<CssComponentValue> values)
-        {
-            var ctor = new CssSelectorConstructor();
-            var tokens = new List<CssToken>();
-
-            for (int i = 0; i < values.Count; i++)
-            {
-                var value = values[i];
-
-                if (value.Preserved != null)
-                    tokens.Add(value.Preserved);
-                else if (value.Block != null)
-                    tokens.AddRange(value.Block.Tokens);
-                else if (value.Function != null)
-                    tokens.AddRange(value.Function.Tokens);
-            }
-
-            var it = ((IEnumerable<CssToken>)tokens).GetEnumerator();
-
-            while (it.MoveNext())
-                ctor.PickSelector(it);
-
-            return ctor.Result;
-        }
 
         /// <summary>
         /// Picks a simple selector from the stream of tokens.
@@ -200,7 +171,7 @@ namespace AngleSharp.Css
                     break;
 
                 default:
-                    RaiseError();
+                    if (!ignoreErrors) throw new DOMException(ErrorCode.SyntaxError);
                     break;
             }
         }
@@ -316,11 +287,10 @@ namespace AngleSharp.Css
                         var cls = (CssKeywordToken)tokens.Current;
                         Insert(SimpleSelector.Class(cls.Data));
                     }
+                    else if (!ignoreErrors) 
+                        throw new DOMException(ErrorCode.SyntaxError);
                     else
-                    {
-                        RaiseError();
                         return;
-                    }
 
                     break;
             }
@@ -421,8 +391,8 @@ namespace AngleSharp.Css
                     sel = GetPseudoClassIdentifier(tokens);
             }
 
-            if (sel == null)
-                RaiseError();
+            if (sel == null && !ignoreErrors)
+                throw new DOMException(ErrorCode.SyntaxError);
 
             return sel;
         }
@@ -840,7 +810,6 @@ namespace AngleSharp.Css
                         return SimpleSelector.PseudoClass(el => el.Dir == dirCode, code);
                     }
 
-                    RaiseError();
                     break;
 
                 case PSEUDOCLASSFUNCTION_LANG:
@@ -851,7 +820,6 @@ namespace AngleSharp.Css
                         return SimpleSelector.PseudoClass(el => el.Lang.Equals(lang, StringComparison.InvariantCultureIgnoreCase), code);
                     }
 
-                    RaiseError();
                     break;
 
                 case PSEUDOCLASSFUNCTION_CONTAINS:
@@ -868,7 +836,6 @@ namespace AngleSharp.Css
                         return SimpleSelector.PseudoClass(el => el.TextContent.Contains(str), code);
                     }
 
-                    RaiseError();
                     break;
 
                 case PSEUDOCLASSFUNCTION_NOT:
@@ -882,6 +849,9 @@ namespace AngleSharp.Css
                     }
                     break;
             }
+
+            if (!ignoreErrors) 
+                throw new DOMException(ErrorCode.SyntaxError);
 
             return null;
         }
@@ -939,14 +909,14 @@ namespace AngleSharp.Css
                     op = tokens.Current;
                 else if (tokens.Current.Type != CssTokenType.Whitespace)
                 {
-                    RaiseError();
+                    if (!ignoreErrors) throw new DOMException(ErrorCode.SyntaxError);
                     return null;
                 }
             }
 
             if ((op == null || values.Count != 2) && (op != null || values.Count != 1))
             {
-                RaiseError();
+                if (!ignoreErrors) throw new DOMException(ErrorCode.SyntaxError);
                 return null;
             }
 
@@ -971,14 +941,8 @@ namespace AngleSharp.Css
                     return SimpleSelector.AttrNotMatch(values[0], values[1]);
             }
 
-            RaiseError();
+            if (!ignoreErrors) throw new DOMException(ErrorCode.SyntaxError);
             return null;
-        }
-
-        void RaiseError()
-        {
-            if (!IgnoreErrors)
-                throw new DOMException(ErrorCode.SyntaxError);
         }
 
         /// <summary>
@@ -1015,7 +979,7 @@ namespace AngleSharp.Css
                         goto default;
 
                     default:
-                        RaiseError();
+                        if (!ignoreErrors) throw new DOMException(ErrorCode.SyntaxError);
                         return f;
                 }
             }
@@ -1050,11 +1014,11 @@ namespace AngleSharp.Css
 
                     if (second == string.Empty)
                         f.offset = 0;
-                    else if (!int.TryParse(second, out f.offset))
-                        RaiseError();
+                    else if (!int.TryParse(second, out f.offset) && !ignoreErrors) 
+                        throw new DOMException(ErrorCode.SyntaxError);
                 }
-                else
-                    RaiseError();
+                else if (!ignoreErrors) 
+                    throw new DOMException(ErrorCode.SyntaxError);
             }
 
             return f;

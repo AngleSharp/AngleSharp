@@ -7,5 +7,9 @@ namespace AngleSharp.DOM.Css
     /// </summary>
     sealed class CSSSupportsRule : CSSConditionRule
     {
+        internal CSSSupportsRule()
+        {
+            _type = CssRule.Supports;
+        }
     }
 }

@@ -7,12 +7,21 @@ namespace AngleSharp.DOM.Css
     /// </summary>
     sealed class CSSCharsetRule : CSSRule
     {
+        #region ctor
+
+        internal CSSCharsetRule()
+        {
+            _type = CssRule.Charset;
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
         /// Gets the encoding information set by this rule.
         /// </summary>
-        public string Encoding { get; internal set; }
+        public String Encoding { get; internal set; }
 
         #endregion
     }

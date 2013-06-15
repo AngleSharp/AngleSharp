@@ -21,8 +21,9 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new CSS rule.
         /// </summary>
-        public CSSRule()
+        internal CSSRule()
         {
+            _type = CssRule.Unknown;
         }
 
         #endregion
@@ -44,6 +45,7 @@ namespace AngleSharp.DOM.Css
         public CSSRule ParentRule
         {
             get { return _parentRule; }
+            internal set { _parentRule = value; }
         }
 
         /// <summary>
@@ -52,6 +54,7 @@ namespace AngleSharp.DOM.Css
         public CSSStyleSheet ParentStyleSheet
         {
             get { return _parent; }
+            internal set { _parent = value; }
         }
 
 

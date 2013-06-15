@@ -1,4 +1,5 @@
-﻿using AngleSharp.DOM.Collections;
+﻿using AngleSharp.Css;
+using AngleSharp.DOM.Collections;
 using System;
 
 namespace AngleSharp.DOM.Css
@@ -10,7 +11,9 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
-        CSSStyleDeclaration style;
+        CSSStyleDeclaration _style;
+        Selector _selector;
+        String _selectorText;
 
         #endregion
 
@@ -19,9 +22,10 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new @page rule.
         /// </summary>
-        public CSSPageRule()
+        internal CSSPageRule()
         {
-            style = new CSSStyleDeclaration();
+            _style = new CSSStyleDeclaration();
+            _type = CssRule.Page;
         }
 
         #endregion
@@ -35,8 +39,25 @@ namespace AngleSharp.DOM.Css
         /// <returns>The current font-face rule.</returns>
         internal CSSPageRule AppendRule(CSSProperty rule)
         {
-            style.AppendProperty(rule);
+            _style.List.Add(rule);
             return this;
+        }
+
+        #endregion
+
+        #region Internal Properties
+
+        /// <summary>
+        /// Gets or sets the selector.
+        /// </summary>
+        internal Selector Selector
+        {
+            get { return _selector; }
+            set
+            {
+                _selector = value;
+                _selectorText = value.ToCss();
+            }
         }
 
         #endregion
@@ -46,10 +67,14 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the parsable textual representation of the page selector for the rule.
         /// </summary>
-        public string SelectorText
+        public String SelectorText
         {
-            get;
-            internal set;
+            get { return _selectorText; }
+            set
+            {
+                _selector = CssParser.ParseSelector(value);
+                _selectorText = value;
+            }
         }
 
         /// <summary>
@@ -57,7 +82,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         public CSSStyleDeclaration Style
         {
-            get { return style; }
+            get { return _style; }
         }
 
         #endregion

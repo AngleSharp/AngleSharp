@@ -20,7 +20,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new list of CSS rules.
         /// </summary>
-        public CSSRuleList()
+        internal CSSRuleList()
         {
             _rules = new List<CSSRule>();
         }
@@ -32,7 +32,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the number of rules stored.
         /// </summary>
-        public int Length
+        public Int32 Length
         {
             get { return _rules.Count; }
         }
@@ -42,9 +42,21 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="index">The index of the rule.</param>
         /// <returns>The CSS rule or null, if the index has been invalid.</returns>
-        public CSSRule this[int index]
+        public CSSRule this[Int32 index]
         {
             get { return index >= 0 && index < _rules.Count ? _rules[index] : null; }
+        }
+
+        #endregion
+
+        #region Internal properties
+
+        /// <summary>
+        /// Gets the list with css rules.
+        /// </summary>
+        internal List<CSSRule> List
+        {
+            get { return _rules; }
         }
 
         #endregion
@@ -74,14 +86,23 @@ namespace AngleSharp.DOM.Css
 
         #region Implemented interface
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<CSSRule> GetEnumerator()
         {
-            return _rules.GetEnumerator();
+            foreach (var entry in _rules)
+                yield return entry;
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)_rules).GetEnumerator();
+            return GetEnumerator();
         }
 
         #endregion

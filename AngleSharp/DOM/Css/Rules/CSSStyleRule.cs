@@ -11,7 +11,7 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
-        string _selectorText;
+        String _selectorText;
         Selector _selector;
         CSSStyleDeclaration _style;
 
@@ -22,7 +22,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new CSS style rule.
         /// </summary>
-        public CSSStyleRule()
+        internal CSSStyleRule()
         {
             _type = CssRule.Style;
             _style = new CSSStyleDeclaration();
@@ -52,7 +52,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the textual representation of the selector for this rule, e.g. "h1,h2".
         /// </summary>
-        public string SelectorText
+        public String SelectorText
         {
             get { return _selectorText; }
             set

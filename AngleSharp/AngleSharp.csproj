@@ -59,6 +59,7 @@
     <Compile Include="DOM\Css\Rules\CSSSupportsRule.cs" />
     <Compile Include="DOM\Css\Selector\Selectors.cs" />
     <Compile Include="DOM\Css\Values\Counter.cs" />
+    <Compile Include="DOM\Css\Values\CSSFunction.cs" />
     <Compile Include="DOM\Css\Values\CSSPrimitiveValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValueList.cs" />
@@ -111,11 +112,6 @@
     <Compile Include="DOM\Css\Selector\ComplexSelector.cs" />
     <Compile Include="DOM\Css\Selector\CompoundSelector.cs" />
     <Compile Include="DOM\Interfaces\IRange.cs" />
-    <Compile Include="Css\Objects\CssArg.cs" />
-    <Compile Include="Css\Objects\CssAtRule.cs" />
-    <Compile Include="Css\Objects\CssRule.cs" />
-    <Compile Include="Css\Objects\CssNamedRule.cs" />
-    <Compile Include="Css\Objects\CssComponentValue.cs" />
     <Compile Include="Css\CssParser.cs" />
     <Compile Include="DOM\Css\Rules\CSSRuleList.cs" />
     <Compile Include="DOM\Css\Rules\CSSImportRule.cs" />
@@ -153,10 +149,6 @@
     <Compile Include="DOM\Enums\NodeType.cs" />
     <Compile Include="DOM\Enums\QuirksMode.cs" />
     <Compile Include="DOM\Enums\Readiness.cs" />
-    <Compile Include="Css\Objects\CssDeclaration.cs" />
-    <Compile Include="Css\Objects\CssFunction.cs" />
-    <Compile Include="Css\Objects\CssQualifiedRule.cs" />
-    <Compile Include="Css\Objects\CssBlock.cs" />
     <Compile Include="Css\CssTokenType.cs" />
     <Compile Include="Css\CssSelectorConstructor.cs" />
     <Compile Include="Css\Tokens\CssBracketToken.cs" />

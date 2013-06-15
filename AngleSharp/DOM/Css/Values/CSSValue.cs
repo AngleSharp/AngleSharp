@@ -41,32 +41,10 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets a string representation of the current value.
         /// </summary>
-        public string CssText
+        public String CssText
         {
             get;
             set;
-        }
-
-        #endregion
-
-        #region Factory
-
-        [ThreadStatic]
-        static StringBuilder str;
-
-        internal static CSSValue Create(CssComponentValue value)
-        {
-            return new CSSValue() { CssText = value.ToString() };
-        }
-
-        internal static CSSValue Create(IEnumerable<CssComponentValue> value)
-        {
-            (str ?? (str = new StringBuilder())).Clear();
-
-            foreach (var val in value)
-                str.Append(val);
-
-            return new CSSValue() { CssText = str.ToString() };
         }
 
         #endregion

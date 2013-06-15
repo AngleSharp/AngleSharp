@@ -9,8 +9,8 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
-        string _namespaceURI;
-        string _prefix;
+        String _namespaceURI;
+        String _prefix;
 
         #endregion
 
@@ -19,8 +19,9 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new @namespace rule.
         /// </summary>
-        public CSSNamespaceRule()
+        internal CSSNamespaceRule()
         {
+            _type = CssRule.Namespace;
         }
 
         #endregion
@@ -30,7 +31,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets a string containing the text of the URI of the given namespace.
         /// </summary>
-        public string NamespaceURI
+        public String NamespaceURI
         {
             get { return _namespaceURI; }
             internal set { _namespaceURI = value; }
@@ -39,7 +40,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets a string with the name of the prefix associated to this namespace. If there is no such prefix, returns null.
         /// </summary>
-        public string Prefix
+        public String Prefix
         {
             get { return _prefix; }
             internal set { _prefix = value; }
