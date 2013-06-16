@@ -5,17 +5,20 @@ using AngleSharp.DOM.Html;
 using System.IO;
 using AngleSharp.Html;
 using AngleSharp.DOM.Collections;
+using AngleSharp.DOM.Css;
+using AngleSharp.Css;
 
 namespace AngleSharp
 {
     /// <summary>
-    /// The class to parse the HTML and construct the DOM.
+    /// A handy helper to construct various kinds of documents
+    /// from a given source code, URL or stream.
     /// </summary>
-    public class DocumentBuilder
+    public sealed class DocumentBuilder
     {
         #region Members
 
-        HtmlParser parser;
+        IParser parser;
 
         #endregion
 
@@ -32,9 +35,40 @@ namespace AngleSharp
             parser.ErrorOccurred += ParseErrorOccurred;
         }
 
+        /// <summary>
+        /// Creates a new builder with the specified source.
+        /// </summary>
+        /// <param name="source">The code manager.</param>
+        /// <param name="document">The document to fill.</param>
+        DocumentBuilder(SourceManager source, CSSStyleSheet sheet)
+        {
+            parser = new CssParser(sheet, source);
+            parser.ErrorOccurred += ParseErrorOccurred;
+        }
+
         #endregion
 
-        #region Static Methods
+        #region Properties
+
+        /// <summary>
+        /// Gets the result of an HTML parsing.
+        /// </summary>
+        public HTMLDocument HtmlResult
+        {
+            get { return ((HtmlParser)parser).Result; }
+        }
+
+        /// <summary>
+        /// Gets the result of a CSS parsing.
+        /// </summary>
+        public CSSStyleSheet CssResult
+        {
+            get { return ((CssParser)parser).Result; }
+        }
+
+        #endregion
+
+        #region HTML Construction
 
         /// <summary>
         /// Builds a new HTMLDocument with the given source code string.
@@ -45,7 +79,7 @@ namespace AngleSharp
         {
             var source = new SourceManager(sourceCode);
             var db = new DocumentBuilder(source, new HTMLDocument());
-            return db.parser.Result;
+            return db.HtmlResult;
         }
 
         /// <summary>
@@ -58,7 +92,7 @@ namespace AngleSharp
             var stream = Builder.Stream(url);
             var source = new SourceManager(stream);
             var db = new DocumentBuilder(source, new HTMLDocument());
-            return db.parser.Result;
+            return db.HtmlResult;
         }
 
         /// <summary>
@@ -70,7 +104,7 @@ namespace AngleSharp
         {
             var source = new SourceManager(networkStream);
             var db = new DocumentBuilder(source, new HTMLDocument());
-            return db.parser.Result;
+            return db.HtmlResult;
         }
 
         /// <summary>
@@ -97,11 +131,52 @@ namespace AngleSharp
                 //          there is no appropriate end tag token in the fragment case, yet they involve far
                 //          fewer state transitions.
 
-                db.parser.SwitchToFragment(context);
-                return db.parser.Result.DocumentElement.ChildNodes;
+                ((HtmlParser)db.parser).SwitchToFragment(context);
+                return db.HtmlResult.DocumentElement.ChildNodes;
             }
 
-            return db.parser.Result.ChildNodes;
+            return db.HtmlResult.ChildNodes;
+        }
+
+        #endregion
+
+        #region CSS Construction
+
+        /// <summary>
+        /// Builds a new CSSStyleSheet with the given source code string.
+        /// </summary>
+        /// <param name="sourceCode">The string to use as source code.</param>
+        /// <returns>The constructed CSS stylesheet.</returns>
+        public static CSSStyleSheet Css(String sourceCode)
+        {
+            var source = new SourceManager(sourceCode);
+            var db = new DocumentBuilder(source, new CSSStyleSheet());
+            return db.CssResult;
+        }
+
+        /// <summary>
+        /// Builds a new CSSStyleSheet with the given URL.
+        /// </summary>
+        /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <returns>The constructed CSS stylesheet.</returns>
+        public static CSSStyleSheet Css(Uri url)
+        {
+            var stream = Builder.Stream(url);
+            var source = new SourceManager(stream);
+            var db = new DocumentBuilder(source, new CSSStyleSheet());
+            return db.CssResult;
+        }
+
+        /// <summary>
+        /// Builds a new CSSStyleSheet with the given network stream.
+        /// </summary>
+        /// <param name="networkStream">The stream of chars to use as source code.</param>
+        /// <returns>The constructed CSS stylesheet.</returns>
+        public static CSSStyleSheet Css(Stream networkStream)
+        {
+            var source = new SourceManager(networkStream);
+            var db = new DocumentBuilder(source, new CSSStyleSheet());
+            return db.CssResult;
         }
 
         #endregion

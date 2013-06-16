@@ -33,7 +33,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the textual representation of the rule.
         /// </summary>
-        public string CssText
+        public String CssText
         {
             get;
             set;
@@ -64,6 +64,19 @@ namespace AngleSharp.DOM.Css
         public CssRule Type
         {
             get { return _type; }
+        }
+
+        #endregion
+
+        #region String representation
+
+        /// <summary>
+        /// Returns a CSS code representation of the rule.
+        /// </summary>
+        /// <returns>A string that contains the code.</returns>
+        public virtual String ToCss()
+        {
+            return CssText;
         }
 
         #endregion

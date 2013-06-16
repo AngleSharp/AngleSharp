@@ -19,6 +19,8 @@ namespace ConsoleInteraction
 
             CssSelectorTest.Slickspeed();
 
+            TestCSS(Stylesheets.rsi, "a sample stylesheet");
+
             //TestHtml(Snippets.Invalid);
 
             //TestHtml(Webpages.Simon);
@@ -61,9 +63,8 @@ namespace ConsoleInteraction
         static void TestWebRequest(string url, bool openConsole)
         {
             var sw = Stopwatch.StartNew();
-            HttpClient client = new HttpClient();
+            var client = new HttpClient();
             var result = client.GetAsync(url).Result;
-            //var source = result.Content.ReadAsStringAsync().Result;
             var source = result.Content.ReadAsStreamAsync().Result;
 
             sw.Stop();
@@ -98,7 +99,6 @@ namespace ConsoleInteraction
             var sw = Stopwatch.StartNew();
             var html = DocumentBuilder.Html(source);
             sw.Stop();
-            //Console.WriteLine(html.ToHtml());
             Console.WriteLine("Parsing " + title + " took ... " + sw.ElapsedMilliseconds + "ms");
             return html;
         }
@@ -117,13 +117,13 @@ namespace ConsoleInteraction
             return nodes;
         }
 
-        static void TestCSS(string source)
+        static void TestCSS(string source, string title = "the stylesheet")
         {
             var parser = new CssParser(source);
             var sw = Stopwatch.StartNew();
             var doc = parser.Result;
             sw.Stop();
-            Console.WriteLine("... " + sw.ElapsedMilliseconds + "ms");
+            Console.WriteLine("Parsing " + title + " took ... " + sw.ElapsedMilliseconds + "ms");
         }
     }
 }

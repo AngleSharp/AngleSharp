@@ -6,13 +6,13 @@ namespace AngleSharp.DOM.Css
     /// Fore more information about CSS properties
     /// see http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    public class CSSProperty
+    public sealed class CSSProperty
     {
         #region Members
 
-        string _name;
+        String _name;
         CSSValue _value;
-        bool _important;
+        Boolean _important;
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace AngleSharp.DOM.Css
         /// Creates a new CSS property.
         /// </summary>
         /// <param name="name"></param>
-        public CSSProperty(string name)
+        internal CSSProperty(String name)
         {
             _name = name;
         }
@@ -34,7 +34,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the name of the property.
         /// </summary>
-        public string Name
+        public String Name
         {
             get { return _name; }
         }
@@ -51,7 +51,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets if the !important flag has been set.
         /// </summary>
-        public bool Important
+        public Boolean Important
         {
             get { return _important; }
             set { _important = value; }
@@ -66,7 +66,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="propertyName">The name of the new CSS property.</param>
         /// <returns>The new CSSProperty.</returns>
-        public static CSSProperty Factory(string propertyName)
+        public static CSSProperty Create(String propertyName)
         {
             //azimuth
             //animation

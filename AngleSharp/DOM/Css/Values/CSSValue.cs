@@ -48,5 +48,40 @@ namespace AngleSharp.DOM.Css
         }
 
         #endregion
+
+        //UNITLESS in QUIRKSMODE:
+        //  border-top-width
+        //  border-right-width
+        //  border-bottom-width
+        //  border-left-width
+        //  border-width
+        //  bottom
+        //  font-size
+        //  height
+        //  left
+        //  letter-spacing
+        //  margin
+        //  margin-right
+        //  margin-left
+        //  margin-top
+        //  margin-bottom
+        //  padding
+        //  padding-top
+        //  padding-bottom
+        //  padding-left
+        //  padding-right
+        //  right
+        //  top
+        //  width
+        //  word-spacing
+
+        //HASHLESS in QUIRKSMODE:
+        //  background-color
+        //  border-color
+        //  border-top-color
+        //  border-right-color
+        //  border-bottom-color
+        //  border-left-color
+        //  color
     }
 }

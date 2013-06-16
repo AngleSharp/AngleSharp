@@ -230,7 +230,7 @@ namespace AngleSharp.Css
                         break;
 
                     case CssTokenType.Ident:
-                        var tokens = Jump(source, CssTokenType.Semicolon);
+                        var tokens = LimitToSemicolon(source);
                         var it = tokens.GetEnumerator();
                         it.MoveNext();
                         var decl = CreateDeclaration(it);
@@ -290,6 +290,36 @@ namespace AngleSharp.Css
         /// <returns>The value or NULL.</returns>
         CSSValue CreateValue(IEnumerator<CssToken> source)
         {
+            var value = CreateSingleValue(source);
+
+            if (SkipToNextNonWhitespace(source) && source.Current.Type != CssTokenType.Semicolon)
+            {
+                var list = new List<CSSValue>();
+                list.Add(value);
+                value = new CSSValueList(list);
+
+                do
+                {
+                    var tmp = CreateSingleValue(source);
+
+                    if (tmp == null)
+                        break;
+
+                    list.Add(tmp);
+                }
+                while (SkipToNextNonWhitespace(source) && source.Current.Type != CssTokenType.Semicolon);
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Creates a single value from the given source.
+        /// </summary>
+        /// <param name="source">The token iterator.</param>
+        /// <returns>The value or NULL.</returns>
+        CSSValue CreateSingleValue(IEnumerator<CssToken> source)
+        {
             CSSValue value = null;
 
             switch (source.Current.Type)
@@ -323,86 +353,7 @@ namespace AngleSharp.Css
                     break;
             }
 
-            SkipToNextSemicolon(source);
             return value;
-        }
-
-        /// <summary>
-        /// Tries to consume a hashless component value (quirks-mode) from the given source.
-        /// </summary>
-        /// <param name="source">The token iterator.</param>
-        /// <returns>The value or NULL.</returns>
-        CSSValue CreateValueHashless(IEnumerator<CssToken> source)
-        {
-            if (source.Current == null)
-                return null;
-
-            //background-color
-            //border-color
-            //border-top-color
-            //border-right-color
-            //border-bottom-color
-            //border-left-color
-            //color
-
-            switch (source.Current.Type)
-            {
-                case CssTokenType.Number:
-                case CssTokenType.Dimension:
-                case CssTokenType.Ident:
-                    var value = source.Current.ToValue();
-
-                    if ((value.Length == 3 || value.Length == 6) && Specification.IsHex(value))
-                        return new CssComponentValue() { Preserved = CssKeywordToken.Hash(value) };
-
-                    break;
-            }
-
-            return CreateValue(source);
-        }
-
-        /// <summary>
-        /// Tries to consume a unitless component value (quirks-mode) from the given source.
-        /// </summary>
-        /// <param name="source">The token iterator.</param>
-        /// <returns>The value or NULL.</returns>
-        CSSValue CreateValueUnitless(IEnumerator<CssToken> source)
-        {
-            if (source.Current == null)
-                return null;
-
-            //border-top-width
-            //border-right-width
-            //border-bottom-width
-            //border-left-width
-            //border-width
-            //bottom
-            //font-size
-            //height
-            //left
-            //letter-spacing
-            //margin
-            //margin-right
-            //margin-left
-            //margin-top
-            //margin-bottom
-            //padding
-            //padding-top
-            //padding-bottom
-            //padding-left
-            //padding-right
-            //right
-            //top
-            //width
-            //word-spacing
-
-            if (source.Current.Type == CssTokenType.Number)
-            {
-                var value = ((CssNumberToken)source.Current).Data;
-                return new CssComponentValue { Preserved = CssUnitToken.Dimension(value, "px") };
-            }
-
-            return CreateValue(source);
         }
 
         /// <summary>
@@ -412,53 +363,16 @@ namespace AngleSharp.Css
         /// <returns>The function or NULL.</returns>
         CSSFunction CreateFunction(IEnumerator<CssToken> source)
         {
-            var function = new CssFunction();
-            var keyword = source.Current as CssKeywordToken;
-
-            if (keyword == null)
-                return null;
-
-            function.Name = keyword.Data;
-            var arg = new CssArg();
-            function.Arguments.Add(arg);
-            function.Tokens.Add(source.Current);
+            var name = ((CssKeywordToken)source.Current).Data;
+            var args = new CSSValueList();
 
             while (source.MoveNext())
             {
-                function.Tokens.Add(source.Current);
-
-                switch (source.Current.Type)
-                {
-                    case CssTokenType.RoundBracketClose:
-                        return function;
-
-                    case CssTokenType.Comma:
-                        arg = new CssArg();
-                        function.Arguments.Add(arg);
-                        break;
-
-                    case CssTokenType.Number:
-                        CssComponentValue value;
-
-                        if (quirksFlag && function.Name.Equals("rect", StringComparison.OrdinalIgnoreCase))
-                            value = CreateValueUnitless(source);
-                        else
-                            value = CreateValue(source);
-
-                        if (value != null)
-                            arg.Values.Add(value);
-                        else
-                            function.IsValid = false;
-
-                        break;
-
-                    default:
-                        arg.Values.Add(CreateValue(source));
-                        break;
-                }
+                if (source.Current.Type == CssTokenType.RoundBracketClose)
+                    break;
             }
 
-            return function;
+            return CSSFunction.Create(name, args);
         }
 
         /// <summary>
@@ -478,10 +392,13 @@ namespace AngleSharp.Css
             {
                 if (source.Current.Type == CssTokenType.CurlyBracketOpen)
                 {
-                    SkipToNextNonWhitespace(source);
-                    var tokens = Jump(source, CssTokenType.CurlyBracketClose);
-                    AppendDeclarations(tokens.GetEnumerator(), style.Style.List);
-                    source.MoveNext();
+                    if (SkipToNextNonWhitespace(source))
+                    {
+                        var tokens = LimitToCurrentBlock(source);
+                        AppendDeclarations(tokens.GetEnumerator(), style.Style.List);
+                        source.MoveNext();
+                    }
+
                     break;
                 }
 
@@ -526,18 +443,19 @@ namespace AngleSharp.Css
         CSSProperty CreateDeclaration(IEnumerator<CssToken> source)
         {
             var name = ((CssKeywordToken)source.Current).Data;
-            var property = CSSProperty.Factory(name);
-            SkipToNextNonWhitespace(source);
-
-            if (source.Current.Type == CssTokenType.Colon)
+            var property = CSSProperty.Create(name);
+            
+            if(SkipToNextNonWhitespace(source) && source.Current.Type == CssTokenType.Colon)
             {
-                SkipToNextNonWhitespace(source);
-                property.Value = CreateValue(source);
-
-                if (source.Current.Type == CssTokenType.Delim)
+                if (SkipToNextNonWhitespace(source))
                 {
-                    if (((CssDelimToken)source.Current).Data == Specification.EM && source.MoveNext())
-                        property.Important = source.Current.Type == CssTokenType.Ident && ((CssKeywordToken)source.Current).Data.Equals("important", StringComparison.OrdinalIgnoreCase);
+                    property.Value = CreateValue(source);
+
+                    if (source.Current.Type == CssTokenType.Delim)
+                    {
+                        if (((CssDelimToken)source.Current).Data == Specification.EM && source.MoveNext())
+                            property.Important = source.Current.Type == CssTokenType.Ident && ((CssKeywordToken)source.Current).Data.Equals("important", StringComparison.OrdinalIgnoreCase);
+                    }
                 }
             }
 
@@ -603,16 +521,54 @@ namespace AngleSharp.Css
 
                 if (source.Current.Type == CssTokenType.CurlyBracketOpen)
                 {
+                    SkipToNextNonWhitespace(source);
+                    var tokens = LimitToCurrentBlock(source).GetEnumerator();
 
-                    //TODO
-                    //@keyframes IDENTIFIER { ... }
-                    //where ... is a reptition of a list of component values and { a list of declarations }
-                    //this will insert a list of @keyframe
+                    while (SkipToNextNonWhitespace(tokens))
+                        keyframes.CssRules.List.Add(CreateKeyframeRule(tokens));
+
+                    source.MoveNext();
                 }
             }
 
             open.Pop();
             return keyframes;
+        }
+
+        /// <summary>
+        /// Creates a new keyframe-rule from the given source.
+        /// </summary>
+        /// <param name="source">The token iterator.</param>
+        /// <returns>The keyframe-rule.</returns>
+        CSSKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> source)
+        {
+            var keyframe = new CSSKeyframeRule();
+            keyframe.ParentStyleSheet = sheet;
+            keyframe.ParentRule = CurrentRule;
+            open.Push(keyframe);
+
+            do
+            {
+                if (source.Current.Type == CssTokenType.CurlyBracketOpen)
+                {
+                    if (SkipToNextNonWhitespace(source))
+                    {
+                        var tokens = LimitToCurrentBlock(source);
+                        AppendDeclarations(tokens.GetEnumerator(), keyframe.Style.List);
+                        source.MoveNext();
+                    }
+
+                    break;
+                }
+
+                buffer.Append(source.Current.ToString());
+            }
+            while (source.MoveNext());
+
+            keyframe.KeyText = buffer.ToString();
+            buffer.Clear();
+            open.Pop();
+            return keyframe;
         }
 
         /// <summary>
@@ -631,10 +587,13 @@ namespace AngleSharp.Css
             {
                 if (source.Current.Type == CssTokenType.CurlyBracketOpen)
                 {
-                    SkipToNextNonWhitespace(source);
-                    var tokens = Jump(source, CssTokenType.CurlyBracketClose);
-                    AppendRules(tokens.GetEnumerator(), supports.CssRules.List);
-                    source.MoveNext();
+                    if (SkipToNextNonWhitespace(source))
+                    {
+                        var tokens = LimitToCurrentBlock(source);
+                        AppendRules(tokens.GetEnumerator(), supports.CssRules.List);
+                        source.MoveNext();
+                    }
+
                     break;
                 }
 
@@ -702,10 +661,12 @@ namespace AngleSharp.Css
 
             if(source.Current.Type == CssTokenType.CurlyBracketOpen)
             {
-                SkipToNextNonWhitespace(source);
-                var tokens = Jump(source, CssTokenType.CurlyBracketClose);
-                AppendDeclarations(tokens.GetEnumerator(), fontface.CssRules.List);
-                source.MoveNext();
+                if (SkipToNextNonWhitespace(source))
+                {
+                    var tokens = LimitToCurrentBlock(source);
+                    AppendDeclarations(tokens.GetEnumerator(), fontface.CssRules.List);
+                    source.MoveNext();
+                }
             }
 
             open.Pop();
@@ -763,11 +724,13 @@ namespace AngleSharp.Css
             {
                 if (source.Current.Type == CssTokenType.CurlyBracketOpen)
                 {
-                    SkipToNextNonWhitespace(source);
-                    var tokens = Jump(source, CssTokenType.CurlyBracketClose);
-                    AppendDeclarations(tokens.GetEnumerator(), page.Style.List);
-                    source.MoveNext();
-                    break;
+                    if (SkipToNextNonWhitespace(source))
+                    {
+                        var tokens = LimitToCurrentBlock(source);
+                        AppendDeclarations(tokens.GetEnumerator(), page.Style.List);
+                        source.MoveNext();
+                        break;
+                    }
                 }
 
                 ctor.PickSelector(source);
@@ -794,10 +757,12 @@ namespace AngleSharp.Css
 
             if (source.Current.Type == CssTokenType.CurlyBracketOpen)
             {
-                SkipToNextNonWhitespace(source);
-                var tokens = Jump(source, CssTokenType.CurlyBracketClose);
-                AppendRules(tokens.GetEnumerator(), media.CssRules.List);
-                source.MoveNext();
+                if (SkipToNextNonWhitespace(source))
+                {
+                    var tokens = LimitToCurrentBlock(source);
+                    AppendRules(tokens.GetEnumerator(), media.CssRules.List);
+                    source.MoveNext();
+                }
             }
 
             open.Pop();
@@ -813,25 +778,31 @@ namespace AngleSharp.Css
         /// token.
         /// </summary>
         /// <param name="source">The iterator to walk through.</param>
-        static void SkipToNextNonWhitespace(IEnumerator<CssToken> source)
+        /// <returns>True if a non-whitespace could be reached, otherwise false (EOF).</returns>
+        static Boolean SkipToNextNonWhitespace(IEnumerator<CssToken> source)
         {
             while (source.MoveNext())
                 if (source.Current.Type != CssTokenType.Whitespace)
-                    break;
+                    return true;
+
+            return false;
         }
 
         /// <summary>
         /// Moves from the current position to the next position that is a semicolon token.
         /// </summary>
         /// <param name="source">The iterator to walk through.</param>
-        static void SkipToNextSemicolon(IEnumerator<CssToken> source)
+        /// <returns>True if a semicolon could be reached, otherwise false (EOF).</returns>
+        static Boolean SkipToNextSemicolon(IEnumerator<CssToken> source)
         {
             do
             {
                 if (source.Current.Type == CssTokenType.Semicolon)
-                    break;
+                    return true;
             }
             while (source.MoveNext());
+
+            return false;
         }
 
         /// <summary>
@@ -839,57 +810,53 @@ namespace AngleSharp.Css
         /// semicolon token.
         /// </summary>
         /// <param name="source">The iterator to walk through.</param>
-        static void SkipBehindNextSemicolon(IEnumerator<CssToken> source)
+        /// <returns>True if a semicolon could be passed, otherwise false (EOF).</returns>
+        static Boolean SkipBehindNextSemicolon(IEnumerator<CssToken> source)
         {
             do
             {
                 if (source.Current.Type == CssTokenType.Semicolon)
                 {
                     source.MoveNext();
-                    break;
+                    return true;
                 }
+            }
+            while (source.MoveNext());
+
+            return false;
+        }
+
+        /// <summary>
+        /// Limits the given iterator to the next semicolon.
+        /// </summary>
+        /// <param name="source">The iterator to consider.</param>
+        /// <returns>An iterator within the specified tokens.</returns>
+        static IEnumerable<CssToken> LimitToSemicolon(IEnumerator<CssToken> source)
+        {
+            do
+            {
+                if (source.Current.Type == CssTokenType.Semicolon)
+                    yield break;
+
+                yield return source.Current;
             }
             while (source.MoveNext());
         }
 
         /// <summary>
-        /// /Gets the CssFillType of the specified CSS (@) rule.
-        /// </summary>
-        /// <param name="type">The type of CSS rule like media, style, page, ...</param>
-        /// <returns>The corresponding CSS fill type.</returns>
-        static CssFillType GetFillType(String type)
-        {
-            switch (type)
-            {
-                case "media":
-                case "supports":
-                case "keyframes":
-                    return CssFillType.Rule;
-
-                case "page":
-                case "font-face":
-                case "keyframe":
-                    return CssFillType.Declaration;
-
-                case "charset":
-                case "namespace":
-                case "import":
-                default:
-                    return CssFillType.None;
-            }
-        }
-
-        /// <summary>
-        /// Jumps in the given iterator to the specified token.
+        /// Limits the given iterator to the current block (assuming a curly bracket is open).
         /// </summary>
         /// <param name="source">The iterator to consider.</param>
-        /// <param name="token">The type of the final (not consumed) token.</param>
-        /// <returns>The (optional) list of skipped tokens.</returns>
-        static IEnumerable<CssToken> Jump(IEnumerator<CssToken> source, CssTokenType token)
+        /// <returns>An iterator within the specified tokens.</returns>
+        static IEnumerable<CssToken> LimitToCurrentBlock(IEnumerator<CssToken> source)
         {
+            int open = 1;
+
             do
             {
-                if (source.Current.Type == token)
+                if (source.Current.Type == CssTokenType.CurlyBracketOpen)
+                    open++;
+                else if (source.Current.Type == CssTokenType.CurlyBracketClose && --open == 0)
                     yield break;
 
                 yield return source.Current;
@@ -944,12 +911,16 @@ namespace AngleSharp.Css
             var parser = new CssParser(rule);
             parser.IsQuirksMode = quirksMode;
             var it = parser.tokenizer.Iterator;
-            SkipToNextNonWhitespace(it);
 
-            if (it.Current.Type == CssTokenType.Cdo || it.Current.Type == CssTokenType.Cdc)
-                throw new DOMException(ErrorCode.SyntaxError);
+            if (SkipToNextNonWhitespace(it))
+            {
+                if (it.Current.Type == CssTokenType.Cdo || it.Current.Type == CssTokenType.Cdc)
+                    throw new DOMException(ErrorCode.SyntaxError);
 
-            return (it.Current.Type == CssTokenType.AtKeyword) ? parser.CreateAtRule(it) : parser.CreateStyleRule(it);
+                return (it.Current.Type == CssTokenType.AtKeyword) ? parser.CreateAtRule(it) : parser.CreateStyleRule(it);
+            }
+
+            return new CSSRule();
         }
 
         /// <summary>
@@ -964,8 +935,10 @@ namespace AngleSharp.Css
             parser.IsQuirksMode = quirksMode;
             var it = parser.tokenizer.Iterator;
             var decl = new CSSStyleDeclaration();
-            SkipToNextNonWhitespace(it);
-            parser.AppendDeclarations(it, decl.List);
+            
+            if(SkipToNextNonWhitespace(it))
+                parser.AppendDeclarations(it, decl.List);
+
             return decl;
         }
 
@@ -980,8 +953,11 @@ namespace AngleSharp.Css
             var parser = new CssParser(value);
             parser.IsQuirksMode = quirksMode;
             var it = parser.tokenizer.Iterator;
-            SkipToNextNonWhitespace(it);
-            return parser.CreateValue(it);
+            
+            if(SkipToNextNonWhitespace(it))
+                return parser.CreateSingleValue(it);
+
+            return null;
         }
 
         /// <summary>
@@ -997,12 +973,9 @@ namespace AngleSharp.Css
             parser.IsQuirksMode = quirksMode;
             var it = parser.tokenizer.Iterator;
 
-            do
-            {
-                SkipToNextNonWhitespace(it);
-                list.Add(parser.CreateValue(it));
-            }
-            while (it.MoveNext());
+            //TODO
+            while (SkipToNextNonWhitespace(it))
+                list.Add(parser.CreateSingleValue(it));
 
             return new CSSValueList(list);
         }
@@ -1021,29 +994,43 @@ namespace AngleSharp.Css
             var val = new List<CSSValueList>();
             var temp = new List<CSSValue>();
 
-            do
+            //TODO
+            while (SkipToNextNonWhitespace(it))
             {
-                SkipToNextNonWhitespace(it);
-
                 if (it.Current.Type == CssTokenType.Comma)
                 {
                     val.Add(new CSSValueList(temp));
                     temp = new List<CSSValue>();
                 }
                 else
-                {
-                    temp.Add(parser.CreateValue(it));
-                }
+                    temp.Add(parser.CreateSingleValue(it));
             }
-            while (it.MoveNext());
 
             if (temp.Count > 0) val.Add(new CSSValueList(temp));
             return val;
         }
 
+        /// <summary>
+        /// Takes a string and transforms it into a CSS keyframe rule.
+        /// </summary>
+        /// <param name="rule">The string to parse.</param>
+        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        /// <returns>The CSSKeyframeRule object.</returns>
         internal static CSSKeyframeRule ParseKeyframeRule(String rule, Boolean quirksMode = false)
         {
-            throw new NotImplementedException();
+            var parser = new CssParser(rule);
+            parser.IsQuirksMode = quirksMode;
+            var it = parser.tokenizer.Iterator;
+
+            if (SkipToNextNonWhitespace(it))
+            {
+                if (it.Current.Type == CssTokenType.Cdo || it.Current.Type == CssTokenType.Cdc)
+                    throw new DOMException(ErrorCode.SyntaxError);
+
+                return parser.CreateKeyframeRule(it);
+            }
+
+            return null;
         }
 
         #endregion

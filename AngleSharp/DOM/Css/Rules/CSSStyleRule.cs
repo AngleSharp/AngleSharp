@@ -73,6 +73,19 @@ namespace AngleSharp.DOM.Css
 
         #endregion
 
+        #region String representation
+
+        /// <summary>
+        /// Returns a CSS code representation of the rule.
+        /// </summary>
+        /// <returns>A string that contains the code.</returns>
+        public override String ToCss()
+        {
+            return _selectorText + " {" + _style.ToCss() + "}";
+        }
+
+        #endregion
+
         //Sooner or later required:
         //TODO --- how to connect to the RuleList ?? which is connected to the stylesheet etc.
         //http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleDeclaration

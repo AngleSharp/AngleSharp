@@ -1,6 +1,7 @@
 ﻿using AngleSharp.Css;
 using AngleSharp.DOM.Collections;
 using System;
+using System.Text;
 
 namespace AngleSharp.DOM.Css
 {
@@ -79,6 +80,24 @@ namespace AngleSharp.DOM.Css
             }
 
             return this;
+        }
+
+        #endregion
+
+        #region String representation
+
+        /// <summary>
+        /// Returns a CSS code representation of the stylesheet.
+        /// </summary>
+        /// <returns>A string that contains the code.</returns>
+        public virtual String ToCss()
+        {
+            var sb = new StringBuilder();
+
+            foreach (var rule in cssRules)
+                sb.AppendLine(rule.ToCss());
+
+            return sb.ToString();
         }
 
         #endregion

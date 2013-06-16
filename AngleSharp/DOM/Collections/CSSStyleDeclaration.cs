@@ -99,7 +99,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="propertyName">The name of the property to be removed.</param>
         /// <returns>The value of the deleted property.</returns>
-        public String RemoveProperty(string propertyName)
+        public String RemoveProperty(String propertyName)
         {
             GetValue();
 
@@ -122,7 +122,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="propertyName">The name of the property to get the priority of.</param>
         /// <returns>A priority or null.</returns>
-        public String GetPropertyPriority(string propertyName)
+        public String GetPropertyPriority(String propertyName)
         {
             GetValue();
 
@@ -140,7 +140,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="propertyName">The name of the property to get the priority of.</param>
         /// <returns>A value or null if nothing has been set.</returns>
-        public String GetPropertyValue(string propertyName)
+        public String GetPropertyValue(String propertyName)
         {
             GetValue();
 
@@ -159,7 +159,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="propertyName">The property's name.</param>
         /// <param name="propertyValue">The value of the property.</param>
         /// <returns>The current style declaration.</returns>
-        public CSSStyleDeclaration SetProperty(string propertyName, string propertyValue)
+        public CSSStyleDeclaration SetProperty(String propertyName, String propertyValue)
         {
             GetValue();
             //TODO
@@ -217,7 +217,7 @@ namespace AngleSharp.DOM.Collections
         /// Returns the CSS representation of the list of rules.
         /// </summary>
         /// <returns></returns>
-        public string ToCss()
+        public String ToCss()
         {
             //TODO
             return oldCssText;
@@ -227,7 +227,7 @@ namespace AngleSharp.DOM.Collections
         /// Returns an HTML-code representation of the style declaration (which is just the CSS snippet).
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
-        public override string ToHtml()
+        public override String ToHtml()
         {
             return ToCss();
         }

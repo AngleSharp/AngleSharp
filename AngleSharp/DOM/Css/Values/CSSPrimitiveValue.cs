@@ -53,8 +53,10 @@ namespace AngleSharp.DOM.Css
                 case "em": return UnitType.Ems;
                 case "cm": return UnitType.Cm;
                 case "deg": return UnitType.Deg;
+                case "grad": return UnitType.Grad;
+                case "rad": return UnitType.Rad;
+                case "turn": return UnitType.Turn;
                 case "ex": return UnitType.Exs;
-                case "°": return UnitType.Grad;
                 case "hz": return UnitType.Hz;
                 case "in": return UnitType.In;
                 case "khz": return UnitType.Khz;
@@ -64,7 +66,10 @@ namespace AngleSharp.DOM.Css
                 case "pc": return UnitType.Pc;
                 case "pt": return UnitType.Pt;
                 case "px": return UnitType.Px;
-                case "rad": return UnitType.Rad;
+                case "vw": return UnitType.Vw;
+                case "vh": return UnitType.Vh;
+                case "vmin": return UnitType.Vmin;
+                case "vmax": return UnitType.Vmax;
             }
 
             return UnitType.Unknown;

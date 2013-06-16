@@ -53,14 +53,17 @@ namespace AngleSharp.DOM.Css
         Pc = 10,
         /// <summary>
         /// The value is an angle (deg). The value can be obtained by using the getFloatValue method.
+        /// There are 360 degrees in a full circle.
         /// </summary>
         Deg = 11,
         /// <summary>
         /// The value is an angle (rad). The value can be obtained by using the getFloatValue method.
+        /// There are 2*pi radians in a full circle.
         /// </summary>
         Rad = 12,
         /// <summary>
         /// The value is an angle (grad). The value can be obtained by using the getFloatValue method.
+        /// There are 400 gradians in a full circle.
         /// </summary>
         Grad = 13,
         /// <summary>
@@ -110,6 +113,27 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// The value is a RGB color. The value can be obtained by using the getRGBColorValue method.
         /// </summary>
-        Rgbcolor = 25
+        Rgbcolor = 25,
+        /// <summary>
+        /// The value is relative to the viewport width.
+        /// </summary>
+        Vw = 26,
+        /// <summary>
+        /// The value is relative to the viewport height.
+        /// </summary>
+        Vh = 28,
+        /// <summary>
+        /// The value is relative to the minimum of viewport width and height.
+        /// </summary>
+        Vmin = 29,
+        /// <summary>
+        /// The value is relative to the maximum of viewport width and height.
+        /// </summary>
+        Vmax = 30,
+        /// <summary>
+        /// The value is a turn. The value can be obtained by using the getFloatValue method.
+        /// There is 1 turn in a full circle.
+        /// </summary>
+        Turn = 31,
     }
 }

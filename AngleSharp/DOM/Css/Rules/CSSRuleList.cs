@@ -67,7 +67,7 @@ namespace AngleSharp.DOM.Css
         /// Removes the rule at the given index.
         /// </summary>
         /// <param name="index">The specified index.</param>
-        internal void RemoveAt(int index)
+        internal void RemoveAt(Int32 index)
         {
             _rules.RemoveAt(index);
         }
@@ -77,7 +77,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="index">The index where to insert.</param>
         /// <param name="rule">The rule that should be inserted.</param>
-        internal void InsertAt(int index, CSSRule rule)
+        internal void InsertAt(Int32 index, CSSRule rule)
         {
             _rules.Insert(index, rule);
         }
