@@ -1,4 +1,5 @@
-﻿using AngleSharp.Css;
+﻿using AngleSharp;
+using AngleSharp.Css;
 using AngleSharp.DOM.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -119,6 +120,66 @@ namespace UnitTests
             var valueString = " , ";
             var list = CssParser.ParseMultipleValues(valueString);
             Assert.AreEqual(0, list.Count);
+        }
+
+        [TestMethod]
+        public void CssColorBlack()
+        {
+            var valueString = "#000000";
+            var value = CssParser.ParseValue(valueString);
+            Assert.IsNotNull(value);
+            Assert.AreEqual(CssValue.PrimitiveValue, value.CssValueType);
+            var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
+            Assert.IsTrue(color.HasValue);
+            Assert.AreEqual(new HtmlColor(0, 0, 0), color.Value);
+        }
+
+        [TestMethod]
+        public void CssColorRed()
+        {
+            var valueString = "#FF0000";
+            var value = CssParser.ParseValue(valueString);
+            Assert.IsNotNull(value);
+            Assert.AreEqual(CssValue.PrimitiveValue, value.CssValueType);
+            var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
+            Assert.IsTrue(color.HasValue);
+            Assert.AreEqual(new HtmlColor(255, 0, 0), color.Value);
+        }
+
+        [TestMethod]
+        public void CssColorMixedShort()
+        {
+            var valueString = "#07C";
+            var value = CssParser.ParseValue(valueString);
+            Assert.IsNotNull(value);
+            Assert.AreEqual(CssValue.PrimitiveValue, value.CssValueType);
+            var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
+            Assert.IsTrue(color.HasValue);
+            Assert.AreEqual(new HtmlColor(0, 119, 204), color.Value);
+        }
+
+        [TestMethod]
+        public void CssColorGreenShort()
+        {
+            var valueString = "#00F";
+            var value = CssParser.ParseValue(valueString);
+            Assert.IsNotNull(value);
+            Assert.AreEqual(CssValue.PrimitiveValue, value.CssValueType);
+            var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
+            Assert.IsTrue(color.HasValue);
+            Assert.AreEqual(new HtmlColor(0, 0, 255), color.Value);
+        }
+
+        [TestMethod]
+        public void CssColorRedShort()
+        {
+            var valueString = "#F00";
+            var value = CssParser.ParseValue(valueString);
+            Assert.IsNotNull(value);
+            Assert.AreEqual(CssValue.PrimitiveValue, value.CssValueType);
+            var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
+            Assert.IsTrue(color.HasValue);
+            Assert.AreEqual(new HtmlColor(255, 0, 0), color.Value);
         }
     }
 }
