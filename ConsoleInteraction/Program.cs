@@ -21,25 +21,17 @@ namespace ConsoleInteraction
 
             TestCSS(Stylesheets.rsi, "a sample stylesheet");
 
-            //TestHtml(Snippets.Invalid);
+            TestCSS(Stylesheets.CodeProject, "CodeProject's stylesheet");
 
-            //TestHtml(Webpages.Simon);
+            TestHtml(Snippets.Invalid, "an invalid snippet");
 
-            //TestHtml(Webpages.Test);
+            TestHtml(Webpages.Test, "a test page");
 
-            //TestHtml(Snippets.SelfClosedP);
-
-            //TestHtml(Snippets.NormalClosedP);
-
-            //TestHtmlFragment(@"<a href='?hi&amp=5'>hi</a>");
-
-            //TestHtml("<div id=mydiv class=hi></div>", true);
-
-            TestHtml(Webpages.CodeProject, "CodeProject");
+            TestHtml(Webpages.CodeProject, "CodeProject's webpage");
 
             TestHtml(Webpages.Simon, "Simon's HP");
 
-            TestHtml(Webpages.W3C, "W3C");
+            TestHtml(Webpages.W3C, "the W3C webpage");
 
             TestWebRequest("http://www.imdb.com/", false);
 

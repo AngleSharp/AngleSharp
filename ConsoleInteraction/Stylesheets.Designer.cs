@@ -61,6 +61,15 @@ namespace ConsoleInteraction {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .theme1-color{color:#f90;}.theme1-background{background-color:#f90;}.theme1-border{border-color:#f90!important;}.theme2-color{color:#fc6;}.theme2-background{background-color:#fc6;}.theme2-border{border-color:#fc6!important;}.theme3-color{color:#fff8df;}.theme3-background{background-color:#fff8df;}.theme2-border{border-color:#fff8df!important;}.contrast1-color{color:#666;}.contrast1-background{background-color:white;}.contrast1-border{border-color:white!important;}.contrast2-color{color:#f90;}.contrast2-back [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CodeProject {
+            get {
+                return ResourceManager.GetString("CodeProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /*Allgemeines*/
         ///* { margin: 0; padding: 0; }
         ///img { border: 0; }
