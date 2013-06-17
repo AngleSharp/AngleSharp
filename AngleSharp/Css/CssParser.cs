@@ -24,6 +24,7 @@ namespace AngleSharp.Css
         TaskCompletionSource<Boolean> tcs;
         StringBuilder buffer;
         Stack<CSSRule> open;
+        Boolean ignore;
 
         #endregion
 
@@ -88,6 +89,7 @@ namespace AngleSharp.Css
         /// <param name="source">The source to use.</param>
         internal CssParser(CSSStyleSheet stylesheet, SourceManager source)
         {
+            ignore = true;
             buffer = new StringBuilder();
             tokenizer = new CssTokenizer(source);
 
@@ -129,7 +131,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Gets or sets if the quirks-mode is activated.
         /// </summary>
-        public bool IsQuirksMode
+        public Boolean IsQuirksMode
         {
             get { return quirksFlag; }
             set { quirksFlag = value; }
@@ -188,7 +190,7 @@ namespace AngleSharp.Css
         #region Stylesheet construction
 
         /// <summary>
-        /// Tries to append rules from the given source to the list of rules.
+        /// Appends rules from the given source to the list of rules.
         /// </summary>
         /// <param name="source">The token iterator (source).</param>
         /// <param name="rules">The list of rules to append to.</param>
@@ -215,7 +217,7 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
-        /// Tries to append declarations from the given source to the list of declarations.
+        /// Appends declarations from the given source to the list of declarations.
         /// </summary>
         /// <param name="source">The token iterator.</param>
         /// <param name="declarations">The list of declarations to append to.</param>
@@ -249,7 +251,7 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
-        /// Tries to append media labels from the given source to the medialist.
+        /// Appends media labels from the given source to the medialist.
         /// </summary>
         /// <param name="source">The token iterator.</param>
         /// <param name="media">The medialist to append to.</param>
@@ -286,8 +288,8 @@ namespace AngleSharp.Css
         /// <summary>
         /// Creates a list of CSSValueList values from the given source.
         /// </summary>
-        /// <param name="source">The token iterator.</param>
-        /// <returns>The list of values or NULL.</returns>
+        /// <param name="source">The token source.</param>
+        /// <returns>The list of CSSValueList instances.</returns>
         List<CSSValueList> CreateMultipleValues(IEnumerator<CssToken> source)
         {
             var values = new List<CSSValueList>();
@@ -305,16 +307,21 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
-        /// Tries to consume a component value from the given source.
+        /// Creates a CSSValueList from the given source.
         /// </summary>
-        /// <param name="source">The token iterator.</param>
-        /// <returns>The value or NULL.</returns>
+        /// <param name="source">The token source.</param>
+        /// <returns>The CSSValueList instance.</returns>
         CSSValueList CreateValueList(IEnumerator<CssToken> source)
         {
             var list = new List<CSSValue>();
 
-            while (SkipToNextNonWhitespace(source) && !(source.Current is CssCharacterToken))
+            while (SkipToNextNonWhitespace(source))
             {
+                if (source.Current.Type == CssTokenType.Semicolon)
+                    break;
+                else if (source.Current.Type == CssTokenType.Comma)
+                    break;
+
                 var value = CreateValue(source);
 
                 if (value == null)
@@ -340,31 +347,76 @@ namespace AngleSharp.Css
 
             switch (source.Current.Type)
             {
-                case CssTokenType.String:
+                case CssTokenType.String:// 'i am a string'
                     value = new CSSPrimitiveValue(UnitType.String, ((CssStringToken)source.Current).Data);
                     break;
 
-                case CssTokenType.Url:
+                case CssTokenType.Url:// url('this is a valid URL')
                     value = new CSSPrimitiveValue(UnitType.Uri, ((CssStringToken)source.Current).Data);
                     break;
 
-                case CssTokenType.Ident:
+                case CssTokenType.Ident: // ident
                     value = new CSSPrimitiveValue(UnitType.Ident, ((CssKeywordToken)source.Current).Data);
                     break;
 
-                case CssTokenType.Percentage:
+                case CssTokenType.Percentage: // 5%
                     value = new CSSPrimitiveValue(UnitType.Percentage, ((CssUnitToken)source.Current).Data);
                     break;
 
-                case CssTokenType.Dimension:
+                case CssTokenType.Dimension: // 3px
                     value = new CSSPrimitiveValue(((CssUnitToken)source.Current).Unit, ((CssUnitToken)source.Current).Data);
                     break;
 
-                case CssTokenType.Number:
+                case CssTokenType.Number: // 173
                     value = new CSSPrimitiveValue(UnitType.Number, ((CssNumberToken)source.Current).Data);
                     break;
 
-                case CssTokenType.Function:
+                case CssTokenType.Hash: // #string
+                    HtmlColor color;
+
+                    if(HtmlColor.TryFromHex(((CssKeywordToken)source.Current).Data, out color))
+                        value = new CSSPrimitiveValue(color);
+
+                    break;
+
+                case CssTokenType.Delim: // e.g. #0F3, #012345, ...
+                    if (((CssDelimToken)source.Current).Data == '#')
+                    {
+                        String hash = String.Empty;
+
+                        while (source.MoveNext())
+                        {
+                            var stop = false;
+
+                            switch (source.Current.Type)
+                            {
+                                case CssTokenType.Number:
+                                case CssTokenType.Dimension:
+                                case CssTokenType.Ident:
+                                    var rest = source.Current.ToValue();
+
+                                    if (hash.Length + rest.Length <= 6)
+                                        hash += rest;
+                                    else
+                                        stop = true;
+
+                                    break;
+
+                                default:
+                                    stop = true;
+                                    break;
+                            }
+
+                            if (stop || hash.Length == 6)
+                                break;
+                        }
+
+                        if (HtmlColor.TryFromHex(hash, out color))
+                            value = new CSSPrimitiveValue(color);
+                    }
+                    break;
+
+                case CssTokenType.Function: // rgba(255, 255, 20, 0.5)
                     value = CreateFunction(source);
                     break;
             }
@@ -373,14 +425,16 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
-        /// Tries to consume a function from the given source.
+        /// Creates a function from the given source.
         /// </summary>
         /// <param name="source">The token iterator.</param>
-        /// <returns>The function or NULL.</returns>
+        /// <returns>The created function.</returns>
         CSSFunction CreateFunction(IEnumerator<CssToken> source)
         {
             var name = ((CssKeywordToken)source.Current).Data;
             var args = new CSSValueList();
+
+            //TODO
 
             while (source.MoveNext())
             {
@@ -400,6 +454,7 @@ namespace AngleSharp.Css
         {
             var style = new CSSStyleRule();
             var ctor = new CssSelectorConstructor();
+            ctor.IgnoreErrors = ignore;
             style.ParentStyleSheet = sheet;
             style.ParentRule = CurrentRule;
             open.Push(style);
@@ -439,14 +494,14 @@ namespace AngleSharp.Css
 
             switch (name)
             {
-                case "media": return CreateMediaRule(source);
-                case "page": return CreatePageRule(source);
-                case "import": return CreateImportRule(source);
-                case "font-face": return CreateFontFaceRule(source);
-                case "charset": return CreateCharsetRule(source);
-                case "namespace": return CreateNamespaceRule(source);
-                case "supports": return CreateSupportsRule(source);
-                case "keyframes": return CreateKeyframesRule(source);
+                case CSSMediaRule.RuleName: return CreateMediaRule(source);
+                case CSSPageRule.RuleName: return CreatePageRule(source);
+                case CSSImportRule.RuleName: return CreateImportRule(source);
+                case CSSFontFaceRule.RuleName: return CreateFontFaceRule(source);
+                case CSSCharsetRule.RuleName: return CreateCharsetRule(source);
+                case CSSNamespaceRule.RuleName: return CreateNamespaceRule(source);
+                case CSSSupportsRule.RuleName: return CreateSupportsRule(source);
+                case CSSKeyframesRule.RuleName: return CreateKeyframesRule(source);
                 default: return CreateUnknownRule(name, source);
             }
         }
@@ -458,23 +513,201 @@ namespace AngleSharp.Css
         /// <returns>The new property.</returns>
         CSSProperty CreateDeclaration(IEnumerator<CssToken> source)
         {
-            var name = ((CssKeywordToken)source.Current).Data;
-            var property = CSSProperty.Create(name);
-            
-            if(SkipToNextNonWhitespace(source) && source.Current.Type == CssTokenType.Colon)
-            {
-                property.Value = CreateValueList(source);
+            String name = ((CssKeywordToken)source.Current).Data;
+            CSSProperty property = null;
+            CSSValue value = CSSValue.Inherit;
+            Boolean hasValue = SkipToNextNonWhitespace(source) && source.Current.Type == CssTokenType.Colon;
 
-                if (source.Current.Type == CssTokenType.Delim)
-                {
-                    if (((CssDelimToken)source.Current).Data == Specification.EM && source.MoveNext())
-                        property.Important = source.Current.Type == CssTokenType.Ident && ((CssKeywordToken)source.Current).Data.Equals("important", StringComparison.OrdinalIgnoreCase);
-                }
+            if (hasValue)
+                value = CreateValueList(source);
+
+            //TODO
+            switch (name)
+            {
+                case "azimuth":
+                case "animation":
+                case "animation-delay":
+                case "animation-direction":
+                case "animation-duration":
+                case "animation-fill-mode":
+                case "animation-iteration-count":
+                case "animation-name":
+                case "animation-play-state":
+                case "animation-timing-function":
+                case "background-attachment":
+                case "background-color":
+                case "background-clip":
+                case "background-origin":
+                case "background-size":
+                case "background-image":
+                case "background-position":
+                case "background-repeat":
+                case "background":
+                case "border-color":
+                case "border-spacing":
+                case "border-collapse":
+                case "border-style":
+                case "border-radius":
+                case "box-shadow":
+                case "box-decoration-break":
+                case "break-after":
+                case "break-before":
+                case "break-inside":
+                case "backface-visibility":
+                case "border-top-left-radius":
+                case "border-top-right-radius":
+                case "border-bottom-left-radius":
+                case "border-bottom-right-radius":
+                case "border-image":
+                case "border-image-outset":
+                case "border-image-repeat":
+                case "border-image-source":
+                case "border-image-slice":
+                case "border-image-width":
+                case "border-top":
+	            case "border-right":
+                case "border-bottom":
+                case "border-left":
+                case "border-top-color":
+                case "border-left-color":
+                case "border-right-color":
+                case "border-bottom-color":
+                case "border-top-style":
+                case "border-left-style":
+                case "border-right-style":
+                case "border-bottom-style":
+                case "border-top-width":
+                case "border-left-width":
+                case "border-right-width":
+                case "border-bottom-width":
+                case "border-width":
+                case "border":
+                case "bottom":
+                case "columns":
+                case "column-count":
+                case "column-fill":
+                case "column-gap":
+                case "column-rule-color":
+                case "column-rule-style":
+                case "column-rule-width":
+                case "column-span":
+                case "column-width":	
+                case "caption-side":
+                case "clear":
+                case "clip":
+                case "color":
+                case "content":
+                case "counter-increment":
+                case "counter-reset":
+                case "cue-after":
+                case "cue-before":
+                case "cue":
+                case "cursor":
+                case "direction":
+                case "display":
+                case "elevation":
+                case "empty-cells":
+                case "float":
+                case "font-family":
+                case "font-size":
+                case "font-style":
+                case "font-variant":
+                case "font-weight":
+                case "font":
+                case "height":
+                case "left":
+                case "letter-spacing":
+                case "line-height":
+                case "list-style-image":
+                case "list-style-position":
+                case "list-style-type":
+                case "list-style":
+                case "marquee-direction":
+                case "marquee-play-count":
+                case "marquee-speed":
+                case "marquee-style":
+                case "margin-right":
+                case "margin-left":
+                case "margin-top":
+		        case "margin-bottom":
+                case "margin":
+                case "max-height":
+                case "max-width":
+                case "min-height":
+                case "min-width":
+                case "opacity":
+                case "orphans":
+                case "outline-color":
+                case "outline-style":
+                case "outline-width":
+                case "outline":
+                case "overflow":
+                case "padding-top":
+                case "padding-right":
+                case "padding-left":
+                case "padding-bottom":
+                case "padding":
+                case "page-break-after":
+                case "page-break-before":
+                case "page-break-inside":
+                case "pause-after":
+                case "pause-before":
+                case "pause":
+                case "perspective":
+                case "perspective-origin":
+                case "pitch-range":
+                case "pitch":
+                case "play-during":
+                case "position":
+                case "quotes":
+                case "richness":
+                case "right":
+                case "speak-header":
+                case "speak-numeral":
+                case "speak-punctuation":
+                case "speak":
+                case "speech-rate":
+                case "stress":
+                case "table-layout":
+                case "text-align":
+                case "text-decoration":
+                case "text-indent":
+                case "text-transform":
+                case "transform":
+                case "transform-origin":
+                case "transform-style":
+                case "transition":
+                case "transition-delay":
+                case "transition-duration":
+                case "transition-timing-function":
+                case "transition-property":
+                case "top":
+                case "unicode-bidi":
+                case "vertical-align":
+                case "visibility":
+                case "voice-family":
+                case "volume":
+                case "white-space":
+                case "widows":
+                case "width":
+                case "word-spacing":
+                case "z-index":
+                default:
+                    property = new CSSProperty(name);
+                    property.Value = value;
+                    break;
             }
+
+            if (hasValue && source.Current.Type == CssTokenType.Delim && ((CssDelimToken)source.Current).Data == Specification.EM && SkipToNextNonWhitespace(source))
+                property.Important = source.Current.Type == CssTokenType.Ident && ((CssKeywordToken)source.Current).Data.Equals("important", StringComparison.OrdinalIgnoreCase);
 
             SkipBehindNextSemicolon(source);
             return property;
         }
+
+        #endregion
+
+        #region Rule creation
 
         /// <summary>
         /// Creates a new unknown @-rule from the given source.
@@ -732,6 +965,7 @@ namespace AngleSharp.Css
             page.ParentRule = CurrentRule;
             open.Push(page);
             var ctor = new CssSelectorConstructor();
+            ctor.IgnoreErrors = ignore;
 
             do
             {
@@ -781,6 +1015,12 @@ namespace AngleSharp.Css
             open.Pop();
             return media;
         }
+
+        #endregion
+
+        #region Value creation
+
+        //TODO
 
         #endregion
 
@@ -922,6 +1162,7 @@ namespace AngleSharp.Css
         public static CSSRule ParseRule(String rule, Boolean quirksMode = false)
         {
             var parser = new CssParser(rule);
+            parser.ignore = false;
             parser.IsQuirksMode = quirksMode;
             var it = parser.tokenizer.Iterator;
 
@@ -946,6 +1187,7 @@ namespace AngleSharp.Css
         {
             var parser = new CssParser(declarations);
             parser.IsQuirksMode = quirksMode;
+            parser.ignore = false;
             var it = parser.tokenizer.Iterator;
             var decl = new CSSStyleDeclaration();
             
@@ -965,6 +1207,7 @@ namespace AngleSharp.Css
         {
             var parser = new CssParser(source);
             parser.IsQuirksMode = quirksMode;
+            parser.ignore = false;
             var it = parser.tokenizer.Iterator;
             SkipToNextNonWhitespace(it);
             return parser.CreateValue(it);
@@ -980,6 +1223,7 @@ namespace AngleSharp.Css
         {
             var parser = new CssParser(source);
             parser.IsQuirksMode = quirksMode;
+            parser.ignore = false;
             var it = parser.tokenizer.Iterator;
             return parser.CreateValueList(it);
         }
@@ -994,6 +1238,7 @@ namespace AngleSharp.Css
         {
             var parser = new CssParser(source);
             parser.IsQuirksMode = quirksMode;
+            parser.ignore = false;
             var it = parser.tokenizer.Iterator;
             return parser.CreateMultipleValues(it);
         }
@@ -1008,6 +1253,7 @@ namespace AngleSharp.Css
         {
             var parser = new CssParser(rule);
             parser.IsQuirksMode = quirksMode;
+            parser.ignore = false;
             var it = parser.tokenizer.Iterator;
 
             if (SkipToNextNonWhitespace(it))

@@ -9,7 +9,7 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents a node in the generated tree.
     /// </summary>
-    public class Node : INode
+    public class Node : INode, IHTMLObject
     {
         #region Members
 
@@ -836,7 +836,7 @@ namespace AngleSharp.DOM
         /// Returns a string representation of the node.
         /// </summary>
         /// <returns>A string containing some information about the node.</returns>
-        public override string ToString()
+        public override String ToString()
         {
             return string.Format("DOM.{0}.{1}", NodeType, _name);
         }
@@ -845,7 +845,7 @@ namespace AngleSharp.DOM
         /// Returns an HTML-code representation of the node.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
-        public virtual string ToHtml()
+        public virtual String ToHtml()
         {
             return TextContent;
         }
@@ -855,7 +855,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="indent">The optional indentation level.</param>
         /// <returns></returns>
-        public string ToTree(int indent = 0)
+        public String ToTree(int indent = 0)
         {
             var sb = new StringBuilder();
             var content = ToString();

@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS primitive value.
     /// </summary>
-    public sealed class CSSPrimitiveValue : CSSValue
+    sealed class CSSPrimitiveValue : CSSValue
     {
         #region Members
 
@@ -36,9 +36,17 @@ namespace AngleSharp.DOM.Css
             SetFloatValue(unitType, value);
         }
 
+        internal CSSPrimitiveValue(HtmlColor value)
+        {
+            _text = value.ToHtml();
+            _type = CssValue.PrimitiveValue;
+            unit = UnitType.Rgbcolor;
+            data = value;
+        }
+
         #endregion
 
-        #region Properties 
+        #region Properties
 
         /// <summary>
         /// Gets the unit type of the value.
@@ -71,7 +79,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="unitType">The unit of the number.</param>
         /// <returns>The value of the number if any.</returns>
-        public Single GetFloatValue(UnitType unitType)
+        public Single? GetFloatValue(UnitType unitType)
         {
             if (data is Single)
             {
@@ -80,7 +88,7 @@ namespace AngleSharp.DOM.Css
                 return value;
             }
 
-            return 0f;
+            return null;
         }
 
         /// <summary>
@@ -123,25 +131,37 @@ namespace AngleSharp.DOM.Css
                 return value;
             }
 
-            return String.Empty;
+            return null;
         }
 
+        /// <summary>
+        /// Gets the primitive value's counter if any.
+        /// </summary>
+        /// <returns>The value of the counter if any.</returns>
         public Counter GetCounterValue()
         {
-            //TODO
-            throw new NotImplementedException();
+            return data as Counter;
         }
 
+        /// <summary>
+        /// Gets the primitive value's rectangle if any.
+        /// </summary>
+        /// <returns>The value of the rectangle if any.</returns>
         public Rect GetRectValue()
         {
-            //TODO
-            throw new NotImplementedException();
+            return data as Rect;
         }
 
-        public RGBColor GetRGBColorValue()
+        /// <summary>
+        /// Gets the primitive value's RGB color if any.
+        /// </summary>
+        /// <returns>The value of the RGB color if any.</returns>
+        public HtmlColor? GetRGBColorValue()
         {
-            //TODO
-            throw new NotImplementedException();
+            if(unit == UnitType.Rgbcolor)
+                return (HtmlColor)data;
+
+            return null;
         }
 
         #endregion
@@ -152,6 +172,7 @@ namespace AngleSharp.DOM.Css
         {
             switch (unit)
             {
+                case "%": return UnitType.Percentage;
                 case "em": return UnitType.Ems;
                 case "cm": return UnitType.Cm;
                 case "deg": return UnitType.Deg;
@@ -181,6 +202,7 @@ namespace AngleSharp.DOM.Css
         {
             switch (unit)
             {
+                case UnitType.Percentage: return "%";
                 case UnitType.Ems: return "em";
                 case UnitType.Cm: return "cm";
                 case UnitType.Deg: return "deg";

@@ -62,7 +62,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Gets if the data is bad.
         /// </summary>
-        public bool IsBad
+        public Boolean IsBad
         {
             get { return _bad; }
         }

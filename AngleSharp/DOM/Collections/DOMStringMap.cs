@@ -6,12 +6,12 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// Represents a list of DOMTokens.
     /// </summary>
-    public sealed class DOMStringMap : DOMCollection
+    public sealed class DOMStringMap
     {
         #region Members
 
-        Func<string, string> getter;
-        Action<string, string> setter;
+        Func<String, String> getter;
+        Action<String, String> setter;
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="getter">The access to the getter property part.</param>
         /// <param name="setter">The access to the setter property part.</param>
         /// <returns>The DOMStringMap.</returns>
-        internal static DOMStringMap From(Func<string, string> getter, Action<string, string> setter)
+        internal static DOMStringMap From(Func<String, String> getter, Action<String, String> setter)
         {
             var map = new DOMStringMap();
 
@@ -49,7 +49,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="name">The name of the custom attribute property.</param>
         /// <returns>The value of the custom attribute property.</returns>
-        public string this[string name]
+        public String this[String name]
         {
             get { return getter(Check(name)); }
             set { setter(Check(name), value); }
@@ -64,7 +64,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="prop">The name of the property.</param>
         /// <returns>The value for the specified property name.</returns>
-        public string GetDataAttr(string prop)
+        public String GetDataAttr(String prop)
         {
             return this[prop];
         }
@@ -84,7 +84,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="prop">The name of the property.</param>
         /// <returns>The current DOMStringMap.</returns>
-        public DOMStringMap RemoveDataAttr(string prop)
+        public DOMStringMap RemoveDataAttr(String prop)
         {
             if(HasDataAttr(prop))
                 this[prop] = null;
@@ -97,7 +97,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="prop">The name of the property.</param>
         /// <returns>The current DOMStringMap.</returns>
-        public DOMStringMap SetDataAttr(string prop, string value)
+        public DOMStringMap SetDataAttr(String prop, String value)
         {
             this[prop] = value;
             return this;
@@ -112,7 +112,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <returns>The name again.</returns>
-        string Check(string name)
+        String Check(String name)
         {
             if (name.StartsWith("xml", StringComparison.OrdinalIgnoreCase))
                 throw new DOMException(ErrorCode.SyntaxError);
@@ -127,19 +127,6 @@ namespace AngleSharp.DOM.Collections
             }
 
             return name;
-        }
-
-        #endregion
-
-        #region String representation
-
-        /// <summary>
-        /// Returns an HTML-code representation of the stringmap.
-        /// </summary>
-        /// <returns>There is no HTML code to return.</returns>
-        public override string ToHtml()
-        {
-            return string.Empty;
         }
 
         #endregion

@@ -8,12 +8,14 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS value.
     /// </summary>
-    public class CSSValue
+    public class CSSValue : ICSSObject
     {
         #region Members
 
         protected CssValue _type;
         protected String _text;
+
+        static CSSValue _inherited;
 
         #endregion
 
@@ -30,6 +32,14 @@ namespace AngleSharp.DOM.Css
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the instance for an inherited value.
+        /// </summary>
+        public static CSSValue Inherit
+        {
+            get { return _inherited ?? (_inherited = new CSSValue { _text = "inherit", _type = CssValue.Inherit }); }
+        }
 
         /// <summary>
         /// Gets a code defining the type of the value as defined above.

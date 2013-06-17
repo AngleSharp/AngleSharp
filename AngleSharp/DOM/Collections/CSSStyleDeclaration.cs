@@ -3,13 +3,14 @@ using AngleSharp.DOM.Css;
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Text;
 
 namespace AngleSharp.DOM.Collections
 {
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    public sealed class CSSStyleDeclaration : DOMCollection, IEnumerable<CSSProperty>
+    public sealed class CSSStyleDeclaration : IEnumerable<CSSProperty>
     {
         #region Members
 
@@ -81,7 +82,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="index">The index of the property to retrieve.</param>
         /// <returns>The name of the property at the given index.</returns>
-        public String this[int index]
+        public String this[Int32 index]
         {
             get
             {
@@ -185,8 +186,9 @@ namespace AngleSharp.DOM.Collections
 
         void Reset(String value)
         {
+            var rules = CssParser.ParseDeclarations(value)._rules;
             _rules.Clear();
-            _rules.AddRange(CssParser.ParseDeclarations(value)._rules);
+            _rules.AddRange(rules);
             SetValue();
         }
 
@@ -219,17 +221,12 @@ namespace AngleSharp.DOM.Collections
         /// <returns></returns>
         public String ToCss()
         {
-            //TODO
-            return oldCssText;
-        }
+            var sb = new StringBuilder();
 
-        /// <summary>
-        /// Returns an HTML-code representation of the style declaration (which is just the CSS snippet).
-        /// </summary>
-        /// <returns>A string containing the HTML code.</returns>
-        public override String ToHtml()
-        {
-            return ToCss();
+            for (int i = 0; i < _rules.Count; i++)
+                sb.Append(_rules[i].ToCss()).Append(';');
+
+            return sb.ToString();
         }
 
         #endregion

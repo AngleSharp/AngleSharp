@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AngleSharp.DOM.Collections
 {
-    public abstract class BaseCollection<T> : DOMCollection, IEnumerable<T> where T : Node
+    public abstract class BaseCollection<T> : IHTMLObject, IEnumerable<T> where T : Node
     {
         #region Members
 
@@ -162,7 +162,7 @@ namespace AngleSharp.DOM.Collections
         /// Returns an HTML-code representation of the nodelist.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
-        public override string ToHtml()
+        public virtual String ToHtml()
         {
             var sb = new StringBuilder();
 
@@ -176,7 +176,7 @@ namespace AngleSharp.DOM.Collections
         /// Returns a string representing the collection.
         /// </summary>
         /// <returns>A string describing the collection.</returns>
-        public override string ToString()
+        public override String ToString()
         {
             var sb = new StringBuilder();
             sb.Append("DOM.").Append(GetType().Name).Append(':');

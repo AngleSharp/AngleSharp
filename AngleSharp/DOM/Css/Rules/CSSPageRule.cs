@@ -9,6 +9,12 @@ namespace AngleSharp.DOM.Css
     /// </summary>
     public sealed class CSSPageRule : CSSRule
     {
+        #region Constants
+
+        internal const String RuleName = "page";
+
+        #endregion
+
         #region Members
 
         CSSStyleDeclaration _style;

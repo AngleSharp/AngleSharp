@@ -10,7 +10,7 @@ namespace AngleSharp.Css
     {
         #region Members
 
-        Single _data;
+        String _data;
 
         #endregion
 
@@ -20,10 +20,10 @@ namespace AngleSharp.Css
         /// Creates a new CSS number token.
         /// </summary>
         /// <param name="number">The number to contain.</param>
-        public CssNumberToken(Single number)
+        public CssNumberToken(String number)
         {
-            _type = CssTokenType.Number;
             _data = number;
+            _type = CssTokenType.Number;
         }
 
         #endregion
@@ -35,7 +35,7 @@ namespace AngleSharp.Css
         /// </summary>
         public Single Data
         {
-            get { return _data; }
+            get { return Single.Parse(_data, CultureInfo.InvariantCulture); }
         }
 
         #endregion
@@ -48,7 +48,7 @@ namespace AngleSharp.Css
         /// <returns>The original value.</returns>
         public override String ToValue()
         {
-            return _data.ToString(CultureInfo.InvariantCulture);
+            return _data;
         }
 
         #endregion

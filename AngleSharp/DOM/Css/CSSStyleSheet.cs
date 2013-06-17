@@ -8,7 +8,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS Stylesheet.
     /// </summary>
-    public class CSSStyleSheet : StyleSheet
+    public class CSSStyleSheet : StyleSheet, ICSSObject
     {
         #region Members
 

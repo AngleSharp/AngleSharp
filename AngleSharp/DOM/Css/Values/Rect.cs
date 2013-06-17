@@ -2,7 +2,7 @@
 
 namespace AngleSharp.DOM.Css
 {
-    public sealed class Rect
+    sealed class Rect
     {
         #region Members
 

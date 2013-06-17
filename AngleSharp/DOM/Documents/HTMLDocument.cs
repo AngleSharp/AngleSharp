@@ -216,7 +216,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="url">The URL that hosts the HTML content.</param>
         /// <returns>The document with the parsed content.</returns>
-        public static HTMLDocument LoadFromURL(string url)
+        public static HTMLDocument LoadFromURL(String url)
         {
             var doc = new HTMLDocument();
             return doc.Load(url);
@@ -227,7 +227,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="source">The source code with the HTML content.</param>
         /// <returns>The document with the parsed content.</returns>
-        public static HTMLDocument LoadFromSource(string source)
+        public static HTMLDocument LoadFromSource(String source)
         {
             return DocumentBuilder.Html(source);
         }
@@ -237,7 +237,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="url">The URL that hosts the HTML content.</param>
         /// <returns>The document with the parsed content.</returns>
-        public HTMLDocument Load(string url)
+        public HTMLDocument Load(String url)
         {
             location = url;
             Cookie = new Cookie();
@@ -258,7 +258,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public override Node CloneNode(bool deep = true)
+        public override Node CloneNode(Boolean deep = true)
         {
             var node = new HTMLDocument();
             CopyProperties(this, node, deep);
@@ -311,7 +311,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="content">The text to be written on the document.</param>
         /// <returns>The current document.</returns>
-        public HTMLDocument Write(string content)
+        public HTMLDocument Write(String content)
         {
             //TODO
             return this;
@@ -322,7 +322,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="content">The text to be written on the document.</param>
         /// <returns>The current document.</returns>
-        public HTMLDocument WriteLn(string content)
+        public HTMLDocument WriteLn(String content)
         {
             return Write(content + Specification.LF);
         }
@@ -332,7 +332,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="tagName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element object.</returns>
-        public override Element CreateElement(string tagName)
+        public override Element CreateElement(String tagName)
         {
             return HTMLElement.Factory(tagName);
         }
@@ -342,7 +342,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="data">A string containing the data to be added to the CDATA Section.</param>
         /// <returns></returns>
-        public override CDATASection CreateCDATASection(string data)
+        public override CDATASection CreateCDATASection(String data)
         {
             throw new DOMException(ErrorCode.NotSupported);
         }
@@ -352,7 +352,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="name">The value of the name attribute of the element.</param>
         /// <returns>A collection of HTML elements.</returns>
-        public HTMLCollection GetElementsByName(string name)
+        public HTMLCollection GetElementsByName(String name)
         {
             var result = new HTMLCollection();
             GetElementsByName(_children, name, result);
@@ -498,7 +498,7 @@ namespace AngleSharp.DOM.Html
         /// <param name="children">The list to investigate.</param>
         /// <param name="name">The name attribute's value.</param>
         /// <param name="result">The result collection.</param>
-        void GetElementsByName(NodeList children, string name, HTMLCollection result)
+        void GetElementsByName(NodeList children, String name, HTMLCollection result)
         {
             for (int i = 0; i < _children.Length; i++)
             {

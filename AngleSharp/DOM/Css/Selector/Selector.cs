@@ -7,7 +7,7 @@ namespace AngleSharp.DOM.Css
     /// Represents a CSS selector as specified in
     /// http://dev.w3.org/csswg/selectors4/
     /// </summary>
-    public abstract class Selector
+    public abstract class Selector : ICSSObject
     {
         #region Properties
 
@@ -38,7 +38,7 @@ namespace AngleSharp.DOM.Css
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        public abstract string ToCss();
+        public abstract String ToCss();
 
         #endregion
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using AngleSharp.DOM.Html;
 
 namespace AngleSharp.DOM.Collections
 {
@@ -14,7 +13,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="name">The name or id of the element(s).</param>
         /// <returns>The found element(s).</returns>
-        public override object NamedItem(string name)
+        public override Object NamedItem(String name)
         {
             var result = new HTMLCollection();
 

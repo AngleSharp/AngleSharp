@@ -1,6 +1,6 @@
-﻿using AngleSharp.DOM.Css;
+﻿using AngleSharp.Css;
+using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
-using AngleSharp.Css;
 using System;
 using System.Collections;
 using System.Collections.Generic;

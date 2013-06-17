@@ -8,7 +8,7 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// Represents a list of DOMTokens.
     /// </summary>
-    public sealed class DOMTokenList : DOMCollection, IEnumerable<string>
+    public sealed class DOMTokenList : IHTMLObject, IEnumerable<String>
     {
         #region Members
 
@@ -225,7 +225,7 @@ namespace AngleSharp.DOM.Collections
         /// Returns an HTML-code representation of the token list.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
-        public override string ToHtml()
+        public String ToHtml()
         {
             return oldTokenString;
         }

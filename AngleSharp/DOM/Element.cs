@@ -955,7 +955,7 @@ namespace AngleSharp.DOM
         /// Returns an HTML-code representation of the node.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
-        public override string ToHtml()
+        public override String ToHtml()
         {
             var sb = new StringBuilder();
 
@@ -974,9 +974,9 @@ namespace AngleSharp.DOM
         /// Returns a string representation of the element.
         /// </summary>
         /// <returns>A string containing some information about the element.</returns>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("<{0}{1}>", _name, _attributes.ToHtml());
+            return String.Format("<{0}{1}>", _name, _attributes.ToHtml());
         }
 
         #endregion

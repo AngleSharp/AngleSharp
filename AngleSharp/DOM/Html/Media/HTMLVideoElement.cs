@@ -31,6 +31,10 @@ namespace AngleSharp.DOM.Html
         internal HTMLVideoElement()
         {
             _name = Tag;
+
+            //TODO
+            videoHeight = 0;
+            videoWidth = 0;
         }
 
         #endregion

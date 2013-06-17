@@ -9,7 +9,7 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// Represents a named collection of nodes.
     /// </summary>
-    public class NamedNodeMap : DOMCollection, IEnumerable<Node>
+    public sealed class NamedNodeMap : IHTMLObject, IEnumerable<Node>
     {
         #region Members
 
@@ -22,7 +22,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Creates a new collection of nodes.
         /// </summary>
-        public NamedNodeMap()
+        internal NamedNodeMap()
         {
             _entries = new List<Node>();
         }
@@ -31,7 +31,7 @@ namespace AngleSharp.DOM.Collections
         /// Creates a new collection of attributes by cloning the given source collection.
         /// </summary>
         /// <param name="source">The collection to clone.</param>
-        public NamedNodeMap(NamedNodeMap source)
+        internal NamedNodeMap(NamedNodeMap source)
         {
             _entries.AddRange(source._entries);
         }
@@ -45,7 +45,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="index">The index of the item to get.</param>
         /// <returns>The item or null if the index is higher or equal to the number of nodes.</returns>
-        public Node this[int index]
+        public Node this[Int32 index]
         {
             get
             {
@@ -61,7 +61,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="index">The case-insensitive name of the attribute.</param>
         /// <returns>The value of the NodeAttribute or null if it does not exist.</returns>
-        public Node this[string name]
+        public Node this[String name]
         {
             get
             {
@@ -82,7 +82,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets the number of defined attributes.
         /// </summary>
-        public int Length
+        public Int32 Length
         {
             get { return _entries.Count; }
         }
@@ -96,7 +96,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="nodeName">The name of the node.</param>
         /// <returns>The node or null if nothing found.</returns>
-        public Node GetNamedItem(string nodeName)
+        public Node GetNamedItem(String nodeName)
         {
             return this[nodeName];
         }
@@ -127,7 +127,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="nodeName">The name of the node.</param>
         /// <returns>The removed node or null if nothing found.</returns>
-        public Node RemoveNamedItem(string nodeName)
+        public Node RemoveNamedItem(String nodeName)
         {
             for (int i = 0; i < _entries.Count; i++)
             {
@@ -148,7 +148,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="namespaceURI">The namespace of the node.</param>
         /// <param name="localName">The name of the node.</param>
         /// <returns>The node or null if nothing found.</returns>
-        public Node GetNamedItemNS(string namespaceURI, string localName)
+        public Node GetNamedItemNS(String namespaceURI, String localName)
         {
             for (var i = 0; i < _entries.Count; i++)
                 if (_entries[i].NamespaceURI.Equals(namespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase))
@@ -183,7 +183,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="namespaceURI">The namespace of the node.</param>
         /// <param name="localName">The name of the node.</param>
         /// <returns>The removed node or null if nothing found.</returns>
-        public Node RemoveNamedItemNS(string namespaceURI, string localName)
+        public Node RemoveNamedItemNS(String namespaceURI, String localName)
         {
             for (var i = 0; i < _entries.Count; i++)
             {
@@ -207,7 +207,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="obj">The object to compare to.</param>
         /// <returns>True if both objects are equal, otherwise false.</returns>
-        public override bool Equals(object obj)
+        public override Boolean Equals(Object obj)
         {
             if (obj is NamedNodeMap)
             {
@@ -239,7 +239,7 @@ namespace AngleSharp.DOM.Collections
         /// Gets the base hashcode for this object.
         /// </summary>
         /// <returns>The hashcode.</returns>
-        public override int GetHashCode()
+        public override Int32 GetHashCode()
         {
             return Length;
         }
@@ -274,7 +274,7 @@ namespace AngleSharp.DOM.Collections
         /// Returns an HTML-code representation of the named nodemap.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
-        public override string ToHtml()
+        public String ToHtml()
         {
             var sb = new StringBuilder();
 

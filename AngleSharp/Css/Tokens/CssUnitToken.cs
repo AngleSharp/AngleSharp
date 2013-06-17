@@ -10,7 +10,7 @@ namespace AngleSharp.Css
     {
         #region Members
 
-        Single _data;
+        String _data;
         String _unit;
 
         #endregion
@@ -35,7 +35,7 @@ namespace AngleSharp.Css
         /// </summary>
         public Single Data
         {
-            get { return _data; }
+            get { return Single.Parse(_data, CultureInfo.InvariantCulture); }
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The created token.</returns>
-        public static CssUnitToken Percentage(Single value)
+        public static CssUnitToken Percentage(String value)
         {
             return new CssUnitToken(CssTokenType.Percentage) { _data = value, _unit = "%" };
         }
@@ -66,7 +66,7 @@ namespace AngleSharp.Css
         /// <param name="value">The value.</param>
         /// <param name="dimension">The unit (dimension).</param>
         /// <returns>The created token.</returns>
-        public static CssUnitToken Dimension(Single value, String dimension)
+        public static CssUnitToken Dimension(String value, String dimension)
         {
             return new CssUnitToken(CssTokenType.Dimension) { _data = value, _unit = dimension };
         }
@@ -81,7 +81,7 @@ namespace AngleSharp.Css
         /// <returns>The original value.</returns>
         public override String ToValue()
         {
-            return _data.ToString(CultureInfo.InvariantCulture) + _unit;
+            return _data + _unit;
         }
 
         #endregion

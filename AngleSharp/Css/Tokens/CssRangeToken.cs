@@ -39,7 +39,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Gets the content of the range token.
         /// </summary>
-        public String[] Range
+        public String[] SelectedRange
         {
             get { return _range; }
         }

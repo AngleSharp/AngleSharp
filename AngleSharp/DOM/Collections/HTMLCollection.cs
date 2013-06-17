@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using AngleSharp.DOM.Html;
 using System.Runtime.CompilerServices;
 
 namespace AngleSharp.DOM.Collections

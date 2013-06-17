@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// Represents a string list.
     /// </summary>
-    public class StringList : StringCollection
+    public sealed class StringList : StringCollection
     {
     }
 }

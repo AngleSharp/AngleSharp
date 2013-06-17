@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// A collection of CSS elements.
     /// </summary>
-    public class StyleSheetList : DOMCollection, IEnumerable<StyleSheet>
+    public sealed class StyleSheetList : IEnumerable<StyleSheet>
     {
         #region Members
 
@@ -23,7 +23,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Creates a new stylesheet class.
         /// </summary>
-        public StyleSheetList()
+        internal StyleSheetList()
         {
             styleSheets = new List<StyleSheet>();
         }
@@ -39,7 +39,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The stylesheet.</returns>
-        public StyleSheet this[int index]
+        public StyleSheet this[Int32 index]
         {
             get
             {
@@ -57,7 +57,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets the number of elements in the list of stylesheets.
         /// </summary>
-        public int Length
+        public Int32 Length
         {
             get { return styleSheets.Count; }
         }
@@ -104,19 +104,6 @@ namespace AngleSharp.DOM.Collections
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)styleSheets).GetEnumerator();
-        }
-
-        #endregion
-
-        #region String representation
-
-        /// <summary>
-        /// Returns an HTML-code representation of the list of stylesheets.
-        /// </summary>
-        /// <returns>There is no HTML code to return.</returns>
-        public override string ToHtml()
-        {
-            return string.Empty;
         }
 
         #endregion

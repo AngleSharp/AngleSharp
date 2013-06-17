@@ -30,6 +30,9 @@ namespace AngleSharp.DOM.Html
         internal HTMLTrackElement()
         {
             _name = Tag;
+
+            //TODO
+            ready = TrackReadyState.None;
         }
 
         #endregion

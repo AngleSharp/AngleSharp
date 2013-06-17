@@ -54,7 +54,7 @@ namespace AngleSharp.Css
         /// <param name="value">The single precision number.</param>
         /// <returns>The created token.</returns>
         [DebuggerStepThrough]
-        public static CssNumberToken Number(Single value)
+        public static CssNumberToken Number(String value)
         {
             return new CssNumberToken(value);
         }

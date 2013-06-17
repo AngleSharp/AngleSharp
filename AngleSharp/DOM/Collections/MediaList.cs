@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// Represents a list of media elements.
     /// </summary>
-    public class MediaList : DOMCollection, IEnumerable<string>
+    public class MediaList : IEnumerable<String>
     {
         #region Static
 
@@ -49,7 +49,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Creates a new MediaList.
         /// </summary>
-        public MediaList()
+        internal MediaList()
         {
             buffer = String.Empty;
             media = new StringCollection();
@@ -64,7 +64,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="index">Index into the collection.</param>
         /// <returns>The medium at the index-th position in the MediaList, or null if that is not a valid index.</returns>
-        public string this[int index]
+        public String this[Int32 index]
         {
             get
             {
@@ -78,7 +78,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets the number of media in the list. 
         /// </summary>
-        public int Length
+        public Int32 Length
         {
             get { return media.Count; }
         }
@@ -86,7 +86,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets or sets the parsable textual representation of the media list. This is a comma-separated list of media.
         /// </summary>
-        public string MediaText
+        public String MediaText
         {
             get { return buffer; }
             set
@@ -119,7 +119,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="medium">The medium string to check.</param>
         /// <returns>True if the syntax is OK, otherwise false.</returns>
-        protected virtual bool CheckSyntax(string medium)
+        protected virtual Boolean CheckSyntax(String medium)
         {
             if (string.IsNullOrEmpty(medium))
                 return false;
@@ -133,7 +133,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="newMedium">The new medium to add.</param>
         /// <returns>The current list of media.</returns>
-        public MediaList AppendMedium(string newMedium)
+        public MediaList AppendMedium(String newMedium)
         {
             if (!CheckSyntax(newMedium))
                 throw new DOMException(ErrorCode.SyntaxError);
@@ -141,7 +141,7 @@ namespace AngleSharp.DOM.Collections
             if (!media.Contains(newMedium))
             {
                 media.Add(newMedium);
-                buffer += (string.IsNullOrEmpty(buffer) ? string.Empty : ",") + newMedium;
+                buffer += (String.IsNullOrEmpty(buffer) ? String.Empty : ",") + newMedium;
             }
 
             return this;
@@ -152,7 +152,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="oldMedium">The medium to delete in the media list.</param>
         /// <returns>The current list of media.</returns>
-        public MediaList DeleteMedium(string oldMedium)
+        public MediaList DeleteMedium(String oldMedium)
         {
             if (!media.Contains(oldMedium))
                 throw new DOMException(ErrorCode.ItemNotFound);
@@ -162,7 +162,7 @@ namespace AngleSharp.DOM.Collections
             if (buffer.StartsWith(oldMedium))
                 buffer.Remove(0, oldMedium.Length + 1);
             else
-                buffer.Replace("," + oldMedium, string.Empty);
+                buffer.Replace("," + oldMedium, String.Empty);
 
             return this;
         }
@@ -180,19 +180,6 @@ namespace AngleSharp.DOM.Collections
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)media).GetEnumerator();
-        }
-
-        #endregion
-
-        #region String representation
-
-        /// <summary>
-        /// Returns an HTML-code representation of the medialist.
-        /// </summary>
-        /// <returns>There is no HTML code to return.</returns>
-        public override string ToHtml()
-        {
-            return string.Empty;
         }
 
         #endregion

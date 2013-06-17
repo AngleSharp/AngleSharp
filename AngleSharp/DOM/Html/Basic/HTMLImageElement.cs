@@ -38,6 +38,10 @@ namespace AngleSharp.DOM.Html
         {
             loaded = true;
             _name = Tag;
+
+            //TODO
+            imageHeight = 0;
+            imageWidth = 0;
         }
 
         #endregion

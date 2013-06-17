@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace AngleSharp.DOM.Css
 {
     /// <summary>
     /// Represents an array like structure containing CSS rules.
     /// </summary>
-    public sealed class CSSRuleList : IEnumerable<CSSRule>
+    public sealed class CSSRuleList : IEnumerable<CSSRule>, ICSSObject
     {
         #region Members
 
@@ -103,6 +104,24 @@ namespace AngleSharp.DOM.Css
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        #endregion
+
+        #region String representation
+
+        /// <summary>
+        /// Returns a CSS code representation of the rulelist.
+        /// </summary>
+        /// <returns>A string that contains the code.</returns>
+        public String ToCss()
+        {
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < _rules.Count; i++)
+                sb.AppendLine(_rules[i].ToCss());
+
+            return sb.ToString();
         }
 
         #endregion

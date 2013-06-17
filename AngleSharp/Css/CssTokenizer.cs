@@ -14,7 +14,6 @@ namespace AngleSharp.Css
     {
         #region Members
 
-        Single number;
         StringBuilder stringBuffer;
         SourceManager src;
 
@@ -686,16 +685,16 @@ namespace AngleSharp.Css
                     stringBuffer.Append(current);
                 else if (Specification.IsNameStart(current))
                 {
-                    number = Interpret(FlushBuffer());
+                    var number = FlushBuffer();
                     stringBuffer.Append(current);
-                    return Dimension(src.Next);
+                    return Dimension(src.Next, number);
                 }
                 else if (IsValidEscape(current))
                 {
                     current = src.Next;
-                    number = Interpret(FlushBuffer());
+                    var number = FlushBuffer();
                     stringBuffer.Append(ConsumeEscape(current));
-                    return Dimension(src.Next);
+                    return Dimension(src.Next, number);
                 }
                 else
                     break;
@@ -715,10 +714,10 @@ namespace AngleSharp.Css
                     }
 
                     src.Back();
-                    return CssToken.Number(Interpret(FlushBuffer()));
+                    return CssToken.Number(FlushBuffer());
 
                 case '%':
-                    return CssUnitToken.Percentage(Interpret(FlushBuffer()));
+                    return CssUnitToken.Percentage(FlushBuffer());
 
                 case 'e':
                 case 'E':
@@ -729,7 +728,7 @@ namespace AngleSharp.Css
 
                 default:
                     src.Back();
-                    return CssToken.Number(Interpret(FlushBuffer()));
+                    return CssToken.Number(FlushBuffer());
             }
         }
 
@@ -744,16 +743,16 @@ namespace AngleSharp.Css
                     stringBuffer.Append(current);
                 else if (Specification.IsNameStart(current))
                 {
-                    number = Interpret(FlushBuffer());
+                    var number = FlushBuffer();
                     stringBuffer.Append(current);
-                    return Dimension(src.Next);
+                    return Dimension(src.Next, number);
                 }
                 else if (IsValidEscape(current))
                 {
                     current = src.Next;
-                    number = Interpret(FlushBuffer());
+                    var number = FlushBuffer();
                     stringBuffer.Append(ConsumeEscape(current));
-                    return Dimension(src.Next);
+                    return Dimension(src.Next, number);
                 }
                 else
                     break;
@@ -768,21 +767,21 @@ namespace AngleSharp.Css
                     return NumberExponential(current);
 
                 case '%':
-                    return CssUnitToken.Percentage(Interpret(FlushBuffer()));
+                    return CssUnitToken.Percentage(FlushBuffer());
 
                 case Specification.DASH:
                     return NumberDash(current);
 
                 default:
                     src.Back();
-                    return CssToken.Number(Interpret(FlushBuffer()));
+                    return CssToken.Number(FlushBuffer());
             }
         }
 
         /// <summary>
         /// 4.4.15. Dimension state
         /// </summary>
-        CssToken Dimension(Char current)
+        CssToken Dimension(Char current, String number)
         {
             while (true)
             {
@@ -815,7 +814,7 @@ namespace AngleSharp.Css
                 else
                 {
                     src.Back();
-                    return CssToken.Number(Interpret(FlushBuffer()));
+                    return CssToken.Number(FlushBuffer());
                 }
 
                 current = src.Next;
@@ -1127,9 +1126,9 @@ namespace AngleSharp.Css
             }
 
             current = src.Previous;
-            number = Interpret(FlushBuffer());
+            var number = FlushBuffer();
             stringBuffer.Append(current);
-            return Dimension(src.Next);
+            return Dimension(src.Next, number);
         }
 
         /// <summary>
@@ -1141,32 +1140,22 @@ namespace AngleSharp.Css
 
             if (Specification.IsNameStart(current))
             {
-                number = Interpret(FlushBuffer());
+                var number = FlushBuffer();
                 stringBuffer.Append(Specification.DASH).Append(current);
-                return Dimension(src.Next);
+                return Dimension(src.Next, number);
             }
             else if (IsValidEscape(current))
             {
                 current = src.Next;
-                number = Interpret(FlushBuffer());
+                var number = FlushBuffer();
                 stringBuffer.Append(Specification.DASH).Append(ConsumeEscape(current));
-                return Dimension(src.Next);
+                return Dimension(src.Next, number);
             }
             else
             {
                 src.Back(2);
-                return CssToken.Number(Interpret(FlushBuffer()));
+                return CssToken.Number(FlushBuffer());
             }
-        }
-
-        /// <summary>
-        /// Interprets the given string as a number.
-        /// </summary>
-        /// <param name="number">The string to interpret.</param>
-        /// <returns>The floating point precision number.</returns>
-        Single Interpret(String number)
-        {
-            return Single.Parse(number, CultureInfo.InvariantCulture);
         }
 
         /// <summary>

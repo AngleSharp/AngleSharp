@@ -315,7 +315,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="type">A string that represents the type of event to be created.</param>
         /// <returns>The created Event object.</returns>
-        public Event CreateEvent(string type)
+        public Event CreateEvent(String type)
         {
             //TODO
             throw new NotImplementedException();
@@ -371,7 +371,7 @@ namespace AngleSharp.DOM
         /// node need to be imported.</param>
         /// <returns>The new node that is imported into the document. The new node's parentNode is null,
         /// since it has not yet been inserted into the document tree.</returns>
-        public Node ImportNode(Node externalNode, bool deep = true)
+        public Node ImportNode(Node externalNode, Boolean deep = true)
         {
             var clone = externalNode.CloneNode(deep);
             externalNode.OwnerDocument = this;
@@ -383,7 +383,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="name">A string containing the name of the attribute.</param>
         /// <returns>The attribute node.</returns>
-        public Attr CreateAttribute(string name)
+        public Attr CreateAttribute(String name)
         {
             return new Attr(name);
         }
@@ -394,7 +394,7 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">Specifies the namespace URI to associate with the attribute.</param>
         /// <param name="name">A string containing the name of the attribute.</param>
         /// <returns>The attribute node.</returns>
-        public Attr CreateAttributeNS(string namespaceURI, string name)
+        public Attr CreateAttributeNS(String namespaceURI, String name)
         {
             return new Attr(name, string.Empty, namespaceURI);
         }
@@ -404,7 +404,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="tagName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element object.</returns>
-        public virtual Element CreateElement(string tagName)
+        public virtual Element CreateElement(String tagName)
         {
             return new Element { NodeName = tagName };
         }
@@ -415,7 +415,7 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">Specifies the namespace URI to associate with the element.</param>
         /// <param name="tagName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element.</returns>
-        public Element CreateElementNS(string namespaceURI, string tagName)
+        public Element CreateElementNS(String namespaceURI, String tagName)
         {
             if (namespaceURI == Namespaces.Html)
                 return HTMLElement.Factory(tagName);
@@ -434,7 +434,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="data">A string containing the data to be added to the CDATA Section.</param>
         /// <returns></returns>
-        public virtual CDATASection CreateCDATASection(string data)
+        public virtual CDATASection CreateCDATASection(String data)
         {
             return new CDATASection { Data = data };
         }
@@ -444,7 +444,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="data">A string containing the data to be added to the Comment.</param>
         /// <returns></returns>
-        public Comment CreateComment(string data)
+        public Comment CreateComment(String data)
         {
             if (data.Contains("--"))
                 throw new DOMException(ErrorCode.InvalidCharacter);
@@ -467,7 +467,7 @@ namespace AngleSharp.DOM
         /// <param name="target">The target part of the processing instruction.</param>
         /// <param name="data">The data for the node.</param>
         /// <returns>A new processing instruction.</returns>
-        public ProcessingInstruction CreateProcessingInstruction(string target, string data)
+        public ProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
             return new ProcessingInstruction { Target = target, Data = data };
         }
@@ -479,7 +479,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="name">The name of the entity to reference.</param>
         /// <returns>The new EntityReference object.</returns>
-        public EntityReference CreateEntityReference(string name)
+        public EntityReference CreateEntityReference(String name)
         {
             return new EntityReference(name);
         }
@@ -489,7 +489,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="data">A string containing the data to be put in the text node.</param>
         /// <returns>The created Text node.</returns>
-        public TextNode CreateTextNode(string data)
+        public TextNode CreateTextNode(String data)
         {
             return new TextNode(data);
         }
@@ -500,7 +500,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="elementId">A case-sensitive string representing the unique ID of the element being sought.</param>
         /// <returns>The matching element.</returns>
-        public Element GetElementById(string elementId)
+        public Element GetElementById(String elementId)
         {
             return GetElementById(_children, elementId);
         }
@@ -511,7 +511,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
-        public Element QuerySelector(string selectors)
+        public Element QuerySelector(String selectors)
         {
             return _children.QuerySelector(selectors);
         }
@@ -522,7 +522,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>A list of nodes.</returns>
-        public HTMLCollection QuerySelectorAll(string selectors)
+        public HTMLCollection QuerySelectorAll(String selectors)
         {
             return _children.QuerySelectorAll(selectors);
         }
@@ -532,7 +532,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of elements.</returns>
-        public HTMLCollection GetElementsByClassName(string classNames)
+        public HTMLCollection GetElementsByClassName(String classNames)
         {
             return _children.GetElementsByClassName(classNames);
         }
@@ -542,7 +542,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
-        public HTMLCollection GetElementsByTagName(string tagName)
+        public HTMLCollection GetElementsByTagName(String tagName)
         {
             return _children.GetElementsByTagName(tagName);
         }
@@ -554,7 +554,7 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
-        public HTMLCollection GetElementsByTagNameNS(string namespaceURI, string tagName)
+        public HTMLCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return _children.GetElementsByTagNameNS(namespaceURI, tagName);
         }
@@ -564,7 +564,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public override Node CloneNode(bool deep = true)
+        public override Node CloneNode(Boolean deep = true)
         {
             var node = new Document();
             CopyProperties(this, node, deep);
@@ -578,7 +578,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        public override string LookupNamespaceURI(string prefix)
+        public override string LookupNamespaceURI(String prefix)
         {
             var root = DocumentElement;
 
@@ -594,7 +594,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        public override string LookupPrefix(string namespaceURI)
+        public override string LookupPrefix(String namespaceURI)
         {
             var root = DocumentElement;
 
@@ -609,7 +609,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        public override bool IsDefaultNamespace(string namespaceURI)
+        public override bool IsDefaultNamespace(String namespaceURI)
         {
             var root = DocumentElement;
 
@@ -645,7 +645,7 @@ namespace AngleSharp.DOM
         /// Returns an HTML-code representation of the document.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
-        public override string ToHtml()
+        public override String ToHtml()
         {
             return ChildNodes.ToHtml();
         }

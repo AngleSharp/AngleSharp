@@ -84,7 +84,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="color">The hex string like fff or abc123 or AA126B etc.</param>
         /// <returns>The HTML color value.</returns>
-        public static HtmlColor FromHex(string color)
+        public static HtmlColor FromHex(String color)
         {
             if (color.Length == 3)
             {
@@ -119,7 +119,7 @@ namespace AngleSharp
         /// <param name="color">The hexadecimal reresentation of the color.</param>
         /// <param name="htmlColor">The color value to be created.</param>
         /// <returns>The status if the string can be converted.</returns>
-        public static bool TryFromHex(string color, out HtmlColor htmlColor)
+        public static bool TryFromHex(String color, out HtmlColor htmlColor)
         {
             htmlColor = new HtmlColor();
             htmlColor.alpha = 255;
@@ -255,6 +255,15 @@ namespace AngleSharp
         public bool Equals(HtmlColor other)
         {
             return this == other;
+        }
+
+        #endregion
+
+        #region String representation
+
+        public String ToHtml()
+        {
+            return "rgba(" + red.ToString() + ", " + green.ToString() + ", " + blue.ToString() + ", " + (alpha / 255.0).ToString() + ")";
         }
 
         #endregion

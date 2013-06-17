@@ -45,7 +45,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the style sheet language for this style sheet.
         /// </summary>
-        public string Type
+        public String Type
         {
             get { return _owner != null ? (_owner.GetAttribute("type") ?? string.Empty) : string.Empty; }
         }
@@ -54,7 +54,7 @@ namespace AngleSharp.DOM.Css
         /// Gets or sets if the stylesheet is applied to the document. Modifying this attribute may cause a new resolution
         /// of style for the document. If the media doesn't apply to the current user agent, the disabled attribute is ignored.
         /// </summary>
-        public bool Disabled
+        public Boolean Disabled
         {
             get { return _owner != null ? (_owner.GetAttribute("disabled") != null) : false; }
             set { if(_owner != null) _owner.SetAttribute("disabled", value ? string.Empty : null); }
@@ -80,7 +80,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the value of the attribute, which is its location. For inline style sheets, the value of this attribute is null.
         /// </summary>
-        public string Href
+        public String Href
         {
             get { return _owner != null ? (_owner.GetAttribute("href") ?? string.Empty) : string.Empty; }
         }
@@ -88,7 +88,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the advisory title. The title is often specified in the ownerNode.
         /// </summary>
-        public string Title
+        public String Title
         {
             get { return _owner != null ? (_owner.GetAttribute("title") ?? string.Empty) : string.Empty; }
         }
