@@ -5,7 +5,7 @@ namespace AngleSharp
     /// <summary>
     /// The ParseErrorEventArgs package.
     /// </summary>
-    public class ParseErrorEventArgs : ParserEventArgs
+    public sealed class ParseErrorEventArgs : EventArgs
     {
         #region ctor
 
@@ -23,6 +23,24 @@ namespace AngleSharp
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the line within the document.
+        /// </summary>
+        public int Line
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the column within the document.
+        /// </summary>
+        public int Column
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets the provided error code.

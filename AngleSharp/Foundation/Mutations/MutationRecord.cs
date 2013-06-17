@@ -6,7 +6,7 @@ namespace AngleSharp
 {
     class MutationRecord
     {
-        public string Type
+        public String Type
         {
             get;
             set;
@@ -42,19 +42,19 @@ namespace AngleSharp
             set;
         }
 
-        public string AttributeName
+        public String AttributeName
         {
             get;
             set;
         }
 
-        public string AttributeNamespace
+        public String AttributeNamespace
         {
             get;
             set;
         }
 
-        public string OldValue
+        public String OldValue
         {
             get;
             set;

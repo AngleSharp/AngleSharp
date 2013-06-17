@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AngleSharp.DOM.Css
+namespace AngleSharp.Css
 {
     /// <summary>
     /// An enumeration with possible CSS combinator values.

@@ -23,8 +23,8 @@ namespace AngleSharp.Html
 
         HtmlTokenizer tokenizer;
         HTMLDocument doc;
-        InsertationMode insert;
-        InsertationMode originalInsert;
+        HtmlTreeMode insert;
+        HtmlTreeMode originalInsert;
         List<Element> open;
         List<Element> formatting;
         HTMLFormElement form;
@@ -114,7 +114,7 @@ namespace AngleSharp.Html
             open = new List<Element>();
             formatting = new List<Element>();
             frameset = true;
-            insert = InsertationMode.Initial;
+            insert = HtmlTreeMode.Initial;
             tableCharacters = new StringBuilder();
         }
 
@@ -294,56 +294,56 @@ namespace AngleSharp.Html
                 switch (node.NodeName)
                 {
                     case HTMLSelectElement.Tag:
-                        insert = InsertationMode.InSelect;
+                        insert = HtmlTreeMode.InSelect;
                         break;
 
                     case HTMLTableCellElement.HeadTag:
                     case HTMLTableCellElement.NormalTag:
-                        insert = last ? InsertationMode.InBody : InsertationMode.InCell;
+                        insert = last ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
                         break;
 
                     case HTMLTableRowElement.Tag:
-                        insert = InsertationMode.InRow;
+                        insert = HtmlTreeMode.InRow;
                         break;
 
                     case HTMLTableSectionElement.HeadTag:
                     case HTMLTableSectionElement.FootTag:
                     case HTMLTableSectionElement.BodyTag:
-                        insert = InsertationMode.InTableBody;
+                        insert = HtmlTreeMode.InTableBody;
                         break;
 
                     case HTMLTableCaptionElement.Tag:
-                        insert = InsertationMode.InCaption;
+                        insert = HtmlTreeMode.InCaption;
                         break;
 
                     case HTMLTableColElement.ColgroupTag:
-                        insert = InsertationMode.InColumnGroup;
+                        insert = HtmlTreeMode.InColumnGroup;
                         break;
 
                     case HTMLTableElement.Tag:
-                        insert = InsertationMode.InTable;
+                        insert = HtmlTreeMode.InTable;
                         break;
 
                     case HTMLHeadElement.Tag:
-                        insert = InsertationMode.InBody;
+                        insert = HtmlTreeMode.InBody;
                         break;
 
                     case HTMLBodyElement.Tag:
-                        insert = InsertationMode.InBody;
+                        insert = HtmlTreeMode.InBody;
                         break;
 
                     case HTMLFrameSetElement.Tag:
-                        insert = InsertationMode.InFrameset;
+                        insert = HtmlTreeMode.InFrameset;
                         break;
 
                     case HTMLHtmlElement.Tag:
-                        insert = InsertationMode.BeforeHead;
+                        insert = HtmlTreeMode.BeforeHead;
                         break;
 
                     default:
                         if (last)
                         {
-                            insert = InsertationMode.InBody;
+                            insert = HtmlTreeMode.InBody;
                             break;
                         }
 
@@ -375,91 +375,91 @@ namespace AngleSharp.Html
             {
                 switch (insert)
                 {
-                    case InsertationMode.Initial:
+                    case HtmlTreeMode.Initial:
                         Initial(token);
                         break;
 
-                    case InsertationMode.BeforeHtml:
+                    case HtmlTreeMode.BeforeHtml:
                         BeforeHtml(token);
                         break;
 
-                    case InsertationMode.BeforeHead:
+                    case HtmlTreeMode.BeforeHead:
                         BeforeHead(token);
                         break;
 
-                    case InsertationMode.InHead:
+                    case HtmlTreeMode.InHead:
                         InHead(token);
                         break;
 
-                    case InsertationMode.InHeadNoScript:
+                    case HtmlTreeMode.InHeadNoScript:
                         InHeadNoScript(token);
                         break;
 
-                    case InsertationMode.AfterHead:
+                    case HtmlTreeMode.AfterHead:
                         AfterHead(token);
                         break;
 
-                    case InsertationMode.InBody:
+                    case HtmlTreeMode.InBody:
                         InBody(token);
                         break;
 
-                    case InsertationMode.Text:
+                    case HtmlTreeMode.Text:
                         Text(token);
                         break;
 
-                    case InsertationMode.InTable:
+                    case HtmlTreeMode.InTable:
                         InTable(token);
                         break;
 
-                    case InsertationMode.InTableText:
+                    case HtmlTreeMode.InTableText:
                         InTableText(token);
                         break;
 
-                    case InsertationMode.InCaption:
+                    case HtmlTreeMode.InCaption:
                         InCaption(token);
                         break;
 
-                    case InsertationMode.InColumnGroup:
+                    case HtmlTreeMode.InColumnGroup:
                         InColumnGroup(token);
                         break;
 
-                    case InsertationMode.InTableBody:
+                    case HtmlTreeMode.InTableBody:
                         InTableBody(token);
                         break;
 
-                    case InsertationMode.InRow:
+                    case HtmlTreeMode.InRow:
                         InRow(token);
                         break;
 
-                    case InsertationMode.InCell:
+                    case HtmlTreeMode.InCell:
                         InCell(token);
                         break;
 
-                    case InsertationMode.InSelect:
+                    case HtmlTreeMode.InSelect:
                         InSelect(token);
                         break;
 
-                    case InsertationMode.InSelectInTable:
+                    case HtmlTreeMode.InSelectInTable:
                         InSelectInTable(token);
                         break;
 
-                    case InsertationMode.AfterBody:
+                    case HtmlTreeMode.AfterBody:
                         AfterBody(token);
                         break;
 
-                    case InsertationMode.InFrameset:
+                    case HtmlTreeMode.InFrameset:
                         InFrameset(token);
                         break;
 
-                    case InsertationMode.AfterFrameset:
+                    case HtmlTreeMode.AfterFrameset:
                         AfterFrameset(token);
                         break;
 
-                    case InsertationMode.AfterAfterBody:
+                    case HtmlTreeMode.AfterAfterBody:
                         AfterAfterBody(token);
                         break;
 
-                    case InsertationMode.AfterAfterFrameset:
+                    case HtmlTreeMode.AfterAfterFrameset:
                         AfterAfterFrameset(token);
                         break;
                 }
@@ -496,7 +496,7 @@ namespace AngleSharp.Html
                 else if (doctype.IsLimitedQuirks)
                     doc.QuirksMode = QuirksMode.Limited;
                 
-                insert = InsertationMode.BeforeHtml;
+                insert = HtmlTreeMode.BeforeHtml;
             }
             else if(!token.IsIgnoreable)
             {
@@ -506,7 +506,7 @@ namespace AngleSharp.Html
                     doc.QuirksMode = QuirksMode.On;
                 }
 
-                insert = InsertationMode.BeforeHtml;
+                insert = HtmlTreeMode.BeforeHtml;
                 BeforeHtml(token);
             }
         }
@@ -538,7 +538,7 @@ namespace AngleSharp.Html
                 //    the URL serializer algorithm to the resulting parsed URL with the exclude fragment flag set;
                 //  otherwise, if there is no such attribute, or its value is the empty string, or resolving its value fails,
                 //    run the application cache selection algorithm with no manifest. The algorithm must be passed the Document object.
-                insert = InsertationMode.BeforeHead;
+                insert = HtmlTreeMode.BeforeHead;
             }
             else if (token.Type == HtmlTokenType.EndTag && !(((HtmlTagToken)token).Name.IsHtmlBodyOrBreakRowElement(true)))
             {
@@ -551,7 +551,7 @@ namespace AngleSharp.Html
                 //TODO
                 //If the Document is being loaded as part of navigation of a browsing context, then:
                 //  run the application cache selection algorithm with no manifest, passing it the Document object.
-                insert = InsertationMode.BeforeHead;
+                insert = HtmlTreeMode.BeforeHead;
                 BeforeHead(token);
             }
         }
@@ -578,7 +578,7 @@ namespace AngleSharp.Html
             {
                 var element = new HTMLHeadElement();
                 AddElementToCurrentNode(element, token);
-                insert = InsertationMode.InHead;
+                insert = HtmlTreeMode.InHead;
             }
             else if (token.Type == HtmlTokenType.EndTag && !(((HtmlTagToken)token).Name.IsHtmlBodyOrBreakRowElement(true)))
             {
@@ -646,7 +646,7 @@ namespace AngleSharp.Html
             {
                 var element = new HTMLElement();
                 AddElementToCurrentNode(element, token);
-                insert = InsertationMode.InHeadNoScript;
+                insert = HtmlTreeMode.InHeadNoScript;
             }
             else if (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name == HTMLScriptElement.Tag)
             {
@@ -657,12 +657,12 @@ namespace AngleSharp.Html
                 AddElementToCurrentNode(element, token);
                 tokenizer.Switch(HtmlParseMode.Script);
                 originalInsert = insert;
-                insert = InsertationMode.Text;
+                insert = HtmlTreeMode.Text;
             }
             else if (token.Type == HtmlTokenType.EndTag && ((HtmlTagToken)token).Name == HTMLHeadElement.Tag)
             {
                 CloseCurrentNode();
-                insert = InsertationMode.AfterHead;
+                insert = HtmlTreeMode.AfterHead;
             }
             else if (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name == HTMLHeadElement.Tag)
                 RaiseErrorOccurred(ErrorCode.HeadTagMisplaced);
@@ -671,7 +671,7 @@ namespace AngleSharp.Html
             else
             {
                 CloseCurrentNode();
-                insert = InsertationMode.AfterHead;
+                insert = HtmlTreeMode.AfterHead;
                 AfterHead(token);
             }
         }
@@ -689,7 +689,7 @@ namespace AngleSharp.Html
             else if (token.Type == HtmlTokenType.EndTag && ((HtmlTagToken)token).Name == HTMLNoElement.NoScriptTag)
             {
                 CloseCurrentNode();
-                insert = InsertationMode.InHead;
+                insert = HtmlTreeMode.InHead;
             }
             else if (token.IsIgnoreable)
                 InHead(token);
@@ -706,7 +706,7 @@ namespace AngleSharp.Html
             {
                 RaiseErrorOccurred(ErrorCode.TokenNotPossible);
                 CloseCurrentNode();
-                insert = InsertationMode.InHead;
+                insert = HtmlTreeMode.InHead;
                 InHead(token);
             }
         }
@@ -731,7 +731,7 @@ namespace AngleSharp.Html
             {
                 var element = new HTMLFrameSetElement();
                 AddElementToCurrentNode(element, token);
-                insert = InsertationMode.InFrameset;
+                insert = HtmlTreeMode.InFrameset;
             }
             else if (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name.IsOneOf(HTMLBaseElement.Tag, HTMLBaseFontElement.Tag, HTMLBgsoundElement.Tag, 
                         HTMLLinkElement.Tag, HTMLMetaElement.Tag, HTMLNoElement.NoFramesTag, HTMLScriptElement.Tag, HTMLStyleElement.Tag, HTMLTitleElement.Tag))
@@ -821,7 +821,7 @@ namespace AngleSharp.Html
 
                             var element = new HTMLFrameSetElement();
                             AddElementToCurrentNode(element, token);
-                            insert = InsertationMode.InFrameset;
+                            insert = HtmlTreeMode.InFrameset;
                         }
 
                         break;
@@ -1027,7 +1027,7 @@ namespace AngleSharp.Html
                             var element = new HTMLTableElement();
                             AddElementToCurrentNode(element, token);
                             frameset = false;
-                            insert = InsertationMode.InTable;
+                            insert = HtmlTreeMode.InTable;
                         }
                         break;
 
@@ -1124,7 +1124,7 @@ namespace AngleSharp.Html
                             tokenizer.Switch(HtmlParseMode.RCData);
                             originalInsert = insert;
                             frameset = false;
-                            insert = InsertationMode.Text;
+                            insert = HtmlTreeMode.Text;
                             var temp = tokenizer.Get();
                             if (!temp.IsNewLine) Consume(temp);
                         }
@@ -1153,15 +1153,15 @@ namespace AngleSharp.Html
 
                             switch (insert)
                             {
-                                case InsertationMode.InTable:
-                                case InsertationMode.InCaption:
-                                case InsertationMode.InRow:
-                                case InsertationMode.InCell:
-                                    insert = InsertationMode.InSelectInTable;
+                                case HtmlTreeMode.InTable:
+                                case HtmlTreeMode.InCaption:
+                                case HtmlTreeMode.InRow:
+                                case HtmlTreeMode.InCell:
+                                    insert = HtmlTreeMode.InSelectInTable;
                                     break;
 
                                 default:
-                                    insert = InsertationMode.InSelect;
+                                    insert = HtmlTreeMode.InSelect;
                                     break;
                             }
                         }
@@ -1581,7 +1581,7 @@ namespace AngleSharp.Html
                             InsertScopeMarker();
                             var element = new HTMLTableCaptionElement();
                             AddElementToCurrentNode(element, token);
-                            insert = InsertationMode.InCaption;
+                            insert = HtmlTreeMode.InCaption;
                         }
                         break;
 
@@ -1590,7 +1590,7 @@ namespace AngleSharp.Html
                             ClearStackBackToTable();
                             var element = new HTMLTableColElement();
                             AddElementToCurrentNode(element, token);
-                            insert = InsertationMode.InColumnGroup;
+                            insert = HtmlTreeMode.InColumnGroup;
                         }
                         break;
 
@@ -1608,7 +1608,7 @@ namespace AngleSharp.Html
                             ClearStackBackToTable();
                             var element = new HTMLTableSectionElement();
                             AddElementToCurrentNode(element, token);
-                            insert = InsertationMode.InTableBody;
+                            insert = HtmlTreeMode.InTableBody;
                         }
                         break;
 
@@ -1707,7 +1707,7 @@ namespace AngleSharp.Html
             {
                 tableCharacters.Clear();
                 originalInsert = insert;
-                insert = InsertationMode.InTableText;
+                insert = HtmlTreeMode.InTableText;
                 InTableText(token);
             }
             else if (token.Type == HtmlTokenType.EOF)
@@ -1884,7 +1884,7 @@ namespace AngleSharp.Html
                     ClearStackBackToTableSection();
                     var element = new HTMLTableRowElement();
                     AddElementToCurrentNode(element, token);
-                    insert = InsertationMode.InRow;
+                    insert = HtmlTreeMode.InRow;
                 }
                 else if (tag.Name.IsTableCellElement())
                 {
@@ -1910,7 +1910,7 @@ namespace AngleSharp.Html
                     {
                         ClearStackBackToTableSection();
                         CloseCurrentNode();
-                        insert = InsertationMode.InTable;
+                        insert = HtmlTreeMode.InTable;
                     }
                     else
                     {
@@ -1951,7 +1951,7 @@ namespace AngleSharp.Html
                     ClearStackBackToTableRow();
                     var element = new HTMLTableCellElement();
                     AddElementToCurrentNode(element, token);
-                    insert = InsertationMode.InCell;
+                    insert = HtmlTreeMode.InCell;
                     InsertScopeMarker();
                 }
                 else if (tag.Name.IsGeneralTableElement(true))
@@ -2228,7 +2228,7 @@ namespace AngleSharp.Html
                 else if (fragment)
                     RaiseErrorOccurred(ErrorCode.TagInvalidInFragmentMode);
                 else
-                    insert = InsertationMode.AfterAfterBody;
+                    insert = HtmlTreeMode.AfterAfterBody;
             }
             else if (token.Type == HtmlTokenType.EOF)
             {
@@ -2237,7 +2237,7 @@ namespace AngleSharp.Html
             else
             {
                 RaiseErrorOccurred(ErrorCode.TokenNotPossible);
-                insert = InsertationMode.InBody;
+                insert = HtmlTreeMode.InBody;
                 InBody(token);
             }
         }
@@ -2287,7 +2287,7 @@ namespace AngleSharp.Html
                     CloseCurrentNode();
 
                     if (fragment && CurrentNode.NodeName != HTMLFrameSetElement.Tag)
-                        insert = InsertationMode.AfterFrameset;
+                        insert = HtmlTreeMode.AfterFrameset;
                 }
                 else
                     RaiseErrorOccurred(ErrorCode.CurrentNodeIsRoot);
@@ -2334,7 +2334,7 @@ namespace AngleSharp.Html
             }
             else if (token.Type == HtmlTokenType.EndTag && ((HtmlTagToken)token).Name == HTMLHtmlElement.Tag)
             {
-                insert = InsertationMode.AfterAfterFrameset;
+                insert = HtmlTreeMode.AfterAfterFrameset;
             }
             else if (token.Type == HtmlTokenType.EOF)
             {
@@ -2361,7 +2361,7 @@ namespace AngleSharp.Html
             else
             {
                 RaiseErrorOccurred(ErrorCode.TokenNotPossible);
-                insert = InsertationMode.InBody;
+                insert = HtmlTreeMode.InBody;
                 InBody(token);
             }
         }
@@ -2408,7 +2408,7 @@ namespace AngleSharp.Html
             {
                 ClearStackBackToTableSection();
                 CloseCurrentNode();
-                insert = InsertationMode.InTable;
+                insert = HtmlTreeMode.InTable;
                 InTable(tag);
             }
             else
@@ -2451,7 +2451,7 @@ namespace AngleSharp.Html
             if (CurrentNode != doc.DocumentElement)
             {
                 CloseCurrentNode();
-                insert = InsertationMode.InTable;
+                insert = HtmlTreeMode.InTable;
                 return true;
             }
             else
@@ -2470,7 +2470,7 @@ namespace AngleSharp.Html
             var element = new HTMLBodyElement();
             AddElementToCurrentNode(element, token);
             frameset = false;
-            insert = InsertationMode.InBody;
+            insert = HtmlTreeMode.InBody;
         }
 
         /// <summary>
@@ -2482,7 +2482,7 @@ namespace AngleSharp.Html
             var element = HTMLElement.Factory(tag.Name);
             AddElementToCurrentNode(element, tag);
             originalInsert = insert;
-            insert = InsertationMode.Text;
+            insert = HtmlTreeMode.Text;
             tokenizer.Switch(HtmlParseMode.Rawtext);
         }
 
@@ -2495,7 +2495,7 @@ namespace AngleSharp.Html
             var element = HTMLElement.Factory(tag.Name);
             AddElementToCurrentNode(element, tag);
             originalInsert = insert;
-            insert = InsertationMode.Text;
+            insert = HtmlTreeMode.Text;
             tokenizer.Switch(HtmlParseMode.RCData);
         }
 
@@ -2830,7 +2830,7 @@ namespace AngleSharp.Html
                     }
                 }
 
-                insert = InsertationMode.AfterBody;
+                insert = HtmlTreeMode.AfterBody;
                 return true;
             }
             else
@@ -2909,7 +2909,7 @@ namespace AngleSharp.Html
             {
                 ClearStackBackToTableRow();
                 CloseCurrentNode();
-                insert = InsertationMode.InTableBody;
+                insert = HtmlTreeMode.InTableBody;
                 return true;
             }
             else
@@ -2955,7 +2955,7 @@ namespace AngleSharp.Html
                 ClearStackBackTo(HTMLTableCaptionElement.Tag);
                 CloseCurrentNode();
                 ClearFormattingElements();
-                insert = InsertationMode.InTable;
+                insert = HtmlTreeMode.InTable;
                 return true;
             }
             else
@@ -2982,7 +2982,7 @@ namespace AngleSharp.Html
                 ClearStackBackTo(tagName);
                 CloseCurrentNode();
                 ClearFormattingElements();
-                insert = InsertationMode.InRow;
+                insert = HtmlTreeMode.InRow;
                 return true;
             }
             else

@@ -284,33 +284,49 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
+        /// Creates a list of CSSValueList values from the given source.
+        /// </summary>
+        /// <param name="source">The token iterator.</param>
+        /// <returns>The list of values or NULL.</returns>
+        List<CSSValueList> CreateMultipleValues(IEnumerator<CssToken> source)
+        {
+            var values = new List<CSSValueList>();
+
+            do
+            {
+                var list = CreateValueList(source);
+
+                if (list.Length > 0)
+                    values.Add(list);
+            }
+            while (source.Current != null && source.Current.Type == CssTokenType.Comma);
+
+            return values;
+        }
+
+        /// <summary>
         /// Tries to consume a component value from the given source.
         /// </summary>
         /// <param name="source">The token iterator.</param>
         /// <returns>The value or NULL.</returns>
-        CSSValue CreateValue(IEnumerator<CssToken> source)
+        CSSValueList CreateValueList(IEnumerator<CssToken> source)
         {
-            var value = CreateSingleValue(source);
+            var list = new List<CSSValue>();
 
-            if (SkipToNextNonWhitespace(source) && source.Current.Type != CssTokenType.Semicolon)
+            while (SkipToNextNonWhitespace(source) && !(source.Current is CssCharacterToken))
             {
-                var list = new List<CSSValue>();
-                list.Add(value);
-                value = new CSSValueList(list);
+                var value = CreateValue(source);
 
-                do
+                if (value == null)
                 {
-                    var tmp = CreateSingleValue(source);
-
-                    if (tmp == null)
-                        break;
-
-                    list.Add(tmp);
+                    SkipToNextSemicolon(source);
+                    break;
                 }
-                while (SkipToNextNonWhitespace(source) && source.Current.Type != CssTokenType.Semicolon);
+
+                list.Add(value);
             }
 
-            return value;
+            return new CSSValueList(list);
         }
 
         /// <summary>
@@ -318,7 +334,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="source">The token iterator.</param>
         /// <returns>The value or NULL.</returns>
-        CSSValue CreateSingleValue(IEnumerator<CssToken> source)
+        CSSValue CreateValue(IEnumerator<CssToken> source)
         {
             CSSValue value = null;
 
@@ -447,15 +463,12 @@ namespace AngleSharp.Css
             
             if(SkipToNextNonWhitespace(source) && source.Current.Type == CssTokenType.Colon)
             {
-                if (SkipToNextNonWhitespace(source))
-                {
-                    property.Value = CreateValue(source);
+                property.Value = CreateValueList(source);
 
-                    if (source.Current.Type == CssTokenType.Delim)
-                    {
-                        if (((CssDelimToken)source.Current).Data == Specification.EM && source.MoveNext())
-                            property.Important = source.Current.Type == CssTokenType.Ident && ((CssKeywordToken)source.Current).Data.Equals("important", StringComparison.OrdinalIgnoreCase);
-                    }
+                if (source.Current.Type == CssTokenType.Delim)
+                {
+                    if (((CssDelimToken)source.Current).Data == Specification.EM && source.MoveNext())
+                        property.Important = source.Current.Type == CssTokenType.Ident && ((CssKeywordToken)source.Current).Data.Equals("important", StringComparison.OrdinalIgnoreCase);
                 }
             }
 
@@ -945,69 +958,44 @@ namespace AngleSharp.Css
         /// <summary>
         /// Takes a string and transforms it into a CSS value.
         /// </summary>
-        /// <param name="value">The string to parse.</param>
+        /// <param name="source">The string to parse.</param>
         /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
         /// <returns>The CSSValue object.</returns>
-        public static CSSValue ParseValue(String value, Boolean quirksMode = false)
+        public static CSSValue ParseValue(String source, Boolean quirksMode = false)
         {
-            var parser = new CssParser(value);
+            var parser = new CssParser(source);
             parser.IsQuirksMode = quirksMode;
             var it = parser.tokenizer.Iterator;
-            
-            if(SkipToNextNonWhitespace(it))
-                return parser.CreateSingleValue(it);
-
-            return null;
+            SkipToNextNonWhitespace(it);
+            return parser.CreateValue(it);
         }
 
         /// <summary>
         /// Takes a string and transforms it into a list of CSS values.
         /// </summary>
-        /// <param name="values">The string to parse.</param>
+        /// <param name="source">The string to parse.</param>
         /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
         /// <returns>The CSSValueList object.</returns>
-        internal static CSSValueList ParseValueList(String values, Boolean quirksMode = false)
+        internal static CSSValueList ParseValueList(String source, Boolean quirksMode = false)
         {
-            var list = new List<CSSValue>();
-            var parser = new CssParser(values);
+            var parser = new CssParser(source);
             parser.IsQuirksMode = quirksMode;
             var it = parser.tokenizer.Iterator;
-
-            //TODO
-            while (SkipToNextNonWhitespace(it))
-                list.Add(parser.CreateSingleValue(it));
-
-            return new CSSValueList(list);
+            return parser.CreateValueList(it);
         }
 
         /// <summary>
         /// Takes a comma separated string and transforms it into a list of CSS values.
         /// </summary>
-        /// <param name="values">The string to parse.</param>
+        /// <param name="source">The string to parse.</param>
         /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
         /// <returns>The CSSValueList object.</returns>
-        internal static List<CSSValueList> ParseMultipleValues(String values, Boolean quirksMode = false)
+        internal static List<CSSValueList> ParseMultipleValues(String source, Boolean quirksMode = false)
         {
-            var parser = new CssParser(values);
+            var parser = new CssParser(source);
             parser.IsQuirksMode = quirksMode;
             var it = parser.tokenizer.Iterator;
-            var val = new List<CSSValueList>();
-            var temp = new List<CSSValue>();
-
-            //TODO
-            while (SkipToNextNonWhitespace(it))
-            {
-                if (it.Current.Type == CssTokenType.Comma)
-                {
-                    val.Add(new CSSValueList(temp));
-                    temp = new List<CSSValue>();
-                }
-                else
-                    temp.Add(parser.CreateSingleValue(it));
-            }
-
-            if (temp.Count > 0) val.Add(new CSSValueList(temp));
-            return val;
+            return parser.CreateMultipleValues(it);
         }
 
         /// <summary>

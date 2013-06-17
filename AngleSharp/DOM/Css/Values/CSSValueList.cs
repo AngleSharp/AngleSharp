@@ -23,6 +23,7 @@ namespace AngleSharp.DOM.Css
         internal CSSValueList()
         {
             _items = new List<CSSValue>();
+            _type = CssValue.ValueList;
         }
 
         /// <summary>
@@ -32,6 +33,7 @@ namespace AngleSharp.DOM.Css
         internal CSSValueList(List<CSSValue> items)
         {
             _items = items;
+            _type = CssValue.ValueList;
         }
 
         #endregion
@@ -69,6 +71,20 @@ namespace AngleSharp.DOM.Css
         public CSSValue Item(Int32 index)
         {
             return this[index];
+        }
+
+        /// <summary>
+        /// Returns a CSS code representation of the stylesheet.
+        /// </summary>
+        /// <returns>A string that contains the code.</returns>
+        public override String ToCss()
+        {
+            var values = new String[_items.Count];
+
+            for (int i = 0; i < _items.Count; i++)
+                values[i] = _items[i].CssText;
+
+            return String.Join(" ", values);
         }
 
         #endregion

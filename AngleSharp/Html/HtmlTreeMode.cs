@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace AngleSharp
+namespace AngleSharp.Html
 {
     /// <summary>
     /// Possible insertation mode values.
     /// </summary>
-    enum InsertationMode
+    enum HtmlTreeMode
     {
         /// <summary>
         /// Initial insertation mode.

@@ -7,44 +7,49 @@ namespace AngleSharp
     /// </summary>
     static class MimeTypes
     {
-        static readonly string html = "text/html";
+        #region Members
+
+        static readonly String html = "text/html";
+        static readonly String xml = "text/xml";
+        static readonly String applicationXml = "application/xml";
+        static readonly String applicationXHtml = "application/xhtml+xml";
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the HTML mime-type: text/html.
         /// </summary>
-        public static string Html
+        public static String Html
         {
             get { return html; }
         }
 
-        static readonly string xml = "text/xml";
-
         /// <summary>
         /// Gets the XML mime-type: text/xml.
         /// </summary>
-        public static string Xml
+        public static String Xml
         {
             get { return xml; }
         }
 
-        static readonly string applicationXml = "application/xml";
-
         /// <summary>
         /// Gets the XML mime-type: application/xml.
         /// </summary>
-        public static string ApplicationXml
+        public static String ApplicationXml
         {
             get { return applicationXml; }
         }
 
-        static readonly string applicationXHtml = "application/xhtml+xml";
-
         /// <summary>
         /// Gets the XML mime-type: application/xhtml+xml.
         /// </summary>
-        public static string ApplicationXHtml
+        public static String ApplicationXHtml
         {
             get { return applicationXHtml; }
         }
+
+        #endregion
     }
 }

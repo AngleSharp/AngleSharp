@@ -14,7 +14,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="url">The URL to resolve.</param>
         /// <returns>The response stream.</returns>
-        public static Stream Resolve(string url)
+        public static Stream Resolve(String url)
         {
             //TODO
             return null;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace AngleSharp.DOM.Css
 {
@@ -7,24 +8,30 @@ namespace AngleSharp.DOM.Css
     /// </summary>
     public sealed class CSSPrimitiveValue : CSSValue
     {
-        #region ctor
+        #region Members
 
-        internal CSSPrimitiveValue()
-        {
-        }
+        Object data;
+        UnitType unit;
+
+        #endregion
+
+        #region ctor
 
         internal CSSPrimitiveValue(UnitType unitType, String value)
         {
+            _type = CssValue.PrimitiveValue;
             SetStringValue(unitType, value);
         }
 
         internal CSSPrimitiveValue(UnitType unitType, Single value)
         {
+            _type = CssValue.PrimitiveValue;
             SetFloatValue(unitType, value);
         }
 
         internal CSSPrimitiveValue(String unit, Single value)
         {
+            _type = CssValue.PrimitiveValue;
             var unitType = ConvertStringToUnitType(unit);
             SetFloatValue(unitType, value);
         }
@@ -34,17 +41,112 @@ namespace AngleSharp.DOM.Css
         #region Properties 
 
         /// <summary>
-        /// Gets the type of the value as defined by the CssValue constants.
+        /// Gets the unit type of the value.
         /// </summary>
-        public CssValue PrimitiveType
+        public UnitType PrimitiveType
         {
-            get;
-            private set;
+            get { return unit; }
         }
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Sets the primitive value to the given number.
+        /// </summary>
+        /// <param name="unitType">The unit of the number.</param>
+        /// <param name="value">The value of the number.</param>
+        /// <returns>The CSS primitive value instance.</returns>
+        public CSSPrimitiveValue SetFloatValue(UnitType unitType, Single value)
+        {
+            _text = value.ToString(CultureInfo.InvariantCulture) + ConvertUnitTypeToString(unitType);
+            unit = unitType;
+            data = value;
+            return this;
+        }
+
+        /// <summary>
+        /// Gets the primitive value's number if any.
+        /// </summary>
+        /// <param name="unitType">The unit of the number.</param>
+        /// <returns>The value of the number if any.</returns>
+        public Single GetFloatValue(UnitType unitType)
+        {
+            if (data is Single)
+            {
+                var value = (Single)data;
+                //TODO Convert
+                return value;
+            }
+
+            return 0f;
+        }
+
+        /// <summary>
+        /// Sets the primitive value to the given string.
+        /// </summary>
+        /// <param name="unitType">The unit of the string.</param>
+        /// <param name="value">The value of the string.</param>
+        /// <returns>The CSS primitive value instance.</returns>
+        public CSSPrimitiveValue SetStringValue(UnitType unitType, String value)
+        {
+            switch (unitType)
+            {
+                case UnitType.String:
+                    _text = "'" + value + "'";
+                    break;
+                case UnitType.Uri:
+                    _text = "url('" + value + "')";
+                    break;
+                default:
+                    _text = value;
+                    break;
+            }
+
+            unit = unitType;
+            data = value;
+            return this;
+        }
+
+        /// <summary>
+        /// Gets the primitive value's string if any.
+        /// </summary>
+        /// <param name="unitType">The unit of the string.</param>
+        /// <returns>The value of the string if any.</returns>
+        public String GetStringValue()
+        {
+            if (data is String)
+            {
+                var value = (String)data;
+                //TODO Convert
+                return value;
+            }
+
+            return String.Empty;
+        }
+
+        public Counter GetCounterValue()
+        {
+            //TODO
+            throw new NotImplementedException();
+        }
+
+        public Rect GetRectValue()
+        {
+            //TODO
+            throw new NotImplementedException();
+        }
+
+        public RGBColor GetRGBColorValue()
+        {
+            //TODO
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Helpers
 
         internal static UnitType ConvertStringToUnitType(String unit)
         {
@@ -75,46 +177,33 @@ namespace AngleSharp.DOM.Css
             return UnitType.Unknown;
         }
 
-        public CSSPrimitiveValue SetFloatValue(UnitType unitType, Single value)
+        internal static String ConvertUnitTypeToString(UnitType unit)
         {
-            //TODO
-            return this;
-        }
+            switch (unit)
+            {
+                case UnitType.Ems: return "em";
+                case UnitType.Cm: return "cm";
+                case UnitType.Deg: return "deg";
+                case UnitType.Grad: return "grad";
+                case UnitType.Rad: return "rad";
+                case UnitType.Turn: return "turn";
+                case UnitType.Exs: return "ex";
+                case UnitType.Hz: return "hz";
+                case UnitType.In: return "in";
+                case UnitType.Khz: return "khz";
+                case UnitType.Mm: return "mm";
+                case UnitType.Ms: return "ms";
+                case UnitType.S: return "s";
+                case UnitType.Pc: return "pc";
+                case UnitType.Pt: return "pt";
+                case UnitType.Px: return "px";
+                case UnitType.Vw: return "vw";
+                case UnitType.Vh: return "vh";
+                case UnitType.Vmin: return "vmin";
+                case UnitType.Vmax: return "vmax";
+            }
 
-        public Single GetFloatValue(UnitType unitType)
-        {
-            //TODO
-            return 0f;
-        }
-
-        public CSSPrimitiveValue SetStringValue(UnitType unitType, String value)
-        {
-            //TODO
-            return this;
-        }
-
-        public String GetStringValue()
-        {
-            //TODO
-            return string.Empty;
-        }
-
-        public Counter GetCounterValue()
-        {
-            //TODO
-            throw new NotImplementedException();
-        }
-
-        public Rect GetRectValue()
-        {
-            //TODO
-            throw new NotImplementedException();
-        }
-
-        public RGBColor GetRGBColorValue()
-        {
-            //TODO
-            throw new NotImplementedException();
+            return String.Empty;
         }
 
         #endregion

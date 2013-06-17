@@ -183,7 +183,7 @@ namespace AngleSharp.DOM.Collections
 
         #region Helpers
 
-        void Reset(string value)
+        void Reset(String value)
         {
             _rules.Clear();
             _rules.AddRange(CssParser.ParseDeclarations(value)._rules);

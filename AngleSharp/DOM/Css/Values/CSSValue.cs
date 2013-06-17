@@ -13,6 +13,7 @@ namespace AngleSharp.DOM.Css
         #region Members
 
         protected CssValue _type;
+        protected String _text;
 
         #endregion
 
@@ -43,8 +44,20 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         public String CssText
         {
-            get;
-            set;
+            get { return ToCss(); }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns a CSS code representation of the stylesheet.
+        /// </summary>
+        /// <returns>A string that contains the code.</returns>
+        public virtual String ToCss()
+        {
+            return _text;
         }
 
         #endregion

@@ -6,37 +6,37 @@ namespace AngleSharp
 {
     class MutationObserverInit
     {
-        public bool ChildList
+        public Boolean ChildList
         {
             get;
             set;
         }
 
-        public bool Attributes
+        public Boolean Attributes
         {
             get;
             set;
         }
 
-        public bool CharacterData
+        public Boolean CharacterData
         {
             get;
             set;
         }
 
-        public bool Subtree
+        public Boolean Subtree
         {
             get;
             set;
         }
 
-        public bool AttributeOldValue
+        public Boolean AttributeOldValue
         {
             get;
             set;
         }
 
-        public bool CharacterDataOldValue
+        public Boolean CharacterDataOldValue
         {
             get;
             set;
