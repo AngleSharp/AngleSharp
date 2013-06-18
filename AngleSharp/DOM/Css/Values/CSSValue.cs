@@ -12,7 +12,13 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
+        /// <summary>
+        /// The type of value.
+        /// </summary>
         protected CssValue _type;
+        /// <summary>
+        /// The CSS text representation of the value.
+        /// </summary>
         protected String _text;
 
         static CSSValue _inherited;

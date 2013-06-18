@@ -207,11 +207,19 @@ namespace AngleSharp.DOM.Collections
 
         #region IEnumerable implementation
 
-        public IEnumerator<string> GetEnumerator()
+        /// <summary>
+        /// Returns an enumerator that iterates through the strings in the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the tokens.</returns>
+        public IEnumerator<String> GetEnumerator()
         {
             return tokens.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the strings in the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the tokens.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)tokens).GetEnumerator();

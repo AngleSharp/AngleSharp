@@ -96,6 +96,7 @@ namespace AngleSharp.DOM.Collections
         /// Sets the value of the specified property.
         /// </summary>
         /// <param name="prop">The name of the property.</param>
+        /// <param name="value">The value of the property.</param>
         /// <returns>The current DOMStringMap.</returns>
         public DOMStringMap SetDataAttr(String prop, String value)
         {

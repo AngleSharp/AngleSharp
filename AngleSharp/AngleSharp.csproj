@@ -77,6 +77,7 @@
     <Compile Include="DOM\Interfaces\IQueryElements.cs" />
     <Compile Include="DOM\Interfaces\IValidation.cs" />
     <Compile Include="DOM\Interfaces\IValidityState.cs" />
+    <Compile Include="DOM\Objects\RenderingContext.cs" />
     <Compile Include="DOM\Objects\ValidityState.cs" />
     <Compile Include="DOM\Objects\Event.cs" />
     <Compile Include="DOM\Objects\EventListener.cs" />

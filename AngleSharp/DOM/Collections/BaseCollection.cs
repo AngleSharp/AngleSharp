@@ -10,6 +10,9 @@ namespace AngleSharp.DOM.Collections
     {
         #region Members
 
+        /// <summary>
+        /// The contained entries.
+        /// </summary>
         protected List<T> _entries;
 
         #endregion
@@ -111,7 +114,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Looks for the specified node in the list.
         /// </summary>
-        /// <param name="name">The node to look for.</param>
+        /// <param name="node">The node to look for.</param>
         /// <returns>True if such a node exists, otherwise false.</returns>
         internal bool Contains(T node)
         {

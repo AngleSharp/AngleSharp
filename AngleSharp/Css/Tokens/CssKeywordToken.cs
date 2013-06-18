@@ -41,7 +41,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Creates a new CSS keyword token for an identifier.
         /// </summary>
-        /// <param name="name">The name of the identifier.</param>
+        /// <param name="identifier">The name of the identifier.</param>
         /// <returns>The created token.</returns>
         public static CssKeywordToken Ident(String identifier)
         {
@@ -61,7 +61,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Creates a new CSS keyword token for a hash token.
         /// </summary>
-        /// <param name="name">The contained characters.</param>
+        /// <param name="characters">The contained characters.</param>
         /// <returns>The created token.</returns>
         public static CssKeywordToken Hash(String characters)
         {

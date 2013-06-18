@@ -59,7 +59,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets the value of an attribute within the collection of attributes.
         /// </summary>
-        /// <param name="index">The case-insensitive name of the attribute.</param>
+        /// <param name="name">The case-insensitive name of the attribute.</param>
         /// <returns>The value of the NodeAttribute or null if it does not exist.</returns>
         public Node this[String name]
         {

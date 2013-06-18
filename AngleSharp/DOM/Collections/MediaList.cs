@@ -171,12 +171,20 @@ namespace AngleSharp.DOM.Collections
 
         #region IEnumerable implementation
 
-        public IEnumerator<string> GetEnumerator()
+        /// <summary>
+        /// Returns an enumerator that iterates through the media in the list.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the mediums.</returns>
+        public IEnumerator<String> GetEnumerator()
         {
             foreach (var medium in media)
                 yield return medium;
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the media in the list.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the mediums.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)media).GetEnumerator();

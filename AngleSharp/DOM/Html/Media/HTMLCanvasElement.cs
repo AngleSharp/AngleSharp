@@ -33,39 +33,59 @@ namespace AngleSharp.DOM.Html
         //TODO
         //http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-canvas-element
 
-        public object GetContext(string contextId, params object[] args)
+        //http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
+
+        /// <summary>
+        /// Gets the drawing context.
+        /// </summary>
+        /// <param name="contextId">A context id like 2d.</param>
+        /// <returns>An object that defines the drawing context.</returns>
+        public RenderingContext GetContext(String contextId)
         {
             //TODO
-            throw new NotImplementedException();
+            return null;
         }
 
-        public bool SupportsContext(string contextId, params object[] args)
+        /// <summary>
+        /// Gets an indicator if a context with the given parameters could be created.
+        /// </summary>
+        /// <param name="contextId">A context id like 2d.</param>
+        /// <returns>True if the context is supported, otherwise false.</returns>
+        public Boolean SupportsContext(String contextId)
         {
             //TODO
             return false;
         }
 
-        public void SetContext(object context)
+        /// <summary>
+        /// Changes the context the element is related to the given one.
+        /// </summary>
+        /// <param name="context">The new context.</param>
+        public void SetContext(RenderingContext context)
         {
             //TODO
         }
 
-        public object TransferControlToProxy()
+        /// <summary>
+        /// Returns a Data URI with the bitmap data of the context.
+        /// </summary>
+        /// <param name="type">The type of image e.g image/png.</param>
+        /// <returns>A data URI with the data if any.</returns>
+        public String ToDataURL(String type = null)
         {
             //TODO
-            throw new NotImplementedException();
+            return String.Empty;
         }
 
-        public string ToDataURL(string type = null)
+        /// <summary>
+        /// Creates a BLOB out of the canvas pixel data and passes it
+        /// to the given callback.
+        /// </summary>
+        /// <param name="callback">The callback function.</param>
+        /// <param name="type">The type of object to create.</param>
+        public void ToBlob(Action<Object> callback, String type = null)
         {
             //TODO
-            throw new NotImplementedException();
-        }
-
-        public void ToBlob(object callback, string type = null)
-        {
-            //TODO
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -75,7 +95,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the displayed width of the canvas element.
         /// </summary>
-        public uint Width
+        public UInt32 Width
         {
             get { return ToInteger(GetAttribute("width"), 300u); }
             set { SetAttribute("width", value.ToString()); }
@@ -84,7 +104,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the displayed height of the canvas element.
         /// </summary>
-        public uint Height
+        public UInt32 Height
         {
             get { return ToInteger(GetAttribute("height"), 150u); }
             set { SetAttribute("height", value.ToString()); }

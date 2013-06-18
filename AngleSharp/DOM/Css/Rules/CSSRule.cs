@@ -10,8 +10,17 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
+        /// <summary>
+        /// The type of CSS rule.
+        /// </summary>
         protected CssRule _type;
+        /// <summary>
+        /// The parent stylesheet.
+        /// </summary>
         protected CSSStyleSheet _parent;
+        /// <summary>
+        /// The parent rule.
+        /// </summary>
         protected CSSRule _parentRule;
 
         #endregion

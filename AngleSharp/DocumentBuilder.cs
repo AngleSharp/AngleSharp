@@ -39,7 +39,7 @@ namespace AngleSharp
         /// Creates a new builder with the specified source.
         /// </summary>
         /// <param name="source">The code manager.</param>
-        /// <param name="document">The document to fill.</param>
+        /// <param name="sheet">The document to fill.</param>
         DocumentBuilder(SourceManager source, CSSStyleSheet sheet)
         {
             parser = new CssParser(sheet, source);

@@ -34,24 +34,36 @@ namespace AngleSharp.DOM.Html
         //TODO
         //http://www.w3.org/html/wg/drafts/html/master/forms.html#the-progress-element
 
-        public double Value
+        /// <summary>
+        /// Gets or sets the current value.
+        /// </summary>
+        public Double Value
         {
             get;
             set;
         }
 
-        public double Max
+        /// <summary>
+        /// Gets or sets the maximum value.
+        /// </summary>
+        public Double Max
         {
             get;
             set;
         }
 
-        public double Position
+        /// <summary>
+        /// Gets or sets the position.
+        /// </summary>
+        public Double Position
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets a list of associated labels.
+        /// </summary>
         public NodeList Labels
         {
             get

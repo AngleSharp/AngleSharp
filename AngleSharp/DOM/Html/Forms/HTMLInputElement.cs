@@ -34,7 +34,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        public string Name
+        public String Name
         {
             get { return GetAttribute("name"); }
             set { SetAttribute("name", value); }
@@ -51,19 +51,19 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the input element is checked or not.
         /// </summary>
-        public bool Checked
+        public Boolean Checked
         {
             get { return GetAttribute("checked") != null; }
-            set { SetAttribute("checked", value ? string.Empty : null); }
+            set { SetAttribute("checked", value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets or sets if the input element is enabled or disabled.
         /// </summary>
-        public bool Disabled
+        public Boolean Disabled
         {
             get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? string.Empty : null); }
+            set { SetAttribute("disabled", value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -78,25 +78,32 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the input field is required.
         /// </summary>
-        public bool Required
+        public Boolean Required
         {
             get { return GetAttribute("required") != null; }
-            set { SetAttribute("required", value ? string.Empty : null); }
+            set { SetAttribute("required", value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets or sets if the input field is read-only.
         /// </summary>
-        public bool Readonly
+        public Boolean Readonly
         {
             get { return GetAttribute("readonly") != null; }
-            set { SetAttribute("readonly", value ? string.Empty : null); }
+            set { SetAttribute("readonly", value ? String.Empty : null); }
         }
 
         //TODO
         //http://www.w3.org/html/wg/drafts/html/master/forms.html#htmlinputelement
 
-        public bool Indeterminate { get; set; }
+        /// <summary>
+        /// Gets or sets if the state if indeterminate.
+        /// </summary>
+        public Boolean Indeterminate 
+        { 
+            get; 
+            set; 
+        }
 
         #endregion
 

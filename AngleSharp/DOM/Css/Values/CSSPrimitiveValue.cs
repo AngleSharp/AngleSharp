@@ -120,7 +120,6 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the primitive value's string if any.
         /// </summary>
-        /// <param name="unitType">The unit of the string.</param>
         /// <returns>The value of the string if any.</returns>
         public String GetStringValue()
         {

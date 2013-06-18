@@ -948,8 +948,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Takes string and transforms it into the arguments for the nth-child function.
         /// </summary>
-        /// <param name="argument">The argument to parse.</param>
-        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        /// <param name="it">The token source..</param>
         /// <returns>The function.</returns>
         T GetArguments<T>(IEnumerator<CssToken> it) where T : NthChildSelector, new()
         {
@@ -1033,7 +1032,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="element">The element to match.</param>
         /// <returns>An indicator if the match has been successful.</returns>
-        static bool MatchBefore(Element element)
+        static Boolean MatchBefore(Element element)
         {
             //TODO
             return true;
@@ -1044,7 +1043,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="element">The element to match.</param>
         /// <returns>An indicator if the match has been successful.</returns>
-        static bool MatchAfter(Element el)
+        static Boolean MatchAfter(Element element)
         {
             //TODO
             return true;
@@ -1055,7 +1054,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="element">The element to match.</param>
         /// <returns>An indicator if the match has been successful.</returns>
-        static bool MatchFirstLine(Element el)
+        static Boolean MatchFirstLine(Element element)
         {
             //TODO
             return true;
@@ -1066,7 +1065,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="element">The element to match.</param>
         /// <returns>An indicator if the match has been successful.</returns>
-        static bool MatchFirstLetter(Element el)
+        static Boolean MatchFirstLetter(Element element)
         {
             //TODO
             return true;
