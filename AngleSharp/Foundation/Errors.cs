@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace AngleSharp
 {
@@ -12,6 +13,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="code">A specific error code.</param>
         /// <returns>The description of the error.</returns>
+        [DebuggerStepThrough]
         public static string GetError(ErrorCode code)
         {
             switch (code)

@@ -38,7 +38,7 @@ namespace AngleSharp.DOM.Css
 
         internal CSSPrimitiveValue(HtmlColor value)
         {
-            _text = value.ToHtml();
+            _text = value.ToCss();
             _type = CssValue.PrimitiveValue;
             unit = UnitType.Rgbcolor;
             data = value;

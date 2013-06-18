@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace AngleSharp
 {
     /// <summary>
     /// The ParseErrorEventArgs package.
     /// </summary>
+    [DebuggerStepThrough]
     public sealed class ParseErrorEventArgs : EventArgs
     {
         #region ctor
@@ -14,7 +16,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="code">The provided error code.</param>
         /// <param name="msg">The associated error message.</param>
-        public ParseErrorEventArgs(int code, string msg)
+        public ParseErrorEventArgs(Int32 code, String msg)
         {
             ErrorMessage = msg;
             ErrorCode = code;
@@ -27,7 +29,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets or sets the line within the document.
         /// </summary>
-        public int Line
+        public Int32 Line
         {
             get;
             set;
@@ -36,7 +38,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets or sets the column within the document.
         /// </summary>
-        public int Column
+        public Int32 Column
         {
             get;
             set;
@@ -45,7 +47,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the provided error code.
         /// </summary>
-        public int ErrorCode
+        public Int32 ErrorCode
         {
             get;
             private set;
@@ -54,7 +56,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the associated error message.
         /// </summary>
-        public string ErrorMessage
+        public String ErrorMessage
         {
             get;
             private set;
@@ -69,9 +71,9 @@ namespace AngleSharp
         /// </summary>
         /// <returns>The string containing the error message, error 
         /// code as well as line and column.</returns>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("Ln {0}, Col {1}: ERR{2} ({3}).", Line, Column, ErrorCode, ErrorMessage);
+            return String.Format("Ln {0}, Col {1}: ERR{2} ({3}).", Line, Column, ErrorCode, ErrorMessage);
         }
 
         #endregion

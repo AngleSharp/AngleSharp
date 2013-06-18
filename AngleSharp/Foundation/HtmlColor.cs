@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace AngleSharp
 {
     /// <summary>
     /// Represents a color value.
     /// </summary>
+    [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
     struct HtmlColor : IEquatable<HtmlColor>
     {
         //TODO
@@ -12,10 +14,16 @@ namespace AngleSharp
 
         #region Members
 
-        byte alpha;
-        byte red;
-        byte green;
-        byte blue;
+        [FieldOffset(0)]
+        Byte alpha;
+        [FieldOffset(1)]
+        Byte red;
+        [FieldOffset(2)]
+        Byte green;
+        [FieldOffset(3)]
+        Byte blue;
+        [FieldOffset(0)]
+        Int32 hashcode;
 
         #endregion
 
@@ -27,8 +35,9 @@ namespace AngleSharp
         /// <param name="r">The red value.</param>
         /// <param name="g">The green value.</param>
         /// <param name="b">The blue value.</param>
-        public HtmlColor(byte r, byte g, byte b)
+        public HtmlColor(Byte r, Byte g, Byte b)
         {
+            hashcode = 0;
             alpha = 255;
             red = r;
             blue = b;
@@ -42,9 +51,26 @@ namespace AngleSharp
         /// <param name="r">The red value.</param>
         /// <param name="g">The green value.</param>
         /// <param name="b">The blue value.</param>
-        public HtmlColor(byte a, byte r, byte g, byte b)
+        public HtmlColor(Byte a, Byte r, Byte g, Byte b)
         {
+            hashcode = 0;
             alpha = a;
+            red = r;
+            blue = b;
+            green = g;
+        }
+
+        /// <summary>
+        /// Creates an Html color type.
+        /// </summary>
+        /// <param name="a">The alpha value between 0 and 1.</param>
+        /// <param name="r">The red value.</param>
+        /// <param name="g">The green value.</param>
+        /// <param name="b">The blue value.</param>
+        public HtmlColor(Double a, Byte r, Byte g, Byte b)
+        {
+            hashcode = 0;
+            alpha = (Byte)Math.Max(Math.Min(Math.Ceiling(255 * a), 255), 0);
             red = r;
             blue = b;
             green = g;
@@ -62,9 +88,22 @@ namespace AngleSharp
         /// <param name="b">The value for blue.</param>
         /// <param name="a">The value for alpha.</param>
         /// <returns>The HTML color value.</returns>
-        public static HtmlColor FromRgba(byte r, byte g, byte b, float a)
+        public static HtmlColor FromRgba(Byte r, Byte g, Byte b, Single a)
         {
-            return new HtmlColor((byte)Math.Floor(255 * a), r, g, b);
+            return new HtmlColor(a, r, g, b);
+        }
+
+        /// <summary>
+        /// Returns the color from the given primitives.
+        /// </summary>
+        /// <param name="r">The value for red.</param>
+        /// <param name="g">The value for green.</param>
+        /// <param name="b">The value for blue.</param>
+        /// <param name="a">The value for alpha.</param>
+        /// <returns>The HTML color value.</returns>
+        public static HtmlColor FromRgba(Byte r, Byte g, Byte b, Double a)
+        {
+            return new HtmlColor(a, r, g, b);
         }
 
         /// <summary>
@@ -74,7 +113,7 @@ namespace AngleSharp
         /// <param name="g">The value for green.</param>
         /// <param name="b">The value for blue.</param>
         /// <returns>The HTML color value.</returns>
-        public static HtmlColor FromRgb(byte r, byte g, byte b)
+        public static HtmlColor FromRgb(Byte r, Byte g, Byte b)
         {
             return new HtmlColor(r, g, b);
         }
@@ -119,7 +158,7 @@ namespace AngleSharp
         /// <param name="color">The hexadecimal reresentation of the color.</param>
         /// <param name="htmlColor">The color value to be created.</param>
         /// <returns>The status if the string can be converted.</returns>
-        public static bool TryFromHex(String color, out HtmlColor htmlColor)
+        public static Boolean TryFromHex(String color, out HtmlColor htmlColor)
         {
             htmlColor = new HtmlColor();
             htmlColor.alpha = 255;
@@ -129,16 +168,16 @@ namespace AngleSharp
                 if (!Specification.IsHex(color[0]) || !Specification.IsHex(color[1]) || !Specification.IsHex(color[2]))
                     return false;
 
-                int r = color[0].FromHex();
+                var r = color[0].FromHex();
                 r += r * 16;
-                int g = color[1].FromHex();
+                var g = color[1].FromHex();
                 g += g * 16;
-                int b = color[2].FromHex();
+                var b = color[2].FromHex();
                 b += b * 16;
 
-                htmlColor.red = (byte)r;
-                htmlColor.green = (byte)g;
-                htmlColor.blue = (byte)b;
+                htmlColor.red = (Byte)r;
+                htmlColor.green = (Byte)g;
+                htmlColor.blue = (Byte)b;
                 return true;
             }
             else if (color.Length == 6)
@@ -147,16 +186,16 @@ namespace AngleSharp
                     !Specification.IsHex(color[3]) || !Specification.IsHex(color[4]) || !Specification.IsHex(color[5]))
                     return false;
 
-                int r = 16 * color[0].FromHex();
-                int g = 16 * color[2].FromHex();
-                int b = 16 * color[4].FromHex();
+                var r = 16 * color[0].FromHex();
+                var g = 16 * color[2].FromHex();
+                var b = 16 * color[4].FromHex();
                 r += color[1].FromHex();
                 g += color[3].FromHex();
                 b += color[5].FromHex();
 
-                htmlColor.red = (byte)r;
-                htmlColor.green = (byte)g;
-                htmlColor.blue = (byte)b;
+                htmlColor.red = (Byte)r;
+                htmlColor.green = (Byte)g;
+                htmlColor.blue = (Byte)b;
                 return true;
             }
 
@@ -168,17 +207,33 @@ namespace AngleSharp
         #region Properties
 
         /// <summary>
+        /// Gets the Int32 value of the color.
+        /// </summary>
+        public Int32 Value
+        {
+            get { return hashcode; }
+        }
+
+        /// <summary>
         /// Gets the alpha part of the color.
         /// </summary>
-        public byte A
+        public Byte A
         {
             get { return alpha; }
         }
 
         /// <summary>
+        /// Gets the alpha part of the color in percent (0..1).
+        /// </summary>
+        public Double Alpha
+        {
+            get { return alpha / 255.0; }
+        }
+
+        /// <summary>
         /// Gets the red part of the color.
         /// </summary>
-        public byte R
+        public Byte R
         {
             get { return red; }
         }
@@ -186,7 +241,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the green part of the color.
         /// </summary>
-        public byte G
+        public Byte G
         {
             get { return green; }
         }
@@ -194,7 +249,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the blue part of the color.
         /// </summary>
-        public byte B
+        public Byte B
         {
             get { return blue; }
         }
@@ -203,14 +258,14 @@ namespace AngleSharp
 
         #region Operators
 
-        public static bool operator ==(HtmlColor a, HtmlColor b)
+        public static Boolean operator ==(HtmlColor a, HtmlColor b)
         {
-            return a.alpha == b.alpha && a.blue == b.blue && a.green == b.green && a.red == b.red;
+            return a.hashcode == b.hashcode;
         }
 
-        public static bool operator !=(HtmlColor a, HtmlColor b)
+        public static Boolean operator !=(HtmlColor a, HtmlColor b)
         {
-            return a.alpha != b.alpha || a.blue != b.blue || a.green != b.green || a.red != b.red;
+            return a.hashcode != b.hashcode;
         }
 
         #endregion
@@ -222,10 +277,10 @@ namespace AngleSharp
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override bool Equals(object obj)
+        public override Boolean Equals(Object obj)
         {
             if (obj is HtmlColor)
-                return this == (HtmlColor)obj;
+                return this.Equals((HtmlColor)obj);
 
             return false;
         }
@@ -234,36 +289,52 @@ namespace AngleSharp
         /// Returns a hash code that defines the current color.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
-        public override int GetHashCode()
+        public override Int32 GetHashCode()
         {
-            return base.GetHashCode();
+            return hashcode;
         }
 
         /// <summary>
         /// Returns a string representing the color.
         /// </summary>
         /// <returns>The RGBA string.</returns>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("rgba({0}, {1}, {2}, {3})", red, green, blue, alpha / 255.0);
+            return String.Format("rgba({0}, {1}, {2}, {3})", red, green, blue, alpha / 255.0);
         }
 
         #endregion
 
         #region Implementing Interface
 
-        public bool Equals(HtmlColor other)
+        public Boolean Equals(HtmlColor other)
         {
-            return this == other;
+            return this.hashcode == other.hashcode;
         }
 
         #endregion
 
         #region String representation
 
+        /// <summary>
+        /// Returns a string containing the CSS code.
+        /// </summary>
+        /// <returns>The string with the rgb or rgba code.</returns>
+        public String ToCss()
+        {
+            if (alpha == 255)
+                return "rgb(" + red.ToString() + ", " + green.ToString() + ", " + blue.ToString() + ")";
+
+            return "rgba(" + red.ToString() + ", " + green.ToString() + ", " + blue.ToString() + ", " + Alpha.ToString() + ")";
+        }
+
+        /// <summary>
+        /// Returns a string containing the HTML (hex) code.
+        /// </summary>
+        /// <returns>The string with the hex code color.</returns>
         public String ToHtml()
         {
-            return "rgba(" + red.ToString() + ", " + green.ToString() + ", " + blue.ToString() + ", " + (alpha / 255.0).ToString() + ")";
+            return "#" + red.ToHex() + green.ToHex() + blue.ToHex();
         }
 
         #endregion

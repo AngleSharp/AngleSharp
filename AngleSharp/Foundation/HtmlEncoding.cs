@@ -8,14 +8,14 @@ namespace AngleSharp
     /// </summary>
     static class HtmlEncoding
     {
-        public const string CHARSET = "charset";
+        public const String CHARSET = "charset";
 
         /// <summary>
         /// Tries to extract the encoding from the given http-equiv content string.
         /// </summary>
         /// <param name="content">The value of the attribute.</param>
         /// <returns>The extracted encoding or an empty string.</returns>
-        public static string Extract(string content)
+        public static String Extract(String content)
         {
             var position = 0;
             content = content.ToLower();
@@ -90,7 +90,7 @@ namespace AngleSharp
                 }
             }
 
-            return string.Empty;
+            return String.Empty;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="charset">The parsed charset string.</param>
         /// <returns>True if a valid encdoing has been found, otherwise false.</returns>
-        public static bool IsSupported(string charset)
+        public static Boolean IsSupported(String charset)
         {
             return Resolve(charset) != null;
         }
@@ -108,7 +108,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="charset">The charset string.</param>
         /// <returns>An instance of the Encoding class or null.</returns>
-        public static Encoding Resolve(string charset)
+        public static Encoding Resolve(String charset)
         {
             charset = charset.ToLower();
 

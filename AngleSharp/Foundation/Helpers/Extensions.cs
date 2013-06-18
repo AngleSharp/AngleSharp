@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
+using System.Diagnostics;
 
 namespace AngleSharp
 {
@@ -16,7 +17,8 @@ namespace AngleSharp
         /// <param name="list">The list of characters.</param>
         /// <param name="element">The element to search for.</param>
         /// <returns>The status of the check.</returns>
-        public static bool Contains(this IEnumerable<char> list, char element)
+        [DebuggerStepThrough]
+        public static Boolean Contains(this IEnumerable<Char> list, Char element)
         {
             foreach (var entry in list)
                 if (entry == element)
@@ -30,9 +32,10 @@ namespace AngleSharp
         /// </summary>
         /// <param name="str">The string to collapse and strip.</param>
         /// <returns>The modified string with collapsed and stripped spaces.</returns>
-        public static string CollapseAndStrip(this string str)
+        [DebuggerStepThrough]
+        public static String CollapseAndStrip(this String str)
         {
-            var chars = new List<char>();
+            var chars = new List<Char>();
             var hasSpace = true;
 
             for (int i = 0; i < str.Length; i++)
@@ -55,7 +58,7 @@ namespace AngleSharp
             if (hasSpace && chars.Count > 0)
                 chars.RemoveAt(chars.Count - 1);
 
-            return new string(chars.ToArray());
+            return new String(chars.ToArray());
         }
 
         /// <summary>
@@ -63,9 +66,10 @@ namespace AngleSharp
         /// </summary>
         /// <param name="str">The string to collapse.</param>
         /// <returns>The modified string with collapsed spaces.</returns>
-        public static string Collapse(this string str)
+        [DebuggerStepThrough]
+        public static String Collapse(this String str)
         {
-            var chars = new List<char>();
+            var chars = new List<Char>();
             var hasSpace = false;
 
             for (int i = 0; i < str.Length; i++)
@@ -85,7 +89,7 @@ namespace AngleSharp
                 }
             }
 
-            return new string(chars.ToArray());
+            return new String(chars.ToArray());
         }
 
         /// <summary>
@@ -94,7 +98,8 @@ namespace AngleSharp
         /// <param name="list">The list of strings.</param>
         /// <param name="element">The element to search for.</param>
         /// <returns>The status of the check.</returns>
-        public static bool Contains(this string[] list, string element)
+        [DebuggerStepThrough]
+        public static Boolean Contains(this String[] list, String element)
         {
             for (int i = 0; i < list.Length; i++)
                 if (list[i] == element)
@@ -109,7 +114,8 @@ namespace AngleSharp
         /// <param name="element">The element to check for equality.</param>
         /// <param name="elements">The allowed (equal) elements.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        public static bool IsOneOf(this string element, params string[] elements)
+        [DebuggerStepThrough]
+        public static Boolean IsOneOf(this String element, params String[] elements)
         {
             for (var i = 0; i != elements.Length; i++)
                 if (element.Equals(elements[i]))
@@ -123,7 +129,8 @@ namespace AngleSharp
         /// </summary>
         /// <param name="node">The node to examine</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        public static bool IsTableElement(this Node node)
+        [DebuggerStepThrough]
+        public static Boolean IsTableElement(this Node node)
         {
             return (node is HTMLTableElement || node is HTMLTableSectionElement || node is HTMLTableRowElement);
         }
@@ -133,7 +140,8 @@ namespace AngleSharp
         /// </summary>
         /// <param name="tagName">The tag name to examine</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        public static bool IsTableElement(this string tagName)
+        [DebuggerStepThrough]
+        public static Boolean IsTableElement(this String tagName)
         {
             return (tagName == HTMLTableElement.Tag || tagName == HTMLTableSectionElement.BodyTag ||
                 tagName == HTMLTableSectionElement.FootTag || tagName == HTMLTableSectionElement.HeadTag ||
@@ -145,7 +153,8 @@ namespace AngleSharp
         /// </summary>
         /// <param name="tagName">The tag name to examine</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        public static bool IsTableSectionElement(this string tagName)
+        [DebuggerStepThrough]
+        public static Boolean IsTableSectionElement(this String tagName)
         {
             return (tagName == HTMLTableSectionElement.BodyTag || tagName == HTMLTableSectionElement.FootTag || 
                 tagName == HTMLTableSectionElement.HeadTag);
@@ -156,7 +165,8 @@ namespace AngleSharp
         /// </summary>
         /// <param name="tagName">The tag name to examine</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        public static bool IsTableCellElement(this string tagName)
+        [DebuggerStepThrough]
+        public static Boolean IsTableCellElement(this String tagName)
         {
             return (tagName == HTMLTableCellElement.NormalTag || tagName == HTMLTableCellElement.HeadTag);
         }
@@ -167,7 +177,8 @@ namespace AngleSharp
         /// <param name="tagName">The tag name to examine</param>
         /// <param name="includeRow">True if the tr element should also be tested.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        public static bool IsGeneralTableElement(this string tagName, bool includeRow = false)
+        [DebuggerStepThrough]
+        public static Boolean IsGeneralTableElement(this String tagName, Boolean includeRow = false)
         {
             return (tagName == HTMLTableCaptionElement.Tag || tagName == HTMLTableColElement.ColTag ||
                 tagName == HTMLTableColElement.ColgroupTag || tagName == HTMLTableSectionElement.BodyTag ||
@@ -180,7 +191,8 @@ namespace AngleSharp
         /// <param name="tagName">The tag name to examine</param>
         /// <param name="includeRow">True if the tr element should also be tested.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        public static bool IsSpecialTableElement(this string tagName, bool includeRow = false)
+        [DebuggerStepThrough]
+        public static Boolean IsSpecialTableElement(this String tagName, Boolean includeRow = false)
         {
             return (tagName == HTMLBodyElement.Tag || tagName == HTMLHtmlElement.Tag ||
                 tagName == HTMLTableColElement.ColgroupTag || tagName == HTMLTableColElement.ColTag ||
@@ -194,7 +206,8 @@ namespace AngleSharp
         /// <param name="tagName">The tag name to examine</param>
         /// <param name="includeHead">True if the head element should also be tested.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        public static bool IsHtmlBodyOrBreakRowElement(this string tagName, bool includeHead = false)
+        [DebuggerStepThrough]
+        public static Boolean IsHtmlBodyOrBreakRowElement(this String tagName, Boolean includeHead = false)
         {
             return (tagName == HTMLHtmlElement.Tag || tagName == HTMLBodyElement.Tag ||
                 tagName == HTMLBRElement.Tag) || (includeHead && tagName == HTMLHeadElement.Tag);
@@ -205,7 +218,8 @@ namespace AngleSharp
         /// </summary>
         /// <param name="chr">The uppercase char.</param>
         /// <returns>The lowercase char of A-Z, otherwise undefined.</returns>
-        public static char ToLower(this char chr)
+        [DebuggerStepThrough]
+        public static Char ToLower(this Char chr)
         {
             return (char)(chr + 0x20);
         }
@@ -215,7 +229,8 @@ namespace AngleSharp
         /// </summary>
         /// <param name="c">The character to convert.</param>
         /// <returns>The integer value or undefined behavior if invalid.</returns>
-        public static int FromHex(this char c)
+        [DebuggerStepThrough]
+        public static Int32 FromHex(this Char c)
         {
             return Specification.IsDigit(c) ? c - 0x30 : c - (Specification.IsLowercaseAscii(c) ? 0x57 : 0x37);
         }
@@ -225,7 +240,8 @@ namespace AngleSharp
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>A new string, which excludes the line breaks.</returns>
-        public static string StripLineBreaks(this string str)
+        [DebuggerStepThrough]
+        public static String StripLineBreaks(this String str)
         {
             var array = str.ToCharArray();
             var shift = 0;
@@ -244,7 +260,7 @@ namespace AngleSharp
                     i++;
             }
 
-            return new string(array, 0, length);
+            return new String(array, 0, length);
         }
 
         /// <summary>
@@ -252,7 +268,8 @@ namespace AngleSharp
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
-        public static string StripLeadingTailingSpaces(this string str)
+        [DebuggerStepThrough]
+        public static String StripLeadingTailingSpaces(this String str)
         {
             return StripLeadingTailingSpaces(str.ToCharArray());
         }
@@ -262,7 +279,8 @@ namespace AngleSharp
         /// </summary>
         /// <param name="array">The array of characters to examine.</param>
         /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
-        public static string StripLeadingTailingSpaces(this char[] array)
+        [DebuggerStepThrough]
+        public static String StripLeadingTailingSpaces(this Char[] array)
         {
             var start = 0;
             var end = array.Length - 1;
@@ -273,7 +291,7 @@ namespace AngleSharp
             while (end > start && Specification.IsSpaceCharacter(array[end]))
                 end--;
 
-            return new string(array, start, 1 + end - start);
+            return new String(array, start, 1 + end - start);
         }
 
         /// <summary>
@@ -282,7 +300,8 @@ namespace AngleSharp
         /// <param name="str">The string to examine.</param>
         /// <param name="c">The delimiter character.</param>
         /// <returns>The list of tokens.</returns>
-        public static string[] SplitWithoutTrimming(this string str, char c)
+        [DebuggerStepThrough]
+        public static String[] SplitWithoutTrimming(this String str, Char c)
         {
             return SplitWithoutTrimming(str.ToCharArray(), c);
         }
@@ -293,9 +312,10 @@ namespace AngleSharp
         /// <param name="chars">The char array to examine.</param>
         /// <param name="c">The delimiter character.</param>
         /// <returns>The list of tokens.</returns>
-        public static string[] SplitWithoutTrimming(this char[] chars, char c)
+        [DebuggerStepThrough]
+        public static String[] SplitWithoutTrimming(this Char[] chars, Char c)
         {
-            var list = new List<string>();
+            var list = new List<String>();
             var index = 0;
 
             for (var i = 0; i < chars.Length; i++)
@@ -303,14 +323,14 @@ namespace AngleSharp
                 if (chars[i] == c)
                 {
                     if (i > index)
-                        list.Add(new string(chars, index, i - index));
+                        list.Add(new String(chars, index, i - index));
 
                     index = i + 1;
                 }
             }
 
             if (chars.Length > index)
-                list.Add(new string(chars, index, chars.Length - index));
+                list.Add(new String(chars, index, chars.Length - index));
 
             return list.ToArray();
         }
@@ -320,7 +340,8 @@ namespace AngleSharp
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>The list of tokens.</returns>
-        public static string[] SplitCommas(this string str)
+        [DebuggerStepThrough]
+        public static String[] SplitCommas(this String str)
         {
             return str.SplitWithTrimming(',');
         }
@@ -330,7 +351,8 @@ namespace AngleSharp
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>The list of tokens.</returns>
-        public static string[] SplitHyphens(this string str)
+        [DebuggerStepThrough]
+        public static String[] SplitHyphens(this String str)
         {
             return SplitWithTrimming(str, Specification.DASH);
         }
@@ -340,10 +362,11 @@ namespace AngleSharp
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>The list of tokens.</returns>
-        public static string[] SplitSpaces(this string str)
+        [DebuggerStepThrough]
+        public static String[] SplitSpaces(this String str)
         {
-            var list = new List<string>();
-            var buffer = new List<char>();
+            var list = new List<String>();
+            var buffer = new List<Char>();
             var chars = str.ToCharArray();
 
             for (var i = 0; i <= chars.Length; i++)
@@ -373,10 +396,11 @@ namespace AngleSharp
         /// <param name="str">The string to examine.</param>
         /// <param name="c">The delimiter character.</param>
         /// <returns>The list of tokens.</returns>
-        public static string[] SplitWithTrimming(this string str, char c)
+        [DebuggerStepThrough]
+        public static String[] SplitWithTrimming(this String str, Char c)
         {
-            var list = new List<string>();
-            var buffer = new List<char>();
+            var list = new List<String>();
+            var buffer = new List<Char>();
             var chars = str.ToCharArray();
 
             for (var i = 0; i <= chars.Length; i++)
@@ -398,6 +422,22 @@ namespace AngleSharp
             }
 
             return list.ToArray();
+        }
+
+        /// <summary>
+        /// Transforms the given number to a hexadecimal string.
+        /// </summary>
+        /// <param name="num">The number (0-255).</param>
+        /// <returns>A 2 digit upper case hexadecimal string.</returns>
+        [DebuggerStepThrough]
+        public static String ToHex(this Byte num)
+        {
+            Char[] chrs = new Char[2];
+            var rem = num >> 4;
+            chrs[0] = (Char)(rem + (rem < 10 ? 48 : 55));
+            rem = num - 16 * rem;
+            chrs[1] = (Char)(rem + (rem < 10 ? 48 : 55));
+            return new String(chrs);
         }
     }
 }

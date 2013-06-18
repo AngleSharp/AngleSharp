@@ -10,6 +10,7 @@ namespace AngleSharp.Css
     /// The CSS tokenizer.
     /// See http://dev.w3.org/csswg/css-syntax/#tokenization for more details.
     /// </summary>
+    [DebuggerStepThrough]
     class CssTokenizer
     {
         #region Members

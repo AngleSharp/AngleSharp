@@ -10,6 +10,7 @@ namespace AngleSharp.Html
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
+    [DebuggerStepThrough]
     class HtmlTokenizer
     {
         #region Members
@@ -91,15 +92,19 @@ namespace AngleSharp.Html
                 case HtmlParseMode.PCData:
                     token = Data(src.Current);
                     break;
+
                 case HtmlParseMode.RCData:
                     token = RCData(src.Current);
                     break;
+
                 case HtmlParseMode.Plaintext:
                     token = Plaintext(src.Current);
                     break;
+
                 case HtmlParseMode.Rawtext:
                     token = Rawtext(src.Current);
                     break;
+
                 case HtmlParseMode.Script:
                     token = ScriptData(src.Current);
                     break;

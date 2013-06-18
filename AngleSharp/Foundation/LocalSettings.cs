@@ -15,7 +15,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the language (code, e.g. en-US, de-DE) to use by-default.
         /// </summary>
-        public static string Language
+        public static String Language
         {
             get { return culture.Name; }
         }

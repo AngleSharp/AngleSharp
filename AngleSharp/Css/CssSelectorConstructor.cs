@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AngleSharp.DOM;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
+using System.Diagnostics;
 
 namespace AngleSharp.Css
 {
@@ -10,6 +11,7 @@ namespace AngleSharp.Css
     /// Class for construction for CSS selectors as specified in
     /// http://www.w3.org/html/wg/drafts/html/master/selectors.html.
     /// </summary>
+    [DebuggerStepThrough]
     class CssSelectorConstructor
     {
         #region Constants

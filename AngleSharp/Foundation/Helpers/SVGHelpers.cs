@@ -12,7 +12,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="tagName">The name of adjust.</param>
         /// <returns>The name with the correct capitalization.</returns>
-        public static string AdjustTagName(string tagName)
+        public static String AdjustTagName(String tagName)
         {
             switch (tagName)
             {
@@ -61,7 +61,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="attributeName">The name of adjust.</param>
         /// <returns>The name with the correct capitalization.</returns>
-        public static string AdjustAttributeName(string attributeName)
+        public static String AdjustAttributeName(String attributeName)
         {
             switch (attributeName)
             {

@@ -16,6 +16,18 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void HexadecimalNumbersWorking()
+        {
+            for (int i = 0; i < 256; i++)
+            {
+                var num = (byte)i;
+                var a = num.ToHex();
+                var b = i.ToString("X").PadLeft(2, '0');
+                Assert.AreEqual(b, a);
+            }
+        }
+
+        [TestMethod]
         public void ContainsTestFail()
         {
             var list = "abcd[g;.";
