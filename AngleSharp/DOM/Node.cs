@@ -9,6 +9,7 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents a node in the generated tree.
     /// </summary>
+    [DOM("Node")]
     public class Node : INode, IHTMLObject
     {
         #region Members
@@ -53,7 +54,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Constructs a new node.
         /// </summary>
-        public Node()
+        internal Node()
         {
             _name = string.Empty;
             _attributes = new NamedNodeMap();
@@ -67,7 +68,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets a boolean value indicating whether the current Node has attribute nodes or not.
         /// </summary>
-        public bool HasAttributes
+        [DOM("hasAttributes")]
+        public Boolean HasAttributes
         {
             get { return _attributes.Length != 0; }
         }
@@ -75,7 +77,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets a boolean value indicating whether the current Node has child nodes or not.
         /// </summary>
-        public bool HasChildNodes
+        [DOM("hasChildNodes")]
+        public Boolean HasChildNodes
         {
             get { return _children.Length != 0; }
         }
@@ -83,7 +86,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the absolute base URI of a node or null if unable to obtain an absolute URI.
         /// </summary>
-        public string BaseURI
+        [DOM("baseURI")]
+        public String BaseURI
         {
             get 
             {
@@ -92,14 +96,15 @@ namespace AngleSharp.DOM
                 else if (_parent != null)
                     return _parent.BaseURI;
 
-                return string.Empty;
+                return String.Empty;
             }
         }
 
         /// <summary>
         /// Gets the local part of the qualified name of this node.
         /// </summary>
-        public string LocalName
+        [DOM("localName")]
+        public String LocalName
         {
             get { return _name.Contains(':') ? _name.Substring(_name.IndexOf(':') + 1) : _name; }
         }
@@ -107,7 +112,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the namespace URI of this node.
         /// </summary>
-        public string NamespaceURI
+        [DOM("namespaceURI")]
+        public String NamespaceURI
         {
             get { return _ns; }
             set { _ns = value; }
@@ -117,6 +123,7 @@ namespace AngleSharp.DOM
         /// Gets the node immediately preceding this node's parent's list of nodes, 
         /// null if the specified node is the first in that list.
         /// </summary>
+        [DOM("previousSibling")]
         public Node PreviousSibling
         {
             get
@@ -140,6 +147,7 @@ namespace AngleSharp.DOM
         /// Gets the node immediately following this node's parent's list of nodes,
         /// or null if the current node is the last node in that list.
         /// </summary>
+        [DOM("nextSibling")]
         public Node NextSibling
         {
             get
@@ -162,6 +170,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the first child node of this node.
         /// </summary>
+        [DOM("firstChild")]
         public Node FirstChild
         {
             get { return _children.Length > 0 ? _children[0] : null; }
@@ -170,6 +179,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the last child node of this node.
         /// </summary>
+        [DOM("lastChild")]
         public Node LastChild
         {
             get { return _children.Length > 0 ? _children[_children.Length - 1] : null; }
@@ -178,6 +188,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the type of this node.
         /// </summary>
+        [DOM("nodeType")]
         public NodeType NodeType 
         {
             get { return _type; }
@@ -186,7 +197,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the value of the current node.
         /// </summary>
-        public virtual string NodeValue 
+        [DOM("nodeValue")]
+        public virtual String NodeValue 
         {
             get { return null; }
             set { }
@@ -195,7 +207,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the namespace prefix of the specified node, or null if no prefix is specified.
         /// </summary>
-        public string Prefix
+        [DOM("prefix")]
+        public String Prefix
         {
             get { return _name.Contains(':') ? _name.Substring(0, _name.IndexOf(':')) : null; }
         }
@@ -203,7 +216,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the text content of a node and its descendants.
         /// </summary>
-        public virtual string TextContent
+        [DOM("textContent")]
+        public virtual String TextContent
         {
             get { return null; }
             set 
@@ -218,6 +232,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the owner document of the node.
         /// </summary>
+        [DOM("ownerDocument")]
         public Document OwnerDocument 
         {
             get { return _owner; }
@@ -242,6 +257,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the parent node of this node, which is either an Element node, a Document node, or a DocumentFragment node.
         /// </summary>
+        [DOM("parentNode")]
         public Node ParentNode
         {
             get { return _parent; }
@@ -251,6 +267,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the parent element of this node.
         /// </summary>
+        [DOM("parentElement")]
         public Element ParentElement
         {
             get { return _parent as Element; }
@@ -259,6 +276,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the children of this node.
         /// </summary>
+        [DOM("childNodes")]
         public NodeList ChildNodes
         {
             get { return _children; }
@@ -267,6 +285,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the tag name for this node.
         /// </summary>
+        [DOM("nodeName")]
         public string NodeName
         {
             get { return _name; }
@@ -276,6 +295,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the attributes for this node.
         /// </summary>
+        [DOM("attributes")]
         public NamedNodeMap Attributes
         {
             get { return _attributes; }
@@ -412,6 +432,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
+        [DOM("appendChild")]
         public virtual Node AppendChild(Node child)
         {
             if (child is DocumentFragment)
@@ -442,7 +463,8 @@ namespace AngleSharp.DOM
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
-        public virtual Node InsertChild(int index, Node child)
+        [DOM("insertChild")]
+        public virtual Node InsertChild(Int32 index, Node child)
         {
             if (child is DocumentFragment)
             {
@@ -473,6 +495,7 @@ namespace AngleSharp.DOM
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
+        [DOM("insertBefore")]
         public virtual Node InsertBefore(Node newElement, Node referenceElement)
         {
             if (newElement is Attr || newElement is Document || newElement.Contains(this))
@@ -495,6 +518,7 @@ namespace AngleSharp.DOM
         /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
         /// <param name="oldChild">The existing child to be replaced.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
+        [DOM("replaceChild")]
         public virtual Node ReplaceChild(Node newChild, Node oldChild)
         {
             if (newChild is Attr || newChild is Document || newChild.Contains(this))
@@ -524,6 +548,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
+        [DOM("removeChild")]
         public virtual Node RemoveChild(Node child)
         {
             if (_children.Contains(child))
@@ -541,7 +566,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public virtual Node CloneNode(bool deep = true)
+        [DOM("cloneNode")]
+        public virtual Node CloneNode(Boolean deep = true)
         {
             var node = new Node();
             CopyProperties(this, node, deep);
@@ -553,6 +579,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="otherNode">The node that's being compared against.</param>
         /// <returns>The relationship that otherNode has with node, given in a bitmask.</returns>
+        [DOM("compareDocumentPosition")]
         public virtual DocumentPosition CompareDocumentPosition(Node otherNode)
         {
             if (this == otherNode)
@@ -580,7 +607,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="otherNode">The node that's being compared against.</param>
         /// <returns>The return value is true if otherNode is a descendent of node, or node itself. Otherwise the return value is false.</returns>
-        public virtual bool Contains(Node otherNode)
+        [DOM("contains")]
+        public virtual Boolean Contains(Node otherNode)
         {
             if (otherNode == this)
                 return true;
@@ -601,6 +629,7 @@ namespace AngleSharp.DOM
         /// subtree are empty and there are no adjacent text nodes.
         /// </summary>
         /// <returns>The current node.</returns>
+        [DOM("normalize")]
         public virtual Node Normalize()
         {
             for (int i = 0; i < _children.Length; i++)
@@ -636,7 +665,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        public virtual string LookupNamespaceURI(string prefix)
+        [DOM("lookupNamespaceURI")]
+        public virtual String LookupNamespaceURI(String prefix)
         {
             if (_parent != null)
                 _parent.LookupNamespaceURI(prefix);
@@ -650,7 +680,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        public virtual string LookupPrefix(string namespaceURI)
+        [DOM("lookupPrefix")]
+        public virtual String LookupPrefix(String namespaceURI)
         {
             if(_parent != null)
                 return _parent.LookupPrefix(namespaceURI); 
@@ -665,9 +696,10 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">The namespaceURI to look for.</param>
         /// <param name="originalElement">The element that originated the request.</param>
         /// <returns>The namespace prefix.</returns>
-        protected string LookupNamespacePrefix(string namespaceURI, Element originalElement)
+        [DOM("lookupNamespacePrefix")]
+        protected String LookupNamespacePrefix(String namespaceURI, Element originalElement)
         {
-            if (!string.IsNullOrEmpty(_ns) && !string.IsNullOrEmpty(Prefix) && _ns == namespaceURI && originalElement.LookupNamespaceURI(Prefix) == namespaceURI)
+            if (!String.IsNullOrEmpty(_ns) && !String.IsNullOrEmpty(Prefix) && _ns == namespaceURI && originalElement.LookupNamespaceURI(Prefix) == namespaceURI)
                 return Prefix;
             
             if(_attributes.Length > 0)
@@ -690,7 +722,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        public virtual bool IsDefaultNamespace(string namespaceURI)
+        [DOM("isDefaultNamespace")]
+        public virtual Boolean IsDefaultNamespace(String namespaceURI)
         {
             if (_parent != null)
                 _parent.IsDefaultNamespace(namespaceURI);
@@ -703,7 +736,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="otherNode">The node to compare equality with.</param>
         /// <returns>True if they are equal, otherwise false.</returns>
-        public virtual bool IsEqualNode(Node otherNode)
+        [DOM("isEqualNode")]
+        public virtual Boolean IsEqualNode(Node otherNode)
         {
             if (this._baseURI != otherNode._baseURI)
                 return false;
@@ -855,7 +889,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="indent">The optional indentation level.</param>
         /// <returns></returns>
-        public String ToTree(int indent = 0)
+        public String ToTree(Int32 indent = 0)
         {
             var sb = new StringBuilder();
             var content = ToString();
@@ -864,7 +898,7 @@ namespace AngleSharp.DOM
                 sb.AppendLine(content);
             else
             {
-                sb.Append(string.Empty.PadRight(2 * indent, ' '));
+                sb.Append(String.Empty.PadRight(2 * indent, ' '));
                 sb.AppendLine(content);
             }
 

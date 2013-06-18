@@ -5,6 +5,7 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents an entity node.
     /// </summary>
+    [DOM("Entity")]
     public sealed class Entity : Node
     {
         #region Members
@@ -45,7 +46,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the public identiifer.
         /// </summary>
-        public string PublicId
+        [DOM("publicId")]
+        public String PublicId
         {
             get { return _publicId; }
         }
@@ -53,7 +55,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the system identifier.
         /// </summary>
-        public string SystemId
+        [DOM("systemId")]
+        public String SystemId
         {
             get { return _systemId; }
         }
@@ -61,7 +64,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the notation name.
         /// </summary>
-        public string NotationName
+        [DOM("notationName")]
+        public String NotationName
         {
             get { return _notationName; }
         }
@@ -69,7 +73,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the used input encoding.
         /// </summary>
-        public string InputEncoding
+        [DOM("inputEncoding")]
+        public String InputEncoding
         {
             get { return _inputEncoding; }
         }
@@ -77,7 +82,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the used XML encoding.
         /// </summary>
-        public string XmlEncoding
+        [DOM("xmlEncoding")]
+        public String XmlEncoding
         {
             get { return _xmlEncoding; }
         }
@@ -85,7 +91,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the used XML version.
         /// </summary>
-        public string XmlVersion
+        [DOM("xmlVersion")]
+        public String XmlVersion
         {
             get { return _xmlVersion; }
         }
@@ -99,7 +106,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public override Node CloneNode(bool deep = true)
+        [DOM("cloneNode")]
+        public override Node CloneNode(Boolean deep = true)
         {
             var node = new Entity();
             CopyProperties(this, node, deep);
@@ -118,7 +126,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        public override string LookupPrefix(string namespaceURI)
+        [DOM("lookupPrefix")]
+        public override String LookupPrefix(String namespaceURI)
         {
             return null;
         }
@@ -128,7 +137,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        public override bool IsDefaultNamespace(string namespaceURI)
+        [DOM("isDefaultNamespace")]
+        public override Boolean IsDefaultNamespace(String namespaceURI)
         {
             return false;
         }
@@ -139,7 +149,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        public override string LookupNamespaceURI(string prefix)
+        [DOM("lookupNamespaceURI")]
+        public override String LookupNamespaceURI(String prefix)
         {
             return null;
         }

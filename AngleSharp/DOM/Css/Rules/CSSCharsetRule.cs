@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace AngleSharp.DOM.Css
 {
@@ -27,7 +28,11 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the encoding information set by this rule.
         /// </summary>
-        public String Encoding { get; internal set; }
+        public String Encoding
+        {
+            get;
+            internal set;
+        }
 
         #endregion
     }

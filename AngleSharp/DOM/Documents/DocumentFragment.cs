@@ -6,6 +6,7 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents a document fragment.
     /// </summary>
+    [DOM("DocumentFragment")]
     public sealed class DocumentFragment : Node, IDocumentFragment
     {
         #region ctor
@@ -28,6 +29,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="nodes">The nodes to prepend.</param>
         /// <returns>The current fragment.</returns>
+        [DOM("prepend")]
         public DocumentFragment Prepend(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -44,6 +46,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="nodes">The nodes to append.</param>
         /// <returns>The current fragment.</returns>
+        [DOM("append")]
         public DocumentFragment Append(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -61,7 +64,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
-        public Element QuerySelector(string selectors)
+        [DOM("querySelector")]
+        public Element QuerySelector(String selectors)
         {
             return _children.QuerySelector(selectors);
         }
@@ -72,7 +76,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="selectors"></param>
         /// <returns></returns>
-        public HTMLCollection QuerySelectorAll(string selectors)
+        [DOM("querySelectorAll")]
+        public HTMLCollection QuerySelectorAll(String selectors)
         {
             return _children.QuerySelectorAll(selectors);
         }
@@ -82,7 +87,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of HTML elements.</returns>
-        public HTMLCollection GetElementsByClassName(string classNames)
+        [DOM("getElementsByClassName")]
+        public HTMLCollection GetElementsByClassName(String classNames)
         {
             return _children.GetElementsByClassName(classNames);
         }
@@ -92,7 +98,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public HTMLCollection GetElementsByTagName(string tagName)
+        [DOM("getElementsByTagName")]
+        public HTMLCollection GetElementsByTagName(String tagName)
         {
             return _children.GetElementsByTagName(tagName);
         }
@@ -104,7 +111,8 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public HTMLCollection GetElementsByTagNameNS(string namespaceURI, string tagName)
+        [DOM("getElementsByTagNameNS")]
+        public HTMLCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return _children.GetElementsByTagNameNS(namespaceURI, tagName);
         }
@@ -117,7 +125,7 @@ namespace AngleSharp.DOM
         /// Returns an HTML-code representation of the document.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
-        public override string ToHtml()
+        public override String ToHtml()
         {
             return ChildNodes.ToHtml();
         }

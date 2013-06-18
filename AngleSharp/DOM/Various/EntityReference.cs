@@ -5,6 +5,7 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents a reference to an entity.
     /// </summary>
+    [DOM("EntityReference")]
     public sealed class EntityReference : Node
     {
         #region ctor

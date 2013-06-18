@@ -941,6 +941,8 @@ namespace AngleSharp.Css
                 case CssTokenType.Url:
                     import.Href = ((CssStringToken)source.Current).Data;
                     AppendMediaList(source, import.Media, CssTokenType.Semicolon);
+                    //TODO
+                    //import.StyleSheet = DocumentBuilder.Css(new Uri(import.Href));
                     source.MoveNext();
                     break;
 

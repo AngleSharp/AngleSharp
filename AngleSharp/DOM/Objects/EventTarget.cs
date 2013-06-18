@@ -2,6 +2,7 @@
 
 namespace AngleSharp.DOM
 {
+    [DOM("EventTarget")]
     public class EventTarget : IEventTarget
     {
         //TODO

@@ -6,6 +6,7 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents a text node.
     /// </summary>
+    [DOM("Text")]
     public sealed class TextNode : CharacterData
     {
         #region ctor
@@ -46,7 +47,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets if the TextNode is "empty".
         /// </summary>
-        internal bool IsEmpty
+        internal Boolean IsEmpty
         {
             get
             {
@@ -69,7 +70,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public override Node CloneNode(bool deep = true)
+        [DOM("cloneNode")]
+        public override Node CloneNode(Boolean deep = true)
         {
             var node = new TextNode(Data);
             CopyProperties(this, node, deep);
@@ -84,7 +86,7 @@ namespace AngleSharp.DOM
         /// Returns a string containing the text in quotation mark.
         /// </summary>
         /// <returns>A string containing the text content.</returns>
-        public override string ToString()
+        public override String ToString()
         {
             return '"' + Data + '"';
         }
@@ -93,7 +95,7 @@ namespace AngleSharp.DOM
         /// Returns an HTML-code representation of the node.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
-        public override string ToHtml()
+        public override String ToHtml()
         {
             return Data;
         }

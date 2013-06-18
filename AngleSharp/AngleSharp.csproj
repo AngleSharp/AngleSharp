@@ -83,6 +83,7 @@
     <Compile Include="DOM\Objects\EventListener.cs" />
     <Compile Include="DOM\Objects\EventTarget.cs" />
     <Compile Include="DOM\Objects\Range.cs" />
+    <Compile Include="Foundation\Attributes\DOMAttribute.cs" />
     <Compile Include="Foundation\Helpers\Colors.cs" />
     <Compile Include="Css\CssCombinator.cs" />
     <Compile Include="DOM\Enums\EventPhase.cs" />

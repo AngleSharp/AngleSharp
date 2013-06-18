@@ -5,11 +5,12 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents a generic node attribute.
     /// </summary>
+    [DOM("Attr")]
     public sealed class Attr : Node, IAttr
     {
         #region Members
 
-        string _value;
+        String _value;
 
         #endregion
 
@@ -19,7 +20,7 @@ namespace AngleSharp.DOM
         /// Creates a new NodeAttribute with empty name and value.
         /// </summary>
         internal Attr()
-            : this(string.Empty, string.Empty, null)
+            : this(String.Empty, String.Empty, null)
         {
         }
 
@@ -27,8 +28,8 @@ namespace AngleSharp.DOM
         /// Creates a new NodeAttribute with empty value.
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
-        internal Attr(string name)
-            : this(name, string.Empty, null)
+        internal Attr(String name)
+            : this(name, String.Empty, null)
         {
         }
 
@@ -37,7 +38,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        internal Attr(string name, string value)
+        internal Attr(String name, String value)
             : this(name, value, null)
         {
         }
@@ -48,7 +49,7 @@ namespace AngleSharp.DOM
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
         /// <param name="ns">The namespace of the attribute.</param>
-        internal Attr(string name, string value, string ns)
+        internal Attr(String name, String value, String ns)
         {
             _type = NodeType.Attribute;
             _name = name;
@@ -63,7 +64,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the value of the attribute.
         /// </summary>
-        public override string NodeValue
+        [DOM("nodeValue")]
+        public override String NodeValue
         {
             get { return _value; }
             set { _value = value; }
@@ -72,7 +74,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets whether the attribute is an ID attribute.
         /// </summary>
-        public bool IsId
+        public Boolean IsId
         {
             get { return _name.Equals("id", StringComparison.OrdinalIgnoreCase); }
         }
@@ -80,7 +82,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets if this attribute was explicitly given a value in the document.
         /// </summary>
-        public bool Specified
+        [DOM("specified")]
+        public Boolean Specified
         {
             get { return !string.IsNullOrEmpty(_value); }
         }
@@ -88,7 +91,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the name of the attribute.
         /// </summary>
-        public string Name
+        [DOM("name")]
+        public String Name
         {
             get { return _name; }
             internal set { _name = value; }
@@ -97,7 +101,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the value of the attribute.
         /// </summary>
-        public string Value
+        [DOM("value")]
+        public String Value
         {
             get { return _value; }
             set { _value = value; }
@@ -112,6 +117,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
+        [DOM("appendChild")]
         public override Node AppendChild(Node child)
         {
             throw new DOMException(ErrorCode.HierarchyRequestError);
@@ -123,6 +129,7 @@ namespace AngleSharp.DOM
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
+        [DOM("insertChild")]
         public override Node InsertChild(int index, Node child)
         {
             throw new DOMException(ErrorCode.HierarchyRequestError);
@@ -135,6 +142,7 @@ namespace AngleSharp.DOM
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
+        [DOM("insertBefore")]
         public override Node InsertBefore(Node newElement, Node referenceElement)
         {
             throw new DOMException(ErrorCode.HierarchyRequestError);
@@ -146,6 +154,7 @@ namespace AngleSharp.DOM
         /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
         /// <param name="oldChild">The existing child to be replaced.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
+        [DOM("replaceChild")]
         public override Node ReplaceChild(Node newChild, Node oldChild)
         {
             throw new DOMException(ErrorCode.HierarchyRequestError);
@@ -156,6 +165,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
+        [DOM("removeChild")]
         public override Node RemoveChild(Node child)
         {
             throw new DOMException(ErrorCode.HierarchyRequestError);
@@ -166,7 +176,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public override Node CloneNode(bool deep = true)
+        [DOM("cloneNode")]
+        public override Node CloneNode(Boolean deep = true)
         {
             var node = new Attr();
             CopyProperties(this, node, deep);
@@ -180,7 +191,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        public override string LookupNamespaceURI(string prefix)
+        [DOM("lookupNamespaceURI")]
+        public override String LookupNamespaceURI(String prefix)
         {
             if (_parent != null)
                 _parent.LookupNamespaceURI(prefix);
@@ -193,7 +205,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        public override bool IsDefaultNamespace(string namespaceURI)
+        [DOM("isDefaultNamespace")]
+        public override Boolean IsDefaultNamespace(String namespaceURI)
         {
             if (_parent != null)
                 _parent.IsDefaultNamespace(namespaceURI);
@@ -206,6 +219,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="otherNode">The node to compare equality with.</param>
         /// <returns>True if they are equal, otherwise false.</returns>
+        [DOM("isEqualNode")]
         public override bool IsEqualNode(Node otherNode)
         {
             if (otherNode is Attr)
@@ -228,7 +242,7 @@ namespace AngleSharp.DOM
         /// Returns an HTML-code representation of the attribute.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
-        public override string ToHtml()
+        public override String ToHtml()
         {
             if (_value.Contains(Specification.DQ))
                 _value = _value.Replace(Specification.DQ.ToString(), "&quot;");

@@ -5,7 +5,8 @@ namespace AngleSharp.DOM
     /// <summary>
     /// A location object with information about a URL.
     /// </summary>
-    public class Location
+    [DOM("Location")]
+    public sealed class Location
     {
         #region Members
 
@@ -34,7 +35,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the hash, e.g.  "#myhash".
         /// </summary>
-        public string Hash
+        [DOM("hash")]
+        public String Hash
         {
             get { return _hash; }
             set { _hash = ValidateHash(value); }
@@ -43,7 +45,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the host, e.g. "localhost:8800" or "www.w3.org".
         /// </summary>
-        public string Host
+        [DOM("host")]
+        public String Host
         {
             get { return _host; }
             set 
@@ -65,25 +68,28 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the host name, e.g. "localhost" or "www.w3.org".
         /// </summary>
-        public string HostName
+        [DOM("hostname")]
+        public String HostName
         {
             get { return _host.Contains(':') ? _host.Substring(0, _host.IndexOf(':')) : _host; }
-            set { _host = ValidateHostName(value, HostName) + (string.IsNullOrEmpty(Port) ? string.Empty : (":" + Port)); }
+            set { _host = ValidateHostName(value, HostName) + (String.IsNullOrEmpty(Port) ? String.Empty : (":" + Port)); }
         }
 
         /// <summary>
         /// Gets the hyper reference, i.e. the full path.
         /// </summary>
-        public string Href
+        [DOM("href")]
+        public String Href
         {
-            get { return string.Format("{0}//{1}{2}{3}", Protocol, Host, PathName, Hash); }
+            get { return String.Format("{0}//{1}{2}{3}", Protocol, Host, PathName, Hash); }
             set { ChangeTo(value); }
         }
 
         /// <summary>
         /// Gets the pathname, e.g. "/mypath".
         /// </summary>
-        public string PathName
+        [DOM("pathname")]
+        public String PathName
         {
             get { return _path; }
             set { _path = ValidatePath(value); }
@@ -92,16 +98,18 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the port, e.g. "8800"
         /// </summary>
-        public string Port
+        [DOM("port")]
+        public String Port
         {
-            get { return _host.Contains(':') ? _host.Substring(_host.IndexOf(':') + 1) : string.Empty; }
+            get { return _host.Contains(':') ? _host.Substring(_host.IndexOf(':') + 1) : String.Empty; }
             set { _host = HostName + ValidatePort(value); }
         }
 
         /// <summary>
         /// Gets the protocol, e.g. "http:".
         /// </summary>
-        public string Protocol
+        [DOM("protocol")]
+        public String Protocol
         {
             get { return _protocol; }
             set { _protocol = ValidateProtocol(value, _protocol); }
@@ -115,7 +123,7 @@ namespace AngleSharp.DOM
         /// Returns the string representation of the current location.
         /// </summary>
         /// <returns>The string that equals the hyper reference.</returns>
-        public override string ToString()
+        public override String ToString()
         {
             return Href;
         }
@@ -124,9 +132,9 @@ namespace AngleSharp.DOM
 
         #region Helpers
 
-        string ValidateProtocol(string value, string original)
+        String ValidateProtocol(String value, String original)
         {
-            if (string.IsNullOrEmpty(value))
+            if (String.IsNullOrEmpty(value))
                 return "http:";
 
             value = value.ToLower();
@@ -146,10 +154,10 @@ namespace AngleSharp.DOM
             }
         }
 
-        string ValidateHash(string value)
+        String ValidateHash(String value)
         {
-            if (string.IsNullOrEmpty(value))
-                return string.Empty;
+            if (String.IsNullOrEmpty(value))
+                return String.Empty;
 
             if (value[0] != '#')
                 return "#" + value;
@@ -157,7 +165,7 @@ namespace AngleSharp.DOM
             return value;
         }
 
-        string ValidateHostName(string value, string original)
+        String ValidateHostName(String value, String original)
         {
             if (Uri.CheckHostName(value) == UriHostNameType.Unknown)
                 return original;
@@ -165,7 +173,7 @@ namespace AngleSharp.DOM
             return value;
         }
 
-        string ValidatePath(string value)
+        String ValidatePath(String value)
         {
             if (value.Length == 0)
                 return "/";
@@ -184,10 +192,10 @@ namespace AngleSharp.DOM
             return value;
         }
 
-        string ValidatePort(string value)
+        String ValidatePort(String value)
         {
-            if (string.IsNullOrEmpty(value))
-                return string.Empty;
+            if (String.IsNullOrEmpty(value))
+                return String.Empty;
 
             var port = value;
 
@@ -197,24 +205,24 @@ namespace AngleSharp.DOM
                 port = value.Substring(1);
 
             if (port == "80")
-                return string.Empty;
+                return String.Empty;
 
             int prt;
 
-            if (int.TryParse(port, out prt))
+            if (Int32.TryParse(port, out prt))
                 return value;
 
-            return string.Empty;
+            return String.Empty;
         }
 
-        void ChangeTo(string value)
+        void ChangeTo(String value)
         {
-            _protocol = string.Empty;
-            _host = string.Empty;
-            _hash = string.Empty;
-            _path = string.Empty;
+            _protocol = String.Empty;
+            _host = String.Empty;
+            _hash = String.Empty;
+            _path = String.Empty;
 
-            if (!string.IsNullOrEmpty(value))
+            if (!String.IsNullOrEmpty(value))
             {
                 var index = value.IndexOf("//");
 

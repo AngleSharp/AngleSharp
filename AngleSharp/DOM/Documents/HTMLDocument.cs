@@ -12,6 +12,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an HTML document.
     /// </summary>
+    [DOM("HTMLDocument")]
     public sealed class HTMLDocument : Document, IHTMLDocument
     {
         #region Members
@@ -47,7 +48,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new Html document.
         /// </summary>
-        public HTMLDocument()
+        internal HTMLDocument()
         {
             _ns = Namespaces.Html;
             forms = new HTMLCollection();
@@ -62,6 +63,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets a list of all of the anchors in the document.
         /// </summary>
+        [DOM("anchors")]
         public HTMLCollection Anchors
         {
             get { return _children.QuerySelectorAll(anchorQuery); }
@@ -70,6 +72,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the forms in the document.
         /// </summary>
+        [DOM("forms")]
         public HTMLCollection Forms
         {
             get { return forms; }
@@ -78,6 +81,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the images in the document.
         /// </summary>
+        [DOM("images")]
         public HTMLCollection Images
         {
             get { return images; }
@@ -86,6 +90,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the scripts in the document.
         /// </summary>
+        [DOM("scripts")]
         public HTMLCollection Scripts
         {
             get { return scripts; }
@@ -94,6 +99,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets a list of the embedded OBJECTS within the current document.
         /// </summary>
+        [DOM("embeds")]
         public HTMLCollection Embeds
         {
             get { return _children.QuerySelectorAll(embedQuery); }
@@ -102,6 +108,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets a collection of all AREA elements and anchor elements in a document with a value for the href attribute.
         /// </summary>
+        [DOM("links")]
         public HTMLCollection Links
         {
             get { return _children.QuerySelectorAll(linkQuery); }
@@ -110,14 +117,15 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the title of the document.
         /// </summary>
-        public string Title
+        [DOM("title")]
+        public String Title
         {
             get
             {
                 if (title != null)
                     return title.Text;
 
-                return string.Empty;
+                return String.Empty;
             }
             set
             {
@@ -139,6 +147,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the head element.
         /// </summary>
+        [DOM("head")]
         public HTMLHeadElement Head
         {
             get { return head; }
@@ -147,6 +156,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the body element.
         /// </summary>
+        [DOM("body")]
         public HTMLBodyElement Body
         {
             get { return body; }
@@ -155,7 +165,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets a value to indicate whether the document is rendered in Quirks mode or Strict mode.
         /// </summary>
-        public string CompatMode
+        [DOM("compatMode")]
+        public String CompatMode
         {
             get { return QuirksMode == QuirksMode.On ? "BackCompat" : "CSS1Compat"; }
         }
@@ -163,8 +174,9 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the cookie containing all cookies for the document or (re-)sets a single cookie.
         /// </summary>
+        [DOM("cookie")]
         public Cookie Cookie
-        {//TODO
+        {   //TODO
             get { return null; }
             set { /*TODO*/ }
         }
@@ -172,7 +184,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the domain portion of the origin of the current document.
         /// </summary>
-        public string Domain
+        [DOM("domain")]
+        public String Domain
         {
             get { return new Uri(DocumentURI).Host; }
         }
@@ -180,7 +193,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets a string containing the URL of the current document.
         /// </summary>
-        public string URL
+        [DOM("URL")]
+        public String URL
         {
             get { return DocumentURI; }
         }
@@ -237,6 +251,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="url">The URL that hosts the HTML content.</param>
         /// <returns>The document with the parsed content.</returns>
+        [DOM("load")]
         public HTMLDocument Load(String url)
         {
             location = url;
@@ -258,6 +273,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
+        [DOM("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
             var node = new HTMLDocument();
@@ -274,6 +290,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="externalNode">The node from another document to be adopted.</param>
         /// <returns>The adopted node that can be used in the current document. </returns>
+        [DOM("adoptNode")]
         public Node AdoptNode(Node externalNode)
         {
             if (externalNode.OwnerDocument != null)
@@ -290,6 +307,7 @@ namespace AngleSharp.DOM.Html
         /// Opens a document stream for writing.
         /// </summary>
         /// <returns>The current document.</returns>
+        [DOM("open")]
         public HTMLDocument Open()
         {
             //TODO
@@ -300,6 +318,7 @@ namespace AngleSharp.DOM.Html
         /// Finishes writing to a document.
         /// </summary>
         /// <returns>The current document.</returns>
+        [DOM("close")]
         public HTMLDocument Close()
         {
             //TODO
@@ -311,6 +330,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="content">The text to be written on the document.</param>
         /// <returns>The current document.</returns>
+        [DOM("write")]
         public HTMLDocument Write(String content)
         {
             //TODO
@@ -322,6 +342,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="content">The text to be written on the document.</param>
         /// <returns>The current document.</returns>
+        [DOM("writeln")]
         public HTMLDocument WriteLn(String content)
         {
             return Write(content + Specification.LF);
@@ -332,6 +353,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="tagName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element object.</returns>
+        [DOM("createElement")]
         public override Element CreateElement(String tagName)
         {
             return HTMLElement.Factory(tagName);
@@ -342,6 +364,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="data">A string containing the data to be added to the CDATA Section.</param>
         /// <returns></returns>
+        [DOM("createCDATASection")]
         public override CDATASection CreateCDATASection(String data)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -352,6 +375,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="name">The value of the name attribute of the element.</param>
         /// <returns>A collection of HTML elements.</returns>
+        [DOM("getElementsByName")]
         public HTMLCollection GetElementsByName(String name)
         {
             var result = new HTMLCollection();

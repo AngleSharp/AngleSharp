@@ -10,6 +10,7 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents a document node.
     /// </summary>
+    [DOM("Document")]
     public class Document : Node, IDocument, IDocumentStyle
     {
         #region Members
@@ -78,6 +79,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the DOMImplementation object that handles this document.
         /// </summary>
+        [DOM("implementation")]
         public DOMImplementation Implementation
         {
             get { return implementation; }
@@ -86,6 +88,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets a string containing the date and time on which the current document was last modified.
         /// </summary>
+        [DOM("lastModified")]
         public DateTime LastModified
         {
             get;
@@ -95,7 +98,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the document type.
         /// </summary>
-        public DocumentType DocType
+        [DOM("doctype")]
+        public DocumentType Doctype
         {
             get { return docType; }
         }
@@ -103,6 +107,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the ready state of the document.
         /// </summary>
+        [DOM("readyState")]
         public Readiness ReadyState
         {
             get
@@ -121,6 +126,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets a list of stylesheet objects for stylesheets explicitly linked into or embedded in a document.
         /// </summary>
+        [DOM("styleSheets")]
         public StyleSheetList StyleSheets
         {
             get { return styleSheets; }
@@ -129,6 +135,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets a live list of all of the currently-available style sheet sets.
         /// </summary>
+        [DOM("styleSheetSets")]
         public StringList StyleSheetSets
         {
             get
@@ -145,7 +152,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the URI of the page that linked to this page.
         /// </summary>
-        public string Referrer
+        [DOM("referrer")]
+        public String Referrer
         {
             get { return referrer; }
             internal protected set { referrer = value; }
@@ -154,6 +162,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the URI of the current document.
         /// </summary>
+        [DOM("location")]
         public Location Location
         {
             get { return new Location(location); }
@@ -163,7 +172,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the URI of the current document.
         /// </summary>
-        public string DocumentURI
+        [DOM("documentURI")]
+        public String DocumentURI
         {
             get { return location; }
         }
@@ -171,12 +181,18 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the window object associated with the document or null if none available.
         /// </summary>
-        public object DefaultView { get; internal set; }//TODO
+        [DOM("defaultView")]
+        public Object DefaultView 
+        {
+            get; 
+            internal set; 
+        }//TODO
 
         /// <summary>
         /// Gets or sets the character encoding of the current document.
         /// </summary>
-        public string CharacterSet
+        [DOM("characterSet")]
+        public String CharacterSet
         {
             get { return encoding ?? originalEncoding; }
             set { encoding = value; }
@@ -185,7 +201,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the encoding that was used when the document was parsed.
         /// </summary>
-        public string InputEncoding
+        [DOM("inputEncoding")]
+        public String InputEncoding
         {
             get { return originalEncoding; }
             internal set 
@@ -200,6 +217,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the root element of the document.
         /// </summary>
+        [DOM("documentElement")]
         public Element DocumentElement
         {
             get { return documentElement; }
@@ -208,16 +226,25 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the currently focused element, that is, the element that will get keystroke events if the user types any.
         /// </summary>
-        public Element ActiveElement { get; protected set; }
-
-        /// <summary>
-        /// Gets or sets to indicate whether loading the document should be an asynchronous or synchronous.
-        /// </summary>
-        public bool Async { get; set; }
+        [DOM("activeElement")]
+        public Element ActiveElement 
+        {
+            get;
+            protected set; 
+        }
 
         #endregion
 
         #region Internal properties
+
+        /// <summary>
+        /// Gets or sets to indicate whether loading the document should be an asynchronous or synchronous.
+        /// </summary>
+        internal Boolean Async
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the status of the quirks mode of the document.
@@ -315,6 +342,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="type">A string that represents the type of event to be created.</param>
         /// <returns>The created Event object.</returns>
+        [DOM("createEvent")]
         public Event CreateEvent(String type)
         {
             //TODO
@@ -325,6 +353,7 @@ namespace AngleSharp.DOM
         /// Returns a new Range object.
         /// </summary>
         /// <returns>The created range object.</returns>
+        [DOM("createRange")]
         public Range CreateRange()
         {
             //TODO
@@ -336,6 +365,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="nodes">The nodes to prepend.</param>
         /// <returns>The current document.</returns>
+        [DOM("prepend")]
         public Document Prepend(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -352,6 +382,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="nodes">The nodes to append.</param>
         /// <returns>The current document.</returns>
+        [DOM("append")]
         public Document Append(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -371,6 +402,7 @@ namespace AngleSharp.DOM
         /// node need to be imported.</param>
         /// <returns>The new node that is imported into the document. The new node's parentNode is null,
         /// since it has not yet been inserted into the document tree.</returns>
+        [DOM("importNode")]
         public Node ImportNode(Node externalNode, Boolean deep = true)
         {
             var clone = externalNode.CloneNode(deep);
@@ -383,6 +415,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="name">A string containing the name of the attribute.</param>
         /// <returns>The attribute node.</returns>
+        [DOM("createAttribute")]
         public Attr CreateAttribute(String name)
         {
             return new Attr(name);
@@ -394,6 +427,7 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">Specifies the namespace URI to associate with the attribute.</param>
         /// <param name="name">A string containing the name of the attribute.</param>
         /// <returns>The attribute node.</returns>
+        [DOM("createAttributeNS")]
         public Attr CreateAttributeNS(String namespaceURI, String name)
         {
             return new Attr(name, string.Empty, namespaceURI);
@@ -404,6 +438,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="tagName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element object.</returns>
+        [DOM("createElement")]
         public virtual Element CreateElement(String tagName)
         {
             return new Element { NodeName = tagName };
@@ -415,6 +450,7 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">Specifies the namespace URI to associate with the element.</param>
         /// <param name="tagName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element.</returns>
+        [DOM("createElementNS")]
         public Element CreateElementNS(String namespaceURI, String tagName)
         {
             if (namespaceURI == Namespaces.Html)
@@ -434,6 +470,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="data">A string containing the data to be added to the CDATA Section.</param>
         /// <returns></returns>
+        [DOM("createCDATASection")]
         public virtual CDATASection CreateCDATASection(String data)
         {
             return new CDATASection { Data = data };
@@ -444,6 +481,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="data">A string containing the data to be added to the Comment.</param>
         /// <returns></returns>
+        [DOM("createComment")]
         public Comment CreateComment(String data)
         {
             if (data.Contains("--"))
@@ -456,6 +494,7 @@ namespace AngleSharp.DOM
         /// Creates an empty DocumentFragment object.
         /// </summary>
         /// <returns>A new document fragment.</returns>
+        [DOM("createDocumentFragment")]
         public DocumentFragment CreateDocumentFragment()
         {
             return new DocumentFragment();
@@ -467,6 +506,7 @@ namespace AngleSharp.DOM
         /// <param name="target">The target part of the processing instruction.</param>
         /// <param name="data">The data for the node.</param>
         /// <returns>A new processing instruction.</returns>
+        [DOM("createProcessingInstruction")]
         public ProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
             return new ProcessingInstruction { Target = target, Data = data };
@@ -479,6 +519,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="name">The name of the entity to reference.</param>
         /// <returns>The new EntityReference object.</returns>
+        [DOM("createEntityReference")]
         public EntityReference CreateEntityReference(String name)
         {
             return new EntityReference(name);
@@ -489,6 +530,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="data">A string containing the data to be put in the text node.</param>
         /// <returns>The created Text node.</returns>
+        [DOM("createTextNode")]
         public TextNode CreateTextNode(String data)
         {
             return new TextNode(data);
@@ -500,6 +542,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="elementId">A case-sensitive string representing the unique ID of the element being sought.</param>
         /// <returns>The matching element.</returns>
+        [DOM("getElementById")]
         public Element GetElementById(String elementId)
         {
             return GetElementById(_children, elementId);
@@ -511,6 +554,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
+        [DOM("querySelector")]
         public Element QuerySelector(String selectors)
         {
             return _children.QuerySelector(selectors);
@@ -522,6 +566,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>A list of nodes.</returns>
+        [DOM("querySelectorAll")]
         public HTMLCollection QuerySelectorAll(String selectors)
         {
             return _children.QuerySelectorAll(selectors);
@@ -532,6 +577,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of elements.</returns>
+        [DOM("getElementsByClassName")]
         public HTMLCollection GetElementsByClassName(String classNames)
         {
             return _children.GetElementsByClassName(classNames);
@@ -542,6 +588,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
+        [DOM("getElementsByTagName")]
         public HTMLCollection GetElementsByTagName(String tagName)
         {
             return _children.GetElementsByTagName(tagName);
@@ -554,6 +601,7 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
+        [DOM("getElementsByTagNameNS")]
         public HTMLCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return _children.GetElementsByTagNameNS(namespaceURI, tagName);
@@ -564,6 +612,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
+        [DOM("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
             var node = new Document();
@@ -578,7 +627,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        public override string LookupNamespaceURI(String prefix)
+        [DOM("lookupNamespaceURI")]
+        public override String LookupNamespaceURI(String prefix)
         {
             var root = DocumentElement;
 
@@ -594,7 +644,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        public override string LookupPrefix(String namespaceURI)
+        [DOM("lookupPrefix")]
+        public override String LookupPrefix(String namespaceURI)
         {
             var root = DocumentElement;
 
@@ -609,7 +660,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        public override bool IsDefaultNamespace(String namespaceURI)
+        [DOM("isDefaultNamespace")]
+        public override Boolean IsDefaultNamespace(String namespaceURI)
         {
             var root = DocumentElement;
 
@@ -624,6 +676,7 @@ namespace AngleSharp.DOM
         /// form. Normalizes all text nodes and fixes namespaces.
         /// </summary>
         /// <returns>The current document.</returns>
+        [DOM("normalize")]
         public override Node Normalize()
         {
             for (int i = 0; i < _children.Length; i++)

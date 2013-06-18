@@ -2,11 +2,12 @@
 
 namespace AngleSharp.DOM
 {
+    [DOM("Event")]
     public abstract class Event : IEvent
     {
         //TODO
 
-        public string Type
+        public String Type
         {
             get { throw new NotImplementedException(); }
         }
@@ -36,12 +37,12 @@ namespace AngleSharp.DOM
             throw new NotImplementedException();
         }
 
-        public bool Bubbles
+        public Boolean Bubbles
         {
             get { throw new NotImplementedException(); }
         }
 
-        public bool Cancelable
+        public Boolean Cancelable
         {
             get { throw new NotImplementedException(); }
         }
@@ -51,12 +52,12 @@ namespace AngleSharp.DOM
             throw new NotImplementedException();
         }
 
-        public bool DefaultPrevented
+        public Boolean DefaultPrevented
         {
             get { throw new NotImplementedException(); }
         }
 
-        public bool IsTrusted
+        public Boolean IsTrusted
         {
             get { throw new NotImplementedException(); }
         }
@@ -66,7 +67,7 @@ namespace AngleSharp.DOM
             get { throw new NotImplementedException(); }
         }
 
-        public void InitEvent(string type, bool bubbles, bool cancelable)
+        public void InitEvent(String type, Boolean bubbles, Boolean cancelable)
         {
             throw new NotImplementedException();
         }

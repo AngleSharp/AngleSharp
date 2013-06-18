@@ -5,7 +5,8 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// A class for representing the current validity state.
     /// </summary>
-    public class ValidityState : IValidityState
+    [DOM("ValidityState")]
+    public sealed class ValidityState : IValidityState
     {
         /// <summary>
         /// Creates a new ValidityState instance.
@@ -17,7 +18,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if a required value is missing.
         /// </summary>
-        public bool ValueMissing
+        [DOM("valueMissing")]
+        public Boolean ValueMissing
         {
             get;
             internal set;
@@ -26,7 +28,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the given type is wrong.
         /// </summary>
-        public bool TypeMismatch
+        [DOM("typeMismatch")]
+        public Boolean TypeMismatch
         {
             get;
             internal set;
@@ -35,7 +38,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the input does not match a given pattern.
         /// </summary>
-        public bool PatternMismatch
+        [DOM("patternMismatch")]
+        public Boolean PatternMismatch
         {
             get;
             internal set;
@@ -44,7 +48,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the input is too long.
         /// </summary>
-        public bool TooLong
+        [DOM("tooLong")]
+        public Boolean TooLong
         {
             get;
             internal set;
@@ -53,7 +58,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the range is too small.
         /// </summary>
-        public bool RangeUnderflow
+        [DOM("rangeUnderflow")]
+        public Boolean RangeUnderflow
         {
             get;
             internal set;
@@ -62,7 +68,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the range is too big.
         /// </summary>
-        public bool RangeOverflow
+        [DOM("rangeOverflow")]
+        public Boolean RangeOverflow
         {
             get;
             internal set;
@@ -71,7 +78,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the new value is invalid.
         /// </summary>
-        public bool StepMismatch
+        [DOM("stepMismatch")]
+        public Boolean StepMismatch
         {
             get;
             internal set;
@@ -80,7 +88,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the input is bad.
         /// </summary>
-        public bool BadInput
+        [DOM("badInput")]
+        public Boolean BadInput
         {
             get;
             internal set;
@@ -89,7 +98,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if validation failed due to a custom error.
         /// </summary>
-        public bool CustomError
+        [DOM("customError")]
+        public Boolean CustomError
         {
             get;
             internal set;
@@ -98,7 +108,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the value is valid.
         /// </summary>
-        public bool Valid
+        [DOM("valid")]
+        public Boolean Valid
         {
             get;
             internal set;

@@ -5,6 +5,7 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents a CDATA section node.
     /// </summary>
+    [DOM("CDATASection")]
     public sealed class CDATASection : CharacterData
     {
         #region ctor
@@ -27,7 +28,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public override Node CloneNode(bool deep = true)
+        [DOM("cloneNode")]
+        public override Node CloneNode(Boolean deep = true)
         {
             var node = new CDATASection();
             CopyProperties(this, node, deep);

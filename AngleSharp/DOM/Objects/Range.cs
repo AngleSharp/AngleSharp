@@ -2,8 +2,13 @@
 
 namespace AngleSharp.DOM
 {
-    public class Range : IRange
+    [DOM("Range")]
+    public sealed class Range : IRange
     {
+        internal Range()
+        {
+        }
+
         //TODO
 
         public Node StartContainer

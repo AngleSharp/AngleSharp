@@ -5,7 +5,8 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents a Cookie used in an HTMLDocument.
     /// </summary>
-    public class Cookie
+    [DOM("Cookie")]
+    public sealed class Cookie
     {
         //TODO
         internal Cookie()

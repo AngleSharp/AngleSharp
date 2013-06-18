@@ -21,7 +21,7 @@ namespace AngleSharp.DOM
         TextNode CreateTextNode(string data);
         Range CreateRange();
         object DefaultView { get; }
-        DocumentType DocType { get; }
+        DocumentType Doctype { get; }
         Element DocumentElement { get; }
         string DocumentURI { get; }
         Element GetElementById(string elementId);

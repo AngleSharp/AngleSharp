@@ -21,7 +21,9 @@ namespace AngleSharp.DOM.Css
         /// Creates a new @keyframe rule.
         /// </summary>
         internal CSSKeyframeRule()
-        {}
+        {
+            style = new CSSStyleDeclaration();
+        }
 
         #endregion
 
@@ -42,7 +44,6 @@ namespace AngleSharp.DOM.Css
         public CSSStyleDeclaration Style
         {
             get { return style; }
-            internal set { style = value; }
         }
 
         #endregion

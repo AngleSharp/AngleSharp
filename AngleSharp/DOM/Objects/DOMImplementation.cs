@@ -6,8 +6,13 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Provides a number of methods for performing operations that are independent of any particular instance of the DOM.
     /// </summary>
-    public class DOMImplementation : IDOMImplementation
+    [DOM("DOMImplementation")]
+    public sealed class DOMImplementation : IDOMImplementation
     {
+        internal DOMImplementation()
+        {
+        }
+
         //TODO
 
         /// <summary>
@@ -17,7 +22,8 @@ namespace AngleSharp.DOM
         /// <param name="publicId">The external subset public identifier.</param>
         /// <param name="systemId">The external subset system identifier.</param>
         /// <returns>A new DocumentType node with Node.ownerDocument set to null.</returns>
-        public DocumentType CreateDocumentType(string qualifiedName, string publicId, string systemId)
+        [DOM("createDocumentType")]
+        public DocumentType CreateDocumentType(String qualifiedName, String publicId, String systemId)
         {
             return new DocumentType { PublicId = publicId, SystemId = systemId, NodeName = qualifiedName };
         }
@@ -29,7 +35,8 @@ namespace AngleSharp.DOM
         /// <param name="qualifiedName">The qualified name of the document element to be created or null.</param>
         /// <param name="doctype">The type of document to be created or null.</param>
         /// <returns>A new Document object with its document element.</returns>
-        public Document CreateDocument(string namespaceURI, string qualifiedName, DocumentType doctype)
+        [DOM("createDocument")]
+        public Document CreateDocument(String namespaceURI, String qualifiedName, DocumentType doctype)
         {
             Document doc = null;
 
@@ -49,7 +56,8 @@ namespace AngleSharp.DOM
         /// <param name="feature">The name of the feature requested. Note that any plus sign "+" prepended to the name of the feature will be ignored since it is not significant in the context of this method.</param>
         /// <param name="version">This is the version number of the feature to test.</param>
         /// <returns>Returns an object which implements the specialized APIs of the specified feature and version, if any, or null if there is no object which implements interfaces associated with that feature.</returns>
-        public object GetFeature(string feature, string version)
+        [DOM("getFeature")]
+        public Object GetFeature(String feature, String version)
         {
             //TODO
             return null;
@@ -61,7 +69,8 @@ namespace AngleSharp.DOM
         /// <param name="feature">The name of the feature requested. Note that any plus sign "+" prepended to the name of the feature will be ignored since it is not significant in the context of this method.</param>
         /// <param name="version">This is the version number of the feature to test.</param>
         /// <returns>True if the feature is implemented in the specified version, false otherwise.</returns>
-        public bool HasFeature(string feature, string version)
+        [DOM("hasFeature")]
+        public Boolean HasFeature(String feature, String version)
         {
             //TODO
             return false;

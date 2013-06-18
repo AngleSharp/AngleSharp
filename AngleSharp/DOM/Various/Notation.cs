@@ -5,6 +5,7 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents a notation node.
     /// </summary>
+    [DOM("Notation")]
     public sealed class Notation : Node
     {
         #region ctor
@@ -26,6 +27,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
+        [DOM("appendChild")]
         public override Node AppendChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -38,6 +40,7 @@ namespace AngleSharp.DOM
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
+        [DOM("insertBefore")]
         public override Node InsertBefore(Node newElement, Node referenceElement)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -49,7 +52,8 @@ namespace AngleSharp.DOM
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
-        public override Node InsertChild(int index, Node child)
+        [DOM("insertChild")]
+        public override Node InsertChild(Int32 index, Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
         }
@@ -59,6 +63,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
+        [DOM("removeChild")]
         public override Node RemoveChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -70,6 +75,7 @@ namespace AngleSharp.DOM
         /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
         /// <param name="oldChild">The existing child to be replaced.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
+        [DOM("replaceChild")]
         public override Node ReplaceChild(Node newChild, Node oldChild)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -80,7 +86,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public override Node CloneNode(bool deep = true)
+        [DOM("cloneNode")]
+        public override Node CloneNode(Boolean deep = true)
         {
             var node = new Notation();
             CopyProperties(this, node, deep);
@@ -93,7 +100,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        public override string LookupPrefix(string namespaceURI)
+        [DOM("lookupPrefix")]
+        public override String LookupPrefix(String namespaceURI)
         {
             return null;
         }
@@ -103,7 +111,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        public override bool IsDefaultNamespace(string namespaceURI)
+        [DOM("isDefaultNamespace")]
+        public override Boolean IsDefaultNamespace(String namespaceURI)
         {
             return false;
         }
@@ -114,7 +123,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        public override string LookupNamespaceURI(string prefix)
+        [DOM("lookupNamespaceURI")]
+        public override String LookupNamespaceURI(String prefix)
         {
             return null;
         }

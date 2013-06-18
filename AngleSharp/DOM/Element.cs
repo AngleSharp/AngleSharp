@@ -9,6 +9,7 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents an element node.
     /// </summary>
+    [DOM("Element")]
     public class Element : Node, IElement
     {
         #region Members

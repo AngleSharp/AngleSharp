@@ -7,7 +7,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS style rule.
     /// </summary>
-    sealed class CSSStyleRule : CSSRule
+    public sealed class CSSStyleRule : CSSRule
     {
         #region Members
 
@@ -68,7 +68,6 @@ namespace AngleSharp.DOM.Css
         public CSSStyleDeclaration Style
         {
             get { return _style; }
-            internal set { _style = value; }
         }
 
         #endregion

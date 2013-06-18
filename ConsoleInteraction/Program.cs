@@ -7,6 +7,7 @@ using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Collections;
 using AngleSharp.Css;
 using AngleSharp.Html;
+using System.Text;
 
 namespace ConsoleInteraction
 {
@@ -14,10 +15,13 @@ namespace ConsoleInteraction
     {
         static void Main(string[] args)
         {
-            //IMPORTANT:
-            //http://www.w3.org/TR/domcore/#interface-htmlcollection
-
             CssSelectorTest.Slickspeed();
+
+            //TestCSSFrom("http://www.facebook.com");
+
+            //TestCSSFrom("http://www.tumblr.com");
+
+            //TestCSSFrom("http://www.flickr.com");
 
             TestCSS(Stylesheets.rsi, "a sample stylesheet");
 
@@ -50,6 +54,47 @@ namespace ConsoleInteraction
             TestWebRequest("http://www.codeproject.com/", false);
 
             TestWebRequest("http://www.florian-rappl.de/", false);
+        }
+
+        static void TestCSSFrom(string url)
+        {
+            var sw = Stopwatch.StartNew();
+            var client = new HttpClient();
+            var result = client.GetAsync(url).Result;
+            var source = result.Content.ReadAsStreamAsync().Result;
+
+            sw.Stop();
+            Console.WriteLine("Loading " + url + " took ... " + sw.ElapsedMilliseconds + "ms");
+            sw.Restart();
+
+            var html = DocumentBuilder.Html(source);
+            sw.Stop();
+
+            Console.WriteLine("Parsing " + url + " took ... " + sw.ElapsedMilliseconds + "ms");
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < html.StyleSheets.Length; i++)
+			{
+                if (String.IsNullOrEmpty(html.StyleSheets[i].Href))
+                    sb.Append(html.StyleSheets[i].OwnerNode.TextContent);
+                else
+                {
+                    url = html.StyleSheets[i].Href;
+
+                    if (url.StartsWith("//"))
+                        url = "http:" + url;
+
+                    sw.Restart();
+                    sb.Append(client.GetAsync(url).Result.Content.ReadAsStringAsync().Result);
+                    sw.Stop();
+                    Console.WriteLine("Loading " + url + " took ... " + sw.ElapsedMilliseconds + "ms");
+                }
+			}
+
+            sw.Restart();
+            var sheet = CssParser.ParseStyleSheet(sb.ToString());
+            sw.Stop();
+            Console.WriteLine("Parsing all stylesheets took ... " + sw.ElapsedMilliseconds + "ms");
         }
 
         static void TestWebRequest(string url, bool openConsole)
