@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Mathml
     {
         #region Constants
 
-        internal const string RootTag = "math";
+        internal const String RootTag = "math";
 
         #endregion
 
@@ -19,9 +19,9 @@ namespace AngleSharp.DOM.Mathml
         /// <summary>
         /// Creates a new MathML element.
         /// </summary>
-        public MathMLElement()
+        internal MathMLElement()
         {
-            NamespaceURI = Namespaces.MathML;
+            _ns = Namespaces.MathML;
         }
 
         #endregion
@@ -31,7 +31,7 @@ namespace AngleSharp.DOM.Mathml
         /// <summary>
         /// Gets the status if this node is the MathML namespace.
         /// </summary>
-        internal protected override bool IsInMathML
+        internal protected override Boolean IsInMathML
         {
             get { return true; }
         }
@@ -39,7 +39,7 @@ namespace AngleSharp.DOM.Mathml
         /// <summary>
         /// Gets the status if the node is a MathML text integration point.
         /// </summary>
-        protected internal override bool IsMathMLTIP
+        protected internal override Boolean IsMathMLTIP
         {
             get { return _name == "mo" || _name == "mi" || _name == "mn" || _name == "ms" || _name == "mtext"; }
         }
@@ -47,7 +47,7 @@ namespace AngleSharp.DOM.Mathml
         /// <summary>
         /// Gets the status if the node is an HTML text integration point.
         /// </summary>
-        protected internal override bool IsHtmlTIP
+        protected internal override Boolean IsHtmlTIP
         {
             get
             {
@@ -71,7 +71,7 @@ namespace AngleSharp.DOM.Mathml
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return IsMathMLTIP || _name == Specification.XML_ANNOTATION; }
         }
@@ -85,7 +85,7 @@ namespace AngleSharp.DOM.Mathml
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public override Node CloneNode(bool deep = true)
+        public override Node CloneNode(Boolean deep = true)
         {
             var node = Factory(_name);
             CopyProperties(this, node, deep);
@@ -97,7 +97,7 @@ namespace AngleSharp.DOM.Mathml
         /// </summary>
         /// <param name="tagName">The given tag name.</param>
         /// <returns>The specialized MathMLElement instance.</returns>
-        public static MathMLElement Factory(string tagName)
+        internal static MathMLElement Factory(String tagName)
         {
             return new MathMLElement { _name = tagName };
         }

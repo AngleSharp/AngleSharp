@@ -10,6 +10,7 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
+    [DOM("CSSStyleDeclaration")]
     public sealed class CSSStyleDeclaration : IEnumerable<CSSProperty>
     {
         #region Members
@@ -54,6 +55,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets or sets the textual representation of the declaration block.
         /// </summary>
+        [DOM("cssText")]
         public String CssText
         {
             get { GetValue(); return oldCssText; }
@@ -63,6 +65,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets the number of properties in the declaration.
         /// </summary>
+        [DOM("length")]
         public Int32 Length
         {
             get { return _rules.Count; }
@@ -71,6 +74,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets the containing CSSRule.
         /// </summary>
+        [DOM("parentRule")]
         public CSSRule ParentRule
         {
             get { return _parent; }
@@ -82,6 +86,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="index">The index of the property to retrieve.</param>
         /// <returns>The name of the property at the given index.</returns>
+        [DOM("item")]
         public String this[Int32 index]
         {
             get
@@ -100,6 +105,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="propertyName">The name of the property to be removed.</param>
         /// <returns>The value of the deleted property.</returns>
+        [DOM("removeProperty")]
         public String RemoveProperty(String propertyName)
         {
             GetValue();
@@ -123,6 +129,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="propertyName">The name of the property to get the priority of.</param>
         /// <returns>A priority or null.</returns>
+        [DOM("getPropertyPriority")]
         public String GetPropertyPriority(String propertyName)
         {
             GetValue();
@@ -141,6 +148,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="propertyName">The name of the property to get the priority of.</param>
         /// <returns>A value or null if nothing has been set.</returns>
+        [DOM("getPropertyValue")]
         public String GetPropertyValue(String propertyName)
         {
             GetValue();
@@ -160,6 +168,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="propertyName">The property's name.</param>
         /// <param name="propertyValue">The value of the property.</param>
         /// <returns>The current style declaration.</returns>
+        [DOM("setProperty")]
         public CSSStyleDeclaration SetProperty(String propertyName, String propertyValue)
         {
             GetValue();

@@ -8,6 +8,7 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// Represents a list of DOMTokens.
     /// </summary>
+    [DOM("DOMTokenList")]
     public sealed class DOMTokenList : IHTMLObject, IEnumerable<String>
     {
         #region Members
@@ -24,7 +25,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Creates a new list of tokens.
         /// </summary>
-        public DOMTokenList()
+        internal DOMTokenList()
         {
             tokens = new List<string>();
         }
@@ -52,7 +53,8 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets the number of tokens.
         /// </summary>
-        public int Length
+        [DOM("length")]
+        public Int32 Length
         {
             get
             {
@@ -66,7 +68,8 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="index">The index of the token.</param>
         /// <returns>The token at the specified index.</returns>
-        public string this[int index]
+        [DOM("item")]
+        public String this[Int32 index]
         {
             get
             {
@@ -88,7 +91,8 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="token">The token to consider.</param>
         /// <returns>True if the string contained the token, otherwise false.</returns>
-        public bool Contains(string token)
+        [DOM("contains")]
+        public Boolean Contains(String token)
         {
             GetValue();
 
@@ -99,27 +103,12 @@ namespace AngleSharp.DOM.Collections
         }
 
         /// <summary>
-        /// Returns true if the underlying string contains at least one of the tokens, otherwise false.
-        /// </summary>
-        /// <param name="tokens">The tokens to consider.</param>
-        /// <returns>True if the string contained a token, otherwise false.</returns>
-        internal bool Contains(string[] tokens)
-        {
-            GetValue();
-
-            for (int i = 0; i < tokens.Length; i++)
-                if (this.tokens.Contains(tokens[i]))
-                    return true;
-
-            return false;
-        }
-
-        /// <summary>
         /// Remove token from the underlying string.
         /// </summary>
         /// <param name="token">The token to remove.</param>
         /// <returns>The current token list.</returns>
-        public DOMTokenList Remove(string token)
+        [DOM("remove")]
+        public DOMTokenList Remove(String token)
         {
             GetValue();
             tokens.Remove(token);
@@ -132,7 +121,8 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="token">The token to add.</param>
         /// <returns>The current token list.</returns>
-        public DOMTokenList Add(string token)
+        [DOM("add")]
+        public DOMTokenList Add(String token)
         {
             GetValue();
 
@@ -150,7 +140,8 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="token">The token to consider.</param>
         /// <returns>True if the string contained the token, otherwise false.</returns>
-        public bool Toggle(string token)
+        [DOM("toggle")]
+        public Boolean Toggle(String token)
         {
             GetValue();
 
@@ -164,6 +155,26 @@ namespace AngleSharp.DOM.Collections
             tokens.Add(token);
             SetValue();
             return true;
+        }
+
+        #endregion
+
+        #region Internal methods
+
+        /// <summary>
+        /// Returns true if the underlying string contains at least one of the tokens, otherwise false.
+        /// </summary>
+        /// <param name="tokens">The tokens to consider.</param>
+        /// <returns>True if the string contained a token, otherwise false.</returns>
+        internal Boolean Contains(String[] tokens)
+        {
+            GetValue();
+
+            for (int i = 0; i < tokens.Length; i++)
+                if (this.tokens.Contains(tokens[i]))
+                    return true;
+
+            return false;
         }
 
         #endregion
@@ -197,7 +208,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         void SetValue()
         {
-            oldTokenString = string.Join(" ", tokens);
+            oldTokenString = String.Join(" ", tokens);
 
             if (setter != null)
                 setter(oldTokenString);

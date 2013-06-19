@@ -6,6 +6,7 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// Represents a list of DOMTokens.
     /// </summary>
+    [DOM("DOMStringMap")]
     public sealed class DOMStringMap
     {
         #region Members
@@ -64,6 +65,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="prop">The name of the property.</param>
         /// <returns>The value for the specified property name.</returns>
+        [DOM("getDataAttr")]
         public String GetDataAttr(String prop)
         {
             return this[prop];
@@ -74,7 +76,8 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="prop">The name of the property.</param>
         /// <returns>True if the property is set, otherwise false.</returns>
-        public bool HasDataAttr(string prop)
+        [DOM("hetDataAttr")]
+        public bool HasDataAttr(String prop)
         {
             return this[prop] != null;
         }
@@ -84,6 +87,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="prop">The name of the property.</param>
         /// <returns>The current DOMStringMap.</returns>
+        [DOM("removeDataAttr")]
         public DOMStringMap RemoveDataAttr(String prop)
         {
             if(HasDataAttr(prop))
@@ -98,6 +102,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="prop">The name of the property.</param>
         /// <param name="value">The value of the property.</param>
         /// <returns>The current DOMStringMap.</returns>
+        [DOM("setDataAttr")]
         public DOMStringMap SetDataAttr(String prop, String value)
         {
             this[prop] = value;

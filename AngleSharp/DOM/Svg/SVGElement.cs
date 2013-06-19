@@ -9,7 +9,7 @@ namespace AngleSharp.DOM.Svg
     {
         #region Constants
 
-        internal const string RootTag = "svg";
+        internal const String RootTag = "svg";
 
         #endregion
 
@@ -18,9 +18,9 @@ namespace AngleSharp.DOM.Svg
         /// <summary>
         /// Creates a new SVG element.
         /// </summary>
-        public SVGElement()
+        internal SVGElement()
         {
-            NamespaceURI = Namespaces.Svg;
+            _ns = Namespaces.Svg;
         }
 
         #endregion
@@ -30,7 +30,7 @@ namespace AngleSharp.DOM.Svg
         /// <summary>
         /// Gets the status if the current node is in the MathML namespace.
         /// </summary>
-        internal protected override bool IsInSvg
+        internal protected override Boolean IsInSvg
         {
             get { return true; }
         }
@@ -38,7 +38,7 @@ namespace AngleSharp.DOM.Svg
         /// <summary>
         /// Gets the status if the node is an HTML text integration point.
         /// </summary>
-        protected internal override bool IsHtmlTIP
+        protected internal override Boolean IsHtmlTIP
         {
             get { return IsSpecial; }
         }
@@ -46,7 +46,7 @@ namespace AngleSharp.DOM.Svg
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return _name == "foreignObject" || _name == "desc" || _name == "title"; }
         }
@@ -60,7 +60,7 @@ namespace AngleSharp.DOM.Svg
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public override Node CloneNode(bool deep = true)
+        public override Node CloneNode(Boolean deep = true)
         {
             var node = Factory(_name);
             CopyProperties(this, node, deep);
@@ -72,7 +72,7 @@ namespace AngleSharp.DOM.Svg
         /// </summary>
         /// <param name="tagName">The given tag name.</param>
         /// <returns>The specialized SVGElement instance.</returns>
-        public static SVGElement Factory(string tagName)
+        public static SVGElement Factory(String tagName)
         {
             return new SVGElement { _name = tagName };
         }

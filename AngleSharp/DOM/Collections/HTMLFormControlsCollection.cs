@@ -5,14 +5,20 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// A collection of HTML form controls.
     /// </summary>
-    public class HTMLFormControlsCollection : HTMLCollection
+    [DOM("HTMLFormControlsCollection")]
+    public sealed class HTMLFormControlsCollection : HTMLCollection
     {
+        internal HTMLFormControlsCollection()
+        {
+        }
+
         /// <summary>
         /// Gets the node or list of nodes in the collection whose name or id match the specified name,
         /// or null if no nodes match.
         /// </summary>
         /// <param name="name">The name or id of the element(s).</param>
         /// <returns>The found element(s).</returns>
+        [DOM("namedItem")]
         public override Object NamedItem(String name)
         {
             var result = new HTMLCollection();

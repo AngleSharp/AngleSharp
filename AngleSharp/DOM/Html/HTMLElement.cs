@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents a standard HTML element in the node tree.
     /// </summary>
+    [DOM("HTMLElement")]
     public class HTMLElement : Element
     {
         #region ctor
@@ -14,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLElement()
         {
-            NamespaceURI = Namespaces.Html; 
+            _ns = Namespaces.Html; 
         }
 
         #endregion
@@ -77,7 +78,8 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public override Node CloneNode(bool deep = true)
+        [DOM("cloneNode")]
+        public override Node CloneNode(Boolean deep = true)
         {
             var node = Factory(_name);
             CopyProperties(this, node, deep);
@@ -89,7 +91,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="tag">The given tag name.</param>
         /// <returns>The specialized HTMLElement instance.</returns>
-        public static HTMLElement Factory(string tag)
+        internal static HTMLElement Factory(string tag)
         {
             switch (tag)
             {

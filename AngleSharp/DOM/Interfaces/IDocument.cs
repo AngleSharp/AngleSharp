@@ -33,6 +33,6 @@ namespace AngleSharp.DOM
         event EventHandler ReadyStateChange;
         string Referrer { get; }
         Document Prepend(params Node[] nodes);
-        StringList StyleSheetSets { get; }
+        DOMStringList StyleSheetSets { get; }
     }
 }

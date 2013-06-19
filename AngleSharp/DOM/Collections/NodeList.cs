@@ -10,6 +10,7 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// Represents a list of Node instances or nodes.
     /// </summary>
+    [DOM("NodeList")]
     public sealed class NodeList : BaseCollection<Node>
     {
         #region ctor
@@ -17,7 +18,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Creates a new list of nodes.
         /// </summary>
-        public NodeList()
+        internal NodeList()
         {
         }
 

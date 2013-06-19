@@ -10,6 +10,7 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// A collection of CSS elements.
     /// </summary>
+    [DOM("StyleSheetList")]
     public sealed class StyleSheetList : IEnumerable<StyleSheet>
     {
         #region Members
@@ -57,6 +58,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets the number of elements in the list of stylesheets.
         /// </summary>
+        [DOM("length")]
         public Int32 Length
         {
             get { return styleSheets.Count; }

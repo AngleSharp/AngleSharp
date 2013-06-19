@@ -10,7 +10,8 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// Represents a list of media elements.
     /// </summary>
-    public class MediaList : IEnumerable<String>
+    [DOM("MediaList")]
+    public sealed class MediaList : IEnumerable<String>
     {
         #region Static
 
@@ -115,19 +116,6 @@ namespace AngleSharp.DOM.Collections
         #region Methods
 
         /// <summary>
-        /// Checks the syntax of the medium in the given language.
-        /// </summary>
-        /// <param name="medium">The medium string to check.</param>
-        /// <returns>True if the syntax is OK, otherwise false.</returns>
-        protected virtual Boolean CheckSyntax(String medium)
-        {
-            if (string.IsNullOrEmpty(medium))
-                return false;
-
-            return true;
-        }
-
-        /// <summary>
         /// Adds the medium newMedium to the end of the list.
         /// If the newMedium is already used, it is first removed.
         /// </summary>
@@ -165,6 +153,23 @@ namespace AngleSharp.DOM.Collections
                 buffer.Replace("," + oldMedium, String.Empty);
 
             return this;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Checks the syntax of the medium in the given language.
+        /// </summary>
+        /// <param name="medium">The medium string to check.</param>
+        /// <returns>True if the syntax is OK, otherwise false.</returns>
+        Boolean CheckSyntax(String medium)
+        {
+            if (string.IsNullOrEmpty(medium))
+                return false;
+
+            return true;
         }
 
         #endregion

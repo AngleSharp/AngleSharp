@@ -6,6 +6,10 @@ using System.Text;
 
 namespace AngleSharp.DOM.Collections
 {
+    /// <summary>
+    /// The abstract template class for most DOM collections.
+    /// </summary>
+    /// <typeparam name="T">The type of elements to contain.</typeparam>
     public abstract class BaseCollection<T> : IHTMLObject, IEnumerable<T> where T : Node
     {
         #region Members
@@ -22,7 +26,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Creates a new list of nodes.
         /// </summary>
-        public BaseCollection()
+        internal BaseCollection()
         {
             _entries = new List<T>();
         }
@@ -36,7 +40,8 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="index">The 0-based index of the node.</param>
         /// <returns>The node at the specified index.</returns>
-        public T this[int index]
+        [DOM("item")]
+        public T this[Int32 index]
         {
             get { return index >= 0 && index < _entries.Count ? _entries[index] : null; }
             set { _entries[index] = value; }
@@ -49,14 +54,15 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets the number of nodes in the list.
         /// </summary>
-        public int Length
+        [DOM("length")]
+        public Int32 Length
         {
             get { return _entries.Count; }
         }
 
         #endregion
 
-        #region Methods
+        #region Internal methods
 
         /// <summary>
         /// Clears the list of nodes.

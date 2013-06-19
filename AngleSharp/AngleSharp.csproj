@@ -131,7 +131,7 @@
     <Compile Include="DOM\Collections\DOMTokenList.cs" />
     <Compile Include="DOM\Collections\MediaList.cs" />
     <Compile Include="DOM\Collections\NamedNodeMap.cs" />
-    <Compile Include="DOM\Collections\StringList.cs" />
+    <Compile Include="DOM\Collections\DOMStringList.cs" />
     <Compile Include="DOM\Exception\DOMException.cs" />
     <Compile Include="DOM\Attr.cs" />
     <Compile Include="DOM\Css\CSSStyleSheet.cs" />

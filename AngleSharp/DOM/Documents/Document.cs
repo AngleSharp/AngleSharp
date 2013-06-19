@@ -136,11 +136,11 @@ namespace AngleSharp.DOM
         /// Gets a live list of all of the currently-available style sheet sets.
         /// </summary>
         [DOM("styleSheetSets")]
-        public StringList StyleSheetSets
+        public DOMStringList StyleSheetSets
         {
             get
             {
-                var list = new StringList();
+                var list = new DOMStringList();
 
                 for (int i = 0; i < styleSheets.Length; i++)
                     list.Add(styleSheets[i].Title);

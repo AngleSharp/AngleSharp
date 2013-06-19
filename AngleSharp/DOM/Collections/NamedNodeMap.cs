@@ -9,6 +9,7 @@ namespace AngleSharp.DOM.Collections
     /// <summary>
     /// Represents a named collection of nodes.
     /// </summary>
+    [DOM("NamedNodeMap")]
     public sealed class NamedNodeMap : IHTMLObject, IEnumerable<Node>
     {
         #region Members
@@ -45,6 +46,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="index">The index of the item to get.</param>
         /// <returns>The item or null if the index is higher or equal to the number of nodes.</returns>
+        [DOM("item")]
         public Node this[Int32 index]
         {
             get
@@ -82,6 +84,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets the number of defined attributes.
         /// </summary>
+        [DOM("length")]
         public Int32 Length
         {
             get { return _entries.Count; }
@@ -96,6 +99,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="nodeName">The name of the node.</param>
         /// <returns>The node or null if nothing found.</returns>
+        [DOM("getNamedItem")]
         public Node GetNamedItem(String nodeName)
         {
             return this[nodeName];
@@ -106,6 +110,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="node">The node to be added or inserted.</param>
         /// <returns>The replaced node, if any.</returns>
+        [DOM("setNamedItem")]
         public Node SetNamedItem(Node node)
         {
             for (var i = 0; i < _entries.Count; i++)
@@ -127,6 +132,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="nodeName">The name of the node.</param>
         /// <returns>The removed node or null if nothing found.</returns>
+        [DOM("removeNamedItem")]
         public Node RemoveNamedItem(String nodeName)
         {
             for (int i = 0; i < _entries.Count; i++)
@@ -148,6 +154,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="namespaceURI">The namespace of the node.</param>
         /// <param name="localName">The name of the node.</param>
         /// <returns>The node or null if nothing found.</returns>
+        [DOM("getNamedItemNS")]
         public Node GetNamedItemNS(String namespaceURI, String localName)
         {
             for (var i = 0; i < _entries.Count; i++)
@@ -162,6 +169,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="node">The node to be added or inserted.</param>
         /// <returns>The added node.</returns>
+        [DOM("setNamedItemNS")]
         public Node SetNamedItemNS(Node node)
         {
             for (var i = 0; i < _entries.Count; i++)
@@ -183,6 +191,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="namespaceURI">The namespace of the node.</param>
         /// <param name="localName">The name of the node.</param>
         /// <returns>The removed node or null if nothing found.</returns>
+        [DOM("removeNamedItemNS")]
         public Node RemoveNamedItemNS(String namespaceURI, String localName)
         {
             for (var i = 0; i < _entries.Count; i++)

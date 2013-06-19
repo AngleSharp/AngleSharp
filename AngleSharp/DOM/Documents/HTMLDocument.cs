@@ -187,7 +187,7 @@ namespace AngleSharp.DOM.Html
         [DOM("domain")]
         public String Domain
         {
-            get { return new Uri(DocumentURI).Host; }
+            get { return string.IsNullOrEmpty(DocumentURI) ? String.Empty : new Uri(DocumentURI).Host; }
         }
 
         /// <summary>

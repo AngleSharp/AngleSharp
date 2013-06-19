@@ -37,7 +37,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the number of child elements.
         /// </summary>
-        public int ChildElementCount
+        [DOM("childElementCount")]
+        public Int32 ChildElementCount
         {
             get
             {
@@ -56,6 +57,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the child elements.
         /// </summary>
+        [DOM("children")]
         public HTMLCollection Children
         {
             get
@@ -75,7 +77,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the text content of a node and its descendants.
         /// </summary>
-        public override string TextContent
+        [DOM("textContent")]
+        public override String TextContent
         {
             get
             {
@@ -97,6 +100,7 @@ namespace AngleSharp.DOM
         /// Gets or sets whether or not the element is editable. This enumerated
         /// attribute can have the values true, false and inherited.
         /// </summary>
+        [DOM("contentEditable")]
         public ContentEditableMode ContentEditable
         {
             get { return ToEnum(GetAttribute("contenteditable"), ContentEditableMode.Inherited); }
@@ -106,7 +110,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets if the element is currently contenteditable.
         /// </summary>
-        public bool IsContentEditable
+        [DOM("isContentEditable")]
+        public Boolean IsContentEditable
         {
             get
             {
@@ -124,6 +129,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the list of class names.
         /// </summary>
+        [DOM("classList")]
         public DOMTokenList ClassList
         {
             get { return classList ?? (classList = DOMTokenList.From(() => ClassName, value => ClassName = value)); }
@@ -132,7 +138,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the value of the class attribute.
         /// </summary>
-        public string ClassName
+        [DOM("className")]
+        public String ClassName
         {
             get { return GetAttribute("class"); }
             set { SetAttribute("class", value); }
@@ -141,6 +148,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets an object representing the declarations of an element's style attributes.
         /// </summary>
+        [DOM("style")]
         public CSSStyleDeclaration Style
         {
             get { return style ?? (style = CSSStyleDeclaration.From(() => GetAttribute("style"), value => SetAttribute("style", value))); }
@@ -149,7 +157,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the value of the id attribute.
         /// </summary>
-        public string Id
+        [DOM("id")]
+        public String Id
         {
             get { return GetAttribute("id"); }
             set { SetAttribute("id", value); }
@@ -158,7 +167,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the value of the lang attribute.
         /// </summary>
-        public string Lang
+        [DOM("lang")]
+        public String Lang
         {
             get { return GetAttribute("lang") ?? (ParentElement != null ? ParentElement.Lang : LocalSettings.Language); }
             set { SetAttribute("lang", value); }
@@ -167,7 +177,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the value of the title attribute.
         /// </summary>
-        public string Title
+        [DOM("title")]
+        public String Title
         {
             get { return GetAttribute("title"); }
             set { SetAttribute("title", value); }
@@ -176,6 +187,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the value of the dir attribute.
         /// </summary>
+        [DOM("dir")]
         public DirectionMode Dir
         {
             get { return ToEnum(GetAttribute("dir"), DirectionMode.Ltr); }
@@ -185,7 +197,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the tagname of the element.
         /// </summary>
-        public string TagName
+        [DOM("tagName")]
+        public String TagName
         {
             get { return _name; }
         }
@@ -193,7 +206,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets if spell-checking is activated.
         /// </summary>
-        public bool Spellcheck
+        [DOM("spellcheck")]
+        public Boolean Spellcheck
         {
             get { return ToBoolean(GetAttribute("spellcheck"), false); }
             set { SetAttribute("spellcheck", value.ToString()); }
@@ -202,7 +216,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the position of the element in the tabbing order.
         /// </summary>
-        public int TabIndex
+        [DOM("tabIndex")]
+        public Int32 TabIndex
         {
             get { return ToInteger(GetAttribute("tabindex"), 0); }
             set { SetAttribute("tabindex", value.ToString()); }
@@ -212,6 +227,7 @@ namespace AngleSharp.DOM
         /// Gets access to all the custom data attributes (data-*) set on the element. It is a map of DOMString,
         /// one entry for each custom data attribute.
         /// </summary>
+        [DOM("dataset")]
         public DOMStringMap Dataset
         {
             get { return dataset ?? (dataset = DOMStringMap.From(m => GetAttribute("data-" + m), (name, value) => SetAttribute("data-" + name, value))); }
@@ -221,6 +237,7 @@ namespace AngleSharp.DOM
         /// Gets the element immediately preceding in this node's parent's list of nodes, 
         /// null if the current element is the first element in that list.
         /// </summary>
+        [DOM("previousElementSibling")]
         public Element PreviousElementSibling
         {
             get
@@ -246,6 +263,7 @@ namespace AngleSharp.DOM
         /// Gets the element immediately following in this node's parent's list of nodes,
         /// or null if the current element is the last element in that list.
         /// </summary>
+        [DOM("nextElementSibling")]
         public Element NextElementSibling
         {
             get
@@ -271,6 +289,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the first child element of this element.
         /// </summary>
+        [DOM("firstElementChild")]
         public Element FirstElementChild
         {
             get 
@@ -290,6 +309,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the last child element of this element.
         /// </summary>
+        [DOM("lastElementChild")]
         public Element LastElementChild
         {
             get
@@ -307,7 +327,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the HTML syntax describing the element's descendants.
         /// </summary>
-        public string InnerHTML
+        [DOM("innerHTML")]
+        public String InnerHTML
         {
             get { return _children.ToHtml(); }
             set
@@ -329,7 +350,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the HTML syntax describing the element including its descendants. 
         /// </summary>
-        public string OuterHTML
+        [DOM("outerHTML")]
+        public String OuterHTML
         {
             get { return this.ToHtml(); }
             set
@@ -361,7 +383,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets if the element is being hovered.
         /// </summary>
-        public bool IsHovered
+        [DOM("isHovered")]
+        public Boolean IsHovered
         {
             get;
             internal set;
@@ -370,7 +393,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets if the element has currently focus.
         /// </summary>
-        public bool IsFocused
+        [DOM("isFocused")]
+        public Boolean IsFocused
         {
             get;
             internal set;
@@ -379,7 +403,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the width of the left border of this element.
         /// </summary>
-        public int ClientLeft
+        [DOM("clientLeft")]
+        public Int32 ClientLeft
         {
             get;
             internal set;
@@ -388,7 +413,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the height of the top border of this element.
         /// </summary>
-        public int ClientTop
+        [DOM("clientTop")]
+        public Int32 ClientTop
         {
             get;
             internal set;
@@ -397,7 +423,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the inner width of this element.
         /// </summary>
-        public int ClientWidth
+        [DOM("clientWidth")]
+        public Int32 ClientWidth
         {
             get;
             internal set;
@@ -406,7 +433,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the inner height of this element.
         /// </summary>
-        public int ClientHeight
+        [DOM("clientHeight")]
+        public Int32 ClientHeight
         {
             get;
             internal set;
@@ -415,6 +443,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the element from which all offset calculations are currently computed.
         /// </summary>
+        [DOM("offsetParent")]
         public Element OffsetParent
         {
             get;
@@ -424,7 +453,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the distance from this element's left border to its offsetParent's left border.
         /// </summary>
-        public int OffsetLeft
+        [DOM("offsetLeft")]
+        public Int32 OffsetLeft
         {
             get;
             internal set;
@@ -433,7 +463,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the distance from this element's top border to its offsetParent's top border.
         /// </summary>
-        public int OffsetTop
+        [DOM("offsetTop")]
+        public Int32 OffsetTop
         {
             get;
             internal set;
@@ -442,7 +473,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the width of this element, relative to the layout.
         /// </summary>
-        public int OffsetWidth
+        [DOM("offsetWidth")]
+        public Int32 OffsetWidth
         {
             get;
             internal set;
@@ -451,7 +483,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the height of this element, relative to the layout.
         /// </summary>
-        public int OffsetHeight
+        [DOM("offsetHeight")]
+        public Int32 OffsetHeight
         {
             get;
             internal set;
@@ -460,7 +493,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the left scroll offset of an element.
         /// </summary>
-        public int ScrollLeft
+        [DOM("scrollLeft")]
+        public Int32 ScrollLeft
         {
             get;
             set;
@@ -469,7 +503,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the top scroll offset of an element.
         /// </summary>
-        public int ScrollTop
+        [DOM("scrollTop")]
+        public Int32 ScrollTop
         {
             get;
             set;
@@ -478,7 +513,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the scroll view width of an element.
         /// </summary>
-        public int ScrollWidth
+        [DOM("scrollWidth")]
+        public Int32 ScrollWidth
         {
             get;
             internal set;
@@ -487,7 +523,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the scroll view height of an element.
         /// </summary>
-        public int ScrollHeight
+        [DOM("scrollHeight")]
+        public Int32 ScrollHeight
         {
             get;
             internal set;
@@ -502,6 +539,7 @@ namespace AngleSharp.DOM
         /// method of the document node.
         /// </summary>
         /// <returns>The current element.</returns>
+        [DOM("normalizeNamespaces")]
         public Element NormalizeNamespaces()
         {
             var declarations = new List<string>();
@@ -558,7 +596,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
-        public Element QuerySelector(string selectors)
+        [DOM("querySelector")]
+        public Element QuerySelector(String selectors)
         {
             return _children.QuerySelector(selectors);
         }
@@ -567,9 +606,10 @@ namespace AngleSharp.DOM
         /// Returns a list of the elements within the document (using depth-first pre-order traversal
         /// of the document's nodes) that match the specified group of selectors.
         /// </summary>
-        /// <param name="selectors"></param>
-        /// <returns></returns>
-        public HTMLCollection QuerySelectorAll(string selectors)
+        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <returns>A collection of HTML elements.</returns>
+        [DOM("querySelectorAll")]
+        public HTMLCollection QuerySelectorAll(String selectors)
         {
             return _children.QuerySelectorAll(selectors);
         }
@@ -579,7 +619,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of HTML elements.</returns>
-        public HTMLCollection GetElementsByClassName(string classNames)
+        [DOM("getElementsByClassName")]
+        public HTMLCollection GetElementsByClassName(String classNames)
         {
             return _children.GetElementsByClassName(classNames);
         }
@@ -589,7 +630,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public HTMLCollection GetElementsByTagName(string tagName)
+        [DOM("getElementsByTagName")]
+        public HTMLCollection GetElementsByTagName(String tagName)
         {
             return _children.GetElementsByTagName(tagName);
         }
@@ -601,7 +643,8 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public HTMLCollection GetElementsByTagNameNS(string namespaceURI, string tagName)
+        [DOM("getElementsByTagNameNS")]
+        public HTMLCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return _children.GetElementsByTagNameNS(namespaceURI, tagName);
         }
@@ -611,7 +654,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public override Node CloneNode(bool deep = true)
+        [DOM("cloneNode")]
+        public override Node CloneNode(Boolean deep = true)
         {
             var node = new Element();
             CopyProperties(this, node, deep);
@@ -624,9 +668,10 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        public override string LookupNamespaceURI(string prefix)
+        [DOM("lookupNamespaceURI")]
+        public override String LookupNamespaceURI(String prefix)
         {
-            if (!string.IsNullOrEmpty(_ns) && Prefix == prefix)
+            if (!String.IsNullOrEmpty(_ns) && Prefix == prefix)
                 return _ns;
 
             if (HasAttributes)
@@ -637,7 +682,7 @@ namespace AngleSharp.DOM
 
                     if ((attr.Prefix == Namespaces.Declaration && attr.LocalName == prefix) || (attr.LocalName == Namespaces.Declaration && prefix == null))
                     {
-                        if (!string.IsNullOrEmpty(attr.NodeValue))
+                        if (!String.IsNullOrEmpty(attr.NodeValue))
                             return attr.NodeValue;
 
                         return null;
@@ -656,7 +701,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        public override bool IsDefaultNamespace(string namespaceURI)
+        [DOM("isDefaultNamespace")]
+        public override Boolean IsDefaultNamespace(String namespaceURI)
         { 
             if (string.IsNullOrEmpty(Prefix))
                 return _ns == namespaceURI;
@@ -678,7 +724,8 @@ namespace AngleSharp.DOM
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
         /// <returns>The current element.</returns>
-        public virtual Element SetAttribute(string name, string value)
+        [DOM("setAttribute")]
+        public virtual Element SetAttribute(String name, String value)
         {
             var oldAttr = value == null ? _attributes.RemoveNamedItem(name) : _attributes.SetNamedItem(new Attr(name, value));
 
@@ -693,7 +740,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="attrName">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
-        public virtual string GetAttribute(string attrName)
+        [DOM("getAttribute")]
+        public virtual String GetAttribute(String attrName)
         {
             var attr = _attributes[attrName];
 
@@ -708,7 +756,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="attrName">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
-        public virtual bool HasAttribute(string attrName)
+        [DOM("hasAttribute")]
+        public virtual Boolean HasAttribute(String attrName)
         {
             return _attributes[attrName] != null;
         }
@@ -718,7 +767,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="attrName">Is a string that names the attribute to be removed.</param>
         /// <returns>The current element.</returns>
-        public virtual Element RemoveAttribute(string attrName)
+        [DOM("removeAttribute")]
+        public virtual Element RemoveAttribute(String attrName)
         {
             var node = _attributes.RemoveNamedItem(attrName);
             node.ParentNode = null;
@@ -732,7 +782,8 @@ namespace AngleSharp.DOM
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
         /// <returns>The current element.</returns>
-        public virtual Element SetAttributeNS(string namespaceURI, string name, string value)
+        [DOM("setAttributeNS")]
+        public virtual Element SetAttributeNS(String namespaceURI, String name, String value)
         {
             var oldAttr = value == null ? _attributes.RemoveNamedItem(name) : _attributes.SetNamedItem(new Attr(name, value, namespaceURI));
 
@@ -748,7 +799,8 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">A string specifying the namespace of the attribute.</param>
         /// <param name="localAttrName">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
-        public virtual string GetAttributeNS(string namespaceURI, string localAttrName)
+        [DOM("getAttributeNS")]
+        public virtual string GetAttributeNS(String namespaceURI, String localAttrName)
         {
             var attr = _attributes.GetNamedItemNS(namespaceURI, localAttrName);
 
@@ -764,7 +816,8 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">A string specifying the namespace of the attribute.</param>
         /// <param name="attrName">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
-        public virtual bool HasAttributeNS(string namespaceURI, string attrName)
+        [DOM("hasAttributeNS")]
+        public virtual Boolean HasAttributeNS(String namespaceURI, String attrName)
         {
             return _attributes.GetNamedItemNS(namespaceURI, attrName) != null;
         }
@@ -775,7 +828,8 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">A string specifying the namespace of the attribute.</param>
         /// <param name="localAttrName">Is a string that names the attribute to be removed.</param>
         /// <returns>The current element.</returns>
-        public virtual Element RemoveAttributeNS(string namespaceURI, string localAttrName)
+        [DOM("removeAttributeNS")]
+        public virtual Element RemoveAttributeNS(String namespaceURI, String localAttrName)
         {
             var node = _attributes.RemoveNamedItemNS(namespaceURI, localAttrName);
             node.ParentNode = null;
@@ -787,6 +841,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="attr">Is the Attr node to set on the element.</param>
         /// <returns>The replaced attribute node, if any, returned by this function.</returns>
+        [DOM("setAttributeNode")]
         public virtual Attr SetAttributeNode(Attr attr)
         {
             if (attr.ParentNode != null)
@@ -806,7 +861,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="attrName">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute.</returns>
-        public virtual Attr GetAttributeNode(string attrName)
+        [DOM("getAttributeNode")]
+        public virtual Attr GetAttributeNode(String attrName)
         {
             return _attributes[attrName] as Attr;
         }
@@ -816,6 +872,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="attr">The Attr node that needs to be removed..</param>
         /// <returns>The removed Attr node..</returns>
+        [DOM("removeAttributeNode")]
         public virtual Attr RemoveAttributeNode(Attr attr)
         {
             var node = _attributes.RemoveNamedItem(attr.NodeName);
@@ -829,7 +886,8 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">A string specifying the namespace of the attribute.</param>
         /// <param name="attr">Is the Attr node to set on the element.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute.</returns>
-        public virtual Attr SetAttributeNodeNS(string namespaceURI, Attr attr)
+        [DOM("setAttributeNodeNS")]
+        public virtual Attr SetAttributeNodeNS(String namespaceURI, Attr attr)
         {
             return SetAttributeNode(attr);
         }
@@ -840,7 +898,8 @@ namespace AngleSharp.DOM
         /// <param name="namespaceURI">A string specifying the namespace of the attribute.</param>
         /// <param name="attrName">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute.</returns>
-        public virtual Attr GetAttributeNodeNS(string namespaceURI, string attrName)
+        [DOM("getAttributeNodeNS")]
+        public virtual Attr GetAttributeNodeNS(String namespaceURI, String attrName)
         {
             return _attributes.GetNamedItemNS(namespaceURI, attrName) as Attr;
         }
@@ -851,7 +910,8 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        public override string LookupPrefix(string namespaceURI)
+        [DOM("lookupPrefix")]
+        public override String LookupPrefix(String namespaceURI)
         {
             return LookupNamespacePrefix(namespaceURI, this);
         }
@@ -861,6 +921,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="nodes">The nodes to prepend.</param>
         /// <returns>The current element.</returns>
+        [DOM("prepend")]
         public Element Prepend(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -877,6 +938,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="nodes">The nodes to append.</param>
         /// <returns>The current element.</returns>
+        [DOM("append")]
         public Element Append(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -893,6 +955,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="nodes">The nodes to insert before.</param>
         /// <returns>The current element.</returns>
+        [DOM("before")]
         public Element Before(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -909,6 +972,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="nodes">The nodes to insert after.</param>
         /// <returns>The current element.</returns>
+        [DOM("after")]
         public Element After(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -925,6 +989,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="nodes">The nodes to replace.</param>
         /// <returns>The current element.</returns>
+        [DOM("replace")]
         public Element Replace(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -940,6 +1005,7 @@ namespace AngleSharp.DOM
         /// Removes the current element from the parent.
         /// </summary>
         /// <returns>The current element.</returns>
+        [DOM("remove")]
         public Element Remove()
         {
             if (_parent != null)
@@ -990,14 +1056,14 @@ namespace AngleSharp.DOM
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted integer.</returns>
-        static protected int ToInteger(string value, int defaultValue = 0)
+        static protected Int32 ToInteger(String value, Int32 defaultValue = 0)
         {
-            if (string.IsNullOrEmpty(value))
+            if (String.IsNullOrEmpty(value))
                 return defaultValue;
 
-            int converted;
+            Int32 converted;
 
-            if (int.TryParse(value, out converted))
+            if (Int32.TryParse(value, out converted))
                 return converted;
 
             return defaultValue;
@@ -1009,12 +1075,12 @@ namespace AngleSharp.DOM
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted unsigned integer.</returns>
-        static protected uint ToInteger(string value, uint defaultValue = 0)
+        static protected UInt32 ToInteger(String value, UInt32 defaultValue = 0)
         {
-            if (string.IsNullOrEmpty(value))
+            if (String.IsNullOrEmpty(value))
                 return defaultValue;
 
-            uint converted;
+            UInt32 converted;
 
             if (uint.TryParse(value, out converted))
                 return converted;
@@ -1028,9 +1094,9 @@ namespace AngleSharp.DOM
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted enum value.</returns>
-        static protected T ToEnum<T>(string value, T defaultValue) where T : struct
+        static protected T ToEnum<T>(String value, T defaultValue) where T : struct
         {
-            if (string.IsNullOrEmpty(value))
+            if (String.IsNullOrEmpty(value))
                 return defaultValue;
 
             T converted = default(T);
@@ -1047,14 +1113,14 @@ namespace AngleSharp.DOM
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted boolean.</returns>
-        static protected bool ToBoolean(string value, bool defaultValue = false)
+        static protected Boolean ToBoolean(String value, Boolean defaultValue = false)
         {
-            if (string.IsNullOrEmpty(value))
+            if (String.IsNullOrEmpty(value))
                 return defaultValue;
 
-            bool converted;
+            Boolean converted;
 
-            if (bool.TryParse(value, out converted))
+            if (Boolean.TryParse(value, out converted))
                 return converted;
 
             return defaultValue;
