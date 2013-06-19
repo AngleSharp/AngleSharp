@@ -13,5 +13,5 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleToAttribute("UnitTests")]
 [assembly: ComVisible(false)]
 [assembly: Guid("97b4b3fa-f884-4169-ab06-ea41d7c44c25")]
-[assembly: AssemblyVersion("0.2.6.*")]
+[assembly: AssemblyVersion("0.2.7.*")]
 

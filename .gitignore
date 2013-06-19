@@ -45,6 +45,8 @@ local.properties
 [Dd]ebug/
 [Rr]elease/
 TestResults/
+/Nuget/lib/
+*.nupkg
 *_i.c
 *_p.c
 *.ilk

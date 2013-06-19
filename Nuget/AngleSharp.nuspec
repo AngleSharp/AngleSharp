@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AngleSharp</id>
-    <version>0.2.5</version>
+    <version>0.2.6</version>
     <authors>Florian Rappl</authors>
     <owners>Florian Rappl</owners>
     <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
