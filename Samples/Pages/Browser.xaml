@@ -1,0 +1,88 @@
+﻿<Page x:Class="Samples.Pages.Browser"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Title="Browser">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="80" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBox Grid.Row="0"
+                 Grid.Column="0"
+                 Padding="5"
+                 x:Name="Url"
+                 KeyDown="UrlKeyDown"
+                 Style="{StaticResource UrlHint}"
+                 Margin="0 5 5 5" />
+        <Button Grid.Row="0"
+                Click="Button_Click"
+                Grid.Column="1"
+                Margin="5 5 0 5">
+            Go
+        </Button>
+
+        <TreeView Grid.Row="1"
+                  ItemsSource="{Binding Source}"
+                  Grid.ColumnSpan="2"
+                  Grid.Column="0">
+
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    
+                    <Setter Property="IsExpanded" 
+                            Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    
+                    <Setter Property="IsSelected" 
+                            Value="{Binding IsSelected, Mode=TwoWay}" />
+                    
+                    <Setter Property="FontWeight"
+                            Value="Normal" />
+                    
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Trigger>
+                        
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
+        
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    
+                    <StackPanel Orientation="Horizontal"
+                                ToolTip="{Binding Value}">
+                        <TextBlock Text="{Binding Name}"
+                                   Padding="5"
+                                   Margin="3" />
+                        
+                        <TextBlock Text="{Binding TypeName}"
+                                   Margin="3"
+                                   Padding="5"
+                                   Background="LightGray" 
+                                   Foreground="DarkGray" />
+                    </StackPanel>
+                    
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        
+        </TreeView>
+        
+        <TextBlock Grid.Row="2"
+                   Text="{Binding Status}"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2" 
+                   Foreground="SteelBlue"
+                   FontWeight="Bold" />
+    </Grid>
+</Page>
