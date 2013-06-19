@@ -192,7 +192,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>An enumerator that can be used to iterate through the mediums.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)media).GetEnumerator();
+            return GetEnumerator();
         }
 
         #endregion

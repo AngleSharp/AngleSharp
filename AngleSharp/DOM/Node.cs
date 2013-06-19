@@ -33,15 +33,15 @@ namespace AngleSharp.DOM
         /// <summary>
         /// The node's name.
         /// </summary>
-        protected string _name;
+        protected String _name;
         /// <summary>
         /// The node's namespace.
         /// </summary>
-        protected string _ns;
+        protected String _ns;
         /// <summary>
         /// The node's baseURI.
         /// </summary>
-        protected string _baseURI;
+        protected String _baseURI;
         /// <summary>
         /// The type of the node.
         /// </summary>
@@ -286,7 +286,7 @@ namespace AngleSharp.DOM
         /// Gets the tag name for this node.
         /// </summary>
         [DOM("nodeName")]
-        public string NodeName
+        public String NodeName
         {
             get { return _name; }
             internal set {  _name = value; }
@@ -831,7 +831,7 @@ namespace AngleSharp.DOM
         /// <param name="source">The source node.</param>
         /// <param name="target">The target node.</param>
         /// <param name="deep">Is a deep-copy required?</param>
-        static protected void CopyProperties(Node source, Node target, bool deep)
+        static protected void CopyProperties(Node source, Node target, Boolean deep)
         {
             target._baseURI = source._baseURI;
             target._name = source._name;
@@ -844,7 +844,7 @@ namespace AngleSharp.DOM
                     target._children.Add(source._children[i].CloneNode(true));
 
                 for (int i = 0; i < source._attributes.Length; i++)
-                    target._attributes.SetNamedItem(source._attributes[i].CloneNode(true));
+                    target._attributes.SetNamedItem(source._attributes[i].CloneNode(true) as Attr);
             }
         }
 
@@ -854,7 +854,7 @@ namespace AngleSharp.DOM
         /// <param name="namespaceName">The localName of the attribute.</param>
         /// <param name="namespaceURI">The value of the attribute.</param>
         /// <returns>Returns the result of the check.</returns>
-        static protected bool IsValidNamespaceDeclaration(string namespaceName, string namespaceURI)
+        static protected bool IsValidNamespaceDeclaration(String namespaceName, String namespaceURI)
         {
             if (namespaceName == Namespaces.Declaration)
                 return false;

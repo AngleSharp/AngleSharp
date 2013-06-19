@@ -853,7 +853,7 @@ namespace AngleSharp.DOM
             if (oldAttr != null)
                 oldAttr.ParentNode = null;
 
-            return oldAttr as Attr;
+            return oldAttr;
         }
 
         /// <summary>
@@ -864,7 +864,7 @@ namespace AngleSharp.DOM
         [DOM("getAttributeNode")]
         public virtual Attr GetAttributeNode(String attrName)
         {
-            return _attributes[attrName] as Attr;
+            return _attributes[attrName];
         }
 
         /// <summary>
@@ -877,7 +877,7 @@ namespace AngleSharp.DOM
         {
             var node = _attributes.RemoveNamedItem(attr.NodeName);
             node.ParentNode = null;
-            return node as Attr;
+            return node;
         }
 
         /// <summary>
@@ -901,7 +901,7 @@ namespace AngleSharp.DOM
         [DOM("getAttributeNodeNS")]
         public virtual Attr GetAttributeNodeNS(String namespaceURI, String attrName)
         {
-            return _attributes.GetNamedItemNS(namespaceURI, attrName) as Attr;
+            return _attributes.GetNamedItemNS(namespaceURI, attrName);
         }
 
         /// <summary>

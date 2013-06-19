@@ -10,11 +10,11 @@ namespace AngleSharp.DOM.Collections
     /// Represents a named collection of nodes.
     /// </summary>
     [DOM("NamedNodeMap")]
-    public sealed class NamedNodeMap : IHTMLObject, IEnumerable<Node>
+    public sealed class NamedNodeMap : IHTMLObject, IEnumerable<Attr>
     {
         #region Members
 
-        List<Node> _entries;
+        List<Attr> _entries;
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         internal NamedNodeMap()
         {
-            _entries = new List<Node>();
+            _entries = new List<Attr>();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="index">The index of the item to get.</param>
         /// <returns>The item or null if the index is higher or equal to the number of nodes.</returns>
         [DOM("item")]
-        public Node this[Int32 index]
+        public Attr this[Int32 index]
         {
             get
             {
@@ -63,14 +63,17 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="name">The case-insensitive name of the attribute.</param>
         /// <returns>The value of the NodeAttribute or null if it does not exist.</returns>
-        public Node this[String name]
+        public Attr this[String name]
         {
             get
             {
-                for (var i = 0; i < _entries.Count; i++)
+                if (name != null)
                 {
-                    if (_entries[i].NodeName.Equals(name, StringComparison.OrdinalIgnoreCase))
-                        return _entries[i];
+                    for (var i = 0; i < _entries.Count; i++)
+                    {
+                        if (_entries[i].NodeName.Equals(name, StringComparison.OrdinalIgnoreCase))
+                            return _entries[i];
+                    }
                 }
 
                 return null;
@@ -100,7 +103,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="nodeName">The name of the node.</param>
         /// <returns>The node or null if nothing found.</returns>
         [DOM("getNamedItem")]
-        public Node GetNamedItem(String nodeName)
+        public Attr GetNamedItem(String nodeName)
         {
             return this[nodeName];
         }
@@ -111,19 +114,23 @@ namespace AngleSharp.DOM.Collections
         /// <param name="node">The node to be added or inserted.</param>
         /// <returns>The replaced node, if any.</returns>
         [DOM("setNamedItem")]
-        public Node SetNamedItem(Node node)
+        public Attr SetNamedItem(Attr node)
         {
-            for (var i = 0; i < _entries.Count; i++)
+            if (node != null)
             {
-                if (_entries[i].NodeName.Equals(node.NodeName, StringComparison.OrdinalIgnoreCase))
+                for (var i = 0; i < _entries.Count; i++)
                 {
-                    var entry = _entries[i];
-                    _entries[i] = node;
-                    return entry;
+                    if (_entries[i].NodeName.Equals(node.NodeName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var entry = _entries[i];
+                        _entries[i] = node;
+                        return entry;
+                    }
                 }
+
+                _entries.Add(node);
             }
 
-            _entries.Add(node);
             return null;
         }
 
@@ -133,15 +140,18 @@ namespace AngleSharp.DOM.Collections
         /// <param name="nodeName">The name of the node.</param>
         /// <returns>The removed node or null if nothing found.</returns>
         [DOM("removeNamedItem")]
-        public Node RemoveNamedItem(String nodeName)
+        public Attr RemoveNamedItem(String nodeName)
         {
-            for (int i = 0; i < _entries.Count; i++)
+            if (nodeName != null)
             {
-                if (_entries[i].NodeName.Equals(nodeName, StringComparison.OrdinalIgnoreCase))
+                for (int i = 0; i < _entries.Count; i++)
                 {
-                    var entry = _entries[i];
-                    _entries.RemoveAt(i);
-                    return entry;
+                    if (_entries[i].NodeName.Equals(nodeName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var entry = _entries[i];
+                        _entries.RemoveAt(i);
+                        return entry;
+                    }
                 }
             }
 
@@ -155,11 +165,14 @@ namespace AngleSharp.DOM.Collections
         /// <param name="localName">The name of the node.</param>
         /// <returns>The node or null if nothing found.</returns>
         [DOM("getNamedItemNS")]
-        public Node GetNamedItemNS(String namespaceURI, String localName)
+        public Attr GetNamedItemNS(String namespaceURI, String localName)
         {
-            for (var i = 0; i < _entries.Count; i++)
-                if (_entries[i].NamespaceURI.Equals(namespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase))
-                    return _entries[i];
+            if (namespaceURI != null && localName != null)
+            {
+                for (var i = 0; i < _entries.Count; i++)
+                    if (_entries[i].NamespaceURI.Equals(namespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase))
+                        return _entries[i];
+            }
 
             return null;
         }
@@ -170,18 +183,22 @@ namespace AngleSharp.DOM.Collections
         /// <param name="node">The node to be added or inserted.</param>
         /// <returns>The added node.</returns>
         [DOM("setNamedItemNS")]
-        public Node SetNamedItemNS(Node node)
+        public Attr SetNamedItemNS(Attr node)
         {
-            for (var i = 0; i < _entries.Count; i++)
+            if (node != null)
             {
-                if (_entries[i].NamespaceURI.Equals(node.NamespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(node.LocalName, StringComparison.OrdinalIgnoreCase))
+                for (var i = 0; i < _entries.Count; i++)
                 {
-                    _entries[i] = node;
-                    return _entries[i];
+                    if (_entries[i].NamespaceURI.Equals(node.NamespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(node.LocalName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        _entries[i] = node;
+                        return _entries[i];
+                    }
                 }
+
+                _entries.Add(node);
             }
 
-            _entries.Add(node);
             return node;
         }
 
@@ -192,15 +209,18 @@ namespace AngleSharp.DOM.Collections
         /// <param name="localName">The name of the node.</param>
         /// <returns>The removed node or null if nothing found.</returns>
         [DOM("removeNamedItemNS")]
-        public Node RemoveNamedItemNS(String namespaceURI, String localName)
+        public Attr RemoveNamedItemNS(String namespaceURI, String localName)
         {
-            for (var i = 0; i < _entries.Count; i++)
+            if (namespaceURI != null && localName != null)
             {
-                if (_entries[i].NamespaceURI.Equals(namespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase))
+                for (var i = 0; i < _entries.Count; i++)
                 {
-                    var entry = _entries[i];
-                    _entries.RemoveAt(i);
-                    return entry;
+                    if (_entries[i].NamespaceURI.Equals(namespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var entry = _entries[i];
+                        _entries.RemoveAt(i);
+                        return entry;
+                    }
                 }
             }
 
@@ -261,7 +281,7 @@ namespace AngleSharp.DOM.Collections
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>An IEnumerator for NodeAttributeCollection.</returns>
-        public IEnumerator<Node> GetEnumerator()
+        public IEnumerator<Attr> GetEnumerator()
         {
             return _entries.GetEnumerator();
         }
@@ -272,7 +292,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>An IEnumerator for NodeAttributeCollection</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)_entries).GetEnumerator();
+            return GetEnumerator();
         }
 
         #endregion

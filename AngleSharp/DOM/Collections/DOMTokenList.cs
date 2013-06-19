@@ -224,6 +224,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>An enumerator that can be used to iterate through the tokens.</returns>
         public IEnumerator<String> GetEnumerator()
         {
+            GetValue();
             return tokens.GetEnumerator();
         }
 
@@ -233,7 +234,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>An enumerator that can be used to iterate through the tokens.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)tokens).GetEnumerator();
+            return GetEnumerator();
         }
 
         #endregion
