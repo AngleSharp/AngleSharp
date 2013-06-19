@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>OxyPlot.Wpf</id>
+    <version>2013.1.49.1</version>
+    <title>OxyPlot.Wpf</title>
+    <authors>objo</authors>
+    <owners>objo</owners>
+    <licenseUrl>http://oxyplot.codeplex.com/license</licenseUrl>
+    <projectUrl>http://oxyplot.codeplex.com/</projectUrl>
+    <iconUrl>http://www.objo.net/codeplex/icons/oxyplot.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>OxyPlot is an open source .NET plotting library.</description>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <tags>wpf plotting plot charting chart</tags>
+    <dependencies>
+      <dependency id="OxyPlot.Core" version="2013.1" />
+    </dependencies>
+  </metadata>
+</package>

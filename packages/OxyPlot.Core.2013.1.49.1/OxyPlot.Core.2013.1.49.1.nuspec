@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>OxyPlot.Core</id>
+    <version>2013.1.49.1</version>
+    <authors>objo</authors>
+    <owners>objo</owners>
+    <licenseUrl>http://oxyplot.codeplex.com/license</licenseUrl>
+    <projectUrl>http://oxyplot.codeplex.com/</projectUrl>
+    <iconUrl>http://www.objo.net/codeplex/icons/oxyplot.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>OxyPlot is an open source .NET plotting library. This core package is included in the other OxyPlot packages.</description>
+    <tags>plotting plot charting chart</tags>
+  </metadata>
+</package>

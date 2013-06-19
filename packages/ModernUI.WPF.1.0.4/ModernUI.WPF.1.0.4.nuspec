@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>ModernUI.WPF</id>
+    <version>1.0.4</version>
+    <title>ModernUI for WPF</title>
+    <authors>First Floor Software</authors>
+    <owners>First Floor Software</owners>
+    <licenseUrl>http://mui.codeplex.com/license</licenseUrl>
+    <projectUrl>http://mui.codeplex.com/</projectUrl>
+    <iconUrl>http://i3.codeplex.com/Download?ProjectName=mui&amp;DownloadId=648952</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A set of controls and styles converting your WPF application into a great looking Modern UI app.</description>
+    <releaseNotes />
+    <copyright>Copyright 2013 First Floor Software</copyright>
+    <language />
+    <tags>modern ui metro wpf</tags>
+  </metadata>
+</package>
