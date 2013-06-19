@@ -10,7 +10,7 @@ namespace AngleSharp.Css
     /// The CSS tokenizer.
     /// See http://dev.w3.org/csswg/css-syntax/#tokenization for more details.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     class CssTokenizer
     {
         #region Members
@@ -133,11 +133,19 @@ namespace AngleSharp.Css
                 case Specification.PLUS:
                     {
                         var c1 = src.Next;
-                        var c2 = src.Next;
-                        src.Back(2);
 
-                        if (Specification.IsDigit(c1) || (c1 == Specification.FS && Specification.IsDigit(c2)))
-                            return NumberStart(current);
+                        if (c1 == Specification.EOF)
+                        {
+                            src.Back();
+                        }
+                        else
+                        {
+                            var c2 = src.Next;
+                            src.Back(2);
+
+                            if (Specification.IsDigit(c1) || (c1 == Specification.FS && Specification.IsDigit(c2)))
+                                return NumberStart(current);
+                        }
                         
                         return CssToken.Delim(current);
                     }
@@ -158,19 +166,27 @@ namespace AngleSharp.Css
                 case Specification.DASH:
                     {
                         var c1 = src.Next;
-                        var c2 = src.Next;
-                        src.Back(2);
 
-                        if (Specification.IsDigit(c1) || (c1 == Specification.FS && Specification.IsDigit(c2)))
-                            return NumberStart(current);
-                        else if (Specification.IsNameStart(c1))
-                            return IdentStart(current);
-                        else if (c1 == Specification.RSOLIDUS && !Specification.IsLineBreak(c2) && c2 != Specification.EOF)
-                            return IdentStart(current);
-                        else if (c1 == Specification.DASH && c2 == Specification.GT)
+                        if (c1 == Specification.EOF)
                         {
-                            src.Advance(2);
-                            return CssCommentToken.Close;
+                            src.Back();
+                        }
+                        else
+                        {
+                            var c2 = src.Next;
+                            src.Back(2);
+
+                            if (Specification.IsDigit(c1) || (c1 == Specification.FS && Specification.IsDigit(c2)))
+                                return NumberStart(current);
+                            else if (Specification.IsNameStart(c1))
+                                return IdentStart(current);
+                            else if (c1 == Specification.RSOLIDUS && !Specification.IsLineBreak(c2) && c2 != Specification.EOF)
+                                return IdentStart(current);
+                            else if (c1 == Specification.DASH && c2 == Specification.GT)
+                            {
+                                src.Advance(2);
+                                return CssCommentToken.Close;
+                            }
                         }
                         
                         return CssToken.Delim(current);
