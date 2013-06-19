@@ -1,0 +1,110 @@
+﻿<Page x:Class="Samples.Pages.Query"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Title="Query">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="80" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBox Grid.Row="0"
+                 Grid.Column="0"
+                 Padding="5"
+                 x:Name="Url"
+                 KeyDown="UrlKeyDown"
+                 Style="{StaticResource UrlHint}"
+                 Margin="0 5 5 5" />
+        
+        <Button Grid.Row="0"
+                Click="Button_Click"
+                Grid.Column="1"
+                Margin="5 5 0 5">
+            Go
+        </Button>
+        
+        <TextBlock Text="{Binding Result, StringFormat='Total: {0} Elements'}"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   HorizontalAlignment="Left"
+                   Margin="5"
+                   Foreground="Gray"
+                   Width="120" />
+        
+        <TextBlock Text="{Binding Time, StringFormat='Time: {0}ms'}"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   Foreground="Gray"
+                   Grid.ColumnSpan="2"
+                   TextAlignment="Right"
+                   HorizontalAlignment="Right"
+                   Margin="5"
+                   Width="120" />
+
+        <TextBox Grid.Row="3"
+                 Grid.Column="0"
+                 Grid.ColumnSpan="2"
+                 Foreground="SteelBlue"
+                 FontSize="20"
+                 Padding="5"
+                 Background="{Binding State}"
+                 Text="{Binding Query, Mode= TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="0 5 0 5" />
+
+        <ListView Grid.Row="2"
+                  ItemsSource="{Binding Source}"
+                  Grid.ColumnSpan="2"
+                  Grid.Column="0">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="{Binding TagName}"
+                                   Padding="5"
+                                   Margin="3"
+                                   Grid.Column="0" />
+
+                        <TextBlock Text="{Binding Id}"
+                                   Margin="3"
+                                   Padding="5"
+                                   Foreground="Green"
+                                   Grid.Column="1" />
+
+                        <TextBlock Text="{Binding ClassName}"
+                                   Margin="3"
+                                   Padding="5"
+                                   Foreground="Red"
+                                   Grid.Column="2" />
+                    </Grid>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            
+        </ListView>
+
+        <TextBlock Grid.Row="4"
+                   Text="{Binding Status}"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2" 
+                   Foreground="SteelBlue"
+                   FontWeight="Bold" />
+    </Grid>
+</Page>

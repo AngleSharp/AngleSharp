@@ -19,6 +19,9 @@
 
                 <mui:Link DisplayName="Statistics"
                           Source="Pages\Statistics.xaml" />
+
+                <mui:Link DisplayName="QuerySelector"
+                          Source="Pages\Query.xaml" />
             </mui:LinkGroup.Links>
             
         </mui:LinkGroup>

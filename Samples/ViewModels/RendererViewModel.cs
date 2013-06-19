@@ -50,7 +50,7 @@ namespace Samples.ViewModels
             await Task.Yield();
         }
 
-        private void Reset()
+        void Reset()
         {
             root.Blocks.Clear();
             currentFontStyle = FontStyles.Normal;
@@ -59,6 +59,13 @@ namespace Samples.ViewModels
             currentStrike = false;
             isHyperlink = false;
         }
+
+        //
+        // A good overview over the various classes for the
+        // WPF flowdocument can be found here:
+        //
+        // http://msdn.microsoft.com/en-us/library/aa970909.aspx
+        //
 
         Section RenderBox(Element element)
         {

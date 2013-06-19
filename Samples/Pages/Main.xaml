@@ -24,7 +24,11 @@
                 <mui:BBCodeBlock BBCode="The [b]Renderer[/b] is a very simple renderer based on WPF - nothing that could compete with existing renderers, but a good demonstration what to do with the generated DOM."
                                  Margin="0 0 0 20" />
 
-                <mui:BBCodeBlock BBCode="Finally the [b]Statistics[/b] content generates a few very interesting statistics about some pages. Feel free to extend it at your will!" />
+                <mui:BBCodeBlock BBCode="The [b]Statistics[/b] content generates a few very interesting statistics about some pages. Feel free to extend it at your will!" 
+                                 Margin="0 0 0 20" />
+
+                <mui:BBCodeBlock BBCode="Finally the [b]QuerySelector[/b] demo shows you how easy it is to use QuerySelectorAll to filter elements in an HTML document." 
+                                 Margin="0 0 0 20" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
