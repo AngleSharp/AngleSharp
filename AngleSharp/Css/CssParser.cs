@@ -467,7 +467,6 @@ namespace AngleSharp.Css
                     {
                         var tokens = LimitToCurrentBlock(source);
                         AppendDeclarations(tokens.GetEnumerator(), style.Style.List);
-                        source.MoveNext();
                     }
 
                     break;
@@ -741,7 +740,6 @@ namespace AngleSharp.Css
             }
             while (source.MoveNext());
 
-            source.MoveNext();
             rule.CssText = buffer.ToString();
             buffer.Clear();
             open.Pop();
@@ -772,8 +770,6 @@ namespace AngleSharp.Css
 
                     while (SkipToNextNonWhitespace(tokens))
                         keyframes.CssRules.List.Add(CreateKeyframeRule(tokens));
-
-                    source.MoveNext();
                 }
             }
 
@@ -801,7 +797,6 @@ namespace AngleSharp.Css
                     {
                         var tokens = LimitToCurrentBlock(source);
                         AppendDeclarations(tokens.GetEnumerator(), keyframe.Style.List);
-                        source.MoveNext();
                     }
 
                     break;
@@ -837,7 +832,6 @@ namespace AngleSharp.Css
                     {
                         var tokens = LimitToCurrentBlock(source);
                         AppendRules(tokens.GetEnumerator(), supports.CssRules.List);
-                        source.MoveNext();
                     }
 
                     break;
@@ -872,7 +866,7 @@ namespace AngleSharp.Css
                     ns.NamespaceURI = source.Current.ToValue();
             }
 
-            SkipBehindNextSemicolon(source);
+            SkipToNextSemicolon(source);
             return ns;
         }
 
@@ -889,7 +883,7 @@ namespace AngleSharp.Css
             if (source.Current.Type == CssTokenType.String)
                 charset.Encoding = ((CssStringToken)source.Current).Data;
 
-            SkipBehindNextSemicolon(source);
+            SkipToNextSemicolon(source);
             return charset;
         }
 
@@ -911,7 +905,6 @@ namespace AngleSharp.Css
                 {
                     var tokens = LimitToCurrentBlock(source);
                     AppendDeclarations(tokens.GetEnumerator(), fontface.CssRules.List);
-                    source.MoveNext();
                 }
             }
 
@@ -943,11 +936,10 @@ namespace AngleSharp.Css
                     AppendMediaList(source, import.Media, CssTokenType.Semicolon);
                     //TODO
                     //import.StyleSheet = DocumentBuilder.Css(new Uri(import.Href));
-                    source.MoveNext();
                     break;
 
                 default:
-                    SkipBehindNextSemicolon(source);
+                    SkipToNextSemicolon(source);
                     break;
             }
 
@@ -977,7 +969,6 @@ namespace AngleSharp.Css
                     {
                         var tokens = LimitToCurrentBlock(source);
                         AppendDeclarations(tokens.GetEnumerator(), page.Style.List);
-                        source.MoveNext();
                         break;
                     }
                 }
@@ -1010,7 +1001,6 @@ namespace AngleSharp.Css
                 {
                     var tokens = LimitToCurrentBlock(source);
                     AppendRules(tokens.GetEnumerator(), media.CssRules.List);
-                    source.MoveNext();
                 }
             }
 
