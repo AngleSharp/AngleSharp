@@ -4,9 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-      mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
-	Title="Main">
+      mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Title="Main">
 
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
@@ -27,8 +25,13 @@
                 <mui:BBCodeBlock BBCode="The [b]Statistics[/b] content generates a few very interesting statistics about some pages. Feel free to extend it at your will!" 
                                  Margin="0 0 0 20" />
 
-                <mui:BBCodeBlock BBCode="Finally the [b]QuerySelector[/b] demo shows you how easy it is to use QuerySelectorAll to filter elements in an HTML document." 
+                <mui:BBCodeBlock BBCode="Additionally the [b]QuerySelector[/b] demo shows you how easy it is to use QuerySelectorAll to filter elements in an HTML document." 
                                  Margin="0 0 0 20" />
+
+                <mui:BBCodeBlock BBCode="Finally the [b]Stylesheets[/b] sample shows you how use the information regarding stylesheets in an HTMLDocument. It also displays how to read out stylesheets in general (given a source or a link)." 
+                                 Margin="0 0 0 20" />
+
+                <mui:BBCodeBlock BBCode="If you feel that any features are [i]missing, incomplete or buggy[/i] then please contact us or use the issue tracker on the GitHub repo page. Also if you have a nice sample to show or want to contribute in some way then your help is more than welcome. Just contact us or commit the code directly over the git repository." />
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -85,11 +85,16 @@
     <Compile Include="Pages\Query.xaml.cs">
       <DependentUpon>Query.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Sheets.xaml.cs">
+      <DependentUpon>Sheets.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\BrowserViewModel.cs" />
+    <Compile Include="ViewModels\CssRuleViewModel.cs" />
     <Compile Include="ViewModels\QueryViewModel.cs" />
     <Compile Include="ViewModels\RendererViewModel.cs" />
     <Compile Include="ViewModels\RequestViewModel.cs" />
+    <Compile Include="ViewModels\SheetViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\TreeNodeViewModel.cs" />
     <Page Include="MainWindow.xaml">
@@ -117,6 +122,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Renderer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Sheets.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

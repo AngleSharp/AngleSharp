@@ -40,8 +40,7 @@ namespace Samples.ViewModels
             var http = new HttpClient();
             var uri = Sanitize(url);
             Status = "Loading " + uri.AbsoluteUri + " ...";
-            var request = await http.GetAsync(uri);
-            cancel.ThrowIfCancellationRequested();
+            var request = await http.GetAsync(uri, cancel);
             var response = await request.Content.ReadAsStreamAsync();
             cancel.ThrowIfCancellationRequested();
             Status = "Parsing " + uri.AbsoluteUri + " ...";

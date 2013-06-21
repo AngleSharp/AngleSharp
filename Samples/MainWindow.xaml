@@ -22,6 +22,9 @@
 
                 <mui:Link DisplayName="QuerySelector"
                           Source="Pages\Query.xaml" />
+
+                <mui:Link DisplayName="Stylesheets"
+                          Source="Pages\Sheets.xaml" />
             </mui:LinkGroup.Links>
             
         </mui:LinkGroup>
