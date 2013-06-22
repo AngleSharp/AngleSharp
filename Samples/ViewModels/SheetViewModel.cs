@@ -55,41 +55,32 @@ namespace Samples.ViewModels
 
         async Task PopulateTree()
         {
-            var sheet = selected as CSSStyleSheet;
             tree.Clear();
+            cts = new CancellationTokenSource();
+            var content = String.Empty;
+            var token = cts.Token;
 
-            if (sheet != null)
+            if (String.IsNullOrEmpty(selected.Href))
+                content = selected.OwnerNode.TextContent;
+            else
             {
-                cts = new CancellationTokenSource();
-                var content = String.Empty;
-                var token = cts.Token;
+                var http = new HttpClient { BaseAddress = local };
+                var request = await http.GetAsync(selected.Href, cts.Token);
+                content = await request.Content.ReadAsStringAsync();
+                token.ThrowIfCancellationRequested();
+            }
 
-                if (String.IsNullOrEmpty(sheet.Href))
-                    content = sheet.OwnerNode.TextContent;
-                else
+            var css = DocumentBuilder.Css(content);
+
+            for (int i = 0, j = 0; i < css.CssRules.Length; i++, j++)
+            {
+                tree.Add(new CssRuleViewModel(css.CssRules[i]));
+
+                if (j == 80)
                 {
-                    var http = new HttpClient { BaseAddress = local };
-                    var request = await http.GetAsync(sheet.Href, cts.Token);
-                    content = await request.Content.ReadAsStringAsync();
-
-                    if (token.IsCancellationRequested)
-                        return;
+                    j = 0;
+                    await Task.Delay(1, cts.Token);
                 }
-
-                var css = DocumentBuilder.Css(content);
-
-                for (int i = 0, j = 0; i < css.CssRules.Length; i++, j++)
-                {
-                    tree.Add(new CssRuleViewModel(css.CssRules[i]));
-
-                    if (j == 100)
-                    {
-                        j = 0;
-                        await Task.Delay(1, cts.Token);
-                    }
-                }
-
-                
             }
         }
 
