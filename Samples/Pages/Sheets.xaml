@@ -58,19 +58,20 @@
                         <DataTemplate>
                             
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Href}"
-                                           Padding="5"
+                                <TextBlock Padding="5"
                                            Foreground="Black"
                                            Background="LightGray"
                                            Margin="3">
                                     
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Text"
+                                                    Value="{Binding Href}"/>
+                                            
                                             <Style.Triggers>
 
-                                                <DataTrigger Binding="{Binding Href}"
-                                                             Value="{x:Null}">
-                                                    
+                                                <DataTrigger Binding="{Binding Path=Href.Length, FallbackValue=0, TargetNullValue=0}"
+                                                             Value="0">
                                                     <Setter Property="Text"
                                                             Value="&lt;inlined&gt;"/>
                                                     

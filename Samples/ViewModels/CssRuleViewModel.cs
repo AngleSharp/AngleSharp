@@ -23,7 +23,7 @@ namespace Samples.ViewModels
             {
                 case CssRule.FontFace:
                     var font = (CSSFontFaceRule)rule;
-                    name = "Font-Face";
+                    name = "@font-face";
                     Populate(font.CssRules);
                     break;
 
@@ -35,19 +35,19 @@ namespace Samples.ViewModels
 
                 case CssRule.Keyframes:
                     var keyframes = (CSSKeyframesRule)rule;
-                    name = keyframes.Name;
+                    name = "@keyframes " + keyframes.Name;
                     Populate(keyframes.CssRules);
                     break;
 
                 case CssRule.Media:
                     var media = (CSSMediaRule)rule;
-                    name = media.ConditionText;
+                    name = "@media " + media.ConditionText;
                     Populate(media.CssRules);
                     break;
 
                 case CssRule.Page:
                     var page = (CSSPageRule)rule;
-                    name = page.SelectorText;
+                    name = "@page " + page.SelectorText;
                     Populate(page.Style);
                     break;
 
@@ -59,7 +59,7 @@ namespace Samples.ViewModels
 
                 case CssRule.Supports:
                     var support = (CSSSupportsRule)rule;
-                    name = support.ConditionText;
+                    name = "@supports " + support.ConditionText;
                     Populate(support.CssRules);
                     break;
 

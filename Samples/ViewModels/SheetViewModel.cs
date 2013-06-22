@@ -19,6 +19,7 @@ namespace Samples.ViewModels
         Uri local;
         ObservableCollection<CssRuleViewModel> tree;
         CancellationTokenSource cts;
+        Task populate;
 
         public SheetViewModel()
 	    {
@@ -44,7 +45,11 @@ namespace Samples.ViewModels
             {
                 selected = value;     
                 RaisePropertyChanged();
-                PopulateTree();
+
+                if (populate != null && !populate.IsCompleted)
+                    cts.Cancel();
+
+                populate = PopulateTree();
             }
         }
 
@@ -55,9 +60,6 @@ namespace Samples.ViewModels
 
             if (sheet != null)
             {
-                if (cts != null)
-                    cts.Cancel();
-
                 cts = new CancellationTokenSource();
                 var content = String.Empty;
                 var token = cts.Token;
@@ -76,8 +78,18 @@ namespace Samples.ViewModels
 
                 var css = DocumentBuilder.Css(content);
 
-                for (int i = 0; i < css.CssRules.Length; i++)
+                for (int i = 0, j = 0; i < css.CssRules.Length; i++, j++)
+                {
                     tree.Add(new CssRuleViewModel(css.CssRules[i]));
+
+                    if (j == 100)
+                    {
+                        j = 0;
+                        await Task.Delay(1, cts.Token);
+                    }
+                }
+
+                
             }
         }
 
