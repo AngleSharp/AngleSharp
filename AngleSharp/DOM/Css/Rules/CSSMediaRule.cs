@@ -36,6 +36,15 @@ namespace AngleSharp.DOM.Css
         #region Properties
 
         /// <summary>
+        /// Gets or sets the text of the media condition.
+        /// </summary>
+        public override String ConditionText
+        {
+            get { return media.MediaText; }
+            set { media.MediaText = value; }
+        }
+
+        /// <summary>
         /// Gets a list of media types for this rule.
         /// </summary>
         public MediaList Media

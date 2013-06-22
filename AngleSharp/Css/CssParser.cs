@@ -270,9 +270,9 @@ namespace AngleSharp.Css
                     if (source.Current.Type == CssTokenType.Comma || source.Current.Type == endToken)
                         break;
                     else if (source.Current.Type == CssTokenType.Whitespace)
-                        continue;
-
-                    buffer.Append(source.Current.ToValue());
+                        buffer.Append(' ');
+                    else
+                        buffer.Append(source.Current.ToValue());
                 }
                 while (source.MoveNext());
 
