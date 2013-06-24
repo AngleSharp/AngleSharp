@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML style element.
     /// </summary>
-    public sealed class HTMLStyleElement : HTMLRawtextElement, IStyleSheet
+    public sealed class HTMLStyleElement : HTMLElement, IStyleSheet
     {
         #region Constant
 

@@ -651,9 +651,8 @@ namespace AngleSharp.Html
             else if (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name == HTMLScriptElement.Tag)
             {
                 var element = new HTMLScriptElement();
-                element.IsParserInserted = true;
-                element.IsAsyncForced = false;
-                element.IsAlreadyStarted = fragment;
+                //element.IsParserInserted = true;
+                //element.IsAlreadyStarted = fragment;
                 AddElementToCurrentNode(element, token);
                 tokenizer.Switch(HtmlParseMode.Script);
                 originalInsert = insert;
@@ -1487,10 +1486,6 @@ namespace AngleSharp.Html
             else if (token.Type == HtmlTokenType.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-
-                if (CurrentNode is HTMLScriptElement)
-                    ((HTMLScriptElement)CurrentNode).IsAlreadyStarted = true;
-
                 CloseCurrentNode();
                 insert = originalInsert;
                 Consume(token);
@@ -1508,7 +1503,7 @@ namespace AngleSharp.Html
                     insert = originalInsert;
                     var oldInsertion = tokenizer.Stream.InsertionPoint;
                     nesting++;
-                    script.Prepare();
+                    //script.Prepare();
                     nesting--;
 
                     if (nesting == 0)
@@ -1536,7 +1531,7 @@ namespace AngleSharp.Html
                             //TODO From here on Tokenizer can be called again
                             oldInsertion = tokenizer.Stream.InsertionPoint;
                             nesting++;
-                            script.Execute();
+                            //script.Execute();
                             nesting--;
 
                             if (nesting == 0)

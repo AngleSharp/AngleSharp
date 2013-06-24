@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the select element.
     /// </summary>
-    public sealed class HTMLSelectElement : HTMLElement
+    public sealed class HTMLSelectElement : HTMLFormControlElementWithState
     {
         #region Constant
 

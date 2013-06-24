@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents a HTML textarea element.
     /// </summary>
-    public sealed class HTMLTextAreaElement : HTMLRCDataElement
+    public sealed class HTMLTextAreaElement : HTMLTextFormControlElement
     {
         #region Constant
 

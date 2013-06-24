@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML progress element.
     /// </summary>
-    public sealed class HTMLProgressElement : HTMLElement
+    public sealed class HTMLProgressElement : HTMLElement, ILabelabelElement
     {
         #region Constant
 
@@ -14,6 +14,12 @@ namespace AngleSharp.DOM.Html
         /// The progress tag.
         /// </summary>
         internal const string Tag = "progress";
+
+        #endregion
+
+        #region Members
+
+        NodeList labels;
 
         #endregion
 
@@ -25,11 +31,29 @@ namespace AngleSharp.DOM.Html
         internal HTMLProgressElement()
         {
             _name = Tag;
+            labels = new NodeList();
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets if labels are supported.
+        /// </summary>
+        public Boolean SupportsLabels
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the list of assigned labels.
+        /// </summary>
+        public NodeList Labels
+        {
+            get { return labels; }
+        }
 
         //TODO
         //http://www.w3.org/html/wg/drafts/html/master/forms.html#the-progress-element
@@ -59,18 +83,6 @@ namespace AngleSharp.DOM.Html
         {
             get;
             private set;
-        }
-
-        /// <summary>
-        /// Gets a list of associated labels.
-        /// </summary>
-        public NodeList Labels
-        {
-            get
-            {
-                //TODO
-                return null;
-            }
         }
 
         #endregion

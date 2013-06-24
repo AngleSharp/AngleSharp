@@ -65,6 +65,12 @@
     <Compile Include="DOM\Css\Values\CSSValueList.cs" />
     <Compile Include="DOM\Css\Values\Rect.cs" />
     <Compile Include="DOM\Enums\HttpMethod.cs" />
+    <Compile Include="DOM\Html\Forms\HTMLFormControlElement.cs" />
+    <Compile Include="DOM\Html\Forms\HTMLFormControlElementWithState.cs" />
+    <Compile Include="DOM\Html\Forms\HTMLOutputElement.cs" />
+    <Compile Include="DOM\Html\Forms\HTMLTextFormControlElement.cs" />
+    <Compile Include="DOM\Html\Frames\HTMLFrameElementBase.cs" />
+    <Compile Include="DOM\Html\Frames\HTMLFrameOwnerElement.cs" />
     <Compile Include="DOM\Html\Media\HTMLCanvasElement.cs" />
     <Compile Include="DOM\Html\Forms\HTMLDataListElement.cs" />
     <Compile Include="DOM\Html\Media\HTMLMediaElement.cs" />
@@ -74,6 +80,7 @@
     <Compile Include="DOM\Interfaces\ICSSObject.cs" />
     <Compile Include="DOM\Interfaces\IDocumentFragment.cs" />
     <Compile Include="DOM\Interfaces\IHTMLObject.cs" />
+    <Compile Include="DOM\Interfaces\ILabelabelElement.cs" />
     <Compile Include="DOM\Interfaces\IQueryElements.cs" />
     <Compile Include="DOM\Interfaces\IValidation.cs" />
     <Compile Include="DOM\Interfaces\IValidityState.cs" />
@@ -83,6 +90,7 @@
     <Compile Include="DOM\Objects\EventListener.cs" />
     <Compile Include="DOM\Objects\EventTarget.cs" />
     <Compile Include="DOM\Objects\Range.cs" />
+    <Compile Include="DOM\Various\FormControlState.cs" />
     <Compile Include="Foundation\Attributes\DOMAttribute.cs" />
     <Compile Include="Foundation\Helpers\Colors.cs" />
     <Compile Include="Css\CssCombinator.cs" />
@@ -229,8 +237,6 @@
     <Compile Include="DOM\Html\Objects\HTMLParamElement.cs" />
     <Compile Include="DOM\Html\HTMLPreElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLQuoteElement.cs" />
-    <Compile Include="DOM\Html\HTMLRawtextElement.cs" />
-    <Compile Include="DOM\Html\HTMLRCDataElement.cs" />
     <Compile Include="DOM\Html\Basic\HTMLScriptElement.cs" />
     <Compile Include="DOM\Html\Forms\HTMLSelectElement.cs" />
     <Compile Include="DOM\Html\Media\HTMLSourceElement.cs" />

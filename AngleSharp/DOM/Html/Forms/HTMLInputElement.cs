@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an HTML input element.
     /// </summary>
-    public sealed class HTMLInputElement : HTMLElement
+    public sealed class HTMLInputElement : HTMLTextFormControlElement
     {
         #region Constant
 

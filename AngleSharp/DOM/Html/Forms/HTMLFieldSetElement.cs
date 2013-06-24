@@ -5,10 +5,10 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML fieldset element.
     /// </summary>
-    public sealed class HTMLFieldSetElement : HTMLElement
+    public sealed class HTMLFieldSetElement : HTMLFormControlElement
     {
         /// <summary>
-        /// THe fieldset tag.
+        /// The fieldset tag.
         /// </summary>
         internal const string Tag = "fieldset";
 

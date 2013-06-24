@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an HTML button element.
     /// </summary>
-    public sealed class HTMLButtonElement : HTMLElement
+    public sealed class HTMLButtonElement : HTMLFormControlElement
     {
         #region Constant
 

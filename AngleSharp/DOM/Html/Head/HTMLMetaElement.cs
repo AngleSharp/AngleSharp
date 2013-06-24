@@ -33,7 +33,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the content attribute, with associated information.
         /// </summary>
-        public string Content
+        public String Content
         {
             get { return GetAttribute("content"); }
             set { SetAttribute("content", value); }
@@ -42,7 +42,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the HTTP response header name.
         /// </summary>
-        public string HttpEquiv
+        public String HttpEquiv
         {
             get { return GetAttribute("http-equiv"); }
             set { SetAttribute("http-equiv", value); }
@@ -51,10 +51,19 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the select form of content.
         /// </summary>
-        public string Scheme
+        public String Scheme
         {
             get { return GetAttribute("scheme"); }
             set { SetAttribute("scheme", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the value of the name attribute.
+        /// </summary>
+        public String Name
+        {
+            get { return GetAttribute("name"); }
+            set { SetAttribute("name", value); }
         }
 
         #endregion

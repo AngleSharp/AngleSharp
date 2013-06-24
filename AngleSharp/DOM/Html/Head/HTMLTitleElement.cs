@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the title element.
     /// </summary>
-    public sealed class HTMLTitleElement : HTMLRCDataElement
+    public sealed class HTMLTitleElement : HTMLElement
     {
         /// <summary>
         /// The title tag.

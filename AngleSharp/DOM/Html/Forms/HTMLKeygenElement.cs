@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the keygen element.
     /// </summary>
-    public sealed class HTMLKeygenElement : HTMLElement, IValidation
+    public sealed class HTMLKeygenElement : HTMLFormControlElementWithState, IValidation
     {
         #region Constant
 

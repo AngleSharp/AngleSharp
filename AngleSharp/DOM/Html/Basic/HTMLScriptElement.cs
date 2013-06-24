@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an HTML script element.
     /// </summary>
-    public sealed class HTMLScriptElement : HTMLRawtextElement
+    public sealed class HTMLScriptElement : HTMLElement
     {
         #region Constant
 
@@ -24,29 +24,7 @@ namespace AngleSharp.DOM.Html
         internal HTMLScriptElement()
         {
             _name = Tag;
-            IsAsyncForced = true;
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        internal bool IsAsyncForced
-        {
-            get;
-            set;
-        }
-
-        internal bool IsParserInserted
-        {
-            get;
-            set;
-        }
-
-        internal bool IsAlreadyStarted
-        {
-            get;
-            set;
+            Async = true;
         }
 
         #endregion
@@ -56,7 +34,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets athe address of the resource.
         /// </summary>
-        public string Src
+        public String Src
         {
             get;
             set;
@@ -65,7 +43,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the type of an embedded resource.
         /// </summary>
-        public string Type
+        public String Type
         {
             get;
             set;
@@ -74,7 +52,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the character encoding of the external script resource.
         /// </summary>
-        public string Charset
+        public String Charset
         {
             get;
             set;
@@ -83,7 +61,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if script should execute asynchronously.
         /// </summary>
-        public bool Async
+        public Boolean Async
         {
             get;
             set;
@@ -92,7 +70,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the script should be deferred.
         /// </summary>
-        public bool Defer
+        public Boolean Defer
         {
             get;
             set;
@@ -110,7 +88,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the text in the script element.
         /// </summary>
-        public string Text
+        public String Text
         {
             get { return TextContent; }
             set { TextContent = value; }
@@ -126,23 +104,6 @@ namespace AngleSharp.DOM.Html
         protected internal override bool IsSpecial
         {
             get { return true; }
-        }
-
-        #endregion
-
-        #region Internal Methods
-
-        internal void Prepare()
-        {
-            //TODO
-            //Prepare the script. This might cause some script to execute, which might cause new characters to be inserted into the tokenizer, and
-            //might cause the tokenizer to output more tokens, resulting in a reentrant invocation of the parser.
-        }
-
-        internal void Execute()
-        {
-            //TODO
-            //Execute the script
         }
 
         #endregion

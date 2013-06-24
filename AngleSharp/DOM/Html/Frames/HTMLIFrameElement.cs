@@ -5,17 +5,27 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML iframe element.
     /// </summary>
-    public sealed class HTMLIFrameElement : HTMLElement
+    public sealed class HTMLIFrameElement : HTMLFrameElementBase
     {
+        #region Constant
+
         /// <summary>
         /// The iframe tag.
         /// </summary>
         internal const string Tag = "iframe";
 
+        #endregion
+
+        #region ctor
+
         internal HTMLIFrameElement()
         {
             _name = Tag;
         }
+
+        #endregion
+
+        #region Internal properties
 
         /// <summary>
         /// Gets if the node is in the special category.
@@ -24,5 +34,7 @@ namespace AngleSharp.DOM.Html
         {
             get { return true; }
         }
+
+        #endregion
     }
 }
