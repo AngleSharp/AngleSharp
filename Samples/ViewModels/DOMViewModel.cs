@@ -11,22 +11,22 @@ using System.Threading.Tasks;
 
 namespace Samples.ViewModels
 {
-    public class BrowserViewModel : RequestViewModel
+    public class DOMViewModel : RequestViewModel
     {
-        ObservableCollection<TreeNodeViewModel> source;
+        ObservableCollection<DOMNodeViewModel> source;
 
-        public BrowserViewModel ()
+        public DOMViewModel ()
 	    {
             Status = "Nothing to display ...";
-            source = new ObservableCollection<TreeNodeViewModel>();
+            source = new ObservableCollection<DOMNodeViewModel>();
 	    }
 
-        public ObservableCollection<TreeNodeViewModel> Source
+        public ObservableCollection<DOMNodeViewModel> Source
         {
             get { return source; }
         }
 
-        public TreeNodeViewModel Root
+        public DOMNodeViewModel Root
         {
             set
             {
@@ -38,7 +38,7 @@ namespace Samples.ViewModels
         protected override async Task Use(Uri url, HTMLDocument document, CancellationToken cancel)
         {
             Status = "Constructing the DOM ...";
-            Root = new TreeNodeViewModel(document);
+            Root = new DOMNodeViewModel(document);
             await Task.Yield();
         }
     }

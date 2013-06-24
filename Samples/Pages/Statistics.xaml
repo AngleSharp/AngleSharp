@@ -6,7 +6,7 @@
       xmlns:oxy="http://oxyplot.codeplex.com"
       mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Title="Statistics">
 
-    <Grid Style="{StaticResource ContentRoot}">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="80" />

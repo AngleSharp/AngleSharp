@@ -17,8 +17,6 @@ namespace Samples.ViewModels
 {
     public class RendererViewModel : RequestViewModel
     {
-        static readonly Char[] ws = new Char[] { ' ', '\n', '\t' };
-
         FlowDocument root;
         Paragraph buffer;
         Uri url;
@@ -192,7 +190,7 @@ namespace Samples.ViewModels
             img.Stretch = Stretch.None;
             var src = new BitmapImage();
             src.BeginInit();
-            src.UriSource = new Uri(url, element.Src);
+            src.UriSource = new Uri(url, Sanitize(element.Src));
             src.EndInit();
             f.Blocks.Add(container);
             container.Child = img;

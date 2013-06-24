@@ -1,76 +1,64 @@
-﻿using AngleSharp;
+﻿using AngleSharp.DOM;
+using AngleSharp.DOM.Collections;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace Samples.ViewModels
 {
     public class TreeNodeViewModel : BaseViewModel
     {
         ObservableCollection<TreeNodeViewModel> children;
-        String name;
-        String typeName;
-        String value;
-        Boolean selected;
         Boolean expanded;
-        Boolean populated;
-        Type type;
-        Object element;
-        TreeNodeViewModel parent;
+        Boolean selected;
+        String value;
+        Brush foreground;
+        TreeNodeViewModel expansionElement;
+        ObservableCollection<TreeNodeViewModel> parent;
 
-        public TreeNodeViewModel(Object nodeElement, String nodeName = "document", TreeNodeViewModel nodeParent = null)
+        [ThreadStatic]
+        static StringBuilder buffer;
+
+        TreeNodeViewModel()
         {
-            element = nodeElement;
-            parent = nodeParent;
             children = new ObservableCollection<TreeNodeViewModel>();
-            name = nodeName;
-
-            if (nodeElement == null)
-            {
-                populated = true;
-                typeName = "<null>";
-            }
-            else if (nodeParent == null)
-            {
-                CreateChildren();
-                IsExpanded = true;
-                IsSelected = true;
-            }
+            expanded = false;
+            selected = false;
+            foreground = Brushes.Black;
         }
 
-        public String Name
+        public Boolean IsExpanded
         {
-            get { return name; }
-        }
-
-        public String Value
-        {
-            get { return value; }
+            get { return expanded; }
             set
             {
-                this.value = value;
+                expanded = value;
                 RaisePropertyChanged();
+
+                if (expansionElement != null && parent != null)
+                {
+                    if (value)
+                        parent.Insert(parent.IndexOf(this) + 1, expansionElement);
+                    else
+                        parent.Remove(expansionElement);
+                }
             }
         }
 
-        public TreeNodeViewModel Parent
+        public Brush Foreground
+        {
+            get { return foreground; }
+            set { foreground = value; RaisePropertyChanged(); }
+        }
+
+        public ObservableCollection<TreeNodeViewModel> Parent
         {
             get { return parent; }
-        }
-
-        public String TypeName
-        {
-            get { return typeName; }
-        }
-
-        public ObservableCollection<TreeNodeViewModel> Children
-        {
-            get { return children; }
+            set { parent = value; }
         }
 
         public Boolean IsSelected
@@ -83,74 +71,113 @@ namespace Samples.ViewModels
             }
         }
 
-        public Boolean IsExpanded
+        public String Value
         {
-            get { return expanded; }
+            get { return value; }
             set
             {
-                expanded = value;
-
-                foreach (var child in children)
-                    child.CreateChildren();
-
+                this.value = value;
                 RaisePropertyChanged();
             }
         }
 
-        void CreateChildren()
+        public ObservableCollection<TreeNodeViewModel> Children
         {
-            if (!populated)
+            get { return children; }
+        }
+
+        public static TreeNodeViewModel Create(Node node)
+        {
+            if (node is TextNode)
+                return Create((TextNode)node);
+            else if (node is Comment)
+                return new TreeNodeViewModel { Value = Comment(((Comment)node).Data), Foreground = Brushes.Gray };
+            else if (node is DocumentType)
+                return new TreeNodeViewModel { Value = node.ToHtml(), Foreground = Brushes.DarkGray };
+            else if(node is Element)
+                return Create((Element)node);
+
+            return null;
+        }
+
+        static TreeNodeViewModel Create(TextNode text)
+        {
+            if(String.IsNullOrEmpty(text.Data))
+                return null;
+
+            var data = text.Data.Split(ws, StringSplitOptions.RemoveEmptyEntries);
+
+            if (data.Length == 0)
+                return null;
+
+            return new TreeNodeViewModel { Value = String.Join(" ", data), Foreground = Brushes.SteelBlue };
+        }
+
+        static TreeNodeViewModel Create(Element node)
+        {
+            var vm = new TreeNodeViewModel { Value = OpenTag(node) };
+
+            foreach (var element in SelectFrom(node.ChildNodes))
             {
-                var hv = true;
-                populated = true;
-                type = element.GetType();
-                typeName = FindName(type);
+                element.parent = vm.children;
+                vm.children.Add(element);
+            }
 
-                var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
-                    .Where(m => m.GetCustomAttributes(typeof(DOMAttribute), false).Length > 0)
-                    .OrderBy(m => m.Name);
+            if (vm.children.Count != 0)
+                vm.expansionElement = new TreeNodeViewModel { Value = CloseTag(node) };
 
-                foreach (var property in properties)
-                {
-                    hv = false;
+            return vm;
+        }
 
-                    switch(property.GetIndexParameters().Length)
-                    {
-                        case 0:
-                            children.Add(new TreeNodeViewModel(property.GetValue(element), FindName(property), this));
-                            break;
-                        case 1:
-                            {
-                                if (element is IEnumerable)
-                                {
-                                    var collection = (IEnumerable)element;
-                                    var index = 0;
-                                    var idx = new object[1];
+        public static IEnumerable<TreeNodeViewModel> SelectFrom(IEnumerable<Node> nodes)
+        {
+            foreach (var node in nodes)
+            {
+                TreeNodeViewModel element = TreeNodeViewModel.Create(node);
 
-                                    foreach (var item in collection)
-                                    {
-                                        idx[0] = index;
-                                        children.Add(new TreeNodeViewModel(item, "[" + index.ToString() + "]", this));
-                                        index++;
-                                    }
-                                }
-                            }
-                            break;
-                    }
-                }
-
-                if (hv) Value = element.ToString();
+                if (element != null)
+                    yield return element;
             }
         }
 
-        String FindName(MemberInfo member)
+        static StringBuilder StartString()
         {
-            var objs = member.GetCustomAttributes(typeof(DOMAttribute), false);
+            return buffer ?? (buffer = new StringBuilder());
+        }
 
-            if (objs.Length == 0)
-                return member.Name;
+        static StringBuilder StartString(Char c)
+        {
+            return StartString().Append(c);
+        }
 
-            return ((DOMAttribute)objs[0]).OfficialName;
+        static StringBuilder StartString(String str)
+        {
+            return StartString().Append(str);
+        }
+
+        static String ReleaseString()
+        {
+            var s = buffer.ToString();
+            buffer.Clear();
+            return s;
+        }
+
+        static String Comment(String comment)
+        {
+            StartString("<!--").Append(comment).Append("-->");
+            return ReleaseString();
+        }
+
+        static String OpenTag(Element element)
+        {
+            StartString('<').Append(element.TagName).Append(element.Attributes.ToHtml()).Append('>');
+            return ReleaseString();
+        }
+
+        static String CloseTag(Element element)
+        {
+            StartString("</").Append(element.TagName).Append('>');
+            return ReleaseString();
         }
     }
 }

@@ -25,6 +25,9 @@
 
                 <mui:Link DisplayName="Stylesheets"
                           Source="Pages\Sheets.xaml" />
+                
+                <mui:Link DisplayName="Tree"
+                          Source="Pages\Tree.xaml" />
             </mui:LinkGroup.Links>
             
         </mui:LinkGroup>

@@ -56,7 +56,7 @@ namespace AngleSharp.DOM
         /// </summary>
         internal Node()
         {
-            _name = string.Empty;
+            _name = String.Empty;
             _attributes = new NamedNodeMap();
             _children = new NodeList();
         }

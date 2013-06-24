@@ -18,18 +18,17 @@ using System.Windows.Shapes;
 namespace Samples.Pages
 {
     /// <summary>
-    /// Interaction logic for Renderer.xaml
+    /// Interaction logic for Tree.xaml
     /// </summary>
-    public partial class Renderer : Page, IContent
+    public partial class Tree : Page, IContent
     {
-        RendererViewModel vm;
+        TreeViewModel vm;
 
-        public Renderer()
+        public Tree()
         {
             InitializeComponent();
-            vm = new RendererViewModel();
+            vm = new TreeViewModel();
             DataContext = vm;
-            Rtb.Document = vm.Root;
         }
 
         public void OnFragmentNavigation(FragmentNavigationEventArgs e)

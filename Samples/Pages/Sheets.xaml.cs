@@ -1,4 +1,6 @@
-﻿using Samples.ViewModels;
+﻿using FirstFloor.ModernUI.Windows;
+using FirstFloor.ModernUI.Windows.Navigation;
+using Samples.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Samples.Pages
@@ -19,7 +20,7 @@ namespace Samples.Pages
     /// <summary>
     /// Interaction logic for Sheets.xaml
     /// </summary>
-    public partial class Sheets : Page
+    public partial class Sheets : Page, IContent
     {
         SheetViewModel vm;
 
@@ -30,7 +31,25 @@ namespace Samples.Pages
             DataContext = vm;
         }
 
-        private void UrlKeyDown(Object sender, KeyEventArgs e)
+        public void OnFragmentNavigation(FragmentNavigationEventArgs e)
+        {
+        }
+
+        public void OnNavigatedFrom(NavigationEventArgs e)
+        {
+        }
+
+        public void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (vm.DisplayRecent())
+                Url.Text = vm.Address;
+        }
+
+        public void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+        }
+
+        void UrlKeyDown(Object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
                 vm.Load(Url.Text);
