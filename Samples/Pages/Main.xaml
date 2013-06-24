@@ -28,7 +28,10 @@
                 <mui:BBCodeBlock BBCode="Additionally the [b]QuerySelector[/b] demo shows you how easy it is to use QuerySelectorAll to filter elements in an HTML document." 
                                  Margin="0 0 0 20" />
 
-                <mui:BBCodeBlock BBCode="Finally the [b]Stylesheets[/b] sample shows you how use the information regarding stylesheets in an HTMLDocument. It also displays how to read out stylesheets in general (given a source or a link)." 
+                <mui:BBCodeBlock BBCode="To demonstrate the CSS parser the [b]Stylesheets[/b] sample is available. It shows you how use the information regarding stylesheets in an HTMLDocument. It also displays how to read out stylesheets in general (given a source or a link)." 
+                                 Margin="0 0 0 20" />
+
+                <mui:BBCodeBlock BBCode="Finally the [b]Tree[/b] sample illustrates the constructed tree as it has been constructed by the HTML parser." 
                                  Margin="0 0 0 20" />
 
                 <mui:BBCodeBlock BBCode="If you feel that any features are [i]missing, incomplete or buggy[/i] then please contact us or use the issue tracker on the GitHub repo page. Also if you have a nice sample to show or want to contribute in some way then your help is more than welcome. Just contact us or commit the code directly over the git repository." />

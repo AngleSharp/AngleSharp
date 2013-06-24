@@ -13,15 +13,25 @@ namespace Samples.ViewModels
 {
     public abstract class RequestViewModel : BaseViewModel
     {
+        #region Members
+
         Task current;
         CancellationTokenSource cts;
         String status;
         Int32 state;
 
+        #endregion
+
+        #region Static members
+
         static Uri recentUrl;
         static String recentAddress;
         static Int32 recentState;
         static HTMLDocument recentDocument;
+
+        #endregion
+
+        #region Properties
 
         public String Address
         {
@@ -37,6 +47,10 @@ namespace Samples.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        #endregion
+
+        #region Methods
 
         public void Load(String url)
         {
@@ -57,6 +71,7 @@ namespace Samples.ViewModels
                 cts = new CancellationTokenSource();
                 current = Use(recentUrl, recentDocument, cts.Token);
                 state = recentState;
+                Status = "Displaying: " + recentUrl;
                 return true;
             }
 
@@ -101,5 +116,7 @@ namespace Samples.ViewModels
         }
 
         protected abstract Task Use(Uri url, HTMLDocument document, CancellationToken cancel);
+
+        #endregion
     }
 }

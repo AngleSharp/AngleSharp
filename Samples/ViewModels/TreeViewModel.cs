@@ -22,6 +22,7 @@ namespace Samples.ViewModels
         protected override async Task Use(Uri url, HTMLDocument document, CancellationToken cancel)
         {
             nodes.Clear();
+            Status = "Constructing tree ...";
             var elements = TreeNodeViewModel.SelectFrom(document.ChildNodes);
 
             foreach (var element in elements)
