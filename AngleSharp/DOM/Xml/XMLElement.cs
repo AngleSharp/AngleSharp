@@ -5,16 +5,26 @@ namespace AngleSharp.DOM.Xml
     /// <summary>
     /// The object representation of an XMLElement.
     /// </summary>
-    public class XMLElement : Element
+    public sealed class XMLElement : Element
     {        
         #region ctor
 
         /// <summary>
         /// Creates a new XML element.
         /// </summary>
-        public XMLElement()
+        internal XMLElement()
         {
-            NamespaceURI = Namespaces.Xml;
+            _ns = Namespaces.Xml;
+        }
+
+        /// <summary>
+        /// Returns a specialized SVGElement instance for the given tag name.
+        /// </summary>
+        /// <param name="tagName">The given tag name.</param>
+        /// <returns>The specialized SVGElement instance.</returns>
+        internal static XMLElement Create(String tagName)
+        {
+            return new XMLElement { _name = tagName };
         }
 
         #endregion
@@ -26,21 +36,12 @@ namespace AngleSharp.DOM.Xml
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
+        [DOM("cloneNode")]
         public override Node CloneNode(bool deep = true)
         {
-            var node = Factory(_name);
+            var node = Create(_name);
             CopyProperties(this, node, deep);
             return node;
-        }
-
-        /// <summary>
-        /// Returns a specialized SVGElement instance for the given tag name.
-        /// </summary>
-        /// <param name="tagName">The given tag name.</param>
-        /// <returns>The specialized SVGElement instance.</returns>
-        public static XMLElement Factory(string tagName)
-        {
-            return new XMLElement { _name = tagName };
         }
 
         #endregion

@@ -6,6 +6,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents an @keyframes rule.
     /// </summary>
+    [DOM("CSSKeyframesRule")]
     public sealed class CSSKeyframesRule : CSSRule
     {
         #region Constants
@@ -39,6 +40,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the name of the animation, used by the animation-name property.
         /// </summary>
+        [DOM("name")]
         public String Name
         {
             get { return _name; }
@@ -48,6 +50,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the media rule.
         /// </summary>
+        [DOM("cssRules")]
         public CSSRuleList CssRules
         {
             get { return _cssRules; }
@@ -62,6 +65,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="rule">A string containing a keyframe in the same format as an entry of a @keyframes at-rule.</param>
         /// <returns>The current @keyframes rule.</returns>
+        [DOM("appendRule")]
         public CSSKeyframesRule AppendRule(String rule)
         {
             var obj = CssParser.ParseKeyframeRule(rule);
@@ -76,6 +80,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="key">The index of the keyframe to be deleted, expressed as a string resolving as a number between 0 and 1.</param>
         /// <returns>The current @keyframes rule.</returns>
+        [DOM("deleteRule")]
         public CSSKeyframesRule DeleteRule(String key)
         {
             for (int i = 0; i < _cssRules.Length; i++)
@@ -95,6 +100,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="key">A string containing an index of the keyframe to be returned, resolving to a number between 0 and 1.</param>
         /// <returns>The keyframe or null.</returns>
+        [DOM("findRule")]
         public CSSKeyframeRule FindRule(String key)
         {
             for (int i = 0; i < _cssRules.Length; i++)
@@ -106,6 +112,19 @@ namespace AngleSharp.DOM.Css
             }
 
             return null;
+        }
+
+        #endregion
+
+        #region String representation
+
+        /// <summary>
+        /// Returns a CSS code representation of the rule.
+        /// </summary>
+        /// <returns>A string that contains the code.</returns>
+        public override String ToCss()
+        {
+            return String.Format("@keyframes {0} {{{1}{2}}}", _name, Environment.NewLine, _cssRules.ToCss());
         }
 
         #endregion

@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Mathml
     /// <summary>
     /// Represents an element of the MathML DOM.
     /// </summary>
-    public class MathMLElement : Element
+    public sealed class MathMLElement : Element
     {
         #region Constants
 
@@ -22,6 +22,16 @@ namespace AngleSharp.DOM.Mathml
         internal MathMLElement()
         {
             _ns = Namespaces.MathML;
+        }
+
+        /// <summary>
+        /// Returns a specialized MathMLElement instance for the given tag name.
+        /// </summary>
+        /// <param name="tagName">The given tag name.</param>
+        /// <returns>The specialized MathMLElement instance.</returns>
+        internal static MathMLElement Create(String tagName)
+        {
+            return new MathMLElement { _name = tagName };
         }
 
         #endregion
@@ -85,21 +95,12 @@ namespace AngleSharp.DOM.Mathml
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
+        [DOM("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
-            var node = Factory(_name);
+            var node = Create(_name);
             CopyProperties(this, node, deep);
             return node;
-        }
-
-        /// <summary>
-        /// Returns a specialized MathMLElement instance for the given tag name.
-        /// </summary>
-        /// <param name="tagName">The given tag name.</param>
-        /// <returns>The specialized MathMLElement instance.</returns>
-        internal static MathMLElement Factory(String tagName)
-        {
-            return new MathMLElement { _name = tagName };
         }
 
         #endregion

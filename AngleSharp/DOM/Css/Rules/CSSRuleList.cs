@@ -8,6 +8,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents an array like structure containing CSS rules.
     /// </summary>
+    [DOM("CSSRuleList")]
     public sealed class CSSRuleList : IEnumerable<CSSRule>, ICSSObject
     {
         #region Members
@@ -33,6 +34,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the number of rules stored.
         /// </summary>
+        [DOM("length")]
         public Int32 Length
         {
             get { return _rules.Count; }
@@ -43,6 +45,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="index">The index of the rule.</param>
         /// <returns>The CSS rule or null, if the index has been invalid.</returns>
+        [DOM("item")]
         public CSSRule this[Int32 index]
         {
             get { return index >= 0 && index < _rules.Count ? _rules[index] : null; }

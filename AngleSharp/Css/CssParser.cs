@@ -714,9 +714,9 @@ namespace AngleSharp.Css
         /// <param name="name">The name of the @-rule.</param>
         /// <param name="source">The token iterator.</param>
         /// <returns>The unknown @-rule.</returns>
-        CSSRule CreateUnknownRule(String name, IEnumerator<CssToken> source)
+        CSSUnknownRule CreateUnknownRule(String name, IEnumerator<CssToken> source)
         {
-            var rule = new CSSRule();
+            var rule = new CSSUnknownRule();
             var endCurly = 0;
             rule.ParentStyleSheet = sheet;
             rule.ParentRule = CurrentRule;
@@ -740,7 +740,7 @@ namespace AngleSharp.Css
             }
             while (source.MoveNext());
 
-            rule.CssText = buffer.ToString();
+            rule.SetText(buffer.ToString());
             buffer.Clear();
             open.Pop();
             return rule;
@@ -1166,7 +1166,7 @@ namespace AngleSharp.Css
                 return (it.Current.Type == CssTokenType.AtKeyword) ? parser.CreateAtRule(it) : parser.CreateStyleRule(it);
             }
 
-            return new CSSRule();
+            return new CSSUnknownRule();
         }
 
         /// <summary>

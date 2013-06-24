@@ -7,6 +7,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS style rule.
     /// </summary>
+    [DOM("CSSStyleRule")]
     public sealed class CSSStyleRule : CSSRule
     {
         #region Members
@@ -52,6 +53,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the textual representation of the selector for this rule, e.g. "h1,h2".
         /// </summary>
+        [DOM("selectorText")]
         public String SelectorText
         {
             get { return _selectorText; }
@@ -65,6 +67,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the CSSStyleDeclaration object for the rule.
         /// </summary>
+        [DOM("style")]
         public CSSStyleDeclaration Style
         {
             get { return _style; }
@@ -80,7 +83,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return _selectorText + " {" + _style.ToCss() + "}";
+            return _selectorText + " {" + Environment.NewLine + _style.ToCss() + "}";
         }
 
         #endregion

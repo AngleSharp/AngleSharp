@@ -43,7 +43,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        public string Name
+        public String Name
         {
             get { return GetAttribute("name"); }
             set { SetAttribute("name", value); }
@@ -52,7 +52,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the option is enabled or disabled.
         /// </summary>
-        public bool Disabled
+        public Boolean Disabled
         {
             get { return GetAttribute("disabled") != null; }
             set { SetAttribute("disabled", value ? string.Empty : null); }
@@ -63,13 +63,19 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         public HTMLFormElement Form
         {
-            get { return GetAssignedForm(); }
+            get 
+            {
+                if (_parent != null && _parent is HTMLSelectElement)
+                    return ((HTMLSelectElement)_parent).Form;
+
+                return null;
+            }
         }
 
         /// <summary>
         /// Gets or sets the label.
         /// </summary>
-        public string Label
+        public String Label
         {
             get { return GetAttribute("label"); }
             set { SetAttribute("label", value); }
@@ -78,7 +84,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        public string Value
+        public String Value
         {
             get { return GetAttribute("value"); }
             set { SetAttribute("value", value); }
@@ -87,7 +93,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the index of the option element.
         /// </summary>
-        public int Index
+        public Int32 Index
         {
             get
             {
@@ -107,7 +113,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the text of the option.
         /// </summary>
-        public string Text
+        public String Text
         {
             get { return TextContent.CollapseAndStrip(); }
             set { TextContent = value; }
@@ -116,7 +122,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the option is selected by default.
         /// </summary>
-        public bool DefaultSelected
+        public Boolean DefaultSelected
         {
             get { return GetAttribute("selected") != null; }
             set { SetAttribute("selected", value ? string.Empty : null); }
@@ -126,7 +132,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets if the option is currently selected.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#ask-for-a-reset
         /// </summary>
-        public bool Selected
+        public Boolean Selected
         {
             get { return selectedness; }
             set { selectedness = value; }

@@ -23,6 +23,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the text of the condition of the rule.
         /// </summary>
+        [DOM("conditionText")]
         public virtual String ConditionText
         {
             get { return String.Empty; }

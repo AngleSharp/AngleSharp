@@ -65,6 +65,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="index">Index into the collection.</param>
         /// <returns>The medium at the index-th position in the MediaList, or null if that is not a valid index.</returns>
+        [DOM("item")]
         public String this[Int32 index]
         {
             get
@@ -79,6 +80,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets the number of media in the list. 
         /// </summary>
+        [DOM("length")]
         public Int32 Length
         {
             get { return media.Count; }
@@ -87,6 +89,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Gets or sets the parsable textual representation of the media list. This is a comma-separated list of media.
         /// </summary>
+        [DOM("mediaText")]
         public String MediaText
         {
             get { return buffer; }
@@ -121,6 +124,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="newMedium">The new medium to add.</param>
         /// <returns>The current list of media.</returns>
+        [DOM("appendMedium")]
         public MediaList AppendMedium(String newMedium)
         {
             if (!CheckSyntax(newMedium))
@@ -140,6 +144,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="oldMedium">The medium to delete in the media list.</param>
         /// <returns>The current list of media.</returns>
+        [DOM("deleteMedium")]
         public MediaList DeleteMedium(String oldMedium)
         {
             if (!media.Contains(oldMedium))

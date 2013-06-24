@@ -31,6 +31,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets a list of all CSS rules contained within the media block.
         /// </summary>
+        [DOM("cssRules")]
         public CSSRuleList CssRules
         {
             get { return cssRules; }
@@ -46,6 +47,7 @@ namespace AngleSharp.DOM.Css
         /// <param name="rule">The parsable text representing the rule. For rule sets this contains both the selector and the style declaration. For at-rules, this specifies both the at-identifier and the rule content.</param>
         /// <param name="index">The index within the media block's rule collection of the rule before which to insert the specified rule.</param>
         /// <returns>The index within the media block's rule collection of the newly inserted rule.</returns>
+        [DOM("insertRule")]
         public Int32 InsertRule(String rule, Int32 index)
         {
             var obj = CssParser.ParseRule(rule);
@@ -60,6 +62,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="index">The index within the media block's rule collection of the rule to remove.</param>
         /// <returns>The current instance.</returns>
+        [DOM("deleteRule")]
         public CSSGroupingRule DeleteRule(Int32 index)
         {
             if(index >= 0 && index < cssRules.Length)

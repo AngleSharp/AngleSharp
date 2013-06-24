@@ -6,7 +6,8 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS rule.
     /// </summary>
-    public class CSSRule : ICSSObject
+    [DOM("CSSRule")]
+    public abstract class CSSRule : ICSSObject
     {
         #region Members
 
@@ -40,17 +41,18 @@ namespace AngleSharp.DOM.Css
         #region Properties
 
         /// <summary>
-        /// Gets or sets the textual representation of the rule.
+        /// Gets the textual representation of the rule.
         /// </summary>
+        [DOM("cssText")]
         public String CssText
         {
-            get;
-            set;
+            get { return ToCss(); }
         }
 
         /// <summary>
         /// Gets the containing rule, otherwise null.
         /// </summary>
+        [DOM("parentRule")]
         public CSSRule ParentRule
         {
             get { return _parentRule; }
@@ -60,6 +62,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the CSSStyleSheet object for the style sheet that contains this rule.
         /// </summary>
+        [DOM("parentStyleSheet")]
         public CSSStyleSheet ParentStyleSheet
         {
             get { return _parent; }
@@ -70,6 +73,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the type constant indicating the type of CSS rule.
         /// </summary>
+        [DOM("type")]
         public CssRule Type
         {
             get { return _type; }
@@ -83,10 +87,7 @@ namespace AngleSharp.DOM.Css
         /// Returns a CSS code representation of the rule.
         /// </summary>
         /// <returns>A string that contains the code.</returns>
-        public virtual String ToCss()
-        {
-            return CssText;
-        }
+        public abstract String ToCss();
 
         #endregion
     }

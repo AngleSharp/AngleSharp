@@ -40,6 +40,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The stylesheet.</returns>
+        [DOM("item")]
         public StyleSheet this[Int32 index]
         {
             get

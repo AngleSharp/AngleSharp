@@ -7,6 +7,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents the @page rule.
     /// </summary>
+    [DOM("CSSPageRule")]
     public sealed class CSSPageRule : CSSRule
     {
         #region Constants
@@ -73,6 +74,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the parsable textual representation of the page selector for the rule.
         /// </summary>
+        [DOM("selectorText")]
         public String SelectorText
         {
             get { return _selectorText; }
@@ -86,9 +88,23 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the  declaration-block of this rule.
         /// </summary>
+        [DOM("style")]
         public CSSStyleDeclaration Style
         {
             get { return _style; }
+        }
+
+        #endregion
+
+        #region String representation
+
+        /// <summary>
+        /// Returns a CSS code representation of the rule.
+        /// </summary>
+        /// <returns>A string that contains the code.</returns>
+        public override String ToCss()
+        {
+            return String.Format("@page {0} {{{1}{2}}}", _selectorText, Environment.NewLine, _style.ToCss());
         }
 
         #endregion

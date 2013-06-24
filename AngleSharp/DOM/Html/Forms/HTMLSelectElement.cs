@@ -31,9 +31,17 @@ namespace AngleSharp.DOM.Html
         #region Properties
 
         /// <summary>
+        /// Gets the associated HTML form element.
+        /// </summary>
+        public HTMLFormElement Form
+        {
+            get { return GetAssignedForm(); }
+        }
+
+        /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        public string Name
+        public String Name
         {
             get { return GetAttribute("name"); }
             set { SetAttribute("name", value); }
@@ -42,7 +50,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the select element is enabled or disabled.
         /// </summary>
-        public bool Disabled
+        public Boolean Disabled
         {
             get { return GetAttribute("disabled") != null; }
             set { SetAttribute("disabled", value ? string.Empty : null); }
@@ -51,7 +59,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the select element field is required.
         /// </summary>
-        public bool Required
+        public Boolean Required
         {
             get { return GetAttribute("required") != null; }
             set { SetAttribute("required", value ? string.Empty : null); }

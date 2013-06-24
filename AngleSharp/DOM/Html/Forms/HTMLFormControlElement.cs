@@ -43,5 +43,40 @@ namespace AngleSharp.DOM.Html
         }
 
         #endregion
+
+        #region Internal methods
+
+        /// <summary>
+        /// Gets the assigned form if any (use only on selected elements).
+        /// </summary>
+        /// <returns>The parent form OR assigned form if any.</returns>
+        protected HTMLFormElement GetAssignedForm()
+        {
+            var par = _parent;
+
+            while (!(par is HTMLFormElement))
+            {
+                if (par == null)
+                    break;
+
+                par = par.ParentElement;
+            }
+
+            if (par == null && _owner == null)
+                return null;
+            else if (par == null)
+            {
+                var formid = GetAttribute("form");
+
+                if (par == null && !string.IsNullOrEmpty(formid))
+                    par = _owner.GetElementById(formid);
+                else
+                    return null;
+            }
+
+            return par as HTMLFormElement;
+        }
+
+        #endregion
     }
 }

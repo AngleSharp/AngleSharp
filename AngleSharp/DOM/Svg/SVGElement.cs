@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Svg
     /// <summary>
     /// Represents an element of the SVG DOM.
     /// </summary>
-    public class SVGElement : Element
+    public sealed class SVGElement : Element
     {
         #region Constants
 
@@ -21,6 +21,16 @@ namespace AngleSharp.DOM.Svg
         internal SVGElement()
         {
             _ns = Namespaces.Svg;
+        }
+
+        /// <summary>
+        /// Returns a specialized SVGElement instance for the given tag name.
+        /// </summary>
+        /// <param name="tagName">The given tag name.</param>
+        /// <returns>The specialized SVGElement instance.</returns>
+        internal static SVGElement Create(String tagName)
+        {
+            return new SVGElement { _name = tagName };
         }
 
         #endregion
@@ -60,21 +70,12 @@ namespace AngleSharp.DOM.Svg
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
+        [DOM("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
-            var node = Factory(_name);
+            var node = Create(_name);
             CopyProperties(this, node, deep);
             return node;
-        }
-
-        /// <summary>
-        /// Returns a specialized SVGElement instance for the given tag name.
-        /// </summary>
-        /// <param name="tagName">The given tag name.</param>
-        /// <returns>The specialized SVGElement instance.</returns>
-        public static SVGElement Factory(String tagName)
-        {
-            return new SVGElement { _name = tagName };
         }
 
         #endregion

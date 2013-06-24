@@ -8,7 +8,8 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS Stylesheet.
     /// </summary>
-    public class CSSStyleSheet : StyleSheet, ICSSObject
+    [DOM("CSSStyleSheet")]
+    public sealed class CSSStyleSheet : StyleSheet, ICSSObject
     {
         #region Members
 
@@ -22,7 +23,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new CSS Stylesheet.
         /// </summary>
-        public CSSStyleSheet()
+        internal CSSStyleSheet()
         {
             cssRules = new CSSRuleList();
         }
@@ -34,6 +35,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the style sheet.
         /// </summary>
+        [DOM("cssRules")]
         public CSSRuleList CssRules
         {
             get { return cssRules; }
@@ -42,6 +44,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the @import rule if the stylesheet was importated otherwise it returns null.
         /// </summary>
+        [DOM("ownerRule")]
         public CSSRule OwnerRule
         {
             get { return ownerRule; }
@@ -57,6 +60,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="index">The index representing the position to be removed.</param>
         /// <returns>The current stylesheet.</returns>
+        [DOM("deleteRule")]
         public CSSStyleSheet DeleteRule(Int32 index)
         {
             if (index >= 0 && index < cssRules.Length)
@@ -71,6 +75,7 @@ namespace AngleSharp.DOM.Css
         /// <param name="rule">A string containing the rule to be inserted (selector and declaration).</param>
         /// <param name="index">The index representing the position to be inserted.</param>
         /// <returns>The current stylesheet.</returns>
+        [DOM("insertRule")]
         public CSSStyleSheet InsertRule(String rule, Int32 index)
         {
             if (index >= 0 && index <= cssRules.Length)
@@ -90,7 +95,7 @@ namespace AngleSharp.DOM.Css
         /// Returns a CSS code representation of the stylesheet.
         /// </summary>
         /// <returns>A string that contains the code.</returns>
-        public virtual String ToCss()
+        public String ToCss()
         {
             var sb = new StringBuilder();
 

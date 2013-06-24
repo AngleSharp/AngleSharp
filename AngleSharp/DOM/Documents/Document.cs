@@ -456,11 +456,11 @@ namespace AngleSharp.DOM
             if (namespaceURI == Namespaces.Html)
                 return HTMLElement.Factory(tagName);
             else if (namespaceURI == Namespaces.Svg)
-                return SVGElement.Factory(tagName);
+                return SVGElement.Create(tagName);
             else if (namespaceURI == Namespaces.MathML)
-                return MathMLElement.Factory(tagName);
+                return MathMLElement.Create(tagName);
             else if (namespaceURI == Namespaces.Xml)
-                return XMLElement.Factory(tagName);
+                return XMLElement.Create(tagName);
 
             return new Element { NamespaceURI = namespaceURI, NodeName = tagName };
         }

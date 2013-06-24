@@ -23,37 +23,6 @@ namespace AngleSharp.DOM.Html
         #region Internals
 
         /// <summary>
-        /// Gets the assigned form if any (use only on selected elements).
-        /// </summary>
-        /// <returns>The parent form OR assigned form if any.</returns>
-        protected HTMLFormElement GetAssignedForm()
-        {
-            var par = _parent;
-
-            while (!(par is HTMLFormElement))
-            {
-                if (par == null)
-                    break;
-
-                par = par.ParentElement;
-            }
-
-            if (par == null && _owner == null)
-                return null;
-            else if (par == null)
-            {
-                var formid = GetAttribute("form");
-
-                if (par == null && !string.IsNullOrEmpty(formid))
-                    par = _owner.GetElementById(formid);
-                else
-                    return null;
-            }
-
-            return par as HTMLFormElement;
-        }
-
-        /// <summary>
         /// Gets the status if this node is in the HTML namespace.
         /// </summary>
         internal protected override bool IsInHtml
