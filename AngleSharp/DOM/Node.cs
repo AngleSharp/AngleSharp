@@ -57,7 +57,7 @@ namespace AngleSharp.DOM
         internal Node()
         {
             _name = String.Empty;
-            _attributes = new NamedNodeMap();
+            _attributes = new NamedNodeMap(this);
             _children = new NodeList();
         }
 
@@ -356,6 +356,16 @@ namespace AngleSharp.DOM
         #endregion
 
         #region Internal Methods
+
+        /// <summary>
+        /// Entry point for attributes to notify about
+        /// a change (modified, added, removed).
+        /// </summary>
+        /// <param name="name">The name of the attribute that
+        /// has been changed.</param>
+        internal virtual void OnAttributeChanged(String name)
+        {
+        }
 
         /// <summary>
         /// Appends the given character to the node.

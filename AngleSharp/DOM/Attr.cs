@@ -68,7 +68,7 @@ namespace AngleSharp.DOM
         public override String NodeValue
         {
             get { return _value; }
-            set { _value = value; }
+            set { _value = value; RaiseChanged(); }
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace AngleSharp.DOM
         public String Value
         {
             get { return _value; }
-            set { _value = value; }
+            set { _value = value; RaiseChanged(); }
         }
 
         #endregion
@@ -130,7 +130,7 @@ namespace AngleSharp.DOM
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
         [DOM("insertChild")]
-        public override Node InsertChild(int index, Node child)
+        public override Node InsertChild(Int32 index, Node child)
         {
             throw new DOMException(ErrorCode.HierarchyRequestError);
         }
@@ -220,7 +220,7 @@ namespace AngleSharp.DOM
         /// <param name="otherNode">The node to compare equality with.</param>
         /// <returns>True if they are equal, otherwise false.</returns>
         [DOM("isEqualNode")]
-        public override bool IsEqualNode(Node otherNode)
+        public override Boolean IsEqualNode(Node otherNode)
         {
             if (otherNode is Attr)
             {
@@ -232,6 +232,16 @@ namespace AngleSharp.DOM
             }
 
             return false;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void RaiseChanged()
+        {
+            if (_parent != null)
+                _parent.OnAttributeChanged(_name);
         }
 
         #endregion

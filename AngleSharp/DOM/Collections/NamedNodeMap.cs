@@ -15,6 +15,7 @@ namespace AngleSharp.DOM.Collections
         #region Members
 
         List<Attr> _entries;
+        Node _parent;
 
         #endregion
 
@@ -23,18 +24,11 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Creates a new collection of nodes.
         /// </summary>
-        internal NamedNodeMap()
+        /// <param name="parent">The parent of the NamedNodeMap.</param>
+        internal NamedNodeMap(Node parent)
         {
+            _parent = parent;
             _entries = new List<Attr>();
-        }
-
-        /// <summary>
-        /// Creates a new collection of attributes by cloning the given source collection.
-        /// </summary>
-        /// <param name="source">The collection to clone.</param>
-        internal NamedNodeMap(NamedNodeMap source)
-        {
-            _entries.AddRange(source._entries);
         }
 
         #endregion
@@ -118,17 +112,27 @@ namespace AngleSharp.DOM.Collections
         {
             if (node != null)
             {
+                if (node.OwnerDocument != _parent.OwnerDocument)
+                    node.OwnerDocument = _parent.OwnerDocument;
+
+                if (node.ParentNode != null && node.ParentNode != _parent)
+                    throw new DOMException(ErrorCode.InUse);
+
+                node.ParentNode = _parent;
+
                 for (var i = 0; i < _entries.Count; i++)
                 {
                     if (_entries[i].NodeName.Equals(node.NodeName, StringComparison.OrdinalIgnoreCase))
                     {
                         var entry = _entries[i];
                         _entries[i] = node;
+                        RaiseChanged(node.Name);
                         return entry;
                     }
                 }
 
                 _entries.Add(node);
+                RaiseChanged(node.Name);
             }
 
             return null;
@@ -150,6 +154,7 @@ namespace AngleSharp.DOM.Collections
                     {
                         var entry = _entries[i];
                         _entries.RemoveAt(i);
+                        RaiseChanged(entry.Name);
                         return entry;
                     }
                 }
@@ -187,16 +192,26 @@ namespace AngleSharp.DOM.Collections
         {
             if (node != null)
             {
+                if (node.OwnerDocument != _parent.OwnerDocument)
+                    node.OwnerDocument = _parent.OwnerDocument;
+
+                if (node.ParentNode != null && node.ParentNode != _parent)
+                    throw new DOMException(ErrorCode.InUse);
+
+                node.ParentNode = _parent;
+
                 for (var i = 0; i < _entries.Count; i++)
                 {
                     if (_entries[i].NamespaceURI.Equals(node.NamespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(node.LocalName, StringComparison.OrdinalIgnoreCase))
                     {
                         _entries[i] = node;
+                        RaiseChanged(node.Name);
                         return _entries[i];
                     }
                 }
 
                 _entries.Add(node);
+                RaiseChanged(node.Name);
             }
 
             return node;
@@ -219,6 +234,7 @@ namespace AngleSharp.DOM.Collections
                     {
                         var entry = _entries[i];
                         _entries.RemoveAt(i);
+                        RaiseChanged(entry.Name);
                         return entry;
                     }
                 }
@@ -293,6 +309,16 @@ namespace AngleSharp.DOM.Collections
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void RaiseChanged(String name)
+        {
+            if (_parent != null)
+                _parent.OnAttributeChanged(name);
         }
 
         #endregion

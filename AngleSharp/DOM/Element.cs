@@ -800,7 +800,7 @@ namespace AngleSharp.DOM
         /// <param name="localAttrName">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
         [DOM("getAttributeNS")]
-        public virtual string GetAttributeNS(String namespaceURI, String localAttrName)
+        public virtual String GetAttributeNS(String namespaceURI, String localAttrName)
         {
             var attr = _attributes.GetNamedItemNS(namespaceURI, localAttrName);
 
