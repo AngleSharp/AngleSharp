@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML menuitem element.
     /// </summary>
+    [DOM("HTMLMenuItemElement")]
     public sealed class HTMLMenuItemElement : HTMLElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The menuitem tag.
         /// </summary>
-        internal const string Tag = "menuitem";
+        internal const String Tag = "menuitem";
 
         #endregion
 
@@ -33,7 +34,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the link has been visited.
         /// </summary>
-        internal bool IsVisited
+        internal Boolean IsVisited
         {
             get;
             set;
@@ -42,7 +43,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the link is currently active.
         /// </summary>
-        internal bool IsActive
+        internal Boolean IsActive
         {
             get;
             set;
@@ -55,6 +56,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the assigned master command, if any.
         /// </summary>
+        [DOM("command")]
         public Element Command
         {
             get
@@ -71,6 +73,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the type of command.
         /// </summary>
+        [DOM("type")]
         public ItemType Type
         {
             get { return ToEnum(GetAttribute("type"), ItemType.Command); }
@@ -80,7 +83,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the user-visible label.
         /// </summary>
-        public string Label
+        [DOM("label")]
+        public String Label
         {
             get { return GetAttribute("label"); }
             set { SetAttribute("label", value); }
@@ -89,7 +93,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the icon for the command.
         /// </summary>
-        public string Icon
+        [DOM("icon")]
+        public String Icon
         {
             get { return GetAttribute("icon"); }
             set { SetAttribute("icon", value); }
@@ -98,7 +103,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the menuitem element is enabled or disabled.
         /// </summary>
-        public bool Disabled
+        [DOM("disabled")]
+        public Boolean Disabled
         {
             get { return GetAttribute("disabled") != null; }
             set { SetAttribute("disabled", value ? string.Empty : null); }
@@ -107,7 +113,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the menuitem element is checked or not.
         /// </summary>
-        public bool Checked
+        [DOM("checked")]
+        public Boolean Checked
         {
             get { return GetAttribute("checked") != null; }
             set { SetAttribute("checked", value ? string.Empty : null); }
@@ -116,7 +123,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the menuitem element is the default command.
         /// </summary>
-        public bool Default
+        [DOM("default")]
+        public Boolean Default
         {
             get { return GetAttribute("default") != null; }
             set { SetAttribute("default", value ? string.Empty : null); }
@@ -126,7 +134,8 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the name of group of commands to
         /// treat as a radio button group.
         /// </summary>
-        public string Radiogroup
+        [DOM("radiogroup")]
+        public String Radiogroup
         {
             get { return GetAttribute("radiogroup"); }
             set { SetAttribute("radiogroup", value); }
@@ -139,7 +148,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

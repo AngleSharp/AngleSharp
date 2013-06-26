@@ -3,7 +3,9 @@
 namespace AngleSharp.DOM.Html
 {
     /// <summary>
-    /// Represents the HTML wbr element.
+    /// Represents the HTML wbr (word-break-opportunity) element.
+    /// This element is used to indicate that the position is a good
+    /// point for inserting a possible line-break.
     /// </summary>
     sealed class HTMLWbrElement : HTMLElement
     {
@@ -12,7 +14,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The wbr tag.
         /// </summary>
-        internal const string Tag = "wbr";
+        internal const String Tag = "wbr";
 
         #endregion
 
@@ -21,7 +23,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new HTML wbr element.
         /// </summary>
-        public HTMLWbrElement()
+        internal HTMLWbrElement()
         {
             _name = Tag;
         }
@@ -33,7 +35,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

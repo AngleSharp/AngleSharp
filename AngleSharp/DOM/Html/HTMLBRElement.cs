@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML br element.
     /// </summary>
+    [DOM("HTMLBRElement")]
     public sealed class HTMLBRElement : HTMLElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The br tag.
         /// </summary>
-        internal const string Tag = "br";
+        internal const String Tag = "br";
 
         #endregion
 
@@ -33,7 +34,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML marquee element.
     /// </summary>
+    [DOM("HTMLMarqueeElement")]
     public sealed class HTMLMarqueeElement : HTMLElement
     {
         #region Constant
@@ -30,6 +31,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the minimum delay in ms.
         /// </summary>
+        [DOM("minimumDelay")]
         public Int32 MinimumDelay
         {
             get;
@@ -39,6 +41,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the amount of scrolling in pixels.
         /// </summary>
+        [DOM("scrollAmount")]
         public Int32 ScrollAmount
         {
             get;
@@ -48,6 +51,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the delay of scrolling in ms.
         /// </summary>
+        [DOM("scrollDelay")]
         public Int32 ScrollDelay
         {
             get;
@@ -57,6 +61,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the loop number.
         /// </summary>
+        [DOM("loop")]
         public Int32 Loop
         {
             get;
@@ -70,6 +75,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Starts the marquee loop.
         /// </summary>
+        [DOM("start")]
         public void Start()
         {
             //TODO
@@ -78,6 +84,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Stops the marquee loop.
         /// </summary>
+        [DOM("stop")]
         public void Stop()
         {
             //TODO

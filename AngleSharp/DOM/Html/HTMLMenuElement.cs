@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML menu element.
     /// </summary>
+    [DOM("HTMLMenuElement")]
     public sealed class HTMLMenuElement : HTMLElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The menu tag.
         /// </summary>
-        internal const string Tag = "menu";
+        internal const String Tag = "menu";
 
         #endregion
 
@@ -33,6 +34,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the type of the menu element.
         /// </summary>
+        [DOM("type")]
         public MenuType Type
         {
             get { return ToEnum(GetAttribute("type"), MenuType.Popup); }
@@ -42,7 +44,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the text label of the menu element.
         /// </summary>
-        public string Label
+        [DOM("label")]
+        public String Label
         {
             get { return GetAttribute("label"); }
             set { SetAttribute("label", value); }
@@ -55,7 +58,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

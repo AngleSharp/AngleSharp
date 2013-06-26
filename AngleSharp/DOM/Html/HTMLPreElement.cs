@@ -7,22 +7,34 @@ namespace AngleSharp.DOM.Html
     /// </summary>
     public sealed class HTMLPreElement : HTMLElement
     {
+        #region Constant
+
         /// <summary>
         /// The pre tag.
         /// </summary>
-        internal const string Tag = "pre";
+        internal const String Tag = "pre";
+
+        #endregion
+
+        #region ctor
 
         internal HTMLPreElement()
         {
             _name = Tag;
         }
 
+        #endregion
+
+        #region Internal properties
+
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }
+
+        #endregion
     }
 }

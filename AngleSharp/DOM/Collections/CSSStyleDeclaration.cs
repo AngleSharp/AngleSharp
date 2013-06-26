@@ -17,35 +17,36 @@ namespace AngleSharp.DOM.Collections
 
         List<CSSProperty> _rules;
         CSSRule _parent;
-
-        String oldCssText;
-        Func<String> getter;
-        Action<String> setter;
+        Func<String> _getter;
+        Action<String> _setter;
+        Boolean blocking;
 
         #endregion
 
         #region ctor
 
         /// <summary>
-        /// Creates a new CSS style declaration.
+        /// Creates a new CSS style declaration. Here a local string
+        /// variable is used to cache the text representation.
         /// </summary>
         internal CSSStyleDeclaration()
         {
+            String text = String.Empty;
+            _getter = () => text;
+            _setter = value => text = value;
             _rules = new List<CSSProperty>();
         }
 
         /// <summary>
-        /// Creates a bound CSSStyleDeclaration from the given properties.
+        /// Creates a new CSS style declaration with pre-defined getter
+        /// and setter functions (use-case: HTML element).
         /// </summary>
-        /// <param name="getter">The access to the getter property part.</param>
-        /// <param name="setter">The access to the setter property part.</param>
-        /// <returns>The CSSStyleDeclaration.</returns>
-        internal static CSSStyleDeclaration From(Func<string> getter, Action<string> setter)
+        /// <param name="host">The element to host this representation.</param>
+        internal CSSStyleDeclaration(Element host)
         {
-            var styles = new CSSStyleDeclaration();
-            styles.getter = getter;
-            styles.setter = setter;
-            return styles;
+            _getter = () => host.GetAttribute("style");
+            _setter = value => host.SetAttribute("style", value);
+            _rules = new List<CSSProperty>();
         }
 
         #endregion
@@ -58,8 +59,12 @@ namespace AngleSharp.DOM.Collections
         [DOM("cssText")]
         public String CssText
         {
-            get { GetValue(); return oldCssText; }
-            set { Reset(value); }
+            get { return _getter(); }
+            set
+            {
+                Update(value);
+                _setter(value);
+            }
         }
 
         /// <summary>
@@ -89,11 +94,7 @@ namespace AngleSharp.DOM.Collections
         [DOM("item")]
         public String this[Int32 index]
         {
-            get
-            {
-                GetValue();
-                return index >= 0 && index < Length ? _rules[index].Name : null;
-            }
+            get { return index >= 0 && index < Length ? _rules[index].Name : null; }
         }
 
         #endregion
@@ -108,19 +109,17 @@ namespace AngleSharp.DOM.Collections
         [DOM("removeProperty")]
         public String RemoveProperty(String propertyName)
         {
-            GetValue();
-
             for (int i = 0; i < _rules.Count; i++)
             {
                 if (_rules[i].Name.Equals(propertyName))
                 {
                     var value = _rules[i].Value;
                     _rules.RemoveAt(i);
+                    Propagate();
                     return value.CssText;
                 }
             }
 
-            SetValue();
             return null;
         }
 
@@ -132,8 +131,6 @@ namespace AngleSharp.DOM.Collections
         [DOM("getPropertyPriority")]
         public String GetPropertyPriority(String propertyName)
         {
-            GetValue();
-
             for (int i = 0; i < _rules.Count; i++)
             {
                 if (_rules[i].Name.Equals(propertyName))
@@ -151,8 +148,6 @@ namespace AngleSharp.DOM.Collections
         [DOM("getPropertyValue")]
         public String GetPropertyValue(String propertyName)
         {
-            GetValue();
-
             for (int i = 0; i < _rules.Count; i++)
             {
                 if (_rules[i].Name.Equals(propertyName))
@@ -171,9 +166,9 @@ namespace AngleSharp.DOM.Collections
         [DOM("setProperty")]
         public CSSStyleDeclaration SetProperty(String propertyName, String propertyValue)
         {
-            GetValue();
+            //_rules.Add(CssParser.ParseDeclaration(propertyName + ":" + propertyValue));
             //TODO
-            SetValue();
+            Propagate();
             return this;
         }
 
@@ -191,33 +186,31 @@ namespace AngleSharp.DOM.Collections
 
         #endregion
 
-        #region Helpers
+        #region Internal methods
 
-        void Reset(String value)
+        /// <summary>
+        /// Updates the CSSStyleDeclaration with the given value.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        internal void Update(String value)
         {
-            var rules = CssParser.ParseDeclarations(value)._rules;
-            _rules.Clear();
-            _rules.AddRange(rules);
-            SetValue();
-        }
-
-        void GetValue()
-        {
-            if (getter != null)
+            if (!blocking)
             {
-                var newCssText = getter();
-
-                if (newCssText != oldCssText)
-                    Reset(newCssText);
+                var rules = CssParser.ParseDeclarations(value ?? String.Empty)._rules;
+                _rules.Clear();
+                _rules.AddRange(rules);
             }
         }
 
-        void SetValue()
-        {
-            oldCssText = ToCss();
+        #endregion
 
-            if (setter != null)
-                setter(oldCssText);
+        #region Helpers
+
+        void Propagate()
+        {
+            blocking = true;
+            _setter(ToCss());
+            blocking = false;
         }
 
         #endregion

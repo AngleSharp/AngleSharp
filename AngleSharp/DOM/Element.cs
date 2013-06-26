@@ -132,7 +132,7 @@ namespace AngleSharp.DOM
         [DOM("classList")]
         public DOMTokenList ClassList
         {
-            get { return classList ?? (classList = DOMTokenList.From(() => ClassName, value => ClassName = value)); }
+            get { return classList ?? (classList = new DOMTokenList(this, "class")); }
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace AngleSharp.DOM
         [DOM("style")]
         public CSSStyleDeclaration Style
         {
-            get { return style ?? (style = CSSStyleDeclaration.From(() => GetAttribute("style"), value => SetAttribute("style", value))); }
+            get { return style ?? (style = new CSSStyleDeclaration(this)); }
         }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace AngleSharp.DOM
         [DOM("dataset")]
         public DOMStringMap Dataset
         {
-            get { return dataset ?? (dataset = DOMStringMap.From(m => GetAttribute("data-" + m), (name, value) => SetAttribute("data-" + name, value))); }
+            get { return dataset ?? (dataset = new DOMStringMap(this)); }
         }
 
         /// <summary>
@@ -725,7 +725,7 @@ namespace AngleSharp.DOM
         /// <param name="value">The desired new value of the attribute.</param>
         /// <returns>The current element.</returns>
         [DOM("setAttribute")]
-        public virtual Element SetAttribute(String name, String value)
+        public Element SetAttribute(String name, String value)
         {
             var oldAttr = value == null ? _attributes.RemoveNamedItem(name) : _attributes.SetNamedItem(new Attr(name, value));
 
@@ -741,7 +741,7 @@ namespace AngleSharp.DOM
         /// <param name="attrName">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
         [DOM("getAttribute")]
-        public virtual String GetAttribute(String attrName)
+        public String GetAttribute(String attrName)
         {
             var attr = _attributes[attrName];
 
@@ -757,7 +757,7 @@ namespace AngleSharp.DOM
         /// <param name="attrName">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
         [DOM("hasAttribute")]
-        public virtual Boolean HasAttribute(String attrName)
+        public Boolean HasAttribute(String attrName)
         {
             return _attributes[attrName] != null;
         }
@@ -768,7 +768,7 @@ namespace AngleSharp.DOM
         /// <param name="attrName">Is a string that names the attribute to be removed.</param>
         /// <returns>The current element.</returns>
         [DOM("removeAttribute")]
-        public virtual Element RemoveAttribute(String attrName)
+        public Element RemoveAttribute(String attrName)
         {
             var node = _attributes.RemoveNamedItem(attrName);
             node.ParentNode = null;
@@ -783,7 +783,7 @@ namespace AngleSharp.DOM
         /// <param name="value">The desired new value of the attribute.</param>
         /// <returns>The current element.</returns>
         [DOM("setAttributeNS")]
-        public virtual Element SetAttributeNS(String namespaceURI, String name, String value)
+        public Element SetAttributeNS(String namespaceURI, String name, String value)
         {
             var oldAttr = value == null ? _attributes.RemoveNamedItem(name) : _attributes.SetNamedItem(new Attr(name, value, namespaceURI));
 
@@ -800,7 +800,7 @@ namespace AngleSharp.DOM
         /// <param name="localAttrName">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
         [DOM("getAttributeNS")]
-        public virtual String GetAttributeNS(String namespaceURI, String localAttrName)
+        public String GetAttributeNS(String namespaceURI, String localAttrName)
         {
             var attr = _attributes.GetNamedItemNS(namespaceURI, localAttrName);
 
@@ -817,7 +817,7 @@ namespace AngleSharp.DOM
         /// <param name="attrName">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
         [DOM("hasAttributeNS")]
-        public virtual Boolean HasAttributeNS(String namespaceURI, String attrName)
+        public Boolean HasAttributeNS(String namespaceURI, String attrName)
         {
             return _attributes.GetNamedItemNS(namespaceURI, attrName) != null;
         }
@@ -829,7 +829,7 @@ namespace AngleSharp.DOM
         /// <param name="localAttrName">Is a string that names the attribute to be removed.</param>
         /// <returns>The current element.</returns>
         [DOM("removeAttributeNS")]
-        public virtual Element RemoveAttributeNS(String namespaceURI, String localAttrName)
+        public Element RemoveAttributeNS(String namespaceURI, String localAttrName)
         {
             var node = _attributes.RemoveNamedItemNS(namespaceURI, localAttrName);
             node.ParentNode = null;
@@ -842,7 +842,7 @@ namespace AngleSharp.DOM
         /// <param name="attr">Is the Attr node to set on the element.</param>
         /// <returns>The replaced attribute node, if any, returned by this function.</returns>
         [DOM("setAttributeNode")]
-        public virtual Attr SetAttributeNode(Attr attr)
+        public Attr SetAttributeNode(Attr attr)
         {
             if (attr.ParentNode != null)
                 throw new DOMException(ErrorCode.InUse);
@@ -862,7 +862,7 @@ namespace AngleSharp.DOM
         /// <param name="attrName">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute.</returns>
         [DOM("getAttributeNode")]
-        public virtual Attr GetAttributeNode(String attrName)
+        public Attr GetAttributeNode(String attrName)
         {
             return _attributes[attrName];
         }
@@ -873,7 +873,7 @@ namespace AngleSharp.DOM
         /// <param name="attr">The Attr node that needs to be removed..</param>
         /// <returns>The removed Attr node..</returns>
         [DOM("removeAttributeNode")]
-        public virtual Attr RemoveAttributeNode(Attr attr)
+        public Attr RemoveAttributeNode(Attr attr)
         {
             var node = _attributes.RemoveNamedItem(attr.NodeName);
             node.ParentNode = null;
@@ -887,7 +887,7 @@ namespace AngleSharp.DOM
         /// <param name="attr">Is the Attr node to set on the element.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute.</returns>
         [DOM("setAttributeNodeNS")]
-        public virtual Attr SetAttributeNodeNS(String namespaceURI, Attr attr)
+        public Attr SetAttributeNodeNS(String namespaceURI, Attr attr)
         {
             return SetAttributeNode(attr);
         }
@@ -899,7 +899,7 @@ namespace AngleSharp.DOM
         /// <param name="attrName">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute.</returns>
         [DOM("getAttributeNodeNS")]
-        public virtual Attr GetAttributeNodeNS(String namespaceURI, String attrName)
+        public Attr GetAttributeNodeNS(String namespaceURI, String attrName)
         {
             return _attributes.GetNamedItemNS(namespaceURI, attrName);
         }
@@ -1049,6 +1049,20 @@ namespace AngleSharp.DOM
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Entry point for attributes to notify about a change (modified, added, removed).
+        /// </summary>
+        /// <param name="name">The name of the attribute that has been changed.</param>
+        internal override void OnAttributeChanged(String name)
+        {
+            if (name.Equals("class", StringComparison.Ordinal))
+                ClassList.Update(ClassName);
+            else if (name.Equals("style", StringComparison.Ordinal))
+                Style.Update(GetAttribute("style"));
+            else
+                base.OnAttributeChanged(name);
+        }
 
         /// <summary>
         /// Converts the given value to an integer (or not).

@@ -358,11 +358,9 @@ namespace AngleSharp.DOM
         #region Internal Methods
 
         /// <summary>
-        /// Entry point for attributes to notify about
-        /// a change (modified, added, removed).
+        /// Entry point for attributes to notify about a change (modified, added, removed).
         /// </summary>
-        /// <param name="name">The name of the attribute that
-        /// has been changed.</param>
+        /// <param name="name">The name of the attribute that has been changed.</param>
         internal virtual void OnAttributeChanged(String name)
         {
         }

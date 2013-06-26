@@ -25,7 +25,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the status if this node is in the HTML namespace.
         /// </summary>
-        internal protected override bool IsInHtml
+        internal protected override Boolean IsInHtml
         {
             get { return true; }
         }
@@ -33,7 +33,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return false; }
         }

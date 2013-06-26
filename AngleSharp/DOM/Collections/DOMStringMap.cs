@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 
 namespace AngleSharp.DOM.Collections
@@ -7,12 +9,17 @@ namespace AngleSharp.DOM.Collections
     /// Represents a list of DOMTokens.
     /// </summary>
     [DOM("DOMStringMap")]
-    public sealed class DOMStringMap
+    public sealed class DOMStringMap : IEnumerable<KeyValuePair<String, String>>
     {
+        #region Constant
+
+        const String PREFIX = "data-";
+
+        #endregion
+
         #region Members
 
-        Func<String, String> getter;
-        Action<String, String> setter;
+        Element _parent;
 
         #endregion
 
@@ -21,24 +28,9 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Creates a new map of tokens.
         /// </summary>
-        private DOMStringMap()
+        internal DOMStringMap(Element parent)
         {
-        }
-
-        /// <summary>
-        /// Creates a bound DOMStringMap from the given properties.
-        /// </summary>
-        /// <param name="getter">The access to the getter property part.</param>
-        /// <param name="setter">The access to the setter property part.</param>
-        /// <returns>The DOMStringMap.</returns>
-        internal static DOMStringMap From(Func<String, String> getter, Action<String, String> setter)
-        {
-            var map = new DOMStringMap();
-
-            map.getter = getter;
-            map.setter = setter;
-
-            return map;
+            _parent = parent;
         }
 
         #endregion
@@ -52,8 +44,8 @@ namespace AngleSharp.DOM.Collections
         /// <returns>The value of the custom attribute property.</returns>
         public String this[String name]
         {
-            get { return getter(Check(name)); }
-            set { setter(Check(name), value); }
+            get { return _parent.GetAttribute(PREFIX + Check(name)); }
+            set { _parent.SetAttribute(PREFIX + Check(name), value); }
         }
 
         #endregion
@@ -68,7 +60,7 @@ namespace AngleSharp.DOM.Collections
         [DOM("getDataAttr")]
         public String GetDataAttr(String prop)
         {
-            return this[prop];
+            return _parent.GetAttribute(PREFIX + Check(prop));
         }
 
         /// <summary>
@@ -79,7 +71,7 @@ namespace AngleSharp.DOM.Collections
         [DOM("hetDataAttr")]
         public bool HasDataAttr(String prop)
         {
-            return this[prop] != null;
+            return _parent.HasAttribute(PREFIX + Check(prop));
         }
 
         /// <summary>
@@ -105,7 +97,7 @@ namespace AngleSharp.DOM.Collections
         [DOM("setDataAttr")]
         public DOMStringMap SetDataAttr(String prop, String value)
         {
-            this[prop] = value;
+            _parent.SetAttribute(PREFIX + Check(prop), value);
             return this;
         }
 
@@ -133,6 +125,24 @@ namespace AngleSharp.DOM.Collections
             }
 
             return name;
+        }
+
+        #endregion
+
+        #region IEnumerable implementation
+
+        public IEnumerator<KeyValuePair<String, String>> GetEnumerator()
+        {
+            foreach (var attr in _parent.Attributes)
+            {
+                if (attr.Name.StartsWith(PREFIX, StringComparison.OrdinalIgnoreCase))
+                    yield return new KeyValuePair<String, String>(attr.Name.Remove(0, PREFIX.Length), attr.Value);
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         #endregion

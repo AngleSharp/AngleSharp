@@ -1182,10 +1182,7 @@ namespace AngleSharp.Css
             parser.ignore = false;
             var it = parser.tokenizer.Iterator;
             var decl = new CSSStyleDeclaration();
-            
-            if(SkipToNextNonWhitespace(it))
-                parser.AppendDeclarations(it, decl.List);
-
+            parser.AppendDeclarations(it, decl.List);
             return decl;
         }
 

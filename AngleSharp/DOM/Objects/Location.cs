@@ -33,7 +33,7 @@ namespace AngleSharp.DOM
         #region Properties
 
         /// <summary>
-        /// Gets the hash, e.g.  "#myhash".
+        /// Gets or sets the hash, e.g.  "#myhash".
         /// </summary>
         [DOM("hash")]
         public String Hash
@@ -43,7 +43,7 @@ namespace AngleSharp.DOM
         }
 
         /// <summary>
-        /// Gets the host, e.g. "localhost:8800" or "www.w3.org".
+        /// Gets or sets the host, e.g. "localhost:8800" or "www.w3.org".
         /// </summary>
         [DOM("host")]
         public String Host
@@ -66,7 +66,7 @@ namespace AngleSharp.DOM
         }
 
         /// <summary>
-        /// Gets the host name, e.g. "localhost" or "www.w3.org".
+        /// Gets or sets the host name, e.g. "localhost" or "www.w3.org".
         /// </summary>
         [DOM("hostname")]
         public String HostName
@@ -76,7 +76,7 @@ namespace AngleSharp.DOM
         }
 
         /// <summary>
-        /// Gets the hyper reference, i.e. the full path.
+        /// Gets or sets the hyper reference, i.e. the full path.
         /// </summary>
         [DOM("href")]
         public String Href
@@ -86,7 +86,7 @@ namespace AngleSharp.DOM
         }
 
         /// <summary>
-        /// Gets the pathname, e.g. "/mypath".
+        /// Gets or sets the pathname, e.g. "/mypath".
         /// </summary>
         [DOM("pathname")]
         public String PathName
@@ -96,7 +96,7 @@ namespace AngleSharp.DOM
         }
 
         /// <summary>
-        /// Gets the port, e.g. "8800"
+        /// Gets or sets the port, e.g. "8800"
         /// </summary>
         [DOM("port")]
         public String Port
@@ -106,7 +106,7 @@ namespace AngleSharp.DOM
         }
 
         /// <summary>
-        /// Gets the protocol, e.g. "http:".
+        /// Gets or sets the protocol, e.g. "http:".
         /// </summary>
         [DOM("protocol")]
         public String Protocol
