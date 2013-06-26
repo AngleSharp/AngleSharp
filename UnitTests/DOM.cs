@@ -1,4 +1,5 @@
 ﻿using AngleSharp.DOM;
+using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Html;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -95,6 +96,20 @@ namespace UnitTests
             div.SetAttribute("data-another", "");
             div.SetAttribute("data-test", "third attribute");
             Assert.IsFalse(div.Dataset.HasDataAttr("user"));
+        }
+
+        [TestMethod]
+        public void DOMStringMapIEnumerableWorking()
+        {
+            var div = new HTMLDivElement();
+            div.SetAttribute("data-some", "test");
+            div.SetAttribute("data-another", "");
+            div.SetAttribute("data-test", "third attribute");
+            Assert.AreEqual(3, div.Dataset.Count());
+            Assert.AreEqual("some", div.Dataset.First().Key);
+            Assert.AreEqual("test", div.Dataset.First().Value);
+            Assert.AreEqual("test", div.Dataset.Last().Key);
+            Assert.AreEqual("third attribute", div.Dataset.Last().Value);
         }
 
         [TestMethod]
@@ -316,6 +331,56 @@ namespace UnitTests
             Assert.AreEqual(string.Empty, location.Port);
             Assert.AreEqual(protocol, location.Protocol);
             Assert.AreEqual(address, location.Href);
+        }
+
+        [TestMethod]
+        public void CSSStyleDeclarationEmpty()
+        {
+            var css = new CSSStyleDeclaration();
+            Assert.AreEqual("", css.CssText);
+            Assert.AreEqual(0, css.Length);
+        }
+
+        [TestMethod]
+        public void CSSStyleDeclarationUnbound()
+        {
+            var css = new CSSStyleDeclaration();
+            var text = "background: red; color: black";
+            css.CssText = text;
+            Assert.AreEqual(text, css.CssText);
+            Assert.AreEqual(2, css.Length);
+        }
+
+        [TestMethod]
+        public void CSSStyleDeclarationBoundOutboundDirectionIndirect()
+        {
+            var element = new HTMLElement();
+            var text = "background: red; color: black";
+            element.SetAttribute("style", text);
+            Assert.AreEqual(text, element.Style.CssText);
+            Assert.AreEqual(2, element.Style.Length);
+        }
+
+        [TestMethod]
+        public void CSSStyleDeclarationBoundOutboundDirectionDirect()
+        {
+            var element = new HTMLElement();
+            var text = "background: red; color: black";
+            element.SetAttribute("style", String.Empty);
+            Assert.AreEqual(String.Empty, element.Style.CssText);
+            element.Attributes["style"].Value = text;
+            Assert.AreEqual(text, element.Style.CssText);
+            Assert.AreEqual(2, element.Style.Length);
+        }
+
+        [TestMethod]
+        public void CSSStyleDeclarationBoundInboundDirection()
+        {
+            var element = new HTMLElement();
+            var text = "background: red; color: black";
+            element.Style.CssText = text;
+            Assert.AreEqual(text, element.Attributes["style"].Value);
+            Assert.AreEqual(2, element.Style.Length);
         }
     }
 }
