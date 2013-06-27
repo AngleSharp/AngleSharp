@@ -11,8 +11,8 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
-        String keyText;
-        CSSStyleDeclaration style;
+        String _keyText;
+        CSSStyleDeclaration _style;
 
         #endregion
 
@@ -23,7 +23,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         internal CSSKeyframeRule()
         {
-            style = new CSSStyleDeclaration();
+            _style = new CSSStyleDeclaration();
         }
 
         #endregion
@@ -36,8 +36,8 @@ namespace AngleSharp.DOM.Css
         [DOM("keyText")]
         public String KeyText
         {
-            get { return keyText; }
-            set { keyText = value; }
+            get { return _keyText; }
+            set { _keyText = value; }
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace AngleSharp.DOM.Css
         [DOM("style")]
         public CSSStyleDeclaration Style
         {
-            get { return style; }
+            get { return _style; }
         }
 
         #endregion
@@ -59,7 +59,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return keyText + " {" + Environment.NewLine + style.ToCss() + "}";
+            return _keyText + " {" + Environment.NewLine + _style.ToCss() + "}";
         }
 
         #endregion

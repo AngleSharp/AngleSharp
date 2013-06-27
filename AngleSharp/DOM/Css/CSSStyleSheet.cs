@@ -13,8 +13,8 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
-        CSSRuleList cssRules;
-        CSSRule ownerRule;
+        CSSRuleList _cssRules;
+        CSSRule _ownerRule;
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         internal CSSStyleSheet()
         {
-            cssRules = new CSSRuleList();
+            _cssRules = new CSSRuleList();
         }
 
         #endregion
@@ -38,7 +38,7 @@ namespace AngleSharp.DOM.Css
         [DOM("cssRules")]
         public CSSRuleList CssRules
         {
-            get { return cssRules; }
+            get { return _cssRules; }
         }
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace AngleSharp.DOM.Css
         [DOM("ownerRule")]
         public CSSRule OwnerRule
         {
-            get { return ownerRule; }
-            internal set { ownerRule = value; }
+            get { return _ownerRule; }
+            internal set { _ownerRule = value; }
         }
 
         #endregion
@@ -63,8 +63,8 @@ namespace AngleSharp.DOM.Css
         [DOM("deleteRule")]
         public CSSStyleSheet DeleteRule(Int32 index)
         {
-            if (index >= 0 && index < cssRules.Length)
-                cssRules.RemoveAt(index);
+            if (index >= 0 && index < _cssRules.Length)
+                _cssRules.RemoveAt(index);
 
             return this;
         }
@@ -78,10 +78,10 @@ namespace AngleSharp.DOM.Css
         [DOM("insertRule")]
         public CSSStyleSheet InsertRule(String rule, Int32 index)
         {
-            if (index >= 0 && index <= cssRules.Length)
+            if (index >= 0 && index <= _cssRules.Length)
             {
                 var value = CssParser.ParseRule(rule);
-                cssRules.InsertAt(index, value);
+                _cssRules.InsertAt(index, value);
             }
 
             return this;
@@ -99,7 +99,7 @@ namespace AngleSharp.DOM.Css
         {
             var sb = new StringBuilder();
 
-            foreach (var rule in cssRules)
+            foreach (var rule in _cssRules)
                 sb.AppendLine(rule.ToCss());
 
             return sb.ToString();

@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML canvas element.
     /// </summary>
+    [DOM("HTMLCanvasElement")]
     public sealed class HTMLCanvasElement : HTMLElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The canvas tag.
         /// </summary>
-        internal const string Tag = "canvas";
+        internal const String Tag = "canvas";
 
         #endregion
 
@@ -40,6 +41,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="contextId">A context id like 2d.</param>
         /// <returns>An object that defines the drawing context.</returns>
+        [DOM("getContext")]
         public RenderingContext GetContext(String contextId)
         {
             //TODO
@@ -51,6 +53,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="contextId">A context id like 2d.</param>
         /// <returns>True if the context is supported, otherwise false.</returns>
+        [DOM("supportsContext")]
         public Boolean SupportsContext(String contextId)
         {
             //TODO
@@ -61,6 +64,7 @@ namespace AngleSharp.DOM.Html
         /// Changes the context the element is related to the given one.
         /// </summary>
         /// <param name="context">The new context.</param>
+        [DOM("setContext")]
         public void SetContext(RenderingContext context)
         {
             //TODO
@@ -71,6 +75,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="type">The type of image e.g image/png.</param>
         /// <returns>A data URI with the data if any.</returns>
+        [DOM("toDataURL")]
         public String ToDataURL(String type = null)
         {
             //TODO
@@ -83,6 +88,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="callback">The callback function.</param>
         /// <param name="type">The type of object to create.</param>
+        [DOM("toBlob")]
         public void ToBlob(Action<Object> callback, String type = null)
         {
             //TODO
@@ -95,6 +101,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the displayed width of the canvas element.
         /// </summary>
+        [DOM("width")]
         public UInt32 Width
         {
             get { return ToInteger(GetAttribute("width"), 300u); }
@@ -104,6 +111,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the displayed height of the canvas element.
         /// </summary>
+        [DOM("height")]
         public UInt32 Height
         {
             get { return ToInteger(GetAttribute("height"), 150u); }
@@ -117,7 +125,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return false; }
         }

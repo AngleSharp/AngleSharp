@@ -14,9 +14,9 @@ namespace AngleSharp.DOM
     {
         #region Members
 
-        DOMTokenList classList;
-        DOMStringMap dataset;
-        CSSStyleDeclaration style;
+        DOMTokenList _classList;
+        DOMStringMap _dataset;
+        CSSStyleDeclaration _style;
 
         #endregion
 
@@ -132,7 +132,7 @@ namespace AngleSharp.DOM
         [DOM("classList")]
         public DOMTokenList ClassList
         {
-            get { return classList ?? (classList = new DOMTokenList(this, "class")); }
+            get { return _classList ?? (_classList = new DOMTokenList(this, "class")); }
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace AngleSharp.DOM
         [DOM("style")]
         public CSSStyleDeclaration Style
         {
-            get { return style ?? (style = new CSSStyleDeclaration(this)); }
+            get { return _style ?? (_style = new CSSStyleDeclaration(this)); }
         }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace AngleSharp.DOM
         [DOM("dataset")]
         public DOMStringMap Dataset
         {
-            get { return dataset ?? (dataset = new DOMStringMap(this)); }
+            get { return _dataset ?? (_dataset = new DOMStringMap(this)); }
         }
 
         /// <summary>

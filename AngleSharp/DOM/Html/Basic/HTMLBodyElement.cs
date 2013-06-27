@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML body element.
     /// </summary>
+    [DOM("HTMLBodyElement")]
     public sealed class HTMLBodyElement : HTMLElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The body tag.
         /// </summary>
-        internal const string Tag = "body";
+        internal const String Tag = "body";
 
         #endregion
 
@@ -33,7 +34,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the color of active links (after mouse-button down, but before mouse-button up). 
         /// </summary>
-        public string ALink
+        [DOM("aLink")]
+        public String ALink
         {
             get { return GetAttribute("alink"); }
             set { SetAttribute("alink", value); }
@@ -42,7 +44,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the URI of the background texture tile image.
         /// </summary>
-        public string Background
+        [DOM("background")]
+        public String Background
         {
             get { return GetAttribute("background"); }
             set { SetAttribute("background", value); }
@@ -51,7 +54,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the document background color.
         /// </summary>
-        public string BgColor
+        [DOM("bgColor")]
+        public String BgColor
         {
             get { return GetAttribute("bgcolor"); }
             set { SetAttribute("bgcolor", value); }
@@ -60,7 +64,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets color of links that are not active and unvisited.
         /// </summary>
-        public string Link
+        [DOM("link")]
+        public String Link
         {
             get { return GetAttribute("link"); }
             set { SetAttribute("link", value); }
@@ -69,7 +74,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets document text color.
         /// </summary>
-        public string Text
+        [DOM("text")]
+        public String Text
         {
             get { return GetAttribute("text"); }
             set { SetAttribute("text", value); }
@@ -78,7 +84,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets color of links that have been visited by the user.
         /// </summary>
-        public string VLink
+        [DOM("vLink")]
+        public String VLink
         {
             get { return GetAttribute("vlink"); }
             set { SetAttribute("vlink", value); }
@@ -91,7 +98,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

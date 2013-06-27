@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the image element.
     /// </summary>
+    [DOM("HTMLImageElement")]
     public sealed class HTMLImageElement : HTMLElement
     {
         #region Constants
@@ -12,20 +13,20 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The img tag.
         /// </summary>
-        internal const string Tag = "img";
+        internal const String Tag = "img";
 
         /// <summary>
         /// The image tag (this is not the right tag).
         /// </summary>
-        internal const string FalseTag = "image";
+        internal const String FalseTag = "image";
 
         #endregion
 
         #region Members
 
-        uint imageWidth;
-        uint imageHeight;
-        bool loaded;
+        UInt32 _imageWidth;
+        UInt32 _imageHeight;
+        Boolean _loaded;
 
         #endregion
 
@@ -36,12 +37,12 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLImageElement()
         {
-            loaded = true;
+            _loaded = true;
             _name = Tag;
 
             //TODO
-            imageHeight = 0;
-            imageWidth = 0;
+            _imageHeight = 0;
+            _imageWidth = 0;
         }
 
         #endregion
@@ -51,7 +52,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the image source.
         /// </summary>
-        public string Src
+        [DOM("src")]
+        public String Src
         {
             get { return GetAttribute("src"); }
             set { SetAttribute("src", value); }
@@ -60,7 +62,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the alternative text.
         /// </summary>
-        public string Alt
+        [DOM("alt")]
+        public String Alt
         {
             get { return GetAttribute("alt"); }
             set { SetAttribute("alt", value); }
@@ -69,7 +72,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the cross-origin attribute.
         /// </summary>
-        public string CrossOrigin
+        [DOM("crossOrigin")]
+        public String CrossOrigin
         {
             get { return GetAttribute("crossorigin"); }
             set { SetAttribute("crossorigin", value); }
@@ -78,7 +82,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the usemap attribute, which indicates that the image has an associated image map.
         /// </summary>
-        public string UseMap
+        [DOM("useMap")]
+        public String UseMap
         {
             get { return GetAttribute("usemap"); }
             set { SetAttribute("usemap", value); }
@@ -87,43 +92,48 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the displayed width of the image element.
         /// </summary>
-        public uint Width
+        [DOM("width")]
+        public UInt32 Width
         {
-            get { return ToInteger(GetAttribute("width"), imageWidth); }
+            get { return ToInteger(GetAttribute("width"), _imageWidth); }
             set { SetAttribute("width", value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the displayed height of the image element.
         /// </summary>
-        public uint Height
+        [DOM("height")]
+        public UInt32 Height
         {
-            get { return ToInteger(GetAttribute("height"), imageHeight); }
+            get { return ToInteger(GetAttribute("height"), _imageHeight); }
             set { SetAttribute("height", value.ToString()); }
         }
 
         /// <summary>
         /// Gets the width of the image.
         /// </summary>
-        public uint NaturalWidth
+        [DOM("naturalWidth")]
+        public UInt32 NaturalWidth
         {
-            get { return imageWidth; }
+            get { return _imageWidth; }
         }
 
         /// <summary>
         /// Gets the height of the image.
         /// </summary>
-        public uint NaturalHeight
+        [DOM("naturalHeight")]
+        public UInt32 NaturalHeight
         {
-            get { return imageHeight; }
+            get { return _imageHeight; }
         }
 
         /// <summary>
         /// Gets if the image is completely available.
         /// </summary>
-        public bool Complete
+        [DOM("complete")]
+        public Boolean Complete
         {
-            get { return loaded; }
+            get { return _loaded; }
         }
 
         /// <summary>
@@ -131,7 +141,8 @@ namespace AngleSharp.DOM.Html
         /// The attribute must not be specified on an element that does not
         /// have an ancestor a element with an href attribute.
         /// </summary>
-        public bool IsMap
+        [DOM("isMap")]
+        public Boolean IsMap
         {
             get { return GetAttribute("ismap") != null; }
             set { SetAttribute("ismap", value ? string.Empty : null); }
@@ -144,7 +155,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

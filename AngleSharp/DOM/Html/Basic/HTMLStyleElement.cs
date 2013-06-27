@@ -6,6 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML style element.
     /// </summary>
+    [DOM("HTMLStyleElement")]
     public sealed class HTMLStyleElement : HTMLElement, IStyleSheet
     {
         #region Constant
@@ -13,7 +14,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The style tag.
         /// </summary>
-        internal const string Tag = "style";
+        internal const String Tag = "style";
 
         #endregion
 
@@ -40,6 +41,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the associated style sheet.
         /// </summary>
+        [DOM("sheet")]
         public StyleSheet Sheet
         {
             get { return _sheet ?? (_sheet = Builder.Style(this)); }
@@ -48,7 +50,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the style is enabled or disabled.
         /// </summary>
-        public bool Disabled
+        [DOM("disabled")]
+        public Boolean Disabled
         {
             get { return Sheet.Disabled; }
             set { Sheet.Disabled = value; }
@@ -57,7 +60,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the use with one or more target media.
         /// </summary>
-        public string Media
+        [DOM("media")]
+        public String Media
         {
             get { return GetAttribute("media"); }
             set { SetAttribute("media", value); }
@@ -66,7 +70,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the content type of the style sheet language.
         /// </summary>
-        public string Type
+        [DOM("type")]
+        public String Type
         {
             get { return GetAttribute("type"); }
             set { SetAttribute("type", value); }
@@ -79,7 +84,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

@@ -7,7 +7,7 @@ namespace AngleSharp.DOM.Css
     /// universal selector, attribute selector, class selector,
     /// id selector or pseudo-class).
     /// </summary>
-    class SimpleSelector : Selector
+    internal class SimpleSelector : Selector
     {
         #region Members
 
@@ -258,7 +258,7 @@ namespace AngleSharp.DOM.Css
 
         #region Helpers
 
-        static string GetValueAsString(string value)
+        static String GetValueAsString(String value)
         {
             var containsSpace = false;
 
@@ -291,7 +291,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
-        public override bool Match(Element element)
+        public override Boolean Match(Element element)
         {
             return _matches(element);
         }
@@ -304,7 +304,7 @@ namespace AngleSharp.DOM.Css
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        public override string ToCss()
+        public override String ToCss()
         {
             return _code;
         }

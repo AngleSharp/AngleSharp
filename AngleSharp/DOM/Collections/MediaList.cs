@@ -40,8 +40,8 @@ namespace AngleSharp.DOM.Collections
 
         #region Members
 
-        StringCollection media;
-        String buffer;
+        StringCollection _media;
+        String _buffer;
 
         #endregion
 
@@ -52,8 +52,8 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         internal MediaList()
         {
-            buffer = String.Empty;
-            media = new StringCollection();
+            _buffer = String.Empty;
+            _media = new StringCollection();
         }
 
         #endregion
@@ -70,10 +70,10 @@ namespace AngleSharp.DOM.Collections
         {
             get
             {
-                if (index < 0 || index >= media.Count)
+                if (index < 0 || index >= _media.Count)
                     return null;
 
-                return media[index];
+                return _media[index];
             }
         }
 
@@ -83,7 +83,7 @@ namespace AngleSharp.DOM.Collections
         [DOM("length")]
         public Int32 Length
         {
-            get { return media.Count; }
+            get { return _media.Count; }
         }
 
         /// <summary>
@@ -92,11 +92,11 @@ namespace AngleSharp.DOM.Collections
         [DOM("mediaText")]
         public String MediaText
         {
-            get { return buffer; }
+            get { return _buffer; }
             set
             {
-                buffer = string.Empty;
-                media.Clear();
+                _buffer = string.Empty;
+                _media.Clear();
 
                 if (!string.IsNullOrEmpty(value))
                 {
@@ -130,10 +130,10 @@ namespace AngleSharp.DOM.Collections
             if (!CheckSyntax(newMedium))
                 throw new DOMException(ErrorCode.SyntaxError);
 
-            if (!media.Contains(newMedium))
+            if (!_media.Contains(newMedium))
             {
-                media.Add(newMedium);
-                buffer += (String.IsNullOrEmpty(buffer) ? String.Empty : ",") + newMedium;
+                _media.Add(newMedium);
+                _buffer += (String.IsNullOrEmpty(_buffer) ? String.Empty : ",") + newMedium;
             }
 
             return this;
@@ -147,15 +147,15 @@ namespace AngleSharp.DOM.Collections
         [DOM("deleteMedium")]
         public MediaList DeleteMedium(String oldMedium)
         {
-            if (!media.Contains(oldMedium))
+            if (!_media.Contains(oldMedium))
                 throw new DOMException(ErrorCode.ItemNotFound);
 
-            media.Remove(oldMedium);
+            _media.Remove(oldMedium);
 
-            if (buffer.StartsWith(oldMedium))
-                buffer.Remove(0, oldMedium.Length + 1);
+            if (_buffer.StartsWith(oldMedium))
+                _buffer.Remove(0, oldMedium.Length + 1);
             else
-                buffer.Replace("," + oldMedium, String.Empty);
+                _buffer.Replace("," + oldMedium, String.Empty);
 
             return this;
         }
@@ -187,7 +187,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>An enumerator that can be used to iterate through the mediums.</returns>
         public IEnumerator<String> GetEnumerator()
         {
-            foreach (var medium in media)
+            foreach (var medium in _media)
                 yield return medium;
         }
 

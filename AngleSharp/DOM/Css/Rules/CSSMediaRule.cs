@@ -17,7 +17,7 @@ namespace AngleSharp.DOM.Css
 
         #region Members
 
-        MediaList media;
+        MediaList _media;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         internal CSSMediaRule()
         {
-            media = new MediaList();
+            _media = new MediaList();
             _type = CssRule.Media;
         }
 
@@ -42,8 +42,8 @@ namespace AngleSharp.DOM.Css
         [DOM("conditionText")]
         public override String ConditionText
         {
-            get { return media.MediaText; }
-            set { media.MediaText = value; }
+            get { return _media.MediaText; }
+            set { _media.MediaText = value; }
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace AngleSharp.DOM.Css
         [DOM("media")]
         public MediaList Media
         {
-            get { return media; }
+            get { return _media; }
         }
 
         #endregion
@@ -65,7 +65,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Format("@media {0} {{{1}{2}}}", media.MediaText, Environment.NewLine, CssRules.ToCss());
+            return String.Format("@media {0} {{{1}{2}}}", _media.MediaText, Environment.NewLine, CssRules.ToCss());
         }
 
         #endregion

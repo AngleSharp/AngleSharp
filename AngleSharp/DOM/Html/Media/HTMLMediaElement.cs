@@ -12,27 +12,27 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The source url.
         /// </summary>
-        protected String source;
+        protected String _source;
         /// <summary>
         /// The state of the network.
         /// </summary>
-        protected MediaNetworkState network;
+        protected MediaNetworkState _network;
         /// <summary>
         /// The state of the media.
         /// </summary>
-        protected MediaReadyState ready;
+        protected MediaReadyState _ready;
         /// <summary>
         /// Currently seeking ?
         /// </summary>
-        protected Boolean seeking;
+        protected Boolean _seeking;
         /// <summary>
         /// The total time (duration).
         /// </summary>
-        protected Double duration;
+        protected Double _duration;
         /// <summary>
         /// The current time.
         /// </summary>
-        protected Double currentTime;
+        protected Double _currentTime;
 
         #endregion
 
@@ -49,7 +49,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the media source.
         /// </summary>
-        public string Src
+        [DOM("src")]
+        public String Src
         {
             get { return GetAttribute("src"); }
             set { SetAttribute("src", value); }
@@ -58,7 +59,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the cross-origin attribute.
         /// </summary>
-        public string CrossOrigin
+        [DOM("crossOrigin")]
+        public String CrossOrigin
         {
             get { return GetAttribute("crossorigin"); }
             set { SetAttribute("crossorigin", value); }
@@ -67,7 +69,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the preload attribute.
         /// </summary>
-        public string Preload
+        [DOM("preload")]
+        public String Preload
         {
             get { return GetAttribute("preload"); }
             set { SetAttribute("preload", value); }
@@ -76,57 +79,63 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the current network state.
         /// </summary>
+        [DOM("networkState")]
         public MediaNetworkState NetworkState
         {
-            get { return network; }
+            get { return _network; }
         }
 
         /// <summary>
         /// Gets the current ready state.
         /// </summary>
+        [DOM("readyState")]
         public MediaReadyState ReadyState
         {
-            get { return ready; }
+            get { return _ready; }
         }
 
         /// <summary>
         /// Gets if seeking is currently active.
         /// </summary>
-        public bool Seeking
+        [DOM("seeking")]
+        public Boolean Seeking
         {
-            get { return seeking; }
+            get { return _seeking; }
         }
 
         /// <summary>
         /// Gets the current media source.
         /// </summary>
-        public string CurrentSrc
+        [DOM("currentSrc")]
+        public String CurrentSrc
         {
-            get { return source; }
+            get { return _source; }
         }
 
         /// <summary>
         /// Gets the time in seconds.
         /// </summary>
-        public double Duration
+        [DOM("duration")]
+        public Double Duration
         {
-            get { return duration; }
+            get { return _duration; }
         }
 
         /// <summary>
         /// Gets or sets the current time in seconds.
         /// </summary>
-        public double CurrentTime
+        [DOM("currentTime")]
+        public Double CurrentTime
         {
-            get { return currentTime; }
+            get { return _currentTime; }
             set
             {
                 if (value < 0)
-                    currentTime = 0;
+                    _currentTime = 0;
                 else if (value > Duration)
-                    currentTime = Duration;
+                    _currentTime = Duration;
                 else
-                    currentTime = value;
+                    _currentTime = value;
 
                 //TODO Current Time changed!
             }
@@ -142,6 +151,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Loads the media specified for this element.
         /// </summary>
+        [DOM("load")]
         public void Load()
         {
             //TODO
@@ -150,6 +160,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Tries to play the media for this element.
         /// </summary>
+        [DOM("play")]
         public void Play()
         {
             //TODO
@@ -158,6 +169,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Pauses the playback of the media for this element.
         /// </summary>
+        [DOM("pause")]
         public void Pause()
         {
             //TODO

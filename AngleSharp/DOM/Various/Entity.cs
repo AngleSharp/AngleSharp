@@ -10,12 +10,12 @@ namespace AngleSharp.DOM
     {
         #region Members
 
-        string _publicId;
-        string _systemId;
-        string _notationName;
-        string _inputEncoding;
-        string _xmlVersion;
-        string _xmlEncoding;
+        String _publicId;
+        String _systemId;
+        String _notationName;
+        String _inputEncoding;
+        String _xmlVersion;
+        String _xmlEncoding;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace AngleSharp.DOM
         /// Creates a new entity node.
         /// </summary>
         /// <param name="name">Name of the entity.</param>
-        internal Entity(string name)
+        internal Entity(String name)
             : this()
         {
             _name = name;

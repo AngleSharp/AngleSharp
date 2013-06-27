@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML div element.
     /// </summary>
+    [DOM("HTMLDivElement")]
     public sealed class HTMLDivElement : HTMLElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The div element.
         /// </summary>
-        internal const string Tag = "div";
+        internal const String Tag = "div";
 
         #endregion
 
@@ -33,7 +34,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

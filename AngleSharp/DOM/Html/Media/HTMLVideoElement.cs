@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML video element.
     /// </summary>
+    [DOM("HTMLVideoElement")]
     public sealed class HTMLVideoElement : HTMLMediaElement
     {
         #region Constant
@@ -12,14 +13,14 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The video tag.
         /// </summary>
-        internal const string Tag = "video";
+        internal const String Tag = "video";
 
         #endregion
 
         #region Members
 
-        uint videoWidth;
-        uint videoHeight;
+        UInt32 _videoWidth;
+        UInt32 _videoHeight;
 
         #endregion
 
@@ -33,8 +34,8 @@ namespace AngleSharp.DOM.Html
             _name = Tag;
 
             //TODO
-            videoHeight = 0;
-            videoWidth = 0;
+            _videoHeight = 0;
+            _videoWidth = 0;
         }
 
         #endregion
@@ -44,41 +45,46 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the displayed width of the video element.
         /// </summary>
-        public uint Width
+        [DOM("width")]
+        public UInt32 Width
         {
-            get { return ToInteger(GetAttribute("width"), videoWidth); }
+            get { return ToInteger(GetAttribute("width"), _videoWidth); }
             set { SetAttribute("width", value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the displayed height of the video element.
         /// </summary>
-        public uint Height
+        [DOM("height")]
+        public UInt32 Height
         {
-            get { return ToInteger(GetAttribute("height"), videoHeight); }
+            get { return ToInteger(GetAttribute("height"), _videoHeight); }
             set { SetAttribute("height", value.ToString()); }
         }
 
         /// <summary>
         /// Gets the width of the video.
         /// </summary>
-        public uint VideoWidth
+        [DOM("videoWidth")]
+        public UInt32 VideoWidth
         {
-            get { return videoWidth; }
+            get { return _videoWidth; }
         }
 
         /// <summary>
         /// Gets the height of the video.
         /// </summary>
-        public uint VideoHeight
+        [DOM("videoHeight")]
+        public UInt32 VideoHeight
         {
-            get { return videoHeight; }
+            get { return _videoHeight; }
         }
 
         /// <summary>
         /// Gets or sets the URL to a preview image.
         /// </summary>
-        public string Poster
+        [DOM("poster")]
+        public String Poster
         {
             get { return GetAttribute("poster"); }
             set { SetAttribute("poster", value); }
@@ -91,7 +97,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return false; }
         }

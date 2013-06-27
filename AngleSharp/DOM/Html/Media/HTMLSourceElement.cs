@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML source element.
     /// </summary>
+    [DOM("HTMLSourceElement")]
     public sealed class HTMLSourceElement : HTMLElement
     {
         #region Constants

@@ -14,7 +14,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the specifity of the given selector.
         /// </summary>
-        public abstract int Specifity
+        public abstract Int32 Specifity
         {
             get;
         }
@@ -28,7 +28,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
-        public abstract bool Match(Element element);
+        public abstract Boolean Match(Element element);
 
         #endregion
 

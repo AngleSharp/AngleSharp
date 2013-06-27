@@ -22,7 +22,7 @@ namespace AngleSharp.DOM
         /// Creates a new entity node.
         /// </summary>
         /// <param name="name">Name of the entity reference.</param>
-        internal EntityReference(string name)
+        internal EntityReference(String name)
             : this()
         {
             _name = name;

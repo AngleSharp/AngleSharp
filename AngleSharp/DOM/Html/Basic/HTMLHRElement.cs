@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the hr element.
     /// </summary>
+    [DOM("HTMLHRElement")]
     public sealed class HTMLHRElement : HTMLElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The hr tag.
         /// </summary>
-        internal const string Tag = "hr";
+        internal const String Tag = "hr";
 
         #endregion
 
@@ -33,7 +34,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

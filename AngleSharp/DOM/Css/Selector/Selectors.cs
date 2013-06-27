@@ -32,7 +32,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the specifity index for this chain of selectors.
         /// </summary>
-        public override int Specifity
+        public override Int32 Specifity
         {
             get 
             {
@@ -48,7 +48,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the number of selectors in this group.
         /// </summary>
-        public int Length 
+        public Int32 Length 
         {
             get { return selectors.Count; } 
         }
@@ -58,7 +58,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="index">The index of the selector.</param>
         /// <returns>The selector at the given index.</returns>
-        public Selector this[int index]
+        public Selector this[Int32 index]
         {
             get { return selectors[index]; }
             set { selectors[index] = value; }

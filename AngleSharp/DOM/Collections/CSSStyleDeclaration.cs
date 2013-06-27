@@ -19,7 +19,7 @@ namespace AngleSharp.DOM.Collections
         CSSRule _parent;
         Func<String> _getter;
         Action<String> _setter;
-        Boolean blocking;
+        Boolean _blocking;
 
         #endregion
 
@@ -194,7 +194,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="value">The new value.</param>
         internal void Update(String value)
         {
-            if (!blocking)
+            if (!_blocking)
             {
                 var rules = CssParser.ParseDeclarations(value ?? String.Empty)._rules;
                 _rules.Clear();
@@ -208,9 +208,9 @@ namespace AngleSharp.DOM.Collections
 
         void Propagate()
         {
-            blocking = true;
+            _blocking = true;
             _setter(ToCss());
-            blocking = false;
+            _blocking = false;
         }
 
         #endregion

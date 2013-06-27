@@ -15,7 +15,7 @@ namespace AngleSharp.DOM.Collections
     {
         #region Members
 
-        List<StyleSheet> styleSheets;
+        List<StyleSheet> _styleSheets;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         internal StyleSheetList()
         {
-            styleSheets = new List<StyleSheet>();
+            _styleSheets = new List<StyleSheet>();
         }
 
         #endregion
@@ -45,10 +45,10 @@ namespace AngleSharp.DOM.Collections
         {
             get
             {
-                if (index < 0 || index >= styleSheets.Count)
+                if (index < 0 || index >= _styleSheets.Count)
                     return null;
 
-                return styleSheets[index];
+                return _styleSheets[index];
             }
         }
 
@@ -62,7 +62,7 @@ namespace AngleSharp.DOM.Collections
         [DOM("length")]
         public Int32 Length
         {
-            get { return styleSheets.Count; }
+            get { return _styleSheets.Count; }
         }
 
         #endregion
@@ -75,7 +75,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="styleSheet">The stylesheet to consider.</param>
         internal void Add(StyleSheet styleSheet)
         {
-            styleSheets.Add(styleSheet);
+            _styleSheets.Add(styleSheet);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="styleSheet">The stylesheet to remove.</param>
         internal void Remove(StyleSheet styleSheet)
         {
-            styleSheets.Remove(styleSheet);
+            _styleSheets.Remove(styleSheet);
         }
 
         #endregion
@@ -97,7 +97,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>The enumerator.</returns>
         public IEnumerator<StyleSheet> GetEnumerator()
         {
-            return styleSheets.GetEnumerator();
+            return _styleSheets.GetEnumerator();
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>The enumerator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)styleSheets).GetEnumerator();
+            return ((IEnumerable)_styleSheets).GetEnumerator();
         }
 
         #endregion

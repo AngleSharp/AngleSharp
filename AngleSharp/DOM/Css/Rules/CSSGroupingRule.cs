@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
-        CSSRuleList cssRules;
+        CSSRuleList _cssRules;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         internal CSSGroupingRule()
         {
-            cssRules = new CSSRuleList();
+            _cssRules = new CSSRuleList();
         }
 
         #endregion
@@ -34,7 +34,7 @@ namespace AngleSharp.DOM.Css
         [DOM("cssRules")]
         public CSSRuleList CssRules
         {
-            get { return cssRules; }
+            get { return _cssRules; }
         }
 
         #endregion
@@ -53,7 +53,7 @@ namespace AngleSharp.DOM.Css
             var obj = CssParser.ParseRule(rule);
             obj.ParentStyleSheet = _parent;
             obj.ParentRule = this;
-            cssRules.InsertAt(index, obj);
+            _cssRules.InsertAt(index, obj);
             return index;
         }
 
@@ -65,8 +65,8 @@ namespace AngleSharp.DOM.Css
         [DOM("deleteRule")]
         public CSSGroupingRule DeleteRule(Int32 index)
         {
-            if(index >= 0 && index < cssRules.Length)
-                cssRules.RemoveAt(index);
+            if(index >= 0 && index < _cssRules.Length)
+                _cssRules.RemoveAt(index);
 
             return this;
         }

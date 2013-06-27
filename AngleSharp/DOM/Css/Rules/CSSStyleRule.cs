@@ -87,9 +87,5 @@ namespace AngleSharp.DOM.Css
         }
 
         #endregion
-
-        //Sooner or later required:
-        //TODO --- how to connect to the RuleList ?? which is connected to the stylesheet etc.
-        //http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleDeclaration
     }
 }

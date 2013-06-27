@@ -13,10 +13,10 @@ namespace AngleSharp.DOM.Collections
     {
         #region Members
 
-        List<String> tokens;
-        Element parent;
-        Boolean blocking;
-        String attribute;
+        List<String> _tokens;
+        Element _parent;
+        Boolean _blocking;
+        String _attribute;
 
         #endregion
 
@@ -27,10 +27,10 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         internal DOMTokenList(Element parent, String attribute)
         {
-            this.attribute = attribute;
-            this.parent = parent;
-            this.tokens = new List<String>();
-            this.blocking = false;
+            this._attribute = attribute;
+            this._parent = parent;
+            this._tokens = new List<String>();
+            this._blocking = false;
         }
 
         #endregion
@@ -43,7 +43,7 @@ namespace AngleSharp.DOM.Collections
         [DOM("length")]
         public Int32 Length
         {
-            get { return tokens.Count; }
+            get { return _tokens.Count; }
         }
 
         /// <summary>
@@ -56,10 +56,10 @@ namespace AngleSharp.DOM.Collections
         {
             get
             {
-                if (index < 0 || index >= tokens.Count)
+                if (index < 0 || index >= _tokens.Count)
                     return null;
 
-                return tokens[index];
+                return _tokens[index];
             }
         }
 
@@ -75,7 +75,7 @@ namespace AngleSharp.DOM.Collections
         [DOM("contains")]
         public Boolean Contains(String token)
         {
-            if(tokens.Contains(token))
+            if(_tokens.Contains(token))
                 return true;
 
             return false;
@@ -89,7 +89,7 @@ namespace AngleSharp.DOM.Collections
         [DOM("remove")]
         public DOMTokenList Remove(String token)
         {
-            tokens.Remove(token);
+            _tokens.Remove(token);
             Propagate();
             return this;
         }
@@ -102,9 +102,9 @@ namespace AngleSharp.DOM.Collections
         [DOM("add")]
         public DOMTokenList Add(String token)
         {
-            if (!tokens.Contains(token))
+            if (!_tokens.Contains(token))
             {
-                tokens.Add(token);
+                _tokens.Add(token);
                 Propagate();
             }
 
@@ -119,12 +119,12 @@ namespace AngleSharp.DOM.Collections
         [DOM("toggle")]
         public Boolean Toggle(String token)
         {
-            var contains = tokens.Contains(token);
+            var contains = _tokens.Contains(token);
 
             if (contains)
-                tokens.Remove(token);
+                _tokens.Remove(token);
             else
-                tokens.Add(token);
+                _tokens.Add(token);
 
             Propagate();
             return !contains;
@@ -140,14 +140,14 @@ namespace AngleSharp.DOM.Collections
         /// <param name="value">The new value.</param>
         internal void Update(String value)
         {
-            if (!blocking)
+            if (!_blocking)
             {
-                tokens.Clear();
+                _tokens.Clear();
                 var elements = value.SplitSpaces();
 
                 for (int i = 0; i < elements.Length; i++)
-                    if (!tokens.Contains(elements[i]))
-                        tokens.Add(elements[i]);
+                    if (!_tokens.Contains(elements[i]))
+                        _tokens.Add(elements[i]);
             }
         }
 
@@ -159,7 +159,7 @@ namespace AngleSharp.DOM.Collections
         internal Boolean Contains(String[] tokens)
         {
             for (int i = 0; i < tokens.Length; i++)
-                if (this.tokens.Contains(tokens[i]))
+                if (this._tokens.Contains(tokens[i]))
                     return true;
 
             return false;
@@ -174,9 +174,9 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         void Propagate()
         {
-            blocking = true;
-            parent.SetAttribute(attribute, ToHtml());
-            blocking = false;
+            _blocking = true;
+            _parent.SetAttribute(_attribute, ToHtml());
+            _blocking = false;
         }
 
         #endregion
@@ -189,7 +189,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>An enumerator that can be used to iterate through the tokens.</returns>
         public IEnumerator<String> GetEnumerator()
         {
-            return tokens.GetEnumerator();
+            return _tokens.GetEnumerator();
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>A string containing the HTML code.</returns>
         public String ToHtml()
         {
-            return String.Join(" ", tokens);
+            return String.Join(" ", _tokens);
         }
 
         #endregion

@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Css
     /// Represents a complex selector.
     /// One or more compound selectors separated by combinators.
     /// </summary>
-    class ComplexSelector : Selector
+    internal class ComplexSelector : Selector
     {
         #region Members
 
@@ -35,7 +35,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the specifity index for this chain of selectors.
         /// </summary>
-        public override int Specifity
+        public override Int32 Specifity
         {
             get
             {
@@ -51,7 +51,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the number of selectors in this group.
         /// </summary>
-        public int Length
+        public Int32 Length
         {
             get { return selectors.Count; }
         }
@@ -59,7 +59,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets if the selector has already been finalized.
         /// </summary>
-        public bool IsReady
+        public Boolean IsReady
         {
             get;
             private set;
@@ -74,7 +74,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
-        public override bool Match(Element element)
+        public override Boolean Match(Element element)
         {
             var last = selectors.Count - 1;
 
@@ -196,7 +196,7 @@ namespace AngleSharp.DOM.Css
 
         #region Helpers
 
-        bool MatchCascade(int pos, Element element)
+        Boolean MatchCascade(int pos, Element element)
         {
             var elements = selectors[pos].transform(element);
 
@@ -226,7 +226,7 @@ namespace AngleSharp.DOM.Css
 
         struct CombinatorSelector
         {
-            public char delimiter;
+            public Char delimiter;
             public Func<Element, IEnumerable<Element>> transform;
             public Selector selector;
         }
@@ -239,7 +239,7 @@ namespace AngleSharp.DOM.Css
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        public override string ToCss()
+        public override String ToCss()
         {
             var sb = new StringBuilder();
 

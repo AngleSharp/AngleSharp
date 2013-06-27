@@ -9,7 +9,7 @@ namespace AngleSharp.DOM.Css
     /// Represents a group of selectors.
     /// Zero or more selectors separated by commas.
     /// </summary>
-    class ListSelector : Selectors
+    internal class ListSelector : Selectors
     {
         #region ctor
 
@@ -42,7 +42,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets if the selector group is invalid.
         /// </summary>
-        public bool IsInvalid 
+        public Boolean IsInvalid 
         { 
             get; 
             internal set; 
@@ -57,7 +57,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
-        public override bool Match(Element element)
+        public override Boolean Match(Element element)
         {
             for (int i = 0; i < selectors.Count; i++)
             {
@@ -76,7 +76,7 @@ namespace AngleSharp.DOM.Css
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        public override string ToCss()
+        public override String ToCss()
         {
             var sb = new StringBuilder();
 

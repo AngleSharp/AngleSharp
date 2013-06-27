@@ -7,7 +7,7 @@ namespace AngleSharp.DOM.Css
     /// </summary>
     sealed class CSSUnknownRule : CSSRule
     {
-        String text;
+        String _text;
 
         /// <summary>
         /// Sets the textual representation.
@@ -15,7 +15,7 @@ namespace AngleSharp.DOM.Css
         /// <param name="text">The test to set.</param>
         internal void SetText(String text)
         {
-            this.text = text;
+            _text = text;
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return text;
+            return _text;
         }
     }
 }

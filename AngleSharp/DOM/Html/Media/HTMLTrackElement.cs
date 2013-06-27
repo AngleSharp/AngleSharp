@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML track element.
     /// </summary>
+    [DOM("HTMLTrackElement")]
     public sealed class HTMLTrackElement : HTMLElement
     {
         #region Constant
@@ -12,13 +13,13 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The track tag.
         /// </summary>
-        internal const string Tag = "track";
+        internal const String Tag = "track";
 
         #endregion
 
         #region Members
 
-        TrackReadyState ready;
+        TrackReadyState _ready;
 
         #endregion
 
@@ -32,7 +33,7 @@ namespace AngleSharp.DOM.Html
             _name = Tag;
 
             //TODO
-            ready = TrackReadyState.None;
+            _ready = TrackReadyState.None;
         }
 
         #endregion
@@ -42,6 +43,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the kind of the track.
         /// </summary>
+        [DOM("kind")]
         public TrackKind Kind
         {
             get { return ToEnum(GetAttribute("kind"), TrackKind.Subtitles); }
@@ -51,7 +53,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the media source.
         /// </summary>
-        public string Src
+        [DOM("src")]
+        public String Src
         {
             get { return GetAttribute("src"); }
             set { SetAttribute("src", value); }
@@ -60,7 +63,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the language of the source.
         /// </summary>
-        public string Srclang
+        [DOM("srclang")]
+        public String Srclang
         {
             get { return GetAttribute("srclang"); }
             set { SetAttribute("srclang", value); }
@@ -69,7 +73,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the label text.
         /// </summary>
-        public string Label
+        [DOM("label")]
+        public String Label
         {
             get { return GetAttribute("label"); }
             set { SetAttribute("label", value); }
@@ -78,7 +83,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if given track is the default track.
         /// </summary>
-        public bool Default
+        [DOM("default")]
+        public Boolean Default
         {
             get { return GetAttribute("default") != null; }
             set { SetAttribute("default", value ? string.Empty : null); }
@@ -87,15 +93,17 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the ready state of the given track.
         /// </summary>
+        [DOM("readyState")]
         public TrackReadyState ReadyState
         {
-            get { return ready; }
+            get { return _ready; }
         }
 
         /// <summary>
         /// Gets the text of the given track.
         /// </summary>
-        public string Track
+        [DOM("track")]
+        public String Track
         {
             //TODO should return TextTrack
             get { return string.Empty; }
@@ -108,7 +116,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }
