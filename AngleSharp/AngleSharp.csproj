@@ -45,6 +45,7 @@
     <Compile Include="DOM\Collections\CSSStyleDeclaration.cs" />
     <Compile Include="DOM\Collections\DOMStringMap.cs" />
     <Compile Include="DOM\Collections\HTMLFormControlsCollection.cs" />
+    <Compile Include="DOM\ContentEditableMode.cs" />
     <Compile Include="DOM\Css\Properties\CSSProperty.cs" />
     <Compile Include="DOM\Css\Rules\CSSCharsetRule.cs" />
     <Compile Include="DOM\Css\Rules\CSSConditionRule.cs" />
@@ -65,6 +66,9 @@
     <Compile Include="DOM\Css\Values\CSSValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValueList.cs" />
     <Compile Include="DOM\Css\Values\Rect.cs" />
+    <Compile Include="DOM\DirectionMode.cs" />
+    <Compile Include="DOM\Interfaces\IWindow.cs" />
+    <Compile Include="DOM\Xml\XMLDocument.cs" />
     <Compile Include="DOM\Enums\HttpMethod.cs" />
     <Compile Include="DOM\Html\Forms\HTMLFormControlElement.cs" />
     <Compile Include="DOM\Html\Forms\HTMLFormControlElementWithState.cs" />
@@ -131,7 +135,7 @@
     <Compile Include="DOM\Css\Selector\Selector.cs" />
     <Compile Include="DOM\Css\Selector\ListSelector.cs" />
     <Compile Include="DOM\Css\Selector\SimpleSelector.cs" />
-    <Compile Include="DOM\Documents\DocumentFragment.cs" />
+    <Compile Include="DOM\DocumentFragment.cs" />
     <Compile Include="DOM\Objects\DOMImplementation.cs" />
     <Compile Include="DOM\Various\EntityReference.cs" />
     <Compile Include="DOM\Objects\Location.cs" />
@@ -144,7 +148,7 @@
     <Compile Include="DOM\Exception\DOMException.cs" />
     <Compile Include="DOM\Attr.cs" />
     <Compile Include="DOM\Css\CSSStyleSheet.cs" />
-    <Compile Include="DOM\Documents\Document.cs" />
+    <Compile Include="DOM\Document.cs" />
     <Compile Include="DOM\Html\HTMLMarqueeElement.cs" />
     <Compile Include="DOM\Html\Basic\HTMLNoElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLSemanticElement.cs" />
@@ -177,7 +181,7 @@
     <Compile Include="Foundation\Helpers\Extensions.cs" />
     <Compile Include="Foundation\Helpers\ForeignHelpers.cs" />
     <Compile Include="Foundation\HtmlColor.cs" />
-    <Compile Include="DOM\Documents\HTMLDocument.cs" />
+    <Compile Include="DOM\Html\HTMLDocument.cs" />
     <Compile Include="Html\HtmlTreeMode.cs" />
     <Compile Include="Foundation\HtmlEncoding.cs" />
     <Compile Include="Foundation\Helpers\MathMLHelpers.cs" />
@@ -281,6 +285,7 @@
     <Compile Include="Html\Tokens\HtmlDoctypeToken.cs" />
     <Compile Include="Html\Tokens\HtmlEndOfFileToken.cs" />
     <Compile Include="Html\Tokens\HtmlTagToken.cs" />
+    <Compile Include="Xml\XmlTokenizer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

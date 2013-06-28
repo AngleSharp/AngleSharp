@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Xml
     /// <summary>
     /// The object representation of an XMLElement.
     /// </summary>
+    [DOM("XMLElement")]
     public sealed class XMLElement : Element
     {        
         #region ctor

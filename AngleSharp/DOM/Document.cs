@@ -15,33 +15,37 @@ namespace AngleSharp.DOM
     {
         #region Members
 
-        QuirksMode quirksMode;
-        Readiness ready;
-        DOMImplementation implementation;
+        QuirksMode _quirksMode;
+        Readiness _ready;
+        DOMImplementation _implementation;
 
-        String encoding;
-        String originalEncoding;
-
+        String _encoding;
+        String _originalEncoding;
+        
+        /// <summary>
+        /// The content type of the MIME type from the header.
+        /// </summary>
+        protected String _contentType;
         /// <summary>
         /// The list of contained stylesheets.
         /// </summary>
-        protected StyleSheetList styleSheets;
+        protected StyleSheetList _styleSheets;
         /// <summary>
         /// The original referrer to this document.
         /// </summary>
-        protected String referrer;
+        protected String _referrer;
         /// <summary>
         /// The location of the document.
         /// </summary>
-        protected String location;
+        protected String _location;
         /// <summary>
         /// The root element.
         /// </summary>
-        protected Element documentElement;
+        protected Element _documentElement;
         /// <summary>
         /// The doctype element.
         /// </summary>
-        protected DocumentType docType;
+        protected DocumentType _docType;
 
         #endregion
 
@@ -50,7 +54,8 @@ namespace AngleSharp.DOM
         /// <summary>
         /// This event is fired when the ready state of the document changes.
         /// </summary>
-        public event EventHandler ReadyStateChange;
+        [DOM("onreadystatechange")]
+        public event EventHandler OnReadyStateChange;
 
         #endregion
 
@@ -64,12 +69,12 @@ namespace AngleSharp.DOM
             _owner = this;
             _type = NodeType.Document;
             Async = true;
-            referrer = string.Empty;
-            ready = Readiness.Complete;
+            _referrer = string.Empty;
+            _ready = Readiness.Complete;
             _name = "#document";
-            implementation = new DOMImplementation();
-            styleSheets = new StyleSheetList();
-            quirksMode = QuirksMode.Off;
+            _implementation = new DOMImplementation();
+            _styleSheets = new StyleSheetList();
+            _quirksMode = QuirksMode.Off;
         }
 
         #endregion
@@ -82,7 +87,7 @@ namespace AngleSharp.DOM
         [DOM("implementation")]
         public DOMImplementation Implementation
         {
-            get { return implementation; }
+            get { return _implementation; }
         }
 
         /// <summary>
@@ -101,7 +106,16 @@ namespace AngleSharp.DOM
         [DOM("doctype")]
         public DocumentType Doctype
         {
-            get { return docType; }
+            get { return _docType; }
+        }
+
+        /// <summary>
+        /// Gets the Content-Type from the MIME Header of the current document.
+        /// </summary>
+        [DOM("contentType")]
+        public String ContentType
+        {
+            get { return _contentType; }
         }
 
         /// <summary>
@@ -110,16 +124,13 @@ namespace AngleSharp.DOM
         [DOM("readyState")]
         public Readiness ReadyState
         {
-            get
-            {
-                return ready;
-            }
+            get { return _ready; }
             set
             {
-                ready = value;
+                _ready = value;
 
-                if (ReadyStateChange != null)
-                    ReadyStateChange(this, EventArgs.Empty);
+                if (OnReadyStateChange != null)
+                    OnReadyStateChange(this, EventArgs.Empty);
             }
         }
 
@@ -129,7 +140,7 @@ namespace AngleSharp.DOM
         [DOM("styleSheets")]
         public StyleSheetList StyleSheets
         {
-            get { return styleSheets; }
+            get { return _styleSheets; }
         }
 
         /// <summary>
@@ -142,8 +153,8 @@ namespace AngleSharp.DOM
             {
                 var list = new DOMStringList();
 
-                for (int i = 0; i < styleSheets.Length; i++)
-                    list.Add(styleSheets[i].Title);
+                for (int i = 0; i < _styleSheets.Length; i++)
+                    list.Add(_styleSheets[i].Title);
 
                 return list;
             }
@@ -155,8 +166,8 @@ namespace AngleSharp.DOM
         [DOM("referrer")]
         public String Referrer
         {
-            get { return referrer; }
-            internal protected set { referrer = value; }
+            get { return _referrer; }
+            internal protected set { _referrer = value; }
         }
 
         /// <summary>
@@ -165,8 +176,8 @@ namespace AngleSharp.DOM
         [DOM("location")]
         public Location Location
         {
-            get { return new Location(location); }
-            set { location = value.ToString(); }
+            get { return new Location(_location); }
+            set { _location = value.ToString(); }
         }
 
         /// <summary>
@@ -175,18 +186,27 @@ namespace AngleSharp.DOM
         [DOM("documentURI")]
         public String DocumentURI
         {
-            get { return location; }
+            get { return _location; }
         }
 
         /// <summary>
         /// Gets the window object associated with the document or null if none available.
         /// </summary>
         [DOM("defaultView")]
-        public Object DefaultView 
+        public IWindow DefaultView 
         {
-            get; 
+            get; //TODO
             internal set; 
-        }//TODO
+        }
+
+        /// <summary>
+        /// Gets the parent window object if any.
+        /// </summary>
+        [DOM("parentWindow")]
+        public IWindow ParentWindow
+        {
+            get { return DefaultView; }
+        }
 
         /// <summary>
         /// Gets or sets the character encoding of the current document.
@@ -194,8 +214,8 @@ namespace AngleSharp.DOM
         [DOM("characterSet")]
         public String CharacterSet
         {
-            get { return encoding ?? originalEncoding; }
-            set { encoding = value; }
+            get { return _encoding ?? _originalEncoding; }
+            set { _encoding = value; }
         }
 
         /// <summary>
@@ -204,13 +224,13 @@ namespace AngleSharp.DOM
         [DOM("inputEncoding")]
         public String InputEncoding
         {
-            get { return originalEncoding; }
+            get { return _originalEncoding; }
             internal set 
             { 
-                originalEncoding = value;
+                _originalEncoding = value;
 
-                if (encoding != null)
-                    encoding = value; 
+                if (_encoding != null)
+                    _encoding = value; 
             }
         }
 
@@ -220,7 +240,7 @@ namespace AngleSharp.DOM
         [DOM("documentElement")]
         public Element DocumentElement
         {
-            get { return documentElement; }
+            get { return _documentElement; }
         }
 
         /// <summary>
@@ -251,8 +271,8 @@ namespace AngleSharp.DOM
         /// </summary>
         internal QuirksMode QuirksMode
         {
-            get { return quirksMode; }
-            set { quirksMode = value; }
+            get { return _quirksMode; }
+            set { _quirksMode = value; }
         }
 
         #endregion
@@ -265,12 +285,12 @@ namespace AngleSharp.DOM
         /// <param name="node">The node to be removed.</param>
         internal virtual void DereferenceNode(Node node)
         {
-            if (node == documentElement)
-                documentElement = FindChild<Element>(this);
-            else if (docType == node)
-                docType = FindChild<DocumentType>(this);
+            if (node == _documentElement)
+                _documentElement = FindChild<Element>(this);
+            else if (_docType == node)
+                _docType = FindChild<DocumentType>(this);
             else if (node is HTMLStyleElement)
-                styleSheets.Remove(((HTMLStyleElement)node).Sheet);
+                _styleSheets.Remove(((HTMLStyleElement)node).Sheet);
             else if (node is HTMLLinkElement)
             {
                 var link = (HTMLLinkElement)node;
@@ -278,7 +298,7 @@ namespace AngleSharp.DOM
                 switch (link.Rel)
                 {
                     case "stylesheet":
-                        styleSheets.Remove(link.Sheet);
+                        _styleSheets.Remove(link.Sheet);
                         break;
                 }
             }
@@ -290,12 +310,12 @@ namespace AngleSharp.DOM
         /// <param name="node">The node to be added.</param>
         internal virtual void ReferenceNode(Node node)
         {
-            if (documentElement == null && node is Element)
-                documentElement = (Element)node;
-            else if (docType == null && node is DocumentType)
-                docType = (DocumentType)node;
+            if (_documentElement == null && node is Element)
+                _documentElement = (Element)node;
+            else if (_docType == null && node is DocumentType)
+                _docType = (DocumentType)node;
             else if (node is HTMLStyleElement)
-                styleSheets.Add(((HTMLStyleElement)node).Sheet);
+                _styleSheets.Add(((HTMLStyleElement)node).Sheet);
             else if (node is HTMLLinkElement)
             {
                 var link = (HTMLLinkElement)node;
@@ -309,7 +329,7 @@ namespace AngleSharp.DOM
                         break;
 
                     case "stylesheet":
-                        styleSheets.Add(link.Sheet);
+                        _styleSheets.Add(link.Sheet);
                         break;
 
                     // hyperlinks
@@ -762,11 +782,11 @@ namespace AngleSharp.DOM
         /// <param name="deep">Is a deep-copy required?</param>
         static protected void CopyDocumentProperties(Document source, Document target, bool deep)
         {
-            target.ready = source.ready;
-            target.referrer = source.referrer;
-            target.location = source.location;
-            target.implementation = source.implementation;
-            target.quirksMode = source.quirksMode;
+            target._ready = source._ready;
+            target._referrer = source._referrer;
+            target._location = source._location;
+            target._implementation = source._implementation;
+            target._quirksMode = source._quirksMode;
         }
 
         #endregion

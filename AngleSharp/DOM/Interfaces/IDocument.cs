@@ -20,7 +20,8 @@ namespace AngleSharp.DOM
         ProcessingInstruction CreateProcessingInstruction(string target, string data);
         TextNode CreateTextNode(string data);
         Range CreateRange();
-        object DefaultView { get; }
+        IWindow DefaultView { get; }
+        IWindow ParentWindow { get; }
         DocumentType Doctype { get; }
         Element DocumentElement { get; }
         string DocumentURI { get; }
@@ -30,7 +31,7 @@ namespace AngleSharp.DOM
         DateTime LastModified { get; }
         Location Location { get; set; }
         Readiness ReadyState { get; set; }
-        event EventHandler ReadyStateChange;
+        event EventHandler OnReadyStateChange;
         string Referrer { get; }
         Document Prepend(params Node[] nodes);
         DOMStringList StyleSheetSets { get; }

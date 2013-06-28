@@ -1141,43 +1141,5 @@ namespace AngleSharp.DOM
         }
 
         #endregion
-
-        #region Enumerations
-
-        /// <summary>
-        /// An enumeration with all dir modes.
-        /// </summary>
-        public enum DirectionMode
-        {
-            /// <summary>
-            /// From left to right.
-            /// </summary>
-            Ltr,
-            /// <summary>
-            /// From right to left.
-            /// </summary>
-            Rtl
-        }
-
-        /// <summary>
-        /// An enumeration with all contenteditable modes.
-        /// </summary>
-        public enum ContentEditableMode
-        {
-            /// <summary>
-            /// Not contenteditable.
-            /// </summary>
-            False,
-            /// <summary>
-            /// The element is contenteditable.
-            /// </summary>
-            True,
-            /// <summary>
-            /// Inherited from the parent element.
-            /// </summary>
-            Inherited
-        }
-
-        #endregion
     }
 }

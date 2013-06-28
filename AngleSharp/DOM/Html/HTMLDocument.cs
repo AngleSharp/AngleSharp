@@ -17,22 +17,24 @@ namespace AngleSharp.DOM.Html
     {
         #region Members
 
-        bool embedded;
-        bool scripting;
-        HTMLCollection forms;
-        HTMLCollection scripts;
-        HTMLCollection images;
-        HTMLBodyElement body;
-        HTMLHeadElement head;
-        HTMLTitleElement title;
+        Boolean _embedded;
+        Boolean _scripting;
+        HTMLCollection _forms;
+        HTMLCollection _scripts;
+        HTMLCollection _images;
+        HTMLBodyElement _body;
+        HTMLHeadElement _head;
+        HTMLTitleElement _title;
 
         static readonly CompoundSelector anchorQuery = CompoundSelector.Create(
             SimpleSelector.Type(HTMLAnchorElement.Tag),
             SimpleSelector.AttrAvailable("name"));
+
         static readonly ListSelector embedQuery = ListSelector.Create(
             SimpleSelector.Type(HTMLEmbedElement.Tag), 
             SimpleSelector.Type(HTMLObjectElement.Tag), 
             SimpleSelector.Type(HTMLAppletElement.Tag));
+
         static readonly ListSelector linkQuery = ListSelector.Create(
             CompoundSelector.Create(
                 SimpleSelector.Type(HTMLAnchorElement.Tag), 
@@ -43,6 +45,141 @@ namespace AngleSharp.DOM.Html
 
         #endregion
 
+        #region Events
+
+        //Internal for now until connected properly.
+
+        [DOM("onabort")]
+        internal event EventHandler OnAbort;
+        [DOM("onblur")]
+        internal event EventHandler OnBlur;
+        [DOM("oncanplay")]
+        internal event EventHandler OnCanPlay;
+        [DOM("oncanplaythrough")]
+        internal event EventHandler OnCanPlayThrough;
+        [DOM("onchange")]
+        internal event EventHandler OnChange;
+        [DOM("onclick")]
+        internal event EventHandler OnClick;
+        [DOM("oncontextmenu")]
+        internal event EventHandler OnContextMenu;
+        [DOM("oncopy")]
+        internal event EventHandler OnCopy;
+        [DOM("oncuechange")]
+        internal event EventHandler OnCueChange;
+        [DOM("oncut")]
+        internal event EventHandler OnCut;
+        [DOM("ondblclick")]
+        internal event EventHandler OnDblClick;
+        [DOM("onaondragbort")]
+        internal event EventHandler OnDrag;
+        [DOM("ondragend")]
+        internal event EventHandler OnDragEnd;
+        [DOM("ondragenter")]
+        internal event EventHandler OnDragEnter;
+        [DOM("ondragleave")]
+        internal event EventHandler OnDragLeave;
+        [DOM("ondragover")]
+        internal event EventHandler OnDragOver;
+        [DOM("ondragstart")]
+        internal event EventHandler OnDragStart;
+        [DOM("ondrop")]
+        internal event EventHandler OnDrop;
+        [DOM("ondurationchange")]
+        internal event EventHandler OnDurationChange;
+        [DOM("onemptied")]
+        internal event EventHandler OnEmptied;
+        [DOM("onended")]
+        internal event EventHandler OnEnded;
+        [DOM("onerror")]
+        internal event EventHandler OnError;
+        [DOM("onfocus")]
+        internal event EventHandler OnFocus;
+        [DOM("onfocusin")]
+        internal event EventHandler OnFocusIn;
+        [DOM("onfocusout")]
+        internal event EventHandler OnFocusOut;
+        [DOM("onfullscreenchange")]
+        internal event EventHandler OnFullScreenChange;
+        [DOM("onfullscreenerror")]
+        internal event EventHandler OnFullScreenError;
+        [DOM("oninput")]
+        internal event EventHandler OnInput;
+        [DOM("oninvalid")]
+        internal event EventHandler OnInvalid;
+        [DOM("onkeydown")]
+        internal event EventHandler OnKeyDown;
+        [DOM("onkeypress")]
+        internal event EventHandler OnKeyPress;
+        [DOM("onkeyup")]
+        internal event EventHandler OnKeyUp;
+        [DOM("onload")]
+        internal event EventHandler OnLoad;
+        [DOM("onloadeddata")]
+        internal event EventHandler OnLoadedData;
+        [DOM("onloadedmetadata")]
+        internal event EventHandler OnLoadedMetaData;
+        [DOM("onloadstart")]
+        internal event EventHandler OnLoadStart;
+        [DOM("onmousedown")]
+        internal event EventHandler OnMouseDown;
+        [DOM("onmousemove")]
+        internal event EventHandler OnMouseMove;
+        [DOM("onmouseout")]
+        internal event EventHandler OnMouseOut;
+        [DOM("onmouseover")]
+        internal event EventHandler OnMouseOver;
+        [DOM("onmouseup")]
+        internal event EventHandler OnMouseUp;
+        [DOM("onmousewheel")]
+        internal event EventHandler OnMouseWheel;
+        [DOM("onpaste")]
+        internal event EventHandler OnPaste;
+        [DOM("onpause")]
+        internal event EventHandler OnPause;
+        [DOM("onplay")]
+        internal event EventHandler OnPlay;
+        [DOM("onplaying")]
+        internal event EventHandler OnPlaying;
+        [DOM("onprogress")]
+        internal event EventHandler OnProgress;
+        [DOM("onratechange")]
+        internal event EventHandler OnRateChange;
+        [DOM("onreset")]
+        internal event EventHandler OnReset;
+        [DOM("onscroll")]
+        internal event EventHandler OnScroll;
+        [DOM("onseeked")]
+        internal event EventHandler OnSeeked;
+        [DOM("onseeking")]
+        internal event EventHandler OnSeeking;
+        [DOM("onselect")]
+        internal event EventHandler OnSelect;
+        [DOM("onstalled")]
+        internal event EventHandler OnStalled;
+        [DOM("onsubmit")]
+        internal event EventHandler OnSubmit;
+        [DOM("onsuspend")]
+        internal event EventHandler OnSuspend;
+        [DOM("ontimeout")]
+        internal event EventHandler OnTimeOut;
+        [DOM("ontimeupdate")]
+        internal event EventHandler OnTimeUpdate;
+        [DOM("ontouchcancel")]
+        internal event EventHandler OnTouchCancel;
+        [DOM("ontouchend")]
+        internal event EventHandler OnTouchEnd;
+        [DOM("ontouchmove")]
+        internal event EventHandler OnTouchMove;
+        [DOM("ontouchstart")]
+        internal event EventHandler OnTouchStart;
+        [DOM("onvolumechange")]
+        internal event EventHandler OnVolumeChange;
+        [DOM("onwaiting")]
+        internal event EventHandler OnWaiting;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -50,15 +187,24 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLDocument()
         {
+            _contentType = MimeTypes.Xml;
             _ns = Namespaces.Html;
-            forms = new HTMLCollection();
-            scripts = new HTMLCollection();
-            images = new HTMLCollection();
+            _forms = new HTMLCollection();
+            _scripts = new HTMLCollection();
+            _images = new HTMLCollection();
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets a list of all elements in the document.
+        /// </summary>
+        public HTMLCollection All
+        {
+            get { return _children.QuerySelectorAll(SimpleSelector.All); }
+        }
 
         /// <summary>
         /// Gets a list of all of the anchors in the document.
@@ -70,12 +216,21 @@ namespace AngleSharp.DOM.Html
         }
 
         /// <summary>
+        /// Gets or sets the direction of the document.
+        /// </summary>
+        public DirectionMode Dir
+        {
+            get { return _documentElement != null ? _documentElement.Dir : DirectionMode.Ltr; }
+            set { if (_documentElement != null) _documentElement.Dir = value; }
+        }
+
+        /// <summary>
         /// Gets the forms in the document.
         /// </summary>
         [DOM("forms")]
         public HTMLCollection Forms
         {
-            get { return forms; }
+            get { return _forms; }
         }
 
         /// <summary>
@@ -84,7 +239,7 @@ namespace AngleSharp.DOM.Html
         [DOM("images")]
         public HTMLCollection Images
         {
-            get { return images; }
+            get { return _images; }
         }
 
         /// <summary>
@@ -93,7 +248,7 @@ namespace AngleSharp.DOM.Html
         [DOM("scripts")]
         public HTMLCollection Scripts
         {
-            get { return scripts; }
+            get { return _scripts; }
         }
 
         /// <summary>
@@ -122,25 +277,25 @@ namespace AngleSharp.DOM.Html
         {
             get
             {
-                if (title != null)
-                    return title.Text;
+                if (_title != null)
+                    return _title.Text;
 
                 return String.Empty;
             }
             set
             {
-                if (title == null)
+                if (_title == null)
                 {
-                    if (documentElement == null)
+                    if (_documentElement == null)
                         AppendChild(new HTMLHtmlElement());
 
-                    if (head == null)
-                        documentElement.AppendChild(new HTMLHeadElement());
+                    if (_head == null)
+                        _documentElement.AppendChild(new HTMLHeadElement());
 
-                    head.AppendChild(new HTMLTitleElement());
+                    _head.AppendChild(new HTMLTitleElement());
                 }
 
-                title.Text = value;
+                _title.Text = value;
             }
         }
 
@@ -150,7 +305,7 @@ namespace AngleSharp.DOM.Html
         [DOM("head")]
         public HTMLHeadElement Head
         {
-            get { return head; }
+            get { return _head; }
         }
 
         /// <summary>
@@ -159,7 +314,7 @@ namespace AngleSharp.DOM.Html
         [DOM("body")]
         public HTMLBodyElement Body
         {
-            get { return body; }
+            get { return _body; }
         }
 
         /// <summary>
@@ -206,19 +361,19 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the document is embedded by an iframe srcdoc element.
         /// </summary>
-        internal bool IsEmbedded
+        internal Boolean IsEmbedded
         {
-            get { return embedded; }
-            set { embedded = value; }
+            get { return _embedded; }
+            set { _embedded = value; }
         }
 
         /// <summary>
         /// Gets or sets if scripting is active and allowed.
         /// </summary>
-        internal bool IsScripting
+        internal Boolean IsScripting
         {
-            get { return scripting; }
-            set { scripting = value; }
+            get { return _scripting; }
+            set { _scripting = value; }
         }
 
         #endregion
@@ -254,7 +409,7 @@ namespace AngleSharp.DOM.Html
         [DOM("load")]
         public HTMLDocument Load(String url)
         {
-            location = url;
+            _location = url;
             Cookie = new Cookie();
 
             for (int i = _children.Length - 1; i >= 0; i++)
@@ -279,8 +434,8 @@ namespace AngleSharp.DOM.Html
             var node = new HTMLDocument();
             CopyProperties(this, node, deep);
             CopyDocumentProperties(this, node, deep);
-            node.embedded = this.embedded;
-            node.scripting = this.scripting;
+            node._embedded = this._embedded;
+            node._scripting = this._scripting;
             return node;
         }
 
@@ -400,29 +555,29 @@ namespace AngleSharp.DOM.Html
                 if (node is HTMLFormElement)
                 {
                     var form = (HTMLFormElement)node;
-                    forms.Add(form);
+                    _forms.Add(form);
                 }
                 else if (node is HTMLImageElement)
                 {
                     var img = (HTMLImageElement)node;
-                    images.Add(img);
+                    _images.Add(img);
                 }
                 else if (node is HTMLScriptElement)
                 {
                     var script = (HTMLScriptElement)node;
-                    scripts.Add(script);
+                    _scripts.Add(script);
                 }
-                else if (body == null && node is HTMLBodyElement)
+                else if (_body == null && node is HTMLBodyElement)
                 {
-                    body = (HTMLBodyElement)node;
+                    _body = (HTMLBodyElement)node;
                 }
-                else if (head == null && node is HTMLHeadElement)
+                else if (_head == null && node is HTMLHeadElement)
                 {
-                    head = (HTMLHeadElement)node;
+                    _head = (HTMLHeadElement)node;
                 }
-                else if (title == null && node is HTMLTitleElement)
+                else if (_title == null && node is HTMLTitleElement)
                 {
-                    title = (HTMLTitleElement)node;
+                    _title = (HTMLTitleElement)node;
                 }
             }
         }
@@ -440,42 +595,42 @@ namespace AngleSharp.DOM.Html
                 if (node is HTMLFormElement)
                 {
                     var form = (HTMLFormElement)node;
-                    forms.Remove(form);
+                    _forms.Remove(form);
                 }
                 else if (node is HTMLImageElement)
                 {
                     var img = (HTMLImageElement)node;
-                    images.Remove(img);
+                    _images.Remove(img);
                 }
                 else if (node is HTMLScriptElement)
                 {
                     var script = (HTMLScriptElement)node;
-                    scripts.Remove(script);
+                    _scripts.Remove(script);
                 }
-                else if (body == node)
+                else if (_body == node)
                 {
-                    body = FindChild<HTMLBodyElement>(documentElement);
+                    _body = FindChild<HTMLBodyElement>(_documentElement);
                 }
-                else if (head == node)
+                else if (_head == node)
                 {
-                    head = FindChild<HTMLHeadElement>(documentElement);
+                    _head = FindChild<HTMLHeadElement>(_documentElement);
                 }
-                else if (title == node)
+                else if (_title == node)
                 {
-                    title = FindChild<HTMLTitleElement>(head);
+                    _title = FindChild<HTMLTitleElement>(_head);
                 }
             }
         }
 
-        internal int ScriptsWaiting { get { return 0; } }
+        internal Int32 ScriptsWaiting { get { return 0; } }
 
-        internal int ScriptsAsSoonAsPossible { get { return 0; } }
+        internal Int32 ScriptsAsSoonAsPossible { get { return 0; } }
 
-        internal bool IsLoadingDelayed { get { return false; } }
+        internal Boolean IsLoadingDelayed { get { return false; } }
 
-        internal bool IsInBrowsingContext { get { return false; } }
+        internal Boolean IsInBrowsingContext { get { return false; } }
 
-        internal bool IsToBePrinted { get; set; }
+        internal Boolean IsToBePrinted { get; set; }
 
         internal void SpinEventLoop()
         {

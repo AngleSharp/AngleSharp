@@ -9,9 +9,9 @@ namespace AngleSharp.DOM
         HTMLCollection Children { get; }
         DOMTokenList ClassList { get; }
         string ClassName { get; set; }
-        Element.ContentEditableMode ContentEditable { get; set; }
+        ContentEditableMode ContentEditable { get; set; }
         DOMStringMap Dataset { get; }
-        Element.DirectionMode Dir { get; set; }
+        DirectionMode Dir { get; set; }
         Element FirstElementChild { get; }
         string GetAttribute(string attrName);
         Attr GetAttributeNode(string attrName);
