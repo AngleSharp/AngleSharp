@@ -11,18 +11,26 @@ namespace AngleSharp.Xml
     /// </summary>
     public class XmlParser : IParser
     {
-        /// <summary>
-        /// This method is not yet implemented.
-        /// </summary>
-        public void Parse()
-        {
-            throw new NotImplementedException();
-        }
+        #region Members
+
+        XmlTokenizer tokenizer;
+
+        #endregion
+
+        #region Events
 
         /// <summary>
         /// This event is raised once a parser error occured.
         /// </summary>
         public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
+
+        #endregion
+
+        #region ctor
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the status if the parsing process is asynchronous.
@@ -30,6 +38,18 @@ namespace AngleSharp.Xml
         public Boolean IsAsync
         {
             get { throw new NotImplementedException(); }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// This method is not yet implemented.
+        /// </summary>
+        public void Parse()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -40,5 +60,26 @@ namespace AngleSharp.Xml
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region Handlers
+
+        /// <summary>
+        /// Fires an error occurred event.
+        /// </summary>
+        /// <param name="code">The associated error code.</param>
+        void RaiseErrorOccurred(ErrorCode code)
+        {
+            if (ErrorOccurred != null)
+            {
+                var pck = new ParseErrorEventArgs((int)code, Errors.GetError(code));
+                pck.Line = tokenizer.Stream.Line;
+                pck.Column = tokenizer.Stream.Column;
+                ErrorOccurred(this, pck);
+            }
+        }
+
+        #endregion
     }
 }

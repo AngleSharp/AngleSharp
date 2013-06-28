@@ -808,7 +808,7 @@ namespace AngleSharp.Css
                     {
                         var dir = ((CssKeywordToken)args[0]).Data;
                         var code = string.Format("{0}({1})", PSEUDOCLASSFUNCTION_DIR, dir);
-                        var dirCode = dir == "ltr" ? DOM.Element.DirectionMode.Ltr : DOM.Element.DirectionMode.Rtl;
+                        var dirCode = dir == "ltr" ? DirectionMode.Ltr : DirectionMode.Rtl;
                         return SimpleSelector.PseudoClass(el => el.Dir == dirCode, code);
                     }
 
