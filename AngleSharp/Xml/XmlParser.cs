@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AngleSharp.DOM;
+using AngleSharp.DOM.Xml;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace AngleSharp.Xml
@@ -14,6 +18,11 @@ namespace AngleSharp.Xml
         #region Members
 
         XmlTokenizer tokenizer;
+        Boolean started;
+        XMLDocument doc;
+        List<Element> open;
+        XmlTreeMode insert;
+        TaskCompletionSource<Boolean> tcs;
 
         #endregion
 
@@ -28,16 +37,92 @@ namespace AngleSharp.Xml
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new instance of the XML parser with an new document
+        /// based on the given source.
+        /// </summary>
+        /// <param name="source">The source code as a string.</param>
+        public XmlParser(String source)
+            : this(new XMLDocument(), new SourceManager(source))
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of the XML parser with an new document
+        /// based on the given stream.
+        /// </summary>
+        /// <param name="stream">The stream to use as source.</param>
+        public XmlParser(Stream stream)
+            : this(new XMLDocument(), new SourceManager(stream))
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of the XML parser with the specified document
+        /// based on the given source.
+        /// </summary>
+        /// <param name="document">The document instance to be constructed.</param>
+        /// <param name="source">The source code as a string.</param>
+        public XmlParser(XMLDocument document, String source)
+            : this(document, new SourceManager(source))
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of the XML parser with the specified document
+        /// based on the given stream.
+        /// </summary>
+        /// <param name="document">The document instance to be constructed.</param>
+        /// <param name="stream">The stream to use as source.</param>
+        public XmlParser(XMLDocument document, Stream stream)
+            : this(document, new SourceManager(stream))
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of the XML parser with the specified document
+        /// based on the given source manager.
+        /// </summary>
+        /// <param name="document">The document instance to be constructed.</param>
+        /// <param name="source">The source to use.</param>
+        internal XmlParser(XMLDocument document, SourceManager source)
+        {
+            tokenizer = new XmlTokenizer(source);
+
+            tokenizer.ErrorOccurred += (s, ev) =>
+            {
+                if (ErrorOccurred != null)
+                    ErrorOccurred(this, ev);
+            };
+
+            started = false;
+            doc = document;
+            open = new List<Element>();
+            insert = XmlTreeMode.Initial;
+        }
+
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Gets the status if the parsing process is asynchronous.
+        /// Gets the (maybe intermediate) result of the parsing process.
+        /// </summary>
+        public XMLDocument Result
+        {
+            get
+            {
+                Parse();
+                return doc;
+            }
+        }
+
+        /// <summary>
+        /// Gets if the parser has been started asynchronously.
         /// </summary>
         public Boolean IsAsync
         {
-            get { throw new NotImplementedException(); }
+            get { return tcs != null; }
         }
 
         #endregion
@@ -45,20 +130,138 @@ namespace AngleSharp.Xml
         #region Methods
 
         /// <summary>
-        /// This method is not yet implemented.
+        /// Parses the given source and creates the document.
         /// </summary>
         public void Parse()
         {
-            throw new NotImplementedException();
+            if (!started)
+            {
+                started = true;
+                XmlToken token;
+
+                do
+                {
+                    token = tokenizer.Get();
+                    Consume(token);
+                }
+                while (token.Type != XmlTokenType.EOF);
+            }
         }
 
         /// <summary>
-        /// This method is not yet implemented.
+        /// Parses the given source asynchronously and creates the document.
+        /// WARNING: This method is not yet implemented.
         /// </summary>
-        /// <returns>A task that can be used to determine the status.</returns>
+        /// <returns>The task which could be awaited or continued differently.</returns>
         public Task ParseAsync()
         {
-            throw new NotImplementedException();
+            if (!started)
+            {
+                started = true;
+                tcs = new TaskCompletionSource<bool>();
+                //TODO
+                return tcs.Task;
+            }
+            else if (tcs == null)
+            {
+                var temp = new TaskCompletionSource<bool>();
+                temp.SetResult(true);
+                return temp.Task;
+            }
+
+            return tcs.Task;
+        }
+
+        /// <summary>
+        /// Consumes a token and processes it.
+        /// </summary>
+        /// <param name="token">The token to consume.</param>
+        void Consume(XmlToken token)
+        {
+            switch (insert)
+            {
+                case XmlTreeMode.Initial:
+                    Initial(token);
+                    break;
+                case XmlTreeMode.Prolog:
+                    BeforeDoctype(token);
+                    break;
+                case XmlTreeMode.Body:
+                    InBody(token);
+                    break;
+            }
+        }
+
+        #endregion
+
+        #region States
+
+        void Initial(XmlToken token)
+        {
+            if (token.Type == XmlTokenType.Declaration)
+            {
+                //The declaration token
+            }
+            else if (!token.IsIgnorable)
+            {
+                //Error
+                insert = XmlTreeMode.Prolog;
+                BeforeDoctype(token);
+            }
+        }
+
+        void BeforeDoctype(XmlToken token)
+        {
+            if (token.Type == XmlTokenType.DOCTYPE)
+            {
+                //Add doctype
+                insert = XmlTreeMode.Body;
+            }
+            else if (token.Type == XmlTokenType.ProcessingInstruction)
+            {
+                //Add processing instruction
+            }
+            else if (token.Type == XmlTokenType.Comment)
+            {
+                //Append comment to node
+            }
+            else if (!token.IsIgnorable)
+            {
+                insert = XmlTreeMode.Body;
+                InBody(token);
+            }
+        }
+
+        void InBody(XmlToken token)
+        {
+            switch (token.Type)
+            {
+                case XmlTokenType.StartTag:
+                    break;
+                case XmlTokenType.EndTag:
+                    break;
+                case XmlTokenType.Comment:
+                    //Append comment to node
+                    break;
+                case XmlTokenType.ProcessingInstruction:
+                    //Add processing instruction
+                    break;
+                case XmlTokenType.Character:
+                    //Append character to node
+                    break;
+                case XmlTokenType.EOF:
+                    //Close open tags
+                    //If tags are still open --> error
+                    break;
+                case XmlTokenType.DOCTYPE:
+                    //Ignore
+                    //Error
+                    break;
+                case XmlTokenType.Declaration:
+                    //Ignore
+                    //Error
+                    break;
+            }
         }
 
         #endregion

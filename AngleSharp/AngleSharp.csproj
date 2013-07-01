@@ -112,6 +112,7 @@
     <Compile Include="Foundation\Mutations\MutationObserverInit.cs" />
     <Compile Include="Foundation\Mutations\MutationRecord.cs" />
     <Compile Include="Foundation\Helpers\Namespaces.cs" />
+    <Compile Include="Foundation\Pool.cs" />
     <Compile Include="Foundation\Resources.cs" />
     <Compile Include="DOM\Interfaces\IDocumentStyle.cs" />
     <Compile Include="DOM\Interfaces\IDOMImplementation.cs" />
@@ -270,6 +271,15 @@
     <Compile Include="DOM\Xml\XMLElement.cs" />
     <Compile Include="Html\HtmlParser.cs" />
     <Compile Include="Html\Tokens\HtmlCharactersToken.cs" />
+    <Compile Include="Xml\Tokens\XmlCharacterToken.cs" />
+    <Compile Include="Xml\Tokens\XmlCommentToken.cs" />
+    <Compile Include="Xml\Tokens\XmlDeclaration.cs" />
+    <Compile Include="Xml\Tokens\XmlDoctypeToken.cs" />
+    <Compile Include="Xml\Tokens\XmlEndOfFileToken.cs" />
+    <Compile Include="Xml\Tokens\XmlEntityToken.cs" />
+    <Compile Include="Xml\Tokens\XmlPIToken.cs" />
+    <Compile Include="Xml\Tokens\XmlTagToken.cs" />
+    <Compile Include="Xml\Tokens\XmlToken.cs" />
     <Compile Include="Xml\XmlParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stream\SourceManager.cs" />
@@ -286,7 +296,10 @@
     <Compile Include="Html\Tokens\HtmlEndOfFileToken.cs" />
     <Compile Include="Html\Tokens\HtmlTagToken.cs" />
     <Compile Include="Xml\XmlTokenizer.cs" />
+    <Compile Include="Xml\XmlTokenType.cs" />
+    <Compile Include="Xml\XmlTreeMode.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

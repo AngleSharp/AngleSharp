@@ -19,8 +19,6 @@ namespace AngleSharp.Html
             get { return eof ?? (eof = new HtmlEndOfFileToken()); }
         }
 
-        static HtmlCharacterToken buffer = new HtmlCharacterToken();
-
         /// <summary>
         /// Creates a new HTML character token based on the given character.
         /// </summary>
@@ -95,7 +93,7 @@ namespace AngleSharp.Html
         [DebuggerStepThrough]
         public static HtmlTagToken OpenTag()
         {
-            return new HtmlTagToken() { _type = HtmlTokenType.StartTag };
+            return new HtmlTagToken { _type = HtmlTokenType.StartTag };
         }
 
         /// <summary>
@@ -105,7 +103,7 @@ namespace AngleSharp.Html
         [DebuggerStepThrough]
         public static HtmlTagToken CloseTag()
         {
-            return new HtmlTagToken() { _type = HtmlTokenType.EndTag };
+            return new HtmlTagToken { _type = HtmlTokenType.EndTag };
         }
 
         /// <summary>
@@ -153,7 +151,7 @@ namespace AngleSharp.Html
         /// Gets if the character data is NULL.
         /// </summary>
         /// <returns>True if the character token is NULL, otherwise false.</returns>
-        public virtual bool IsNullChar
+        public virtual Boolean IsNullChar
         {
             get { return false; }
         }
@@ -162,7 +160,7 @@ namespace AngleSharp.Html
         /// Gets if the character data is a new line.
         /// </summary>
         /// <returns>True if the character token is a new line, otherwise false.</returns>
-        public virtual bool IsNewLine
+        public virtual Boolean IsNewLine
         {
             get { return false; }
         }
@@ -171,7 +169,7 @@ namespace AngleSharp.Html
         /// Gets if the character data is actually a space character.
         /// </summary>
         /// <returns>True if the character data is a space character.</returns>
-        public virtual bool IsIgnoreable
+        public virtual Boolean IsIgnoreable
         {
             get { return false; }
         }

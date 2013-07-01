@@ -7,6 +7,8 @@ using AngleSharp.Html;
 using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Css;
 using AngleSharp.Css;
+using AngleSharp.DOM.Xml;
+using AngleSharp.Xml;
 
 namespace AngleSharp
 {
@@ -39,6 +41,17 @@ namespace AngleSharp
         /// Creates a new builder with the specified source.
         /// </summary>
         /// <param name="source">The code manager.</param>
+        /// <param name="document">The document to fill.</param>
+        DocumentBuilder(SourceManager source, XMLDocument document)
+        {
+            parser = new XmlParser(document, source);
+            parser.ErrorOccurred += ParseErrorOccurred;
+        }
+
+        /// <summary>
+        /// Creates a new builder with the specified source.
+        /// </summary>
+        /// <param name="source">The code manager.</param>
         /// <param name="sheet">The document to fill.</param>
         DocumentBuilder(SourceManager source, CSSStyleSheet sheet)
         {
@@ -59,11 +72,60 @@ namespace AngleSharp
         }
 
         /// <summary>
+        /// Gets the result of an XML parsing.
+        /// </summary>
+        public XMLDocument XmlResult
+        {
+            get { return ((XmlParser)parser).Result; }
+        }
+
+        /// <summary>
         /// Gets the result of a CSS parsing.
         /// </summary>
         public CSSStyleSheet CssResult
         {
             get { return ((CssParser)parser).Result; }
+        }
+
+        #endregion
+
+        #region XML Construction
+
+        /// <summary>
+        /// Builds a new XMLDocument with the given source code string.
+        /// </summary>
+        /// <param name="sourceCode">The string to use as source code.</param>
+        /// <returns>The constructed XML document.</returns>
+        public static XMLDocument Xml(String sourceCode)
+        {
+            var source = new SourceManager(sourceCode);
+            var db = new DocumentBuilder(source, new XMLDocument());
+            return db.XmlResult;
+        }
+
+        /// <summary>
+        /// Builds a new XMLDocument with the given URL.
+        /// </summary>
+        /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <returns>The constructed XML document.</returns>
+        public static XMLDocument Xml(Uri url)
+        {
+            var stream = Builder.Stream(url);
+            var source = new SourceManager(stream);
+            var db = new DocumentBuilder(source, new XMLDocument());
+            return db.XmlResult;
+        }
+
+        /// <summary>
+        /// Builds a new XMLDocument with the given network stream.
+        /// </summary>
+        /// <param name="networkStream">The stream of chars to use as source code.</param>
+        /// <returns>The constructed XML document.</returns>
+        public static XMLDocument Xml(Stream networkStream)
+        {
+            var source = new SourceManager(networkStream);
+            var db = new DocumentBuilder(source, new XMLDocument());
+            return db.XmlResult;
         }
 
         #endregion

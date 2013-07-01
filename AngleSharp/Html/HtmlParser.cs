@@ -366,8 +366,16 @@ namespace AngleSharp.Html
             {
                 var chars = ((HtmlCharactersToken)token).Data;
 
-                for (int i = 0; i < chars.Length; i++)
-                    Consume(HtmlToken.Character(chars[i]));
+                if (chars.Length > 0)
+                {
+                    var t = new HtmlCharacterToken();
+
+                    for (int i = 0; i < chars.Length; i++)
+                    {
+                        t.Data = chars[i];
+                        Consume(t);
+                    }
+                }
             }
             else if ((node == null) || node.IsInHtml || (node.IsHtmlTIP && (token.Type == HtmlTokenType.StartTag || token.Type == HtmlTokenType.Character)) ||
                 (node.IsInMathML && node.NodeName == Specification.XML_ANNOTATION && token.IsStartTag(SVGElement.RootTag)) || (token.Type == HtmlTokenType.EOF) ||
@@ -3633,7 +3641,7 @@ namespace AngleSharp.Html
         /// Inserts the given character into the current node.
         /// </summary>
         /// <param name="p">The character to insert.</param>
-        void InsertCharacter(char p)
+        void InsertCharacter(Char p)
         {
             if (foster && CurrentNode.IsTableElement())
                 InsertCharacterWithFoster(p);
@@ -3645,7 +3653,7 @@ namespace AngleSharp.Html
         /// Inserts the given characters into the current node.
         /// </summary>
         /// <param name="p">The characters to insert.</param>
-        void InsertCharacters(string p)
+        void InsertCharacters(String p)
         {
             if (foster && CurrentNode.IsTableElement())
             {
@@ -3660,7 +3668,7 @@ namespace AngleSharp.Html
         /// Inserts the given character into the foster parent.
         /// </summary>
         /// <param name="p">The character to insert.</param>
-        void InsertCharacterWithFoster(char p)
+        void InsertCharacterWithFoster(Char p)
         {
             var table = false;
             var index = open.Count;

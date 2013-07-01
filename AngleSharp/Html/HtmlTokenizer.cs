@@ -59,7 +59,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets or sets if CDATA sections are accepted.
         /// </summary>
-        public bool AcceptsCDATA
+        public Boolean AcceptsCDATA
         {
             get { return allowCdata; }
             set { allowCdata = value; }

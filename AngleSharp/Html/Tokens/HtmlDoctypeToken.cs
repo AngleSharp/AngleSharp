@@ -34,7 +34,7 @@ namespace AngleSharp.Html
         /// Creates a new DOCTYPE token with the quirks mode set initially.
         /// </summary>
         /// <param name="quirksForced">The state of the force-quirks flag.</param>
-        public HtmlDoctypeToken(bool quirksForced)
+        public HtmlDoctypeToken(Boolean quirksForced)
         {
             name = null;
             publicIdentifier = null;
@@ -50,7 +50,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets or sets the state of the force-quirks flag.
         /// </summary>
-        public bool IsQuirksForced
+        public Boolean IsQuirksForced
         {
             get { return quirks; }
             set { quirks = value; }
@@ -59,7 +59,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets the state of the name.
         /// </summary>
-        public bool IsNameMissing
+        public Boolean IsNameMissing
         {
             get { return name == null; }
         }
@@ -67,7 +67,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets the state of the public identifier.
         /// </summary>
-        public bool IsPublicIdentifierMissing
+        public Boolean IsPublicIdentifierMissing
         {
             get { return publicIdentifier == null; }
         }
@@ -75,7 +75,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets the state of the system identifier.
         /// </summary>
-        public bool IsSystemIdentifierMissing
+        public Boolean IsSystemIdentifierMissing
         {
             get { return systemIdentifier == null; }
         }
@@ -83,7 +83,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets or sets the name of the DOCTYPE token.
         /// </summary>
-        public string Name
+        public String Name
         {
             get { return name ?? string.Empty; }
             set { name = value; }
@@ -92,7 +92,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets or sets the value of the public identifier.
         /// </summary>
-        public string PublicIdentifier
+        public String PublicIdentifier
         {
             get { return publicIdentifier ?? string.Empty; }
             set { publicIdentifier = value; }
@@ -101,7 +101,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets or sets the value of the system identifier.
         /// </summary>
-        public string SystemIdentifier
+        public String SystemIdentifier
         {
             get { return systemIdentifier ?? string.Empty; }
             set { systemIdentifier = value; }
@@ -110,7 +110,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets if the given doctype token represents a limited quirks mode state.
         /// </summary>
-        public bool IsLimitedQuirks
+        public Boolean IsLimitedQuirks
         {
             get
             {
@@ -130,7 +130,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets if the given doctype token represents a full quirks mode state.
         /// </summary>
-        public bool IsFullQuirks
+        public Boolean IsFullQuirks
         {
             get
             {
@@ -268,7 +268,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets the status if the given doctype token matches one of the popular conditions.
         /// </summary>
-        public bool IsValid
+        public Boolean IsValid
         {
             get
             {

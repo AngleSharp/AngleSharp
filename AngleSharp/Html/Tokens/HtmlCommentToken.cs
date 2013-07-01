@@ -9,7 +9,7 @@ namespace AngleSharp.Html
     {
         #region Members
 
-        string _data;
+        String _data;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace AngleSharp.Html
         /// Creates a new comment token with the supplied data.
         /// </summary>
         /// <param name="data">The data to set.</param>
-        public HtmlCommentToken(string data)
+        public HtmlCommentToken(String data)
         {
             _type = HtmlTokenType.Comment;
             _data = data;
@@ -41,9 +41,10 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets the data of the comment token.
         /// </summary>
-        public string Data
+        public String Data
         {
             get { return _data; }
+            set { _data = value; }
         }
 
         #endregion
