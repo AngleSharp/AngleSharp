@@ -212,7 +212,7 @@ namespace AngleSharp.Xml
             }
             else if (!token.IsIgnorable)
             {
-                //Error
+                RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
                 insert = XmlTreeMode.Prolog;
                 BeforeDoctype(token);
             }
@@ -222,7 +222,12 @@ namespace AngleSharp.Xml
         {
             if (token.Type == XmlTokenType.DOCTYPE)
             {
-                //Add doctype
+                var tok = (XmlDoctypeToken)token;
+                var doctype = new DocumentType();
+                doctype.SystemId = tok.SystemIdentifier;
+                doctype.PublicId = tok.PublicIdentifier;
+                doctype.Name = tok.Name;
+                doc.AppendChild(doctype);
                 insert = XmlTreeMode.Body;
             }
             else if (token.Type == XmlTokenType.ProcessingInstruction)
@@ -249,30 +254,51 @@ namespace AngleSharp.Xml
             switch (token.Type)
             {
                 case XmlTokenType.StartTag:
+                {
                     break;
+                }
                 case XmlTokenType.EndTag:
+                {
                     break;
+                }
                 case XmlTokenType.Comment:
-                    //Append comment to node
+                {
+                    var tok = (XmlCommentToken)token;
+                    var com = doc.CreateComment(tok.Data);
+                    doc.AppendChild(com);
                     break;
+                }
                 case XmlTokenType.ProcessingInstruction:
-                    //Add processing instruction
+                {
+                    var tok = (XmlPIToken)token;
+                    var pi = doc.CreateProcessingInstruction(tok.Target, tok.Content);
+                    doc.AppendChild(pi);
                     break;
+                }
                 case XmlTokenType.Character:
+                {
                     //Append character to node
                     break;
+                }
                 case XmlTokenType.EOF:
-                    //Close open tags
-                    //If tags are still open --> error
+                {
+                    if (open.Count != 0)
+                    {
+                        RaiseErrorOccurred(ErrorCode.EOF);
+                        open.RemoveRange(0, open.Count);
+                    }
                     break;
+                }
                 case XmlTokenType.DOCTYPE:
-                    //Ignore
-                    //Error
+                {
+                    RaiseErrorOccurred(ErrorCode.DoctypeUnexpected);
                     break;
+                }
                 case XmlTokenType.Declaration:
-                    //Ignore
-                    //Error
+                {
+                    RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
                     break;
+                }
             }
         }
 
