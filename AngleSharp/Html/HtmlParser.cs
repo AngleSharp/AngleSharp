@@ -506,7 +506,7 @@ namespace AngleSharp.Html
                 
                 insert = HtmlTreeMode.BeforeHtml;
             }
-            else if(!token.IsIgnoreable)
+            else if(!token.IsIgnorable)
             {
                 if (!doc.IsEmbedded)
                 {
@@ -552,7 +552,7 @@ namespace AngleSharp.Html
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
             }
-            else if(!token.IsIgnoreable)
+            else if(!token.IsIgnorable)
             {
                 var element = new HTMLHtmlElement();
                 AddElementToDocument(element, HtmlToken.OpenTag(HTMLHtmlElement.Tag));
@@ -592,7 +592,7 @@ namespace AngleSharp.Html
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
             }
-            else if(!token.IsIgnoreable)
+            else if(!token.IsIgnorable)
             {
                 BeforeHead(HtmlToken.OpenTag(HTMLHeadElement.Tag));
                 InHead(token);
@@ -605,7 +605,7 @@ namespace AngleSharp.Html
         /// <param name="token">The passed token.</param>
         void InHead(HtmlToken token)
         {
-            if (token.IsIgnoreable)
+            if (token.IsIgnorable)
                 InsertCharacter(((HtmlCharacterToken)token).Data);
             else if (token.Type == HtmlTokenType.Comment)
                 AddComment(CurrentNode, token);
@@ -698,7 +698,7 @@ namespace AngleSharp.Html
                 CloseCurrentNode();
                 insert = HtmlTreeMode.InHead;
             }
-            else if (token.IsIgnoreable)
+            else if (token.IsIgnorable)
                 InHead(token);
             else if (token.Type == HtmlTokenType.Comment)
                 InHead(token);
@@ -724,7 +724,7 @@ namespace AngleSharp.Html
         /// <param name="token">The passed token.</param>
         void AfterHead(HtmlToken token)
         {
-            if (token.IsIgnoreable)
+            if (token.IsIgnorable)
                 InsertCharacter(((HtmlCharacterToken)token).Data);
             else if (token.Type == HtmlTokenType.Comment)
                 AddComment(CurrentNode, token);
@@ -774,7 +774,7 @@ namespace AngleSharp.Html
                 ReconstructFormatting();
                 InsertCharacter(((HtmlCharacterToken)token).Data);
 
-                if(!token.IsIgnoreable)
+                if(!token.IsIgnorable)
                     frameset = false;
             }
             else if (token.Type == HtmlTokenType.Comment)
@@ -1848,7 +1848,7 @@ namespace AngleSharp.Html
         /// <param name="token">The passed token.</param>
         void InColumnGroup(HtmlToken token)
         {
-            if (token.IsIgnoreable)
+            if (token.IsIgnorable)
                 InsertCharacter(((HtmlCharacterToken)token).Data);
             else if (token.Type == HtmlTokenType.Comment)
                 AddComment(CurrentNode, token);
@@ -2212,7 +2212,7 @@ namespace AngleSharp.Html
         /// <param name="token">The passed token.</param>
         void AfterBody(HtmlToken token)
         {
-            if (token.IsIgnoreable)
+            if (token.IsIgnorable)
             {
                 InBody(token);
             }
@@ -2251,7 +2251,7 @@ namespace AngleSharp.Html
         /// <param name="token">The passed token.</param>
         void InFrameset(HtmlToken token)
         {
-            if (token.IsIgnoreable)
+            if (token.IsIgnorable)
                 InsertCharacter(((HtmlCharacterToken)token).Data);
             else if (token.Type == HtmlTokenType.Comment)
             {
@@ -2314,7 +2314,7 @@ namespace AngleSharp.Html
         /// <param name="token">The passed token.</param>
         void AfterFrameset(HtmlToken token)
         {
-            if (token.IsIgnoreable)
+            if (token.IsIgnorable)
                 InsertCharacter(((HtmlCharacterToken)token).Data);
             else if (token.Type == HtmlTokenType.Comment)
             {
@@ -2357,7 +2357,7 @@ namespace AngleSharp.Html
         {
             if (token.Type == HtmlTokenType.Comment)
                 AddComment(doc, token);
-            else if (token.Type == HtmlTokenType.DOCTYPE || token.IsIgnoreable || (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name == HTMLHtmlElement.Tag))
+            else if (token.Type == HtmlTokenType.DOCTYPE || token.IsIgnorable || (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name == HTMLHtmlElement.Tag))
                 InBody(token);
             else if (token.Type == HtmlTokenType.EOF)
                 End();
@@ -2379,7 +2379,7 @@ namespace AngleSharp.Html
             {
                 AddComment(doc, token);
             }
-            else if (token.Type == HtmlTokenType.DOCTYPE || token.IsIgnoreable || (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name == HTMLHtmlElement.Tag))
+            else if (token.Type == HtmlTokenType.DOCTYPE || token.IsIgnorable || (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name == HTMLHtmlElement.Tag))
             {
                 InBody(token);
             }
@@ -3010,7 +3010,7 @@ namespace AngleSharp.Html
                 RaiseErrorOccurred(ErrorCode.NULL);
                 InsertCharacter(Specification.REPLACEMENT);
             }
-            else if (token.IsIgnoreable)
+            else if (token.IsIgnorable)
                 InsertCharacter(((HtmlCharacterToken)token).Data);
             else if (token.Type == HtmlTokenType.Character)
             {

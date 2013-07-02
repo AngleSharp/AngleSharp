@@ -3,9 +3,9 @@
 namespace AngleSharp.Xml
 {
     /// <summary>
-    /// The token that is used for comments.
+    /// The CData token that contains a sequence of raw characters.
     /// </summary>
-    sealed class XmlCommentToken : XmlToken
+    sealed class XmlCDataToken : XmlToken
     {
         #region Members
 
@@ -16,21 +16,21 @@ namespace AngleSharp.Xml
         #region ctor
 
         /// <summary>
-        /// Creates a new comment token.
+        /// Creates a new CData token.
         /// </summary>
-        public XmlCommentToken()
+        public XmlCDataToken()
         {
             _data = String.Empty;
-            _type = XmlTokenType.Comment;
+            _type = XmlTokenType.CData;
         }
 
         /// <summary>
-        /// Creates a new comment token with the supplied data.
+        /// Creates a new CData token with the supplied data.
         /// </summary>
         /// <param name="data">The data to set.</param>
-        public XmlCommentToken(String data)
+        public XmlCDataToken(String data)
         {
-            _type = XmlTokenType.Comment;
+            _type = XmlTokenType.CData;
             _data = data;
         }
 

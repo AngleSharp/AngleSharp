@@ -110,7 +110,7 @@ namespace AngleSharp.Xml
         /// See http://www.w3.org/TR/REC-xml/#NT-CData.
         /// </summary>
         /// <param name="c">The next input character.</param>
-        XmlToken CData(Char c)
+        XmlCDataToken CData(Char c)
         {
             stringBuffer.Clear();
 
@@ -131,10 +131,10 @@ namespace AngleSharp.Xml
                 c = src.Next;
             }
 
-            return XmlToken.Characters(stringBuffer.ToString());
+            return XmlToken.CData(stringBuffer.ToString());
         }
 
-        Char[] CharacterReference(Char c, Char allowed = Specification.NULL)
+        Char[] CharacterReference(Char c)
         {
             throw new NotImplementedException();
         }
@@ -161,13 +161,7 @@ namespace AngleSharp.Xml
             {
                 return TagEnd(src.Next);
             }
-            else if (Specification.IsUppercaseAscii(c))
-            {
-                stringBuffer.Clear();
-                stringBuffer.Append(c.ToLower());
-                return TagName(src.Next, XmlToken.OpenTag());
-            }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (Specification.IsLetter(c))
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c);
@@ -186,13 +180,7 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken TagEnd(Char c)
         {
-            if (Specification.IsUppercaseAscii(c))
-            {
-                stringBuffer.Clear();
-                stringBuffer.Append(c.ToLower());
-                return TagName(src.Next, XmlToken.CloseTag());
-            }
-            else if (Specification.IsLowercaseAscii(c))
+            if (Specification.IsLetter(c))
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c);
@@ -233,11 +221,6 @@ namespace AngleSharp.Xml
             {
                 tag.Name = stringBuffer.ToString();
                 return EmitTag(tag);
-            }
-            else if (Specification.IsUppercaseAscii(c))
-            {
-                stringBuffer.Append(c.ToLower());
-                return TagName(src.Next, tag);
             }
             else if (c == Specification.NULL)
             {
@@ -491,7 +474,7 @@ namespace AngleSharp.Xml
                 return DeclarationVersionAfterName(src.Next, XmlToken.Declaration());
             }
 
-            throw new ArgumentException("Expected version attribute not found.");
+            throw new ArgumentException("Invalid XML declaration.");
         }
 
         /// <summary>
@@ -499,7 +482,7 @@ namespace AngleSharp.Xml
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationVersionAfterName(Char c, XmlDeclaration decl)
+        XmlToken DeclarationVersionAfterName(Char c, XmlDeclarationToken decl)
         {
             while (Specification.IsSpaceCharacter(c))
                 c = src.Next;
@@ -507,7 +490,7 @@ namespace AngleSharp.Xml
             if (c == Specification.EQ)
                 return DeclarationVersionBeforeValue(src.Next, decl);
 
-            throw new ArgumentException("Expected version value not found.");
+            throw new ArgumentException("Invalid XML declaration.");
         }
 
         /// <summary>
@@ -515,7 +498,7 @@ namespace AngleSharp.Xml
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationVersionBeforeValue(Char c, XmlDeclaration decl)
+        XmlToken DeclarationVersionBeforeValue(Char c, XmlDeclarationToken decl)
         {
             while (Specification.IsSpaceCharacter(c))
                 c = src.Next;
@@ -530,14 +513,31 @@ namespace AngleSharp.Xml
                 stringBuffer.Clear();
                 return DeclarationVersionValueSQ(src.Next, decl);
             }
-            else if (Specification.IsAlphanumericAscii(c))
+
+            throw new ArgumentException("Invalid XML declaration.");
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#NT-VersionInfo.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="decl">The current declaration token.</param>
+        XmlToken DeclarationVersionValueSQ(Char c, XmlDeclarationToken decl)
+        {
+            while (c != Specification.EOF && c != Specification.SQ)
             {
-                stringBuffer.Clear();
                 stringBuffer.Append(c);
-                return DeclarationVersionValueUQ(src.Next, decl);
+                c = src.Next;
             }
 
-            throw new ArgumentException("Version attribute not well-formatted.");
+            if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            decl.Version = stringBuffer.ToString();
+            return DeclarationAfterVersion(src.Next, decl);
         }
 
         /// <summary>
@@ -545,29 +545,270 @@ namespace AngleSharp.Xml
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationVersionValueUQ(Char c, XmlDeclaration decl)
-        {//<?xml version="1.0" encoding="ISO-8859-1"?>
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// More http://www.w3.org/TR/REC-xml/#NT-VersionInfo.
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationVersionValueSQ(Char c, XmlDeclaration decl)
+        XmlToken DeclarationVersionValueDQ(Char c, XmlDeclarationToken decl)
         {
-            throw new NotImplementedException();
+            while (c != Specification.EOF && c != Specification.DQ)
+            {
+                stringBuffer.Append(c);
+                c = src.Next;
+            }
+
+            if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            decl.Version = stringBuffer.ToString();
+            return DeclarationAfterVersion(src.Next, decl);
         }
 
         /// <summary>
-        /// More http://www.w3.org/TR/REC-xml/#NT-VersionInfo.
+        /// More http://www.w3.org/TR/REC-xml/#NT-VersionNum.
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationVersionValueDQ(Char c, XmlDeclaration decl)
+        XmlToken DeclarationAfterVersion(Char c, XmlDeclarationToken decl)
         {
-            throw new NotImplementedException();
+            while (Specification.IsSpaceCharacter(c))
+                c = src.Next;
+
+            if (c == Specification.GT)
+                return decl;
+
+            if (src.ContinuesWith("encoding", false))
+            {
+                src.Advance(7);
+                return DeclarationEncodingAfterName(src.Next, decl);
+            }
+
+            throw new ArgumentException("Invalid XML declaration.");
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#NT-EncodingDecl.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="decl">The current declaration token.</param>
+        XmlToken DeclarationEncodingAfterName(Char c, XmlDeclarationToken decl)
+        {
+            while (Specification.IsSpaceCharacter(c))
+                c = src.Next;
+
+            if (c == Specification.EQ)
+                return DeclarationEncodingBeforeValue(src.Next, decl);
+
+            throw new ArgumentException("Invalid XML declaration.");
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#NT-EncodingDecl.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="decl">The current declaration token.</param>
+        XmlToken DeclarationEncodingBeforeValue(Char c, XmlDeclarationToken decl)
+        {
+            while (Specification.IsSpaceCharacter(c))
+                c = src.Next;
+
+            if (c == Specification.DQ)
+            {
+                stringBuffer.Clear();
+                return DeclarationEncodingValueDQ(src.Next, decl);
+            }
+            else if (c == Specification.SQ)
+            {
+                stringBuffer.Clear();
+                return DeclarationEncodingValueSQ(src.Next, decl);
+            }
+
+            throw new ArgumentException("Invalid XML declaration.");
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#NT-EncodingDecl.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="decl">The current declaration token.</param>
+        XmlToken DeclarationEncodingValueSQ(Char c, XmlDeclarationToken decl)
+        {
+            while (c != Specification.EOF && c != Specification.SQ)
+            {
+                stringBuffer.Append(c);
+                c = src.Next;
+            }
+
+            if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            decl.Encoding = stringBuffer.ToString();
+            return DeclarationAfterEncoding(src.Next, decl);
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#NT-EncodingDecl.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="decl">The current declaration token.</param>
+        XmlToken DeclarationEncodingValueDQ(Char c, XmlDeclarationToken decl)
+        {
+            while (c != Specification.EOF && c != Specification.DQ)
+            {
+                stringBuffer.Append(c);
+                c = src.Next;
+            }
+
+            if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            decl.Encoding = stringBuffer.ToString();
+            return DeclarationAfterEncoding(src.Next, decl);
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#NT-SDDecl.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="decl">The current declaration token.</param>
+        XmlToken DeclarationAfterEncoding(Char c, XmlDeclarationToken decl)
+        {
+            while (Specification.IsSpaceCharacter(c))
+                c = src.Next;
+
+            if (c == Specification.GT)
+                return decl;
+
+            if (src.ContinuesWith("standalone", false))
+            {
+                src.Advance(9);
+                return DeclarationStandaloneAfterName(src.Next, decl);
+            }
+
+            throw new ArgumentException("Invalid XML declaration.");
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#NT-SDDecl.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="decl">The current declaration token.</param>
+        XmlToken DeclarationStandaloneAfterName(Char c, XmlDeclarationToken decl)
+        {
+            while (Specification.IsSpaceCharacter(c))
+                c = src.Next;
+
+            if (c == Specification.EQ)
+                return DeclarationStandaloneBeforeValue(src.Next, decl);
+
+            throw new ArgumentException("Invalid XML declaration.");
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#NT-SDDecl.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="decl">The current declaration token.</param>
+        XmlToken DeclarationStandaloneBeforeValue(Char c, XmlDeclarationToken decl)
+        {
+            while (Specification.IsSpaceCharacter(c))
+                c = src.Next;
+
+            if (c == Specification.DQ)
+            {
+                stringBuffer.Clear();
+                return DeclarationStandaloneValueDQ(src.Next, decl);
+            }
+            else if (c == Specification.SQ)
+            {
+                stringBuffer.Clear();
+                return DeclarationStandaloneValueSQ(src.Next, decl);
+            }
+
+            throw new ArgumentException("Invalid XML declaration.");
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#NT-SDDecl.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="decl">The current declaration token.</param>
+        XmlToken DeclarationStandaloneValueSQ(Char c, XmlDeclarationToken decl)
+        {
+            while (c != Specification.EOF && c != Specification.SQ)
+            {
+                stringBuffer.Append(c);
+                c = src.Next;
+            }
+
+            if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            var s = stringBuffer.ToString();
+
+            if (s.Equals("yes"))
+                decl.Standalone = true;
+            else if (s.Equals("no"))
+                decl.Standalone = false;
+            else
+                throw new ArgumentException("Invalid XML declaration.");
+
+            return DeclarationEnd(src.Next, decl);
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#NT-SDDecl.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="decl">The current declaration token.</param>
+        XmlToken DeclarationStandaloneValueDQ(Char c, XmlDeclarationToken decl)
+        {
+            while (c != Specification.EOF && c != Specification.DQ)
+            {
+                stringBuffer.Append(c);
+                c = src.Next;
+            }
+
+            if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            var s = stringBuffer.ToString();
+
+            if (s.Equals("yes"))
+                decl.Standalone = true;
+            else if (s.Equals("no"))
+                decl.Standalone = false;
+            else
+                throw new ArgumentException("Invalid XML declaration.");
+
+            return DeclarationEnd(src.Next, decl);
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#NT-XMLDecl.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="decl">The current declaration token.</param>
+        XmlDeclarationToken DeclarationEnd(Char c, XmlDeclarationToken decl)
+        {
+            while (Specification.IsSpaceCharacter(c))
+                c = src.Next;
+
+            if (c != Specification.QM || src.Next != Specification.GT)
+                throw new ArgumentException("Invalid XML declaration.");
+
+            return decl;
         }
 
         #endregion
@@ -790,7 +1031,7 @@ namespace AngleSharp.Xml
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 src.Back();
-                return XmlToken.Doctype(true);
+                return XmlToken.Doctype();
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeUnexpected);
@@ -810,30 +1051,30 @@ namespace AngleSharp.Xml
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c.ToLower());
-                return DoctypeName(src.Next, XmlToken.Doctype(false));
+                return DoctypeName(src.Next, XmlToken.Doctype());
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 stringBuffer.Clear();
                 stringBuffer.Append(Specification.REPLACEMENT);
-                return DoctypeName(src.Next, XmlToken.Doctype(false));
+                return DoctypeName(src.Next, XmlToken.Doctype());
             }
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return XmlToken.Doctype(true);
+                return XmlToken.Doctype();
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 src.Back();
-                return XmlToken.Doctype(true);
+                return XmlToken.Doctype();
             }
 
             stringBuffer.Clear();
             stringBuffer.Append(c);
-            return DoctypeName(src.Next, XmlToken.Doctype(false));
+            return DoctypeName(src.Next, XmlToken.Doctype());
         }
 
         /// <summary>
@@ -867,7 +1108,6 @@ namespace AngleSharp.Xml
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     src.Back();
-                    doctype.IsQuirksForced = true;
                     doctype.Name = stringBuffer.ToString();
                     return doctype;
                 }
@@ -897,7 +1137,6 @@ namespace AngleSharp.Xml
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 src.Back();
-                doctype.IsQuirksForced = true;
                 return doctype;
             }
             else if (src.ContinuesWith("public"))
@@ -912,7 +1151,6 @@ namespace AngleSharp.Xml
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeUnexpectedAfterName);
-            doctype.IsQuirksForced = true;
             return BogusDoctype(src.Next, doctype);
         }
 
@@ -943,19 +1181,16 @@ namespace AngleSharp.Xml
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                doctype.IsQuirksForced = true;
                 return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                doctype.IsQuirksForced = true;
                 src.Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
-            doctype.IsQuirksForced = true;
             return BogusDoctype(src.Next, doctype);
         }
 
@@ -985,19 +1220,16 @@ namespace AngleSharp.Xml
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                doctype.IsQuirksForced = true;
                 return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                doctype.IsQuirksForced = true;
                 src.Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
-            doctype.IsQuirksForced = true;
             return BogusDoctype(src.Next, doctype);
         }
 
@@ -1024,7 +1256,6 @@ namespace AngleSharp.Xml
                 else if (c == Specification.GT)
                 {
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                    doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = stringBuffer.ToString();
                     return doctype;
                 }
@@ -1032,7 +1263,6 @@ namespace AngleSharp.Xml
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     src.Back();
-                    doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = stringBuffer.ToString();
                     return doctype;
                 }
@@ -1066,14 +1296,12 @@ namespace AngleSharp.Xml
                 else if (c == Specification.GT)
                 {
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                    doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = stringBuffer.ToString();
                     return doctype;
                 }
                 else if (c == Specification.EOF)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = stringBuffer.ToString();
                     src.Back();
                     return doctype;
@@ -1117,13 +1345,11 @@ namespace AngleSharp.Xml
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                doctype.IsQuirksForced = true;
                 src.Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-            doctype.IsQuirksForced = true;
             return BogusDoctype(src.Next, doctype);
         }
 
@@ -1155,13 +1381,11 @@ namespace AngleSharp.Xml
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                doctype.IsQuirksForced = true;
                 src.Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-            doctype.IsQuirksForced = true;
             return BogusDoctype(src.Next, doctype);
         }
 
@@ -1193,19 +1417,16 @@ namespace AngleSharp.Xml
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.SystemIdentifier = stringBuffer.ToString();
-                doctype.IsQuirksForced = true;
                 return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                doctype.IsQuirksForced = true;
                 src.Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeSystemInvalid);
-            doctype.IsQuirksForced = true;
             return BogusDoctype(src.Next, doctype);
         }
 
@@ -1233,21 +1454,18 @@ namespace AngleSharp.Xml
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = stringBuffer.ToString();
                 return doctype;
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = stringBuffer.ToString();
                 src.Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-            doctype.IsQuirksForced = true;
             return BogusDoctype(src.Next, doctype);
         }
 
@@ -1274,14 +1492,12 @@ namespace AngleSharp.Xml
                 else if (c == Specification.GT)
                 {
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                    doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = stringBuffer.ToString();
                     return doctype;
                 }
                 else if (c == Specification.EOF)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = stringBuffer.ToString();
                     src.Back();
                     return doctype;
@@ -1316,14 +1532,12 @@ namespace AngleSharp.Xml
                 else if (c == Specification.GT)
                 {
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                    doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = stringBuffer.ToString();
                     return doctype;
                 }
                 else if (c == Specification.EOF)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = stringBuffer.ToString();
                     src.Back();
                     return doctype;
@@ -1353,7 +1567,6 @@ namespace AngleSharp.Xml
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                doctype.IsQuirksForced = true;
                 src.Back();
                 return doctype;
             }
@@ -1407,12 +1620,6 @@ namespace AngleSharp.Xml
             else if (c == Specification.GT)
             {
                 return EmitTag(tag);
-            }
-            else if (Specification.IsUppercaseAscii(c))
-            {
-                stringBuffer.Clear();
-                stringBuffer.Append(c.ToLower());
-                return AttributeName(src.Next, tag);
             }
             else if (c == Specification.NULL)
             {
@@ -1469,8 +1676,6 @@ namespace AngleSharp.Xml
                     tag.AddAttribute(stringBuffer.ToString());
                     return EmitTag(tag);
                 }
-                else if (Specification.IsUppercaseAscii(c))
-                    stringBuffer.Append(c.ToLower());
                 else if (c == Specification.NULL)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
@@ -1482,7 +1687,9 @@ namespace AngleSharp.Xml
                     stringBuffer.Append(c);
                 }
                 else if (c == Specification.EOF)
+                {
                     return XmlToken.EOF;
+                }
                 else
                     stringBuffer.Append(c);
 
@@ -1511,12 +1718,6 @@ namespace AngleSharp.Xml
             else if (c == Specification.GT)
             {
                 return EmitTag(tag);
-            }
-            else if (Specification.IsUppercaseAscii(c))
-            {
-                stringBuffer.Clear();
-                stringBuffer.Append(c.ToLower());
-                return AttributeName(src.Next, tag);
             }
             else if (c == Specification.NULL)
             {
@@ -1559,42 +1760,22 @@ namespace AngleSharp.Xml
                 stringBuffer.Clear();
                 return AttributeDoubleQuotedValue(src.Next, tag);
             }
-            else if (c == Specification.AMPERSAND)
-            {
-                stringBuffer.Clear();
-                return AttributeUnquotedValue(c, tag);
-            }
             else if (c == Specification.SQ)
             {
                 stringBuffer.Clear();
                 return AttributeSingleQuotedValue(src.Next, tag);
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.REPLACEMENT);
-                return AttributeUnquotedValue(src.Next, tag);
             }
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 return EmitTag(tag);
             }
-            else if (c == Specification.LT || c == Specification.EQ || c == Specification.CQ)
-            {
-                RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
-                stringBuffer.Clear().Append(c);
-                return AttributeUnquotedValue(src.Next, tag);
-            }
             else if (c == Specification.EOF)
             {
                 return XmlToken.EOF;
             }
-            else
-            {
-                stringBuffer.Clear().Append(c);
-                return AttributeUnquotedValue(src.Next, tag);
-            }
+
+            throw new ArgumentException("Argument values have to be double or single quoted.");
         }
 
         /// <summary>
@@ -1613,7 +1794,7 @@ namespace AngleSharp.Xml
                 }
                 else if (c == Specification.AMPERSAND)
                 {
-                    var value = CharacterReference(src.Next, Specification.DQ);
+                    var value = CharacterReference(src.Next);
 
                     if (value == null)
                         stringBuffer.Append(Specification.AMPERSAND);
@@ -1650,7 +1831,7 @@ namespace AngleSharp.Xml
                 }
                 else if (c == Specification.AMPERSAND)
                 {
-                    var value = CharacterReference(src.Next, Specification.SQ);
+                    var value = CharacterReference(src.Next);
 
                     if (value == null)
                         stringBuffer.Append(Specification.AMPERSAND);
@@ -1661,54 +1842,6 @@ namespace AngleSharp.Xml
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
                     stringBuffer.Append(Specification.REPLACEMENT);
-                }
-                else if (c == Specification.EOF)
-                    return XmlToken.EOF;
-                else
-                    stringBuffer.Append(c);
-
-                c = src.Next;
-            }
-        }
-
-        /// <summary>
-        /// More http://www.w3.org/TR/REC-xml/#NT-Attribute.
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="tag">The current tag token.</param>
-        XmlToken AttributeUnquotedValue(Char c, XmlTagToken tag)
-        {
-            while (true)
-            {
-                if (Specification.IsSpaceCharacter(c))
-                {
-                    tag.SetAttributeValue(stringBuffer.ToString());
-                    return AttributeBeforeName(src.Next, tag);
-                }
-                else if (c == Specification.AMPERSAND)
-                {
-                    var value = CharacterReference(src.Next, Specification.GT);
-
-                    if (value == null)
-                        value = new Char[] { Specification.AMPERSAND };
-
-                    tag.SetAttributeValue(new String(value));
-                    return AttributeAfterValue(src.Next, tag);
-                }
-                else if (c == Specification.GT)
-                {
-                    tag.SetAttributeValue(stringBuffer.ToString());
-                    return EmitTag(tag);
-                }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    stringBuffer.Append(Specification.REPLACEMENT);
-                }
-                else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT || c == Specification.EQ || c == Specification.CQ)
-                {
-                    RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
-                    stringBuffer.Append(c);
                 }
                 else if (c == Specification.EOF)
                     return XmlToken.EOF;

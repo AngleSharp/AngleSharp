@@ -451,7 +451,9 @@ namespace AngleSharp.DOM
                     AppendChild(childs[i]);
             }
             else if (child is Attr || child is Document || child.Contains(this))
+            {
                 throw new DOMException(ErrorCode.HierarchyRequestError);
+            }
             else
             {
                 if (child.ParentNode != null)
@@ -482,7 +484,9 @@ namespace AngleSharp.DOM
                     InsertChild(index + i, childs[i]);
             }
             else if (child is Attr || child is Document || child.Contains(this))
+            {
                 throw new DOMException(ErrorCode.HierarchyRequestError);
+            }
             else
             {
                 if (child.ParentNode != null)

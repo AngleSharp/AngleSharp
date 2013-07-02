@@ -69,7 +69,7 @@ namespace AngleSharp.Html
         /// Gets if the character data is actually a space character.
         /// </summary>
         /// <returns>True if the character data is a space character.</returns>
-        public override Boolean IsIgnoreable
+        public override Boolean IsIgnorable
         {
             get { return Specification.IsSpaceCharacter(_data); }
         }

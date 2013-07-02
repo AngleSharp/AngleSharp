@@ -28,6 +28,10 @@ namespace AngleSharp.Xml
         /// </summary>
         Comment,
         /// <summary>
+        /// The CData token for such regions.
+        /// </summary>
+        CData,
+        /// <summary>
         /// The character token to mark a single character.
         /// </summary>
         Character,

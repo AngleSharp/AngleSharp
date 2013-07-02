@@ -106,6 +106,14 @@ namespace AngleSharp.Xml
         #region Properties
 
         /// <summary>
+        /// Gets the current node.
+        /// </summary>
+        internal Element CurrentNode
+        {
+            get { return open.Count > 0 ? open[open.Count - 1] : null; }
+        }
+
+        /// <summary>
         /// Gets the (maybe intermediate) result of the parsing process.
         /// </summary>
         public XMLDocument Result
@@ -219,11 +227,15 @@ namespace AngleSharp.Xml
             }
             else if (token.Type == XmlTokenType.ProcessingInstruction)
             {
-                //Add processing instruction
+                var tok = (XmlPIToken)token;
+                var pi = doc.CreateProcessingInstruction(tok.Target, tok.Content);
+                doc.AppendChild(pi);
             }
             else if (token.Type == XmlTokenType.Comment)
             {
-                //Append comment to node
+                var tok = (XmlCommentToken)token;
+                var com = doc.CreateComment(tok.Data);
+                doc.AppendChild(com);
             }
             else if (!token.IsIgnorable)
             {

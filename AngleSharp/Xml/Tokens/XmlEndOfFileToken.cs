@@ -2,6 +2,9 @@
 
 namespace AngleSharp.Xml
 {
+    /// <summary>
+    /// Represents the final token to mark the EOF.
+    /// </summary>
     sealed class XmlEndOfFileToken : XmlToken
     {
         /// <summary>

@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace AngleSharp.Html
 {
     /// <summary>
-    /// The abstract base class of any token.
+    /// The abstract base class of any HTML token.
     /// </summary>
     [DebuggerStepThrough]
     abstract class HtmlToken
@@ -169,7 +169,7 @@ namespace AngleSharp.Html
         /// Gets if the character data is actually a space character.
         /// </summary>
         /// <returns>True if the character data is a space character.</returns>
-        public virtual Boolean IsIgnoreable
+        public virtual Boolean IsIgnorable
         {
             get { return false; }
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace AngleSharp.Html
 {
     /// <summary>
-    /// Abstract base class for StartTagToken and EndTagToken.
+    /// Class for StartTagToken and EndTagToken.
     /// </summary>
     sealed class HtmlTagToken : HtmlToken
     {
