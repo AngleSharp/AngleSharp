@@ -209,5 +209,19 @@ namespace UnitTests
 
             Assert.AreEqual("hi mum how <!-- are you doing />", sb.ToString());
         }
+
+        [TestMethod]
+        public void TokenizationUnusualDoctype()
+        {
+            var s = new SourceManager("<!DOCTYPE root_element SYSTEM \"DTD_location\">");
+            var t = new HtmlTokenizer(s);
+            var e = t.Get();
+            Assert.AreEqual(HtmlTokenType.DOCTYPE, e.Type);
+            var d = (HtmlDoctypeToken)e;
+            Assert.IsFalse(d.IsNameMissing);
+            Assert.AreEqual("root_element", d.Name);
+            Assert.IsFalse(d.IsSystemIdentifierMissing);
+            Assert.AreEqual("DTD_location", d.SystemIdentifier);
+        }
     }
 }
