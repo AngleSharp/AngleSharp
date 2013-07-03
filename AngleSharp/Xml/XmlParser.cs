@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 namespace AngleSharp.Xml
 {
     /// <summary>
-    /// WARNING: This class is not yet implemented.
-    /// See http://www.w3.org/TR/xml11/ and 
-    /// http://www.w3.org/html/wg/drafts/html/master/the-xhtml-syntax.html#xml-parser
-    /// for more details.
+    /// For more details: See http://www.w3.org/TR/xml11/ and 
+    /// http://www.w3.org/html/wg/drafts/html/master/the-xhtml-syntax.html#xml-parser.
     /// </summary>
     public class XmlParser : IParser
     {
@@ -23,6 +21,7 @@ namespace AngleSharp.Xml
         List<Element> open;
         XmlTreeMode insert;
         TaskCompletionSource<Boolean> tcs;
+        Boolean standalone;
 
         #endregion
 
@@ -97,6 +96,7 @@ namespace AngleSharp.Xml
 
             started = false;
             doc = document;
+            standalone = false;
             open = new List<Element>();
             insert = XmlTreeMode.Initial;
         }
@@ -108,9 +108,9 @@ namespace AngleSharp.Xml
         /// <summary>
         /// Gets the current node.
         /// </summary>
-        internal Element CurrentNode
+        internal Node CurrentNode
         {
-            get { return open.Count > 0 ? open[open.Count - 1] : null; }
+            get { return open.Count > 0 ? (Node)open[open.Count - 1] : (Node)doc; }
         }
 
         /// <summary>
@@ -123,6 +123,14 @@ namespace AngleSharp.Xml
                 Parse();
                 return doc;
             }
+        }
+
+        /// <summary>
+        /// Gets if the XML is standalone.
+        /// </summary>
+        public Boolean Standalone
+        {
+            get { return standalone; }
         }
 
         /// <summary>
@@ -208,7 +216,16 @@ namespace AngleSharp.Xml
         {
             if (token.Type == XmlTokenType.Declaration)
             {
-                //The declaration token
+                var tok = (XmlDeclarationToken)token;
+                standalone = tok.Standalone;
+                var ver = 1.0;
+
+                if (!tok.IsEncodingMissing)
+                    SetEncoding(tok.Encoding);
+
+                //The declaration token -- Check version
+                if (!Double.TryParse(tok.Version, out ver) || ver >= 2.0)
+                    throw new ArgumentException("The given version number is not supported.");
             }
             else if (!token.IsIgnorable)
             {
@@ -255,24 +272,44 @@ namespace AngleSharp.Xml
             {
                 case XmlTokenType.StartTag:
                 {
+                    var tok = (XmlTagToken)token;
+                    var tag = doc.CreateElement(tok.Name);
+
+                    if(!tok.IsSelfClosing)
+                        open.Add(tag);
+
+                    CurrentNode.AppendChild(tag);
+
+                    for (int i = 0; i < tok.Attributes.Count; i++)
+                        tag.SetAttribute(tok.Attributes[i].Key, tok.Attributes[i].Value);
+
                     break;
                 }
                 case XmlTokenType.EndTag:
                 {
+                    if (open.Count == 0)
+                        throw new ArgumentException("Unexpected end-tag (no current element).");
+
+                    var tok = (XmlTagToken)token;
+
+                    if (CurrentNode.NodeName != tok.Name)
+                        throw new ArgumentException("Mismatched end-tag.");
+
+                    open.RemoveAt(open.Count - 1);
                     break;
                 }
                 case XmlTokenType.Comment:
                 {
                     var tok = (XmlCommentToken)token;
                     var com = doc.CreateComment(tok.Data);
-                    doc.AppendChild(com);
+                    CurrentNode.AppendChild(com);
                     break;
                 }
                 case XmlTokenType.ProcessingInstruction:
                 {
                     var tok = (XmlPIToken)token;
                     var pi = doc.CreateProcessingInstruction(tok.Target, tok.Content);
-                    doc.AppendChild(pi);
+                    CurrentNode.AppendChild(pi);
                     break;
                 }
                 case XmlTokenType.Character:
@@ -298,6 +335,24 @@ namespace AngleSharp.Xml
                 {
                     RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
                     break;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void SetEncoding(String encoding)
+        {
+            if (HtmlEncoding.IsSupported(encoding))
+            {
+                var enc = HtmlEncoding.Resolve(encoding);
+
+                if (enc != null)
+                {
+                    doc.InputEncoding = enc.WebName;
+                    tokenizer.Stream.Encoding = enc;
                 }
             }
         }

@@ -22,6 +22,7 @@ namespace AngleSharp.Xml
         /// </summary>
         public XmlDeclarationToken()
         {
+            _type = XmlTokenType.Declaration;
             _version = String.Empty;
             _encoding = null;
             _standalone = false;

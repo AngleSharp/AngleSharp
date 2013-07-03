@@ -8,7 +8,7 @@ namespace AngleSharp.Xml
     /// Performs the tokenization of the source code. Most of
     /// the information is taken from http://www.w3.org/TR/REC-xml/.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     class XmlTokenizer
     {
         #region Members
@@ -85,7 +85,8 @@ namespace AngleSharp.Xml
                     if (value == null)
                         return XmlToken.Character(Specification.AMPERSAND);
 
-                    return XmlToken.Characters(value);
+                    //return XmlToken.Characters(value);
+                    throw new NotImplementedException();
 
                 case Specification.LT:
                     return TagOpen(src.Next);
@@ -190,7 +191,7 @@ namespace AngleSharp.Xml
             {
                 src.Back();
                 RaiseErrorOccurred(ErrorCode.EOF);
-                return XmlToken.Characters(Specification.LT, Specification.SOLIDUS);
+                return XmlToken.EOF;
             }
             else
             {
@@ -573,16 +574,13 @@ namespace AngleSharp.Xml
             while (Specification.IsSpaceCharacter(c))
                 c = src.Next;
 
-            if (c == Specification.GT)
-                return decl;
-
             if (src.ContinuesWith("encoding", false))
             {
                 src.Advance(7);
                 return DeclarationEncodingAfterName(src.Next, decl);
             }
 
-            throw new ArgumentException("Invalid XML declaration.");
+            return DeclarationEnd(c, decl);
         }
 
         /// <summary>
@@ -681,16 +679,13 @@ namespace AngleSharp.Xml
             while (Specification.IsSpaceCharacter(c))
                 c = src.Next;
 
-            if (c == Specification.GT)
-                return decl;
-
             if (src.ContinuesWith("standalone", false))
             {
                 src.Advance(9);
                 return DeclarationStandaloneAfterName(src.Next, decl);
             }
 
-            throw new ArgumentException("Invalid XML declaration.");
+            return DeclarationEnd(c, decl);
         }
 
         /// <summary>
@@ -1047,13 +1042,7 @@ namespace AngleSharp.Xml
             while (Specification.IsSpaceCharacter(c))
                 c = src.Next;
 
-            if (Specification.IsUppercaseAscii(c))
-            {
-                stringBuffer.Clear();
-                stringBuffer.Append(c.ToLower());
-                return DoctypeName(src.Next, XmlToken.Doctype());
-            }
-            else if (c == Specification.NULL)
+            if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 stringBuffer.Clear();
@@ -1090,6 +1079,7 @@ namespace AngleSharp.Xml
                 if (Specification.IsSpaceCharacter(c))
                 {
                     doctype.Name = stringBuffer.ToString();
+                    stringBuffer.Clear();
                     return DoctypeNameAfter(src.Next, doctype);
                 }
                 else if (c == Specification.GT)
@@ -1097,8 +1087,6 @@ namespace AngleSharp.Xml
                     doctype.Name = stringBuffer.ToString();
                     return doctype;
                 }
-                else if (Specification.IsUppercaseAscii(c))
-                    stringBuffer.Append(c.ToLower());
                 else if (c == Specification.NULL)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
@@ -1139,12 +1127,12 @@ namespace AngleSharp.Xml
                 src.Back();
                 return doctype;
             }
-            else if (src.ContinuesWith("public"))
+            else if (src.ContinuesWith("PUBLIC", false))
             {
                 src.Advance(5);
                 return DoctypePublic(src.Next, doctype);
             }
-            else if (src.ContinuesWith("system"))
+            else if (src.ContinuesWith("SYSTEM", false))
             {
                 src.Advance(5);
                 return DoctypeSystem(src.Next, doctype);
@@ -1286,6 +1274,7 @@ namespace AngleSharp.Xml
                 if (c == Specification.SQ)
                 {
                     doctype.PublicIdentifier = stringBuffer.ToString();
+                    stringBuffer.Clear();
                     return DoctypePublicIdentifierAfter(src.Next, doctype);
                 }
                 else if (c == Specification.NULL)
@@ -1404,13 +1393,13 @@ namespace AngleSharp.Xml
             else if (c == Specification.DQ)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
-                doctype.SystemIdentifier = string.Empty;
+                doctype.SystemIdentifier = String.Empty;
                 return DoctypeSystemIdentifierDoubleQuoted(src.Next, doctype);
             }
             else if (c == Specification.SQ)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
-                doctype.SystemIdentifier = string.Empty;
+                doctype.SystemIdentifier = String.Empty;
                 return DoctypeSystemIdentifierSingleQuoted(src.Next, doctype);
             }
             else if (c == Specification.GT)
@@ -1482,6 +1471,7 @@ namespace AngleSharp.Xml
                 if (c == Specification.DQ)
                 {
                     doctype.SystemIdentifier = stringBuffer.ToString();
+                    stringBuffer.Clear();
                     return DoctypeSystemIdentifierAfter(src.Next, doctype);
                 }
                 else if (c == Specification.NULL)
@@ -1522,6 +1512,7 @@ namespace AngleSharp.Xml
                 if (c == Specification.SQ)
                 {
                     doctype.SystemIdentifier = stringBuffer.ToString();
+                    stringBuffer.Clear();
                     return DoctypeSystemIdentifierAfter(src.Next, doctype);
                 }
                 else if (c == Specification.NULL)

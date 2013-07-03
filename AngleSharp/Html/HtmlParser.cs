@@ -3395,7 +3395,7 @@ namespace AngleSharp.Html
         /// Resolves the encoding from the given charset and sets it.
         /// </summary>
         /// <param name="charset">The charset string.</param>
-        void SetCharset(string charset)
+        void SetCharset(String charset)
         {
             var enc = HtmlEncoding.Resolve(charset);
 

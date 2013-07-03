@@ -33,7 +33,7 @@ namespace AngleSharp.Xml
         /// <returns>The created token.</returns>
         public static XmlToken Comment(String data)
         {
-            throw new NotImplementedException();
+            return new XmlCommentToken(data);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace AngleSharp.Xml
         /// <returns>The created token.</returns>
         public static XmlDoctypeToken Doctype()
         {
-            throw new NotImplementedException();
+            return new XmlDoctypeToken();
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace AngleSharp.Xml
         /// <returns>The created token.</returns>
         public static XmlDeclarationToken Declaration()
         {
-            throw new NotImplementedException();
+            return new XmlDeclarationToken();
         }
 
         /// <summary>
@@ -61,38 +61,7 @@ namespace AngleSharp.Xml
         /// <returns>The created token.</returns>
         public static XmlCharacterToken Character(Char character)
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Creates a new string / characters token.
-        /// </summary>
-        /// <param name="value">The string value.</param>
-        /// <returns>The created token.</returns>
-        public static XmlToken Characters(String value)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Creates a new string / characters token.
-        /// </summary>
-        /// <param name="head">The first character to insert.</param>
-        /// <param name="tail">The second character to store.</param>
-        /// <returns>The created token.</returns>
-        public static XmlToken Characters(Char head, Char tail)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Creates a new string / characters token.
-        /// </summary>
-        /// <param name="value">The character array.</param>
-        /// <returns>The created token.</returns>
-        public static XmlToken Characters(Char[] value)
-        {
-            throw new NotImplementedException();
+            return new XmlCharacterToken(character);
         }
 
         /// <summary>
@@ -101,7 +70,7 @@ namespace AngleSharp.Xml
         /// <returns>The created token.</returns>
         public static XmlTagToken OpenTag()
         {
-            throw new NotImplementedException();
+            return new XmlTagToken { _type = XmlTokenType.StartTag };
         }
 
         /// <summary>
@@ -110,7 +79,7 @@ namespace AngleSharp.Xml
         /// <returns>The created token.</returns>
         public static XmlTagToken CloseTag()
         {
-            throw new NotImplementedException();
+            return new XmlTagToken { _type = XmlTokenType.EndTag };
         }
 
         /// <summary>
@@ -119,7 +88,7 @@ namespace AngleSharp.Xml
         /// <returns>The created token.</returns>
         public static XmlPIToken Processing()
         {
-            throw new NotImplementedException();
+            return new XmlPIToken();
         }
 
         /// <summary>
@@ -129,7 +98,7 @@ namespace AngleSharp.Xml
         /// <returns>The created token.</returns>
         public static XmlCDataToken CData(String data)
         {
-            throw new NotImplementedException();
+            return new XmlCDataToken(data);
         }
 
         #endregion

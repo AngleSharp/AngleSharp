@@ -168,6 +168,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the next character (by advancing and returning the current character).
         /// </summary>
+        [DebuggerHidden]
         public Char Next
         {
             get { Advance(); return _current; }
@@ -176,6 +177,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the previous character (by rewinding and returning the current character).
         /// </summary>
+        [DebuggerHidden]
         public Char Previous
         {
             get { Back(); return _current; }

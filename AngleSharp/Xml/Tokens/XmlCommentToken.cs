@@ -42,9 +42,9 @@ namespace AngleSharp.Xml
         /// Gets or sets the supplied data.
         /// </summary>
         public String Data 
-        { 
-            get; 
-            set;
+        {
+            get { return _data; }
+            set { _data = value; }
         }
 
         #endregion

@@ -1101,6 +1101,7 @@ namespace AngleSharp.Html
                 if (Specification.IsSpaceCharacter(c))
                 {
                     doctype.Name = stringBuffer.ToString();
+                    stringBuffer.Clear();
                     return DoctypeNameAfter(src.Next, doctype);
                 }
                 else if (c == Specification.GT)
@@ -1270,6 +1271,7 @@ namespace AngleSharp.Html
                 if (c == Specification.DQ)
                 {
                     doctype.PublicIdentifier = stringBuffer.ToString();
+                    stringBuffer.Clear();
                     return DoctypePublicIdentifierAfter(src.Next, doctype); ;
                 }
                 else if (c == Specification.NULL)
@@ -1313,6 +1315,7 @@ namespace AngleSharp.Html
                 if (c == Specification.SQ)
                 {
                     doctype.PublicIdentifier = stringBuffer.ToString();
+                    stringBuffer.Clear();
                     return DoctypePublicIdentifierAfter(src.Next, doctype);
                 }
                 else if (c == Specification.NULL)
@@ -1526,6 +1529,7 @@ namespace AngleSharp.Html
                 if (c == Specification.DQ)
                 {
                     doctype.SystemIdentifier = stringBuffer.ToString();
+                    stringBuffer.Clear();
                     return DoctypeSystemIdentifierAfter(src.Next, doctype);
                 }
                 else if (c == Specification.NULL)
@@ -1569,6 +1573,7 @@ namespace AngleSharp.Html
                 if (c == Specification.SQ)
                 {
                     doctype.SystemIdentifier = stringBuffer.ToString();
+                    stringBuffer.Clear();
                     return DoctypeSystemIdentifierAfter(src.Next, doctype);
                 }
                 else if (c == Specification.NULL)
