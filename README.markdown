@@ -41,6 +41,45 @@ Change log
 - SVG and MathML DOM are not implemented yet
 - Performance seems to be quite OK
 
+Roadmap
+-------
+
+The roadmap presents a draft on what is about to be implemented, and when. The priorities might change, which will affect the roadmap. Additionally the implementation speed will be impacted by factors like people participating in the project and design decisions.
+
+The time estimates are all ultra-conservative, which means that the project will probably (and hopefully) be much faster than the predicted schedule.
+
+(July 2013) **0.3.0:**
+- Alpha version including functional XML parser (no requirement for validating)
+- DOM skeleton implemented
+
+(September 2013) **0.4.0:**
+- Validating XML parser implemented
+- SVG and MathML DOM started
+- Useful helpers like URL management implemented
+
+(October 2013) **0.5.0**
+- CSS model implemented (e.g. *getComputedStyle* works)
+- Draft interfaces for optional resource and rendering defined
+
+(December 2013) **0.6.0**
+- MathML DOM finished
+- Most important parts of HTML DOM implemented
+
+(March 2014) **0.7.0**
+- SVG document included
+- SVG DOM skeleton implemented
+
+(May 2014) **0.8.0**
+- Full HTML DOM implemented
+- CSS computation works with everything
+
+(July 2014) **0.9.0**
+- Most important SVG elements implemented
+- HTML5 parser at 100% with complete DOM, MathML and SVG
+
+(September 2014) **1.0.0**
+- Final release of the first version
+
 Use-cases
 ---------
 
