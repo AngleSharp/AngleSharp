@@ -9,6 +9,9 @@ namespace AngleSharp.DOM.Svg
     {
         #region Constants
 
+        /// <summary>
+        /// The svg tag.
+        /// </summary>
         internal const String RootTag = "svg";
 
         #endregion

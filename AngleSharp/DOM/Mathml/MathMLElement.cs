@@ -10,6 +10,9 @@ namespace AngleSharp.DOM.Mathml
     {
         #region Constants
 
+        /// <summary>
+        /// The math tag.
+        /// </summary>
         internal const String RootTag = "math";
 
         #endregion

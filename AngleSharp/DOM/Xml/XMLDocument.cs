@@ -12,12 +12,5 @@ namespace AngleSharp.DOM.Xml
         {
             _contentType = MimeTypes.Xml;
         }
-
-        [DOM("async")]
-        public Boolean Async
-        {
-            get;
-            set;
-        }
     }
 }

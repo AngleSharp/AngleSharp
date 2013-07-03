@@ -27,48 +27,43 @@ namespace AngleSharp.DOM.Html
         }
 
         /// <summary>
-        /// Gets or sets the location of the frame.
-        /// </summary>
-        public String Location
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets the width of the frame.
         /// </summary>
+        [DOM("width")]
         public Int32 Width
         {
-            get;
-            private set;
+            get { return ToInteger(GetAttribute("width"), 0); }
+            set { SetAttribute("width", value.ToString()); }
         }
 
         /// <summary>
         /// Gets the height of the frame.
         /// </summary>
+        [DOM("height")]
         public Int32 Height
         {
-            get;
-            private set;
+            get { return ToInteger(GetAttribute("height"), 0); }
+            set { SetAttribute("height", value.ToString()); }
         }
 
         /// <summary>
-        /// Gets the width of the margin of the frame.
+        /// Gets or sets the frame margin width, in pixels.
         /// </summary>
+        [DOM("marginWidth")]
         public Int32 MarginWidth
         {
-            get;
-            private set;
+            get { return ToInteger(GetAttribute("marginwidth"), 0); }
+            set { SetAttribute("marginwidth", value.ToString()); }
         }
 
         /// <summary>
-        /// Gets the height of the margin of the frame.
+        /// Gets or sets the frame margin height, in pixels.
         /// </summary>
+        [DOM("marginHeight")]
         public Int32 MarginHeight
         {
-            get;
-            private set;
+            get { return ToInteger(GetAttribute("marginheight"), 0); }
+            set { SetAttribute("marginheight", value.ToString()); }
         }
 
         #endregion

@@ -8,7 +8,7 @@ namespace AngleSharp.Xml
     /// Performs the tokenization of the source code. Most of
     /// the information is taken from http://www.w3.org/TR/REC-xml/.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     class XmlTokenizer
     {
         #region Members

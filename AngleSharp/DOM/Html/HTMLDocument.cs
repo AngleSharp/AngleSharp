@@ -511,7 +511,9 @@ namespace AngleSharp.DOM.Html
         [DOM("createElement")]
         public override Element CreateElement(String tagName)
         {
-            return HTMLElement.Factory(tagName);
+            var element = HTMLElement.Factory(tagName);
+            element.OwnerDocument = this;
+            return element;
         }
 
         /// <summary>

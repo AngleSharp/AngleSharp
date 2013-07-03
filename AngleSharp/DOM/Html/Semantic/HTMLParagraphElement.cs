@@ -7,10 +7,16 @@ namespace AngleSharp.DOM.Html
     /// </summary>
     public sealed class HTMLParagraphElement : HTMLElement
     {
+        #region Constant
+
         /// <summary>
         /// The p tag.
         /// </summary>
-        internal const string Tag = "p";
+        internal const String Tag = "p";
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new HTML paragraph element.
@@ -20,12 +26,32 @@ namespace AngleSharp.DOM.Html
             _name = Tag;
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the value of the alignment attribute.
+        /// </summary>
+        [DOM("align")]
+        public HorizontalAlignment Align
+        {
+            get { return ToEnum(GetAttribute("align"), HorizontalAlignment.Left); }
+            set { SetAttribute("align", value.ToString()); }
+        }
+
+        #endregion
+
+        #region Internal properties
+
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }
+
+        #endregion
     }
 }

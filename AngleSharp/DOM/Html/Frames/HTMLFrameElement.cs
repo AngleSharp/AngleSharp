@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The frame tag.
         /// </summary>
-        internal const string Tag = "frame";
+        internal const String Tag = "frame";
 
         #endregion
 
@@ -25,36 +25,28 @@ namespace AngleSharp.DOM.Html
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets if the frame cannot be resized.
+        /// </summary>
+        [DOM("noResize")]
+        public Boolean NoResize
+        {
+            get { return ToBoolean(GetAttribute("noresize"), false); }
+            set { SetAttribute("noresize", value.ToString()); }
+        }
+
+        #endregion
+
         #region Internal Properties
 
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets if the frame has a border.
-        /// </summary>
-        public Boolean HasFrameBorder
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets if the frame cannot be resized.
-        /// </summary>
-        public Boolean NoResize
-        {
-            get;
-            private set;
         }
 
         #endregion

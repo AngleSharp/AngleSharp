@@ -67,6 +67,9 @@
     <Compile Include="DOM\Css\Values\CSSValueList.cs" />
     <Compile Include="DOM\Css\Values\Rect.cs" />
     <Compile Include="DOM\DirectionMode.cs" />
+    <Compile Include="DOM\Enums\Alignment.cs" />
+    <Compile Include="DOM\Enums\HorizontalAlignment.cs" />
+    <Compile Include="DOM\Enums\VerticalAlignment.cs" />
     <Compile Include="DOM\Interfaces\IWindow.cs" />
     <Compile Include="DOM\Xml\XMLDocument.cs" />
     <Compile Include="DOM\Enums\HttpMethod.cs" />

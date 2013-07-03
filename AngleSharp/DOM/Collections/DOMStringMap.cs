@@ -131,6 +131,10 @@ namespace AngleSharp.DOM.Collections
 
         #region IEnumerable implementation
 
+        /// <summary>
+        /// Gets an enumerator over all data- attributes.
+        /// </summary>
+        /// <returns>The generated enumerator.</returns>
         public IEnumerator<KeyValuePair<String, String>> GetEnumerator()
         {
             foreach (var attr in _parent.Attributes)
@@ -140,6 +144,10 @@ namespace AngleSharp.DOM.Collections
             }
         }
 
+        /// <summary>
+        /// Gets the common enumerator.
+        /// </summary>
+        /// <returns>The generated enumerator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

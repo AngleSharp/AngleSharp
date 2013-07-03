@@ -82,6 +82,16 @@ namespace AngleSharp.DOM
         #region Properties
 
         /// <summary>
+        /// Gets an indicator if loading the document should be asynchronous or synchronous.
+        /// </summary>
+        [DOM("async")]
+        public Boolean Async
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
         /// Gets the DOMImplementation object that handles this document.
         /// </summary>
         [DOM("implementation")]
@@ -258,15 +268,6 @@ namespace AngleSharp.DOM
         #region Internal properties
 
         /// <summary>
-        /// Gets or sets to indicate whether loading the document should be an asynchronous or synchronous.
-        /// </summary>
-        internal Boolean Async
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets or sets the status of the quirks mode of the document.
         /// </summary>
         internal QuirksMode QuirksMode
@@ -358,7 +359,7 @@ namespace AngleSharp.DOM
         #region Methods
 
         /// <summary>
-        /// Creates an event of the type specified.
+        /// Creates an event of the type specified. (NOT IMPLEMENTED YET)
         /// </summary>
         /// <param name="type">A string that represents the type of event to be created.</param>
         /// <returns>The created Event object.</returns>
@@ -370,7 +371,7 @@ namespace AngleSharp.DOM
         }
 
         /// <summary>
-        /// Returns a new Range object.
+        /// Returns a new Range object. (NOT IMPLEMENTED YET)
         /// </summary>
         /// <returns>The created range object.</returns>
         [DOM("createRange")]
@@ -438,7 +439,7 @@ namespace AngleSharp.DOM
         [DOM("createAttribute")]
         public Attr CreateAttribute(String name)
         {
-            return new Attr(name);
+            return new Attr(name) { OwnerDocument = this };
         }
 
         /// <summary>
@@ -450,7 +451,7 @@ namespace AngleSharp.DOM
         [DOM("createAttributeNS")]
         public Attr CreateAttributeNS(String namespaceURI, String name)
         {
-            return new Attr(name, string.Empty, namespaceURI);
+            return new Attr(name, string.Empty, namespaceURI) { OwnerDocument = this };
         }
 
         /// <summary>
@@ -461,7 +462,7 @@ namespace AngleSharp.DOM
         [DOM("createElement")]
         public virtual Element CreateElement(String tagName)
         {
-            return new Element { NodeName = tagName };
+            return new Element { NodeName = tagName, OwnerDocument = this };
         }
 
         /// <summary>
@@ -473,16 +474,21 @@ namespace AngleSharp.DOM
         [DOM("createElementNS")]
         public Element CreateElementNS(String namespaceURI, String tagName)
         {
-            if (namespaceURI == Namespaces.Html)
-                return HTMLElement.Factory(tagName);
-            else if (namespaceURI == Namespaces.Svg)
-                return SVGElement.Create(tagName);
-            else if (namespaceURI == Namespaces.MathML)
-                return MathMLElement.Create(tagName);
-            else if (namespaceURI == Namespaces.Xml)
-                return XMLElement.Create(tagName);
+            Element element = null;
 
-            return new Element { NamespaceURI = namespaceURI, NodeName = tagName };
+            if (namespaceURI == Namespaces.Html)
+                element = HTMLElement.Factory(tagName);
+            else if (namespaceURI == Namespaces.Svg)
+                element = SVGElement.Create(tagName);
+            else if (namespaceURI == Namespaces.MathML)
+                element = MathMLElement.Create(tagName);
+            else if (namespaceURI == Namespaces.Xml)
+                element = XMLElement.Create(tagName);
+            else
+                element = new Element { NamespaceURI = namespaceURI, NodeName = tagName };
+
+            element.OwnerDocument = this;
+            return element;
         }
 
         /// <summary>
@@ -493,7 +499,7 @@ namespace AngleSharp.DOM
         [DOM("createCDATASection")]
         public virtual CDATASection CreateCDATASection(String data)
         {
-            return new CDATASection { Data = data };
+            return new CDATASection { Data = data, OwnerDocument = this };
         }
 
         /// <summary>
@@ -507,7 +513,7 @@ namespace AngleSharp.DOM
             if (data.Contains("--"))
                 throw new DOMException(ErrorCode.InvalidCharacter);
 
-            return new Comment(data);
+            return new Comment(data) { OwnerDocument = this };
         }
 
         /// <summary>
@@ -517,7 +523,7 @@ namespace AngleSharp.DOM
         [DOM("createDocumentFragment")]
         public DocumentFragment CreateDocumentFragment()
         {
-            return new DocumentFragment();
+            return new DocumentFragment() { OwnerDocument = this };
         }
 
         /// <summary>
@@ -529,7 +535,7 @@ namespace AngleSharp.DOM
         [DOM("createProcessingInstruction")]
         public ProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
-            return new ProcessingInstruction { Target = target, Data = data };
+            return new ProcessingInstruction { Target = target, Data = data, OwnerDocument = this };
         }
 
         /// <summary>
@@ -542,7 +548,7 @@ namespace AngleSharp.DOM
         [DOM("createEntityReference")]
         public EntityReference CreateEntityReference(String name)
         {
-            return new EntityReference(name);
+            return new EntityReference(name) { OwnerDocument = this };
         }
 
         /// <summary>
@@ -553,7 +559,7 @@ namespace AngleSharp.DOM
         [DOM("createTextNode")]
         public TextNode CreateTextNode(String data)
         {
-            return new TextNode(data);
+            return new TextNode(data) { OwnerDocument = this };
         }
 
         /// <summary>

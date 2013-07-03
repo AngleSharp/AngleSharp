@@ -32,7 +32,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
-        internal Element QuerySelector(string selectors)
+        internal Element QuerySelector(String selectors)
         {
             var sg = CssParser.ParseSelector(selectors);
             return QuerySelector(this, sg);
@@ -50,12 +50,23 @@ namespace AngleSharp.DOM.Collections
         }
 
         /// <summary>
+        /// Returns the first element within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that matches the given selector.
+        /// </summary>
+        /// <param name="selectors">A selector object.</param>
+        /// <returns>An element object.</returns>
+        internal T QuerySelector<T>(Selector selectors) where T : Element
+        {
+            return QuerySelector(this, selectors) as T;
+        }
+
+        /// <summary>
         /// Returns a list of the elements within the document (using depth-first pre-order traversal
         /// of the document's nodes) that match the specified group of selectors.
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        internal HTMLCollection QuerySelectorAll(string selectors)
+        internal HTMLCollection QuerySelectorAll(String selectors)
         {
             var sg = CssParser.ParseSelector(selectors);
             var result = new HTMLCollection();
@@ -81,7 +92,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of HTML elements.</returns>
-        internal HTMLCollection GetElementsByClassName(string classNames)
+        internal HTMLCollection GetElementsByClassName(String classNames)
         {
             var result = new HTMLCollection();
             var names = classNames.SplitSpaces();
@@ -97,7 +108,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        internal HTMLCollection GetElementsByTagName(string tagName)
+        internal HTMLCollection GetElementsByTagName(String tagName)
         {
             var result = new HTMLCollection();
             GetElementsByTagName(this, tagName, result);
@@ -111,7 +122,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
         /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        internal HTMLCollection GetElementsByTagNameNS(string namespaceURI, string localName)
+        internal HTMLCollection GetElementsByTagNameNS(String namespaceURI, String localName)
         {
             var result = new HTMLCollection();
             GetElementsByTagNameNS(this, namespaceURI, localName, result);
