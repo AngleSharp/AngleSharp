@@ -24,19 +24,13 @@
                  KeyDown="UrlKeyDown"
                  Style="{StaticResource UrlHint}"
                  Margin="0 5 5 5" />
+        
         <Button Grid.Row="0"
                 Click="Button_Click"
                 Grid.Column="1"
                 Margin="5 5 0 5">
             Go
         </Button>
-
-        <TextBlock Grid.Row="2"
-                   Text="{Binding Status}"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2" 
-                   Foreground="SteelBlue"
-                   FontWeight="Bold" />
 
         <TreeView ItemsSource="{Binding Tree}"
                   Grid.Column="0"

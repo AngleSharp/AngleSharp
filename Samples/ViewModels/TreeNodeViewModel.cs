@@ -133,7 +133,7 @@ namespace Samples.ViewModels
         {
             foreach (var node in nodes)
             {
-                TreeNodeViewModel element = TreeNodeViewModel.Create(node);
+                TreeNodeViewModel element = Create(node);
 
                 if (element != null)
                     yield return element;

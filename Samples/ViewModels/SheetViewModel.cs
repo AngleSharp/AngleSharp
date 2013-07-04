@@ -65,12 +65,16 @@ namespace Samples.ViewModels
             else
             {
                 var http = new HttpClient { BaseAddress = local };
+                ProfilerViewModel.Data.Start("Response (CSS)", OxyPlot.OxyColors.Blue);
                 var request = await http.GetAsync(selected.Href, cts.Token);
                 content = await request.Content.ReadAsStringAsync();
+                ProfilerViewModel.Data.Stop();
                 token.ThrowIfCancellationRequested();
             }
 
+            ProfilerViewModel.Data.Start("Parsing (CSS)", OxyPlot.OxyColors.Violet);
             var css = DocumentBuilder.Css(content);
+            ProfilerViewModel.Data.Stop();
 
             for (int i = 0, j = 0; i < css.CssRules.Length; i++, j++)
             {

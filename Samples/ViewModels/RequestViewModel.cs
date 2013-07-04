@@ -2,6 +2,7 @@
 using AngleSharp.DOM.Html;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -86,16 +87,24 @@ namespace Samples.ViewModels
             Status = "Loading " + uri.AbsoluteUri + " ...";
 
             if (uri.Scheme.Equals("file", StringComparison.Ordinal))
+            {
+                ProfilerViewModel.Data.Start("Response (HTML)", OxyPlot.OxyColors.Red);
                 response = File.Open(uri.AbsolutePath.Substring(1), FileMode.Open);
+                ProfilerViewModel.Data.Stop();
+            }
             else
             {
+                ProfilerViewModel.Data.Start("Response (HTML)", OxyPlot.OxyColors.Red);
                 var request = await http.GetAsync(uri, cancel);
                 response = await request.Content.ReadAsStreamAsync();
+                ProfilerViewModel.Data.Stop();
                 cancel.ThrowIfCancellationRequested();
             }
 
             Status = "Parsing " + uri.AbsoluteUri + " ...";
+            ProfilerViewModel.Data.Start("Parsing (HTML)", OxyPlot.OxyColors.Orange);
             var document = DocumentBuilder.Html(response);
+            ProfilerViewModel.Data.Stop();
             response.Close();
 
             cancel.ThrowIfCancellationRequested();

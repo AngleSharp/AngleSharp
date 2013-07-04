@@ -32,13 +32,6 @@
             Go
         </Button>
         
-        <TextBlock Grid.Row="2"
-                   Text="{Binding Status}"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2" 
-                   Foreground="SteelBlue"
-                   FontWeight="Bold" />
-        
         <Grid Grid.Row="1"
               Grid.Column="0"
               Grid.ColumnSpan="2">
@@ -69,5 +62,12 @@
                       Grid.Column="1"
                       Grid.Row="1" />
         </Grid>
+
+        <TextBlock Grid.Row="2"
+                   Text="{Binding Status}"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2" 
+                   Foreground="SteelBlue"
+                   FontWeight="Bold" />
     </Grid>
 </Page>

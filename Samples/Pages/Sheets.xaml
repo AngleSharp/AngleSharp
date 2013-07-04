@@ -32,13 +32,6 @@
             Go
         </Button>
 
-        <TextBlock Grid.Row="2"
-                   Text="{Binding Status}"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2" 
-                   Foreground="SteelBlue"
-                   FontWeight="Bold" />
-
         <Grid Grid.Column="0"
               Grid.Row="1"
               Grid.ColumnSpan="2">
@@ -133,5 +126,12 @@
                 </TreeView>
             </ScrollViewer>
         </Grid>
+
+        <TextBlock Grid.Row="2"
+                   Text="{Binding Status}"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2" 
+                   Foreground="SteelBlue"
+                   FontWeight="Bold" />
     </Grid>
 </Page>

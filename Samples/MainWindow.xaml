@@ -28,6 +28,9 @@
                 
                 <mui:Link DisplayName="Tree"
                           Source="Pages\Tree.xaml" />
+
+                <mui:Link DisplayName="Profiler"
+                          Source="Pages\Profiler.xaml" />
             </mui:LinkGroup.Links>
             
         </mui:LinkGroup>
