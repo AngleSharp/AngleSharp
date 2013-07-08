@@ -80,8 +80,8 @@ namespace UnitTests
             Assert.AreEqual(2, list.Count);
             Assert.AreEqual(list[0].CssText, "Arial 10pt bold");
             Assert.AreEqual(list[1].CssText, "Verdana 12pt italic");
-            Assert.AreEqual(CssValue.ValueList, list[0].CssValueType);
-            Assert.AreEqual(CssValue.ValueList, list[1].CssValueType);
+            Assert.AreEqual(CssValueType.ValueList, list[0].CssValueType);
+            Assert.AreEqual(CssValueType.ValueList, list[1].CssValueType);
             Assert.AreEqual(3, ((CSSValueList)list[0]).Length);
             Assert.AreEqual(3, ((CSSValueList)list[1]).Length);
         }
@@ -128,7 +128,7 @@ namespace UnitTests
             var valueString = "#000000";
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
-            Assert.AreEqual(CssValue.PrimitiveValue, value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
             var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
             Assert.IsTrue(color.HasValue);
             Assert.AreEqual(new HtmlColor(0, 0, 0), color.Value);
@@ -140,7 +140,7 @@ namespace UnitTests
             var valueString = "#FF0000";
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
-            Assert.AreEqual(CssValue.PrimitiveValue, value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
             var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
             Assert.IsTrue(color.HasValue);
             Assert.AreEqual(new HtmlColor(255, 0, 0), color.Value);
@@ -152,7 +152,7 @@ namespace UnitTests
             var valueString = "#07C";
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
-            Assert.AreEqual(CssValue.PrimitiveValue, value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
             var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
             Assert.IsTrue(color.HasValue);
             Assert.AreEqual(new HtmlColor(0, 119, 204), color.Value);
@@ -164,7 +164,7 @@ namespace UnitTests
             var valueString = "#00F";
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
-            Assert.AreEqual(CssValue.PrimitiveValue, value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
             var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
             Assert.IsTrue(color.HasValue);
             Assert.AreEqual(new HtmlColor(0, 0, 255), color.Value);
@@ -176,7 +176,7 @@ namespace UnitTests
             var valueString = "#F00";
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
-            Assert.AreEqual(CssValue.PrimitiveValue, value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
             var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
             Assert.IsTrue(color.HasValue);
             Assert.AreEqual(new HtmlColor(255, 0, 0), color.Value);
