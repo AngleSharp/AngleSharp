@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// The set of possible CSS rules.
     /// </summary>
-    public enum CssRule : ushort
+    public enum CssRuleType : ushort
     {  
         /// <summary>
         /// The rule is not known and cannot be used.

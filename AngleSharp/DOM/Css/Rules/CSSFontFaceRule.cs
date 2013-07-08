@@ -29,7 +29,7 @@ namespace AngleSharp.DOM.Css
         internal CSSFontFaceRule()
         {
             _cssRules = new CSSStyleDeclaration();
-            _type = CssRule.FontFace;
+            _type = CssRuleType.FontFace;
         }
 
         #endregion

@@ -28,7 +28,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         internal CSSNamespaceRule()
         {
-            _type = CssRule.Namespace;
+            _type = CssRuleType.Namespace;
         }
 
         #endregion

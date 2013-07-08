@@ -23,7 +23,7 @@ namespace AngleSharp.DOM.Css
         internal CSSValueList()
         {
             _items = new List<CSSValue>();
-            _type = CssValue.ValueList;
+            _type = CssValueType.ValueList;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace AngleSharp.DOM.Css
         internal CSSValueList(List<CSSValue> items)
         {
             _items = items;
-            _type = CssValue.ValueList;
+            _type = CssValueType.ValueList;
         }
 
         #endregion

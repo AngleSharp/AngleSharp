@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// This enumeration is indicating which type of unit applies to the value.
     /// </summary>
-    public enum CssValue : ushort
+    public enum CssValueType : ushort
     {
         /// <summary>
         /// The value is inherited and the CssText contains "inherit".

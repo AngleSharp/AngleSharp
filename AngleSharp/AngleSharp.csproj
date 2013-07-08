@@ -158,8 +158,8 @@
     <Compile Include="DOM\Html\Semantic\HTMLSemanticElement.cs" />
     <Compile Include="Html\HtmlParseMode.cs" />
     <Compile Include="DocumentBuilder.cs" />
-    <Compile Include="DOM\Enums\CssRule.cs" />
-    <Compile Include="DOM\Enums\CssValue.cs" />
+    <Compile Include="DOM\Enums\CssRuleType.cs" />
+    <Compile Include="DOM\Enums\CssValueType.cs" />
     <Compile Include="DOM\Enums\UnitType.cs" />
     <Compile Include="Foundation\Helpers\Entities.cs" />
     <Compile Include="DOM\Enums\CORSSettings.cs" />

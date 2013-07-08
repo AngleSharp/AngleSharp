@@ -24,7 +24,7 @@ namespace AngleSharp.DOM.Css
 
         internal CSSSupportsRule()
         {
-            _type = CssRule.Supports;
+            _type = CssRuleType.Supports;
             _conditionText = String.Empty;
         }
 

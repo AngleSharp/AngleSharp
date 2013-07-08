@@ -19,7 +19,7 @@ namespace AngleSharp.DOM.Css
 
         internal CSSCharsetRule()
         {
-            _type = CssRule.Charset;
+            _type = CssRuleType.Charset;
         }
 
         #endregion

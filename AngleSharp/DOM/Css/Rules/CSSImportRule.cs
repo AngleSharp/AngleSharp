@@ -31,7 +31,7 @@ namespace AngleSharp.DOM.Css
         internal CSSImportRule()
         {
             _media = new MediaList();
-            _type = CssRule.Import;
+            _type = CssRuleType.Import;
         }
 
         #endregion

@@ -32,7 +32,7 @@ namespace AngleSharp.DOM.Css
         internal CSSPageRule()
         {
             _style = new CSSStyleDeclaration();
-            _type = CssRule.Page;
+            _type = CssRuleType.Page;
         }
 
         #endregion

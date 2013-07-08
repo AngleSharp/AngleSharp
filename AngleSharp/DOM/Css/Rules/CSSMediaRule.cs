@@ -29,7 +29,7 @@ namespace AngleSharp.DOM.Css
         internal CSSMediaRule()
         {
             _media = new MediaList();
-            _type = CssRule.Media;
+            _type = CssRuleType.Media;
         }
 
         #endregion

@@ -15,7 +15,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// The type of value.
         /// </summary>
-        protected CssValue _type;
+        protected CssValueType _type;
         /// <summary>
         /// The CSS text representation of the value.
         /// </summary>
@@ -32,7 +32,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         internal CSSValue()
         {
-            _type = CssValue.Custom;
+            _type = CssValueType.Custom;
         }
 
         #endregion
@@ -44,13 +44,13 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         public static CSSValue Inherit
         {
-            get { return _inherited ?? (_inherited = new CSSValue { _text = "inherit", _type = CssValue.Inherit }); }
+            get { return _inherited ?? (_inherited = new CSSValue { _text = "inherit", _type = CssValueType.Inherit }); }
         }
 
         /// <summary>
         /// Gets a code defining the type of the value as defined above.
         /// </summary>
-        public CssValue CssValueType
+        public CssValueType CssValueType
         {
             get { return _type; }
         }

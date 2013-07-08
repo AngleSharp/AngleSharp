@@ -25,7 +25,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         internal CSSStyleRule()
         {
-            _type = CssRule.Style;
+            _type = CssRuleType.Style;
             _style = new CSSStyleDeclaration();
         }
 

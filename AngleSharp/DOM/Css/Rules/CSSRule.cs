@@ -14,7 +14,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// The type of CSS rule.
         /// </summary>
-        protected CssRule _type;
+        protected CssRuleType _type;
         /// <summary>
         /// The parent stylesheet.
         /// </summary>
@@ -33,7 +33,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         internal CSSRule()
         {
-            _type = CssRule.Unknown;
+            _type = CssRuleType.Unknown;
         }
 
         #endregion
@@ -74,7 +74,7 @@ namespace AngleSharp.DOM.Css
         /// Gets the type constant indicating the type of CSS rule.
         /// </summary>
         [DOM("type")]
-        public CssRule Type
+        public CssRuleType Type
         {
             get { return _type; }
         }

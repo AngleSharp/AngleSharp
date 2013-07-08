@@ -19,19 +19,19 @@ namespace AngleSharp.DOM.Css
 
         internal CSSPrimitiveValue(UnitType unitType, String value)
         {
-            _type = CssValue.PrimitiveValue;
+            _type = CssValueType.PrimitiveValue;
             SetStringValue(unitType, value);
         }
 
         internal CSSPrimitiveValue(UnitType unitType, Single value)
         {
-            _type = CssValue.PrimitiveValue;
+            _type = CssValueType.PrimitiveValue;
             SetFloatValue(unitType, value);
         }
 
         internal CSSPrimitiveValue(String unit, Single value)
         {
-            _type = CssValue.PrimitiveValue;
+            _type = CssValueType.PrimitiveValue;
             var unitType = ConvertStringToUnitType(unit);
             SetFloatValue(unitType, value);
         }
@@ -39,7 +39,7 @@ namespace AngleSharp.DOM.Css
         internal CSSPrimitiveValue(HtmlColor value)
         {
             _text = value.ToCss();
-            _type = CssValue.PrimitiveValue;
+            _type = CssValueType.PrimitiveValue;
             unit = UnitType.Rgbcolor;
             data = value;
         }

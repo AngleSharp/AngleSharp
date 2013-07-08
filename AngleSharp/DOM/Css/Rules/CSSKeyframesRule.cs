@@ -30,7 +30,7 @@ namespace AngleSharp.DOM.Css
         internal CSSKeyframesRule()
         {
             _cssRules = new CSSRuleList();
-            _type = CssRule.Keyframes;
+            _type = CssRuleType.Keyframes;
         }
 
         #endregion
