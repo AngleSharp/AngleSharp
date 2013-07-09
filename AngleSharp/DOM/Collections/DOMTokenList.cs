@@ -152,17 +152,17 @@ namespace AngleSharp.DOM.Collections
         }
 
         /// <summary>
-        /// Returns true if the underlying string contains at least one of the tokens, otherwise false.
+        /// Returns true if the underlying string contains all of the tokens, otherwise false.
         /// </summary>
         /// <param name="tokens">The tokens to consider.</param>
-        /// <returns>True if the string contained a token, otherwise false.</returns>
+        /// <returns>True if the string contained all tokens, otherwise false.</returns>
         internal Boolean Contains(String[] tokens)
         {
             for (int i = 0; i < tokens.Length; i++)
-                if (this._tokens.Contains(tokens[i]))
-                    return true;
+                if (!this._tokens.Contains(tokens[i]))
+                    return false;
 
-            return false;
+            return true;
         }
 
         #endregion

@@ -60,7 +60,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="tag">The given tag name.</param>
         /// <returns>The specialized HTMLElement instance.</returns>
-        internal static HTMLElement Factory(string tag)
+        internal static HTMLElement Factory(String tag)
         {
             switch (tag)
             {

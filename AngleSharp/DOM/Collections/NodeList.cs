@@ -111,7 +111,8 @@ namespace AngleSharp.DOM.Collections
         internal HTMLCollection GetElementsByTagName(String tagName)
         {
             var result = new HTMLCollection();
-            GetElementsByTagName(this, tagName, result);
+            var takeAll = tagName == "*";
+            GetElementsByTagName(this, tagName, result, takeAll);
             return result;
         }
 
@@ -174,7 +175,7 @@ namespace AngleSharp.DOM.Collections
             }
         }
 
-        static void GetElementsByClassName(NodeList elements, string[] classNames, HTMLCollection result)
+        static void GetElementsByClassName(NodeList elements, String[] classNames, HTMLCollection result)
         {
             for (int i = 0; i < elements.Length; i++)
             {
@@ -191,10 +192,8 @@ namespace AngleSharp.DOM.Collections
             }
         }
 
-        static void GetElementsByTagName(NodeList elements, string tagName, HTMLCollection result)
+        static void GetElementsByTagName(NodeList elements, String tagName, HTMLCollection result, Boolean takeAll)
         {
-            var takeAll = tagName == "*";
-
             for (int i = 0; i < elements.Length; i++)
             {
                 var element = elements[i] as Element;
@@ -205,12 +204,12 @@ namespace AngleSharp.DOM.Collections
                         result.Add(element);
 
                     if (element.ChildElementCount != 0)
-                        GetElementsByTagName(element.ChildNodes, tagName, result);
+                        GetElementsByTagName(element.ChildNodes, tagName, result, takeAll);
                 }
             }
         }
 
-        static void GetElementsByTagNameNS(NodeList elements, string namespaceURI, string localName, HTMLCollection result)
+        static void GetElementsByTagNameNS(NodeList elements, String namespaceURI, String localName, HTMLCollection result)
         {
             var takeAll = localName == "*";
 

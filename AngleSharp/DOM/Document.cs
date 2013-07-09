@@ -767,7 +767,7 @@ namespace AngleSharp.DOM
 
                 if (element != null)
                 {
-                    if (element.Id.Equals(id, StringComparison.Ordinal))
+                    if (element.GetAttribute("id") == id)
                         return element;
 
                     element = GetElementById(element.ChildNodes, id);

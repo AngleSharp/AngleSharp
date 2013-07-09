@@ -176,7 +176,7 @@ namespace AngleSharp.DOM.Collections
             var sb = new StringBuilder();
 
             foreach (var entry in _entries)
-                sb.AppendLine(entry.ToHtml());
+                sb.Append(entry.ToHtml());
 
             return sb.ToString();
         }

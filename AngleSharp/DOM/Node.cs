@@ -566,7 +566,6 @@ namespace AngleSharp.DOM
             if (_children.Contains(child))
             {
                 child._parent = null;
-                child.OwnerDocument = null;
                 _children.Remove(child);
             }
 
