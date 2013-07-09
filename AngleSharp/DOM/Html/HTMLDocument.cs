@@ -683,11 +683,11 @@ namespace AngleSharp.DOM.Html
         {
             for (int i = 0; i < _children.Length; i++)
             {
-                if (_children[i] is HTMLElement)
+                if (children[i] is HTMLElement)
                 {
-                    var element = (HTMLElement)_children[i];
+                    var element = (HTMLElement)children[i];
 
-                    if (element.GetAttribute("name") == name)
+                    if (element.GetAttribute("name").Equals(name, StringComparison.Ordinal))
                         result.Add(element);
 
                     GetElementsByName(element.ChildNodes, name, result);

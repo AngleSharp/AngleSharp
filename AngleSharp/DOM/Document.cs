@@ -759,7 +759,7 @@ namespace AngleSharp.DOM
         /// <param name="children">The nodelist to investigate.</param>
         /// <param name="id">The id to find.</param>
         /// <returns>The element or NULL.</returns>
-        static protected Element GetElementById(NodeList children, string id)
+        static protected Element GetElementById(NodeList children, String id)
         {
             for (int i = 0; i < children.Length; i++)
             {
@@ -767,7 +767,7 @@ namespace AngleSharp.DOM
 
                 if (element != null)
                 {
-                    if (element.GetAttribute("id") == id)
+                    if (element.Id.Equals(id, StringComparison.Ordinal))
                         return element;
 
                     element = GetElementById(element.ChildNodes, id);
@@ -786,7 +786,7 @@ namespace AngleSharp.DOM
         /// <param name="source">The source document.</param>
         /// <param name="target">The target document.</param>
         /// <param name="deep">Is a deep-copy required?</param>
-        static protected void CopyDocumentProperties(Document source, Document target, bool deep)
+        static protected void CopyDocumentProperties(Document source, Document target, Boolean deep)
         {
             target._ready = source._ready;
             target._referrer = source._referrer;
