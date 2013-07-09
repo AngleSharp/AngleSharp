@@ -16,7 +16,8 @@ namespace UnitTests
     {
         HTMLDocument document;
 
-        public CssSelectors()
+        [TestInitialize]
+        public void Setup()
         {
             document = DocumentBuilder.Html(Assets.SelectorsWebpage);
         }

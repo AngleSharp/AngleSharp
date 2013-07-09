@@ -117,6 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="QuirksMode" xml:space="preserve">
+    <value>&lt;p id="test" class="testClass"&gt;Test &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; with &lt;code&gt;id="test"&lt;/code&gt; and &lt;code&gt;class="testClass"&lt;/code&gt;. It contains a
+&lt;b id="testB"&gt;&lt;code&gt;&amp;lt;b&amp;gt;&lt;/code&gt; with id="testB"&lt;/b&gt;.&lt;/p&gt;
+
+&lt;p id="test2" class="nonsense testClass"&gt;&lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; with id="test2" and class="nonsense testClass"&lt;/p&gt;
+
+&lt;p&gt;&lt;ppk&gt;This is a &lt;code&gt;&amp;lt;ppk&amp;gt;&lt;/code&gt; tag.&lt;/ppk&gt;&lt;/p&gt;
+
+&lt;p&gt;This &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt;has &lt;code&gt;name&lt;/code&gt; (and not &lt;code&gt;id&lt;/code&gt;!) test3
+&lt;img src="../../browsers/pix/logo_op3.gif" name="test3"&gt;&lt;/p&gt;
+
+&lt;div id="test"&gt;This &lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt; also has &lt;code&gt;id="test"&lt;/code&gt;. It should
+be ignored, since there's a previous element with &lt;code&gt;id="test"&lt;/code&gt;.&lt;/div&gt;</value>
+  </data>
   <data name="SelectorsWebpage" xml:space="preserve">
     <value>&lt;html&gt;
 &lt;head&gt;&lt;/head&gt;
