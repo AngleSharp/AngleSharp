@@ -137,6 +137,7 @@ namespace AngleSharp.Xml
 
         Char[] CharacterReference(Char c)
         {
+            //TODO
             throw new NotImplementedException();
         }
 
@@ -312,7 +313,7 @@ namespace AngleSharp.Xml
 
         #endregion
 
-        #region Declarations
+        #region Entity Declaration
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#sec-entity-decl.
@@ -320,17 +321,30 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken EntityDeclaration(Char c)
         {
+            if (c.IsSpaceCharacter())
+                return EntityDeclarationNameBefore(src.Next);
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
+            return EntityDeclarationNameBefore(c);
+        }
+
+        XmlToken EntityDeclarationNameBefore(Char c)
+        {
+            while (c.IsSpaceCharacter())
+                c = src.Next;
+
+            //TODO
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// More http://www.w3.org/TR/REC-xml/#elemdecls.
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlToken TypeDeclaration(Char c)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
+
+        #region Attribute Declaration
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#attdecls.
@@ -338,8 +352,30 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken AttributeDeclaration(Char c)
         {
+            if (c.IsSpaceCharacter())
+                return AttributeDeclarationNameBefore(src.Next);
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
+            return AttributeDeclarationNameBefore(c);
+        }
+
+        XmlToken AttributeDeclarationNameBefore(Char c)
+        {
+            while (c.IsSpaceCharacter())
+                c = src.Next;
+
+            //TODO
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region Notation Declaration
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#Notations.
@@ -347,6 +383,41 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken NotationDeclaration(Char c)
         {
+            while (c.IsSpaceCharacter())
+                c = src.Next;
+
+            //TODO
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Type Declaration
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#elemdecls.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        XmlToken TypeDeclaration(Char c)
+        {
+            if (c.IsSpaceCharacter())
+                return TypeDeclarationNameBefore(src.Next);
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
+            return TypeDeclarationNameBefore(c);
+        }
+
+        XmlToken TypeDeclarationNameBefore(Char c)
+        {
+            while (c.IsSpaceCharacter())
+                c = src.Next;
+
+            //TODO
             throw new NotImplementedException();
         }
 
