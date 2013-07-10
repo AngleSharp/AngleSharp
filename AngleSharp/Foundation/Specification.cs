@@ -195,7 +195,7 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsNonAscii(Char c)
+        public static Boolean IsNonAscii(this Char c)
         {
             return c >= 0x80;
         }
@@ -206,7 +206,7 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsNonPrintable(Char c)
+        public static Boolean IsNonPrintable(this Char c)
         {
             return (c >= 0x0 && c <= 0x8) || (c >= 0xe && c <= 0x1f) || (c >= 0x7f && c <= 0x9f);
         }
@@ -217,7 +217,7 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsLetter(Char c)
+        public static Boolean IsLetter(this Char c)
         {
             return IsUppercaseAscii(c) || IsLowercaseAscii(c);
         }
@@ -228,9 +228,9 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsName(Char c)
+        public static Boolean IsName(this Char c)
         {
-            return c >= 0x80 || IsLetter(c) || c == LL || c == DASH || IsDigit(c);
+            return c >= 0x80 || c.IsLetter() || c == LL || c == DASH || IsDigit(c);
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsNameStart(Char c)
+        public static Boolean IsNameStart(this Char c)
         {
             return c >= 0x80 || IsUppercaseAscii(c) || IsLowercaseAscii(c) || c == LL;
         }
@@ -251,7 +251,7 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsLineBreak(Char c)
+        public static Boolean IsLineBreak(this Char c)
         {
             //line feed, carriage return
             return c == LF || c == CR;
@@ -264,7 +264,7 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsSpaceCharacter(Char c)
+        public static Boolean IsSpaceCharacter(this Char c)
         {
             //white space, tab, line feed, form feed, carriage return
             return c == SPACE || c == TAB || c == LF || c == FF || c == CR;
@@ -277,7 +277,7 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsWhiteSpaceCharacter(Char c)
+        public static Boolean IsWhiteSpaceCharacter(this Char c)
         {
             return (c >= 0x0009 && c <= 0x000d) || c == 0x0020 || c == 0x0085 || c == 0x00a0 ||
                     c == 0x1680 || c == 0x180e || (c >= 0x2000 && c <= 0x200a) || c == 0x2028 ||
@@ -291,7 +291,7 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsDigit(Char c)
+        public static Boolean IsDigit(this Char c)
         {
             return c >= 0x30 && c <= 0x39;
         }
@@ -303,7 +303,7 @@ namespace AngleSharp
         /// <param name="s">The characters to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsDigit(String s)
+        public static Boolean IsDigit(this String s)
         {
             for (int i = 0; i < s.Length; i++)
             {
@@ -321,7 +321,7 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsUppercaseAscii(Char c)
+        public static Boolean IsUppercaseAscii(this Char c)
         {
             return c >= 0x41 && c <= 0x5a;
         }
@@ -333,7 +333,7 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsLowercaseAscii(Char c)
+        public static Boolean IsLowercaseAscii(this Char c)
         {
             return c >= 0x61 && c <= 0x7a;
         }
@@ -345,7 +345,7 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsAlphanumericAscii(Char c)
+        public static Boolean IsAlphanumericAscii(this Char c)
         {
             return IsDigit(c) || IsUppercaseAscii(c) || IsLowercaseAscii(c);
         }
@@ -357,7 +357,7 @@ namespace AngleSharp
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsHex(Char c)
+        public static Boolean IsHex(this Char c)
         {
             return IsDigit(c) || (c >= 0x41 && c <= 0x46) || (c >= 0x61 && c <= 0x66);
         }
@@ -369,7 +369,7 @@ namespace AngleSharp
         /// <param name="s">The string to examine.</param>
         /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static Boolean IsHex(String s)
+        public static Boolean IsHex(this String s)
         {
             for (int i = 0; i < s.Length; i++)
             {

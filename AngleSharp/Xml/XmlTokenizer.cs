@@ -162,7 +162,7 @@ namespace AngleSharp.Xml
             {
                 return TagEnd(src.Next);
             }
-            else if (Specification.IsLetter(c))
+            else if (c.IsLetter())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c);
@@ -181,7 +181,7 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken TagEnd(Char c)
         {
-            if (Specification.IsLetter(c))
+            if (c.IsLetter())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c);
@@ -208,7 +208,7 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken TagName(Char c, XmlTagToken tag)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
             {
                 tag.Name = stringBuffer.ToString();
                 return AttributeBeforeName(src.Next, tag);
@@ -365,7 +365,7 @@ namespace AngleSharp.Xml
                 src.Advance(2);
                 return DeclarationStart(src.Next);
             }
-            else if (Specification.IsLetter(c))
+            else if (c.IsLetter())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c);
@@ -387,7 +387,7 @@ namespace AngleSharp.Xml
         {
             while (true)
             {
-                if (Specification.IsSpaceCharacter(c))
+                if (c.IsSpaceCharacter())
                 {
                     pi.Target = stringBuffer.ToString();
                     stringBuffer.Clear();
@@ -459,7 +459,7 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken DeclarationStart(Char c)
         {
-            if (!Specification.IsSpaceCharacter(c))
+            if (!c.IsSpaceCharacter())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append("xml");
@@ -467,7 +467,7 @@ namespace AngleSharp.Xml
             }
 
             do c = src.Next;
-            while (Specification.IsSpaceCharacter(c));
+            while (c.IsSpaceCharacter());
 
             if (src.ContinuesWith("version", false))
             {
@@ -485,7 +485,7 @@ namespace AngleSharp.Xml
         /// <param name="decl">The current declaration token.</param>
         XmlToken DeclarationVersionAfterName(Char c, XmlDeclarationToken decl)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.EQ)
@@ -501,7 +501,7 @@ namespace AngleSharp.Xml
         /// <param name="decl">The current declaration token.</param>
         XmlToken DeclarationVersionBeforeValue(Char c, XmlDeclarationToken decl)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.DQ)
@@ -571,7 +571,7 @@ namespace AngleSharp.Xml
         /// <param name="decl">The current declaration token.</param>
         XmlToken DeclarationAfterVersion(Char c, XmlDeclarationToken decl)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (src.ContinuesWith("encoding", false))
@@ -590,7 +590,7 @@ namespace AngleSharp.Xml
         /// <param name="decl">The current declaration token.</param>
         XmlToken DeclarationEncodingAfterName(Char c, XmlDeclarationToken decl)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.EQ)
@@ -606,7 +606,7 @@ namespace AngleSharp.Xml
         /// <param name="decl">The current declaration token.</param>
         XmlToken DeclarationEncodingBeforeValue(Char c, XmlDeclarationToken decl)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.DQ)
@@ -676,7 +676,7 @@ namespace AngleSharp.Xml
         /// <param name="decl">The current declaration token.</param>
         XmlToken DeclarationAfterEncoding(Char c, XmlDeclarationToken decl)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (src.ContinuesWith("standalone", false))
@@ -695,7 +695,7 @@ namespace AngleSharp.Xml
         /// <param name="decl">The current declaration token.</param>
         XmlToken DeclarationStandaloneAfterName(Char c, XmlDeclarationToken decl)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.EQ)
@@ -711,7 +711,7 @@ namespace AngleSharp.Xml
         /// <param name="decl">The current declaration token.</param>
         XmlToken DeclarationStandaloneBeforeValue(Char c, XmlDeclarationToken decl)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.DQ)
@@ -797,7 +797,7 @@ namespace AngleSharp.Xml
         /// <param name="decl">The current declaration token.</param>
         XmlDeclarationToken DeclarationEnd(Char c, XmlDeclarationToken decl)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c != Specification.QM || src.Next != Specification.GT)
@@ -1020,7 +1020,7 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken Doctype(Char c)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
                 return DoctypeNameBefore(src.Next);
             else if (c == Specification.EOF)
             {
@@ -1039,7 +1039,7 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken DoctypeNameBefore(Char c)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.NULL)
@@ -1076,7 +1076,7 @@ namespace AngleSharp.Xml
         {
             while (true)
             {
-                if (Specification.IsSpaceCharacter(c))
+                if (c.IsSpaceCharacter())
                 {
                     doctype.Name = stringBuffer.ToString();
                     stringBuffer.Clear();
@@ -1114,7 +1114,7 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken DoctypeNameAfter(Char c, XmlDoctypeToken doctype)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.GT)
@@ -1150,7 +1150,7 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken DoctypePublic(Char c, XmlDoctypeToken doctype)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
             {
                 return DoctypePublicIdentifierBefore(src.Next, doctype);
             }
@@ -1190,7 +1190,7 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken DoctypePublicIdentifierBefore(Char c, XmlDoctypeToken doctype)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.DQ)
@@ -1310,7 +1310,7 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken DoctypePublicIdentifierAfter(Char c, XmlDoctypeToken doctype)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
             {
                 stringBuffer.Clear();
                 return DoctypeBetween(src.Next, doctype);
@@ -1350,7 +1350,7 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken DoctypeBetween(Char c, XmlDoctypeToken doctype)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.GT)
@@ -1386,7 +1386,7 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken DoctypeSystem(Char c, XmlDoctypeToken doctype)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
             {
                 return DoctypeSystemIdentifierBefore(src.Next, doctype);
             }
@@ -1427,7 +1427,7 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken DoctypeSystemIdentifierBefore(Char c, XmlDoctypeToken doctype)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.DQ)
@@ -1548,7 +1548,7 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken DoctypeSystemIdentifierAfter(Char c, XmlDoctypeToken doctype)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.GT)
@@ -1601,7 +1601,7 @@ namespace AngleSharp.Xml
         /// <param name="tag">The current tag token.</param>
         XmlToken AttributeBeforeName(Char c, XmlTagToken tag)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.SOLIDUS)
@@ -1647,7 +1647,7 @@ namespace AngleSharp.Xml
         {
             while (true)
             {
-                if (Specification.IsSpaceCharacter(c))
+                if (c.IsSpaceCharacter())
                 {
                     tag.AddAttribute(stringBuffer.ToString());
                     return AttributeAfterName(src.Next, tag);
@@ -1695,7 +1695,7 @@ namespace AngleSharp.Xml
         /// <param name="tag">The current tag token.</param>
         XmlToken AttributeAfterName(Char c, XmlTagToken tag)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.SOLIDUS)
@@ -1743,7 +1743,7 @@ namespace AngleSharp.Xml
         /// <param name="tag">The current tag token.</param>
         XmlToken AttributeBeforeValue(Char c, XmlTagToken tag)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.DQ)
@@ -1850,7 +1850,7 @@ namespace AngleSharp.Xml
         /// <param name="tag">The current tag token.</param>
         XmlToken AttributeAfterValue(Char c, XmlTagToken tag)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
                 return AttributeBeforeName(src.Next, tag);
             else if (c == Specification.SOLIDUS)
                 return TagSelfClosing(src.Next, tag);

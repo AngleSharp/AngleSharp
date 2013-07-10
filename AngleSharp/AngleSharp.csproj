@@ -107,6 +107,12 @@
     <Compile Include="DOM\Enums\RangePosition.cs" />
     <Compile Include="DOM\Enums\RangeType.cs" />
     <Compile Include="Foundation\Builder.cs" />
+    <Compile Include="Foundation\IoC\CacheDependencyResolver.cs" />
+    <Compile Include="Foundation\IoC\DefaultDependencyResolver.cs" />
+    <Compile Include="Foundation\IoC\DelegateBasedDependencyResolver.cs" />
+    <Compile Include="Foundation\IoC\DependencyResolver.cs" />
+    <Compile Include="Foundation\IoC\ResolverExtensions.cs" />
+    <Compile Include="Foundation\IoC\IDependencyResolver.cs" />
     <Compile Include="Foundation\IParser.cs" />
     <Compile Include="Foundation\LocalSettings.cs" />
     <Compile Include="Foundation\MimeTypes.cs" />
@@ -182,7 +188,7 @@
     <Compile Include="Css\Tokens\CssUnitToken.cs" />
     <Compile Include="Html\HtmlTokenType.cs" />
     <Compile Include="Foundation\ParseErrorEventArgs.cs" />
-    <Compile Include="Foundation\Helpers\Extensions.cs" />
+    <Compile Include="Foundation\Helpers\CharacterExtensions.cs" />
     <Compile Include="Foundation\Helpers\ForeignHelpers.cs" />
     <Compile Include="Foundation\HtmlColor.cs" />
     <Compile Include="DOM\Html\HTMLDocument.cs" />

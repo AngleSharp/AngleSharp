@@ -53,7 +53,7 @@ namespace AngleSharp.Xml
         /// <returns>True if the character data is a space character.</returns>
         public override Boolean IsIgnorable
         {
-            get { return Specification.IsSpaceCharacter(_data); }
+            get { return _data.IsSpaceCharacter(); }
         }
 
         #endregion

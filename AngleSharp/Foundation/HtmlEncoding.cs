@@ -33,7 +33,7 @@ namespace AngleSharp
             {
                 for (int i = position; i < content.Length - 1; i++)
                 {
-                    if (Specification.IsSpaceCharacter(content[i]))
+                    if (content[i].IsSpaceCharacter())
                         position++;
                     else
                         break;
@@ -46,7 +46,7 @@ namespace AngleSharp
 
                 for (int i = position; i < content.Length; i++)
                 {
-                    if (Specification.IsSpaceCharacter(content[i]))
+                    if (content[i].IsSpaceCharacter())
                         position++;
                     else
                         break;
@@ -77,7 +77,7 @@ namespace AngleSharp
 
                         for (int i = 0; i < content.Length; i++)
                         {
-                            if (Specification.IsSpaceCharacter(content[i]))
+                            if (content[i].IsSpaceCharacter())
                                 break;
                             else if (content[i] == ';')
                                 break;

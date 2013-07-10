@@ -322,7 +322,7 @@ namespace AngleSharp
         [DebuggerStepThrough]
         void AdvanceUnsafe()
         {
-            if (Specification.IsLineBreak(_current))
+            if (_current.IsLineBreak())
             {
                 _collengths.Push(_column);
                 _column = 1;
@@ -352,7 +352,7 @@ namespace AngleSharp
 
             _current = _buffer[_insertion - 1];
 
-            if (Specification.IsLineBreak(_current))
+            if (_current.IsLineBreak())
             {
                 _column = _collengths.Count != 0 ? _collengths.Pop() : 1;
                 _row--;

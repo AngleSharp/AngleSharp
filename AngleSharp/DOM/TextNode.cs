@@ -53,7 +53,7 @@ namespace AngleSharp.DOM
             {
                 for (int i = 0; i < Length; i++)
                 {
-                    if (!Specification.IsSpaceCharacter(this[i]))
+                    if (!this[i].IsSpaceCharacter())
                         return false;
                 }
 

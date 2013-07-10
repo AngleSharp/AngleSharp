@@ -165,7 +165,7 @@ namespace AngleSharp
 
             if (color.Length == 3)
             {
-                if (!Specification.IsHex(color[0]) || !Specification.IsHex(color[1]) || !Specification.IsHex(color[2]))
+                if (!color[0].IsHex() || !color[1].IsHex() || !color[2].IsHex())
                     return false;
 
                 var r = color[0].FromHex();
@@ -182,8 +182,8 @@ namespace AngleSharp
             }
             else if (color.Length == 6)
             {
-                if (!Specification.IsHex(color[0]) || !Specification.IsHex(color[1]) || !Specification.IsHex(color[2]) ||
-                    !Specification.IsHex(color[3]) || !Specification.IsHex(color[4]) || !Specification.IsHex(color[5]))
+                if (!color[0].IsHex() || !color[1].IsHex() || !color[2].IsHex() ||
+                    !color[3].IsHex() || !color[4].IsHex() || !color[5].IsHex())
                     return false;
 
                 var r = 16 * color[0].FromHex();
