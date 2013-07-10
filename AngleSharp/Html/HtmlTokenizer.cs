@@ -11,7 +11,7 @@ namespace AngleSharp.Html
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
     [DebuggerStepThrough]
-    class HtmlTokenizer
+    sealed class HtmlTokenizer
     {
         #region Members
 

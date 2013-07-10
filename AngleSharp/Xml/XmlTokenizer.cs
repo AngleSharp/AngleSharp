@@ -9,7 +9,7 @@ namespace AngleSharp.Xml
     /// the information is taken from http://www.w3.org/TR/REC-xml/.
     /// </summary>
     [DebuggerStepThrough]
-    class XmlTokenizer
+    sealed class XmlTokenizer
     {
         #region Members
 
@@ -338,6 +338,79 @@ namespace AngleSharp.Xml
             while (c.IsSpaceCharacter())
                 c = src.Next;
 
+            if (c == Specification.NULL)
+            {
+                RaiseErrorOccurred(ErrorCode.NULL);
+                stringBuffer.Clear();
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return EntityDeclarationName(src.Next, XmlToken.EntityDeclaration());
+            }
+            else if (c == Specification.GT)
+            {
+                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                return XmlToken.EntityDeclaration();
+            }
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            stringBuffer.Clear();
+            stringBuffer.Append(c);
+            return EntityDeclarationName(src.Next, XmlToken.EntityDeclaration());
+        }
+
+        XmlToken EntityDeclarationName(Char c, XmlEntityDeclarationToken entity)
+        {
+            while (true)
+            {
+                if (c.IsSpaceCharacter())
+                {
+                    entity.Name = stringBuffer.ToString();
+                    stringBuffer.Clear();
+                    return EntityDeclarationNameAfter(src.Next, entity);
+                }
+                else if (c == Specification.GT)
+                {
+                    entity.Name = stringBuffer.ToString();
+                    return entity;
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    stringBuffer.Append(Specification.REPLACEMENT);
+                }
+                else if (c == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    src.Back();
+                    entity.Name = stringBuffer.ToString();
+                    return entity;
+                }
+                else
+                    stringBuffer.Append(c);
+
+                c = src.Next;
+            }
+        }
+
+        XmlToken EntityDeclarationNameAfter(Char c, XmlEntityDeclarationToken entity)
+        {
+            while (c.IsSpaceCharacter())
+                c = src.Next;
+
+            if (c == Specification.GT)
+            {
+                return entity;
+            }
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                src.Back();
+                return entity;
+            }
+
             //TODO
             throw new NotImplementedException();
         }
@@ -369,6 +442,79 @@ namespace AngleSharp.Xml
             while (c.IsSpaceCharacter())
                 c = src.Next;
 
+            if (c == Specification.NULL)
+            {
+                RaiseErrorOccurred(ErrorCode.NULL);
+                stringBuffer.Clear();
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return AttributeDeclarationName(src.Next, XmlToken.AttributeDeclaration());
+            }
+            else if (c == Specification.GT)
+            {
+                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                return XmlToken.AttributeDeclaration();
+            }
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            stringBuffer.Clear();
+            stringBuffer.Append(c);
+            return AttributeDeclarationName(src.Next, XmlToken.AttributeDeclaration());
+        }
+
+        XmlToken AttributeDeclarationName(Char c, XmlAttributeDeclarationToken attribute)
+        {
+            while (true)
+            {
+                if (c.IsSpaceCharacter())
+                {
+                    attribute.Name = stringBuffer.ToString();
+                    stringBuffer.Clear();
+                    return AttributeDeclarationNameAfter(src.Next, attribute);
+                }
+                else if (c == Specification.GT)
+                {
+                    attribute.Name = stringBuffer.ToString();
+                    return attribute;
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    stringBuffer.Append(Specification.REPLACEMENT);
+                }
+                else if (c == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    src.Back();
+                    attribute.Name = stringBuffer.ToString();
+                    return attribute;
+                }
+                else
+                    stringBuffer.Append(c);
+
+                c = src.Next;
+            }
+        }
+
+        XmlToken AttributeDeclarationNameAfter(Char c, XmlAttributeDeclarationToken attribute)
+        {
+            while (c.IsSpaceCharacter())
+                c = src.Next;
+
+            if (c == Specification.GT)
+            {
+                return attribute;
+            }
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                src.Back();
+                return attribute;
+            }
+
             //TODO
             throw new NotImplementedException();
         }
@@ -383,8 +529,95 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken NotationDeclaration(Char c)
         {
+            if (c.IsSpaceCharacter())
+                return NotationDeclarationNameBefore(src.Next);
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
+            return NotationDeclarationNameBefore(c);
+        }
+
+        XmlToken NotationDeclarationNameBefore(Char c)
+        {
             while (c.IsSpaceCharacter())
                 c = src.Next;
+
+            if (c == Specification.NULL)
+            {
+                RaiseErrorOccurred(ErrorCode.NULL);
+                stringBuffer.Clear();
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return NotationDeclarationName(src.Next, XmlToken.NotationDeclaration());
+            }
+            else if (c == Specification.GT)
+            {
+                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                return XmlToken.NotationDeclaration();
+            }
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            stringBuffer.Clear();
+            stringBuffer.Append(c);
+            return NotationDeclarationName(src.Next, XmlToken.NotationDeclaration());
+        }
+
+        XmlToken NotationDeclarationName(Char c, XmlNotationDeclarationToken notation)
+        {
+            while (true)
+            {
+                if (c.IsSpaceCharacter())
+                {
+                    notation.Name = stringBuffer.ToString();
+                    stringBuffer.Clear();
+                    return NotationDeclarationNameAfter(src.Next, notation);
+                }
+                else if (c == Specification.GT)
+                {
+                    notation.Name = stringBuffer.ToString();
+                    return notation;
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    stringBuffer.Append(Specification.REPLACEMENT);
+                }
+                else if (c == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    src.Back();
+                    notation.Name = stringBuffer.ToString();
+                    return notation;
+                }
+                else
+                    stringBuffer.Append(c);
+
+                c = src.Next;
+            }
+        }
+
+        XmlToken NotationDeclarationNameAfter(Char c, XmlNotationDeclarationToken notation)
+        {
+            while (c.IsSpaceCharacter())
+                c = src.Next;
+
+            if (c == Specification.GT)
+            {
+                return notation;
+            }
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                src.Back();
+                return notation;
+            }
 
             //TODO
             throw new NotImplementedException();
@@ -416,6 +649,79 @@ namespace AngleSharp.Xml
         {
             while (c.IsSpaceCharacter())
                 c = src.Next;
+
+            if (c == Specification.NULL)
+            {
+                RaiseErrorOccurred(ErrorCode.NULL);
+                stringBuffer.Clear();
+                stringBuffer.Append(Specification.REPLACEMENT);
+                return TypeDeclarationName(src.Next, XmlToken.ElementDeclaration());
+            }
+            else if (c == Specification.GT)
+            {
+                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                return XmlToken.ElementDeclaration();
+            }
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                return XmlToken.EOF;
+            }
+
+            stringBuffer.Clear();
+            stringBuffer.Append(c);
+            return TypeDeclarationName(src.Next, XmlToken.ElementDeclaration());
+        }
+
+        XmlToken TypeDeclarationName(Char c, XmlElementDeclarationToken element)
+        {
+            while (true)
+            {
+                if (c.IsSpaceCharacter())
+                {
+                    element.Name = stringBuffer.ToString();
+                    stringBuffer.Clear();
+                    return TypeDeclarationNameAfter(src.Next, element);
+                }
+                else if (c == Specification.GT)
+                {
+                    element.Name = stringBuffer.ToString();
+                    return element;
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    stringBuffer.Append(Specification.REPLACEMENT);
+                }
+                else if (c == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    src.Back();
+                    element.Name = stringBuffer.ToString();
+                    return element;
+                }
+                else
+                    stringBuffer.Append(c);
+
+                c = src.Next;
+            }
+        }
+
+        XmlToken TypeDeclarationNameAfter(Char c, XmlElementDeclarationToken element)
+        {
+            while (c.IsSpaceCharacter())
+                c = src.Next;
+
+            if (c == Specification.GT)
+            {
+                return element;
+            }
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                src.Back();
+                return element;
+            }
 
             //TODO
             throw new NotImplementedException();
