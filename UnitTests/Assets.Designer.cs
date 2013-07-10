@@ -61,6 +61,31 @@ namespace UnitTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
+        ///&lt;!-- Edited by XMLSpy® --&gt;
+        ///&lt;breakfast_menu&gt;
+        ///	&lt;food&gt;
+        ///		&lt;name&gt;Belgian Waffles&lt;/name&gt;
+        ///		&lt;price&gt;$5.95&lt;/price&gt;
+        ///		&lt;description&gt;Two of our famous Belgian Waffles with plenty of real maple syrup&lt;/description&gt;
+        ///		&lt;calories&gt;650&lt;/calories&gt;
+        ///	&lt;/food&gt;
+        ///	&lt;food&gt;
+        ///		&lt;name&gt;Strawberry Belgian Waffles&lt;/name&gt;
+        ///		&lt;price&gt;$7.95&lt;/price&gt;
+        ///		&lt;description&gt;Light Belgian waffles covered with strawberries and whipped cream&lt;/description&gt;
+        ///		&lt;calories&gt;900&lt;/calories&gt;
+        ///	&lt;/food&gt;
+        ///	&lt;food&gt;
+        ///		&lt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FoodMenu {
+            get {
+                return ResourceManager.GetString("FoodMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;p id=&quot;test&quot; class=&quot;testClass&quot;&gt;Test &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; with &lt;code&gt;id=&quot;test&quot;&lt;/code&gt; and &lt;code&gt;class=&quot;testClass&quot;&lt;/code&gt;. It contains a
         ///&lt;b id=&quot;testB&quot;&gt;&lt;code&gt;&amp;lt;b&amp;gt;&lt;/code&gt; with id=&quot;testB&quot;&lt;/b&gt;.&lt;/p&gt;
         ///

@@ -117,6 +117,42 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FoodMenu" xml:space="preserve">
+    <value>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;!-- Edited by XMLSpy® --&gt;
+&lt;breakfast_menu&gt;
+	&lt;food&gt;
+		&lt;name&gt;Belgian Waffles&lt;/name&gt;
+		&lt;price&gt;$5.95&lt;/price&gt;
+		&lt;description&gt;Two of our famous Belgian Waffles with plenty of real maple syrup&lt;/description&gt;
+		&lt;calories&gt;650&lt;/calories&gt;
+	&lt;/food&gt;
+	&lt;food&gt;
+		&lt;name&gt;Strawberry Belgian Waffles&lt;/name&gt;
+		&lt;price&gt;$7.95&lt;/price&gt;
+		&lt;description&gt;Light Belgian waffles covered with strawberries and whipped cream&lt;/description&gt;
+		&lt;calories&gt;900&lt;/calories&gt;
+	&lt;/food&gt;
+	&lt;food&gt;
+		&lt;name&gt;Berry-Berry Belgian Waffles&lt;/name&gt;
+		&lt;price&gt;$8.95&lt;/price&gt;
+		&lt;description&gt;Light Belgian waffles covered with an assortment of fresh berries and whipped cream&lt;/description&gt;
+		&lt;calories&gt;900&lt;/calories&gt;
+	&lt;/food&gt;
+	&lt;food&gt;
+		&lt;name&gt;French Toast&lt;/name&gt;
+		&lt;price&gt;$4.50&lt;/price&gt;
+		&lt;description&gt;Thick slices made from our homemade sourdough bread&lt;/description&gt;
+		&lt;calories&gt;600&lt;/calories&gt;
+	&lt;/food&gt;
+	&lt;food&gt;
+		&lt;name&gt;Homestyle Breakfast&lt;/name&gt;
+		&lt;price&gt;$6.95&lt;/price&gt;
+		&lt;description&gt;Two eggs, bacon or sausage, toast, and our ever-popular hash browns&lt;/description&gt;
+		&lt;calories&gt;950&lt;/calories&gt;
+	&lt;/food&gt;
+&lt;/breakfast_menu&gt;</value>
+  </data>
   <data name="QuirksMode" xml:space="preserve">
     <value>&lt;p id="test" class="testClass"&gt;Test &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; with &lt;code&gt;id="test"&lt;/code&gt; and &lt;code&gt;class="testClass"&lt;/code&gt;. It contains a
 &lt;b id="testB"&gt;&lt;code&gt;&amp;lt;b&amp;gt;&lt;/code&gt; with id="testB"&lt;/b&gt;.&lt;/p&gt;

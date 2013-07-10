@@ -65,6 +65,7 @@
     <Compile Include="HtmlTokenization.cs" />
     <Compile Include="HtmlTree.cs" />
     <Compile Include="Quirksmode.cs" />
+    <Compile Include="XmlTree.cs" />
     <Compile Include="XmlTokenization.cs" />
   </ItemGroup>
   <ItemGroup>
