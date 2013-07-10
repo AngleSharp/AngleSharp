@@ -167,7 +167,7 @@ namespace ConsoleInteraction
             {
                 Console.WriteLine();
                 Console.WriteLine("Could not load the document from the given URL, switching to local version . . .");
-                test.LoadFromSource(Webpages.W3C);
+                test.LoadFromSource(HtmlFiles.W3C);
             }
 
             test.Run();

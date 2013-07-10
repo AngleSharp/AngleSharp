@@ -8,6 +8,8 @@ using AngleSharp.DOM.Collections;
 using AngleSharp.Css;
 using AngleSharp.Html;
 using System.Text;
+using AngleSharp.DOM.Css;
+using AngleSharp.DOM.Xml;
 
 namespace ConsoleInteraction
 {
@@ -29,13 +31,15 @@ namespace ConsoleInteraction
 
             TestHtml(Snippets.Invalid, "an invalid snippet");
 
-            TestHtml(Webpages.Test, "a test page");
+            TestHtml(HtmlFiles.Test, "a test page");
 
-            TestHtml(Webpages.CodeProject, "CodeProject's webpage");
+            TestHtml(HtmlFiles.CodeProject, "CodeProject's webpage");
 
-            TestHtml(Webpages.Simon, "Simon's HP");
+            TestHtml(HtmlFiles.Simon, "Simon's HP");
 
-            TestHtml(Webpages.W3C, "the W3C webpage");
+            TestHtml(HtmlFiles.W3C, "the W3C webpage");
+
+            TestXml(XmlFiles.Note, "The XML note file");
 
             TestWebRequest("http://www.imdb.com/", false);
 
@@ -56,7 +60,7 @@ namespace ConsoleInteraction
             TestWebRequest("http://www.florian-rappl.de/", false);
         }
 
-        static void TestCSSFrom(string url)
+        static void TestCSSFrom(String url)
         {
             var sw = Stopwatch.StartNew();
             var client = new HttpClient();
@@ -97,7 +101,7 @@ namespace ConsoleInteraction
             Console.WriteLine("Parsing all stylesheets took ... " + sw.ElapsedMilliseconds + "ms");
         }
 
-        static void TestWebRequest(string url, bool openConsole)
+        static void TestWebRequest(String url, Boolean openConsole)
         {
             var sw = Stopwatch.StartNew();
             var client = new HttpClient();
@@ -120,7 +124,7 @@ namespace ConsoleInteraction
             }
         }
 
-        static void TestHtml(string source, bool openConsole)
+        static void TestHtml(String source, Boolean openConsole)
         {
             var doc = TestHtml(source);
 
@@ -131,7 +135,16 @@ namespace ConsoleInteraction
             }
         }
 
-        static HTMLDocument TestHtml(string source, string title = "the webpage")
+        static XMLDocument TestXml(String source, String title = "XML document")
+        {
+            var sw = Stopwatch.StartNew();
+            var xml = DocumentBuilder.Xml(source);
+            sw.Stop();
+            Console.WriteLine("Parsing " + title + " took ... " + sw.ElapsedMilliseconds + "ms");
+            return xml;
+        }
+
+        static HTMLDocument TestHtml(String source, String title = "HTML document")
         {
             var sw = Stopwatch.StartNew();
             var html = DocumentBuilder.Html(source);
@@ -140,7 +153,7 @@ namespace ConsoleInteraction
             return html;
         }
 
-        static NodeList TestHtmlFragment(string source)
+        static NodeList TestHtmlFragment(String source)
         {
             var sw = Stopwatch.StartNew();
             var nodes = DocumentBuilder.HtmlFragment(source);
@@ -154,13 +167,14 @@ namespace ConsoleInteraction
             return nodes;
         }
 
-        static void TestCSS(string source, string title = "the stylesheet")
+        static CSSStyleSheet TestCSS(String source, String title = "CSS document")
         {
             var parser = new CssParser(source);
             var sw = Stopwatch.StartNew();
             var doc = parser.Result;
             sw.Stop();
             Console.WriteLine("Parsing " + title + " took ... " + sw.ElapsedMilliseconds + "ms");
+            return doc;
         }
     }
 }
