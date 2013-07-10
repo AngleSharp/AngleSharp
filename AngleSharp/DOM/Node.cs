@@ -106,7 +106,7 @@ namespace AngleSharp.DOM
         [DOM("localName")]
         public String LocalName
         {
-            get { return _name.Contains(':') ? _name.Substring(_name.IndexOf(':') + 1) : _name; }
+            get { return _name.IndexOf(':') >= 0 ? _name.Substring(_name.IndexOf(':') + 1) : _name; }
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace AngleSharp.DOM
         [DOM("prefix")]
         public String Prefix
         {
-            get { return _name.Contains(':') ? _name.Substring(0, _name.IndexOf(':')) : null; }
+            get { return _name.IndexOf(':') >= 0 ? _name.Substring(0, _name.IndexOf(':')) : null; }
         }
 
         /// <summary>

@@ -819,7 +819,7 @@ namespace AngleSharp.Css
                     {
                         var lang = ((CssKeywordToken)args[0]).Data;
                         var code = string.Format("{0}({1})", PSEUDOCLASSFUNCTION_LANG, lang);
-                        return SimpleSelector.PseudoClass(el => el.Lang.Equals(lang, StringComparison.InvariantCultureIgnoreCase), code);
+                        return SimpleSelector.PseudoClass(el => el.Lang.Equals(lang, StringComparison.OrdinalIgnoreCase), code);
                     }
 
                     break;
