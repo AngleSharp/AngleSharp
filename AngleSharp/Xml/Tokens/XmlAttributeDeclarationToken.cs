@@ -2,14 +2,8 @@
 
 namespace AngleSharp.Xml
 {
-    sealed class XmlAttributeDeclarationToken : XmlToken
+    sealed class XmlAttributeDeclarationToken : XmlBaseDeclarationToken
     {
-        #region Members
-
-        String _name;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -18,16 +12,6 @@ namespace AngleSharp.Xml
         public XmlAttributeDeclarationToken()
         {
             _type = XmlTokenType.AttributeDeclaration;
-        }
-
-        #endregion
-
-        #region Properties
-
-        public String Name
-        {
-            get { return _name; }
-            set { _name = value; }
         }
 
         #endregion

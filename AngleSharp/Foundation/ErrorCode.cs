@@ -272,6 +272,18 @@ namespace AngleSharp
         /// </summary>
         DoctypeMissing = 0x47,
         /// <summary>
+        /// (0x48) The given public identifier for the notation declaration is invalid.
+        /// </summary>
+        NotationPublicInvalid = 0x48,
+        /// <summary>
+        /// (0x49) The given system identifier for the notation declaration is invalid.
+        /// </summary>
+        NotationSystemInvalid = 0x49,
+        /// <summary>
+        /// (0x4a) The type declaration is missing a valid definition.
+        /// </summary>
+        TypeDeclarationUndefined = 0x4a,
+        /// <summary>
         /// (0x50) The double quotation marks have been misplaced.
         /// </summary>
         DoubleQuotationMarkUnexpected = 0x50,

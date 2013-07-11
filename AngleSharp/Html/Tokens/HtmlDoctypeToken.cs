@@ -9,10 +9,10 @@ namespace AngleSharp.Html
     {
         #region Members
 
-        Boolean quirks;
-        String name;
-        String publicIdentifier;
-        String systemIdentifier;
+        Boolean _quirks;
+        String _name;
+        String _publicIdentifier;
+        String _systemIdentifier;
 
         #endregion
 
@@ -23,10 +23,10 @@ namespace AngleSharp.Html
         /// </summary>
         public HtmlDoctypeToken()
         {
-            quirks = false;
-            name = null;
-            publicIdentifier = null;
-            systemIdentifier = null;
+            _quirks = false;
+            _name = null;
+            _publicIdentifier = null;
+            _systemIdentifier = null;
             _type = HtmlTokenType.DOCTYPE;
         }
 
@@ -36,11 +36,11 @@ namespace AngleSharp.Html
         /// <param name="quirksForced">The state of the force-quirks flag.</param>
         public HtmlDoctypeToken(Boolean quirksForced)
         {
-            name = null;
-            publicIdentifier = null;
-            systemIdentifier = null;
+            _name = null;
+            _publicIdentifier = null;
+            _systemIdentifier = null;
             _type = HtmlTokenType.DOCTYPE;
-            quirks = quirksForced;
+            _quirks = quirksForced;
         }
 
         #endregion
@@ -52,8 +52,8 @@ namespace AngleSharp.Html
         /// </summary>
         public Boolean IsQuirksForced
         {
-            get { return quirks; }
-            set { quirks = value; }
+            get { return _quirks; }
+            set { _quirks = value; }
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace AngleSharp.Html
         /// </summary>
         public Boolean IsNameMissing
         {
-            get { return name == null; }
+            get { return _name == null; }
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace AngleSharp.Html
         /// </summary>
         public Boolean IsPublicIdentifierMissing
         {
-            get { return publicIdentifier == null; }
+            get { return _publicIdentifier == null; }
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace AngleSharp.Html
         /// </summary>
         public Boolean IsSystemIdentifierMissing
         {
-            get { return systemIdentifier == null; }
+            get { return _systemIdentifier == null; }
         }
 
         /// <summary>
@@ -85,8 +85,8 @@ namespace AngleSharp.Html
         /// </summary>
         public String Name
         {
-            get { return name ?? string.Empty; }
-            set { name = value; }
+            get { return _name ?? String.Empty; }
+            set { _name = value; }
         }
 
         /// <summary>
@@ -94,8 +94,8 @@ namespace AngleSharp.Html
         /// </summary>
         public String PublicIdentifier
         {
-            get { return publicIdentifier ?? string.Empty; }
-            set { publicIdentifier = value; }
+            get { return _publicIdentifier ?? String.Empty; }
+            set { _publicIdentifier = value; }
         }
 
         /// <summary>
@@ -103,8 +103,8 @@ namespace AngleSharp.Html
         /// </summary>
         public String SystemIdentifier
         {
-            get { return systemIdentifier ?? string.Empty; }
-            set { systemIdentifier = value; }
+            get { return _systemIdentifier ?? String.Empty; }
+            set { _systemIdentifier = value; }
         }
 
         /// <summary>

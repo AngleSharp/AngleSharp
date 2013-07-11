@@ -281,6 +281,7 @@
     <Compile Include="Html\HtmlParser.cs" />
     <Compile Include="Html\Tokens\HtmlCharactersToken.cs" />
     <Compile Include="Xml\Tokens\XmlAttributeDeclarationToken.cs" />
+    <Compile Include="Xml\Tokens\XmlBaseDeclarationToken.cs" />
     <Compile Include="Xml\Tokens\XmlCDataToken.cs" />
     <Compile Include="Xml\Tokens\XmlCharacterToken.cs" />
     <Compile Include="Xml\Tokens\XmlCommentToken.cs" />

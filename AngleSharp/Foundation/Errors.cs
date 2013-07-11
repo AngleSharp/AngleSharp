@@ -14,7 +14,7 @@ namespace AngleSharp
         /// <param name="code">A specific error code.</param>
         /// <returns>The description of the error.</returns>
         [DebuggerStepThrough]
-        public static string GetError(ErrorCode code)
+        public static String GetError(ErrorCode code)
         {
             switch (code)
             {
@@ -323,6 +323,15 @@ namespace AngleSharp
 
                 case ErrorCode.NotSupported:
                     return "The action is not supported in the current context.";
+
+                case ErrorCode.NotationPublicInvalid:
+                    return "The given public identifier for the notation declaration is invalid.";
+
+                case ErrorCode.NotationSystemInvalid:
+                    return "The given system identifier for the notation declaration is invalid.";
+
+                case ErrorCode.TypeDeclarationUndefined:
+                    return "The type declaration is missing a valid definition.";
 
                 default:
                     return "An unexpected error occurred.";
