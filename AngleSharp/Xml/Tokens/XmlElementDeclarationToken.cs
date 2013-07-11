@@ -9,7 +9,6 @@ namespace AngleSharp.Xml
 
         List<String> _names;
         ContentType _contentType;
-        List<ElementDeclarationEntry> _children;
 
         #endregion
 
@@ -21,7 +20,6 @@ namespace AngleSharp.Xml
         public XmlElementDeclarationToken()
         {
             _type = XmlTokenType.ElementDeclaration;
-            _children = new List<ElementDeclarationEntry>();
             _names = new List<String>();
         }
 
@@ -40,9 +38,16 @@ namespace AngleSharp.Xml
             get { return _names; }
         }
 
-        public List<ElementDeclarationEntry> Children
+        public ElementQuantifier Quantifier
         {
-            get { return _children; }
+            get;
+            set;
+        }
+
+        public ElementDeclarationEntry Entry
+        {
+            get;
+            set;
         }
 
         #endregion
@@ -51,17 +56,41 @@ namespace AngleSharp.Xml
 
         public enum ContentType
         {
+            /// <summary>
+            /// EMPTY
+            /// </summary>
             Empty,
+            /// <summary>
+            /// ANY
+            /// </summary>
             Any,
+            /// <summary>
+            /// (#PCDATA|name|name|...)*
+            /// </summary>
             Mixed,
+            /// <summary>
+            /// ((a,b,(c?,d*),(e|f+))?,g)+
+            /// </summary>
             Children
         }
 
         public enum ElementQuantifier
         {
+            /// <summary>
+            /// Nothing specified.
+            /// </summary>
             One,
+            /// <summary>
+            /// Questionmark specified.
+            /// </summary>
             ZeroOrOne,
+            /// <summary>
+            /// Asterisk specified.
+            /// </summary>
             ZeroOrMore,
+            /// <summary>
+            /// Plus specified.
+            /// </summary>
             OneOrMore
         }
 
@@ -78,7 +107,7 @@ namespace AngleSharp.Xml
             }
         }
 
-        public sealed class ElementNameDeclarationEntry
+        public sealed class ElementNameDeclarationEntry : ElementDeclarationEntry
         {
             public String Name
             {
@@ -87,7 +116,7 @@ namespace AngleSharp.Xml
             }
         }
 
-        public sealed class ElementChoiceDeclarationEntry
+        public sealed class ElementChoiceDeclarationEntry : ElementDeclarationEntry
         {
             List<ElementDeclarationEntry> _choice;
 
@@ -102,7 +131,7 @@ namespace AngleSharp.Xml
             }
         }
 
-        public sealed class ElementSequenceDeclarationEntry
+        public sealed class ElementSequenceDeclarationEntry : ElementDeclarationEntry
         {
             List<ElementDeclarationEntry> _seq;
 

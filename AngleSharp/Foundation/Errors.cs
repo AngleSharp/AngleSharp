@@ -333,6 +333,9 @@ namespace AngleSharp
                 case ErrorCode.TypeDeclarationUndefined:
                     return "The type declaration is missing a valid definition.";
 
+                case ErrorCode.QuantifierMissing:
+                    return "A required quantifier is missing in the provided expression.";
+
                 default:
                     return "An unexpected error occurred.";
             }

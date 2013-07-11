@@ -284,6 +284,10 @@ namespace AngleSharp
         /// </summary>
         TypeDeclarationUndefined = 0x4a,
         /// <summary>
+        /// (0x4b) A required quantifier is missing in the provided expression.
+        /// </summary>
+        QuantifierMissing = 0x4b,
+        /// <summary>
         /// (0x50) The double quotation marks have been misplaced.
         /// </summary>
         DoubleQuotationMarkUnexpected = 0x50,

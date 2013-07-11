@@ -755,19 +755,118 @@ namespace AngleSharp.Xml
             }
 
             decl.CType = XmlElementDeclarationToken.ContentType.Children;
-            return TypeDeclarationChildren(c, decl, decl.Children);
+            decl.Entry = TypeDeclarationChildren(c);
+            return TypeDeclarationAfterContent(src.Next, decl);
         }
 
-        XmlToken TypeDeclarationChildren(Char c, XmlElementDeclarationToken decl, List<XmlElementDeclarationToken.ElementDeclarationEntry> list)
+        XmlElementDeclarationToken.ElementDeclarationEntry TypeDeclarationChildren(Char c)
         {
-            //TODO
-            throw new NotImplementedException();
+            var entries = new List<XmlElementDeclarationToken.ElementDeclarationEntry>();
+
+            while (true)
+            {
+                while (c.IsSpaceCharacter())
+                    c = src.Next;
+
+                if (c.IsNameStart())
+                {
+                    var name = TypeDeclarationName(c);
+                    entries.Add(name);
+
+                    while (c.IsSpaceCharacter())
+                        c = src.Next;
+
+                    if (c == Specification.BC)
+                    {
+                        //TODO
+                        throw new NotImplementedException();
+                    }
+                }
+                else if (c == Specification.BO)
+                {
+                    //TODO
+                    throw new NotImplementedException();
+                }
+
+                c = src.Next;
+            }
+        }
+
+        XmlElementDeclarationToken.ElementNameDeclarationEntry TypeDeclarationName(Char c)
+        {
+            stringBuffer.Clear();
+            stringBuffer.Append(c);
+
+            while ((c = src.Next).IsName())
+                stringBuffer.Append(c);
+
+            return new XmlElementDeclarationToken.ElementNameDeclarationEntry {
+                Name = c.ToString(),
+                Quantifier = TypeDeclarationQuantifier(c)
+            };
+        }
+
+        XmlElementDeclarationToken.ElementQuantifier TypeDeclarationQuantifier(Char c)
+        {
+            switch (c)
+            {
+                case Specification.ASTERISK:
+                    src.Advance();
+                    return XmlElementDeclarationToken.ElementQuantifier.ZeroOrMore;
+
+                case Specification.QM:
+                    src.Advance();
+                    return XmlElementDeclarationToken.ElementQuantifier.ZeroOrOne;
+
+                case Specification.PLUS:
+                    src.Advance();
+                    return XmlElementDeclarationToken.ElementQuantifier.OneOrMore;
+
+                default:
+                    return XmlElementDeclarationToken.ElementQuantifier.One;
+            }
         }
 
         XmlToken TypeDeclarationMixed(Char c, XmlElementDeclarationToken decl)
         {
-            //TODO
-            throw new NotImplementedException();
+            while (c.IsSpaceCharacter())
+                c = src.Next;
+
+            if (c == Specification.BC)
+            {
+                c = src.Next;
+
+                if (c == Specification.ASTERISK)
+                {
+                    decl.Quantifier = XmlElementDeclarationToken.ElementQuantifier.ZeroOrMore;
+                    return TypeDeclarationAfterContent(src.Next, decl);
+                }
+
+                if (decl.Names.Count > 0)
+                    RaiseErrorOccurred(ErrorCode.QuantifierMissing);
+            }
+            else if (c == Specification.PIPE)
+            {
+                c = src.Next;
+
+                while (c.IsSpaceCharacter())
+                    c = src.Next;
+
+                stringBuffer.Clear();
+
+                if (c.IsNameStart())
+                {
+                    stringBuffer.Append(c);
+
+                    while ((c = src.Next).IsName())
+                        stringBuffer.Append(c);
+
+                    decl.Names.Add(stringBuffer.ToString());
+                    return TypeDeclarationMixed(c, decl);
+                }
+            }
+
+            return TypeDeclarationAfterContent(c, decl);
         }
 
         XmlToken TypeDeclarationAfterContent(Char c, XmlElementDeclarationToken decl)
