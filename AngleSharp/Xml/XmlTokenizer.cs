@@ -288,28 +288,46 @@ namespace AngleSharp.Xml
                 src.Advance(6);
                 return CData(src.Next);
             }
-            else if (src.ContinuesWith("ENTITY", false))
-            {
-                src.Advance(5);
-                return EntityDeclaration(src.Next);
-            }
-            else if (src.ContinuesWith("ELEMENT", false))
-            {
-                src.Advance(6);
-                return TypeDeclaration(src.Next);
-            }
-            else if (src.ContinuesWith("ATTLIST", false))
-            {
-                src.Advance(6);
-                return AttributeDeclaration(src.Next);
-            }
-            else if (src.ContinuesWith("NOTATION", false))
-            {
-                src.Advance(7);
-                return NotationDeclaration(src.Next);
-            }
 
             return null;
+        }
+
+        #endregion
+
+        #region DTD
+
+        XmlToken ScanDTD(Char c)
+        {
+            while (c.IsSpaceCharacter())
+                c = src.Next;
+
+            if (c == Specification.LT)
+            {
+                src.Advance();
+
+                if (src.ContinuesWith("!ENTITY", false))
+                {
+                    src.Advance(6);
+                    return EntityDeclaration(src.Next);
+                }
+                else if (src.ContinuesWith("!ELEMENT", false))
+                {
+                    src.Advance(7);
+                    return TypeDeclaration(src.Next);
+                }
+                else if (src.ContinuesWith("!ATTLIST", false))
+                {
+                    src.Advance(7);
+                    return AttributeDeclaration(src.Next);
+                }
+                else if (src.ContinuesWith("!NOTATION", false))
+                {
+                    src.Advance(8);
+                    return NotationDeclaration(src.Next);
+                }
+            }
+
+            throw new ArgumentException("Invalid document type declaration.");
         }
 
         #endregion
@@ -756,15 +774,29 @@ namespace AngleSharp.Xml
 
             decl.CType = XmlElementDeclarationToken.ContentType.Children;
             decl.Entry = TypeDeclarationChildren(c);
-            return TypeDeclarationAfterContent(src.Next, decl);
+            return TypeDeclarationAfterContent(src.Current, decl);
         }
 
         XmlElementDeclarationToken.ElementDeclarationEntry TypeDeclarationChildren(Char c)
         {
             var entries = new List<XmlElementDeclarationToken.ElementDeclarationEntry>();
+            var connection = Specification.NULL;
 
             while (true)
             {
+                if (entries.Count > 0)
+                {
+                    if (c != Specification.PIPE && c != Specification.COMMA)
+                        throw new ArgumentException("Invalid content specification in element type declaration.");
+
+                    if (entries.Count == 1)
+                        connection = c;
+                    else if (connection != c)
+                        throw new ArgumentException("Invalid content specification in element type declaration.");
+
+                    c = src.Next;
+                }
+
                 while (c.IsSpaceCharacter())
                     c = src.Next;
 
@@ -777,19 +809,32 @@ namespace AngleSharp.Xml
                         c = src.Next;
 
                     if (c == Specification.BC)
-                    {
-                        //TODO
-                        throw new NotImplementedException();
-                    }
+                        break;
                 }
                 else if (c == Specification.BO)
-                {
-                    //TODO
-                    throw new NotImplementedException();
-                }
-
-                c = src.Next;
+                    entries.Add(TypeDeclarationChildren(src.Next));
+                else
+                    throw new ArgumentException("Invalid content specification in element type declaration.");
             }
+
+            c = src.Next;
+
+            if (entries.Count == 1)
+                return entries[0];
+            else if (entries.Count == 0)
+                throw new ArgumentException("Invalid content specification in element type declaration.");
+            else if (connection == Specification.COMMA)
+            {
+                var sequence = new XmlElementDeclarationToken.ElementSequenceDeclarationEntry();
+                sequence.Sequence.AddRange(entries);
+                sequence.Quantifier = TypeDeclarationQuantifier(c);
+                return sequence;
+            }
+
+            var choice = new XmlElementDeclarationToken.ElementChoiceDeclarationEntry();
+            choice.Choice.AddRange(entries);
+            choice.Quantifier = TypeDeclarationQuantifier(c);
+            return choice;
         }
 
         XmlElementDeclarationToken.ElementNameDeclarationEntry TypeDeclarationName(Char c)
