@@ -2,11 +2,20 @@
 
 namespace AngleSharp.Xml
 {
-    abstract class XmlBaseDeclarationToken : XmlToken
+    abstract class XmlBaseDeclaration : XmlToken
     {
         #region Members
 
         String _name;
+
+        #endregion
+
+        #region ctor
+
+        public XmlBaseDeclaration()
+        {
+            _type = XmlTokenType.DeclarationInstruction;
+        }
 
         #endregion
 

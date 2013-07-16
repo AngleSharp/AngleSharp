@@ -2,16 +2,15 @@
 
 namespace AngleSharp.Xml
 {
-    sealed class XmlAttributeDeclarationToken : XmlBaseDeclarationToken
+    sealed class XmlEntityDeclaration : XmlBaseDeclaration
     {
         #region ctor
 
         /// <summary>
         /// Creates a new entity token.
         /// </summary>
-        public XmlAttributeDeclarationToken()
+        public XmlEntityDeclaration()
         {
-            _type = XmlTokenType.AttributeDeclaration;
         }
 
         #endregion

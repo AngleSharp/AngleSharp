@@ -2,7 +2,7 @@
 
 namespace AngleSharp.Xml
 {
-    sealed class XmlNotationDeclarationToken : XmlBaseDeclarationToken
+    sealed class XmlNotationDeclaration : XmlBaseDeclaration
     {
         #region Members
 
@@ -16,9 +16,8 @@ namespace AngleSharp.Xml
         /// <summary>
         /// Creates a new entity token.
         /// </summary>
-        public XmlNotationDeclarationToken()
+        public XmlNotationDeclaration()
         {
-            _type = XmlTokenType.NotationDeclaration;
         }
 
         #endregion

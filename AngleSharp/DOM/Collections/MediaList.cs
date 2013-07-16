@@ -40,7 +40,7 @@ namespace AngleSharp.DOM.Collections
 
         #region Members
 
-        StringCollection _media;
+        List<String> _media;
         String _buffer;
 
         #endregion
@@ -53,7 +53,7 @@ namespace AngleSharp.DOM.Collections
         internal MediaList()
         {
             _buffer = String.Empty;
-            _media = new StringCollection();
+            _media = new List<String>();
         }
 
         #endregion

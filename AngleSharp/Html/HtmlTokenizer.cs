@@ -829,7 +829,7 @@ namespace AngleSharp.Html
         {
             stringBuffer.Clear();
 
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
                 return CommentDashStart(src.Next);
             else if (c == Specification.NULL)
             {
@@ -862,12 +862,12 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken CommentDashStart(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
                 return CommentEnd(src.Next);
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.MINUS);
                 stringBuffer.Append(Specification.REPLACEMENT);
                 return Comment(src.Next);
             }
@@ -884,7 +884,7 @@ namespace AngleSharp.Html
                 return HtmlToken.Comment(stringBuffer.ToString());
             }
 
-            stringBuffer.Append(Specification.DASH);
+            stringBuffer.Append(Specification.MINUS);
             stringBuffer.Append(c);
             return Comment(src.Next);
         }
@@ -897,7 +897,7 @@ namespace AngleSharp.Html
         {
             while (true)
             {
-                if (c == Specification.DASH)
+                if (c == Specification.MINUS)
                     return CommentDashEnd(src.Next);
                 else if (c == Specification.EOF)
                 {
@@ -922,7 +922,7 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken CommentDashEnd(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
                 return CommentEnd(src.Next);
             else if (c == Specification.EOF)
             {
@@ -936,7 +936,7 @@ namespace AngleSharp.Html
                 c = Specification.REPLACEMENT;
             }
 
-            stringBuffer.Append(Specification.DASH);
+            stringBuffer.Append(Specification.MINUS);
             stringBuffer.Append(c);
             return Comment(src.Next);
         }
@@ -955,7 +955,7 @@ namespace AngleSharp.Html
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.MINUS);
                 stringBuffer.Append(Specification.REPLACEMENT);
                 return Comment(src.Next);
             }
@@ -964,10 +964,10 @@ namespace AngleSharp.Html
                 RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
                 return CommentBangEnd(src.Next);
             }
-            else if (c == Specification.DASH)
+            else if (c == Specification.MINUS)
             {
                 RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
-                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.MINUS);
                 return CommentEnd(src.Next);
             }
             else if (c == Specification.EOF)
@@ -978,8 +978,8 @@ namespace AngleSharp.Html
             }
 
             RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
-            stringBuffer.Append(Specification.DASH);
-            stringBuffer.Append(Specification.DASH);
+            stringBuffer.Append(Specification.MINUS);
+            stringBuffer.Append(Specification.MINUS);
             stringBuffer.Append(c);
             return Comment(src.Next);
         }
@@ -990,10 +990,10 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken CommentBangEnd(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                stringBuffer.Append(Specification.DASH);
-                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.MINUS);
+                stringBuffer.Append(Specification.MINUS);
                 stringBuffer.Append(Specification.EM);
                 return CommentDashEnd(src.Next);
             }
@@ -1005,8 +1005,8 @@ namespace AngleSharp.Html
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.DASH);
-                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.MINUS);
+                stringBuffer.Append(Specification.MINUS);
                 stringBuffer.Append(Specification.EM);
                 stringBuffer.Append(Specification.REPLACEMENT);
                 return Comment(src.Next);
@@ -1018,8 +1018,8 @@ namespace AngleSharp.Html
                 return HtmlToken.Comment(stringBuffer.ToString());
             }
 
-            stringBuffer.Append(Specification.DASH);
-            stringBuffer.Append(Specification.DASH);
+            stringBuffer.Append(Specification.MINUS);
+            stringBuffer.Append(Specification.MINUS);
             stringBuffer.Append(Specification.EM);
             stringBuffer.Append(c);
             return Comment(src.Next);
@@ -2142,9 +2142,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataStartEscape(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataStartEscapeDash(src.Next);
             }
 
@@ -2157,9 +2157,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscaped(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDash(src.Next);
             }
             else if (c == Specification.LT)
@@ -2186,9 +2186,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataStartEscapeDash(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDashDash(src.Next);
             }
 
@@ -2201,9 +2201,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDash(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDashDash(src.Next);
             }
             else if (c == Specification.LT)
@@ -2231,9 +2231,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDashDash(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDashDash(src.Next);
             }
             else if (c == Specification.LT)
@@ -2396,9 +2396,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDouble(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDoubleDash(src.Next);
             }
             else if (c == Specification.LT)
@@ -2427,9 +2427,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDoubleDash(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDoubleDashDash(src.Next);
             }
             else if (c == Specification.LT)
@@ -2461,9 +2461,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDoubleDashDash(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDoubleDashDash(src.Next);
             }
             else if (c == Specification.LT)

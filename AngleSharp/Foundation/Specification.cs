@@ -78,12 +78,12 @@ namespace AngleSharp
         /// <summary>
         /// The full stop ( . ).
         /// </summary>
-        public const Char FS = (char)0x2e;
+        public const Char DOT = (char)0x2e;
 
         /// <summary>
         /// The circumflex accent ( ^ ) character.
         /// </summary>
-        public const Char CA = (char)0x5e;
+        public const Char ACCENT = (char)0x5e;
 
         /// <summary>
         /// The commercial at ( @ ) character.
@@ -158,7 +158,7 @@ namespace AngleSharp
         /// <summary>
         /// The colon ( : ) character.
         /// </summary>
-        public const Char COL = (char)0x3a;
+        public const Char COLON = (char)0x3a;
 
         /// <summary>
         /// The exlamation mark ( ! ) character.
@@ -168,7 +168,7 @@ namespace AngleSharp
         /// <summary>
         /// The dash ( hypen minus, - ) character.
         /// </summary>
-        public const Char DASH = (char)0x2d;
+        public const Char MINUS = (char)0x2d;
 
         /// <summary>
         /// The replacement character in case of errors.
@@ -178,17 +178,27 @@ namespace AngleSharp
         /// <summary>
         /// The low line ( _ ) character.
         /// </summary>
-        public const Char LL = (char)0x5f;
+        public const Char UNDERSCORE = (char)0x5f;
 
         /// <summary>
-        /// The bracket open ( ( ) character.
+        /// The round bracket open ( ( ) character.
         /// </summary>
-        public const Char BO = (char)0x28;
+        public const Char RBO = (char)0x28;
 
         /// <summary>
-        /// The bracket close ( ) ) character.
+        /// The round bracket close ( ) ) character.
         /// </summary>
-        public const Char BC = (char)0x29;
+        public const Char RBC = (char)0x29;
+
+        /// <summary>
+        /// The square bracket open ( [ ) character.
+        /// </summary>
+        public const Char SBO = (char)0x5b;
+
+        /// <summary>
+        /// The square bracket close ( ] ) character.
+        /// </summary>
+        public const Char SBC = (char)0x5d;
 
         /// <summary>
         /// The percent ( % ) character.
@@ -245,7 +255,7 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static Boolean IsName(this Char c)
         {
-            return c >= 0x80 || c.IsLetter() || c == LL || c == DASH || IsDigit(c);
+            return c >= 0x80 || c.IsLetter() || c == UNDERSCORE || c == MINUS || IsDigit(c);
         }
 
         /// <summary>
@@ -256,7 +266,7 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static Boolean IsNameStart(this Char c)
         {
-            return c >= 0x80 || IsUppercaseAscii(c) || IsLowercaseAscii(c) || c == LL;
+            return c >= 0x80 || IsUppercaseAscii(c) || IsLowercaseAscii(c) || c == UNDERSCORE;
         }
 
         /// <summary>
@@ -404,9 +414,9 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static Boolean IsPubidChar(this Char c)
         {
-            return IsAlphanumericAscii(c) || c == DASH || c == SQ || c == PLUS || c == COMMA || c == FS ||
-                   c == SOLIDUS || c == COL || c == QM || c == EQ || c == EM || c == ASTERISK || c == NUM ||
-                   c == AT || c == DOLLAR || c == LL || c == BO || c == BC || c == SC || c == PERCENT ||
+            return IsAlphanumericAscii(c) || c == MINUS || c == SQ || c == PLUS || c == COMMA || c == DOT ||
+                   c == SOLIDUS || c == COLON || c == QM || c == EQ || c == EM || c == ASTERISK || c == NUM ||
+                   c == AT || c == DOLLAR || c == UNDERSCORE || c == RBO || c == RBC || c == SC || c == PERCENT ||
                    IsSpaceCharacter(c);
         }
 

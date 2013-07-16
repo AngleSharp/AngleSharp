@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AngleSharp.Xml
 {
-    sealed class XmlElementDeclarationToken : XmlBaseDeclarationToken
+    sealed class XmlElementDeclaration : XmlBaseDeclaration
     {
         #region Members
 
@@ -17,9 +17,8 @@ namespace AngleSharp.Xml
         /// <summary>
         /// Creates a new entity token.
         /// </summary>
-        public XmlElementDeclarationToken()
+        public XmlElementDeclaration()
         {
-            _type = XmlTokenType.ElementDeclaration;
             _names = new List<String>();
         }
 

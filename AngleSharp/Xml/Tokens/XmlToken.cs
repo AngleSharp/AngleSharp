@@ -92,42 +92,6 @@ namespace AngleSharp.Xml
         }
 
         /// <summary>
-        /// Creates a new element declaration token.
-        /// </summary>
-        /// <returns>The created token.</returns>
-        public static XmlElementDeclarationToken ElementDeclaration()
-        {
-            return new XmlElementDeclarationToken();
-        }
-
-        /// <summary>
-        /// Creates a new notation declaration token.
-        /// </summary>
-        /// <returns>The created token.</returns>
-        public static XmlNotationDeclarationToken NotationDeclaration()
-        {
-            return new XmlNotationDeclarationToken();
-        }
-
-        /// <summary>
-        /// Creates a new entity declaration token.
-        /// </summary>
-        /// <returns>The created token.</returns>
-        public static XmlEntityDeclarationToken EntityDeclaration()
-        {
-            return new XmlEntityDeclarationToken();
-        }
-
-        /// <summary>
-        /// Creates a new attribute declaration token.
-        /// </summary>
-        /// <returns>The created token.</returns>
-        public static XmlAttributeDeclarationToken AttributeDeclaration()
-        {
-            return new XmlAttributeDeclarationToken();
-        }
-
-        /// <summary>
         /// Creates a new CData token.
         /// </summary>
         /// <param name="data">The raw data.</param>

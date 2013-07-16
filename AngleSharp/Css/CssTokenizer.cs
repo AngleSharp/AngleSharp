@@ -143,7 +143,7 @@ namespace AngleSharp.Css
                             var c2 = src.Next;
                             src.Back(2);
 
-                            if (c1.IsDigit() || (c1 == Specification.FS && c2.IsDigit()))
+                            if (c1.IsDigit() || (c1 == Specification.DOT && c2.IsDigit()))
                                 return NumberStart(current);
                         }
                         
@@ -153,7 +153,7 @@ namespace AngleSharp.Css
                 case Specification.COMMA:
                     return CssSpecialCharacter.Comma;
 
-                case Specification.FS:
+                case Specification.DOT:
                     {
                         var c = src.Next;
 
@@ -163,7 +163,7 @@ namespace AngleSharp.Css
                         return CssToken.Delim(src.Previous);
                     }
 
-                case Specification.DASH:
+                case Specification.MINUS:
                     {
                         var c1 = src.Next;
 
@@ -176,13 +176,13 @@ namespace AngleSharp.Css
                             var c2 = src.Next;
                             src.Back(2);
 
-                            if (c1.IsDigit() || (c1 == Specification.FS && c2.IsDigit()))
+                            if (c1.IsDigit() || (c1 == Specification.DOT && c2.IsDigit()))
                                 return NumberStart(current);
                             else if (c1.IsNameStart())
                                 return IdentStart(current);
                             else if (c1 == Specification.RSOLIDUS && !c2.IsLineBreak() && c2 != Specification.EOF)
                                 return IdentStart(current);
-                            else if (c1 == Specification.DASH && c2 == Specification.GT)
+                            else if (c1 == Specification.MINUS && c2 == Specification.GT)
                             {
                                 src.Advance(2);
                                 return CssCommentToken.Close;
@@ -211,7 +211,7 @@ namespace AngleSharp.Css
 
                     return IdentStart(src.Previous);
 
-                case Specification.COL:
+                case Specification.COLON:
                     return CssSpecialCharacter.Colon;
 
                 case Specification.SC:
@@ -224,11 +224,11 @@ namespace AngleSharp.Css
                     {
                         current = src.Next;
 
-                        if (current == Specification.DASH)
+                        if (current == Specification.MINUS)
                         {
                             current = src.Next;
 
-                            if (current == Specification.DASH)
+                            if (current == Specification.MINUS)
                                 return CssCommentToken.Open;
 
                             current = src.Previous;
@@ -248,7 +248,7 @@ namespace AngleSharp.Css
                 case ']':
                     return CssBracketToken.CloseSquare;
 
-                case Specification.CA:
+                case Specification.ACCENT:
                     current = src.Next;
 
                     if (current == Specification.EQ)
@@ -503,13 +503,13 @@ namespace AngleSharp.Css
         /// </summary>
         CssToken AtKeywordStart(Char current)
         {
-            if (current == Specification.DASH)
+            if (current == Specification.MINUS)
             {
                 current = src.Next;
 
                 if (current.IsNameStart() || IsValidEscape(current))
                 {
-                    stringBuffer.Append(Specification.DASH);
+                    stringBuffer.Append(Specification.MINUS);
                     return AtKeywordRest(current);
                 }
 
@@ -563,18 +563,18 @@ namespace AngleSharp.Css
         /// </summary>
         CssToken IdentStart(Char current)
         {
-            if (current == Specification.DASH)
+            if (current == Specification.MINUS)
             {
                 current = src.Next;
 
                 if (current.IsNameStart() || IsValidEscape(current))
                 {
-                    stringBuffer.Append(Specification.DASH);
+                    stringBuffer.Append(Specification.MINUS);
                     return IdentRest(current);
                 }
 
                 src.Back();
-                return CssToken.Delim(Specification.DASH);
+                return CssToken.Delim(Specification.MINUS);
             }
             else if (current.IsNameStart())
             {
@@ -660,12 +660,12 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                if (current == Specification.PLUS || current == Specification.DASH)
+                if (current == Specification.PLUS || current == Specification.MINUS)
                 {
                     stringBuffer.Append(current);
                     current = src.Next;
 
-                    if (current == Specification.FS)
+                    if (current == Specification.DOT)
                     {
                         stringBuffer.Append(current);
                         stringBuffer.Append(src.Next);
@@ -675,7 +675,7 @@ namespace AngleSharp.Css
                     stringBuffer.Append(current);
                     return NumberRest(src.Next);
                 }
-                else if (current == Specification.FS)
+                else if (current == Specification.DOT)
                 {
                     stringBuffer.Append(current);
                     stringBuffer.Append(src.Next);
@@ -721,12 +721,12 @@ namespace AngleSharp.Css
 
             switch (current)
             {
-                case Specification.FS:
+                case Specification.DOT:
                     current = src.Next;
 
                     if (current.IsDigit())
                     {
-                        stringBuffer.Append(Specification.FS).Append(current);
+                        stringBuffer.Append(Specification.DOT).Append(current);
                         return NumberFraction(src.Next);
                     }
 
@@ -740,7 +740,7 @@ namespace AngleSharp.Css
                 case 'E':
                     return NumberExponential(current);
 
-                case Specification.DASH:
+                case Specification.MINUS:
                     return NumberDash(current);
 
                 default:
@@ -786,7 +786,7 @@ namespace AngleSharp.Css
                 case '%':
                     return CssUnitToken.Percentage(FlushBuffer());
 
-                case Specification.DASH:
+                case Specification.MINUS:
                     return NumberDash(current);
 
                 default:
@@ -1068,7 +1068,7 @@ namespace AngleSharp.Css
                 var end = range.Replace(Specification.QM, 'F');
                 return CssToken.Range(start, end);
             }
-            else if (current == Specification.DASH)
+            else if (current == Specification.MINUS)
             {
                 current = src.Next;
 
@@ -1128,7 +1128,7 @@ namespace AngleSharp.Css
                 stringBuffer.Append('e').Append(current);
                 return SciNotation(src.Next);
             }
-            else if (current == Specification.PLUS || current == Specification.DASH)
+            else if (current == Specification.PLUS || current == Specification.MINUS)
             {
                 var op = current;
                 current = src.Next;
@@ -1158,14 +1158,14 @@ namespace AngleSharp.Css
             if (current.IsNameStart())
             {
                 var number = FlushBuffer();
-                stringBuffer.Append(Specification.DASH).Append(current);
+                stringBuffer.Append(Specification.MINUS).Append(current);
                 return Dimension(src.Next, number);
             }
             else if (IsValidEscape(current))
             {
                 current = src.Next;
                 var number = FlushBuffer();
-                stringBuffer.Append(Specification.DASH).Append(ConsumeEscape(current));
+                stringBuffer.Append(Specification.MINUS).Append(ConsumeEscape(current));
                 return Dimension(src.Next, number);
             }
             else
