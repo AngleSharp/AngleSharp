@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AngleSharp.DOM
 {
@@ -13,7 +14,14 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the !DOCTYPE constant.
         /// </summary>
-        internal const string Tag = "!DOCTYPE";
+        internal const String Tag = "!DOCTYPE";
+
+        #endregion
+
+        #region Members
+
+        List<Entity> _entities;
+        List<Notation> _notations;
 
         #endregion
 
@@ -26,11 +34,31 @@ namespace AngleSharp.DOM
         {
             _type = NodeType.DocumentType;
             _name = Tag;
+            _entities = new List<Entity>();
+            _notations = new List<Notation>();
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets a list of defined entities.
+        /// </summary>
+        [DOM("entities")]
+        public List<Entity> Entities
+        {
+            get { return _entities; }
+        }
+
+        /// <summary>
+        /// Gets a list of defined notations.
+        /// </summary>
+        [DOM("notations")]
+        public List<Notation> Notations
+        {
+            get { return _notations; }
+        }
 
         /// <summary>
         /// Gets or sets the name of the document type.
@@ -261,7 +289,8 @@ namespace AngleSharp.DOM
         /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml()
         {
-            return String.Format("<!DOCTYPE html{0}{1}>", 
+            return String.Format("<!DOCTYPE {0}{1}{2}>",
+                Name,
                 String.IsNullOrEmpty(PublicId) ? "" : " PUBLIC \"" + PublicId + "\"", 
                 String.IsNullOrEmpty(SystemId) ? "" : (String.IsNullOrEmpty(PublicId) ? " SYSTEM" : "") + " \"" + SystemId + "\"");
         }

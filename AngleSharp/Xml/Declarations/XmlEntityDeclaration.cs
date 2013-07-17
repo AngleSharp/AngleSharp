@@ -14,5 +14,33 @@ namespace AngleSharp.Xml
         }
 
         #endregion
+
+        #region Properties
+
+        public Boolean IsParameter 
+        { 
+            get; 
+            set;
+        }
+
+        public Boolean IsExtern
+        {
+            get;
+            set;
+        }
+
+        public String Value
+        {
+            get;
+            set;
+        }
+
+        public String ExternNotation
+        {
+            get;
+            set;
+        }
+
+        #endregion
     }
 }

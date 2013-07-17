@@ -481,12 +481,100 @@ namespace AngleSharp.Xml
                 canContinue = DeclarationNameBefore(c, decl);
             }
 
-            if (canContinue)
+            if (canContinue && decl.Name == "%")
             {
-                //TODO
+                decl.IsParameter = true;
+                canContinue = DeclarationNameBefore(src.Next, decl);
             }
 
-            return decl;
+            c = src.Current;
+
+            if (canContinue)
+            {
+                if (src.ContinuesWith("SYSTEM"))
+                {
+                    src.Advance(5);
+                    decl.IsExtern = true;
+
+                    do
+                    {
+                        c = src.Next;
+                    }
+                    while (c.IsSpaceCharacter());
+                }
+
+                stringBuffer.Clear();
+                decl.Value = EntityDeclarationBeforeValue(c);
+                c = src.Next;
+            }
+
+            return EntityDeclarationAfter(c, decl);
+        }
+
+        String EntityDeclarationBeforeValue(Char c)
+        {
+            switch (c)
+            {
+                case Specification.DQ:
+                    return EntityDeclarationValue(src.Next, Specification.DQ);
+                case Specification.SQ:
+                    return EntityDeclarationValue(src.Next, Specification.SQ);
+                default:
+                    throw new ArgumentException("Declaration invalid.");
+            }
+        }
+
+        String EntityDeclarationValue(Char c, Char end)
+        {
+            while (c != end)
+            {
+                if (c == Specification.EOF)
+                    throw new ArgumentException("The document ended unexpectedly.");
+
+                stringBuffer.Append(c);
+                c = src.Next;
+            }
+
+            return stringBuffer.ToString();
+        }
+
+        XmlBaseDeclaration EntityDeclarationAfter(Char c, XmlEntityDeclaration decl)
+        {
+            while (c.IsSpaceCharacter())
+                c = src.Next;
+
+            if (c == Specification.EOF)
+                throw new ArgumentException("The document ended unexpectedly.");
+            else if (c == Specification.GT)
+                return decl;
+            else if (decl.IsExtern && String.IsNullOrEmpty(decl.ExternNotation))
+            {
+                if (src.ContinuesWith("NDATA"))
+                {
+                    src.Advance(4);
+                    c = src.Next;
+
+                    while (c.IsSpaceCharacter())
+                        c = src.Next;
+
+                    if(c.IsNameStart())
+                    {
+                        stringBuffer.Clear();
+
+                        do
+                        {
+                            stringBuffer.Append(c);
+                            c = src.Next;
+                        }
+                        while (c.IsName());
+
+                        decl.ExternNotation = stringBuffer.ToString();
+                        return EntityDeclarationAfter(c, decl);
+                    }
+                }
+            }
+            
+            throw new ArgumentException("Declaration invalid.");
         }
 
         #endregion
