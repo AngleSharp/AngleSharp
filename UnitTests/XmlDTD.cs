@@ -9,11 +9,48 @@ namespace UnitTests
     [TestClass]
     public class XmlDTD
     {
+        [TestMethod]
+        public void TVScheduleDtdSubset()
+        {
+            var dtd = @"<!ELEMENT TVSCHEDULE (CHANNEL+)>
+ <!ELEMENT CHANNEL (BANNER,DAY+)>
+ <!ELEMENT BANNER (#PCDATA)>
+ <!ELEMENT DAY (DATE,(HOLIDAY|PROGRAMSLOT+)+)>
+ <!ELEMENT HOLIDAY (#PCDATA)>
+ <!ELEMENT DATE (#PCDATA)>
+ <!ELEMENT PROGRAMSLOT (TIME,TITLE,DESCRIPTION?)>
+ <!ELEMENT TIME (#PCDATA)>
+ <!ELEMENT TITLE (#PCDATA)> 
+ <!ELEMENT DESCRIPTION (#PCDATA)>
+
+ <!ATTLIST TVSCHEDULE NAME CDATA #REQUIRED>
+ <!ATTLIST CHANNEL CHAN CDATA #REQUIRED>
+ <!ATTLIST PROGRAMSLOT VTR CDATA #IMPLIED>
+ <!ATTLIST TITLE RATING CDATA #IMPLIED>
+ <!ATTLIST TITLE LANGUAGE CDATA #IMPLIED>";
+            var text = "<!DOCTYPE TVSCHEDULE [" + dtd + "]>";
+            var s = new SourceManager(text);
+
+            var t = new XmlTokenizer(s);
+            t.DTD.Reset();
+            var e = t.Get();
+            Assert.AreEqual(XmlTokenType.DOCTYPE, e.Type);
+            var d = (XmlDoctypeToken)e;
+            Assert.IsFalse(d.IsNameMissing);
+            Assert.AreEqual("TVSCHEDULE", d.Name);
+            Assert.IsTrue(d.IsSystemIdentifierMissing);
+            Assert.AreEqual(15, t.DTD.Count);
+
+            //Unfortunately C# counts newlines with 2 characters since \r\n is used
+            Assert.AreEqual(dtd.Replace("\r\n", "\n"), d.InternalSubset);
+            //This is annoying but meh - what can we do? W3C specifies we need to use
+            //\n for newlines and omit \r completely.
+        }
 
         [TestMethod]
-        public void TVScheduleDtd()
+        public void TVScheduleDtdComplete()
         {
-            var s = new SourceManager(@"<!DOCTYPE TVSCHEDULE [
+            var dtd = @"<!DOCTYPE TVSCHEDULE [
 
  <!ELEMENT TVSCHEDULE (CHANNEL+)>
  <!ELEMENT CHANNEL (BANNER,DAY+)>
@@ -31,31 +68,30 @@ namespace UnitTests
  <!ATTLIST PROGRAMSLOT VTR CDATA #IMPLIED>
  <!ATTLIST TITLE RATING CDATA #IMPLIED>
  <!ATTLIST TITLE LANGUAGE CDATA #IMPLIED>
- ]>");
+ ]>";
+            var s = new SourceManager(dtd);
 
             var t = new XmlTokenizer(s);
+            t.DTD.Reset();
             var e = t.Get();
-            Assert.AreEqual(XmlTokenType.DOCTYPE, e.Type);
-            var d = (XmlDoctypeToken)e;
-            Assert.IsFalse(d.IsNameMissing);
-            Assert.AreEqual("TVSCHEDULE", d.Name);
-            Assert.IsTrue(d.IsSystemIdentifierMissing);
-            Assert.AreEqual(15, d.InternalSubset.Count);
+            Assert.IsTrue(t.DTD[0] is ElementDeclaration);
 
-            Assert.IsTrue(d.InternalSubset[0] is ElementDeclaration);
-            var f1 = (d.InternalSubset[0] as ElementDeclaration);
+            var f1 = (t.DTD[0] as ElementDeclaration);
             Assert.AreEqual("TVSCHEDULE", f1.Name);
             Assert.AreEqual(ElementDeclarationEntry.ContentType.Children, f1.Type);
             Assert.IsTrue(f1.Entry is ElementNameDeclarationEntry);
+
             var g1 = (f1.Entry as ElementNameDeclarationEntry);
             Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.OneOrMore, g1.Quantifier);
             Assert.AreEqual("CHANNEL", g1.Name);
 
-            Assert.IsTrue(d.InternalSubset[3] is ElementDeclaration);
-            var f2 = (d.InternalSubset[3] as ElementDeclaration);
+            Assert.IsTrue(t.DTD[3] is ElementDeclaration);
+
+            var f2 = (t.DTD[3] as ElementDeclaration);
             Assert.AreEqual("DAY", f2.Name);
             Assert.AreEqual(ElementDeclarationEntry.ContentType.Children, f2.Type);
             Assert.IsTrue(f2.Entry is ElementSequenceDeclarationEntry);
+
             var g2 = (f2.Entry as ElementSequenceDeclarationEntry);
             Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.One, g2.Quantifier);
             Assert.AreEqual(2, g2.Sequence.Count);
@@ -63,12 +99,14 @@ namespace UnitTests
             Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.OneOrMore, g2.Sequence[1].Quantifier);
             Assert.IsTrue(g2.Sequence[0] is ElementNameDeclarationEntry);
             Assert.IsTrue(g2.Sequence[1] is ElementChoiceDeclarationEntry);
+
             var g3 = (g2.Sequence[0] as ElementNameDeclarationEntry);
             var g4 = (g2.Sequence[1] as ElementChoiceDeclarationEntry);
             Assert.AreEqual("DATE", g3.Name);
             Assert.AreEqual(2, g4.Choice.Count);
             Assert.IsTrue(g4.Choice[0] is ElementNameDeclarationEntry);
             Assert.IsTrue(g4.Choice[1] is ElementNameDeclarationEntry);
+
             var g5 = (g4.Choice[0] as ElementNameDeclarationEntry);
             var g6 = (g4.Choice[1] as ElementNameDeclarationEntry);
             Assert.AreEqual("HOLIDAY", g5.Name);
@@ -76,8 +114,8 @@ namespace UnitTests
             Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.One, g5.Quantifier);
             Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.OneOrMore, g6.Quantifier);
 
-            Assert.IsTrue(d.InternalSubset[10] is AttributeDeclaration);
-            var f7 = (d.InternalSubset[10] as AttributeDeclaration);
+            Assert.IsTrue(t.DTD[10] is AttributeDeclaration);
+            var f7 = (t.DTD[10] as AttributeDeclaration);
             Assert.AreEqual("TVSCHEDULE", f7.Name);
             Assert.AreEqual(1, f7.Count);
             Assert.AreEqual("NAME", f7[0].Name);
@@ -86,7 +124,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void NewspaperDtd()
+        public void NewspaperDtdComplete()
         {
             var s = new SourceManager(@"<!DOCTYPE NEWSPAPER [
 
@@ -109,17 +147,18 @@ namespace UnitTests
 
  ]>");
             var t = new XmlTokenizer(s);
+            t.DTD.Reset();
             var e = t.Get();
             Assert.AreEqual(XmlTokenType.DOCTYPE, e.Type);
             var d = (XmlDoctypeToken)e;
             Assert.IsFalse(d.IsNameMissing);
             Assert.AreEqual("NEWSPAPER", d.Name);
             Assert.IsTrue(d.IsSystemIdentifierMissing);
-            Assert.AreEqual(14, d.InternalSubset.Count);
+            Assert.AreEqual(14, t.DTD.Count);
         }
 
         [TestMethod]
-        public void ProductCatalogDtd()
+        public void ProductCatalogDtdComplete()
         {
             var s = new SourceManager(@"<!DOCTYPE CATALOG [
 
@@ -160,13 +199,14 @@ namespace UnitTests
 
  ]>");
             var t = new XmlTokenizer(s);
+            t.DTD.Reset();
             var e = t.Get();
             Assert.AreEqual(XmlTokenType.DOCTYPE, e.Type);
             var d = (XmlDoctypeToken)e;
             Assert.IsFalse(d.IsNameMissing);
             Assert.AreEqual("CATALOG", d.Name);
             Assert.IsTrue(d.IsSystemIdentifierMissing);
-            Assert.AreEqual(13, d.InternalSubset.Count);
+            Assert.AreEqual(13, t.DTD.Count);
         }
     }
 }
