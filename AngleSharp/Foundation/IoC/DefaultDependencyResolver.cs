@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace AngleSharp
 {
@@ -8,7 +9,8 @@ namespace AngleSharp
     {
         public Object GetService(Type serviceType)
         {
-            if (serviceType.IsInterface || serviceType.IsAbstract)
+            TypeInfo serviceTypeInfo = serviceType.GetTypeInfo();
+            if (serviceTypeInfo.IsInterface || serviceTypeInfo.IsAbstract)
                 return null;
 
             try

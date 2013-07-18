@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 
 namespace AngleSharp
 {
@@ -90,8 +91,8 @@ namespace AngleSharp
                 throw new ArgumentNullException("commonServiceLocator");
 
             var locatorType = commonServiceLocator.GetType();
-            var getInstance = locatorType.GetMethod("GetInstance", new[] { typeof(Type) });
-            var getInstances = locatorType.GetMethod("GetAllInstances", new[] { typeof(Type) });
+            var getInstance = locatorType.GetRuntimeMethod("GetInstance", new[] { typeof(Type) });
+            var getInstances = locatorType.GetRuntimeMethod("GetAllInstances", new[] { typeof(Type) });
 
             if (getInstance == null ||
                 getInstance.ReturnType != typeof(Object) ||
@@ -101,8 +102,8 @@ namespace AngleSharp
                 throw new ArgumentException("commonServiceLocator");
             }
 
-            var getService = (Func<Type, Object>)Delegate.CreateDelegate(typeof(Func<Type, Object>), commonServiceLocator, getInstance);
-            var getServices = (Func<Type, IEnumerable<Object>>)Delegate.CreateDelegate(typeof(Func<Type, IEnumerable<Object>>), commonServiceLocator, getInstances);
+            var getService = (Func<Type, Object>)getInstance.CreateDelegate(typeof(Func<Type, Object>), commonServiceLocator);
+            var getServices = (Func<Type, IEnumerable<Object>>)getInstances.CreateDelegate(typeof(Func<Type, IEnumerable<Object>>), commonServiceLocator);
 
             InnerSetResolver(new DelegateBasedDependencyResolver(getService, getServices));
         }

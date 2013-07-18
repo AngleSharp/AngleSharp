@@ -115,7 +115,7 @@ namespace AngleSharp.DOM.Collections
             if (name.StartsWith("xml", StringComparison.OrdinalIgnoreCase))
                 throw new DOMException(ErrorCode.SyntaxError);
 
-            if (name.Contains(Specification.SC))
+            if (name.IndexOf(Specification.SC) >= 0)
                 throw new DOMException(ErrorCode.SyntaxError);
 
             for (int i = 0; i < name.Length; i++)
