@@ -78,7 +78,5 @@ namespace UnitTests
             Assert.IsFalse(d.IsSystemIdentifierMissing);
             Assert.AreEqual("DTD_location", d.SystemIdentifier);
         }
-
-        //Test with DOCTYPES and examples from: http://xmlwriter.net/xml_guide/doctype_declaration.shtml
     }
 }

@@ -60,5 +60,31 @@ namespace UnitTests
             Assert.AreEqual("$5.95", xml.DocumentElement.Children[0].Children[1].InnerHTML);
             Assert.AreEqual("$7.95", xml.DocumentElement.Children[1].Children[1].InnerHTML);
         }
+
+        [TestMethod]
+        public void XmlValidDocumentHelloWorldWithDtd()
+        {
+            var xml = @"<?xml version=""1.0"" standalone=""yes""?>
+
+<!--open the DOCTYPE declaration -
+  the open square bracket indicates an internal DTD-->
+<!DOCTYPE foo [
+
+<!--define the internal DTD-->
+  <!ELEMENT foo (#PCDATA)>
+
+<!--close the DOCTYPE declaration-->
+]>
+
+<foo>Hello World.</foo>";
+
+            var doc = DocumentBuilder.Xml(xml);
+            Assert.IsNotNull(doc);
+            Assert.IsNotNull(doc.DocumentElement);
+            Assert.AreEqual("foo", doc.Doctype.Name);
+            
+            Assert.AreEqual("foo", doc.DocumentElement.TagName);
+            Assert.AreEqual("Hello World.", doc.DocumentElement.InnerHTML);
+        }
     }
 }

@@ -17,9 +17,9 @@ namespace UnitTests
         {
             mockService = new MockService();
             mockServices = new List<MockService>
-                           {
-                               mockService
-                           };
+            {
+                mockService
+            };
 
             mockResolver = new MockResolver();
             mockResolver.GetServiceDelegate = () => mockService;
