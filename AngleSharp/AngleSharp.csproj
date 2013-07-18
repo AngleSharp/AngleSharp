@@ -2,6 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{91F78C48-287E-41B5-9E49-44D6E1E31290}</ProjectGuid>
@@ -9,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AngleSharp</RootNamespace>
     <AssemblyName>AngleSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,13 +34,7 @@
     <DocumentationFile>bin\Release\AngleSharp.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Css\CssTokenizer.cs" />
@@ -314,8 +310,7 @@
     <Compile Include="Xml\XmlTokenType.cs" />
     <Compile Include="Xml\XmlTreeMode.cs" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

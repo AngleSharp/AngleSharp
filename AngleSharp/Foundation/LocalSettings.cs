@@ -10,7 +10,7 @@ namespace AngleSharp
     /// </summary>
     public static class LocalSettings
     {
-        static CultureInfo culture = Thread.CurrentThread.CurrentUICulture;
+        static CultureInfo culture = CultureInfo.CurrentUICulture;
 
         /// <summary>
         /// Gets the language (code, e.g. en-US, de-DE) to use by-default.
@@ -26,7 +26,7 @@ namespace AngleSharp
         public static CultureInfo Culture
         {
             get { return culture; }
-            set { culture = value ?? Thread.CurrentThread.CurrentUICulture; }
+            set { culture = value ?? CultureInfo.CurrentUICulture; }
         }
     }
 }

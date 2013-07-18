@@ -71,7 +71,7 @@ namespace AngleSharp.DOM
         [DOM("hostname")]
         public String HostName
         {
-            get { return _host.Contains(':') ? _host.Substring(0, _host.IndexOf(':')) : _host; }
+            get { return _host.IndexOf(':') >= 0 ? _host.Substring(0, _host.IndexOf(':')) : _host; }
             set { _host = ValidateHostName(value, HostName) + (String.IsNullOrEmpty(Port) ? String.Empty : (":" + Port)); }
         }
 
@@ -101,7 +101,7 @@ namespace AngleSharp.DOM
         [DOM("port")]
         public String Port
         {
-            get { return _host.Contains(':') ? _host.Substring(_host.IndexOf(':') + 1) : String.Empty; }
+            get { return _host.IndexOf(':') >= 0 ? _host.Substring(_host.IndexOf(':') + 1) : String.Empty; }
             set { _host = HostName + ValidatePort(value); }
         }
 

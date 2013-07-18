@@ -6,7 +6,7 @@ namespace AngleSharp.DOM
     /// <summary>
     /// Represents a DOM exception.
     /// </summary>
-    [Serializable]
+    //[Serializable]
     public class DOMException : Exception
     {
         /// <summary>
@@ -54,11 +54,11 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="info">The serialization info.</param>
         /// <param name="context">The streaming context.</param>
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue("Name", Name);
-            info.AddValue("Code", Code);
-        }
+        //public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    base.GetObjectData(info, context);
+        //    info.AddValue("Name", Name);
+        //    info.AddValue("Code", Code);
+        //}
     }
 }

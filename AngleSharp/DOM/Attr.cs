@@ -254,7 +254,7 @@ namespace AngleSharp.DOM
         /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml()
         {
-            if (_value.Contains(Specification.DQ))
+            if (_value.IndexOf(Specification.DQ) >= 0)
                 _value = _value.Replace(Specification.DQ.ToString(), "&quot;");
 
             return string.Format("{0}={2}{1}{2}", _name, _value, Specification.DQ);

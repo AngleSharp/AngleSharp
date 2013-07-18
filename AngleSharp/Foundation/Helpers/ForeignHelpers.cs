@@ -31,7 +31,7 @@ namespace AngleSharp
                     return attributeName;
 
                 default:
-                    if (attributeName.Contains(':'))
+                    if (attributeName.IndexOf(':') >= 0)
                         return attributeName.Substring(attributeName.IndexOf(':') + 1);
                     return attributeName;
             }
