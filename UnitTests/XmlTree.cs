@@ -86,5 +86,17 @@ namespace UnitTests
             Assert.AreEqual("foo", doc.DocumentElement.TagName);
             Assert.AreEqual("Hello World.", doc.DocumentElement.InnerHTML);
         }
+
+        [TestMethod]
+        public void XmlValidDocumentBooksTree()
+        {
+            var xml = DocumentBuilder.Xml(Assets.Books);
+
+            Assert.IsNotNull(xml);
+            Assert.IsNotNull(xml.DocumentElement);
+            Assert.AreEqual("catalog", xml.DocumentElement.TagName);
+            Assert.AreEqual(12, xml.DocumentElement.ChildElementCount);
+            Assert.AreEqual(6, xml.DocumentElement.Children[2].ChildElementCount);
+        }
     }
 }

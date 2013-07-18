@@ -61,6 +61,56 @@ namespace UnitTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
+        ///&lt;catalog&gt;
+        ///   &lt;book id=&quot;bk101&quot;&gt;
+        ///      &lt;author&gt;Gambardella, Matthew&lt;/author&gt;
+        ///      &lt;title&gt;XML Developer&apos;s Guide&lt;/title&gt;
+        ///      &lt;genre&gt;Computer&lt;/genre&gt;
+        ///      &lt;price&gt;44.95&lt;/price&gt;
+        ///      &lt;publish_date&gt;2000-10-01&lt;/publish_date&gt;
+        ///      &lt;description&gt;An in-depth look at creating applications 
+        ///      with XML.&lt;/description&gt;
+        ///   &lt;/book&gt;
+        ///   &lt;book id=&quot;bk102&quot;&gt;
+        ///      &lt;author&gt;Ralls, Kim&lt;/author&gt;
+        ///      &lt;title&gt;Midnight Rain&lt;/title&gt;
+        ///      &lt;genre&gt;Fantasy&lt;/genre&gt;
+        ///      &lt;price&gt;5.95&lt;/price&gt;
+        ///      [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Asserts {
+            get {
+                return ResourceManager.GetString("Asserts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
+        ///&lt;catalog&gt;
+        ///   &lt;book id=&quot;bk101&quot;&gt;
+        ///      &lt;author&gt;Gambardella, Matthew&lt;/author&gt;
+        ///      &lt;title&gt;XML Developer&apos;s Guide&lt;/title&gt;
+        ///      &lt;genre&gt;Computer&lt;/genre&gt;
+        ///      &lt;price&gt;44.95&lt;/price&gt;
+        ///      &lt;publish_date&gt;2000-10-01&lt;/publish_date&gt;
+        ///      &lt;description&gt;An in-depth look at creating applications 
+        ///      with XML.&lt;/description&gt;
+        ///   &lt;/book&gt;
+        ///   &lt;book id=&quot;bk102&quot;&gt;
+        ///      &lt;author&gt;Ralls, Kim&lt;/author&gt;
+        ///      &lt;title&gt;Midnight Rain&lt;/title&gt;
+        ///      &lt;genre&gt;Fantasy&lt;/genre&gt;
+        ///      &lt;price&gt;5.95&lt;/price&gt;
+        ///      [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Books {
+            get {
+                return ResourceManager.GetString("Books", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
         ///&lt;!-- Edited by XMLSpy® --&gt;
         ///&lt;breakfast_menu&gt;
