@@ -59,12 +59,18 @@
     <Compile Include="CssSheet.cs" />
     <Compile Include="CssTokenization.cs" />
     <Compile Include="CssSelectors.cs" />
+    <Compile Include="DependencyResolverTests.cs" />
     <Compile Include="DOM.cs" />
+    <Compile Include="Mocks\MockReflectionResolver.cs" />
+    <Compile Include="Mocks\MockResolver.cs" />
+    <Compile Include="Mocks\MockService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommonExtensions.cs" />
     <Compile Include="HtmlTokenization.cs" />
     <Compile Include="HtmlTree.cs" />
     <Compile Include="Quirksmode.cs" />
+    <Compile Include="ReflectionResolverTests.cs" />
+    <Compile Include="XmlTree.cs" />
     <Compile Include="XmlTokenization.cs" />
   </ItemGroup>
   <ItemGroup>

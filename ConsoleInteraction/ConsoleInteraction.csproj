@@ -56,10 +56,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Stylesheets.resx</DependentUpon>
     </Compile>
-    <Compile Include="Webpages.Designer.cs">
+    <Compile Include="HtmlFiles.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Webpages.resx</DependentUpon>
+      <DependentUpon>HtmlFiles.resx</DependentUpon>
+    </Compile>
+    <Compile Include="XmlFiles.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>XmlFiles.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -80,9 +85,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Stylesheets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Webpages.resx">
+    <EmbeddedResource Include="HtmlFiles.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Webpages.Designer.cs</LastGenOutput>
+      <LastGenOutput>HtmlFiles.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XmlFiles.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>XmlFiles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

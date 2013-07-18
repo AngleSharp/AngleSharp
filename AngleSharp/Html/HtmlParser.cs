@@ -1743,7 +1743,7 @@ namespace AngleSharp.Html
 
                 for(var i = 0; i != tableCharacters.Length; i++)
                 {
-                    if (!Specification.IsSpaceCharacter(tableCharacters[i]))
+                    if (!tableCharacters[i].IsSpaceCharacter())
                     {
                         RaiseErrorOccurred(ErrorCode.TokenNotPossible);
                         anyAreNotSpaceCharacters = true;

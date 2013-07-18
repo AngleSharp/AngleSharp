@@ -264,7 +264,7 @@ namespace AngleSharp.DOM.Css
 
             for (int i = 0; i < value.Length; i++)
             {
-                if (Specification.IsSpaceCharacter(value[i]))
+                if (value[i].IsSpaceCharacter())
                 {
                     containsSpace = true;
                     break;

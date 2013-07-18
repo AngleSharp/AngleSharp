@@ -117,71 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="FoodMenu" xml:space="preserve">
+  <data name="Note" xml:space="preserve">
     <value>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
 &lt;!-- Edited by XMLSpy® --&gt;
-&lt;breakfast_menu&gt;
-	&lt;food&gt;
-		&lt;name&gt;Belgian Waffles&lt;/name&gt;
-		&lt;price&gt;$5.95&lt;/price&gt;
-		&lt;description&gt;Two of our famous Belgian Waffles with plenty of real maple syrup&lt;/description&gt;
-		&lt;calories&gt;650&lt;/calories&gt;
-	&lt;/food&gt;
-	&lt;food&gt;
-		&lt;name&gt;Strawberry Belgian Waffles&lt;/name&gt;
-		&lt;price&gt;$7.95&lt;/price&gt;
-		&lt;description&gt;Light Belgian waffles covered with strawberries and whipped cream&lt;/description&gt;
-		&lt;calories&gt;900&lt;/calories&gt;
-	&lt;/food&gt;
-	&lt;food&gt;
-		&lt;name&gt;Berry-Berry Belgian Waffles&lt;/name&gt;
-		&lt;price&gt;$8.95&lt;/price&gt;
-		&lt;description&gt;Light Belgian waffles covered with an assortment of fresh berries and whipped cream&lt;/description&gt;
-		&lt;calories&gt;900&lt;/calories&gt;
-	&lt;/food&gt;
-	&lt;food&gt;
-		&lt;name&gt;French Toast&lt;/name&gt;
-		&lt;price&gt;$4.50&lt;/price&gt;
-		&lt;description&gt;Thick slices made from our homemade sourdough bread&lt;/description&gt;
-		&lt;calories&gt;600&lt;/calories&gt;
-	&lt;/food&gt;
-	&lt;food&gt;
-		&lt;name&gt;Homestyle Breakfast&lt;/name&gt;
-		&lt;price&gt;$6.95&lt;/price&gt;
-		&lt;description&gt;Two eggs, bacon or sausage, toast, and our ever-popular hash browns&lt;/description&gt;
-		&lt;calories&gt;950&lt;/calories&gt;
-	&lt;/food&gt;
-&lt;/breakfast_menu&gt;</value>
-  </data>
-  <data name="QuirksMode" xml:space="preserve">
-    <value>&lt;p id="test" class="testClass"&gt;Test &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; with &lt;code&gt;id="test"&lt;/code&gt; and &lt;code&gt;class="testClass"&lt;/code&gt;. It contains a
-&lt;b id="testB"&gt;&lt;code&gt;&amp;lt;b&amp;gt;&lt;/code&gt; with id="testB"&lt;/b&gt;.&lt;/p&gt;
-
-&lt;p id="test2" class="nonsense testClass"&gt;&lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; with id="test2" and class="nonsense testClass"&lt;/p&gt;
-
-&lt;p&gt;&lt;ppk&gt;This is a &lt;code&gt;&amp;lt;ppk&amp;gt;&lt;/code&gt; tag.&lt;/ppk&gt;&lt;/p&gt;
-
-&lt;p&gt;This &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt;has &lt;code&gt;name&lt;/code&gt; (and not &lt;code&gt;id&lt;/code&gt;!) test3
-&lt;img src="../../browsers/pix/logo_op3.gif" name="test3"&gt;&lt;/p&gt;
-
-&lt;div id="test"&gt;This &lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt; also has &lt;code&gt;id="test"&lt;/code&gt;. It should
-be ignored, since there's a previous element with &lt;code&gt;id="test"&lt;/code&gt;.&lt;/div&gt;</value>
-  </data>
-  <data name="SelectorsWebpage" xml:space="preserve">
-    <value>&lt;html&gt;
-&lt;head&gt;&lt;/head&gt;
-&lt;body id="theBody"&gt;
-	&lt;div id="myDiv"&gt;
-		&lt;div id="someOtherDiv"&gt;subdiv!&lt;/div&gt;
-		&lt;p&gt;&lt;a href="http://www.google.com"&gt;hi&lt;/a&gt;&lt;span class="hyphen-separated"&gt;test&lt;/span&gt;&lt;span&gt;oh&lt;/span&gt;&lt;/p&gt;
-	&lt;/div&gt;
-	&lt;p class="hiclass"&gt;hi!!&lt;/p&gt;
-	&lt;div class="checkit"&gt;wooo&lt;p class="omg ohyeah"&gt;eeeee&lt;/p&gt;&lt;/div&gt;
-	&lt;div class="checkit"&gt;woootooo&lt;a href="http://colinramsay.co.uk/"&gt;we&lt;/a&gt;&lt;/div&gt;
-	&lt;form&gt;
-		&lt;input /&gt;
-	&lt;/form&gt;
-&lt;/body&gt;
-&lt;/html&gt;</value>
+&lt;note&gt;
+	&lt;to&gt;Tove&lt;/to&gt;
+	&lt;from&gt;Jani&lt;/from&gt;
+	&lt;heading&gt;Reminder&lt;/heading&gt;
+	&lt;body&gt;Don't forget me this weekend!&lt;/body&gt;
+&lt;/note&gt;</value>
   </data>
 </root>

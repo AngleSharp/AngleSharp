@@ -66,8 +66,8 @@ namespace AngleSharp.DOM
 
                 for (int i = 0; i < _children.Length; i++)
                 {
-                    if (_children[i] is HTMLElement)
-                        list.Add((HTMLElement)_children[i]);
+                    if (_children[i] is Element)
+                        list.Add((Element)_children[i]);
                 }
 
                 return list;

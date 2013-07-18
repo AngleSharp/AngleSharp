@@ -20,7 +20,7 @@ namespace AngleSharp.Css
 
         static CssSpecialCharacter()
         {
-            colon = new CssSpecialCharacter(Specification.COL, CssTokenType.Colon);
+            colon = new CssSpecialCharacter(Specification.COLON, CssTokenType.Colon);
             comma = new CssSpecialCharacter(Specification.COMMA, CssTokenType.Comma);
             semicolon = new CssSpecialCharacter(Specification.SC, CssTokenType.Semicolon);
             whitespace = new CssSpecialCharacter(Specification.SPACE, CssTokenType.Whitespace);

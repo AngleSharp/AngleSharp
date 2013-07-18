@@ -10,8 +10,8 @@ namespace AngleSharp.Css
     /// The CSS tokenizer.
     /// See http://dev.w3.org/csswg/css-syntax/#tokenization for more details.
     /// </summary>
-    //[DebuggerStepThrough]
-    class CssTokenizer
+    [DebuggerStepThrough]
+    sealed class CssTokenizer
     {
         #region Members
 
@@ -95,7 +95,7 @@ namespace AngleSharp.Css
                 case Specification.TAB:
                 case Specification.SPACE:
                     do { current = src.Next; }
-                    while (Specification.IsSpaceCharacter(current));
+                    while (current.IsSpaceCharacter());
                     src.Back();
                     return CssSpecialCharacter.Whitespace;
 
@@ -143,7 +143,7 @@ namespace AngleSharp.Css
                             var c2 = src.Next;
                             src.Back(2);
 
-                            if (Specification.IsDigit(c1) || (c1 == Specification.FS && Specification.IsDigit(c2)))
+                            if (c1.IsDigit() || (c1 == Specification.DOT && c2.IsDigit()))
                                 return NumberStart(current);
                         }
                         
@@ -153,17 +153,17 @@ namespace AngleSharp.Css
                 case Specification.COMMA:
                     return CssSpecialCharacter.Comma;
 
-                case Specification.FS:
+                case Specification.DOT:
                     {
                         var c = src.Next;
 
-                        if (Specification.IsDigit(c))
+                        if (c.IsDigit())
                             return NumberStart(src.Previous);
                         
                         return CssToken.Delim(src.Previous);
                     }
 
-                case Specification.DASH:
+                case Specification.MINUS:
                     {
                         var c1 = src.Next;
 
@@ -176,13 +176,13 @@ namespace AngleSharp.Css
                             var c2 = src.Next;
                             src.Back(2);
 
-                            if (Specification.IsDigit(c1) || (c1 == Specification.FS && Specification.IsDigit(c2)))
+                            if (c1.IsDigit() || (c1 == Specification.DOT && c2.IsDigit()))
                                 return NumberStart(current);
-                            else if (Specification.IsNameStart(c1))
+                            else if (c1.IsNameStart())
                                 return IdentStart(current);
-                            else if (c1 == Specification.RSOLIDUS && !Specification.IsLineBreak(c2) && c2 != Specification.EOF)
+                            else if (c1 == Specification.RSOLIDUS && !c2.IsLineBreak() && c2 != Specification.EOF)
                                 return IdentStart(current);
-                            else if (c1 == Specification.DASH && c2 == Specification.GT)
+                            else if (c1 == Specification.MINUS && c2 == Specification.GT)
                             {
                                 src.Advance(2);
                                 return CssCommentToken.Close;
@@ -203,7 +203,7 @@ namespace AngleSharp.Css
                 case Specification.RSOLIDUS:
                     current = src.Next;
 
-                    if (Specification.IsLineBreak(current) || current == Specification.EOF)
+                    if (current.IsLineBreak() || current == Specification.EOF)
                     {
                         RaiseErrorOccurred(current == Specification.EOF ? ErrorCode.EOF : ErrorCode.LineBreakUnexpected);
                         return CssToken.Delim(src.Previous);
@@ -211,7 +211,7 @@ namespace AngleSharp.Css
 
                     return IdentStart(src.Previous);
 
-                case Specification.COL:
+                case Specification.COLON:
                     return CssSpecialCharacter.Colon;
 
                 case Specification.SC:
@@ -224,11 +224,11 @@ namespace AngleSharp.Css
                     {
                         current = src.Next;
 
-                        if (current == Specification.DASH)
+                        if (current == Specification.MINUS)
                         {
                             current = src.Next;
 
-                            if (current == Specification.DASH)
+                            if (current == Specification.MINUS)
                                 return CssCommentToken.Open;
 
                             current = src.Previous;
@@ -248,7 +248,7 @@ namespace AngleSharp.Css
                 case ']':
                     return CssBracketToken.CloseSquare;
 
-                case Specification.CA:
+                case Specification.ACCENT:
                     current = src.Next;
 
                     if (current == Specification.EQ)
@@ -282,7 +282,7 @@ namespace AngleSharp.Css
                     {
                         current = src.Next;
 
-                        if (Specification.IsHex(current) || current == Specification.QM)
+                        if (current.IsHex() || current == Specification.QM)
                             return UnicodeRange(current);
 
                         current = src.Previous;
@@ -320,7 +320,7 @@ namespace AngleSharp.Css
                     return CssToken.Delim(src.Previous);
 
                 default:
-                    if (Specification.IsNameStart(current))
+                    if (current.IsNameStart())
                         return IdentStart(current);
 
                     return CssToken.Delim(current);
@@ -349,7 +349,7 @@ namespace AngleSharp.Css
                     case Specification.RSOLIDUS:
                         current = src.Next;
 
-                        if (Specification.IsLineBreak(current))
+                        if (current.IsLineBreak())
                             stringBuffer.AppendLine();
                         else if (current != Specification.EOF)
                             stringBuffer.Append(ConsumeEscape(current));
@@ -393,7 +393,7 @@ namespace AngleSharp.Css
                     case Specification.RSOLIDUS:
                         current = src.Next;
 
-                        if (Specification.IsLineBreak(current))
+                        if (current.IsLineBreak())
                             stringBuffer.AppendLine();
                         else if (current != Specification.EOF)
                             stringBuffer.Append(ConsumeEscape(current));
@@ -420,7 +420,7 @@ namespace AngleSharp.Css
         /// </summary>
         CssToken HashStart(Char current)
         {
-            if (Specification.IsNameStart(current))
+            if (current.IsNameStart())
             {
                 stringBuffer.Append(current);
                 return HashRest(src.Next);
@@ -451,7 +451,7 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                if (Specification.IsName(current))
+                if (current.IsName())
                     stringBuffer.Append(current);
                 else if (IsValidEscape(current))
                 {
@@ -503,20 +503,20 @@ namespace AngleSharp.Css
         /// </summary>
         CssToken AtKeywordStart(Char current)
         {
-            if (current == Specification.DASH)
+            if (current == Specification.MINUS)
             {
                 current = src.Next;
 
-                if (Specification.IsNameStart(current) || IsValidEscape(current))
+                if (current.IsNameStart() || IsValidEscape(current))
                 {
-                    stringBuffer.Append(Specification.DASH);
+                    stringBuffer.Append(Specification.MINUS);
                     return AtKeywordRest(current);
                 }
 
                 src.Back(2);
                 return CssToken.Delim(Specification.AT);
             }
-            else if (Specification.IsNameStart(current))
+            else if (current.IsNameStart())
             {
                 stringBuffer.Append(current);
                 return AtKeywordRest(src.Next);
@@ -541,7 +541,7 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                if (Specification.IsName(current))
+                if (current.IsName())
                     stringBuffer.Append(current);
                 else if (IsValidEscape(current))
                 {
@@ -563,20 +563,20 @@ namespace AngleSharp.Css
         /// </summary>
         CssToken IdentStart(Char current)
         {
-            if (current == Specification.DASH)
+            if (current == Specification.MINUS)
             {
                 current = src.Next;
 
-                if (Specification.IsNameStart(current) || IsValidEscape(current))
+                if (current.IsNameStart() || IsValidEscape(current))
                 {
-                    stringBuffer.Append(Specification.DASH);
+                    stringBuffer.Append(Specification.MINUS);
                     return IdentRest(current);
                 }
 
                 src.Back();
-                return CssToken.Delim(Specification.DASH);
+                return CssToken.Delim(Specification.MINUS);
             }
-            else if (Specification.IsNameStart(current))
+            else if (current.IsNameStart())
             {
                 stringBuffer.Append(current);
                 return IdentRest(src.Next);
@@ -601,7 +601,7 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                if (Specification.IsName(current))
+                if (current.IsName())
                     stringBuffer.Append(current);
                 else if (IsValidEscape(current))
                 {
@@ -645,7 +645,7 @@ namespace AngleSharp.Css
                     src.Back();
                     return CssKeywordToken.Function(FlushBuffer());
                 }
-                else if (!Specification.IsSpaceCharacter(current))
+                else if (!current.IsSpaceCharacter())
                 {
                     src.Back(2);
                     return CssKeywordToken.Ident(FlushBuffer());
@@ -660,12 +660,12 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                if (current == Specification.PLUS || current == Specification.DASH)
+                if (current == Specification.PLUS || current == Specification.MINUS)
                 {
                     stringBuffer.Append(current);
                     current = src.Next;
 
-                    if (current == Specification.FS)
+                    if (current == Specification.DOT)
                     {
                         stringBuffer.Append(current);
                         stringBuffer.Append(src.Next);
@@ -675,13 +675,13 @@ namespace AngleSharp.Css
                     stringBuffer.Append(current);
                     return NumberRest(src.Next);
                 }
-                else if (current == Specification.FS)
+                else if (current == Specification.DOT)
                 {
                     stringBuffer.Append(current);
                     stringBuffer.Append(src.Next);
                     return NumberFraction(src.Next);
                 }
-                else if (Specification.IsDigit(current))
+                else if (current.IsDigit())
                 {
                     stringBuffer.Append(current);
                     return NumberRest(src.Next);
@@ -698,9 +698,9 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                if (Specification.IsDigit(current))
+                if (current.IsDigit())
                     stringBuffer.Append(current);
-                else if (Specification.IsNameStart(current))
+                else if (current.IsNameStart())
                 {
                     var number = FlushBuffer();
                     stringBuffer.Append(current);
@@ -721,12 +721,12 @@ namespace AngleSharp.Css
 
             switch (current)
             {
-                case Specification.FS:
+                case Specification.DOT:
                     current = src.Next;
 
-                    if (Specification.IsDigit(current))
+                    if (current.IsDigit())
                     {
-                        stringBuffer.Append(Specification.FS).Append(current);
+                        stringBuffer.Append(Specification.DOT).Append(current);
                         return NumberFraction(src.Next);
                     }
 
@@ -740,7 +740,7 @@ namespace AngleSharp.Css
                 case 'E':
                     return NumberExponential(current);
 
-                case Specification.DASH:
+                case Specification.MINUS:
                     return NumberDash(current);
 
                 default:
@@ -756,9 +756,9 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                if (Specification.IsDigit(current))
+                if (current.IsDigit())
                     stringBuffer.Append(current);
-                else if (Specification.IsNameStart(current))
+                else if (current.IsNameStart())
                 {
                     var number = FlushBuffer();
                     stringBuffer.Append(current);
@@ -786,7 +786,7 @@ namespace AngleSharp.Css
                 case '%':
                     return CssUnitToken.Percentage(FlushBuffer());
 
-                case Specification.DASH:
+                case Specification.MINUS:
                     return NumberDash(current);
 
                 default:
@@ -802,7 +802,7 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                if (Specification.IsName(current))
+                if (current.IsName())
                     stringBuffer.Append(current);
                 else if (IsValidEscape(current))
                 {
@@ -826,7 +826,7 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                if (Specification.IsDigit(current))
+                if (current.IsDigit())
                     stringBuffer.Append(current);
                 else
                 {
@@ -843,7 +843,7 @@ namespace AngleSharp.Css
         /// </summary>
         CssToken UrlStart(Char current)
         {
-            while (Specification.IsSpaceCharacter(current))
+            while (current.IsSpaceCharacter())
                 current = src.Next;
 
             switch (current)
@@ -873,7 +873,7 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                if (Specification.IsLineBreak(current))
+                if (current.IsLineBreak())
                 {
                     RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
                     return UrlBad(src.Next);
@@ -896,7 +896,7 @@ namespace AngleSharp.Css
                         RaiseErrorOccurred(ErrorCode.EOF);
                         return CssStringToken.Url(FlushBuffer(), true);
                     }
-                    else if (Specification.IsLineBreak(current))
+                    else if (current.IsLineBreak())
                         stringBuffer.AppendLine();
                     else
                         stringBuffer.Append(ConsumeEscape(current));
@@ -915,7 +915,7 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                if (Specification.IsLineBreak(current))
+                if (current.IsLineBreak())
                 {
                     RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
                     return UrlBad(src.Next);
@@ -938,7 +938,7 @@ namespace AngleSharp.Css
                         RaiseErrorOccurred(ErrorCode.EOF);
                         return CssStringToken.Url(FlushBuffer(), true);
                     }
-                    else if (Specification.IsLineBreak(current))
+                    else if (current.IsLineBreak())
                         stringBuffer.AppendLine();
                     else
                         stringBuffer.Append(ConsumeEscape(current));
@@ -957,7 +957,7 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                if (Specification.IsSpaceCharacter(current))
+                if (current.IsSpaceCharacter())
                 {
                     return UrlEnd(src.Next);
                 }
@@ -965,7 +965,7 @@ namespace AngleSharp.Css
                 {
                     return CssStringToken.Url(FlushBuffer());
                 }
-                else if (current == Specification.DQ || current == Specification.SQ || current == '(' || Specification.IsNonPrintable(current))
+                else if (current == Specification.DQ || current == Specification.SQ || current == '(' || current.IsNonPrintable())
                 {
                     RaiseErrorOccurred(ErrorCode.InvalidCharacter);
                     return UrlBad(src.Next);
@@ -999,7 +999,7 @@ namespace AngleSharp.Css
             {
                 if (current == ')')
                     return CssStringToken.Url(FlushBuffer());
-                else if (!Specification.IsSpaceCharacter(current))
+                else if (!current.IsSpaceCharacter())
                 {
                     RaiseErrorOccurred(ErrorCode.InvalidCharacter);
                     return UrlBad(current);
@@ -1042,7 +1042,7 @@ namespace AngleSharp.Css
         {
             for (int i = 0; i < 6; i++)
             {
-                if (!Specification.IsHex(current))
+                if (!current.IsHex())
                     break;
 
                 stringBuffer.Append(current);
@@ -1068,18 +1068,18 @@ namespace AngleSharp.Css
                 var end = range.Replace(Specification.QM, 'F');
                 return CssToken.Range(start, end);
             }
-            else if (current == Specification.DASH)
+            else if (current == Specification.MINUS)
             {
                 current = src.Next;
 
-                if (Specification.IsHex(current))
+                if (current.IsHex())
                 {
                     var start = stringBuffer.ToString();
                     stringBuffer.Clear();
 
                     for (int i = 0; i < 6; i++)
                     {
-                        if (!Specification.IsHex(current))
+                        if (!current.IsHex())
                         {
                             current = src.Previous;
                             break;
@@ -1123,17 +1123,17 @@ namespace AngleSharp.Css
         {
             current = src.Next;
 
-            if (Specification.IsDigit(current))
+            if (current.IsDigit())
             {
                 stringBuffer.Append('e').Append(current);
                 return SciNotation(src.Next);
             }
-            else if (current == Specification.PLUS || current == Specification.DASH)
+            else if (current == Specification.PLUS || current == Specification.MINUS)
             {
                 var op = current;
                 current = src.Next;
 
-                if (Specification.IsDigit(current))
+                if (current.IsDigit())
                 {
                     stringBuffer.Append('e').Append(op).Append(current);
                     return SciNotation(src.Next);
@@ -1155,17 +1155,17 @@ namespace AngleSharp.Css
         {
             current = src.Next;
 
-            if (Specification.IsNameStart(current))
+            if (current.IsNameStart())
             {
                 var number = FlushBuffer();
-                stringBuffer.Append(Specification.DASH).Append(current);
+                stringBuffer.Append(Specification.MINUS).Append(current);
                 return Dimension(src.Next, number);
             }
             else if (IsValidEscape(current))
             {
                 current = src.Next;
                 var number = FlushBuffer();
-                stringBuffer.Append(Specification.DASH).Append(ConsumeEscape(current));
+                stringBuffer.Append(Specification.MINUS).Append(ConsumeEscape(current));
                 return Dimension(src.Next, number);
             }
             else
@@ -1182,7 +1182,7 @@ namespace AngleSharp.Css
         /// <returns>The escaped character.</returns>
         String ConsumeEscape(Char current)
         {
-            if (Specification.IsHex(current))
+            if (current.IsHex())
             {
                 var escape = new List<Char>();
 
@@ -1191,7 +1191,7 @@ namespace AngleSharp.Css
                     escape.Add(current);
                     current = src.Next;
 
-                    if (!Specification.IsHex(current))
+                    if (!current.IsHex())
                         break;
                 }
 
@@ -1217,7 +1217,7 @@ namespace AngleSharp.Css
 
             if (current == Specification.EOF)
                 return false;
-            else if (Specification.IsLineBreak(current))
+            else if (current.IsLineBreak())
                 return false;
 
             return true;

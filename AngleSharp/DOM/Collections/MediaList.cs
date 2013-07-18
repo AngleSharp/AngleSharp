@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace AngleSharp.DOM.Collections
 {
@@ -37,7 +40,7 @@ namespace AngleSharp.DOM.Collections
 
         #region Members
 
-        List<string> _media;
+        List<String> _media;
         String _buffer;
 
         #endregion
@@ -50,7 +53,7 @@ namespace AngleSharp.DOM.Collections
         internal MediaList()
         {
             _buffer = String.Empty;
-            _media = new List<string>();
+            _media = new List<String>();
         }
 
         #endregion

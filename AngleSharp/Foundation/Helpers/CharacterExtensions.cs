@@ -7,9 +7,9 @@ using System.Diagnostics;
 namespace AngleSharp
 {
     /// <summary>
-    /// Some useful extensions.
+    /// Some useful extensions for character(s).
     /// </summary>
-    static class Extensions
+    static class CharacterExtensions
     {
         /// <summary>
         /// Examines if a the given list of characters contains a certain element.
@@ -28,6 +28,20 @@ namespace AngleSharp
         }
 
         /// <summary>
+        /// Returns a value indicating whether the specified object occurs within this string.
+        /// This method might seem obsolete, but it is quite useful in case of porting
+        /// AngleSharp to a PCL, where String instances to not have a Contains method.
+        /// </summary>
+        /// <param name="str">The string to examine.</param>
+        /// <param name="content">The string to seek.</param>
+        /// <returns>True if the value parameter occurs within this string, or if value is the empty string.</returns>
+        [DebuggerStepThrough]
+        public static Boolean Contains(this String str, String content)
+        {
+            return str.IndexOf(content) >= 0;
+        }
+
+        /// <summary>
         /// Collapses and strips all spaces in the given string.
         /// </summary>
         /// <param name="str">The string to collapse and strip.</param>
@@ -40,7 +54,7 @@ namespace AngleSharp
 
             for (int i = 0; i < str.Length; i++)
             {
-                if (Specification.IsSpaceCharacter(str[i]))
+                if (str[i].IsSpaceCharacter())
                 {
                     if (hasSpace)
                         continue;
@@ -74,7 +88,7 @@ namespace AngleSharp
 
             for (int i = 0; i < str.Length; i++)
             {
-                if (Specification.IsSpaceCharacter(str[i]))
+                if (str[i].IsSpaceCharacter())
                 {
                     if (hasSpace)
                         continue;
@@ -232,7 +246,7 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static Int32 FromHex(this Char c)
         {
-            return Specification.IsDigit(c) ? c - 0x30 : c - (Specification.IsLowercaseAscii(c) ? 0x57 : 0x37);
+            return c.IsDigit() ? c - 0x30 : c - (c.IsLowercaseAscii() ? 0x57 : 0x37);
         }
 
         /// <summary>
@@ -251,7 +265,7 @@ namespace AngleSharp
             {
                 array[i] = array[i + shift];
 
-                if (Specification.IsLineBreak(array[i]))
+                if (array[i].IsLineBreak())
                 {
                     shift++;
                     length--;
@@ -285,10 +299,10 @@ namespace AngleSharp
             var start = 0;
             var end = array.Length - 1;
 
-            while (start < array.Length && Specification.IsSpaceCharacter(array[start]))
+            while (start < array.Length && array[start].IsSpaceCharacter())
                 start++;
 
-            while (end > start && Specification.IsSpaceCharacter(array[end]))
+            while (end > start && array[end].IsSpaceCharacter())
                 end--;
 
             return new String(array, start, 1 + end - start);
@@ -354,7 +368,7 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static String[] SplitHyphens(this String str)
         {
-            return SplitWithTrimming(str, Specification.DASH);
+            return SplitWithTrimming(str, Specification.MINUS);
         }
 
         /// <summary>
@@ -371,7 +385,7 @@ namespace AngleSharp
 
             for (var i = 0; i <= chars.Length; i++)
             {
-                if (i == chars.Length || Specification.IsSpaceCharacter(chars[i]))
+                if (i == chars.Length || chars[i].IsSpaceCharacter())
                 {
                     if (buffer.Count > 0)
                     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AngleSharp.Xml
 {
@@ -9,9 +10,10 @@ namespace AngleSharp.Xml
     {
         #region Members
 
-        String name;
-        String publicIdentifier;
-        String systemIdentifier;
+        String _name;
+        String _publicIdentifier;
+        String _systemIdentifier;
+        List<XmlToken> _declarations;
 
         #endregion
 
@@ -22,10 +24,11 @@ namespace AngleSharp.Xml
         /// </summary>
         public XmlDoctypeToken()
         {
-            name = null;
-            publicIdentifier = null;
-            systemIdentifier = null;
+            _name = null;
+            _publicIdentifier = null;
+            _systemIdentifier = null;
             _type = XmlTokenType.DOCTYPE;
+            _declarations = new List<XmlToken>();
         }
 
         #endregion
@@ -37,7 +40,7 @@ namespace AngleSharp.Xml
         /// </summary>
         public Boolean IsNameMissing
         {
-            get { return name == null; }
+            get { return _name == null; }
         }
 
         /// <summary>
@@ -45,7 +48,7 @@ namespace AngleSharp.Xml
         /// </summary>
         public Boolean IsPublicIdentifierMissing
         {
-            get { return publicIdentifier == null; }
+            get { return _publicIdentifier == null; }
         }
 
         /// <summary>
@@ -53,7 +56,7 @@ namespace AngleSharp.Xml
         /// </summary>
         public Boolean IsSystemIdentifierMissing
         {
-            get { return systemIdentifier == null; }
+            get { return _systemIdentifier == null; }
         }
 
         /// <summary>
@@ -61,8 +64,8 @@ namespace AngleSharp.Xml
         /// </summary>
         public String Name
         {
-            get { return name ?? string.Empty; }
-            set { name = value; }
+            get { return _name ?? string.Empty; }
+            set { _name = value; }
         }
 
         /// <summary>
@@ -70,8 +73,8 @@ namespace AngleSharp.Xml
         /// </summary>
         public String PublicIdentifier
         {
-            get { return publicIdentifier ?? string.Empty; }
-            set { publicIdentifier = value; }
+            get { return _publicIdentifier ?? string.Empty; }
+            set { _publicIdentifier = value; }
         }
 
         /// <summary>
@@ -79,8 +82,16 @@ namespace AngleSharp.Xml
         /// </summary>
         public String SystemIdentifier
         {
-            get { return systemIdentifier ?? string.Empty; }
-            set { systemIdentifier = value; }
+            get { return _systemIdentifier ?? string.Empty; }
+            set { _systemIdentifier = value; }
+        }
+
+        /// <summary>
+        /// Gets the list of contained DTD declarations.
+        /// </summary>
+        public List<XmlToken> Declarations
+        {
+            get { return _declarations; }
         }
 
         #endregion

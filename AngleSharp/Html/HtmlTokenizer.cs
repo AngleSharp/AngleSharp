@@ -11,7 +11,7 @@ namespace AngleSharp.Html
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
     [DebuggerStepThrough]
-    class HtmlTokenizer
+    sealed class HtmlTokenizer
     {
         #region Members
 
@@ -236,13 +236,13 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken RCDataEndTag(Char c)
         {
-            if (Specification.IsUppercaseAscii(c))
+            if (c.IsUppercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c.ToLower());
                 return RCDataNameEndTag(src.Next, HtmlToken.CloseTag());
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c);
@@ -266,7 +266,7 @@ namespace AngleSharp.Html
             var name = stringBuffer.ToString();
             var appropriateTag = name == lastStartTag;
 
-            if (appropriateTag && Specification.IsSpaceCharacter(c))
+            if (appropriateTag && c.IsSpaceCharacter())
             {
                 tag.Name = name;
                 return AttributeBeforeName(src.Next, tag);
@@ -281,12 +281,12 @@ namespace AngleSharp.Html
                 tag.Name = name;
                 return EmitTag(tag);
             }
-            else if (Specification.IsUppercaseAscii(c))
+            else if (c.IsUppercaseAscii())
             {
                 stringBuffer.Append(c.ToLower());
                 return RCDataNameEndTag(src.Next, tag);
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Append(c);
                 return RCDataNameEndTag(src.Next, tag);
@@ -348,13 +348,13 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken RawtextEndTag(Char c)
         {
-            if (Specification.IsUppercaseAscii(c))
+            if (c.IsUppercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c.ToLower());
                 return RawtextNameEndTag(src.Next, HtmlToken.CloseTag());
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c);
@@ -376,7 +376,7 @@ namespace AngleSharp.Html
             var name = stringBuffer.ToString();
             var appropriateTag = name == lastStartTag;
 
-            if (appropriateTag && Specification.IsSpaceCharacter(c))
+            if (appropriateTag && c.IsSpaceCharacter())
             {
                 tag.Name = name;
                 return AttributeBeforeName(src.Next, tag);
@@ -391,12 +391,12 @@ namespace AngleSharp.Html
                 tag.Name = name;
                 return EmitTag(tag);
             }
-            else if (Specification.IsUppercaseAscii(c))
+            else if (c.IsUppercaseAscii())
             {
                 stringBuffer.Append(c.ToLower());
                 return RawtextNameEndTag(src.Next, tag);
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Append(c);
                 return RawtextNameEndTag(src.Next, tag);
@@ -448,7 +448,7 @@ namespace AngleSharp.Html
         /// <param name="allowedCharacter">The additionally allowed character if there is one.</param>
         char[] CharacterReference(char c, char allowedCharacter = Specification.NULL)
         {
-            if (Specification.IsSpaceCharacter(c) || c == Specification.LT || c == Specification.AMPERSAND || c == allowedCharacter)
+            if (c.IsSpaceCharacter() || c == Specification.LT || c == Specification.AMPERSAND || c == allowedCharacter)
             {
                 return null;
             }
@@ -463,7 +463,7 @@ namespace AngleSharp.Html
                 {
                     src.Advance();
 
-                    while (Specification.IsHex(src.Current))
+                    while (src.Current.IsHex())
                     {
                         nums.Add(src.Current.FromHex());
                         src.Advance();
@@ -479,7 +479,7 @@ namespace AngleSharp.Html
                 }
                 else
                 {
-                    while (Specification.IsDigit(src.Current))
+                    while (src.Current.IsDigit())
                     {
                         nums.Add(src.Current.FromHex());
                         src.Advance();
@@ -564,7 +564,7 @@ namespace AngleSharp.Html
             {
                 var chr = src.Current;
 
-                if (chr == ';' || !Specification.IsAlphanumericAscii(chr))
+                if (chr == ';' || !chr.IsAlphanumericAscii())
                     break;
 
                 reference.Append(chr);
@@ -593,7 +593,7 @@ namespace AngleSharp.Html
             {
                 if (allowedCharacter != Specification.NULL)
                 {
-                    if (src.Current == Specification.EQ || Specification.IsAlphanumericAscii(src.Current))
+                    if (src.Current == Specification.EQ || src.Current.IsAlphanumericAscii())
                     {
                         if (src.Current == Specification.EQ)
                             RaiseErrorOccurred(ErrorCode.CharacterReferenceAttributeEqualsFound);
@@ -628,13 +628,13 @@ namespace AngleSharp.Html
             {
                 return TagEnd(src.Next);
             }
-            else if (Specification.IsUppercaseAscii(c))
+            else if (c.IsUppercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c.ToLower());
                 return TagName(src.Next, HtmlToken.OpenTag());
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c);
@@ -659,13 +659,13 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken TagEnd(Char c)
         {
-            if (Specification.IsUppercaseAscii(c))
+            if (c.IsUppercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c.ToLower());
                 return TagName(src.Next, HtmlToken.CloseTag());
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c);
@@ -698,7 +698,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken TagName(Char c, HtmlTagToken tag)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
             {
                 tag.Name = stringBuffer.ToString();
                 return AttributeBeforeName(src.Next, tag);
@@ -829,7 +829,7 @@ namespace AngleSharp.Html
         {
             stringBuffer.Clear();
 
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
                 return CommentDashStart(src.Next);
             else if (c == Specification.NULL)
             {
@@ -862,12 +862,12 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken CommentDashStart(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
                 return CommentEnd(src.Next);
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.MINUS);
                 stringBuffer.Append(Specification.REPLACEMENT);
                 return Comment(src.Next);
             }
@@ -884,7 +884,7 @@ namespace AngleSharp.Html
                 return HtmlToken.Comment(stringBuffer.ToString());
             }
 
-            stringBuffer.Append(Specification.DASH);
+            stringBuffer.Append(Specification.MINUS);
             stringBuffer.Append(c);
             return Comment(src.Next);
         }
@@ -897,7 +897,7 @@ namespace AngleSharp.Html
         {
             while (true)
             {
-                if (c == Specification.DASH)
+                if (c == Specification.MINUS)
                     return CommentDashEnd(src.Next);
                 else if (c == Specification.EOF)
                 {
@@ -922,7 +922,7 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken CommentDashEnd(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
                 return CommentEnd(src.Next);
             else if (c == Specification.EOF)
             {
@@ -936,7 +936,7 @@ namespace AngleSharp.Html
                 c = Specification.REPLACEMENT;
             }
 
-            stringBuffer.Append(Specification.DASH);
+            stringBuffer.Append(Specification.MINUS);
             stringBuffer.Append(c);
             return Comment(src.Next);
         }
@@ -955,7 +955,7 @@ namespace AngleSharp.Html
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.MINUS);
                 stringBuffer.Append(Specification.REPLACEMENT);
                 return Comment(src.Next);
             }
@@ -964,10 +964,10 @@ namespace AngleSharp.Html
                 RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
                 return CommentBangEnd(src.Next);
             }
-            else if (c == Specification.DASH)
+            else if (c == Specification.MINUS)
             {
                 RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
-                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.MINUS);
                 return CommentEnd(src.Next);
             }
             else if (c == Specification.EOF)
@@ -978,8 +978,8 @@ namespace AngleSharp.Html
             }
 
             RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
-            stringBuffer.Append(Specification.DASH);
-            stringBuffer.Append(Specification.DASH);
+            stringBuffer.Append(Specification.MINUS);
+            stringBuffer.Append(Specification.MINUS);
             stringBuffer.Append(c);
             return Comment(src.Next);
         }
@@ -990,10 +990,10 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken CommentBangEnd(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                stringBuffer.Append(Specification.DASH);
-                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.MINUS);
+                stringBuffer.Append(Specification.MINUS);
                 stringBuffer.Append(Specification.EM);
                 return CommentDashEnd(src.Next);
             }
@@ -1005,8 +1005,8 @@ namespace AngleSharp.Html
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.DASH);
-                stringBuffer.Append(Specification.DASH);
+                stringBuffer.Append(Specification.MINUS);
+                stringBuffer.Append(Specification.MINUS);
                 stringBuffer.Append(Specification.EM);
                 stringBuffer.Append(Specification.REPLACEMENT);
                 return Comment(src.Next);
@@ -1018,8 +1018,8 @@ namespace AngleSharp.Html
                 return HtmlToken.Comment(stringBuffer.ToString());
             }
 
-            stringBuffer.Append(Specification.DASH);
-            stringBuffer.Append(Specification.DASH);
+            stringBuffer.Append(Specification.MINUS);
+            stringBuffer.Append(Specification.MINUS);
             stringBuffer.Append(Specification.EM);
             stringBuffer.Append(c);
             return Comment(src.Next);
@@ -1035,7 +1035,7 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken Doctype(Char c)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
                 return DoctypeNameBefore(src.Next);
             else if (c == Specification.EOF)
             {
@@ -1054,10 +1054,10 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken DoctypeNameBefore(Char c)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
-            if (Specification.IsUppercaseAscii(c))
+            if (c.IsUppercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c.ToLower());
@@ -1098,7 +1098,7 @@ namespace AngleSharp.Html
         {
             while (true)
             {
-                if (Specification.IsSpaceCharacter(c))
+                if (c.IsSpaceCharacter())
                 {
                     doctype.Name = stringBuffer.ToString();
                     stringBuffer.Clear();
@@ -1110,7 +1110,7 @@ namespace AngleSharp.Html
                     doctype.Name = stringBuffer.ToString();
                     return doctype;
                 }
-                else if (Specification.IsUppercaseAscii(c))
+                else if (c.IsUppercaseAscii())
                     stringBuffer.Append(c.ToLower());
                 else if (c == Specification.NULL)
                 {
@@ -1140,7 +1140,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypeNameAfter(Char c, HtmlDoctypeToken doctype)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.GT)
@@ -1179,7 +1179,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublic(Char c, HtmlDoctypeToken doctype)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
             {
                 return DoctypePublicIdentifierBefore(src.Next, doctype);
             }
@@ -1223,7 +1223,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublicIdentifierBefore(Char c, HtmlDoctypeToken doctype)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.DQ)
@@ -1354,7 +1354,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublicIdentifierAfter(Char c, HtmlDoctypeToken doctype)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
             {
                 stringBuffer.Clear();
                 return DoctypeBetween(src.Next, doctype);
@@ -1397,7 +1397,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypeBetween(Char c, HtmlDoctypeToken doctype)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.GT)
@@ -1436,7 +1436,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystem(Char c, HtmlDoctypeToken doctype)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
             {
                 model = HtmlParseMode.PCData;
                 return DoctypeSystemIdentifierBefore(src.Next, doctype);
@@ -1481,7 +1481,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystemIdentifierBefore(Char c, HtmlDoctypeToken doctype)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.DQ)
@@ -1612,7 +1612,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystemIdentifierAfter(Char c, HtmlDoctypeToken doctype)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.GT)
@@ -1669,7 +1669,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken AttributeBeforeName(Char c, HtmlTagToken tag)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.SOLIDUS)
@@ -1680,7 +1680,7 @@ namespace AngleSharp.Html
             {
                 return EmitTag(tag);
             }
-            else if (Specification.IsUppercaseAscii(c))
+            else if (c.IsUppercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c.ToLower());
@@ -1722,7 +1722,7 @@ namespace AngleSharp.Html
         {
             while (true)
             {
-                if (Specification.IsSpaceCharacter(c))
+                if (c.IsSpaceCharacter())
                 {
                     tag.AddAttribute(stringBuffer.ToString());
                     return AttributeAfterName(src.Next, tag);
@@ -1742,7 +1742,7 @@ namespace AngleSharp.Html
                     tag.AddAttribute(stringBuffer.ToString());
                     return EmitTag(tag);
                 }
-                else if (Specification.IsUppercaseAscii(c))
+                else if (c.IsUppercaseAscii())
                     stringBuffer.Append(c.ToLower());
                 else if (c == Specification.NULL)
                 {
@@ -1771,7 +1771,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken AttributeAfterName(Char c, HtmlTagToken tag)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.SOLIDUS)
@@ -1786,7 +1786,7 @@ namespace AngleSharp.Html
             {
                 return EmitTag(tag);
             }
-            else if (Specification.IsUppercaseAscii(c))
+            else if (c.IsUppercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c.ToLower());
@@ -1826,7 +1826,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken AttributeBeforeValue(Char c, HtmlTagToken tag)
         {
-            while (Specification.IsSpaceCharacter(c))
+            while (c.IsSpaceCharacter())
                 c = src.Next;
 
             if (c == Specification.DQ)
@@ -1958,7 +1958,7 @@ namespace AngleSharp.Html
         {
             while (true)
             {
-                if (Specification.IsSpaceCharacter(c))
+                if (c.IsSpaceCharacter())
                 {
                     tag.SetAttributeValue(stringBuffer.ToString());
                     return AttributeBeforeName(src.Next, tag);
@@ -2005,7 +2005,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken AttributeAfterValue(Char c, HtmlTagToken tag)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
                 return AttributeBeforeName(src.Next, tag);
             else if (c == Specification.SOLIDUS)
                 return TagSelfClosing(src.Next, tag);
@@ -2077,13 +2077,13 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEndTag(Char c)
         {
-            if (Specification.IsUppercaseAscii(c))
+            if (c.IsUppercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c.ToLower());
                 return ScriptDataNameEndTag(src.Next, HtmlToken.CloseTag());
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c);
@@ -2105,7 +2105,7 @@ namespace AngleSharp.Html
             var name = stringBuffer.ToString();
             var appropriateEndTag = name == lastStartTag;
 
-            if (appropriateEndTag && Specification.IsSpaceCharacter(c))
+            if (appropriateEndTag && c.IsSpaceCharacter())
             {
                 tag.Name = name;
                 return AttributeBeforeName(src.Next, tag);
@@ -2120,12 +2120,12 @@ namespace AngleSharp.Html
                 tag.Name = name;
                 return EmitTag(tag);
             }
-            else if (Specification.IsUppercaseAscii(c))
+            else if (c.IsUppercaseAscii())
             {
                 stringBuffer.Append(c.ToLower());
                 return ScriptDataNameEndTag(src.Next, tag);
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Append(c);
                 return ScriptDataNameEndTag(src.Next, tag);
@@ -2142,9 +2142,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataStartEscape(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataStartEscapeDash(src.Next);
             }
 
@@ -2157,9 +2157,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscaped(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDash(src.Next);
             }
             else if (c == Specification.LT)
@@ -2186,9 +2186,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataStartEscapeDash(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDashDash(src.Next);
             }
 
@@ -2201,9 +2201,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDash(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDashDash(src.Next);
             }
             else if (c == Specification.LT)
@@ -2231,9 +2231,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDashDash(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDashDash(src.Next);
             }
             else if (c == Specification.LT)
@@ -2269,7 +2269,7 @@ namespace AngleSharp.Html
             {
                 return ScriptDataEndTag(src.Next);
             }
-            else if (Specification.IsUppercaseAscii(c))
+            else if (c.IsUppercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c.ToLower());
@@ -2277,7 +2277,7 @@ namespace AngleSharp.Html
                 EnqueueToken(HtmlToken.Character(c));
                 return ScriptDataStartDoubleEscape(src.Next);
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Clear();
@@ -2299,13 +2299,13 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken ScriptDataEscapedEndTag(Char c, HtmlTagToken tag)
         {
-            if (Specification.IsUppercaseAscii(c))
+            if (c.IsUppercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c.ToLower());
                 return ScriptDataEscapedEndTag(src.Next, tag);
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Clear();
                 stringBuffer.Append(c);
@@ -2328,7 +2328,7 @@ namespace AngleSharp.Html
             var name = stringBuffer.ToString();
             var appropriateEndTag = name == lastStartTag;
 
-            if (appropriateEndTag && Specification.IsSpaceCharacter(c))
+            if (appropriateEndTag && c.IsSpaceCharacter())
             {
                 tag.Name = name;
                 return AttributeBeforeName(src.Next, tag);
@@ -2343,12 +2343,12 @@ namespace AngleSharp.Html
                 tag.Name = name;
                 return EmitTag(tag);
             }
-            else if (Specification.IsUppercaseAscii(c))
+            else if (c.IsUppercaseAscii())
             {
                 stringBuffer.Append(c.ToLower());
                 return ScriptDataEscapedNameTag(src.Next, tag);
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Append(c);
                 return ScriptDataEscapedNameTag(src.Next, tag);
@@ -2366,7 +2366,7 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataStartDoubleEscape(Char c)
         {
-            if (Specification.IsSpaceCharacter(c))
+            if (c.IsSpaceCharacter())
             {
                 if (stringBuffer.ToString() == "script")
                     return ScriptDataEscapedDouble(src.Next);
@@ -2374,13 +2374,13 @@ namespace AngleSharp.Html
                 EnqueueToken(HtmlToken.Character(c));
                 return ScriptDataEscaped(src.Next);
             }
-            else if (Specification.IsUppercaseAscii(c))
+            else if (c.IsUppercaseAscii())
             {
                 stringBuffer.Append(c.ToLower());
                 EnqueueToken(HtmlToken.Character(c));
                 return ScriptDataStartDoubleEscape(src.Next);
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Append(c);
                 EnqueueToken(HtmlToken.Character(c));
@@ -2396,9 +2396,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDouble(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDoubleDash(src.Next);
             }
             else if (c == Specification.LT)
@@ -2427,9 +2427,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDoubleDash(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDoubleDashDash(src.Next);
             }
             else if (c == Specification.LT)
@@ -2461,9 +2461,9 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDoubleDashDash(Char c)
         {
-            if (c == Specification.DASH)
+            if (c == Specification.MINUS)
             {
-                EnqueueToken(HtmlToken.Character(Specification.DASH));
+                EnqueueToken(HtmlToken.Character(Specification.MINUS));
                 return ScriptDataEscapedDoubleDashDash(src.Next);
             }
             else if (c == Specification.LT)
@@ -2513,7 +2513,7 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEndDoubleEscape(Char c)
         {
-            if (Specification.IsSpaceCharacter(c) || c == Specification.SOLIDUS || c == Specification.GT)
+            if (c.IsSpaceCharacter() || c == Specification.SOLIDUS || c == Specification.GT)
             {
                 if (stringBuffer.ToString().Equals("script", StringComparison.OrdinalIgnoreCase))
                     return ScriptDataEscaped(src.Next);
@@ -2521,13 +2521,13 @@ namespace AngleSharp.Html
                 EnqueueToken(HtmlToken.Character(c));
                 return ScriptDataEscapedDouble(src.Next);
             }
-            else if (Specification.IsUppercaseAscii(c))
+            else if (c.IsUppercaseAscii())
             {
                 stringBuffer.Append(c.ToLower());
                 EnqueueToken(HtmlToken.Character(c));
                 return ScriptDataEndDoubleEscape(src.Next);
             }
-            else if (Specification.IsLowercaseAscii(c))
+            else if (c.IsLowercaseAscii())
             {
                 stringBuffer.Append(c);
                 EnqueueToken(HtmlToken.Character(c));

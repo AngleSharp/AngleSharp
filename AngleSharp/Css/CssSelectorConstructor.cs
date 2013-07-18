@@ -283,7 +283,7 @@ namespace AngleSharp.Css
                     Insert(SimpleSelector.All);
                     break;
 
-                case Specification.FS:
+                case Specification.DOT:
                     if (tokens.MoveNext() && tokens.Current.Type == CssTokenType.Ident)
                     {
                         var cls = (CssKeywordToken)tokens.Current;
@@ -359,7 +359,7 @@ namespace AngleSharp.Css
 
                     //Various
                     case CssTokenType.Delim:
-                        if (((CssDelimToken)tokens.Current).Data == Specification.FS && tokens.MoveNext() && tokens.Current.Type == CssTokenType.Ident)
+                        if (((CssDelimToken)tokens.Current).Data == Specification.DOT && tokens.MoveNext() && tokens.Current.Type == CssTokenType.Ident)
                             return SimpleSelector.Class(((CssKeywordToken)tokens.Current).Data);
                         break;
 
@@ -971,7 +971,7 @@ namespace AngleSharp.Css
                     case CssTokenType.Delim:
                         var chr = ((CssDelimToken)it.Current).Data;
 
-                        if (chr == Specification.PLUS || chr == Specification.DASH)
+                        if (chr == Specification.PLUS || chr == Specification.MINUS)
                         {
                             repr += chr;
                             break;
@@ -1008,7 +1008,7 @@ namespace AngleSharp.Css
 
                     if (first == string.Empty || (first.Length == 1 && first[0] == Specification.PLUS))
                         f.step = 1;
-                    else if (first.Length == 1 && first[0] == Specification.DASH)
+                    else if (first.Length == 1 && first[0] == Specification.MINUS)
                         f.step = -1;
                     else if (!int.TryParse(first, out f.step))
                         throw new DOMException(ErrorCode.SyntaxError);

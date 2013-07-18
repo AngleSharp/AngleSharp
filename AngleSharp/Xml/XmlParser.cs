@@ -2,6 +2,7 @@
 using AngleSharp.DOM.Xml;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -212,6 +213,10 @@ namespace AngleSharp.Xml
 
         #region States
 
+        /// <summary>
+        /// The initial state. Expects an XML declaration.
+        /// </summary>
+        /// <param name="token">The consumed token.</param>
         void Initial(XmlToken token)
         {
             if (token.Type == XmlTokenType.Declaration)
@@ -224,7 +229,7 @@ namespace AngleSharp.Xml
                     SetEncoding(tok.Encoding);
 
                 //The declaration token -- Check version
-                if (!Double.TryParse(tok.Version, out ver) || ver >= 2.0)
+                if (!Double.TryParse(tok.Version, NumberStyles.Any, CultureInfo.InvariantCulture , out ver) || ver >= 2.0)
                     throw new ArgumentException("The given version number is not supported.");
             }
             else if (!token.IsIgnorable)
@@ -235,6 +240,11 @@ namespace AngleSharp.Xml
             }
         }
 
+        /// <summary>
+        /// Before any doctype - still in the prolog. No declaration
+        /// allowed.
+        /// </summary>
+        /// <param name="token">The consumed token.</param>
         void BeforeDoctype(XmlToken token)
         {
             if (token.Type == XmlTokenType.DOCTYPE)
@@ -266,6 +276,10 @@ namespace AngleSharp.Xml
             }
         }
 
+        /// <summary>
+        /// In the body state - no doctypes and declarations allowed.
+        /// </summary>
+        /// <param name="token">The consumed token.</param>
         void InBody(XmlToken token)
         {
             switch (token.Type)
@@ -274,11 +288,10 @@ namespace AngleSharp.Xml
                 {
                     var tok = (XmlTagToken)token;
                     var tag = doc.CreateElement(tok.Name);
-
-                    if(!tok.IsSelfClosing)
-                        open.Add(tag);
-
                     CurrentNode.AppendChild(tag);
+
+                    if (!tok.IsSelfClosing)
+                        open.Add(tag);
 
                     for (int i = 0; i < tok.Attributes.Count; i++)
                         tag.SetAttribute(tok.Attributes[i].Key, tok.Attributes[i].Value);
@@ -314,7 +327,8 @@ namespace AngleSharp.Xml
                 }
                 case XmlTokenType.Character:
                 {
-                    //Append character to node
+                    var tok = (XmlCharacterToken)token;
+                    CurrentNode.AppendText(tok.Data);
                     break;
                 }
                 case XmlTokenType.EOF:
