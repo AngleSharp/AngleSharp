@@ -23,15 +23,21 @@ namespace AngleSharp.DTD
         #region Events
 
         public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
+        private string dtd;
 
         #endregion
 
         #region ctor
 
-        public DtdParser(SourceManager source)
+        public DtdParser(String content)
+            : this(new DtdContainer(), new SourceManager(content))
+        {
+        }
+
+        internal DtdParser(DtdContainer container, SourceManager source)
         {
             tokenizer = new DtdTokenizer(source);
-            _result = new DtdContainer();
+            _result = container;
             _src = source;
 
             tokenizer.ErrorOccurred += (s, ev) =>

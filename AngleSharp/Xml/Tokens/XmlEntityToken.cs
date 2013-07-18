@@ -7,6 +7,12 @@ namespace AngleSharp.Xml
     /// </summary>
     sealed class XmlEntityToken : XmlToken
     {
+        #region Members
+
+        String _value;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -15,6 +21,22 @@ namespace AngleSharp.Xml
         public XmlEntityToken()
         {
             _type = XmlTokenType.Entity;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public Boolean IsNumeric
+        {
+            get;
+            set;
+        }
+
+        public String Value
+        {
+            get { return _value; }
+            set { _value = value; }
         }
 
         #endregion

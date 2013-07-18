@@ -116,7 +116,33 @@ namespace AngleSharp.DTD
 
         #endregion
 
-        #region Methods
+        #region Public Methods
+
+        public Entity GetEntity(String name)
+        {
+            for (int i = 0; i < _entities.Count; i++)
+            {
+                if (_entities[i].NotationName == name)
+                    return _entities[i];
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal void Reset()
+        {
+            _attributes.Clear();
+            _comments.Clear();
+            _elements.Clear();
+            _entities.Clear();
+            _nodes.Clear();
+            _notations.Clear();
+            _pis.Clear();
+        }
 
         internal void AddNotation(Notation notation)
         {

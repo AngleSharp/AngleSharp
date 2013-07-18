@@ -325,6 +325,13 @@ namespace AngleSharp.Xml
                     CurrentNode.AppendChild(pi);
                     break;
                 }
+                case XmlTokenType.Entity:
+                {
+                    var tok = (XmlEntityToken)token;
+                    var str = tokenizer.GetEntity(tok);
+                    CurrentNode.AppendText(str);
+                    break;
+                }
                 case XmlTokenType.Character:
                 {
                     var tok = (XmlCharacterToken)token;

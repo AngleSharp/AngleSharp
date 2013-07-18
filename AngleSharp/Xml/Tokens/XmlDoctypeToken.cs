@@ -88,7 +88,7 @@ namespace AngleSharp.Xml
         /// <summary>
         /// Gets or sets the internal subset.
         /// </summary>
-        public DtdContainer InternalSubset
+        public String InternalSubset
         {
             get;
             set;

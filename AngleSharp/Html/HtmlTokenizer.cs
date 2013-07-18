@@ -552,7 +552,7 @@ namespace AngleSharp.Html
             {
                 var chr = src.Current;
 
-                if (chr == ';' || !chr.IsAlphanumericAscii())
+                if (chr == Specification.SC || !chr.IsAlphanumericAscii())
                     break;
 
                 reference.Append(chr);
@@ -577,7 +577,7 @@ namespace AngleSharp.Html
                 consumed--;
             }
 
-            if (src.Current != ';')
+            if (src.Current != Specification.SC)
             {
                 if (allowedCharacter != Specification.NULL)
                 {

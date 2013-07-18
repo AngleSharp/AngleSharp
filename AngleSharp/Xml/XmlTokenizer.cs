@@ -10,9 +10,15 @@ namespace AngleSharp.Xml
     /// Performs the tokenization of the source code. Most of
     /// the information is taken from http://www.w3.org/TR/REC-xml/.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     sealed class XmlTokenizer : XmlBaseTokenizer
     {
+        #region Members
+
+        DtdContainer _dtd;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -22,6 +28,32 @@ namespace AngleSharp.Xml
         public XmlTokenizer(SourceManager source)
             : base(source)
         {
+            _dtd = new DtdContainer();
+            _dtd.AddEntity(new DOM.Entity
+            {
+                NotationName = "amp",
+                NodeValue = "&"
+            });
+            _dtd.AddEntity(new DOM.Entity
+            {
+                NotationName = "lt",
+                NodeValue = "<"
+            });
+            _dtd.AddEntity(new DOM.Entity
+            {
+                NotationName = "gt",
+                NodeValue = ">"
+            });
+            _dtd.AddEntity(new DOM.Entity
+            {
+                NotationName = "apos",
+                NodeValue = "'"
+            });
+            _dtd.AddEntity(new DOM.Entity
+            {
+                NotationName = "quot",
+                NodeValue = "\""
+            });
         }
 
         #endregion
@@ -36,9 +68,49 @@ namespace AngleSharp.Xml
             get { return src; }
         }
 
+        /// <summary>
+        /// Gets the used DTD.
+        /// </summary>
+        public DtdContainer DTD
+        {
+            get { return _dtd; }
+        }
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Resolves the given entity token.
+        /// </summary>
+        /// <param name="entityToken">The entity token to resolve.</param>
+        /// <returns>The string that is contained in the entity token.</returns>
+        public String GetEntity(XmlEntityToken entityToken)
+        {
+            if (entityToken.IsNumeric)
+            {
+                var str = entityToken.Value;
+                int num = 0;
+                int basis = 1;
+
+                for (int i = str.Length - 1; i >= 0; i--)
+                {
+                    num += str[i].FromHex() * basis;
+                    basis *= 16;
+                }
+
+                return Char.ConvertFromUtf32(num);
+            }
+            else
+            {
+                var entity = _dtd.GetEntity(entityToken.Value);
+
+                if (entity == null)
+                    throw new ArgumentException("Well-formedness constraint: entity declared.");
+
+                return entity.NodeValue;
+            }
+        }
 
         /// <summary>
         /// Gets the next available token.
@@ -65,13 +137,7 @@ namespace AngleSharp.Xml
             switch (c)
             {
                 case Specification.AMPERSAND:
-                    var value = CharacterReference(src.Next);
-
-                    if (value == null)
-                        return XmlToken.Character(Specification.AMPERSAND);
-
-                    //return XmlToken.Characters(value);
-                    throw new NotImplementedException();
+                    return CharacterReference(src.Next);
 
                 case Specification.LT:
                     return TagOpen(src.Next);
@@ -120,10 +186,37 @@ namespace AngleSharp.Xml
             return XmlToken.CData(stringBuffer.ToString());
         }
 
-        Char[] CharacterReference(Char c)
+        XmlEntityToken CharacterReference(Char c)
         {
-            //TODO
-            throw new NotImplementedException();
+            stringBuffer.Clear();
+
+            if (c == Specification.NUM)
+            {
+                c = src.Next;
+
+                while (c.IsHex())
+                {
+                    stringBuffer.Append(c);
+                    c = src.Next;
+                }
+
+                if (stringBuffer.Length > 0 && c == Specification.SC)
+                    return new XmlEntityToken { Value = stringBuffer.ToString(), IsNumeric = true };
+            }
+            else if (c.IsNameStart())
+            {
+                do
+                {
+                    stringBuffer.Append(c);
+                    c = src.Next;
+                }
+                while (c.IsName());
+
+                if (c == Specification.SC)
+                    return new XmlEntityToken { Value = stringBuffer.ToString() };
+            }
+
+            throw new ArgumentException("Invalid entity reference.");
         }
 
         #endregion
@@ -1449,11 +1542,7 @@ namespace AngleSharp.Xml
                 else if (c == Specification.AMPERSAND)
                 {
                     var value = CharacterReference(src.Next);
-
-                    if (value == null)
-                        stringBuffer.Append(Specification.AMPERSAND);
-                    else
-                        stringBuffer.Append(value);
+                    stringBuffer.Append(GetEntity(value));
                 }
                 else if (c == Specification.NULL)
                 {
@@ -1486,11 +1575,7 @@ namespace AngleSharp.Xml
                 else if (c == Specification.AMPERSAND)
                 {
                     var value = CharacterReference(src.Next);
-
-                    if (value == null)
-                        stringBuffer.Append(Specification.AMPERSAND);
-                    else
-                        stringBuffer.Append(value);
+                    stringBuffer.Append(GetEntity(value));
                 }
                 else if (c == Specification.NULL)
                 {
@@ -1561,11 +1646,11 @@ namespace AngleSharp.Xml
 
         void ScanInternalSubset(XmlDoctypeToken doctype)
         {
-            var dtd = new DtdParser(src);
+            var dtd = new DtdParser(_dtd, src);
             dtd.IsInternal = true;
             dtd.ErrorOccurred += (s, e) => RaiseErrorOccurred(s, e);
             dtd.Parse();
-            doctype.InternalSubset = dtd.Result;
+            doctype.InternalSubset = dtd.Result.Text;
         }
 
         #endregion
