@@ -48,10 +48,6 @@ namespace AngleSharp.Xml
         /// </summary>
         ProcessingInstruction,
         /// <summary>
-        /// An attribute / notation / element or entity declaration token.
-        /// </summary>
-        DeclarationInstruction,
-        /// <summary>
         /// The End-Of-File token to mark the end.
         /// </summary>
         EOF

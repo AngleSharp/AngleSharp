@@ -1,8 +1,9 @@
-﻿using System;
+﻿using AngleSharp.DOM;
+using System;
 
-namespace AngleSharp.Xml
+namespace AngleSharp.DTD
 {
-    sealed class XmlNotationDeclaration : XmlBaseDeclaration
+    sealed class DtdNotationToken : DtdToken
     {
         #region Members
 
@@ -16,8 +17,9 @@ namespace AngleSharp.Xml
         /// <summary>
         /// Creates a new entity token.
         /// </summary>
-        public XmlNotationDeclaration()
+        public DtdNotationToken()
         {
+            _type = DtdTokenType.Notation;
         }
 
         #endregion
@@ -58,6 +60,15 @@ namespace AngleSharp.Xml
         {
             get { return _systemIdentifier ?? String.Empty; }
             set { _systemIdentifier = value; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public Notation ToElement()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

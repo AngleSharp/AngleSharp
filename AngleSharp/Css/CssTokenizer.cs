@@ -11,27 +11,12 @@ namespace AngleSharp.Css
     /// See http://dev.w3.org/csswg/css-syntax/#tokenization for more details.
     /// </summary>
     [DebuggerStepThrough]
-    sealed class CssTokenizer
+    sealed class CssTokenizer : BaseTokenizer
     {
-        #region Members
-
-        StringBuilder stringBuffer;
-        SourceManager src;
-
-        #endregion
-
-        #region Events
-
-        /// <summary>
-        /// The event will be fired once an error has been detected.
-        /// </summary>
-        public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
-
-        #endregion
-
         #region ctor
 
         public CssTokenizer(SourceManager source)
+            : base(source)
         {
             stringBuffer = new StringBuilder();
             src = source;
@@ -1221,25 +1206,6 @@ namespace AngleSharp.Css
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Event-Helpers
-
-        /// <summary>
-        /// Fires an error occurred event.
-        /// </summary>
-        /// <param name="code">The associated error code.</param>
-        void RaiseErrorOccurred(ErrorCode code)
-        {
-            if (ErrorOccurred != null)
-            {
-                var pck = new ParseErrorEventArgs((int)code, Errors.GetError(code));
-                pck.Line = src.Line;
-                pck.Column = src.Column;
-                ErrorOccurred(this, pck);
-            }
         }
 
         #endregion

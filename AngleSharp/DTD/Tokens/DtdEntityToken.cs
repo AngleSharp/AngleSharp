@@ -1,16 +1,18 @@
-﻿using System;
+﻿using AngleSharp.DOM;
+using System;
 
-namespace AngleSharp.Xml
+namespace AngleSharp.DTD
 {
-    sealed class XmlEntityDeclaration : XmlBaseDeclaration
+    sealed class DtdEntityToken : DtdToken
     {
         #region ctor
 
         /// <summary>
         /// Creates a new entity token.
         /// </summary>
-        public XmlEntityDeclaration()
+        public DtdEntityToken()
         {
+            _type = DtdTokenType.Entity;
         }
 
         #endregion
@@ -39,6 +41,19 @@ namespace AngleSharp.Xml
         {
             get;
             set;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public Entity ToElement()
+        {
+            var entity = new Entity();
+            //TODO
+            entity.NotationName = Name;
+            entity.NodeValue = Value;
+            return entity;
         }
 
         #endregion

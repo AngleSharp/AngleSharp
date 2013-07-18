@@ -68,6 +68,7 @@ namespace AngleSharp.DOM
         public String NotationName
         {
             get { return _notationName; }
+            internal set { _notationName = value; }
         }
 
         /// <summary>

@@ -11,27 +11,16 @@ namespace AngleSharp.Html
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
     [DebuggerStepThrough]
-    sealed class HtmlTokenizer
+    sealed class HtmlTokenizer : BaseTokenizer
     {
         #region Members
 
-        SourceManager src;
         Boolean allowCdata;
         String lastStartTag;
-        StringBuilder stringBuffer;
         Queue<HtmlToken> tokenBuffer;
         Boolean buffered;
         StringBuilder reference;
         HtmlParseMode model;
-
-        #endregion
-
-        #region Events
-
-        /// <summary>
-        /// The event will be fired once an error has been detected.
-        /// </summary>
-        public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
 
         #endregion
 
@@ -42,13 +31,12 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="source">The source code manager.</param>
         public HtmlTokenizer(SourceManager source)
+            : base(source)
         {
-            src = source;
             model = HtmlParseMode.PCData;
             buffered = false;
             allowCdata = true;
             reference = new StringBuilder();
-            stringBuffer = new StringBuilder();
             tokenBuffer = new Queue<HtmlToken>();
         }
 
@@ -2597,25 +2585,6 @@ namespace AngleSharp.Html
             }
 
             return tag;
-        }
-
-        #endregion
-
-        #region Event-Helpers
-
-        /// <summary>
-        /// Fires an error occurred event.
-        /// </summary>
-        /// <param name="code">The associated error code.</param>
-        void RaiseErrorOccurred(ErrorCode code)
-        {
-            if (ErrorOccurred != null)
-            {
-                var pck = new ParseErrorEventArgs((int)code, Errors.GetError(code));
-                pck.Line = src.Line;
-                pck.Column = src.Column;
-                ErrorOccurred(this, pck);
-            }
         }
 
         #endregion

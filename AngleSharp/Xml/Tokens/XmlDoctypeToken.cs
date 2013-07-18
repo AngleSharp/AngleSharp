@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AngleSharp.DTD;
+using System;
 using System.Collections.Generic;
 
 namespace AngleSharp.Xml
@@ -13,7 +14,6 @@ namespace AngleSharp.Xml
         String _name;
         String _publicIdentifier;
         String _systemIdentifier;
-        List<XmlToken> _declarations;
 
         #endregion
 
@@ -28,7 +28,6 @@ namespace AngleSharp.Xml
             _publicIdentifier = null;
             _systemIdentifier = null;
             _type = XmlTokenType.DOCTYPE;
-            _declarations = new List<XmlToken>();
         }
 
         #endregion
@@ -87,11 +86,12 @@ namespace AngleSharp.Xml
         }
 
         /// <summary>
-        /// Gets the list of contained DTD declarations.
+        /// Gets or sets the internal subset.
         /// </summary>
-        public List<XmlToken> Declarations
+        public DtdContainer InternalSubset
         {
-            get { return _declarations; }
+            get;
+            set;
         }
 
         #endregion
