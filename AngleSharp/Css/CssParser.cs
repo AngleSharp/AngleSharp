@@ -326,7 +326,7 @@ namespace AngleSharp.Css
 
                 if (value == null)
                 {
-                    SkipToNextSemicolon(source);
+                    SkipToNextNonWhitespace(source);
                     break;
                 }
 
@@ -697,8 +697,13 @@ namespace AngleSharp.Css
                     break;
             }
 
-            if (hasValue && source.Current.Type == CssTokenType.Delim && ((CssDelimToken)source.Current).Data == Specification.EM && SkipToNextNonWhitespace(source))
+            if (hasValue)
+            {
+                while (source.Current.Type == CssTokenType.Delim && ((CssDelimToken)source.Current).Data == Specification.EM && SkipToNextNonWhitespace(source))
+                { }
+                
                 property.Important = source.Current.Type == CssTokenType.Ident && ((CssKeywordToken)source.Current).Data.Equals("important", StringComparison.OrdinalIgnoreCase);
+            }
 
             SkipBehindNextSemicolon(source);
             return property;

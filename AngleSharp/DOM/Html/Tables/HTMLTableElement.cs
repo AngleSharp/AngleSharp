@@ -7,6 +7,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML table element.
     /// </summary>
+    [DOM("HTMLTableElement")]
     public sealed class HTMLTableElement : HTMLElement
     {
         #region Constant

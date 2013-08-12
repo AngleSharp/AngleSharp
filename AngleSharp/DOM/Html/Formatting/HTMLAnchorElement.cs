@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an anchor element.
     /// </summary>
+    [DOM("HTMLAnchorElement")]
     public sealed class HTMLAnchorElement : HTMLFormattingElement
     {
         #region Constants
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The a tag.
         /// </summary>
-        internal const string Tag = "a";
+        internal const String Tag = "a";
 
         #endregion
 
@@ -33,7 +34,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value of the href attribute.
         /// </summary>
-        public string Href
+        public String Href
         {
             get { return GetAttribute("href"); }
             set { SetAttribute("href", value); }
@@ -46,7 +47,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the link has been visited.
         /// </summary>
-        internal bool IsVisited
+        internal Boolean IsVisited
         {
             get;
             set;
@@ -55,7 +56,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the link is currently active.
         /// </summary>
-        internal bool IsActive
+        internal Boolean IsActive
         {
             get;
             set;

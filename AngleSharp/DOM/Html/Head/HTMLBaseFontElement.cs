@@ -5,12 +5,13 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an HTML basefont element.
     /// </summary>
+    [DOM("HTMLBaseFontElement")]
     public sealed class HTMLBaseFontElement : HTMLElement
     {
         /// <summary>
         /// The basefont tag.
         /// </summary>
-        internal const string Tag = "basefont";
+        internal const String Tag = "basefont";
 
         internal HTMLBaseFontElement()
         {
@@ -20,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The font tag.
         /// </summary>
-        internal const string Tag = "font";
+        internal const String Tag = "font";
 
         internal HTMLFontElement()
         {

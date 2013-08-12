@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML label element.
     /// </summary>
+    [DOM("HTMLLabelElement")]
     public sealed class HTMLLabelElement : HTMLElement
     {
         #region Constant
@@ -30,7 +31,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return false; }
         }
@@ -42,20 +43,33 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the control that the label is assigned for if any.
         /// </summary>
+        [DOM("control")]
         public ILabelabelElement Control
         {
-            get;
-            private set;
+            get
+            {
+                var controlId = GetAttribute("for");
+
+                if (!String.IsNullOrEmpty(controlId))
+                {
+                    var control = _owner.GetElementById(controlId);
+
+                    if (control is ILabelabelElement)
+                        return (ILabelabelElement)control;
+                }
+                
+                return null;
+            }
         }
 
         /// <summary>
         /// Gets the form element that the label is assigned for if
         /// any.
         /// </summary>
+        [DOM("form")]
         public HTMLFormElement Form
         {
-            get;
-            private set;
+            get { return GetAssignedForm(); }
         }
 
         #endregion

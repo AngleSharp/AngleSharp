@@ -38,6 +38,9 @@ namespace AngleSharp.Html
         TaskCompletionSource<Boolean> tcs;
         HTMLScriptElement pendingParsingBlock;
 
+        [ThreadStatic]
+        static StringBuilder _txtBuffer;
+
         #endregion
 
         #region Events
@@ -361,6 +364,10 @@ namespace AngleSharp.Html
         void Consume(HtmlToken token)
         {
             var node = CurrentNode;
+
+            //TODO I don't like those 2 rows -- change asap to something better ...
+            if (token.Type != HtmlTokenType.Character && token.Type != HtmlTokenType.Characters && Buffer.Length > 0)
+                CurrentNode.AppendText(ReleaseBuffer());
 
             if (token.Type == HtmlTokenType.Characters)
             {
@@ -3392,6 +3399,26 @@ namespace AngleSharp.Html
         #region Helpers
 
         /// <summary>
+        /// Acquires a buffer for storing chars into strings.
+        /// </summary>
+        /// <returns>The stringbuilder for storing strings.</returns>
+        StringBuilder Buffer
+        {
+            get { return _txtBuffer ?? (_txtBuffer = new StringBuilder()); }
+        }
+
+        /// <summary>
+        /// Releases the string buffer returning the created string.
+        /// </summary>
+        /// <returns>The build-up string.</returns>
+        String ReleaseBuffer()
+        {
+            var s = _txtBuffer.ToString();
+            _txtBuffer.Clear();
+            return s;
+        }
+
+        /// <summary>
         /// Resolves the encoding from the given charset and sets it.
         /// </summary>
         /// <param name="charset">The charset string.</param>
@@ -3646,7 +3673,8 @@ namespace AngleSharp.Html
             if (foster && CurrentNode.IsTableElement())
                 InsertCharacterWithFoster(p);
             else
-                CurrentNode.AppendText(p);
+                Buffer.Append(p);
+                //CurrentNode.AppendText(p);
         }
 
         /// <summary>
@@ -3661,7 +3689,8 @@ namespace AngleSharp.Html
                     InsertCharacterWithFoster(p[i]);
             }
             else
-                CurrentNode.AppendText(p);
+                Buffer.Append(p);
+                //CurrentNode.AppendText(p);
         }
 
         /// <summary>

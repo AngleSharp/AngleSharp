@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML optgroup element.
     /// </summary>
+    [DOM("HTMLOptGroupElement")]
     public sealed class HTMLOptGroupElement : HTMLElement
     {
         #region Constants
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The optgroup tag.
         /// </summary>
-        internal const string Tag = "optgroup";
+        internal const String Tag = "optgroup";
 
         #endregion
 
@@ -33,7 +34,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the label.
         /// </summary>
-        public string Label
+        [DOM("label")]
+        public String Label
         {
             get { return GetAttribute("label"); }
             set { SetAttribute("label", value); }
@@ -42,10 +44,11 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the optgroup is enabled or disabled.
         /// </summary>
-        public bool Disabled
+        [DOM("disabled")]
+        public Boolean Disabled
         {
             get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? string.Empty : null); }
+            set { SetAttribute("disabled", value ? String.Empty : null); }
         }
 
         #endregion
@@ -55,7 +58,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return false; }
         }

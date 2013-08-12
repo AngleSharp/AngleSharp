@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML pre element.
     /// </summary>
+    [DOM("HTMLPreElement")]
     public sealed class HTMLPreElement : HTMLElement
     {
         #region Constant

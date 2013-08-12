@@ -38,14 +38,6 @@ namespace AngleSharp.DOM
         /// The location of the document.
         /// </summary>
         protected String _location;
-        /// <summary>
-        /// The root element.
-        /// </summary>
-        protected Element _documentElement;
-        /// <summary>
-        /// The doctype element.
-        /// </summary>
-        protected DocumentType _docType;
 
         #endregion
 
@@ -116,7 +108,7 @@ namespace AngleSharp.DOM
         [DOM("doctype")]
         public DocumentType Doctype
         {
-            get { return _docType; }
+            get { return FindChild<DocumentType>(this); }
         }
 
         /// <summary>
@@ -250,7 +242,7 @@ namespace AngleSharp.DOM
         [DOM("documentElement")]
         public Element DocumentElement
         {
-            get { return _documentElement; }
+            get { return FindChild<Element>(this); }
         }
 
         /// <summary>
@@ -274,84 +266,6 @@ namespace AngleSharp.DOM
         {
             get { return _quirksMode; }
             set { _quirksMode = value; }
-        }
-
-        #endregion
-
-        #region Internal methods
-
-        /// <summary>
-        /// Dereferences a child element (use when removing any child).
-        /// </summary>
-        /// <param name="node">The node to be removed.</param>
-        internal virtual void DereferenceNode(Node node)
-        {
-            if (node == _documentElement)
-                _documentElement = FindChild<Element>(this);
-            else if (_docType == node)
-                _docType = FindChild<DocumentType>(this);
-            else if (node is HTMLStyleElement)
-                _styleSheets.Remove(((HTMLStyleElement)node).Sheet);
-            else if (node is HTMLLinkElement)
-            {
-                var link = (HTMLLinkElement)node;
-
-                switch (link.Rel)
-                {
-                    case "stylesheet":
-                        _styleSheets.Remove(link.Sheet);
-                        break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// References a child element (use when adding any child).
-        /// </summary>
-        /// <param name="node">The node to be added.</param>
-        internal virtual void ReferenceNode(Node node)
-        {
-            if (_documentElement == null && node is Element)
-                _documentElement = (Element)node;
-            else if (_docType == null && node is DocumentType)
-                _docType = (DocumentType)node;
-            else if (node is HTMLStyleElement)
-                _styleSheets.Add(((HTMLStyleElement)node).Sheet);
-            else if (node is HTMLLinkElement)
-            {
-                var link = (HTMLLinkElement)node;
-
-                switch (link.Rel)
-                {
-                    // ext. resources
-                    case "prefetch":
-                    case "icon":
-                    case "pingback":
-                        break;
-
-                    case "stylesheet":
-                        _styleSheets.Add(link.Sheet);
-                        break;
-
-                    // hyperlinks
-                    case "alternate":
-                    case "canonical":
-                    case "archives":
-                    case "author":
-                    case "first":
-                    case "help":
-                    case "sidebar":
-                    case "tag":
-                    case "search":
-                    case "index":
-                    case "license":
-                    case "up":
-                    case "next":
-                    case "last":
-                    case "prev":
-                        break;
-                }
-            }
         }
 
         #endregion

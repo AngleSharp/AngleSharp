@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML isindex element.
     /// </summary>
+    [DOM("HTMLIsIndexElement")]
     public sealed class HTMLIsIndexElement : HTMLElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The isindex tag.
         /// </summary>
-        internal const string Tag = "isindex";
+        internal const String Tag = "isindex";
 
         #endregion
 
@@ -33,6 +34,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the form element containing this control or null if this control is not within the context of a form.
         /// </summary>
+        [DOM("form")]
         public HTMLFormElement Form
         {
             get;
@@ -42,7 +44,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the prompt message.
         /// </summary>
-        public string Prompt
+        [DOM("prompt")]
+        public String Prompt
         {
             get { return GetAttribute("prompt"); }
             set { SetAttribute("prompt", value); }
@@ -55,7 +58,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

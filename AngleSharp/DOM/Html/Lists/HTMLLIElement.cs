@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an HTML li, dd or dt tag.
     /// </summary>
+    [DOM("HTMLLIElement")]
     public sealed class HTMLLIElement : HTMLElement
     {
         #region Constants
@@ -12,17 +13,17 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The li tag.
         /// </summary>
-        internal const string ItemTag = "li";
+        internal const String ItemTag = "li";
 
         /// <summary>
         /// The dd tag.
         /// </summary>
-        internal const string DefinitionTag = "dd";
+        internal const String DefinitionTag = "dd";
 
         /// <summary>
         /// The dt tag.
         /// </summary>
-        internal const string DescriptionTag = "dt";
+        internal const String DescriptionTag = "dt";
 
         #endregion
 
@@ -31,7 +32,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Creates a new item tag.
         /// </summary>
-        public HTMLLIElement()
+        internal HTMLLIElement()
         {
             _name = ItemTag;
         }
@@ -43,7 +44,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

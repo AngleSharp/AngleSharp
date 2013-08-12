@@ -20,7 +20,7 @@ namespace AngleSharp.DOM.Html
 
         #region Members
 
-        StyleSheet _sheet;
+        CSSStyleSheet _sheet;
 
         #endregion
 
@@ -32,6 +32,9 @@ namespace AngleSharp.DOM.Html
         internal HTMLStyleElement()
         {
             _name = Tag;
+            _sheet = new CSSStyleSheet();
+            _sheet.OwnerNode = this;
+            _children.ElementsChanged += OnChildrenChanged;
         }
 
         #endregion
@@ -44,7 +47,7 @@ namespace AngleSharp.DOM.Html
         [DOM("sheet")]
         public StyleSheet Sheet
         {
-            get { return _sheet ?? (_sheet = Builder.Style(this)); }
+            get { return _sheet; }
         }
 
         /// <summary>
@@ -87,6 +90,45 @@ namespace AngleSharp.DOM.Html
         protected internal override Boolean IsSpecial
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region Internal methods
+
+        void OnChildrenChanged(Object sender, EventArgs e)
+        {
+            _sheet.ReevaluateFromSource(TextContent);
+        }
+
+        /// <summary>
+        /// Entry point for attributes to notify about a change (modified, added, removed).
+        /// </summary>
+        /// <param name="name">The name of the attribute that has been changed.</param>
+        internal override void OnAttributeChanged(String name)
+        {
+            if (name.Equals("media", StringComparison.Ordinal))
+                _sheet.Media.MediaText = Media;
+            else
+                base.OnAttributeChanged(name);
+        }
+
+        /// <summary>
+        /// Registers the node at the given document.
+        /// </summary>
+        /// <param name="document">The document where to register.</param>
+        protected override void Register(Document document)
+        {
+            document.StyleSheets.Add(Sheet);
+        }
+
+        /// <summary>
+        /// Unregisters the node at the given document.
+        /// </summary>
+        /// <param name="document">The document where to unregister.</param>
+        protected override void Unregister(Document document)
+        {
+            document.StyleSheets.Remove(Sheet);
         }
 
         #endregion

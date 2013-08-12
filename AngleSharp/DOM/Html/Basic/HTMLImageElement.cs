@@ -161,5 +161,29 @@ namespace AngleSharp.DOM.Html
         }
 
         #endregion
+
+        #region Internal methods
+
+        /// <summary>
+        /// Registers the node at the given document.
+        /// </summary>
+        /// <param name="document">The document where to register.</param>
+        protected override void Register(Document document)
+        {
+            if (document is HTMLDocument)
+                ((HTMLDocument)document).Images.Add(this);
+        }
+
+        /// <summary>
+        /// Unregisters the node at the given document.
+        /// </summary>
+        /// <param name="document">The document where to unregister.</param>
+        protected override void Unregister(Document document)
+        {
+            if (document is HTMLDocument)
+                ((HTMLDocument)document).Images.Remove(this);
+        }
+
+        #endregion
     }
 }

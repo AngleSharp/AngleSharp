@@ -7,6 +7,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML datalist element.
     /// </summary>
+    [DOM("HTMLDataListElement")]
     public sealed class HTMLDataListElement : HTMLElement
     {
         #region Constants
@@ -37,6 +38,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets a collection whose filter matches option elements.
         /// </summary>
+        [DOM("options")]
         public HTMLCollection Options
         {
             get { return _children.QuerySelectorAll(optionsQuery); }

@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML caption element.
     /// </summary>
+    [DOM("HTMLTableCaptionElement")]
     public sealed class HTMLTableCaptionElement : HTMLElement
     {
         #region Constant

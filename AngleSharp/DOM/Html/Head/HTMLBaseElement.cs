@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML base element.
     /// </summary>
+    [DOM("HTMLBaseElement")]
     public sealed class HTMLBaseElement : HTMLElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The base tag.
         /// </summary>
-        internal const string Tag = "base";
+        internal const String Tag = "base";
 
         #endregion
 
@@ -33,7 +34,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the base URI.
         /// </summary>
-        public string Href
+        [DOM("href")]
+        public String Href
         {
             get { return GetAttribute("href"); }
             set { SetAttribute("href", value); }
@@ -42,7 +44,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the default target frame.
         /// </summary>
-        public string Target
+        [DOM("target")]
+        public String Target
         {
             get { return GetAttribute("target"); }
             set { SetAttribute("target", value); }
@@ -55,7 +58,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

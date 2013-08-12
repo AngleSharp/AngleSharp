@@ -6,6 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the form element.
     /// </summary>
+    [DOM("HTMLFormElement")]
     public sealed class HTMLFormElement : HTMLElement
     {
         #region Constants
@@ -13,7 +14,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The form tag.
         /// </summary>
-        internal const string Tag = "form";
+        internal const String Tag = "form";
 
         #endregion
 
@@ -43,7 +44,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="index">The index in the elements collection.</param>
         /// <returns>The element or null.</returns>
-        public Element this[int index]
+        public Element this[Int32 index]
         {
             get { return _elements[index]; }
         }
@@ -53,7 +54,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="name">The name or id of the element.</param>
         /// <returns>A collection with elements, an element or null.</returns>
-        public object this[string name]
+        public Object this[String name]
         {
             get { return _elements[name]; }
         }
@@ -65,6 +66,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the form is actually valid.
         /// </summary>
+        [DOM("isValid")]
         public bool IsValid
         {
             //TODO
@@ -74,7 +76,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        public string Name
+        [DOM("name")]
+        public String Name
         {
             get { return GetAttribute("name"); }
             set { SetAttribute("name", value); }
@@ -83,7 +86,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the number of elements in the Elements collection.
         /// </summary>
-        public int Length
+        [DOM("length")]
+        public Int32 Length
         {
             get { return _elements.Length; }
         }
@@ -91,6 +95,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets all the form controls belonging to this form element.
         /// </summary>
+        [DOM("elements")]
         public HTMLFormControlsCollection Elements
         {
             get { return _elements; }
@@ -99,7 +104,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the character encodings that are to be used for the submission.
         /// </summary>
-        public string AcceptCharset
+        [DOM("acceptCharset")]
+        public String AcceptCharset
         {
             get { return GetAttribute("acceptCharset"); }
             set { SetAttribute("acceptCharset", value); }
@@ -108,7 +114,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the form's name within the forms collection.
         /// </summary>
-        public string Action
+        [DOM("action")]
+        public String Action
         {
             get { return GetAttribute("action"); }
             set { SetAttribute("action", value); }
@@ -117,6 +124,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if autocomplete is turned on or off.
         /// </summary>
+        [DOM("autocomplete")]
         public PowerState Autocomplete
         {
             get { return ToEnum(GetAttribute("autocomplete"), PowerState.On); }
@@ -126,7 +134,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the encoding to use for sending the form.
         /// </summary>
-        public string Enctype
+        [DOM("enctype")]
+        public String Enctype
         {
             get { return CheckEncType(GetAttribute("enctype")); }
             set { SetAttribute("enctype", CheckEncType(value)); }
@@ -135,7 +144,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the encoding to use for sending the form.
         /// </summary>
-        public string Encoding
+        [DOM("encoding")]
+        public String Encoding
         {
             get { return Enctype; }
             set { Enctype = value; }
@@ -144,6 +154,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the method to use for transmitting the form.
         /// </summary>
+        [DOM("method")]
         public HttpMethod Method
         {
             get { return ToEnum(GetAttribute("method"), HttpMethod.GET); }
@@ -153,7 +164,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the indicator that the form is not to be validated during submission.
         /// </summary>
-        public bool NoValidate
+        [DOM("noValidate")]
+        public Boolean NoValidate
         {
             get { return GetAttribute("novalidate") != null; }
             set { SetAttribute("novalidate", value ? string.Empty : null); }
@@ -162,7 +174,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the target name of the response to the request.
         /// </summary>
-        public string Target
+        [DOM("target")]
+        public String Target
         {
             get { return GetAttribute("target"); }
             set { SetAttribute("target", value); }
@@ -176,6 +189,7 @@ namespace AngleSharp.DOM.Html
         /// Submits the form element from the form element itself.
         /// </summary>
         /// <returns>The current form element.</returns>
+        [DOM("submit")]
         public HTMLFormElement Submit()
         {
             //TODO
@@ -187,6 +201,7 @@ namespace AngleSharp.DOM.Html
         /// Resets the form to the previous (default) state.
         /// </summary>
         /// <returns>The current form element.</returns>
+        [DOM("reset")]
         public HTMLFormElement Reset()
         {
             //TODO
@@ -197,7 +212,8 @@ namespace AngleSharp.DOM.Html
         /// Checks if the form is valid, i.e. if all fields fulfill their requirements.
         /// </summary>
         /// <returns>True if the form is valid, otherwise false.</returns>
-        public bool CheckValidity()
+        [DOM("checkValidity")]
+        public Boolean CheckValidity()
         {
             //TODO
             return true;
@@ -207,7 +223,7 @@ namespace AngleSharp.DOM.Html
 
         #region Helpers
 
-        string CheckEncType(string encType)
+        String CheckEncType(String encType)
         {
             switch (encType)
             {
@@ -228,9 +244,33 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region Internal methods
+
+        /// <summary>
+        /// Registers the node at the given document.
+        /// </summary>
+        /// <param name="document">The document where to register.</param>
+        protected override void Register(Document document)
+        {
+            if (document is HTMLDocument)
+                ((HTMLDocument)document).Forms.Add(this);
+        }
+
+        /// <summary>
+        /// Unregisters the node at the given document.
+        /// </summary>
+        /// <param name="document">The document where to unregister.</param>
+        protected override void Unregister(Document document)
+        {
+            if (document is HTMLDocument)
+                ((HTMLDocument)document).Forms.Remove(this);
         }
 
         #endregion

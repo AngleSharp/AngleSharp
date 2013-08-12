@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an HTML button element.
     /// </summary>
+    [DOM("HTMLButtonElement")]
     public sealed class HTMLButtonElement : HTMLFormControlElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The button tag.
         /// </summary>
-        internal const string Tag = "button";
+        internal const String Tag = "button";
 
         #endregion
 
@@ -33,7 +34,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the input element is enabled or disabled.
         /// </summary>
-        public bool Disabled
+        [DOM("disabled")]
+        public Boolean Disabled
         {
             get { return GetAttribute("disabled") != null; }
             set { SetAttribute("disabled", value ? string.Empty : null); }
@@ -42,7 +44,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        public string Name
+        [DOM("name")]
+        public String Name
         {
             get { return GetAttribute("name"); }
             set { SetAttribute("name", value); }
@@ -51,6 +54,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the associated HTML form element.
         /// </summary>
+        [DOM("form")]
         public HTMLFormElement Form
         {
             get { return GetAssignedForm(); }
@@ -63,7 +67,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the link has been visited.
         /// </summary>
-        internal bool IsVisited
+        internal Boolean IsVisited
         {
             get;
             set;
@@ -72,7 +76,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the link is currently active.
         /// </summary>
-        internal bool IsActive
+        internal Boolean IsActive
         {
             get;
             set;
@@ -85,7 +89,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

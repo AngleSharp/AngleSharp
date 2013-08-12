@@ -10,32 +10,32 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The h1 tag.
         /// </summary>
-        internal const string ChapterTag = "h1";
+        internal const String ChapterTag = "h1";
 
         /// <summary>
         /// The h2 tag.
         /// </summary>
-        internal const string SectionTag = "h2";
+        internal const String SectionTag = "h2";
 
         /// <summary>
         /// The h3 tag.
         /// </summary>
-        internal const string SubSectionTag = "h3";
+        internal const String SubSectionTag = "h3";
 
         /// <summary>
         /// The h4 tag.
         /// </summary>
-        internal const string SubSubSectionTag = "h4";
+        internal const String SubSubSectionTag = "h4";
 
         /// <summary>
         /// The h5 tag.
         /// </summary>
-        internal const string SubSubSubSectionTag = "h5";
+        internal const String SubSubSubSectionTag = "h5";
 
         /// <summary>
         /// The h6 tag.
         /// </summary>
-        internal const string SubSubSubSubSectionTag = "h6";
+        internal const String SubSubSubSubSectionTag = "h6";
 
         internal HTMLHeadingElement()
         {
@@ -45,7 +45,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

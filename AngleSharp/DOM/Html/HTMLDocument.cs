@@ -22,9 +22,6 @@ namespace AngleSharp.DOM.Html
         HTMLCollection _forms;
         HTMLCollection _scripts;
         HTMLCollection _images;
-        HTMLBodyElement _body;
-        HTMLHeadElement _head;
-        HTMLTitleElement _title;
 
         static readonly CompoundSelector anchorQuery = CompoundSelector.Create(
             SimpleSelector.Type(HTMLAnchorElement.Tag),
@@ -220,8 +217,18 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         public DirectionMode Dir
         {
-            get { return _documentElement != null ? _documentElement.Dir : DirectionMode.Ltr; }
-            set { if (_documentElement != null) _documentElement.Dir = value; }
+            get 
+            {
+                var _documentElement = DocumentElement;
+                return _documentElement != null ? _documentElement.Dir : DirectionMode.Ltr; 
+            }
+            set
+            {
+                var _documentElement = DocumentElement;
+
+                if (_documentElement != null)
+                    _documentElement.Dir = value;
+            }
         }
 
         /// <summary>
@@ -277,6 +284,8 @@ namespace AngleSharp.DOM.Html
         {
             get
             {
+                var _title = FindChild<HTMLTitleElement>(Head);
+
                 if (_title != null)
                     return _title.Text;
 
@@ -284,15 +293,28 @@ namespace AngleSharp.DOM.Html
             }
             set
             {
+                var _title = FindChild<HTMLTitleElement>(Head);
+
                 if (_title == null)
                 {
+                    var _documentElement = DocumentElement;
+
                     if (_documentElement == null)
-                        AppendChild(new HTMLHtmlElement());
+                    {
+                        _documentElement = new HTMLHtmlElement();
+                        AppendChild(_documentElement);
+                    }
+
+                    var _head = Head;
 
                     if (_head == null)
-                        _documentElement.AppendChild(new HTMLHeadElement());
+                    {
+                        _head = new HTMLHeadElement();
+                        _documentElement.AppendChild(_head);
+                    }
 
-                    _head.AppendChild(new HTMLTitleElement());
+                    _title = new HTMLTitleElement();
+                    _head.AppendChild(_title);
                 }
 
                 _title.Text = value;
@@ -305,7 +327,7 @@ namespace AngleSharp.DOM.Html
         [DOM("head")]
         public HTMLHeadElement Head
         {
-            get { return _head; }
+            get { return FindChild<HTMLHeadElement>(DocumentElement); }
         }
 
         /// <summary>
@@ -314,7 +336,7 @@ namespace AngleSharp.DOM.Html
         [DOM("body")]
         public HTMLBodyElement Body
         {
-            get { return _body; }
+            get { return FindChild<HTMLBodyElement>(DocumentElement); }
         }
 
         /// <summary>
@@ -543,86 +565,6 @@ namespace AngleSharp.DOM.Html
         #endregion
 
         #region Internals
-
-        /// <summary>
-        /// References a child element (use when adding any child).
-        /// </summary>
-        /// <param name="node">The node to be added.</param>
-        internal override void ReferenceNode(Node node)
-        {
-            base.ReferenceNode(node);
-
-            if (node is Element)
-            {
-                if (node is HTMLFormElement)
-                {
-                    var form = (HTMLFormElement)node;
-                    _forms.Add(form);
-                }
-                else if (node is HTMLImageElement)
-                {
-                    var img = (HTMLImageElement)node;
-                    _images.Add(img);
-                }
-                else if (node is HTMLScriptElement)
-                {
-                    var script = (HTMLScriptElement)node;
-                    _scripts.Add(script);
-                }
-                else if (_body == null && node is HTMLBodyElement)
-                {
-                    _body = (HTMLBodyElement)node;
-                }
-                else if (_head == null && node is HTMLHeadElement)
-                {
-                    _head = (HTMLHeadElement)node;
-                }
-                else if (_title == null && node is HTMLTitleElement)
-                {
-                    _title = (HTMLTitleElement)node;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Dereferences a child element (use when removing any child).
-        /// </summary>
-        /// <param name="node">The node to be removed.</param>
-        internal override void DereferenceNode(Node node)
-        {
-            base.DereferenceNode(node);
-
-            if (node is Element)
-            {
-                if (node is HTMLFormElement)
-                {
-                    var form = (HTMLFormElement)node;
-                    _forms.Remove(form);
-                }
-                else if (node is HTMLImageElement)
-                {
-                    var img = (HTMLImageElement)node;
-                    _images.Remove(img);
-                }
-                else if (node is HTMLScriptElement)
-                {
-                    var script = (HTMLScriptElement)node;
-                    _scripts.Remove(script);
-                }
-                else if (_body == node)
-                {
-                    _body = FindChild<HTMLBodyElement>(_documentElement);
-                }
-                else if (_head == node)
-                {
-                    _head = FindChild<HTMLHeadElement>(_documentElement);
-                }
-                else if (_title == node)
-                {
-                    _title = FindChild<HTMLTitleElement>(_head);
-                }
-            }
-        }
 
         internal Int32 ScriptsWaiting { get { return 0; } }
 

@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the select element.
     /// </summary>
+    [DOM("HTMLSelectElement")]
     public sealed class HTMLSelectElement : HTMLFormControlElementWithState
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The select tag.
         /// </summary>
-        internal const string Tag = "select";
+        internal const String Tag = "select";
 
         #endregion
 
@@ -33,6 +34,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the associated HTML form element.
         /// </summary>
+        [DOM("form")]
         public HTMLFormElement Form
         {
             get { return GetAssignedForm(); }
@@ -41,6 +43,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
+        [DOM("name")]
         public String Name
         {
             get { return GetAttribute("name"); }
@@ -50,19 +53,21 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the select element is enabled or disabled.
         /// </summary>
+        [DOM("disabled")]
         public Boolean Disabled
         {
             get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? string.Empty : null); }
+            set { SetAttribute("disabled", value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets or sets if the select element field is required.
         /// </summary>
+        [DOM("required")]
         public Boolean Required
         {
             get { return GetAttribute("required") != null; }
-            set { SetAttribute("required", value ? string.Empty : null); }
+            set { SetAttribute("required", value ? String.Empty : null); }
         }
 
         #endregion
@@ -72,7 +77,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

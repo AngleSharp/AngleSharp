@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The bgsound tag.
         /// </summary>
-        internal const string Tag = "bgsound";
+        internal const String Tag = "bgsound";
 
         internal HTMLBgsoundElement()
         {
@@ -20,7 +20,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

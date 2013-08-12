@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents a HTML textarea element.
     /// </summary>
+    [DOM("HTMLTextAreaElement")]
     public sealed class HTMLTextAreaElement : HTMLTextFormControlElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The textarea tag.
         /// </summary>
-        internal const string Tag = "textarea";
+        internal const String Tag = "textarea";
 
         #endregion
 
@@ -33,7 +34,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        public string Name
+        [DOM("name")]
+        public String Name
         {
             get { return GetAttribute("name"); }
             set { SetAttribute("name", value); }
@@ -42,28 +44,31 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the textarea is enabled or disabled.
         /// </summary>
-        public bool Disabled
+        [DOM("disabled")]
+        public Boolean Disabled
         {
             get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? string.Empty : null); }
+            set { SetAttribute("disabled", value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets or sets if the textarea field is required.
         /// </summary>
-        public bool Required
+        [DOM("required")]
+        public Boolean Required
         {
             get { return GetAttribute("required") != null; }
-            set { SetAttribute("required", value ? string.Empty : null); }
+            set { SetAttribute("required", value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets or sets if the textarea field is read-only.
         /// </summary>
-        public bool Readonly
+        [DOM("readonly")]
+        public Boolean Readonly
         {
             get { return GetAttribute("readonly") != null; }
-            set { SetAttribute("readonly", value ? string.Empty : null); }
+            set { SetAttribute("readonly", value ? String.Empty : null); }
         }
 
         #endregion
@@ -73,12 +78,12 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }
 
-        internal bool IsMutable
+        internal Boolean IsMutable
         {
             get { return !Disabled && !Readonly; }
         }

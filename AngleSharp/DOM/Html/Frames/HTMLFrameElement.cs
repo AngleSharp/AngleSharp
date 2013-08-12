@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML frame element.
     /// </summary>
+    [DOM("HTMLFrameElement")]
     public sealed class HTMLFrameElement : HTMLFrameElementBase
     {
         #region Constant

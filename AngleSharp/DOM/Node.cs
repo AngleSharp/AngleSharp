@@ -243,9 +243,9 @@ namespace AngleSharp.DOM
                 else if (_owner != null && value != null)
                     throw new DOMException(ErrorCode.InUse);
                 else if(_owner != null)
-                    _owner.DereferenceNode(this);
+                    Unregister(_owner);
                 else
-                    value.ReferenceNode(this);
+                    Register(value);
 
                 _owner = value;
 
@@ -358,6 +358,22 @@ namespace AngleSharp.DOM
         #region Internal Methods
 
         /// <summary>
+        /// Registers the node at the given document.
+        /// </summary>
+        /// <param name="document">The document where to register.</param>
+        protected virtual void Register(Document document)
+        {
+        }
+
+        /// <summary>
+        /// Unregisters the node at the given document.
+        /// </summary>
+        /// <param name="document">The document where to unregister.</param>
+        protected virtual void Unregister(Document document)
+        {
+        }
+
+        /// <summary>
         /// Entry point for attributes to notify about a change (modified, added, removed).
         /// </summary>
         /// <param name="name">The name of the attribute that has been changed.</param>
@@ -370,7 +386,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="c">The character to append.</param>
         /// <returns>The node which contains the text.</returns>
-        internal Node AppendText(char c)
+        internal Node AppendText(Char c)
         {
             var lastChild = LastChild as TextNode;
 
@@ -386,7 +402,7 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="s">The characters to append.</param>
         /// <returns>The node which contains the text.</returns>
-        internal Node AppendText(string s)
+        internal Node AppendText(String s)
         {
             var lastChild = LastChild as TextNode;
 
@@ -403,7 +419,7 @@ namespace AngleSharp.DOM
         /// <param name="index">The index where to insert.</param>
         /// <param name="c">The character to append.</param>
         /// <returns>The node which contains the text.</returns>
-        internal Node InsertText(int index, char c)
+        internal Node InsertText(Int32 index, Char c)
         {
             if (index > 0 && index <= _children.Length && _children[index - 1] is TextNode)
                 return ((TextNode)_children[index - 1]).AppendData(c);
@@ -418,11 +434,11 @@ namespace AngleSharp.DOM
         /// </summary>
         /// <param name="node">The node which needs to know its index.</param>
         /// <returns>The index of the node or -1 if the node is not a child.</returns>
-        internal int IndexOf(Node node)
+        internal Int32 IndexOf(Node node)
         {
             var n = _children.Length;
 
-            for (int i = 0; i < n; i++)
+            for (var i = 0; i < n; i++)
             {
                 if (_children[i] == node)
                     return i;

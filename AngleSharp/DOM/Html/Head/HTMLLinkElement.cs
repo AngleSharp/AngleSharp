@@ -6,6 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML link element.
     /// </summary>
+    [DOM("HTMLLinkElement")]
     public sealed class HTMLLinkElement : HTMLElement, IStyleSheet
     {
         #region Constant
@@ -13,13 +14,13 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The link tag.
         /// </summary>
-        internal const string Tag = "link";
+        internal const String Tag = "link";
 
         #endregion
 
         #region Members
 
-        StyleSheet _sheet;
+        CSSStyleSheet _sheet;
 
         #endregion
 
@@ -31,7 +32,8 @@ namespace AngleSharp.DOM.Html
         internal HTMLLinkElement()
         {
             _name = Tag;
-            Type = "text/css";
+            _sheet = new CSSStyleSheet();
+            _sheet.OwnerNode = this;
         }
 
         #endregion
@@ -41,7 +43,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }
@@ -53,7 +55,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the link has been visited.
         /// </summary>
-        internal bool IsVisited
+        internal Boolean IsVisited
         {
             get;
             set;
@@ -62,7 +64,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the link is currently active.
         /// </summary>
-        internal bool IsActive
+        internal Boolean IsActive
         {
             get;
             set;
@@ -75,7 +77,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the URI for the target resource.
         /// </summary>
-        public string Href
+        [DOM("href")]
+        public String Href
         {
             get { return GetAttribute("href"); }
             set { SetAttribute("href", value); }
@@ -84,7 +87,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the language code for the linked resource.
         /// </summary>
-        public string Hreflang
+        [DOM("hreflang")]
+        public String Hreflang
         {
             get { return GetAttribute("hreflang"); }
             set { SetAttribute("hreflang", value); }
@@ -93,7 +97,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the character encoding for the target resource.
         /// </summary>
-        public string Charset
+        [DOM("charset")]
+        public String Charset
         {
             get { return GetAttribute(HtmlEncoding.CHARSET); }
             set { SetAttribute(HtmlEncoding.CHARSET, value); }
@@ -102,16 +107,18 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the forward relationship of the linked resource from the document to the resource.
         /// </summary>
-        public string Rel
+        [DOM("rel")]
+        public RelType Rel
         {
-            get { return GetAttribute("rel"); }
-            set { SetAttribute("rel", value); }
+            get { return ToEnum(GetAttribute("rel"), RelType.Stylesheet); }
+            set { SetAttribute("rel", value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the reverse relationship of the linked resource from the document to the resource.
         /// </summary>
-        public string Rev
+        [DOM("rev")]
+        public String Rev
         {
             get { return GetAttribute("rev"); }
             set { SetAttribute("rev", value); }
@@ -120,7 +127,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the stylesheet is enabled or disabled.
         /// </summary>
-        public bool Disabled
+        [DOM("disabled")]
+        public Boolean Disabled
         {
             get { return Sheet.Disabled; }
             set { Sheet.Disabled = value; }
@@ -129,7 +137,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the name of the target frame to which the resource applies.
         /// </summary>
-        public string Target
+        [DOM("target")]
+        public String Target
         {
             get { return GetAttribute("target"); }
             set { SetAttribute("target", value); }
@@ -138,7 +147,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the use with one or more target media.
         /// </summary>
-        public string Media
+        [DOM("media")]
+        public String Media
         {
             get { return GetAttribute("media"); }
             set { SetAttribute("media", value); }
@@ -147,7 +157,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the content type of the style sheet language.
         /// </summary>
-        public string Type
+        [DOM("type")]
+        public String Type
         {
             get { return GetAttribute("type"); }
             set { SetAttribute("type", value); }
@@ -156,9 +167,78 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the associated stylesheet.
         /// </summary>
+        [DOM("sheet")]
         public StyleSheet Sheet
         {
-            get { return _sheet ?? (_sheet = Builder.Style(this)); }
+            get { return _sheet; }
+        }
+
+        #endregion
+
+        #region Internal methods
+
+        /// <summary>
+        /// Entry point for attributes to notify about a change (modified, added, removed).
+        /// </summary>
+        /// <param name="name">The name of the attribute that has been changed.</param>
+        internal override void OnAttributeChanged(String name)
+        {
+            if (name.Equals("media", StringComparison.Ordinal))
+                _sheet.Media.MediaText = Media;
+            else if (name.Equals("href", StringComparison.Ordinal))
+                _sheet.ReevaluateFromUrl(Href);
+            else
+                base.OnAttributeChanged(name);
+        }
+
+        /// <summary>
+        /// Registers the node at the given document.
+        /// </summary>
+        /// <param name="document">The document where to register.</param>
+        protected override void Register(Document document)
+        {
+            if (Rel == RelType.Stylesheet)
+                document.StyleSheets.Add(Sheet);
+        }
+
+        /// <summary>
+        /// Unregisters the node at the given document.
+        /// </summary>
+        /// <param name="document">The document where to unregister.</param>
+        protected override void Unregister(Document document)
+        {
+            if (Rel == RelType.Stylesheet)
+                document.StyleSheets.Remove(Sheet);
+        }
+
+        #endregion
+
+        #region Enumeration
+
+        /// <summary>
+        /// Specifies the possible values for the rel attribute.
+        /// </summary>
+        public enum RelType : ushort
+        {
+            Prefetch,
+            Icon,
+            Pingback,
+            Stylesheet,
+            Alternate,
+            Canonical,
+            Archives,
+            Author,
+            First,
+            Help,
+            Sidebar,
+            Tag,
+            Search,
+            Index,
+            License,
+            Up,
+            Next,
+            Last,
+            Prev
         }
 
         #endregion

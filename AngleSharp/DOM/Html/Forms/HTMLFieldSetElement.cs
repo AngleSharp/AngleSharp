@@ -5,12 +5,13 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML fieldset element.
     /// </summary>
+    [DOM("HTMLFieldSetElement")]
     public sealed class HTMLFieldSetElement : HTMLFormControlElement
     {
         /// <summary>
         /// The fieldset tag.
         /// </summary>
-        internal const string Tag = "fieldset";
+        internal const String Tag = "fieldset";
 
         /// <summary>
         /// Creates a new HTML fieldset element.
@@ -24,7 +25,8 @@ namespace AngleSharp.DOM.Html
         /// Gets if the element has any descendent elements that do not
         /// satisfy their constraints.
         /// </summary>
-        public bool IsInvalid
+        [DOM("isInvalid")]
+        public Boolean IsInvalid
         {
             get { return _children.QuerySelector("*:invalid") != null; }
         }
@@ -32,7 +34,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

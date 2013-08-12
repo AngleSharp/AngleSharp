@@ -5,12 +5,13 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML object element.
     /// </summary>
+    [DOM("HTMLObjectElement")]
     public sealed class HTMLObjectElement : HTMLElement
     {
         /// <summary>
         /// The object tag.
         /// </summary>
-        internal const string Tag = "object";
+        internal const String Tag = "object";
 
         internal HTMLObjectElement()
         {
@@ -20,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

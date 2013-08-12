@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an HTML input element.
     /// </summary>
+    [DOM("HTMLInputElement")]
     public sealed class HTMLInputElement : HTMLTextFormControlElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The input tag.
         /// </summary>
-        internal const string Tag = "input";
+        internal const String Tag = "input";
 
         #endregion
 
@@ -34,6 +35,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
+        [DOM("name")]
         public String Name
         {
             get { return GetAttribute("name"); }
@@ -43,6 +45,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the associated HTML form element.
         /// </summary>
+        [DOM("form")]
         public HTMLFormElement Form
         {
             get { return GetAssignedForm(); }
@@ -51,6 +54,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the input element is checked or not.
         /// </summary>
+        [DOM("checked")]
         public Boolean Checked
         {
             get { return GetAttribute("checked") != null; }
@@ -60,6 +64,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the input element is enabled or disabled.
         /// </summary>
+        [DOM("disabled")]
         public Boolean Disabled
         {
             get { return GetAttribute("disabled") != null; }
@@ -69,6 +74,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the type of the input field.
         /// </summary>
+        [DOM("type")]
         public InputType Type
         {
             get { return ToEnum(GetAttribute("type"), InputType.Text); }
@@ -78,6 +84,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the input field is required.
         /// </summary>
+        [DOM("required")]
         public Boolean Required
         {
             get { return GetAttribute("required") != null; }
@@ -87,6 +94,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the input field is read-only.
         /// </summary>
+        [DOM("readonly")]
         public Boolean Readonly
         {
             get { return GetAttribute("readonly") != null; }
@@ -99,6 +107,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the state if indeterminate.
         /// </summary>
+        [DOM("indeterminate")]
         public Boolean Indeterminate 
         { 
             get; 
@@ -112,7 +121,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the link has been visited.
         /// </summary>
-        internal bool IsVisited
+        internal Boolean IsVisited
         {
             get;
             set;
@@ -121,7 +130,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the link is currently active.
         /// </summary>
-        internal bool IsActive
+        internal Boolean IsActive
         {
             get;
             set;
@@ -135,7 +144,7 @@ namespace AngleSharp.DOM.Html
 
         #region Internal Properties
 
-        internal bool IsMutable 
+        internal Boolean IsMutable 
         {
             get { return !Disabled && !Readonly; }
         }
@@ -143,7 +152,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

@@ -6,6 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML progress element.
     /// </summary>
+    [DOM("HTMLProgressElement")]
     public sealed class HTMLProgressElement : HTMLElement, ILabelabelElement
     {
         #region Constant
@@ -13,7 +14,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The progress tag.
         /// </summary>
-        internal const string Tag = "progress";
+        internal const String Tag = "progress";
 
         #endregion
 
@@ -41,6 +42,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if labels are supported.
         /// </summary>
+        [DOM("supportsLabels")]
         public Boolean SupportsLabels
         {
             get;
@@ -50,6 +52,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the list of assigned labels.
         /// </summary>
+        [DOM("labels")]
         public NodeList Labels
         {
             get { return labels; }
@@ -61,6 +64,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the current value.
         /// </summary>
+        [DOM("value")]
         public Double Value
         {
             get;
@@ -70,6 +74,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the maximum value.
         /// </summary>
+        [DOM("max")]
         public Double Max
         {
             get;
@@ -79,6 +84,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the position.
         /// </summary>
+        [DOM("position")]
         public Double Position
         {
             get;
@@ -92,7 +98,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return false; }
         }

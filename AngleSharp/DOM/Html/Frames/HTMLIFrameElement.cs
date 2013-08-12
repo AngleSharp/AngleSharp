@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML iframe element.
     /// </summary>
+    [DOM("HTMLIFrameElement")]
     public sealed class HTMLIFrameElement : HTMLFrameElementBase
     {
         #region Constant

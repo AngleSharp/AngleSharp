@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents a param element.
     /// </summary>
+    [DOM("HTMLParamElement")]
     public sealed class HTMLParamElement : HTMLElement
     {
         #region Constant
@@ -12,7 +13,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The param tag.
         /// </summary>
-        internal const string Tag = "param";
+        internal const String Tag = "param";
 
         #endregion
 
@@ -33,7 +34,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value of the value attribute.
         /// </summary>
-        public string Value
+        [DOM("value")]
+        public String Value
         {
             get { return GetAttribute("value"); }
             set { SetAttribute("value", value); }
@@ -42,7 +44,8 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        public string Name
+        [DOM("name")]
+        public String Name
         {
             get { return GetAttribute("name"); }
             set { SetAttribute("name", value); }
@@ -55,7 +58,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

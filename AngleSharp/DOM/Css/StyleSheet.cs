@@ -49,7 +49,7 @@ namespace AngleSharp.DOM.Css
         [DOM("type")]
         public String Type
         {
-            get { return _owner != null ? (_owner.GetAttribute("type") ?? string.Empty) : string.Empty; }
+            get { return _owner != null ? (_owner.GetAttribute("type") ?? String.Empty) : String.Empty; }
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace AngleSharp.DOM.Css
         public Boolean Disabled
         {
             get { return _owner != null ? (_owner.GetAttribute("disabled") != null) : false; }
-            set { if(_owner != null) _owner.SetAttribute("disabled", value ? string.Empty : null); }
+            set { if (_owner != null) _owner.SetAttribute("disabled", value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace AngleSharp.DOM.Css
         [DOM("href")]
         public String Href
         {
-            get { return _owner != null ? (_owner.GetAttribute("href") ?? string.Empty) : string.Empty; }
+            get { return _owner != null ? (_owner.GetAttribute("href") ?? String.Empty) : String.Empty; }
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace AngleSharp.DOM.Css
         [DOM("title")]
         public String Title
         {
-            get { return _owner != null ? (_owner.GetAttribute("title") ?? string.Empty) : string.Empty; }
+            get { return _owner != null ? (_owner.GetAttribute("title") ?? String.Empty) : String.Empty; }
         }
 
         /// <summary>

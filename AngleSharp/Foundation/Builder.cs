@@ -14,21 +14,20 @@ namespace AngleSharp
     /// </summary>
     static class Builder
     {
-        public static StyleSheet Style(HTMLLinkElement link)
+        public static void StyleFromSource(CSSStyleSheet sheet, String source)
         {
-            //TODO Read content from ext. file
-            var sheet = CssParser.ParseStyleSheet(string.Empty);
-            sheet.Media.MediaText = link.Media;
-            sheet.OwnerNode = link;
-            return sheet;
+            var parser = new CssParser(sheet, source);
+            parser.Parse();
         }
 
-        public static StyleSheet Style(HTMLStyleElement style)
+        public static void StyleFromUrl(CSSStyleSheet sheet, String url)
         {
-            var sheet = CssParser.ParseStyleSheet(style.TextContent);
-            sheet.Media.MediaText = style.Media;
-            sheet.OwnerNode = style;
-            return sheet;
+            //TODO we need the IoC container to resolve stream getters etc.
+            return;
+
+            var stream = Stream(url);
+            var parser = new CssParser(sheet, stream);
+            parser.Parse();
         }
 
         public static void Script(HTMLScriptElement script)

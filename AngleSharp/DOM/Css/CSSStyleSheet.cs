@@ -106,5 +106,21 @@ namespace AngleSharp.DOM.Css
         }
 
         #endregion
+
+        #region Internal Methods
+
+        internal void ReevaluateFromUrl(String url)
+        {
+            _cssRules.List.Clear();
+            Builder.StyleFromUrl(this, url);
+        }
+
+        internal void ReevaluateFromSource(String source)
+        {
+            _cssRules.List.Clear();
+            Builder.StyleFromSource(this, source);
+        }
+
+        #endregion
     }
 }

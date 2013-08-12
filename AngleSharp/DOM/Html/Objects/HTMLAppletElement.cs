@@ -5,12 +5,13 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML applet element.
     /// </summary>
+    [DOM("HTMLAppletElement")]
     public sealed class HTMLAppletElement : HTMLElement
     {
         /// <summary>
         /// The applet tag.
         /// </summary>
-        internal const string Tag = "applet";
+        internal const String Tag = "applet";
 
         internal HTMLAppletElement()
         {
@@ -20,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }

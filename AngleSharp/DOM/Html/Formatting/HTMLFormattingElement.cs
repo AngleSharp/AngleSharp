@@ -8,67 +8,67 @@ namespace AngleSharp.DOM.Html
     /// </summary>
     public class HTMLFormattingElement : HTMLElement
     {
-        #region Constants 
+        #region Constants
 
         /// <summary>
         /// The b tag.
         /// </summary>
-        internal const string BTag = "b";
+        internal const String BTag = "b";
 
         /// <summary>
         /// The big tag.
         /// </summary>
-        internal const string BigTag = "big";
+        internal const String BigTag = "big";
 
         /// <summary>
         /// The strike tag.
         /// </summary>
-        internal const string StrikeTag = "strike";
+        internal const String StrikeTag = "strike";
 
         /// <summary>
         /// The code tag.
         /// </summary>
-        internal const string CodeTag = "code";
+        internal const String CodeTag = "code";
 
         /// <summary>
         /// The em tag.
         /// </summary>
-        internal const string EmTag = "em";
+        internal const String EmTag = "em";
 
         /// <summary>
         /// The i tag.
         /// </summary>
-        internal const string ITag = "i";
+        internal const String ITag = "i";
 
         /// <summary>
         /// The s tag.
         /// </summary>
-        internal const string STag = "s";
+        internal const String STag = "s";
 
         /// <summary>
         /// The small tag.
         /// </summary>
-        internal const string SmallTag = "small";
+        internal const String SmallTag = "small";
 
         /// <summary>
         /// The strong tag.
         /// </summary>
-        internal const string StrongTag = "strong";
+        internal const String StrongTag = "strong";
 
         /// <summary>
         /// The u tag.
         /// </summary>
-        internal const string UTag = "u";
+        internal const String UTag = "u";
 
         /// <summary>
         /// The tt tag.
         /// </summary>
-        internal const string TtTag = "tt";
+        internal const String TtTag = "tt";
 
         /// <summary>
         /// The nobr tag.
         /// </summary>
-        internal const string NobrTag = "nobr";
+        internal const String NobrTag = "nobr";
 
         #endregion
 
@@ -84,7 +84,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return false; }
         }

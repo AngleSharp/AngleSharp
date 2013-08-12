@@ -12,111 +12,111 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The cite tag.
         /// </summary>
-        internal const string CiteTag = "cite";
+        internal const String CiteTag = "cite";
 
         /// <summary>
         /// The main tag.
         /// </summary>
-        internal const string MainTag = "main";
+        internal const String MainTag = "main";
 
         /// <summary>
         /// The summary tag.
         /// </summary>
-        internal const string SummaryTag = "summary";
+        internal const String SummaryTag = "summary";
 
         /// <summary>
         /// The xmp tag.
         /// </summary>
-        internal const string XmpTag = "xmp";
+        internal const String XmpTag = "xmp";
 
         /// <summary>
         /// The center tag.
         /// </summary>
-        internal const string CenterTag = "center";
+        internal const String CenterTag = "center";
 
         /// <summary>
         /// The listing tag.
         /// </summary>
-        internal const string ListingTag = "listing";
+        internal const String ListingTag = "listing";
 
         /// <summary>
         /// The nav tag.
         /// </summary>
-        internal const string NavTag = "nav";
+        internal const String NavTag = "nav";
 
         /// <summary>
         /// The address tag.
         /// </summary>
-        internal const string AddressTag = "address";
+        internal const String AddressTag = "address";
 
         /// <summary>
         /// The article tag.
         /// </summary>
-        internal const string ArticleTag = "article";
+        internal const String ArticleTag = "article";
 
         /// <summary>
         /// The aside tag.
         /// </summary>
-        internal const string AsideTag = "aside";
+        internal const String AsideTag = "aside";
 
         /// <summary>
         /// The figcaption tag.
         /// </summary>
-        internal const string FigcaptionTag = "figcaption";
+        internal const String FigcaptionTag = "figcaption";
 
         /// <summary>
         /// The figure tag.
         /// </summary>
-        internal const string FigureTag = "figure";
+        internal const String FigureTag = "figure";
 
         /// <summary>
         /// The section tag.
         /// </summary>
-        internal const string SectionTag = "section";
+        internal const String SectionTag = "section";
 
         /// <summary>
         /// The footer tag.
         /// </summary>
-        internal const string FooterTag = "footer";
+        internal const String FooterTag = "footer";
 
         /// <summary>
         /// The header tag.
         /// </summary>
-        internal const string HeaderTag = "header";
+        internal const String HeaderTag = "header";
 
         /// <summary>
         /// The hgroup tag.
         /// </summary>
-        internal const string HgroupTag = "hgroup";
+        internal const String HgroupTag = "hgroup";
 
         /// <summary>
         /// The plaintext tag.
         /// </summary>
-        internal const string PlaintextTag = "plaintext";
+        internal const String PlaintextTag = "plaintext";
 
         #endregion
 
         #region Members
 
-        bool _special;
+        Boolean _special;
 
         #endregion
 
         #region ctor
 
-        internal HTMLSemanticElement(bool special = true)
+        internal HTMLSemanticElement(Boolean special = true)
         {
             _special = special;
         }
 
         #endregion
 
-        #region Properties
+        #region Internal Properties
 
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return _special; }
         }

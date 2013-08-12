@@ -21,6 +21,12 @@ namespace AngleSharp.DOM.Collections
 
         #endregion
 
+        #region Events
+
+        internal event EventHandler ElementsChanged;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -70,6 +76,7 @@ namespace AngleSharp.DOM.Collections
         internal protected void Clear()
         {
             _entries.Clear();
+            RaiseChanged();
         }
 
         /// <summary>
@@ -80,6 +87,7 @@ namespace AngleSharp.DOM.Collections
         internal protected void Add(T node)
         {
             _entries.Add(node);
+            RaiseChanged();
         }
 
         /// <summary>
@@ -91,6 +99,7 @@ namespace AngleSharp.DOM.Collections
         internal protected void Insert(int index, T node)
         {
             _entries.Insert(index, node);
+            RaiseChanged();
         }
 
         /// <summary>
@@ -103,6 +112,7 @@ namespace AngleSharp.DOM.Collections
             if (_entries.Contains(node))
             {
                 _entries.Remove(node);
+                RaiseChanged();
             }
         }
 
@@ -115,6 +125,7 @@ namespace AngleSharp.DOM.Collections
         {
             var entry = _entries[index];
             _entries.RemoveAt(index);
+            RaiseChanged();
         }
 
         /// <summary>
@@ -187,16 +198,17 @@ namespace AngleSharp.DOM.Collections
         /// <returns>A string describing the collection.</returns>
         public override String ToString()
         {
-            var sb = new StringBuilder();
-            sb.Append("DOM.").Append(GetType().Name).Append(':');
+            return "DOM." + GetType().Name;
+        }
 
-            if (Length == 0)
-                sb.AppendLine().Append("\t--No elements available--");
+        #endregion
 
-            foreach (var element in this)
-                sb.AppendLine().Append("\t").Append(element.ToString());
+        #region Helpers
 
-            return sb.ToString();
+        void RaiseChanged()
+        {
+            if (ElementsChanged != null)
+                ElementsChanged(this, EventArgs.Empty);
         }
 
         #endregion

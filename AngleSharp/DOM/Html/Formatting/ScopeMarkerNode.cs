@@ -2,7 +2,7 @@
 
 namespace AngleSharp.DOM.Html
 {
-    class ScopeMarkerNode : HTMLFormattingElement
+    sealed class ScopeMarkerNode : HTMLFormattingElement
     {
         static readonly ScopeMarkerNode element = new ScopeMarkerNode();
 

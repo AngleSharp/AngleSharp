@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML frameset element.
     /// </summary>
+    [DOM("HTMLFrameSetElement")]
     public sealed class HTMLFrameSetElement : HTMLElement
     {
         #region Constant

@@ -5,6 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML column (col / colgroup) element.
     /// </summary>
+    [DOM("HTMLTableColElement")]
     public sealed class HTMLTableColElement : HTMLElement
     {
         #region Constants
