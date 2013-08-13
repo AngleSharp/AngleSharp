@@ -39,6 +39,22 @@ namespace AngleSharp.Html
         #region Properties
 
         /// <summary>
+        /// Gets if the token can be used with IsHtmlTIP properties.
+        /// </summary>
+        public override Boolean IsHtmlCompatible
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        /// Gets if the token can be used with IsMathMLTIP properties.
+        /// </summary>
+        public override Boolean IsMathCompatible
+        {
+            get { return true; }
+        }
+
+        /// <summary>
         /// Gets the data of the character token.
         /// </summary>
         public Char Data

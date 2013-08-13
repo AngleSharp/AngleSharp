@@ -13,9 +13,9 @@ namespace AngleSharp
         /// </summary>
         /// <param name="name">The name of the identity, specified by &amp;NAME; in the Html source code.</param>
         /// <returns>The array containing the found entity or empty.</returns>
-        public static char[] GetSymbol(string name)
+        public static Char[] GetSymbol(String name)
         {
-            if (string.IsNullOrEmpty(name))
+            if (String.IsNullOrEmpty(name))
                 return null;
 
             switch (name[0])
@@ -105,39 +105,47 @@ namespace AngleSharp
 
         #region Symbol Methods
 
-        static char[] GetSymbolA(string name)
+        static Char[] GetSymbolA(String name)
         {
             switch (name)
             {
+                case "Aogon": return Convert(0x0104);
+                case "Aopf": return Convert(0xD835, 0xDD38);
+                case "ApplyFunction": return Convert(0x2061);
+                case "Aring": return Convert(0x00C5);
+                case "Ascr": return Convert(0xD835, 0xDC9C);
+                case "Assign": return Convert(0x2254);
+                case "Atilde": return Convert(0x00C3);
+                case "Auml": return Convert(0x00C4);
                 case "Aacute": return Convert(0x00C1);
-                case "aacute": return Convert(0x00E1);
                 case "Abreve": return Convert(0x0102);
+                case "Acirc": return Convert(0x00C2);
+                case "Acy": return Convert(0x0410);
+                case "AElig": return Convert(0x00C6);
+                case "Afr": return Convert(0xD835, 0xDD04);
+                case "Agrave": return Convert(0x00C0);
+                case "Alpha": return Convert(0x0391);
+                case "Amacr": return Convert(0x0100);
+                case "AMP": return Convert(0x0026);
+                case "And": return Convert(0x2A53);
+                case "aacute": return Convert(0x00E1);
                 case "abreve": return Convert(0x0103);
                 case "ac": return Convert(0x223E);
                 case "acd": return Convert(0x223F);
                 case "acE": return Convert(0x223E, 0x0333);
-                case "Acirc": return Convert(0x00C2);
                 case "acirc": return Convert(0x00E2);
                 case "acute": return Convert(0x00B4);
-                case "Acy": return Convert(0x0410);
                 case "acy": return Convert(0x0430);
-                case "AElig": return Convert(0x00C6);
                 case "aelig": return Convert(0x00E6);
                 case "af": return Convert(0x2061);
-                case "Afr": return Convert(0xD835, 0xDD04);
                 case "afr": return Convert(0xD835, 0xDD1E);
-                case "Agrave": return Convert(0x00C0);
                 case "agrave": return Convert(0x00E0);
                 case "alefsym": return Convert(0x2135);
                 case "aleph": return Convert(0x2135);
-                case "Alpha": return Convert(0x0391);
                 case "alpha": return Convert(0x03B1);
-                case "Amacr": return Convert(0x0100);
                 case "amacr": return Convert(0x0101);
                 case "amalg": return Convert(0x2A3F);
-                case "AMP": return Convert(0x0026);
                 case "amp": return Convert(0x0026);
-                case "And": return Convert(0x2A53);
                 case "and": return Convert(0x2227);
                 case "andand": return Convert(0x2A55);
                 case "andd": return Convert(0x2A5C);
@@ -161,9 +169,7 @@ namespace AngleSharp
                 case "angsph": return Convert(0x2222);
                 case "angst": return Convert(0x00C5);
                 case "angzarr": return Convert(0x237C);
-                case "Aogon": return Convert(0x0104);
                 case "aogon": return Convert(0x0105);
-                case "Aopf": return Convert(0xD835, 0xDD38);
                 case "aopf": return Convert(0xD835, 0xDD52);
                 case "ap": return Convert(0x2248);
                 case "apacir": return Convert(0x2A6F);
@@ -171,20 +177,14 @@ namespace AngleSharp
                 case "ape": return Convert(0x224A);
                 case "apid": return Convert(0x224B);
                 case "apos": return Convert(0x0027);
-                case "ApplyFunction": return Convert(0x2061);
                 case "approx": return Convert(0x2248);
                 case "approxeq": return Convert(0x224A);
-                case "Aring": return Convert(0x00C5);
                 case "aring": return Convert(0x00E5);
-                case "Ascr": return Convert(0xD835, 0xDC9C);
                 case "ascr": return Convert(0xD835, 0xDCB6);
-                case "Assign": return Convert(0x2254);
                 case "ast": return Convert(0x002A);
                 case "asymp": return Convert(0x2248);
                 case "asympeq": return Convert(0x224D);
-                case "Atilde": return Convert(0x00C3);
                 case "atilde": return Convert(0x00E3);
-                case "Auml": return Convert(0x00C4);
                 case "auml": return Convert(0x00E4);
                 case "awconint": return Convert(0x2233);
                 case "awint": return Convert(0x2A11);
@@ -193,39 +193,43 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolB(string name)
+        static Char[] GetSymbolB(String name)
         {
             switch (name)
             {
+                case "Backslash": return Convert(0x2216);
+                case "Barv": return Convert(0x2AE7);
+                case "Barwed": return Convert(0x2306);
+                case "Bcy": return Convert(0x0411);
+                case "Because": return Convert(0x2235);
+                case "Bernoullis": return Convert(0x212C);
+                case "Beta": return Convert(0x0392);
+                case "Bfr": return Convert(0xD835, 0xDD05);
+                case "Bopf": return Convert(0xD835, 0xDD39);
+                case "Breve": return Convert(0x02D8);
+                case "Bscr": return Convert(0x212C);
+                case "Bumpeq": return Convert(0x224E);
                 case "backcong": return Convert(0x224C);
                 case "backepsilon": return Convert(0x03F6);
                 case "backprime": return Convert(0x2035);
                 case "backsim": return Convert(0x223D);
                 case "backsimeq": return Convert(0x22CD);
-                case "Backslash": return Convert(0x2216);
-                case "Barv": return Convert(0x2AE7);
                 case "barvee": return Convert(0x22BD);
-                case "Barwed": return Convert(0x2306);
                 case "barwed": return Convert(0x2305);
                 case "barwedge": return Convert(0x2305);
                 case "bbrk": return Convert(0x23B5);
                 case "bbrktbrk": return Convert(0x23B6);
                 case "bcong": return Convert(0x224C);
-                case "Bcy": return Convert(0x0411);
                 case "bcy": return Convert(0x0431);
                 case "bdquo": return Convert(0x201E);
                 case "becaus": return Convert(0x2235);
-                case "Because": return Convert(0x2235);
                 case "because": return Convert(0x2235);
                 case "bemptyv": return Convert(0x29B0);
                 case "bepsi": return Convert(0x03F6);
                 case "bernou": return Convert(0x212C);
-                case "Bernoullis": return Convert(0x212C);
-                case "Beta": return Convert(0x0392);
                 case "beta": return Convert(0x03B2);
                 case "beth": return Convert(0x2136);
                 case "between": return Convert(0x226C);
-                case "Bfr": return Convert(0xD835, 0xDD05);
                 case "bfr": return Convert(0xD835, 0xDD1F);
                 case "bigcap": return Convert(0x22C2);
                 case "bigcirc": return Convert(0x25EF);
@@ -256,7 +260,6 @@ namespace AngleSharp
                 case "bnequiv": return Convert(0x2261, 0x20E5);
                 case "bNot": return Convert(0x2AED);
                 case "bnot": return Convert(0x2310);
-                case "Bopf": return Convert(0xD835, 0xDD39);
                 case "bopf": return Convert(0xD835, 0xDD53);
                 case "bot": return Convert(0x22A5);
                 case "bottom": return Convert(0x22A5);
@@ -306,10 +309,8 @@ namespace AngleSharp
                 case "boxvR": return Convert(0x255E);
                 case "boxvr": return Convert(0x251C);
                 case "bprime": return Convert(0x2035);
-                case "Breve": return Convert(0x02D8);
                 case "breve": return Convert(0x02D8);
                 case "brvbar": return Convert(0x00A6);
-                case "Bscr": return Convert(0x212C);
                 case "bscr": return Convert(0xD835, 0xDCB7);
                 case "bsemi": return Convert(0x204F);
                 case "bsim": return Convert(0x223D);
@@ -322,56 +323,75 @@ namespace AngleSharp
                 case "bump": return Convert(0x224E);
                 case "bumpE": return Convert(0x2AAE);
                 case "bumpe": return Convert(0x224F);
-                case "Bumpeq": return Convert(0x224E);
                 case "bumpeq": return Convert(0x224F);
             }
 
             return null;
         }
 
-        static char[] GetSymbolC(string name)
+        static Char[] GetSymbolC(String name)
         {
             switch (name)
             {
                 case "Cacute": return Convert(0x0106);
-                case "cacute": return Convert(0x0107);
                 case "Cap": return Convert(0x22D2);
+                case "CapitalDifferentialD": return Convert(0x2145);
+                case "Cayleys": return Convert(0x212D);
+                case "Ccaron": return Convert(0x010C);
+                case "Ccedil": return Convert(0x00C7);
+                case "Ccirc": return Convert(0x0108);
+                case "Cconint": return Convert(0x2230);
+                case "Cdot": return Convert(0x010A);
+                case "Cedilla": return Convert(0x00B8);
+                case "CenterDot": return Convert(0x00B7);
+                case "Cfr": return Convert(0x212D);
+                case "CHcy": return Convert(0x0427);
+                case "Chi": return Convert(0x03A7);
+                case "CircleDot": return Convert(0x2299);
+                case "CircleMinus": return Convert(0x2296);
+                case "CirclePlus": return Convert(0x2295);
+                case "CircleTimes": return Convert(0x2297);
+                case "ClockwiseContourIntegral": return Convert(0x2232);
+                case "CloseCurlyDoubleQuote": return Convert(0x201D);
+                case "CloseCurlyQuote": return Convert(0x2019);
+                case "Colon": return Convert(0x2237);
+                case "Colone": return Convert(0x2A74);
+                case "Congruent": return Convert(0x2261);
+                case "Conint": return Convert(0x222F);
+                case "ContourIntegral": return Convert(0x222E);
+                case "Copf": return Convert(0x2102);
+                case "Coproduct": return Convert(0x2210);
+                case "COPY": return Convert(0x00A9);
+                case "CounterClockwiseContourIntegral": return Convert(0x2233);
+                case "Cross": return Convert(0x2A2F);
+                case "Cscr": return Convert(0xD835, 0xDC9E);
+                case "Cup": return Convert(0x22D3);
+                case "CupCap": return Convert(0x224D);
+                case "cacute": return Convert(0x0107);
                 case "cap": return Convert(0x2229);
                 case "capand": return Convert(0x2A44);
                 case "capbrcup": return Convert(0x2A49);
                 case "capcap": return Convert(0x2A4B);
                 case "capcup": return Convert(0x2A47);
                 case "capdot": return Convert(0x2A40);
-                case "CapitalDifferentialD": return Convert(0x2145);
                 case "caps": return Convert(0x2229, 0xFE00);
                 case "caret": return Convert(0x2041);
                 case "caron": return Convert(0x02C7);
-                case "Cayleys": return Convert(0x212D);
                 case "ccaps": return Convert(0x2A4D);
-                case "Ccaron": return Convert(0x010C);
                 case "ccaron": return Convert(0x010D);
-                case "Ccedil": return Convert(0x00C7);
                 case "ccedil": return Convert(0x00E7);
-                case "Ccirc": return Convert(0x0108);
                 case "ccirc": return Convert(0x0109);
-                case "Cconint": return Convert(0x2230);
                 case "ccups": return Convert(0x2A4C);
                 case "ccupssm": return Convert(0x2A50);
-                case "Cdot": return Convert(0x010A);
                 case "cdot": return Convert(0x010B);
                 case "cedil": return Convert(0x00B8);
-                case "Cedilla": return Convert(0x00B8);
                 case "cemptyv": return Convert(0x29B2);
                 case "cent": return Convert(0x00A2);
-                case "CenterDot": return Convert(0x00B7);
                 case "centerdot": return Convert(0x00B7);
-                case "Cfr": return Convert(0x212D);
                 case "cfr": return Convert(0xD835, 0xDD20);
-                case "CHcy": return Convert(0x0427);
                 case "chcy": return Convert(0x0447);
                 case "check": return Convert(0x2713);
                 case "checkmark": return Convert(0x2713);
-                case "Chi": return Convert(0x03A7);
                 case "chi": return Convert(0x03C7);
                 case "cir": return Convert(0x25CB);
                 case "circ": return Convert(0x02C6);
@@ -381,25 +401,16 @@ namespace AngleSharp
                 case "circledast": return Convert(0x229B);
                 case "circledcirc": return Convert(0x229A);
                 case "circleddash": return Convert(0x229D);
-                case "CircleDot": return Convert(0x2299);
                 case "circledR": return Convert(0x00AE);
                 case "circledS": return Convert(0x24C8);
-                case "CircleMinus": return Convert(0x2296);
-                case "CirclePlus": return Convert(0x2295);
-                case "CircleTimes": return Convert(0x2297);
                 case "cirE": return Convert(0x29C3);
                 case "cire": return Convert(0x2257);
                 case "cirfnint": return Convert(0x2A10);
                 case "cirmid": return Convert(0x2AEF);
                 case "cirscir": return Convert(0x29C2);
-                case "ClockwiseContourIntegral": return Convert(0x2232);
-                case "CloseCurlyDoubleQuote": return Convert(0x201D);
-                case "CloseCurlyQuote": return Convert(0x2019);
                 case "clubs": return Convert(0x2663);
                 case "clubsuit": return Convert(0x2663);
-                case "Colon": return Convert(0x2237);
                 case "colon": return Convert(0x003A);
-                case "Colone": return Convert(0x2A74);
                 case "colone": return Convert(0x2254);
                 case "coloneq": return Convert(0x2254);
                 case "comma": return Convert(0x002C);
@@ -410,22 +421,13 @@ namespace AngleSharp
                 case "complexes": return Convert(0x2102);
                 case "cong": return Convert(0x2245);
                 case "congdot": return Convert(0x2A6D);
-                case "Congruent": return Convert(0x2261);
-                case "Conint": return Convert(0x222F);
                 case "conint": return Convert(0x222E);
-                case "ContourIntegral": return Convert(0x222E);
-                case "Copf": return Convert(0x2102);
                 case "copf": return Convert(0xD835, 0xDD54);
                 case "coprod": return Convert(0x2210);
-                case "Coproduct": return Convert(0x2210);
-                case "COPY": return Convert(0x00A9);
                 case "copy": return Convert(0x00A9);
                 case "copysr": return Convert(0x2117);
-                case "CounterClockwiseContourIntegral": return Convert(0x2233);
                 case "crarr": return Convert(0x21B5);
-                case "Cross": return Convert(0x2A2F);
                 case "cross": return Convert(0x2717);
-                case "Cscr": return Convert(0xD835, 0xDC9E);
                 case "cscr": return Convert(0xD835, 0xDCB8);
                 case "csub": return Convert(0x2ACF);
                 case "csube": return Convert(0x2AD1);
@@ -438,10 +440,8 @@ namespace AngleSharp
                 case "cuesc": return Convert(0x22DF);
                 case "cularr": return Convert(0x21B6);
                 case "cularrp": return Convert(0x293D);
-                case "Cup": return Convert(0x22D3);
                 case "cup": return Convert(0x222A);
                 case "cupbrcap": return Convert(0x2A48);
-                case "CupCap": return Convert(0x224D);
                 case "cupcap": return Convert(0x2A46);
                 case "cupcup": return Convert(0x2A4A);
                 case "cupdot": return Convert(0x228D);
@@ -466,77 +466,32 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolD(string name)
+        static Char[] GetSymbolD(String name)
         {
             switch (name)
             {
                 case "Dagger": return Convert(0x2021);
-                case "dagger": return Convert(0x2020);
-                case "daleth": return Convert(0x2138);
                 case "Darr": return Convert(0x21A1);
-                case "dArr": return Convert(0x21D3);
-                case "darr": return Convert(0x2193);
-                case "dash": return Convert(0x2010);
                 case "Dashv": return Convert(0x2AE4);
-                case "dashv": return Convert(0x22A3);
-                case "dbkarow": return Convert(0x290F);
-                case "dblac": return Convert(0x02DD);
                 case "Dcaron": return Convert(0x010E);
-                case "dcaron": return Convert(0x010F);
                 case "Dcy": return Convert(0x0414);
-                case "dcy": return Convert(0x0434);
                 case "DD": return Convert(0x2145);
-                case "dd": return Convert(0x2146);
-                case "ddagger": return Convert(0x2021);
-                case "ddarr": return Convert(0x21CA);
                 case "DDotrahd": return Convert(0x2911);
-                case "ddotseq": return Convert(0x2A77);
-                case "deg": return Convert(0x00B0);
                 case "Del": return Convert(0x2207);
                 case "Delta": return Convert(0x0394);
-                case "delta": return Convert(0x03B4);
-                case "demptyv": return Convert(0x29B1);
-                case "dfisht": return Convert(0x297F);
                 case "Dfr": return Convert(0xD835, 0xDD07);
-                case "dfr": return Convert(0xD835, 0xDD21);
-                case "dHar": return Convert(0x2965);
-                case "dharl": return Convert(0x21C3);
-                case "dharr": return Convert(0x21C2);
                 case "DiacriticalAcute": return Convert(0x00B4);
                 case "DiacriticalDot": return Convert(0x02D9);
                 case "DiacriticalDoubleAcute": return Convert(0x02DD);
                 case "DiacriticalGrave": return Convert(0x0060);
                 case "DiacriticalTilde": return Convert(0x02DC);
-                case "diam": return Convert(0x22C4);
                 case "Diamond": return Convert(0x22C4);
-                case "diamond": return Convert(0x22C4);
-                case "diamondsuit": return Convert(0x2666);
-                case "diams": return Convert(0x2666);
-                case "die": return Convert(0x00A8);
                 case "DifferentialD": return Convert(0x2146);
-                case "digamma": return Convert(0x03DD);
-                case "disin": return Convert(0x22F2);
-                case "div": return Convert(0x00F7);
-                case "divide": return Convert(0x00F7);
-                case "divideontimes": return Convert(0x22C7);
-                case "divonx": return Convert(0x22C7);
                 case "DJcy": return Convert(0x0402);
-                case "djcy": return Convert(0x0452);
-                case "dlcorn": return Convert(0x231E);
-                case "dlcrop": return Convert(0x230D);
-                case "dollar": return Convert(0x0024);
                 case "Dopf": return Convert(0xD835, 0xDD3B);
-                case "dopf": return Convert(0xD835, 0xDD55);
                 case "Dot": return Convert(0x00A8);
-                case "dot": return Convert(0x02D9);
                 case "DotDot": return Convert(0x20DC);
-                case "doteq": return Convert(0x2250);
-                case "doteqdot": return Convert(0x2251);
                 case "DotEqual": return Convert(0x2250);
-                case "dotminus": return Convert(0x2238);
-                case "dotplus": return Convert(0x2214);
-                case "dotsquare": return Convert(0x22A1);
-                case "doublebarwedge": return Convert(0x2306);
                 case "DoubleContourIntegral": return Convert(0x222F);
                 case "DoubleDot": return Convert(0x00A8);
                 case "DoubleDownArrow": return Convert(0x21D3);
@@ -553,13 +508,9 @@ namespace AngleSharp
                 case "DoubleVerticalBar": return Convert(0x2225);
                 case "DownArrow": return Convert(0x2193);
                 case "Downarrow": return Convert(0x21D3);
-                case "downarrow": return Convert(0x2193);
                 case "DownArrowBar": return Convert(0x2913);
                 case "DownArrowUpArrow": return Convert(0x21F5);
                 case "DownBreve": return Convert(0x0311);
-                case "downdownarrows": return Convert(0x21CA);
-                case "downharpoonleft": return Convert(0x21C3);
-                case "downharpoonright": return Convert(0x21C2);
                 case "DownLeftRightVector": return Convert(0x2950);
                 case "DownLeftTeeVector": return Convert(0x295E);
                 case "DownLeftVector": return Convert(0x21BD);
@@ -569,15 +520,65 @@ namespace AngleSharp
                 case "DownRightVectorBar": return Convert(0x2957);
                 case "DownTee": return Convert(0x22A4);
                 case "DownTeeArrow": return Convert(0x21A7);
+                case "Dscr": return Convert(0xD835, 0xDC9F);
+                case "DScy": return Convert(0x0405);
+                case "Dstrok": return Convert(0x0110);
+                case "DZcy": return Convert(0x040F);
+                case "dagger": return Convert(0x2020);
+                case "daleth": return Convert(0x2138);
+                case "dArr": return Convert(0x21D3);
+                case "darr": return Convert(0x2193);
+                case "dash": return Convert(0x2010);
+                case "dashv": return Convert(0x22A3);
+                case "dbkarow": return Convert(0x290F);
+                case "dblac": return Convert(0x02DD);
+                case "dcaron": return Convert(0x010F);
+                case "dcy": return Convert(0x0434);
+                case "dd": return Convert(0x2146);
+                case "ddagger": return Convert(0x2021);
+                case "ddarr": return Convert(0x21CA);
+                case "ddotseq": return Convert(0x2A77);
+                case "deg": return Convert(0x00B0);
+                case "delta": return Convert(0x03B4);
+                case "demptyv": return Convert(0x29B1);
+                case "dfisht": return Convert(0x297F);
+                case "dfr": return Convert(0xD835, 0xDD21);
+                case "dHar": return Convert(0x2965);
+                case "dharl": return Convert(0x21C3);
+                case "dharr": return Convert(0x21C2);
+                case "diam": return Convert(0x22C4);
+                case "diamond": return Convert(0x22C4);
+                case "diamondsuit": return Convert(0x2666);
+                case "diams": return Convert(0x2666);
+                case "die": return Convert(0x00A8);
+                case "digamma": return Convert(0x03DD);
+                case "disin": return Convert(0x22F2);
+                case "div": return Convert(0x00F7);
+                case "divide": return Convert(0x00F7);
+                case "divideontimes": return Convert(0x22C7);
+                case "divonx": return Convert(0x22C7);
+                case "djcy": return Convert(0x0452);
+                case "dlcorn": return Convert(0x231E);
+                case "dlcrop": return Convert(0x230D);
+                case "dollar": return Convert(0x0024);
+                case "dopf": return Convert(0xD835, 0xDD55);
+                case "dot": return Convert(0x02D9);
+                case "doteq": return Convert(0x2250);
+                case "doteqdot": return Convert(0x2251);
+                case "dotminus": return Convert(0x2238);
+                case "dotplus": return Convert(0x2214);
+                case "dotsquare": return Convert(0x22A1);
+                case "doublebarwedge": return Convert(0x2306);
+                case "downarrow": return Convert(0x2193);
+                case "downdownarrows": return Convert(0x21CA);
+                case "downharpoonleft": return Convert(0x21C3);
+                case "downharpoonright": return Convert(0x21C2);
                 case "drbkarow": return Convert(0x2910);
                 case "drcorn": return Convert(0x231F);
                 case "drcrop": return Convert(0x230C);
-                case "Dscr": return Convert(0xD835, 0xDC9F);
                 case "dscr": return Convert(0xD835, 0xDCB9);
-                case "DScy": return Convert(0x0405);
                 case "dscy": return Convert(0x0455);
                 case "dsol": return Convert(0x29F6);
-                case "Dstrok": return Convert(0x0110);
                 case "dstrok": return Convert(0x0111);
                 case "dtdot": return Convert(0x22F1);
                 case "dtri": return Convert(0x25BF);
@@ -585,7 +586,6 @@ namespace AngleSharp
                 case "duarr": return Convert(0x21F5);
                 case "duhar": return Convert(0x296F);
                 case "dwangle": return Convert(0x29A6);
-                case "DZcy": return Convert(0x040F);
                 case "dzcy": return Convert(0x045F);
                 case "dzigrarr": return Convert(0x27FF);
             }
@@ -593,62 +593,72 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolE(string name)
+        static Char[] GetSymbolE(String name)
         {
             switch (name)
             {
                 case "Eacute": return Convert(0x00C9);
+                case "Ecaron": return Convert(0x011A);
+                case "Ecirc": return Convert(0x00CA);
+                case "Ecy": return Convert(0x042D);
+                case "Edot": return Convert(0x0116);
+                case "Efr": return Convert(0xD835, 0xDD08);
+                case "Egrave": return Convert(0x00C8);
+                case "Element": return Convert(0x2208);
+                case "Emacr": return Convert(0x0112);
+                case "EmptySmallSquare": return Convert(0x25FB);
+                case "EmptyVerySmallSquare": return Convert(0x25AB);
+                case "ENG": return Convert(0x014A);
+                case "Eogon": return Convert(0x0118);
+                case "Eopf": return Convert(0xD835, 0xDD3C);
+                case "Epsilon": return Convert(0x0395);
+                case "Equal": return Convert(0x2A75);
+                case "EqualTilde": return Convert(0x2242);
+                case "Equilibrium": return Convert(0x21CC);
+                case "Escr": return Convert(0x2130);
+                case "Esim": return Convert(0x2A73);
+                case "Eta": return Convert(0x0397);
+                case "ETH": return Convert(0x00D0);
+                case "Euml": return Convert(0x00CB);
+                case "Exists": return Convert(0x2203);
+                case "ExponentialE": return Convert(0x2147);
                 case "eacute": return Convert(0x00E9);
                 case "easter": return Convert(0x2A6E);
-                case "Ecaron": return Convert(0x011A);
                 case "ecaron": return Convert(0x011B);
                 case "ecir": return Convert(0x2256);
-                case "Ecirc": return Convert(0x00CA);
                 case "ecirc": return Convert(0x00EA);
                 case "ecolon": return Convert(0x2255);
-                case "Ecy": return Convert(0x042D);
                 case "ecy": return Convert(0x044D);
                 case "eDDot": return Convert(0x2A77);
-                case "Edot": return Convert(0x0116);
                 case "eDot": return Convert(0x2251);
                 case "edot": return Convert(0x0117);
                 case "ee": return Convert(0x2147);
                 case "efDot": return Convert(0x2252);
-                case "Efr": return Convert(0xD835, 0xDD08);
                 case "efr": return Convert(0xD835, 0xDD22);
                 case "eg": return Convert(0x2A9A);
-                case "Egrave": return Convert(0x00C8);
                 case "egrave": return Convert(0x00E8);
                 case "egs": return Convert(0x2A96);
                 case "egsdot": return Convert(0x2A98);
                 case "el": return Convert(0x2A99);
-                case "Element": return Convert(0x2208);
                 case "elinters": return Convert(0x23E7);
                 case "ell": return Convert(0x2113);
                 case "els": return Convert(0x2A95);
                 case "elsdot": return Convert(0x2A97);
-                case "Emacr": return Convert(0x0112);
                 case "emacr": return Convert(0x0113);
                 case "empty": return Convert(0x2205);
                 case "emptyset": return Convert(0x2205);
-                case "EmptySmallSquare": return Convert(0x25FB);
                 case "emptyv": return Convert(0x2205);
-                case "EmptyVerySmallSquare": return Convert(0x25AB);
                 case "emsp": return Convert(0x2003);
                 case "emsp13": return Convert(0x2004);
                 case "emsp14": return Convert(0x2005);
-                case "ENG": return Convert(0x014A);
                 case "eng": return Convert(0x014B);
                 case "ensp": return Convert(0x2002);
-                case "Eogon": return Convert(0x0118);
                 case "eogon": return Convert(0x0119);
-                case "Eopf": return Convert(0xD835, 0xDD3C);
                 case "eopf": return Convert(0xD835, 0xDD56);
                 case "epar": return Convert(0x22D5);
                 case "eparsl": return Convert(0x29E3);
                 case "eplus": return Convert(0x2A71);
                 case "epsi": return Convert(0x03B5);
-                case "Epsilon": return Convert(0x0395);
                 case "epsilon": return Convert(0x03B5);
                 case "epsiv": return Convert(0x03F5);
                 case "eqcirc": return Convert(0x2256);
@@ -656,67 +666,58 @@ namespace AngleSharp
                 case "eqsim": return Convert(0x2242);
                 case "eqslantgtr": return Convert(0x2A96);
                 case "eqslantless": return Convert(0x2A95);
-                case "Equal": return Convert(0x2A75);
                 case "equals": return Convert(0x003D);
-                case "EqualTilde": return Convert(0x2242);
                 case "equest": return Convert(0x225F);
-                case "Equilibrium": return Convert(0x21CC);
                 case "equiv": return Convert(0x2261);
                 case "equivDD": return Convert(0x2A78);
                 case "eqvparsl": return Convert(0x29E5);
                 case "erarr": return Convert(0x2971);
                 case "erDot": return Convert(0x2253);
-                case "Escr": return Convert(0x2130);
                 case "escr": return Convert(0x212F);
                 case "esdot": return Convert(0x2250);
-                case "Esim": return Convert(0x2A73);
                 case "esim": return Convert(0x2242);
-                case "Eta": return Convert(0x0397);
                 case "eta": return Convert(0x03B7);
-                case "ETH": return Convert(0x00D0);
                 case "eth": return Convert(0x00F0);
-                case "Euml": return Convert(0x00CB);
                 case "euml": return Convert(0x00EB);
                 case "euro": return Convert(0x20AC);
                 case "excl": return Convert(0x0021);
                 case "exist": return Convert(0x2203);
-                case "Exists": return Convert(0x2203);
                 case "expectation": return Convert(0x2130);
-                case "ExponentialE": return Convert(0x2147);
                 case "exponentiale": return Convert(0x2147);
             }
 
             return null;
         }
 
-        static char[] GetSymbolF(string name)
+        static Char[] GetSymbolF(String name)
         {
             switch (name)
             {
-                case "fallingdotseq": return Convert(0x2252);
                 case "Fcy": return Convert(0x0424);
+                case "Ffr": return Convert(0xD835, 0xDD09);
+                case "FilledSmallSquare": return Convert(0x25FC);
+                case "FilledVerySmallSquare": return Convert(0x25AA);
+                case "Fopf": return Convert(0xD835, 0xDD3D);
+                case "ForAll": return Convert(0x2200);
+                case "Fouriertrf": return Convert(0x2131);
+                case "Fscr": return Convert(0x2131);
+                case "fallingdotseq": return Convert(0x2252);
                 case "fcy": return Convert(0x0444);
                 case "female": return Convert(0x2640);
                 case "ffilig": return Convert(0xFB03);
                 case "fflig": return Convert(0xFB00);
                 case "ffllig": return Convert(0xFB04);
-                case "Ffr": return Convert(0xD835, 0xDD09);
                 case "ffr": return Convert(0xD835, 0xDD23);
                 case "filig": return Convert(0xFB01);
-                case "FilledSmallSquare": return Convert(0x25FC);
-                case "FilledVerySmallSquare": return Convert(0x25AA);
                 case "fjlig": return Convert(0x0066, 0x006A);
                 case "flat": return Convert(0x266D);
                 case "fllig": return Convert(0xFB02);
                 case "fltns": return Convert(0x25B1);
                 case "fnof": return Convert(0x0192);
-                case "Fopf": return Convert(0xD835, 0xDD3D);
                 case "fopf": return Convert(0xD835, 0xDD57);
-                case "ForAll": return Convert(0x2200);
                 case "forall": return Convert(0x2200);
                 case "fork": return Convert(0x22D4);
                 case "forkv": return Convert(0x2AD9);
-                case "Fouriertrf": return Convert(0x2131);
                 case "fpartint": return Convert(0x2A0D);
                 case "frac12": return Convert(0x00BD);
                 case "frac13": return Convert(0x2153);
@@ -735,31 +736,44 @@ namespace AngleSharp
                 case "frac78": return Convert(0x215E);
                 case "frasl": return Convert(0x2044);
                 case "frown": return Convert(0x2322);
-                case "Fscr": return Convert(0x2131);
                 case "fscr": return Convert(0xD835, 0xDCBB);
             }
 
             return null;
         }
 
-        static char[] GetSymbolG(string name)
+        static Char[] GetSymbolG(String name)
         {
             switch (name)
             {
-                case "gacute": return Convert(0x01F5);
                 case "Gamma": return Convert(0x0393);
-                case "gamma": return Convert(0x03B3);
                 case "Gammad": return Convert(0x03DC);
-                case "gammad": return Convert(0x03DD);
-                case "gap": return Convert(0x2A86);
                 case "Gbreve": return Convert(0x011E);
-                case "gbreve": return Convert(0x011F);
                 case "Gcedil": return Convert(0x0122);
                 case "Gcirc": return Convert(0x011C);
-                case "gcirc": return Convert(0x011D);
                 case "Gcy": return Convert(0x0413);
-                case "gcy": return Convert(0x0433);
                 case "Gdot": return Convert(0x0120);
+                case "Gfr": return Convert(0xD835, 0xDD0A);
+                case "Gg": return Convert(0x22D9);
+                case "GJcy": return Convert(0x0403);
+                case "Gopf": return Convert(0xD835, 0xDD3E);
+                case "GreaterEqual": return Convert(0x2265);
+                case "GreaterEqualLess": return Convert(0x22DB);
+                case "GreaterFullEqual": return Convert(0x2267);
+                case "GreaterGreater": return Convert(0x2AA2);
+                case "GreaterLess": return Convert(0x2277);
+                case "GreaterSlantEqual": return Convert(0x2A7E);
+                case "GreaterTilde": return Convert(0x2273);
+                case "Gscr": return Convert(0xD835, 0xDCA2);
+                case "GT": return Convert(0x003E);
+                case "Gt": return Convert(0x226B);
+                case "gacute": return Convert(0x01F5);
+                case "gamma": return Convert(0x03B3);
+                case "gammad": return Convert(0x03DD);
+                case "gap": return Convert(0x2A86);
+                case "gbreve": return Convert(0x011F);
+                case "gcirc": return Convert(0x011D);
+                case "gcy": return Convert(0x0433);
                 case "gdot": return Convert(0x0121);
                 case "gE": return Convert(0x2267);
                 case "ge": return Convert(0x2265);
@@ -775,13 +789,10 @@ namespace AngleSharp
                 case "gesdotol": return Convert(0x2A84);
                 case "gesl": return Convert(0x22DB, 0xFE00);
                 case "gesles": return Convert(0x2A94);
-                case "Gfr": return Convert(0xD835, 0xDD0A);
                 case "gfr": return Convert(0xD835, 0xDD24);
-                case "Gg": return Convert(0x22D9);
                 case "gg": return Convert(0x226B);
                 case "ggg": return Convert(0x22D9);
                 case "gimel": return Convert(0x2137);
-                case "GJcy": return Convert(0x0403);
                 case "gjcy": return Convert(0x0453);
                 case "gl": return Convert(0x2277);
                 case "gla": return Convert(0x2AA5);
@@ -794,23 +805,12 @@ namespace AngleSharp
                 case "gneq": return Convert(0x2A88);
                 case "gneqq": return Convert(0x2269);
                 case "gnsim": return Convert(0x22E7);
-                case "Gopf": return Convert(0xD835, 0xDD3E);
                 case "gopf": return Convert(0xD835, 0xDD58);
                 case "grave": return Convert(0x0060);
-                case "GreaterEqual": return Convert(0x2265);
-                case "GreaterEqualLess": return Convert(0x22DB);
-                case "GreaterFullEqual": return Convert(0x2267);
-                case "GreaterGreater": return Convert(0x2AA2);
-                case "GreaterLess": return Convert(0x2277);
-                case "GreaterSlantEqual": return Convert(0x2A7E);
-                case "GreaterTilde": return Convert(0x2273);
-                case "Gscr": return Convert(0xD835, 0xDCA2);
                 case "gscr": return Convert(0x210A);
                 case "gsim": return Convert(0x2273);
                 case "gsime": return Convert(0x2A8E);
                 case "gsiml": return Convert(0x2A90);
-                case "GT": return Convert(0x003E);
-                case "Gt": return Convert(0x226B);
                 case "gt": return Convert(0x003E);
                 case "gtcc": return Convert(0x2AA7);
                 case "gtcir": return Convert(0x2A7A);
@@ -831,48 +831,48 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolH(string name)
+        static Char[] GetSymbolH(String name)
         {
             switch (name)
             {
                 case "Hacek": return Convert(0x02C7);
+                case "HARDcy": return Convert(0x042A);
+                case "Hat": return Convert(0x005E);
+                case "Hcirc": return Convert(0x0124);
+                case "Hfr": return Convert(0x210C);
+                case "HilbertSpace": return Convert(0x210B);
+                case "Hopf": return Convert(0x210D);
+                case "HorizontalLine": return Convert(0x2500);
+                case "Hscr": return Convert(0x210B);
+                case "Hstrok": return Convert(0x0126);
+                case "HumpDownHump": return Convert(0x224E);
+                case "HumpEqual": return Convert(0x224F);
                 case "hairsp": return Convert(0x200A);
                 case "half": return Convert(0x00BD);
                 case "hamilt": return Convert(0x210B);
-                case "HARDcy": return Convert(0x042A);
                 case "hardcy": return Convert(0x044A);
                 case "hArr": return Convert(0x21D4);
                 case "harr": return Convert(0x2194);
                 case "harrcir": return Convert(0x2948);
                 case "harrw": return Convert(0x21AD);
-                case "Hat": return Convert(0x005E);
                 case "hbar": return Convert(0x210F);
-                case "Hcirc": return Convert(0x0124);
                 case "hcirc": return Convert(0x0125);
                 case "hearts": return Convert(0x2665);
                 case "heartsuit": return Convert(0x2665);
                 case "hellip": return Convert(0x2026);
                 case "hercon": return Convert(0x22B9);
-                case "Hfr": return Convert(0x210C);
                 case "hfr": return Convert(0xD835, 0xDD25);
-                case "HilbertSpace": return Convert(0x210B);
                 case "hksearow": return Convert(0x2925);
                 case "hkswarow": return Convert(0x2926);
                 case "hoarr": return Convert(0x21FF);
                 case "homtht": return Convert(0x223B);
                 case "hookleftarrow": return Convert(0x21A9);
                 case "hookrightarrow": return Convert(0x21AA);
-                case "Hopf": return Convert(0x210D);
                 case "hopf": return Convert(0xD835, 0xDD59);
                 case "horbar": return Convert(0x2015);
-                case "HorizontalLine": return Convert(0x2500);
-                case "Hscr": return Convert(0x210B);
                 case "hscr": return Convert(0xD835, 0xDCBD);
                 case "hslash": return Convert(0x210F);
-                case "Hstrok": return Convert(0x0126);
                 case "hstrok": return Convert(0x0127);
-                case "HumpDownHump": return Convert(0x224E);
-                case "HumpEqual": return Convert(0x224F);
                 case "hybull": return Convert(0x2043);
                 case "hyphen": return Convert(0x2010);
             }
@@ -880,71 +880,74 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolI(string name)
+        static Char[] GetSymbolI(String name)
         {
             switch (name)
             {
                 case "Iacute": return Convert(0x00CD);
-                case "iacute": return Convert(0x00ED);
-                case "ic": return Convert(0x2063);
                 case "Icirc": return Convert(0x00CE);
-                case "icirc": return Convert(0x00EE);
                 case "Icy": return Convert(0x0418);
-                case "icy": return Convert(0x0438);
                 case "Idot": return Convert(0x0130);
                 case "IEcy": return Convert(0x0415);
+                case "Ifr": return Convert(0x2111);
+                case "Igrave": return Convert(0x00CC);
+                case "IJlig": return Convert(0x0132);
+                case "Im": return Convert(0x2111);
+                case "Imacr": return Convert(0x012A);
+                case "ImaginaryI": return Convert(0x2148);
+                case "Implies": return Convert(0x21D2);
+                case "Int": return Convert(0x222C);
+                case "Integral": return Convert(0x222B);
+                case "Intersection": return Convert(0x22C2);
+                case "InvisibleComma": return Convert(0x2063);
+                case "InvisibleTimes": return Convert(0x2062);
+                case "IOcy": return Convert(0x0401);
+                case "Iogon": return Convert(0x012E);
+                case "Iopf": return Convert(0xD835, 0xDD40);
+                case "Iota": return Convert(0x0399);
+                case "Iscr": return Convert(0x2110);
+                case "Itilde": return Convert(0x0128);
+                case "Iukcy": return Convert(0x0406);
+                case "Iuml": return Convert(0x00CF);
+                case "iacute": return Convert(0x00ED);
+                case "ic": return Convert(0x2063);
+                case "icirc": return Convert(0x00EE);
+                case "icy": return Convert(0x0438);
                 case "iecy": return Convert(0x0435);
                 case "iexcl": return Convert(0x00A1);
                 case "iff": return Convert(0x21D4);
-                case "Ifr": return Convert(0x2111);
                 case "ifr": return Convert(0xD835, 0xDD26);
-                case "Igrave": return Convert(0x00CC);
                 case "igrave": return Convert(0x00EC);
                 case "ii": return Convert(0x2148);
                 case "iiiint": return Convert(0x2A0C);
                 case "iiint": return Convert(0x222D);
                 case "iinfin": return Convert(0x29DC);
                 case "iiota": return Convert(0x2129);
-                case "IJlig": return Convert(0x0132);
                 case "ijlig": return Convert(0x0133);
-                case "Im": return Convert(0x2111);
-                case "Imacr": return Convert(0x012A);
                 case "imacr": return Convert(0x012B);
                 case "image": return Convert(0x2111);
-                case "ImaginaryI": return Convert(0x2148);
                 case "imagline": return Convert(0x2110);
                 case "imagpart": return Convert(0x2111);
                 case "imath": return Convert(0x0131);
                 case "imof": return Convert(0x22B7);
                 case "imped": return Convert(0x01B5);
-                case "Implies": return Convert(0x21D2);
                 case "in": return Convert(0x2208);
                 case "incare": return Convert(0x2105);
                 case "infin": return Convert(0x221E);
                 case "infintie": return Convert(0x29DD);
                 case "inodot": return Convert(0x0131);
-                case "Int": return Convert(0x222C);
                 case "int": return Convert(0x222B);
                 case "intcal": return Convert(0x22BA);
                 case "integers": return Convert(0x2124);
-                case "Integral": return Convert(0x222B);
                 case "intercal": return Convert(0x22BA);
-                case "Intersection": return Convert(0x22C2);
                 case "intlarhk": return Convert(0x2A17);
                 case "intprod": return Convert(0x2A3C);
-                case "InvisibleComma": return Convert(0x2063);
-                case "InvisibleTimes": return Convert(0x2062);
-                case "IOcy": return Convert(0x0401);
                 case "iocy": return Convert(0x0451);
-                case "Iogon": return Convert(0x012E);
                 case "iogon": return Convert(0x012F);
-                case "Iopf": return Convert(0xD835, 0xDD40);
                 case "iopf": return Convert(0xD835, 0xDD5A);
-                case "Iota": return Convert(0x0399);
                 case "iota": return Convert(0x03B9);
                 case "iprod": return Convert(0x2A3C);
                 case "iquest": return Convert(0x00BF);
-                case "Iscr": return Convert(0x2110);
                 case "iscr": return Convert(0xD835, 0xDCBE);
                 case "isin": return Convert(0x2208);
                 case "isindot": return Convert(0x22F5);
@@ -953,87 +956,138 @@ namespace AngleSharp
                 case "isinsv": return Convert(0x22F3);
                 case "isinv": return Convert(0x2208);
                 case "it": return Convert(0x2062);
-                case "Itilde": return Convert(0x0128);
                 case "itilde": return Convert(0x0129);
-                case "Iukcy": return Convert(0x0406);
                 case "iukcy": return Convert(0x0456);
-                case "Iuml": return Convert(0x00CF);
                 case "iuml": return Convert(0x00EF);
             }
 
             return null;
         }
 
-        static char[] GetSymbolJ(string name)
+        static Char[] GetSymbolJ(String name)
         {
             switch (name)
             {
                 case "Jcirc": return Convert(0x0134);
-                case "jcirc": return Convert(0x0135);
                 case "Jcy": return Convert(0x0419);
-                case "jcy": return Convert(0x0439);
                 case "Jfr": return Convert(0xD835, 0xDD0D);
+                case "Jopf": return Convert(0xD835, 0xDD41);
+                case "Jscr": return Convert(0xD835, 0xDCA5);
+                case "Jsercy": return Convert(0x0408);
+                case "Jukcy": return Convert(0x0404);
+                case "jcirc": return Convert(0x0135);
+                case "jcy": return Convert(0x0439);
                 case "jfr": return Convert(0xD835, 0xDD27);
                 case "jmath": return Convert(0x0237);
-                case "Jopf": return Convert(0xD835, 0xDD41);
                 case "jopf": return Convert(0xD835, 0xDD5B);
-                case "Jscr": return Convert(0xD835, 0xDCA5);
                 case "jscr": return Convert(0xD835, 0xDCBF);
-                case "Jsercy": return Convert(0x0408);
                 case "jsercy": return Convert(0x0458);
-                case "Jukcy": return Convert(0x0404);
                 case "jukcy": return Convert(0x0454);
             }
 
             return null;
         }
 
-        static char[] GetSymbolK(string name)
+        static Char[] GetSymbolK(String name)
         {
             switch (name)
             {
                 case "Kappa": return Convert(0x039A);
+                case "Kcedil": return Convert(0x0136);
+                case "Kcy": return Convert(0x041A);
+                case "Kfr": return Convert(0xD835, 0xDD0E);
+                case "KHcy": return Convert(0x0425);
+                case "KJcy": return Convert(0x040C);
+                case "Kopf": return Convert(0xD835, 0xDD42);
+                case "Kscr": return Convert(0xD835, 0xDCA6);
                 case "kappa": return Convert(0x03BA);
                 case "kappav": return Convert(0x03F0);
-                case "Kcedil": return Convert(0x0136);
                 case "kcedil": return Convert(0x0137);
-                case "Kcy": return Convert(0x041A);
                 case "kcy": return Convert(0x043A);
-                case "Kfr": return Convert(0xD835, 0xDD0E);
                 case "kfr": return Convert(0xD835, 0xDD28);
                 case "kgreen": return Convert(0x0138);
-                case "KHcy": return Convert(0x0425);
                 case "khcy": return Convert(0x0445);
-                case "KJcy": return Convert(0x040C);
                 case "kjcy": return Convert(0x045C);
-                case "Kopf": return Convert(0xD835, 0xDD42);
                 case "kopf": return Convert(0xD835, 0xDD5C);
-                case "Kscr": return Convert(0xD835, 0xDCA6);
                 case "kscr": return Convert(0xD835, 0xDCC0);
             }
 
             return null;
         }
 
-        static char[] GetSymbolL(string name)
+        static Char[] GetSymbolL(String name)
         {
             switch (name)
             {
-                case "lAarr": return Convert(0x21DA);
                 case "Lacute": return Convert(0x0139);
+                case "Lambda": return Convert(0x039B);
+                case "Lang": return Convert(0x27EA);
+                case "Laplacetrf": return Convert(0x2112);
+                case "Larr": return Convert(0x219E);
+                case "Lcaron": return Convert(0x013D);
+                case "Lcedil": return Convert(0x013B);
+                case "Lcy": return Convert(0x041B);
+                case "LeftAngleBracket": return Convert(0x27E8);
+                case "LeftArrow": return Convert(0x2190);
+                case "Leftarrow": return Convert(0x21D0);
+                case "LeftArrowBar": return Convert(0x21E4);
+                case "LeftArrowRightArrow": return Convert(0x21C6);
+                case "LeftCeiling": return Convert(0x2308);
+                case "LeftDoubleBracket": return Convert(0x27E6);
+                case "LeftDownTeeVector": return Convert(0x2961);
+                case "LeftDownVector": return Convert(0x21C3);
+                case "LeftDownVectorBar": return Convert(0x2959);
+                case "LeftFloor": return Convert(0x230A);
+                case "LeftRightArrow": return Convert(0x2194);
+                case "Leftrightarrow": return Convert(0x21D4);
+                case "LeftRightVector": return Convert(0x294E);
+                case "LeftTee": return Convert(0x22A3);
+                case "LeftTeeArrow": return Convert(0x21A4);
+                case "LeftTeeVector": return Convert(0x295A);
+                case "LeftTriangle": return Convert(0x22B2);
+                case "LeftTriangleBar": return Convert(0x29CF);
+                case "LeftTriangleEqual": return Convert(0x22B4);
+                case "LeftUpDownVector": return Convert(0x2951);
+                case "LeftUpTeeVector": return Convert(0x2960);
+                case "LeftUpVector": return Convert(0x21BF);
+                case "LeftUpVectorBar": return Convert(0x2958);
+                case "LeftVector": return Convert(0x21BC);
+                case "LeftVectorBar": return Convert(0x2952);
+                case "LessEqualGreater": return Convert(0x22DA);
+                case "LessFullEqual": return Convert(0x2266);
+                case "LessGreater": return Convert(0x2276);
+                case "LessLess": return Convert(0x2AA1);
+                case "LessSlantEqual": return Convert(0x2A7D);
+                case "LessTilde": return Convert(0x2272);
+                case "Lfr": return Convert(0xD835, 0xDD0F);
+                case "LJcy": return Convert(0x0409);
+                case "Ll": return Convert(0x22D8);
+                case "Lleftarrow": return Convert(0x21DA);
+                case "Lmidot": return Convert(0x013F);
+                case "LongLeftArrow": return Convert(0x27F5);
+                case "Longleftarrow": return Convert(0x27F8);
+                case "LongLeftRightArrow": return Convert(0x27F7);
+                case "Longleftrightarrow": return Convert(0x27FA);
+                case "LongRightArrow": return Convert(0x27F6);
+                case "Longrightarrow": return Convert(0x27F9);
+                case "Lopf": return Convert(0xD835, 0xDD43);
+                case "LowerLeftArrow": return Convert(0x2199);
+                case "LowerRightArrow": return Convert(0x2198);
+                case "Lscr": return Convert(0x2112);
+                case "Lsh": return Convert(0x21B0);
+                case "Lstrok": return Convert(0x0141);
+                case "LT": return Convert(0x003C);
+                case "Lt": return Convert(0x226A);
+                case "lAarr": return Convert(0x21DA);
                 case "lacute": return Convert(0x013A);
                 case "laemptyv": return Convert(0x29B4);
                 case "lagran": return Convert(0x2112);
-                case "Lambda": return Convert(0x039B);
                 case "lambda": return Convert(0x03BB);
-                case "Lang": return Convert(0x27EA);
                 case "lang": return Convert(0x27E8);
                 case "langd": return Convert(0x2991);
                 case "langle": return Convert(0x27E8);
                 case "lap": return Convert(0x2A85);
-                case "Laplacetrf": return Convert(0x2112);
                 case "laquo": return Convert(0x00AB);
-                case "Larr": return Convert(0x219E);
                 case "lArr": return Convert(0x21D0);
                 case "larr": return Convert(0x2190);
                 case "larrb": return Convert(0x21E4);
@@ -1057,13 +1111,10 @@ namespace AngleSharp
                 case "lbrke": return Convert(0x298B);
                 case "lbrksld": return Convert(0x298F);
                 case "lbrkslu": return Convert(0x298D);
-                case "Lcaron": return Convert(0x013D);
                 case "lcaron": return Convert(0x013E);
-                case "Lcedil": return Convert(0x013B);
                 case "lcedil": return Convert(0x013C);
                 case "lceil": return Convert(0x2308);
                 case "lcub": return Convert(0x007B);
-                case "Lcy": return Convert(0x041B);
                 case "lcy": return Convert(0x043B);
                 case "ldca": return Convert(0x2936);
                 case "ldquo": return Convert(0x201C);
@@ -1073,42 +1124,16 @@ namespace AngleSharp
                 case "ldsh": return Convert(0x21B2);
                 case "lE": return Convert(0x2266);
                 case "le": return Convert(0x2264);
-                case "LeftAngleBracket": return Convert(0x27E8);
-                case "LeftArrow": return Convert(0x2190);
-                case "Leftarrow": return Convert(0x21D0);
                 case "leftarrow": return Convert(0x2190);
-                case "LeftArrowBar": return Convert(0x21E4);
-                case "LeftArrowRightArrow": return Convert(0x21C6);
                 case "leftarrowtail": return Convert(0x21A2);
-                case "LeftCeiling": return Convert(0x2308);
-                case "LeftDoubleBracket": return Convert(0x27E6);
-                case "LeftDownTeeVector": return Convert(0x2961);
-                case "LeftDownVector": return Convert(0x21C3);
-                case "LeftDownVectorBar": return Convert(0x2959);
-                case "LeftFloor": return Convert(0x230A);
                 case "leftharpoondown": return Convert(0x21BD);
                 case "leftharpoonup": return Convert(0x21BC);
                 case "leftleftarrows": return Convert(0x21C7);
-                case "LeftRightArrow": return Convert(0x2194);
-                case "Leftrightarrow": return Convert(0x21D4);
                 case "leftrightarrow": return Convert(0x2194);
                 case "leftrightarrows": return Convert(0x21C6);
                 case "leftrightharpoons": return Convert(0x21CB);
                 case "leftrightsquigarrow": return Convert(0x21AD);
-                case "LeftRightVector": return Convert(0x294E);
-                case "LeftTee": return Convert(0x22A3);
-                case "LeftTeeArrow": return Convert(0x21A4);
-                case "LeftTeeVector": return Convert(0x295A);
                 case "leftthreetimes": return Convert(0x22CB);
-                case "LeftTriangle": return Convert(0x22B2);
-                case "LeftTriangleBar": return Convert(0x29CF);
-                case "LeftTriangleEqual": return Convert(0x22B4);
-                case "LeftUpDownVector": return Convert(0x2951);
-                case "LeftUpTeeVector": return Convert(0x2960);
-                case "LeftUpVector": return Convert(0x21BF);
-                case "LeftUpVectorBar": return Convert(0x2958);
-                case "LeftVector": return Convert(0x21BC);
-                case "LeftVectorBar": return Convert(0x2952);
                 case "lEg": return Convert(0x2A8B);
                 case "leg": return Convert(0x22DA);
                 case "leq": return Convert(0x2264);
@@ -1125,17 +1150,10 @@ namespace AngleSharp
                 case "lessdot": return Convert(0x22D6);
                 case "lesseqgtr": return Convert(0x22DA);
                 case "lesseqqgtr": return Convert(0x2A8B);
-                case "LessEqualGreater": return Convert(0x22DA);
-                case "LessFullEqual": return Convert(0x2266);
-                case "LessGreater": return Convert(0x2276);
                 case "lessgtr": return Convert(0x2276);
-                case "LessLess": return Convert(0x2AA1);
                 case "lesssim": return Convert(0x2272);
-                case "LessSlantEqual": return Convert(0x2A7D);
-                case "LessTilde": return Convert(0x2272);
                 case "lfisht": return Convert(0x297C);
                 case "lfloor": return Convert(0x230A);
-                case "Lfr": return Convert(0xD835, 0xDD0F);
                 case "lfr": return Convert(0xD835, 0xDD29);
                 case "lg": return Convert(0x2276);
                 case "lgE": return Convert(0x2A91);
@@ -1144,16 +1162,12 @@ namespace AngleSharp
                 case "lharu": return Convert(0x21BC);
                 case "lharul": return Convert(0x296A);
                 case "lhblk": return Convert(0x2584);
-                case "LJcy": return Convert(0x0409);
                 case "ljcy": return Convert(0x0459);
-                case "Ll": return Convert(0x22D8);
                 case "ll": return Convert(0x226A);
                 case "llarr": return Convert(0x21C7);
                 case "llcorner": return Convert(0x231E);
-                case "Lleftarrow": return Convert(0x21DA);
                 case "llhard": return Convert(0x296B);
                 case "lltri": return Convert(0x25FA);
-                case "Lmidot": return Convert(0x013F);
                 case "lmidot": return Convert(0x0140);
                 case "lmoust": return Convert(0x23B0);
                 case "lmoustache": return Convert(0x23B0);
@@ -1167,27 +1181,18 @@ namespace AngleSharp
                 case "loang": return Convert(0x27EC);
                 case "loarr": return Convert(0x21FD);
                 case "lobrk": return Convert(0x27E6);
-                case "LongLeftArrow": return Convert(0x27F5);
-                case "Longleftarrow": return Convert(0x27F8);
                 case "longleftarrow": return Convert(0x27F5);
-                case "LongLeftRightArrow": return Convert(0x27F7);
-                case "Longleftrightarrow": return Convert(0x27FA);
                 case "longleftrightarrow": return Convert(0x27F7);
                 case "longmapsto": return Convert(0x27FC);
-                case "LongRightArrow": return Convert(0x27F6);
-                case "Longrightarrow": return Convert(0x27F9);
                 case "longrightarrow": return Convert(0x27F6);
                 case "looparrowleft": return Convert(0x21AB);
                 case "looparrowright": return Convert(0x21AC);
                 case "lopar": return Convert(0x2985);
-                case "Lopf": return Convert(0xD835, 0xDD43);
                 case "lopf": return Convert(0xD835, 0xDD5D);
                 case "loplus": return Convert(0x2A2D);
                 case "lotimes": return Convert(0x2A34);
                 case "lowast": return Convert(0x2217);
                 case "lowbar": return Convert(0x005F);
-                case "LowerLeftArrow": return Convert(0x2199);
-                case "LowerRightArrow": return Convert(0x2198);
                 case "loz": return Convert(0x25CA);
                 case "lozenge": return Convert(0x25CA);
                 case "lozf": return Convert(0x29EB);
@@ -1200,9 +1205,7 @@ namespace AngleSharp
                 case "lrm": return Convert(0x200E);
                 case "lrtri": return Convert(0x22BF);
                 case "lsaquo": return Convert(0x2039);
-                case "Lscr": return Convert(0x2112);
                 case "lscr": return Convert(0xD835, 0xDCC1);
-                case "Lsh": return Convert(0x21B0);
                 case "lsh": return Convert(0x21B0);
                 case "lsim": return Convert(0x2272);
                 case "lsime": return Convert(0x2A8D);
@@ -1210,10 +1213,7 @@ namespace AngleSharp
                 case "lsqb": return Convert(0x005B);
                 case "lsquo": return Convert(0x2018);
                 case "lsquor": return Convert(0x201A);
-                case "Lstrok": return Convert(0x0141);
                 case "lstrok": return Convert(0x0142);
-                case "LT": return Convert(0x003C);
-                case "Lt": return Convert(0x226A);
                 case "lt": return Convert(0x003C);
                 case "ltcc": return Convert(0x2AA6);
                 case "ltcir": return Convert(0x2A79);
@@ -1235,7 +1235,7 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolM(string name)
+        static Char[] GetSymbolM(String name)
         {
             switch (name)
             {
@@ -1290,105 +1290,27 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolN(string name)
+        static Char[] GetSymbolN(String name)
         {
             switch (name)
             {
-                case "nabla": return Convert(0x2207);
                 case "Nacute": return Convert(0x0143);
-                case "nacute": return Convert(0x0144);
-                case "nang": return Convert(0x2220, 0x20D2);
-                case "nap": return Convert(0x2249);
-                case "napE": return Convert(0x2A70, 0x0338);
-                case "napid": return Convert(0x224B, 0x0338);
-                case "napos": return Convert(0x0149);
-                case "napprox": return Convert(0x2249);
-                case "natur": return Convert(0x266E);
-                case "natural": return Convert(0x266E);
-                case "naturals": return Convert(0x2115);
-                case "nbsp": return Convert(0x00A0);
-                case "nbump": return Convert(0x224E, 0x0338);
-                case "nbumpe": return Convert(0x224F, 0x0338);
-                case "ncap": return Convert(0x2A43);
                 case "Ncaron": return Convert(0x0147);
-                case "ncaron": return Convert(0x0148);
                 case "Ncedil": return Convert(0x0145);
-                case "ncedil": return Convert(0x0146);
-                case "ncong": return Convert(0x2247);
-                case "ncongdot": return Convert(0x2A6D, 0x0338);
-                case "ncup": return Convert(0x2A42);
-                case "Ncy": return Convert(0x041D);
-                case "ncy": return Convert(0x043D);
-                case "ndash": return Convert(0x2013);
-                case "ne": return Convert(0x2260);
-                case "nearhk": return Convert(0x2924);
-                case "neArr": return Convert(0x21D7);
-                case "nearr": return Convert(0x2197);
-                case "nearrow": return Convert(0x2197);
-                case "nedot": return Convert(0x2250, 0x0338);
                 case "NegativeMediumSpace": return Convert(0x200B);
                 case "NegativeThickSpace": return Convert(0x200B);
                 case "NegativeThinSpace": return Convert(0x200B);
                 case "NegativeVeryThinSpace": return Convert(0x200B);
-                case "nequiv": return Convert(0x2262);
-                case "nesear": return Convert(0x2928);
-                case "nesim": return Convert(0x2242, 0x0338);
                 case "NestedGreaterGreater": return Convert(0x226B);
                 case "NestedLessLess": return Convert(0x226A);
-                case "NewLine": return Convert(0x000A);
-                case "nexist": return Convert(0x2204);
-                case "nexists": return Convert(0x2204);
+                case "Ncy": return Convert(0x041D);
                 case "Nfr": return Convert(0xD835, 0xDD11);
-                case "nfr": return Convert(0xD835, 0xDD2B);
-                case "ngE": return Convert(0x2267, 0x0338);
-                case "nge": return Convert(0x2271);
-                case "ngeq": return Convert(0x2271);
-                case "ngeqq": return Convert(0x2267, 0x0338);
-                case "ngeqslant": return Convert(0x2A7E, 0x0338);
-                case "nges": return Convert(0x2A7E, 0x0338);
-                case "nGg": return Convert(0x22D9, 0x0338);
-                case "ngsim": return Convert(0x2275);
-                case "nGt": return Convert(0x226B, 0x20D2);
-                case "ngt": return Convert(0x226F);
-                case "ngtr": return Convert(0x226F);
-                case "nGtv": return Convert(0x226B, 0x0338);
-                case "nhArr": return Convert(0x21CE);
-                case "nharr": return Convert(0x21AE);
-                case "nhpar": return Convert(0x2AF2);
-                case "ni": return Convert(0x220B);
-                case "nis": return Convert(0x22FC);
-                case "nisd": return Convert(0x22FA);
-                case "niv": return Convert(0x220B);
-                case "NJcy": return Convert(0x040A);
-                case "njcy": return Convert(0x045A);
-                case "nlArr": return Convert(0x21CD);
-                case "nlarr": return Convert(0x219A);
-                case "nldr": return Convert(0x2025);
-                case "nlE": return Convert(0x2266, 0x0338);
-                case "nle": return Convert(0x2270);
-                case "nLeftarrow": return Convert(0x21CD);
-                case "nleftarrow": return Convert(0x219A);
-                case "nLeftrightarrow": return Convert(0x21CE);
-                case "nleftrightarrow": return Convert(0x21AE);
-                case "nleq": return Convert(0x2270);
-                case "nleqq": return Convert(0x2266, 0x0338);
-                case "nleqslant": return Convert(0x2A7D, 0x0338);
-                case "nles": return Convert(0x2A7D, 0x0338);
-                case "nless": return Convert(0x226E);
-                case "nLl": return Convert(0x22D8, 0x0338);
-                case "nlsim": return Convert(0x2274);
-                case "nLt": return Convert(0x226A, 0x20D2);
-                case "nlt": return Convert(0x226E);
-                case "nltri": return Convert(0x22EA);
-                case "nltrie": return Convert(0x22EC);
-                case "nLtv": return Convert(0x226A, 0x0338);
-                case "nmid": return Convert(0x2224);
                 case "NoBreak": return Convert(0x2060);
                 case "NonBreakingSpace": return Convert(0x00A0);
                 case "Nopf": return Convert(0x2115);
-                case "nopf": return Convert(0xD835, 0xDD5F);
+                case "NewLine": return Convert(0x000A);
+                case "NJcy": return Convert(0x040A);
                 case "Not": return Convert(0x2AEC);
-                case "not": return Convert(0x00AC);
                 case "NotCongruent": return Convert(0x2262);
                 case "NotCupCap": return Convert(0x226D);
                 case "NotDoubleVerticalBar": return Convert(0x2226);
@@ -1405,12 +1327,6 @@ namespace AngleSharp
                 case "NotGreaterTilde": return Convert(0x2275);
                 case "NotHumpDownHump": return Convert(0x224E, 0x0338);
                 case "NotHumpEqual": return Convert(0x224F, 0x0338);
-                case "notin": return Convert(0x2209);
-                case "notindot": return Convert(0x22F5, 0x0338);
-                case "notinE": return Convert(0x22F9, 0x0338);
-                case "notinva": return Convert(0x2209);
-                case "notinvb": return Convert(0x22F7);
-                case "notinvc": return Convert(0x22F6);
                 case "NotLeftTriangle": return Convert(0x22EA);
                 case "NotLeftTriangleBar": return Convert(0x29CF, 0x0338);
                 case "NotLeftTriangleEqual": return Convert(0x22EC);
@@ -1422,10 +1338,6 @@ namespace AngleSharp
                 case "NotLessTilde": return Convert(0x2274);
                 case "NotNestedGreaterGreater": return Convert(0x2AA2, 0x0338);
                 case "NotNestedLessLess": return Convert(0x2AA1, 0x0338);
-                case "notni": return Convert(0x220C);
-                case "notniva": return Convert(0x220C);
-                case "notnivb": return Convert(0x22FE);
-                case "notnivc": return Convert(0x22FD);
                 case "NotPrecedes": return Convert(0x2280);
                 case "NotPrecedesEqual": return Convert(0x2AAF, 0x0338);
                 case "NotPrecedesSlantEqual": return Convert(0x22E0);
@@ -1450,6 +1362,97 @@ namespace AngleSharp
                 case "NotTildeFullEqual": return Convert(0x2247);
                 case "NotTildeTilde": return Convert(0x2249);
                 case "NotVerticalBar": return Convert(0x2224);
+                case "Nscr": return Convert(0xD835, 0xDCA9);
+                case "Ntilde": return Convert(0x00D1);
+                case "Nu": return Convert(0x039D);
+                case "nabla": return Convert(0x2207);
+                case "nacute": return Convert(0x0144);
+                case "nang": return Convert(0x2220, 0x20D2);
+                case "nap": return Convert(0x2249);
+                case "napE": return Convert(0x2A70, 0x0338);
+                case "napid": return Convert(0x224B, 0x0338);
+                case "napos": return Convert(0x0149);
+                case "napprox": return Convert(0x2249);
+                case "natur": return Convert(0x266E);
+                case "natural": return Convert(0x266E);
+                case "naturals": return Convert(0x2115);
+                case "nbsp": return Convert(0x00A0);
+                case "nbump": return Convert(0x224E, 0x0338);
+                case "nbumpe": return Convert(0x224F, 0x0338);
+                case "ncap": return Convert(0x2A43);
+                case "ncaron": return Convert(0x0148);
+                case "ncedil": return Convert(0x0146);
+                case "ncong": return Convert(0x2247);
+                case "ncongdot": return Convert(0x2A6D, 0x0338);
+                case "ncup": return Convert(0x2A42);
+                case "ncy": return Convert(0x043D);
+                case "ndash": return Convert(0x2013);
+                case "ne": return Convert(0x2260);
+                case "nearhk": return Convert(0x2924);
+                case "neArr": return Convert(0x21D7);
+                case "nearr": return Convert(0x2197);
+                case "nearrow": return Convert(0x2197);
+                case "nedot": return Convert(0x2250, 0x0338);
+                case "nequiv": return Convert(0x2262);
+                case "nesear": return Convert(0x2928);
+                case "nesim": return Convert(0x2242, 0x0338);
+                case "nexist": return Convert(0x2204);
+                case "nexists": return Convert(0x2204);
+                case "nfr": return Convert(0xD835, 0xDD2B);
+                case "ngE": return Convert(0x2267, 0x0338);
+                case "nge": return Convert(0x2271);
+                case "ngeq": return Convert(0x2271);
+                case "ngeqq": return Convert(0x2267, 0x0338);
+                case "ngeqslant": return Convert(0x2A7E, 0x0338);
+                case "nges": return Convert(0x2A7E, 0x0338);
+                case "nGg": return Convert(0x22D9, 0x0338);
+                case "ngsim": return Convert(0x2275);
+                case "nGt": return Convert(0x226B, 0x20D2);
+                case "ngt": return Convert(0x226F);
+                case "ngtr": return Convert(0x226F);
+                case "nGtv": return Convert(0x226B, 0x0338);
+                case "nhArr": return Convert(0x21CE);
+                case "nharr": return Convert(0x21AE);
+                case "nhpar": return Convert(0x2AF2);
+                case "ni": return Convert(0x220B);
+                case "nis": return Convert(0x22FC);
+                case "nisd": return Convert(0x22FA);
+                case "niv": return Convert(0x220B);
+                case "njcy": return Convert(0x045A);
+                case "nlArr": return Convert(0x21CD);
+                case "nlarr": return Convert(0x219A);
+                case "nldr": return Convert(0x2025);
+                case "nlE": return Convert(0x2266, 0x0338);
+                case "nle": return Convert(0x2270);
+                case "nLeftarrow": return Convert(0x21CD);
+                case "nleftarrow": return Convert(0x219A);
+                case "nLeftrightarrow": return Convert(0x21CE);
+                case "nleftrightarrow": return Convert(0x21AE);
+                case "nleq": return Convert(0x2270);
+                case "nleqq": return Convert(0x2266, 0x0338);
+                case "nleqslant": return Convert(0x2A7D, 0x0338);
+                case "nles": return Convert(0x2A7D, 0x0338);
+                case "nless": return Convert(0x226E);
+                case "nLl": return Convert(0x22D8, 0x0338);
+                case "nlsim": return Convert(0x2274);
+                case "nLt": return Convert(0x226A, 0x20D2);
+                case "nlt": return Convert(0x226E);
+                case "nltri": return Convert(0x22EA);
+                case "nltrie": return Convert(0x22EC);
+                case "nLtv": return Convert(0x226A, 0x0338);
+                case "nmid": return Convert(0x2224);
+                case "nopf": return Convert(0xD835, 0xDD5F);
+                case "not": return Convert(0x00AC);
+                case "notin": return Convert(0x2209);
+                case "notindot": return Convert(0x22F5, 0x0338);
+                case "notinE": return Convert(0x22F9, 0x0338);
+                case "notinva": return Convert(0x2209);
+                case "notinvb": return Convert(0x22F7);
+                case "notinvc": return Convert(0x22F6);
+                case "notni": return Convert(0x220C);
+                case "notniva": return Convert(0x220C);
+                case "notnivb": return Convert(0x22FE);
+                case "notnivc": return Convert(0x22FD);
                 case "npar": return Convert(0x2226);
                 case "nparallel": return Convert(0x2226);
                 case "nparsl": return Convert(0x2AFD, 0x20E5);
@@ -1471,7 +1474,6 @@ namespace AngleSharp
                 case "nsc": return Convert(0x2281);
                 case "nsccue": return Convert(0x22E1);
                 case "nsce": return Convert(0x2AB0, 0x0338);
-                case "Nscr": return Convert(0xD835, 0xDCA9);
                 case "nscr": return Convert(0xD835, 0xDCC3);
                 case "nshortmid": return Convert(0x2224);
                 case "nshortparallel": return Convert(0x2226);
@@ -1497,14 +1499,12 @@ namespace AngleSharp
                 case "nsupseteq": return Convert(0x2289);
                 case "nsupseteqq": return Convert(0x2AC6, 0x0338);
                 case "ntgl": return Convert(0x2279);
-                case "Ntilde": return Convert(0x00D1);
                 case "ntilde": return Convert(0x00F1);
                 case "ntlg": return Convert(0x2278);
                 case "ntriangleleft": return Convert(0x22EA);
                 case "ntrianglelefteq": return Convert(0x22EC);
                 case "ntriangleright": return Convert(0x22EB);
                 case "ntrianglerighteq": return Convert(0x22ED);
-                case "Nu": return Convert(0x039D);
                 case "nu": return Convert(0x03BD);
                 case "num": return Convert(0x0023);
                 case "numero": return Convert(0x2116);
@@ -1535,7 +1535,7 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolO(string name)
+        static Char[] GetSymbolO(String name)
         {
             switch (name)
             {
@@ -1620,7 +1620,7 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolP(string name)
+        static Char[] GetSymbolP(String name)
         {
             switch (name)
             {
@@ -1714,7 +1714,7 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolQ(string name)
+        static Char[] GetSymbolQ(String name)
         {
             switch (name)
             {
@@ -1737,7 +1737,7 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolR(string name)
+        static Char[] GetSymbolR(String name)
         {
             switch (name)
             {
@@ -1892,7 +1892,7 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolS(string name)
+        static Char[] GetSymbolS(String name)
         {
             switch (name)
             {
@@ -2093,46 +2093,53 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolT(string name)
+        static Char[] GetSymbolT(String name)
         {
             switch (name)
             {
                 case "Tab": return Convert(0x0009);
-                case "target": return Convert(0x2316);
                 case "Tau": return Convert(0x03A4);
+                case "Tcaron": return Convert(0x0164);
+                case "Tcedil": return Convert(0x0162);
+                case "Tcy": return Convert(0x0422);
+                case "Tfr": return Convert(0xD835, 0xDD17);
+                case "Therefore": return Convert(0x2234);
+                case "Theta": return Convert(0x0398);
+                case "ThickSpace": return Convert(0x205F, 0x200A);
+                case "ThinSpace": return Convert(0x2009);
+                case "THORN": return Convert(0x00DE);
+                case "Tilde": return Convert(0x223C);
+                case "TildeEqual": return Convert(0x2243);
+                case "TildeFullEqual": return Convert(0x2245);
+                case "TildeTilde": return Convert(0x2248);
+                case "Topf": return Convert(0xD835, 0xDD4B);
+                case "TRADE": return Convert(0x2122);
+                case "TripleDot": return Convert(0x20DB);
+                case "Tscr": return Convert(0xD835, 0xDCAF);
+                case "TScy": return Convert(0x0426);
+                case "TSHcy": return Convert(0x040B);
+                case "Tstrok": return Convert(0x0166);
+                case "target": return Convert(0x2316);
                 case "tau": return Convert(0x03C4);
                 case "tbrk": return Convert(0x23B4);
-                case "Tcaron": return Convert(0x0164);
                 case "tcaron": return Convert(0x0165);
-                case "Tcedil": return Convert(0x0162);
                 case "tcedil": return Convert(0x0163);
-                case "Tcy": return Convert(0x0422);
                 case "tcy": return Convert(0x0442);
                 case "tdot": return Convert(0x20DB);
                 case "telrec": return Convert(0x2315);
-                case "Tfr": return Convert(0xD835, 0xDD17);
                 case "tfr": return Convert(0xD835, 0xDD31);
                 case "there4": return Convert(0x2234);
-                case "Therefore": return Convert(0x2234);
                 case "therefore": return Convert(0x2234);
-                case "Theta": return Convert(0x0398);
                 case "theta": return Convert(0x03B8);
                 case "thetasym": return Convert(0x03D1);
                 case "thetav": return Convert(0x03D1);
                 case "thickapprox": return Convert(0x2248);
                 case "thicksim": return Convert(0x223C);
-                case "ThickSpace": return Convert(0x205F, 0x200A);
                 case "thinsp": return Convert(0x2009);
-                case "ThinSpace": return Convert(0x2009);
                 case "thkap": return Convert(0x2248);
                 case "thksim": return Convert(0x223C);
-                case "THORN": return Convert(0x00DE);
                 case "thorn": return Convert(0x00FE);
-                case "Tilde": return Convert(0x223C);
                 case "tilde": return Convert(0x02DC);
-                case "TildeEqual": return Convert(0x2243);
-                case "TildeFullEqual": return Convert(0x2245);
-                case "TildeTilde": return Convert(0x2248);
                 case "times": return Convert(0x00D7);
                 case "timesb": return Convert(0x22A0);
                 case "timesbar": return Convert(0x2A31);
@@ -2142,12 +2149,10 @@ namespace AngleSharp
                 case "top": return Convert(0x22A4);
                 case "topbot": return Convert(0x2336);
                 case "topcir": return Convert(0x2AF1);
-                case "Topf": return Convert(0xD835, 0xDD4B);
                 case "topf": return Convert(0xD835, 0xDD65);
                 case "topfork": return Convert(0x2ADA);
                 case "tosa": return Convert(0x2929);
                 case "tprime": return Convert(0x2034);
-                case "TRADE": return Convert(0x2122);
                 case "trade": return Convert(0x2122);
                 case "triangle": return Convert(0x25B5);
                 case "triangledown": return Convert(0x25BF);
@@ -2159,18 +2164,13 @@ namespace AngleSharp
                 case "tridot": return Convert(0x25EC);
                 case "trie": return Convert(0x225C);
                 case "triminus": return Convert(0x2A3A);
-                case "TripleDot": return Convert(0x20DB);
                 case "triplus": return Convert(0x2A39);
                 case "trisb": return Convert(0x29CD);
                 case "tritime": return Convert(0x2A3B);
                 case "trpezium": return Convert(0x23E2);
-                case "Tscr": return Convert(0xD835, 0xDCAF);
                 case "tscr": return Convert(0xD835, 0xDCC9);
-                case "TScy": return Convert(0x0426);
                 case "tscy": return Convert(0x0446);
-                case "TSHcy": return Convert(0x040B);
                 case "tshcy": return Convert(0x045B);
-                case "Tstrok": return Convert(0x0166);
                 case "tstrok": return Convert(0x0167);
                 case "twixt": return Convert(0x226C);
                 case "twoheadleftarrow": return Convert(0x219E);
@@ -2180,32 +2180,58 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolU(string name)
+        static Char[] GetSymbolU(String name)
         {
             switch (name)
             {
                 case "Uacute": return Convert(0x00DA);
-                case "uacute": return Convert(0x00FA);
                 case "Uarr": return Convert(0x219F);
-                case "uArr": return Convert(0x21D1);
-                case "uarr": return Convert(0x2191);
                 case "Uarrocir": return Convert(0x2949);
                 case "Ubrcy": return Convert(0x040E);
-                case "ubrcy": return Convert(0x045E);
                 case "Ubreve": return Convert(0x016C);
-                case "ubreve": return Convert(0x016D);
                 case "Ucirc": return Convert(0x00DB);
-                case "ucirc": return Convert(0x00FB);
                 case "Ucy": return Convert(0x0423);
+                case "Udblac": return Convert(0x0170);
+                case "Ufr": return Convert(0xD835, 0xDD18);
+                case "Ugrave": return Convert(0x00D9);
+                case "Umacr": return Convert(0x016A);
+                case "UnderBar": return Convert(0x005F);
+                case "UnderBrace": return Convert(0x23DF);
+                case "UnderBracket": return Convert(0x23B5);
+                case "UnderParenthesis": return Convert(0x23DD);
+                case "Union": return Convert(0x22C3);
+                case "UnionPlus": return Convert(0x228E);
+                case "Uogon": return Convert(0x0172);
+                case "Uopf": return Convert(0xD835, 0xDD4C);
+                case "UpArrow": return Convert(0x2191);
+                case "Uparrow": return Convert(0x21D1);
+                case "UpArrowBar": return Convert(0x2912);
+                case "UpArrowDownArrow": return Convert(0x21C5);
+                case "UpDownArrow": return Convert(0x2195);
+                case "Updownarrow": return Convert(0x21D5);
+                case "UpEquilibrium": return Convert(0x296E);
+                case "UpperLeftArrow": return Convert(0x2196);
+                case "UpperRightArrow": return Convert(0x2197);
+                case "Upsi": return Convert(0x03D2);
+                case "Upsilon": return Convert(0x03A5);
+                case "UpTee": return Convert(0x22A5);
+                case "UpTeeArrow": return Convert(0x21A5);
+                case "Uring": return Convert(0x016E);
+                case "Uscr": return Convert(0xD835, 0xDCB0);
+                case "Utilde": return Convert(0x0168);
+                case "Uuml": return Convert(0x00DC);
+                case "uacute": return Convert(0x00FA);
+                case "uArr": return Convert(0x21D1);
+                case "uarr": return Convert(0x2191);
+                case "ubrcy": return Convert(0x045E);
+                case "ubreve": return Convert(0x016D);
+                case "ucirc": return Convert(0x00FB);
                 case "ucy": return Convert(0x0443);
                 case "udarr": return Convert(0x21C5);
-                case "Udblac": return Convert(0x0170);
                 case "udblac": return Convert(0x0171);
                 case "udhar": return Convert(0x296E);
                 case "ufisht": return Convert(0x297E);
-                case "Ufr": return Convert(0xD835, 0xDD18);
                 case "ufr": return Convert(0xD835, 0xDD32);
-                case "Ugrave": return Convert(0x00D9);
                 case "ugrave": return Convert(0x00F9);
                 case "uHar": return Convert(0x2963);
                 case "uharl": return Convert(0x21BF);
@@ -2215,56 +2241,30 @@ namespace AngleSharp
                 case "ulcorner": return Convert(0x231C);
                 case "ulcrop": return Convert(0x230F);
                 case "ultri": return Convert(0x25F8);
-                case "Umacr": return Convert(0x016A);
                 case "umacr": return Convert(0x016B);
                 case "uml": return Convert(0x00A8);
-                case "UnderBar": return Convert(0x005F);
-                case "UnderBrace": return Convert(0x23DF);
-                case "UnderBracket": return Convert(0x23B5);
-                case "UnderParenthesis": return Convert(0x23DD);
-                case "Union": return Convert(0x22C3);
-                case "UnionPlus": return Convert(0x228E);
-                case "Uogon": return Convert(0x0172);
                 case "uogon": return Convert(0x0173);
-                case "Uopf": return Convert(0xD835, 0xDD4C);
                 case "uopf": return Convert(0xD835, 0xDD66);
-                case "UpArrow": return Convert(0x2191);
-                case "Uparrow": return Convert(0x21D1);
                 case "uparrow": return Convert(0x2191);
-                case "UpArrowBar": return Convert(0x2912);
-                case "UpArrowDownArrow": return Convert(0x21C5);
-                case "UpDownArrow": return Convert(0x2195);
-                case "Updownarrow": return Convert(0x21D5);
                 case "updownarrow": return Convert(0x2195);
-                case "UpEquilibrium": return Convert(0x296E);
                 case "upharpoonleft": return Convert(0x21BF);
                 case "upharpoonright": return Convert(0x21BE);
                 case "uplus": return Convert(0x228E);
-                case "UpperLeftArrow": return Convert(0x2196);
-                case "UpperRightArrow": return Convert(0x2197);
-                case "Upsi": return Convert(0x03D2);
                 case "upsi": return Convert(0x03C5);
                 case "upsih": return Convert(0x03D2);
-                case "Upsilon": return Convert(0x03A5);
                 case "upsilon": return Convert(0x03C5);
-                case "UpTee": return Convert(0x22A5);
-                case "UpTeeArrow": return Convert(0x21A5);
                 case "upuparrows": return Convert(0x21C8);
                 case "urcorn": return Convert(0x231D);
                 case "urcorner": return Convert(0x231D);
                 case "urcrop": return Convert(0x230E);
-                case "Uring": return Convert(0x016E);
                 case "uring": return Convert(0x016F);
                 case "urtri": return Convert(0x25F9);
-                case "Uscr": return Convert(0xD835, 0xDCB0);
                 case "uscr": return Convert(0xD835, 0xDCCA);
                 case "utdot": return Convert(0x22F0);
-                case "Utilde": return Convert(0x0168);
                 case "utilde": return Convert(0x0169);
                 case "utri": return Convert(0x25B5);
                 case "utrif": return Convert(0x25B4);
                 case "uuarr": return Convert(0x21C8);
-                case "Uuml": return Convert(0x00DC);
                 case "uuml": return Convert(0x00FC);
                 case "uwangle": return Convert(0x29A7);
             }
@@ -2272,10 +2272,27 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolV(string name)
+        static Char[] GetSymbolV(String name)
         {
             switch (name)
             {
+                case "Vbar": return Convert(0x2AEB);
+                case "Vcy": return Convert(0x0412);
+                case "VDash": return Convert(0x22AB);
+                case "Vdash": return Convert(0x22A9);
+                case "Vdashl": return Convert(0x2AE6);
+                case "Vee": return Convert(0x22C1);
+                case "Verbar": return Convert(0x2016);
+                case "Vert": return Convert(0x2016);
+                case "VerticalBar": return Convert(0x2223);
+                case "VerticalLine": return Convert(0x007C);
+                case "VerticalSeparator": return Convert(0x2758);
+                case "VerticalTilde": return Convert(0x2240);
+                case "VeryThinSpace": return Convert(0x200A);
+                case "Vfr": return Convert(0xD835, 0xDD19);
+                case "Vopf": return Convert(0xD835, 0xDD4D);
+                case "Vscr": return Convert(0xD835, 0xDCB1);
+                case "Vvdash": return Convert(0x22AA);
                 case "vangrt": return Convert(0x299C);
                 case "varepsilon": return Convert(0x03F5);
                 case "varkappa": return Convert(0x03F0);
@@ -2294,103 +2311,86 @@ namespace AngleSharp
                 case "vartheta": return Convert(0x03D1);
                 case "vartriangleleft": return Convert(0x22B2);
                 case "vartriangleright": return Convert(0x22B3);
-                case "Vbar": return Convert(0x2AEB);
                 case "vBar": return Convert(0x2AE8);
                 case "vBarv": return Convert(0x2AE9);
-                case "Vcy": return Convert(0x0412);
                 case "vcy": return Convert(0x0432);
-                case "VDash": return Convert(0x22AB);
-                case "Vdash": return Convert(0x22A9);
                 case "vDash": return Convert(0x22A8);
                 case "vdash": return Convert(0x22A2);
-                case "Vdashl": return Convert(0x2AE6);
-                case "Vee": return Convert(0x22C1);
                 case "vee": return Convert(0x2228);
                 case "veebar": return Convert(0x22BB);
                 case "veeeq": return Convert(0x225A);
                 case "vellip": return Convert(0x22EE);
-                case "Verbar": return Convert(0x2016);
                 case "verbar": return Convert(0x007C);
-                case "Vert": return Convert(0x2016);
                 case "vert": return Convert(0x007C);
-                case "VerticalBar": return Convert(0x2223);
-                case "VerticalLine": return Convert(0x007C);
-                case "VerticalSeparator": return Convert(0x2758);
-                case "VerticalTilde": return Convert(0x2240);
-                case "VeryThinSpace": return Convert(0x200A);
-                case "Vfr": return Convert(0xD835, 0xDD19);
                 case "vfr": return Convert(0xD835, 0xDD33);
                 case "vltri": return Convert(0x22B2);
                 case "vnsub": return Convert(0x2282, 0x20D2);
                 case "vnsup": return Convert(0x2283, 0x20D2);
-                case "Vopf": return Convert(0xD835, 0xDD4D);
                 case "vopf": return Convert(0xD835, 0xDD67);
                 case "vprop": return Convert(0x221D);
                 case "vrtri": return Convert(0x22B3);
-                case "Vscr": return Convert(0xD835, 0xDCB1);
                 case "vscr": return Convert(0xD835, 0xDCCB);
                 case "vsubnE": return Convert(0x2ACB, 0xFE00);
                 case "vsubne": return Convert(0x228A, 0xFE00);
                 case "vsupnE": return Convert(0x2ACC, 0xFE00);
                 case "vsupne": return Convert(0x228B, 0xFE00);
-                case "Vvdash": return Convert(0x22AA);
                 case "vzigzag": return Convert(0x299A);
             }
 
             return null;
         }
 
-        static char[] GetSymbolW(string name)
+        static Char[] GetSymbolW(String name)
         {
             switch (name)
             {
                 case "Wcirc": return Convert(0x0174);
+                case "Wedge": return Convert(0x22C0);
+                case "Wfr": return Convert(0xD835, 0xDD1A);
+                case "Wopf": return Convert(0xD835, 0xDD4E);
+                case "Wscr": return Convert(0xD835, 0xDCB2);
                 case "wcirc": return Convert(0x0175);
                 case "wedbar": return Convert(0x2A5F);
-                case "Wedge": return Convert(0x22C0);
                 case "wedge": return Convert(0x2227);
                 case "wedgeq": return Convert(0x2259);
                 case "weierp": return Convert(0x2118);
-                case "Wfr": return Convert(0xD835, 0xDD1A);
                 case "wfr": return Convert(0xD835, 0xDD34);
-                case "Wopf": return Convert(0xD835, 0xDD4E);
                 case "wopf": return Convert(0xD835, 0xDD68);
                 case "wp": return Convert(0x2118);
                 case "wr": return Convert(0x2240);
                 case "wreath": return Convert(0x2240);
-                case "Wscr": return Convert(0xD835, 0xDCB2);
                 case "wscr": return Convert(0xD835, 0xDCCC);
             }
 
             return null;
         }
 
-        static char[] GetSymbolX(string name)
+        static Char[] GetSymbolX(String name)
         {
             switch (name)
             {
+                case "Xfr": return Convert(0xD835, 0xDD1B);
+                case "Xi": return Convert(0x039E);
+                case "Xopf": return Convert(0xD835, 0xDD4F);
+                case "Xscr": return Convert(0xD835, 0xDCB3);
                 case "xcap": return Convert(0x22C2);
                 case "xcirc": return Convert(0x25EF);
                 case "xcup": return Convert(0x22C3);
                 case "xdtri": return Convert(0x25BD);
-                case "Xfr": return Convert(0xD835, 0xDD1B);
                 case "xfr": return Convert(0xD835, 0xDD35);
                 case "xhArr": return Convert(0x27FA);
                 case "xharr": return Convert(0x27F7);
-                case "Xi": return Convert(0x039E);
                 case "xi": return Convert(0x03BE);
                 case "xlArr": return Convert(0x27F8);
                 case "xlarr": return Convert(0x27F5);
                 case "xmap": return Convert(0x27FC);
                 case "xnis": return Convert(0x22FB);
                 case "xodot": return Convert(0x2A00);
-                case "Xopf": return Convert(0xD835, 0xDD4F);
                 case "xopf": return Convert(0xD835, 0xDD69);
                 case "xoplus": return Convert(0x2A01);
                 case "xotime": return Convert(0x2A02);
                 case "xrArr": return Convert(0x27F9);
                 case "xrarr": return Convert(0x27F6);
-                case "Xscr": return Convert(0xD835, 0xDCB3);
                 case "xscr": return Convert(0xD835, 0xDCCD);
                 case "xsqcup": return Convert(0x2A06);
                 case "xuplus": return Convert(0x2A04);
@@ -2402,60 +2402,60 @@ namespace AngleSharp
             return null;
         }
 
-        static char[] GetSymbolY(string name)
+        static Char[] GetSymbolY(String name)
         {
             switch (name)
             {
                 case "Yacute": return Convert(0x00DD);
-                case "yacute": return Convert(0x00FD);
                 case "YAcy": return Convert(0x042F);
-                case "yacy": return Convert(0x044F);
                 case "Ycirc": return Convert(0x0176);
-                case "ycirc": return Convert(0x0177);
                 case "Ycy": return Convert(0x042B);
+                case "Yfr": return Convert(0xD835, 0xDD1C);
+                case "YIcy": return Convert(0x0407);
+                case "Yopf": return Convert(0xD835, 0xDD50);
+                case "Yscr": return Convert(0xD835, 0xDCB4);
+                case "YUcy": return Convert(0x042E);
+                case "Yuml": return Convert(0x0178);
+                case "yacute": return Convert(0x00FD);
+                case "yacy": return Convert(0x044F);
+                case "ycirc": return Convert(0x0177);
                 case "ycy": return Convert(0x044B);
                 case "yen": return Convert(0x00A5);
-                case "Yfr": return Convert(0xD835, 0xDD1C);
                 case "yfr": return Convert(0xD835, 0xDD36);
-                case "YIcy": return Convert(0x0407);
                 case "yicy": return Convert(0x0457);
-                case "Yopf": return Convert(0xD835, 0xDD50);
                 case "yopf": return Convert(0xD835, 0xDD6A);
-                case "Yscr": return Convert(0xD835, 0xDCB4);
                 case "yscr": return Convert(0xD835, 0xDCCE);
-                case "YUcy": return Convert(0x042E);
                 case "yucy": return Convert(0x044E);
-                case "Yuml": return Convert(0x0178);
                 case "yuml": return Convert(0x00FF);
             }
 
             return null;
         }
 
-        static char[] GetSymbolZ(string name)
+        static Char[] GetSymbolZ(String name)
         {
             switch (name)
             {
                 case "Zacute": return Convert(0x0179);
-                case "zacute": return Convert(0x017A);
                 case "Zcaron": return Convert(0x017D);
-                case "zcaron": return Convert(0x017E);
                 case "Zcy": return Convert(0x0417);
-                case "zcy": return Convert(0x0437);
                 case "Zdot": return Convert(0x017B);
-                case "zdot": return Convert(0x017C);
-                case "zeetrf": return Convert(0x2128);
                 case "ZeroWidthSpace": return Convert(0x200B);
                 case "Zeta": return Convert(0x0396);
-                case "zeta": return Convert(0x03B6);
                 case "Zfr": return Convert(0x2128);
-                case "zfr": return Convert(0xD835, 0xDD37);
                 case "ZHcy": return Convert(0x0416);
+                case "Zopf": return Convert(0x2124);
+                case "Zscr": return Convert(0xD835, 0xDCB5);
+                case "zacute": return Convert(0x017A);
+                case "zcaron": return Convert(0x017E);
+                case "zcy": return Convert(0x0437);
+                case "zdot": return Convert(0x017C);
+                case "zeetrf": return Convert(0x2128);
+                case "zeta": return Convert(0x03B6);
+                case "zfr": return Convert(0xD835, 0xDD37);
                 case "zhcy": return Convert(0x0436);
                 case "zigrarr": return Convert(0x21DD);
-                case "Zopf": return Convert(0x2124);
                 case "zopf": return Convert(0xD835, 0xDD6B);
-                case "Zscr": return Convert(0xD835, 0xDCB5);
                 case "zscr": return Convert(0xD835, 0xDCCF);
                 case "zwj": return Convert(0x200D);
                 case "zwnj": return Convert(0x200C);
@@ -2471,9 +2471,9 @@ namespace AngleSharp
         /// </summary>
         /// <param name="code">The code to convert.</param>
         /// <returns>The array containing the character.</returns>
-        public static char[] Convert(int code)
+        public static Char[] Convert(Int32 code)
         {
-            return new char[] { (char)code };
+            return new Char[] { (Char)code };
         }
 
         /// <summary>
@@ -2482,9 +2482,9 @@ namespace AngleSharp
         /// <param name="leadingCode">The first (leading) character code.</param>
         /// <param name="trailingCode">The second (trailing) character code.</param>
         /// <returns>The array containing the two characters.</returns>
-        public static char[] Convert(int leadingCode, int trailingCode)
+        public static Char[] Convert(Int32 leadingCode, Int32 trailingCode)
         {
-            return new char[] { (char)leadingCode, (char)trailingCode };
+            return new Char[] { (Char)leadingCode, (Char)trailingCode };
         }
 
         /// <summary>
@@ -2492,7 +2492,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="code">The code to examine.</param>
         /// <returns>True if it is an invalid number, false otherwise.</returns>
-        public static bool IsInvalidNumber(int code)
+        public static Boolean IsInvalidNumber(Int32 code)
         {
             /*
              * Otherwise, if the number is in the range 0xD800 to 0xDFFF or is
@@ -2508,7 +2508,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="code">The code to examine.</param>
         /// <returns>True if the code is in the table, otherwise false.</returns>
-        public static bool IsInCharacterTable(int code)
+        public static Boolean IsInCharacterTable(Int32 code)
         {
             /* 
              * If that number is one of the numbers in the first column of the
@@ -2533,7 +2533,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="code">The original code.</param>
         /// <returns>The character wrapped in a string.</returns>
-        public static char[] GetSymbolFromTable(int code)
+        public static Char[] GetSymbolFromTable(Int32 code)
         {
             switch (code)
             { 
@@ -2615,7 +2615,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="code">The code to examine.</param>
         /// <returns>True if it is within an invalid range, false otherwise.</returns>
-        public static bool IsInInvalidRange(int code)
+        public static Boolean IsInInvalidRange(Int32 code)
         {
             /*
              * Otherwise, return a character token for the Unicode character whose

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace AngleSharp.DOM
 {
@@ -8,12 +9,22 @@ namespace AngleSharp.DOM
     [DOM("Location")]
     public sealed class Location
     {
+        #region Regular expression
+
+        static readonly Regex parser = new Regex(@"^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$");
+
+        #endregion
+
         #region Members
 
-        string _host;
-        string _protocol;
-        string _hash;
-        string _path;
+        String _url;
+        String _scheme;
+        String _slash;
+        String _host;
+        String _port;
+        String _path;
+        String _query;
+        String _hash;
 
         #endregion
 
@@ -23,7 +34,7 @@ namespace AngleSharp.DOM
         /// Creates a new location based on the given URL.
         /// </summary>
         /// <param name="url">The URL to represent.</param>
-        internal Location(string url)
+        internal Location(String url)
         {
             ChangeTo(url);
         }
@@ -38,8 +49,8 @@ namespace AngleSharp.DOM
         [DOM("hash")]
         public String Hash
         {
-            get { return _hash; }
-            set { _hash = ValidateHash(value); }
+            get { return NonEmpty(_hash, "#"); }
+            set { _hash = Tolerate(value, "#"); TryRebuild(); }
         }
 
         /// <summary>
@@ -48,20 +59,23 @@ namespace AngleSharp.DOM
         [DOM("host")]
         public String Host
         {
-            get { return _host; }
+            get { return HostName + NonEmpty(_port, ":"); }
             set 
             {
                 var index = value.IndexOf(':');
 
                 if (index != -1)
                 {
-                    var port = value.Substring(index);
-                    value = value.Substring(0, index);
-                    Port = port;
-                    HostName = value;
+                    Port = value.Substring(index);
+                    HostName = value.Substring(0, index);
                 }
                 else
-                    _host = ValidateHostName(value, _host); 
+                {
+                    Port = String.Empty;
+                    HostName = value;
+                }
+
+                TryRebuild();
             }
         }
 
@@ -71,8 +85,8 @@ namespace AngleSharp.DOM
         [DOM("hostname")]
         public String HostName
         {
-            get { return _host.IndexOf(':') >= 0 ? _host.Substring(0, _host.IndexOf(':')) : _host; }
-            set { _host = ValidateHostName(value, HostName) + (String.IsNullOrEmpty(Port) ? String.Empty : (":" + Port)); }
+            get { return _host; }
+            set { _host = value; TryRebuild(); }
         }
 
         /// <summary>
@@ -81,7 +95,7 @@ namespace AngleSharp.DOM
         [DOM("href")]
         public String Href
         {
-            get { return String.Format("{0}//{1}{2}{3}", Protocol, Host, PathName, Hash); }
+            get { return _url; }
             set { ChangeTo(value); }
         }
 
@@ -91,8 +105,8 @@ namespace AngleSharp.DOM
         [DOM("pathname")]
         public String PathName
         {
-            get { return _path; }
-            set { _path = ValidatePath(value); }
+            get { return "/" + _path; }
+            set { _path = Tolerate(value, "/"); TryRebuild(); }
         }
 
         /// <summary>
@@ -101,8 +115,8 @@ namespace AngleSharp.DOM
         [DOM("port")]
         public String Port
         {
-            get { return _host.IndexOf(':') >= 0 ? _host.Substring(_host.IndexOf(':') + 1) : String.Empty; }
-            set { _host = HostName + ValidatePort(value); }
+            get { return _port; }
+            set { _port = value; TryRebuild(); }
         }
 
         /// <summary>
@@ -111,8 +125,18 @@ namespace AngleSharp.DOM
         [DOM("protocol")]
         public String Protocol
         {
-            get { return _protocol; }
-            set { _protocol = ValidateProtocol(value, _protocol); }
+            get { return NonEmpty(_scheme, postfix : ":"); }
+            set { _scheme = Tolerate(value, postfix: ":"); TryRebuild(); }
+        }
+
+        /// <summary>
+        /// Gets or sets the query, e.g. "?id=...".
+        /// </summary>
+        [DOM("search")]
+        public String Search
+        {
+            get { return NonEmpty(_query, "?"); }
+            set { _query = Tolerate(value, "?"); TryRebuild(); }
         }
 
         #endregion
@@ -125,122 +149,59 @@ namespace AngleSharp.DOM
         /// <returns>The string that equals the hyper reference.</returns>
         public override String ToString()
         {
-            return Href;
+            return _url;
         }
 
         #endregion
 
         #region Helpers
 
-        String ValidateProtocol(String value, String original)
+        static String NonEmpty(String check, String prefix = null, String postfix = null)
         {
-            if (String.IsNullOrEmpty(value))
-                return "http:";
-
-            value = value.ToLower();
-
-            if (value.Length != 0 && value[value.Length - 1] != ':')
-                value += ":";
-
-            switch (value)
-            {
-                case "ftp:":
-                case "http:":
-                case "https:":
-                    return value;
-
-                default:
-                    return original;
-            }
-        }
-
-        String ValidateHash(String value)
-        {
-            if (String.IsNullOrEmpty(value))
+            if (String.IsNullOrEmpty(check))
                 return String.Empty;
 
-            if (value[0] != '#')
-                return "#" + value;
+            return (prefix ?? String.Empty) + check + (postfix ?? String.Empty);
+        }
+
+        static String Tolerate(String value, String prefix = null, String postfix = null)
+        {
+            if (prefix != null && value.StartsWith(prefix))
+                return value.Substring(prefix.Length);
+            else if (postfix != null && value.EndsWith(postfix))
+                return value.Substring(0, value.Length - postfix.Length);
 
             return value;
         }
 
-        String ValidateHostName(String value, String original)
+        static String Get(GroupCollection groups, Int32 index)
         {
-            if (Uri.CheckHostName(value) == UriHostNameType.Unknown)
-                return original;
+            if (groups.Count > index)
+                return groups[index].Value;
 
-            return value;
+            return null;
         }
 
-        String ValidatePath(String value)
+        void TryRebuild()
         {
-            if (value.Length == 0)
-                return "/";
-
-            if (value[0] != '/')
-                value = "/" + value;
-
-            var index = value.IndexOf('#');
-
-            if (index != -1)
-            {
-                _hash = value.Substring(index);
-                value = value.Substring(0, index);
-            }
-
-            return value;
-        }
-
-        String ValidatePort(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                return String.Empty;
-
-            var port = value;
-
-            if (value[0] != ':')
-                value = ":" + value;
-            else
-                port = value.Substring(1);
-
-            if (port == "80")
-                return String.Empty;
-
-            int prt;
-
-            if (Int32.TryParse(port, out prt))
-                return value;
-
-            return String.Empty;
+            var url = Protocol + _slash + Host + PathName + Search + Hash;
+            ChangeTo(url);
         }
 
         void ChangeTo(String value)
         {
-            _protocol = String.Empty;
-            _host = String.Empty;
-            _hash = String.Empty;
-            _path = String.Empty;
+            var m = parser.Match(value);
 
-            if (!String.IsNullOrEmpty(value))
+            if (m.Success)
             {
-                var index = value.IndexOf("//");
-
-                if (index != -1)
-                {
-                    Protocol = value.Substring(0, index);
-                    value = value.Substring(index + 2);
-                }
-
-                index = value.IndexOf('/');
-
-                if (index != -1)
-                {
-                    Host = value.Substring(0, index);
-                    PathName = value.Substring(index);
-                }
-                else
-                    Host = value;
+                _url = Get(m.Groups, 0);
+                _scheme = Get(m.Groups, 1);
+                _slash = Get(m.Groups, 2);
+                _host = Get(m.Groups, 3);
+                _port = Get(m.Groups, 4);
+                _path = Get(m.Groups, 5);
+                _query = Get(m.Groups, 6);
+                _hash = Get(m.Groups, 7);
             }
         }
 

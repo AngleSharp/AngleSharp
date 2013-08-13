@@ -384,9 +384,8 @@ namespace AngleSharp.Html
                     }
                 }
             }
-            else if ((node == null) || node.IsInHtml || (node.IsHtmlTIP && (token.Type == HtmlTokenType.StartTag || token.Type == HtmlTokenType.Character)) ||
-                (node.IsInMathML && node.NodeName == Specification.XML_ANNOTATION && token.IsStartTag(SVGElement.RootTag)) || (token.Type == HtmlTokenType.EOF) ||
-                (node.IsMathMLTIP && (token.Type == HtmlTokenType.Character || (token.Type == HtmlTokenType.StartTag && (!token.IsStartTag("mglyph") && !token.IsStartTag("malignmark"))))))
+            else if (node == null || node.IsInHtml || token.IsEof || (node.IsHtmlTIP && token.IsHtmlCompatible) || 
+                (node.IsMathMLTIP && token.IsMathCompatible) || (node.IsInMathMLSVGReady && token.IsSvg))
             {
                 switch (insert)
                 {

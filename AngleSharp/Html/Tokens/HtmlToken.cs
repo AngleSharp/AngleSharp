@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AngleSharp.DOM.Svg;
+using System;
 using System.Diagnostics;
 
 namespace AngleSharp.Html
@@ -138,6 +139,38 @@ namespace AngleSharp.Html
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets if the token can be used with IsHtmlTIP properties.
+        /// </summary>
+        public virtual Boolean IsHtmlCompatible
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        /// Gets if the given token is a SVG root start tag.
+        /// </summary>
+        public Boolean IsSvg
+        {
+            get { return IsStartTag(SVGElement.RootTag); }
+        }
+
+        /// <summary>
+        /// Gets if the token is an end-of-file token.
+        /// </summary>
+        public Boolean IsEof
+        {
+            get { return _type == HtmlTokenType.EOF; }
+        }
+
+        /// <summary>
+        /// Gets if the token can be used with IsMathMLTIP properties.
+        /// </summary>
+        public virtual Boolean IsMathCompatible
+        {
+            get { return false; }
+        }
 
         /// <summary>
         /// Gets the type of the token.

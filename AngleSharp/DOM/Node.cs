@@ -308,7 +308,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        internal protected virtual bool IsSpecial
+        internal protected virtual Boolean IsSpecial
         {
             get { return false; }
         }
@@ -316,7 +316,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the status if this node is in the HTML namespace.
         /// </summary>
-        internal protected virtual bool IsInHtml
+        internal protected virtual Boolean IsInHtml
         {
             get { return false; }
         }
@@ -324,15 +324,23 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the status if this node is the MathML namespace.
         /// </summary>
-        internal protected virtual bool IsInMathML
+        internal protected virtual Boolean IsInMathML
         {
             get { return false; }
         }
 
         /// <summary>
+        /// Gets if the node is in the MathML namespace and of type annotation-xml.
+        /// </summary>
+        internal Boolean IsInMathMLSVGReady
+        {
+            get { return IsInMathML && NodeName == Specification.XML_ANNOTATION; }
+        }
+
+        /// <summary>
         /// Gets the status if the current node is in the MathML namespace.
         /// </summary>
-        internal protected virtual bool IsInSvg
+        internal protected virtual Boolean IsInSvg
         {
             get { return false; }
         }
@@ -340,7 +348,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the status if the node is a MathML text integration point.
         /// </summary>
-        internal protected virtual bool IsMathMLTIP
+        internal protected virtual Boolean IsMathMLTIP
         {
             get { return false; }
         }
@@ -348,7 +356,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets the status if the node is an HTML text integration point.
         /// </summary>
-        internal protected virtual bool IsHtmlTIP
+        internal protected virtual Boolean IsHtmlTIP
         {
             get { return false; }
         }
