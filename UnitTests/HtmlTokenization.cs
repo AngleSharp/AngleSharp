@@ -130,8 +130,6 @@ namespace UnitTests
 
                 if (token.Type == HtmlTokenType.Character)
                     str += ((HtmlCharacterToken)token).Data;
-                else if (token.Type == HtmlTokenType.Characters)
-                    str += new String(((HtmlCharactersToken)token).Data);
             }
             while (token != HtmlToken.EOF);
 
@@ -153,8 +151,6 @@ namespace UnitTests
 
                 if (token.Type == HtmlTokenType.Character)
                     str += ((HtmlCharacterToken)token).Data;
-                else if (token.Type == HtmlTokenType.Characters)
-                    str += new String(((HtmlCharactersToken)token).Data);
             }
             while (token != HtmlToken.EOF);
 
@@ -185,7 +181,7 @@ namespace UnitTests
             var s = new SourceManager("<![CDATA[hi mum how <!-- are you doing />]]>");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
-            Assert.AreEqual(HtmlTokenType.Characters, token.Type);
+            Assert.AreEqual(HtmlTokenType.Character, token.Type);
         }
 
         [TestMethod]
@@ -202,8 +198,6 @@ namespace UnitTests
 
                 if (token.Type == HtmlTokenType.Character)
                     sb.Append(((HtmlCharacterToken)token).Data);
-                else if (token.Type == HtmlTokenType.Characters)
-                    sb.Append(((HtmlCharactersToken)token).Data);
             }
             while (token != HtmlToken.EOF);
 
