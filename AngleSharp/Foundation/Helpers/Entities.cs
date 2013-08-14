@@ -13,7 +13,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="name">The name of the identity, specified by &amp;NAME; in the Html source code.</param>
         /// <returns>The array containing the found entity or empty.</returns>
-        public static Char[] GetSymbol(String name)
+        public static String GetSymbol(String name)
         {
             if (String.IsNullOrEmpty(name))
                 return null;
@@ -105,7 +105,7 @@ namespace AngleSharp
 
         #region Symbol Methods
 
-        static Char[] GetSymbolA(String name)
+        static String GetSymbolA(String name)
         {
             switch (name)
             {
@@ -193,7 +193,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolB(String name)
+        static String GetSymbolB(String name)
         {
             switch (name)
             {
@@ -329,7 +329,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolC(String name)
+        static String GetSymbolC(String name)
         {
             switch (name)
             {
@@ -466,7 +466,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolD(String name)
+        static String GetSymbolD(String name)
         {
             switch (name)
             {
@@ -593,7 +593,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolE(String name)
+        static String GetSymbolE(String name)
         {
             switch (name)
             {
@@ -689,7 +689,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolF(String name)
+        static String GetSymbolF(String name)
         {
             switch (name)
             {
@@ -742,7 +742,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolG(String name)
+        static String GetSymbolG(String name)
         {
             switch (name)
             {
@@ -831,7 +831,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolH(String name)
+        static String GetSymbolH(String name)
         {
             switch (name)
             {
@@ -880,7 +880,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolI(String name)
+        static String GetSymbolI(String name)
         {
             switch (name)
             {
@@ -964,7 +964,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolJ(String name)
+        static String GetSymbolJ(String name)
         {
             switch (name)
             {
@@ -988,7 +988,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolK(String name)
+        static String GetSymbolK(String name)
         {
             switch (name)
             {
@@ -1015,7 +1015,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolL(String name)
+        static String GetSymbolL(String name)
         {
             switch (name)
             {
@@ -1235,7 +1235,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolM(String name)
+        static String GetSymbolM(String name)
         {
             switch (name)
             {
@@ -1290,7 +1290,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolN(String name)
+        static String GetSymbolN(String name)
         {
             switch (name)
             {
@@ -1535,7 +1535,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolO(String name)
+        static String GetSymbolO(String name)
         {
             switch (name)
             {
@@ -1620,7 +1620,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolP(String name)
+        static String GetSymbolP(String name)
         {
             switch (name)
             {
@@ -1714,7 +1714,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolQ(String name)
+        static String GetSymbolQ(String name)
         {
             switch (name)
             {
@@ -1737,7 +1737,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolR(String name)
+        static String GetSymbolR(String name)
         {
             switch (name)
             {
@@ -1892,7 +1892,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolS(String name)
+        static String GetSymbolS(String name)
         {
             switch (name)
             {
@@ -2093,7 +2093,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolT(String name)
+        static String GetSymbolT(String name)
         {
             switch (name)
             {
@@ -2180,7 +2180,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolU(String name)
+        static String GetSymbolU(String name)
         {
             switch (name)
             {
@@ -2272,7 +2272,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolV(String name)
+        static String GetSymbolV(String name)
         {
             switch (name)
             {
@@ -2340,7 +2340,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolW(String name)
+        static String GetSymbolW(String name)
         {
             switch (name)
             {
@@ -2365,7 +2365,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolX(String name)
+        static String GetSymbolX(String name)
         {
             switch (name)
             {
@@ -2402,7 +2402,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolY(String name)
+        static String GetSymbolY(String name)
         {
             switch (name)
             {
@@ -2432,7 +2432,7 @@ namespace AngleSharp
             return null;
         }
 
-        static Char[] GetSymbolZ(String name)
+        static String GetSymbolZ(String name)
         {
             switch (name)
             {
@@ -2471,9 +2471,9 @@ namespace AngleSharp
         /// </summary>
         /// <param name="code">The code to convert.</param>
         /// <returns>The array containing the character.</returns>
-        public static Char[] Convert(Int32 code)
+        public static String Convert(Int32 code)
         {
-            return new Char[] { (Char)code };
+            return Char.ConvertFromUtf32(code);
         }
 
         /// <summary>
@@ -2482,9 +2482,9 @@ namespace AngleSharp
         /// <param name="leadingCode">The first (leading) character code.</param>
         /// <param name="trailingCode">The second (trailing) character code.</param>
         /// <returns>The array containing the two characters.</returns>
-        public static Char[] Convert(Int32 leadingCode, Int32 trailingCode)
+        public static String Convert(Int32 leadingCode, Int32 trailingCode)
         {
-            return new Char[] { (Char)leadingCode, (Char)trailingCode };
+            return Char.ConvertFromUtf32(leadingCode) + Char.ConvertFromUtf32(trailingCode);
         }
 
         /// <summary>
@@ -2533,7 +2533,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="code">The original code.</param>
         /// <returns>The character wrapped in a string.</returns>
-        public static Char[] GetSymbolFromTable(Int32 code)
+        public static String GetSymbolFromTable(Int32 code)
         {
             switch (code)
             { 

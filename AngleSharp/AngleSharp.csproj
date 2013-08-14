@@ -287,7 +287,6 @@
     <Compile Include="DOM\TextNode.cs" />
     <Compile Include="DOM\Xml\XMLElement.cs" />
     <Compile Include="Html\HtmlParser.cs" />
-    <Compile Include="Html\Tokens\HtmlCharactersToken.cs" />
     <Compile Include="DTD\Tokens\DtdAttributeToken.cs" />
     <Compile Include="DTD\Tokens\DtdToken.cs" />
     <Compile Include="DTD\DtdParser.cs" />

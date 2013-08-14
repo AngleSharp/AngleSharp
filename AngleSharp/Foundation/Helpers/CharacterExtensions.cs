@@ -215,19 +215,6 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Examines if the given tag name matches one of the elements (html, body, br).
-        /// </summary>
-        /// <param name="tagName">The tag name to examine</param>
-        /// <param name="includeHead">True if the head element should also be tested.</param>
-        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
-        public static Boolean IsHtmlBodyOrBreakRowElement(this String tagName, Boolean includeHead = false)
-        {
-            return (tagName == HTMLHtmlElement.Tag || tagName == HTMLBodyElement.Tag ||
-                tagName == HTMLBRElement.Tag) || (includeHead && tagName == HTMLHeadElement.Tag);
-        }
-
-        /// <summary>
         /// Converts the given char (should be A-Z) to a lowercase version.
         /// </summary>
         /// <param name="chr">The uppercase char.</param>

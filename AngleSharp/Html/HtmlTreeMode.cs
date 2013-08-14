@@ -44,10 +44,6 @@ namespace AngleSharp.Html
         /// </summary>
         InTable,
         /// <summary>
-        /// Within some text area in a table tag.
-        /// </summary>
-        InTableText,
-        /// <summary>
         /// Within the table caption tag.
         /// </summary>
         InCaption,

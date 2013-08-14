@@ -427,14 +427,14 @@ namespace AngleSharp.DOM
         /// <param name="index">The index where to insert.</param>
         /// <param name="c">The character to append.</param>
         /// <returns>The node which contains the text.</returns>
-        internal Node InsertText(Int32 index, Char c)
+        internal Node InsertText(Int32 index, String s)
         {
             if (index > 0 && index <= _children.Length && _children[index - 1] is TextNode)
-                return ((TextNode)_children[index - 1]).AppendData(c);
+                return ((TextNode)_children[index - 1]).AppendData(s);
             else if (index >= 0 && index < _children.Length && _children[index] is TextNode)
-                return ((TextNode)_children[index]).InsertData(0, c);
+                return ((TextNode)_children[index]).InsertData(0, s);
             
-            return InsertChild(index, new TextNode(c));
+            return InsertChild(index, new TextNode(s));
         }
 
         /// <summary>

@@ -88,19 +88,6 @@ namespace AngleSharp.Html
         #region Methods
 
         /// <summary>
-        /// Finds out if the current token is a start tag token with the given name.
-        /// </summary>
-        /// <param name="name">The name of the tag.</param>
-        /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
-        public override Boolean IsStartTag(String name)
-        {
-            if (_type == HtmlTokenType.StartTag)
-                return _name.Equals(name);
-
-            return false;
-        }
-
-        /// <summary>
         /// Adds a new attribute to the list of attributes. The value will
         /// be set to an empty string.
         /// </summary>
@@ -142,6 +129,15 @@ namespace AngleSharp.Html
                     return Attributes[i].Value;
 
             return String.Empty;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        protected override Boolean IsTagName(String name)
+        {
+            return _name.Equals(name);
         }
 
         #endregion
