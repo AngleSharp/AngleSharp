@@ -74,15 +74,6 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
-        /// Gets if the character data is a new line.
-        /// </summary>
-        /// <returns>True if the character token is a new line, otherwise false.</returns>
-        //public override Boolean IsNewLine
-        //{
-        //    get { return _data == Specification.LF; }
-        //}
-
-        /// <summary>
         /// Gets if the character data is empty (null or length equal to zero).
         /// </summary>
         /// <returns>True if the character data is actually NULL or empty.</returns>
@@ -130,6 +121,15 @@ namespace AngleSharp.Html
             var t = _data.Substring(0, i);
             _data = _data.Substring(i);
             return t;
+        }
+
+        /// <summary>
+        /// Removes the a new line in the beginning, if any.
+        /// </summary>
+        public void RemoveNewLine()
+        {
+            if (!String.IsNullOrEmpty(_data) && _data[0] == Specification.LF)
+                _data = _data.Substring(1);
         }
 
         #endregion

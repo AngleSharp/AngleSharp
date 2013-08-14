@@ -976,10 +976,7 @@ namespace AngleSharp.Html
                         var element = new HTMLPreElement();
                         AddElementToCurrentNode(element, token);
                         frameset = false;
-                        var temp = tokenizer.Get();
-
-                        //NEWLINE
-                        //if (!temp.IsNewLine) Consume(temp);
+                        PreventNewLine();
                         break;
                     }
                     case HTMLFormElement.Tag:
@@ -1208,9 +1205,7 @@ namespace AngleSharp.Html
                         originalInsert = insert;
                         frameset = false;
                         insert = HtmlTreeMode.Text;
-                        var temp = tokenizer.Get();
-                        //NEWLINE
-                        //if (!temp.IsNewLine) Consume(temp);
+                        PreventNewLine();
                         break;
                     }
                     case HTMLSemanticElement.XmpTag:
@@ -1365,15 +1360,17 @@ namespace AngleSharp.Html
                 switch (tag.Name)
                 {
                     case HTMLBodyElement.Tag:
+                    {
                         InBodyEndTagBody();
                         break;
-
+                    }
                     case HTMLHtmlElement.Tag:
+                    {
                         if (InBodyEndTagBody())
                             AfterBody(token);
 
                         break;
-
+                    }
                     case HTMLSemanticElement.AddressTag:
                     case HTMLSemanticElement.ArticleTag:
                     case HTMLSemanticElement.AsideTag:
@@ -1400,33 +1397,36 @@ namespace AngleSharp.Html
                     case HTMLSemanticElement.SectionTag:
                     case HTMLSemanticElement.SummaryTag:
                     case HTMLUListElement.Tag:
+                    {
                         InBodyEndTagBlock(tag.Name);
                         break;
-
+                    }
                     case HTMLFormElement.Tag:
+                    {
+                        var node = form;
+                        form = null;
+
+                        if (node != null && IsInScope(node.NodeName))
                         {
-                            var node = form;
-                            form = null;
+                            GenerateImpliedEndTags();
 
-                            if (node != null && IsInScope(node.NodeName))
-                            {
-                                GenerateImpliedEndTags();
+                            if (CurrentNode != node)
+                                RaiseErrorOccurred(ErrorCode.FormClosedWrong);
 
-                                if (CurrentNode != node)
-                                    RaiseErrorOccurred(ErrorCode.FormClosedWrong);
-
-                                open.Remove(node);
-                            }
-                            else
-                                RaiseErrorOccurred(ErrorCode.FormNotInScope);
+                            open.Remove(node);
                         }
-                        break;
+                        else
+                            RaiseErrorOccurred(ErrorCode.FormNotInScope);
 
+                        break;
+                    }
                     case HTMLParagraphElement.Tag:
+                    {
                         InBodyEndTagParagraph();
                         break;
-
+                    }
                     case HTMLLIElement.ItemTag:
+                    {
                         if (IsInListItemScope(tag.Name))
                         {
                             GenerateImpliedEndTagsExceptFor(tag.Name);
@@ -1441,9 +1441,10 @@ namespace AngleSharp.Html
                             RaiseErrorOccurred(ErrorCode.ListItemNotInScope);
 
                         break;
-
+                    }
                     case HTMLLIElement.DefinitionTag:
                     case HTMLLIElement.DescriptionTag:
+                    {
                         if (IsInScope(tag.Name))
                         {
                             GenerateImpliedEndTagsExceptFor(tag.Name);
@@ -1458,13 +1459,14 @@ namespace AngleSharp.Html
                             RaiseErrorOccurred(ErrorCode.ListItemNotInScope);
 
                         break;
-
+                    }
                     case HTMLHeadingElement.ChapterTag:
                     case HTMLHeadingElement.SubSubSubSubSectionTag:
                     case HTMLHeadingElement.SubSubSubSectionTag:
                     case HTMLHeadingElement.SubSubSectionTag:
                     case HTMLHeadingElement.SubSectionTag:
                     case HTMLHeadingElement.SectionTag:
+                    {
                         if (IsHeadingInScope())
                         {
                             GenerateImpliedEndTags();
@@ -1479,7 +1481,7 @@ namespace AngleSharp.Html
                             RaiseErrorOccurred(ErrorCode.HeadingNotInScope);
 
                         break;
-
+                    }
                     case HTMLAnchorElement.Tag:
                     case HTMLFormattingElement.BTag:
                     case HTMLFormattingElement.BigTag:
@@ -1494,12 +1496,14 @@ namespace AngleSharp.Html
                     case HTMLFormattingElement.StrongTag:
                     case HTMLFormattingElement.TtTag:
                     case HTMLFormattingElement.UTag:
+                    {
                         HeisenbergAlgorithm(tag);
                         break;
-
+                    }
                     case HTMLAppletElement.Tag:
                     case HTMLMarqueeElement.Tag:
                     case HTMLObjectElement.Tag:
+                    {
                         if (IsInScope(tag.Name))
                         {
                             GenerateImpliedEndTags();
@@ -1515,15 +1519,18 @@ namespace AngleSharp.Html
                             RaiseErrorOccurred(ErrorCode.ObjectNotInScope);
 
                         break;
-
+                    }
                     case HTMLBRElement.Tag:
+                    {
                         RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                         InBodyStartTagBreakrow(HtmlToken.OpenTag(HTMLBRElement.Tag));
                         break;
-
+                    }
                     default:
+                    {
                         InBodyEndTagAnythingElse(tag);
                         break;
+                    }
                 }
             }
             else if (token.Type == HtmlTokenType.EOF)
@@ -3512,6 +3519,19 @@ namespace AngleSharp.Html
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Gets the next token and removes the starting newline, if it has one.
+        /// </summary>
+        void PreventNewLine()
+        {
+            var temp = tokenizer.Get();
+
+            if (temp.Type == HtmlTokenType.Character)
+                ((HtmlCharacterToken)temp).RemoveNewLine();
+
+            Consume(temp);
+        }
 
         /// <summary>
         /// Resolves the encoding from the given charset and sets it.
