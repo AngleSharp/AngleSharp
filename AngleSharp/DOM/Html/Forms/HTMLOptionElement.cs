@@ -31,7 +31,6 @@ namespace AngleSharp.DOM.Html
         internal HTMLOptionElement()
         {
             _name = Tag;
-            Text = String.Empty;
             Value = String.Empty;
             Selected = false;
             DefaultSelected = false;

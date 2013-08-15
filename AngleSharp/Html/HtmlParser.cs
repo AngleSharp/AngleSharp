@@ -1166,20 +1166,20 @@ namespace AngleSharp.Html
 
                         if (form == null)
                         {
-                            InBody(HtmlToken.CloseTag(HTMLFormElement.Tag));
+                            InBody(HtmlToken.OpenTag(HTMLFormElement.Tag));
 
-                            if (tag.GetAttribute("action") != string.Empty)
+                            if (tag.GetAttribute("action") != String.Empty)
                                 form.SetAttribute("action", tag.GetAttribute("action"));
 
-                            InBody(HtmlToken.CloseTag(HTMLHRElement.Tag));
-                            InBody(HtmlToken.CloseTag(HTMLLabelElement.Tag));
+                            InBody(HtmlToken.OpenTag(HTMLHRElement.Tag));
+                            InBody(HtmlToken.OpenTag(HTMLLabelElement.Tag));
 
-                            if (tag.GetAttribute("prompt") != string.Empty)
+                            if (tag.GetAttribute("prompt") != String.Empty)
                                 InsertCharacters(tag.GetAttribute("prompt"));
                             else
                                 InsertCharacters("This is a searchable index. Enter search keywords:");
 
-                            var input = HtmlToken.CloseTag(HTMLInputElement.Tag);
+                            var input = HtmlToken.OpenTag(HTMLInputElement.Tag);
                             input.AddAttribute("name", HTMLIsIndexElement.Tag);
 
                             for (int i = 0; i < tag.Attributes.Count; i++)
@@ -1191,9 +1191,9 @@ namespace AngleSharp.Html
                             }
 
                             InBody(input);
-                            InBody(HtmlToken.OpenTag(HTMLLabelElement.Tag));
-                            InBody(HtmlToken.CloseTag(HTMLHRElement.Tag));
-                            InBody(HtmlToken.OpenTag(HTMLFormElement.Tag));
+                            InBody(HtmlToken.CloseTag(HTMLLabelElement.Tag));
+                            InBody(HtmlToken.OpenTag(HTMLHRElement.Tag));
+                            InBody(HtmlToken.CloseTag(HTMLFormElement.Tag));
                         }
                         break;
                     }
@@ -1954,7 +1954,7 @@ namespace AngleSharp.Html
                 }
                 else if (tag.Name.IsTableCellElement())
                 {
-                    InTableBody(HtmlToken.CloseTag(HTMLTableRowElement.Tag));
+                    InTableBody(HtmlToken.OpenTag(HTMLTableRowElement.Tag));
                     InRow(token);
                 }
                 else if (tag.Name.IsGeneralTableElement())
@@ -2219,7 +2219,11 @@ namespace AngleSharp.Html
                         InSelectEndTagOption();
                         break;
                     case HTMLSelectElement.Tag:
-                        InSelectEndTagSelect();
+                        if (IsInSelectScope(HTMLSelectElement.Tag))
+                            InSelectEndTagSelect();
+                        else
+                            RaiseErrorOccurred(ErrorCode.SelectNotInScope);
+
                         break;
                     default:
                         RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
@@ -2993,7 +2997,7 @@ namespace AngleSharp.Html
         /// Act as if an p end tag has been found in the InBody state.
         /// </summary>
         /// <returns>True if the token was found, otherwise false.</returns>
-        bool InBodyEndTagParagraph()
+        Boolean InBodyEndTagParagraph()
         {
             if (IsInButtonScope(HTMLParagraphElement.Tag))
             {
@@ -3019,7 +3023,7 @@ namespace AngleSharp.Html
         /// Act as if an table end tag has been found in the InTable state.
         /// </summary>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        bool InTableEndTagTable()
+        Boolean InTableEndTagTable()
         {
             if (IsInTableScope(HTMLTableElement.Tag))
             {
@@ -3039,7 +3043,7 @@ namespace AngleSharp.Html
         /// Act as if an tr end tag has been found in the InRow state.
         /// </summary>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        bool InRowEndTagTablerow()
+        Boolean InRowEndTagTablerow()
         {
             if (IsInTableScope(HTMLTableRowElement.Tag))
             {
@@ -3059,27 +3063,18 @@ namespace AngleSharp.Html
         /// Act as if an select end tag has been found in the InSelect state.
         /// </summary>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        bool InSelectEndTagSelect()
+        void InSelectEndTagSelect()
         {
-            if (IsInSelectScope(HTMLSelectElement.Tag))
-            {
-                ClearStackBackTo(HTMLSelectElement.Tag);
-                CloseCurrentNode();
-                Reset();
-                return true;
-            }
-            else
-            {
-                RaiseErrorOccurred(ErrorCode.SelectNotInScope);
-                return false;
-            }
+            ClearStackBackTo(HTMLSelectElement.Tag);
+            CloseCurrentNode();
+            Reset();
         }
 
         /// <summary>
         /// Act as if an caption end tag has been found in the InCaption state.
         /// </summary>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        bool InCaptionEndTagCaption()
+        Boolean InCaptionEndTagCaption()
         {
             if (IsInTableScope(HTMLTableCaptionElement.Tag))
             {
@@ -3106,7 +3101,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="tagName">The tag name (td or th) that has been found.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        bool InCellEndTagCell(string tagName)
+        Boolean InCellEndTagCell(string tagName)
         {
             if (IsInTableScope(tagName))
             {
@@ -3329,7 +3324,7 @@ namespace AngleSharp.Html
         /// Determines if one of the tag names (h1, h2, h3, h4, h5, h6) is in the global scope.
         /// </summary>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        bool IsHeadingInScope()
+        Boolean IsHeadingInScope()
         {
             for (int i = open.Count - 1; i >= 0; i--)
             {
@@ -3373,7 +3368,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="tagName">The tag name to check.</param>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        bool IsInScope(string tagName)
+        Boolean IsInScope(String tagName)
         {
             for (int i = open.Count - 1; i >= 0; i--)
             {
@@ -3417,7 +3412,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="tagName">The tag name to check.</param>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        bool IsInListItemScope(string tagName)
+        Boolean IsInListItemScope(String tagName)
         {
             for (int i = open.Count - 1; i >= 0; i--)
             {
@@ -3438,7 +3433,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="tagName">The tag name to check.</param>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        bool IsInButtonScope(string tagName)
+        Boolean IsInButtonScope(String tagName)
         {
             for (int i = open.Count - 1; i >= 0; i--)
             {
@@ -3458,7 +3453,7 @@ namespace AngleSharp.Html
         /// Determines if one of the tag names (tbody, tfoot, thead) is in the table scope.
         /// </summary>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        bool IsSectionInTableScope()
+        Boolean IsSectionInTableScope()
         {
             for (int i = open.Count - 1; i >= 0; i--)
             {
@@ -3479,7 +3474,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="tagName">The tag name to check.</param>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        bool IsInTableScope(string tagName)
+        Boolean IsInTableScope(String tagName)
         {
             for (int i = open.Count - 1; i >= 0; i--)
             {
@@ -3500,7 +3495,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="tagName">The tag name to check.</param>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        bool IsInSelectScope(string tagName)
+        Boolean IsInSelectScope(String tagName)
         {
             for (int i = open.Count - 1; i >= 0; i--)
             {
@@ -3509,7 +3504,7 @@ namespace AngleSharp.Html
                 if (node.NodeName == tagName)
                     return true;
 
-                if (node is HTMLOptGroupElement || node is HTMLOptionElement)
+                if (!(node is HTMLOptGroupElement) && !(node is HTMLOptionElement))
                     return false;
             }
 
