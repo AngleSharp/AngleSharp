@@ -72,6 +72,7 @@
     <Compile Include="HtmlTree.cs" />
     <Compile Include="Quirksmode.cs" />
     <Compile Include="ReflectionResolverTests.cs" />
+    <Compile Include="Gumbo.cs" />
     <Compile Include="XmlDTD.cs" />
     <Compile Include="XmlTree.cs" />
     <Compile Include="XmlTokenization.cs" />
