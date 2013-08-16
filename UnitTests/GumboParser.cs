@@ -10,7 +10,7 @@ namespace UnitTests
     /// https://github.com/google/gumbo-parser/blob/master/tests/parser.cc
     /// </summary>
     [TestClass]
-    public class Gumbo
+    public class GumboParser
     {
         [TestMethod]
         public void GumboDoubleBody()
@@ -654,6 +654,86 @@ namespace UnitTests
             var div = body.ChildNodes[2];
             Assert.AreEqual(NodeType.Element, div.NodeType);
             Assert.AreEqual("div", div.NodeName);
+            Assert.AreEqual(0, div.ChildNodes.Length);
+        }
+
+        [TestMethod]
+        public void GumboNullDocument()
+        {
+            var html = DocumentBuilder.Html(@"");
+            Assert.IsNotNull(html);
+            var body = html.Body;
+            Assert.IsNotNull(body);
+        }
+
+        [TestMethod]
+        public void GumboOneChar()
+        {
+            var html = DocumentBuilder.Html(@"T");
+            Assert.AreEqual(1, html.ChildNodes.Length);
+
+            var root = html.DocumentElement;
+            Assert.AreEqual("html", root.NodeName);
+            Assert.AreEqual(NodeType.Element, root.NodeType);
+            Assert.AreEqual(2, root.ChildNodes.Length);
+
+            var head = root.ChildNodes[0];
+            Assert.AreEqual("head", head.NodeName);
+            Assert.AreEqual(NodeType.Element, head.NodeType);
+            Assert.AreEqual(0, head.ChildNodes.Length);
+
+            var body = root.ChildNodes[1];
+            Assert.AreEqual("body", body.NodeName);
+            Assert.AreEqual(NodeType.Element, body.NodeType);
+            Assert.AreEqual(1, body.ChildNodes.Length);
+
+            var text = body.ChildNodes[0];
+            Assert.AreEqual("T", text.TextContent);
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+        }
+
+        [TestMethod]
+        public void GumboTextOnly()
+        {
+            var html = DocumentBuilder.Html(@"Test");
+            Assert.AreEqual(1, html.ChildNodes.Length);
+
+            var root = html.DocumentElement;
+            Assert.AreEqual("html", root.NodeName);
+            Assert.AreEqual(NodeType.Element, root.NodeType);
+            Assert.AreEqual(2, root.ChildNodes.Length);
+
+            var head = root.ChildNodes[0];
+            Assert.AreEqual("head", head.NodeName);
+            Assert.AreEqual(NodeType.Element, head.NodeType);
+            Assert.AreEqual(0, head.ChildNodes.Length);
+
+            var body = root.ChildNodes[1];
+            Assert.AreEqual("body", body.NodeName);
+            Assert.AreEqual(NodeType.Element, body.NodeType);
+            Assert.AreEqual(1, body.ChildNodes.Length);
+
+            var text = body.ChildNodes[0];
+            Assert.AreEqual("Test", text.TextContent);
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+        }
+
+        [TestMethod]
+        public void GumboUnexpectedEndBreak()
+        {
+            var html = DocumentBuilder.Html(@"</br><div></div>");
+
+            var body = html.Body;
+            Assert.AreEqual(2, body.ChildNodes.Length);
+
+            var br = body.ChildNodes[0];
+            Assert.AreEqual("br", br.NodeName);
+            Assert.AreEqual(NodeType.Element, br.NodeType);
+            Assert.AreEqual(0, br.ChildNodes.Length);
+
+            var div = body.ChildNodes[1];
+            Assert.AreEqual("div", div.NodeName);
+            Assert.AreEqual(NodeType.Element, div.NodeType);
             Assert.AreEqual(0, div.ChildNodes.Length);
         }
     }
