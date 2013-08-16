@@ -534,7 +534,7 @@ namespace AngleSharp.Html
                 insert = HtmlTreeMode.BeforeHead;
                 return;
             }
-            else if(token.IsEndTag(HTMLHtmlElement.Tag, HTMLBodyElement.Tag, HTMLBRElement.Tag, HTMLHeadElement.Tag))
+            else if(token.IsEndTagInv(HTMLHtmlElement.Tag, HTMLBodyElement.Tag, HTMLBRElement.Tag, HTMLHeadElement.Tag))
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                 return;
@@ -583,7 +583,7 @@ namespace AngleSharp.Html
                 insert = HtmlTreeMode.InHead;
                 return;
             }
-            else if (token.IsEndTag(HTMLHtmlElement.Tag, HTMLBodyElement.Tag, HTMLBRElement.Tag, HTMLHeadElement.Tag))
+            else if (token.IsEndTagInv(HTMLHtmlElement.Tag, HTMLBodyElement.Tag, HTMLBRElement.Tag, HTMLHeadElement.Tag))
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                 return;
@@ -705,7 +705,7 @@ namespace AngleSharp.Html
                 RaiseErrorOccurred(ErrorCode.HeadTagMisplaced);
                 return;
             }
-            else if (token.IsEndTag(HTMLHtmlElement.Tag, HTMLBodyElement.Tag, HTMLBRElement.Tag))
+            else if (token.IsEndTagInv(HTMLHtmlElement.Tag, HTMLBodyElement.Tag, HTMLBRElement.Tag))
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                 return;
@@ -830,7 +830,7 @@ namespace AngleSharp.Html
                 RaiseErrorOccurred(ErrorCode.HeadTagMisplaced);
                 return;
             }
-            else if (token.IsEndTag(HTMLHtmlElement.Tag, HTMLBodyElement.Tag, HTMLBRElement.Tag))
+            else if (token.IsEndTagInv(HTMLHtmlElement.Tag, HTMLBodyElement.Tag, HTMLBRElement.Tag))
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                 return;
@@ -3780,7 +3780,9 @@ namespace AngleSharp.Html
         /// <param name="p">The characters to insert.</param>
         void InsertCharacters(String p)
         {
-            if (foster && CurrentNode.IsTableElement())
+            if (String.IsNullOrEmpty(p))
+                return;
+            else if (foster && CurrentNode.IsTableElement())
                 InsertCharactersWithFoster(p);
             else
                 CurrentNode.AppendText(p);

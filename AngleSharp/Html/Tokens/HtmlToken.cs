@@ -204,6 +204,18 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
+        /// Finds out if the current token is an end tag token with a name that is different than the given one.
+        /// </summary>
+        /// <param name="nameA">The name of the tag.</param>
+        /// <param name="nameB">The name of another tag.</param>
+        /// <param name="nameC">The name of the other tag.</param>
+        /// <returns>True if the token is indeed an end tag token and does NOT have the given name, otherwise false.</returns>
+        public Boolean IsEndTagInv(String nameA, String nameB, String nameC)
+        {
+            return _type == HtmlTokenType.EndTag && !IsTagName(nameA) && !IsTagName(nameB) && !IsTagName(nameC);
+        }
+
+        /// <summary>
         /// Finds out if the current token is an end tag token with one of the given name(s).
         /// </summary>
         /// <param name="nameA">The name of the tag.</param>
@@ -214,6 +226,19 @@ namespace AngleSharp.Html
         public Boolean IsEndTag(String nameA, String nameB, String nameC, String nameD)
         {
             return _type == HtmlTokenType.EndTag && (IsTagName(nameA) || IsTagName(nameB) || IsTagName(nameC) || IsTagName(nameD));
+        }
+
+        /// <summary>
+        /// Finds out if the current token is an end tag token with a name that is different than the given one.
+        /// </summary>
+        /// <param name="nameA">The name of the tag.</param>
+        /// <param name="nameB">The name of another tag.</param>
+        /// <param name="nameC">The name of the other tag.</param>
+        /// <param name="nameD">The name of yet another tag.</param>
+        /// <returns>True if the token is indeed an end tag token and does NOT have the given name, otherwise false.</returns>
+        public Boolean IsEndTagInv(String nameA, String nameB, String nameC, String nameD)
+        {
+            return _type == HtmlTokenType.EndTag && !IsTagName(nameA) && !IsTagName(nameB) && !IsTagName(nameC) && !IsTagName(nameD);
         }
 
         /// <summary>
