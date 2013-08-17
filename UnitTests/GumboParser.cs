@@ -736,5 +736,219 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, div.NodeType);
             Assert.AreEqual(0, div.ChildNodes.Length);
         }
+
+        [TestMethod]
+        public void GumboCaseSensitiveAttributes()
+        {
+            var html = DocumentBuilder.Html(@"<div class=CamelCase>");
+
+            var body = html.Body;
+            Assert.AreEqual(1, body.ChildNodes.Length);
+
+            var div = body.ChildNodes[0];
+            Assert.AreEqual("div", div.NodeName);
+            Assert.AreEqual(NodeType.Element, div.NodeType);
+            Assert.AreEqual(0, div.ChildNodes.Length);
+            Assert.AreEqual(1, div.Attributes.Length);
+            Assert.AreEqual("CamelCase", div.Attributes["class"].Value);
+        }
+
+        [TestMethod]
+        public void GumboExplicitHtmlStructure()
+        {
+            var html = DocumentBuilder.Html(@"<!doctype html>
+<html><head><title>Foo</title></head>
+<body><div class=bar>Test</div></body></html>");
+
+            Assert.AreEqual(2, html.ChildNodes.Length);
+
+            var root = html.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, root.NodeType);
+            Assert.AreEqual("html", root.NodeName);
+            Assert.AreEqual(3, root.ChildNodes.Length);
+
+            var head = root.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, head.NodeType);
+            Assert.AreEqual("head", head.NodeName);
+            Assert.AreEqual(root, head.ParentElement);
+            Assert.AreEqual(1, head.ChildNodes.Length);
+
+            var body = root.ChildNodes[2];
+            Assert.AreEqual(NodeType.Element, body.NodeType);
+            Assert.AreEqual("body", body.NodeName);
+            Assert.AreEqual(root, body.ParentElement);
+            Assert.AreEqual(1, body.ChildNodes.Length);
+
+            var div = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, div.NodeType);
+            Assert.AreEqual("div", div.NodeName);
+            Assert.AreEqual(body, div.ParentElement);
+            Assert.AreEqual(1, div.ChildNodes.Length);
+            Assert.AreEqual(1, div.Attributes.Length);
+
+            var clas = div.Attributes[0];
+            Assert.AreEqual("class", clas.Name);
+            Assert.AreEqual("bar", clas.Value);
+
+            var text = div.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+            Assert.AreEqual("Test", text.TextContent);
+        }
+
+        [TestMethod]
+        public void GumboDuplicateAttributes()
+        {
+            var html = DocumentBuilder.Html(@"<input checked=""false"" checked id=foo id='bar'>");
+
+            var body = html.Body;
+            Assert.AreEqual(NodeType.Element, body.NodeType);
+            Assert.AreEqual("body", body.NodeName);
+            Assert.AreEqual(1, body.ChildNodes.Length);
+
+            var input = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, input.NodeType);
+            Assert.AreEqual("input", input.NodeName);
+            Assert.AreEqual(0, input.ChildNodes.Length);
+            Assert.AreEqual(2, input.Attributes.Length);
+
+            var chked = input.Attributes["checked"];
+            Assert.AreEqual("checked", chked.Name);
+            Assert.AreEqual("false", chked.Value);
+
+            var id = input.Attributes["id"];
+            Assert.AreEqual("id", id.Name);
+            Assert.AreEqual("foo", id.Value);
+        }
+
+        [TestMethod]
+        public void GumboLinkTagsInHead()
+        {
+            var html = DocumentBuilder.Html(@"<html>
+  <head>
+    <title>Sample title></title>
+
+    <link rel=stylesheet>
+    <link rel=author>
+  </head>
+  <body>Foo</body>");
+
+            var root = html.DocumentElement;
+            Assert.AreEqual(3, root.ChildNodes.Length);
+
+            var head = html.Head;
+            Assert.AreEqual(NodeType.Element, head.NodeType);
+            Assert.AreEqual("head", head.NodeName);
+            Assert.AreEqual(7, head.ChildNodes.Length);
+
+            var text1 = head.ChildNodes[2];
+            Assert.AreEqual(NodeType.Text, text1.NodeType);
+            Assert.AreEqual("\n\n    ", text1.TextContent);
+
+            var link1 = head.ChildNodes[3];
+            Assert.AreEqual(NodeType.Element, link1.NodeType);
+            Assert.AreEqual("link", link1.NodeName);
+            Assert.AreEqual(0, link1.ChildNodes.Length);
+
+            var text2 = head.ChildNodes[4];
+            Assert.AreEqual(NodeType.Text, text2.NodeType);
+            Assert.AreEqual("\n    ", text2.TextContent);
+
+            var link2 = head.ChildNodes[5];
+            Assert.AreEqual(NodeType.Element, link2.NodeType);
+            Assert.AreEqual("link", link2.NodeName);
+            Assert.AreEqual(0, link2.ChildNodes.Length);
+
+            var text3 = head.ChildNodes[6];
+            Assert.AreEqual(NodeType.Text, text3.NodeType);
+            Assert.AreEqual("\n  ", text3.TextContent);
+
+            var body = html.Body;
+            Assert.AreEqual(NodeType.Element, body.NodeType);
+            Assert.AreEqual("body", body.NodeName);
+            Assert.AreEqual(1, body.ChildNodes.Length);
+        }
+
+        [TestMethod]
+        public void GumboTextAfterHtml()
+        {
+            var html = DocumentBuilder.Html(@"<html>Test</html> after doc");
+
+            var body = html.Body;
+            Assert.AreEqual(1, body.ChildNodes.Length);
+
+            var text = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+            Assert.AreEqual("Test after doc", text.TextContent);
+        }
+
+        [TestMethod]
+        public void GumboWhitespaceInHead()
+        {
+            var html = DocumentBuilder.Html(@"<html>  Test</html>");
+
+            var root = html.DocumentElement;
+            Assert.AreEqual(2, root.ChildNodes.Length);
+
+            var head = html.Head;
+            Assert.AreEqual(0, head.ChildNodes.Length);
+
+            var body = html.Body;
+            Assert.AreEqual(1, body.ChildNodes.Length);
+
+            var text = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+            Assert.AreEqual("Test", text.TextContent);
+        }
+
+        [TestMethod]
+        public void GumboDoctype()
+        {
+            var html = DocumentBuilder.Html(@"<!doctype html>Test");
+            Assert.AreEqual(AngleSharp.DOM.Html.QuirksMode.Off, html.QuirksMode);
+            Assert.AreEqual(2, html.ChildNodes.Length);
+
+            var doctype = html.Doctype;
+            Assert.AreEqual("html", doctype.Name);
+            Assert.AreEqual(String.Empty, doctype.PublicId);
+            Assert.AreEqual(String.Empty, doctype.SystemId);
+        }
+
+        [TestMethod]
+        public void GumboInvalidDoctype()
+        {
+            var html = DocumentBuilder.Html(@"Test<!doctype root_element SYSTEM ""DTD_location"">");
+            Assert.AreEqual(AngleSharp.DOM.Html.QuirksMode.On, html.QuirksMode);
+            Assert.AreEqual(1, html.ChildNodes.Length);
+
+            Assert.IsNull(html.Doctype);
+
+            var body = html.Body;
+            Assert.AreEqual(1, body.ChildNodes.Length);
+
+            var text = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+            Assert.AreEqual("Test", text.TextContent);
+        }
+
+        [TestMethod]
+        public void GumboCommentInVerbatimMode()
+        {
+            var doc = DocumentBuilder.Html(@"<body> <div id='onegoogle'>Text</div>  </body><!-- comment 
+
+-->");
+            var html = doc.DocumentElement;
+            Assert.AreEqual(NodeType.Element, html.NodeType);
+            Assert.AreEqual("html", html.NodeName);
+            Assert.AreEqual(3, html.ChildNodes.Length);
+
+            var body = html.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, body.NodeType);
+            Assert.AreEqual("body", body.NodeName);
+            Assert.AreEqual(3, body.ChildNodes.Length);
+
+            var comment = html.ChildNodes[2];
+            Assert.AreEqual(NodeType.Comment, comment.NodeType);
+            Assert.AreEqual(" comment \n\n", comment.TextContent);
+        }
     }
 }
