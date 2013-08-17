@@ -950,5 +950,291 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Comment, comment.NodeType);
             Assert.AreEqual(" comment \n\n", comment.TextContent);
         }
+
+        [TestMethod]
+        public void GumboCommentInText()
+        {
+            var doc = DocumentBuilder.Html(@"Start <!-- comment --> end");
+            var body = doc.Body;
+            Assert.AreEqual(3, body.ChildNodes.Length);
+
+            var start = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, start.NodeType);
+            Assert.AreEqual("Start ", start.TextContent);
+
+            var comment = body.ChildNodes[1];
+            Assert.AreEqual(NodeType.Comment, comment.NodeType);
+            Assert.AreEqual(body, comment.ParentElement);
+            Assert.AreEqual(" comment ", comment.TextContent);
+
+            var end = body.ChildNodes[2];
+            Assert.AreEqual(NodeType.Text, end.NodeType);
+            Assert.AreEqual(" end", end.TextContent);
+        }
+
+        [TestMethod]
+        public void GumboUnknownTag()
+        {
+            var doc = DocumentBuilder.Html(@"<foo>1<p>2</FOO>");
+            var body = doc.Body;
+            Assert.AreEqual(1, body.ChildNodes.Length);
+
+            var foo = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, foo.NodeType);
+            Assert.AreEqual("foo", foo.NodeName);
+            Assert.AreEqual(typeof(AngleSharp.DOM.Html.HTMLUnknownElement), foo.GetType());
+        }
+
+        [TestMethod]
+        public void GumboUnknownTag2()
+        {
+            var doc = DocumentBuilder.Html(@"<div><sarcasm><div></div></sarcasm></div>");
+            var body = doc.Body;
+            Assert.AreEqual(1, body.ChildNodes.Length); 
+            
+            var div = body.ChildNodes[0];
+            Assert.AreEqual(1, div.ChildNodes.Length);
+
+            var sarcasm = div.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, sarcasm.NodeType);
+            Assert.AreEqual("sarcasm", sarcasm.NodeName);
+            Assert.AreEqual(typeof(AngleSharp.DOM.Html.HTMLUnknownElement), sarcasm.GetType());
+        }
+
+        [TestMethod]
+        public void GumboInvalidEndTag()
+        {
+            var doc = DocumentBuilder.Html(@"<a><img src=foo.jpg></img></a>");
+            var body = doc.Body;
+            Assert.AreEqual(1, body.ChildNodes.Length);
+
+            var a = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, a.NodeType);
+            Assert.AreEqual("a", a.NodeName);
+            Assert.AreEqual(1, a.ChildNodes.Length);
+
+            var img = a.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, img.NodeType);
+            Assert.AreEqual("img", img.NodeName);
+            Assert.AreEqual(0, img.ChildNodes.Length);
+        }
+
+        [TestMethod]
+        public void GumboTables()
+        {
+            var doc = DocumentBuilder.Html(@"<html><table>
+  <tr><br /></invalid-tag>
+    <th>One</th>
+    <td>Two</td>
+  </tr>
+  <iframe></iframe>
+</table><tr></tr><div></div></html>");
+            var body = doc.Body;
+            Assert.AreEqual(4, body.ChildNodes.Length);
+
+            var br = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, br.NodeType);
+            Assert.AreEqual("br", br.NodeName);
+            Assert.AreEqual(body, br.ParentElement);
+            Assert.AreEqual(0, br.ChildNodes.Length);
+
+            var iframe = body.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, iframe.NodeType);
+            Assert.AreEqual("iframe", iframe.NodeName);
+            Assert.AreEqual(0, iframe.ChildNodes.Length);
+
+            var table = body.ChildNodes[2];
+            Assert.AreEqual(NodeType.Element, table.NodeType);
+            Assert.AreEqual("table", table.NodeName);
+            Assert.AreEqual(body, table.ParentElement);
+            Assert.AreEqual(2, table.ChildNodes.Length);
+
+            var table_text = table.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, table_text.NodeType);
+            Assert.AreEqual("\n  ", table_text.TextContent);
+
+            var tbody = table.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, tbody.NodeType);
+            Assert.AreEqual("tbody", tbody.NodeName);
+            Assert.AreEqual(2, tbody.ChildNodes.Length);
+
+            var tr = tbody.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, tr.NodeType);
+            Assert.AreEqual("tr", tr.NodeName);
+            Assert.AreEqual(5, tr.ChildNodes.Length);
+
+            var tr_text = tr.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, tr_text.NodeType);
+            Assert.AreEqual(tr, tr_text.ParentElement);
+            Assert.AreEqual("\n    ", tr_text.TextContent);
+
+            var th = tr.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, th.NodeType);
+            Assert.AreEqual("th", th.NodeName);
+            Assert.AreEqual(tr, th.ParentElement);
+            Assert.AreEqual(1, th.ChildNodes.Length);
+
+            var th_text = th.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, th_text.NodeType);
+            Assert.AreEqual("One", th_text.TextContent);
+
+            var td = tr.ChildNodes[3];
+            Assert.AreEqual(NodeType.Element, td.NodeType);
+            Assert.AreEqual("td", td.NodeName);
+            Assert.AreEqual(1, td.ChildNodes.Length);
+
+            var td_text = td.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, td_text.NodeType);
+            Assert.AreEqual("Two", td_text.TextContent);
+
+            var div = body.ChildNodes[3];
+            Assert.AreEqual(NodeType.Element, div.NodeType);
+            Assert.AreEqual("div", div.NodeName);
+            Assert.AreEqual(0, div.ChildNodes.Length);
+        }
+
+        [TestMethod]
+        public void GumboStartParagraphInTable()
+        {
+            var doc = DocumentBuilder.Html(@"<table><P></tr></td>foo</table>");
+            var body = doc.Body;
+            Assert.AreEqual(2, body.ChildNodes.Length);
+
+            var paragraph = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, paragraph.NodeType);
+            Assert.AreEqual("p", paragraph.NodeName);
+            Assert.AreEqual(body, paragraph.ParentElement);
+            Assert.AreEqual(1, paragraph.ChildNodes.Length);
+
+            var text = paragraph.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+            Assert.AreEqual("foo", text.TextContent);
+
+            var table = body.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, table.NodeType);
+            Assert.AreEqual("table", table.NodeName);
+            Assert.AreEqual(body, table.ParentElement);
+            Assert.AreEqual(0, table.ChildNodes.Length);
+        }
+
+        [TestMethod]
+        public void GumboEndParagraphInTable()
+        {
+            var doc = DocumentBuilder.Html(@"<table></p></table>");
+            var body = doc.Body;
+            Assert.AreEqual(2, body.ChildNodes.Length);
+
+            var paragraph = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, paragraph.NodeType);
+            Assert.AreEqual("p", paragraph.NodeName);
+            Assert.AreEqual(body, paragraph.ParentElement);
+            Assert.AreEqual(0, paragraph.ChildNodes.Length);
+
+            var table = body.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, table.NodeType);
+            Assert.AreEqual("table", table.NodeName);
+            Assert.AreEqual(body, table.ParentElement);
+            Assert.AreEqual(0, table.ChildNodes.Length);
+        }
+
+        [TestMethod]
+        public void GumboUnclosedTableTags()
+        {
+            var doc = DocumentBuilder.Html(@"<html><table>
+  <tr>
+    <td>One
+    <td>Two
+  <tr><td>Row2
+  <tr><td>Row3
+</table>
+</html>");
+            var body = doc.Body;
+            Assert.AreEqual(2, body.ChildNodes.Length);
+
+            var table = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, table.NodeType);
+            Assert.AreEqual("table", table.NodeName);
+            Assert.AreEqual(body, table.ParentElement);
+            Assert.AreEqual(2, table.ChildNodes.Length);
+
+            var table_text = table.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, table_text.NodeType);
+            Assert.AreEqual("\n  ", table_text.TextContent);
+
+            var tbody = table.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, tbody.NodeType);
+            Assert.AreEqual("tbody", tbody.NodeName);
+            Assert.AreEqual(3, tbody.ChildNodes.Length);
+
+            var tr = tbody.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, tr.NodeType);
+            Assert.AreEqual("tr", tr.NodeName);
+            Assert.AreEqual(3, tr.ChildNodes.Length);
+
+            var tr_text = tr.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, tr_text.NodeType);
+            Assert.AreEqual("\n    ", tr_text.TextContent);
+
+            var td1 = tr.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, td1.NodeType);
+            Assert.AreEqual("td", td1.NodeName);
+            Assert.AreEqual(1, td1.ChildNodes.Length);
+
+            var td2 = tr.ChildNodes[2];
+            Assert.AreEqual(NodeType.Element, td1.NodeType);
+            Assert.AreEqual("td", td1.NodeName);
+            Assert.AreEqual(1, td1.ChildNodes.Length);
+
+            var td1_text = td1.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, td1_text.NodeType);
+            Assert.AreEqual("One\n    ", td1_text.TextContent);
+
+            var td2_text = td2.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, td2_text.NodeType);
+            Assert.AreEqual("Two\n  ", td2_text.TextContent);
+
+            var tr3 = tbody.ChildNodes[2];
+            Assert.AreEqual(NodeType.Element, tr3.NodeType);
+            Assert.AreEqual("tr", tr3.NodeName);
+            Assert.AreEqual(1, tr3.ChildNodes.Length);
+
+            var body_text = body.ChildNodes[1];
+            Assert.AreEqual(NodeType.Text, body_text.NodeType);
+            Assert.AreEqual("\n", body_text.TextContent);
+        }
+
+        [TestMethod]
+        public void GumboMisnestedTable()
+        {
+            var doc = DocumentBuilder.Html(@"<table><tr><div><td></div></table>");
+            var body = doc.Body;
+            Assert.AreEqual(2, body.ChildNodes.Length);
+
+            var div = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, div.NodeType);
+            Assert.AreEqual("div", div.NodeName);
+            Assert.AreEqual(0, div.ChildNodes.Length);
+
+            var table = body.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, table.NodeType);
+            Assert.AreEqual("table", table.NodeName);
+            Assert.AreEqual(body, table.ParentElement);
+            Assert.AreEqual(1, table.ChildNodes.Length);
+
+            var tbody = table.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, tbody.NodeType);
+            Assert.AreEqual("tbody", tbody.NodeName);
+            Assert.AreEqual(1, tbody.ChildNodes.Length);
+
+            var tr = tbody.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, tr.NodeType);
+            Assert.AreEqual("tr", tr.NodeName);
+            Assert.AreEqual(1, tr.ChildNodes.Length);
+
+            var td = tr.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, td.NodeType);
+            Assert.AreEqual("td", td.NodeName);
+            Assert.AreEqual(0, td.ChildNodes.Length);
+        }
     }
 }
