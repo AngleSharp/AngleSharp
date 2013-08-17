@@ -2294,7 +2294,7 @@ namespace AngleSharp.Html
             }
             else if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(CurrentNode, token);
+                AddComment(open[0], token);
                 return;
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
