@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace AngleSharp
@@ -6,2465 +8,2580 @@ namespace AngleSharp
     /// <summary>
     /// Represents the list of all Html entities.
     /// </summary>
+    [DebuggerStepThrough]
     static class Entities
     {
-        /// <summary>
-        /// Gets an identity specified by its name.
-        /// </summary>
-        /// <param name="name">The name of the identity, specified by &amp;NAME; in the Html source code.</param>
-        /// <returns>The array containing the found entity or empty.</returns>
-        public static String GetSymbol(String name)
+        #region ctor
+
+        static Dictionary<Char, Dictionary<String, String>> _entities;
+
+        static Entities()
         {
-            if (String.IsNullOrEmpty(name))
-                return null;
+            _entities = new Dictionary<Char, Dictionary<String, String>>();
 
-            switch (name[0])
-            {
-                case 'a':
-                case 'A':
-                    return GetSymbolA(name);
-                case 'b':
-                case 'B':
-                    return GetSymbolB(name);
-                case 'c':
-                case 'C':
-                    return GetSymbolC(name);
-                case 'd':
-                case 'D':
-                    return GetSymbolD(name);
-                case 'e':
-                case 'E':
-                    return GetSymbolE(name);
-                case 'f':
-                case 'F':
-                    return GetSymbolF(name);
-                case 'g':
-                case 'G':
-                    return GetSymbolG(name);
-                case 'h':
-                case 'H':
-                    return GetSymbolH(name);
-                case 'i':
-                case 'I':
-                    return GetSymbolI(name);
-                case 'j':
-                case 'J':
-                    return GetSymbolJ(name);
-                case 'k':
-                case 'K':
-                    return GetSymbolK(name);
-                case 'l':
-                case 'L':
-                    return GetSymbolL(name);
-                case 'm':
-                case 'M':
-                    return GetSymbolM(name);
-                case 'n':
-                case 'N':
-                    return GetSymbolN(name);
-                case 'o':
-                case 'O':
-                    return GetSymbolO(name);
-                case 'p':
-                case 'P':
-                    return GetSymbolP(name);
-                case 'q':
-                case 'Q':
-                    return GetSymbolQ(name);
-                case 'r':
-                case 'R':
-                    return GetSymbolR(name);
-                case 's':
-                case 'S':
-                    return GetSymbolS(name);
-                case 't':
-                case 'T':
-                    return GetSymbolT(name);
-                case 'u':
-                case 'U':
-                    return GetSymbolU(name);
-                case 'v':
-                case 'V':
-                    return GetSymbolV(name);
-                case 'w':
-                case 'W':
-                    return GetSymbolW(name);
-                case 'x':
-                case 'X':
-                    return GetSymbolX(name);
-                case 'y':
-                case 'Y':
-                    return GetSymbolY(name);
-                case 'z':
-                case 'Z':
-                    return GetSymbolZ(name);
-            }
+            _entities.Add('a', GetSymbolLittleA());
+            _entities.Add('A', GetSymbolBigA());
 
-            return null;
-        }
+            _entities.Add('b', GetSymbolLittleB());
+            _entities.Add('B', GetSymbolBigB());
 
-        #region Symbol Methods
+            _entities.Add('c', GetSymbolLittleC());
+            _entities.Add('C', GetSymbolBigC());
 
-        static String GetSymbolA(String name)
-        {
-            switch (name)
-            {
-                case "Aogon": return Convert(0x0104);
-                case "Aopf": return Convert(0xD835, 0xDD38);
-                case "ApplyFunction": return Convert(0x2061);
-                case "Aring": return Convert(0x00C5);
-                case "Ascr": return Convert(0xD835, 0xDC9C);
-                case "Assign": return Convert(0x2254);
-                case "Atilde": return Convert(0x00C3);
-                case "Auml": return Convert(0x00C4);
-                case "Aacute": return Convert(0x00C1);
-                case "Abreve": return Convert(0x0102);
-                case "Acirc": return Convert(0x00C2);
-                case "Acy": return Convert(0x0410);
-                case "AElig": return Convert(0x00C6);
-                case "Afr": return Convert(0xD835, 0xDD04);
-                case "Agrave": return Convert(0x00C0);
-                case "Alpha": return Convert(0x0391);
-                case "Amacr": return Convert(0x0100);
-                case "AMP": return Convert(0x0026);
-                case "And": return Convert(0x2A53);
-                case "aacute": return Convert(0x00E1);
-                case "abreve": return Convert(0x0103);
-                case "ac": return Convert(0x223E);
-                case "acd": return Convert(0x223F);
-                case "acE": return Convert(0x223E, 0x0333);
-                case "acirc": return Convert(0x00E2);
-                case "acute": return Convert(0x00B4);
-                case "acy": return Convert(0x0430);
-                case "aelig": return Convert(0x00E6);
-                case "af": return Convert(0x2061);
-                case "afr": return Convert(0xD835, 0xDD1E);
-                case "agrave": return Convert(0x00E0);
-                case "alefsym": return Convert(0x2135);
-                case "aleph": return Convert(0x2135);
-                case "alpha": return Convert(0x03B1);
-                case "amacr": return Convert(0x0101);
-                case "amalg": return Convert(0x2A3F);
-                case "amp": return Convert(0x0026);
-                case "and": return Convert(0x2227);
-                case "andand": return Convert(0x2A55);
-                case "andd": return Convert(0x2A5C);
-                case "andslope": return Convert(0x2A58);
-                case "andv": return Convert(0x2A5A);
-                case "ang": return Convert(0x2220);
-                case "ange": return Convert(0x29A4);
-                case "angle": return Convert(0x2220);
-                case "angmsd": return Convert(0x2221);
-                case "angmsdaa": return Convert(0x29A8);
-                case "angmsdab": return Convert(0x29A9);
-                case "angmsdac": return Convert(0x29AA);
-                case "angmsdad": return Convert(0x29AB);
-                case "angmsdae": return Convert(0x29AC);
-                case "angmsdaf": return Convert(0x29AD);
-                case "angmsdag": return Convert(0x29AE);
-                case "angmsdah": return Convert(0x29AF);
-                case "angrt": return Convert(0x221F);
-                case "angrtvb": return Convert(0x22BE);
-                case "angrtvbd": return Convert(0x299D);
-                case "angsph": return Convert(0x2222);
-                case "angst": return Convert(0x00C5);
-                case "angzarr": return Convert(0x237C);
-                case "aogon": return Convert(0x0105);
-                case "aopf": return Convert(0xD835, 0xDD52);
-                case "ap": return Convert(0x2248);
-                case "apacir": return Convert(0x2A6F);
-                case "apE": return Convert(0x2A70);
-                case "ape": return Convert(0x224A);
-                case "apid": return Convert(0x224B);
-                case "apos": return Convert(0x0027);
-                case "approx": return Convert(0x2248);
-                case "approxeq": return Convert(0x224A);
-                case "aring": return Convert(0x00E5);
-                case "ascr": return Convert(0xD835, 0xDCB6);
-                case "ast": return Convert(0x002A);
-                case "asymp": return Convert(0x2248);
-                case "asympeq": return Convert(0x224D);
-                case "atilde": return Convert(0x00E3);
-                case "auml": return Convert(0x00E4);
-                case "awconint": return Convert(0x2233);
-                case "awint": return Convert(0x2A11);
-            }
+            _entities.Add('d', GetSymbolLittleD());
+            _entities.Add('D', GetSymbolBigD());
 
-            return null;
-        }
+            _entities.Add('e', GetSymbolLittleE());
+            _entities.Add('E', GetSymbolBigE());
 
-        static String GetSymbolB(String name)
-        {
-            switch (name)
-            {
-                case "Backslash": return Convert(0x2216);
-                case "Barv": return Convert(0x2AE7);
-                case "Barwed": return Convert(0x2306);
-                case "Bcy": return Convert(0x0411);
-                case "Because": return Convert(0x2235);
-                case "Bernoullis": return Convert(0x212C);
-                case "Beta": return Convert(0x0392);
-                case "Bfr": return Convert(0xD835, 0xDD05);
-                case "Bopf": return Convert(0xD835, 0xDD39);
-                case "Breve": return Convert(0x02D8);
-                case "Bscr": return Convert(0x212C);
-                case "Bumpeq": return Convert(0x224E);
-                case "backcong": return Convert(0x224C);
-                case "backepsilon": return Convert(0x03F6);
-                case "backprime": return Convert(0x2035);
-                case "backsim": return Convert(0x223D);
-                case "backsimeq": return Convert(0x22CD);
-                case "barvee": return Convert(0x22BD);
-                case "barwed": return Convert(0x2305);
-                case "barwedge": return Convert(0x2305);
-                case "bbrk": return Convert(0x23B5);
-                case "bbrktbrk": return Convert(0x23B6);
-                case "bcong": return Convert(0x224C);
-                case "bcy": return Convert(0x0431);
-                case "bdquo": return Convert(0x201E);
-                case "becaus": return Convert(0x2235);
-                case "because": return Convert(0x2235);
-                case "bemptyv": return Convert(0x29B0);
-                case "bepsi": return Convert(0x03F6);
-                case "bernou": return Convert(0x212C);
-                case "beta": return Convert(0x03B2);
-                case "beth": return Convert(0x2136);
-                case "between": return Convert(0x226C);
-                case "bfr": return Convert(0xD835, 0xDD1F);
-                case "bigcap": return Convert(0x22C2);
-                case "bigcirc": return Convert(0x25EF);
-                case "bigcup": return Convert(0x22C3);
-                case "bigodot": return Convert(0x2A00);
-                case "bigoplus": return Convert(0x2A01);
-                case "bigotimes": return Convert(0x2A02);
-                case "bigsqcup": return Convert(0x2A06);
-                case "bigstar": return Convert(0x2605);
-                case "bigtriangledown": return Convert(0x25BD);
-                case "bigtriangleup": return Convert(0x25B3);
-                case "biguplus": return Convert(0x2A04);
-                case "bigvee": return Convert(0x22C1);
-                case "bigwedge": return Convert(0x22C0);
-                case "bkarow": return Convert(0x290D);
-                case "blacklozenge": return Convert(0x29EB);
-                case "blacksquare": return Convert(0x25AA);
-                case "blacktriangle": return Convert(0x25B4);
-                case "blacktriangledown": return Convert(0x25BE);
-                case "blacktriangleleft": return Convert(0x25C2);
-                case "blacktriangleright": return Convert(0x25B8);
-                case "blank": return Convert(0x2423);
-                case "blk12": return Convert(0x2592);
-                case "blk14": return Convert(0x2591);
-                case "blk34": return Convert(0x2593);
-                case "block": return Convert(0x2588);
-                case "bne": return Convert(0x003D, 0x20E5);
-                case "bnequiv": return Convert(0x2261, 0x20E5);
-                case "bNot": return Convert(0x2AED);
-                case "bnot": return Convert(0x2310);
-                case "bopf": return Convert(0xD835, 0xDD53);
-                case "bot": return Convert(0x22A5);
-                case "bottom": return Convert(0x22A5);
-                case "bowtie": return Convert(0x22C8);
-                case "boxbox": return Convert(0x29C9);
-                case "boxDL": return Convert(0x2557);
-                case "boxDl": return Convert(0x2556);
-                case "boxdL": return Convert(0x2555);
-                case "boxdl": return Convert(0x2510);
-                case "boxDR": return Convert(0x2554);
-                case "boxDr": return Convert(0x2553);
-                case "boxdR": return Convert(0x2552);
-                case "boxdr": return Convert(0x250C);
-                case "boxH": return Convert(0x2550);
-                case "boxh": return Convert(0x2500);
-                case "boxHD": return Convert(0x2566);
-                case "boxHd": return Convert(0x2564);
-                case "boxhD": return Convert(0x2565);
-                case "boxhd": return Convert(0x252C);
-                case "boxHU": return Convert(0x2569);
-                case "boxHu": return Convert(0x2567);
-                case "boxhU": return Convert(0x2568);
-                case "boxhu": return Convert(0x2534);
-                case "boxminus": return Convert(0x229F);
-                case "boxplus": return Convert(0x229E);
-                case "boxtimes": return Convert(0x22A0);
-                case "boxUL": return Convert(0x255D);
-                case "boxUl": return Convert(0x255C);
-                case "boxuL": return Convert(0x255B);
-                case "boxul": return Convert(0x2518);
-                case "boxUR": return Convert(0x255A);
-                case "boxUr": return Convert(0x2559);
-                case "boxuR": return Convert(0x2558);
-                case "boxur": return Convert(0x2514);
-                case "boxV": return Convert(0x2551);
-                case "boxv": return Convert(0x2502);
-                case "boxVH": return Convert(0x256C);
-                case "boxVh": return Convert(0x256B);
-                case "boxvH": return Convert(0x256A);
-                case "boxvh": return Convert(0x253C);
-                case "boxVL": return Convert(0x2563);
-                case "boxVl": return Convert(0x2562);
-                case "boxvL": return Convert(0x2561);
-                case "boxvl": return Convert(0x2524);
-                case "boxVR": return Convert(0x2560);
-                case "boxVr": return Convert(0x255F);
-                case "boxvR": return Convert(0x255E);
-                case "boxvr": return Convert(0x251C);
-                case "bprime": return Convert(0x2035);
-                case "breve": return Convert(0x02D8);
-                case "brvbar": return Convert(0x00A6);
-                case "bscr": return Convert(0xD835, 0xDCB7);
-                case "bsemi": return Convert(0x204F);
-                case "bsim": return Convert(0x223D);
-                case "bsime": return Convert(0x22CD);
-                case "bsol": return Convert(0x005C);
-                case "bsolb": return Convert(0x29C5);
-                case "bsolhsub": return Convert(0x27C8);
-                case "bull": return Convert(0x2022);
-                case "bullet": return Convert(0x2022);
-                case "bump": return Convert(0x224E);
-                case "bumpE": return Convert(0x2AAE);
-                case "bumpe": return Convert(0x224F);
-                case "bumpeq": return Convert(0x224F);
-            }
+            _entities.Add('f', GetSymbolLittleF());
+            _entities.Add('F', GetSymbolBigF());
 
-            return null;
-        }
+            _entities.Add('g', GetSymbolLittleG());
+            _entities.Add('G', GetSymbolBigG());
 
-        static String GetSymbolC(String name)
-        {
-            switch (name)
-            {
-                case "Cacute": return Convert(0x0106);
-                case "Cap": return Convert(0x22D2);
-                case "CapitalDifferentialD": return Convert(0x2145);
-                case "Cayleys": return Convert(0x212D);
-                case "Ccaron": return Convert(0x010C);
-                case "Ccedil": return Convert(0x00C7);
-                case "Ccirc": return Convert(0x0108);
-                case "Cconint": return Convert(0x2230);
-                case "Cdot": return Convert(0x010A);
-                case "Cedilla": return Convert(0x00B8);
-                case "CenterDot": return Convert(0x00B7);
-                case "Cfr": return Convert(0x212D);
-                case "CHcy": return Convert(0x0427);
-                case "Chi": return Convert(0x03A7);
-                case "CircleDot": return Convert(0x2299);
-                case "CircleMinus": return Convert(0x2296);
-                case "CirclePlus": return Convert(0x2295);
-                case "CircleTimes": return Convert(0x2297);
-                case "ClockwiseContourIntegral": return Convert(0x2232);
-                case "CloseCurlyDoubleQuote": return Convert(0x201D);
-                case "CloseCurlyQuote": return Convert(0x2019);
-                case "Colon": return Convert(0x2237);
-                case "Colone": return Convert(0x2A74);
-                case "Congruent": return Convert(0x2261);
-                case "Conint": return Convert(0x222F);
-                case "ContourIntegral": return Convert(0x222E);
-                case "Copf": return Convert(0x2102);
-                case "Coproduct": return Convert(0x2210);
-                case "COPY": return Convert(0x00A9);
-                case "CounterClockwiseContourIntegral": return Convert(0x2233);
-                case "Cross": return Convert(0x2A2F);
-                case "Cscr": return Convert(0xD835, 0xDC9E);
-                case "Cup": return Convert(0x22D3);
-                case "CupCap": return Convert(0x224D);
-                case "cacute": return Convert(0x0107);
-                case "cap": return Convert(0x2229);
-                case "capand": return Convert(0x2A44);
-                case "capbrcup": return Convert(0x2A49);
-                case "capcap": return Convert(0x2A4B);
-                case "capcup": return Convert(0x2A47);
-                case "capdot": return Convert(0x2A40);
-                case "caps": return Convert(0x2229, 0xFE00);
-                case "caret": return Convert(0x2041);
-                case "caron": return Convert(0x02C7);
-                case "ccaps": return Convert(0x2A4D);
-                case "ccaron": return Convert(0x010D);
-                case "ccedil": return Convert(0x00E7);
-                case "ccirc": return Convert(0x0109);
-                case "ccups": return Convert(0x2A4C);
-                case "ccupssm": return Convert(0x2A50);
-                case "cdot": return Convert(0x010B);
-                case "cedil": return Convert(0x00B8);
-                case "cemptyv": return Convert(0x29B2);
-                case "cent": return Convert(0x00A2);
-                case "centerdot": return Convert(0x00B7);
-                case "cfr": return Convert(0xD835, 0xDD20);
-                case "chcy": return Convert(0x0447);
-                case "check": return Convert(0x2713);
-                case "checkmark": return Convert(0x2713);
-                case "chi": return Convert(0x03C7);
-                case "cir": return Convert(0x25CB);
-                case "circ": return Convert(0x02C6);
-                case "circeq": return Convert(0x2257);
-                case "circlearrowleft": return Convert(0x21BA);
-                case "circlearrowright": return Convert(0x21BB);
-                case "circledast": return Convert(0x229B);
-                case "circledcirc": return Convert(0x229A);
-                case "circleddash": return Convert(0x229D);
-                case "circledR": return Convert(0x00AE);
-                case "circledS": return Convert(0x24C8);
-                case "cirE": return Convert(0x29C3);
-                case "cire": return Convert(0x2257);
-                case "cirfnint": return Convert(0x2A10);
-                case "cirmid": return Convert(0x2AEF);
-                case "cirscir": return Convert(0x29C2);
-                case "clubs": return Convert(0x2663);
-                case "clubsuit": return Convert(0x2663);
-                case "colon": return Convert(0x003A);
-                case "colone": return Convert(0x2254);
-                case "coloneq": return Convert(0x2254);
-                case "comma": return Convert(0x002C);
-                case "commat": return Convert(0x0040);
-                case "comp": return Convert(0x2201);
-                case "compfn": return Convert(0x2218);
-                case "complement": return Convert(0x2201);
-                case "complexes": return Convert(0x2102);
-                case "cong": return Convert(0x2245);
-                case "congdot": return Convert(0x2A6D);
-                case "conint": return Convert(0x222E);
-                case "copf": return Convert(0xD835, 0xDD54);
-                case "coprod": return Convert(0x2210);
-                case "copy": return Convert(0x00A9);
-                case "copysr": return Convert(0x2117);
-                case "crarr": return Convert(0x21B5);
-                case "cross": return Convert(0x2717);
-                case "cscr": return Convert(0xD835, 0xDCB8);
-                case "csub": return Convert(0x2ACF);
-                case "csube": return Convert(0x2AD1);
-                case "csup": return Convert(0x2AD0);
-                case "csupe": return Convert(0x2AD2);
-                case "ctdot": return Convert(0x22EF);
-                case "cudarrl": return Convert(0x2938);
-                case "cudarrr": return Convert(0x2935);
-                case "cuepr": return Convert(0x22DE);
-                case "cuesc": return Convert(0x22DF);
-                case "cularr": return Convert(0x21B6);
-                case "cularrp": return Convert(0x293D);
-                case "cup": return Convert(0x222A);
-                case "cupbrcap": return Convert(0x2A48);
-                case "cupcap": return Convert(0x2A46);
-                case "cupcup": return Convert(0x2A4A);
-                case "cupdot": return Convert(0x228D);
-                case "cupor": return Convert(0x2A45);
-                case "cups": return Convert(0x222A, 0xFE00);
-                case "curarr": return Convert(0x21B7);
-                case "curarrm": return Convert(0x293C);
-                case "curlyeqprec": return Convert(0x22DE);
-                case "curlyeqsucc": return Convert(0x22DF);
-                case "curlyvee": return Convert(0x22CE);
-                case "curlywedge": return Convert(0x22CF);
-                case "curren": return Convert(0x00A4);
-                case "curvearrowleft": return Convert(0x21B6);
-                case "curvearrowright": return Convert(0x21B7);
-                case "cuvee": return Convert(0x22CE);
-                case "cuwed": return Convert(0x22CF);
-                case "cwconint": return Convert(0x2232);
-                case "cwint": return Convert(0x2231);
-                case "cylcty": return Convert(0x232D);
-            }
+            _entities.Add('h', GetSymbolLittleH());
+            _entities.Add('H', GetSymbolBigH());
 
-            return null;
-        }
+            _entities.Add('i', GetSymbolLittleI());
+            _entities.Add('I', GetSymbolBigI());
 
-        static String GetSymbolD(String name)
-        {
-            switch (name)
-            {
-                case "Dagger": return Convert(0x2021);
-                case "Darr": return Convert(0x21A1);
-                case "Dashv": return Convert(0x2AE4);
-                case "Dcaron": return Convert(0x010E);
-                case "Dcy": return Convert(0x0414);
-                case "DD": return Convert(0x2145);
-                case "DDotrahd": return Convert(0x2911);
-                case "Del": return Convert(0x2207);
-                case "Delta": return Convert(0x0394);
-                case "Dfr": return Convert(0xD835, 0xDD07);
-                case "DiacriticalAcute": return Convert(0x00B4);
-                case "DiacriticalDot": return Convert(0x02D9);
-                case "DiacriticalDoubleAcute": return Convert(0x02DD);
-                case "DiacriticalGrave": return Convert(0x0060);
-                case "DiacriticalTilde": return Convert(0x02DC);
-                case "Diamond": return Convert(0x22C4);
-                case "DifferentialD": return Convert(0x2146);
-                case "DJcy": return Convert(0x0402);
-                case "Dopf": return Convert(0xD835, 0xDD3B);
-                case "Dot": return Convert(0x00A8);
-                case "DotDot": return Convert(0x20DC);
-                case "DotEqual": return Convert(0x2250);
-                case "DoubleContourIntegral": return Convert(0x222F);
-                case "DoubleDot": return Convert(0x00A8);
-                case "DoubleDownArrow": return Convert(0x21D3);
-                case "DoubleLeftArrow": return Convert(0x21D0);
-                case "DoubleLeftRightArrow": return Convert(0x21D4);
-                case "DoubleLeftTee": return Convert(0x2AE4);
-                case "DoubleLongLeftArrow": return Convert(0x27F8);
-                case "DoubleLongLeftRightArrow": return Convert(0x27FA);
-                case "DoubleLongRightArrow": return Convert(0x27F9);
-                case "DoubleRightArrow": return Convert(0x21D2);
-                case "DoubleRightTee": return Convert(0x22A8);
-                case "DoubleUpArrow": return Convert(0x21D1);
-                case "DoubleUpDownArrow": return Convert(0x21D5);
-                case "DoubleVerticalBar": return Convert(0x2225);
-                case "DownArrow": return Convert(0x2193);
-                case "Downarrow": return Convert(0x21D3);
-                case "DownArrowBar": return Convert(0x2913);
-                case "DownArrowUpArrow": return Convert(0x21F5);
-                case "DownBreve": return Convert(0x0311);
-                case "DownLeftRightVector": return Convert(0x2950);
-                case "DownLeftTeeVector": return Convert(0x295E);
-                case "DownLeftVector": return Convert(0x21BD);
-                case "DownLeftVectorBar": return Convert(0x2956);
-                case "DownRightTeeVector": return Convert(0x295F);
-                case "DownRightVector": return Convert(0x21C1);
-                case "DownRightVectorBar": return Convert(0x2957);
-                case "DownTee": return Convert(0x22A4);
-                case "DownTeeArrow": return Convert(0x21A7);
-                case "Dscr": return Convert(0xD835, 0xDC9F);
-                case "DScy": return Convert(0x0405);
-                case "Dstrok": return Convert(0x0110);
-                case "DZcy": return Convert(0x040F);
-                case "dagger": return Convert(0x2020);
-                case "daleth": return Convert(0x2138);
-                case "dArr": return Convert(0x21D3);
-                case "darr": return Convert(0x2193);
-                case "dash": return Convert(0x2010);
-                case "dashv": return Convert(0x22A3);
-                case "dbkarow": return Convert(0x290F);
-                case "dblac": return Convert(0x02DD);
-                case "dcaron": return Convert(0x010F);
-                case "dcy": return Convert(0x0434);
-                case "dd": return Convert(0x2146);
-                case "ddagger": return Convert(0x2021);
-                case "ddarr": return Convert(0x21CA);
-                case "ddotseq": return Convert(0x2A77);
-                case "deg": return Convert(0x00B0);
-                case "delta": return Convert(0x03B4);
-                case "demptyv": return Convert(0x29B1);
-                case "dfisht": return Convert(0x297F);
-                case "dfr": return Convert(0xD835, 0xDD21);
-                case "dHar": return Convert(0x2965);
-                case "dharl": return Convert(0x21C3);
-                case "dharr": return Convert(0x21C2);
-                case "diam": return Convert(0x22C4);
-                case "diamond": return Convert(0x22C4);
-                case "diamondsuit": return Convert(0x2666);
-                case "diams": return Convert(0x2666);
-                case "die": return Convert(0x00A8);
-                case "digamma": return Convert(0x03DD);
-                case "disin": return Convert(0x22F2);
-                case "div": return Convert(0x00F7);
-                case "divide": return Convert(0x00F7);
-                case "divideontimes": return Convert(0x22C7);
-                case "divonx": return Convert(0x22C7);
-                case "djcy": return Convert(0x0452);
-                case "dlcorn": return Convert(0x231E);
-                case "dlcrop": return Convert(0x230D);
-                case "dollar": return Convert(0x0024);
-                case "dopf": return Convert(0xD835, 0xDD55);
-                case "dot": return Convert(0x02D9);
-                case "doteq": return Convert(0x2250);
-                case "doteqdot": return Convert(0x2251);
-                case "dotminus": return Convert(0x2238);
-                case "dotplus": return Convert(0x2214);
-                case "dotsquare": return Convert(0x22A1);
-                case "doublebarwedge": return Convert(0x2306);
-                case "downarrow": return Convert(0x2193);
-                case "downdownarrows": return Convert(0x21CA);
-                case "downharpoonleft": return Convert(0x21C3);
-                case "downharpoonright": return Convert(0x21C2);
-                case "drbkarow": return Convert(0x2910);
-                case "drcorn": return Convert(0x231F);
-                case "drcrop": return Convert(0x230C);
-                case "dscr": return Convert(0xD835, 0xDCB9);
-                case "dscy": return Convert(0x0455);
-                case "dsol": return Convert(0x29F6);
-                case "dstrok": return Convert(0x0111);
-                case "dtdot": return Convert(0x22F1);
-                case "dtri": return Convert(0x25BF);
-                case "dtrif": return Convert(0x25BE);
-                case "duarr": return Convert(0x21F5);
-                case "duhar": return Convert(0x296F);
-                case "dwangle": return Convert(0x29A6);
-                case "dzcy": return Convert(0x045F);
-                case "dzigrarr": return Convert(0x27FF);
-            }
+            _entities.Add('j', GetSymbolLittleJ());
+            _entities.Add('J', GetSymbolBigJ());
 
-            return null;
-        }
+            _entities.Add('k', GetSymbolLittleK());
+            _entities.Add('K', GetSymbolBigK());
 
-        static String GetSymbolE(String name)
-        {
-            switch (name)
-            {
-                case "Eacute": return Convert(0x00C9);
-                case "Ecaron": return Convert(0x011A);
-                case "Ecirc": return Convert(0x00CA);
-                case "Ecy": return Convert(0x042D);
-                case "Edot": return Convert(0x0116);
-                case "Efr": return Convert(0xD835, 0xDD08);
-                case "Egrave": return Convert(0x00C8);
-                case "Element": return Convert(0x2208);
-                case "Emacr": return Convert(0x0112);
-                case "EmptySmallSquare": return Convert(0x25FB);
-                case "EmptyVerySmallSquare": return Convert(0x25AB);
-                case "ENG": return Convert(0x014A);
-                case "Eogon": return Convert(0x0118);
-                case "Eopf": return Convert(0xD835, 0xDD3C);
-                case "Epsilon": return Convert(0x0395);
-                case "Equal": return Convert(0x2A75);
-                case "EqualTilde": return Convert(0x2242);
-                case "Equilibrium": return Convert(0x21CC);
-                case "Escr": return Convert(0x2130);
-                case "Esim": return Convert(0x2A73);
-                case "Eta": return Convert(0x0397);
-                case "ETH": return Convert(0x00D0);
-                case "Euml": return Convert(0x00CB);
-                case "Exists": return Convert(0x2203);
-                case "ExponentialE": return Convert(0x2147);
-                case "eacute": return Convert(0x00E9);
-                case "easter": return Convert(0x2A6E);
-                case "ecaron": return Convert(0x011B);
-                case "ecir": return Convert(0x2256);
-                case "ecirc": return Convert(0x00EA);
-                case "ecolon": return Convert(0x2255);
-                case "ecy": return Convert(0x044D);
-                case "eDDot": return Convert(0x2A77);
-                case "eDot": return Convert(0x2251);
-                case "edot": return Convert(0x0117);
-                case "ee": return Convert(0x2147);
-                case "efDot": return Convert(0x2252);
-                case "efr": return Convert(0xD835, 0xDD22);
-                case "eg": return Convert(0x2A9A);
-                case "egrave": return Convert(0x00E8);
-                case "egs": return Convert(0x2A96);
-                case "egsdot": return Convert(0x2A98);
-                case "el": return Convert(0x2A99);
-                case "elinters": return Convert(0x23E7);
-                case "ell": return Convert(0x2113);
-                case "els": return Convert(0x2A95);
-                case "elsdot": return Convert(0x2A97);
-                case "emacr": return Convert(0x0113);
-                case "empty": return Convert(0x2205);
-                case "emptyset": return Convert(0x2205);
-                case "emptyv": return Convert(0x2205);
-                case "emsp": return Convert(0x2003);
-                case "emsp13": return Convert(0x2004);
-                case "emsp14": return Convert(0x2005);
-                case "eng": return Convert(0x014B);
-                case "ensp": return Convert(0x2002);
-                case "eogon": return Convert(0x0119);
-                case "eopf": return Convert(0xD835, 0xDD56);
-                case "epar": return Convert(0x22D5);
-                case "eparsl": return Convert(0x29E3);
-                case "eplus": return Convert(0x2A71);
-                case "epsi": return Convert(0x03B5);
-                case "epsilon": return Convert(0x03B5);
-                case "epsiv": return Convert(0x03F5);
-                case "eqcirc": return Convert(0x2256);
-                case "eqcolon": return Convert(0x2255);
-                case "eqsim": return Convert(0x2242);
-                case "eqslantgtr": return Convert(0x2A96);
-                case "eqslantless": return Convert(0x2A95);
-                case "equals": return Convert(0x003D);
-                case "equest": return Convert(0x225F);
-                case "equiv": return Convert(0x2261);
-                case "equivDD": return Convert(0x2A78);
-                case "eqvparsl": return Convert(0x29E5);
-                case "erarr": return Convert(0x2971);
-                case "erDot": return Convert(0x2253);
-                case "escr": return Convert(0x212F);
-                case "esdot": return Convert(0x2250);
-                case "esim": return Convert(0x2242);
-                case "eta": return Convert(0x03B7);
-                case "eth": return Convert(0x00F0);
-                case "euml": return Convert(0x00EB);
-                case "euro": return Convert(0x20AC);
-                case "excl": return Convert(0x0021);
-                case "exist": return Convert(0x2203);
-                case "expectation": return Convert(0x2130);
-                case "exponentiale": return Convert(0x2147);
-            }
+            _entities.Add('l', GetSymbolLittleL());
+            _entities.Add('L', GetSymbolBigL());
 
-            return null;
-        }
+            _entities.Add('m', GetSymbolLittleM());
+            _entities.Add('M', GetSymbolBigM());
 
-        static String GetSymbolF(String name)
-        {
-            switch (name)
-            {
-                case "Fcy": return Convert(0x0424);
-                case "Ffr": return Convert(0xD835, 0xDD09);
-                case "FilledSmallSquare": return Convert(0x25FC);
-                case "FilledVerySmallSquare": return Convert(0x25AA);
-                case "Fopf": return Convert(0xD835, 0xDD3D);
-                case "ForAll": return Convert(0x2200);
-                case "Fouriertrf": return Convert(0x2131);
-                case "Fscr": return Convert(0x2131);
-                case "fallingdotseq": return Convert(0x2252);
-                case "fcy": return Convert(0x0444);
-                case "female": return Convert(0x2640);
-                case "ffilig": return Convert(0xFB03);
-                case "fflig": return Convert(0xFB00);
-                case "ffllig": return Convert(0xFB04);
-                case "ffr": return Convert(0xD835, 0xDD23);
-                case "filig": return Convert(0xFB01);
-                case "fjlig": return Convert(0x0066, 0x006A);
-                case "flat": return Convert(0x266D);
-                case "fllig": return Convert(0xFB02);
-                case "fltns": return Convert(0x25B1);
-                case "fnof": return Convert(0x0192);
-                case "fopf": return Convert(0xD835, 0xDD57);
-                case "forall": return Convert(0x2200);
-                case "fork": return Convert(0x22D4);
-                case "forkv": return Convert(0x2AD9);
-                case "fpartint": return Convert(0x2A0D);
-                case "frac12": return Convert(0x00BD);
-                case "frac13": return Convert(0x2153);
-                case "frac14": return Convert(0x00BC);
-                case "frac15": return Convert(0x2155);
-                case "frac16": return Convert(0x2159);
-                case "frac18": return Convert(0x215B);
-                case "frac23": return Convert(0x2154);
-                case "frac25": return Convert(0x2156);
-                case "frac34": return Convert(0x00BE);
-                case "frac35": return Convert(0x2157);
-                case "frac38": return Convert(0x215C);
-                case "frac45": return Convert(0x2158);
-                case "frac56": return Convert(0x215A);
-                case "frac58": return Convert(0x215D);
-                case "frac78": return Convert(0x215E);
-                case "frasl": return Convert(0x2044);
-                case "frown": return Convert(0x2322);
-                case "fscr": return Convert(0xD835, 0xDCBB);
-            }
+            _entities.Add('n', GetSymbolLittleN());
+            _entities.Add('N', GetSymbolBigN());
 
-            return null;
-        }
+            _entities.Add('o', GetSymbolLittleO());
+            _entities.Add('O', GetSymbolBigO());
 
-        static String GetSymbolG(String name)
-        {
-            switch (name)
-            {
-                case "Gamma": return Convert(0x0393);
-                case "Gammad": return Convert(0x03DC);
-                case "Gbreve": return Convert(0x011E);
-                case "Gcedil": return Convert(0x0122);
-                case "Gcirc": return Convert(0x011C);
-                case "Gcy": return Convert(0x0413);
-                case "Gdot": return Convert(0x0120);
-                case "Gfr": return Convert(0xD835, 0xDD0A);
-                case "Gg": return Convert(0x22D9);
-                case "GJcy": return Convert(0x0403);
-                case "Gopf": return Convert(0xD835, 0xDD3E);
-                case "GreaterEqual": return Convert(0x2265);
-                case "GreaterEqualLess": return Convert(0x22DB);
-                case "GreaterFullEqual": return Convert(0x2267);
-                case "GreaterGreater": return Convert(0x2AA2);
-                case "GreaterLess": return Convert(0x2277);
-                case "GreaterSlantEqual": return Convert(0x2A7E);
-                case "GreaterTilde": return Convert(0x2273);
-                case "Gscr": return Convert(0xD835, 0xDCA2);
-                case "GT": return Convert(0x003E);
-                case "Gt": return Convert(0x226B);
-                case "gacute": return Convert(0x01F5);
-                case "gamma": return Convert(0x03B3);
-                case "gammad": return Convert(0x03DD);
-                case "gap": return Convert(0x2A86);
-                case "gbreve": return Convert(0x011F);
-                case "gcirc": return Convert(0x011D);
-                case "gcy": return Convert(0x0433);
-                case "gdot": return Convert(0x0121);
-                case "gE": return Convert(0x2267);
-                case "ge": return Convert(0x2265);
-                case "gEl": return Convert(0x2A8C);
-                case "gel": return Convert(0x22DB);
-                case "geq": return Convert(0x2265);
-                case "geqq": return Convert(0x2267);
-                case "geqslant": return Convert(0x2A7E);
-                case "ges": return Convert(0x2A7E);
-                case "gescc": return Convert(0x2AA9);
-                case "gesdot": return Convert(0x2A80);
-                case "gesdoto": return Convert(0x2A82);
-                case "gesdotol": return Convert(0x2A84);
-                case "gesl": return Convert(0x22DB, 0xFE00);
-                case "gesles": return Convert(0x2A94);
-                case "gfr": return Convert(0xD835, 0xDD24);
-                case "gg": return Convert(0x226B);
-                case "ggg": return Convert(0x22D9);
-                case "gimel": return Convert(0x2137);
-                case "gjcy": return Convert(0x0453);
-                case "gl": return Convert(0x2277);
-                case "gla": return Convert(0x2AA5);
-                case "glE": return Convert(0x2A92);
-                case "glj": return Convert(0x2AA4);
-                case "gnap": return Convert(0x2A8A);
-                case "gnapprox": return Convert(0x2A8A);
-                case "gnE": return Convert(0x2269);
-                case "gne": return Convert(0x2A88);
-                case "gneq": return Convert(0x2A88);
-                case "gneqq": return Convert(0x2269);
-                case "gnsim": return Convert(0x22E7);
-                case "gopf": return Convert(0xD835, 0xDD58);
-                case "grave": return Convert(0x0060);
-                case "gscr": return Convert(0x210A);
-                case "gsim": return Convert(0x2273);
-                case "gsime": return Convert(0x2A8E);
-                case "gsiml": return Convert(0x2A90);
-                case "gt": return Convert(0x003E);
-                case "gtcc": return Convert(0x2AA7);
-                case "gtcir": return Convert(0x2A7A);
-                case "gtdot": return Convert(0x22D7);
-                case "gtlPar": return Convert(0x2995);
-                case "gtquest": return Convert(0x2A7C);
-                case "gtrapprox": return Convert(0x2A86);
-                case "gtrarr": return Convert(0x2978);
-                case "gtrdot": return Convert(0x22D7);
-                case "gtreqless": return Convert(0x22DB);
-                case "gtreqqless": return Convert(0x2A8C);
-                case "gtrless": return Convert(0x2277);
-                case "gtrsim": return Convert(0x2273);
-                case "gvertneqq": return Convert(0x2269, 0xFE00);
-                case "gvnE": return Convert(0x2269, 0xFE00);
-            }
+            _entities.Add('p', GetSymbolLittleP());
+            _entities.Add('P', GetSymbolBigP());
 
-            return null;
-        }
+            _entities.Add('q', GetSymbolLittleQ());
+            _entities.Add('Q', GetSymbolBigQ());
 
-        static String GetSymbolH(String name)
-        {
-            switch (name)
-            {
-                case "Hacek": return Convert(0x02C7);
-                case "HARDcy": return Convert(0x042A);
-                case "Hat": return Convert(0x005E);
-                case "Hcirc": return Convert(0x0124);
-                case "Hfr": return Convert(0x210C);
-                case "HilbertSpace": return Convert(0x210B);
-                case "Hopf": return Convert(0x210D);
-                case "HorizontalLine": return Convert(0x2500);
-                case "Hscr": return Convert(0x210B);
-                case "Hstrok": return Convert(0x0126);
-                case "HumpDownHump": return Convert(0x224E);
-                case "HumpEqual": return Convert(0x224F);
-                case "hairsp": return Convert(0x200A);
-                case "half": return Convert(0x00BD);
-                case "hamilt": return Convert(0x210B);
-                case "hardcy": return Convert(0x044A);
-                case "hArr": return Convert(0x21D4);
-                case "harr": return Convert(0x2194);
-                case "harrcir": return Convert(0x2948);
-                case "harrw": return Convert(0x21AD);
-                case "hbar": return Convert(0x210F);
-                case "hcirc": return Convert(0x0125);
-                case "hearts": return Convert(0x2665);
-                case "heartsuit": return Convert(0x2665);
-                case "hellip": return Convert(0x2026);
-                case "hercon": return Convert(0x22B9);
-                case "hfr": return Convert(0xD835, 0xDD25);
-                case "hksearow": return Convert(0x2925);
-                case "hkswarow": return Convert(0x2926);
-                case "hoarr": return Convert(0x21FF);
-                case "homtht": return Convert(0x223B);
-                case "hookleftarrow": return Convert(0x21A9);
-                case "hookrightarrow": return Convert(0x21AA);
-                case "hopf": return Convert(0xD835, 0xDD59);
-                case "horbar": return Convert(0x2015);
-                case "hscr": return Convert(0xD835, 0xDCBD);
-                case "hslash": return Convert(0x210F);
-                case "hstrok": return Convert(0x0127);
-                case "hybull": return Convert(0x2043);
-                case "hyphen": return Convert(0x2010);
-            }
+            _entities.Add('r', GetSymbolLittleR());
+            _entities.Add('R', GetSymbolBigR());
 
-            return null;
-        }
+            _entities.Add('s', GetSymbolLittleS());
+            _entities.Add('S', GetSymbolBigS());
 
-        static String GetSymbolI(String name)
-        {
-            switch (name)
-            {
-                case "Iacute": return Convert(0x00CD);
-                case "Icirc": return Convert(0x00CE);
-                case "Icy": return Convert(0x0418);
-                case "Idot": return Convert(0x0130);
-                case "IEcy": return Convert(0x0415);
-                case "Ifr": return Convert(0x2111);
-                case "Igrave": return Convert(0x00CC);
-                case "IJlig": return Convert(0x0132);
-                case "Im": return Convert(0x2111);
-                case "Imacr": return Convert(0x012A);
-                case "ImaginaryI": return Convert(0x2148);
-                case "Implies": return Convert(0x21D2);
-                case "Int": return Convert(0x222C);
-                case "Integral": return Convert(0x222B);
-                case "Intersection": return Convert(0x22C2);
-                case "InvisibleComma": return Convert(0x2063);
-                case "InvisibleTimes": return Convert(0x2062);
-                case "IOcy": return Convert(0x0401);
-                case "Iogon": return Convert(0x012E);
-                case "Iopf": return Convert(0xD835, 0xDD40);
-                case "Iota": return Convert(0x0399);
-                case "Iscr": return Convert(0x2110);
-                case "Itilde": return Convert(0x0128);
-                case "Iukcy": return Convert(0x0406);
-                case "Iuml": return Convert(0x00CF);
-                case "iacute": return Convert(0x00ED);
-                case "ic": return Convert(0x2063);
-                case "icirc": return Convert(0x00EE);
-                case "icy": return Convert(0x0438);
-                case "iecy": return Convert(0x0435);
-                case "iexcl": return Convert(0x00A1);
-                case "iff": return Convert(0x21D4);
-                case "ifr": return Convert(0xD835, 0xDD26);
-                case "igrave": return Convert(0x00EC);
-                case "ii": return Convert(0x2148);
-                case "iiiint": return Convert(0x2A0C);
-                case "iiint": return Convert(0x222D);
-                case "iinfin": return Convert(0x29DC);
-                case "iiota": return Convert(0x2129);
-                case "ijlig": return Convert(0x0133);
-                case "imacr": return Convert(0x012B);
-                case "image": return Convert(0x2111);
-                case "imagline": return Convert(0x2110);
-                case "imagpart": return Convert(0x2111);
-                case "imath": return Convert(0x0131);
-                case "imof": return Convert(0x22B7);
-                case "imped": return Convert(0x01B5);
-                case "in": return Convert(0x2208);
-                case "incare": return Convert(0x2105);
-                case "infin": return Convert(0x221E);
-                case "infintie": return Convert(0x29DD);
-                case "inodot": return Convert(0x0131);
-                case "int": return Convert(0x222B);
-                case "intcal": return Convert(0x22BA);
-                case "integers": return Convert(0x2124);
-                case "intercal": return Convert(0x22BA);
-                case "intlarhk": return Convert(0x2A17);
-                case "intprod": return Convert(0x2A3C);
-                case "iocy": return Convert(0x0451);
-                case "iogon": return Convert(0x012F);
-                case "iopf": return Convert(0xD835, 0xDD5A);
-                case "iota": return Convert(0x03B9);
-                case "iprod": return Convert(0x2A3C);
-                case "iquest": return Convert(0x00BF);
-                case "iscr": return Convert(0xD835, 0xDCBE);
-                case "isin": return Convert(0x2208);
-                case "isindot": return Convert(0x22F5);
-                case "isinE": return Convert(0x22F9);
-                case "isins": return Convert(0x22F4);
-                case "isinsv": return Convert(0x22F3);
-                case "isinv": return Convert(0x2208);
-                case "it": return Convert(0x2062);
-                case "itilde": return Convert(0x0129);
-                case "iukcy": return Convert(0x0456);
-                case "iuml": return Convert(0x00EF);
-            }
+            _entities.Add('t', GetSymbolLittleT());
+            _entities.Add('T', GetSymbolBigT());
 
-            return null;
-        }
+            _entities.Add('u', GetSymbolLittleU());
+            _entities.Add('U', GetSymbolBigU());
 
-        static String GetSymbolJ(String name)
-        {
-            switch (name)
-            {
-                case "Jcirc": return Convert(0x0134);
-                case "Jcy": return Convert(0x0419);
-                case "Jfr": return Convert(0xD835, 0xDD0D);
-                case "Jopf": return Convert(0xD835, 0xDD41);
-                case "Jscr": return Convert(0xD835, 0xDCA5);
-                case "Jsercy": return Convert(0x0408);
-                case "Jukcy": return Convert(0x0404);
-                case "jcirc": return Convert(0x0135);
-                case "jcy": return Convert(0x0439);
-                case "jfr": return Convert(0xD835, 0xDD27);
-                case "jmath": return Convert(0x0237);
-                case "jopf": return Convert(0xD835, 0xDD5B);
-                case "jscr": return Convert(0xD835, 0xDCBF);
-                case "jsercy": return Convert(0x0458);
-                case "jukcy": return Convert(0x0454);
-            }
+            _entities.Add('v', GetSymbolLittleV());
+            _entities.Add('V', GetSymbolBigV());
 
-            return null;
-        }
+            _entities.Add('w', GetSymbolLittleW());
+            _entities.Add('W', GetSymbolBigW());
 
-        static String GetSymbolK(String name)
-        {
-            switch (name)
-            {
-                case "Kappa": return Convert(0x039A);
-                case "Kcedil": return Convert(0x0136);
-                case "Kcy": return Convert(0x041A);
-                case "Kfr": return Convert(0xD835, 0xDD0E);
-                case "KHcy": return Convert(0x0425);
-                case "KJcy": return Convert(0x040C);
-                case "Kopf": return Convert(0xD835, 0xDD42);
-                case "Kscr": return Convert(0xD835, 0xDCA6);
-                case "kappa": return Convert(0x03BA);
-                case "kappav": return Convert(0x03F0);
-                case "kcedil": return Convert(0x0137);
-                case "kcy": return Convert(0x043A);
-                case "kfr": return Convert(0xD835, 0xDD28);
-                case "kgreen": return Convert(0x0138);
-                case "khcy": return Convert(0x0445);
-                case "kjcy": return Convert(0x045C);
-                case "kopf": return Convert(0xD835, 0xDD5C);
-                case "kscr": return Convert(0xD835, 0xDCC0);
-            }
+            _entities.Add('x', GetSymbolLittleX());
+            _entities.Add('X', GetSymbolBigX());
 
-            return null;
-        }
+            _entities.Add('y', GetSymbolLittleY());
+            _entities.Add('Y', GetSymbolBigY());
 
-        static String GetSymbolL(String name)
-        {
-            switch (name)
-            {
-                case "Lacute": return Convert(0x0139);
-                case "Lambda": return Convert(0x039B);
-                case "Lang": return Convert(0x27EA);
-                case "Laplacetrf": return Convert(0x2112);
-                case "Larr": return Convert(0x219E);
-                case "Lcaron": return Convert(0x013D);
-                case "Lcedil": return Convert(0x013B);
-                case "Lcy": return Convert(0x041B);
-                case "LeftAngleBracket": return Convert(0x27E8);
-                case "LeftArrow": return Convert(0x2190);
-                case "Leftarrow": return Convert(0x21D0);
-                case "LeftArrowBar": return Convert(0x21E4);
-                case "LeftArrowRightArrow": return Convert(0x21C6);
-                case "LeftCeiling": return Convert(0x2308);
-                case "LeftDoubleBracket": return Convert(0x27E6);
-                case "LeftDownTeeVector": return Convert(0x2961);
-                case "LeftDownVector": return Convert(0x21C3);
-                case "LeftDownVectorBar": return Convert(0x2959);
-                case "LeftFloor": return Convert(0x230A);
-                case "LeftRightArrow": return Convert(0x2194);
-                case "Leftrightarrow": return Convert(0x21D4);
-                case "LeftRightVector": return Convert(0x294E);
-                case "LeftTee": return Convert(0x22A3);
-                case "LeftTeeArrow": return Convert(0x21A4);
-                case "LeftTeeVector": return Convert(0x295A);
-                case "LeftTriangle": return Convert(0x22B2);
-                case "LeftTriangleBar": return Convert(0x29CF);
-                case "LeftTriangleEqual": return Convert(0x22B4);
-                case "LeftUpDownVector": return Convert(0x2951);
-                case "LeftUpTeeVector": return Convert(0x2960);
-                case "LeftUpVector": return Convert(0x21BF);
-                case "LeftUpVectorBar": return Convert(0x2958);
-                case "LeftVector": return Convert(0x21BC);
-                case "LeftVectorBar": return Convert(0x2952);
-                case "LessEqualGreater": return Convert(0x22DA);
-                case "LessFullEqual": return Convert(0x2266);
-                case "LessGreater": return Convert(0x2276);
-                case "LessLess": return Convert(0x2AA1);
-                case "LessSlantEqual": return Convert(0x2A7D);
-                case "LessTilde": return Convert(0x2272);
-                case "Lfr": return Convert(0xD835, 0xDD0F);
-                case "LJcy": return Convert(0x0409);
-                case "Ll": return Convert(0x22D8);
-                case "Lleftarrow": return Convert(0x21DA);
-                case "Lmidot": return Convert(0x013F);
-                case "LongLeftArrow": return Convert(0x27F5);
-                case "Longleftarrow": return Convert(0x27F8);
-                case "LongLeftRightArrow": return Convert(0x27F7);
-                case "Longleftrightarrow": return Convert(0x27FA);
-                case "LongRightArrow": return Convert(0x27F6);
-                case "Longrightarrow": return Convert(0x27F9);
-                case "Lopf": return Convert(0xD835, 0xDD43);
-                case "LowerLeftArrow": return Convert(0x2199);
-                case "LowerRightArrow": return Convert(0x2198);
-                case "Lscr": return Convert(0x2112);
-                case "Lsh": return Convert(0x21B0);
-                case "Lstrok": return Convert(0x0141);
-                case "LT": return Convert(0x003C);
-                case "Lt": return Convert(0x226A);
-                case "lAarr": return Convert(0x21DA);
-                case "lacute": return Convert(0x013A);
-                case "laemptyv": return Convert(0x29B4);
-                case "lagran": return Convert(0x2112);
-                case "lambda": return Convert(0x03BB);
-                case "lang": return Convert(0x27E8);
-                case "langd": return Convert(0x2991);
-                case "langle": return Convert(0x27E8);
-                case "lap": return Convert(0x2A85);
-                case "laquo": return Convert(0x00AB);
-                case "lArr": return Convert(0x21D0);
-                case "larr": return Convert(0x2190);
-                case "larrb": return Convert(0x21E4);
-                case "larrbfs": return Convert(0x291F);
-                case "larrfs": return Convert(0x291D);
-                case "larrhk": return Convert(0x21A9);
-                case "larrlp": return Convert(0x21AB);
-                case "larrpl": return Convert(0x2939);
-                case "larrsim": return Convert(0x2973);
-                case "larrtl": return Convert(0x21A2);
-                case "lat": return Convert(0x2AAB);
-                case "lAtail": return Convert(0x291B);
-                case "latail": return Convert(0x2919);
-                case "late": return Convert(0x2AAD);
-                case "lates": return Convert(0x2AAD, 0xFE00);
-                case "lBarr": return Convert(0x290E);
-                case "lbarr": return Convert(0x290C);
-                case "lbbrk": return Convert(0x2772);
-                case "lbrace": return Convert(0x007B);
-                case "lbrack": return Convert(0x005B);
-                case "lbrke": return Convert(0x298B);
-                case "lbrksld": return Convert(0x298F);
-                case "lbrkslu": return Convert(0x298D);
-                case "lcaron": return Convert(0x013E);
-                case "lcedil": return Convert(0x013C);
-                case "lceil": return Convert(0x2308);
-                case "lcub": return Convert(0x007B);
-                case "lcy": return Convert(0x043B);
-                case "ldca": return Convert(0x2936);
-                case "ldquo": return Convert(0x201C);
-                case "ldquor": return Convert(0x201E);
-                case "ldrdhar": return Convert(0x2967);
-                case "ldrushar": return Convert(0x294B);
-                case "ldsh": return Convert(0x21B2);
-                case "lE": return Convert(0x2266);
-                case "le": return Convert(0x2264);
-                case "leftarrow": return Convert(0x2190);
-                case "leftarrowtail": return Convert(0x21A2);
-                case "leftharpoondown": return Convert(0x21BD);
-                case "leftharpoonup": return Convert(0x21BC);
-                case "leftleftarrows": return Convert(0x21C7);
-                case "leftrightarrow": return Convert(0x2194);
-                case "leftrightarrows": return Convert(0x21C6);
-                case "leftrightharpoons": return Convert(0x21CB);
-                case "leftrightsquigarrow": return Convert(0x21AD);
-                case "leftthreetimes": return Convert(0x22CB);
-                case "lEg": return Convert(0x2A8B);
-                case "leg": return Convert(0x22DA);
-                case "leq": return Convert(0x2264);
-                case "leqq": return Convert(0x2266);
-                case "leqslant": return Convert(0x2A7D);
-                case "les": return Convert(0x2A7D);
-                case "lescc": return Convert(0x2AA8);
-                case "lesdot": return Convert(0x2A7F);
-                case "lesdoto": return Convert(0x2A81);
-                case "lesdotor": return Convert(0x2A83);
-                case "lesg": return Convert(0x22DA, 0xFE00);
-                case "lesges": return Convert(0x2A93);
-                case "lessapprox": return Convert(0x2A85);
-                case "lessdot": return Convert(0x22D6);
-                case "lesseqgtr": return Convert(0x22DA);
-                case "lesseqqgtr": return Convert(0x2A8B);
-                case "lessgtr": return Convert(0x2276);
-                case "lesssim": return Convert(0x2272);
-                case "lfisht": return Convert(0x297C);
-                case "lfloor": return Convert(0x230A);
-                case "lfr": return Convert(0xD835, 0xDD29);
-                case "lg": return Convert(0x2276);
-                case "lgE": return Convert(0x2A91);
-                case "lHar": return Convert(0x2962);
-                case "lhard": return Convert(0x21BD);
-                case "lharu": return Convert(0x21BC);
-                case "lharul": return Convert(0x296A);
-                case "lhblk": return Convert(0x2584);
-                case "ljcy": return Convert(0x0459);
-                case "ll": return Convert(0x226A);
-                case "llarr": return Convert(0x21C7);
-                case "llcorner": return Convert(0x231E);
-                case "llhard": return Convert(0x296B);
-                case "lltri": return Convert(0x25FA);
-                case "lmidot": return Convert(0x0140);
-                case "lmoust": return Convert(0x23B0);
-                case "lmoustache": return Convert(0x23B0);
-                case "lnap": return Convert(0x2A89);
-                case "lnapprox": return Convert(0x2A89);
-                case "lnE": return Convert(0x2268);
-                case "lne": return Convert(0x2A87);
-                case "lneq": return Convert(0x2A87);
-                case "lneqq": return Convert(0x2268);
-                case "lnsim": return Convert(0x22E6);
-                case "loang": return Convert(0x27EC);
-                case "loarr": return Convert(0x21FD);
-                case "lobrk": return Convert(0x27E6);
-                case "longleftarrow": return Convert(0x27F5);
-                case "longleftrightarrow": return Convert(0x27F7);
-                case "longmapsto": return Convert(0x27FC);
-                case "longrightarrow": return Convert(0x27F6);
-                case "looparrowleft": return Convert(0x21AB);
-                case "looparrowright": return Convert(0x21AC);
-                case "lopar": return Convert(0x2985);
-                case "lopf": return Convert(0xD835, 0xDD5D);
-                case "loplus": return Convert(0x2A2D);
-                case "lotimes": return Convert(0x2A34);
-                case "lowast": return Convert(0x2217);
-                case "lowbar": return Convert(0x005F);
-                case "loz": return Convert(0x25CA);
-                case "lozenge": return Convert(0x25CA);
-                case "lozf": return Convert(0x29EB);
-                case "lpar": return Convert(0x0028);
-                case "lparlt": return Convert(0x2993);
-                case "lrarr": return Convert(0x21C6);
-                case "lrcorner": return Convert(0x231F);
-                case "lrhar": return Convert(0x21CB);
-                case "lrhard": return Convert(0x296D);
-                case "lrm": return Convert(0x200E);
-                case "lrtri": return Convert(0x22BF);
-                case "lsaquo": return Convert(0x2039);
-                case "lscr": return Convert(0xD835, 0xDCC1);
-                case "lsh": return Convert(0x21B0);
-                case "lsim": return Convert(0x2272);
-                case "lsime": return Convert(0x2A8D);
-                case "lsimg": return Convert(0x2A8F);
-                case "lsqb": return Convert(0x005B);
-                case "lsquo": return Convert(0x2018);
-                case "lsquor": return Convert(0x201A);
-                case "lstrok": return Convert(0x0142);
-                case "lt": return Convert(0x003C);
-                case "ltcc": return Convert(0x2AA6);
-                case "ltcir": return Convert(0x2A79);
-                case "ltdot": return Convert(0x22D6);
-                case "lthree": return Convert(0x22CB);
-                case "ltimes": return Convert(0x22C9);
-                case "ltlarr": return Convert(0x2976);
-                case "ltquest": return Convert(0x2A7B);
-                case "ltri": return Convert(0x25C3);
-                case "ltrie": return Convert(0x22B4);
-                case "ltrif": return Convert(0x25C2);
-                case "ltrPar": return Convert(0x2996);
-                case "lurdshar": return Convert(0x294A);
-                case "luruhar": return Convert(0x2966);
-                case "lvertneqq": return Convert(0x2268, 0xFE00);
-                case "lvnE": return Convert(0x2268, 0xFE00);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolM(String name)
-        {
-            switch (name)
-            {
-                case "macr": return Convert(0x00AF);
-                case "male": return Convert(0x2642);
-                case "malt": return Convert(0x2720);
-                case "maltese": return Convert(0x2720);
-                case "Map": return Convert(0x2905);
-                case "map": return Convert(0x21A6);
-                case "mapsto": return Convert(0x21A6);
-                case "mapstodown": return Convert(0x21A7);
-                case "mapstoleft": return Convert(0x21A4);
-                case "mapstoup": return Convert(0x21A5);
-                case "marker": return Convert(0x25AE);
-                case "mcomma": return Convert(0x2A29);
-                case "Mcy": return Convert(0x041C);
-                case "mcy": return Convert(0x043C);
-                case "mdash": return Convert(0x2014);
-                case "mDDot": return Convert(0x223A);
-                case "measuredangle": return Convert(0x2221);
-                case "MediumSpace": return Convert(0x205F);
-                case "Mellintrf": return Convert(0x2133);
-                case "Mfr": return Convert(0xD835, 0xDD10);
-                case "mfr": return Convert(0xD835, 0xDD2A);
-                case "mho": return Convert(0x2127);
-                case "micro": return Convert(0x00B5);
-                case "mid": return Convert(0x2223);
-                case "midast": return Convert(0x002A);
-                case "midcir": return Convert(0x2AF0);
-                case "middot": return Convert(0x00B7);
-                case "minus": return Convert(0x2212);
-                case "minusb": return Convert(0x229F);
-                case "minusd": return Convert(0x2238);
-                case "minusdu": return Convert(0x2A2A);
-                case "MinusPlus": return Convert(0x2213);
-                case "mlcp": return Convert(0x2ADB);
-                case "mldr": return Convert(0x2026);
-                case "mnplus": return Convert(0x2213);
-                case "models": return Convert(0x22A7);
-                case "Mopf": return Convert(0xD835, 0xDD44);
-                case "mopf": return Convert(0xD835, 0xDD5E);
-                case "mp": return Convert(0x2213);
-                case "Mscr": return Convert(0x2133);
-                case "mscr": return Convert(0xD835, 0xDCC2);
-                case "mstpos": return Convert(0x223E);
-                case "Mu": return Convert(0x039C);
-                case "mu": return Convert(0x03BC);
-                case "multimap": return Convert(0x22B8);
-                case "mumap": return Convert(0x22B8);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolN(String name)
-        {
-            switch (name)
-            {
-                case "Nacute": return Convert(0x0143);
-                case "Ncaron": return Convert(0x0147);
-                case "Ncedil": return Convert(0x0145);
-                case "NegativeMediumSpace": return Convert(0x200B);
-                case "NegativeThickSpace": return Convert(0x200B);
-                case "NegativeThinSpace": return Convert(0x200B);
-                case "NegativeVeryThinSpace": return Convert(0x200B);
-                case "NestedGreaterGreater": return Convert(0x226B);
-                case "NestedLessLess": return Convert(0x226A);
-                case "Ncy": return Convert(0x041D);
-                case "Nfr": return Convert(0xD835, 0xDD11);
-                case "NoBreak": return Convert(0x2060);
-                case "NonBreakingSpace": return Convert(0x00A0);
-                case "Nopf": return Convert(0x2115);
-                case "NewLine": return Convert(0x000A);
-                case "NJcy": return Convert(0x040A);
-                case "Not": return Convert(0x2AEC);
-                case "NotCongruent": return Convert(0x2262);
-                case "NotCupCap": return Convert(0x226D);
-                case "NotDoubleVerticalBar": return Convert(0x2226);
-                case "NotElement": return Convert(0x2209);
-                case "NotEqual": return Convert(0x2260);
-                case "NotEqualTilde": return Convert(0x2242, 0x0338);
-                case "NotExists": return Convert(0x2204);
-                case "NotGreater": return Convert(0x226F);
-                case "NotGreaterEqual": return Convert(0x2271);
-                case "NotGreaterFullEqual": return Convert(0x2267, 0x0338);
-                case "NotGreaterGreater": return Convert(0x226B, 0x0338);
-                case "NotGreaterLess": return Convert(0x2279);
-                case "NotGreaterSlantEqual": return Convert(0x2A7E, 0x0338);
-                case "NotGreaterTilde": return Convert(0x2275);
-                case "NotHumpDownHump": return Convert(0x224E, 0x0338);
-                case "NotHumpEqual": return Convert(0x224F, 0x0338);
-                case "NotLeftTriangle": return Convert(0x22EA);
-                case "NotLeftTriangleBar": return Convert(0x29CF, 0x0338);
-                case "NotLeftTriangleEqual": return Convert(0x22EC);
-                case "NotLess": return Convert(0x226E);
-                case "NotLessEqual": return Convert(0x2270);
-                case "NotLessGreater": return Convert(0x2278);
-                case "NotLessLess": return Convert(0x226A, 0x0338);
-                case "NotLessSlantEqual": return Convert(0x2A7D, 0x0338);
-                case "NotLessTilde": return Convert(0x2274);
-                case "NotNestedGreaterGreater": return Convert(0x2AA2, 0x0338);
-                case "NotNestedLessLess": return Convert(0x2AA1, 0x0338);
-                case "NotPrecedes": return Convert(0x2280);
-                case "NotPrecedesEqual": return Convert(0x2AAF, 0x0338);
-                case "NotPrecedesSlantEqual": return Convert(0x22E0);
-                case "NotReverseElement": return Convert(0x220C);
-                case "NotRightTriangle": return Convert(0x22EB);
-                case "NotRightTriangleBar": return Convert(0x29D0, 0x0338);
-                case "NotRightTriangleEqual": return Convert(0x22ED);
-                case "NotSquareSubset": return Convert(0x228F, 0x0338);
-                case "NotSquareSubsetEqual": return Convert(0x22E2);
-                case "NotSquareSuperset": return Convert(0x2290, 0x0338);
-                case "NotSquareSupersetEqual": return Convert(0x22E3);
-                case "NotSubset": return Convert(0x2282, 0x20D2);
-                case "NotSubsetEqual": return Convert(0x2288);
-                case "NotSucceeds": return Convert(0x2281);
-                case "NotSucceedsEqual": return Convert(0x2AB0, 0x0338);
-                case "NotSucceedsSlantEqual": return Convert(0x22E1);
-                case "NotSucceedsTilde": return Convert(0x227F, 0x0338);
-                case "NotSuperset": return Convert(0x2283, 0x20D2);
-                case "NotSupersetEqual": return Convert(0x2289);
-                case "NotTilde": return Convert(0x2241);
-                case "NotTildeEqual": return Convert(0x2244);
-                case "NotTildeFullEqual": return Convert(0x2247);
-                case "NotTildeTilde": return Convert(0x2249);
-                case "NotVerticalBar": return Convert(0x2224);
-                case "Nscr": return Convert(0xD835, 0xDCA9);
-                case "Ntilde": return Convert(0x00D1);
-                case "Nu": return Convert(0x039D);
-                case "nabla": return Convert(0x2207);
-                case "nacute": return Convert(0x0144);
-                case "nang": return Convert(0x2220, 0x20D2);
-                case "nap": return Convert(0x2249);
-                case "napE": return Convert(0x2A70, 0x0338);
-                case "napid": return Convert(0x224B, 0x0338);
-                case "napos": return Convert(0x0149);
-                case "napprox": return Convert(0x2249);
-                case "natur": return Convert(0x266E);
-                case "natural": return Convert(0x266E);
-                case "naturals": return Convert(0x2115);
-                case "nbsp": return Convert(0x00A0);
-                case "nbump": return Convert(0x224E, 0x0338);
-                case "nbumpe": return Convert(0x224F, 0x0338);
-                case "ncap": return Convert(0x2A43);
-                case "ncaron": return Convert(0x0148);
-                case "ncedil": return Convert(0x0146);
-                case "ncong": return Convert(0x2247);
-                case "ncongdot": return Convert(0x2A6D, 0x0338);
-                case "ncup": return Convert(0x2A42);
-                case "ncy": return Convert(0x043D);
-                case "ndash": return Convert(0x2013);
-                case "ne": return Convert(0x2260);
-                case "nearhk": return Convert(0x2924);
-                case "neArr": return Convert(0x21D7);
-                case "nearr": return Convert(0x2197);
-                case "nearrow": return Convert(0x2197);
-                case "nedot": return Convert(0x2250, 0x0338);
-                case "nequiv": return Convert(0x2262);
-                case "nesear": return Convert(0x2928);
-                case "nesim": return Convert(0x2242, 0x0338);
-                case "nexist": return Convert(0x2204);
-                case "nexists": return Convert(0x2204);
-                case "nfr": return Convert(0xD835, 0xDD2B);
-                case "ngE": return Convert(0x2267, 0x0338);
-                case "nge": return Convert(0x2271);
-                case "ngeq": return Convert(0x2271);
-                case "ngeqq": return Convert(0x2267, 0x0338);
-                case "ngeqslant": return Convert(0x2A7E, 0x0338);
-                case "nges": return Convert(0x2A7E, 0x0338);
-                case "nGg": return Convert(0x22D9, 0x0338);
-                case "ngsim": return Convert(0x2275);
-                case "nGt": return Convert(0x226B, 0x20D2);
-                case "ngt": return Convert(0x226F);
-                case "ngtr": return Convert(0x226F);
-                case "nGtv": return Convert(0x226B, 0x0338);
-                case "nhArr": return Convert(0x21CE);
-                case "nharr": return Convert(0x21AE);
-                case "nhpar": return Convert(0x2AF2);
-                case "ni": return Convert(0x220B);
-                case "nis": return Convert(0x22FC);
-                case "nisd": return Convert(0x22FA);
-                case "niv": return Convert(0x220B);
-                case "njcy": return Convert(0x045A);
-                case "nlArr": return Convert(0x21CD);
-                case "nlarr": return Convert(0x219A);
-                case "nldr": return Convert(0x2025);
-                case "nlE": return Convert(0x2266, 0x0338);
-                case "nle": return Convert(0x2270);
-                case "nLeftarrow": return Convert(0x21CD);
-                case "nleftarrow": return Convert(0x219A);
-                case "nLeftrightarrow": return Convert(0x21CE);
-                case "nleftrightarrow": return Convert(0x21AE);
-                case "nleq": return Convert(0x2270);
-                case "nleqq": return Convert(0x2266, 0x0338);
-                case "nleqslant": return Convert(0x2A7D, 0x0338);
-                case "nles": return Convert(0x2A7D, 0x0338);
-                case "nless": return Convert(0x226E);
-                case "nLl": return Convert(0x22D8, 0x0338);
-                case "nlsim": return Convert(0x2274);
-                case "nLt": return Convert(0x226A, 0x20D2);
-                case "nlt": return Convert(0x226E);
-                case "nltri": return Convert(0x22EA);
-                case "nltrie": return Convert(0x22EC);
-                case "nLtv": return Convert(0x226A, 0x0338);
-                case "nmid": return Convert(0x2224);
-                case "nopf": return Convert(0xD835, 0xDD5F);
-                case "not": return Convert(0x00AC);
-                case "notin": return Convert(0x2209);
-                case "notindot": return Convert(0x22F5, 0x0338);
-                case "notinE": return Convert(0x22F9, 0x0338);
-                case "notinva": return Convert(0x2209);
-                case "notinvb": return Convert(0x22F7);
-                case "notinvc": return Convert(0x22F6);
-                case "notni": return Convert(0x220C);
-                case "notniva": return Convert(0x220C);
-                case "notnivb": return Convert(0x22FE);
-                case "notnivc": return Convert(0x22FD);
-                case "npar": return Convert(0x2226);
-                case "nparallel": return Convert(0x2226);
-                case "nparsl": return Convert(0x2AFD, 0x20E5);
-                case "npart": return Convert(0x2202, 0x0338);
-                case "npolint": return Convert(0x2A14);
-                case "npr": return Convert(0x2280);
-                case "nprcue": return Convert(0x22E0);
-                case "npre": return Convert(0x2AAF, 0x0338);
-                case "nprec": return Convert(0x2280);
-                case "npreceq": return Convert(0x2AAF, 0x0338);
-                case "nrArr": return Convert(0x21CF);
-                case "nrarr": return Convert(0x219B);
-                case "nrarrc": return Convert(0x2933, 0x0338);
-                case "nrarrw": return Convert(0x219D, 0x0338);
-                case "nRightarrow": return Convert(0x21CF);
-                case "nrightarrow": return Convert(0x219B);
-                case "nrtri": return Convert(0x22EB);
-                case "nrtrie": return Convert(0x22ED);
-                case "nsc": return Convert(0x2281);
-                case "nsccue": return Convert(0x22E1);
-                case "nsce": return Convert(0x2AB0, 0x0338);
-                case "nscr": return Convert(0xD835, 0xDCC3);
-                case "nshortmid": return Convert(0x2224);
-                case "nshortparallel": return Convert(0x2226);
-                case "nsim": return Convert(0x2241);
-                case "nsime": return Convert(0x2244);
-                case "nsimeq": return Convert(0x2244);
-                case "nsmid": return Convert(0x2224);
-                case "nspar": return Convert(0x2226);
-                case "nsqsube": return Convert(0x22E2);
-                case "nsqsupe": return Convert(0x22E3);
-                case "nsub": return Convert(0x2284);
-                case "nsubE": return Convert(0x2AC5, 0x0338);
-                case "nsube": return Convert(0x2288);
-                case "nsubset": return Convert(0x2282, 0x20D2);
-                case "nsubseteq": return Convert(0x2288);
-                case "nsubseteqq": return Convert(0x2AC5, 0x0338);
-                case "nsucc": return Convert(0x2281);
-                case "nsucceq": return Convert(0x2AB0, 0x0338);
-                case "nsup": return Convert(0x2285);
-                case "nsupE": return Convert(0x2AC6, 0x0338);
-                case "nsupe": return Convert(0x2289);
-                case "nsupset": return Convert(0x2283, 0x20D2);
-                case "nsupseteq": return Convert(0x2289);
-                case "nsupseteqq": return Convert(0x2AC6, 0x0338);
-                case "ntgl": return Convert(0x2279);
-                case "ntilde": return Convert(0x00F1);
-                case "ntlg": return Convert(0x2278);
-                case "ntriangleleft": return Convert(0x22EA);
-                case "ntrianglelefteq": return Convert(0x22EC);
-                case "ntriangleright": return Convert(0x22EB);
-                case "ntrianglerighteq": return Convert(0x22ED);
-                case "nu": return Convert(0x03BD);
-                case "num": return Convert(0x0023);
-                case "numero": return Convert(0x2116);
-                case "numsp": return Convert(0x2007);
-                case "nvap": return Convert(0x224D, 0x20D2);
-                case "nVDash": return Convert(0x22AF);
-                case "nVdash": return Convert(0x22AE);
-                case "nvDash": return Convert(0x22AD);
-                case "nvdash": return Convert(0x22AC);
-                case "nvge": return Convert(0x2265, 0x20D2);
-                case "nvgt": return Convert(0x003E, 0x20D2);
-                case "nvHarr": return Convert(0x2904);
-                case "nvinfin": return Convert(0x29DE);
-                case "nvlArr": return Convert(0x2902);
-                case "nvle": return Convert(0x2264, 0x20D2);
-                case "nvlt": return Convert(0x003C, 0x20D2);
-                case "nvltrie": return Convert(0x22B4, 0x20D2);
-                case "nvrArr": return Convert(0x2903);
-                case "nvrtrie": return Convert(0x22B5, 0x20D2);
-                case "nvsim": return Convert(0x223C, 0x20D2);
-                case "nwarhk": return Convert(0x2923);
-                case "nwArr": return Convert(0x21D6);
-                case "nwarr": return Convert(0x2196);
-                case "nwarrow": return Convert(0x2196);
-                case "nwnear": return Convert(0x2927);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolO(String name)
-        {
-            switch (name)
-            {
-                case "Oacute": return Convert(0x00D3);
-                case "oacute": return Convert(0x00F3);
-                case "oast": return Convert(0x229B);
-                case "ocir": return Convert(0x229A);
-                case "Ocirc": return Convert(0x00D4);
-                case "ocirc": return Convert(0x00F4);
-                case "Ocy": return Convert(0x041E);
-                case "ocy": return Convert(0x043E);
-                case "odash": return Convert(0x229D);
-                case "Odblac": return Convert(0x0150);
-                case "odblac": return Convert(0x0151);
-                case "odiv": return Convert(0x2A38);
-                case "odot": return Convert(0x2299);
-                case "odsold": return Convert(0x29BC);
-                case "OElig": return Convert(0x0152);
-                case "oelig": return Convert(0x0153);
-                case "ofcir": return Convert(0x29BF);
-                case "Ofr": return Convert(0xD835, 0xDD12);
-                case "ofr": return Convert(0xD835, 0xDD2C);
-                case "ogon": return Convert(0x02DB);
-                case "Ograve": return Convert(0x00D2);
-                case "ograve": return Convert(0x00F2);
-                case "ogt": return Convert(0x29C1);
-                case "ohbar": return Convert(0x29B5);
-                case "ohm": return Convert(0x03A9);
-                case "oint": return Convert(0x222E);
-                case "olarr": return Convert(0x21BA);
-                case "olcir": return Convert(0x29BE);
-                case "olcross": return Convert(0x29BB);
-                case "oline": return Convert(0x203E);
-                case "olt": return Convert(0x29C0);
-                case "Omacr": return Convert(0x014C);
-                case "omacr": return Convert(0x014D);
-                case "Omega": return Convert(0x03A9);
-                case "omega": return Convert(0x03C9);
-                case "Omicron": return Convert(0x039F);
-                case "omicron": return Convert(0x03BF);
-                case "omid": return Convert(0x29B6);
-                case "ominus": return Convert(0x2296);
-                case "Oopf": return Convert(0xD835, 0xDD46);
-                case "oopf": return Convert(0xD835, 0xDD60);
-                case "opar": return Convert(0x29B7);
-                case "OpenCurlyDoubleQuote": return Convert(0x201C);
-                case "OpenCurlyQuote": return Convert(0x2018);
-                case "operp": return Convert(0x29B9);
-                case "oplus": return Convert(0x2295);
-                case "Or": return Convert(0x2A54);
-                case "or": return Convert(0x2228);
-                case "orarr": return Convert(0x21BB);
-                case "ord": return Convert(0x2A5D);
-                case "order": return Convert(0x2134);
-                case "orderof": return Convert(0x2134);
-                case "ordf": return Convert(0x00AA);
-                case "ordm": return Convert(0x00BA);
-                case "origof": return Convert(0x22B6);
-                case "oror": return Convert(0x2A56);
-                case "orslope": return Convert(0x2A57);
-                case "orv": return Convert(0x2A5B);
-                case "oS": return Convert(0x24C8);
-                case "Oscr": return Convert(0xD835, 0xDCAA);
-                case "oscr": return Convert(0x2134);
-                case "Oslash": return Convert(0x00D8);
-                case "oslash": return Convert(0x00F8);
-                case "osol": return Convert(0x2298);
-                case "Otilde": return Convert(0x00D5);
-                case "otilde": return Convert(0x00F5);
-                case "Otimes": return Convert(0x2A37);
-                case "otimes": return Convert(0x2297);
-                case "otimesas": return Convert(0x2A36);
-                case "Ouml": return Convert(0x00D6);
-                case "ouml": return Convert(0x00F6);
-                case "ovbar": return Convert(0x233D);
-                case "OverBar": return Convert(0x203E);
-                case "OverBrace": return Convert(0x23DE);
-                case "OverBracket": return Convert(0x23B4);
-                case "OverParenthesis": return Convert(0x23DC);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolP(String name)
-        {
-            switch (name)
-            {
-                case "par": return Convert(0x2225);
-                case "para": return Convert(0x00B6);
-                case "parallel": return Convert(0x2225);
-                case "parsim": return Convert(0x2AF3);
-                case "parsl": return Convert(0x2AFD);
-                case "part": return Convert(0x2202);
-                case "PartialD": return Convert(0x2202);
-                case "Pcy": return Convert(0x041F);
-                case "pcy": return Convert(0x043F);
-                case "percnt": return Convert(0x0025);
-                case "period": return Convert(0x002E);
-                case "permil": return Convert(0x2030);
-                case "perp": return Convert(0x22A5);
-                case "pertenk": return Convert(0x2031);
-                case "Pfr": return Convert(0xD835, 0xDD13);
-                case "pfr": return Convert(0xD835, 0xDD2D);
-                case "Phi": return Convert(0x03A6);
-                case "phi": return Convert(0x03C6);
-                case "phiv": return Convert(0x03D5);
-                case "phmmat": return Convert(0x2133);
-                case "phone": return Convert(0x260E);
-                case "Pi": return Convert(0x03A0);
-                case "pi": return Convert(0x03C0);
-                case "pitchfork": return Convert(0x22D4);
-                case "piv": return Convert(0x03D6);
-                case "planck": return Convert(0x210F);
-                case "planckh": return Convert(0x210E);
-                case "plankv": return Convert(0x210F);
-                case "plus": return Convert(0x002B);
-                case "plusacir": return Convert(0x2A23);
-                case "plusb": return Convert(0x229E);
-                case "pluscir": return Convert(0x2A22);
-                case "plusdo": return Convert(0x2214);
-                case "plusdu": return Convert(0x2A25);
-                case "pluse": return Convert(0x2A72);
-                case "PlusMinus": return Convert(0x00B1);
-                case "plusmn": return Convert(0x00B1);
-                case "plussim": return Convert(0x2A26);
-                case "plustwo": return Convert(0x2A27);
-                case "pm": return Convert(0x00B1);
-                case "Poincareplane": return Convert(0x210C);
-                case "pointint": return Convert(0x2A15);
-                case "Popf": return Convert(0x2119);
-                case "popf": return Convert(0xD835, 0xDD61);
-                case "pound": return Convert(0x00A3);
-                case "Pr": return Convert(0x2ABB);
-                case "pr": return Convert(0x227A);
-                case "prap": return Convert(0x2AB7);
-                case "prcue": return Convert(0x227C);
-                case "prE": return Convert(0x2AB3);
-                case "pre": return Convert(0x2AAF);
-                case "prec": return Convert(0x227A);
-                case "precapprox": return Convert(0x2AB7);
-                case "preccurlyeq": return Convert(0x227C);
-                case "Precedes": return Convert(0x227A);
-                case "PrecedesEqual": return Convert(0x2AAF);
-                case "PrecedesSlantEqual": return Convert(0x227C);
-                case "PrecedesTilde": return Convert(0x227E);
-                case "preceq": return Convert(0x2AAF);
-                case "precnapprox": return Convert(0x2AB9);
-                case "precneqq": return Convert(0x2AB5);
-                case "precnsim": return Convert(0x22E8);
-                case "precsim": return Convert(0x227E);
-                case "Prime": return Convert(0x2033);
-                case "prime": return Convert(0x2032);
-                case "primes": return Convert(0x2119);
-                case "prnap": return Convert(0x2AB9);
-                case "prnE": return Convert(0x2AB5);
-                case "prnsim": return Convert(0x22E8);
-                case "prod": return Convert(0x220F);
-                case "Product": return Convert(0x220F);
-                case "profalar": return Convert(0x232E);
-                case "profline": return Convert(0x2312);
-                case "profsurf": return Convert(0x2313);
-                case "prop": return Convert(0x221D);
-                case "Proportion": return Convert(0x2237);
-                case "Proportional": return Convert(0x221D);
-                case "propto": return Convert(0x221D);
-                case "prsim": return Convert(0x227E);
-                case "prurel": return Convert(0x22B0);
-                case "Pscr": return Convert(0xD835, 0xDCAB);
-                case "pscr": return Convert(0xD835, 0xDCC5);
-                case "Psi": return Convert(0x03A8);
-                case "psi": return Convert(0x03C8);
-                case "puncsp": return Convert(0x2008);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolQ(String name)
-        {
-            switch (name)
-            {
-                case "Qfr": return Convert(0xD835, 0xDD14);
-                case "qfr": return Convert(0xD835, 0xDD2E);
-                case "qint": return Convert(0x2A0C);
-                case "Qopf": return Convert(0x211A);
-                case "qopf": return Convert(0xD835, 0xDD62);
-                case "qprime": return Convert(0x2057);
-                case "Qscr": return Convert(0xD835, 0xDCAC);
-                case "qscr": return Convert(0xD835, 0xDCC6);
-                case "quaternions": return Convert(0x210D);
-                case "quatint": return Convert(0x2A16);
-                case "quest": return Convert(0x003F);
-                case "questeq": return Convert(0x225F);
-                case "QUOT": return Convert(0x0022);
-                case "quot": return Convert(0x0022);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolR(String name)
-        {
-            switch (name)
-            {
-                case "rAarr": return Convert(0x21DB);
-                case "race": return Convert(0x223D, 0x0331);
-                case "Racute": return Convert(0x0154);
-                case "racute": return Convert(0x0155);
-                case "radic": return Convert(0x221A);
-                case "raemptyv": return Convert(0x29B3);
-                case "Rang": return Convert(0x27EB);
-                case "rang": return Convert(0x27E9);
-                case "rangd": return Convert(0x2992);
-                case "range": return Convert(0x29A5);
-                case "rangle": return Convert(0x27E9);
-                case "raquo": return Convert(0x00BB);
-                case "Rarr": return Convert(0x21A0);
-                case "rArr": return Convert(0x21D2);
-                case "rarr": return Convert(0x2192);
-                case "rarrap": return Convert(0x2975);
-                case "rarrb": return Convert(0x21E5);
-                case "rarrbfs": return Convert(0x2920);
-                case "rarrc": return Convert(0x2933);
-                case "rarrfs": return Convert(0x291E);
-                case "rarrhk": return Convert(0x21AA);
-                case "rarrlp": return Convert(0x21AC);
-                case "rarrpl": return Convert(0x2945);
-                case "rarrsim": return Convert(0x2974);
-                case "Rarrtl": return Convert(0x2916);
-                case "rarrtl": return Convert(0x21A3);
-                case "rarrw": return Convert(0x219D);
-                case "rAtail": return Convert(0x291C);
-                case "ratail": return Convert(0x291A);
-                case "ratio": return Convert(0x2236);
-                case "rationals": return Convert(0x211A);
-                case "RBarr": return Convert(0x2910);
-                case "rBarr": return Convert(0x290F);
-                case "rbarr": return Convert(0x290D);
-                case "rbbrk": return Convert(0x2773);
-                case "rbrace": return Convert(0x007D);
-                case "rbrack": return Convert(0x005D);
-                case "rbrke": return Convert(0x298C);
-                case "rbrksld": return Convert(0x298E);
-                case "rbrkslu": return Convert(0x2990);
-                case "Rcaron": return Convert(0x0158);
-                case "rcaron": return Convert(0x0159);
-                case "Rcedil": return Convert(0x0156);
-                case "rcedil": return Convert(0x0157);
-                case "rceil": return Convert(0x2309);
-                case "rcub": return Convert(0x007D);
-                case "Rcy": return Convert(0x0420);
-                case "rcy": return Convert(0x0440);
-                case "rdca": return Convert(0x2937);
-                case "rdldhar": return Convert(0x2969);
-                case "rdquo": return Convert(0x201D);
-                case "rdquor": return Convert(0x201D);
-                case "rdsh": return Convert(0x21B3);
-                case "Re": return Convert(0x211C);
-                case "real": return Convert(0x211C);
-                case "realine": return Convert(0x211B);
-                case "realpart": return Convert(0x211C);
-                case "reals": return Convert(0x211D);
-                case "rect": return Convert(0x25AD);
-                case "REG": return Convert(0x00AE);
-                case "reg": return Convert(0x00AE);
-                case "ReverseElement": return Convert(0x220B);
-                case "ReverseEquilibrium": return Convert(0x21CB);
-                case "ReverseUpEquilibrium": return Convert(0x296F);
-                case "rfisht": return Convert(0x297D);
-                case "rfloor": return Convert(0x230B);
-                case "Rfr": return Convert(0x211C);
-                case "rfr": return Convert(0xD835, 0xDD2F);
-                case "rHar": return Convert(0x2964);
-                case "rhard": return Convert(0x21C1);
-                case "rharu": return Convert(0x21C0);
-                case "rharul": return Convert(0x296C);
-                case "Rho": return Convert(0x03A1);
-                case "rho": return Convert(0x03C1);
-                case "rhov": return Convert(0x03F1);
-                case "RightAngleBracket": return Convert(0x27E9);
-                case "RightArrow": return Convert(0x2192);
-                case "Rightarrow": return Convert(0x21D2);
-                case "rightarrow": return Convert(0x2192);
-                case "RightArrowBar": return Convert(0x21E5);
-                case "RightArrowLeftArrow": return Convert(0x21C4);
-                case "rightarrowtail": return Convert(0x21A3);
-                case "RightCeiling": return Convert(0x2309);
-                case "RightDoubleBracket": return Convert(0x27E7);
-                case "RightDownTeeVector": return Convert(0x295D);
-                case "RightDownVector": return Convert(0x21C2);
-                case "RightDownVectorBar": return Convert(0x2955);
-                case "RightFloor": return Convert(0x230B);
-                case "rightharpoondown": return Convert(0x21C1);
-                case "rightharpoonup": return Convert(0x21C0);
-                case "rightleftarrows": return Convert(0x21C4);
-                case "rightleftharpoons": return Convert(0x21CC);
-                case "rightrightarrows": return Convert(0x21C9);
-                case "rightsquigarrow": return Convert(0x219D);
-                case "RightTee": return Convert(0x22A2);
-                case "RightTeeArrow": return Convert(0x21A6);
-                case "RightTeeVector": return Convert(0x295B);
-                case "rightthreetimes": return Convert(0x22CC);
-                case "RightTriangle": return Convert(0x22B3);
-                case "RightTriangleBar": return Convert(0x29D0);
-                case "RightTriangleEqual": return Convert(0x22B5);
-                case "RightUpDownVector": return Convert(0x294F);
-                case "RightUpTeeVector": return Convert(0x295C);
-                case "RightUpVector": return Convert(0x21BE);
-                case "RightUpVectorBar": return Convert(0x2954);
-                case "RightVector": return Convert(0x21C0);
-                case "RightVectorBar": return Convert(0x2953);
-                case "ring": return Convert(0x02DA);
-                case "risingdotseq": return Convert(0x2253);
-                case "rlarr": return Convert(0x21C4);
-                case "rlhar": return Convert(0x21CC);
-                case "rlm": return Convert(0x200F);
-                case "rmoust": return Convert(0x23B1);
-                case "rmoustache": return Convert(0x23B1);
-                case "rnmid": return Convert(0x2AEE);
-                case "roang": return Convert(0x27ED);
-                case "roarr": return Convert(0x21FE);
-                case "robrk": return Convert(0x27E7);
-                case "ropar": return Convert(0x2986);
-                case "Ropf": return Convert(0x211D);
-                case "ropf": return Convert(0xD835, 0xDD63);
-                case "roplus": return Convert(0x2A2E);
-                case "rotimes": return Convert(0x2A35);
-                case "RoundImplies": return Convert(0x2970);
-                case "rpar": return Convert(0x0029);
-                case "rpargt": return Convert(0x2994);
-                case "rppolint": return Convert(0x2A12);
-                case "rrarr": return Convert(0x21C9);
-                case "Rrightarrow": return Convert(0x21DB);
-                case "rsaquo": return Convert(0x203A);
-                case "Rscr": return Convert(0x211B);
-                case "rscr": return Convert(0xD835, 0xDCC7);
-                case "Rsh": return Convert(0x21B1);
-                case "rsh": return Convert(0x21B1);
-                case "rsqb": return Convert(0x005D);
-                case "rsquo": return Convert(0x2019);
-                case "rsquor": return Convert(0x2019);
-                case "rthree": return Convert(0x22CC);
-                case "rtimes": return Convert(0x22CA);
-                case "rtri": return Convert(0x25B9);
-                case "rtrie": return Convert(0x22B5);
-                case "rtrif": return Convert(0x25B8);
-                case "rtriltri": return Convert(0x29CE);
-                case "RuleDelayed": return Convert(0x29F4);
-                case "ruluhar": return Convert(0x2968);
-                case "rx": return Convert(0x211E);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolS(String name)
-        {
-            switch (name)
-            {
-                case "Sacute": return Convert(0x015A);
-                case "sacute": return Convert(0x015B);
-                case "sbquo": return Convert(0x201A);
-                case "Sc": return Convert(0x2ABC);
-                case "sc": return Convert(0x227B);
-                case "scap": return Convert(0x2AB8);
-                case "Scaron": return Convert(0x0160);
-                case "scaron": return Convert(0x0161);
-                case "sccue": return Convert(0x227D);
-                case "scE": return Convert(0x2AB4);
-                case "sce": return Convert(0x2AB0);
-                case "Scedil": return Convert(0x015E);
-                case "scedil": return Convert(0x015F);
-                case "Scirc": return Convert(0x015C);
-                case "scirc": return Convert(0x015D);
-                case "scnap": return Convert(0x2ABA);
-                case "scnE": return Convert(0x2AB6);
-                case "scnsim": return Convert(0x22E9);
-                case "scpolint": return Convert(0x2A13);
-                case "scsim": return Convert(0x227F);
-                case "Scy": return Convert(0x0421);
-                case "scy": return Convert(0x0441);
-                case "sdot": return Convert(0x22C5);
-                case "sdotb": return Convert(0x22A1);
-                case "sdote": return Convert(0x2A66);
-                case "searhk": return Convert(0x2925);
-                case "seArr": return Convert(0x21D8);
-                case "searr": return Convert(0x2198);
-                case "searrow": return Convert(0x2198);
-                case "sect": return Convert(0x00A7);
-                case "semi": return Convert(0x003B);
-                case "seswar": return Convert(0x2929);
-                case "setminus": return Convert(0x2216);
-                case "setmn": return Convert(0x2216);
-                case "sext": return Convert(0x2736);
-                case "Sfr": return Convert(0xD835, 0xDD16);
-                case "sfr": return Convert(0xD835, 0xDD30);
-                case "sfrown": return Convert(0x2322);
-                case "sharp": return Convert(0x266F);
-                case "SHCHcy": return Convert(0x0429);
-                case "shchcy": return Convert(0x0449);
-                case "SHcy": return Convert(0x0428);
-                case "shcy": return Convert(0x0448);
-                case "ShortDownArrow": return Convert(0x2193);
-                case "ShortLeftArrow": return Convert(0x2190);
-                case "shortmid": return Convert(0x2223);
-                case "shortparallel": return Convert(0x2225);
-                case "ShortRightArrow": return Convert(0x2192);
-                case "ShortUpArrow": return Convert(0x2191);
-                case "shy": return Convert(0x00AD);
-                case "Sigma": return Convert(0x03A3);
-                case "sigma": return Convert(0x03C3);
-                case "sigmaf": return Convert(0x03C2);
-                case "sigmav": return Convert(0x03C2);
-                case "sim": return Convert(0x223C);
-                case "simdot": return Convert(0x2A6A);
-                case "sime": return Convert(0x2243);
-                case "simeq": return Convert(0x2243);
-                case "simg": return Convert(0x2A9E);
-                case "simgE": return Convert(0x2AA0);
-                case "siml": return Convert(0x2A9D);
-                case "simlE": return Convert(0x2A9F);
-                case "simne": return Convert(0x2246);
-                case "simplus": return Convert(0x2A24);
-                case "simrarr": return Convert(0x2972);
-                case "slarr": return Convert(0x2190);
-                case "SmallCircle": return Convert(0x2218);
-                case "smallsetminus": return Convert(0x2216);
-                case "smashp": return Convert(0x2A33);
-                case "smeparsl": return Convert(0x29E4);
-                case "smid": return Convert(0x2223);
-                case "smile": return Convert(0x2323);
-                case "smt": return Convert(0x2AAA);
-                case "smte": return Convert(0x2AAC);
-                case "smtes": return Convert(0x2AAC, 0xFE00);
-                case "SOFTcy": return Convert(0x042C);
-                case "softcy": return Convert(0x044C);
-                case "sol": return Convert(0x002F);
-                case "solb": return Convert(0x29C4);
-                case "solbar": return Convert(0x233F);
-                case "Sopf": return Convert(0xD835, 0xDD4A);
-                case "sopf": return Convert(0xD835, 0xDD64);
-                case "spades": return Convert(0x2660);
-                case "spadesuit": return Convert(0x2660);
-                case "spar": return Convert(0x2225);
-                case "sqcap": return Convert(0x2293);
-                case "sqcaps": return Convert(0x2293, 0xFE00);
-                case "sqcup": return Convert(0x2294);
-                case "sqcups": return Convert(0x2294, 0xFE00);
-                case "Sqrt": return Convert(0x221A);
-                case "sqsub": return Convert(0x228F);
-                case "sqsube": return Convert(0x2291);
-                case "sqsubset": return Convert(0x228F);
-                case "sqsubseteq": return Convert(0x2291);
-                case "sqsup": return Convert(0x2290);
-                case "sqsupe": return Convert(0x2292);
-                case "sqsupset": return Convert(0x2290);
-                case "sqsupseteq": return Convert(0x2292);
-                case "squ": return Convert(0x25A1);
-                case "Square": return Convert(0x25A1);
-                case "square": return Convert(0x25A1);
-                case "SquareIntersection": return Convert(0x2293);
-                case "SquareSubset": return Convert(0x228F);
-                case "SquareSubsetEqual": return Convert(0x2291);
-                case "SquareSuperset": return Convert(0x2290);
-                case "SquareSupersetEqual": return Convert(0x2292);
-                case "SquareUnion": return Convert(0x2294);
-                case "squarf": return Convert(0x25AA);
-                case "squf": return Convert(0x25AA);
-                case "srarr": return Convert(0x2192);
-                case "Sscr": return Convert(0xD835, 0xDCAE);
-                case "sscr": return Convert(0xD835, 0xDCC8);
-                case "ssetmn": return Convert(0x2216);
-                case "ssmile": return Convert(0x2323);
-                case "sstarf": return Convert(0x22C6);
-                case "Star": return Convert(0x22C6);
-                case "star": return Convert(0x2606);
-                case "starf": return Convert(0x2605);
-                case "straightepsilon": return Convert(0x03F5);
-                case "straightphi": return Convert(0x03D5);
-                case "strns": return Convert(0x00AF);
-                case "Sub": return Convert(0x22D0);
-                case "sub": return Convert(0x2282);
-                case "subdot": return Convert(0x2ABD);
-                case "subE": return Convert(0x2AC5);
-                case "sube": return Convert(0x2286);
-                case "subedot": return Convert(0x2AC3);
-                case "submult": return Convert(0x2AC1);
-                case "subnE": return Convert(0x2ACB);
-                case "subne": return Convert(0x228A);
-                case "subplus": return Convert(0x2ABF);
-                case "subrarr": return Convert(0x2979);
-                case "Subset": return Convert(0x22D0);
-                case "subset": return Convert(0x2282);
-                case "subseteq": return Convert(0x2286);
-                case "subseteqq": return Convert(0x2AC5);
-                case "SubsetEqual": return Convert(0x2286);
-                case "subsetneq": return Convert(0x228A);
-                case "subsetneqq": return Convert(0x2ACB);
-                case "subsim": return Convert(0x2AC7);
-                case "subsub": return Convert(0x2AD5);
-                case "subsup": return Convert(0x2AD3);
-                case "succ": return Convert(0x227B);
-                case "succapprox": return Convert(0x2AB8);
-                case "succcurlyeq": return Convert(0x227D);
-                case "Succeeds": return Convert(0x227B);
-                case "SucceedsEqual": return Convert(0x2AB0);
-                case "SucceedsSlantEqual": return Convert(0x227D);
-                case "SucceedsTilde": return Convert(0x227F);
-                case "succeq": return Convert(0x2AB0);
-                case "succnapprox": return Convert(0x2ABA);
-                case "succneqq": return Convert(0x2AB6);
-                case "succnsim": return Convert(0x22E9);
-                case "succsim": return Convert(0x227F);
-                case "SuchThat": return Convert(0x220B);
-                case "Sum": return Convert(0x2211);
-                case "sum": return Convert(0x2211);
-                case "sung": return Convert(0x266A);
-                case "Sup": return Convert(0x22D1);
-                case "sup": return Convert(0x2283);
-                case "sup1": return Convert(0x00B9);
-                case "sup2": return Convert(0x00B2);
-                case "sup3": return Convert(0x00B3);
-                case "supdot": return Convert(0x2ABE);
-                case "supdsub": return Convert(0x2AD8);
-                case "supE": return Convert(0x2AC6);
-                case "supe": return Convert(0x2287);
-                case "supedot": return Convert(0x2AC4);
-                case "Superset": return Convert(0x2283);
-                case "SupersetEqual": return Convert(0x2287);
-                case "suphsol": return Convert(0x27C9);
-                case "suphsub": return Convert(0x2AD7);
-                case "suplarr": return Convert(0x297B);
-                case "supmult": return Convert(0x2AC2);
-                case "supnE": return Convert(0x2ACC);
-                case "supne": return Convert(0x228B);
-                case "supplus": return Convert(0x2AC0);
-                case "Supset": return Convert(0x22D1);
-                case "supset": return Convert(0x2283);
-                case "supseteq": return Convert(0x2287);
-                case "supseteqq": return Convert(0x2AC6);
-                case "supsetneq": return Convert(0x228B);
-                case "supsetneqq": return Convert(0x2ACC);
-                case "supsim": return Convert(0x2AC8);
-                case "supsub": return Convert(0x2AD4);
-                case "supsup": return Convert(0x2AD6);
-                case "swarhk": return Convert(0x2926);
-                case "swArr": return Convert(0x21D9);
-                case "swarr": return Convert(0x2199);
-                case "swarrow": return Convert(0x2199);
-                case "swnwar": return Convert(0x292A);
-                case "szlig": return Convert(0x00DF);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolT(String name)
-        {
-            switch (name)
-            {
-                case "Tab": return Convert(0x0009);
-                case "Tau": return Convert(0x03A4);
-                case "Tcaron": return Convert(0x0164);
-                case "Tcedil": return Convert(0x0162);
-                case "Tcy": return Convert(0x0422);
-                case "Tfr": return Convert(0xD835, 0xDD17);
-                case "Therefore": return Convert(0x2234);
-                case "Theta": return Convert(0x0398);
-                case "ThickSpace": return Convert(0x205F, 0x200A);
-                case "ThinSpace": return Convert(0x2009);
-                case "THORN": return Convert(0x00DE);
-                case "Tilde": return Convert(0x223C);
-                case "TildeEqual": return Convert(0x2243);
-                case "TildeFullEqual": return Convert(0x2245);
-                case "TildeTilde": return Convert(0x2248);
-                case "Topf": return Convert(0xD835, 0xDD4B);
-                case "TRADE": return Convert(0x2122);
-                case "TripleDot": return Convert(0x20DB);
-                case "Tscr": return Convert(0xD835, 0xDCAF);
-                case "TScy": return Convert(0x0426);
-                case "TSHcy": return Convert(0x040B);
-                case "Tstrok": return Convert(0x0166);
-                case "target": return Convert(0x2316);
-                case "tau": return Convert(0x03C4);
-                case "tbrk": return Convert(0x23B4);
-                case "tcaron": return Convert(0x0165);
-                case "tcedil": return Convert(0x0163);
-                case "tcy": return Convert(0x0442);
-                case "tdot": return Convert(0x20DB);
-                case "telrec": return Convert(0x2315);
-                case "tfr": return Convert(0xD835, 0xDD31);
-                case "there4": return Convert(0x2234);
-                case "therefore": return Convert(0x2234);
-                case "theta": return Convert(0x03B8);
-                case "thetasym": return Convert(0x03D1);
-                case "thetav": return Convert(0x03D1);
-                case "thickapprox": return Convert(0x2248);
-                case "thicksim": return Convert(0x223C);
-                case "thinsp": return Convert(0x2009);
-                case "thkap": return Convert(0x2248);
-                case "thksim": return Convert(0x223C);
-                case "thorn": return Convert(0x00FE);
-                case "tilde": return Convert(0x02DC);
-                case "times": return Convert(0x00D7);
-                case "timesb": return Convert(0x22A0);
-                case "timesbar": return Convert(0x2A31);
-                case "timesd": return Convert(0x2A30);
-                case "tint": return Convert(0x222D);
-                case "toea": return Convert(0x2928);
-                case "top": return Convert(0x22A4);
-                case "topbot": return Convert(0x2336);
-                case "topcir": return Convert(0x2AF1);
-                case "topf": return Convert(0xD835, 0xDD65);
-                case "topfork": return Convert(0x2ADA);
-                case "tosa": return Convert(0x2929);
-                case "tprime": return Convert(0x2034);
-                case "trade": return Convert(0x2122);
-                case "triangle": return Convert(0x25B5);
-                case "triangledown": return Convert(0x25BF);
-                case "triangleleft": return Convert(0x25C3);
-                case "trianglelefteq": return Convert(0x22B4);
-                case "triangleq": return Convert(0x225C);
-                case "triangleright": return Convert(0x25B9);
-                case "trianglerighteq": return Convert(0x22B5);
-                case "tridot": return Convert(0x25EC);
-                case "trie": return Convert(0x225C);
-                case "triminus": return Convert(0x2A3A);
-                case "triplus": return Convert(0x2A39);
-                case "trisb": return Convert(0x29CD);
-                case "tritime": return Convert(0x2A3B);
-                case "trpezium": return Convert(0x23E2);
-                case "tscr": return Convert(0xD835, 0xDCC9);
-                case "tscy": return Convert(0x0446);
-                case "tshcy": return Convert(0x045B);
-                case "tstrok": return Convert(0x0167);
-                case "twixt": return Convert(0x226C);
-                case "twoheadleftarrow": return Convert(0x219E);
-                case "twoheadrightarrow": return Convert(0x21A0);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolU(String name)
-        {
-            switch (name)
-            {
-                case "Uacute": return Convert(0x00DA);
-                case "Uarr": return Convert(0x219F);
-                case "Uarrocir": return Convert(0x2949);
-                case "Ubrcy": return Convert(0x040E);
-                case "Ubreve": return Convert(0x016C);
-                case "Ucirc": return Convert(0x00DB);
-                case "Ucy": return Convert(0x0423);
-                case "Udblac": return Convert(0x0170);
-                case "Ufr": return Convert(0xD835, 0xDD18);
-                case "Ugrave": return Convert(0x00D9);
-                case "Umacr": return Convert(0x016A);
-                case "UnderBar": return Convert(0x005F);
-                case "UnderBrace": return Convert(0x23DF);
-                case "UnderBracket": return Convert(0x23B5);
-                case "UnderParenthesis": return Convert(0x23DD);
-                case "Union": return Convert(0x22C3);
-                case "UnionPlus": return Convert(0x228E);
-                case "Uogon": return Convert(0x0172);
-                case "Uopf": return Convert(0xD835, 0xDD4C);
-                case "UpArrow": return Convert(0x2191);
-                case "Uparrow": return Convert(0x21D1);
-                case "UpArrowBar": return Convert(0x2912);
-                case "UpArrowDownArrow": return Convert(0x21C5);
-                case "UpDownArrow": return Convert(0x2195);
-                case "Updownarrow": return Convert(0x21D5);
-                case "UpEquilibrium": return Convert(0x296E);
-                case "UpperLeftArrow": return Convert(0x2196);
-                case "UpperRightArrow": return Convert(0x2197);
-                case "Upsi": return Convert(0x03D2);
-                case "Upsilon": return Convert(0x03A5);
-                case "UpTee": return Convert(0x22A5);
-                case "UpTeeArrow": return Convert(0x21A5);
-                case "Uring": return Convert(0x016E);
-                case "Uscr": return Convert(0xD835, 0xDCB0);
-                case "Utilde": return Convert(0x0168);
-                case "Uuml": return Convert(0x00DC);
-                case "uacute": return Convert(0x00FA);
-                case "uArr": return Convert(0x21D1);
-                case "uarr": return Convert(0x2191);
-                case "ubrcy": return Convert(0x045E);
-                case "ubreve": return Convert(0x016D);
-                case "ucirc": return Convert(0x00FB);
-                case "ucy": return Convert(0x0443);
-                case "udarr": return Convert(0x21C5);
-                case "udblac": return Convert(0x0171);
-                case "udhar": return Convert(0x296E);
-                case "ufisht": return Convert(0x297E);
-                case "ufr": return Convert(0xD835, 0xDD32);
-                case "ugrave": return Convert(0x00F9);
-                case "uHar": return Convert(0x2963);
-                case "uharl": return Convert(0x21BF);
-                case "uharr": return Convert(0x21BE);
-                case "uhblk": return Convert(0x2580);
-                case "ulcorn": return Convert(0x231C);
-                case "ulcorner": return Convert(0x231C);
-                case "ulcrop": return Convert(0x230F);
-                case "ultri": return Convert(0x25F8);
-                case "umacr": return Convert(0x016B);
-                case "uml": return Convert(0x00A8);
-                case "uogon": return Convert(0x0173);
-                case "uopf": return Convert(0xD835, 0xDD66);
-                case "uparrow": return Convert(0x2191);
-                case "updownarrow": return Convert(0x2195);
-                case "upharpoonleft": return Convert(0x21BF);
-                case "upharpoonright": return Convert(0x21BE);
-                case "uplus": return Convert(0x228E);
-                case "upsi": return Convert(0x03C5);
-                case "upsih": return Convert(0x03D2);
-                case "upsilon": return Convert(0x03C5);
-                case "upuparrows": return Convert(0x21C8);
-                case "urcorn": return Convert(0x231D);
-                case "urcorner": return Convert(0x231D);
-                case "urcrop": return Convert(0x230E);
-                case "uring": return Convert(0x016F);
-                case "urtri": return Convert(0x25F9);
-                case "uscr": return Convert(0xD835, 0xDCCA);
-                case "utdot": return Convert(0x22F0);
-                case "utilde": return Convert(0x0169);
-                case "utri": return Convert(0x25B5);
-                case "utrif": return Convert(0x25B4);
-                case "uuarr": return Convert(0x21C8);
-                case "uuml": return Convert(0x00FC);
-                case "uwangle": return Convert(0x29A7);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolV(String name)
-        {
-            switch (name)
-            {
-                case "Vbar": return Convert(0x2AEB);
-                case "Vcy": return Convert(0x0412);
-                case "VDash": return Convert(0x22AB);
-                case "Vdash": return Convert(0x22A9);
-                case "Vdashl": return Convert(0x2AE6);
-                case "Vee": return Convert(0x22C1);
-                case "Verbar": return Convert(0x2016);
-                case "Vert": return Convert(0x2016);
-                case "VerticalBar": return Convert(0x2223);
-                case "VerticalLine": return Convert(0x007C);
-                case "VerticalSeparator": return Convert(0x2758);
-                case "VerticalTilde": return Convert(0x2240);
-                case "VeryThinSpace": return Convert(0x200A);
-                case "Vfr": return Convert(0xD835, 0xDD19);
-                case "Vopf": return Convert(0xD835, 0xDD4D);
-                case "Vscr": return Convert(0xD835, 0xDCB1);
-                case "Vvdash": return Convert(0x22AA);
-                case "vangrt": return Convert(0x299C);
-                case "varepsilon": return Convert(0x03F5);
-                case "varkappa": return Convert(0x03F0);
-                case "varnothing": return Convert(0x2205);
-                case "varphi": return Convert(0x03D5);
-                case "varpi": return Convert(0x03D6);
-                case "varpropto": return Convert(0x221D);
-                case "vArr": return Convert(0x21D5);
-                case "varr": return Convert(0x2195);
-                case "varrho": return Convert(0x03F1);
-                case "varsigma": return Convert(0x03C2);
-                case "varsubsetneq": return Convert(0x228A, 0xFE00);
-                case "varsubsetneqq": return Convert(0x2ACB, 0xFE00);
-                case "varsupsetneq": return Convert(0x228B, 0xFE00);
-                case "varsupsetneqq": return Convert(0x2ACC, 0xFE00);
-                case "vartheta": return Convert(0x03D1);
-                case "vartriangleleft": return Convert(0x22B2);
-                case "vartriangleright": return Convert(0x22B3);
-                case "vBar": return Convert(0x2AE8);
-                case "vBarv": return Convert(0x2AE9);
-                case "vcy": return Convert(0x0432);
-                case "vDash": return Convert(0x22A8);
-                case "vdash": return Convert(0x22A2);
-                case "vee": return Convert(0x2228);
-                case "veebar": return Convert(0x22BB);
-                case "veeeq": return Convert(0x225A);
-                case "vellip": return Convert(0x22EE);
-                case "verbar": return Convert(0x007C);
-                case "vert": return Convert(0x007C);
-                case "vfr": return Convert(0xD835, 0xDD33);
-                case "vltri": return Convert(0x22B2);
-                case "vnsub": return Convert(0x2282, 0x20D2);
-                case "vnsup": return Convert(0x2283, 0x20D2);
-                case "vopf": return Convert(0xD835, 0xDD67);
-                case "vprop": return Convert(0x221D);
-                case "vrtri": return Convert(0x22B3);
-                case "vscr": return Convert(0xD835, 0xDCCB);
-                case "vsubnE": return Convert(0x2ACB, 0xFE00);
-                case "vsubne": return Convert(0x228A, 0xFE00);
-                case "vsupnE": return Convert(0x2ACC, 0xFE00);
-                case "vsupne": return Convert(0x228B, 0xFE00);
-                case "vzigzag": return Convert(0x299A);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolW(String name)
-        {
-            switch (name)
-            {
-                case "Wcirc": return Convert(0x0174);
-                case "Wedge": return Convert(0x22C0);
-                case "Wfr": return Convert(0xD835, 0xDD1A);
-                case "Wopf": return Convert(0xD835, 0xDD4E);
-                case "Wscr": return Convert(0xD835, 0xDCB2);
-                case "wcirc": return Convert(0x0175);
-                case "wedbar": return Convert(0x2A5F);
-                case "wedge": return Convert(0x2227);
-                case "wedgeq": return Convert(0x2259);
-                case "weierp": return Convert(0x2118);
-                case "wfr": return Convert(0xD835, 0xDD34);
-                case "wopf": return Convert(0xD835, 0xDD68);
-                case "wp": return Convert(0x2118);
-                case "wr": return Convert(0x2240);
-                case "wreath": return Convert(0x2240);
-                case "wscr": return Convert(0xD835, 0xDCCC);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolX(String name)
-        {
-            switch (name)
-            {
-                case "Xfr": return Convert(0xD835, 0xDD1B);
-                case "Xi": return Convert(0x039E);
-                case "Xopf": return Convert(0xD835, 0xDD4F);
-                case "Xscr": return Convert(0xD835, 0xDCB3);
-                case "xcap": return Convert(0x22C2);
-                case "xcirc": return Convert(0x25EF);
-                case "xcup": return Convert(0x22C3);
-                case "xdtri": return Convert(0x25BD);
-                case "xfr": return Convert(0xD835, 0xDD35);
-                case "xhArr": return Convert(0x27FA);
-                case "xharr": return Convert(0x27F7);
-                case "xi": return Convert(0x03BE);
-                case "xlArr": return Convert(0x27F8);
-                case "xlarr": return Convert(0x27F5);
-                case "xmap": return Convert(0x27FC);
-                case "xnis": return Convert(0x22FB);
-                case "xodot": return Convert(0x2A00);
-                case "xopf": return Convert(0xD835, 0xDD69);
-                case "xoplus": return Convert(0x2A01);
-                case "xotime": return Convert(0x2A02);
-                case "xrArr": return Convert(0x27F9);
-                case "xrarr": return Convert(0x27F6);
-                case "xscr": return Convert(0xD835, 0xDCCD);
-                case "xsqcup": return Convert(0x2A06);
-                case "xuplus": return Convert(0x2A04);
-                case "xutri": return Convert(0x25B3);
-                case "xvee": return Convert(0x22C1);
-                case "xwedge": return Convert(0x22C0);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolY(String name)
-        {
-            switch (name)
-            {
-                case "Yacute": return Convert(0x00DD);
-                case "YAcy": return Convert(0x042F);
-                case "Ycirc": return Convert(0x0176);
-                case "Ycy": return Convert(0x042B);
-                case "Yfr": return Convert(0xD835, 0xDD1C);
-                case "YIcy": return Convert(0x0407);
-                case "Yopf": return Convert(0xD835, 0xDD50);
-                case "Yscr": return Convert(0xD835, 0xDCB4);
-                case "YUcy": return Convert(0x042E);
-                case "Yuml": return Convert(0x0178);
-                case "yacute": return Convert(0x00FD);
-                case "yacy": return Convert(0x044F);
-                case "ycirc": return Convert(0x0177);
-                case "ycy": return Convert(0x044B);
-                case "yen": return Convert(0x00A5);
-                case "yfr": return Convert(0xD835, 0xDD36);
-                case "yicy": return Convert(0x0457);
-                case "yopf": return Convert(0xD835, 0xDD6A);
-                case "yscr": return Convert(0xD835, 0xDCCE);
-                case "yucy": return Convert(0x044E);
-                case "yuml": return Convert(0x00FF);
-            }
-
-            return null;
-        }
-
-        static String GetSymbolZ(String name)
-        {
-            switch (name)
-            {
-                case "Zacute": return Convert(0x0179);
-                case "Zcaron": return Convert(0x017D);
-                case "Zcy": return Convert(0x0417);
-                case "Zdot": return Convert(0x017B);
-                case "ZeroWidthSpace": return Convert(0x200B);
-                case "Zeta": return Convert(0x0396);
-                case "Zfr": return Convert(0x2128);
-                case "ZHcy": return Convert(0x0416);
-                case "Zopf": return Convert(0x2124);
-                case "Zscr": return Convert(0xD835, 0xDCB5);
-                case "zacute": return Convert(0x017A);
-                case "zcaron": return Convert(0x017E);
-                case "zcy": return Convert(0x0437);
-                case "zdot": return Convert(0x017C);
-                case "zeetrf": return Convert(0x2128);
-                case "zeta": return Convert(0x03B6);
-                case "zfr": return Convert(0xD835, 0xDD37);
-                case "zhcy": return Convert(0x0436);
-                case "zigrarr": return Convert(0x21DD);
-                case "zopf": return Convert(0xD835, 0xDD6B);
-                case "zscr": return Convert(0xD835, 0xDCCF);
-                case "zwj": return Convert(0x200D);
-                case "zwnj": return Convert(0x200C);
-            }
-
-            return null;
+            _entities.Add('z', GetSymbolLittleZ());
+            _entities.Add('Z', GetSymbolBigZ());
         }
 
         #endregion
+
+        #region Symbol Methods
+
+        static Dictionary<String, String> GetSymbolLittleA()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("aacute", Convert(0x00E1));
+            symbols.Add("abreve", Convert(0x0103));
+            symbols.Add("ac", Convert(0x223E));
+            symbols.Add("acd", Convert(0x223F));
+            symbols.Add("acE", Convert(0x223E, 0x0333));
+            symbols.Add("acirc", Convert(0x00E2));
+            symbols.Add("acute", Convert(0x00B4));
+            symbols.Add("acy", Convert(0x0430));
+            symbols.Add("aelig", Convert(0x00E6));
+            symbols.Add("af", Convert(0x2061));
+            symbols.Add("afr", Convert(0x1D51E));
+            symbols.Add("agrave", Convert(0x00E0));
+            symbols.Add("alefsym", Convert(0x2135));
+            symbols.Add("aleph", Convert(0x2135));
+            symbols.Add("alpha", Convert(0x03B1));
+            symbols.Add("amacr", Convert(0x0101));
+            symbols.Add("amalg", Convert(0x2A3F));
+            symbols.Add("amp", Convert(0x0026));
+            symbols.Add("and", Convert(0x2227));
+            symbols.Add("andand", Convert(0x2A55));
+            symbols.Add("andd", Convert(0x2A5C));
+            symbols.Add("andslope", Convert(0x2A58));
+            symbols.Add("andv", Convert(0x2A5A));
+            symbols.Add("ang", Convert(0x2220));
+            symbols.Add("ange", Convert(0x29A4));
+            symbols.Add("angle", Convert(0x2220));
+            symbols.Add("angmsd", Convert(0x2221));
+            symbols.Add("angmsdaa", Convert(0x29A8));
+            symbols.Add("angmsdab", Convert(0x29A9));
+            symbols.Add("angmsdac", Convert(0x29AA));
+            symbols.Add("angmsdad", Convert(0x29AB));
+            symbols.Add("angmsdae", Convert(0x29AC));
+            symbols.Add("angmsdaf", Convert(0x29AD));
+            symbols.Add("angmsdag", Convert(0x29AE));
+            symbols.Add("angmsdah", Convert(0x29AF));
+            symbols.Add("angrt", Convert(0x221F));
+            symbols.Add("angrtvb", Convert(0x22BE));
+            symbols.Add("angrtvbd", Convert(0x299D));
+            symbols.Add("angsph", Convert(0x2222));
+            symbols.Add("angst", Convert(0x00C5));
+            symbols.Add("angzarr", Convert(0x237C));
+            symbols.Add("aogon", Convert(0x0105));
+            symbols.Add("aopf", Convert(0x1D552));
+            symbols.Add("ap", Convert(0x2248));
+            symbols.Add("apacir", Convert(0x2A6F));
+            symbols.Add("apE", Convert(0x2A70));
+            symbols.Add("ape", Convert(0x224A));
+            symbols.Add("apid", Convert(0x224B));
+            symbols.Add("apos", Convert(0x0027));
+            symbols.Add("approx", Convert(0x2248));
+            symbols.Add("approxeq", Convert(0x224A));
+            symbols.Add("aring", Convert(0x00E5));
+            symbols.Add("ascr", Convert(0x1D4B6));
+            symbols.Add("ast", Convert(0x002A));
+            symbols.Add("asymp", Convert(0x2248));
+            symbols.Add("asympeq", Convert(0x224D));
+            symbols.Add("atilde", Convert(0x00E3));
+            symbols.Add("auml", Convert(0x00E4));
+            symbols.Add("awconint", Convert(0x2233));
+            symbols.Add("awint", Convert(0x2A11));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigA()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Aogon", Convert(0x0104));
+            symbols.Add("Aopf", Convert(0x1D538));
+            symbols.Add("ApplyFunction", Convert(0x2061));
+            symbols.Add("Aring", Convert(0x00C5));
+            symbols.Add("Ascr", Convert(0x1D49C));
+            symbols.Add("Assign", Convert(0x2254));
+            symbols.Add("Atilde", Convert(0x00C3));
+            symbols.Add("Auml", Convert(0x00C4));
+            symbols.Add("Aacute", Convert(0x00C1));
+            symbols.Add("Abreve", Convert(0x0102));
+            symbols.Add("Acirc", Convert(0x00C2));
+            symbols.Add("Acy", Convert(0x0410));
+            symbols.Add("AElig", Convert(0x00C6));
+            symbols.Add("Afr", Convert(0x1D504));
+            symbols.Add("Agrave", Convert(0x00C0));
+            symbols.Add("Alpha", Convert(0x0391));
+            symbols.Add("Amacr", Convert(0x0100));
+            symbols.Add("AMP", Convert(0x0026));
+            symbols.Add("And", Convert(0x2A53));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleB()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("backcong", Convert(0x224C));
+            symbols.Add("backepsilon", Convert(0x03F6));
+            symbols.Add("backprime", Convert(0x2035));
+            symbols.Add("backsim", Convert(0x223D));
+            symbols.Add("backsimeq", Convert(0x22CD));
+            symbols.Add("barvee", Convert(0x22BD));
+            symbols.Add("barwed", Convert(0x2305));
+            symbols.Add("barwedge", Convert(0x2305));
+            symbols.Add("bbrk", Convert(0x23B5));
+            symbols.Add("bbrktbrk", Convert(0x23B6));
+            symbols.Add("bcong", Convert(0x224C));
+            symbols.Add("bcy", Convert(0x0431));
+            symbols.Add("bdquo", Convert(0x201E));
+            symbols.Add("becaus", Convert(0x2235));
+            symbols.Add("because", Convert(0x2235));
+            symbols.Add("bemptyv", Convert(0x29B0));
+            symbols.Add("bepsi", Convert(0x03F6));
+            symbols.Add("bernou", Convert(0x212C));
+            symbols.Add("beta", Convert(0x03B2));
+            symbols.Add("beth", Convert(0x2136));
+            symbols.Add("between", Convert(0x226C));
+            symbols.Add("bfr", Convert(0x1D51F));
+            symbols.Add("bigcap", Convert(0x22C2));
+            symbols.Add("bigcirc", Convert(0x25EF));
+            symbols.Add("bigcup", Convert(0x22C3));
+            symbols.Add("bigodot", Convert(0x2A00));
+            symbols.Add("bigoplus", Convert(0x2A01));
+            symbols.Add("bigotimes", Convert(0x2A02));
+            symbols.Add("bigsqcup", Convert(0x2A06));
+            symbols.Add("bigstar", Convert(0x2605));
+            symbols.Add("bigtriangledown", Convert(0x25BD));
+            symbols.Add("bigtriangleup", Convert(0x25B3));
+            symbols.Add("biguplus", Convert(0x2A04));
+            symbols.Add("bigvee", Convert(0x22C1));
+            symbols.Add("bigwedge", Convert(0x22C0));
+            symbols.Add("bkarow", Convert(0x290D));
+            symbols.Add("blacklozenge", Convert(0x29EB));
+            symbols.Add("blacksquare", Convert(0x25AA));
+            symbols.Add("blacktriangle", Convert(0x25B4));
+            symbols.Add("blacktriangledown", Convert(0x25BE));
+            symbols.Add("blacktriangleleft", Convert(0x25C2));
+            symbols.Add("blacktriangleright", Convert(0x25B8));
+            symbols.Add("blank", Convert(0x2423));
+            symbols.Add("blk12", Convert(0x2592));
+            symbols.Add("blk14", Convert(0x2591));
+            symbols.Add("blk34", Convert(0x2593));
+            symbols.Add("block", Convert(0x2588));
+            symbols.Add("bne", Convert(0x003D, 0x20E5));
+            symbols.Add("bnequiv", Convert(0x2261, 0x20E5));
+            symbols.Add("bNot", Convert(0x2AED));
+            symbols.Add("bnot", Convert(0x2310));
+            symbols.Add("bopf", Convert(0x1D553));
+            symbols.Add("bot", Convert(0x22A5));
+            symbols.Add("bottom", Convert(0x22A5));
+            symbols.Add("bowtie", Convert(0x22C8));
+            symbols.Add("boxbox", Convert(0x29C9));
+            symbols.Add("boxDL", Convert(0x2557));
+            symbols.Add("boxDl", Convert(0x2556));
+            symbols.Add("boxdL", Convert(0x2555));
+            symbols.Add("boxdl", Convert(0x2510));
+            symbols.Add("boxDR", Convert(0x2554));
+            symbols.Add("boxDr", Convert(0x2553));
+            symbols.Add("boxdR", Convert(0x2552));
+            symbols.Add("boxdr", Convert(0x250C));
+            symbols.Add("boxH", Convert(0x2550));
+            symbols.Add("boxh", Convert(0x2500));
+            symbols.Add("boxHD", Convert(0x2566));
+            symbols.Add("boxHd", Convert(0x2564));
+            symbols.Add("boxhD", Convert(0x2565));
+            symbols.Add("boxhd", Convert(0x252C));
+            symbols.Add("boxHU", Convert(0x2569));
+            symbols.Add("boxHu", Convert(0x2567));
+            symbols.Add("boxhU", Convert(0x2568));
+            symbols.Add("boxhu", Convert(0x2534));
+            symbols.Add("boxminus", Convert(0x229F));
+            symbols.Add("boxplus", Convert(0x229E));
+            symbols.Add("boxtimes", Convert(0x22A0));
+            symbols.Add("boxUL", Convert(0x255D));
+            symbols.Add("boxUl", Convert(0x255C));
+            symbols.Add("boxuL", Convert(0x255B));
+            symbols.Add("boxul", Convert(0x2518));
+            symbols.Add("boxUR", Convert(0x255A));
+            symbols.Add("boxUr", Convert(0x2559));
+            symbols.Add("boxuR", Convert(0x2558));
+            symbols.Add("boxur", Convert(0x2514));
+            symbols.Add("boxV", Convert(0x2551));
+            symbols.Add("boxv", Convert(0x2502));
+            symbols.Add("boxVH", Convert(0x256C));
+            symbols.Add("boxVh", Convert(0x256B));
+            symbols.Add("boxvH", Convert(0x256A));
+            symbols.Add("boxvh", Convert(0x253C));
+            symbols.Add("boxVL", Convert(0x2563));
+            symbols.Add("boxVl", Convert(0x2562));
+            symbols.Add("boxvL", Convert(0x2561));
+            symbols.Add("boxvl", Convert(0x2524));
+            symbols.Add("boxVR", Convert(0x2560));
+            symbols.Add("boxVr", Convert(0x255F));
+            symbols.Add("boxvR", Convert(0x255E));
+            symbols.Add("boxvr", Convert(0x251C));
+            symbols.Add("bprime", Convert(0x2035));
+            symbols.Add("breve", Convert(0x02D8));
+            symbols.Add("brvbar", Convert(0x00A6));
+            symbols.Add("bscr", Convert(0x1D4B7));
+            symbols.Add("bsemi", Convert(0x204F));
+            symbols.Add("bsim", Convert(0x223D));
+            symbols.Add("bsime", Convert(0x22CD));
+            symbols.Add("bsol", Convert(0x005C));
+            symbols.Add("bsolb", Convert(0x29C5));
+            symbols.Add("bsolhsub", Convert(0x27C8));
+            symbols.Add("bull", Convert(0x2022));
+            symbols.Add("bullet", Convert(0x2022));
+            symbols.Add("bump", Convert(0x224E));
+            symbols.Add("bumpE", Convert(0x2AAE));
+            symbols.Add("bumpe", Convert(0x224F));
+            symbols.Add("bumpeq", Convert(0x224F));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigB()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Backslash", Convert(0x2216));
+            symbols.Add("Barv", Convert(0x2AE7));
+            symbols.Add("Barwed", Convert(0x2306));
+            symbols.Add("Bcy", Convert(0x0411));
+            symbols.Add("Because", Convert(0x2235));
+            symbols.Add("Bernoullis", Convert(0x212C));
+            symbols.Add("Beta", Convert(0x0392));
+            symbols.Add("Bfr", Convert(0x1D505));
+            symbols.Add("Bopf", Convert(0x1D539));
+            symbols.Add("Breve", Convert(0x02D8));
+            symbols.Add("Bscr", Convert(0x212C));
+            symbols.Add("Bumpeq", Convert(0x224E));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleC()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("cacute", Convert(0x0107));
+            symbols.Add("cap", Convert(0x2229));
+            symbols.Add("capand", Convert(0x2A44));
+            symbols.Add("capbrcup", Convert(0x2A49));
+            symbols.Add("capcap", Convert(0x2A4B));
+            symbols.Add("capcup", Convert(0x2A47));
+            symbols.Add("capdot", Convert(0x2A40));
+            symbols.Add("caps", Convert(0x2229, 0xFE00));
+            symbols.Add("caret", Convert(0x2041));
+            symbols.Add("caron", Convert(0x02C7));
+            symbols.Add("ccaps", Convert(0x2A4D));
+            symbols.Add("ccaron", Convert(0x010D));
+            symbols.Add("ccedil", Convert(0x00E7));
+            symbols.Add("ccirc", Convert(0x0109));
+            symbols.Add("ccups", Convert(0x2A4C));
+            symbols.Add("ccupssm", Convert(0x2A50));
+            symbols.Add("cdot", Convert(0x010B));
+            symbols.Add("cedil", Convert(0x00B8));
+            symbols.Add("cemptyv", Convert(0x29B2));
+            symbols.Add("cent", Convert(0x00A2));
+            symbols.Add("centerdot", Convert(0x00B7));
+            symbols.Add("cfr", Convert(0x1D520));
+            symbols.Add("chcy", Convert(0x0447));
+            symbols.Add("check", Convert(0x2713));
+            symbols.Add("checkmark", Convert(0x2713));
+            symbols.Add("chi", Convert(0x03C7));
+            symbols.Add("cir", Convert(0x25CB));
+            symbols.Add("circ", Convert(0x02C6));
+            symbols.Add("circeq", Convert(0x2257));
+            symbols.Add("circlearrowleft", Convert(0x21BA));
+            symbols.Add("circlearrowright", Convert(0x21BB));
+            symbols.Add("circledast", Convert(0x229B));
+            symbols.Add("circledcirc", Convert(0x229A));
+            symbols.Add("circleddash", Convert(0x229D));
+            symbols.Add("circledR", Convert(0x00AE));
+            symbols.Add("circledS", Convert(0x24C8));
+            symbols.Add("cirE", Convert(0x29C3));
+            symbols.Add("cire", Convert(0x2257));
+            symbols.Add("cirfnint", Convert(0x2A10));
+            symbols.Add("cirmid", Convert(0x2AEF));
+            symbols.Add("cirscir", Convert(0x29C2));
+            symbols.Add("clubs", Convert(0x2663));
+            symbols.Add("clubsuit", Convert(0x2663));
+            symbols.Add("colon", Convert(0x003A));
+            symbols.Add("colone", Convert(0x2254));
+            symbols.Add("coloneq", Convert(0x2254));
+            symbols.Add("comma", Convert(0x002C));
+            symbols.Add("commat", Convert(0x0040));
+            symbols.Add("comp", Convert(0x2201));
+            symbols.Add("compfn", Convert(0x2218));
+            symbols.Add("complement", Convert(0x2201));
+            symbols.Add("complexes", Convert(0x2102));
+            symbols.Add("cong", Convert(0x2245));
+            symbols.Add("congdot", Convert(0x2A6D));
+            symbols.Add("conint", Convert(0x222E));
+            symbols.Add("copf", Convert(0x1D554));
+            symbols.Add("coprod", Convert(0x2210));
+            symbols.Add("copy", Convert(0x00A9));
+            symbols.Add("copysr", Convert(0x2117));
+            symbols.Add("crarr", Convert(0x21B5));
+            symbols.Add("cross", Convert(0x2717));
+            symbols.Add("cscr", Convert(0x1D4B8));
+            symbols.Add("csub", Convert(0x2ACF));
+            symbols.Add("csube", Convert(0x2AD1));
+            symbols.Add("csup", Convert(0x2AD0));
+            symbols.Add("csupe", Convert(0x2AD2));
+            symbols.Add("ctdot", Convert(0x22EF));
+            symbols.Add("cudarrl", Convert(0x2938));
+            symbols.Add("cudarrr", Convert(0x2935));
+            symbols.Add("cuepr", Convert(0x22DE));
+            symbols.Add("cuesc", Convert(0x22DF));
+            symbols.Add("cularr", Convert(0x21B6));
+            symbols.Add("cularrp", Convert(0x293D));
+            symbols.Add("cup", Convert(0x222A));
+            symbols.Add("cupbrcap", Convert(0x2A48));
+            symbols.Add("cupcap", Convert(0x2A46));
+            symbols.Add("cupcup", Convert(0x2A4A));
+            symbols.Add("cupdot", Convert(0x228D));
+            symbols.Add("cupor", Convert(0x2A45));
+            symbols.Add("cups", Convert(0x222A, 0xFE00));
+            symbols.Add("curarr", Convert(0x21B7));
+            symbols.Add("curarrm", Convert(0x293C));
+            symbols.Add("curlyeqprec", Convert(0x22DE));
+            symbols.Add("curlyeqsucc", Convert(0x22DF));
+            symbols.Add("curlyvee", Convert(0x22CE));
+            symbols.Add("curlywedge", Convert(0x22CF));
+            symbols.Add("curren", Convert(0x00A4));
+            symbols.Add("curvearrowleft", Convert(0x21B6));
+            symbols.Add("curvearrowright", Convert(0x21B7));
+            symbols.Add("cuvee", Convert(0x22CE));
+            symbols.Add("cuwed", Convert(0x22CF));
+            symbols.Add("cwconint", Convert(0x2232));
+            symbols.Add("cwint", Convert(0x2231));
+            symbols.Add("cylcty", Convert(0x232D));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigC()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Cacute", Convert(0x0106));
+            symbols.Add("Cap", Convert(0x22D2));
+            symbols.Add("CapitalDifferentialD", Convert(0x2145));
+            symbols.Add("Cayleys", Convert(0x212D));
+            symbols.Add("Ccaron", Convert(0x010C));
+            symbols.Add("Ccedil", Convert(0x00C7));
+            symbols.Add("Ccirc", Convert(0x0108));
+            symbols.Add("Cconint", Convert(0x2230));
+            symbols.Add("Cdot", Convert(0x010A));
+            symbols.Add("Cedilla", Convert(0x00B8));
+            symbols.Add("CenterDot", Convert(0x00B7));
+            symbols.Add("Cfr", Convert(0x212D));
+            symbols.Add("CHcy", Convert(0x0427));
+            symbols.Add("Chi", Convert(0x03A7));
+            symbols.Add("CircleDot", Convert(0x2299));
+            symbols.Add("CircleMinus", Convert(0x2296));
+            symbols.Add("CirclePlus", Convert(0x2295));
+            symbols.Add("CircleTimes", Convert(0x2297));
+            symbols.Add("ClockwiseContourIntegral", Convert(0x2232));
+            symbols.Add("CloseCurlyDoubleQuote", Convert(0x201D));
+            symbols.Add("CloseCurlyQuote", Convert(0x2019));
+            symbols.Add("Colon", Convert(0x2237));
+            symbols.Add("Colone", Convert(0x2A74));
+            symbols.Add("Congruent", Convert(0x2261));
+            symbols.Add("Conint", Convert(0x222F));
+            symbols.Add("ContourIntegral", Convert(0x222E));
+            symbols.Add("Copf", Convert(0x2102));
+            symbols.Add("Coproduct", Convert(0x2210));
+            symbols.Add("COPY", Convert(0x00A9));
+            symbols.Add("CounterClockwiseContourIntegral", Convert(0x2233));
+            symbols.Add("Cross", Convert(0x2A2F));
+            symbols.Add("Cscr", Convert(0x1D49E));
+            symbols.Add("Cup", Convert(0x22D3));
+            symbols.Add("CupCap", Convert(0x224D));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleD()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("dagger", Convert(0x2020));
+            symbols.Add("daleth", Convert(0x2138));
+            symbols.Add("dArr", Convert(0x21D3));
+            symbols.Add("darr", Convert(0x2193));
+            symbols.Add("dash", Convert(0x2010));
+            symbols.Add("dashv", Convert(0x22A3));
+            symbols.Add("dbkarow", Convert(0x290F));
+            symbols.Add("dblac", Convert(0x02DD));
+            symbols.Add("dcaron", Convert(0x010F));
+            symbols.Add("dcy", Convert(0x0434));
+            symbols.Add("dd", Convert(0x2146));
+            symbols.Add("ddagger", Convert(0x2021));
+            symbols.Add("ddarr", Convert(0x21CA));
+            symbols.Add("ddotseq", Convert(0x2A77));
+            symbols.Add("deg", Convert(0x00B0));
+            symbols.Add("delta", Convert(0x03B4));
+            symbols.Add("demptyv", Convert(0x29B1));
+            symbols.Add("dfisht", Convert(0x297F));
+            symbols.Add("dfr", Convert(0x1D521));
+            symbols.Add("dHar", Convert(0x2965));
+            symbols.Add("dharl", Convert(0x21C3));
+            symbols.Add("dharr", Convert(0x21C2));
+            symbols.Add("diam", Convert(0x22C4));
+            symbols.Add("diamond", Convert(0x22C4));
+            symbols.Add("diamondsuit", Convert(0x2666));
+            symbols.Add("diams", Convert(0x2666));
+            symbols.Add("die", Convert(0x00A8));
+            symbols.Add("digamma", Convert(0x03DD));
+            symbols.Add("disin", Convert(0x22F2));
+            symbols.Add("div", Convert(0x00F7));
+            symbols.Add("divide", Convert(0x00F7));
+            symbols.Add("divideontimes", Convert(0x22C7));
+            symbols.Add("divonx", Convert(0x22C7));
+            symbols.Add("djcy", Convert(0x0452));
+            symbols.Add("dlcorn", Convert(0x231E));
+            symbols.Add("dlcrop", Convert(0x230D));
+            symbols.Add("dollar", Convert(0x0024));
+            symbols.Add("dopf", Convert(0x1D555));
+            symbols.Add("dot", Convert(0x02D9));
+            symbols.Add("doteq", Convert(0x2250));
+            symbols.Add("doteqdot", Convert(0x2251));
+            symbols.Add("dotminus", Convert(0x2238));
+            symbols.Add("dotplus", Convert(0x2214));
+            symbols.Add("dotsquare", Convert(0x22A1));
+            symbols.Add("doublebarwedge", Convert(0x2306));
+            symbols.Add("downarrow", Convert(0x2193));
+            symbols.Add("downdownarrows", Convert(0x21CA));
+            symbols.Add("downharpoonleft", Convert(0x21C3));
+            symbols.Add("downharpoonright", Convert(0x21C2));
+            symbols.Add("drbkarow", Convert(0x2910));
+            symbols.Add("drcorn", Convert(0x231F));
+            symbols.Add("drcrop", Convert(0x230C));
+            symbols.Add("dscr", Convert(0x1D4B9));
+            symbols.Add("dscy", Convert(0x0455));
+            symbols.Add("dsol", Convert(0x29F6));
+            symbols.Add("dstrok", Convert(0x0111));
+            symbols.Add("dtdot", Convert(0x22F1));
+            symbols.Add("dtri", Convert(0x25BF));
+            symbols.Add("dtrif", Convert(0x25BE));
+            symbols.Add("duarr", Convert(0x21F5));
+            symbols.Add("duhar", Convert(0x296F));
+            symbols.Add("dwangle", Convert(0x29A6));
+            symbols.Add("dzcy", Convert(0x045F));
+            symbols.Add("dzigrarr", Convert(0x27FF));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigD()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Dagger", Convert(0x2021));
+            symbols.Add("Darr", Convert(0x21A1));
+            symbols.Add("Dashv", Convert(0x2AE4));
+            symbols.Add("Dcaron", Convert(0x010E));
+            symbols.Add("Dcy", Convert(0x0414));
+            symbols.Add("DD", Convert(0x2145));
+            symbols.Add("DDotrahd", Convert(0x2911));
+            symbols.Add("Del", Convert(0x2207));
+            symbols.Add("Delta", Convert(0x0394));
+            symbols.Add("Dfr", Convert(0x1D507));
+            symbols.Add("DiacriticalAcute", Convert(0x00B4));
+            symbols.Add("DiacriticalDot", Convert(0x02D9));
+            symbols.Add("DiacriticalDoubleAcute", Convert(0x02DD));
+            symbols.Add("DiacriticalGrave", Convert(0x0060));
+            symbols.Add("DiacriticalTilde", Convert(0x02DC));
+            symbols.Add("Diamond", Convert(0x22C4));
+            symbols.Add("DifferentialD", Convert(0x2146));
+            symbols.Add("DJcy", Convert(0x0402));
+            symbols.Add("Dopf", Convert(0x1D53B));
+            symbols.Add("Dot", Convert(0x00A8));
+            symbols.Add("DotDot", Convert(0x20DC));
+            symbols.Add("DotEqual", Convert(0x2250));
+            symbols.Add("DoubleContourIntegral", Convert(0x222F));
+            symbols.Add("DoubleDot", Convert(0x00A8));
+            symbols.Add("DoubleDownArrow", Convert(0x21D3));
+            symbols.Add("DoubleLeftArrow", Convert(0x21D0));
+            symbols.Add("DoubleLeftRightArrow", Convert(0x21D4));
+            symbols.Add("DoubleLeftTee", Convert(0x2AE4));
+            symbols.Add("DoubleLongLeftArrow", Convert(0x27F8));
+            symbols.Add("DoubleLongLeftRightArrow", Convert(0x27FA));
+            symbols.Add("DoubleLongRightArrow", Convert(0x27F9));
+            symbols.Add("DoubleRightArrow", Convert(0x21D2));
+            symbols.Add("DoubleRightTee", Convert(0x22A8));
+            symbols.Add("DoubleUpArrow", Convert(0x21D1));
+            symbols.Add("DoubleUpDownArrow", Convert(0x21D5));
+            symbols.Add("DoubleVerticalBar", Convert(0x2225));
+            symbols.Add("DownArrow", Convert(0x2193));
+            symbols.Add("Downarrow", Convert(0x21D3));
+            symbols.Add("DownArrowBar", Convert(0x2913));
+            symbols.Add("DownArrowUpArrow", Convert(0x21F5));
+            symbols.Add("DownBreve", Convert(0x0311));
+            symbols.Add("DownLeftRightVector", Convert(0x2950));
+            symbols.Add("DownLeftTeeVector", Convert(0x295E));
+            symbols.Add("DownLeftVector", Convert(0x21BD));
+            symbols.Add("DownLeftVectorBar", Convert(0x2956));
+            symbols.Add("DownRightTeeVector", Convert(0x295F));
+            symbols.Add("DownRightVector", Convert(0x21C1));
+            symbols.Add("DownRightVectorBar", Convert(0x2957));
+            symbols.Add("DownTee", Convert(0x22A4));
+            symbols.Add("DownTeeArrow", Convert(0x21A7));
+            symbols.Add("Dscr", Convert(0x1D49F));
+            symbols.Add("DScy", Convert(0x0405));
+            symbols.Add("Dstrok", Convert(0x0110));
+            symbols.Add("DZcy", Convert(0x040F));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleE()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("eacute", Convert(0x00E9));
+            symbols.Add("easter", Convert(0x2A6E));
+            symbols.Add("ecaron", Convert(0x011B));
+            symbols.Add("ecir", Convert(0x2256));
+            symbols.Add("ecirc", Convert(0x00EA));
+            symbols.Add("ecolon", Convert(0x2255));
+            symbols.Add("ecy", Convert(0x044D));
+            symbols.Add("eDDot", Convert(0x2A77));
+            symbols.Add("eDot", Convert(0x2251));
+            symbols.Add("edot", Convert(0x0117));
+            symbols.Add("ee", Convert(0x2147));
+            symbols.Add("efDot", Convert(0x2252));
+            symbols.Add("efr", Convert(0x1D522));
+            symbols.Add("eg", Convert(0x2A9A));
+            symbols.Add("egrave", Convert(0x00E8));
+            symbols.Add("egs", Convert(0x2A96));
+            symbols.Add("egsdot", Convert(0x2A98));
+            symbols.Add("el", Convert(0x2A99));
+            symbols.Add("elinters", Convert(0x23E7));
+            symbols.Add("ell", Convert(0x2113));
+            symbols.Add("els", Convert(0x2A95));
+            symbols.Add("elsdot", Convert(0x2A97));
+            symbols.Add("emacr", Convert(0x0113));
+            symbols.Add("empty", Convert(0x2205));
+            symbols.Add("emptyset", Convert(0x2205));
+            symbols.Add("emptyv", Convert(0x2205));
+            symbols.Add("emsp", Convert(0x2003));
+            symbols.Add("emsp13", Convert(0x2004));
+            symbols.Add("emsp14", Convert(0x2005));
+            symbols.Add("eng", Convert(0x014B));
+            symbols.Add("ensp", Convert(0x2002));
+            symbols.Add("eogon", Convert(0x0119));
+            symbols.Add("eopf", Convert(0x1D556));
+            symbols.Add("epar", Convert(0x22D5));
+            symbols.Add("eparsl", Convert(0x29E3));
+            symbols.Add("eplus", Convert(0x2A71));
+            symbols.Add("epsi", Convert(0x03B5));
+            symbols.Add("epsilon", Convert(0x03B5));
+            symbols.Add("epsiv", Convert(0x03F5));
+            symbols.Add("eqcirc", Convert(0x2256));
+            symbols.Add("eqcolon", Convert(0x2255));
+            symbols.Add("eqsim", Convert(0x2242));
+            symbols.Add("eqslantgtr", Convert(0x2A96));
+            symbols.Add("eqslantless", Convert(0x2A95));
+            symbols.Add("equals", Convert(0x003D));
+            symbols.Add("equest", Convert(0x225F));
+            symbols.Add("equiv", Convert(0x2261));
+            symbols.Add("equivDD", Convert(0x2A78));
+            symbols.Add("eqvparsl", Convert(0x29E5));
+            symbols.Add("erarr", Convert(0x2971));
+            symbols.Add("erDot", Convert(0x2253));
+            symbols.Add("escr", Convert(0x212F));
+            symbols.Add("esdot", Convert(0x2250));
+            symbols.Add("esim", Convert(0x2242));
+            symbols.Add("eta", Convert(0x03B7));
+            symbols.Add("eth", Convert(0x00F0));
+            symbols.Add("euml", Convert(0x00EB));
+            symbols.Add("euro", Convert(0x20AC));
+            symbols.Add("excl", Convert(0x0021));
+            symbols.Add("exist", Convert(0x2203));
+            symbols.Add("expectation", Convert(0x2130));
+            symbols.Add("exponentiale", Convert(0x2147));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigE()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Eacute", Convert(0x00C9));
+            symbols.Add("Ecaron", Convert(0x011A));
+            symbols.Add("Ecirc", Convert(0x00CA));
+            symbols.Add("Ecy", Convert(0x042D));
+            symbols.Add("Edot", Convert(0x0116));
+            symbols.Add("Efr", Convert(0x1D508));
+            symbols.Add("Egrave", Convert(0x00C8));
+            symbols.Add("Element", Convert(0x2208));
+            symbols.Add("Emacr", Convert(0x0112));
+            symbols.Add("EmptySmallSquare", Convert(0x25FB));
+            symbols.Add("EmptyVerySmallSquare", Convert(0x25AB));
+            symbols.Add("ENG", Convert(0x014A));
+            symbols.Add("Eogon", Convert(0x0118));
+            symbols.Add("Eopf", Convert(0x1D53C));
+            symbols.Add("Epsilon", Convert(0x0395));
+            symbols.Add("Equal", Convert(0x2A75));
+            symbols.Add("EqualTilde", Convert(0x2242));
+            symbols.Add("Equilibrium", Convert(0x21CC));
+            symbols.Add("Escr", Convert(0x2130));
+            symbols.Add("Esim", Convert(0x2A73));
+            symbols.Add("Eta", Convert(0x0397));
+            symbols.Add("ETH", Convert(0x00D0));
+            symbols.Add("Euml", Convert(0x00CB));
+            symbols.Add("Exists", Convert(0x2203));
+            symbols.Add("ExponentialE", Convert(0x2147));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleF()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("fallingdotseq", Convert(0x2252));
+            symbols.Add("fcy", Convert(0x0444));
+            symbols.Add("female", Convert(0x2640));
+            symbols.Add("ffilig", Convert(0xFB03));
+            symbols.Add("fflig", Convert(0xFB00));
+            symbols.Add("ffllig", Convert(0xFB04));
+            symbols.Add("ffr", Convert(0x1D523));
+            symbols.Add("filig", Convert(0xFB01));
+            symbols.Add("fjlig", Convert(0x0066, 0x006A));
+            symbols.Add("flat", Convert(0x266D));
+            symbols.Add("fllig", Convert(0xFB02));
+            symbols.Add("fltns", Convert(0x25B1));
+            symbols.Add("fnof", Convert(0x0192));
+            symbols.Add("fopf", Convert(0x1D557));
+            symbols.Add("forall", Convert(0x2200));
+            symbols.Add("fork", Convert(0x22D4));
+            symbols.Add("forkv", Convert(0x2AD9));
+            symbols.Add("fpartint", Convert(0x2A0D));
+            symbols.Add("frac12", Convert(0x00BD));
+            symbols.Add("frac13", Convert(0x2153));
+            symbols.Add("frac14", Convert(0x00BC));
+            symbols.Add("frac15", Convert(0x2155));
+            symbols.Add("frac16", Convert(0x2159));
+            symbols.Add("frac18", Convert(0x215B));
+            symbols.Add("frac23", Convert(0x2154));
+            symbols.Add("frac25", Convert(0x2156));
+            symbols.Add("frac34", Convert(0x00BE));
+            symbols.Add("frac35", Convert(0x2157));
+            symbols.Add("frac38", Convert(0x215C));
+            symbols.Add("frac45", Convert(0x2158));
+            symbols.Add("frac56", Convert(0x215A));
+            symbols.Add("frac58", Convert(0x215D));
+            symbols.Add("frac78", Convert(0x215E));
+            symbols.Add("frasl", Convert(0x2044));
+            symbols.Add("frown", Convert(0x2322));
+            symbols.Add("fscr", Convert(0x1D4BB));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigF()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Fcy", Convert(0x0424));
+            symbols.Add("Ffr", Convert(0x1D509));
+            symbols.Add("FilledSmallSquare", Convert(0x25FC));
+            symbols.Add("FilledVerySmallSquare", Convert(0x25AA));
+            symbols.Add("Fopf", Convert(0x1D53D));
+            symbols.Add("ForAll", Convert(0x2200));
+            symbols.Add("Fouriertrf", Convert(0x2131));
+            symbols.Add("Fscr", Convert(0x2131));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleG()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("gacute", Convert(0x01F5));
+            symbols.Add("gamma", Convert(0x03B3));
+            symbols.Add("gammad", Convert(0x03DD));
+            symbols.Add("gap", Convert(0x2A86));
+            symbols.Add("gbreve", Convert(0x011F));
+            symbols.Add("gcirc", Convert(0x011D));
+            symbols.Add("gcy", Convert(0x0433));
+            symbols.Add("gdot", Convert(0x0121));
+            symbols.Add("gE", Convert(0x2267));
+            symbols.Add("ge", Convert(0x2265));
+            symbols.Add("gEl", Convert(0x2A8C));
+            symbols.Add("gel", Convert(0x22DB));
+            symbols.Add("geq", Convert(0x2265));
+            symbols.Add("geqq", Convert(0x2267));
+            symbols.Add("geqslant", Convert(0x2A7E));
+            symbols.Add("ges", Convert(0x2A7E));
+            symbols.Add("gescc", Convert(0x2AA9));
+            symbols.Add("gesdot", Convert(0x2A80));
+            symbols.Add("gesdoto", Convert(0x2A82));
+            symbols.Add("gesdotol", Convert(0x2A84));
+            symbols.Add("gesl", Convert(0x22DB, 0xFE00));
+            symbols.Add("gesles", Convert(0x2A94));
+            symbols.Add("gfr", Convert(0x1D524));
+            symbols.Add("gg", Convert(0x226B));
+            symbols.Add("ggg", Convert(0x22D9));
+            symbols.Add("gimel", Convert(0x2137));
+            symbols.Add("gjcy", Convert(0x0453));
+            symbols.Add("gl", Convert(0x2277));
+            symbols.Add("gla", Convert(0x2AA5));
+            symbols.Add("glE", Convert(0x2A92));
+            symbols.Add("glj", Convert(0x2AA4));
+            symbols.Add("gnap", Convert(0x2A8A));
+            symbols.Add("gnapprox", Convert(0x2A8A));
+            symbols.Add("gnE", Convert(0x2269));
+            symbols.Add("gne", Convert(0x2A88));
+            symbols.Add("gneq", Convert(0x2A88));
+            symbols.Add("gneqq", Convert(0x2269));
+            symbols.Add("gnsim", Convert(0x22E7));
+            symbols.Add("gopf", Convert(0x1D558));
+            symbols.Add("grave", Convert(0x0060));
+            symbols.Add("gscr", Convert(0x210A));
+            symbols.Add("gsim", Convert(0x2273));
+            symbols.Add("gsime", Convert(0x2A8E));
+            symbols.Add("gsiml", Convert(0x2A90));
+            symbols.Add("gt", Convert(0x003E));
+            symbols.Add("gtcc", Convert(0x2AA7));
+            symbols.Add("gtcir", Convert(0x2A7A));
+            symbols.Add("gtdot", Convert(0x22D7));
+            symbols.Add("gtlPar", Convert(0x2995));
+            symbols.Add("gtquest", Convert(0x2A7C));
+            symbols.Add("gtrapprox", Convert(0x2A86));
+            symbols.Add("gtrarr", Convert(0x2978));
+            symbols.Add("gtrdot", Convert(0x22D7));
+            symbols.Add("gtreqless", Convert(0x22DB));
+            symbols.Add("gtreqqless", Convert(0x2A8C));
+            symbols.Add("gtrless", Convert(0x2277));
+            symbols.Add("gtrsim", Convert(0x2273));
+            symbols.Add("gvertneqq", Convert(0x2269, 0xFE00));
+            symbols.Add("gvnE", Convert(0x2269, 0xFE00));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigG()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Gamma", Convert(0x0393));
+            symbols.Add("Gammad", Convert(0x03DC));
+            symbols.Add("Gbreve", Convert(0x011E));
+            symbols.Add("Gcedil", Convert(0x0122));
+            symbols.Add("Gcirc", Convert(0x011C));
+            symbols.Add("Gcy", Convert(0x0413));
+            symbols.Add("Gdot", Convert(0x0120));
+            symbols.Add("Gfr", Convert(0x1D50A));
+            symbols.Add("Gg", Convert(0x22D9));
+            symbols.Add("GJcy", Convert(0x0403));
+            symbols.Add("Gopf", Convert(0x1D53E));
+            symbols.Add("GreaterEqual", Convert(0x2265));
+            symbols.Add("GreaterEqualLess", Convert(0x22DB));
+            symbols.Add("GreaterFullEqual", Convert(0x2267));
+            symbols.Add("GreaterGreater", Convert(0x2AA2));
+            symbols.Add("GreaterLess", Convert(0x2277));
+            symbols.Add("GreaterSlantEqual", Convert(0x2A7E));
+            symbols.Add("GreaterTilde", Convert(0x2273));
+            symbols.Add("Gscr", Convert(0x1D4A2));
+            symbols.Add("GT", Convert(0x003E));
+            symbols.Add("Gt", Convert(0x226B));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleH()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("hairsp", Convert(0x200A));
+            symbols.Add("half", Convert(0x00BD));
+            symbols.Add("hamilt", Convert(0x210B));
+            symbols.Add("hardcy", Convert(0x044A));
+            symbols.Add("hArr", Convert(0x21D4));
+            symbols.Add("harr", Convert(0x2194));
+            symbols.Add("harrcir", Convert(0x2948));
+            symbols.Add("harrw", Convert(0x21AD));
+            symbols.Add("hbar", Convert(0x210F));
+            symbols.Add("hcirc", Convert(0x0125));
+            symbols.Add("hearts", Convert(0x2665));
+            symbols.Add("heartsuit", Convert(0x2665));
+            symbols.Add("hellip", Convert(0x2026));
+            symbols.Add("hercon", Convert(0x22B9));
+            symbols.Add("hfr", Convert(0x1D525));
+            symbols.Add("hksearow", Convert(0x2925));
+            symbols.Add("hkswarow", Convert(0x2926));
+            symbols.Add("hoarr", Convert(0x21FF));
+            symbols.Add("homtht", Convert(0x223B));
+            symbols.Add("hookleftarrow", Convert(0x21A9));
+            symbols.Add("hookrightarrow", Convert(0x21AA));
+            symbols.Add("hopf", Convert(0x1D559));
+            symbols.Add("horbar", Convert(0x2015));
+            symbols.Add("hscr", Convert(0x1D4BD));
+            symbols.Add("hslash", Convert(0x210F));
+            symbols.Add("hstrok", Convert(0x0127));
+            symbols.Add("hybull", Convert(0x2043));
+            symbols.Add("hyphen", Convert(0x2010));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigH()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Hacek", Convert(0x02C7));
+            symbols.Add("HARDcy", Convert(0x042A));
+            symbols.Add("Hat", Convert(0x005E));
+            symbols.Add("Hcirc", Convert(0x0124));
+            symbols.Add("Hfr", Convert(0x210C));
+            symbols.Add("HilbertSpace", Convert(0x210B));
+            symbols.Add("Hopf", Convert(0x210D));
+            symbols.Add("HorizontalLine", Convert(0x2500));
+            symbols.Add("Hscr", Convert(0x210B));
+            symbols.Add("Hstrok", Convert(0x0126));
+            symbols.Add("HumpDownHump", Convert(0x224E));
+            symbols.Add("HumpEqual", Convert(0x224F));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleI()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("iacute", Convert(0x00ED));
+            symbols.Add("ic", Convert(0x2063));
+            symbols.Add("icirc", Convert(0x00EE));
+            symbols.Add("icy", Convert(0x0438));
+            symbols.Add("iecy", Convert(0x0435));
+            symbols.Add("iexcl", Convert(0x00A1));
+            symbols.Add("iff", Convert(0x21D4));
+            symbols.Add("ifr", Convert(0x1D526));
+            symbols.Add("igrave", Convert(0x00EC));
+            symbols.Add("ii", Convert(0x2148));
+            symbols.Add("iiiint", Convert(0x2A0C));
+            symbols.Add("iiint", Convert(0x222D));
+            symbols.Add("iinfin", Convert(0x29DC));
+            symbols.Add("iiota", Convert(0x2129));
+            symbols.Add("ijlig", Convert(0x0133));
+            symbols.Add("imacr", Convert(0x012B));
+            symbols.Add("image", Convert(0x2111));
+            symbols.Add("imagline", Convert(0x2110));
+            symbols.Add("imagpart", Convert(0x2111));
+            symbols.Add("imath", Convert(0x0131));
+            symbols.Add("imof", Convert(0x22B7));
+            symbols.Add("imped", Convert(0x01B5));
+            symbols.Add("in", Convert(0x2208));
+            symbols.Add("incare", Convert(0x2105));
+            symbols.Add("infin", Convert(0x221E));
+            symbols.Add("infintie", Convert(0x29DD));
+            symbols.Add("inodot", Convert(0x0131));
+            symbols.Add("int", Convert(0x222B));
+            symbols.Add("intcal", Convert(0x22BA));
+            symbols.Add("integers", Convert(0x2124));
+            symbols.Add("intercal", Convert(0x22BA));
+            symbols.Add("intlarhk", Convert(0x2A17));
+            symbols.Add("intprod", Convert(0x2A3C));
+            symbols.Add("iocy", Convert(0x0451));
+            symbols.Add("iogon", Convert(0x012F));
+            symbols.Add("iopf", Convert(0x1D55A));
+            symbols.Add("iota", Convert(0x03B9));
+            symbols.Add("iprod", Convert(0x2A3C));
+            symbols.Add("iquest", Convert(0x00BF));
+            symbols.Add("iscr", Convert(0x1D4BE));
+            symbols.Add("isin", Convert(0x2208));
+            symbols.Add("isindot", Convert(0x22F5));
+            symbols.Add("isinE", Convert(0x22F9));
+            symbols.Add("isins", Convert(0x22F4));
+            symbols.Add("isinsv", Convert(0x22F3));
+            symbols.Add("isinv", Convert(0x2208));
+            symbols.Add("it", Convert(0x2062));
+            symbols.Add("itilde", Convert(0x0129));
+            symbols.Add("iukcy", Convert(0x0456));
+            symbols.Add("iuml", Convert(0x00EF));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigI()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Iacute", Convert(0x00CD));
+            symbols.Add("Icirc", Convert(0x00CE));
+            symbols.Add("Icy", Convert(0x0418));
+            symbols.Add("Idot", Convert(0x0130));
+            symbols.Add("IEcy", Convert(0x0415));
+            symbols.Add("Ifr", Convert(0x2111));
+            symbols.Add("Igrave", Convert(0x00CC));
+            symbols.Add("IJlig", Convert(0x0132));
+            symbols.Add("Im", Convert(0x2111));
+            symbols.Add("Imacr", Convert(0x012A));
+            symbols.Add("ImaginaryI", Convert(0x2148));
+            symbols.Add("Implies", Convert(0x21D2));
+            symbols.Add("Int", Convert(0x222C));
+            symbols.Add("Integral", Convert(0x222B));
+            symbols.Add("Intersection", Convert(0x22C2));
+            symbols.Add("InvisibleComma", Convert(0x2063));
+            symbols.Add("InvisibleTimes", Convert(0x2062));
+            symbols.Add("IOcy", Convert(0x0401));
+            symbols.Add("Iogon", Convert(0x012E));
+            symbols.Add("Iopf", Convert(0x1D540));
+            symbols.Add("Iota", Convert(0x0399));
+            symbols.Add("Iscr", Convert(0x2110));
+            symbols.Add("Itilde", Convert(0x0128));
+            symbols.Add("Iukcy", Convert(0x0406));
+            symbols.Add("Iuml", Convert(0x00CF));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleJ()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("jcirc", Convert(0x0135));
+            symbols.Add("jcy", Convert(0x0439));
+            symbols.Add("jfr", Convert(0x1D527));
+            symbols.Add("jmath", Convert(0x0237));
+            symbols.Add("jopf", Convert(0x1D55B));
+            symbols.Add("jscr", Convert(0x1D4BF));
+            symbols.Add("jsercy", Convert(0x0458));
+            symbols.Add("jukcy", Convert(0x0454));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigJ()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Jcirc", Convert(0x0134));
+            symbols.Add("Jcy", Convert(0x0419));
+            symbols.Add("Jfr", Convert(0x1D50D));
+            symbols.Add("Jopf", Convert(0x1D541));
+            symbols.Add("Jscr", Convert(0x1D4A5));
+            symbols.Add("Jsercy", Convert(0x0408));
+            symbols.Add("Jukcy", Convert(0x0404));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleK()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("kappa", Convert(0x03BA));
+            symbols.Add("kappav", Convert(0x03F0));
+            symbols.Add("kcedil", Convert(0x0137));
+            symbols.Add("kcy", Convert(0x043A));
+            symbols.Add("kfr", Convert(0x1D528));
+            symbols.Add("kgreen", Convert(0x0138));
+            symbols.Add("khcy", Convert(0x0445));
+            symbols.Add("kjcy", Convert(0x045C));
+            symbols.Add("kopf", Convert(0x1D55C));
+            symbols.Add("kscr", Convert(0x1D4C0));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigK()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Kappa", Convert(0x039A));
+            symbols.Add("Kcedil", Convert(0x0136));
+            symbols.Add("Kcy", Convert(0x041A));
+            symbols.Add("Kfr", Convert(0x1D50E));
+            symbols.Add("KHcy", Convert(0x0425));
+            symbols.Add("KJcy", Convert(0x040C));
+            symbols.Add("Kopf", Convert(0x1D542));
+            symbols.Add("Kscr", Convert(0x1D4A6));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleL()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("lAarr", Convert(0x21DA));
+            symbols.Add("lacute", Convert(0x013A));
+            symbols.Add("laemptyv", Convert(0x29B4));
+            symbols.Add("lagran", Convert(0x2112));
+            symbols.Add("lambda", Convert(0x03BB));
+            symbols.Add("lang", Convert(0x27E8));
+            symbols.Add("langd", Convert(0x2991));
+            symbols.Add("langle", Convert(0x27E8));
+            symbols.Add("lap", Convert(0x2A85));
+            symbols.Add("laquo", Convert(0x00AB));
+            symbols.Add("lArr", Convert(0x21D0));
+            symbols.Add("larr", Convert(0x2190));
+            symbols.Add("larrb", Convert(0x21E4));
+            symbols.Add("larrbfs", Convert(0x291F));
+            symbols.Add("larrfs", Convert(0x291D));
+            symbols.Add("larrhk", Convert(0x21A9));
+            symbols.Add("larrlp", Convert(0x21AB));
+            symbols.Add("larrpl", Convert(0x2939));
+            symbols.Add("larrsim", Convert(0x2973));
+            symbols.Add("larrtl", Convert(0x21A2));
+            symbols.Add("lat", Convert(0x2AAB));
+            symbols.Add("lAtail", Convert(0x291B));
+            symbols.Add("latail", Convert(0x2919));
+            symbols.Add("late", Convert(0x2AAD));
+            symbols.Add("lates", Convert(0x2AAD, 0xFE00));
+            symbols.Add("lBarr", Convert(0x290E));
+            symbols.Add("lbarr", Convert(0x290C));
+            symbols.Add("lbbrk", Convert(0x2772));
+            symbols.Add("lbrace", Convert(0x007B));
+            symbols.Add("lbrack", Convert(0x005B));
+            symbols.Add("lbrke", Convert(0x298B));
+            symbols.Add("lbrksld", Convert(0x298F));
+            symbols.Add("lbrkslu", Convert(0x298D));
+            symbols.Add("lcaron", Convert(0x013E));
+            symbols.Add("lcedil", Convert(0x013C));
+            symbols.Add("lceil", Convert(0x2308));
+            symbols.Add("lcub", Convert(0x007B));
+            symbols.Add("lcy", Convert(0x043B));
+            symbols.Add("ldca", Convert(0x2936));
+            symbols.Add("ldquo", Convert(0x201C));
+            symbols.Add("ldquor", Convert(0x201E));
+            symbols.Add("ldrdhar", Convert(0x2967));
+            symbols.Add("ldrushar", Convert(0x294B));
+            symbols.Add("ldsh", Convert(0x21B2));
+            symbols.Add("lE", Convert(0x2266));
+            symbols.Add("le", Convert(0x2264));
+            symbols.Add("leftarrow", Convert(0x2190));
+            symbols.Add("leftarrowtail", Convert(0x21A2));
+            symbols.Add("leftharpoondown", Convert(0x21BD));
+            symbols.Add("leftharpoonup", Convert(0x21BC));
+            symbols.Add("leftleftarrows", Convert(0x21C7));
+            symbols.Add("leftrightarrow", Convert(0x2194));
+            symbols.Add("leftrightarrows", Convert(0x21C6));
+            symbols.Add("leftrightharpoons", Convert(0x21CB));
+            symbols.Add("leftrightsquigarrow", Convert(0x21AD));
+            symbols.Add("leftthreetimes", Convert(0x22CB));
+            symbols.Add("lEg", Convert(0x2A8B));
+            symbols.Add("leg", Convert(0x22DA));
+            symbols.Add("leq", Convert(0x2264));
+            symbols.Add("leqq", Convert(0x2266));
+            symbols.Add("leqslant", Convert(0x2A7D));
+            symbols.Add("les", Convert(0x2A7D));
+            symbols.Add("lescc", Convert(0x2AA8));
+            symbols.Add("lesdot", Convert(0x2A7F));
+            symbols.Add("lesdoto", Convert(0x2A81));
+            symbols.Add("lesdotor", Convert(0x2A83));
+            symbols.Add("lesg", Convert(0x22DA, 0xFE00));
+            symbols.Add("lesges", Convert(0x2A93));
+            symbols.Add("lessapprox", Convert(0x2A85));
+            symbols.Add("lessdot", Convert(0x22D6));
+            symbols.Add("lesseqgtr", Convert(0x22DA));
+            symbols.Add("lesseqqgtr", Convert(0x2A8B));
+            symbols.Add("lessgtr", Convert(0x2276));
+            symbols.Add("lesssim", Convert(0x2272));
+            symbols.Add("lfisht", Convert(0x297C));
+            symbols.Add("lfloor", Convert(0x230A));
+            symbols.Add("lfr", Convert(0x1D529));
+            symbols.Add("lg", Convert(0x2276));
+            symbols.Add("lgE", Convert(0x2A91));
+            symbols.Add("lHar", Convert(0x2962));
+            symbols.Add("lhard", Convert(0x21BD));
+            symbols.Add("lharu", Convert(0x21BC));
+            symbols.Add("lharul", Convert(0x296A));
+            symbols.Add("lhblk", Convert(0x2584));
+            symbols.Add("ljcy", Convert(0x0459));
+            symbols.Add("ll", Convert(0x226A));
+            symbols.Add("llarr", Convert(0x21C7));
+            symbols.Add("llcorner", Convert(0x231E));
+            symbols.Add("llhard", Convert(0x296B));
+            symbols.Add("lltri", Convert(0x25FA));
+            symbols.Add("lmidot", Convert(0x0140));
+            symbols.Add("lmoust", Convert(0x23B0));
+            symbols.Add("lmoustache", Convert(0x23B0));
+            symbols.Add("lnap", Convert(0x2A89));
+            symbols.Add("lnapprox", Convert(0x2A89));
+            symbols.Add("lnE", Convert(0x2268));
+            symbols.Add("lne", Convert(0x2A87));
+            symbols.Add("lneq", Convert(0x2A87));
+            symbols.Add("lneqq", Convert(0x2268));
+            symbols.Add("lnsim", Convert(0x22E6));
+            symbols.Add("loang", Convert(0x27EC));
+            symbols.Add("loarr", Convert(0x21FD));
+            symbols.Add("lobrk", Convert(0x27E6));
+            symbols.Add("longleftarrow", Convert(0x27F5));
+            symbols.Add("longleftrightarrow", Convert(0x27F7));
+            symbols.Add("longmapsto", Convert(0x27FC));
+            symbols.Add("longrightarrow", Convert(0x27F6));
+            symbols.Add("looparrowleft", Convert(0x21AB));
+            symbols.Add("looparrowright", Convert(0x21AC));
+            symbols.Add("lopar", Convert(0x2985));
+            symbols.Add("lopf", Convert(0x1D55D));
+            symbols.Add("loplus", Convert(0x2A2D));
+            symbols.Add("lotimes", Convert(0x2A34));
+            symbols.Add("lowast", Convert(0x2217));
+            symbols.Add("lowbar", Convert(0x005F));
+            symbols.Add("loz", Convert(0x25CA));
+            symbols.Add("lozenge", Convert(0x25CA));
+            symbols.Add("lozf", Convert(0x29EB));
+            symbols.Add("lpar", Convert(0x0028));
+            symbols.Add("lparlt", Convert(0x2993));
+            symbols.Add("lrarr", Convert(0x21C6));
+            symbols.Add("lrcorner", Convert(0x231F));
+            symbols.Add("lrhar", Convert(0x21CB));
+            symbols.Add("lrhard", Convert(0x296D));
+            symbols.Add("lrm", Convert(0x200E));
+            symbols.Add("lrtri", Convert(0x22BF));
+            symbols.Add("lsaquo", Convert(0x2039));
+            symbols.Add("lscr", Convert(0x1D4C1));
+            symbols.Add("lsh", Convert(0x21B0));
+            symbols.Add("lsim", Convert(0x2272));
+            symbols.Add("lsime", Convert(0x2A8D));
+            symbols.Add("lsimg", Convert(0x2A8F));
+            symbols.Add("lsqb", Convert(0x005B));
+            symbols.Add("lsquo", Convert(0x2018));
+            symbols.Add("lsquor", Convert(0x201A));
+            symbols.Add("lstrok", Convert(0x0142));
+            symbols.Add("lt", Convert(0x003C));
+            symbols.Add("ltcc", Convert(0x2AA6));
+            symbols.Add("ltcir", Convert(0x2A79));
+            symbols.Add("ltdot", Convert(0x22D6));
+            symbols.Add("lthree", Convert(0x22CB));
+            symbols.Add("ltimes", Convert(0x22C9));
+            symbols.Add("ltlarr", Convert(0x2976));
+            symbols.Add("ltquest", Convert(0x2A7B));
+            symbols.Add("ltri", Convert(0x25C3));
+            symbols.Add("ltrie", Convert(0x22B4));
+            symbols.Add("ltrif", Convert(0x25C2));
+            symbols.Add("ltrPar", Convert(0x2996));
+            symbols.Add("lurdshar", Convert(0x294A));
+            symbols.Add("luruhar", Convert(0x2966));
+            symbols.Add("lvertneqq", Convert(0x2268, 0xFE00));
+            symbols.Add("lvnE", Convert(0x2268, 0xFE00));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigL()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Lacute", Convert(0x0139));
+            symbols.Add("Lambda", Convert(0x039B));
+            symbols.Add("Lang", Convert(0x27EA));
+            symbols.Add("Laplacetrf", Convert(0x2112));
+            symbols.Add("Larr", Convert(0x219E));
+            symbols.Add("Lcaron", Convert(0x013D));
+            symbols.Add("Lcedil", Convert(0x013B));
+            symbols.Add("Lcy", Convert(0x041B));
+            symbols.Add("LeftAngleBracket", Convert(0x27E8));
+            symbols.Add("LeftArrow", Convert(0x2190));
+            symbols.Add("Leftarrow", Convert(0x21D0));
+            symbols.Add("LeftArrowBar", Convert(0x21E4));
+            symbols.Add("LeftArrowRightArrow", Convert(0x21C6));
+            symbols.Add("LeftCeiling", Convert(0x2308));
+            symbols.Add("LeftDoubleBracket", Convert(0x27E6));
+            symbols.Add("LeftDownTeeVector", Convert(0x2961));
+            symbols.Add("LeftDownVector", Convert(0x21C3));
+            symbols.Add("LeftDownVectorBar", Convert(0x2959));
+            symbols.Add("LeftFloor", Convert(0x230A));
+            symbols.Add("LeftRightArrow", Convert(0x2194));
+            symbols.Add("Leftrightarrow", Convert(0x21D4));
+            symbols.Add("LeftRightVector", Convert(0x294E));
+            symbols.Add("LeftTee", Convert(0x22A3));
+            symbols.Add("LeftTeeArrow", Convert(0x21A4));
+            symbols.Add("LeftTeeVector", Convert(0x295A));
+            symbols.Add("LeftTriangle", Convert(0x22B2));
+            symbols.Add("LeftTriangleBar", Convert(0x29CF));
+            symbols.Add("LeftTriangleEqual", Convert(0x22B4));
+            symbols.Add("LeftUpDownVector", Convert(0x2951));
+            symbols.Add("LeftUpTeeVector", Convert(0x2960));
+            symbols.Add("LeftUpVector", Convert(0x21BF));
+            symbols.Add("LeftUpVectorBar", Convert(0x2958));
+            symbols.Add("LeftVector", Convert(0x21BC));
+            symbols.Add("LeftVectorBar", Convert(0x2952));
+            symbols.Add("LessEqualGreater", Convert(0x22DA));
+            symbols.Add("LessFullEqual", Convert(0x2266));
+            symbols.Add("LessGreater", Convert(0x2276));
+            symbols.Add("LessLess", Convert(0x2AA1));
+            symbols.Add("LessSlantEqual", Convert(0x2A7D));
+            symbols.Add("LessTilde", Convert(0x2272));
+            symbols.Add("Lfr", Convert(0x1D50F));
+            symbols.Add("LJcy", Convert(0x0409));
+            symbols.Add("Ll", Convert(0x22D8));
+            symbols.Add("Lleftarrow", Convert(0x21DA));
+            symbols.Add("Lmidot", Convert(0x013F));
+            symbols.Add("LongLeftArrow", Convert(0x27F5));
+            symbols.Add("Longleftarrow", Convert(0x27F8));
+            symbols.Add("LongLeftRightArrow", Convert(0x27F7));
+            symbols.Add("Longleftrightarrow", Convert(0x27FA));
+            symbols.Add("LongRightArrow", Convert(0x27F6));
+            symbols.Add("Longrightarrow", Convert(0x27F9));
+            symbols.Add("Lopf", Convert(0x1D543));
+            symbols.Add("LowerLeftArrow", Convert(0x2199));
+            symbols.Add("LowerRightArrow", Convert(0x2198));
+            symbols.Add("Lscr", Convert(0x2112));
+            symbols.Add("Lsh", Convert(0x21B0));
+            symbols.Add("Lstrok", Convert(0x0141));
+            symbols.Add("LT", Convert(0x003C));
+            symbols.Add("Lt", Convert(0x226A));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleM()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("macr", Convert(0x00AF));
+            symbols.Add("male", Convert(0x2642));
+            symbols.Add("malt", Convert(0x2720));
+            symbols.Add("maltese", Convert(0x2720));
+            symbols.Add("map", Convert(0x21A6));
+            symbols.Add("mapsto", Convert(0x21A6));
+            symbols.Add("mapstodown", Convert(0x21A7));
+            symbols.Add("mapstoleft", Convert(0x21A4));
+            symbols.Add("mapstoup", Convert(0x21A5));
+            symbols.Add("marker", Convert(0x25AE));
+            symbols.Add("mcomma", Convert(0x2A29));
+            symbols.Add("mcy", Convert(0x043C));
+            symbols.Add("mdash", Convert(0x2014));
+            symbols.Add("mDDot", Convert(0x223A));
+            symbols.Add("measuredangle", Convert(0x2221));
+            symbols.Add("mfr", Convert(0x1D52A));
+            symbols.Add("mho", Convert(0x2127));
+            symbols.Add("micro", Convert(0x00B5));
+            symbols.Add("mid", Convert(0x2223));
+            symbols.Add("midast", Convert(0x002A));
+            symbols.Add("midcir", Convert(0x2AF0));
+            symbols.Add("middot", Convert(0x00B7));
+            symbols.Add("minus", Convert(0x2212));
+            symbols.Add("minusb", Convert(0x229F));
+            symbols.Add("minusd", Convert(0x2238));
+            symbols.Add("minusdu", Convert(0x2A2A));
+            symbols.Add("mlcp", Convert(0x2ADB));
+            symbols.Add("mldr", Convert(0x2026));
+            symbols.Add("mnplus", Convert(0x2213));
+            symbols.Add("models", Convert(0x22A7));
+            symbols.Add("mopf", Convert(0x1D55E));
+            symbols.Add("mp", Convert(0x2213));
+            symbols.Add("mscr", Convert(0x1D4C2));
+            symbols.Add("mstpos", Convert(0x223E));
+            symbols.Add("mu", Convert(0x03BC));
+            symbols.Add("multimap", Convert(0x22B8));
+            symbols.Add("mumap", Convert(0x22B8));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigM()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Map", Convert(0x2905));
+            symbols.Add("Mcy", Convert(0x041C));
+            symbols.Add("MediumSpace", Convert(0x205F));
+            symbols.Add("Mellintrf", Convert(0x2133));
+            symbols.Add("Mfr", Convert(0x1D510));
+            symbols.Add("MinusPlus", Convert(0x2213));
+            symbols.Add("Mopf", Convert(0x1D544));
+            symbols.Add("Mscr", Convert(0x2133));
+            symbols.Add("Mu", Convert(0x039C));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleN()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("nabla", Convert(0x2207));
+            symbols.Add("nacute", Convert(0x0144));
+            symbols.Add("nang", Convert(0x2220, 0x20D2));
+            symbols.Add("nap", Convert(0x2249));
+            symbols.Add("napE", Convert(0x2A70, 0x0338));
+            symbols.Add("napid", Convert(0x224B, 0x0338));
+            symbols.Add("napos", Convert(0x0149));
+            symbols.Add("napprox", Convert(0x2249));
+            symbols.Add("natur", Convert(0x266E));
+            symbols.Add("natural", Convert(0x266E));
+            symbols.Add("naturals", Convert(0x2115));
+            symbols.Add("nbsp", Convert(0x00A0));
+            symbols.Add("nbump", Convert(0x224E, 0x0338));
+            symbols.Add("nbumpe", Convert(0x224F, 0x0338));
+            symbols.Add("ncap", Convert(0x2A43));
+            symbols.Add("ncaron", Convert(0x0148));
+            symbols.Add("ncedil", Convert(0x0146));
+            symbols.Add("ncong", Convert(0x2247));
+            symbols.Add("ncongdot", Convert(0x2A6D, 0x0338));
+            symbols.Add("ncup", Convert(0x2A42));
+            symbols.Add("ncy", Convert(0x043D));
+            symbols.Add("ndash", Convert(0x2013));
+            symbols.Add("ne", Convert(0x2260));
+            symbols.Add("nearhk", Convert(0x2924));
+            symbols.Add("neArr", Convert(0x21D7));
+            symbols.Add("nearr", Convert(0x2197));
+            symbols.Add("nearrow", Convert(0x2197));
+            symbols.Add("nedot", Convert(0x2250, 0x0338));
+            symbols.Add("nequiv", Convert(0x2262));
+            symbols.Add("nesear", Convert(0x2928));
+            symbols.Add("nesim", Convert(0x2242, 0x0338));
+            symbols.Add("nexist", Convert(0x2204));
+            symbols.Add("nexists", Convert(0x2204));
+            symbols.Add("nfr", Convert(0x1D52B));
+            symbols.Add("ngE", Convert(0x2267, 0x0338));
+            symbols.Add("nge", Convert(0x2271));
+            symbols.Add("ngeq", Convert(0x2271));
+            symbols.Add("ngeqq", Convert(0x2267, 0x0338));
+            symbols.Add("ngeqslant", Convert(0x2A7E, 0x0338));
+            symbols.Add("nges", Convert(0x2A7E, 0x0338));
+            symbols.Add("nGg", Convert(0x22D9, 0x0338));
+            symbols.Add("ngsim", Convert(0x2275));
+            symbols.Add("nGt", Convert(0x226B, 0x20D2));
+            symbols.Add("ngt", Convert(0x226F));
+            symbols.Add("ngtr", Convert(0x226F));
+            symbols.Add("nGtv", Convert(0x226B, 0x0338));
+            symbols.Add("nhArr", Convert(0x21CE));
+            symbols.Add("nharr", Convert(0x21AE));
+            symbols.Add("nhpar", Convert(0x2AF2));
+            symbols.Add("ni", Convert(0x220B));
+            symbols.Add("nis", Convert(0x22FC));
+            symbols.Add("nisd", Convert(0x22FA));
+            symbols.Add("niv", Convert(0x220B));
+            symbols.Add("njcy", Convert(0x045A));
+            symbols.Add("nlArr", Convert(0x21CD));
+            symbols.Add("nlarr", Convert(0x219A));
+            symbols.Add("nldr", Convert(0x2025));
+            symbols.Add("nlE", Convert(0x2266, 0x0338));
+            symbols.Add("nle", Convert(0x2270));
+            symbols.Add("nLeftarrow", Convert(0x21CD));
+            symbols.Add("nleftarrow", Convert(0x219A));
+            symbols.Add("nLeftrightarrow", Convert(0x21CE));
+            symbols.Add("nleftrightarrow", Convert(0x21AE));
+            symbols.Add("nleq", Convert(0x2270));
+            symbols.Add("nleqq", Convert(0x2266, 0x0338));
+            symbols.Add("nleqslant", Convert(0x2A7D, 0x0338));
+            symbols.Add("nles", Convert(0x2A7D, 0x0338));
+            symbols.Add("nless", Convert(0x226E));
+            symbols.Add("nLl", Convert(0x22D8, 0x0338));
+            symbols.Add("nlsim", Convert(0x2274));
+            symbols.Add("nLt", Convert(0x226A, 0x20D2));
+            symbols.Add("nlt", Convert(0x226E));
+            symbols.Add("nltri", Convert(0x22EA));
+            symbols.Add("nltrie", Convert(0x22EC));
+            symbols.Add("nLtv", Convert(0x226A, 0x0338));
+            symbols.Add("nmid", Convert(0x2224));
+            symbols.Add("nopf", Convert(0x1D55F));
+            symbols.Add("not", Convert(0x00AC));
+            symbols.Add("notin", Convert(0x2209));
+            symbols.Add("notindot", Convert(0x22F5, 0x0338));
+            symbols.Add("notinE", Convert(0x22F9, 0x0338));
+            symbols.Add("notinva", Convert(0x2209));
+            symbols.Add("notinvb", Convert(0x22F7));
+            symbols.Add("notinvc", Convert(0x22F6));
+            symbols.Add("notni", Convert(0x220C));
+            symbols.Add("notniva", Convert(0x220C));
+            symbols.Add("notnivb", Convert(0x22FE));
+            symbols.Add("notnivc", Convert(0x22FD));
+            symbols.Add("npar", Convert(0x2226));
+            symbols.Add("nparallel", Convert(0x2226));
+            symbols.Add("nparsl", Convert(0x2AFD, 0x20E5));
+            symbols.Add("npart", Convert(0x2202, 0x0338));
+            symbols.Add("npolint", Convert(0x2A14));
+            symbols.Add("npr", Convert(0x2280));
+            symbols.Add("nprcue", Convert(0x22E0));
+            symbols.Add("npre", Convert(0x2AAF, 0x0338));
+            symbols.Add("nprec", Convert(0x2280));
+            symbols.Add("npreceq", Convert(0x2AAF, 0x0338));
+            symbols.Add("nrArr", Convert(0x21CF));
+            symbols.Add("nrarr", Convert(0x219B));
+            symbols.Add("nrarrc", Convert(0x2933, 0x0338));
+            symbols.Add("nrarrw", Convert(0x219D, 0x0338));
+            symbols.Add("nRightarrow", Convert(0x21CF));
+            symbols.Add("nrightarrow", Convert(0x219B));
+            symbols.Add("nrtri", Convert(0x22EB));
+            symbols.Add("nrtrie", Convert(0x22ED));
+            symbols.Add("nsc", Convert(0x2281));
+            symbols.Add("nsccue", Convert(0x22E1));
+            symbols.Add("nsce", Convert(0x2AB0, 0x0338));
+            symbols.Add("nscr", Convert(0x1D4C3));
+            symbols.Add("nshortmid", Convert(0x2224));
+            symbols.Add("nshortparallel", Convert(0x2226));
+            symbols.Add("nsim", Convert(0x2241));
+            symbols.Add("nsime", Convert(0x2244));
+            symbols.Add("nsimeq", Convert(0x2244));
+            symbols.Add("nsmid", Convert(0x2224));
+            symbols.Add("nspar", Convert(0x2226));
+            symbols.Add("nsqsube", Convert(0x22E2));
+            symbols.Add("nsqsupe", Convert(0x22E3));
+            symbols.Add("nsub", Convert(0x2284));
+            symbols.Add("nsubE", Convert(0x2AC5, 0x0338));
+            symbols.Add("nsube", Convert(0x2288));
+            symbols.Add("nsubset", Convert(0x2282, 0x20D2));
+            symbols.Add("nsubseteq", Convert(0x2288));
+            symbols.Add("nsubseteqq", Convert(0x2AC5, 0x0338));
+            symbols.Add("nsucc", Convert(0x2281));
+            symbols.Add("nsucceq", Convert(0x2AB0, 0x0338));
+            symbols.Add("nsup", Convert(0x2285));
+            symbols.Add("nsupE", Convert(0x2AC6, 0x0338));
+            symbols.Add("nsupe", Convert(0x2289));
+            symbols.Add("nsupset", Convert(0x2283, 0x20D2));
+            symbols.Add("nsupseteq", Convert(0x2289));
+            symbols.Add("nsupseteqq", Convert(0x2AC6, 0x0338));
+            symbols.Add("ntgl", Convert(0x2279));
+            symbols.Add("ntilde", Convert(0x00F1));
+            symbols.Add("ntlg", Convert(0x2278));
+            symbols.Add("ntriangleleft", Convert(0x22EA));
+            symbols.Add("ntrianglelefteq", Convert(0x22EC));
+            symbols.Add("ntriangleright", Convert(0x22EB));
+            symbols.Add("ntrianglerighteq", Convert(0x22ED));
+            symbols.Add("nu", Convert(0x03BD));
+            symbols.Add("num", Convert(0x0023));
+            symbols.Add("numero", Convert(0x2116));
+            symbols.Add("numsp", Convert(0x2007));
+            symbols.Add("nvap", Convert(0x224D, 0x20D2));
+            symbols.Add("nVDash", Convert(0x22AF));
+            symbols.Add("nVdash", Convert(0x22AE));
+            symbols.Add("nvDash", Convert(0x22AD));
+            symbols.Add("nvdash", Convert(0x22AC));
+            symbols.Add("nvge", Convert(0x2265, 0x20D2));
+            symbols.Add("nvgt", Convert(0x003E, 0x20D2));
+            symbols.Add("nvHarr", Convert(0x2904));
+            symbols.Add("nvinfin", Convert(0x29DE));
+            symbols.Add("nvlArr", Convert(0x2902));
+            symbols.Add("nvle", Convert(0x2264, 0x20D2));
+            symbols.Add("nvlt", Convert(0x003C, 0x20D2));
+            symbols.Add("nvltrie", Convert(0x22B4, 0x20D2));
+            symbols.Add("nvrArr", Convert(0x2903));
+            symbols.Add("nvrtrie", Convert(0x22B5, 0x20D2));
+            symbols.Add("nvsim", Convert(0x223C, 0x20D2));
+            symbols.Add("nwarhk", Convert(0x2923));
+            symbols.Add("nwArr", Convert(0x21D6));
+            symbols.Add("nwarr", Convert(0x2196));
+            symbols.Add("nwarrow", Convert(0x2196));
+            symbols.Add("nwnear", Convert(0x2927));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigN()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Nacute", Convert(0x0143));
+            symbols.Add("Ncaron", Convert(0x0147));
+            symbols.Add("Ncedil", Convert(0x0145));
+            symbols.Add("NegativeMediumSpace", Convert(0x200B));
+            symbols.Add("NegativeThickSpace", Convert(0x200B));
+            symbols.Add("NegativeThinSpace", Convert(0x200B));
+            symbols.Add("NegativeVeryThinSpace", Convert(0x200B));
+            symbols.Add("NestedGreaterGreater", Convert(0x226B));
+            symbols.Add("NestedLessLess", Convert(0x226A));
+            symbols.Add("Ncy", Convert(0x041D));
+            symbols.Add("Nfr", Convert(0x1D511));
+            symbols.Add("NoBreak", Convert(0x2060));
+            symbols.Add("NonBreakingSpace", Convert(0x00A0));
+            symbols.Add("Nopf", Convert(0x2115));
+            symbols.Add("NewLine", Convert(0x000A));
+            symbols.Add("NJcy", Convert(0x040A));
+            symbols.Add("Not", Convert(0x2AEC));
+            symbols.Add("NotCongruent", Convert(0x2262));
+            symbols.Add("NotCupCap", Convert(0x226D));
+            symbols.Add("NotDoubleVerticalBar", Convert(0x2226));
+            symbols.Add("NotElement", Convert(0x2209));
+            symbols.Add("NotEqual", Convert(0x2260));
+            symbols.Add("NotEqualTilde", Convert(0x2242, 0x0338));
+            symbols.Add("NotExists", Convert(0x2204));
+            symbols.Add("NotGreater", Convert(0x226F));
+            symbols.Add("NotGreaterEqual", Convert(0x2271));
+            symbols.Add("NotGreaterFullEqual", Convert(0x2267, 0x0338));
+            symbols.Add("NotGreaterGreater", Convert(0x226B, 0x0338));
+            symbols.Add("NotGreaterLess", Convert(0x2279));
+            symbols.Add("NotGreaterSlantEqual", Convert(0x2A7E, 0x0338));
+            symbols.Add("NotGreaterTilde", Convert(0x2275));
+            symbols.Add("NotHumpDownHump", Convert(0x224E, 0x0338));
+            symbols.Add("NotHumpEqual", Convert(0x224F, 0x0338));
+            symbols.Add("NotLeftTriangle", Convert(0x22EA));
+            symbols.Add("NotLeftTriangleBar", Convert(0x29CF, 0x0338));
+            symbols.Add("NotLeftTriangleEqual", Convert(0x22EC));
+            symbols.Add("NotLess", Convert(0x226E));
+            symbols.Add("NotLessEqual", Convert(0x2270));
+            symbols.Add("NotLessGreater", Convert(0x2278));
+            symbols.Add("NotLessLess", Convert(0x226A, 0x0338));
+            symbols.Add("NotLessSlantEqual", Convert(0x2A7D, 0x0338));
+            symbols.Add("NotLessTilde", Convert(0x2274));
+            symbols.Add("NotNestedGreaterGreater", Convert(0x2AA2, 0x0338));
+            symbols.Add("NotNestedLessLess", Convert(0x2AA1, 0x0338));
+            symbols.Add("NotPrecedes", Convert(0x2280));
+            symbols.Add("NotPrecedesEqual", Convert(0x2AAF, 0x0338));
+            symbols.Add("NotPrecedesSlantEqual", Convert(0x22E0));
+            symbols.Add("NotReverseElement", Convert(0x220C));
+            symbols.Add("NotRightTriangle", Convert(0x22EB));
+            symbols.Add("NotRightTriangleBar", Convert(0x29D0, 0x0338));
+            symbols.Add("NotRightTriangleEqual", Convert(0x22ED));
+            symbols.Add("NotSquareSubset", Convert(0x228F, 0x0338));
+            symbols.Add("NotSquareSubsetEqual", Convert(0x22E2));
+            symbols.Add("NotSquareSuperset", Convert(0x2290, 0x0338));
+            symbols.Add("NotSquareSupersetEqual", Convert(0x22E3));
+            symbols.Add("NotSubset", Convert(0x2282, 0x20D2));
+            symbols.Add("NotSubsetEqual", Convert(0x2288));
+            symbols.Add("NotSucceeds", Convert(0x2281));
+            symbols.Add("NotSucceedsEqual", Convert(0x2AB0, 0x0338));
+            symbols.Add("NotSucceedsSlantEqual", Convert(0x22E1));
+            symbols.Add("NotSucceedsTilde", Convert(0x227F, 0x0338));
+            symbols.Add("NotSuperset", Convert(0x2283, 0x20D2));
+            symbols.Add("NotSupersetEqual", Convert(0x2289));
+            symbols.Add("NotTilde", Convert(0x2241));
+            symbols.Add("NotTildeEqual", Convert(0x2244));
+            symbols.Add("NotTildeFullEqual", Convert(0x2247));
+            symbols.Add("NotTildeTilde", Convert(0x2249));
+            symbols.Add("NotVerticalBar", Convert(0x2224));
+            symbols.Add("Nscr", Convert(0x1D4A9));
+            symbols.Add("Ntilde", Convert(0x00D1));
+            symbols.Add("Nu", Convert(0x039D));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleO()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("oacute", Convert(0x00F3));
+            symbols.Add("oast", Convert(0x229B));
+            symbols.Add("ocir", Convert(0x229A));
+            symbols.Add("ocirc", Convert(0x00F4));
+            symbols.Add("ocy", Convert(0x043E));
+            symbols.Add("odash", Convert(0x229D));
+            symbols.Add("odblac", Convert(0x0151));
+            symbols.Add("odiv", Convert(0x2A38));
+            symbols.Add("odot", Convert(0x2299));
+            symbols.Add("odsold", Convert(0x29BC));
+            symbols.Add("oelig", Convert(0x0153));
+            symbols.Add("ofcir", Convert(0x29BF));
+            symbols.Add("ofr", Convert(0x1D52C));
+            symbols.Add("ogon", Convert(0x02DB));
+            symbols.Add("ograve", Convert(0x00F2));
+            symbols.Add("ogt", Convert(0x29C1));
+            symbols.Add("ohbar", Convert(0x29B5));
+            symbols.Add("ohm", Convert(0x03A9));
+            symbols.Add("oint", Convert(0x222E));
+            symbols.Add("olarr", Convert(0x21BA));
+            symbols.Add("olcir", Convert(0x29BE));
+            symbols.Add("olcross", Convert(0x29BB));
+            symbols.Add("oline", Convert(0x203E));
+            symbols.Add("olt", Convert(0x29C0));
+            symbols.Add("omacr", Convert(0x014D));
+            symbols.Add("omega", Convert(0x03C9));
+            symbols.Add("omicron", Convert(0x03BF));
+            symbols.Add("omid", Convert(0x29B6));
+            symbols.Add("ominus", Convert(0x2296));
+            symbols.Add("oopf", Convert(0x1D560));
+            symbols.Add("opar", Convert(0x29B7));
+            symbols.Add("operp", Convert(0x29B9));
+            symbols.Add("oplus", Convert(0x2295));
+            symbols.Add("or", Convert(0x2228));
+            symbols.Add("orarr", Convert(0x21BB));
+            symbols.Add("ord", Convert(0x2A5D));
+            symbols.Add("order", Convert(0x2134));
+            symbols.Add("orderof", Convert(0x2134));
+            symbols.Add("ordf", Convert(0x00AA));
+            symbols.Add("ordm", Convert(0x00BA));
+            symbols.Add("origof", Convert(0x22B6));
+            symbols.Add("oror", Convert(0x2A56));
+            symbols.Add("orslope", Convert(0x2A57));
+            symbols.Add("orv", Convert(0x2A5B));
+            symbols.Add("oS", Convert(0x24C8));
+            symbols.Add("oscr", Convert(0x2134));
+            symbols.Add("oslash", Convert(0x00F8));
+            symbols.Add("osol", Convert(0x2298));
+            symbols.Add("otilde", Convert(0x00F5));
+            symbols.Add("otimes", Convert(0x2297));
+            symbols.Add("otimesas", Convert(0x2A36));
+            symbols.Add("ouml", Convert(0x00F6));
+            symbols.Add("ovbar", Convert(0x233D));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigO()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Oacute", Convert(0x00D3));
+            symbols.Add("Ocirc", Convert(0x00D4));
+            symbols.Add("Ocy", Convert(0x041E));
+            symbols.Add("Odblac", Convert(0x0150));
+            symbols.Add("OElig", Convert(0x0152));
+            symbols.Add("Ofr", Convert(0x1D512));
+            symbols.Add("Ograve", Convert(0x00D2));
+            symbols.Add("Omacr", Convert(0x014C));
+            symbols.Add("Omega", Convert(0x03A9));
+            symbols.Add("Omicron", Convert(0x039F));
+            symbols.Add("Oopf", Convert(0x1D546));
+            symbols.Add("OpenCurlyDoubleQuote", Convert(0x201C));
+            symbols.Add("OpenCurlyQuote", Convert(0x2018));
+            symbols.Add("Or", Convert(0x2A54));
+            symbols.Add("Oscr", Convert(0x1D4AA));
+            symbols.Add("Oslash", Convert(0x00D8));
+            symbols.Add("Otilde", Convert(0x00D5));
+            symbols.Add("Otimes", Convert(0x2A37));
+            symbols.Add("Ouml", Convert(0x00D6));
+            symbols.Add("OverBar", Convert(0x203E));
+            symbols.Add("OverBrace", Convert(0x23DE));
+            symbols.Add("OverBracket", Convert(0x23B4));
+            symbols.Add("OverParenthesis", Convert(0x23DC));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleP()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("pfr", Convert(0x1D52D));
+            symbols.Add("par", Convert(0x2225));
+            symbols.Add("para", Convert(0x00B6));
+            symbols.Add("parallel", Convert(0x2225));
+            symbols.Add("parsim", Convert(0x2AF3));
+            symbols.Add("parsl", Convert(0x2AFD));
+            symbols.Add("part", Convert(0x2202));
+            symbols.Add("pcy", Convert(0x043F));
+            symbols.Add("percnt", Convert(0x0025));
+            symbols.Add("period", Convert(0x002E));
+            symbols.Add("permil", Convert(0x2030));
+            symbols.Add("perp", Convert(0x22A5));
+            symbols.Add("pertenk", Convert(0x2031));
+            symbols.Add("phi", Convert(0x03C6));
+            symbols.Add("phiv", Convert(0x03D5));
+            symbols.Add("phmmat", Convert(0x2133));
+            symbols.Add("phone", Convert(0x260E));
+            symbols.Add("pi", Convert(0x03C0));
+            symbols.Add("pitchfork", Convert(0x22D4));
+            symbols.Add("piv", Convert(0x03D6));
+            symbols.Add("planck", Convert(0x210F));
+            symbols.Add("planckh", Convert(0x210E));
+            symbols.Add("plankv", Convert(0x210F));
+            symbols.Add("plus", Convert(0x002B));
+            symbols.Add("plusacir", Convert(0x2A23));
+            symbols.Add("plusb", Convert(0x229E));
+            symbols.Add("pluscir", Convert(0x2A22));
+            symbols.Add("plusdo", Convert(0x2214));
+            symbols.Add("plusdu", Convert(0x2A25));
+            symbols.Add("pluse", Convert(0x2A72));
+            symbols.Add("plusmn", Convert(0x00B1));
+            symbols.Add("plussim", Convert(0x2A26));
+            symbols.Add("plustwo", Convert(0x2A27));
+            symbols.Add("pm", Convert(0x00B1));
+            symbols.Add("pointint", Convert(0x2A15));
+            symbols.Add("popf", Convert(0x1D561));
+            symbols.Add("pound", Convert(0x00A3));
+            symbols.Add("pr", Convert(0x227A));
+            symbols.Add("prap", Convert(0x2AB7));
+            symbols.Add("prcue", Convert(0x227C));
+            symbols.Add("prE", Convert(0x2AB3));
+            symbols.Add("pre", Convert(0x2AAF));
+            symbols.Add("prec", Convert(0x227A));
+            symbols.Add("precapprox", Convert(0x2AB7));
+            symbols.Add("preccurlyeq", Convert(0x227C));
+            symbols.Add("preceq", Convert(0x2AAF));
+            symbols.Add("precnapprox", Convert(0x2AB9));
+            symbols.Add("precneqq", Convert(0x2AB5));
+            symbols.Add("precnsim", Convert(0x22E8));
+            symbols.Add("precsim", Convert(0x227E));
+            symbols.Add("prime", Convert(0x2032));
+            symbols.Add("primes", Convert(0x2119));
+            symbols.Add("prnap", Convert(0x2AB9));
+            symbols.Add("prnE", Convert(0x2AB5));
+            symbols.Add("prnsim", Convert(0x22E8));
+            symbols.Add("prod", Convert(0x220F));
+            symbols.Add("profalar", Convert(0x232E));
+            symbols.Add("profline", Convert(0x2312));
+            symbols.Add("profsurf", Convert(0x2313));
+            symbols.Add("prop", Convert(0x221D));
+            symbols.Add("propto", Convert(0x221D));
+            symbols.Add("prsim", Convert(0x227E));
+            symbols.Add("prurel", Convert(0x22B0));
+            symbols.Add("pscr", Convert(0x1D4C5));
+            symbols.Add("psi", Convert(0x03C8));
+            symbols.Add("puncsp", Convert(0x2008));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigP()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("PartialD", Convert(0x2202));
+            symbols.Add("Pcy", Convert(0x041F));
+            symbols.Add("Pfr", Convert(0x1D513));
+            symbols.Add("Phi", Convert(0x03A6));
+            symbols.Add("Pi", Convert(0x03A0));
+            symbols.Add("PlusMinus", Convert(0x00B1));
+            symbols.Add("Poincareplane", Convert(0x210C));
+            symbols.Add("Popf", Convert(0x2119));
+            symbols.Add("Pr", Convert(0x2ABB));
+            symbols.Add("Precedes", Convert(0x227A));
+            symbols.Add("PrecedesEqual", Convert(0x2AAF));
+            symbols.Add("PrecedesSlantEqual", Convert(0x227C));
+            symbols.Add("PrecedesTilde", Convert(0x227E));
+            symbols.Add("Prime", Convert(0x2033));
+            symbols.Add("Product", Convert(0x220F));
+            symbols.Add("Proportion", Convert(0x2237));
+            symbols.Add("Proportional", Convert(0x221D));
+            symbols.Add("Pscr", Convert(0x1D4AB));
+            symbols.Add("Psi", Convert(0x03A8));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleQ()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("qfr", Convert(0x1D52E));
+            symbols.Add("qint", Convert(0x2A0C));
+            symbols.Add("qopf", Convert(0x1D562));
+            symbols.Add("qprime", Convert(0x2057));
+            symbols.Add("qscr", Convert(0x1D4C6));
+            symbols.Add("quaternions", Convert(0x210D));
+            symbols.Add("quatint", Convert(0x2A16));
+            symbols.Add("quest", Convert(0x003F));
+            symbols.Add("questeq", Convert(0x225F));
+            symbols.Add("quot", Convert(0x0022));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigQ()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Qfr", Convert(0x1D514));
+            symbols.Add("Qopf", Convert(0x211A));
+            symbols.Add("Qscr", Convert(0x1D4AC));
+            symbols.Add("QUOT", Convert(0x0022));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleR()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("rAarr", Convert(0x21DB));
+            symbols.Add("race", Convert(0x223D, 0x0331));
+            symbols.Add("racute", Convert(0x0155));
+            symbols.Add("radic", Convert(0x221A));
+            symbols.Add("raemptyv", Convert(0x29B3));
+            symbols.Add("rang", Convert(0x27E9));
+            symbols.Add("rangd", Convert(0x2992));
+            symbols.Add("range", Convert(0x29A5));
+            symbols.Add("rangle", Convert(0x27E9));
+            symbols.Add("raquo", Convert(0x00BB));
+            symbols.Add("rArr", Convert(0x21D2));
+            symbols.Add("rarr", Convert(0x2192));
+            symbols.Add("rarrap", Convert(0x2975));
+            symbols.Add("rarrb", Convert(0x21E5));
+            symbols.Add("rarrbfs", Convert(0x2920));
+            symbols.Add("rarrc", Convert(0x2933));
+            symbols.Add("rarrfs", Convert(0x291E));
+            symbols.Add("rarrhk", Convert(0x21AA));
+            symbols.Add("rarrlp", Convert(0x21AC));
+            symbols.Add("rarrpl", Convert(0x2945));
+            symbols.Add("rarrsim", Convert(0x2974));
+            symbols.Add("rarrtl", Convert(0x21A3));
+            symbols.Add("rarrw", Convert(0x219D));
+            symbols.Add("rAtail", Convert(0x291C));
+            symbols.Add("ratail", Convert(0x291A));
+            symbols.Add("ratio", Convert(0x2236));
+            symbols.Add("rationals", Convert(0x211A));
+            symbols.Add("rBarr", Convert(0x290F));
+            symbols.Add("rbarr", Convert(0x290D));
+            symbols.Add("rbbrk", Convert(0x2773));
+            symbols.Add("rbrace", Convert(0x007D));
+            symbols.Add("rbrack", Convert(0x005D));
+            symbols.Add("rbrke", Convert(0x298C));
+            symbols.Add("rbrksld", Convert(0x298E));
+            symbols.Add("rbrkslu", Convert(0x2990));
+            symbols.Add("rcaron", Convert(0x0159));
+            symbols.Add("rcedil", Convert(0x0157));
+            symbols.Add("rceil", Convert(0x2309));
+            symbols.Add("rcub", Convert(0x007D));
+            symbols.Add("rcy", Convert(0x0440));
+            symbols.Add("rdca", Convert(0x2937));
+            symbols.Add("rdldhar", Convert(0x2969));
+            symbols.Add("rdquo", Convert(0x201D));
+            symbols.Add("rdquor", Convert(0x201D));
+            symbols.Add("rdsh", Convert(0x21B3));
+            symbols.Add("real", Convert(0x211C));
+            symbols.Add("realine", Convert(0x211B));
+            symbols.Add("realpart", Convert(0x211C));
+            symbols.Add("reals", Convert(0x211D));
+            symbols.Add("rect", Convert(0x25AD));
+            symbols.Add("reg", Convert(0x00AE));
+            symbols.Add("rfisht", Convert(0x297D));
+            symbols.Add("rfloor", Convert(0x230B));
+            symbols.Add("rfr", Convert(0x1D52F));
+            symbols.Add("rHar", Convert(0x2964));
+            symbols.Add("rhard", Convert(0x21C1));
+            symbols.Add("rharu", Convert(0x21C0));
+            symbols.Add("rharul", Convert(0x296C));
+            symbols.Add("rho", Convert(0x03C1));
+            symbols.Add("rhov", Convert(0x03F1));
+            symbols.Add("rightarrow", Convert(0x2192));
+            symbols.Add("rightarrowtail", Convert(0x21A3));
+            symbols.Add("rightharpoondown", Convert(0x21C1));
+            symbols.Add("rightharpoonup", Convert(0x21C0));
+            symbols.Add("rightleftarrows", Convert(0x21C4));
+            symbols.Add("rightleftharpoons", Convert(0x21CC));
+            symbols.Add("rightrightarrows", Convert(0x21C9));
+            symbols.Add("rightsquigarrow", Convert(0x219D));
+            symbols.Add("rightthreetimes", Convert(0x22CC));
+            symbols.Add("ring", Convert(0x02DA));
+            symbols.Add("risingdotseq", Convert(0x2253));
+            symbols.Add("rlarr", Convert(0x21C4));
+            symbols.Add("rlhar", Convert(0x21CC));
+            symbols.Add("rlm", Convert(0x200F));
+            symbols.Add("rmoust", Convert(0x23B1));
+            symbols.Add("rmoustache", Convert(0x23B1));
+            symbols.Add("rnmid", Convert(0x2AEE));
+            symbols.Add("roang", Convert(0x27ED));
+            symbols.Add("roarr", Convert(0x21FE));
+            symbols.Add("robrk", Convert(0x27E7));
+            symbols.Add("ropar", Convert(0x2986));
+            symbols.Add("ropf", Convert(0x1D563));
+            symbols.Add("roplus", Convert(0x2A2E));
+            symbols.Add("rotimes", Convert(0x2A35));
+            symbols.Add("rpar", Convert(0x0029));
+            symbols.Add("rpargt", Convert(0x2994));
+            symbols.Add("rppolint", Convert(0x2A12));
+            symbols.Add("rrarr", Convert(0x21C9));
+            symbols.Add("rsaquo", Convert(0x203A));
+            symbols.Add("rscr", Convert(0x1D4C7));
+            symbols.Add("rsh", Convert(0x21B1));
+            symbols.Add("rsqb", Convert(0x005D));
+            symbols.Add("rsquo", Convert(0x2019));
+            symbols.Add("rsquor", Convert(0x2019));
+            symbols.Add("rthree", Convert(0x22CC));
+            symbols.Add("rtimes", Convert(0x22CA));
+            symbols.Add("rtri", Convert(0x25B9));
+            symbols.Add("rtrie", Convert(0x22B5));
+            symbols.Add("rtrif", Convert(0x25B8));
+            symbols.Add("rtriltri", Convert(0x29CE));
+            symbols.Add("ruluhar", Convert(0x2968));
+            symbols.Add("rx", Convert(0x211E));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigR()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Racute", Convert(0x0154));
+            symbols.Add("Rang", Convert(0x27EB));
+            symbols.Add("Rarr", Convert(0x21A0));
+            symbols.Add("Rarrtl", Convert(0x2916));
+            symbols.Add("RBarr", Convert(0x2910));
+            symbols.Add("Rcaron", Convert(0x0158));
+            symbols.Add("Rcedil", Convert(0x0156));
+            symbols.Add("Rcy", Convert(0x0420));
+            symbols.Add("Re", Convert(0x211C));
+            symbols.Add("REG", Convert(0x00AE));
+            symbols.Add("ReverseElement", Convert(0x220B));
+            symbols.Add("ReverseEquilibrium", Convert(0x21CB));
+            symbols.Add("ReverseUpEquilibrium", Convert(0x296F));
+            symbols.Add("Rfr", Convert(0x211C));
+            symbols.Add("Rho", Convert(0x03A1));
+            symbols.Add("RightAngleBracket", Convert(0x27E9));
+            symbols.Add("RightArrow", Convert(0x2192));
+            symbols.Add("Rightarrow", Convert(0x21D2));
+            symbols.Add("RightArrowBar", Convert(0x21E5));
+            symbols.Add("RightArrowLeftArrow", Convert(0x21C4));
+            symbols.Add("RightCeiling", Convert(0x2309));
+            symbols.Add("RightDoubleBracket", Convert(0x27E7));
+            symbols.Add("RightDownTeeVector", Convert(0x295D));
+            symbols.Add("RightDownVector", Convert(0x21C2));
+            symbols.Add("RightDownVectorBar", Convert(0x2955));
+            symbols.Add("RightFloor", Convert(0x230B));
+            symbols.Add("RightTee", Convert(0x22A2));
+            symbols.Add("RightTeeArrow", Convert(0x21A6));
+            symbols.Add("RightTeeVector", Convert(0x295B));
+            symbols.Add("RightTriangle", Convert(0x22B3));
+            symbols.Add("RightTriangleBar", Convert(0x29D0));
+            symbols.Add("RightTriangleEqual", Convert(0x22B5));
+            symbols.Add("RightUpDownVector", Convert(0x294F));
+            symbols.Add("RightUpTeeVector", Convert(0x295C));
+            symbols.Add("RightUpVector", Convert(0x21BE));
+            symbols.Add("RightUpVectorBar", Convert(0x2954));
+            symbols.Add("RightVector", Convert(0x21C0));
+            symbols.Add("RightVectorBar", Convert(0x2953));
+            symbols.Add("Ropf", Convert(0x211D));
+            symbols.Add("RoundImplies", Convert(0x2970));
+            symbols.Add("Rrightarrow", Convert(0x21DB));
+            symbols.Add("Rscr", Convert(0x211B));
+            symbols.Add("Rsh", Convert(0x21B1));
+            symbols.Add("RuleDelayed", Convert(0x29F4));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleS()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("sacute", Convert(0x015B));
+            symbols.Add("sbquo", Convert(0x201A));
+            symbols.Add("sc", Convert(0x227B));
+            symbols.Add("scap", Convert(0x2AB8));
+            symbols.Add("scaron", Convert(0x0161));
+            symbols.Add("sccue", Convert(0x227D));
+            symbols.Add("scE", Convert(0x2AB4));
+            symbols.Add("sce", Convert(0x2AB0));
+            symbols.Add("scedil", Convert(0x015F));
+            symbols.Add("scirc", Convert(0x015D));
+            symbols.Add("scnap", Convert(0x2ABA));
+            symbols.Add("scnE", Convert(0x2AB6));
+            symbols.Add("scnsim", Convert(0x22E9));
+            symbols.Add("scpolint", Convert(0x2A13));
+            symbols.Add("scsim", Convert(0x227F));
+            symbols.Add("scy", Convert(0x0441));
+            symbols.Add("sdot", Convert(0x22C5));
+            symbols.Add("sdotb", Convert(0x22A1));
+            symbols.Add("sdote", Convert(0x2A66));
+            symbols.Add("searhk", Convert(0x2925));
+            symbols.Add("seArr", Convert(0x21D8));
+            symbols.Add("searr", Convert(0x2198));
+            symbols.Add("searrow", Convert(0x2198));
+            symbols.Add("sect", Convert(0x00A7));
+            symbols.Add("semi", Convert(0x003B));
+            symbols.Add("seswar", Convert(0x2929));
+            symbols.Add("setminus", Convert(0x2216));
+            symbols.Add("setmn", Convert(0x2216));
+            symbols.Add("sext", Convert(0x2736));
+            symbols.Add("sfr", Convert(0x1D530));
+            symbols.Add("sfrown", Convert(0x2322));
+            symbols.Add("sharp", Convert(0x266F));
+            symbols.Add("shchcy", Convert(0x0449));
+            symbols.Add("shcy", Convert(0x0448));
+            symbols.Add("shortmid", Convert(0x2223));
+            symbols.Add("shortparallel", Convert(0x2225));
+            symbols.Add("shy", Convert(0x00AD));
+            symbols.Add("sigma", Convert(0x03C3));
+            symbols.Add("sigmaf", Convert(0x03C2));
+            symbols.Add("sigmav", Convert(0x03C2));
+            symbols.Add("sim", Convert(0x223C));
+            symbols.Add("simdot", Convert(0x2A6A));
+            symbols.Add("sime", Convert(0x2243));
+            symbols.Add("simeq", Convert(0x2243));
+            symbols.Add("simg", Convert(0x2A9E));
+            symbols.Add("simgE", Convert(0x2AA0));
+            symbols.Add("siml", Convert(0x2A9D));
+            symbols.Add("simlE", Convert(0x2A9F));
+            symbols.Add("simne", Convert(0x2246));
+            symbols.Add("simplus", Convert(0x2A24));
+            symbols.Add("simrarr", Convert(0x2972));
+            symbols.Add("slarr", Convert(0x2190));
+            symbols.Add("smallsetminus", Convert(0x2216));
+            symbols.Add("smashp", Convert(0x2A33));
+            symbols.Add("smeparsl", Convert(0x29E4));
+            symbols.Add("smid", Convert(0x2223));
+            symbols.Add("smile", Convert(0x2323));
+            symbols.Add("smt", Convert(0x2AAA));
+            symbols.Add("smte", Convert(0x2AAC));
+            symbols.Add("smtes", Convert(0x2AAC, 0xFE00));
+            symbols.Add("softcy", Convert(0x044C));
+            symbols.Add("sol", Convert(0x002F));
+            symbols.Add("solb", Convert(0x29C4));
+            symbols.Add("solbar", Convert(0x233F));
+            symbols.Add("sopf", Convert(0x1D564));
+            symbols.Add("spades", Convert(0x2660));
+            symbols.Add("spadesuit", Convert(0x2660));
+            symbols.Add("spar", Convert(0x2225));
+            symbols.Add("sqcap", Convert(0x2293));
+            symbols.Add("sqcaps", Convert(0x2293, 0xFE00));
+            symbols.Add("sqcup", Convert(0x2294));
+            symbols.Add("sqcups", Convert(0x2294, 0xFE00));
+            symbols.Add("sqsub", Convert(0x228F));
+            symbols.Add("sqsube", Convert(0x2291));
+            symbols.Add("sqsubset", Convert(0x228F));
+            symbols.Add("sqsubseteq", Convert(0x2291));
+            symbols.Add("sqsup", Convert(0x2290));
+            symbols.Add("sqsupe", Convert(0x2292));
+            symbols.Add("sqsupset", Convert(0x2290));
+            symbols.Add("sqsupseteq", Convert(0x2292));
+            symbols.Add("squ", Convert(0x25A1));
+            symbols.Add("square", Convert(0x25A1));
+            symbols.Add("squarf", Convert(0x25AA));
+            symbols.Add("squf", Convert(0x25AA));
+            symbols.Add("srarr", Convert(0x2192));
+            symbols.Add("sscr", Convert(0x1D4C8));
+            symbols.Add("ssetmn", Convert(0x2216));
+            symbols.Add("ssmile", Convert(0x2323));
+            symbols.Add("sstarf", Convert(0x22C6));
+            symbols.Add("star", Convert(0x2606));
+            symbols.Add("starf", Convert(0x2605));
+            symbols.Add("straightepsilon", Convert(0x03F5));
+            symbols.Add("straightphi", Convert(0x03D5));
+            symbols.Add("strns", Convert(0x00AF));
+            symbols.Add("sub", Convert(0x2282));
+            symbols.Add("subdot", Convert(0x2ABD));
+            symbols.Add("subE", Convert(0x2AC5));
+            symbols.Add("sube", Convert(0x2286));
+            symbols.Add("subedot", Convert(0x2AC3));
+            symbols.Add("submult", Convert(0x2AC1));
+            symbols.Add("subnE", Convert(0x2ACB));
+            symbols.Add("subne", Convert(0x228A));
+            symbols.Add("subplus", Convert(0x2ABF));
+            symbols.Add("subrarr", Convert(0x2979));
+            symbols.Add("subset", Convert(0x2282));
+            symbols.Add("subseteq", Convert(0x2286));
+            symbols.Add("subseteqq", Convert(0x2AC5));
+            symbols.Add("subsetneq", Convert(0x228A));
+            symbols.Add("subsetneqq", Convert(0x2ACB));
+            symbols.Add("subsim", Convert(0x2AC7));
+            symbols.Add("subsub", Convert(0x2AD5));
+            symbols.Add("subsup", Convert(0x2AD3));
+            symbols.Add("succ", Convert(0x227B));
+            symbols.Add("succapprox", Convert(0x2AB8));
+            symbols.Add("succcurlyeq", Convert(0x227D));
+            symbols.Add("succeq", Convert(0x2AB0));
+            symbols.Add("succnapprox", Convert(0x2ABA));
+            symbols.Add("succneqq", Convert(0x2AB6));
+            symbols.Add("succnsim", Convert(0x22E9));
+            symbols.Add("succsim", Convert(0x227F));
+            symbols.Add("sum", Convert(0x2211));
+            symbols.Add("sung", Convert(0x266A));
+            symbols.Add("sup", Convert(0x2283));
+            symbols.Add("sup1", Convert(0x00B9));
+            symbols.Add("sup2", Convert(0x00B2));
+            symbols.Add("sup3", Convert(0x00B3));
+            symbols.Add("supdot", Convert(0x2ABE));
+            symbols.Add("supdsub", Convert(0x2AD8));
+            symbols.Add("supE", Convert(0x2AC6));
+            symbols.Add("supe", Convert(0x2287));
+            symbols.Add("supedot", Convert(0x2AC4));
+            symbols.Add("suphsol", Convert(0x27C9));
+            symbols.Add("suphsub", Convert(0x2AD7));
+            symbols.Add("suplarr", Convert(0x297B));
+            symbols.Add("supmult", Convert(0x2AC2));
+            symbols.Add("supnE", Convert(0x2ACC));
+            symbols.Add("supne", Convert(0x228B));
+            symbols.Add("supplus", Convert(0x2AC0));
+            symbols.Add("supset", Convert(0x2283));
+            symbols.Add("supseteq", Convert(0x2287));
+            symbols.Add("supseteqq", Convert(0x2AC6));
+            symbols.Add("supsetneq", Convert(0x228B));
+            symbols.Add("supsetneqq", Convert(0x2ACC));
+            symbols.Add("supsim", Convert(0x2AC8));
+            symbols.Add("supsub", Convert(0x2AD4));
+            symbols.Add("supsup", Convert(0x2AD6));
+            symbols.Add("swarhk", Convert(0x2926));
+            symbols.Add("swArr", Convert(0x21D9));
+            symbols.Add("swarr", Convert(0x2199));
+            symbols.Add("swarrow", Convert(0x2199));
+            symbols.Add("swnwar", Convert(0x292A));
+            symbols.Add("szlig", Convert(0x00DF));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigS()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Sacute", Convert(0x015A));
+            symbols.Add("Sc", Convert(0x2ABC));
+            symbols.Add("Scaron", Convert(0x0160));
+            symbols.Add("Scedil", Convert(0x015E));
+            symbols.Add("Scirc", Convert(0x015C));
+            symbols.Add("Scy", Convert(0x0421));
+            symbols.Add("Sfr", Convert(0x1D516));
+            symbols.Add("SHCHcy", Convert(0x0429));
+            symbols.Add("SHcy", Convert(0x0428));
+            symbols.Add("ShortDownArrow", Convert(0x2193));
+            symbols.Add("ShortLeftArrow", Convert(0x2190));
+            symbols.Add("ShortRightArrow", Convert(0x2192));
+            symbols.Add("ShortUpArrow", Convert(0x2191));
+            symbols.Add("Sigma", Convert(0x03A3));
+            symbols.Add("SmallCircle", Convert(0x2218));
+            symbols.Add("SOFTcy", Convert(0x042C));
+            symbols.Add("Sopf", Convert(0x1D54A));
+            symbols.Add("Sqrt", Convert(0x221A));
+            symbols.Add("Square", Convert(0x25A1));
+            symbols.Add("SquareIntersection", Convert(0x2293));
+            symbols.Add("SquareSubset", Convert(0x228F));
+            symbols.Add("SquareSubsetEqual", Convert(0x2291));
+            symbols.Add("SquareSuperset", Convert(0x2290));
+            symbols.Add("SquareSupersetEqual", Convert(0x2292));
+            symbols.Add("SquareUnion", Convert(0x2294));
+            symbols.Add("Sscr", Convert(0x1D4AE));
+            symbols.Add("Star", Convert(0x22C6));
+            symbols.Add("Sub", Convert(0x22D0));
+            symbols.Add("Subset", Convert(0x22D0));
+            symbols.Add("SubsetEqual", Convert(0x2286));
+            symbols.Add("Succeeds", Convert(0x227B));
+            symbols.Add("SucceedsEqual", Convert(0x2AB0));
+            symbols.Add("SucceedsSlantEqual", Convert(0x227D));
+            symbols.Add("SucceedsTilde", Convert(0x227F));
+            symbols.Add("SuchThat", Convert(0x220B));
+            symbols.Add("Sum", Convert(0x2211));
+            symbols.Add("Sup", Convert(0x22D1));
+            symbols.Add("Superset", Convert(0x2283));
+            symbols.Add("SupersetEqual", Convert(0x2287));
+            symbols.Add("Supset", Convert(0x22D1));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleT()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("target", Convert(0x2316));
+            symbols.Add("tau", Convert(0x03C4));
+            symbols.Add("tbrk", Convert(0x23B4));
+            symbols.Add("tcaron", Convert(0x0165));
+            symbols.Add("tcedil", Convert(0x0163));
+            symbols.Add("tcy", Convert(0x0442));
+            symbols.Add("tdot", Convert(0x20DB));
+            symbols.Add("telrec", Convert(0x2315));
+            symbols.Add("tfr", Convert(0x1D531));
+            symbols.Add("there4", Convert(0x2234));
+            symbols.Add("therefore", Convert(0x2234));
+            symbols.Add("theta", Convert(0x03B8));
+            symbols.Add("thetasym", Convert(0x03D1));
+            symbols.Add("thetav", Convert(0x03D1));
+            symbols.Add("thickapprox", Convert(0x2248));
+            symbols.Add("thicksim", Convert(0x223C));
+            symbols.Add("thinsp", Convert(0x2009));
+            symbols.Add("thkap", Convert(0x2248));
+            symbols.Add("thksim", Convert(0x223C));
+            symbols.Add("thorn", Convert(0x00FE));
+            symbols.Add("tilde", Convert(0x02DC));
+            symbols.Add("times", Convert(0x00D7));
+            symbols.Add("timesb", Convert(0x22A0));
+            symbols.Add("timesbar", Convert(0x2A31));
+            symbols.Add("timesd", Convert(0x2A30));
+            symbols.Add("tint", Convert(0x222D));
+            symbols.Add("toea", Convert(0x2928));
+            symbols.Add("top", Convert(0x22A4));
+            symbols.Add("topbot", Convert(0x2336));
+            symbols.Add("topcir", Convert(0x2AF1));
+            symbols.Add("topf", Convert(0x1D565));
+            symbols.Add("topfork", Convert(0x2ADA));
+            symbols.Add("tosa", Convert(0x2929));
+            symbols.Add("tprime", Convert(0x2034));
+            symbols.Add("trade", Convert(0x2122));
+            symbols.Add("triangle", Convert(0x25B5));
+            symbols.Add("triangledown", Convert(0x25BF));
+            symbols.Add("triangleleft", Convert(0x25C3));
+            symbols.Add("trianglelefteq", Convert(0x22B4));
+            symbols.Add("triangleq", Convert(0x225C));
+            symbols.Add("triangleright", Convert(0x25B9));
+            symbols.Add("trianglerighteq", Convert(0x22B5));
+            symbols.Add("tridot", Convert(0x25EC));
+            symbols.Add("trie", Convert(0x225C));
+            symbols.Add("triminus", Convert(0x2A3A));
+            symbols.Add("triplus", Convert(0x2A39));
+            symbols.Add("trisb", Convert(0x29CD));
+            symbols.Add("tritime", Convert(0x2A3B));
+            symbols.Add("trpezium", Convert(0x23E2));
+            symbols.Add("tscr", Convert(0x1D4C9));
+            symbols.Add("tscy", Convert(0x0446));
+            symbols.Add("tshcy", Convert(0x045B));
+            symbols.Add("tstrok", Convert(0x0167));
+            symbols.Add("twixt", Convert(0x226C));
+            symbols.Add("twoheadleftarrow", Convert(0x219E));
+            symbols.Add("twoheadrightarrow", Convert(0x21A0));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigT()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Tab", Convert(0x0009));
+            symbols.Add("Tau", Convert(0x03A4));
+            symbols.Add("Tcaron", Convert(0x0164));
+            symbols.Add("Tcedil", Convert(0x0162));
+            symbols.Add("Tcy", Convert(0x0422));
+            symbols.Add("Tfr", Convert(0x1D517));
+            symbols.Add("Therefore", Convert(0x2234));
+            symbols.Add("Theta", Convert(0x0398));
+            symbols.Add("ThickSpace", Convert(0x205F, 0x200A));
+            symbols.Add("ThinSpace", Convert(0x2009));
+            symbols.Add("THORN", Convert(0x00DE));
+            symbols.Add("Tilde", Convert(0x223C));
+            symbols.Add("TildeEqual", Convert(0x2243));
+            symbols.Add("TildeFullEqual", Convert(0x2245));
+            symbols.Add("TildeTilde", Convert(0x2248));
+            symbols.Add("Topf", Convert(0x1D54B));
+            symbols.Add("TRADE", Convert(0x2122));
+            symbols.Add("TripleDot", Convert(0x20DB));
+            symbols.Add("Tscr", Convert(0x1D4AF));
+            symbols.Add("TScy", Convert(0x0426));
+            symbols.Add("TSHcy", Convert(0x040B));
+            symbols.Add("Tstrok", Convert(0x0166));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleU()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("uacute", Convert(0x00FA));
+            symbols.Add("uArr", Convert(0x21D1));
+            symbols.Add("uarr", Convert(0x2191));
+            symbols.Add("ubrcy", Convert(0x045E));
+            symbols.Add("ubreve", Convert(0x016D));
+            symbols.Add("ucirc", Convert(0x00FB));
+            symbols.Add("ucy", Convert(0x0443));
+            symbols.Add("udarr", Convert(0x21C5));
+            symbols.Add("udblac", Convert(0x0171));
+            symbols.Add("udhar", Convert(0x296E));
+            symbols.Add("ufisht", Convert(0x297E));
+            symbols.Add("ufr", Convert(0x1D532));
+            symbols.Add("ugrave", Convert(0x00F9));
+            symbols.Add("uHar", Convert(0x2963));
+            symbols.Add("uharl", Convert(0x21BF));
+            symbols.Add("uharr", Convert(0x21BE));
+            symbols.Add("uhblk", Convert(0x2580));
+            symbols.Add("ulcorn", Convert(0x231C));
+            symbols.Add("ulcorner", Convert(0x231C));
+            symbols.Add("ulcrop", Convert(0x230F));
+            symbols.Add("ultri", Convert(0x25F8));
+            symbols.Add("umacr", Convert(0x016B));
+            symbols.Add("uml", Convert(0x00A8));
+            symbols.Add("uogon", Convert(0x0173));
+            symbols.Add("uopf", Convert(0x1D566));
+            symbols.Add("uparrow", Convert(0x2191));
+            symbols.Add("updownarrow", Convert(0x2195));
+            symbols.Add("upharpoonleft", Convert(0x21BF));
+            symbols.Add("upharpoonright", Convert(0x21BE));
+            symbols.Add("uplus", Convert(0x228E));
+            symbols.Add("upsi", Convert(0x03C5));
+            symbols.Add("upsih", Convert(0x03D2));
+            symbols.Add("upsilon", Convert(0x03C5));
+            symbols.Add("upuparrows", Convert(0x21C8));
+            symbols.Add("urcorn", Convert(0x231D));
+            symbols.Add("urcorner", Convert(0x231D));
+            symbols.Add("urcrop", Convert(0x230E));
+            symbols.Add("uring", Convert(0x016F));
+            symbols.Add("urtri", Convert(0x25F9));
+            symbols.Add("uscr", Convert(0x1D4CA));
+            symbols.Add("utdot", Convert(0x22F0));
+            symbols.Add("utilde", Convert(0x0169));
+            symbols.Add("utri", Convert(0x25B5));
+            symbols.Add("utrif", Convert(0x25B4));
+            symbols.Add("uuarr", Convert(0x21C8));
+            symbols.Add("uuml", Convert(0x00FC));
+            symbols.Add("uwangle", Convert(0x29A7));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigU()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Uacute", Convert(0x00DA));
+            symbols.Add("Uarr", Convert(0x219F));
+            symbols.Add("Uarrocir", Convert(0x2949));
+            symbols.Add("Ubrcy", Convert(0x040E));
+            symbols.Add("Ubreve", Convert(0x016C));
+            symbols.Add("Ucirc", Convert(0x00DB));
+            symbols.Add("Ucy", Convert(0x0423));
+            symbols.Add("Udblac", Convert(0x0170));
+            symbols.Add("Ufr", Convert(0x1D518));
+            symbols.Add("Ugrave", Convert(0x00D9));
+            symbols.Add("Umacr", Convert(0x016A));
+            symbols.Add("UnderBar", Convert(0x005F));
+            symbols.Add("UnderBrace", Convert(0x23DF));
+            symbols.Add("UnderBracket", Convert(0x23B5));
+            symbols.Add("UnderParenthesis", Convert(0x23DD));
+            symbols.Add("Union", Convert(0x22C3));
+            symbols.Add("UnionPlus", Convert(0x228E));
+            symbols.Add("Uogon", Convert(0x0172));
+            symbols.Add("Uopf", Convert(0x1D54C));
+            symbols.Add("UpArrow", Convert(0x2191));
+            symbols.Add("Uparrow", Convert(0x21D1));
+            symbols.Add("UpArrowBar", Convert(0x2912));
+            symbols.Add("UpArrowDownArrow", Convert(0x21C5));
+            symbols.Add("UpDownArrow", Convert(0x2195));
+            symbols.Add("Updownarrow", Convert(0x21D5));
+            symbols.Add("UpEquilibrium", Convert(0x296E));
+            symbols.Add("UpperLeftArrow", Convert(0x2196));
+            symbols.Add("UpperRightArrow", Convert(0x2197));
+            symbols.Add("Upsi", Convert(0x03D2));
+            symbols.Add("Upsilon", Convert(0x03A5));
+            symbols.Add("UpTee", Convert(0x22A5));
+            symbols.Add("UpTeeArrow", Convert(0x21A5));
+            symbols.Add("Uring", Convert(0x016E));
+            symbols.Add("Uscr", Convert(0x1D4B0));
+            symbols.Add("Utilde", Convert(0x0168));
+            symbols.Add("Uuml", Convert(0x00DC));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleV()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("vangrt", Convert(0x299C));
+            symbols.Add("varepsilon", Convert(0x03F5));
+            symbols.Add("varkappa", Convert(0x03F0));
+            symbols.Add("varnothing", Convert(0x2205));
+            symbols.Add("varphi", Convert(0x03D5));
+            symbols.Add("varpi", Convert(0x03D6));
+            symbols.Add("varpropto", Convert(0x221D));
+            symbols.Add("vArr", Convert(0x21D5));
+            symbols.Add("varr", Convert(0x2195));
+            symbols.Add("varrho", Convert(0x03F1));
+            symbols.Add("varsigma", Convert(0x03C2));
+            symbols.Add("varsubsetneq", Convert(0x228A, 0xFE00));
+            symbols.Add("varsubsetneqq", Convert(0x2ACB, 0xFE00));
+            symbols.Add("varsupsetneq", Convert(0x228B, 0xFE00));
+            symbols.Add("varsupsetneqq", Convert(0x2ACC, 0xFE00));
+            symbols.Add("vartheta", Convert(0x03D1));
+            symbols.Add("vartriangleleft", Convert(0x22B2));
+            symbols.Add("vartriangleright", Convert(0x22B3));
+            symbols.Add("vBar", Convert(0x2AE8));
+            symbols.Add("vBarv", Convert(0x2AE9));
+            symbols.Add("vcy", Convert(0x0432));
+            symbols.Add("vDash", Convert(0x22A8));
+            symbols.Add("vdash", Convert(0x22A2));
+            symbols.Add("vee", Convert(0x2228));
+            symbols.Add("veebar", Convert(0x22BB));
+            symbols.Add("veeeq", Convert(0x225A));
+            symbols.Add("vellip", Convert(0x22EE));
+            symbols.Add("verbar", Convert(0x007C));
+            symbols.Add("vert", Convert(0x007C));
+            symbols.Add("vfr", Convert(0x1D533));
+            symbols.Add("vltri", Convert(0x22B2));
+            symbols.Add("vnsub", Convert(0x2282, 0x20D2));
+            symbols.Add("vnsup", Convert(0x2283, 0x20D2));
+            symbols.Add("vopf", Convert(0x1D567));
+            symbols.Add("vprop", Convert(0x221D));
+            symbols.Add("vrtri", Convert(0x22B3));
+            symbols.Add("vscr", Convert(0x1D4CB));
+            symbols.Add("vsubnE", Convert(0x2ACB, 0xFE00));
+            symbols.Add("vsubne", Convert(0x228A, 0xFE00));
+            symbols.Add("vsupnE", Convert(0x2ACC, 0xFE00));
+            symbols.Add("vsupne", Convert(0x228B, 0xFE00));
+            symbols.Add("vzigzag", Convert(0x299A));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigV()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Vbar", Convert(0x2AEB));
+            symbols.Add("Vcy", Convert(0x0412));
+            symbols.Add("VDash", Convert(0x22AB));
+            symbols.Add("Vdash", Convert(0x22A9));
+            symbols.Add("Vdashl", Convert(0x2AE6));
+            symbols.Add("Vee", Convert(0x22C1));
+            symbols.Add("Verbar", Convert(0x2016));
+            symbols.Add("Vert", Convert(0x2016));
+            symbols.Add("VerticalBar", Convert(0x2223));
+            symbols.Add("VerticalLine", Convert(0x007C));
+            symbols.Add("VerticalSeparator", Convert(0x2758));
+            symbols.Add("VerticalTilde", Convert(0x2240));
+            symbols.Add("VeryThinSpace", Convert(0x200A));
+            symbols.Add("Vfr", Convert(0x1D519));
+            symbols.Add("Vopf", Convert(0x1D54D));
+            symbols.Add("Vscr", Convert(0x1D4B1));
+            symbols.Add("Vvdash", Convert(0x22AA));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleW()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("wcirc", Convert(0x0175));
+            symbols.Add("wedbar", Convert(0x2A5F));
+            symbols.Add("wedge", Convert(0x2227));
+            symbols.Add("wedgeq", Convert(0x2259));
+            symbols.Add("weierp", Convert(0x2118));
+            symbols.Add("wfr", Convert(0x1D534));
+            symbols.Add("wopf", Convert(0x1D568));
+            symbols.Add("wp", Convert(0x2118));
+            symbols.Add("wr", Convert(0x2240));
+            symbols.Add("wreath", Convert(0x2240));
+            symbols.Add("wscr", Convert(0x1D4CC));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigW()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Wcirc", Convert(0x0174));
+            symbols.Add("Wedge", Convert(0x22C0));
+            symbols.Add("Wfr", Convert(0x1D51A));
+            symbols.Add("Wopf", Convert(0x1D54E));
+            symbols.Add("Wscr", Convert(0x1D4B2));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleX()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("xcap", Convert(0x22C2));
+            symbols.Add("xcirc", Convert(0x25EF));
+            symbols.Add("xcup", Convert(0x22C3));
+            symbols.Add("xdtri", Convert(0x25BD));
+            symbols.Add("xfr", Convert(0x1D535));
+            symbols.Add("xhArr", Convert(0x27FA));
+            symbols.Add("xharr", Convert(0x27F7));
+            symbols.Add("xi", Convert(0x03BE));
+            symbols.Add("xlArr", Convert(0x27F8));
+            symbols.Add("xlarr", Convert(0x27F5));
+            symbols.Add("xmap", Convert(0x27FC));
+            symbols.Add("xnis", Convert(0x22FB));
+            symbols.Add("xodot", Convert(0x2A00));
+            symbols.Add("xopf", Convert(0x1D569));
+            symbols.Add("xoplus", Convert(0x2A01));
+            symbols.Add("xotime", Convert(0x2A02));
+            symbols.Add("xrArr", Convert(0x27F9));
+            symbols.Add("xrarr", Convert(0x27F6));
+            symbols.Add("xscr", Convert(0x1D4CD));
+            symbols.Add("xsqcup", Convert(0x2A06));
+            symbols.Add("xuplus", Convert(0x2A04));
+            symbols.Add("xutri", Convert(0x25B3));
+            symbols.Add("xvee", Convert(0x22C1));
+            symbols.Add("xwedge", Convert(0x22C0));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigX()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Xfr", Convert(0x1D51B));
+            symbols.Add("Xi", Convert(0x039E));
+            symbols.Add("Xopf", Convert(0x1D54F));
+            symbols.Add("Xscr", Convert(0x1D4B3));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleY()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("yacute", Convert(0x00FD));
+            symbols.Add("yacy", Convert(0x044F));
+            symbols.Add("ycirc", Convert(0x0177));
+            symbols.Add("ycy", Convert(0x044B));
+            symbols.Add("yen", Convert(0x00A5));
+            symbols.Add("yfr", Convert(0x1D536));
+            symbols.Add("yicy", Convert(0x0457));
+            symbols.Add("yopf", Convert(0x1D56A));
+            symbols.Add("yscr", Convert(0x1D4CE));
+            symbols.Add("yucy", Convert(0x044E));
+            symbols.Add("yuml", Convert(0x00FF));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigY()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Yacute", Convert(0x00DD));
+            symbols.Add("YAcy", Convert(0x042F));
+            symbols.Add("Ycirc", Convert(0x0176));
+            symbols.Add("Ycy", Convert(0x042B));
+            symbols.Add("Yfr", Convert(0x1D51C));
+            symbols.Add("YIcy", Convert(0x0407));
+            symbols.Add("Yopf", Convert(0x1D550));
+            symbols.Add("Yscr", Convert(0x1D4B4));
+            symbols.Add("YUcy", Convert(0x042E));
+            symbols.Add("Yuml", Convert(0x0178));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolLittleZ()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("zacute", Convert(0x017A));
+            symbols.Add("zcaron", Convert(0x017E));
+            symbols.Add("zcy", Convert(0x0437));
+            symbols.Add("zdot", Convert(0x017C));
+            symbols.Add("zeetrf", Convert(0x2128));
+            symbols.Add("zeta", Convert(0x03B6));
+            symbols.Add("zfr", Convert(0x1D537));
+            symbols.Add("zhcy", Convert(0x0436));
+            symbols.Add("zigrarr", Convert(0x21DD));
+            symbols.Add("zopf", Convert(0x1D56B));
+            symbols.Add("zscr", Convert(0x1D4CF));
+            symbols.Add("zwj", Convert(0x200D));
+            symbols.Add("zwnj", Convert(0x200C));
+            return symbols;
+        }
+
+        static Dictionary<String, String> GetSymbolBigZ()
+        {
+            var symbols = new Dictionary<String, String>();
+            symbols.Add("Zacute", Convert(0x0179));
+            symbols.Add("Zcaron", Convert(0x017D));
+            symbols.Add("Zcy", Convert(0x0417));
+            symbols.Add("Zdot", Convert(0x017B));
+            symbols.Add("ZeroWidthSpace", Convert(0x200B));
+            symbols.Add("Zeta", Convert(0x0396));
+            symbols.Add("Zfr", Convert(0x2128));
+            symbols.Add("ZHcy", Convert(0x0416));
+            symbols.Add("Zopf", Convert(0x2124));
+            symbols.Add("Zscr", Convert(0x1D4B5));
+            return symbols;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets an symbol specified by its entity name.
+        /// </summary>
+        /// <param name="name">The name of the entity, specified by &amp;NAME; in the Html source code.</param>
+        /// <returns>The string with the symbol or null.</returns>
+        public static String GetSymbol(String name)
+        {
+            if (!String.IsNullOrEmpty(name) && _entities.ContainsKey(name[0]))
+            {
+                var symbols = _entities[name[0]];
+
+                if (symbols.ContainsKey(name))
+                    return symbols[name];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the entity name specified by its symbol (may be ambiguous).
+        /// </summary>
+        /// <param name="symbol">The value of the entity.</param>
+        /// <returns>The string with the entity name or null.</returns>
+        public static String GetEntity(String symbol)
+        {
+            if (!String.IsNullOrEmpty(symbol))
+            {
+                foreach (var symbols in _entities)
+                {
+                    foreach (var pair in symbols.Value)
+                    {
+                        if (pair.Value == symbol)
+                            return pair.Key;
+                    }
+                }
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Converts a given number into its unicode character.
@@ -2652,5 +2769,7 @@ namespace AngleSharp
                     (code == 0xFFFFF || code == 0x10FFFE) ||
                     (code == 0x10FFFF);
         }
+
+        #endregion
     }
 }
