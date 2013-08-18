@@ -973,7 +973,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void GumboUnknownTag()
+        public void GumboUnknownTag1()
         {
             var doc = DocumentBuilder.Html(@"<foo>1<p>2</FOO>");
             var body = doc.Body;
@@ -1204,7 +1204,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void GumboMisnestedTable()
+        public void GumboMisnestedTable1()
         {
             var doc = DocumentBuilder.Html(@"<table><tr><div><td></div></table>");
             var body = doc.Body;
@@ -1235,6 +1235,68 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, td.NodeType);
             Assert.AreEqual("td", td.NodeName);
             Assert.AreEqual(0, td.ChildNodes.Length);
+        }
+
+        [TestMethod]
+        public void GumboMisnestedTable2()
+        {
+            var doc = DocumentBuilder.Html(@"<table><td>Cell1<table><th>Cell2<tr>Cell3</table>");
+            var body = doc.Body;
+            Assert.AreEqual(1, body.ChildNodes.Length);
+
+            var table1 = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, table1.NodeType);
+            Assert.AreEqual("table", table1.NodeName);
+            Assert.AreEqual(body, table1.ParentElement);
+            Assert.AreEqual(1, table1.ChildNodes.Length);
+
+            var tbody1 = table1.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, tbody1.NodeType);
+            Assert.AreEqual("tbody", tbody1.NodeName);
+            Assert.AreEqual(1, tbody1.ChildNodes.Length);
+
+            var tr1 = tbody1.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, tr1.NodeType);
+            Assert.AreEqual("tr", tr1.NodeName);
+            Assert.AreEqual(1, tr1.ChildNodes.Length);
+
+            var td1 = tr1.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, td1.NodeType);
+            Assert.AreEqual("td", td1.NodeName);
+            Assert.AreEqual(2, td1.ChildNodes.Length);
+
+            var cell1 = td1.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, cell1.NodeType);
+            Assert.AreEqual("Cell1Cell3", cell1.TextContent);
+
+            var table2 = td1.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, table2.NodeType);
+            Assert.AreEqual("table", table2.NodeName);
+            Assert.AreEqual(1, table2.ChildNodes.Length);
+
+            var tbody2 = table2.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, tbody2.NodeType);
+            Assert.AreEqual("tbody", tbody2.NodeName);
+            Assert.AreEqual(2, tbody2.ChildNodes.Length);
+
+            var tr2 = tbody2.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, tr2.NodeType);
+            Assert.AreEqual("tr", tr2.NodeName);
+            Assert.AreEqual(1, tr2.ChildNodes.Length);
+
+            var th1 = tr2.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, th1.NodeType);
+            Assert.AreEqual("th", th1.NodeName);
+            Assert.AreEqual(1, th1.ChildNodes.Length);
+
+            var cell2 = th1.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, cell2.NodeType);
+            Assert.AreEqual("Cell2", cell2.TextContent);
+
+            var tr3 = tbody2.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, tr3.NodeType);
+            Assert.AreEqual("tr", tr3.NodeName);
+            Assert.AreEqual(0, tr3.ChildNodes.Length);
         }
     }
 }

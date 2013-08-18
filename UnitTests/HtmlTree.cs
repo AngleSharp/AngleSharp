@@ -196,5 +196,62 @@ namespace UnitTests
 
             Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.ToHtml());
         }
+
+        [TestMethod]
+        public void HeisenbergAlgorithmStrong()
+        {
+            var doc = DocumentBuilder.Html(@"<p>1<s id=""A"">2<b id=""B"">3</p>4</s>5</b>");
+            var body = doc.Body;
+            Assert.AreEqual(3, body.ChildNodes.Length);
+
+            var p = body.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, p.NodeType);
+            Assert.AreEqual(2, p.ChildNodes.Length);
+
+            var pt = p.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, pt.NodeType);
+            Assert.AreEqual("1", pt.TextContent);
+
+            var ps = p.ChildNodes[1];
+            Assert.AreEqual("A", ps.Attributes["id"].Value);
+            Assert.AreEqual(NodeType.Element, ps.NodeType);
+            Assert.AreEqual(2, ps.ChildNodes.Length);
+
+            var pst = ps.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, pst.NodeType);
+            Assert.AreEqual("2", pst.TextContent);
+
+            var psb = ps.ChildNodes[1];
+            Assert.AreEqual(NodeType.Element, psb.NodeType);
+            Assert.AreEqual(1, psb.ChildNodes.Length);
+            Assert.AreEqual("B", psb.Attributes["id"].Value);
+
+            var psbt = psb.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, psbt.NodeType);
+            Assert.AreEqual("3", psbt.TextContent);
+
+            var s = body.ChildNodes[1];
+            Assert.AreEqual("A", s.Attributes["id"].Value);
+            Assert.AreEqual(NodeType.Element, s.NodeType);
+            Assert.AreEqual(1, s.ChildNodes.Length);
+
+            var sb = s.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, sb.NodeType);
+            Assert.AreEqual(1, sb.ChildNodes.Length);
+            Assert.AreEqual("B", sb.Attributes["id"].Value);
+
+            var sbt = sb.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, sbt.NodeType);
+            Assert.AreEqual("4", sbt.TextContent);
+
+            var b = body.ChildNodes[2];
+            Assert.AreEqual(NodeType.Element, b.NodeType);
+            Assert.AreEqual(1, b.ChildNodes.Length);
+            Assert.AreEqual("B", b.Attributes["id"].Value);
+
+            var bt = b.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, bt.NodeType);
+            Assert.AreEqual("5", bt.TextContent);
+        }
     }
 }
