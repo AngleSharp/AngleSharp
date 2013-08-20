@@ -26,9 +26,9 @@ namespace AngleSharp.Xml
         {
             if (c.IsLetter())
             {
-                stringBuffer.Clear();
-                stringBuffer.Append(c);
-                return ProcessingTarget(src.Next, XmlToken.Processing());
+                _stringBuffer.Clear();
+                _stringBuffer.Append(c);
+                return ProcessingTarget(_src.Next, XmlToken.Processing());
             }
             else
             {
@@ -48,14 +48,14 @@ namespace AngleSharp.Xml
             {
                 if (c.IsSpaceCharacter())
                 {
-                    pi.Target = stringBuffer.ToString();
-                    stringBuffer.Clear();
-                    return ProcessingContent(src.Next, pi);
+                    pi.Target = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
+                    return ProcessingContent(_src.Next, pi);
                 }
                 else if (c == Specification.QM)
                 {
-                    pi.Target = stringBuffer.ToString();
-                    stringBuffer.Clear();
+                    pi.Target = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
                     return ProcessingContent(c, pi);
                 }
                 else if (c == Specification.NULL)
@@ -69,8 +69,8 @@ namespace AngleSharp.Xml
                     return XmlToken.EOF;
                 }
 
-                stringBuffer.Append(c);
-                c = src.Next;
+                _stringBuffer.Append(c);
+                c = _src.Next;
             }
         }
 
@@ -85,15 +85,15 @@ namespace AngleSharp.Xml
             {
                 if (c == Specification.QM)
                 {
-                    c = src.Next;
+                    c = _src.Next;
 
                     if (c == Specification.GT)
                     {
-                        pi.Content = stringBuffer.ToString();
+                        pi.Content = _stringBuffer.ToString();
                         return pi;
                     }
 
-                    stringBuffer.Append(Specification.QM);
+                    _stringBuffer.Append(Specification.QM);
                 }
                 else if (c == Specification.EOF)
                 {
@@ -102,8 +102,8 @@ namespace AngleSharp.Xml
                 }
                 else
                 {
-                    stringBuffer.Append(c);
-                    c = src.Next;
+                    _stringBuffer.Append(c);
+                    c = _src.Next;
                 }
             }
         }
@@ -118,31 +118,31 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         protected XmlToken CommentStart(Char c)
         {
-            stringBuffer.Clear();
+            _stringBuffer.Clear();
 
             if (c == Specification.MINUS)
-                return CommentDashStart(src.Next);
+                return CommentDashStart(_src.Next);
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(src.Next);
+                _stringBuffer.Append(Specification.REPLACEMENT);
+                return Comment(_src.Next);
             }
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return XmlToken.Comment(stringBuffer.ToString());
+                return XmlToken.Comment(_stringBuffer.ToString());
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                src.Back();
-                return XmlToken.Comment(stringBuffer.ToString());
+                _src.Back();
+                return XmlToken.Comment(_stringBuffer.ToString());
             }
             else
             {
-                stringBuffer.Append(c);
-                return Comment(src.Next);
+                _stringBuffer.Append(c);
+                return Comment(_src.Next);
             }
         }
 
@@ -153,29 +153,29 @@ namespace AngleSharp.Xml
         XmlToken CommentDashStart(Char c)
         {
             if (c == Specification.MINUS)
-                return CommentEnd(src.Next);
+                return CommentEnd(_src.Next);
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.MINUS);
-                stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(src.Next);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.REPLACEMENT);
+                return Comment(_src.Next);
             }
             else if (c == Specification.GT)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return XmlToken.Comment(stringBuffer.ToString());
+                return XmlToken.Comment(_stringBuffer.ToString());
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                src.Back();
-                return XmlToken.Comment(stringBuffer.ToString());
+                _src.Back();
+                return XmlToken.Comment(_stringBuffer.ToString());
             }
 
-            stringBuffer.Append(Specification.MINUS);
-            stringBuffer.Append(c);
-            return Comment(src.Next);
+            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(c);
+            return Comment(_src.Next);
         }
 
         /// <summary>
@@ -187,12 +187,12 @@ namespace AngleSharp.Xml
             while (true)
             {
                 if (c == Specification.MINUS)
-                    return CommentDashEnd(src.Next);
+                    return CommentDashEnd(_src.Next);
                 else if (c == Specification.EOF)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    src.Back();
-                    return XmlToken.Comment(stringBuffer.ToString());
+                    _src.Back();
+                    return XmlToken.Comment(_stringBuffer.ToString());
                 }
                 else if (c == Specification.NULL)
                 {
@@ -200,8 +200,8 @@ namespace AngleSharp.Xml
                     c = Specification.REPLACEMENT;
                 }
 
-                stringBuffer.Append(c);
-                c = src.Next;
+                _stringBuffer.Append(c);
+                c = _src.Next;
             }
         }
 
@@ -212,12 +212,12 @@ namespace AngleSharp.Xml
         XmlToken CommentDashEnd(Char c)
         {
             if (c == Specification.MINUS)
-                return CommentEnd(src.Next);
+                return CommentEnd(_src.Next);
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                src.Back();
-                return XmlToken.Comment(stringBuffer.ToString());
+                _src.Back();
+                return XmlToken.Comment(_stringBuffer.ToString());
             }
             else if (c == Specification.NULL)
             {
@@ -225,9 +225,9 @@ namespace AngleSharp.Xml
                 c = Specification.REPLACEMENT;
             }
 
-            stringBuffer.Append(Specification.MINUS);
-            stringBuffer.Append(c);
-            return Comment(src.Next);
+            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(c);
+            return Comment(_src.Next);
         }
 
         /// <summary>
@@ -238,38 +238,38 @@ namespace AngleSharp.Xml
         {
             if (c == Specification.GT)
             {
-                return XmlToken.Comment(stringBuffer.ToString());
+                return XmlToken.Comment(_stringBuffer.ToString());
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.MINUS);
-                stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(src.Next);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.REPLACEMENT);
+                return Comment(_src.Next);
             }
             else if (c == Specification.EM)
             {
                 RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
-                return CommentBangEnd(src.Next);
+                return CommentBangEnd(_src.Next);
             }
             else if (c == Specification.MINUS)
             {
                 RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
-                stringBuffer.Append(Specification.MINUS);
-                return CommentEnd(src.Next);
+                _stringBuffer.Append(Specification.MINUS);
+                return CommentEnd(_src.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                src.Back();
-                return XmlToken.Comment(stringBuffer.ToString());
+                _src.Back();
+                return XmlToken.Comment(_stringBuffer.ToString());
             }
 
             RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
-            stringBuffer.Append(Specification.MINUS);
-            stringBuffer.Append(Specification.MINUS);
-            stringBuffer.Append(c);
-            return Comment(src.Next);
+            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(c);
+            return Comment(_src.Next);
         }
 
         /// <summary>
@@ -280,36 +280,36 @@ namespace AngleSharp.Xml
         {
             if (c == Specification.MINUS)
             {
-                stringBuffer.Append(Specification.MINUS);
-                stringBuffer.Append(Specification.MINUS);
-                stringBuffer.Append(Specification.EM);
-                return CommentDashEnd(src.Next);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.EM);
+                return CommentDashEnd(_src.Next);
             }
             else if (c == Specification.GT)
             {
-                return XmlToken.Comment(stringBuffer.ToString());
+                return XmlToken.Comment(_stringBuffer.ToString());
             }
             else if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                stringBuffer.Append(Specification.MINUS);
-                stringBuffer.Append(Specification.MINUS);
-                stringBuffer.Append(Specification.EM);
-                stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(src.Next);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.EM);
+                _stringBuffer.Append(Specification.REPLACEMENT);
+                return Comment(_src.Next);
             }
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                src.Back();
-                return XmlToken.Comment(stringBuffer.ToString());
+                _src.Back();
+                return XmlToken.Comment(_stringBuffer.ToString());
             }
 
-            stringBuffer.Append(Specification.MINUS);
-            stringBuffer.Append(Specification.MINUS);
-            stringBuffer.Append(Specification.EM);
-            stringBuffer.Append(c);
-            return Comment(src.Next);
+            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(Specification.EM);
+            _stringBuffer.Append(c);
+            return Comment(_src.Next);
         }
 
         #endregion

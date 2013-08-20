@@ -9,6 +9,7 @@ using AngleSharp.DOM.Mathml;
 using AngleSharp.DOM.Svg;
 using AngleSharp.DOM.Xml;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AngleSharp.Html
 {
@@ -17,6 +18,7 @@ namespace AngleSharp.Html
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
+    [DebuggerStepThrough]
     public class HtmlParser : IParser
     {
         #region Members
@@ -29,7 +31,7 @@ namespace AngleSharp.Html
         List<Element> formatting;
         HTMLFormElement form;
         Boolean frameset;
-        Boolean fragment;
+        Node fragmentContext;
         Boolean foster;
         Int32 nesting;
         Boolean pause;
@@ -146,7 +148,15 @@ namespace AngleSharp.Html
         /// </summary>
         public Boolean IsFragmentCase
         {
-            get { return fragment; }
+            get { return fragmentContext != null; }
+        }
+
+        /// <summary>
+        /// Gets the adjusted current node.
+        /// </summary>
+        internal Node AdjustedCurrentNode
+        {
+            get { return (fragmentContext != null && open.Count == 1) ? fragmentContext : CurrentNode; }
         }
 
         /// <summary>
@@ -259,10 +269,12 @@ namespace AngleSharp.Html
             }
 
             var root = new HTMLHtmlElement();
-            fragment = true;
             doc.AppendChild(root);
             open.Add(root);
             Reset(context);
+
+            fragmentContext = context;
+            tokenizer.AcceptsCharacterData = !AdjustedCurrentNode.IsInHtml;
 
             do
             {
@@ -355,7 +367,7 @@ namespace AngleSharp.Html
         /// <param name="token">The token to consume.</param>
         void Consume(HtmlToken token)
         {
-            var node = CurrentNode;
+            var node = AdjustedCurrentNode;
 
             if (node == null || node.IsInHtml || token.IsEof || (node.IsHtmlTIP && token.IsHtmlCompatible) || 
                 (node.IsMathMLTIP && token.IsMathCompatible) || (node.IsInMathMLSVGReady && token.IsSvg))
@@ -473,7 +485,7 @@ namespace AngleSharp.Html
                 if (!doctype.IsValid)
                     RaiseErrorOccurred(ErrorCode.DoctypeInvalid);
 
-                AddElement(doctype);
+                AddDoctype(doctype);
 
                 if (doctype.IsFullQuirks)
                     doc.QuirksMode = QuirksMode.On;
@@ -869,7 +881,7 @@ namespace AngleSharp.Html
                     case HTMLHtmlElement.Tag:
                     {
                         RaiseErrorOccurred(ErrorCode.HtmlTagMisplaced);
-                        AppendAttributesToElement(tag, open[0]);
+                        AppendAttributes(tag, open[0]);
                         break;
                     }
                     case HTMLBaseElement.Tag:
@@ -893,7 +905,7 @@ namespace AngleSharp.Html
                         if (open.Count > 1 && open[1] is HTMLBodyElement)
                         {
                             frameset = false;
-                            AppendAttributesToElement(tag, open[1]);
+                            AppendAttributes(tag, open[1]);
                         }
 
                         break;
@@ -1301,10 +1313,7 @@ namespace AngleSharp.Html
                         CurrentNode.AppendChild(element);
 
                         if (!tag.IsSelfClosing)
-                        {
                             open.Add(element);
-                            tokenizer.AcceptsCDATA = true;
-                        }
                         break;
                     }
                     case SVGElement.RootTag:
@@ -1325,7 +1334,7 @@ namespace AngleSharp.Html
                         if (!tag.IsSelfClosing)
                         {
                             open.Add(element);
-                            tokenizer.AcceptsCDATA = true;
+                            tokenizer.AcceptsCharacterData = true;
                         }
                         break;
                     }
@@ -2306,7 +2315,7 @@ namespace AngleSharp.Html
             {
                 if (token.Type == HtmlTokenType.StartTag)
                     InBody(token);
-                else if (fragment)
+                else if (IsFragmentCase)
                     RaiseErrorOccurred(ErrorCode.TagInvalidInFragmentMode);
                 else
                     insert = HtmlTreeMode.AfterAfterBody;
@@ -2383,7 +2392,7 @@ namespace AngleSharp.Html
                 {
                     CloseCurrentNode();
 
-                    if (fragment && CurrentNode.NodeName != HTMLFrameSetElement.Tag)
+                    if (IsFragmentCase && CurrentNode.NodeName != HTMLFrameSetElement.Tag)
                         insert = HtmlTreeMode.AfterFrameset;
                 }
                 else
@@ -3200,18 +3209,18 @@ namespace AngleSharp.Html
                     case HTMLFormattingElement.UTag:
                     case HTMLUListElement.Tag:
                     case "var":
-                        {
-                            RaiseErrorOccurred(ErrorCode.TagCannotStartHere);
+                    {
+                        RaiseErrorOccurred(ErrorCode.TagCannotStartHere);
+                        CloseCurrentNode();
+
+                        while (!CurrentNode.IsHtmlTIP && !CurrentNode.IsMathMLTIP && !CurrentNode.IsInHtml)
                             CloseCurrentNode();
 
-                            while (!CurrentNode.IsHtmlTIP && !CurrentNode.IsMathMLTIP && !CurrentNode.IsInHtml)
-                                CloseCurrentNode();
-
-                            Consume(token);
-                        }
+                        Consume(token);
                         break;
-
+                    }
                     case HTMLFontElement.Tag:
+                    {
                         for (var i = 0; i != tag.Attributes.Count; i++)
                         {
                             if (tag.Attributes[i].Key == "color" || tag.Attributes[i].Key == "face" || tag.Attributes[i].Key == "size")
@@ -3219,47 +3228,49 @@ namespace AngleSharp.Html
                         }
 
                         goto default;
-
+                    }
                     default:
+                    {
+                        Element node;
+
+                        if (AdjustedCurrentNode.IsInMathML)
                         {
-                            Element node;
+                            node = new MathMLElement();
+                            node.NodeName = tag.Name;
 
-                            if (CurrentNode.IsInMathML)
+                            for (int i = 0; i < tag.Attributes.Count; i++)
                             {
-                                node = new MathMLElement();
-                                node.NodeName = tag.Name;
-
-                                for (int i = 0; i < tag.Attributes.Count; i++)
-                                {
-                                    var name = tag.Attributes[i].Key;
-                                    var value = tag.Attributes[i].Value;
-                                    node.SetAttribute(ForeignHelpers.AdjustAttributeName(MathMLHelpers.AdjustAttributeName(name)), value);
-                                }
+                                var name = tag.Attributes[i].Key;
+                                var value = tag.Attributes[i].Value;
+                                node.SetAttribute(ForeignHelpers.AdjustAttributeName(MathMLHelpers.AdjustAttributeName(name)), value);
                             }
-                            else
-                            {
-                                node = new SVGElement();
-                                node.NodeName = SVGHelpers.AdjustTagName(tag.Name);
-
-                                for (int i = 0; i < tag.Attributes.Count; i++)
-                                {
-                                    var name = tag.Attributes[i].Key;
-                                    var value = tag.Attributes[i].Value;
-                                    node.SetAttribute(ForeignHelpers.AdjustAttributeName(SVGHelpers.AdjustAttributeName(name)), value);
-                                }
-                            }
-
-                            node.NamespaceURI = CurrentNode.NamespaceURI;
-                            CurrentNode.AppendChild(node);
-                            open.Add(node);
-
-                            if (!tag.IsSelfClosing)
-                                tokenizer.AcceptsCDATA = true;
-                            else if (tag.Name == HTMLScriptElement.Tag)
-                                Foreign(HtmlToken.CloseTag(HTMLScriptElement.Tag));
                         }
+                        else if (AdjustedCurrentNode.IsInSvg)
+                        {
+                            node = new SVGElement();
+                            node.NodeName = SVGHelpers.AdjustTagName(tag.Name);
+
+                            for (int i = 0; i < tag.Attributes.Count; i++)
+                            {
+                                var name = tag.Attributes[i].Key;
+                                var value = tag.Attributes[i].Value;
+                                node.SetAttribute(ForeignHelpers.AdjustAttributeName(SVGHelpers.AdjustAttributeName(name)), value);
+                            }
+                        }
+                        else
+                            break;
+
+                        node.NamespaceURI = AdjustedCurrentNode.NamespaceURI;
+                        CurrentNode.AppendChild(node);
+                        open.Add(node);
+
+                        if (!tag.IsSelfClosing)
+                            tokenizer.AcceptsCharacterData = true;
+                        else if (tag.Name == HTMLScriptElement.Tag)
+                            Foreign(HtmlToken.CloseTag(HTMLScriptElement.Tag));
 
                         break;
+                    }
                 }
             }
             else if (token.Type == HtmlTokenType.EndTag)
@@ -3626,7 +3637,7 @@ namespace AngleSharp.Html
         /// Appends the doctype token to the document.
         /// </summary>
         /// <param name="doctypeToken">The doctypen token.</param>
-        void AddElement(HtmlDoctypeToken doctypeToken)
+        void AddDoctype(HtmlDoctypeToken doctypeToken)
         {
             var node = new DocumentType();
             node.SystemId = doctypeToken.SystemIdentifier;
@@ -3656,7 +3667,7 @@ namespace AngleSharp.Html
             if (open.Count > 0)
             {
                 open.RemoveAt(open.Count - 1);
-                tokenizer.AcceptsCDATA = CurrentNode == null || !CurrentNode.IsInHtml;
+                tokenizer.AcceptsCharacterData = CurrentNode == null || !CurrentNode.IsInHtml;
             }
         }
 
@@ -3668,7 +3679,7 @@ namespace AngleSharp.Html
         /// <param name="element">The node which will be added to the list.</param>
         /// <param name="elementToken">The associated tag token.</param>
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
-        void AddElementToCurrentNode(Element element, HtmlToken elementToken, bool acknowledgeSelfClosing = false)
+        void AddElementToCurrentNode(Element element, HtmlToken elementToken, Boolean acknowledgeSelfClosing = false)
         {
             SetupElement(element, elementToken, acknowledgeSelfClosing);
 
@@ -3678,7 +3689,7 @@ namespace AngleSharp.Html
                 CurrentNode.AppendChild(element);
 
             open.Add(element);
-            tokenizer.AcceptsCDATA = !element.IsInHtml;
+            tokenizer.AcceptsCharacterData = !element.IsInHtml;
         }
 
         /// <summary>
@@ -3727,7 +3738,7 @@ namespace AngleSharp.Html
             doc.AppendChild(element);
             SetupElement(element, elementToken, false);
             open.Add(element);
-            tokenizer.AcceptsCDATA = !element.IsInHtml;
+            tokenizer.AcceptsCharacterData = !element.IsInHtml;
         }
 
         /// <summary>
@@ -3745,7 +3756,7 @@ namespace AngleSharp.Html
             if (tag.IsSelfClosing && !acknowledgeSelfClosing)
                 RaiseErrorOccurred(ErrorCode.TagCannotBeSelfClosed);
 
-            AddAttributesToElement(tag, element);
+            AddAttributes(tag, element);
         }
 
         /// <summary>
@@ -3753,7 +3764,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="elementToken">The tag token which carries the modifications.</param>
         /// <param name="element">The node which should be modified.</param>
-        void AddAttributesToElement(HtmlTagToken elementToken, Element element)
+        void AddAttributes(HtmlTagToken elementToken, Element element)
         {
             for (var i = 0; i < elementToken.Attributes.Count; i++)
                 element.SetAttribute(elementToken.Attributes[i].Key, elementToken.Attributes[i].Value);
@@ -3765,7 +3776,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="elementToken">The token with the source attributes.</param>
         /// <param name="element">The node with the target attributes.</param>
-        void AppendAttributesToElement(HtmlTagToken elementToken, Element element)
+        void AppendAttributes(HtmlTagToken elementToken, Element element)
         {
             foreach (var attr in elementToken.Attributes)
             {
