@@ -73,6 +73,7 @@
     <Compile Include="Quirksmode.cs" />
     <Compile Include="ReflectionResolverTests.cs" />
     <Compile Include="GumboParser.cs" />
+    <Compile Include="Html5TestCom.cs" />
     <Compile Include="UserJsUnsafe.cs" />
     <Compile Include="XmlDTD.cs" />
     <Compile Include="XmlTree.cs" />

@@ -34,15 +34,15 @@ bar]]>");
             Assert.AreEqual(NodeType.Element, htmlbody.NodeType);
 
             var htmlbodysvg = htmlbody.ChildNodes[0];
+            Assert.IsTrue(htmlbodysvg.IsInSvg);
+            Assert.AreEqual(Namespaces.Svg, htmlbodysvg.NamespaceURI);
             Assert.AreEqual(1, htmlbodysvg.ChildNodes.Length);
             Assert.AreEqual(0, htmlbodysvg.Attributes.Length);
             Assert.AreEqual(NodeType.Element, htmlbodysvg.NodeType);
 
-            {
-              var text = htmlbodysvg.ChildNodes[0];
-              Assert.AreEqual(NodeType.Text, text.NodeType);
-              Assert.AreEqual("foo\nbar", text.TextContent);
-            }
+            var text = htmlbodysvg.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+            Assert.AreEqual("foo\nbar", text.TextContent);
         }
 
         [TestMethod]
@@ -66,11 +66,9 @@ bar]]>");
             Assert.AreEqual(NodeType.Element, dochtmlheadscript.NodeType);
             Assert.AreEqual("data", dochtmlheadscript.Attributes["type"].Value);
 
-            {
-              var text = dochtmlheadscript.ChildNodes[0];
-              Assert.AreEqual(NodeType.Text, text.NodeType);
-              Assert.AreEqual(@"<!--foo" + Specification.REPLACEMENT.ToString(), text.TextContent);
-            }
+            var text = dochtmlheadscript.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+            Assert.AreEqual(@"<!--foo" + Specification.REPLACEMENT.ToString(), text.TextContent);
 
             var dochtmlbody = dochtml.ChildNodes[1];
             Assert.AreEqual(0, dochtmlbody.ChildNodes.Length);
@@ -99,11 +97,9 @@ bar]]>");
             Assert.AreEqual(NodeType.Element, dochtmlheadscript.NodeType);
             Assert.AreEqual("data", dochtmlheadscript.Attributes["type"].Value);
 
-            {
-              var text = dochtmlheadscript.ChildNodes[0];
-              Assert.AreEqual(NodeType.Text, text.NodeType);
-              Assert.AreEqual(@"<!-- foo--" + Specification.REPLACEMENT.ToString(), text.TextContent);
-            }
+            var text = dochtmlheadscript.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+            Assert.AreEqual(@"<!-- foo--" + Specification.REPLACEMENT.ToString(), text.TextContent);
 
             var dochtmlbody = dochtml.ChildNodes[1];
             Assert.AreEqual(0, dochtmlbody.ChildNodes.Length);
@@ -132,11 +128,9 @@ bar]]>");
             Assert.AreEqual(NodeType.Element, dochtmlheadscript.NodeType);
             Assert.AreEqual("data", dochtmlheadscript.Attributes["type"].Value);
 
-            {
-                var text = dochtmlheadscript.ChildNodes[0];
-                Assert.AreEqual(NodeType.Text, text.NodeType);
-                Assert.AreEqual(@"<!-- foo-<", text.TextContent);
-            }
+            var text = dochtmlheadscript.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+            Assert.AreEqual(@"<!-- foo-<", text.TextContent);
 
             var dochtmlbody = dochtml.ChildNodes[1];
             Assert.AreEqual(0, dochtmlbody.ChildNodes.Length);
@@ -165,11 +159,9 @@ bar]]>");
             Assert.AreEqual(NodeType.Element, dochtmlheadscript.NodeType);
             Assert.AreEqual("data", dochtmlheadscript.Attributes["type"].Value);
 
-            {
-              var text = dochtmlheadscript.ChildNodes[0];
-              Assert.AreEqual(NodeType.Text, text.NodeType);
-              Assert.AreEqual(@"<!--<p>", text.TextContent);
-            }
+            var text = dochtmlheadscript.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+            Assert.AreEqual(@"<!--<p>", text.TextContent);
                         
             var dochtmlbody = dochtml.ChildNodes[1];
             Assert.AreEqual(0, dochtmlbody.ChildNodes.Length);

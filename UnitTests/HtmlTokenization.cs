@@ -180,6 +180,7 @@ namespace UnitTests
         {
             var s = new SourceManager("<![CDATA[hi mum how <!-- are you doing />]]>");
             var t = new HtmlTokenizer(s);
+            t.AcceptsCharacterData = true;
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, token.Type);
         }
@@ -190,6 +191,7 @@ namespace UnitTests
             StringBuilder sb = new StringBuilder();
             var s = new SourceManager("<![CDATA[hi mum how <!-- are you doing />]]>");
             var t = new HtmlTokenizer(s);
+            t.AcceptsCharacterData = true;
             HtmlToken token;
 
             do
