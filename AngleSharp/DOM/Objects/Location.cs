@@ -36,7 +36,7 @@ namespace AngleSharp.DOM
         /// <param name="url">The URL to represent.</param>
         internal Location(String url)
         {
-            ChangeTo(url);
+            ChangeTo(url ?? String.Empty);
         }
 
         #endregion
@@ -96,7 +96,7 @@ namespace AngleSharp.DOM
         public String Href
         {
             get { return _url; }
-            set { ChangeTo(value); }
+            set { ChangeTo(value ?? String.Empty); }
         }
 
         /// <summary>
