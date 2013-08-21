@@ -31,9 +31,7 @@ namespace AngleSharp.DOM.Html
         internal HTMLOptionElement()
         {
             _name = Tag;
-            Value = String.Empty;
             Selected = false;
-            DefaultSelected = false;
         }
 
         #endregion           
@@ -91,7 +89,7 @@ namespace AngleSharp.DOM.Html
         [DOM("value")]
         public String Value
         {
-            get { return GetAttribute("value"); }
+            get { return GetAttribute("value") ?? String.Empty; }
             set { SetAttribute("value", value); }
         }
 
