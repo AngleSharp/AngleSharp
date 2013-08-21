@@ -10,7 +10,7 @@ namespace AngleSharp.Html
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     sealed class HtmlTokenizer : BaseTokenizer
     {
         #region Members
@@ -470,33 +470,27 @@ namespace AngleSharp.Html
         /// <param name="allowedCharacter">The additionally allowed character if there is one.</param>
         String CharacterReference(Char c, Char allowedCharacter = Specification.NULL)
         {
-            if (c.IsSpaceCharacter() || c == Specification.LT || c == Specification.AMPERSAND || c == allowedCharacter)
+            if (c.IsSpaceCharacter() || c == Specification.LT || c == Specification.EOF || c == Specification.AMPERSAND || c == allowedCharacter)
+            {
+                _src.Back();
                 return null;
-            
+            }
+
             if (c == Specification.NUM)
             {
+                var exp = 10;
+                var basis = 1;
                 var num = 0;
                 var nums = new List<Int32>();
                 _src.Advance();
-                var isHex = _src.Current == 'x' || _src.Current == 'X';                
+                var isHex = _src.Current == 'x' || _src.Current == 'X';
 
                 if (isHex)
                 {
-                    _src.Advance();
+                    exp = 16;
 
-                    while (_src.Current.IsHex())
-                    {
+                    while (_src.Next.IsHex())
                         nums.Add(_src.Current.FromHex());
-                        _src.Advance();
-                    }
-
-                    var basis = 1;
-
-                    for (var i = nums.Count - 1; i >= 0; i--)
-                    {
-                        num += nums[i] * basis;
-                        basis *= 16;
-                    }
                 }
                 else
                 {
@@ -505,19 +499,17 @@ namespace AngleSharp.Html
                         nums.Add(_src.Current.FromHex());
                         _src.Advance();
                     }
+                }
 
-                    var basis = 1;
-
-                    for (var i = nums.Count - 1; i >= 0; i--)
-                    {
-                        num += nums[i] * basis;
-                        basis *= 10;
-                    }
+                for (var i = nums.Count - 1; i >= 0; i--)
+                {
+                    num += nums[i] * basis;
+                    basis *= exp;
                 }
 
                 if (nums.Count == 0)
                 {
-                    _src.Back();
+                    _src.Back(2);
 
                     if (isHex)
                         _src.Back();
@@ -538,7 +530,7 @@ namespace AngleSharp.Html
                     return Entities.GetSymbolFromTable(num);
                 }
 
-                if(Entities.IsInvalidNumber(num))
+                if (Entities.IsInvalidNumber(num))
                 {
                     RaiseErrorOccurred(ErrorCode.CharacterReferenceInvalidNumber);
                     return Specification.REPLACEMENT.ToString();
@@ -549,86 +541,54 @@ namespace AngleSharp.Html
 
                 return Entities.Convert(num);
             }
-
-            /*
-             * Consume the maximum number of characters possible, with the consume
-             * characters matching one of the identifiers in the first column of the
-             * named character references table (in a case-sensitive manner).
-             * If no match can be made, then no characters are consumed, and nothing
-             * is returned. In this case, if the characters after the U+0026 AMPERSAND
-             * character (&) consist of a sequence of one or more alphanumeric ASCII
-             * characters followed by a U+003B SEMICOLON character (;), then this is
-             * a parse error.
-             * 
-             * If the character reference is being consumed as part of an attribute,
-             * and the last character matched is not a ";" (U+003B) character, and
-             * the next character is either a "=" (U+003D) character or an alphanumeric
-             * ASCII character, then, for historical reasons, all the characters that
-             * were matched after the U+0026 AMPERSAND character (&) must be unconsumed,
-             * and nothing is returned.  However, if this next character is in fact a "="
-             * (U+003D) character, then this is a parse error, because some legacy user
-             * agents  will misinterpret the markup in those cases.
-             * 
-             * Otherwise, a character reference is parsed. If the last character matched
-             * is not a ";" (U+003B) character, there is a parse error.
-             * 
-             * Return one or two character tokens for the character(s) corresponding to
-             * the character reference name (as given by the second column of the named
-             * character references table).
-             */
-
-            var last = String.Empty;
-            var consumed = 0;
-            var start = _src.InsertionPoint;
-            var reference = new Char[31];
-            var index = 0;
-
-            do
+            else
             {
+                var last = String.Empty;
+                var consumed = 0;
+                var start = _src.InsertionPoint - 1;
+                var reference = new Char[31];
+                var index = 0;
                 var chr = _src.Current;
 
-                if (chr == Specification.SC || !chr.IsAlphanumericAscii())
-                    break;
-
-                reference[index++] = chr;
-                consumed++;
-                var value = Entities.GetSymbol(new String(reference, 0, index));
-
-                if (value != null)
+                do
                 {
-                    consumed = 0;
-                    last = value;
-                }
+                    if (chr == Specification.SC || !chr.IsName())
+                        break;
 
-                _src.Advance();
-            }
-            while (!_src.IsEnded);
+                    reference[index++] = chr;
+                    var value = new String(reference, 0, index);
+                    chr = _src.Next;
+                    consumed++;
+                    value = chr == Specification.SC ? Entities.GetSymbol(value) : Entities.GetSymbolWithoutSemicolon(value);
 
-            while (consumed != 0)
-            {
-                _src.Back();
-                consumed--;
-            }
-
-            if (_src.Current != Specification.SC)
-            {
-                if (allowedCharacter != Specification.NULL)
-                {
-                    if (_src.Current == Specification.EQ || _src.Current.IsAlphanumericAscii())
+                    if (value != null)
                     {
-                        if (_src.Current == Specification.EQ)
+                        consumed = 0;
+                        last = value;
+                    }
+                }
+                while (!_src.IsEnded);
+
+                _src.Back(consumed);
+                chr = _src.Current;
+
+                if (chr != Specification.SC)
+                {
+                    if (allowedCharacter != Specification.NULL && (chr == Specification.EQ || chr.IsAlphanumericAscii()))
+                    {
+                        if (chr == Specification.EQ)
                             RaiseErrorOccurred(ErrorCode.CharacterReferenceAttributeEqualsFound);
 
                         _src.InsertionPoint = start;
                         return null;
                     }
+
+                    _src.Back();
+                    RaiseErrorOccurred(ErrorCode.CharacterReferenceNotTerminated);
                 }
 
-                _src.Back();
-                RaiseErrorOccurred(ErrorCode.CharacterReferenceNotTerminated);
+                return last;
             }
-
-            return last;
         }
 
         #endregion
@@ -1989,10 +1949,9 @@ namespace AngleSharp.Html
                     var value = CharacterReference(_src.Next, Specification.GT);
 
                     if (value == null)
-                        value = Specification.AMPERSAND.ToString();
-
-                    tag.SetAttributeValue(value);
-                    return AttributeAfterValue(_src.Next, tag);
+                        _stringBuffer.Append(Specification.AMPERSAND);
+                    else
+                        _stringBuffer.Append(value);
                 }
                 else if (c == Specification.GT)
                 {
