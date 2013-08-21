@@ -6,9 +6,8 @@ using AngleSharp.DOM;
 namespace UnitTests
 {
     /// <summary>
-    /// Tests from https://github.com/html5lib/html5lib-tests
-    /// to be more specific:
-    /// https://github.com/html5lib/html5lib-tests/blob/master/tree-construction/domjs-unsafe.dat
+    /// Tests from https://github.com/html5lib/html5lib-tests (*)
+    /// to be more specific: (*)/blob/master/tree-construction/domjs-unsafe.dat
     /// </summary>
     [TestClass]
     public class UserJsUnsafe

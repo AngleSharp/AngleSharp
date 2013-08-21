@@ -6,9 +6,8 @@ using AngleSharp;
 namespace UnitTests
 {
     /// <summary>
-    /// Tests from https://github.com/html5lib/html5lib-tests
-    /// to be more specific:
-    /// https://github.com/html5lib/html5lib-tests/blob/master/tree-construction/html5test-com.dat
+    /// Tests from https://github.com/html5lib/html5lib-tests (*)
+    /// to be more specific: (*)/blob/master/tree-construction/html5test-com.dat
     /// </summary>
     [TestClass]
     public class Html5TestCom
