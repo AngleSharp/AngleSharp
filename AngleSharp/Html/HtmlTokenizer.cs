@@ -477,8 +477,8 @@ namespace AngleSharp.Html
             {
                 var num = 0;
                 var nums = new List<Int32>();
-                var isHex = _src.Current == 'x' || _src.Current == 'X';
                 _src.Advance();
+                var isHex = _src.Current == 'x' || _src.Current == 'X';                
 
                 if (isHex)
                 {

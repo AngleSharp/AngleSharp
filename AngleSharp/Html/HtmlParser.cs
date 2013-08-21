@@ -18,7 +18,7 @@ namespace AngleSharp.Html
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     public class HtmlParser : IParser
     {
         #region Members
@@ -532,8 +532,7 @@ namespace AngleSharp.Html
             }
             else if (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name == HTMLHtmlElement.Tag)
             {
-                var element = new HTMLHtmlElement();
-                AddElementToDocument(element, token);
+                AddRoot(token);
 
                 //TODO
                 //If the Document is being loaded as part of navigation of a browsing context, then:
@@ -3660,6 +3659,19 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
+        /// Adds the root element (html) to the document.
+        /// </summary>
+        /// <param name="token">The token which started this process.</param>
+        void AddRoot(HtmlToken token)
+        {
+            var element = new HTMLHtmlElement();
+            doc.AppendChild(element);
+            SetupElement(element, token, false);
+            open.Add(element);
+            tokenizer.AcceptsCharacterData = !element.IsInHtml;
+        }
+
+        /// <summary>
         /// Appends a comment node to the specified node.
         /// </summary>
         /// <param name="parent">The node which will contain the comment node.</param>
@@ -3680,7 +3692,8 @@ namespace AngleSharp.Html
             if (open.Count > 0)
             {
                 open.RemoveAt(open.Count - 1);
-                tokenizer.AcceptsCharacterData = CurrentNode == null || !CurrentNode.IsInHtml;
+                var node = AdjustedCurrentNode;
+                tokenizer.AcceptsCharacterData = node != null && !node.IsInHtml;
             }
         }
 
@@ -3695,7 +3708,15 @@ namespace AngleSharp.Html
         void AddElementToCurrentNode(Element element, HtmlToken elementToken, Boolean acknowledgeSelfClosing = false)
         {
             SetupElement(element, elementToken, acknowledgeSelfClosing);
+            AddElementToCurrentNode(element);
+        }
 
+        /// <summary>
+        /// Appends a configured node to the current node.
+        /// </summary>
+        /// <param name="element">The node which will be added to the list.</param>
+        void AddElementToCurrentNode(Element element)
+        {
             if (foster && CurrentNode.IsTableElement())
                 AddElementWithFoster(element);
             else
@@ -3741,20 +3762,6 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
-        /// Appends a node to the document and modifies the node by appending
-        /// all attributes and acknowledging the self-closing flag if set.
-        /// </summary>
-        /// <param name="element">The node which will be added to the list.</param>
-        /// <param name="elementToken">The associated tag token.</param>
-        void AddElementToDocument(Element element, HtmlToken elementToken)
-        {
-            doc.AppendChild(element);
-            SetupElement(element, elementToken, false);
-            open.Add(element);
-            tokenizer.AcceptsCharacterData = !element.IsInHtml;
-        }
-
-        /// <summary>
         /// Modifies the node by appending all attributes and
         /// acknowledging the self-closing flag if set.
         /// </summary>
@@ -3769,18 +3776,8 @@ namespace AngleSharp.Html
             if (tag.IsSelfClosing && !acknowledgeSelfClosing)
                 RaiseErrorOccurred(ErrorCode.TagCannotBeSelfClosed);
 
-            AddAttributes(tag, element);
-        }
-
-        /// <summary>
-        /// Appends the attributes of the given tag token to the given node.
-        /// </summary>
-        /// <param name="elementToken">The tag token which carries the modifications.</param>
-        /// <param name="element">The node which should be modified.</param>
-        void AddAttributes(HtmlTagToken elementToken, Element element)
-        {
-            for (var i = 0; i < elementToken.Attributes.Count; i++)
-                element.SetAttribute(elementToken.Attributes[i].Key, elementToken.Attributes[i].Value);
+            for (var i = 0; i < tag.Attributes.Count; i++)
+                element.SetAttribute(tag.Attributes[i].Key, tag.Attributes[i].Value);
         }
 
         /// <summary>
@@ -4017,16 +4014,8 @@ namespace AngleSharp.Html
 
             for (; index < formatting.Count; index++)
             {
-                entry = formatting[index];
-                var element = HTMLElement.Factory(entry.NodeName);
-
-                AddElementToCurrentNode(element, HtmlToken.OpenTag(entry.NodeName));
-
-                for (int i = 0; i < entry.Attributes.Length; i++)
-                {
-                    var attr = entry.Attributes[i];
-                    element.SetAttribute(attr.NodeName, attr.NodeValue);
-                }
+                var element = CopyElement(formatting[index]);
+                AddElementToCurrentNode(element);
 
                 formatting[index] = element;
             }
