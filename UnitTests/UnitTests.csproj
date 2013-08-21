@@ -76,6 +76,7 @@
     <Compile Include="Html5TestCom.cs" />
     <Compile Include="Tricky.cs" />
     <Compile Include="PlaintextUnsafe.cs" />
+    <Compile Include="HtmlFragments.cs" />
     <Compile Include="UserJsUnsafe.cs" />
     <Compile Include="XmlDTD.cs" />
     <Compile Include="XmlTree.cs" />
