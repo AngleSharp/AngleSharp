@@ -3157,7 +3157,7 @@ namespace AngleSharp.Html
             if (token.Type == HtmlTokenType.Character)
             {
                 var chrs = (HtmlCharacterToken)token;
-                InsertCharacters(chrs.Data);
+                InsertCharacters(chrs.Data.Replace(Specification.NULL, Specification.REPLACEMENT));
 
                 if(chrs.HasContent)
                     frameset = false;
