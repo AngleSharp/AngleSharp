@@ -56,31 +56,32 @@
       <DependentUpon>Assets.resx</DependentUpon>
     </Compile>
     <Compile Include="Color.cs" />
-    <Compile Include="CssSheet.cs" />
-    <Compile Include="CssTokenization.cs" />
-    <Compile Include="CssSelectors.cs" />
+    <Compile Include="Css\CssSheet.cs" />
+    <Compile Include="Css\CssTokenization.cs" />
+    <Compile Include="Css\CssSelectors.cs" />
     <Compile Include="DependencyResolverTests.cs" />
-    <Compile Include="DOM.cs" />
-    <Compile Include="DTDTree.cs" />
-    <Compile Include="HtmlCssIntegration.cs" />
+    <Compile Include="Html\DOM.cs" />
+    <Compile Include="Xml\DTDTree.cs" />
+    <Compile Include="Css\HtmlCssIntegration.cs" />
     <Compile Include="Mocks\MockReflectionResolver.cs" />
     <Compile Include="Mocks\MockResolver.cs" />
     <Compile Include="Mocks\MockService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommonExtensions.cs" />
-    <Compile Include="HtmlTokenization.cs" />
-    <Compile Include="HtmlTree.cs" />
-    <Compile Include="Quirksmode.cs" />
+    <Compile Include="Html\HtmlTokenization.cs" />
+    <Compile Include="Html\HtmlTree.cs" />
+    <Compile Include="Html\Quirksmode.cs" />
     <Compile Include="ReflectionResolverTests.cs" />
-    <Compile Include="GumboParser.cs" />
-    <Compile Include="Html5TestCom.cs" />
-    <Compile Include="Tricky.cs" />
-    <Compile Include="PlaintextUnsafe.cs" />
-    <Compile Include="HtmlFragments.cs" />
-    <Compile Include="UserJsUnsafe.cs" />
-    <Compile Include="XmlDTD.cs" />
-    <Compile Include="XmlTree.cs" />
-    <Compile Include="XmlTokenization.cs" />
+    <Compile Include="Html\GumboParser.cs" />
+    <Compile Include="Html\Html5TestCom.cs" />
+    <Compile Include="Html\Tricky.cs" />
+    <Compile Include="Html\PlaintextUnsafe.cs" />
+    <Compile Include="Html\HtmlFragments.cs" />
+    <Compile Include="Html\HtmlEntities.cs" />
+    <Compile Include="Html\UserJsUnsafe.cs" />
+    <Compile Include="Xml\XmlDTD.cs" />
+    <Compile Include="Xml\XmlTree.cs" />
+    <Compile Include="Xml\XmlTokenization.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AngleSharp\AngleSharp.csproj">
