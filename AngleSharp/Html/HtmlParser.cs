@@ -18,7 +18,7 @@ namespace AngleSharp.Html
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public class HtmlParser : IParser
     {
         #region Members
@@ -2767,16 +2767,7 @@ namespace AngleSharp.Html
                     break;
                 }
 
-                var openIndex = -1;
-
-                for(var j = 0; j < open.Count; j++)
-                {
-                    if(open[j] == formattingElement)
-                    {
-                        openIndex = j;
-                        break;
-                    }
-                }
+                var openIndex = open.IndexOf(formattingElement);
 
                 if (openIndex == -1)
                 {
@@ -2825,44 +2816,45 @@ namespace AngleSharp.Html
                 var node = furthestBlock;
                 var lastNode = furthestBlock;
 
-                while (inner < 3)
+                while (true)
                 {
                     inner++;
                     node = open[--index];
+
+                    if (node == formattingElement)
+                        break;
+
+                    if (inner > 3 && formatting.Contains(node))
+                        formatting.Remove(node);
 
                     if (!formatting.Contains(node))
                     {
                         open.Remove(node);
                         continue;
                     }
-                    else if (node == formattingElement)
-                        break;
 
-                    var newel = HTMLElement.Factory(node.NodeName);
-                    newel.NodeName = node.NodeName;
+                    var newElement = CopyElement(node);
+                    commonAncestor.AppendChild(newElement);
 
-                    for (int i = 0; i < node.Attributes.Length; i++)
-                    {
-                        var attr = node.Attributes[i];
-                        newel.SetAttribute(attr.NodeName, attr.NodeValue);
-                    }
-
-                    open[index] = newel;
+                    open[index] = newElement;
                     
                     for(var l = 0; l != formatting.Count; l++)
                     {
                         if(formatting[l] == node)
                         {
-                            formatting[l] = newel;
+                            formatting[l] = newElement;
                             break;
                         }
                     }
 
-                    node = newel;
+                    node = newElement;
 
                     if (lastNode == furthestBlock)
                         bookmark++;
-                    
+
+                    if(lastNode.ParentNode != null)
+                        lastNode.ParentNode.RemoveChild(lastNode);
+
                     node.AppendChild(lastNode);
                     lastNode = node;
                 }
@@ -2877,24 +2869,36 @@ namespace AngleSharp.Html
                     commonAncestor.AppendChild(lastNode);
                 }
 
-                var element = HTMLElement.Factory(formattingElement.NodeName);
-                element.NodeName = formattingElement.NodeName;
+                var element = CopyElement(formattingElement);
 
-                for (int i = 0; i < formattingElement.Attributes.Length; i++)
-                {
-                    var attr = formattingElement.Attributes[i];
-                    element.SetAttribute(attr.NodeName, attr.NodeValue);
-                }
-
-                for (var j = furthestBlock.ChildNodes.Length - 1; j >= 0; j--)
-                    element.AppendChild(furthestBlock.RemoveChild(furthestBlock.ChildNodes[j]));
+                while(furthestBlock.ChildNodes.Length > 0)
+                    element.AppendChild(furthestBlock.RemoveChild(furthestBlock.ChildNodes[0]));
 
                 furthestBlock.AppendChild(element);
                 formatting.Remove(formattingElement);
-                formatting.Insert(bookmark, furthestBlock);
+                formatting.Insert(bookmark, element);
                 open.Remove(formattingElement);
-                open.Insert(index + 1, element);
+                open.Insert(open.IndexOf(furthestBlock) + 1, element);
             }
+        }
+
+        /// <summary>
+        /// Copies the element and its attributes to create a new element.
+        /// </summary>
+        /// <param name="element">The old element (source).</param>
+        /// <returns>The new element (target).</returns>
+        Element CopyElement(Element element)
+        {
+            var newElement = HTMLElement.Factory(element.NodeName);
+            newElement.NodeName = element.NodeName;
+            
+            for (int i = 0; i < element.Attributes.Length; i++)
+            {
+                var attr = element.Attributes[i];
+                newElement.SetAttribute(attr.NodeName, attr.NodeValue);
+            }
+
+            return newElement;
         }
 
         /// <summary>
