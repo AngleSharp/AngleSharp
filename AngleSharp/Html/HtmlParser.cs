@@ -2742,12 +2742,21 @@ namespace AngleSharp.Html
         void HeisenbergAlgorithm(HtmlTagToken tag)
         {
             var outer = 0;
+            var inner = 0;
+            var bookmark = 0;
+            var index = 0;
+
+            Element formattingElement;
+            Element furthestBlock;
+            Element commonAncestor;
+            Element node;
+            Element lastNode;
 
             while(outer < 8)
             {
                 outer++;
-                var index = 0;
-                Element formattingElement = null;
+                index = 0;
+                formattingElement = null;
 
                 for (var j = formatting.Count - 1; j >= 0; j--)
                 {
@@ -2785,8 +2794,8 @@ namespace AngleSharp.Html
                 if (openIndex != open.Count - 1)
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
 
-                Element furthestBlock = null;
-                var bookmark = index;
+                furthestBlock = null;
+                bookmark = index;
 
                 for (var j = openIndex + 1; j < open.Count; j++)
                 {
@@ -2811,10 +2820,10 @@ namespace AngleSharp.Html
                     break;
                 }
 
-                var commonAncestor = open[openIndex - 1];
-                var inner = 0;
-                var node = furthestBlock;
-                var lastNode = furthestBlock;
+                commonAncestor = open[openIndex - 1];
+                inner = 0;
+                node = furthestBlock;
+                lastNode = furthestBlock;
 
                 while (true)
                 {
