@@ -18,8 +18,8 @@ namespace AngleSharp.Css
         public CssTokenizer(SourceManager source)
             : base(source)
         {
-            stringBuffer = new StringBuilder();
-            src = source;
+            _stringBuffer = new StringBuilder();
+            _src = source;
         }
 
         #endregion
@@ -31,7 +31,7 @@ namespace AngleSharp.Css
         /// </summary>
         public SourceManager Stream
         {
-            get { return src; }
+            get { return _src; }
         }
 
         /// <summary>
@@ -53,12 +53,12 @@ namespace AngleSharp.Css
 
                 while(true)
                 {
-                    token = Data(src.Current);
+                    token = Data(_src.Current);
 
                     if (token == null)
                         yield break;
 
-                    src.Advance();
+                    _src.Advance();
                     yield return token;
                 }
             }
@@ -79,27 +79,27 @@ namespace AngleSharp.Css
                 case Specification.CR:
                 case Specification.TAB:
                 case Specification.SPACE:
-                    do { current = src.Next; }
+                    do { current = _src.Next; }
                     while (current.IsSpaceCharacter());
-                    src.Back();
+                    _src.Back();
                     return CssSpecialCharacter.Whitespace;
 
                 case Specification.DQ:
-                    return StringDQ(src.Next);
+                    return StringDQ(_src.Next);
 
                 case Specification.NUM:
-                    return HashStart(src.Next);
+                    return HashStart(_src.Next);
 
                 case Specification.DOLLAR:
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current == Specification.EQ)
                         return CssMatchToken.Suffix;
 
-                    return CssToken.Delim(src.Previous);
+                    return CssToken.Delim(_src.Previous);
 
                 case Specification.SQ:
-                    return StringSQ(src.Next);
+                    return StringSQ(_src.Next);
 
                 case '(':
                     return CssBracketToken.OpenRound;
@@ -108,25 +108,25 @@ namespace AngleSharp.Css
                     return CssBracketToken.CloseRound;
 
                 case Specification.ASTERISK:
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current == Specification.EQ)
                         return CssMatchToken.Substring;
 
-                    return CssToken.Delim(src.Previous);
+                    return CssToken.Delim(_src.Previous);
 
                 case Specification.PLUS:
                     {
-                        var c1 = src.Next;
+                        var c1 = _src.Next;
 
                         if (c1 == Specification.EOF)
                         {
-                            src.Back();
+                            _src.Back();
                         }
                         else
                         {
-                            var c2 = src.Next;
-                            src.Back(2);
+                            var c2 = _src.Next;
+                            _src.Back(2);
 
                             if (c1.IsDigit() || (c1 == Specification.DOT && c2.IsDigit()))
                                 return NumberStart(current);
@@ -140,26 +140,26 @@ namespace AngleSharp.Css
 
                 case Specification.DOT:
                     {
-                        var c = src.Next;
+                        var c = _src.Next;
 
                         if (c.IsDigit())
-                            return NumberStart(src.Previous);
+                            return NumberStart(_src.Previous);
                         
-                        return CssToken.Delim(src.Previous);
+                        return CssToken.Delim(_src.Previous);
                     }
 
                 case Specification.MINUS:
                     {
-                        var c1 = src.Next;
+                        var c1 = _src.Next;
 
                         if (c1 == Specification.EOF)
                         {
-                            src.Back();
+                            _src.Back();
                         }
                         else
                         {
-                            var c2 = src.Next;
-                            src.Back(2);
+                            var c2 = _src.Next;
+                            _src.Back(2);
 
                             if (c1.IsDigit() || (c1 == Specification.DOT && c2.IsDigit()))
                                 return NumberStart(current);
@@ -169,7 +169,7 @@ namespace AngleSharp.Css
                                 return IdentStart(current);
                             else if (c1 == Specification.MINUS && c2 == Specification.GT)
                             {
-                                src.Advance(2);
+                                _src.Advance(2);
                                 return CssCommentToken.Close;
                             }
                         }
@@ -178,23 +178,23 @@ namespace AngleSharp.Css
                     }
 
                 case Specification.SOLIDUS:
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current == Specification.ASTERISK)
-                        return Comment(src.Next);
+                        return Comment(_src.Next);
                         
-                    return CssToken.Delim(src.Previous);
+                    return CssToken.Delim(_src.Previous);
 
                 case Specification.RSOLIDUS:
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current.IsLineBreak() || current == Specification.EOF)
                     {
                         RaiseErrorOccurred(current == Specification.EOF ? ErrorCode.EOF : ErrorCode.LineBreakUnexpected);
-                        return CssToken.Delim(src.Previous);
+                        return CssToken.Delim(_src.Previous);
                     }
 
-                    return IdentStart(src.Previous);
+                    return IdentStart(_src.Previous);
 
                 case Specification.COLON:
                     return CssSpecialCharacter.Colon;
@@ -203,29 +203,29 @@ namespace AngleSharp.Css
                     return CssSpecialCharacter.Semicolon;
 
                 case Specification.LT:
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current == Specification.EM)
                     {
-                        current = src.Next;
+                        current = _src.Next;
 
                         if (current == Specification.MINUS)
                         {
-                            current = src.Next;
+                            current = _src.Next;
 
                             if (current == Specification.MINUS)
                                 return CssCommentToken.Open;
 
-                            current = src.Previous;
+                            current = _src.Previous;
                         }
 
-                        current = src.Previous;
+                        current = _src.Previous;
                     }
 
-                    return CssToken.Delim(src.Previous);
+                    return CssToken.Delim(_src.Previous);
 
                 case Specification.AT:
-                    return AtKeywordStart(src.Next);
+                    return AtKeywordStart(_src.Next);
 
                 case '[':
                     return CssBracketToken.OpenSquare;
@@ -234,12 +234,12 @@ namespace AngleSharp.Css
                     return CssBracketToken.CloseSquare;
 
                 case Specification.ACCENT:
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current == Specification.EQ)
                         return CssMatchToken.Prefix;
 
-                    return CssToken.Delim(src.Previous);
+                    return CssToken.Delim(_src.Previous);
 
                 case '{':
                     return CssBracketToken.OpenCurly;
@@ -261,48 +261,48 @@ namespace AngleSharp.Css
 
                 case 'U':
                 case 'u':
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current == Specification.PLUS)
                     {
-                        current = src.Next;
+                        current = _src.Next;
 
                         if (current.IsHex() || current == Specification.QM)
                             return UnicodeRange(current);
 
-                        current = src.Previous;
+                        current = _src.Previous;
                     }
 
-                    return IdentStart(src.Previous);
+                    return IdentStart(_src.Previous);
 
                 case Specification.PIPE:
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current == Specification.EQ)
                         return CssMatchToken.Dash;
                     else if (current == Specification.PIPE)
                         return CssToken.Column;
 
-                    return CssToken.Delim(src.Previous);
+                    return CssToken.Delim(_src.Previous);
 
                 case Specification.TILDE:
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current == Specification.EQ)
                         return CssMatchToken.Include;
 
-                    return CssToken.Delim(src.Previous);
+                    return CssToken.Delim(_src.Previous);
 
                 case Specification.EOF:
                     return null;
 
                 case Specification.EM:
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current == Specification.EQ)
                         return CssMatchToken.Not;
 
-                    return CssToken.Delim(src.Previous);
+                    return CssToken.Delim(_src.Previous);
 
                 default:
                     if (current.IsNameStart())
@@ -328,31 +328,31 @@ namespace AngleSharp.Css
                     case Specification.FF:
                     case Specification.LF:
                         RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
-                        src.Back();
+                        _src.Back();
                         return CssStringToken.Plain(FlushBuffer(), true);
 
                     case Specification.RSOLIDUS:
-                        current = src.Next;
+                        current = _src.Next;
 
                         if (current.IsLineBreak())
-                            stringBuffer.AppendLine();
+                            _stringBuffer.AppendLine();
                         else if (current != Specification.EOF)
-                            stringBuffer.Append(ConsumeEscape(current));
+                            _stringBuffer.Append(ConsumeEscape(current));
                         else
                         {
                             RaiseErrorOccurred(ErrorCode.EOF);
-                            src.Back();
+                            _src.Back();
                             return CssStringToken.Plain(FlushBuffer(), true);
                         }
 
                         break;
 
                     default:
-                        stringBuffer.Append(current);
+                        _stringBuffer.Append(current);
                         break;
                 }
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -372,31 +372,31 @@ namespace AngleSharp.Css
                     case Specification.FF:
                     case Specification.LF:
                         RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
-                        src.Back();
+                        _src.Back();
                         return (CssStringToken.Plain(FlushBuffer(), true));
 
                     case Specification.RSOLIDUS:
-                        current = src.Next;
+                        current = _src.Next;
 
                         if (current.IsLineBreak())
-                            stringBuffer.AppendLine();
+                            _stringBuffer.AppendLine();
                         else if (current != Specification.EOF)
-                            stringBuffer.Append(ConsumeEscape(current));
+                            _stringBuffer.Append(ConsumeEscape(current));
                         else
                         {
                             RaiseErrorOccurred(ErrorCode.EOF);
-                            src.Back();
+                            _src.Back();
                             return(CssStringToken.Plain(FlushBuffer(), true));
                         }
 
                         break;
 
                     default:
-                        stringBuffer.Append(current);
+                        _stringBuffer.Append(current);
                         break;
                 }
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -407,24 +407,24 @@ namespace AngleSharp.Css
         {
             if (current.IsNameStart())
             {
-                stringBuffer.Append(current);
-                return HashRest(src.Next);
+                _stringBuffer.Append(current);
+                return HashRest(_src.Next);
             }
             else if (IsValidEscape(current))
             {
-                current = src.Next;
-                stringBuffer.Append(ConsumeEscape(current));
-                return HashRest(src.Next);
+                current = _src.Next;
+                _stringBuffer.Append(ConsumeEscape(current));
+                return HashRest(_src.Next);
             }
             else if (current == Specification.RSOLIDUS)
             {
                 RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                src.Back();
+                _src.Back();
                 return CssToken.Delim(Specification.NUM);
             }
             else
             {
-                src.Back();
+                _src.Back();
                 return CssToken.Delim(Specification.NUM);
             }
         }
@@ -437,25 +437,25 @@ namespace AngleSharp.Css
             while (true)
             {
                 if (current.IsName())
-                    stringBuffer.Append(current);
+                    _stringBuffer.Append(current);
                 else if (IsValidEscape(current))
                 {
-                    current = src.Next;
-                    stringBuffer.Append(ConsumeEscape(current));
+                    current = _src.Next;
+                    _stringBuffer.Append(ConsumeEscape(current));
                 }
                 else if (current == Specification.RSOLIDUS)
                 {
                     RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                    src.Back();
+                    _src.Back();
                     return CssKeywordToken.Hash(FlushBuffer());
                 }
                 else
                 {
-                    src.Back();
+                    _src.Back();
                     return CssKeywordToken.Hash(FlushBuffer());
                 }
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -468,10 +468,10 @@ namespace AngleSharp.Css
             {
                 if (current == Specification.ASTERISK)
                 {
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current == Specification.SOLIDUS)
-                        return Data(src.Next);
+                        return Data(_src.Next);
                 }
                 else if (current == Specification.EOF)
                 {
@@ -479,7 +479,7 @@ namespace AngleSharp.Css
                     return Data(current);
                 }
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -490,31 +490,31 @@ namespace AngleSharp.Css
         {
             if (current == Specification.MINUS)
             {
-                current = src.Next;
+                current = _src.Next;
 
                 if (current.IsNameStart() || IsValidEscape(current))
                 {
-                    stringBuffer.Append(Specification.MINUS);
+                    _stringBuffer.Append(Specification.MINUS);
                     return AtKeywordRest(current);
                 }
 
-                src.Back(2);
+                _src.Back(2);
                 return CssToken.Delim(Specification.AT);
             }
             else if (current.IsNameStart())
             {
-                stringBuffer.Append(current);
-                return AtKeywordRest(src.Next);
+                _stringBuffer.Append(current);
+                return AtKeywordRest(_src.Next);
             }
             else if (IsValidEscape(current))
             {
-                current = src.Next;
-                stringBuffer.Append(ConsumeEscape(current));
-                return AtKeywordRest(src.Next);
+                current = _src.Next;
+                _stringBuffer.Append(ConsumeEscape(current));
+                return AtKeywordRest(_src.Next);
             }
             else
             {
-                src.Back();
+                _src.Back();
                 return CssToken.Delim(Specification.AT);
             }
         }
@@ -527,19 +527,19 @@ namespace AngleSharp.Css
             while (true)
             {
                 if (current.IsName())
-                    stringBuffer.Append(current);
+                    _stringBuffer.Append(current);
                 else if (IsValidEscape(current))
                 {
-                    current = src.Next;
-                    stringBuffer.Append(ConsumeEscape(current));
+                    current = _src.Next;
+                    _stringBuffer.Append(ConsumeEscape(current));
                 }
                 else
                 {
-                    src.Back();
+                    _src.Back();
                     return CssKeywordToken.At(FlushBuffer());
                 }
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -550,29 +550,29 @@ namespace AngleSharp.Css
         {
             if (current == Specification.MINUS)
             {
-                current = src.Next;
+                current = _src.Next;
 
                 if (current.IsNameStart() || IsValidEscape(current))
                 {
-                    stringBuffer.Append(Specification.MINUS);
+                    _stringBuffer.Append(Specification.MINUS);
                     return IdentRest(current);
                 }
 
-                src.Back();
+                _src.Back();
                 return CssToken.Delim(Specification.MINUS);
             }
             else if (current.IsNameStart())
             {
-                stringBuffer.Append(current);
-                return IdentRest(src.Next);
+                _stringBuffer.Append(current);
+                return IdentRest(_src.Next);
             }
             else if (current == Specification.RSOLIDUS)
             {
                 if (IsValidEscape(current))
                 {
-                    current = src.Next;
-                    stringBuffer.Append(ConsumeEscape(current));
-                    return IdentRest(src.Next);
+                    current = _src.Next;
+                    _stringBuffer.Append(ConsumeEscape(current));
+                    return IdentRest(_src.Next);
                 }
             }
 
@@ -587,18 +587,18 @@ namespace AngleSharp.Css
             while (true)
             {
                 if (current.IsName())
-                    stringBuffer.Append(current);
+                    _stringBuffer.Append(current);
                 else if (IsValidEscape(current))
                 {
-                    current = src.Next;
-                    stringBuffer.Append(ConsumeEscape(current));
+                    current = _src.Next;
+                    _stringBuffer.Append(ConsumeEscape(current));
                 }
                 else if (current == '(')
                 {
-                    if (stringBuffer.ToString().Equals("url", StringComparison.OrdinalIgnoreCase))
+                    if (_stringBuffer.ToString().Equals("url", StringComparison.OrdinalIgnoreCase))
                     {
-                        stringBuffer.Clear();
-                        return UrlStart(src.Next);
+                        _stringBuffer.Clear();
+                        return UrlStart(_src.Next);
                     }
 
                     return CssKeywordToken.Function(FlushBuffer());
@@ -608,11 +608,11 @@ namespace AngleSharp.Css
                 //    InstantSwitch(TransformFunctionWhitespace);
                 else
                 {
-                    src.Back();
+                    _src.Back();
                     return CssKeywordToken.Ident(FlushBuffer());
                 }
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -623,16 +623,16 @@ namespace AngleSharp.Css
         {
             while (true)
             {
-                current = src.Next;
+                current = _src.Next;
 
                 if (current == '(')
                 {
-                    src.Back();
+                    _src.Back();
                     return CssKeywordToken.Function(FlushBuffer());
                 }
                 else if (!current.IsSpaceCharacter())
                 {
-                    src.Back(2);
+                    _src.Back(2);
                     return CssKeywordToken.Ident(FlushBuffer());
                 }
             }
@@ -647,32 +647,32 @@ namespace AngleSharp.Css
             {
                 if (current == Specification.PLUS || current == Specification.MINUS)
                 {
-                    stringBuffer.Append(current);
-                    current = src.Next;
+                    _stringBuffer.Append(current);
+                    current = _src.Next;
 
                     if (current == Specification.DOT)
                     {
-                        stringBuffer.Append(current);
-                        stringBuffer.Append(src.Next);
-                        return NumberFraction(src.Next);
+                        _stringBuffer.Append(current);
+                        _stringBuffer.Append(_src.Next);
+                        return NumberFraction(_src.Next);
                     }
 
-                    stringBuffer.Append(current);
-                    return NumberRest(src.Next);
+                    _stringBuffer.Append(current);
+                    return NumberRest(_src.Next);
                 }
                 else if (current == Specification.DOT)
                 {
-                    stringBuffer.Append(current);
-                    stringBuffer.Append(src.Next);
-                    return NumberFraction(src.Next);
+                    _stringBuffer.Append(current);
+                    _stringBuffer.Append(_src.Next);
+                    return NumberFraction(_src.Next);
                 }
                 else if (current.IsDigit())
                 {
-                    stringBuffer.Append(current);
-                    return NumberRest(src.Next);
+                    _stringBuffer.Append(current);
+                    return NumberRest(_src.Next);
                 }
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -684,38 +684,38 @@ namespace AngleSharp.Css
             while (true)
             {
                 if (current.IsDigit())
-                    stringBuffer.Append(current);
+                    _stringBuffer.Append(current);
                 else if (current.IsNameStart())
                 {
                     var number = FlushBuffer();
-                    stringBuffer.Append(current);
-                    return Dimension(src.Next, number);
+                    _stringBuffer.Append(current);
+                    return Dimension(_src.Next, number);
                 }
                 else if (IsValidEscape(current))
                 {
-                    current = src.Next;
+                    current = _src.Next;
                     var number = FlushBuffer();
-                    stringBuffer.Append(ConsumeEscape(current));
-                    return Dimension(src.Next, number);
+                    _stringBuffer.Append(ConsumeEscape(current));
+                    return Dimension(_src.Next, number);
                 }
                 else
                     break;
 
-                current = src.Next;
+                current = _src.Next;
             }
 
             switch (current)
             {
                 case Specification.DOT:
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current.IsDigit())
                     {
-                        stringBuffer.Append(Specification.DOT).Append(current);
-                        return NumberFraction(src.Next);
+                        _stringBuffer.Append(Specification.DOT).Append(current);
+                        return NumberFraction(_src.Next);
                     }
 
-                    src.Back();
+                    _src.Back();
                     return CssToken.Number(FlushBuffer());
 
                 case '%':
@@ -729,7 +729,7 @@ namespace AngleSharp.Css
                     return NumberDash(current);
 
                 default:
-                    src.Back();
+                    _src.Back();
                     return CssToken.Number(FlushBuffer());
             }
         }
@@ -742,24 +742,24 @@ namespace AngleSharp.Css
             while (true)
             {
                 if (current.IsDigit())
-                    stringBuffer.Append(current);
+                    _stringBuffer.Append(current);
                 else if (current.IsNameStart())
                 {
                     var number = FlushBuffer();
-                    stringBuffer.Append(current);
-                    return Dimension(src.Next, number);
+                    _stringBuffer.Append(current);
+                    return Dimension(_src.Next, number);
                 }
                 else if (IsValidEscape(current))
                 {
-                    current = src.Next;
+                    current = _src.Next;
                     var number = FlushBuffer();
-                    stringBuffer.Append(ConsumeEscape(current));
-                    return Dimension(src.Next, number);
+                    _stringBuffer.Append(ConsumeEscape(current));
+                    return Dimension(_src.Next, number);
                 }
                 else
                     break;
 
-                current = src.Next;
+                current = _src.Next;
             }
 
             switch (current)
@@ -775,7 +775,7 @@ namespace AngleSharp.Css
                     return NumberDash(current);
 
                 default:
-                    src.Back();
+                    _src.Back();
                     return CssToken.Number(FlushBuffer());
             }
         }
@@ -788,19 +788,19 @@ namespace AngleSharp.Css
             while (true)
             {
                 if (current.IsName())
-                    stringBuffer.Append(current);
+                    _stringBuffer.Append(current);
                 else if (IsValidEscape(current))
                 {
-                    current = src.Next;
-                    stringBuffer.Append(ConsumeEscape(current));
+                    current = _src.Next;
+                    _stringBuffer.Append(ConsumeEscape(current));
                 }
                 else
                 {
-                    src.Back();
+                    _src.Back();
                     return CssUnitToken.Dimension(number, FlushBuffer());
                 }
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -812,14 +812,14 @@ namespace AngleSharp.Css
             while (true)
             {
                 if (current.IsDigit())
-                    stringBuffer.Append(current);
+                    _stringBuffer.Append(current);
                 else
                 {
-                    src.Back();
+                    _src.Back();
                     return CssToken.Number(FlushBuffer());
                 }
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -829,7 +829,7 @@ namespace AngleSharp.Css
         CssToken UrlStart(Char current)
         {
             while (current.IsSpaceCharacter())
-                current = src.Next;
+                current = _src.Next;
 
             switch (current)
             {
@@ -838,10 +838,10 @@ namespace AngleSharp.Css
                     return CssStringToken.Url(String.Empty, true);
 
                 case Specification.DQ:
-                    return UrlDQ(src.Next);
+                    return UrlDQ(_src.Next);
 
                 case Specification.SQ:
-                    return UrlSQ(src.Next);
+                    return UrlSQ(_src.Next);
 
                 case ')':
                     return CssStringToken.Url(String.Empty, false);
@@ -861,7 +861,7 @@ namespace AngleSharp.Css
                 if (current.IsLineBreak())
                 {
                     RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
-                    return UrlBad(src.Next);
+                    return UrlBad(_src.Next);
                 }
                 else if (Specification.EOF == current)
                 {
@@ -869,27 +869,27 @@ namespace AngleSharp.Css
                 }
                 else if (current == Specification.DQ)
                 {
-                    return UrlEnd(src.Next);
+                    return UrlEnd(_src.Next);
                 }
                 else if (current == Specification.RSOLIDUS)
                 {
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current == Specification.EOF)
                     {
-                        src.Back(2);
+                        _src.Back(2);
                         RaiseErrorOccurred(ErrorCode.EOF);
                         return CssStringToken.Url(FlushBuffer(), true);
                     }
                     else if (current.IsLineBreak())
-                        stringBuffer.AppendLine();
+                        _stringBuffer.AppendLine();
                     else
-                        stringBuffer.Append(ConsumeEscape(current));
+                        _stringBuffer.Append(ConsumeEscape(current));
                 }
                 else
-                    stringBuffer.Append(current);
+                    _stringBuffer.Append(current);
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -903,7 +903,7 @@ namespace AngleSharp.Css
                 if (current.IsLineBreak())
                 {
                     RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
-                    return UrlBad(src.Next);
+                    return UrlBad(_src.Next);
                 }
                 else if (Specification.EOF == current)
                 {
@@ -911,27 +911,27 @@ namespace AngleSharp.Css
                 }
                 else if (current == Specification.SQ)
                 {
-                    return UrlEnd(src.Next);
+                    return UrlEnd(_src.Next);
                 }
                 else if (current == Specification.RSOLIDUS)
                 {
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (current == Specification.EOF)
                     {
-                        src.Back(2);
+                        _src.Back(2);
                         RaiseErrorOccurred(ErrorCode.EOF);
                         return CssStringToken.Url(FlushBuffer(), true);
                     }
                     else if (current.IsLineBreak())
-                        stringBuffer.AppendLine();
+                        _stringBuffer.AppendLine();
                     else
-                        stringBuffer.Append(ConsumeEscape(current));
+                        _stringBuffer.Append(ConsumeEscape(current));
                 }
                 else
-                    stringBuffer.Append(current);
+                    _stringBuffer.Append(current);
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -944,7 +944,7 @@ namespace AngleSharp.Css
             {
                 if (current.IsSpaceCharacter())
                 {
-                    return UrlEnd(src.Next);
+                    return UrlEnd(_src.Next);
                 }
                 else if (current == ')' || current == Specification.EOF)
                 {
@@ -953,25 +953,25 @@ namespace AngleSharp.Css
                 else if (current == Specification.DQ || current == Specification.SQ || current == '(' || current.IsNonPrintable())
                 {
                     RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                    return UrlBad(src.Next);
+                    return UrlBad(_src.Next);
                 }
                 else if (current == Specification.RSOLIDUS)
                 {
                     if (IsValidEscape(current))
                     {
-                        current = src.Next;
-                        stringBuffer.Append(ConsumeEscape(current));
+                        current = _src.Next;
+                        _stringBuffer.Append(ConsumeEscape(current));
                     }
                     else
                     {
                         RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                        return UrlBad(src.Next);
+                        return UrlBad(_src.Next);
                     }
                 }
                 else
-                    stringBuffer.Append(current);
+                    _stringBuffer.Append(current);
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -990,7 +990,7 @@ namespace AngleSharp.Css
                     return UrlBad(current);
                 }
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -1012,11 +1012,11 @@ namespace AngleSharp.Css
                 }
                 else if (IsValidEscape(current))
                 {
-                    current = src.Next;
-                    stringBuffer.Append(ConsumeEscape(current));
+                    current = _src.Next;
+                    _stringBuffer.Append(ConsumeEscape(current));
                 }
 
-                current = src.Next;
+                current = _src.Next;
             }
         }
 
@@ -1030,22 +1030,22 @@ namespace AngleSharp.Css
                 if (!current.IsHex())
                     break;
 
-                stringBuffer.Append(current);
-                current = src.Next;
+                _stringBuffer.Append(current);
+                current = _src.Next;
             }
 
-            if (stringBuffer.Length != 6)
+            if (_stringBuffer.Length != 6)
             {
-                for (int i = 0; i < 6 - stringBuffer.Length; i++)
+                for (int i = 0; i < 6 - _stringBuffer.Length; i++)
                 {
                     if (current != Specification.QM)
                     {
-                        current = src.Previous;
+                        current = _src.Previous;
                         break;
                     }
 
-                    stringBuffer.Append(current);
-                    current = src.Next;
+                    _stringBuffer.Append(current);
+                    current = _src.Next;
                 }
 
                 var range = FlushBuffer();
@@ -1055,23 +1055,23 @@ namespace AngleSharp.Css
             }
             else if (current == Specification.MINUS)
             {
-                current = src.Next;
+                current = _src.Next;
 
                 if (current.IsHex())
                 {
-                    var start = stringBuffer.ToString();
-                    stringBuffer.Clear();
+                    var start = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
 
                     for (int i = 0; i < 6; i++)
                     {
                         if (!current.IsHex())
                         {
-                            current = src.Previous;
+                            current = _src.Previous;
                             break;
                         }
 
-                        stringBuffer.Append(current);
-                        current = src.Next;
+                        _stringBuffer.Append(current);
+                        current = _src.Next;
                     }
 
                     var end = FlushBuffer();
@@ -1079,13 +1079,13 @@ namespace AngleSharp.Css
                 }
                 else
                 {
-                    src.Back(2);
+                    _src.Back(2);
                     return CssToken.Range(FlushBuffer(), null);
                 }
             }
             else
             {
-                src.Back();
+                _src.Back();
                 return CssToken.Range(FlushBuffer(), null);
             }
         }
@@ -1096,8 +1096,8 @@ namespace AngleSharp.Css
 
         String FlushBuffer()
         {
-            var tmp = stringBuffer.ToString();
-            stringBuffer.Clear();
+            var tmp = _stringBuffer.ToString();
+            _stringBuffer.Clear();
             return tmp;
         }
 
@@ -1106,31 +1106,31 @@ namespace AngleSharp.Css
         /// </summary>
         CssToken NumberExponential(Char current)
         {
-            current = src.Next;
+            current = _src.Next;
 
             if (current.IsDigit())
             {
-                stringBuffer.Append('e').Append(current);
-                return SciNotation(src.Next);
+                _stringBuffer.Append('e').Append(current);
+                return SciNotation(_src.Next);
             }
             else if (current == Specification.PLUS || current == Specification.MINUS)
             {
                 var op = current;
-                current = src.Next;
+                current = _src.Next;
 
                 if (current.IsDigit())
                 {
-                    stringBuffer.Append('e').Append(op).Append(current);
-                    return SciNotation(src.Next);
+                    _stringBuffer.Append('e').Append(op).Append(current);
+                    return SciNotation(_src.Next);
                 }
 
-                src.Back();
+                _src.Back();
             }
 
-            current = src.Previous;
+            current = _src.Previous;
             var number = FlushBuffer();
-            stringBuffer.Append(current);
-            return Dimension(src.Next, number);
+            _stringBuffer.Append(current);
+            return Dimension(_src.Next, number);
         }
 
         /// <summary>
@@ -1138,24 +1138,24 @@ namespace AngleSharp.Css
         /// </summary>
         CssToken NumberDash(Char current)
         {
-            current = src.Next;
+            current = _src.Next;
 
             if (current.IsNameStart())
             {
                 var number = FlushBuffer();
-                stringBuffer.Append(Specification.MINUS).Append(current);
-                return Dimension(src.Next, number);
+                _stringBuffer.Append(Specification.MINUS).Append(current);
+                return Dimension(_src.Next, number);
             }
             else if (IsValidEscape(current))
             {
-                current = src.Next;
+                current = _src.Next;
                 var number = FlushBuffer();
-                stringBuffer.Append(Specification.MINUS).Append(ConsumeEscape(current));
-                return Dimension(src.Next, number);
+                _stringBuffer.Append(Specification.MINUS).Append(ConsumeEscape(current));
+                return Dimension(_src.Next, number);
             }
             else
             {
-                src.Back(2);
+                _src.Back(2);
                 return CssToken.Number(FlushBuffer());
             }
         }
@@ -1174,13 +1174,13 @@ namespace AngleSharp.Css
                 for (int i = 0; i < 6; i++)
                 {
                     escape.Add(current);
-                    current = src.Next;
+                    current = _src.Next;
 
                     if (!current.IsHex())
                         break;
                 }
 
-                current = src.Previous;
+                current = _src.Previous;
                 var code = Int32.Parse(new String(escape.ToArray()), NumberStyles.HexNumber);
                 return Char.ConvertFromUtf32(code);
             }
@@ -1197,8 +1197,8 @@ namespace AngleSharp.Css
             if (current != Specification.RSOLIDUS)
                 return false;
 
-            current = src.Next;
-            src.Back();
+            current = _src.Next;
+            _src.Back();
 
             if (current == Specification.EOF)
                 return false;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 
 namespace AngleSharp
@@ -6,12 +7,13 @@ namespace AngleSharp
     /// <summary>
     /// Common methods and variables of all tokenizers.
     /// </summary>
+    [DebuggerStepThrough]
     abstract class BaseTokenizer
     {
         #region Members
 
-        protected StringBuilder stringBuffer;
-        protected SourceManager src;
+        protected StringBuilder _stringBuffer;
+        protected SourceManager _src;
 
         #endregion
 
@@ -28,8 +30,8 @@ namespace AngleSharp
 
         public BaseTokenizer(SourceManager source)
         {
-            src = source;
-            stringBuffer = new StringBuilder();
+            _src = source;
+            _stringBuffer = new StringBuilder();
         }
 
         #endregion
@@ -45,8 +47,8 @@ namespace AngleSharp
             if (ErrorOccurred != null)
             {
                 var pck = new ParseErrorEventArgs((int)code, Errors.GetError(code));
-                pck.Line = src.Line;
-                pck.Column = src.Column;
+                pck.Line = _src.Line;
+                pck.Column = _src.Column;
                 ErrorOccurred(this, pck);
             }
         }
