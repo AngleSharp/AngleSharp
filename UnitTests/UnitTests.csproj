@@ -59,6 +59,7 @@
     <Compile Include="Css\CssSheet.cs" />
     <Compile Include="Css\CssTokenization.cs" />
     <Compile Include="Css\CssSelectors.cs" />
+    <Compile Include="Css\CssW3CSelectors.cs" />
     <Compile Include="DependencyResolverTests.cs" />
     <Compile Include="Html\DOM.cs" />
     <Compile Include="Html\HtmlComments.cs" />
