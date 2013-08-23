@@ -1188,7 +1188,7 @@ namespace AngleSharp.Html
                             if (tag.GetAttribute("prompt") != String.Empty)
                                 InsertCharacters(tag.GetAttribute("prompt"));
                             else
-                                InsertCharacters("This is a searchable index. Enter search keywords:");
+                                InsertCharacters("This is a searchable index. Enter search keywords: ");
 
                             var input = HtmlToken.OpenTag(HTMLInputElement.Tag);
                             input.AddAttribute("name", HTMLIsIndexElement.Tag);
