@@ -80,7 +80,7 @@ namespace AngleSharp.DOM.Html
         [DOM("href")]
         public String Href
         {
-            get { return GetAttribute("href"); }
+            get { return HyperRef(GetAttribute("href")); }
             set { SetAttribute("href", value); }
         }
 

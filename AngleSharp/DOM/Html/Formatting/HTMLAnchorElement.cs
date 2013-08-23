@@ -36,7 +36,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         public String Href
         {
-            get { return GetAttribute("href"); }
+            get { return HyperRef(GetAttribute("href")); }
             set { SetAttribute("href", value); }
         }
 

@@ -1042,6 +1042,21 @@ namespace AngleSharp.DOM
         #region Helpers
 
         /// <summary>
+        /// Gets the hyperreference of the given URL -
+        /// transforming the given (relative) URL to an absolute URL
+        /// if required.
+        /// </summary>
+        /// <param name="url">The given URL.</param>
+        /// <returns>The absolute URL.</returns>
+        protected String HyperRef(String url)
+        {
+            if (Location.IsAbsolute(url))
+                return url;
+
+            return Location.MakeAbsolute(BaseURI, url);
+        }
+
+        /// <summary>
         /// Entry point for attributes to notify about a change (modified, added, removed).
         /// </summary>
         /// <param name="name">The name of the attribute that has been changed.</param>

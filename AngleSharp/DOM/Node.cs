@@ -98,6 +98,7 @@ namespace AngleSharp.DOM
 
                 return String.Empty;
             }
+            set { _baseURI = value; }
         }
 
         /// <summary>

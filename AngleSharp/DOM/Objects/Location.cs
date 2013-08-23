@@ -206,5 +206,25 @@ namespace AngleSharp.DOM
         }
 
         #endregion
+
+        #region Internal Helpers
+
+        internal static Boolean IsAbsolute(String url)
+        {
+            Uri result;
+            return Uri.TryCreate(url, UriKind.Absolute, out result);
+        }
+
+        internal static String MakeAbsolute(String basePath, String relativePath)
+        {
+            Uri baseUri;
+            
+            if (Uri.TryCreate(basePath, UriKind.Absolute, out baseUri))
+                return new Uri(baseUri, relativePath).ToString();
+
+            return relativePath;
+        }
+
+        #endregion
     }
 }
