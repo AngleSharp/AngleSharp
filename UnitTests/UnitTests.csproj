@@ -61,6 +61,8 @@
     <Compile Include="Css\CssSelectors.cs" />
     <Compile Include="DependencyResolverTests.cs" />
     <Compile Include="Html\DOM.cs" />
+    <Compile Include="Html\HtmlComments.cs" />
+    <Compile Include="Html\ScriptData.cs" />
     <Compile Include="Xml\DTDTree.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
     <Compile Include="Mocks\MockReflectionResolver.cs" />
