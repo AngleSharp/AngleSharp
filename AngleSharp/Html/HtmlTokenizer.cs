@@ -10,7 +10,7 @@ namespace AngleSharp.Html
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     sealed class HtmlTokenizer : BaseTokenizer
     {
         #region Members
@@ -2224,7 +2224,6 @@ namespace AngleSharp.Html
             else if (c == Specification.GT)
             {
                 _buffer.Append(Specification.GT);
-                //return HtmlToken.Character(Specification.GT);
                 return ScriptData(_src.Next);
             }
             else if (c == Specification.NULL)
@@ -2347,12 +2346,13 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataStartDoubleEscape(Char c)
         {
-            if (c.IsSpaceCharacter())
+            if (c.IsSpaceCharacter() || c == Specification.SOLIDUS || c == Specification.GT)
             {
+                _buffer.Append(c);
+
                 if (_stringBuffer.ToString() == "script")
                     return ScriptDataEscapedDouble(_src.Next);
 
-                _buffer.Append(c);
                 return ScriptDataEscaped(_src.Next);
             }
             else if (c.IsUppercaseAscii())
@@ -2453,7 +2453,6 @@ namespace AngleSharp.Html
             else if (c == Specification.GT)
             {
                 _buffer.Append(Specification.GT);
-                //return HtmlToken.Character(Specification.GT);
                 return ScriptData(_src.Next);
             }
             else if (c == Specification.NULL)
@@ -2496,10 +2495,11 @@ namespace AngleSharp.Html
         {
             if (c.IsSpaceCharacter() || c == Specification.SOLIDUS || c == Specification.GT)
             {
-                if (_stringBuffer.ToString().Equals("script", StringComparison.OrdinalIgnoreCase))
+                _buffer.Append(c);
+
+                if (_stringBuffer.ToString().Equals("script"))
                     return ScriptDataEscaped(_src.Next);
 
-                _buffer.Append(c);
                 return ScriptDataEscapedDouble(_src.Next);
             }
             else if (c.IsUppercaseAscii())
