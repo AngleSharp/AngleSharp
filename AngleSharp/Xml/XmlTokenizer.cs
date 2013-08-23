@@ -175,7 +175,7 @@ namespace AngleSharp.Xml
                 }
                 else if (c == Specification.SBC && _src.ContinuesWith("]]>"))
                 {
-                    _src.Advance(3);
+                    _src.Advance(2);
                     break;
                 }
 

@@ -209,12 +209,23 @@ namespace AngleSharp.DOM
 
         #region Internal Helpers
 
+        /// <summary>
+        /// Checks if the given URL is an absolute URI.
+        /// </summary>
+        /// <param name="url">The given URL.</param>
+        /// <returns>True if the url is absolute otherwise false.</returns>
         internal static Boolean IsAbsolute(String url)
         {
             Uri result;
             return Uri.TryCreate(url, UriKind.Absolute, out result);
         }
 
+        /// <summary>
+        /// Creates an absolute URI out of the given baseURI and (relative) URL.
+        /// </summary>
+        /// <param name="basePath">The baseURI of the page or element.</param>
+        /// <param name="relativePath">The relative path for the URL creation.</param>
+        /// <returns>THe absolute URI created out of the baseURI and pointing to the relative path.</returns>
         internal static String MakeAbsolute(String basePath, String relativePath)
         {
             Uri baseUri;

@@ -452,7 +452,7 @@ namespace AngleSharp.Html
                 }
                 else if (c == ']' && _src.ContinuesWith("]]>"))
                 {
-                    _src.Advance(3);
+                    _src.Advance(2);
                     break;
                 }
 
