@@ -404,5 +404,155 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Text, dochtml0body1foo0dd1Text0.NodeType);
             Assert.AreEqual("2", dochtml0body1foo0dd1Text0.TextContent);
         }
+
+        [TestMethod]
+        public void IsIndexStandalone()
+        {
+            var doc = DocumentBuilder.Html(@"<isindex>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1form0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(3, dochtml0body1form0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1form0.Attributes.Length);
+            Assert.AreEqual("form", dochtml0body1form0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1form0.NodeType);
+
+            var dochtml0body1form0hr0 = dochtml0body1form0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1form0hr0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1form0hr0.Attributes.Length);
+            Assert.AreEqual("hr", dochtml0body1form0hr0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1form0hr0.NodeType);
+
+            var dochtml0body1form0label1 = dochtml0body1form0.ChildNodes[1];
+            Assert.AreEqual(2, dochtml0body1form0label1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1form0label1.Attributes.Length);
+            Assert.AreEqual("label", dochtml0body1form0label1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1form0label1.NodeType);
+
+            var dochtml0body1form0label1Text0 = dochtml0body1form0label1.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, dochtml0body1form0label1Text0.NodeType);
+            Assert.AreEqual("This is a searchable index. Enter search keywords: ", dochtml0body1form0label1Text0.TextContent);
+
+            var dochtml0body1form0label1input1 = dochtml0body1form0label1.ChildNodes[1];
+            Assert.AreEqual(0, dochtml0body1form0label1input1.ChildNodes.Length);
+            Assert.AreEqual(1, dochtml0body1form0label1input1.Attributes.Length);
+            Assert.AreEqual("input", dochtml0body1form0label1input1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1form0label1input1.NodeType);
+            Assert.AreEqual("isindex", dochtml0body1form0label1input1.Attributes["name"].Value);
+
+            var dochtml0body1form0hr2 = dochtml0body1form0.ChildNodes[2];
+            Assert.AreEqual(0, dochtml0body1form0hr2.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1form0hr2.Attributes.Length);
+            Assert.AreEqual("hr", dochtml0body1form0hr2.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1form0hr2.NodeType);
+        }
+
+        [TestMethod]
+        public void IsIndexWithAttributes()
+        {
+            var doc = DocumentBuilder.Html(@"<isindex name=""A"" action=""B"" prompt=""C"" foo=""D"">");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1form0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(3, dochtml0body1form0.ChildNodes.Length);
+            Assert.AreEqual(1, dochtml0body1form0.Attributes.Length);
+            Assert.AreEqual("form", dochtml0body1form0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1form0.NodeType);
+            Assert.AreEqual("B", dochtml0body1form0.Attributes["action"].Value);
+
+            var dochtml0body1form0hr0 = dochtml0body1form0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1form0hr0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1form0hr0.Attributes.Length);
+            Assert.AreEqual("hr", dochtml0body1form0hr0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1form0hr0.NodeType);
+
+            var dochtml0body1form0label1 = dochtml0body1form0.ChildNodes[1];
+            Assert.AreEqual(2, dochtml0body1form0label1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1form0label1.Attributes.Length);
+            Assert.AreEqual("label", dochtml0body1form0label1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1form0label1.NodeType);
+
+            var dochtml0body1form0label1Text0 = dochtml0body1form0label1.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, dochtml0body1form0label1Text0.NodeType);
+            Assert.AreEqual("C", dochtml0body1form0label1Text0.TextContent);
+
+            var dochtml0body1form0label1input1 = dochtml0body1form0label1.ChildNodes[1];
+            Assert.AreEqual(0, dochtml0body1form0label1input1.ChildNodes.Length);
+            Assert.AreEqual(2, dochtml0body1form0label1input1.Attributes.Length);
+            Assert.AreEqual("input", dochtml0body1form0label1input1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1form0label1input1.NodeType);
+            Assert.AreEqual("D", dochtml0body1form0label1input1.Attributes["foo"].Value);
+            Assert.AreEqual("isindex", dochtml0body1form0label1input1.Attributes["name"].Value);
+
+            var dochtml0body1form0hr2 = dochtml0body1form0.ChildNodes[2];
+            Assert.AreEqual(0, dochtml0body1form0hr2.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1form0hr2.Attributes.Length);
+            Assert.AreEqual("hr", dochtml0body1form0hr2.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1form0hr2.NodeType);
+        }
+
+        [TestMethod]
+        public void IsIndexWithinForm()
+        {
+            var doc = DocumentBuilder.Html(@"<form><isindex>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1form0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1form0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1form0.Attributes.Length);
+            Assert.AreEqual("form", dochtml0body1form0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1form0.NodeType);
+        }
     }
 }
