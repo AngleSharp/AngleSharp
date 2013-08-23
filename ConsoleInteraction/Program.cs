@@ -2,11 +2,9 @@
 using System.Diagnostics;
 using System.Net.Http;
 using AngleSharp;
-using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Collections;
 using AngleSharp.Css;
-using AngleSharp.Html;
 using System.Text;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Xml;
@@ -16,7 +14,7 @@ namespace ConsoleInteraction
     class Program
     {
         static void Main(string[] args)
-        {            
+        {
             CssSelectorTest.Slickspeed();
 
             //TestCSSFrom("http://www.facebook.com");
@@ -41,23 +39,23 @@ namespace ConsoleInteraction
 
             TestXml(XmlFiles.Note, "The XML note file");
 
-            TestWebRequest("http://www.imdb.com/", false);
+            TestHtmlFrom("http://www.imdb.com/", false);
 
-            TestWebRequest("http://www.dailymail.co.uk/‎", false);
+            TestHtmlFrom("http://www.dailymail.co.uk/‎", false);
 
-            TestWebRequest("http://news.google.com/", false);
+            TestHtmlFrom("http://news.google.com/", false);
 
-            TestWebRequest("http://www.huffingtonpost.com/", false);
+            TestHtmlFrom("http://www.huffingtonpost.com/", false);
 
-            TestWebRequest("http://www.nbcnews.com/", false);
+            TestHtmlFrom("http://www.nbcnews.com/", false);
 
-            TestWebRequest("http://www.amazon.com/", false);
+            TestHtmlFrom("http://www.amazon.com/", false);
 
-            TestWebRequest("http://www.yahoo.com/", false);
+            TestHtmlFrom("http://www.yahoo.com/", false);
 
-            TestWebRequest("http://www.codeproject.com/", false);
+            TestHtmlFrom("http://www.codeproject.com/", false);
 
-            TestWebRequest("http://www.florian-rappl.de/", false);
+            TestHtmlFrom("http://www.florian-rappl.de/", false);
         }
 
         static void TestCSSFrom(String url)
@@ -101,7 +99,7 @@ namespace ConsoleInteraction
             Console.WriteLine("Parsing all stylesheets took ... " + sw.ElapsedMilliseconds + "ms");
         }
 
-        static void TestWebRequest(String url, Boolean openConsole)
+        static void TestHtmlFrom(String url, Boolean openConsole)
         {
             var sw = Stopwatch.StartNew();
             var client = new HttpClient();
@@ -122,6 +120,23 @@ namespace ConsoleInteraction
                 var console = new HtmlSharpConsole(html);
                 console.Capture();
             }
+        }
+
+        static void TestXmlFrom(String url)
+        {
+            var sw = Stopwatch.StartNew();
+            var client = new HttpClient();
+            var result = client.GetAsync(url).Result;
+            var source = result.Content.ReadAsStreamAsync().Result;
+
+            sw.Stop();
+            Console.WriteLine("Loading " + url + " took ... " + sw.ElapsedMilliseconds + "ms");
+            sw.Restart();
+
+            var xml = DocumentBuilder.Xml(source);
+            sw.Stop();
+
+            Console.WriteLine("Parsing " + url + " took ... " + sw.ElapsedMilliseconds + "ms");
         }
 
         static void TestHtml(String source, Boolean openConsole)
