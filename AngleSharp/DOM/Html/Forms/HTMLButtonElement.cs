@@ -32,32 +32,78 @@ namespace AngleSharp.DOM.Html
         #region Properties
 
         /// <summary>
-        /// Gets or sets if the input element is enabled or disabled.
+        /// Gets or sets the accesskey HTML attribute.
         /// </summary>
-        [DOM("disabled")]
-        public Boolean Disabled
+        [DOM("accessKey")]
+        public String AccessKey
         {
-            get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? string.Empty : null); }
+            get { return GetAttribute("accesskey"); }
+            set { SetAttribute("accesskey", value); }
         }
 
         /// <summary>
-        /// Gets or sets the value of the name attribute.
+        /// Gets or sets the behavior of the button.
         /// </summary>
-        [DOM("name")]
-        public String Name
+        [DOM("type")]
+        public ButtonType Type
         {
-            get { return GetAttribute("name"); }
-            set { SetAttribute("name", value); }
+            get { return ToEnum(GetAttribute("type"), ButtonType.Submit); }
+            set { SetAttribute("type", value.ToString()); }
         }
 
         /// <summary>
-        /// Gets the associated HTML form element.
+        /// Gets or sets the URI of a resource that processes information submitted by the button.
+        /// If specified, this attribute overrides the action attribute of the form element that owns this element.
         /// </summary>
-        [DOM("form")]
-        public HTMLFormElement Form
+        [DOM("formAction")]
+        public String FormAction
         {
-            get { return GetAssignedForm(); }
+            get { if (Form == null) return String.Empty; return Form.Action; }
+            set { if (Form != null) Form.Action = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the type of content that is used to submit the form to the server. If specified, this
+        /// attribute overrides the enctype attribute of the form element that owns this element.
+        /// </summary>
+        [DOM("formEncType")]
+        public String FormEncType
+        {
+            get { if (Form == null) return String.Empty; return Form.Enctype; }
+            set { if (Form != null) Form.Enctype = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the HTTP method that the browser uses to submit the form. If specified, this attribute
+        /// overrides the method attribute of the form element that owns this element.
+        /// </summary>
+        [DOM("formMethod")]
+        public HttpMethod FormMethod
+        {
+            get { if (Form == null) return HttpMethod.POST; return Form.Method; }
+            set { if (Form != null) Form.Method = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets that the form is not to be validated when it is submitted. If specified, this attribute
+        /// overrides the enctype attribute of the form element that owns this element.
+        /// </summary>
+        [DOM("formNoValidate")]
+        public Boolean FormNoValidate
+        {
+            get { if (Form == null) return false; return Form.NoValidate; }
+            set { if (Form != null) Form.NoValidate = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets A name or keyword indicating where to display the response that is received after submitting
+        /// the form. If specified, this attribute overrides the target attribute of the form element that owns this element.
+        /// </summary>
+        [DOM("formTarget")]
+        public String FormTarget
+        {
+            get { if (Form == null) return String.Empty; return Form.Target; }
+            set { if (Form != null) Form.Target = value; }
         }
 
         #endregion
@@ -92,6 +138,33 @@ namespace AngleSharp.DOM.Html
         protected internal override Boolean IsSpecial
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region Enumeration
+
+        /// <summary>
+        /// An enumeration with possible input types.
+        /// </summary>
+        public enum ButtonType : ushort
+        {
+            /// <summary>
+            /// The button submits the form.
+            /// </summary>
+            Submit,
+            /// <summary>
+            /// The button resets the form.
+            /// </summary>
+            Reset,
+            /// <summary>
+            /// The button does nothing.
+            /// </summary>
+            Button,
+            /// <summary>
+            /// The button displays a menu.
+            /// </summary>
+            Menu
         }
 
         #endregion

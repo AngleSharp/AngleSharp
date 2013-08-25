@@ -7,15 +7,21 @@ namespace AngleSharp.DOM.Html
     /// </summary>
     public abstract class HTMLFormControlElementWithState : HTMLFormControlElement
     {
+        #region ctor
+
         internal HTMLFormControlElementWithState()
         {
             CanContainRangeEndpoint = false;
         }
 
+        #endregion
+
+        #region Internal Properties
+
         /// <summary>
         /// Gets the status if the element can contain a range endpoint.
         /// </summary>
-        public Boolean CanContainRangeEndpoint
+        internal Boolean CanContainRangeEndpoint
         {
             get;
             private set;
@@ -24,17 +30,21 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the status if the element should save and restore the control state.
         /// </summary>
-        public Boolean ShouldSaveAndRestoreFormControlState
+        internal Boolean ShouldSaveAndRestoreFormControlState
         {
             get;
             private set;
         }
 
+        #endregion
+
+        #region Internal Methods
+
         /// <summary>
         /// This method is not implemented yet.
         /// </summary>
         /// <returns>The current state.</returns>
-        public FormControlState SaveControlState()
+        internal FormControlState SaveControlState()
         {
             //TODO
             return null;
@@ -44,8 +54,10 @@ namespace AngleSharp.DOM.Html
         /// Resets the form control state to the given state.
         /// </summary>
         /// <param name="state">The desired state.</param>
-        public void RestoreFormControlState(FormControlState state)
+        internal void RestoreFormControlState(FormControlState state)
         {
         }
+
+        #endregion
     }
 }

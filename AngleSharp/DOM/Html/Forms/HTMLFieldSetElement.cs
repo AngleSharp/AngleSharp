@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AngleSharp.DOM.Collections;
+using System;
 
 namespace AngleSharp.DOM.Html
 {
@@ -8,10 +9,22 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLFieldSetElement")]
     public sealed class HTMLFieldSetElement : HTMLFormControlElement
     {
+        #region Constant
+
         /// <summary>
         /// The fieldset tag.
         /// </summary>
         internal const String Tag = "fieldset";
+
+        #endregion
+
+        #region Members
+
+        HTMLFormControlsCollection _elements;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new HTML fieldset element.
@@ -19,17 +32,34 @@ namespace AngleSharp.DOM.Html
         internal HTMLFieldSetElement()
         {
             _name = Tag;
+            _elements = new HTMLFormControlsCollection(this);        
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the type of input control (fieldset).
+        /// </summary>
+        [DOM("type")]
+        public String Type
+        {
+            get { return Tag; }
         }
 
         /// <summary>
-        /// Gets if the element has any descendent elements that do not
-        /// satisfy their constraints.
+        /// Gets the elements belonging to this field set.
         /// </summary>
-        [DOM("isInvalid")]
-        public Boolean IsInvalid
+        [DOM("elements")]
+        public HTMLFormControlsCollection Elements
         {
-            get { return _children.QuerySelector("*:invalid") != null; }
+            get { return _elements; }
         }
+
+        #endregion
+
+        #region Internal Properties
 
         /// <summary>
         /// Gets if the node is in the special category.
@@ -38,5 +68,7 @@ namespace AngleSharp.DOM.Html
         {
             get { return true; }
         }
+
+        #endregion
     }
 }

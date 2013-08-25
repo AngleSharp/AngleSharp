@@ -6,6 +6,7 @@ using AngleSharp.DOM.Mathml;
 using AngleSharp.DOM.Xml;
 using AngleSharp.DOM.Css;
 using AngleSharp.Html;
+using System.Collections.Generic;
 
 namespace AngleSharp.DOM.Html
 {
@@ -19,9 +20,9 @@ namespace AngleSharp.DOM.Html
 
         Boolean _embedded;
         Boolean _scripting;
-        HTMLCollection _forms;
-        HTMLCollection _scripts;
-        HTMLCollection _images;
+        HTMLLiveCollection<HTMLFormElement> _forms;
+        HTMLLiveCollection<HTMLScriptElement> _scripts;
+        HTMLLiveCollection<HTMLImageElement> _images;
 
         static readonly CompoundSelector anchorQuery = CompoundSelector.Create(
             SimpleSelector.Type(HTMLAnchorElement.Tag),
@@ -186,9 +187,9 @@ namespace AngleSharp.DOM.Html
         {
             _contentType = MimeTypes.Xml;
             _ns = Namespaces.Html;
-            _forms = new HTMLCollection();
-            _scripts = new HTMLCollection();
-            _images = new HTMLCollection();
+            _forms = new HTMLLiveCollection<HTMLFormElement>(this);
+            _scripts = new HTMLLiveCollection<HTMLScriptElement>(this);
+            _images = new HTMLLiveCollection<HTMLImageElement>(this);
         }
 
         #endregion
@@ -557,9 +558,9 @@ namespace AngleSharp.DOM.Html
         [DOM("getElementsByName")]
         public HTMLCollection GetElementsByName(String name)
         {
-            var result = new HTMLCollection();
+            var result = new List<Element>();
             GetElementsByName(_children, name, result);
-            return result;
+            return new HTMLStaticCollection(result);
         }
 
         #endregion
@@ -621,7 +622,7 @@ namespace AngleSharp.DOM.Html
         /// <param name="children">The list to investigate.</param>
         /// <param name="name">The name attribute's value.</param>
         /// <param name="result">The result collection.</param>
-        void GetElementsByName(NodeList children, String name, HTMLCollection result)
+        void GetElementsByName(NodeList children, String name, List<Element> result)
         {
             for (int i = 0; i < _children.Length; i++)
             {

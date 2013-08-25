@@ -96,7 +96,7 @@ namespace AngleSharp.DOM.Collections
         /// <param name="index">The zero-based index at which the node should be inserted.</param>
         /// <param name="node">The node to add.</param>
         /// <returns>The modified collection.</returns>
-        internal protected void Insert(int index, T node)
+        internal protected void Insert(Int32 index, T node)
         {
             _entries.Insert(index, node);
             RaiseChanged();

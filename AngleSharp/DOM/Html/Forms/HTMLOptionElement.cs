@@ -39,16 +39,6 @@ namespace AngleSharp.DOM.Html
         #region Properties
 
         /// <summary>
-        /// Gets or sets the value of the name attribute.
-        /// </summary>
-        [DOM("name")]
-        public String Name
-        {
-            get { return GetAttribute("name"); }
-            set { SetAttribute("name", value); }
-        }
-
-        /// <summary>
         /// Gets or sets if the option is enabled or disabled.
         /// </summary>
         [DOM("disabled")]
@@ -64,13 +54,7 @@ namespace AngleSharp.DOM.Html
         [DOM("form")]
         public HTMLFormElement Form
         {
-            get 
-            {
-                if (_parent != null && _parent is HTMLSelectElement)
-                    return ((HTMLSelectElement)_parent).Form;
-
-                return null;
-            }
+            get { return GetAssignedForm(); }
         }
 
         /// <summary>
@@ -136,7 +120,6 @@ namespace AngleSharp.DOM.Html
 
         /// <summary>
         /// Gets or sets if the option is currently selected.
-        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#ask-for-a-reset
         /// </summary>
         [DOM("selected")]
         public Boolean Selected

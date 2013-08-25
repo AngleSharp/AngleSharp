@@ -20,7 +20,8 @@ namespace AngleSharp.DOM.Html
 
         #region Members
 
-        HTMLFormControlsCollection _elements;
+        HTMLLiveCollection<HTMLFormControlElement> _elements;
+        HTMLFormControlsCollection _formControls;
 
         #endregion
 
@@ -32,7 +33,8 @@ namespace AngleSharp.DOM.Html
         internal HTMLFormElement()
         {
             _name = Tag;
-            _elements = new HTMLFormControlsCollection();
+            _elements = new HTMLLiveCollection<HTMLFormControlElement>(this);
+            _formControls = new HTMLFormControlsCollection(_elements);
         }
 
         #endregion
@@ -64,16 +66,6 @@ namespace AngleSharp.DOM.Html
         #region Properties
 
         /// <summary>
-        /// Gets if the form is actually valid.
-        /// </summary>
-        [DOM("isValid")]
-        public bool IsValid
-        {
-            //TODO
-            get { return true; }
-        }
-
-        /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
         [DOM("name")]
@@ -98,7 +90,7 @@ namespace AngleSharp.DOM.Html
         [DOM("elements")]
         public HTMLFormControlsCollection Elements
         {
-            get { return _elements; }
+            get { return _formControls; }
         }
 
         /// <summary>
@@ -168,7 +160,7 @@ namespace AngleSharp.DOM.Html
         public Boolean NoValidate
         {
             get { return GetAttribute("novalidate") != null; }
-            set { SetAttribute("novalidate", value ? string.Empty : null); }
+            set { SetAttribute("novalidate", value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -204,7 +196,9 @@ namespace AngleSharp.DOM.Html
         [DOM("reset")]
         public HTMLFormElement Reset()
         {
-            //TODO
+            foreach (var element in _elements.Elements)
+                element.Reset();
+
             return this;
         }
 
@@ -215,7 +209,10 @@ namespace AngleSharp.DOM.Html
         [DOM("checkValidity")]
         public Boolean CheckValidity()
         {
-            //TODO
+            foreach (var element in _elements.Elements)
+                if (!element.CheckValidity())
+                    return false;
+
             return true;
         }
         
@@ -247,30 +244,6 @@ namespace AngleSharp.DOM.Html
         protected internal override Boolean IsSpecial
         {
             get { return true; }
-        }
-
-        #endregion
-
-        #region Internal methods
-
-        /// <summary>
-        /// Registers the node at the given document.
-        /// </summary>
-        /// <param name="document">The document where to register.</param>
-        protected override void Register(Document document)
-        {
-            if (document is HTMLDocument)
-                ((HTMLDocument)document).Forms.Add(this);
-        }
-
-        /// <summary>
-        /// Unregisters the node at the given document.
-        /// </summary>
-        /// <param name="document">The document where to unregister.</param>
-        protected override void Unregister(Document document)
-        {
-            if (document is HTMLDocument)
-                ((HTMLDocument)document).Forms.Remove(this);
         }
 
         #endregion

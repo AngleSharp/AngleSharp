@@ -41,6 +41,16 @@ namespace AngleSharp.DOM.Html
         #region Properties
 
         /// <summary>
+        /// Gets or sets the accesskey HTML attribute.
+        /// </summary>
+        [DOM("accessKey")]
+        public String AccessKey
+        {
+            get { return GetAttribute("accesskey"); }
+            set { SetAttribute("accesskey", value); }
+        }
+
+        /// <summary>
         /// Gets the control that the label is assigned for if any.
         /// </summary>
         [DOM("control")]
@@ -48,7 +58,7 @@ namespace AngleSharp.DOM.Html
         {
             get
             {
-                var controlId = GetAttribute("for");
+                var controlId = HtmlFor;
 
                 if (!String.IsNullOrEmpty(controlId))
                 {
@@ -60,6 +70,16 @@ namespace AngleSharp.DOM.Html
                 
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the ID of the labeled control. Reflects the for attribute.
+        /// </summary>
+        [DOM("htmlFor")]
+        public String HtmlFor
+        {
+            get { return GetAttribute("for"); }
+            set { SetAttribute("for", value); }
         }
 
         /// <summary>

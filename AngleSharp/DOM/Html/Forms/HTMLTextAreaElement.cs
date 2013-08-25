@@ -25,6 +25,7 @@ namespace AngleSharp.DOM.Html
         internal HTMLTextAreaElement()
         {
             _name = Tag;
+            WillValidate = true;
         }
 
         #endregion
@@ -32,43 +33,12 @@ namespace AngleSharp.DOM.Html
         #region Properties
 
         /// <summary>
-        /// Gets or sets the value of the name attribute.
+        /// Gets the type of input control (texarea).
         /// </summary>
-        [DOM("name")]
-        public String Name
+        [DOM("type")]
+        public String Type
         {
-            get { return GetAttribute("name"); }
-            set { SetAttribute("name", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets if the textarea is enabled or disabled.
-        /// </summary>
-        [DOM("disabled")]
-        public Boolean Disabled
-        {
-            get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? String.Empty : null); }
-        }
-
-        /// <summary>
-        /// Gets or sets if the textarea field is required.
-        /// </summary>
-        [DOM("required")]
-        public Boolean Required
-        {
-            get { return GetAttribute("required") != null; }
-            set { SetAttribute("required", value ? String.Empty : null); }
-        }
-
-        /// <summary>
-        /// Gets or sets if the textarea field is read-only.
-        /// </summary>
-        [DOM("readonly")]
-        public Boolean Readonly
-        {
-            get { return GetAttribute("readonly") != null; }
-            set { SetAttribute("readonly", value ? String.Empty : null); }
+            get { return Tag; }
         }
 
         #endregion
@@ -86,6 +56,27 @@ namespace AngleSharp.DOM.Html
         internal Boolean IsMutable
         {
             get { return !Disabled && !Readonly; }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Resets the form control to its initial value.
+        /// </summary>
+        internal override void Reset()
+        {
+            //TODO
+        }
+
+        /// <summary>
+        /// Checks the form control for validity.
+        /// </summary>
+        /// <param name="state">The element's validity state tracker.</param>
+        protected override void Check(ValidityState state)
+        {
+            //TODO
         }
 
         #endregion

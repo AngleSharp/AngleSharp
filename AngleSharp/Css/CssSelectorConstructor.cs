@@ -667,7 +667,7 @@ namespace AngleSharp.Css
                         if (el is IValidation)
                             return ((IValidation)el).CheckValidity();
                         else if (el is HTMLFormElement)
-                            return ((HTMLFormElement)el).IsValid;
+                            return ((HTMLFormElement)el).CheckValidity();
 
                         return false;
                     }, PSEUDOCLASS_VALID);
@@ -678,9 +678,7 @@ namespace AngleSharp.Css
                         if (el is IValidation)
                             return !((IValidation)el).CheckValidity();
                         else if (el is HTMLFormElement)
-                            return !((HTMLFormElement)el).IsValid;
-                        else if (el is HTMLFieldSetElement)
-                            return ((HTMLFieldSetElement)el).IsInvalid;
+                            return !((HTMLFormElement)el).CheckValidity();
 
                         return false;
                     }, PSEUDOCLASS_INVALID);

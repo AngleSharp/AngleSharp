@@ -4,11 +4,11 @@ namespace AngleSharp.DOM.Html
 {
     interface IValidation
     {
-        bool WillValidate { get; }
+        Boolean WillValidate { get; }
         ValidityState Validity { get; }
-        string ValidationMessage { get; }
+        String ValidationMessage { get; }
 
-        bool CheckValidity();
-        void SetCustomValidity(string error);
+        Boolean CheckValidity();
+        void SetCustomValidity(String error);
     }
 }

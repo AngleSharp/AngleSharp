@@ -17,6 +17,7 @@ namespace AngleSharp.DOM
         DOMTokenList _classList;
         DOMStringMap _dataset;
         CSSStyleDeclaration _style;
+        HTMLLiveCollection<Element> _elements;
 
         #endregion
 
@@ -28,6 +29,7 @@ namespace AngleSharp.DOM
         internal Element()
         {
             _type = NodeType.Element;
+            _elements = new HTMLLiveCollection<Element>(this, false);
         }
 
         #endregion
@@ -60,18 +62,7 @@ namespace AngleSharp.DOM
         [DOM("children")]
         public HTMLCollection Children
         {
-            get
-            {
-                var list = new HTMLCollection();
-
-                for (int i = 0; i < _children.Length; i++)
-                {
-                    if (_children[i] is Element)
-                        list.Add((Element)_children[i]);
-                }
-
-                return list;
-            }
+            get { return _elements; }
         }
 
         /// <summary>

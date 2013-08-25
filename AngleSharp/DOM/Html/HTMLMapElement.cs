@@ -1,5 +1,6 @@
 ﻿using AngleSharp.DOM.Collections;
 using System;
+using System.Collections.Generic;
 
 namespace AngleSharp.DOM.Html
 {
@@ -20,8 +21,8 @@ namespace AngleSharp.DOM.Html
 
         #region Members
 
-        HTMLCollection areas;
-        HTMLCollection images;
+        HTMLStaticCollection areas;
+        HTMLStaticCollection images;
 
         #endregion
 
@@ -30,8 +31,8 @@ namespace AngleSharp.DOM.Html
         internal HTMLMapElement()
         {
             _name = Tag;
-            areas = new HTMLCollection();
-            images = new HTMLCollection();
+            areas = new HTMLStaticCollection();
+            images = new HTMLStaticCollection();
         }
 
         #endregion
@@ -66,6 +67,30 @@ namespace AngleSharp.DOM.Html
         public HTMLCollection Images
         {
             get { return images; }
+        }
+
+        #endregion
+
+        #region Internal Properties
+
+        internal void RegisterArea(Element area)
+        {
+            areas.List.Add(area);
+        }
+
+        internal void UnregisterArea(Element area)
+        {
+            areas.List.Remove(area);
+        }
+
+        internal void RegisterImage(Element imageOrObject)
+        {
+            images.List.Add(imageOrObject);
+        }
+
+        internal void UnregisterImage(Element imageOrObject)
+        {
+            images.List.Remove(imageOrObject);
         }
 
         #endregion

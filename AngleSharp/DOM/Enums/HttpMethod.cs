@@ -14,6 +14,14 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// The GET method.
         /// </summary>
-        GET
+        GET,
+        /// <summary>
+        /// The PUT method.
+        /// </summary>
+        PUT,
+        /// <summary>
+        /// The DELETE method.
+        /// </summary>
+        DELETE
     }
 }

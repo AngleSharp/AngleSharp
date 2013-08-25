@@ -25,31 +25,12 @@ namespace AngleSharp.DOM.Html
         internal HTMLInputElement()
         {
             _name = Tag;
-            
+            WillValidate = true;
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the value of the name attribute.
-        /// </summary>
-        [DOM("name")]
-        public String Name
-        {
-            get { return GetAttribute("name"); }
-            set { SetAttribute("name", value); }
-        }
-
-        /// <summary>
-        /// Gets the associated HTML form element.
-        /// </summary>
-        [DOM("form")]
-        public HTMLFormElement Form
-        {
-            get { return GetAssignedForm(); }
-        }
 
         /// <summary>
         /// Gets or sets if the input element is checked or not.
@@ -62,16 +43,6 @@ namespace AngleSharp.DOM.Html
         }
 
         /// <summary>
-        /// Gets or sets if the input element is enabled or disabled.
-        /// </summary>
-        [DOM("disabled")]
-        public Boolean Disabled
-        {
-            get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? String.Empty : null); }
-        }
-
-        /// <summary>
         /// Gets or sets the type of the input field.
         /// </summary>
         [DOM("type")]
@@ -80,29 +51,6 @@ namespace AngleSharp.DOM.Html
             get { return ToEnum(GetAttribute("type"), InputType.Text); }
             set { SetAttribute("type", value.ToString()); }
         }
-
-        /// <summary>
-        /// Gets or sets if the input field is required.
-        /// </summary>
-        [DOM("required")]
-        public Boolean Required
-        {
-            get { return GetAttribute("required") != null; }
-            set { SetAttribute("required", value ? String.Empty : null); }
-        }
-
-        /// <summary>
-        /// Gets or sets if the input field is read-only.
-        /// </summary>
-        [DOM("readonly")]
-        public Boolean Readonly
-        {
-            get { return GetAttribute("readonly") != null; }
-            set { SetAttribute("readonly", value ? String.Empty : null); }
-        }
-
-        //TODO
-        //http://www.w3.org/html/wg/drafts/html/master/forms.html#htmlinputelement
 
         /// <summary>
         /// Gets or sets if the state if indeterminate.
@@ -254,6 +202,27 @@ namespace AngleSharp.DOM.Html
             /// A simple button.
             /// </summary>
             Button
+        }
+
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Resets the form control to its initial value.
+        /// </summary>
+        internal override void Reset()
+        {
+            //TODO
+        }
+
+        /// <summary>
+        /// Checks the form control for validity.
+        /// </summary>
+        /// <param name="state">The element's validity state tracker.</param>
+        protected override void Check(ValidityState state)
+        {
+            //TODO
         }
 
         #endregion

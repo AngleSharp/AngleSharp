@@ -6,11 +6,13 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the base class for all HTML form control elements.
     /// </summary>
-    public abstract class HTMLFormControlElement : HTMLElement, ILabelabelElement
+    public abstract class HTMLFormControlElement : HTMLElement, ILabelabelElement, IValidation
     {
         #region Members
 
-        NodeList labels;
+        NodeList _labels;
+        ValidityState _vstate;
+        String _error;
 
         #endregion
 
@@ -18,12 +20,53 @@ namespace AngleSharp.DOM.Html
 
         internal HTMLFormControlElement()
         {
-            labels = new NodeList();
+            _vstate = new ValidityState();
+            _labels = new NodeList();
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the value of the name attribute.
+        /// </summary>
+        [DOM("name")]
+        public String Name
+        {
+            get { return GetAttribute("name"); }
+            set { SetAttribute("name", value); }
+        }
+
+        /// <summary>
+        /// Gets the associated HTML form element.
+        /// </summary>
+        [DOM("form")]
+        public HTMLFormElement Form
+        {
+            get { return GetAssignedForm(); }
+        }
+
+        /// <summary>
+        /// Gets or sets if the element is enabled or disabled.
+        /// </summary>
+        [DOM("disabled")]
+        public Boolean Disabled
+        {
+            get { return GetAttribute("disabled") != null; }
+            set { SetAttribute("disabled", value ? String.Empty : null); }
+        }
+
+        /// <summary>
+        /// Gets or sets the autofocus HTML attribute, which indicates whether the
+        /// control should have input focus when the page loads.
+        /// </summary>
+        [DOM("autofocus")]
+        public Boolean Autofocus
+        {
+            get { return GetAttribute("autofocus") != null; }
+            set { SetAttribute("autofocus", value ? String.Empty : null); }
+        }
 
         /// <summary>
         /// Gets if labels are supported.
@@ -41,8 +84,80 @@ namespace AngleSharp.DOM.Html
         [DOM("labels")]
         public NodeList Labels
         {
-            get { return labels; }
+            get { return _labels; }
         }
+
+        /// <summary>
+        /// Gets the current validation message.
+        /// </summary>
+        [DOM("validationMessage")]
+        public String ValidationMessage
+        {
+            get { return _vstate.CustomError ? _error : String.Empty; }
+        }
+
+        /// <summary>
+        /// Gets a value if the current element validates.
+        /// </summary>
+        [DOM("willValidate")]
+        public Boolean WillValidate
+        {
+            get;
+            protected set;
+        }
+
+        /// <summary>
+        /// Gets the current validation state of the current element.
+        /// </summary>
+        [DOM("validity")]
+        public ValidityState Validity
+        {
+            get { return _vstate; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks the validity of the current element.
+        /// </summary>
+        /// <returns>True.</returns>
+        [DOM("checkValidity")]
+        public Boolean CheckValidity()
+        {
+            Check(_vstate);
+            return _vstate.Valid;
+        }
+
+        /// <summary>
+        /// Sets a custom validation error. If this is not the empty string,
+        /// then the element is suffering from a custom validation error.
+        /// </summary>
+        /// <param name="error"></param>
+        [DOM("setCustomValidity")]
+        public void SetCustomValidity(String error)
+        {
+            _vstate.CustomError = !String.IsNullOrEmpty(error);
+            this._error = error;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Resets the form control to its initial value.
+        /// </summary>
+        internal virtual void Reset()
+        { }
+
+        /// <summary>
+        /// Checks the form control for validity.
+        /// </summary>
+        /// <param name="state">The element's validity state tracker.</param>
+        protected virtual void Check(ValidityState state)
+        { }
 
         #endregion
     }

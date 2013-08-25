@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AngleSharp.DOM.Html;
+using System;
+using System.Collections.Generic;
 
 namespace AngleSharp.DOM.Collections
 {
@@ -8,33 +10,54 @@ namespace AngleSharp.DOM.Collections
     [DOM("HTMLFormControlsCollection")]
     public sealed class HTMLFormControlsCollection : HTMLCollection
     {
-        internal HTMLFormControlsCollection()
+        HTMLLiveCollection<HTMLFormControlElement> _elements;
+
+        internal HTMLFormControlsCollection(HTMLLiveCollection<HTMLFormControlElement> elements)
         {
+            _elements = elements;
         }
 
-        /// <summary>
-        /// Gets the node or list of nodes in the collection whose name or id match the specified name,
-        /// or null if no nodes match.
-        /// </summary>
-        /// <param name="name">The name or id of the element(s).</param>
-        /// <returns>The found element(s).</returns>
-        [DOM("namedItem")]
-        public override Object NamedItem(String name)
+        internal HTMLFormControlsCollection(Element parent)
         {
-            var result = new HTMLCollection();
+            _elements = new HTMLLiveCollection<HTMLFormControlElement>(parent);
+        }
 
-            for (int i = 0; i < _entries.Count; i++)
+        protected override Element GetItem(Int32 index)
+        {
+            return _elements[index];
+        }
+
+        protected override int GetLength()
+        {
+            return _elements.Length;
+        }
+
+        public override IEnumerator<Element> GetEnumerator()
+        {
+            return _elements.GetEnumerator();
+        }
+
+        protected override Object GetItem(String name)
+        {
+            var result = new List<Element>();
+
+            for (int i = 0; i < _elements.Length; i++)
             {
-                if (_entries[i].Id == name || _entries[i].GetAttribute("name") == name)
-                    result.Add(_entries[i]);
+                if (_elements[i].Id == name || _elements[i].GetAttribute("name") == name)
+                    result.Add(_elements[i]);
             }
 
-            if (result.Length == 0)
+            if (result.Count == 0)
                 return null;
-            else if (result.Length == 1)
+            else if (result.Count == 1)
                 return result[0];
 
-            return result;
+            return new HTMLStaticCollection(result);
+        }
+
+        internal override Int32 IndexOf(Element element)
+        {
+            return _elements.IndexOf(element);
         }
     }
 }

@@ -19,11 +19,18 @@ namespace AngleSharp.DOM.Html
 
         #endregion
 
+        #region Members
+
+        HTMLLiveCollection<HTMLTableCellElement> _cells;
+
+        #endregion
+
         #region ctor
 
         internal HTMLTableRowElement()
         {
             _name = Tag;
+            _cells = new HTMLLiveCollection<HTMLTableCellElement>(this);
         }
 
         #endregion
@@ -66,7 +73,7 @@ namespace AngleSharp.DOM.Html
         [DOM("cells")]
         public HTMLCollection Cells
         {
-            get { return _children.QuerySelectorAll("td,th"); }
+            get { return _cells; }
         }
 
         /// <summary>
@@ -134,7 +141,7 @@ namespace AngleSharp.DOM.Html
         [DOM("insertCell")]
         public HTMLTableCellElement InsertCell(Int32 index)
         {
-            var cell = Cells[index];
+            var cell = _cells[index];
             var newCell = OwnerDocument.CreateElement(HTMLTableCellElement.NormalTag) as HTMLTableCellElement;
 
             if (cell != null)
@@ -154,12 +161,10 @@ namespace AngleSharp.DOM.Html
         [DOM("deleteCell")]
         public HTMLTableRowElement DeleteCell(Int32 index)
         {
-            var cells = Cells;
-
             if (index == -1)
-                index = cells.Length - 1;
+                index = _cells.Length - 1;
 
-            var cell = cells[index];
+            var cell = _cells[index];
 
             if (cell != null)
                 cell.Remove();

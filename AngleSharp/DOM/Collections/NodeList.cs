@@ -69,9 +69,9 @@ namespace AngleSharp.DOM.Collections
         internal HTMLCollection QuerySelectorAll(String selectors)
         {
             var sg = CssParser.ParseSelector(selectors);
-            var result = new HTMLCollection();
+            var result = new List<Element>();
             QuerySelectorAll(this, sg, result);
-            return result;
+            return new HTMLStaticCollection(result);
         }
 
         /// <summary>
@@ -82,9 +82,9 @@ namespace AngleSharp.DOM.Collections
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
         internal HTMLCollection QuerySelectorAll(Selector selector)
         {
-            var result = new HTMLCollection();
+            var result = new List<Element>();
             QuerySelectorAll(this, selector, result);
-            return result;
+            return new HTMLStaticCollection(result);
         }
 
         /// <summary>
@@ -94,13 +94,13 @@ namespace AngleSharp.DOM.Collections
         /// <returns>A collection of HTML elements.</returns>
         internal HTMLCollection GetElementsByClassName(String classNames)
         {
-            var result = new HTMLCollection();
+            var result = new List<Element>();
             var names = classNames.SplitSpaces();
 
             if(names.Length > 0)
                 GetElementsByClassName(this, names, result);
 
-            return result;
+            return new HTMLStaticCollection(result);
         }
 
         /// <summary>
@@ -110,10 +110,10 @@ namespace AngleSharp.DOM.Collections
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
         internal HTMLCollection GetElementsByTagName(String tagName)
         {
-            var result = new HTMLCollection();
+            var result = new List<Element>();
             var takeAll = tagName == "*";
             GetElementsByTagName(this, tagName, result, takeAll);
-            return result;
+            return new HTMLStaticCollection(result);
         }
 
         /// <summary>
@@ -125,9 +125,9 @@ namespace AngleSharp.DOM.Collections
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
         internal HTMLCollection GetElementsByTagNameNS(String namespaceURI, String localName)
         {
-            var result = new HTMLCollection();
+            var result = new List<Element>();
             GetElementsByTagNameNS(this, namespaceURI, localName, result);
-            return result;
+            return new HTMLStaticCollection(result);
         }
 
         #endregion
@@ -158,7 +158,7 @@ namespace AngleSharp.DOM.Collections
             return null;
         }
 
-        static void QuerySelectorAll(NodeList elements, Selector selector, HTMLCollection result)
+        static void QuerySelectorAll(NodeList elements, Selector selector, List<Element> result)
         {
             for (int i = 0; i < elements.Length; i++)
             {
@@ -175,7 +175,7 @@ namespace AngleSharp.DOM.Collections
             }
         }
 
-        static void GetElementsByClassName(NodeList elements, String[] classNames, HTMLCollection result)
+        static void GetElementsByClassName(NodeList elements, String[] classNames, List<Element> result)
         {
             for (int i = 0; i < elements.Length; i++)
             {
@@ -192,7 +192,7 @@ namespace AngleSharp.DOM.Collections
             }
         }
 
-        static void GetElementsByTagName(NodeList elements, String tagName, HTMLCollection result, Boolean takeAll)
+        static void GetElementsByTagName(NodeList elements, String tagName, List<Element> result, Boolean takeAll)
         {
             for (int i = 0; i < elements.Length; i++)
             {
@@ -209,7 +209,7 @@ namespace AngleSharp.DOM.Collections
             }
         }
 
-        static void GetElementsByTagNameNS(NodeList elements, String namespaceURI, String localName, HTMLCollection result)
+        static void GetElementsByTagNameNS(NodeList elements, String namespaceURI, String localName, List<Element> result)
         {
             var takeAll = localName == "*";
 

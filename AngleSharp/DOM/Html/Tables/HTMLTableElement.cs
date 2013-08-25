@@ -19,11 +19,20 @@ namespace AngleSharp.DOM.Html
 
         #endregion
 
+        #region Members
+
+        HTMLLiveCollection<HTMLTableCaptionElement> _bodies;
+        HTMLLiveCollection<HTMLTableRowElement> _rows;
+
+        #endregion
+
         #region ctor
 
         internal HTMLTableElement()
         {
             _name = Tag;
+            _rows = new HTMLLiveCollection<HTMLTableRowElement>(this);
+            _bodies = new HTMLLiveCollection<HTMLTableCaptionElement>(this);
         }
 
         #endregion
@@ -54,7 +63,7 @@ namespace AngleSharp.DOM.Html
         [DOM("tBodies")]
         public HTMLCollection TBodies
         {
-            get { return _children.QuerySelectorAll(SimpleSelector.Type(HTMLTableSectionElement.BodyTag)); }
+            get { return _bodies; }
         }
 
         /// <summary>
@@ -72,7 +81,7 @@ namespace AngleSharp.DOM.Html
         [DOM("rows")]
         public HTMLCollection Rows
         {
-            get { return _children.QuerySelectorAll(SimpleSelector.Type(HTMLTableRowElement.Tag)); }
+            get { return _rows; }
         }
 
         /// <summary>
@@ -211,7 +220,6 @@ namespace AngleSharp.DOM.Html
                 {
                     var tbody = OwnerDocument.CreateElement(HTMLTableSectionElement.BodyTag);
                     AppendChild(tbody);
-                    bodies.Add(tbody);
                 }
 
                 bodies[bodies.Length - 1].AppendChild(newRow);
