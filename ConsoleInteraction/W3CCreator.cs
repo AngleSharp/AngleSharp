@@ -4,10 +4,12 @@ using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Xml;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ConsoleInteraction
 {
@@ -18,6 +20,8 @@ namespace ConsoleInteraction
     /// </summary>
     class W3CCreator
     {
+        static readonly Regex replaceIdentifier = new Regex("[^a-zA-Z0-9]");
+
         /// <summary>
         /// Gets all the tests from the url given below.
         /// </summary>
@@ -30,12 +34,13 @@ namespace ConsoleInteraction
             var doc = DocumentBuilder.Html(source);
             doc.BaseURI = url;
             var links = doc.QuerySelectorAll("body > ul > li > a");
+            var methods = new List<String>();
 
             foreach (HTMLAnchorElement link in links)
-                CreateCssSelectorTest(link.Href);
+                CreateCssSelectorTest(link.Href, methods);
         }
 
-        static void CreateCssSelectorTest(String url)
+        static void CreateCssSelectorTest(String url, List<String> methods)
         {
             Console.Write("Loading " + url + " ... ");
             var client = new HttpClient();
@@ -47,19 +52,29 @@ namespace ConsoleInteraction
             try { xml = DocumentBuilder.Xml(source); }
             catch { Console.WriteLine("error!!!"); return; }
 
-            var title = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(xml.GetElementsByTagName("title")[0].TextContent).Replace(" ", "");
+            var title = Sanatize(xml.GetElementsByTagName("title")[0].TextContent);
             var content = xml.GetElementsByTagName("content")[0].InnerHTML.Trim().Replace("\"", "\"\"");
             var css = xml.GetElementsByTagName("css")[0].TextContent;
             var sheet = CssParser.ParseStyleSheet(css);
             var selectors = new StringBuilder();
             var i = 1;
 
+            if (methods.Contains(title))
+            {
+                var ltr = 'A';
+
+                while (methods.Contains(title + ltr.ToString()))
+                    ltr = (Char)((int)ltr + 1);
+
+                title += ltr.ToString();
+            }
+
             foreach (var rule in sheet.CssRules)
             {
                 if (rule is CSSStyleRule)
                 {
                     selectors.Append(@"
-	        var selectorINDEX = doc.QuerySelectorAll(SELECTOR);
+	        var selectorINDEX = doc.QuerySelectorAll(""SELECTOR"");
 	        Assert.AreEqual(0, selectorINDEX.Length);"
                 .Replace("SELECTOR", ((CSSStyleRule)rule).SelectorText)
                 .Replace("INDEX", i.ToString()));
@@ -84,6 +99,19 @@ namespace ConsoleInteraction
             .Replace("SELECTORS", selectors.ToString())
             );
             Console.WriteLine("success.");
+            methods.Add(title);
+        }
+
+        static String Sanatize(String p)
+        {
+            var name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(p).Replace(" ", "");
+
+            if (String.IsNullOrEmpty(name))
+                return "TestMethod";
+            else if (!Char.IsLetter(name[0]))
+                name = "Test" + name;
+
+            return replaceIdentifier.Replace(name, String.Empty);
         }
     }
 }
