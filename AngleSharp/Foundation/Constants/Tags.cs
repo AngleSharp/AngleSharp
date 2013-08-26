@@ -203,6 +203,66 @@ namespace AngleSharp
         public const String DT = "dt";
 
         /// <summary>
+        /// The b tag.
+        /// </summary>
+        public const String B = "b";
+
+        /// <summary>
+        /// The big tag.
+        /// </summary>
+        public const String BIG = "big";
+
+        /// <summary>
+        /// The strike tag.
+        /// </summary>
+        public const String STRIKE = "strike";
+
+        /// <summary>
+        /// The code tag.
+        /// </summary>
+        public const String CODE = "code";
+
+        /// <summary>
+        /// The em tag.
+        /// </summary>
+        public const String EM = "em";
+
+        /// <summary>
+        /// The i tag.
+        /// </summary>
+        public const String I = "i";
+
+        /// <summary>
+        /// The s tag.
+        /// </summary>
+        public const String S = "s";
+
+        /// <summary>
+        /// The small tag.
+        /// </summary>
+        public const String SMALL = "small";
+
+        /// <summary>
+        /// The strong tag.
+        /// </summary>
+        public const String STRONG = "strong";
+
+        /// <summary>
+        /// The u tag.
+        /// </summary>
+        public const String U = "u";
+
+        /// <summary>
+        /// The tt tag.
+        /// </summary>
+        public const String TT = "tt";
+
+        /// <summary>
+        /// The nobr tag.
+        /// </summary>
+        public const String NOBR = "nobr";
+
+        /// <summary>
         /// The select tag.
         /// </summary>
         public const String SELECT = "select";

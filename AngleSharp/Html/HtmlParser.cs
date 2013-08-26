@@ -1102,18 +1102,18 @@ namespace AngleSharp.Html
                         AddFormattingElement(element);
                         break;
                     }
-                    case HTMLFormattingElement.BTag:
-                    case HTMLFormattingElement.BigTag:
-                    case HTMLFormattingElement.CodeTag:
-                    case HTMLFormattingElement.EmTag:
+                    case Tags.B:
+                    case Tags.BIG:
+                    case Tags.CODE:
+                    case Tags.EM:
                     case Tags.FONT:
-                    case HTMLFormattingElement.ITag:
-                    case HTMLFormattingElement.STag:
-                    case HTMLFormattingElement.SmallTag:
-                    case HTMLFormattingElement.StrikeTag:
-                    case HTMLFormattingElement.StrongTag:
-                    case HTMLFormattingElement.TtTag:
-                    case HTMLFormattingElement.UTag:
+                    case Tags.I:
+                    case Tags.S:
+                    case Tags.SMALL:
+                    case Tags.STRIKE:
+                    case Tags.STRONG:
+                    case Tags.TT:
+                    case Tags.U:
                     {
                         ReconstructFormatting();
                         var element = HTMLElement.Factory(tag.Name);
@@ -1121,11 +1121,11 @@ namespace AngleSharp.Html
                         AddFormattingElement(element);
                         break;
                     }
-                    case HTMLFormattingElement.NobrTag:
+                    case Tags.NOBR:
                     {
                         ReconstructFormatting();
 
-                        if (IsInScope(HTMLFormattingElement.NobrTag))
+                        if (IsInScope(Tags.NOBR))
                         {
                             RaiseErrorOccurred(ErrorCode.NobrInScope);
                             HeisenbergAlgorithm(tag);
@@ -1530,19 +1530,19 @@ namespace AngleSharp.Html
                         break;
                     }
                     case Tags.A:
-                    case HTMLFormattingElement.BTag:
-                    case HTMLFormattingElement.BigTag:
-                    case HTMLFormattingElement.CodeTag:
-                    case HTMLFormattingElement.EmTag:
+                    case Tags.B:
+                    case Tags.BIG:
+                    case Tags.CODE:
+                    case Tags.EM:
                     case Tags.FONT:
-                    case HTMLFormattingElement.ITag:
-                    case HTMLFormattingElement.NobrTag:
-                    case HTMLFormattingElement.STag:
-                    case HTMLFormattingElement.SmallTag:
-                    case HTMLFormattingElement.StrikeTag:
-                    case HTMLFormattingElement.StrongTag:
-                    case HTMLFormattingElement.TtTag:
-                    case HTMLFormattingElement.UTag:
+                    case Tags.I:
+                    case Tags.NOBR:
+                    case Tags.S:
+                    case Tags.SMALL:
+                    case Tags.STRIKE:
+                    case Tags.STRONG:
+                    case Tags.TT:
+                    case Tags.U:
                     {
                         HeisenbergAlgorithm(tag);
                         break;
@@ -2378,12 +2378,54 @@ namespace AngleSharp.Html
                         case Tags.TITLE:
                             InHead(token);
                             break;
+
+                        case Tags.CAPTION:
+                        case Tags.COLGROUP:
+                        case Tags.TBODY:
+                        case Tags.TFOOT:
+                        case Tags.THEAD:
+                            //Pop the current template insertion mode off the stack of template insertion modes.
+                            //Push "in table" onto the stack of template insertion modes so that it is the new current template insertion mode.
+                            //Switch the insertion mode to "in table", and reprocess the token.
+                            break;
+
+                        case Tags.COL:
+                            //Pop the current template insertion mode off the stack of template insertion modes.
+                            //Push "in column group" onto the stack of template insertion modes so that it is the new current template insertion mode.
+                            //Switch the insertion mode to "in column group", and reprocess the token.
+                            break;
+
+                        case Tags.TR:
+                            //Pop the current template insertion mode off the stack of template insertion modes.
+                            //Push "in table body" onto the stack of template insertion modes so that it is the new current template insertion mode.
+                            //Switch the insertion mode to "in table body", and reprocess the token.
+                            break;
+
+                        case Tags.TD:
+                        case Tags.TH:
+                            //Pop the current template insertion mode off the stack of template insertion modes.
+                            //Push "in row" onto the stack of template insertion modes so that it is the new current template insertion mode.
+                            //Switch the insertion mode to "in row", and reprocess the token.
+                            break;
+
+                        default:
+                            //Pop the current template insertion mode off the stack of template insertion modes.
+                            //Push "in body" onto the stack of template insertion modes so that it is the new current template insertion mode.
+                            //Switch the insertion mode to "in body", and reprocess the token.
+                            break;
                     }
 
                     break;
                 }
                 case HtmlTokenType.EndTag:
                 {
+                    var tag = (HtmlTagToken)token;
+
+                    if (tag.Name == Tags.TEMPLATE)
+                        InHead(token);
+                    else
+                        RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+
                     break;
                 }
                 case HtmlTokenType.EOF:
@@ -3290,18 +3332,18 @@ namespace AngleSharp.Html
 
                 switch (tag.Name)
                 {
-                    case HTMLFormattingElement.BTag:
-                    case HTMLFormattingElement.BigTag:
+                    case Tags.B:
+                    case Tags.BIG:
                     case HTMLQuoteElement.BlockTag:
                     case Tags.BODY:
                     case HTMLBRElement.Tag:
                     case Tags.CENTER:
-                    case HTMLFormattingElement.CodeTag:
+                    case Tags.CODE:
                     case Tags.DD:
                     case HTMLDivElement.Tag:
                     case HTMLDListElement.Tag:
                     case Tags.DT:
-                    case HTMLFormattingElement.EmTag:
+                    case Tags.EM:
                     case HTMLEmbedElement.Tag:
                     case HTMLHeadingElement.ChapterTag:
                     case HTMLHeadingElement.SubSubSubSubSectionTag:
@@ -3311,28 +3353,28 @@ namespace AngleSharp.Html
                     case HTMLHeadingElement.SectionTag:
                     case Tags.HEAD:
                     case HTMLHRElement.Tag:
-                    case HTMLFormattingElement.ITag:
+                    case Tags.I:
                     case HTMLImageElement.Tag:
                     case Tags.LI:
                     case Tags.LISTING:
                     case Tags.MAIN:
                     case HTMLMenuElement.Tag:
                     case Tags.META:
-                    case HTMLFormattingElement.NobrTag:
+                    case Tags.NOBR:
                     case HTMLOListElement.Tag:
                     case HTMLParagraphElement.Tag:
                     case Tags.PRE:
                     case Tags.RUBY:
-                    case HTMLFormattingElement.STag:
-                    case HTMLFormattingElement.SmallTag:
+                    case Tags.S:
+                    case Tags.SMALL:
                     case HTMLSpanElement.Tag:
-                    case HTMLFormattingElement.StrongTag:
-                    case HTMLFormattingElement.StrikeTag:
+                    case Tags.STRONG:
+                    case Tags.STRIKE:
                     case Tags.SUB:
                     case Tags.SUP:
                     case Tags.TABLE:
-                    case HTMLFormattingElement.TtTag:
-                    case HTMLFormattingElement.UTag:
+                    case Tags.TT:
+                    case Tags.U:
                     case HTMLUListElement.Tag:
                     case Tags.VAR:
                         ForeignNormalTag(token);

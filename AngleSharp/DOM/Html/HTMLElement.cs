@@ -261,18 +261,18 @@ namespace AngleSharp.DOM.Html
                 case HTMLWbrElement.Tag:
                     return new HTMLWbrElement();
 
-                case HTMLFormattingElement.BTag:
-                case HTMLFormattingElement.BigTag:
-                case HTMLFormattingElement.StrikeTag:
-                case HTMLFormattingElement.CodeTag:
-                case HTMLFormattingElement.EmTag:
-                case HTMLFormattingElement.ITag:
-                case HTMLFormattingElement.STag:
-                case HTMLFormattingElement.SmallTag:
-                case HTMLFormattingElement.StrongTag:
-                case HTMLFormattingElement.UTag:
-                case HTMLFormattingElement.TtTag:
-                case HTMLFormattingElement.NobrTag:
+                case Tags.B:
+                case Tags.BIG:
+                case Tags.STRIKE:
+                case Tags.CODE:
+                case Tags.EM:
+                case Tags.I:
+                case Tags.S:
+                case Tags.SMALL:
+                case Tags.STRONG:
+                case Tags.U:
+                case Tags.TT:
+                case Tags.NOBR:
                     return new HTMLFormattingElement { _name = tag };
 
                 case Tags.CITE:
