@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLKeygenElement")]
     public sealed class HTMLKeygenElement : HTMLFormControlElementWithState
     {
-        #region Constant
-
-        /// <summary>
-        /// The keygen tag.
-        /// </summary>
-        internal const String Tag = "keygen";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLKeygenElement()
         {
-            _name = Tag;
+            _name = Tags.KEYGEN;
         }
 
         #endregion
@@ -57,7 +48,7 @@ namespace AngleSharp.DOM.Html
         [DOM("type")]
         public String Type
         {
-            get { return Tag; }
+            get { return _name; }
         }
 
         #endregion

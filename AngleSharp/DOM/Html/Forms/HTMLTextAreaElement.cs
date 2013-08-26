@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLTextAreaElement")]
     public sealed class HTMLTextAreaElement : HTMLTextFormControlElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The textarea tag.
-        /// </summary>
-        internal const String Tag = "textarea";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLTextAreaElement()
         {
-            _name = Tag;
+            _name = Tags.TEXTAREA;
             WillValidate = true;
         }
 
@@ -89,7 +80,7 @@ namespace AngleSharp.DOM.Html
         [DOM("type")]
         public String Type
         {
-            get { return Tag; }
+            get { return _name; }
         }
 
         #endregion

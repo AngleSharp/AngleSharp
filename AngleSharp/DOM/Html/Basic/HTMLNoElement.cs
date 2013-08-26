@@ -7,30 +7,11 @@ namespace AngleSharp.DOM.Html
     /// </summary>
     sealed class HTMLNoElement : HTMLElement
     {
-        #region Constants
-
-        /// <summary>
-        /// The noembed tag.
-        /// </summary>
-        internal const string NoEmbedTag = "noembed";
-
-        /// <summary>
-        /// The noscript tag.
-        /// </summary>
-        internal const string NoScriptTag = "noscript";
-
-        /// <summary>
-        /// The noframes tag.
-        /// </summary>
-        internal const string NoFramesTag = "noframes";
-
-        #endregion
-
         #region ctor
 
         internal HTMLNoElement()
         {
-            _name = NoScriptTag;
+            _name = Tags.NOSCRIPT;
         }
 
         #endregion

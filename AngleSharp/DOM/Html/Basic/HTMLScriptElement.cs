@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLScriptElement")]
     public sealed class HTMLScriptElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The script tag.
-        /// </summary>
-        internal const String Tag = "script";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLScriptElement()
         {
-            _name = Tag;
+            _name = Tags.SCRIPT;
             Async = true;
         }
 

@@ -9,15 +9,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLStyleElement")]
     public sealed class HTMLStyleElement : HTMLElement, IStyleSheet
     {
-        #region Constant
-
-        /// <summary>
-        /// The style tag.
-        /// </summary>
-        internal const String Tag = "style";
-
-        #endregion
-
         #region Members
 
         CSSStyleSheet _sheet;
@@ -31,7 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLStyleElement()
         {
-            _name = Tag;
+            _name = Tags.STYLE;
             _sheet = new CSSStyleSheet();
             _sheet.OwnerNode = this;
             _children.ElementsChanged += OnChildrenChanged;

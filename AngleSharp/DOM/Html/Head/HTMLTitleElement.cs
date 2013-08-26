@@ -9,16 +9,11 @@ namespace AngleSharp.DOM.Html
     public sealed class HTMLTitleElement : HTMLElement
     {
         /// <summary>
-        /// The title tag.
-        /// </summary>
-        internal const String Tag = "title";
-
-        /// <summary>
         /// Creates a new HTML title element.
         /// </summary>
         internal HTMLTitleElement()
         {
-            _name = Tag;
+            _name = Tags.TITLE;
         }
 
         /// <summary>

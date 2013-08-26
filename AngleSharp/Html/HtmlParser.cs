@@ -234,27 +234,27 @@ namespace AngleSharp.Html
 
             switch (context.NodeName)
             {
-                case HTMLTitleElement.Tag:
-                case HTMLTextAreaElement.Tag:
+                case Tags.TITLE:
+                case Tags.TEXTAREA:
                 {
                     tokenizer.Switch(HtmlParseMode.RCData);
                     break;
                 }
-                case HTMLStyleElement.Tag:
+                case Tags.STYLE:
                 case Tags.XMP:
                 case HTMLIFrameElement.Tag:
-                case HTMLNoElement.NoEmbedTag:
-                case HTMLNoElement.NoFramesTag:
+                case Tags.NOEMBED:
+                case Tags.NOFRAMES:
                 {
                     tokenizer.Switch(HtmlParseMode.Rawtext);
                     break;
                 }
-                case HTMLScriptElement.Tag:
+                case Tags.SCRIPT:
                 {
                     tokenizer.Switch(HtmlParseMode.Script);
                     break;
                 }
-                case HTMLNoElement.NoScriptTag:
+                case Tags.NOSCRIPT:
                 {
                     if (doc.IsScripting) 
                         tokenizer.Switch(HtmlParseMode.Rawtext);
@@ -450,6 +450,10 @@ namespace AngleSharp.Html
 
                 case HtmlTreeMode.InSelectInTable:
                     InSelectInTable(token);
+                    break;
+
+                case HtmlTreeMode.InTemplate:
+                    InTemplate(token);
                     break;
 
                 case HtmlTreeMode.AfterBody:
@@ -649,7 +653,7 @@ namespace AngleSharp.Html
                 InBody(token);
                 return;
             }
-            else if (token.IsStartTag(Tags.BASE, Tags.BASEFONT, HTMLBgsoundElement.Tag, Tags.LINK))
+            else if (token.IsStartTag(Tags.BASE, Tags.BASEFONT, Tags.BGSOUND, Tags.LINK))
             {
                 var name = ((HtmlTagToken)token).Name;
                 var element = HTMLElement.Factory(name);
@@ -657,7 +661,7 @@ namespace AngleSharp.Html
                 CloseCurrentNode();
                 return;
             }
-            else if (token.IsStartTag(HTMLMetaElement.Tag))
+            else if (token.IsStartTag(Tags.META))
             {
                 var element = new HTMLMetaElement();
                 AddElementToCurrentNode(element, token, true);
@@ -684,24 +688,24 @@ namespace AngleSharp.Html
 
                 return;
             }
-            else if (token.IsStartTag(HTMLTitleElement.Tag))
+            else if (token.IsStartTag(Tags.TITLE))
             {
                 RCDataAlgorithm((HtmlTagToken)token);
                 return;
             }
-            else if (token.IsStartTag(HTMLNoElement.NoFramesTag, HTMLStyleElement.Tag) || (doc.IsScripting && token.IsStartTag(HTMLNoElement.NoScriptTag)))
+            else if (token.IsStartTag(Tags.NOFRAMES, Tags.STYLE) || (doc.IsScripting && token.IsStartTag(Tags.NOSCRIPT)))
             {
                 RawtextAlgorithm((HtmlTagToken)token);
                 return;
             }
-            else if (token.IsStartTag(HTMLNoElement.NoScriptTag))
+            else if (token.IsStartTag(Tags.NOSCRIPT))
             {
                 var element = new HTMLElement();
                 AddElementToCurrentNode(element, token);
                 insert = HtmlTreeMode.InHeadNoScript;
                 return;
             }
-            else if (token.IsStartTag(HTMLScriptElement.Tag))
+            else if (token.IsStartTag(Tags.SCRIPT))
             {
                 var element = new HTMLScriptElement();
                 //element.IsParserInserted = true;
@@ -773,7 +777,7 @@ namespace AngleSharp.Html
                 InBody(token);
                 return;
             }
-            else if (token.IsEndTag(HTMLNoElement.NoScriptTag))
+            else if (token.IsEndTag(Tags.NOSCRIPT))
             {
                 CloseCurrentNode();
                 insert = HtmlTreeMode.InHead;
@@ -793,12 +797,12 @@ namespace AngleSharp.Html
                 InHead(token);
                 return;
             }
-            else if (token.IsStartTag(Tags.BASEFONT, HTMLBgsoundElement.Tag, Tags.LINK, HTMLMetaElement.Tag, HTMLNoElement.NoFramesTag, HTMLStyleElement.Tag))
+            else if (token.IsStartTag(Tags.BASEFONT, Tags.BGSOUND, Tags.LINK, Tags.META, Tags.NOFRAMES, Tags.STYLE))
             {
                 InHead(token);
                 return;
             }
-            else if (token.IsStartTag(Tags.HEAD, HTMLNoElement.NoScriptTag))
+            else if (token.IsStartTag(Tags.HEAD, Tags.NOSCRIPT))
             {
                 RaiseErrorOccurred(ErrorCode.TagInappropriate);
                 return;
@@ -857,7 +861,7 @@ namespace AngleSharp.Html
                 insert = HtmlTreeMode.InFrameset;
                 return;
             }
-            else if (token.IsStartTag(Tags.BASE, Tags.BASEFONT, HTMLBgsoundElement.Tag, Tags.LINK, HTMLMetaElement.Tag, HTMLNoElement.NoFramesTag, HTMLScriptElement.Tag, HTMLStyleElement.Tag, HTMLTitleElement.Tag))
+            else if (token.IsStartTag(Tags.BASE, Tags.BASEFONT, Tags.BGSOUND, Tags.LINK, Tags.META, Tags.NOFRAMES, Tags.SCRIPT, Tags.STYLE, Tags.TITLE))
             {
                 RaiseErrorOccurred(ErrorCode.TagMustBeInHead);
                 var index = open.Count;
@@ -915,14 +919,14 @@ namespace AngleSharp.Html
                     }
                     case Tags.BASE:
                     case Tags.BASEFONT:
-                    case HTMLBgsoundElement.Tag:
+                    case Tags.BGSOUND:
                     case Tags.LINK:
-                    case HTMLMenuItemElement.Tag:
-                    case HTMLMetaElement.Tag:
-                    case HTMLNoElement.NoFramesTag:
-                    case HTMLScriptElement.Tag:
-                    case HTMLStyleElement.Tag:
-                    case HTMLTitleElement.Tag:
+                    case Tags.MENUITEM:
+                    case Tags.META:
+                    case Tags.NOFRAMES:
+                    case Tags.SCRIPT:
+                    case Tags.STYLE:
+                    case Tags.TITLE:
                     case Tags.TEMPLATE:
                     {
                         InHead(token);
@@ -1159,7 +1163,7 @@ namespace AngleSharp.Html
                     case HTMLBRElement.Tag:
                     case HTMLEmbedElement.Tag:
                     case HTMLImageElement.Tag:
-                    case HTMLKeygenElement.Tag:
+                    case Tags.KEYGEN:
                     case HTMLWbrElement.Tag:
                     {
                         InBodyStartTagBreakrow(tag);
@@ -1239,7 +1243,7 @@ namespace AngleSharp.Html
                         }
                         break;
                     }
-                    case HTMLTextAreaElement.Tag:
+                    case Tags.TEXTAREA:
                     {
                         var element = new HTMLTextAreaElement();
                         AddElementToCurrentNode(element, token);
@@ -1314,12 +1318,12 @@ namespace AngleSharp.Html
                         AddElementToCurrentNode(element, token);
                         break;
                     }
-                    case HTMLNoElement.NoEmbedTag:
+                    case Tags.NOEMBED:
                     {
                         RawtextAlgorithm(tag);
                         break;
                     }
-                    case HTMLNoElement.NoScriptTag:
+                    case Tags.NOSCRIPT:
                     {
                         if (!doc.IsScripting)
                             goto default;
@@ -1626,7 +1630,7 @@ namespace AngleSharp.Html
             {
                 var tag = (HtmlTagToken)token;
 
-                if (tag.Name == HTMLScriptElement.Tag)
+                if (tag.Name == Tags.SCRIPT)
                 {
                     PerformMicrotaskCheckpoint();
                     ProvideStableState();
@@ -1752,8 +1756,9 @@ namespace AngleSharp.Html
 
                         break;
                     }
-                    case HTMLScriptElement.Tag:
-                    case HTMLStyleElement.Tag:
+                    case Tags.SCRIPT:
+                    case Tags.STYLE:
+                    case Tags.TEMPLATE:
                     {
                         InHead(token);
                         break;
@@ -1806,6 +1811,11 @@ namespace AngleSharp.Html
                     case Tags.TABLE:
                     {
                         InTableEndTagTable();
+                        break;
+                    }
+                    case Tags.TEMPLATE:
+                    {
+                        InHead(token);
                         break;
                     }
                     case Tags.BODY:
@@ -2226,8 +2236,8 @@ namespace AngleSharp.Html
                         break;
                     }
                     case Tags.INPUT:
-                    case HTMLKeygenElement.Tag:
-                    case HTMLTextAreaElement.Tag:
+                    case Tags.KEYGEN:
+                    case Tags.TEXTAREA:
                     {
                         RaiseErrorOccurred(ErrorCode.IllegalElementInSelectDetected);
 
@@ -2239,7 +2249,8 @@ namespace AngleSharp.Html
 
                         break;
                     }
-                    case HTMLScriptElement.Tag:
+                    case Tags.TEMPLATE:
+                    case Tags.SCRIPT:
                     {
                         InHead(token);
                         break;
@@ -2257,22 +2268,35 @@ namespace AngleSharp.Html
 
                 switch (tag.Name)
                 {
+                    case Tags.TEMPLATE:
+                    {
+                        InHead(token);
+                        break;
+                    }
                     case Tags.OPTGROUP:
+                    {
                         InSelectEndTagOptgroup();
                         break;
+                    }
                     case Tags.OPTION:
+                    {
                         InSelectEndTagOption();
                         break;
+                    }
                     case Tags.SELECT:
+                    {
                         if (IsInSelectScope(Tags.SELECT))
                             InSelectEndTagSelect();
                         else
                             RaiseErrorOccurred(ErrorCode.SelectNotInScope);
 
                         break;
+                    }
                     default:
+                    {
                         RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                         break;
+                    }
                 }
             }
             else if (token.Type == HtmlTokenType.EOF)
@@ -2322,7 +2346,60 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
-        /// See 8.2.5.4.18 The "after body" insertion mode.
+        /// See 8.2.5.4.18 The "in template" insertion mode.
+        /// </summary>
+        /// <param name="token">The passed token.</param>
+        void InTemplate(HtmlToken token)
+        {
+            switch (token.Type)
+            {
+                case HtmlTokenType.Character:
+                case HtmlTokenType.Comment:
+                case HtmlTokenType.DOCTYPE:
+                {
+                    InBody(token);
+                    break;
+                }
+                case HtmlTokenType.StartTag:
+                {
+                    var tag = (HtmlTagToken)token;
+
+                    switch (tag.Name)
+                    {
+                        case Tags.BASE:
+                        case Tags.BASEFONT:
+                        case Tags.LINK:
+                        case Tags.META:
+                        case Tags.BGSOUND:
+                        case Tags.NOFRAMES:
+                        case Tags.SCRIPT:
+                        case Tags.STYLE:
+                        case Tags.TEMPLATE:
+                        case Tags.TITLE:
+                            InHead(token);
+                            break;
+                    }
+
+                    break;
+                }
+                case HtmlTokenType.EndTag:
+                {
+                    break;
+                }
+                case HtmlTokenType.EOF:
+                    //If there is no template element on the stack of open elements, then stop parsing. (fragment case)
+                    //Otherwise, this is a parse error.
+                    //Pop elements from the stack of open elements until a template element has been popped from the stack.
+                    //Clear the list of active formatting elements up to the last marker.
+                    //Pop the current template insertion mode off the stack of template insertion modes.
+                    //Reset the insertion mode appropriately.
+                    //Reprocess the token.
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// See 8.2.5.4.19 The "after body" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
         void AfterBody(HtmlToken token)
@@ -2370,7 +2447,7 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
-        /// See 8.2.5.4.19 The "in frameset" insertion mode.
+        /// See 8.2.5.4.20 The "in frameset" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
         void InFrameset(HtmlToken token)
@@ -2416,7 +2493,7 @@ namespace AngleSharp.Html
                     CloseCurrentNode();
                     return;
                 }
-                else if (tag.Name == HTMLNoElement.NoFramesTag)
+                else if (tag.Name == Tags.NOFRAMES)
                 {
                     InHead(token);
                     return;
@@ -2449,7 +2526,7 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
-        /// See 8.2.5.4.20 The "after frameset" insertion mode.
+        /// See 8.2.5.4.21 The "after frameset" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
         void AfterFrameset(HtmlToken token)
@@ -2482,7 +2559,7 @@ namespace AngleSharp.Html
                     InBody(token);
                     return;
                 }
-                else if (tag.Name == HTMLNoElement.NoFramesTag)
+                else if (tag.Name == Tags.NOFRAMES)
                 {
                     InHead(token);
                     return;
@@ -2503,7 +2580,7 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
-        /// See 8.2.5.4.21 The "after after body" insertion mode.
+        /// See 8.2.5.4.22 The "after after body" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
         void AfterAfterBody(HtmlToken token)
@@ -2540,7 +2617,7 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
-        /// See 8.2.5.4.22 The "after after frameset" insertion mode.
+        /// See 8.2.5.4.23 The "after after frameset" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
         void AfterAfterFrameset(HtmlToken token)
@@ -2565,7 +2642,7 @@ namespace AngleSharp.Html
                 InBody(token);
                 return;
             }
-            else if (token.IsStartTag(HTMLNoElement.NoFramesTag))
+            else if (token.IsStartTag(Tags.NOFRAMES))
             {
                 InHead(token);
                 return;
@@ -3240,7 +3317,7 @@ namespace AngleSharp.Html
                     case Tags.LISTING:
                     case Tags.MAIN:
                     case HTMLMenuElement.Tag:
-                    case HTMLMetaElement.Tag:
+                    case Tags.META:
                     case HTMLFormattingElement.NobrTag:
                     case HTMLOListElement.Tag:
                     case HTMLParagraphElement.Tag:
@@ -3283,7 +3360,7 @@ namespace AngleSharp.Html
             {
                 var tag = (HtmlTagToken)token;
 
-                if (CurrentNode != null && CurrentNode is HTMLScriptElement && tag.Name == HTMLScriptElement.Tag)
+                if (CurrentNode != null && CurrentNode is HTMLScriptElement && tag.Name == Tags.SCRIPT)
                 {
                     CloseCurrentNode();
                     var oldInsert = tokenizer.Stream.InsertionPoint;
@@ -3368,8 +3445,8 @@ namespace AngleSharp.Html
                 open.Add(node);
                 tokenizer.AcceptsCharacterData = true;
             }
-            else if (tag.Name == HTMLScriptElement.Tag)
-                Foreign(HtmlToken.CloseTag(HTMLScriptElement.Tag));
+            else if (tag.Name == Tags.SCRIPT)
+                Foreign(HtmlToken.CloseTag(Tags.SCRIPT));
         }
 
         /// <summary>

@@ -23,6 +23,51 @@ namespace AngleSharp
         public const String HEAD = "head";
 
         /// <summary>
+        /// The meta tag.
+        /// </summary>
+        public const String META = "meta";
+
+        /// <summary>
+        /// The title tag.
+        /// </summary>
+        public const String TITLE = "title";
+
+        /// <summary>
+        /// The bgsound tag.
+        /// </summary>
+        public const String BGSOUND = "bgsound";
+
+        /// <summary>
+        /// The script tag.
+        /// </summary>
+        public const String SCRIPT = "script";
+
+        /// <summary>
+        /// The style tag.
+        /// </summary>
+        public const String STYLE = "style";
+
+        /// <summary>
+        /// The noembed tag.
+        /// </summary>
+        public const string NOEMBED = "noembed";
+
+        /// <summary>
+        /// The noscript tag.
+        /// </summary>
+        public const string NOSCRIPT = "noscript";
+
+        /// <summary>
+        /// The noframes tag.
+        /// </summary>
+        public const string NOFRAMES = "noframes";
+
+        /// <summary>
+        /// The menuitem tag.
+        /// </summary>
+        public const String MENUITEM = "menuitem";
+
+        /// <summary>
         /// The var tag.
         /// </summary>
         public const String VAR = "var";
@@ -116,6 +161,16 @@ namespace AngleSharp
         /// The input tag.
         /// </summary>
         public const String INPUT = "input";
+
+        /// <summary>
+        /// The keygen tag.
+        /// </summary>
+        public const String KEYGEN = "keygen";
+
+        /// <summary>
+        /// The textarea tag.
+        /// </summary>
+        public const String TEXTAREA = "textarea";
 
         /// <summary>
         /// The form tag.

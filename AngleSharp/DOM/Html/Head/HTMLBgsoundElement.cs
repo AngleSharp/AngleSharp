@@ -7,14 +7,9 @@ namespace AngleSharp.DOM.Html
     /// </summary>
     sealed class HTMLBgsoundElement : HTMLElement
     {
-        /// <summary>
-        /// The bgsound tag.
-        /// </summary>
-        internal const String Tag = "bgsound";
-
         internal HTMLBgsoundElement()
         {
-            _name = Tag;
+            _name = Tags.BGSOUND;
         }
 
         /// <summary>

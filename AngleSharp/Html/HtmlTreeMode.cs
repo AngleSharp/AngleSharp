@@ -72,6 +72,10 @@ namespace AngleSharp.Html
         /// </summary>
         InSelectInTable,
         /// <summary>
+        /// Within the template tag.
+        /// </summary>
+        InTemplate,
+        /// <summary>
         /// After the body tag.
         /// </summary>
         AfterBody,

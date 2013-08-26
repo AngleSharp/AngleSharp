@@ -118,7 +118,7 @@ namespace AngleSharp.DOM.Html
                 case HTMLMenuElement.Tag:
                     return new HTMLMenuElement();
 
-                case HTMLMetaElement.Tag:
+                case Tags.META:
                     return new HTMLMetaElement();
 
                 case HTMLOListElement.Tag:
@@ -151,7 +151,7 @@ namespace AngleSharp.DOM.Html
                 case Tags.PRE:
                     return new HTMLPreElement();
 
-                case HTMLTextAreaElement.Tag:
+                case Tags.TEXTAREA:
                     return new HTMLTextAreaElement();
 
                 case HTMLQuoteElement.BlockTag:
@@ -206,16 +206,16 @@ namespace AngleSharp.DOM.Html
                 case Tags.OPTION:
                     return new HTMLOptionElement();
 
-                case HTMLStyleElement.Tag:
+                case Tags.STYLE:
                     return new HTMLStyleElement();
 
-                case HTMLScriptElement.Tag:
+                case Tags.SCRIPT:
                     return new HTMLScriptElement();
 
                 case HTMLIFrameElement.Tag:
                     return new HTMLIFrameElement();
 
-                case HTMLTitleElement.Tag:
+                case Tags.TITLE:
                     return new HTMLTitleElement();
 
                 case Tags.LI:
@@ -296,18 +296,18 @@ namespace AngleSharp.DOM.Html
                 case Tags.PLAINTEXT:
                     return new HTMLSemanticElement { _name = tag };
 
-                case HTMLBgsoundElement.Tag:
+                case Tags.BGSOUND:
                     return new HTMLBgsoundElement();
 
                 case HTMLMarqueeElement.Tag:
                     return new HTMLMarqueeElement();
 
-                case HTMLNoElement.NoEmbedTag:
-                case HTMLNoElement.NoFramesTag:
-                case HTMLNoElement.NoScriptTag:
+                case Tags.NOEMBED:
+                case Tags.NOFRAMES:
+                case Tags.NOSCRIPT:
                     return new HTMLNoElement { _name = tag };
 
-                case HTMLMenuItemElement.Tag:
+                case Tags.MENUITEM:
                     return new HTMLMenuItemElement();
 
                 default:
