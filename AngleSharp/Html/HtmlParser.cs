@@ -776,19 +776,7 @@ namespace AngleSharp.Html
                 if (node.NodeName != Tags.TEMPLATE)
                     RaiseErrorOccurred(ErrorCode.TagClosingMismatch);
 
-                while (open.Count > 0)
-                {
-                    CloseCurrentNode();
-
-                    if (node.NodeName == Tags.TEMPLATE)
-                        break;
-
-                    node = CurrentNode;
-                }
-
-                ClearFormattingElements();
-                templateMode.Pop();
-                Reset();
+                CloseTemplate();
                 return;
             }
 
@@ -2420,34 +2408,24 @@ namespace AngleSharp.Html
                         case Tags.TBODY:
                         case Tags.TFOOT:
                         case Tags.THEAD:
-                            //Pop the current template insertion mode off the stack of template insertion modes.
-                            //Push "in table" onto the stack of template insertion modes so that it is the new current template insertion mode.
-                            //Switch the insertion mode to "in table", and reprocess the token.
+                            TemplateStep(token, HtmlTreeMode.InTable);
                             break;
 
                         case Tags.COL:
-                            //Pop the current template insertion mode off the stack of template insertion modes.
-                            //Push "in column group" onto the stack of template insertion modes so that it is the new current template insertion mode.
-                            //Switch the insertion mode to "in column group", and reprocess the token.
+                            TemplateStep(token, HtmlTreeMode.InColumnGroup);
                             break;
 
                         case Tags.TR:
-                            //Pop the current template insertion mode off the stack of template insertion modes.
-                            //Push "in table body" onto the stack of template insertion modes so that it is the new current template insertion mode.
-                            //Switch the insertion mode to "in table body", and reprocess the token.
+                            TemplateStep(token, HtmlTreeMode.InTableBody);
                             break;
 
                         case Tags.TD:
                         case Tags.TH:
-                            //Pop the current template insertion mode off the stack of template insertion modes.
-                            //Push "in row" onto the stack of template insertion modes so that it is the new current template insertion mode.
-                            //Switch the insertion mode to "in row", and reprocess the token.
+                            TemplateStep(token, HtmlTreeMode.InRow);
                             break;
 
                         default:
-                            //Pop the current template insertion mode off the stack of template insertion modes.
-                            //Push "in body" onto the stack of template insertion modes so that it is the new current template insertion mode.
-                            //Switch the insertion mode to "in body", and reprocess the token.
+                            TemplateStep(token, HtmlTreeMode.InBody);
                             break;
                     }
 
@@ -2465,15 +2443,25 @@ namespace AngleSharp.Html
                     break;
                 }
                 case HtmlTokenType.EOF:
-                    //If there is no template element on the stack of open elements, then stop parsing. (fragment case)
-                    //Otherwise, this is a parse error.
-                    //Pop elements from the stack of open elements until a template element has been popped from the stack.
-                    //Clear the list of active formatting elements up to the last marker.
-                    //Pop the current template insertion mode off the stack of template insertion modes.
-                    //Reset the insertion mode appropriately.
-                    //Reprocess the token.
+                    if (TagCurrentlyOpen(Tags.TEMPLATE))
+                    {
+                        RaiseErrorOccurred(ErrorCode.EOF);
+                        CloseTemplate();
+                        Home(token);
+                        return;
+                    }
+
+                    End();
                     break;
             }
+        }
+
+        void TemplateStep(HtmlToken token, HtmlTreeMode mode)
+        {
+            templateMode.Pop();
+            templateMode.Push(mode);
+            insert = mode;
+            Home(token);
         }
 
         /// <summary>
@@ -2737,6 +2725,25 @@ namespace AngleSharp.Html
         #endregion
 
         #region Substates
+
+        /// <summary>
+        /// Closes the template element.
+        /// </summary>
+        void CloseTemplate()
+        {
+            while (open.Count > 0)
+            {
+                var node = CurrentNode;
+                CloseCurrentNode();
+
+                if (node.NodeName == Tags.TEMPLATE)
+                    break;
+            }
+
+            ClearFormattingElements();
+            templateMode.Pop();
+            Reset();
+        }
 
         /// <summary>
         /// Closes the table if the section is in table scope.
