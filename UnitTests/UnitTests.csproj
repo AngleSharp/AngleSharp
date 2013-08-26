@@ -66,6 +66,8 @@
     <Compile Include="Html\ScriptData.cs" />
     <Compile Include="Html\HtmlTables.cs" />
     <Compile Include="Html\HtmlWithMathML.cs" />
+    <Compile Include="Html\HtmlWithSVG.cs" />
+    <Compile Include="Html\FosterParenting.cs" />
     <Compile Include="Xml\DTDTree.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
     <Compile Include="Mocks\MockReflectionResolver.cs" />
