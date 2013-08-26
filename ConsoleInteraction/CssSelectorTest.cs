@@ -15,17 +15,17 @@ namespace ConsoleInteraction
     /// </summary>
     class CssSelectorTest
     {
-        string _url;
+        String _url;
         HTMLDocument _doc;
-        List<string> _tests;
-        int n;
+        List<String> _tests;
+        Int32 n;
 
         /// <summary>
         /// Creates a new speed test.
         /// </summary>
         public CssSelectorTest()
         {
-            _tests = new List<string>();
+            _tests = new List<String>();
             n = 100;
         }
 
@@ -69,7 +69,7 @@ namespace ConsoleInteraction
         /// A valid HTML document.
         /// </param>
         /// <returns>The current instance.</returns>
-        public CssSelectorTest LoadFromSource(string source)
+        public CssSelectorTest LoadFromSource(String source)
         {
             _doc = DocumentBuilder.Html(source);
             return this;
@@ -80,7 +80,7 @@ namespace ConsoleInteraction
         /// </summary>
         /// <param name="test">The selector to test.</param>
         /// <returns>The test instance.</returns>
-        public CssSelectorTest AddTest(string test)
+        public CssSelectorTest AddTest(String test)
         {
             _tests.Add(test);
             return this;
@@ -91,7 +91,7 @@ namespace ConsoleInteraction
         /// </summary>
         /// <param name="tests">The selector(s) to test.</param>
         /// <returns>The test instance.</returns>
-        public CssSelectorTest AddTests(params string[] tests)
+        public CssSelectorTest AddTests(params String[] tests)
         {
             _tests.AddRange(tests);
             return this;
@@ -130,7 +130,7 @@ namespace ConsoleInteraction
         /// </summary>
         /// <param name="query">The query to run.</param>
         /// <returns>The current instance.</returns>
-        public CssSelectorTest Show(string query)
+        public CssSelectorTest Show(String query)
         {
             var sw = Stopwatch.StartNew();
             var results = _doc.QuerySelectorAll(query);
