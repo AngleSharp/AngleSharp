@@ -23,7 +23,6 @@ namespace AngleSharp.DTD
         #region Events
 
         public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
-        private string dtd;
 
         #endregion
 

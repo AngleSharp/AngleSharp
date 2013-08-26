@@ -1001,7 +1001,7 @@ namespace AngleSharp.Html
                     case Tags.ADDRESS:
                     case Tags.ARTICLE:
                     case Tags.ASIDE:
-                    case HTMLQuoteElement.BlockTag:
+                    case Tags.BLOCKQUOTE:
                     case Tags.CENTER:
                     case HTMLDetailsElement.Tag:
                     case HTMLDialogElement.Tag:
@@ -1029,12 +1029,12 @@ namespace AngleSharp.Html
                         AddElementToCurrentNode(element, token);
                         break;
                     }
-                    case HTMLHeadingElement.ChapterTag:
-                    case HTMLHeadingElement.SubSubSubSubSectionTag:
-                    case HTMLHeadingElement.SubSubSubSectionTag:
-                    case HTMLHeadingElement.SubSubSectionTag:
-                    case HTMLHeadingElement.SubSectionTag:
-                    case HTMLHeadingElement.SectionTag:
+                    case Tags.H1:
+                    case Tags.H2:
+                    case Tags.H3:
+                    case Tags.H4:
+                    case Tags.H5:
+                    case Tags.H6:
                     {
                         if (IsInButtonScope(HTMLParagraphElement.Tag))
                             InBodyEndTagParagraph();
@@ -1452,7 +1452,7 @@ namespace AngleSharp.Html
                     case Tags.ADDRESS:
                     case Tags.ARTICLE:
                     case Tags.ASIDE:
-                    case HTMLQuoteElement.BlockTag:
+                    case Tags.BLOCKQUOTE:
                     case Tags.BUTTON:
                     case Tags.CENTER:
                     case HTMLDetailsElement.Tag:
@@ -1543,12 +1543,12 @@ namespace AngleSharp.Html
 
                         break;
                     }
-                    case HTMLHeadingElement.ChapterTag:
-                    case HTMLHeadingElement.SubSubSubSubSectionTag:
-                    case HTMLHeadingElement.SubSubSubSectionTag:
-                    case HTMLHeadingElement.SubSubSectionTag:
-                    case HTMLHeadingElement.SubSectionTag:
-                    case HTMLHeadingElement.SectionTag:
+                    case Tags.H1:
+                    case Tags.H2:
+                    case Tags.H3:
+                    case Tags.H4:
+                    case Tags.H5:
+                    case Tags.H6:
                     {
                         if (IsHeadingInScope())
                         {
@@ -3370,7 +3370,7 @@ namespace AngleSharp.Html
                 {
                     case Tags.B:
                     case Tags.BIG:
-                    case HTMLQuoteElement.BlockTag:
+                    case Tags.BLOCKQUOTE:
                     case Tags.BODY:
                     case HTMLBRElement.Tag:
                     case Tags.CENTER:
@@ -3381,12 +3381,12 @@ namespace AngleSharp.Html
                     case Tags.DT:
                     case Tags.EM:
                     case HTMLEmbedElement.Tag:
-                    case HTMLHeadingElement.ChapterTag:
-                    case HTMLHeadingElement.SubSubSubSubSectionTag:
-                    case HTMLHeadingElement.SubSubSubSectionTag:
-                    case HTMLHeadingElement.SubSubSectionTag:
-                    case HTMLHeadingElement.SubSectionTag:
-                    case HTMLHeadingElement.SectionTag:
+                    case Tags.H1:
+                    case Tags.H2:
+                    case Tags.H3:
+                    case Tags.H4:
+                    case Tags.H5:
+                    case Tags.H6:
                     case Tags.HEAD:
                     case HTMLHRElement.Tag:
                     case Tags.I:

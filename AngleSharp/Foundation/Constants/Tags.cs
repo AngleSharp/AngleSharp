@@ -298,6 +298,51 @@ namespace AngleSharp
         public const String IFRAME = "iframe";
 
         /// <summary>
+        /// The h1 tag.
+        /// </summary>
+        public const String H1 = "h1";
+
+        /// <summary>
+        /// The h2 tag.
+        /// </summary>
+        public const String H2 = "h2";
+
+        /// <summary>
+        /// The h3 tag.
+        /// </summary>
+        public const String H3 = "h3";
+
+        /// <summary>
+        /// The h4 tag.
+        /// </summary>
+        public const String H4 = "h4";
+
+        /// <summary>
+        /// The h5 tag.
+        /// </summary>
+        public const String H5 = "h5";
+
+        /// <summary>
+        /// The h6 tag.
+        /// </summary>
+        public const String H6 = "h6";
+
+        /// <summary>
+        /// The quote tag.
+        /// </summary>
+        public const String QUOTE = "quote";
+
+        /// <summary>
+        /// The blockquote tag.
+        /// </summary>
+        public const String BLOCKQUOTE = "blockquote";
+
+        /// <summary>
+        /// The q tag.
+        /// </summary>
+        public const String Q = "q";
+
+        /// <summary>
         /// The base tag.
         /// </summary>
         public const String BASE = "base";

@@ -8,24 +8,9 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLQuoteElement")]
     public sealed class HTMLQuoteElement : HTMLElement
     {
-        /// <summary>
-        /// The quote tag.
-        /// </summary>
-        internal const String NormalTag = "quote";
-
-        /// <summary>
-        /// The blockquote tag.
-        /// </summary>
-        internal const String BlockTag = "blockquote";
-
-        /// <summary>
-        /// The q tag.
-        /// </summary>
-        internal const String ShortTag = "q";
-
         internal HTMLQuoteElement()
         {
-            _name = NormalTag;
+            _name = Tags.QUOTE;
         }
 
         /// <summary>
@@ -33,7 +18,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         protected internal override Boolean IsSpecial
         {
-            get { return _name.Equals(BlockTag); }
+            get { return _name.Equals(Tags.BLOCKQUOTE); }
         }
     }
 }

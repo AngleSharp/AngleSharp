@@ -154,9 +154,9 @@ namespace AngleSharp.DOM.Html
                 case Tags.TEXTAREA:
                     return new HTMLTextAreaElement();
 
-                case HTMLQuoteElement.BlockTag:
-                case HTMLQuoteElement.NormalTag:
-                case HTMLQuoteElement.ShortTag:
+                case Tags.BLOCKQUOTE:
+                case Tags.QUOTE:
+                case Tags.Q:
                     return new HTMLQuoteElement { _name = tag };
 
                 case HTMLCanvasElement.Tag:
@@ -229,12 +229,12 @@ namespace AngleSharp.DOM.Html
                 case HTMLFrameElement.Tag:
                     return new HTMLFrameElement();
 
-                case HTMLHeadingElement.ChapterTag:
-                case HTMLHeadingElement.SubSubSubSubSectionTag:
-                case HTMLHeadingElement.SubSubSubSectionTag:
-                case HTMLHeadingElement.SubSubSectionTag:
-                case HTMLHeadingElement.SubSectionTag:
-                case HTMLHeadingElement.SectionTag:
+                case Tags.H1:
+                case Tags.H2:
+                case Tags.H3:
+                case Tags.H4:
+                case Tags.H5:
+                case Tags.H6:
                     return new HTMLHeadingElement { _name = tag };
 
                 case HTMLAudioElement.Tag:

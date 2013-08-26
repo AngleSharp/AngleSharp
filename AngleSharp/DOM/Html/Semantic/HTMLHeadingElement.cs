@@ -7,39 +7,9 @@ namespace AngleSharp.DOM.Html
     /// </summary>
     public sealed class HTMLHeadingElement : HTMLElement
     {
-        /// <summary>
-        /// The h1 tag.
-        /// </summary>
-        internal const String ChapterTag = "h1";
-
-        /// <summary>
-        /// The h2 tag.
-        /// </summary>
-        internal const String SectionTag = "h2";
-
-        /// <summary>
-        /// The h3 tag.
-        /// </summary>
-        internal const String SubSectionTag = "h3";
-
-        /// <summary>
-        /// The h4 tag.
-        /// </summary>
-        internal const String SubSubSectionTag = "h4";
-
-        /// <summary>
-        /// The h5 tag.
-        /// </summary>
-        internal const String SubSubSubSectionTag = "h5";
-
-        /// <summary>
-        /// The h6 tag.
-        /// </summary>
-        internal const String SubSubSubSubSectionTag = "h6";
-
         internal HTMLHeadingElement()
         {
-            _name = ChapterTag;
+            _name = Tags.H1;
         }
 
         /// <summary>
