@@ -187,6 +187,18 @@ namespace AngleSharp.DOM.Html
         #region Helpers
 
         /// <summary>
+        /// Entry point for attributes to notify about a change (modified, added, removed).
+        /// </summary>
+        /// <param name="name">The name of the attribute that has been changed.</param>
+        internal override void OnAttributeChanged(String name)
+        {
+            if (name.Equals("value", StringComparison.Ordinal))
+                Value = _attributes["value"].Value;
+            else
+                base.OnAttributeChanged(name);
+        }
+
+        /// <summary>
         /// Resets the form control to its initial value.
         /// </summary>
         internal override void Reset()

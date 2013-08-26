@@ -40,6 +40,7 @@
     <Compile Include="Css\CssTokenizer.cs" />
     <Compile Include="DOM\Collections\CSSStyleDeclaration.cs" />
     <Compile Include="DOM\Collections\DOMStringMap.cs" />
+    <Compile Include="DOM\Collections\FileList.cs" />
     <Compile Include="DOM\Collections\HTMLFormControlsCollection.cs" />
     <Compile Include="DOM\Collections\HTMLLiveCollection.cs" />
     <Compile Include="DOM\Collections\HTMLStaticCollection.cs" />

@@ -75,7 +75,7 @@ namespace AngleSharp.DOM.Html
         public Boolean SupportsLabels
         {
             get;
-            private set;
+            protected set;
         }
 
         /// <summary>

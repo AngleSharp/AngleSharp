@@ -19,7 +19,7 @@ namespace AngleSharp.DOM.Html
 
         #region Members
 
-        Boolean selectedness;
+        Boolean? _selected;
 
         #endregion
 
@@ -124,8 +124,8 @@ namespace AngleSharp.DOM.Html
         [DOM("selected")]
         public Boolean Selected
         {
-            get { return selectedness; }
-            set { selectedness = value; }
+            get { return _selected.HasValue ? _selected.Value : DefaultSelected; }
+            set { _selected = value; }
         }
 
         #endregion
