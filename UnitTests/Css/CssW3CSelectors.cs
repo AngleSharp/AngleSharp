@@ -6,14 +6,13 @@ namespace UnitTests
 {
     [TestClass]
     public class CssW3CSelectors
-    {        
-        //TODO 1.) Add correct numbers of matches for each selector
-        //TODO 2.) Decorate each method as [TestMethod]
-
+    {
+        #region Already included tests
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-1.xml
         /// </summary>
+        [TestMethod]
         public void GroupsOfSelectors()
         {
 	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
@@ -24,24 +23,26 @@ namespace UnitTests
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("li,p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(3, selector1.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-2.xml
         /// </summary>
+        [TestMethod]
         public void TypeElementSelectors()
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml"">This address element should have a green background.</address>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-3.xml
         /// </summary>
+        [TestMethod]
         public void UniversalSelector()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
@@ -56,16 +57,17 @@ namespace UnitTests
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("*");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(8, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("ul,p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(2, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("*.t1");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-3a.xml
         /// </summary>
+        [TestMethod]
         public void UniversalSelectorNoNamespaces()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
@@ -78,30 +80,32 @@ namespace UnitTests
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("*");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(7, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("ul,p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(2, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("*.t1");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-4.xml
         /// </summary>
+        [TestMethod]
         public void OmittedUniversalSelector()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" id=""foo"">This paragraph should have a green background</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("#foo");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-5.xml
         /// </summary>
+        [TestMethod]
         public void AttributeExistenceSelector()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""title"">This paragraph should have a green background because its TITLE
@@ -109,14 +113,15 @@ namespace UnitTests
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p[title]");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-6.xml
         /// </summary>
+        [TestMethod]
         public void AttributeValueSelector()
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml"" title=""foo"">
@@ -127,9 +132,9 @@ namespace UnitTests
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("address[title=foo]");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("span[title=a]");
 	        Assert.AreEqual(0, selector3.Length);
         }
@@ -137,6 +142,7 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-7.xml
         /// </summary>
+        [TestMethod]
         public void AttributeMultivalueSelectorA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""a b c"">This paragraph should have green background because CLASS
@@ -149,13 +155,13 @@ namespace UnitTests
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p[class~=b]");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("address[title~=foo]");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(1, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("span[class~=b]");
 	        Assert.AreEqual(0, selector5.Length);
         }
@@ -163,20 +169,22 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-7b.xml
         /// </summary>
+        [TestMethod]
         public void AttributeMultivalueSelectorB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""hello world"">This line should have a green background.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("*");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(4, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-8.xml
         /// </summary>
+        [TestMethod]
         public void AttributeValueSelectorsHyphenSeparatedAttributes()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" lang=""en-gb"">This paragraph should have green background because its language is en-gb</p>
@@ -188,16 +196,21 @@ namespace UnitTests
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p[lang|=en]");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("address[lang=fi]");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(1, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("span[lang|=fr]");
-	        Assert.AreEqual(0, selector5.Length);
+	        Assert.AreEqual(1, selector5.Length);
         }
+
+        #endregion
+
+        //TODO 1.) Add correct numbers of matches for each selector
+        //TODO 2.) Decorate each method as [TestMethod]
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-9.xml
@@ -1911,41 +1924,43 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-46.xml
         /// </summary>
+        [TestMethod]
         public void IndirectAdjacentCombinatorA()
         {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
+            var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
   <p>This paragraph should be unstyled.</p>
   <p class=""red"">But this one should have a green background</p>
   <p class=""red"">And this one should also have a green background</p>
   <address>This address is only here to fill some space between two paragraphs</address>
  <p class=""red"">This paragraph should have a green background</p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("div.stub p~p");
-	        Assert.AreEqual(0, selector2.Length);
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll(".red");
+            Assert.AreEqual(3, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("div.stub p~p");
+            Assert.AreEqual(3, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-46b.xml
         /// </summary>
+        [TestMethod]
         public void IndirectAdjacentCombinatorB()
         {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
+            var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
   <p>This paragraph should be unstyled.</p>
   <p class=""green"">But this one should have a green background</p>
   <p class=""green"">And this one should also have a green background</p>
   <address>This address is only here to fill some space between two paragraphs</address>
   <p class=""green"">This paragraph should have a green background</p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("div.stub p~p");
-	        Assert.AreEqual(0, selector2.Length);
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll(".green");
+            Assert.AreEqual(3, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("div.stub p~p");
+            Assert.AreEqual(3, selector2.Length);
         }
 
         /// <summary>
@@ -3333,7 +3348,8 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-87.xml
         /// </summary>
-        public void NondeterministicMatchingOfDirectAndIndirectAdjacentCombinatorsA()
+        [TestMethod]
+        public void NondeterministicMatchingOfDirectAndIndirectAdjacentCombinators()
         {
 	        var source = @"<blockquote xmlns=""http://www.w3.org/1999/xhtml""><div>This text should be unstyled.</div></blockquote>
 <div xmlns=""http://www.w3.org/1999/xhtml"">This text should be unstyled.</div>
@@ -3342,51 +3358,15 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("blockquote+div~p");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-87b.xml
-        /// </summary>
-        public void NondeterministicMatchingOfDirectAndIndirectAdjacentCombinatorsB()
-        {
-	        var source = @"<blockquote xmlns=""http://www.w3.org/1999/xhtml""><div>This text should be unstyled.</div></blockquote>
-<div xmlns=""http://www.w3.org/1999/xhtml"">This text should be unstyled.</div>
-<div xmlns=""http://www.w3.org/1999/xhtml"">This text should be unstyled.</div>
-<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("blockquote+div~p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-88.xml
         /// </summary>
-        public void NondeterministicMatchingOfDescendantAndDirectAdjacentCombinatorsA()
-        {
-	        var source = @"<blockquote xmlns=""http://www.w3.org/1999/xhtml""><div>This text should be unstyled.</div></blockquote>
-<div xmlns=""http://www.w3.org/1999/xhtml"">
-<div>
-<p>This text should be green.</p>
-</div>
-</div>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("blockquote+div p");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-88b.xml
-        /// </summary>
-        public void NondeterministicMatchingOfDescendantAndDirectAdjacentCombinatorsB()
+        public void NondeterministicMatchingOfDescendantAndDirectAdjacentCombinators()
         {
 	        var source = @"<blockquote xmlns=""http://www.w3.org/1999/xhtml""><div>This text should be unstyled.</div></blockquote>
 <div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -3425,7 +3405,8 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-90.xml
         /// </summary>
-        public void SimpleCombinationOfDirectAndIndirectAdjacentCombinatorsA()
+        [TestMethod]
+        public void SimpleCombinationOfDirectAndIndirectAdjacentCombinators()
         {
 	        var source = @"<blockquote xmlns=""http://www.w3.org/1999/xhtml""><div>This text should be unstyled.</div></blockquote>
 <div xmlns=""http://www.w3.org/1999/xhtml"">This text should be unstyled.</div>
@@ -3434,26 +3415,9 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("blockquote~div+p");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-90b.xml
-        /// </summary>
-        public void SimpleCombinationOfDirectAndIndirectAdjacentCombinatorsB()
-        {
-	        var source = @"<blockquote xmlns=""http://www.w3.org/1999/xhtml""><div>This text should be unstyled.</div></blockquote>
-<div xmlns=""http://www.w3.org/1999/xhtml"">This text should be unstyled.</div>
-<div xmlns=""http://www.w3.org/1999/xhtml"">This text should be unstyled.</div>
-<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("blockquote~div+p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
