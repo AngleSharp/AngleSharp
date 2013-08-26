@@ -196,5 +196,90 @@ namespace AngleSharp
         /// The button tag.
         /// </summary>
         public const String BUTTON = "button";
+
+        /// <summary>
+        /// The cite tag.
+        /// </summary>
+        public const String CITE = "cite";
+
+        /// <summary>
+        /// The main tag.
+        /// </summary>
+        public const String MAIN = "main";
+
+        /// <summary>
+        /// The summary tag.
+        /// </summary>
+        public const String SUMMARY = "summary";
+
+        /// <summary>
+        /// The xmp tag.
+        /// </summary>
+        public const String XMP = "xmp";
+
+        /// <summary>
+        /// The center tag.
+        /// </summary>
+        public const String CENTER = "center";
+
+        /// <summary>
+        /// The listing tag.
+        /// </summary>
+        public const String LISTING = "listing";
+
+        /// <summary>
+        /// The nav tag.
+        /// </summary>
+        public const String NAV = "nav";
+
+        /// <summary>
+        /// The address tag.
+        /// </summary>
+        public const String ADDRESS = "address";
+
+        /// <summary>
+        /// The article tag.
+        /// </summary>
+        public const String ARTICLE = "article";
+
+        /// <summary>
+        /// The aside tag.
+        /// </summary>
+        public const String ASIDE = "aside";
+
+        /// <summary>
+        /// The figcaption tag.
+        /// </summary>
+        public const String FIGCAPTION = "figcaption";
+
+        /// <summary>
+        /// The figure tag.
+        /// </summary>
+        public const String FIGURE = "figure";
+
+        /// <summary>
+        /// The section tag.
+        /// </summary>
+        public const String SECTION = "section";
+
+        /// <summary>
+        /// The footer tag.
+        /// </summary>
+        public const String FOOTER = "footer";
+
+        /// <summary>
+        /// The header tag.
+        /// </summary>
+        public const String HEADER = "header";
+
+        /// <summary>
+        /// The hgroup tag.
+        /// </summary>
+        public const String HGROUP = "hgroup";
+
+        /// <summary>
+        /// The plaintext tag.
+        /// </summary>
+        public const String PLAINTEXT = "plaintext";
     }
 }

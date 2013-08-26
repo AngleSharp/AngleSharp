@@ -275,25 +275,25 @@ namespace AngleSharp.DOM.Html
                 case HTMLFormattingElement.NobrTag:
                     return new HTMLFormattingElement { _name = tag };
 
-                case HTMLSemanticElement.CiteTag:
+                case Tags.CITE:
                     return new HTMLSemanticElement(false) { _name = tag };
 
-                case HTMLSemanticElement.MainTag:
-                case HTMLSemanticElement.SummaryTag:
-                case HTMLSemanticElement.XmpTag:
-                case HTMLSemanticElement.CenterTag:
-                case HTMLSemanticElement.ListingTag:
-                case HTMLSemanticElement.NavTag:
-                case HTMLSemanticElement.AddressTag:
-                case HTMLSemanticElement.ArticleTag:
-                case HTMLSemanticElement.AsideTag:
-                case HTMLSemanticElement.FigcaptionTag:
-                case HTMLSemanticElement.FigureTag:
-                case HTMLSemanticElement.SectionTag:
-                case HTMLSemanticElement.FooterTag:
-                case HTMLSemanticElement.HeaderTag:
-                case HTMLSemanticElement.HgroupTag:
-                case HTMLSemanticElement.PlaintextTag:
+                case Tags.MAIN:
+                case Tags.SUMMARY:
+                case Tags.XMP:
+                case Tags.CENTER:
+                case Tags.LISTING:
+                case Tags.NAV:
+                case Tags.ADDRESS:
+                case Tags.ARTICLE:
+                case Tags.ASIDE:
+                case Tags.FIGCAPTION:
+                case Tags.FIGURE:
+                case Tags.SECTION:
+                case Tags.FOOTER:
+                case Tags.HEADER:
+                case Tags.HGROUP:
+                case Tags.PLAINTEXT:
                     return new HTMLSemanticElement { _name = tag };
 
                 case HTMLBgsoundElement.Tag:

@@ -241,7 +241,7 @@ namespace AngleSharp.Html
                     break;
                 }
                 case HTMLStyleElement.Tag:
-                case HTMLSemanticElement.XmpTag:
+                case Tags.XMP:
                 case HTMLIFrameElement.Tag:
                 case HTMLNoElement.NoEmbedTag:
                 case HTMLNoElement.NoFramesTag:
@@ -261,7 +261,7 @@ namespace AngleSharp.Html
 
                     break;
                 }
-                case HTMLSemanticElement.PlaintextTag:
+                case Tags.PLAINTEXT:
                 {
                     tokenizer.Switch(HtmlParseMode.Plaintext);
                     break;
@@ -728,6 +728,29 @@ namespace AngleSharp.Html
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                 return;
             }
+            else if (token.IsStartTag(Tags.TEMPLATE))
+            {
+                //TODO
+                //Insert an HTML element for the token.
+                //Insert a marker at the end of the list of active formatting elements.
+                //Set the frameset-ok flag to "not ok".
+                //Switch the insertion mode to "in template".
+                //Push "in template" onto the stack of template insertion modes so that it is the new current template insertion mode.
+                return;
+            }
+            else if (token.IsEndTag(Tags.TEMPLATE))
+            {
+                //TODO
+                //If there is no template element on the stack of open elements, then this is a parse error; ignore the token.
+                //Otherwise, run these steps:
+                //1. Generate implied end tags.
+                //2. If the current node is not a template element, then this is a parse error.
+                //3. Pop elements from the stack of open elements until a template element has been popped from the stack.
+                //4. Clear the list of active formatting elements up to the last marker.
+                //5. Pop the current template insertion mode off the stack of template insertion modes.
+                //6. Reset the insertion mode appropriately.
+                return;
+            }
 
             CloseCurrentNode();
             insert = HtmlTreeMode.AfterHead;
@@ -900,6 +923,7 @@ namespace AngleSharp.Html
                     case HTMLScriptElement.Tag:
                     case HTMLStyleElement.Tag:
                     case HTMLTitleElement.Tag:
+                    case Tags.TEMPLATE:
                     {
                         InHead(token);
                         break;
@@ -934,28 +958,28 @@ namespace AngleSharp.Html
 
                         break;
                     }
-                    case HTMLSemanticElement.AddressTag:
-                    case HTMLSemanticElement.ArticleTag:
-                    case HTMLSemanticElement.AsideTag:
+                    case Tags.ADDRESS:
+                    case Tags.ARTICLE:
+                    case Tags.ASIDE:
                     case HTMLQuoteElement.BlockTag:
-                    case HTMLSemanticElement.CenterTag:
+                    case Tags.CENTER:
                     case HTMLDetailsElement.Tag:
                     case HTMLDialogElement.Tag:
                     case HTMLDirectoryElement.Tag:
                     case HTMLDivElement.Tag:
                     case HTMLDListElement.Tag:
                     case HTMLFieldSetElement.Tag:
-                    case HTMLSemanticElement.FigcaptionTag:
-                    case HTMLSemanticElement.FigureTag:
-                    case HTMLSemanticElement.FooterTag:
-                    case HTMLSemanticElement.HeaderTag:
-                    case HTMLSemanticElement.HgroupTag:
+                    case Tags.FIGCAPTION:
+                    case Tags.FIGURE:
+                    case Tags.FOOTER:
+                    case Tags.HEADER:
+                    case Tags.HGROUP:
                     case HTMLMenuElement.Tag:
-                    case HTMLSemanticElement.NavTag:
+                    case Tags.NAV:
                     case HTMLOListElement.Tag:
                     case HTMLParagraphElement.Tag:
-                    case HTMLSemanticElement.SectionTag:
-                    case HTMLSemanticElement.SummaryTag:
+                    case Tags.SECTION:
+                    case Tags.SUMMARY:
                     case HTMLUListElement.Tag:
                     {
                         if (IsInButtonScope(HTMLParagraphElement.Tag))
@@ -986,7 +1010,7 @@ namespace AngleSharp.Html
                         break;
                     }
                     case Tags.PRE:
-                    case HTMLSemanticElement.ListingTag:
+                    case Tags.LISTING:
                     {
                         if (IsInButtonScope(HTMLParagraphElement.Tag))
                             InBodyEndTagParagraph();
@@ -1024,7 +1048,7 @@ namespace AngleSharp.Html
                         InBodyStartTagDefinitionItem(tag);
                         break;
                     }
-                    case HTMLSemanticElement.PlaintextTag:
+                    case Tags.PLAINTEXT:
                     {
                         if (IsInButtonScope(HTMLParagraphElement.Tag))
                             InBodyEndTagParagraph();
@@ -1226,7 +1250,7 @@ namespace AngleSharp.Html
                         PreventNewLine();
                         break;
                     }
-                    case HTMLSemanticElement.XmpTag:
+                    case Tags.XMP:
                     {
                         if (IsInButtonScope(HTMLParagraphElement.Tag))
                             InBodyEndTagParagraph();
@@ -1385,34 +1409,39 @@ namespace AngleSharp.Html
 
                         break;
                     }
-                    case HTMLSemanticElement.AddressTag:
-                    case HTMLSemanticElement.ArticleTag:
-                    case HTMLSemanticElement.AsideTag:
+                    case Tags.ADDRESS:
+                    case Tags.ARTICLE:
+                    case Tags.ASIDE:
                     case HTMLQuoteElement.BlockTag:
                     case Tags.BUTTON:
-                    case HTMLSemanticElement.CenterTag:
+                    case Tags.CENTER:
                     case HTMLDetailsElement.Tag:
                     case HTMLDialogElement.Tag:
                     case HTMLDirectoryElement.Tag:
                     case HTMLDivElement.Tag:
                     case HTMLDListElement.Tag:
                     case HTMLFieldSetElement.Tag:
-                    case HTMLSemanticElement.FigcaptionTag:
-                    case HTMLSemanticElement.FigureTag:
-                    case HTMLSemanticElement.FooterTag:
-                    case HTMLSemanticElement.HeaderTag:
-                    case HTMLSemanticElement.HgroupTag:
-                    case HTMLSemanticElement.ListingTag:
-                    case HTMLSemanticElement.MainTag:
+                    case Tags.FIGCAPTION:
+                    case Tags.FIGURE:
+                    case Tags.FOOTER:
+                    case Tags.HEADER:
+                    case Tags.HGROUP:
+                    case Tags.LISTING:
+                    case Tags.MAIN:
                     case HTMLMenuElement.Tag:
-                    case HTMLSemanticElement.NavTag:
+                    case Tags.NAV:
                     case HTMLOListElement.Tag:
                     case Tags.PRE:
-                    case HTMLSemanticElement.SectionTag:
-                    case HTMLSemanticElement.SummaryTag:
+                    case Tags.SECTION:
+                    case Tags.SUMMARY:
                     case HTMLUListElement.Tag:
                     {
                         InBodyEndTagBlock(tag.Name);
+                        break;
+                    }
+                    case Tags.TEMPLATE:
+                    {
+                        InHead(tag);
                         break;
                     }
                     case Tags.FORM:
@@ -2673,7 +2702,7 @@ namespace AngleSharp.Html
                     break;
                 }
 
-                if (node.IsSpecial && node.NodeName != HTMLSemanticElement.AddressTag && !(node is HTMLDivElement) && !(node is HTMLParagraphElement))
+                if (node.IsSpecial && node.NodeName != Tags.ADDRESS && !(node is HTMLDivElement) && !(node is HTMLParagraphElement))
                     break;
                 
                 node = open[--index];
@@ -2704,7 +2733,7 @@ namespace AngleSharp.Html
                     break;
                 }
 
-                if (node.IsSpecial && node.NodeName != HTMLSemanticElement.AddressTag && !(node is HTMLDivElement) && !(node is HTMLParagraphElement))
+                if (node.IsSpecial && node.NodeName != Tags.ADDRESS && !(node is HTMLDivElement) && !(node is HTMLParagraphElement))
                     break;
 
                 node = open[--index];
@@ -3189,7 +3218,7 @@ namespace AngleSharp.Html
                     case HTMLQuoteElement.BlockTag:
                     case Tags.BODY:
                     case HTMLBRElement.Tag:
-                    case HTMLSemanticElement.CenterTag:
+                    case Tags.CENTER:
                     case HTMLFormattingElement.CodeTag:
                     case Tags.DD:
                     case HTMLDivElement.Tag:
@@ -3208,8 +3237,8 @@ namespace AngleSharp.Html
                     case HTMLFormattingElement.ITag:
                     case HTMLImageElement.Tag:
                     case Tags.LI:
-                    case HTMLSemanticElement.ListingTag:
-                    case HTMLSemanticElement.MainTag:
+                    case Tags.LISTING:
+                    case Tags.MAIN:
                     case HTMLMenuElement.Tag:
                     case HTMLMetaElement.Tag:
                     case HTMLFormattingElement.NobrTag:
