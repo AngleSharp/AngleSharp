@@ -293,6 +293,11 @@ namespace AngleSharp
         public const String LINK = "link";
 
         /// <summary>
+        /// The iframe tag.
+        /// </summary>
+        public const String IFRAME = "iframe";
+
+        /// <summary>
         /// The base tag.
         /// </summary>
         public const String BASE = "base";

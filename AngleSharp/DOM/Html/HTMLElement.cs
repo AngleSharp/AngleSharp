@@ -212,7 +212,7 @@ namespace AngleSharp.DOM.Html
                 case Tags.SCRIPT:
                     return new HTMLScriptElement();
 
-                case HTMLIFrameElement.Tag:
+                case Tags.IFRAME:
                     return new HTMLIFrameElement();
 
                 case Tags.TITLE:

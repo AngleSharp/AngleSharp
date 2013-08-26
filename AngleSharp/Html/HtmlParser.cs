@@ -38,6 +38,7 @@ namespace AngleSharp.Html
         Boolean started;
         TaskCompletionSource<Boolean> tcs;
         HTMLScriptElement pendingParsingBlock;
+        Stack<HtmlTreeMode> templateMode;
 
         #endregion
 
@@ -113,6 +114,7 @@ namespace AngleSharp.Html
             started = false;
             doc = document;
             open = new List<Element>();
+            templateMode = new Stack<HtmlTreeMode>();
             formatting = new List<Element>();
             frameset = true;
             insert = HtmlTreeMode.Initial;
@@ -242,7 +244,7 @@ namespace AngleSharp.Html
                 }
                 case Tags.STYLE:
                 case Tags.XMP:
-                case HTMLIFrameElement.Tag:
+                case Tags.IFRAME:
                 case Tags.NOEMBED:
                 case Tags.NOFRAMES:
                 {
@@ -271,6 +273,10 @@ namespace AngleSharp.Html
             var root = new HTMLHtmlElement();
             doc.AppendChild(root);
             open.Add(root);
+
+            if (context is HTMLTemplateElement)
+                templateMode.Push(HtmlTreeMode.InTemplate);
+
             Reset(context);
 
             fragmentContext = context;
@@ -314,39 +320,54 @@ namespace AngleSharp.Html
                     case Tags.SELECT:
                         insert = HtmlTreeMode.InSelect;
                         break;
+
                     case Tags.TH:
                     case Tags.TD:
                         insert = last ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
                         break;
+
                     case Tags.TR:
                         insert = HtmlTreeMode.InRow;
                         break;
+
                     case Tags.THEAD:
                     case Tags.TFOOT:
                     case Tags.TBODY:
                         insert = HtmlTreeMode.InTableBody;
                         break;
+
                     case Tags.CAPTION:
                         insert = HtmlTreeMode.InCaption;
                         break;
+
                     case Tags.COLGROUP:
                         insert = HtmlTreeMode.InColumnGroup;
                         break;
+
                     case Tags.TABLE:
                         insert = HtmlTreeMode.InTable;
                         break;
+
+                    case Tags.TEMPLATE:
+                        insert = templateMode.Peek();
+                        break;
+
                     case Tags.HEAD:
                         insert = HtmlTreeMode.InBody;
                         break;
+
                     case Tags.BODY:
                         insert = HtmlTreeMode.InBody;
                         break;
+
                     case HTMLFrameSetElement.Tag:
                         insert = HtmlTreeMode.InFrameset;
                         break;
+
                     case Tags.HTML:
                         insert = HtmlTreeMode.BeforeHead;
                         break;
+
                     default:
                         if (last)
                         {
@@ -734,25 +755,40 @@ namespace AngleSharp.Html
             }
             else if (token.IsStartTag(Tags.TEMPLATE))
             {
-                //TODO
-                //Insert an HTML element for the token.
-                //Insert a marker at the end of the list of active formatting elements.
-                //Set the frameset-ok flag to "not ok".
-                //Switch the insertion mode to "in template".
-                //Push "in template" onto the stack of template insertion modes so that it is the new current template insertion mode.
+                var element = new HTMLTemplateElement();
+                AddElementToCurrentNode(element, token);
+                InsertScopeMarker();
+                frameset = false;
+                insert = HtmlTreeMode.InTemplate;
+                templateMode.Push(HtmlTreeMode.InTemplate);
                 return;
             }
             else if (token.IsEndTag(Tags.TEMPLATE))
             {
-                //TODO
-                //If there is no template element on the stack of open elements, then this is a parse error; ignore the token.
-                //Otherwise, run these steps:
-                //1. Generate implied end tags.
-                //2. If the current node is not a template element, then this is a parse error.
-                //3. Pop elements from the stack of open elements until a template element has been popped from the stack.
-                //4. Clear the list of active formatting elements up to the last marker.
-                //5. Pop the current template insertion mode off the stack of template insertion modes.
-                //6. Reset the insertion mode appropriately.
+                if (!TagCurrentlyOpen(Tags.TEMPLATE))
+                {
+                    RaiseErrorOccurred(ErrorCode.TagInappropriate);
+                    return;
+                }
+
+                var node = CurrentNode;
+
+                if (node.NodeName != Tags.TEMPLATE)
+                    RaiseErrorOccurred(ErrorCode.TagClosingMismatch);
+
+                while (open.Count > 0)
+                {
+                    CloseCurrentNode();
+
+                    if (node.NodeName == Tags.TEMPLATE)
+                        break;
+
+                    node = CurrentNode;
+                }
+
+                ClearFormattingElements();
+                templateMode.Pop();
+                Reset();
                 return;
             }
 
@@ -1264,7 +1300,7 @@ namespace AngleSharp.Html
                         RawtextAlgorithm(tag);
                         break;
                     }
-                    case HTMLIFrameElement.Tag:
+                    case Tags.IFRAME:
                     {
                         frameset = false;
                         RawtextAlgorithm(tag);
@@ -3718,6 +3754,22 @@ namespace AngleSharp.Html
         #region Helpers
 
         /// <summary>
+        /// Checks if a tag with the given name is currently open.
+        /// </summary>
+        /// <param name="tagName">The name of the tag to check for.</param>
+        /// <returns>True if such a tag is open, otherwise false.</returns>
+        Boolean TagCurrentlyOpen(String tagName)
+        {
+            for (int i = 0; i < open.Count; i++)
+            {
+                if (open[i].TagName == tagName)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Gets the next token and removes the starting newline, if it has one.
         /// </summary>
         void PreventNewLine()
@@ -3947,7 +3999,7 @@ namespace AngleSharp.Html
         /// <param name="element">The node which will be added to the list.</param>
         /// <param name="elementToken">The associated tag token.</param>
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
-        void SetupElement(Element element, HtmlToken elementToken, bool acknowledgeSelfClosing)
+        void SetupElement(Element element, HtmlToken elementToken, Boolean acknowledgeSelfClosing)
         {
             var tag = (HtmlTagToken)elementToken;
             element.NodeName = tag.Name;

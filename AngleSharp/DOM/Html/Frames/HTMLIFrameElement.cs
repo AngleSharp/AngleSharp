@@ -8,20 +8,11 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLIFrameElement")]
     public sealed class HTMLIFrameElement : HTMLFrameElementBase
     {
-        #region Constant
-
-        /// <summary>
-        /// The iframe tag.
-        /// </summary>
-        internal const String Tag = "iframe";
-
-        #endregion
-
         #region ctor
 
         internal HTMLIFrameElement()
         {
-            _name = Tag;
+            _name = Tags.IFRAME;
         }
 
         #endregion

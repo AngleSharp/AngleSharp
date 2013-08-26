@@ -69,6 +69,7 @@
     <Compile Include="DOM\Enums\Alignment.cs" />
     <Compile Include="DOM\Enums\HorizontalAlignment.cs" />
     <Compile Include="DOM\Enums\VerticalAlignment.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLTemplateElement.cs" />
     <Compile Include="DOM\Interfaces\IWindow.cs" />
     <Compile Include="DOM\Xml\XMLDocument.cs" />
     <Compile Include="DOM\Enums\HttpMethod.cs" />
