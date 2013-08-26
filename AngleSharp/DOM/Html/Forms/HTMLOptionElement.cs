@@ -89,9 +89,15 @@ namespace AngleSharp.DOM.Html
 
                 if(group != null)
                 {
-                    for (int i = 0; i < group.ChildElementCount; i++)
-			            if(group.Children[i] == this)
+                    int i = 0;
+
+                    foreach (var child in group.Children)
+                    {
+                        if (child == this)
                             return i;
+                        else
+                            i++;
+                    }
                 }
 
                 return 0;

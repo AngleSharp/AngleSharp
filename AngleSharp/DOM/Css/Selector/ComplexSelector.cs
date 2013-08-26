@@ -122,16 +122,19 @@ namespace AngleSharp.DOM.Css
             switch (combinator)
             {
                 case CssCombinator.Child:
+                {
                     delim = Specification.GT;
                     transform = el => Single(el.ParentElement);
                     break;
-
+                }
                 case CssCombinator.AdjacentSibling:
+                {
                     delim = Specification.PLUS;
                     transform = el => Single(el.PreviousElementSibling);
                     break;
-
+                }
                 case CssCombinator.Descendent:
+                {
                     delim = Specification.SPACE;
                     transform = el =>
                     {
@@ -147,8 +150,9 @@ namespace AngleSharp.DOM.Css
                         return parents;
                     };
                     break;
-
+                }
                 case CssCombinator.Sibling:
+                {
                     delim = Specification.TILDE;
                     transform = el =>
                     {
@@ -158,21 +162,29 @@ namespace AngleSharp.DOM.Css
                             return new Element[0];
 
                         var kids = parent.Children;
-                        var passed = false;
                         var siblings = new List<Element>();
 
-                        for (int i = kids.Length - 1; i >= 0; i--)
-			            {
-                            if (kids[i] == el)
-                                passed = true;
-                            else if (passed)
-                                siblings.Add(kids[i]);
-			            }
+                        foreach (var kid in kids)
+                        {
+                            if (kid == el)
+                                break;
+
+                            siblings.Add(kid);
+                        }
+
+                        //var passed = false;
+                        //for (int i = kids.Length - 1; i >= 0; i--)
+                        //{
+                        //    if (kids[i] == el)
+                        //        passed = true;
+                        //    else if (passed)
+                        //        siblings.Add(kids[i]);
+                        //}
 
                         return siblings;
                     };
                     break;
-
+                }
                 default:
                     return this;
             }

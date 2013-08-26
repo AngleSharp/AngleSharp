@@ -42,18 +42,7 @@ namespace AngleSharp.DOM
         [DOM("childElementCount")]
         public Int32 ChildElementCount
         {
-            get
-            {
-                var count = 0;
-
-                for (int i = 0; i < _children.Length; i++)
-                {
-                    if (_children[i] is Element)
-                        count++;
-                }
-
-                return count;
-            }
+            get { return _elements.Length; }
         }
 
         /// <summary>

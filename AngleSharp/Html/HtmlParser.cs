@@ -369,96 +369,9 @@ namespace AngleSharp.Html
         {
             var node = AdjustedCurrentNode;
 
-            if (node == null || node.IsInHtml || token.IsEof || (node.IsHtmlTIP && token.IsHtmlCompatible) || 
+            if (node == null || node.IsInHtml || token.IsEof || (node.IsHtmlTIP && token.IsHtmlCompatible) ||
                 (node.IsMathMLTIP && token.IsMathCompatible) || (node.IsInMathMLSVGReady && token.IsSvg))
-            {
-                switch (insert)
-                {
-                    case HtmlTreeMode.Initial:
-                        Initial(token);
-                        break;
-
-                    case HtmlTreeMode.BeforeHtml:
-                        BeforeHtml(token);
-                        break;
-
-                    case HtmlTreeMode.BeforeHead:
-                        BeforeHead(token);
-                        break;
-
-                    case HtmlTreeMode.InHead:
-                        InHead(token);
-                        break;
-
-                    case HtmlTreeMode.InHeadNoScript:
-                        InHeadNoScript(token);
-                        break;
-
-                    case HtmlTreeMode.AfterHead:
-                        AfterHead(token);
-                        break;
-
-                    case HtmlTreeMode.InBody:
-                        InBody(token);
-                        break;
-
-                    case HtmlTreeMode.Text:
-                        Text(token);
-                        break;
-
-                    case HtmlTreeMode.InTable:
-                        InTable(token);
-                        break;
-
-                    case HtmlTreeMode.InCaption:
-                        InCaption(token);
-                        break;
-
-                    case HtmlTreeMode.InColumnGroup:
-                        InColumnGroup(token);
-                        break;
-
-                    case HtmlTreeMode.InTableBody:
-                        InTableBody(token);
-                        break;
-
-                    case HtmlTreeMode.InRow:
-                        InRow(token);
-                        break;
-
-                    case HtmlTreeMode.InCell:
-                        InCell(token);
-                        break;
-
-                    case HtmlTreeMode.InSelect:
-                        InSelect(token);
-                        break;
-
-                    case HtmlTreeMode.InSelectInTable:
-                        InSelectInTable(token);
-                        break;
-
-                    case HtmlTreeMode.AfterBody:
-                        AfterBody(token);
-                        break;
-
-                    case HtmlTreeMode.InFrameset:
-                        InFrameset(token);
-                        break;
-
-                    case HtmlTreeMode.AfterFrameset:
-                        AfterFrameset(token);
-                        break;
-
-                    case HtmlTreeMode.AfterAfterBody:
-                        AfterAfterBody(token);
-                        break;
-
-                    case HtmlTreeMode.AfterAfterFrameset:
-                        AfterAfterFrameset(token);
-                        break;
-                }
-            }
+                Home(token);
             else
                 Foreign(token);
         }
@@ -466,6 +379,100 @@ namespace AngleSharp.Html
         #endregion
 
         #region Home
+
+        /// <summary>
+        /// Takes the method corresponding to the current insertation mode.
+        /// </summary>
+        /// <param name="token">The token to insert / use.</param>
+        void Home(HtmlToken token)
+        {
+            switch (insert)
+            {
+                case HtmlTreeMode.Initial:
+                    Initial(token);
+                    break;
+
+                case HtmlTreeMode.BeforeHtml:
+                    BeforeHtml(token);
+                    break;
+
+                case HtmlTreeMode.BeforeHead:
+                    BeforeHead(token);
+                    break;
+
+                case HtmlTreeMode.InHead:
+                    InHead(token);
+                    break;
+
+                case HtmlTreeMode.InHeadNoScript:
+                    InHeadNoScript(token);
+                    break;
+
+                case HtmlTreeMode.AfterHead:
+                    AfterHead(token);
+                    break;
+
+                case HtmlTreeMode.InBody:
+                    InBody(token);
+                    break;
+
+                case HtmlTreeMode.Text:
+                    Text(token);
+                    break;
+
+                case HtmlTreeMode.InTable:
+                    InTable(token);
+                    break;
+
+                case HtmlTreeMode.InCaption:
+                    InCaption(token);
+                    break;
+
+                case HtmlTreeMode.InColumnGroup:
+                    InColumnGroup(token);
+                    break;
+
+                case HtmlTreeMode.InTableBody:
+                    InTableBody(token);
+                    break;
+
+                case HtmlTreeMode.InRow:
+                    InRow(token);
+                    break;
+
+                case HtmlTreeMode.InCell:
+                    InCell(token);
+                    break;
+
+                case HtmlTreeMode.InSelect:
+                    InSelect(token);
+                    break;
+
+                case HtmlTreeMode.InSelectInTable:
+                    InSelectInTable(token);
+                    break;
+
+                case HtmlTreeMode.AfterBody:
+                    AfterBody(token);
+                    break;
+
+                case HtmlTreeMode.InFrameset:
+                    InFrameset(token);
+                    break;
+
+                case HtmlTreeMode.AfterFrameset:
+                    AfterFrameset(token);
+                    break;
+
+                case HtmlTreeMode.AfterAfterBody:
+                    AfterAfterBody(token);
+                    break;
+
+                case HtmlTreeMode.AfterAfterFrameset:
+                    AfterAfterFrameset(token);
+                    break;
+            }
+        }
 
         /// <summary>
         /// See 8.2.5.4.1 The "initial" insertion mode.
@@ -2385,13 +2392,13 @@ namespace AngleSharp.Html
                     return;
                 }
             }
-            else if (token.Type == HtmlTokenType.EndTag && ((HtmlTagToken)token).Name == HTMLFrameSetElement.Tag)
+            else if (token.IsEndTag(HTMLFrameSetElement.Tag))
             {
-                if (CurrentNode != doc.DocumentElement)
+                if (CurrentNode != open[0])
                 {
                     CloseCurrentNode();
 
-                    if (IsFragmentCase && CurrentNode.NodeName != HTMLFrameSetElement.Tag)
+                    if (!IsFragmentCase && CurrentNode.NodeName != HTMLFrameSetElement.Tag)
                         insert = HtmlTreeMode.AfterFrameset;
                 }
                 else
@@ -2451,7 +2458,7 @@ namespace AngleSharp.Html
                     return;
                 }
             }
-            else if (token.Type == HtmlTokenType.EndTag && ((HtmlTagToken)token).Name == HTMLHtmlElement.Tag)
+            else if (token.IsEndTag(HTMLHtmlElement.Tag))
             {
                 insert = HtmlTreeMode.AfterAfterFrameset;
                 return;
@@ -3310,21 +3317,23 @@ namespace AngleSharp.Html
                     if (node.NodeName != tag.Name)
                         RaiseErrorOccurred(ErrorCode.TagClosingMismatch);
 
-                    while (open.Count > 0)
+                    for (int i = open.Count - 1; i > 0; i--)
                     {
-                        open.RemoveAt(open.Count - 1);
+                        node = open[i];
 
-                        if (node.NodeName.ToLower() == tag.Name)
+                        if (node.NodeName.Equals(tag.Name, StringComparison.OrdinalIgnoreCase))
+                        {
+                            open.RemoveRange(i + 1, open.Count - i - 1);
+                            CloseCurrentNode();
                             break;
+                        }
 
-                        node = CurrentNode;
-
-                        if (node == null || node.IsInHtml)
+                        if (node.IsInHtml)
+                        {
+                            Home(token);
                             break;
+                        }
                     }
-
-                    Reset();
-                    Consume(token);
                 }
             }
         }
