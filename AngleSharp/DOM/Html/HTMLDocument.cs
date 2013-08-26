@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Text;
 using AngleSharp.DOM.Collections;
-using AngleSharp.DOM.Svg;
-using AngleSharp.DOM.Mathml;
-using AngleSharp.DOM.Xml;
 using AngleSharp.DOM.Css;
 using AngleSharp.Html;
 using System.Collections.Generic;
@@ -20,12 +16,14 @@ namespace AngleSharp.DOM.Html
 
         Boolean _embedded;
         Boolean _scripting;
+
+        HTMLLiveCollection<Element> _all;
         HTMLLiveCollection<HTMLFormElement> _forms;
         HTMLLiveCollection<HTMLScriptElement> _scripts;
         HTMLLiveCollection<HTMLImageElement> _images;
 
         static readonly CompoundSelector anchorQuery = CompoundSelector.Create(
-            SimpleSelector.Type(HTMLAnchorElement.Tag),
+            SimpleSelector.Type(Tags.A),
             SimpleSelector.AttrAvailable("name"));
 
         static readonly ListSelector embedQuery = ListSelector.Create(
@@ -35,7 +33,7 @@ namespace AngleSharp.DOM.Html
 
         static readonly ListSelector linkQuery = ListSelector.Create(
             CompoundSelector.Create(
-                SimpleSelector.Type(HTMLAnchorElement.Tag), 
+                SimpleSelector.Type(Tags.A), 
                 SimpleSelector.AttrAvailable("href")),
             CompoundSelector.Create(
                 SimpleSelector.Type(HTMLAreaElement.Tag), 
@@ -187,6 +185,7 @@ namespace AngleSharp.DOM.Html
         {
             _contentType = MimeTypes.Xml;
             _ns = Namespaces.Html;
+            _all = new HTMLLiveCollection<Element>(this);
             _forms = new HTMLLiveCollection<HTMLFormElement>(this);
             _scripts = new HTMLLiveCollection<HTMLScriptElement>(this);
             _images = new HTMLLiveCollection<HTMLImageElement>(this);
@@ -201,7 +200,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         public HTMLCollection All
         {
-            get { return _children.QuerySelectorAll(SimpleSelector.All); }
+            get { return _all; }
         }
 
         /// <summary>

@@ -38,8 +38,6 @@ namespace AngleSharp.DTD
         /// official XML spec and (in German) here:
         /// http://www.stefanheymann.de/xml/dtdxml.htm
         /// </summary>
-        /// <param name="c">The current character.</param>
-        /// <param name="doctype">The current doctype.</param>
         public DtdToken Get()
         {
             var c = _src.Current;

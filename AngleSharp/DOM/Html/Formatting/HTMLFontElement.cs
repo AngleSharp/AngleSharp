@@ -7,14 +7,15 @@ namespace AngleSharp.DOM.Html
     /// </summary>
     public sealed class HTMLFontElement : HTMLFormattingElement
     {
-        /// <summary>
-        /// The font tag.
-        /// </summary>
-        internal const String Tag = "font";
+        internal const String AttrColor = "color";
+
+        internal const String AttrFace = "face";
+
+        internal const String AttrSize = "size";
 
         internal HTMLFontElement()
         {
-            _name = Tag;
+            _name = Tags.FONT;
         }
     }
 }

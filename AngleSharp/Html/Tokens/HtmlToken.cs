@@ -119,7 +119,7 @@ namespace AngleSharp.Html
         /// </summary>
         public Boolean IsSvg
         {
-            get { return IsStartTag(SVGElement.RootTag); }
+            get { return IsStartTag(Tags.SVG); }
         }
 
         /// <summary>

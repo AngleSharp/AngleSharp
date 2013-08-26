@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLButtonElement")]
     public sealed class HTMLButtonElement : HTMLFormControlElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The button tag.
-        /// </summary>
-        internal const String Tag = "button";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLButtonElement()
         {
-            _name = Tag;
+            _name = Tags.BUTTON;
         }
 
         #endregion

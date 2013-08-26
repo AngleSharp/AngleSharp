@@ -107,7 +107,7 @@ namespace AngleSharp.DOM
         [DOM("localName")]
         public String LocalName
         {
-            get { return _name.IndexOf(':') >= 0 ? _name.Substring(_name.IndexOf(':') + 1) : _name; }
+            get { return _name; }
         }
 
         /// <summary>
@@ -206,12 +206,13 @@ namespace AngleSharp.DOM
         }
 
         /// <summary>
-        /// Gets the namespace prefix of the specified node, or null if no prefix is specified.
+        /// Gets or sets the namespace prefix of the specified node, or null if no prefix is specified.
         /// </summary>
         [DOM("prefix")]
-        public String Prefix
+        public virtual String Prefix
         {
-            get { return _name.IndexOf(':') >= 0 ? _name.Substring(0, _name.IndexOf(':')) : null; }
+            get { return null; }
+            set { }
         }
 
         /// <summary>
@@ -426,7 +427,7 @@ namespace AngleSharp.DOM
         /// Inserts the given character in the node.
         /// </summary>
         /// <param name="index">The index where to insert.</param>
-        /// <param name="c">The character to append.</param>
+        /// <param name="s">The characters to append.</param>
         /// <returns>The node which contains the text.</returns>
         internal Node InsertText(Int32 index, String s)
         {

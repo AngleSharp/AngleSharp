@@ -10,15 +10,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLTableRowElement")]
     public sealed class HTMLTableRowElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The tr tag.
-        /// </summary>
-        internal const String Tag = "tr";
-
-        #endregion
-
         #region Members
 
         HTMLLiveCollection<HTMLTableCellElement> _cells;
@@ -29,7 +20,7 @@ namespace AngleSharp.DOM.Html
 
         internal HTMLTableRowElement()
         {
-            _name = Tag;
+            _name = Tags.TR;
             _cells = new HTMLLiveCollection<HTMLTableCellElement>(this);
         }
 
@@ -142,7 +133,7 @@ namespace AngleSharp.DOM.Html
         public HTMLTableCellElement InsertCell(Int32 index)
         {
             var cell = _cells[index];
-            var newCell = OwnerDocument.CreateElement(HTMLTableCellElement.NormalTag) as HTMLTableCellElement;
+            var newCell = OwnerDocument.CreateElement(Tags.TD) as HTMLTableCellElement;
 
             if (cell != null)
                 InsertBefore(newCell, cell);

@@ -9,15 +9,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLLinkElement")]
     public sealed class HTMLLinkElement : HTMLElement, IStyleSheet
     {
-        #region Constant
-
-        /// <summary>
-        /// The link tag.
-        /// </summary>
-        internal const String Tag = "link";
-
-        #endregion
-
         #region Members
 
         CSSStyleSheet _sheet;
@@ -31,7 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLLinkElement()
         {
-            _name = Tag;
+            _name = Tags.LINK;
             _sheet = new CSSStyleSheet();
             _sheet.OwnerNode = this;
         }
@@ -220,24 +211,81 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         public enum RelType : ushort
         {
+            /// <summary>
+            /// The rel=prefetch value.
+            /// </summary>
             Prefetch,
+            /// <summary>
+            /// The rel=icon value.
+            /// </summary>
             Icon,
+            /// <summary>
+            /// The rel=pingback value.
+            /// </summary>
             Pingback,
+            /// <summary>
+            /// The rel=stylesheet value.
+            /// </summary>
             Stylesheet,
+            /// <summary>
+            /// The rel=alternate value.
+            /// </summary>
             Alternate,
+            /// <summary>
+            /// The rel=canonical value.
+            /// </summary>
             Canonical,
+            /// <summary>
+            /// The rel=archives value.
+            /// </summary>
             Archives,
+            /// <summary>
+            /// The rel=author value.
+            /// </summary>
             Author,
+            /// <summary>
+            /// The rel=first value.
+            /// </summary>
             First,
+            /// <summary>
+            /// The rel=help value.
+            /// </summary>
             Help,
+            /// <summary>
+            /// The rel=sidebar value.
+            /// </summary>
             Sidebar,
+            /// <summary>
+            /// The rel=tag value.
+            /// </summary>
             Tag,
+            /// <summary>
+            /// The rel=search value.
+            /// </summary>
             Search,
+            /// <summary>
+            /// The rel=index value.
+            /// </summary>
             Index,
+            /// <summary>
+            /// The rel=license value.
+            /// </summary>
             License,
+            /// <summary>
+            /// The rel=up value.
+            /// </summary>
             Up,
+            /// <summary>
+            /// The rel=next value.
+            /// </summary>
             Next,
+            /// <summary>
+            /// The rel=last value.
+            /// </summary>
             Last,
+            /// <summary>
+            /// The rel=prev value.
+            /// </summary>
             Prev
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AngleSharp.DOM;
+using System;
 
 namespace AngleSharp
 {
@@ -8,13 +9,14 @@ namespace AngleSharp
     static class ForeignHelpers
     {
         /// <summary>
-        /// Adjusts the attribute name to the correct prefix.
+        /// Adds the attribute with the adjusted prefix, namespace and name.
         /// </summary>
-        /// <param name="attributeName">The name of adjust.</param>
-        /// <returns>The name with the correct capitalization.</returns>
-        public static string AdjustAttributeName(string attributeName)
+        /// <param name="element"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public static void SetAdjustedAttribute(Element element, String name, String value)
         {
-            switch (attributeName)
+            switch (name)
             {
                 case "xlink:actuate":
                 case "xlink:arcrole":
@@ -23,18 +25,32 @@ namespace AngleSharp
                 case "xlink:show":
                 case "xlink:title":
                 case "xlink:type":
+                    element.SetAttributeNode(new Attr(GetName(name), value) { Prefix = "xlink", NamespaceURI = Namespaces.XLink });
+                    break;
+
                 case "xml:base":
                 case "xml:lang":
                 case "xml:space":
+                    element.SetAttributeNode(new Attr(GetName(name), value) { Prefix = "xml", NamespaceURI = Namespaces.Xml });
+                    break;
+
                 case "xmlns":
+                    element.SetAttributeNS(Namespaces.XmlNS, name, value);
+                    break;
+
                 case "xmlns:xlink":
-                    return attributeName;
+                    element.SetAttributeNode(new Attr(GetName(name), value) { Prefix = "xmlns", NamespaceURI = Namespaces.XmlNS });
+                    break;
 
                 default:
-                    if (attributeName.IndexOf(':') >= 0)
-                        return attributeName.Substring(attributeName.IndexOf(':') + 1);
-                    return attributeName;
+                    element.SetAttribute(name, value);
+                    break;
             }
+        }
+
+        static String GetName(String name)
+        {
+            return name.Substring(name.IndexOf(':') + 1);
         }
     }
 }

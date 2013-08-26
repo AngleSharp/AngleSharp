@@ -10,7 +10,13 @@ namespace AngleSharp.DOM.Collections
     [DOM("HTMLFormControlsCollection")]
     public sealed class HTMLFormControlsCollection : HTMLCollection
     {
+        #region Members
+
         HTMLLiveCollection<HTMLFormControlElement> _elements;
+
+        #endregion
+
+        #region ctor
 
         internal HTMLFormControlsCollection(HTMLLiveCollection<HTMLFormControlElement> elements)
         {
@@ -22,21 +28,47 @@ namespace AngleSharp.DOM.Collections
             _elements = new HTMLLiveCollection<HTMLFormControlElement>(parent);
         }
 
-        protected override Element GetItem(Int32 index)
-        {
-            return _elements[index];
-        }
+        #endregion
 
-        protected override int GetLength()
-        {
-            return _elements.Length;
-        }
+        #region Methods
 
+        /// <summary>
+        /// Gets the enumerator of the container.
+        /// </summary>
+        /// <returns>The enumerator of the container.</returns>
         public override IEnumerator<Element> GetEnumerator()
         {
             return _elements.GetEnumerator();
         }
 
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Gets the item at the specified index.
+        /// </summary>
+        /// <param name="index">The 0-based index.</param>
+        /// <returns>The element or null.</returns>
+        protected override Element GetItem(Int32 index)
+        {
+            return _elements[index];
+        }
+
+        /// <summary>
+        /// Gets the length of the elements.
+        /// </summary>
+        /// <returns>The number of elements in the container.</returns>
+        protected override int GetLength()
+        {
+            return _elements.Length;
+        }
+
+        /// <summary>
+        /// Gets the item with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the element (id or name).</param>
+        /// <returns>The list of items, single item or null.</returns>
         protected override Object GetItem(String name)
         {
             var result = new List<Element>();
@@ -59,5 +91,7 @@ namespace AngleSharp.DOM.Collections
         {
             return _elements.IndexOf(element);
         }
+
+        #endregion
     }
 }

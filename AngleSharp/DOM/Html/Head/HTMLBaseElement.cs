@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLBaseElement")]
     public sealed class HTMLBaseElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The base tag.
-        /// </summary>
-        internal const String Tag = "base";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLBaseElement()
         {
-            _name = Tag;
+            _name = Tags.BASE;
         }
 
         #endregion

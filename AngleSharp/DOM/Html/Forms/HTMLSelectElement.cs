@@ -10,15 +10,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLSelectElement")]
     public sealed class HTMLSelectElement : HTMLFormControlElementWithState
     {
-        #region Constant
-
-        /// <summary>
-        /// The select tag.
-        /// </summary>
-        internal const String Tag = "select";
-
-        #endregion
-
         #region Members
 
         HTMLLiveCollection<HTMLOptionElement> _options;
@@ -32,7 +23,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLSelectElement()
         {
-            _name = Tag;
+            _name = Tags.SELECT;
             _options = new HTMLLiveCollection<HTMLOptionElement>(this);
             WillValidate = true;
         }

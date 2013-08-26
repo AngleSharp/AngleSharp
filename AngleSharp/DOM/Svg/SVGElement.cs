@@ -5,17 +5,9 @@ namespace AngleSharp.DOM.Svg
     /// <summary>
     /// Represents an element of the SVG DOM.
     /// </summary>
+    [DOM("SVGSVGElement")]
     public sealed class SVGElement : Element
     {
-        #region Constants
-
-        /// <summary>
-        /// The svg tag.
-        /// </summary>
-        internal const String RootTag = "svg";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -23,6 +15,7 @@ namespace AngleSharp.DOM.Svg
         /// </summary>
         internal SVGElement()
         {
+            _name = Tags.SVG;
             _ns = Namespaces.Svg;
         }
 

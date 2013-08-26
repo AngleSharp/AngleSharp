@@ -8,20 +8,11 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLPreElement")]
     public sealed class HTMLPreElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The pre tag.
-        /// </summary>
-        internal const String Tag = "pre";
-
-        #endregion
-
         #region ctor
 
         internal HTMLPreElement()
         {
-            _name = Tag;
+            _name = Tags.PRE;
         }
 
         #endregion

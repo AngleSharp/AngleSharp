@@ -14,6 +14,7 @@ namespace AngleSharp.DOM
     {
         #region Members
 
+        String _prefix;
         DOMTokenList _classList;
         DOMStringMap _dataset;
         CSSStyleDeclaration _style;
@@ -35,6 +36,16 @@ namespace AngleSharp.DOM
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the namespace prefix of the specified node, or null if no prefix is specified.
+        /// </summary>
+        [DOM("prefix")]
+        public override String Prefix
+        {
+            get { return _prefix; }
+            set { _prefix = value; }
+        }
 
         /// <summary>
         /// Gets the number of child elements.
@@ -319,6 +330,7 @@ namespace AngleSharp.DOM
                     RemoveChild(_children[i]);
 
                 //TODO Fragment Mode has security consideration ??? i.e. Scripting should be TURNED OFF
+
                 var nodes = DocumentBuilder.HtmlFragment(value, this);
                 n = nodes.Length;
 
@@ -342,7 +354,9 @@ namespace AngleSharp.DOM
                         throw new DOMException(ErrorCode.NoModificationAllowed);
 
                     var pos = _parent.IndexOf(this);
+
                     //TODO Fragment Mode has security consideration ??? i.e. Scripting should be TURNED OFF
+
                     var nodes = DocumentBuilder.HtmlFragment(value, this);
                     var n = nodes.Length;
 
@@ -522,7 +536,7 @@ namespace AngleSharp.DOM
         [DOM("normalizeNamespaces")]
         public Element NormalizeNamespaces()
         {
-            var declarations = new List<string>();
+            var declarations = new List<String>();
 
             for (int i = 0; i < _attributes.Length; i++)
             {
@@ -869,6 +883,7 @@ namespace AngleSharp.DOM
         [DOM("setAttributeNodeNS")]
         public Attr SetAttributeNodeNS(String namespaceURI, Attr attr)
         {
+            attr.NamespaceURI = namespaceURI;
             return SetAttributeNode(attr);
         }
 

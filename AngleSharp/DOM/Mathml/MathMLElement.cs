@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Mathml
     /// </summary>
     public sealed class MathMLElement : Element
     {
-        #region Constants
-
-        /// <summary>
-        /// The math tag.
-        /// </summary>
-        internal const String RootTag = "math";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,6 +15,7 @@ namespace AngleSharp.DOM.Mathml
         /// </summary>
         internal MathMLElement()
         {
+            _name = Tags.MATH;
             _ns = Namespaces.MathML;
         }
 

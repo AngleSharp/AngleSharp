@@ -157,9 +157,7 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static Boolean IsTableElement(this String tagName)
         {
-            return (tagName == HTMLTableElement.Tag || tagName == HTMLTableSectionElement.BodyTag ||
-                tagName == HTMLTableSectionElement.FootTag || tagName == HTMLTableSectionElement.HeadTag ||
-                tagName == HTMLTableRowElement.Tag);
+            return (tagName == Tags.TABLE || tagName == Tags.TBODY || tagName == Tags.TFOOT || tagName == Tags.THEAD || tagName == Tags.TR);
         }
 
         /// <summary>
@@ -170,8 +168,7 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static Boolean IsTableSectionElement(this String tagName)
         {
-            return (tagName == HTMLTableSectionElement.BodyTag || tagName == HTMLTableSectionElement.FootTag || 
-                tagName == HTMLTableSectionElement.HeadTag);
+            return (tagName == Tags.TBODY || tagName == Tags.TFOOT || tagName == Tags.THEAD);
         }
 
         /// <summary>
@@ -182,7 +179,7 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static Boolean IsTableCellElement(this String tagName)
         {
-            return (tagName == HTMLTableCellElement.NormalTag || tagName == HTMLTableCellElement.HeadTag);
+            return (tagName == Tags.TD || tagName == Tags.TH);
         }
 
         /// <summary>
@@ -194,9 +191,8 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static Boolean IsGeneralTableElement(this String tagName, Boolean includeRow = false)
         {
-            return (tagName == HTMLTableCaptionElement.Tag || tagName == HTMLTableColElement.ColTag ||
-                tagName == HTMLTableColElement.ColgroupTag || tagName == HTMLTableSectionElement.BodyTag ||
-                tagName == HTMLTableSectionElement.FootTag || tagName == HTMLTableSectionElement.HeadTag) || (includeRow && tagName == HTMLTableRowElement.Tag);
+            return (tagName == Tags.CAPTION || tagName == Tags.COL || tagName == Tags.COLGROUP || tagName == Tags.TBODY ||
+                tagName == Tags.TFOOT || tagName == Tags.THEAD) || (includeRow && tagName == Tags.TR);
         }
 
         /// <summary>
@@ -208,10 +204,8 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static Boolean IsSpecialTableElement(this String tagName, Boolean includeRow = false)
         {
-            return (tagName == HTMLBodyElement.Tag || tagName == HTMLHtmlElement.Tag ||
-                tagName == HTMLTableColElement.ColgroupTag || tagName == HTMLTableColElement.ColTag ||
-                tagName == HTMLTableCellElement.HeadTag || tagName == HTMLTableCellElement.NormalTag ||
-                tagName == HTMLTableCaptionElement.Tag) || (includeRow && tagName == HTMLTableRowElement.Tag);
+            return (tagName == Tags.BODY || tagName == Tags.HTML || tagName == Tags.COLGROUP || tagName == Tags.COL ||
+                tagName == Tags.TH || tagName == Tags.TD || tagName == Tags.CAPTION) || (includeRow && tagName == Tags.TR);
         }
 
         /// <summary>

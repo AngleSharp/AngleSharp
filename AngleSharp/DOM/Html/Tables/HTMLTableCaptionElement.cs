@@ -8,20 +8,11 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLTableCaptionElement")]
     public sealed class HTMLTableCaptionElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The caption tag.
-        /// </summary>
-        internal const String Tag = "caption";
-
-        #endregion
-
         #region ctor
 
         internal HTMLTableCaptionElement()
         {
-            _name = Tag;
+            _name = Tags.CAPTION;
         }
 
         #endregion

@@ -10,15 +10,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLInputElement")]
     public sealed class HTMLInputElement : HTMLTextFormControlElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The input tag.
-        /// </summary>
-        internal const String Tag = "input";
-
-        #endregion
-
         #region Members
 
         UInt32 _imageWidth;
@@ -35,7 +26,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLInputElement()
         {
-            _name = Tag;
+            _name = Tags.INPUT;
             WillValidate = true;
             _files = new FileList();
         }

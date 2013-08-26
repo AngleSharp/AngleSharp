@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLBodyElement")]
     public sealed class HTMLBodyElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The body tag.
-        /// </summary>
-        internal const String Tag = "body";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLBodyElement()
         {
-            _name = Tag;
+            _name = Tags.BODY;
         }
 
         #endregion

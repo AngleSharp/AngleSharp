@@ -10,15 +10,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLTableElement")]
     public sealed class HTMLTableElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The table tag.
-        /// </summary>
-        internal const String Tag = "table";
-
-        #endregion
-
         #region Members
 
         HTMLLiveCollection<HTMLTableCaptionElement> _bodies;
@@ -30,7 +21,7 @@ namespace AngleSharp.DOM.Html
 
         internal HTMLTableElement()
         {
-            _name = Tag;
+            _name = Tags.TABLE;
             _rows = new HTMLLiveCollection<HTMLTableRowElement>(this);
             _bodies = new HTMLLiveCollection<HTMLTableCaptionElement>(this);
         }
@@ -45,7 +36,7 @@ namespace AngleSharp.DOM.Html
         [DOM("caption")]
         public HTMLTableCaptionElement Caption
         {
-            get { return _children.QuerySelector<HTMLTableCaptionElement>(SimpleSelector.Type(HTMLTableCaptionElement.Tag)); }
+            get { return _children.QuerySelector<HTMLTableCaptionElement>(SimpleSelector.Type(Tags.CAPTION)); }
         }
 
         /// <summary>
@@ -54,7 +45,7 @@ namespace AngleSharp.DOM.Html
         [DOM("tHead")]
         public HTMLTableSectionElement THead
         {
-            get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(HTMLTableSectionElement.HeadTag)); }
+            get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.THEAD)); }
         }
 
         /// <summary>
@@ -72,7 +63,7 @@ namespace AngleSharp.DOM.Html
         [DOM("tFoot")]
         public HTMLTableSectionElement TFoot
         {
-            get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(HTMLTableSectionElement.FootTag)); }
+            get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.TFOOT)); }
         }
 
         /// <summary>
@@ -205,7 +196,7 @@ namespace AngleSharp.DOM.Html
         public HTMLTableRowElement InsertRow(Int32 index)
         {
             var rows = Rows;
-            var newRow = OwnerDocument.CreateElement(HTMLTableRowElement.Tag) as HTMLTableRowElement;
+            var newRow = OwnerDocument.CreateElement(Tags.TR) as HTMLTableRowElement;
 
             if (index >= 0 && index < rows.Length)
             {
@@ -218,7 +209,7 @@ namespace AngleSharp.DOM.Html
 
                 if (bodies.Length == 0)
                 {
-                    var tbody = OwnerDocument.CreateElement(HTMLTableSectionElement.BodyTag);
+                    var tbody = OwnerDocument.CreateElement(Tags.TBODY);
                     AppendChild(tbody);
                 }
 
@@ -262,7 +253,7 @@ namespace AngleSharp.DOM.Html
 
             if (head == null)
             {
-                head = OwnerDocument.CreateElement(HTMLTableSectionElement.HeadTag) as HTMLTableSectionElement;
+                head = OwnerDocument.CreateElement(Tags.THEAD) as HTMLTableSectionElement;
                 AppendChild(head);
             }
 
@@ -295,7 +286,7 @@ namespace AngleSharp.DOM.Html
 
             if (foot == null)
             {
-                foot = OwnerDocument.CreateElement(HTMLTableSectionElement.FootTag) as HTMLTableSectionElement;
+                foot = OwnerDocument.CreateElement(Tags.TFOOT) as HTMLTableSectionElement;
                 AppendChild(foot);
             }
 
@@ -328,7 +319,7 @@ namespace AngleSharp.DOM.Html
 
             if (caption == null)
             {
-                caption = OwnerDocument.CreateElement(HTMLTableCaptionElement.Tag) as HTMLTableCaptionElement;
+                caption = OwnerDocument.CreateElement(Tags.CAPTION) as HTMLTableCaptionElement;
                 AppendChild(caption);
             }
 

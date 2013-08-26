@@ -8,25 +8,11 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLTableCellElement")]
     public sealed class HTMLTableCellElement : HTMLElement
     {
-        #region Constants
-
-        /// <summary>
-        /// The th tag.
-        /// </summary>
-        internal const String HeadTag = "th";
-
-        /// <summary>
-        /// The td tag.
-        /// </summary>
-        internal const String NormalTag = "td";
-
-        #endregion
-
         #region ctor
 
         internal HTMLTableCellElement()
         {
-            _name = NormalTag;
+            _name = Tags.TD;
         }
 
         #endregion

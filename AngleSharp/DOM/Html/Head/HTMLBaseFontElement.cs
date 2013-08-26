@@ -8,14 +8,9 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLBaseFontElement")]
     public sealed class HTMLBaseFontElement : HTMLElement
     {
-        /// <summary>
-        /// The basefont tag.
-        /// </summary>
-        internal const String Tag = "basefont";
-
         internal HTMLBaseFontElement()
         {
-            _name = Tag;
+            _name = Tags.BASEFONT;
         }
 
         /// <summary>

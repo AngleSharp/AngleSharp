@@ -1,5 +1,4 @@
 ﻿using AngleSharp.DOM.Collections;
-using AngleSharp.DOM.Css;
 using System;
 
 namespace AngleSharp.DOM.Html
@@ -10,22 +9,9 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLTableSectionElement")]
     public sealed class HTMLTableSectionElement : HTMLElement
     {
-        #region Constants
+        #region Members
 
-        /// <summary>
-        /// The dialog tag.
-        /// </summary>
-        internal const String HeadTag = "thead";
-
-        /// <summary>
-        /// The dialog tag.
-        /// </summary>
-        internal const String BodyTag = "tbody";
-
-        /// <summary>
-        /// The dialog tag.
-        /// </summary>
-        internal const String FootTag = "tfoot";
+        HTMLLiveCollection<HTMLTableRowElement> _rows;
 
         #endregion
 
@@ -33,7 +19,8 @@ namespace AngleSharp.DOM.Html
 
         internal HTMLTableSectionElement()
         {
-            _name = BodyTag;
+            _name = Tags.TBODY;
+            _rows = new HTMLLiveCollection<HTMLTableRowElement>(this);
         }
 
         #endregion
@@ -56,7 +43,7 @@ namespace AngleSharp.DOM.Html
         [DOM("rows")]
         public HTMLCollection Rows
         {
-            get { return _children.QuerySelectorAll(SimpleSelector.Type(HTMLTableRowElement.Tag)); }
+            get { return _rows; }
         }
 
         /// <summary>
@@ -98,7 +85,7 @@ namespace AngleSharp.DOM.Html
         public HTMLTableRowElement InsertRow(Int32 index)
         {
             var row = Rows[index];
-            var newRow = OwnerDocument.CreateElement(HTMLTableRowElement.Tag) as HTMLTableRowElement;
+            var newRow = OwnerDocument.CreateElement(Tags.TR) as HTMLTableRowElement;
 
             if (row != null)
                 InsertBefore(newRow, row);

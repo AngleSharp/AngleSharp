@@ -1,6 +1,4 @@
 ﻿using AngleSharp.DOM.Collections;
-using AngleSharp.DOM.Css;
-using System;
 
 namespace AngleSharp.DOM.Html
 {
@@ -10,14 +8,9 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLDataListElement")]
     public sealed class HTMLDataListElement : HTMLElement
     {
-        #region Constants
+        #region Members
 
-        /// <summary>
-        /// The datalist tag.
-        /// </summary>
-        internal const string Tag = "datalist";
-
-        static readonly SimpleSelector optionsQuery = SimpleSelector.Type(HTMLOptionElement.Tag);
+        HTMLLiveCollection<HTMLOptionElement> _options;
 
         #endregion
 
@@ -28,7 +21,8 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLDataListElement()
         {
-            _name = Tag;
+            _name = Tags.DATALIST;
+            _options = new HTMLLiveCollection<HTMLOptionElement>(this);
         }
 
         #endregion
@@ -41,7 +35,7 @@ namespace AngleSharp.DOM.Html
         [DOM("options")]
         public HTMLCollection Options
         {
-            get { return _children.QuerySelectorAll(optionsQuery); }
+            get { return _options; }
         }
 
         #endregion

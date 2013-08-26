@@ -8,25 +8,11 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLTableColElement")]
     public sealed class HTMLTableColElement : HTMLElement
     {
-        #region Constants
-
-        /// <summary>
-        /// The col tag.
-        /// </summary>
-        internal const String ColTag = "col";
-
-        /// <summary>
-        /// The colgroup tag.
-        /// </summary>
-        internal const String ColgroupTag = "colgroup";
-
-        #endregion
-
         #region ctor
 
         internal HTMLTableColElement()
         {
-            _name = ColTag;
+            _name = Tags.COL;
         }
 
         #endregion

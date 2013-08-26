@@ -8,20 +8,11 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLHeadElement")]
     public sealed class HTMLHeadElement : HTMLElement
     {
-        #region Constants
-
-        /// <summary>
-        /// The head tag.
-        /// </summary>
-        internal const String Tag = "head";
-
-        #endregion
-
         #region ctor
 
         internal HTMLHeadElement()
         {
-            _name = Tag;
+            _name = Tags.HEAD;
         }
 
         #endregion

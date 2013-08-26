@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLOptGroupElement")]
     public sealed class HTMLOptGroupElement : HTMLElement
     {
-        #region Constants
-
-        /// <summary>
-        /// The optgroup tag.
-        /// </summary>
-        internal const String Tag = "optgroup";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLOptGroupElement()
         {
-            _name = Tag;
+            _name = Tags.OPTGROUP;
         }
 
         #endregion

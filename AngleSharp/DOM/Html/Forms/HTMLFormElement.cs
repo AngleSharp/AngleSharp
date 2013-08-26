@@ -9,15 +9,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLFormElement")]
     public sealed class HTMLFormElement : HTMLElement
     {
-        #region Constants
-
-        /// <summary>
-        /// The form tag.
-        /// </summary>
-        internal const String Tag = "form";
-
-        #endregion
-
         #region Members
 
         HTMLLiveCollection<HTMLFormControlElement> _elements;
@@ -32,7 +23,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLFormElement()
         {
-            _name = Tag;
+            _name = Tags.FORM;
             _elements = new HTMLLiveCollection<HTMLFormControlElement>(this);
             _formControls = new HTMLFormControlsCollection(_elements);
         }

@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLAnchorElement")]
     public sealed class HTMLAnchorElement : HTMLFormattingElement
     {
-        #region Constants
-
-        /// <summary>
-        /// The a tag.
-        /// </summary>
-        internal const String Tag = "a";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLAnchorElement()
         {
-            _name = Tag;
+            _name = Tags.A;
         }
 
         #endregion

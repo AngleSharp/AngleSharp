@@ -11,6 +11,7 @@ namespace AngleSharp.DOM
         #region Members
 
         String _value;
+        String _prefix;
 
         #endregion
 
@@ -62,6 +63,16 @@ namespace AngleSharp.DOM
         #region Properties
 
         /// <summary>
+        /// Gets or sets the namespace prefix of the specified node, or null if no prefix is specified.
+        /// </summary>
+        [DOM("prefix")]
+        public override String Prefix
+        {
+            get { return _prefix; }
+            set { _prefix = value; }
+        }
+
+        /// <summary>
         /// Gets or sets the value of the attribute.
         /// </summary>
         [DOM("nodeValue")]
@@ -85,7 +96,7 @@ namespace AngleSharp.DOM
         [DOM("specified")]
         public Boolean Specified
         {
-            get { return !string.IsNullOrEmpty(_value); }
+            get { return !String.IsNullOrEmpty(_value); }
         }
 
         /// <summary>

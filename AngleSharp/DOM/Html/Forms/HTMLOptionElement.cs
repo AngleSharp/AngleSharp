@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLOptionElement")]
     public sealed class HTMLOptionElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The option tag.
-        /// </summary>
-        internal const String Tag = "option";
-
-        #endregion
-
         #region Members
 
         Boolean? _selected;
@@ -30,8 +21,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLOptionElement()
         {
-            _name = Tag;
-            Selected = false;
+            _name = Tags.OPTION;
         }
 
         #endregion           

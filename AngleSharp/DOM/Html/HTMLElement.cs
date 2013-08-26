@@ -64,25 +64,25 @@ namespace AngleSharp.DOM.Html
         {
             switch (tag)
             {
-                case HTMLBaseElement.Tag:
+                case Tags.BASE:
                     return new HTMLBaseElement();
 
-                case HTMLBaseFontElement.Tag:
+                case Tags.BASEFONT:
                     return new HTMLBaseFontElement();
 
-                case HTMLLinkElement.Tag:
+                case Tags.LINK:
                     return new HTMLLinkElement();
 
-                case HTMLAnchorElement.Tag:
+                case Tags.A:
                     return new HTMLAnchorElement();
 
-                case HTMLButtonElement.Tag:
+                case Tags.BUTTON:
                     return new HTMLButtonElement();
 
-                case HTMLInputElement.Tag:
+                case Tags.INPUT:
                     return new HTMLInputElement();
 
-                case HTMLHtmlElement.Tag:
+                case Tags.HTML:
                     return new HTMLHtmlElement();
 
                 case HTMLIsIndexElement.Tag:
@@ -106,13 +106,13 @@ namespace AngleSharp.DOM.Html
                 case HTMLDListElement.Tag:
                     return new HTMLDListElement();
 
-                case HTMLBodyElement.Tag:
+                case Tags.BODY:
                     return new HTMLBodyElement();
 
                 case HTMLFieldSetElement.Tag:
                     return new HTMLFieldSetElement();
 
-                case HTMLHeadElement.Tag:
+                case Tags.HEAD:
                     return new HTMLHeadElement();
 
                 case HTMLMenuElement.Tag:
@@ -127,7 +127,7 @@ namespace AngleSharp.DOM.Html
                 case HTMLParagraphElement.Tag:
                     return new HTMLParagraphElement();
 
-                case HTMLSelectElement.Tag:
+                case Tags.SELECT:
                     return new HTMLSelectElement();
 
                 case HTMLUListElement.Tag:
@@ -138,17 +138,17 @@ namespace AngleSharp.DOM.Html
 
                 case HTMLDirectoryElement.Tag:
                     return new HTMLDirectoryElement();
-                    
-                case HTMLFontElement.Tag:
+
+                case Tags.FONT:
                     return new HTMLFontElement();
 
-                case HTMLFormElement.Tag:
+                case Tags.FORM:
                     return new HTMLFormElement();
 
                 case HTMLParamElement.Tag:
                     return new HTMLParamElement();
 
-                case HTMLPreElement.Tag:
+                case Tags.PRE:
                     return new HTMLPreElement();
 
                 case HTMLTextAreaElement.Tag:
@@ -162,26 +162,26 @@ namespace AngleSharp.DOM.Html
                 case HTMLCanvasElement.Tag:
                     return new HTMLCanvasElement();
 
-                case HTMLTableCaptionElement.Tag:
+                case Tags.CAPTION:
                     return new HTMLTableCaptionElement();
 
-                case HTMLTableCellElement.HeadTag:
-                case HTMLTableCellElement.NormalTag:
+                case Tags.TH:
+                case Tags.TD:
                     return new HTMLTableCellElement { _name = tag };
 
-                case HTMLTableRowElement.Tag:
+                case Tags.TR:
                     return new HTMLTableRowElement();
 
-                case HTMLTableSectionElement.BodyTag:
-                case HTMLTableSectionElement.FootTag:
-                case HTMLTableSectionElement.HeadTag:
+                case Tags.TBODY:
+                case Tags.TFOOT:
+                case Tags.THEAD:
                     return new HTMLTableSectionElement { _name = tag };
 
-                case HTMLTableElement.Tag:
+                case Tags.TABLE:
                     return new HTMLTableElement();
 
-                case HTMLTableColElement.ColgroupTag:
-                case HTMLTableColElement.ColTag:
+                case Tags.COLGROUP:
+                case Tags.COL:
                     return new HTMLTableColElement { _name = tag };
 
                 case HTMLModElement.DelTag:
@@ -200,10 +200,10 @@ namespace AngleSharp.DOM.Html
                 case HTMLObjectElement.Tag:
                     return new HTMLObjectElement();
 
-                case HTMLOptGroupElement.Tag:
+                case Tags.OPTGROUP:
                     return new HTMLOptGroupElement();
 
-                case HTMLOptionElement.Tag:
+                case Tags.OPTION:
                     return new HTMLOptionElement();
 
                 case HTMLStyleElement.Tag:
@@ -218,9 +218,9 @@ namespace AngleSharp.DOM.Html
                 case HTMLTitleElement.Tag:
                     return new HTMLTitleElement();
 
-                case HTMLLIElement.DefinitionTag:
-                case HTMLLIElement.DescriptionTag:
-                case HTMLLIElement.ItemTag:
+                case Tags.LI:
+                case Tags.DD:
+                case Tags.DT:
                     return new HTMLLIElement { _name = tag };
 
                 case HTMLFrameSetElement.Tag:
