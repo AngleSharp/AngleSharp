@@ -1354,7 +1354,7 @@ namespace AngleSharp.Html
                     }
                     case Tags.MATH:
                     {
-                        var element = new MathMLElement();
+                        var element = new MathElement();
                         element.NodeName = tag.Name;
                         ReconstructFormatting();
 
@@ -3494,7 +3494,7 @@ namespace AngleSharp.Html
 
             if (AdjustedCurrentNode.IsInMathML)
             {
-                node = new MathMLElement();
+                node = new MathElement();
                 node.NodeName = tag.Name;
 
                 for (int i = 0; i < tag.Attributes.Count; i++)

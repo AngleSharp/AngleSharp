@@ -6,27 +6,50 @@ namespace AngleSharp.DOM.Mathml
     /// <summary>
     /// Represents an element of the MathML DOM.
     /// </summary>
-    public sealed class MathMLElement : Element
+    public class MathElement : Element
     {
         #region ctor
 
         /// <summary>
         /// Creates a new MathML element.
         /// </summary>
-        internal MathMLElement()
+        internal MathElement()
         {
             _name = Tags.MATH;
             _ns = Namespaces.MathML;
         }
+
+        #endregion
+
+        #region Factory
 
         /// <summary>
         /// Returns a specialized MathMLElement instance for the given tag name.
         /// </summary>
         /// <param name="tagName">The given tag name.</param>
         /// <returns>The specialized MathMLElement instance.</returns>
-        internal static MathMLElement Create(String tagName)
+        internal static MathElement Create(String tagName)
         {
-            return new MathMLElement { _name = tagName };
+            switch (tagName)
+            {
+                case Tags.MN:
+                    return new MathNumberElement();
+
+                case Tags.MO:
+                    return new MathOperatorElement();
+
+                case Tags.MI:
+                    return new MathIdentifierElement();
+
+                case Tags.MS:
+                    return new MathStringElement();
+
+                case Tags.MTEXT:
+                    return new MathTextElement();
+
+                default:
+                    return new MathElement { _name = tagName };
+            }
         }
 
         #endregion
@@ -42,27 +65,17 @@ namespace AngleSharp.DOM.Mathml
         }
 
         /// <summary>
-        /// Gets the status if the node is a MathML text integration point.
-        /// </summary>
-        protected internal override Boolean IsMathMLTIP
-        {
-            get { return _name == "mo" || _name == "mi" || _name == "mn" || _name == "ms" || _name == "mtext"; }
-        }
-
-        /// <summary>
         /// Gets the status if the node is an HTML text integration point.
         /// </summary>
         protected internal override Boolean IsHtmlTIP
         {
             get
             {
-                var name = NodeName;
-
-                if (name.Equals(Specification.XML_ANNOTATION))
+                if (NodeName.Equals(Specification.XML_ANNOTATION))
                 {
                     var value = GetAttribute("encoding");
 
-                    if (value != null)
+                    if (!String.IsNullOrEmpty(value))
                     {
                         value = value.ToLower();
                         return value.Equals(MimeTypes.Html) || value.Equals(MimeTypes.ApplicationXHtml);
@@ -78,7 +91,7 @@ namespace AngleSharp.DOM.Mathml
         /// </summary>
         protected internal override Boolean IsSpecial
         {
-            get { return IsMathMLTIP || _name == Specification.XML_ANNOTATION; }
+            get { return _name == Specification.XML_ANNOTATION; }
         }
 
         #endregion

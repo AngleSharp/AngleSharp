@@ -71,6 +71,11 @@
     <Compile Include="DOM\Enums\VerticalAlignment.cs" />
     <Compile Include="DOM\Html\Formatting\HTMLTemplateElement.cs" />
     <Compile Include="DOM\Interfaces\IWindow.cs" />
+    <Compile Include="DOM\Mathml\MathIdentifierElement.cs" />
+    <Compile Include="DOM\Mathml\MathNumberElement.cs" />
+    <Compile Include="DOM\Mathml\MathOperatorElement.cs" />
+    <Compile Include="DOM\Mathml\MathStringElement.cs" />
+    <Compile Include="DOM\Mathml\MathTextElement.cs" />
     <Compile Include="DOM\Xml\XMLDocument.cs" />
     <Compile Include="DOM\Enums\HttpMethod.cs" />
     <Compile Include="DOM\Html\Forms\HTMLFormControlElement.cs" />
@@ -283,7 +288,7 @@
     <Compile Include="DOM\Html\HTMLUnknownElement.cs" />
     <Compile Include="DOM\Html\Media\HTMLVideoElement.cs" />
     <Compile Include="DOM\Html\Formatting\ScopeMarkerNode.cs" />
-    <Compile Include="DOM\Mathml\MathMLElement.cs" />
+    <Compile Include="DOM\Mathml\MathElement.cs" />
     <Compile Include="DOM\Node.cs" />
     <Compile Include="Foundation\Errors.cs" />
     <Compile Include="DOM\Collections\NodeList.cs" />

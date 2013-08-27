@@ -395,7 +395,7 @@ namespace AngleSharp.DOM
             else if (namespaceURI == Namespaces.Svg)
                 element = SVGElement.Create(tagName);
             else if (namespaceURI == Namespaces.MathML)
-                element = MathMLElement.Create(tagName);
+                element = MathElement.Create(tagName);
             else if (namespaceURI == Namespaces.Xml)
                 element = XMLElement.Create(tagName);
             else
