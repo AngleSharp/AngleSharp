@@ -63,6 +63,11 @@ namespace AngleSharp
         public const string NOFRAMES = "noframes";
 
         /// <summary>
+        /// The menu tag.
+        /// </summary>
+        public const String MENU = "menu";
+
+        /// <summary>
         /// The menuitem tag.
         /// </summary>
         public const String MENUITEM = "menuitem";
@@ -98,9 +103,39 @@ namespace AngleSharp
         public const String RT = "rt";
 
         /// <summary>
+        /// The applet tag.
+        /// </summary>
+        public const String APPLET = "applet";
+
+        /// <summary>
+        /// The embed tag.
+        /// </summary>
+        public const String EMBED = "embed";
+
+        /// <summary>
+        /// The marquee tag.
+        /// </summary>
+        public const String MARQUEE = "marquee";
+
+        /// <summary>
+        /// The object tag.
+        /// </summary>
+        public const String OBJECT = "object";
+
+        /// <summary>
         /// The font tag.
         /// </summary>
         public const String FONT = "font";
+
+        /// <summary>
+        /// The ins tag.
+        /// </summary>
+        public const String INS = "ins";
+
+        /// <summary>
+        /// The del tag.
+        /// </summary>
+        public const String DEL = "del";
 
         /// <summary>
         /// The template tag.
@@ -173,6 +208,11 @@ namespace AngleSharp
         public const String TEXTAREA = "textarea";
 
         /// <summary>
+        /// The p tag.
+        /// </summary>
+        public const String P = "p";
+
+        /// <summary>
         /// The form tag.
         /// </summary>
         public const String FORM = "form";
@@ -186,6 +226,21 @@ namespace AngleSharp
         /// The datalist tag.
         /// </summary>
         public const String DATALIST = "datalist";
+
+        /// <summary>
+        /// The ol tag.
+        /// </summary>
+        public const String OL = "ol";
+
+        /// <summary>
+        /// The tag ul.
+        /// </summary>
+        public const String UL = "ul";
+
+        /// <summary>
+        /// The dl tag.
+        /// </summary>
+        public const String DL = "dl";
 
         /// <summary>
         /// The li tag.
@@ -291,6 +346,11 @@ namespace AngleSharp
         /// The link tag.
         /// </summary>
         public const String LINK = "link";
+
+        /// <summary>
+        /// The frameset tag.
+        /// </summary>
+        public const String FRAMESET = "frameset";
 
         /// <summary>
         /// The iframe tag.

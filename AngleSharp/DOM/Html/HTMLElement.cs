@@ -91,7 +91,7 @@ namespace AngleSharp.DOM.Html
                 case HTMLBRElement.Tag:
                     return new HTMLBRElement();
 
-                case HTMLEmbedElement.Tag:
+                case Tags.EMBED:
                     return new HTMLEmbedElement();
 
                 case HTMLDivElement.Tag:
@@ -103,7 +103,7 @@ namespace AngleSharp.DOM.Html
                 case HTMLImageElement.Tag:
                     return new HTMLImageElement();
 
-                case HTMLDListElement.Tag:
+                case Tags.DL:
                     return new HTMLDListElement();
 
                 case Tags.BODY:
@@ -115,22 +115,22 @@ namespace AngleSharp.DOM.Html
                 case Tags.HEAD:
                     return new HTMLHeadElement();
 
-                case HTMLMenuElement.Tag:
+                case Tags.MENU:
                     return new HTMLMenuElement();
 
                 case Tags.META:
                     return new HTMLMetaElement();
 
-                case HTMLOListElement.Tag:
+                case Tags.OL:
                     return new HTMLOListElement();
 
-                case HTMLParagraphElement.Tag:
+                case Tags.P:
                     return new HTMLParagraphElement();
 
                 case Tags.SELECT:
                     return new HTMLSelectElement();
 
-                case HTMLUListElement.Tag:
+                case Tags.UL:
                     return new HTMLUListElement();
 
                 case HTMLHRElement.Tag:
@@ -184,8 +184,8 @@ namespace AngleSharp.DOM.Html
                 case Tags.COL:
                     return new HTMLTableColElement { _name = tag };
 
-                case HTMLModElement.DelTag:
-                case HTMLModElement.InsTag:
+                case Tags.DEL:
+                case Tags.INS:
                     return new HTMLModElement { _name = tag };
 
                 case HTMLLegendElement.Tag:
@@ -194,10 +194,10 @@ namespace AngleSharp.DOM.Html
                 case HTMLLabelElement.Tag:
                     return new HTMLLabelElement();
 
-                case HTMLAppletElement.Tag:
+                case Tags.APPLET:
                     return new HTMLAppletElement();
 
-                case HTMLObjectElement.Tag:
+                case Tags.OBJECT:
                     return new HTMLObjectElement();
 
                 case Tags.OPTGROUP:
@@ -223,7 +223,7 @@ namespace AngleSharp.DOM.Html
                 case Tags.DT:
                     return new HTMLLIElement { _name = tag };
 
-                case HTMLFrameSetElement.Tag:
+                case Tags.FRAMESET:
                     return new HTMLFrameSetElement();
 
                 case HTMLFrameElement.Tag:
@@ -299,7 +299,7 @@ namespace AngleSharp.DOM.Html
                 case Tags.BGSOUND:
                     return new HTMLBgsoundElement();
 
-                case HTMLMarqueeElement.Tag:
+                case Tags.MARQUEE:
                     return new HTMLMarqueeElement();
 
                 case Tags.NOEMBED:

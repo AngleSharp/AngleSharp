@@ -27,9 +27,9 @@ namespace AngleSharp.DOM.Html
             SimpleSelector.AttrAvailable("name"));
 
         static readonly ListSelector embedQuery = ListSelector.Create(
-            SimpleSelector.Type(HTMLEmbedElement.Tag), 
-            SimpleSelector.Type(HTMLObjectElement.Tag), 
-            SimpleSelector.Type(HTMLAppletElement.Tag));
+            SimpleSelector.Type(Tags.EMBED), 
+            SimpleSelector.Type(Tags.OBJECT), 
+            SimpleSelector.Type(Tags.APPLET));
 
         static readonly ListSelector linkQuery = ListSelector.Create(
             CompoundSelector.Create(

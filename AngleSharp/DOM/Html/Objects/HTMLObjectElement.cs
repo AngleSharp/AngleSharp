@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLObjectElement")]
     public sealed class HTMLObjectElement : HTMLFormControlElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The object tag.
-        /// </summary>
-        internal const String Tag = "object";
-
-        #endregion
-
         #region Members
 
         Document _contentDocument;
@@ -30,7 +21,7 @@ namespace AngleSharp.DOM.Html
 
         internal HTMLObjectElement()
         {
-            _name = Tag;
+            _name = Tags.OBJECT;
 
             //TODO
             _objHeight = 0;

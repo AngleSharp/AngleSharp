@@ -8,20 +8,11 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLMarqueeElement")]
     public sealed class HTMLMarqueeElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The marquee tag.
-        /// </summary>
-        internal const string Tag = "marquee";
-
-        #endregion
-
         #region ctor
 
         internal HTMLMarqueeElement()
         {
-            _name = Tag;
+            _name = Tags.MARQUEE;
         }
 
         #endregion

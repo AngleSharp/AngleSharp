@@ -8,20 +8,11 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLFrameSetElement")]
     public sealed class HTMLFrameSetElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The frameset tag.
-        /// </summary>
-        internal const String Tag = "frameset";
-
-        #endregion
-
         #region ctor
 
         internal HTMLFrameSetElement()
         {
-            _name = Tag;
+            _name = Tags.FRAMESET;
         }
 
         #endregion

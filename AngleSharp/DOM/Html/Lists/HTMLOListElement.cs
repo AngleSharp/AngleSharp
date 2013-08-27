@@ -8,14 +8,9 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLOListElement")]
     public sealed class HTMLOListElement : HTMLElement
     {
-        /// <summary>
-        /// The ol tag.
-        /// </summary>
-        internal const String Tag = "ol";
-
         internal HTMLOListElement()
         {
-            _name = Tag;
+            _name = Tags.OL;
         }
 
         /// <summary>

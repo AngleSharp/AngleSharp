@@ -8,14 +8,9 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLAppletElement")]
     public sealed class HTMLAppletElement : HTMLElement
     {
-        /// <summary>
-        /// The applet tag.
-        /// </summary>
-        internal const String Tag = "applet";
-
         internal HTMLAppletElement()
         {
-            _name = Tag;
+            _name = Tags.APPLET;
         }
 
         /// <summary>

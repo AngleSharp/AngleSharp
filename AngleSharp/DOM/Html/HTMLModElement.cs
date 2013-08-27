@@ -8,20 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLModElement")]
     public sealed class HTMLModElement : HTMLElement
     {
-        #region Constants
-
-        /// <summary>
-        /// The ins tag.
-        /// </summary>
-        internal const String InsTag = "ins";
-
-        /// <summary>
-        /// The del tag.
-        /// </summary>
-        internal const String DelTag = "del";
-
-        #endregion
-
         #region ctor
 
         internal HTMLModElement()

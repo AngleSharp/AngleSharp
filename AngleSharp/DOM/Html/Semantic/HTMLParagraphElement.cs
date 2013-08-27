@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLParagraphElement")]
     public sealed class HTMLParagraphElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The p tag.
-        /// </summary>
-        internal const String Tag = "p";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLParagraphElement()
         {
-            _name = Tag;
+            _name = Tags.P;
         }
 
         #endregion

@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLEmbedElement")]
     public sealed class HTMLEmbedElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The embed tag.
-        /// </summary>
-        internal const String Tag = "embed";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLEmbedElement()
         {
-            _name = Tag;
+            _name = Tags.EMBED;
         }
 
         #endregion

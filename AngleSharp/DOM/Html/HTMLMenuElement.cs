@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLMenuElement")]
     public sealed class HTMLMenuElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The menu tag.
-        /// </summary>
-        internal const String Tag = "menu";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLMenuElement()
         {
-            _name = Tag;
+            _name = Tags.MENU;
         }
 
         #endregion
