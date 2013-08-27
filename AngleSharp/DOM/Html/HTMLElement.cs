@@ -88,7 +88,7 @@ namespace AngleSharp.DOM.Html
                 case HTMLIsIndexElement.Tag:
                     return new HTMLIsIndexElement();
 
-                case HTMLBRElement.Tag:
+                case Tags.BR:
                     return new HTMLBRElement();
 
                 case Tags.EMBED:

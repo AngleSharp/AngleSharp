@@ -450,6 +450,11 @@ namespace AngleSharp
         public const String XMP = "xmp";
 
         /// <summary>
+        /// The br tag.
+        /// </summary>
+        public const String BR = "br";
+
+        /// <summary>
         /// The center tag.
         /// </summary>
         public const String CENTER = "center";

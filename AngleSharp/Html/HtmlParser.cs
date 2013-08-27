@@ -574,7 +574,7 @@ namespace AngleSharp.Html
                 insert = HtmlTreeMode.BeforeHead;
                 return;
             }
-            else if(token.IsEndTagInv(Tags.HTML, Tags.BODY, HTMLBRElement.Tag, Tags.HEAD))
+            else if(token.IsEndTagInv(Tags.HTML, Tags.BODY, Tags.BR, Tags.HEAD))
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                 return;
@@ -623,7 +623,7 @@ namespace AngleSharp.Html
                 insert = HtmlTreeMode.InHead;
                 return;
             }
-            else if (token.IsEndTagInv(Tags.HTML, Tags.BODY, HTMLBRElement.Tag, Tags.HEAD))
+            else if (token.IsEndTagInv(Tags.HTML, Tags.BODY, Tags.BR, Tags.HEAD))
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                 return;
@@ -745,7 +745,7 @@ namespace AngleSharp.Html
                 RaiseErrorOccurred(ErrorCode.HeadTagMisplaced);
                 return;
             }
-            else if (token.IsEndTagInv(Tags.HTML, Tags.BODY, HTMLBRElement.Tag))
+            else if (token.IsEndTagInv(Tags.HTML, Tags.BODY, Tags.BR))
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                 return;
@@ -828,7 +828,7 @@ namespace AngleSharp.Html
                 RaiseErrorOccurred(ErrorCode.TagInappropriate);
                 return;
             }
-            else if (token.IsEndTagInv(HTMLBRElement.Tag))
+            else if (token.IsEndTagInv(Tags.BR))
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                 return;
@@ -896,7 +896,7 @@ namespace AngleSharp.Html
                 RaiseErrorOccurred(ErrorCode.HeadTagMisplaced);
                 return;
             }
-            else if (token.IsEndTagInv(Tags.HTML, Tags.BODY, HTMLBRElement.Tag))
+            else if (token.IsEndTagInv(Tags.HTML, Tags.BODY, Tags.BR))
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                 return;
@@ -1181,7 +1181,7 @@ namespace AngleSharp.Html
                         break;
                     }
                     case HTMLAreaElement.Tag:
-                    case HTMLBRElement.Tag:
+                    case Tags.BR:
                     case Tags.EMBED:
                     case HTMLImageElement.Tag:
                     case Tags.KEYGEN:
@@ -1588,10 +1588,10 @@ namespace AngleSharp.Html
 
                         break;
                     }
-                    case HTMLBRElement.Tag:
+                    case Tags.BR:
                     {
                         RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
-                        InBodyStartTagBreakrow(HtmlToken.OpenTag(HTMLBRElement.Tag));
+                        InBodyStartTagBreakrow(HtmlToken.OpenTag(Tags.BR));
                         break;
                     }
                     default:
@@ -3376,7 +3376,7 @@ namespace AngleSharp.Html
                     case Tags.BIG:
                     case Tags.BLOCKQUOTE:
                     case Tags.BODY:
-                    case HTMLBRElement.Tag:
+                    case Tags.BR:
                     case Tags.CENTER:
                     case Tags.CODE:
                     case Tags.DD:
