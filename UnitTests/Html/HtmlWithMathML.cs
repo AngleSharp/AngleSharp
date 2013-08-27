@@ -551,6 +551,138 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void MathMLElementWithDivAndObjectElements()
+        {
+            var doc = DocumentBuilder.Html(@"<math><mi><div><object><div><span></span></div></object></div></mi><mi>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1math0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0body1math0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0.Attributes.Length);
+            Assert.AreEqual("math", dochtml0body1math0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0.NodeType);
+
+            var dochtml0body1math0mi0 = dochtml0body1math0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mi0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0.Attributes.Length);
+            Assert.AreEqual("mi", dochtml0body1math0mi0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0.NodeType);
+
+            var dochtml0body1math0mi0div0 = dochtml0body1math0mi0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mi0div0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0div0.Attributes.Length);
+            Assert.AreEqual("div", dochtml0body1math0mi0div0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0div0.NodeType);
+
+            var dochtml0body1math0mi0div0object0 = dochtml0body1math0mi0div0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mi0div0object0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0div0object0.Attributes.Length);
+            Assert.AreEqual("object", dochtml0body1math0mi0div0object0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0div0object0.NodeType);
+
+            var dochtml0body1math0mi0div0object0div0 = dochtml0body1math0mi0div0object0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mi0div0object0div0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0div0object0div0.Attributes.Length);
+            Assert.AreEqual("div", dochtml0body1math0mi0div0object0div0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0div0object0div0.NodeType);
+
+            var dochtml0body1math0mi0div0object0div0span0 = dochtml0body1math0mi0div0object0div0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1math0mi0div0object0div0span0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0div0object0div0span0.Attributes.Length);
+            Assert.AreEqual("span", dochtml0body1math0mi0div0object0div0span0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0div0object0div0span0.NodeType);
+
+            var dochtml0body1math0mi1 = dochtml0body1math0.ChildNodes[1];
+            Assert.AreEqual(0, dochtml0body1math0mi1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi1.Attributes.Length);
+            Assert.AreEqual("mi", dochtml0body1math0mi1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi1.NodeType);
+        }
+
+        [TestMethod]
+        public void MathMLElementWithSvgChild()
+        {
+            var doc = DocumentBuilder.Html(@"<math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1math0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0body1math0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0.Attributes.Length);
+            Assert.AreEqual("math", dochtml0body1math0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0.NodeType);
+
+            var dochtml0body1math0mi0 = dochtml0body1math0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mi0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0.Attributes.Length);
+            Assert.AreEqual("mi", dochtml0body1math0mi0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0.NodeType);
+
+            var dochtml0body1math0mi0svg0 = dochtml0body1math0mi0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mi0svg0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0svg0.Attributes.Length);
+            Assert.AreEqual("svg", dochtml0body1math0mi0svg0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0svg0.NodeType);
+
+            var dochtml0body1math0mi0svg0foreignObject0 = dochtml0body1math0mi0svg0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mi0svg0foreignObject0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0svg0foreignObject0.Attributes.Length);
+            Assert.AreEqual("foreignObject", dochtml0body1math0mi0svg0foreignObject0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0svg0foreignObject0.NodeType);
+
+            var dochtml0body1math0mi0svg0foreignObject0div0 = dochtml0body1math0mi0svg0foreignObject0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mi0svg0foreignObject0div0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0svg0foreignObject0div0.Attributes.Length);
+            Assert.AreEqual("div", dochtml0body1math0mi0svg0foreignObject0div0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0svg0foreignObject0div0.NodeType);
+
+            var dochtml0body1math0mi0svg0foreignObject0div0div0 = dochtml0body1math0mi0svg0foreignObject0div0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1math0mi0svg0foreignObject0div0div0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0svg0foreignObject0div0div0.Attributes.Length);
+            Assert.AreEqual("div", dochtml0body1math0mi0svg0foreignObject0div0div0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0svg0foreignObject0div0div0.NodeType);
+
+            var dochtml0body1math0mi1 = dochtml0body1math0.ChildNodes[1];
+            Assert.AreEqual(0, dochtml0body1math0mi1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi1.Attributes.Length);
+            Assert.AreEqual("mi", dochtml0body1math0mi1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi1.NodeType);
+        }
+
+        [TestMethod]
         public void MathMLSingleElementWithChild()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math><mi>");
@@ -589,6 +721,426 @@ namespace UnitTests
             Assert.AreEqual(0, dochtml1body1math0mi0.Attributes.Length);
             Assert.AreEqual("mi", dochtml1body1math0mi0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1math0mi0.NodeType);
+        }
+
+        [TestMethod]
+        public void MathMLWithMiAndMglyphElements()
+        {
+            var doc = DocumentBuilder.Html(@"<math><mi><mglyph>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1math0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0.Attributes.Length);
+            Assert.AreEqual("math", dochtml0body1math0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0.NodeType);
+
+            var dochtml0body1math0mi0 = dochtml0body1math0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mi0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0.Attributes.Length);
+            Assert.AreEqual("mi", dochtml0body1math0mi0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0.NodeType);
+
+            var dochtml0body1math0mi0mglyph0 = dochtml0body1math0mi0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1math0mi0mglyph0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0mglyph0.Attributes.Length);
+            Assert.AreEqual("mglyph", dochtml0body1math0mi0mglyph0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0mglyph0.NodeType);
+        }
+
+        [TestMethod]
+        public void MathMLWithMiAndMalignmarkElements()
+        {
+            var doc = DocumentBuilder.Html(@"<math><mi><malignmark>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1math0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0.Attributes.Length);
+            Assert.AreEqual("math", dochtml0body1math0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0.NodeType);
+
+            var dochtml0body1math0mi0 = dochtml0body1math0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mi0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0.Attributes.Length);
+            Assert.AreEqual("mi", dochtml0body1math0mi0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0.NodeType);
+
+            var dochtml0body1math0mi0malignmark0 = dochtml0body1math0mi0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1math0mi0malignmark0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mi0malignmark0.Attributes.Length);
+            Assert.AreEqual("malignmark", dochtml0body1math0mi0malignmark0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0malignmark0.NodeType);
+        }
+
+        [TestMethod]
+        public void MathMLWithMoAndMglyphElements()
+        {
+            var doc = DocumentBuilder.Html(@"<math><mo><mglyph>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1math0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0.Attributes.Length);
+            Assert.AreEqual("math", dochtml0body1math0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0.NodeType);
+
+            var dochtml0body1math0mo0 = dochtml0body1math0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mo0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mo0.Attributes.Length);
+            Assert.AreEqual("mo", dochtml0body1math0mo0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mo0.NodeType);
+
+            var dochtml0body1math0mo0mglyph0 = dochtml0body1math0mo0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1math0mo0mglyph0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mo0mglyph0.Attributes.Length);
+            Assert.AreEqual("mglyph", dochtml0body1math0mo0mglyph0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mo0mglyph0.NodeType);
+        }
+
+        [TestMethod]
+        public void MathMLWithMoAndMalignmarkElements()
+        {
+            var doc = DocumentBuilder.Html(@"<math><mo><malignmark>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1math0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0.Attributes.Length);
+            Assert.AreEqual("math", dochtml0body1math0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0.NodeType);
+
+            var dochtml0body1math0mo0 = dochtml0body1math0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mo0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mo0.Attributes.Length);
+            Assert.AreEqual("mo", dochtml0body1math0mo0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mo0.NodeType);
+
+            var dochtml0body1math0mo0malignmark0 = dochtml0body1math0mo0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1math0mo0malignmark0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mo0malignmark0.Attributes.Length);
+            Assert.AreEqual("malignmark", dochtml0body1math0mo0malignmark0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mo0malignmark0.NodeType);
+        }
+
+        [TestMethod]
+        public void MathMLWithMnAndMglyphElements()
+        {
+            var doc = DocumentBuilder.Html(@"<math><mn><mglyph>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1math0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0.Attributes.Length);
+            Assert.AreEqual("math", dochtml0body1math0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0.NodeType);
+
+            var dochtml0body1math0mn0 = dochtml0body1math0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mn0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mn0.Attributes.Length);
+            Assert.AreEqual("mn", dochtml0body1math0mn0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mn0.NodeType);
+
+            var dochtml0body1math0mn0mglyph0 = dochtml0body1math0mn0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1math0mn0mglyph0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mn0mglyph0.Attributes.Length);
+            Assert.AreEqual("mglyph", dochtml0body1math0mn0mglyph0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mn0mglyph0.NodeType);
+        }
+
+        [TestMethod]
+        public void MathMLWithMnAndMalignmarkElements()
+        {
+            var doc = DocumentBuilder.Html(@"<math><mn><malignmark>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1math0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0.Attributes.Length);
+            Assert.AreEqual("math", dochtml0body1math0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0.NodeType);
+
+            var dochtml0body1math0mn0 = dochtml0body1math0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mn0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mn0.Attributes.Length);
+            Assert.AreEqual("mn", dochtml0body1math0mn0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mn0.NodeType);
+
+            var dochtml0body1math0mn0malignmark0 = dochtml0body1math0mn0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1math0mn0malignmark0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mn0malignmark0.Attributes.Length);
+            Assert.AreEqual("malignmark", dochtml0body1math0mn0malignmark0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mn0malignmark0.NodeType);
+        }
+
+        [TestMethod]
+        public void MathMLWithMsAndMglyphElements()
+        {
+            var doc = DocumentBuilder.Html(@"<math><ms><mglyph>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1math0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0.Attributes.Length);
+            Assert.AreEqual("math", dochtml0body1math0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0.NodeType);
+
+            var dochtml0body1math0ms0 = dochtml0body1math0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0ms0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0ms0.Attributes.Length);
+            Assert.AreEqual("ms", dochtml0body1math0ms0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0ms0.NodeType);
+
+            var dochtml0body1math0ms0mglyph0 = dochtml0body1math0ms0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1math0ms0mglyph0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0ms0mglyph0.Attributes.Length);
+            Assert.AreEqual("mglyph", dochtml0body1math0ms0mglyph0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0ms0mglyph0.NodeType);
+        }
+
+        [TestMethod]
+        public void MathMLWithMsAndMalignmarkElements()
+        {
+            var doc = DocumentBuilder.Html(@"<math><ms><malignmark>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1math0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0.Attributes.Length);
+            Assert.AreEqual("math", dochtml0body1math0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0.NodeType);
+
+            var dochtml0body1math0ms0 = dochtml0body1math0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0ms0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0ms0.Attributes.Length);
+            Assert.AreEqual("ms", dochtml0body1math0ms0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0ms0.NodeType);
+
+            var dochtml0body1math0ms0malignmark0 = dochtml0body1math0ms0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1math0ms0malignmark0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0ms0malignmark0.Attributes.Length);
+            Assert.AreEqual("malignmark", dochtml0body1math0ms0malignmark0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0ms0malignmark0.NodeType);
+        }
+
+        [TestMethod]
+        public void MathMLWithMtextAndMglyphElements()
+        {
+            var doc = DocumentBuilder.Html(@"<math><mtext><mglyph>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1math0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0.Attributes.Length);
+            Assert.AreEqual("math", dochtml0body1math0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0.NodeType);
+
+            var dochtml0body1math0mtext0 = dochtml0body1math0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mtext0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mtext0.Attributes.Length);
+            Assert.AreEqual("mtext", dochtml0body1math0mtext0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mtext0.NodeType);
+
+            var dochtml0body1math0mtext0mglyph0 = dochtml0body1math0mtext0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1math0mtext0mglyph0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mtext0mglyph0.Attributes.Length);
+            Assert.AreEqual("mglyph", dochtml0body1math0mtext0mglyph0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mtext0mglyph0.NodeType);
+        }
+
+        [TestMethod]
+        public void MathMLWithMtextAndMalignmarkElements()
+        {
+            var doc = DocumentBuilder.Html(@"<math><mtext><malignmark>");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1math0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0.Attributes.Length);
+            Assert.AreEqual("math", dochtml0body1math0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0.NodeType);
+
+            var dochtml0body1math0mtext0 = dochtml0body1math0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1math0mtext0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mtext0.Attributes.Length);
+            Assert.AreEqual("mtext", dochtml0body1math0mtext0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mtext0.NodeType);
+
+            var dochtml0body1math0mtext0malignmark0 = dochtml0body1math0mtext0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1math0mtext0malignmark0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1math0mtext0malignmark0.Attributes.Length);
+            Assert.AreEqual("malignmark", dochtml0body1math0mtext0malignmark0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1math0mtext0malignmark0.NodeType);
         }
 
         [TestMethod]
