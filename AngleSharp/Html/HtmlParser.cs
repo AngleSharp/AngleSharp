@@ -15,7 +15,7 @@ namespace AngleSharp.Html
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public class HtmlParser : IParser
     {
         #region Members
@@ -3465,14 +3465,14 @@ namespace AngleSharp.Html
 
                     for (int i = open.Count - 1; i > 0; i--)
                     {
-                        node = open[i];
-
                         if (node.NodeName.Equals(tag.Name, StringComparison.OrdinalIgnoreCase))
                         {
                             open.RemoveRange(i + 1, open.Count - i - 1);
                             CloseCurrentNode();
                             break;
                         }
+
+                        node = open[i - 1];
 
                         if (node.IsInHtml)
                         {
