@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using AngleSharp.DOM;
-using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Mathml;
 using AngleSharp.DOM.Svg;
-using AngleSharp.DOM.Xml;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
@@ -18,7 +15,7 @@ namespace AngleSharp.Html
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     public class HtmlParser : IParser
     {
         #region Members
