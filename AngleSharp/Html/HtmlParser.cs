@@ -994,7 +994,7 @@ namespace AngleSharp.Html
                     case HTMLDetailsElement.Tag:
                     case HTMLDialogElement.Tag:
                     case HTMLDirectoryElement.Tag:
-                    case HTMLDivElement.Tag:
+                    case Tags.DIV:
                     case Tags.DL:
                     case HTMLFieldSetElement.Tag:
                     case Tags.FIGCAPTION:
@@ -1446,7 +1446,7 @@ namespace AngleSharp.Html
                     case HTMLDetailsElement.Tag:
                     case HTMLDialogElement.Tag:
                     case HTMLDirectoryElement.Tag:
-                    case HTMLDivElement.Tag:
+                    case Tags.DIV:
                     case Tags.DL:
                     case HTMLFieldSetElement.Tag:
                     case Tags.FIGCAPTION:
@@ -3383,7 +3383,7 @@ namespace AngleSharp.Html
                     case Tags.CENTER:
                     case Tags.CODE:
                     case Tags.DD:
-                    case HTMLDivElement.Tag:
+                    case Tags.DIV:
                     case Tags.DL:
                     case Tags.DT:
                     case Tags.EM:
@@ -3622,31 +3622,8 @@ namespace AngleSharp.Html
                 if (node.NodeName == tagName)
                     return true;
 
-                if (node.IsInHtml)
-                {
-                    switch (node.NodeName)
-                    {
-                        case Tags.MARQUEE:
-                        case Tags.OBJECT:
-                        case Tags.TH:
-                        case Tags.TD:
-                        case Tags.HTML:
-                        case Tags.TABLE:
-                        case Tags.CAPTION:
-                        case Tags.APPLET:
-                            return false;
-                    }
-                }
-                else if (node.IsInSvg)
-                {
-                    if (node.IsSpecial)
-                        return false;
-                }
-                else if (node.IsInMathML)
-                {
-                    if(node.IsSpecial)
-                        return false;
-                }
+                if (CheckAllScopeElements(node))
+                    return false;
             }
 
             return false;
@@ -3687,7 +3664,7 @@ namespace AngleSharp.Html
                 if (node.NodeName == tagName)
                     return true;
 
-                if (node is HTMLButtonElement)
+                if (CheckAllScopeElements(node) || node is HTMLButtonElement)
                     return false;
             }
 
@@ -3704,10 +3681,10 @@ namespace AngleSharp.Html
             {
                 var node = open[i];
 
-                if (node is HTMLTableSectionElement || node is HTMLTableSectionElement || node is HTMLTableSectionElement)
+                if (node is HTMLTableSectionElement)
                     return true;
 
-                if (node is HTMLHtmlElement || node is HTMLTableElement)
+                if (node is HTMLHtmlElement || node is HTMLTableElement || node is HTMLTemplateElement)
                     return false;
             }
 
@@ -3727,8 +3704,8 @@ namespace AngleSharp.Html
 
                 if (node.NodeName == tagName)
                     return true;
-                
-                if (node is HTMLHtmlElement || node is HTMLTableElement)
+
+                if (node is HTMLHtmlElement || node is HTMLTableElement || node is HTMLTemplateElement)
                     return false;
             }
 
@@ -3749,8 +3726,10 @@ namespace AngleSharp.Html
                 if (node.NodeName == tagName)
                     return true;
 
-                if (!(node is HTMLOptGroupElement) && !(node is HTMLOptionElement))
-                    return false;
+                if (node is HTMLOptGroupElement || node is HTMLOptionElement)
+                    continue;
+
+                return false;
             }
 
             return false;
@@ -3759,6 +3738,56 @@ namespace AngleSharp.Html
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Checks if the given node matches any tag name in a specific list.
+        /// </summary>
+        /// <param name="node">The node to examine.</param>
+        /// <returns>True if the node matches an element, otherwise false.</returns>
+        Boolean CheckAllScopeElements(Element node)
+        {
+            if (node.IsInHtml)
+            {
+                switch (node.NodeName)
+                {
+                    case Tags.APPLET:
+                    case Tags.CAPTION:
+                    case Tags.HTML:
+                    case Tags.TABLE:
+                    case Tags.TD:
+                    case Tags.TH:
+                    case Tags.MARQUEE:
+                    case Tags.OBJECT:
+                    case Tags.TEMPLATE:
+                        return true;
+                }
+            }
+            else if (node.IsInSvg)
+            {
+                switch (node.NodeName)
+                {
+                    case Tags.FOREIGNOBJECT:
+                    case Tags.DESC:
+                    case Tags.TITLE:
+                        return true;
+                }
+            }
+            else if (node.IsInMathML)
+            {
+                switch (node.NodeName)
+                {
+                    case Tags.MI:
+                    case Tags.MO:
+                    case Tags.MN:
+                    case Tags.MS:
+                    case Tags.MTEXT:
+                    case Tags.ANNOTATION_XML:
+                        return true;
+                }
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Checks if a tag with the given name is currently open.

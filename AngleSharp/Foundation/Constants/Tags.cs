@@ -7,6 +7,8 @@ namespace AngleSharp
     /// </summary>
     static class Tags
     {
+        #region HTML Tags
+
         /// <summary>
         /// The html tag.
         /// </summary>
@@ -388,6 +390,11 @@ namespace AngleSharp
         public const String H6 = "h6";
 
         /// <summary>
+        /// The div tag.
+        /// </summary>
+        public const String DIV = "div";
+
+        /// <summary>
         /// The quote tag.
         /// </summary>
         public const String QUOTE = "quote";
@@ -506,5 +513,55 @@ namespace AngleSharp
         /// The plaintext tag.
         /// </summary>
         public const String PLAINTEXT = "plaintext";
+
+        #endregion
+
+        #region MathML Tags
+
+        /// <summary>
+        /// The mi tag.
+        /// </summary>
+        public const String MI = "mi";
+
+        /// <summary>
+        /// The mo tag.
+        /// </summary>
+        public const String MO = "mo";
+
+        /// <summary>
+        /// The mn tag.
+        /// </summary>
+        public const String MN = "mn";
+
+        /// <summary>
+        /// The ms tag.
+        /// </summary>
+        public const String MS = "ms";
+
+        /// <summary>
+        /// The mtext tag.
+        /// </summary>
+        public const String MTEXT = "mtext";
+
+        /// <summary>
+        /// The annotation-xml tag.
+        /// </summary>
+        public const String ANNOTATION_XML = "annotation-xml";
+
+        #endregion
+
+        #region SVG Tags
+
+        /// <summary>
+        /// The foreignObject tag.
+        /// </summary>
+        public const String FOREIGNOBJECT = "foreignObject";
+
+        /// <summary>
+        /// The desc tag.
+        /// </summary>
+        public const String DESC = "desc";
+
+        #endregion
     }
 }

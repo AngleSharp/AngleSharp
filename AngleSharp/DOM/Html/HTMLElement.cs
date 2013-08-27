@@ -94,7 +94,7 @@ namespace AngleSharp.DOM.Html
                 case Tags.EMBED:
                     return new HTMLEmbedElement();
 
-                case HTMLDivElement.Tag:
+                case Tags.DIV:
                     return new HTMLDivElement();
 
                 case HTMLAreaElement.Tag:
