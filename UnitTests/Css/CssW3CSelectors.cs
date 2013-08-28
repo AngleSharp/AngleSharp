@@ -207,14 +207,10 @@ namespace UnitTests
 	        Assert.AreEqual(1, selector5.Length);
         }
 
-        #endregion
-
-        //TODO 1.) Add correct numbers of matches for each selector
-        //TODO 2.) Decorate each method as [TestMethod]
-
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-9.xml
         /// </summary>
+        [TestMethod]
         public void SubstringMatchingAttributeSelectorBeginning()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foobar"">This paragraph should have a green background<br></br>
@@ -222,14 +218,15 @@ because its title attribute begins with foo</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p[title^=foo]");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-10.xml
         /// </summary>
+        [TestMethod]
         public void SubstringMatchingAttributeSelectorEnd()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foobar"">This paragraph should have a green background because
@@ -237,14 +234,15 @@ its title attribute ends with bar</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p[title$=bar]");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-11.xml
         /// </summary>
+        [TestMethod]
         public void SubstringMatchingAttributeSelectorContains()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foobarufoo"">This paragraph should have a green background because
@@ -252,14 +250,15 @@ its title attribute contains bar</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p[title*=bar]");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-13.xml
         /// </summary>
+        [TestMethod]
         public void ClassSelectors()
         {
 	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
@@ -273,11 +272,11 @@ its title attribute contains bar</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("li");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(3, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".t1");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("li.t2");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(2, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll(".t3");
 	        Assert.AreEqual(0, selector4.Length);
         }
@@ -285,6 +284,7 @@ its title attribute contains bar</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14.xml
         /// </summary>
+        [TestMethod]
         public void MoreThanOneClassSelectorA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This paragraph
@@ -296,13 +296,13 @@ should be green.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p.t1");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("p.t2");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("div");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(1, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("div.teST");
 	        Assert.AreEqual(0, selector5.Length);
 	        var selector6 = doc.QuerySelectorAll("div.te");
@@ -316,6 +316,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14b.xml
         /// </summary>
+        [TestMethod]
         public void MoreThanOneClassSelectorB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1"">This line should be green.</p>
@@ -323,7 +324,7 @@ should be green.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(2, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".t1.fail");
 	        Assert.AreEqual(0, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll(".fail.t1");
@@ -337,6 +338,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14c.xml
         /// </summary>
+        [TestMethod]
         public void MoreThanOneClassSelectorC()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>
@@ -345,18 +347,23 @@ should be green.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p.t1.t2");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("div");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("div.t1");
 	        Assert.AreEqual(0, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector5.Length);
+	        Assert.AreEqual(1, selector5.Length);
 	        var selector6 = doc.QuerySelectorAll("address.t5.t5");
-	        Assert.AreEqual(0, selector6.Length);
+	        Assert.AreEqual(1, selector6.Length);
         }
+
+        #endregion
+
+        //TODO 1.) Add correct numbers of matches for each selector
+        //TODO 2.) Decorate each method as [TestMethod]
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14d.xml
