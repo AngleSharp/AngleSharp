@@ -1007,7 +1007,7 @@ namespace AngleSharp.Html
                     case Tags.SUMMARY:
                     case Tags.UL:
                     {
-                        if (IsInButtonScope(Tags.P))
+                        if (IsInButtonScope())
                             InBodyEndTagParagraph();
 
                         var element = HTMLElement.Create(tag.Name);
@@ -1021,7 +1021,7 @@ namespace AngleSharp.Html
                     case Tags.H5:
                     case Tags.H6:
                     {
-                        if (IsInButtonScope(Tags.P))
+                        if (IsInButtonScope())
                             InBodyEndTagParagraph();
 
                         if (CurrentNode is HTMLHeadingElement)
@@ -1037,7 +1037,7 @@ namespace AngleSharp.Html
                     case Tags.PRE:
                     case Tags.LISTING:
                     {
-                        if (IsInButtonScope(Tags.P))
+                        if (IsInButtonScope())
                             InBodyEndTagParagraph();
 
                         var element = new HTMLPreElement();
@@ -1050,7 +1050,7 @@ namespace AngleSharp.Html
                     {
                         if (form == null)
                         {
-                            if (IsInButtonScope(Tags.P))
+                            if (IsInButtonScope())
                                 InBodyEndTagParagraph();
 
                             var element = new HTMLFormElement();
@@ -1075,7 +1075,7 @@ namespace AngleSharp.Html
                     }
                     case Tags.PLAINTEXT:
                     {
-                        if (IsInButtonScope(Tags.P))
+                        if (IsInButtonScope())
                             InBodyEndTagParagraph();
 
                         var plaintext = new HTMLElement();
@@ -1177,7 +1177,7 @@ namespace AngleSharp.Html
                     }
                     case Tags.TABLE:
                     {
-                        if (doc.QuirksMode == QuirksMode.Off && IsInButtonScope(Tags.P))
+                        if (doc.QuirksMode == QuirksMode.Off && IsInButtonScope())
                             InBodyEndTagParagraph();
 
                         var element = new HTMLTableElement();
@@ -1218,7 +1218,7 @@ namespace AngleSharp.Html
                     }
                     case Tags.HR:
                     {
-                        if (IsInButtonScope(Tags.P))
+                        if (IsInButtonScope())
                             InBodyEndTagParagraph();
 
                         var element = new HTMLHRElement();
@@ -1283,7 +1283,7 @@ namespace AngleSharp.Html
                     }
                     case Tags.XMP:
                     {
-                        if (IsInButtonScope(Tags.P))
+                        if (IsInButtonScope())
                             InBodyEndTagParagraph();
 
                         ReconstructFormatting();
@@ -1541,7 +1541,7 @@ namespace AngleSharp.Html
                     case Tags.H5:
                     case Tags.H6:
                     {
-                        if (IsHeadingInScope())
+                        if (IsInScope<HTMLHeadingElement>())
                         {
                             GenerateImpliedEndTags();
 
@@ -2739,7 +2739,7 @@ namespace AngleSharp.Html
                 var node = CurrentNode;
                 CloseCurrentNode();
 
-                if (node.NodeName == Tags.TEMPLATE)
+                if (node is HTMLTemplateElement)
                     break;
             }
 
@@ -2754,7 +2754,7 @@ namespace AngleSharp.Html
         /// <param name="tag">The tag to insert which triggers the closing of the table.</param>
         void InTableBodyCloseTable(HtmlTagToken tag)
         {
-            if (IsSectionInTableScope())
+            if (IsInTableScope<HTMLTableSectionElement>())
             {
                 ClearStackBackToTableSection();
                 CloseCurrentNode();
@@ -2772,7 +2772,7 @@ namespace AngleSharp.Html
         /// </summary>
         void InSelectEndTagOption()
         {
-            if (CurrentNode.NodeName == Tags.OPTION)
+            if (CurrentNode is HTMLOptionElement)
                 CloseCurrentNode();
             else
                 RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
@@ -2806,7 +2806,7 @@ namespace AngleSharp.Html
             }
             else
             {
-                RaiseErrorOccurred(ErrorCode.CurrentNodeIsRoot);
+                RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
                 return false;
             }
         }
@@ -2875,7 +2875,7 @@ namespace AngleSharp.Html
                 node = open[--index];
             }
 
-            if (IsInButtonScope(Tags.P))
+            if (IsInButtonScope())
                 InBodyEndTagParagraph();
 
             var element = HTMLElement.Create(tag.Name);
@@ -2908,7 +2908,7 @@ namespace AngleSharp.Html
                 node = open[--index];
             }
 
-            if (IsInButtonScope(Tags.P))
+            if (IsInButtonScope())
                 InBodyEndTagParagraph();
 
             var element = HTMLElement.Create(tag.Name);
@@ -3165,9 +3165,9 @@ namespace AngleSharp.Html
         /// Act as if an body end tag has been found in the InBody state.
         /// </summary>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        bool InBodyEndTagBody()
+        Boolean InBodyEndTagBody()
         {
-            if (IsInScope(Tags.BODY))
+            if (IsInScope<HTMLBodyElement>())
             {
                 for (var i = 0; i < open.Count; i++)
                 {
@@ -3227,11 +3227,11 @@ namespace AngleSharp.Html
         /// <returns>True if the token was found, otherwise false.</returns>
         Boolean InBodyEndTagParagraph()
         {
-            if (IsInButtonScope(Tags.P))
+            if (IsInButtonScope())
             {
                 GenerateImpliedEndTagsExceptFor(Tags.P);
 
-                if (CurrentNode.NodeName != Tags.P)
+                if (!(CurrentNode is HTMLParagraphElement))
                     RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
 
                 ClearStackBackTo(Tags.P);
@@ -3253,7 +3253,7 @@ namespace AngleSharp.Html
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InTableEndTagTable()
         {
-            if (IsInTableScope(Tags.TABLE))
+            if (IsInTableScope<HTMLTableElement>())
             {
                 ClearStackBackTo(Tags.TABLE);
                 CloseCurrentNode();
@@ -3273,7 +3273,7 @@ namespace AngleSharp.Html
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InRowEndTagTablerow()
         {
-            if (IsInTableScope(Tags.TR))
+            if (IsInTableScope<HTMLTableRowElement>())
             {
                 ClearStackBackToTableRow();
                 CloseCurrentNode();
@@ -3304,7 +3304,7 @@ namespace AngleSharp.Html
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InCaptionEndTagCaption()
         {
-            if (IsInTableScope(Tags.CAPTION))
+            if (IsInTableScope<HTMLTableCaptionElement>())
             {
                 GenerateImpliedEndTags();
 
@@ -3329,7 +3329,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="tagName">The tag name (td or th) that has been found.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        Boolean InCellEndTagCell(string tagName)
+        Boolean InCellEndTagCell(String tagName)
         {
             if (IsInTableScope(tagName))
             {
@@ -3572,49 +3572,6 @@ namespace AngleSharp.Html
         #region Scope
 
         /// <summary>
-        /// Determines if one of the tag names (h1, h2, h3, h4, h5, h6) is in the global scope.
-        /// </summary>
-        /// <returns>True if it is in scope, otherwise false.</returns>
-        Boolean IsHeadingInScope()
-        {
-            for (int i = open.Count - 1; i >= 0; i--)
-            {
-                var node = open[i];
-
-                if (node is HTMLHeadingElement)
-                    return true;
-
-                if (node.IsInHtml)
-                {
-                    switch (node.NodeName)
-                    {
-                        case Tags.MARQUEE:
-                        case Tags.OBJECT:
-                        case Tags.TH:
-                        case Tags.TD:
-                        case Tags.HTML:
-                        case Tags.TABLE:
-                        case Tags.CAPTION:
-                        case Tags.APPLET:
-                            return false;
-                    }
-                }
-                else if (node.IsInSvg)
-                {
-                    if (node.IsSpecial)
-                        return false;
-                }
-                else if (node.IsInMathML)
-                {
-                    if (node.IsSpecial)
-                        return false;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Determines if the given tag name is in the global scope.
         /// </summary>
         /// <param name="tagName">The tag name to check.</param>
@@ -3628,7 +3585,27 @@ namespace AngleSharp.Html
                 if (node.NodeName == tagName)
                     return true;
 
-                if (CheckAllScopeElements(node))
+                if (node is IScopeElement)
+                    return false;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines if the given type is in the global scope.
+        /// </summary>
+        /// <returns>True if it is in scope, otherwise false.</returns>
+        Boolean IsInScope<T>()
+        {
+            for (int i = open.Count - 1; i >= 0; i--)
+            {
+                var node = open[i];
+
+                if (node is T)
+                    return true;
+
+                if (node is IScopeElement)
                     return false;
             }
 
@@ -3657,20 +3634,19 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
-        /// Determines if the given tag name is in the button scope.
+        /// Determines if a paragraph is in the button scope.
         /// </summary>
-        /// <param name="tagName">The tag name to check.</param>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        Boolean IsInButtonScope(String tagName)
+        Boolean IsInButtonScope()
         {
             for (int i = open.Count - 1; i >= 0; i--)
             {
                 var node = open[i];
 
-                if (node.NodeName == tagName)
+                if (node is HTMLParagraphElement)
                     return true;
 
-                if (CheckAllScopeElements(node) || node is HTMLButtonElement)
+                if (node is IScopeElement || node is HTMLButtonElement)
                     return false;
             }
 
@@ -3678,16 +3654,16 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
-        /// Determines if one of the tag names (tbody, tfoot, thead) is in the table scope.
+        /// Determines if the given type is in the table scope.
         /// </summary>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        Boolean IsSectionInTableScope()
+        Boolean IsInTableScope<T>()
         {
             for (int i = open.Count - 1; i >= 0; i--)
             {
                 var node = open[i];
 
-                if (node is HTMLTableSectionElement)
+                if (node is T)
                     return true;
 
                 if (node is ITableScopeElement)
@@ -3744,19 +3720,6 @@ namespace AngleSharp.Html
         #endregion
 
         #region Helpers
-
-        /// <summary>
-        /// Checks if the given node matches any tag name in a specific list.
-        /// </summary>
-        /// <param name="node">The node to examine.</param>
-        /// <returns>True if the node matches an element, otherwise false.</returns>
-        Boolean CheckAllScopeElements(Element node)
-        {
-            if (node is IScopeElement)
-                return true;
-
-            return false;
-        }
 
         /// <summary>
         /// Checks if a tag with the given name is currently open.
