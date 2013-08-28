@@ -5,8 +5,8 @@ namespace AngleSharp.DOM.Svg
     /// <summary>
     /// Represents an element of the SVG DOM.
     /// </summary>
-    [DOM("SVGSVGElement")]
-    public sealed class SVGElement : Element
+    [DOM("SVGElement")]
+    public class SVGElement : Element
     {
         #region ctor
 
@@ -15,9 +15,12 @@ namespace AngleSharp.DOM.Svg
         /// </summary>
         internal SVGElement()
         {
-            _name = Tags.SVG;
             _ns = Namespaces.Svg;
         }
+
+        #endregion
+
+        #region Factory
 
         /// <summary>
         /// Returns a specialized SVGElement instance for the given tag name.
@@ -26,7 +29,26 @@ namespace AngleSharp.DOM.Svg
         /// <returns>The specialized SVGElement instance.</returns>
         internal static SVGElement Create(String tagName)
         {
-            return new SVGElement { _name = tagName };
+            switch (tagName)
+            {
+                case Tags.SVG:
+                    return new SVGSVGElement();
+
+                case Tags.CIRCLE:
+                    return new SVGCircleElement();
+
+                case Tags.DESC:
+                    return new SVGDescElement();
+
+                case Tags.FOREIGNOBJECT:
+                    return new SVGForeignObjectElement();
+
+                case Tags.TITLE:
+                    return new SVGTitleElement();
+
+                default:
+                    return new SVGElement { _name = tagName };
+            }
         }
 
         #endregion
@@ -34,27 +56,11 @@ namespace AngleSharp.DOM.Svg
         #region Internal properties
 
         /// <summary>
-        /// Gets the status if the current node is in the MathML namespace.
+        /// Gets the status if the current node is in the SVG namespace.
         /// </summary>
         internal protected override Boolean IsInSvg
         {
             get { return true; }
-        }
-
-        /// <summary>
-        /// Gets the status if the node is an HTML text integration point.
-        /// </summary>
-        protected internal override Boolean IsHtmlTIP
-        {
-            get { return IsSpecial; }
-        }
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return _name == "foreignObject" || _name == "desc" || _name == "title"; }
         }
 
         #endregion

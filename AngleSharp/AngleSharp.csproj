@@ -77,6 +77,11 @@
     <Compile Include="DOM\Mathml\MathOperatorElement.cs" />
     <Compile Include="DOM\Mathml\MathStringElement.cs" />
     <Compile Include="DOM\Mathml\MathTextElement.cs" />
+    <Compile Include="DOM\Svg\SVGCircleElement.cs" />
+    <Compile Include="DOM\Svg\SVGDescElement.cs" />
+    <Compile Include="DOM\Svg\SVGForeignObjectElement.cs" />
+    <Compile Include="DOM\Svg\SVGSVGElement.cs" />
+    <Compile Include="DOM\Svg\SVGTitleElement.cs" />
     <Compile Include="DOM\Xml\XMLDocument.cs" />
     <Compile Include="DOM\Enums\HttpMethod.cs" />
     <Compile Include="DOM\Html\Forms\HTMLFormControlElement.cs" />

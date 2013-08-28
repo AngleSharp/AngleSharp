@@ -567,6 +567,11 @@ namespace AngleSharp
         /// </summary>
         public const String DESC = "desc";
 
+        /// <summary>
+        /// The circle tag.
+        /// </summary>
+        public const String CIRCLE = "circle";
+
         #endregion
     }
 }
