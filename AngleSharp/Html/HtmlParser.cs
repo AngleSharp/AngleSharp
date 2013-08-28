@@ -900,7 +900,7 @@ namespace AngleSharp.Html
 
             AfterHeadStartTagBody(HtmlToken.OpenTag(Tags.BODY));
             frameset = true;
-            Consume(token);
+            Home(token);
         }
 
         /// <summary>
@@ -1770,7 +1770,7 @@ namespace AngleSharp.Html
                         RaiseErrorOccurred(ErrorCode.TableNesting);
 
                         if (InTableEndTagTable())
-                            Consume(token);
+                            Home(token);
 
                         break;
                     }
@@ -2165,7 +2165,7 @@ namespace AngleSharp.Html
                     if (IsInTableScope(tag.Name))
                     {
                         CloseTheCell();
-                        Consume(token);
+                        Home(token);
                     }
                     else
                     {
@@ -2184,7 +2184,7 @@ namespace AngleSharp.Html
                 if (IsInTableScope(Tags.TD) || IsInTableScope(Tags.TH))
                 {
                     CloseTheCell();
-                    Consume(token);
+                    Home(token);
                 }
                 else
                 {
@@ -2262,7 +2262,7 @@ namespace AngleSharp.Html
                         if (IsInSelectScope(Tags.SELECT))
                         {
                             InSelectEndTagSelect();
-                            Consume(token);
+                            Home(token);
                         }
 
                         break;
@@ -2344,7 +2344,7 @@ namespace AngleSharp.Html
                 {
                     RaiseErrorOccurred(ErrorCode.IllegalElementInSelectDetected);
                     InSelectEndTagSelect();
-                    Consume(token);
+                    Home(token);
                 }
                 else
                 {
@@ -2353,7 +2353,7 @@ namespace AngleSharp.Html
                     if (IsInTableScope(tag.Name))
                     {
                         InSelectEndTagSelect();
-                        Consume(token);
+                        Home(token);
                     }
                 }
             }
@@ -3723,7 +3723,7 @@ namespace AngleSharp.Html
             if (temp.Type == HtmlTokenType.Character)
                 ((HtmlCharacterToken)temp).RemoveNewLine();
 
-            Consume(temp);
+            Home(temp);
         }
 
         /// <summary>
