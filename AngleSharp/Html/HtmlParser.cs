@@ -988,12 +988,12 @@ namespace AngleSharp.Html
                     case Tags.ASIDE:
                     case Tags.BLOCKQUOTE:
                     case Tags.CENTER:
-                    case HTMLDetailsElement.Tag:
-                    case HTMLDialogElement.Tag:
-                    case HTMLDirectoryElement.Tag:
+                    case Tags.DETAILS:
+                    case Tags.DIALOG:
+                    case Tags.DIR:
                     case Tags.DIV:
                     case Tags.DL:
-                    case HTMLFieldSetElement.Tag:
+                    case Tags.FIELDSET:
                     case Tags.FIGCAPTION:
                     case Tags.FIGURE:
                     case Tags.FOOTER:
@@ -1180,12 +1180,12 @@ namespace AngleSharp.Html
                         insert = HtmlTreeMode.InTable;
                         break;
                     }
-                    case HTMLAreaElement.Tag:
+                    case Tags.AREA:
                     case Tags.BR:
                     case Tags.EMBED:
-                    case HTMLImageElement.Tag:
+                    case Tags.IMG:
                     case Tags.KEYGEN:
-                    case HTMLWbrElement.Tag:
+                    case Tags.WBR:
                     {
                         InBodyStartTagBreakrow(tag);
                         break;
@@ -1201,16 +1201,16 @@ namespace AngleSharp.Html
                             frameset = false;
                         break;
                     }
-                    case HTMLParamElement.Tag:
-                    case HTMLSourceElement.Tag:
-                    case HTMLTrackElement.Tag:
+                    case Tags.PARAM:
+                    case Tags.SOURCE:
+                    case Tags.TRACK:
                     {
                         var element = HTMLElement.Create(tag.Name);
                         AddElementToCurrentNode(element, token, true);
                         CloseCurrentNode();
                         break;
                     }
-                    case HTMLHRElement.Tag:
+                    case Tags.HR:
                     {
                         if (IsInButtonScope(Tags.P))
                             InBodyEndTagParagraph();
@@ -1221,13 +1221,13 @@ namespace AngleSharp.Html
                         frameset = false;
                         break;
                     }
-                    case HTMLImageElement.FalseTag:
+                    case Tags.IMAGE:
                     {
                         RaiseErrorOccurred(ErrorCode.ImageTagNamedWrong);
-                        tag.Name = HTMLImageElement.Tag;
-                        goto case HTMLImageElement.Tag;
+                        tag.Name = Tags.IMG;
+                        goto case Tags.IMG;
                     }
-                    case HTMLIsIndexElement.Tag:
+                    case Tags.ISINDEX:
                     {
                         RaiseErrorOccurred(ErrorCode.TagInappropriate);
 
@@ -1238,8 +1238,8 @@ namespace AngleSharp.Html
                             if (tag.GetAttribute("action") != String.Empty)
                                 form.SetAttribute("action", tag.GetAttribute("action"));
 
-                            InBody(HtmlToken.OpenTag(HTMLHRElement.Tag));
-                            InBody(HtmlToken.OpenTag(HTMLLabelElement.Tag));
+                            InBody(HtmlToken.OpenTag(Tags.HR));
+                            InBody(HtmlToken.OpenTag(Tags.LABEL));
 
                             if (tag.GetAttribute("prompt") != String.Empty)
                                 InsertCharacters(tag.GetAttribute("prompt"));
@@ -1247,7 +1247,7 @@ namespace AngleSharp.Html
                                 InsertCharacters("This is a searchable index. Enter search keywords: ");
 
                             var input = HtmlToken.OpenTag(Tags.INPUT);
-                            input.AddAttribute("name", HTMLIsIndexElement.Tag);
+                            input.AddAttribute("name", Tags.ISINDEX);
 
                             for (int i = 0; i < tag.Attributes.Count; i++)
                             {
@@ -1258,8 +1258,8 @@ namespace AngleSharp.Html
                             }
 
                             InBody(input);
-                            InBody(HtmlToken.CloseTag(HTMLLabelElement.Tag));
-                            InBody(HtmlToken.OpenTag(HTMLHRElement.Tag));
+                            InBody(HtmlToken.CloseTag(Tags.LABEL));
+                            InBody(HtmlToken.OpenTag(Tags.HR));
                             InBody(HtmlToken.CloseTag(Tags.FORM));
                         }
                         break;
@@ -1395,7 +1395,7 @@ namespace AngleSharp.Html
                     case Tags.CAPTION:
                     case Tags.COL:
                     case Tags.COLGROUP:
-                    case HTMLFrameElement.Tag:
+                    case Tags.FRAME:
                     case Tags.HEAD:
                     case Tags.TBODY:
                     case Tags.TD:
@@ -1440,12 +1440,12 @@ namespace AngleSharp.Html
                     case Tags.BLOCKQUOTE:
                     case Tags.BUTTON:
                     case Tags.CENTER:
-                    case HTMLDetailsElement.Tag:
-                    case HTMLDialogElement.Tag:
-                    case HTMLDirectoryElement.Tag:
+                    case Tags.DETAILS:
+                    case Tags.DIALOG:
+                    case Tags.DIR:
                     case Tags.DIV:
                     case Tags.DL:
-                    case HTMLFieldSetElement.Tag:
+                    case Tags.FIELDSET:
                     case Tags.FIGCAPTION:
                     case Tags.FIGURE:
                     case Tags.FOOTER:
@@ -2549,7 +2549,7 @@ namespace AngleSharp.Html
                     AddElementToCurrentNode(element, token);
                     return;
                 }
-                else if (tag.Name == HTMLFrameElement.Tag)
+                else if (tag.Name == Tags.FRAME)
                 {
                     var element = new HTMLFrameElement();
                     AddElementToCurrentNode(element, token, true);
@@ -2855,13 +2855,15 @@ namespace AngleSharp.Html
 
             while (true)
             {
-                if (node.NodeName == Tags.LI)
+                if (node is HTMLLIElement && node.NodeName == Tags.LI)
                 {
                     InBody(HtmlToken.CloseTag(node.NodeName));
                     break;
                 }
 
-                if (node.IsSpecial && node.NodeName != Tags.ADDRESS && !(node is HTMLDivElement) && !(node is HTMLParagraphElement))
+                if (node is HTMLAddressElement || node is HTMLDivElement || node is HTMLParagraphElement)
+                { }
+                else if (node.IsSpecial)
                     break;
                 
                 node = open[--index];
@@ -2886,13 +2888,15 @@ namespace AngleSharp.Html
 
             while (true)
             {
-                if (node.NodeName == Tags.DD || node.NodeName == Tags.DT)
+                if (node is HTMLLIElement && (node.NodeName == Tags.DD || node.NodeName == Tags.DT))
                 {
                     InBody(HtmlToken.CloseTag(node.NodeName));
                     break;
                 }
 
-                if (node.IsSpecial && node.NodeName != Tags.ADDRESS && !(node is HTMLDivElement) && !(node is HTMLParagraphElement))
+                if (node is HTMLAddressElement || node is HTMLDivElement || node is HTMLParagraphElement)
+                { }
+                else if (node.IsSpecial)
                     break;
 
                 node = open[--index];
@@ -3392,9 +3396,9 @@ namespace AngleSharp.Html
                     case Tags.H5:
                     case Tags.H6:
                     case Tags.HEAD:
-                    case HTMLHRElement.Tag:
+                    case Tags.HR:
                     case Tags.I:
-                    case HTMLImageElement.Tag:
+                    case Tags.IMG:
                     case Tags.LI:
                     case Tags.LISTING:
                     case Tags.MAIN:
@@ -3407,7 +3411,7 @@ namespace AngleSharp.Html
                     case Tags.RUBY:
                     case Tags.S:
                     case Tags.SMALL:
-                    case HTMLSpanElement.Tag:
+                    case Tags.SPAN:
                     case Tags.STRONG:
                     case Tags.STRIKE:
                     case Tags.SUB:

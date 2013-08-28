@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLParamElement")]
     public sealed class HTMLParamElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The param tag.
-        /// </summary>
-        internal const String Tag = "param";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLParamElement()
         {
-            _name = Tag;
+            _name = Tags.PARAM;
         }
 
         #endregion

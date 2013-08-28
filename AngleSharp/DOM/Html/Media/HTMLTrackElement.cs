@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLTrackElement")]
     public sealed class HTMLTrackElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The track tag.
-        /// </summary>
-        internal const String Tag = "track";
-
-        #endregion
-
         #region Members
 
         TrackReadyState _ready;
@@ -30,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLTrackElement()
         {
-            _name = Tag;
+            _name = Tags.TRACK;
 
             //TODO
             _ready = TrackReadyState.None;

@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLIsIndexElement")]
     public sealed class HTMLIsIndexElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The isindex tag.
-        /// </summary>
-        internal const String Tag = "isindex";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLIsIndexElement()
         {
-            _name = Tag;
+            _name = Tags.ISINDEX;
         }
 
         #endregion

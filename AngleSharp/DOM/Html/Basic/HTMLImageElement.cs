@@ -8,20 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLImageElement")]
     public sealed class HTMLImageElement : HTMLElement
     {
-        #region Constants
-
-        /// <summary>
-        /// The img tag.
-        /// </summary>
-        internal const String Tag = "img";
-
-        /// <summary>
-        /// The image tag (this is not the right tag).
-        /// </summary>
-        internal const String FalseTag = "image";
-
-        #endregion
-
         #region Members
 
         UInt32 _imageWidth;
@@ -38,7 +24,7 @@ namespace AngleSharp.DOM.Html
         internal HTMLImageElement()
         {
             _loaded = true;
-            _name = Tag;
+            _name = Tags.IMAGE;
 
             //TODO
             _imageHeight = 0;

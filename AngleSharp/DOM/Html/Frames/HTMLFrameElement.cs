@@ -8,20 +8,11 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLFrameElement")]
     public sealed class HTMLFrameElement : HTMLFrameElementBase
     {
-        #region Constant
-
-        /// <summary>
-        /// The frame tag.
-        /// </summary>
-        internal const String Tag = "frame";
-
-        #endregion
-
         #region ctor
 
         internal HTMLFrameElement()
         {
-            _name = Tag;
+            _name = Tags.FRAME;
         }
 
         #endregion

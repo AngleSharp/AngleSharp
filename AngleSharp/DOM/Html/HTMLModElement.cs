@@ -12,6 +12,7 @@ namespace AngleSharp.DOM.Html
 
         internal HTMLModElement()
         {
+            _name = Tags.INS;
         }
 
         #endregion

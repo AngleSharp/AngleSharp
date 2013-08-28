@@ -8,20 +8,11 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLSpanElement")]
     public sealed class HTMLSpanElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The span tag.
-        /// </summary>
-        internal const String Tag = "span";
-
-        #endregion
-
         #region ctor
 
         internal HTMLSpanElement()
         {
-            _name = Tag;
+            _name = Tags.SPAN;
         }
 
         #endregion

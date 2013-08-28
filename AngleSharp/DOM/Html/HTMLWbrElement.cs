@@ -9,15 +9,6 @@ namespace AngleSharp.DOM.Html
     /// </summary>
     sealed class HTMLWbrElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The wbr tag.
-        /// </summary>
-        internal const String Tag = "wbr";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -25,7 +16,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLWbrElement()
         {
-            _name = Tag;
+            _name = Tags.WBR;
         }
 
         #endregion

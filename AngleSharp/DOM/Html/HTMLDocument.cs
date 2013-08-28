@@ -21,23 +21,9 @@ namespace AngleSharp.DOM.Html
         HTMLLiveCollection<HTMLFormElement> _forms;
         HTMLLiveCollection<HTMLScriptElement> _scripts;
         HTMLLiveCollection<HTMLImageElement> _images;
-
-        static readonly CompoundSelector anchorQuery = CompoundSelector.Create(
-            SimpleSelector.Type(Tags.A),
-            SimpleSelector.AttrAvailable("name"));
-
-        static readonly ListSelector embedQuery = ListSelector.Create(
-            SimpleSelector.Type(Tags.EMBED), 
-            SimpleSelector.Type(Tags.OBJECT), 
-            SimpleSelector.Type(Tags.APPLET));
-
-        static readonly ListSelector linkQuery = ListSelector.Create(
-            CompoundSelector.Create(
-                SimpleSelector.Type(Tags.A), 
-                SimpleSelector.AttrAvailable("href")),
-            CompoundSelector.Create(
-                SimpleSelector.Type(HTMLAreaElement.Tag), 
-                SimpleSelector.AttrAvailable("href")));
+        HTMLLiveCollectionWithAttr<HTMLAnchorElement> _anchors;
+        HTMLLiveCollection<HTMLEmbedElement, HTMLObjectElement, HTMLAppletElement> _embeds;
+        HTMLLiveCollectionWithAttr<HTMLAnchorElement, HTMLAreaElement> _links;
 
         #endregion
 
@@ -186,9 +172,6 @@ namespace AngleSharp.DOM.Html
             _contentType = MimeTypes.Xml;
             _ns = Namespaces.Html;
             _all = new HTMLLiveCollection<Element>(this);
-            _forms = new HTMLLiveCollection<HTMLFormElement>(this);
-            _scripts = new HTMLLiveCollection<HTMLScriptElement>(this);
-            _images = new HTMLLiveCollection<HTMLImageElement>(this);
         }
 
         #endregion
@@ -209,7 +192,7 @@ namespace AngleSharp.DOM.Html
         [DOM("anchors")]
         public HTMLCollection Anchors
         {
-            get { return _children.QuerySelectorAll(anchorQuery); }
+            get { return _anchors ?? (new HTMLLiveCollectionWithAttr<HTMLAnchorElement>(this, "name")); }
         }
 
         /// <summary>
@@ -237,7 +220,7 @@ namespace AngleSharp.DOM.Html
         [DOM("forms")]
         public HTMLCollection Forms
         {
-            get { return _forms; }
+            get { return _forms ?? (_forms = new HTMLLiveCollection<HTMLFormElement>(this)); }
         }
 
         /// <summary>
@@ -246,7 +229,7 @@ namespace AngleSharp.DOM.Html
         [DOM("images")]
         public HTMLCollection Images
         {
-            get { return _images; }
+            get { return _images ?? (_images = new HTMLLiveCollection<HTMLImageElement>(this)); }
         }
 
         /// <summary>
@@ -255,7 +238,7 @@ namespace AngleSharp.DOM.Html
         [DOM("scripts")]
         public HTMLCollection Scripts
         {
-            get { return _scripts; }
+            get { return _scripts ?? (_scripts = new HTMLLiveCollection<HTMLScriptElement>(this)); }
         }
 
         /// <summary>
@@ -264,7 +247,7 @@ namespace AngleSharp.DOM.Html
         [DOM("embeds")]
         public HTMLCollection Embeds
         {
-            get { return _children.QuerySelectorAll(embedQuery); }
+            get { return _embeds ?? (new HTMLLiveCollection<HTMLEmbedElement, HTMLObjectElement, HTMLAppletElement>(this)); }
         }
 
         /// <summary>
@@ -273,7 +256,7 @@ namespace AngleSharp.DOM.Html
         [DOM("links")]
         public HTMLCollection Links
         {
-            get { return _children.QuerySelectorAll(linkQuery); }
+            get { return _links ?? (new HTMLLiveCollectionWithAttr<HTMLAnchorElement, HTMLAreaElement>(this, "href")); }
         }
 
         /// <summary>

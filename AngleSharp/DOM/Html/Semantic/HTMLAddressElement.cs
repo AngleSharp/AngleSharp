@@ -1,21 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace AngleSharp.DOM.Html
 {
-    /// <summary>
-    /// Represents an HTML element with only semantic meaning.
-    /// </summary>
-    sealed class HTMLSemanticElement : HTMLElement
+    class HTMLAddressElement : HTMLElement
     {
-        #region ctor
-
-        internal HTMLSemanticElement()
+        internal HTMLAddressElement()
         {
+            _name = Tags.ADDRESS;
         }
-
-        #endregion
-
-        #region Internal Properties
 
         /// <summary>
         /// Gets if the node is in the special category.
@@ -24,7 +20,5 @@ namespace AngleSharp.DOM.Html
         {
             get { return true; }
         }
-
-        #endregion
     }
 }

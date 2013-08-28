@@ -9,15 +9,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLAreaElement")]
     public sealed class HTMLAreaElement : HTMLElement
     {
-        #region Constants
-
-        /// <summary>
-        /// The area tag.
-        /// </summary>
-        internal const String Tag = "area";
-
-        #endregion
-
         #region Members
 
         DOMTokenList rellist;
@@ -31,7 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLAreaElement()
         {
-            _name = Tag;
+            _name = Tags.AREA;
         }
 
         #endregion

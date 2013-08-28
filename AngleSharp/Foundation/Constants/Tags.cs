@@ -120,9 +120,19 @@ namespace AngleSharp
         public const String MARQUEE = "marquee";
 
         /// <summary>
+        /// The param tag.
+        /// </summary>
+        public const String PARAM = "param";
+
+        /// <summary>
         /// The object tag.
         /// </summary>
         public const String OBJECT = "object";
+
+        /// <summary>
+        /// The canvas tag.
+        /// </summary>
+        public const String CANVAS = "canvas";
 
         /// <summary>
         /// The font tag.
@@ -215,9 +225,44 @@ namespace AngleSharp
         public const String P = "p";
 
         /// <summary>
+        /// The span tag.
+        /// </summary>
+        public const String SPAN = "span";
+
+        /// <summary>
+        /// The dialog tag.
+        /// </summary>
+        public const String DIALOG = "dialog";
+
+        /// <summary>
+        /// The fieldset tag.
+        /// </summary>
+        public const String FIELDSET = "fieldset";
+
+        /// <summary>
+        /// The legend tag.
+        /// </summary>
+        public const String LEGEND = "legend";
+
+        /// <summary>
+        /// The label tag.
+        /// </summary>
+        public const String LABEL = "label";
+
+        /// <summary>
+        /// The details tag.
+        /// </summary>
+        public const String DETAILS = "details";
+
+        /// <summary>
         /// The form tag.
         /// </summary>
         public const String FORM = "form";
+
+        /// <summary>
+        /// The isindex tag.
+        /// </summary>
+        public const String ISINDEX = "isindex";
 
         /// <summary>
         /// The pre tag.
@@ -335,16 +380,6 @@ namespace AngleSharp
         public const String OPTGROUP = "optgroup";
 
         /// <summary>
-        /// The svg tag.
-        /// </summary>
-        public const String SVG = "svg";
-
-        /// <summary>
-        /// The math tag.
-        /// </summary>
-        public const String MATH = "math";
-
-        /// <summary>
         /// The link tag.
         /// </summary>
         public const String LINK = "link";
@@ -355,9 +390,34 @@ namespace AngleSharp
         public const String FRAMESET = "frameset";
 
         /// <summary>
+        /// The frame tag.
+        /// </summary>
+        public const String FRAME = "frame";
+
+        /// <summary>
         /// The iframe tag.
         /// </summary>
         public const String IFRAME = "iframe";
+
+        /// <summary>
+        /// The audio tag.
+        /// </summary>
+        public const String AUDIO = "audio";
+
+        /// <summary>
+        /// The video tag.
+        /// </summary>
+        public const String VIDEO = "video";
+
+        /// <summary>
+        /// The source tag.
+        /// </summary>
+        public const String SOURCE = "source";
+
+        /// <summary>
+        /// The track tag.
+        /// </summary>
+        public const String TRACK = "track";
 
         /// <summary>
         /// The h1 tag.
@@ -425,6 +485,11 @@ namespace AngleSharp
         public const String A = "a";
 
         /// <summary>
+        /// The area tag.
+        /// </summary>
+        public const String AREA = "area";
+
+        /// <summary>
         /// The button tag.
         /// </summary>
         public const String BUTTON = "button";
@@ -455,6 +520,21 @@ namespace AngleSharp
         public const String BR = "br";
 
         /// <summary>
+        /// The wbr tag.
+        /// </summary>
+        public const String WBR = "wbr";
+
+        /// <summary>
+        /// The hr tag.
+        /// </summary>
+        public const String HR = "hr";
+
+        /// <summary>
+        /// The dir tag.
+        /// </summary>
+        public const String DIR = "dir";
+
+        /// <summary>
         /// The center tag.
         /// </summary>
         public const String CENTER = "center";
@@ -463,6 +543,16 @@ namespace AngleSharp
         /// The listing tag.
         /// </summary>
         public const String LISTING = "listing";
+
+        /// <summary>
+        /// The img tag.
+        /// </summary>
+        public const String IMG = "img";
+
+        /// <summary>
+        /// The image tag (this is not the right tag).
+        /// </summary>
+        public const String IMAGE = "image";
 
         /// <summary>
         /// The nav tag.
@@ -524,6 +614,11 @@ namespace AngleSharp
         #region MathML Tags
 
         /// <summary>
+        /// The math tag.
+        /// </summary>
+        public const String MATH = "math";
+
+        /// <summary>
         /// The mi tag.
         /// </summary>
         public const String MI = "mi";
@@ -556,6 +651,11 @@ namespace AngleSharp
         #endregion
 
         #region SVG Tags
+
+        /// <summary>
+        /// The svg tag.
+        /// </summary>
+        public const String SVG = "svg";
 
         /// <summary>
         /// The foreignObject tag.

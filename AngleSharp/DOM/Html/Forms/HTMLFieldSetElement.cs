@@ -9,15 +9,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLFieldSetElement")]
     public sealed class HTMLFieldSetElement : HTMLFormControlElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The fieldset tag.
-        /// </summary>
-        internal const String Tag = "fieldset";
-
-        #endregion
-
         #region Members
 
         HTMLFormControlsCollection _elements;
@@ -31,8 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLFieldSetElement()
         {
-            _name = Tag;
-            _elements = new HTMLFormControlsCollection(this);        
+            _name = Tags.FIELDSET;
         }
 
         #endregion
@@ -45,7 +35,7 @@ namespace AngleSharp.DOM.Html
         [DOM("type")]
         public String Type
         {
-            get { return Tag; }
+            get { return _name; }
         }
 
         /// <summary>
@@ -54,7 +44,7 @@ namespace AngleSharp.DOM.Html
         [DOM("elements")]
         public HTMLFormControlsCollection Elements
         {
-            get { return _elements; }
+            get { return _elements ?? (_elements = new HTMLFormControlsCollection(this)); }
         }
 
         #endregion

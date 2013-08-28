@@ -8,14 +8,9 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLLegendElement")]
     public sealed class HTMLLegendElement : HTMLElement
     {
-        /// <summary>
-        /// The legend tag.
-        /// </summary>
-        internal const String Tag = "legend";
-
         internal HTMLLegendElement()
         {
-            _name = Tag;
+            _name = Tags.LEGEND;
         }
 
         /// <summary>

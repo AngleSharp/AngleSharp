@@ -8,14 +8,9 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLDialogElement")]
     public sealed class HTMLDialogElement : HTMLElement
     {
-        /// <summary>
-        /// The dialog tag.
-        /// </summary>
-        internal const String Tag = "dialog";
-
         internal HTMLDialogElement()
         {
-            _name = Tag;
+            _name = Tags.DIALOG;
         }
 
         /// <summary>

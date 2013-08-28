@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Css\CssTokenizer.cs" />
+    <Compile Include="DOM\Collections\HTMLLiveCollectionWithAttr.cs" />
     <Compile Include="DOM\Collections\CSSStyleDeclaration.cs" />
     <Compile Include="DOM\Collections\DOMStringMap.cs" />
     <Compile Include="DOM\Collections\FileList.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="DOM\Enums\HorizontalAlignment.cs" />
     <Compile Include="DOM\Enums\VerticalAlignment.cs" />
     <Compile Include="DOM\Html\Formatting\HTMLTemplateElement.cs" />
+    <Compile Include="DOM\Html\Semantic\HTMLAddressElement.cs" />
     <Compile Include="DOM\Interfaces\IWindow.cs" />
     <Compile Include="DOM\Mathml\MathAnnotationXmlElement.cs" />
     <Compile Include="DOM\Mathml\MathIdentifierElement.cs" />

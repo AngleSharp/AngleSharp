@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLAudioElement")]
     public sealed class HTMLAudioElement : HTMLMediaElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The audio tag.
-        /// </summary>
-        internal const String Tag = "audio";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLAudioElement()
         {
-            _name = Tag;
+            _name = Tags.AUDIO;
         }
 
         #endregion

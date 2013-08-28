@@ -64,202 +64,155 @@ namespace AngleSharp.DOM.Html
         {
             switch (tag)
             {
-                case Tags.BASE:
-                    return new HTMLBaseElement();
+                case Tags.BASE: return new HTMLBaseElement();
 
-                case Tags.BASEFONT:
-                    return new HTMLBaseFontElement();
+                case Tags.BASEFONT: return new HTMLBaseFontElement();
 
-                case Tags.LINK:
-                    return new HTMLLinkElement();
+                case Tags.LINK: return new HTMLLinkElement();
 
-                case Tags.A:
-                    return new HTMLAnchorElement();
+                case Tags.A: return new HTMLAnchorElement();
 
-                case Tags.BUTTON:
-                    return new HTMLButtonElement();
+                case Tags.BUTTON: return new HTMLButtonElement();
 
-                case Tags.INPUT:
-                    return new HTMLInputElement();
+                case Tags.INPUT: return new HTMLInputElement();
 
-                case Tags.HTML:
-                    return new HTMLHtmlElement();
+                case Tags.HTML: return new HTMLHtmlElement();
 
-                case HTMLIsIndexElement.Tag:
-                    return new HTMLIsIndexElement();
+                case Tags.ISINDEX: return new HTMLIsIndexElement();
 
-                case Tags.BR:
-                    return new HTMLBRElement();
+                case Tags.BR: return new HTMLBRElement();
 
-                case Tags.EMBED:
-                    return new HTMLEmbedElement();
+                case Tags.EMBED: return new HTMLEmbedElement();
 
-                case Tags.DIV:
-                    return new HTMLDivElement();
+                case Tags.DIV: return new HTMLDivElement();
 
-                case HTMLAreaElement.Tag:
-                    return new HTMLAreaElement();
+                case Tags.AREA: return new HTMLAreaElement();
 
-                case HTMLImageElement.Tag:
-                    return new HTMLImageElement();
+                case Tags.IMG: return new HTMLImageElement();
 
-                case Tags.DL:
-                    return new HTMLDListElement();
+                case Tags.DL: return new HTMLDListElement();
 
-                case Tags.BODY:
-                    return new HTMLBodyElement();
+                case Tags.BODY: return new HTMLBodyElement();
 
-                case HTMLFieldSetElement.Tag:
-                    return new HTMLFieldSetElement();
+                case Tags.FIELDSET: return new HTMLFieldSetElement();
 
-                case Tags.HEAD:
-                    return new HTMLHeadElement();
+                case Tags.HEAD: return new HTMLHeadElement();
 
-                case Tags.MENU:
-                    return new HTMLMenuElement();
+                case Tags.MENU: return new HTMLMenuElement();
 
-                case Tags.META:
-                    return new HTMLMetaElement();
+                case Tags.META: return new HTMLMetaElement();
 
-                case Tags.OL:
-                    return new HTMLOListElement();
+                case Tags.OL: return new HTMLOListElement();
 
-                case Tags.P:
-                    return new HTMLParagraphElement();
+                case Tags.P: return new HTMLParagraphElement();
 
-                case Tags.SELECT:
-                    return new HTMLSelectElement();
+                case Tags.SELECT: return new HTMLSelectElement();
 
-                case Tags.UL:
-                    return new HTMLUListElement();
+                case Tags.UL: return new HTMLUListElement();
 
-                case HTMLHRElement.Tag:
-                    return new HTMLHRElement();
+                case Tags.HR: return new HTMLHRElement();
 
-                case HTMLDirectoryElement.Tag:
-                    return new HTMLDirectoryElement();
+                case Tags.DIR: return new HTMLDirectoryElement();
 
-                case Tags.FONT:
-                    return new HTMLFontElement();
+                case Tags.FONT: return new HTMLFontElement();
 
-                case Tags.FORM:
-                    return new HTMLFormElement();
+                case Tags.FORM: return new HTMLFormElement();
 
-                case HTMLParamElement.Tag:
-                    return new HTMLParamElement();
+                case Tags.PARAM: return new HTMLParamElement();
 
-                case Tags.PRE:
-                    return new HTMLPreElement();
+                case Tags.PRE: return new HTMLPreElement();
 
-                case Tags.TEXTAREA:
-                    return new HTMLTextAreaElement();
+                case Tags.TEXTAREA: return new HTMLTextAreaElement();
 
-                case Tags.BLOCKQUOTE:
-                case Tags.QUOTE:
-                case Tags.Q:
-                    return new HTMLQuoteElement { _name = tag };
+                case Tags.BLOCKQUOTE: return new HTMLQuoteElement { _name = Tags.BLOCKQUOTE };
 
-                case HTMLCanvasElement.Tag:
-                    return new HTMLCanvasElement();
+                case Tags.QUOTE: return new HTMLQuoteElement();
 
-                case Tags.CAPTION:
-                    return new HTMLTableCaptionElement();
+                case Tags.Q: return new HTMLQuoteElement { _name = Tags.Q };
 
-                case Tags.TH:
-                case Tags.TD:
-                    return new HTMLTableCellElement { _name = tag };
+                case Tags.CANVAS: return new HTMLCanvasElement();
 
-                case Tags.TR:
-                    return new HTMLTableRowElement();
+                case Tags.CAPTION: return new HTMLTableCaptionElement();
 
-                case Tags.TBODY:
-                case Tags.TFOOT:
-                case Tags.THEAD:
-                    return new HTMLTableSectionElement { _name = tag };
+                case Tags.TH: return new HTMLTableCellElement { _name = Tags.TH };
 
-                case Tags.TABLE:
-                    return new HTMLTableElement();
+                case Tags.TD: return new HTMLTableCellElement();
 
-                case Tags.COLGROUP:
-                case Tags.COL:
-                    return new HTMLTableColElement { _name = tag };
+                case Tags.TR: return new HTMLTableRowElement();
 
-                case Tags.DEL:
-                case Tags.INS:
-                    return new HTMLModElement { _name = tag };
+                case Tags.TBODY: return new HTMLTableSectionElement();
 
-                case HTMLLegendElement.Tag:
-                    return new HTMLLegendElement();
+                case Tags.TFOOT: return new HTMLTableSectionElement { _name = Tags.TFOOT };
 
-                case HTMLLabelElement.Tag:
-                    return new HTMLLabelElement();
+                case Tags.THEAD: return new HTMLTableSectionElement { _name = Tags.THEAD };
 
-                case Tags.APPLET:
-                    return new HTMLAppletElement();
+                case Tags.TABLE: return new HTMLTableElement();
 
-                case Tags.OBJECT:
-                    return new HTMLObjectElement();
+                case Tags.COLGROUP: return new HTMLTableColElement { _name = Tags.COLGROUP };
 
-                case Tags.OPTGROUP:
-                    return new HTMLOptGroupElement();
+                case Tags.COL: return new HTMLTableColElement();
 
-                case Tags.OPTION:
-                    return new HTMLOptionElement();
+                case Tags.DEL: return new HTMLModElement { _name = Tags.DEL };
 
-                case Tags.STYLE:
-                    return new HTMLStyleElement();
+                case Tags.INS: return new HTMLModElement();
 
-                case Tags.SCRIPT:
-                    return new HTMLScriptElement();
+                case Tags.LEGEND: return new HTMLLegendElement();
 
-                case Tags.IFRAME:
-                    return new HTMLIFrameElement();
+                case Tags.LABEL: return new HTMLLabelElement();
 
-                case Tags.TITLE:
-                    return new HTMLTitleElement();
+                case Tags.APPLET: return new HTMLAppletElement();
 
-                case Tags.LI:
-                case Tags.DD:
-                case Tags.DT:
-                    return new HTMLLIElement { _name = tag };
+                case Tags.OBJECT: return new HTMLObjectElement();
 
-                case Tags.FRAMESET:
-                    return new HTMLFrameSetElement();
+                case Tags.OPTGROUP: return new HTMLOptGroupElement();
 
-                case HTMLFrameElement.Tag:
-                    return new HTMLFrameElement();
+                case Tags.OPTION: return new HTMLOptionElement();
 
-                case Tags.H1:
-                case Tags.H2:
-                case Tags.H3:
-                case Tags.H4:
-                case Tags.H5:
-                case Tags.H6:
-                    return new HTMLHeadingElement { _name = tag };
+                case Tags.STYLE: return new HTMLStyleElement();
 
-                case HTMLAudioElement.Tag:
-                    return new HTMLAudioElement();
+                case Tags.SCRIPT: return new HTMLScriptElement();
 
-                case HTMLVideoElement.Tag:
-                    return new HTMLVideoElement();
+                case Tags.IFRAME: return new HTMLIFrameElement();
 
-                case HTMLDetailsElement.Tag:
-                    return new HTMLDetailsElement();
+                case Tags.TITLE: return new HTMLTitleElement();
 
-                case HTMLSpanElement.Tag:
-                    return new HTMLSpanElement();
+                case Tags.LI: return new HTMLLIElement();
 
-                case HTMLDialogElement.Tag:
-                    return new HTMLDialogElement();
+                case Tags.DD: return new HTMLLIElement { _name = Tags.DD };
 
-                case HTMLSourceElement.Tag:
-                    return new HTMLSourceElement();
+                case Tags.DT: return new HTMLLIElement { _name = Tags.DT };
 
-                case HTMLTrackElement.Tag:
-                    return new HTMLTrackElement();
+                case Tags.FRAMESET: return new HTMLFrameSetElement();
 
-                case HTMLWbrElement.Tag:
-                    return new HTMLWbrElement();
+                case Tags.FRAME: return new HTMLFrameElement();
+
+                case Tags.H1: return new HTMLHeadingElement();
+
+                case Tags.H2: return new HTMLHeadingElement { _name = Tags.H2 };
+
+                case Tags.H3: return new HTMLHeadingElement { _name = Tags.H3 };
+
+                case Tags.H4: return new HTMLHeadingElement { _name = Tags.H4 };
+
+                case Tags.H5: return new HTMLHeadingElement { _name = Tags.H5 };
+
+                case Tags.H6: return new HTMLHeadingElement { _name = Tags.H6 };
+
+                case Tags.AUDIO: return new HTMLAudioElement();
+
+                case Tags.VIDEO: return new HTMLVideoElement();
+
+                case Tags.DETAILS: return new HTMLDetailsElement();
+
+                case Tags.SPAN: return new HTMLSpanElement();
+
+                case Tags.DIALOG: return new HTMLDialogElement();
+
+                case Tags.SOURCE: return new HTMLSourceElement();
+
+                case Tags.TRACK: return new HTMLTrackElement();
+
+                case Tags.WBR: return new HTMLWbrElement();
 
                 case Tags.B:
                 case Tags.BIG:
@@ -275,8 +228,9 @@ namespace AngleSharp.DOM.Html
                 case Tags.NOBR:
                     return new HTMLFormattingElement { _name = tag };
 
-                case Tags.CITE:
-                    return new HTMLSemanticElement(false) { _name = tag };
+                case Tags.CITE: return new HTMLElement { _name = tag };
+
+                case Tags.ADDRESS: return new HTMLAddressElement();
 
                 case Tags.MAIN:
                 case Tags.SUMMARY:
@@ -284,7 +238,6 @@ namespace AngleSharp.DOM.Html
                 case Tags.CENTER:
                 case Tags.LISTING:
                 case Tags.NAV:
-                case Tags.ADDRESS:
                 case Tags.ARTICLE:
                 case Tags.ASIDE:
                 case Tags.FIGCAPTION:
@@ -296,22 +249,19 @@ namespace AngleSharp.DOM.Html
                 case Tags.PLAINTEXT:
                     return new HTMLSemanticElement { _name = tag };
 
-                case Tags.BGSOUND:
-                    return new HTMLBgsoundElement();
+                case Tags.BGSOUND: return new HTMLBgsoundElement();
 
-                case Tags.MARQUEE:
-                    return new HTMLMarqueeElement();
+                case Tags.MARQUEE: return new HTMLMarqueeElement();
 
-                case Tags.NOEMBED:
-                case Tags.NOFRAMES:
-                case Tags.NOSCRIPT:
-                    return new HTMLNoElement { _name = tag };
+                case Tags.NOEMBED: return new HTMLNoElement { _name = Tags.NOEMBED };
 
-                case Tags.MENUITEM:
-                    return new HTMLMenuItemElement();
+                case Tags.NOFRAMES: return new HTMLNoElement { _name = Tags.NOFRAMES };
 
-                default:
-                    return new HTMLUnknownElement { _name = tag };
+                case Tags.NOSCRIPT: return new HTMLNoElement();
+
+                case Tags.MENUITEM: return new HTMLMenuItemElement();
+
+                default: return new HTMLUnknownElement { _name = tag };
             }
         }
 

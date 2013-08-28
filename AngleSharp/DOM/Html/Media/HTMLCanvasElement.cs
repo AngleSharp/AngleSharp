@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLCanvasElement")]
     public sealed class HTMLCanvasElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The canvas tag.
-        /// </summary>
-        internal const String Tag = "canvas";
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -24,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLCanvasElement()
         {
-            _name = Tag;
+            _name = Tags.CANVAS;
         }
 
         #endregion

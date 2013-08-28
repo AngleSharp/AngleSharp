@@ -8,20 +8,11 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLDirectoryElement")]
     public sealed class HTMLDirectoryElement : HTMLElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The dir tag.
-        /// </summary>
-        internal const String Tag = "dir";
-
-        #endregion
-
         #region ctor
 
         internal HTMLDirectoryElement()
         {
-            _name = Tag;
+            _name = Tags.DIR;
         }
 
         #endregion

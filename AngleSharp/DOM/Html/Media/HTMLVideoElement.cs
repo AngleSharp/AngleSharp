@@ -8,15 +8,6 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLVideoElement")]
     public sealed class HTMLVideoElement : HTMLMediaElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The video tag.
-        /// </summary>
-        internal const String Tag = "video";
-
-        #endregion
-
         #region Members
 
         UInt32 _videoWidth;
@@ -31,7 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLVideoElement()
         {
-            _name = Tag;
+            _name = Tags.VIDEO;
 
             //TODO
             _videoHeight = 0;
