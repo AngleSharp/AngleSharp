@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Css\CssTokenizer.cs" />
     <Compile Include="DOM\Annotations\IFormatting.cs" />
+    <Compile Include="DOM\Annotations\IImplClosed.cs" />
     <Compile Include="DOM\Annotations\IListScopeElement.cs" />
     <Compile Include="DOM\Annotations\ISelectScopeElement.cs" />
     <Compile Include="DOM\Annotations\ITableScopeElement.cs" />
@@ -89,6 +90,9 @@
     <Compile Include="DOM\Html\Formatting\HTMLUnderlineElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLAddressElement.cs" />
     <Compile Include="DOM\Annotations\IScopeElement.cs" />
+    <Compile Include="DOM\Html\Semantic\HTMLRPElement.cs" />
+    <Compile Include="DOM\Html\Semantic\HTMLRTElement.cs" />
+    <Compile Include="DOM\Html\Semantic\HTMLRubyElement.cs" />
     <Compile Include="DOM\Interfaces\IWindow.cs" />
     <Compile Include="DOM\Mathml\MathAnnotationXmlElement.cs" />
     <Compile Include="DOM\Mathml\MathIdentifierElement.cs" />
@@ -290,7 +294,7 @@
     <Compile Include="DOM\Html\Lists\HTMLOListElement.cs" />
     <Compile Include="DOM\Html\Forms\HTMLOptGroupElement.cs" />
     <Compile Include="DOM\Html\Forms\HTMLOptionElement.cs" />
-    <Compile Include="DOM\Html\Semantic\HTMLParagraphElement.cs" />
+    <Compile Include="DOM\Html\Basic\HTMLParagraphElement.cs" />
     <Compile Include="DOM\Html\Objects\HTMLParamElement.cs" />
     <Compile Include="DOM\Html\HTMLPreElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLQuoteElement.cs" />

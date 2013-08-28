@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the HTML optgroup element.
     /// </summary>
     [DOM("HTMLOptGroupElement")]
-    public sealed class HTMLOptGroupElement : HTMLElement, ISelectScopeElement
+    public sealed class HTMLOptGroupElement : HTMLElement, ISelectScopeElement, IImplClosed
     {
         #region ctor
 

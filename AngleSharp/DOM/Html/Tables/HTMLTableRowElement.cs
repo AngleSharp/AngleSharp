@@ -8,7 +8,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the HTML tr element.
     /// </summary>
     [DOM("HTMLTableRowElement")]
-    public sealed class HTMLTableRowElement : HTMLElement
+    public sealed class HTMLTableRowElement : HTMLElement, IImplClosed
     {
         #region Members
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AngleSharp.DOM.Html
 {
-    class HTMLAddressElement : HTMLElement
+    sealed class HTMLAddressElement : HTMLElement
     {
         internal HTMLAddressElement()
         {

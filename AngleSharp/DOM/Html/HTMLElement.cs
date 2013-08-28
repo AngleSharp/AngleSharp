@@ -273,7 +273,13 @@ namespace AngleSharp.DOM.Html
 
                 case Tags.MENUITEM: return new HTMLMenuItemElement();
 
-                case Tags.CITE: return new HTMLElement { _name = tag };
+                case Tags.CITE: return new HTMLElement { _name = Tags.CITE };
+
+                case Tags.RUBY: return new HTMLRubyElement();
+
+                case Tags.RT: return new HTMLRTElement();
+
+                case Tags.RP: return new HTMLRPElement();
 
                 default: return new HTMLUnknownElement { _name = tag };
             }

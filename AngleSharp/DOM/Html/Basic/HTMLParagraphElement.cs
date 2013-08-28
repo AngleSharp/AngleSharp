@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the HTML paragraph element.
     /// </summary>
     [DOM("HTMLParagraphElement")]
-    public sealed class HTMLParagraphElement : HTMLElement
+    public sealed class HTMLParagraphElement : HTMLElement, IImplClosed
     {
         #region ctor
 

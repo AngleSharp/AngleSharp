@@ -151,6 +151,15 @@ namespace AngleSharp.Html
         #region Methods
 
         /// <summary>
+        /// Converts the current token to a tag token.
+        /// </summary>
+        /// <returns>The tag token instance.</returns>
+        public HtmlTagToken AsTag()
+        {
+            return (HtmlTagToken)this;
+        }
+
+        /// <summary>
         /// Finds out if the current token is a start or end tag token with the given name.
         /// </summary>
         /// <param name="name">The name of the tag.</param>

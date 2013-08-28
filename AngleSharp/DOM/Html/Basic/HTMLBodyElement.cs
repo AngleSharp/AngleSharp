@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the HTML body element.
     /// </summary>
     [DOM("HTMLBodyElement")]
-    public sealed class HTMLBodyElement : HTMLElement
+    public sealed class HTMLBodyElement : HTMLElement, IImplClosed
     {
         #region ctor
 

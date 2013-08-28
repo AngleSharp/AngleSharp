@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the object for HTML table cell (td / th) elements.
     /// </summary>
     [DOM("HTMLTableCellElement")]
-    public sealed class HTMLTableCellElement : HTMLElement, IScopeElement
+    public sealed class HTMLTableCellElement : HTMLElement, IScopeElement, IImplClosed
     {
         #region ctor
 
