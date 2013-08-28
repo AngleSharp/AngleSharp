@@ -285,5 +285,21 @@ namespace AngleSharp.DOM.Html
         }
 
         #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Entry point for attributes to notify about a change (modified, added, removed).
+        /// </summary>
+        /// <param name="name">The name of the attribute that has been changed.</param>
+        internal override void OnAttributeChanged(String name)
+        {
+            if (name.Equals("rel", StringComparison.Ordinal))
+                RelList.Update(Rel);
+            else
+                base.OnAttributeChanged(name);
+        }
+
+        #endregion
     }
 }
