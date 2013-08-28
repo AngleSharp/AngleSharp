@@ -55,6 +55,10 @@ namespace AngleSharp.DOM.Html
             return node;
         }
 
+        #endregion
+
+        #region Factory
+
         /// <summary>
         /// Returns a specialized HTMLElement instance for the given tag name.
         /// </summary>
@@ -214,21 +218,29 @@ namespace AngleSharp.DOM.Html
 
                 case Tags.WBR: return new HTMLWbrElement();
 
-                case Tags.B:
-                case Tags.BIG:
-                case Tags.STRIKE:
-                case Tags.CODE:
-                case Tags.EM:
-                case Tags.I:
-                case Tags.S:
-                case Tags.SMALL:
-                case Tags.STRONG:
-                case Tags.U:
-                case Tags.TT:
-                case Tags.NOBR:
-                    return new HTMLFormattingElement { _name = tag };
+                case Tags.B: return new HTMLBoldElement();
 
-                case Tags.CITE: return new HTMLElement { _name = tag };
+                case Tags.BIG: return new HTMLBigElement();
+
+                case Tags.STRIKE: return new HTMLStrikeElement();
+
+                case Tags.CODE: return new HTMLCodeElement();
+
+                case Tags.EM: return new HTMLEmphasizeElement();
+
+                case Tags.I: return new HTMLItalicElement();
+
+                case Tags.S: return new HTMLStruckElement();
+
+                case Tags.SMALL: return new HTMLSmallElement();
+
+                case Tags.STRONG: return new HTMLStrongElement();
+
+                case Tags.U: return new HTMLUnderlineElement();
+
+                case Tags.TT: return new HTMLTeletypeTextElement();
+
+                case Tags.NOBR: return new HTMLNoNewlineElement();
 
                 case Tags.ADDRESS: return new HTMLAddressElement();
 
@@ -260,6 +272,8 @@ namespace AngleSharp.DOM.Html
                 case Tags.NOSCRIPT: return new HTMLNoElement();
 
                 case Tags.MENUITEM: return new HTMLMenuItemElement();
+
+                case Tags.CITE: return new HTMLElement { _name = tag };
 
                 default: return new HTMLUnknownElement { _name = tag };
             }

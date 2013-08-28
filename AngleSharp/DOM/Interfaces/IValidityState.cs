@@ -4,15 +4,15 @@ namespace AngleSharp.DOM.Html
 {
     interface IValidityState
     {  
-        bool ValueMissing { get; }
-        bool TypeMismatch { get; }
-        bool PatternMismatch { get; }
-        bool TooLong { get; }
-        bool RangeUnderflow { get; }
-        bool RangeOverflow { get; }
-        bool StepMismatch { get; }
-        bool BadInput { get; }
-        bool CustomError { get; }
-        bool Valid { get; }
+        Boolean ValueMissing { get; }
+        Boolean TypeMismatch { get; }
+        Boolean PatternMismatch { get; }
+        Boolean TooLong { get; }
+        Boolean RangeUnderflow { get; }
+        Boolean RangeOverflow { get; }
+        Boolean StepMismatch { get; }
+        Boolean BadInput { get; }
+        Boolean CustomError { get; }
+        Boolean Valid { get; }
     }
 }

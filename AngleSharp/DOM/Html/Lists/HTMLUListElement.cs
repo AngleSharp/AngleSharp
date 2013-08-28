@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// The DOM Object representing the unordered list.
     /// </summary>
     [DOM("HTMLUListElement")]
-    public sealed class HTMLUListElement : HTMLElement
+    public sealed class HTMLUListElement : HTMLElement, IListScopeElement
     {
         internal HTMLUListElement()
         {

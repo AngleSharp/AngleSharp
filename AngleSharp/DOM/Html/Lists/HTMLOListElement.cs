@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the HTML ordered list (ol) element.
     /// </summary>
     [DOM("HTMLOListElement")]
-    public sealed class HTMLOListElement : HTMLElement
+    public sealed class HTMLOListElement : HTMLElement, IListScopeElement
     {
         internal HTMLOListElement()
         {

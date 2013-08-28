@@ -4,7 +4,7 @@ namespace AngleSharp.DOM
 {
     interface IEvent
     {
-        string Type { get; }
+        String Type { get; }
         EventTarget Target { get; }
         EventTarget CurrentTarget { get; }
         EventPhase EventPhase { get; }
@@ -12,14 +12,14 @@ namespace AngleSharp.DOM
         void StopPropagation();
         void StopImmediatePropagation();
 
-        bool Bubbles { get; }
-        bool Cancelable { get; }
+        Boolean Bubbles { get; }
+        Boolean Cancelable { get; }
         void PreventDefault();
-        bool DefaultPrevented { get; }
+        Boolean DefaultPrevented { get; }
 
-        bool IsTrusted { get; }
+        Boolean IsTrusted { get; }
         DateTime TimeStamp { get; }
 
-        void InitEvent(string type, bool bubbles, bool cancelable);
+        void InitEvent(String type, Boolean bubbles, Boolean cancelable);
     }
 }

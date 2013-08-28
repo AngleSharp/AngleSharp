@@ -1104,15 +1104,21 @@ namespace AngleSharp.Html
                     {
                         for (var i = formatting.Count - 1; i >= 0; i--)
                         {
-                            if (formatting[i] is ScopeMarkerNode)
+                            if (formatting[i] is ScopeMarker)
                                 break;
-                            else if (formatting[i].NodeName == Tags.A)
+                            
+                            if (formatting[i] is HTMLAnchorElement)
                             {
                                 var format = formatting[i];
                                 RaiseErrorOccurred(ErrorCode.AnchorNested);
                                 HeisenbergAlgorithm(HtmlToken.CloseTag(Tags.A));
-                                if(open.Contains(format)) open.Remove(format);
-                                if(formatting.Contains(format)) formatting.RemoveAt(i);
+
+                                if(open.Contains(format)) 
+                                    open.Remove(format);
+
+                                if(formatting.Contains(format)) 
+                                    formatting.RemoveAt(i);
+
                                 break;
                             }
                         }
@@ -2959,9 +2965,10 @@ namespace AngleSharp.Html
 
                 for (var j = formatting.Count - 1; j >= 0; j--)
                 {
-                    if (formatting[j] is ScopeMarkerNode)
+                    if (formatting[j] is ScopeMarker)
                         break;
-                    else if (formatting[j].NodeName == tag.Name)
+                    
+                    if (formatting[j].NodeName == tag.Name)
                     {
                         index = j;
                         formattingElement = formatting[j];
@@ -3642,7 +3649,7 @@ namespace AngleSharp.Html
                 if (node.NodeName == tagName)
                     return true;
 
-                if (node is HTMLUListElement || node is HTMLOListElement)
+                if (node is IListScopeElement)
                     return false;
             }
 
@@ -3683,7 +3690,7 @@ namespace AngleSharp.Html
                 if (node is HTMLTableSectionElement)
                     return true;
 
-                if (node is HTMLHtmlElement || node is HTMLTableElement || node is HTMLTemplateElement)
+                if (node is ITableScopeElement)
                     return false;
             }
 
@@ -3704,7 +3711,7 @@ namespace AngleSharp.Html
                 if (node.NodeName == tagName)
                     return true;
 
-                if (node is HTMLHtmlElement || node is HTMLTableElement || node is HTMLTemplateElement)
+                if (node is ITableScopeElement)
                     return false;
             }
 
@@ -3725,7 +3732,7 @@ namespace AngleSharp.Html
                 if (node.NodeName == tagName)
                     return true;
 
-                if (node is HTMLOptGroupElement || node is HTMLOptionElement)
+                if (node is ISelectScopeElement)
                     continue;
 
                 return false;
@@ -4078,7 +4085,7 @@ namespace AngleSharp.Html
         /// </summary>
         void InsertScopeMarker()
         {
-            formatting.Add(ScopeMarkerNode.Element);
+            formatting.Add(ScopeMarker.Block);
         }
 
         #endregion
@@ -4183,10 +4190,12 @@ namespace AngleSharp.Html
 
             for (var i = formatting.Count - 1; i >= 0; i--)
             {
-                if (formatting[i] is ScopeMarkerNode)
+                var format = formatting[i];
+
+                if (format is ScopeMarker)
                     break;
 
-                if (formatting[i].NodeName == element.NodeName && formatting[i].Attributes.Equals(element.Attributes) && formatting[i].NamespaceURI == element.NamespaceURI)
+                if (format.NodeName == element.NodeName && format.Attributes.Equals(element.Attributes) && format.NamespaceURI == element.NamespaceURI)
                 {
                     count++;
 
@@ -4208,10 +4217,11 @@ namespace AngleSharp.Html
         {
             while (formatting.Count != 0)
             {
-                var entry = formatting[formatting.Count - 1];
-                formatting.Remove(entry);
+                var index = formatting.Count - 1;
+                var entry = formatting[index];
+                formatting.RemoveAt(index);
 
-                if (entry is ScopeMarkerNode)
+                if (entry is ScopeMarker)
                     break;
             }
         }
@@ -4227,14 +4237,14 @@ namespace AngleSharp.Html
             var index = formatting.Count - 1;
             var entry = formatting[index];
 
-            if (entry is ScopeMarkerNode || open.Contains(entry))
+            if (entry is ScopeMarker || open.Contains(entry))
                 return;
 
             while (index > 0)
             {
                 entry = formatting[--index];
 
-                if (entry is ScopeMarkerNode || open.Contains(entry))
+                if (entry is ScopeMarker || open.Contains(entry))
                 {
                     index++;
                     break;

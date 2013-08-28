@@ -7,7 +7,7 @@ namespace AngleSharp.DOM.Html
     /// Represents an anchor element.
     /// </summary>
     [DOM("HTMLAnchorElement")]
-    public sealed class HTMLAnchorElement : HTMLFormattingElement
+    public sealed class HTMLAnchorElement : HTMLElement, IFormatting
     {
         #region Members
 

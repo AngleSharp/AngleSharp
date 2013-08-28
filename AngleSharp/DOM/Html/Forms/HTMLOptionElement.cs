@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the HTML option element.
     /// </summary>
     [DOM("HTMLOptionElement")]
-    public sealed class HTMLOptionElement : HTMLElement
+    public sealed class HTMLOptionElement : HTMLElement, ISelectScopeElement
     {
         #region Members
 

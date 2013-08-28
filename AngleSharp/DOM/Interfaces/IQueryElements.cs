@@ -5,11 +5,11 @@ namespace AngleSharp.DOM
 {
     interface IQueryElements
     {
-        HTMLCollection GetElementsByClassName(string classNames);
-        HTMLCollection GetElementsByTagName(string tagName);
-        HTMLCollection GetElementsByTagNameNS(string namespaceURI, string tagName);
+        HTMLCollection GetElementsByClassName(String classNames);
+        HTMLCollection GetElementsByTagName(String tagName);
+        HTMLCollection GetElementsByTagNameNS(String namespaceURI, String tagName);
 
-        Element QuerySelector(string selectors);
-        HTMLCollection QuerySelectorAll(string selectors);
+        Element QuerySelector(String selectors);
+        HTMLCollection QuerySelectorAll(String selectors);
     }
 }

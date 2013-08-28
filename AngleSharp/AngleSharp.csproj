@@ -38,6 +38,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Css\CssTokenizer.cs" />
+    <Compile Include="DOM\Annotations\IFormatting.cs" />
+    <Compile Include="DOM\Annotations\IListScopeElement.cs" />
+    <Compile Include="DOM\Annotations\ISelectScopeElement.cs" />
+    <Compile Include="DOM\Annotations\ITableScopeElement.cs" />
     <Compile Include="DOM\Collections\HTMLLiveCollectionWithAttr.cs" />
     <Compile Include="DOM\Collections\CSSStyleDeclaration.cs" />
     <Compile Include="DOM\Collections\DOMStringMap.cs" />
@@ -70,9 +74,21 @@
     <Compile Include="DOM\Enums\Alignment.cs" />
     <Compile Include="DOM\Enums\HorizontalAlignment.cs" />
     <Compile Include="DOM\Enums\VerticalAlignment.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLBigElement.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLBoldElement.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLCodeElement.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLEmphasizeElement.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLItalicElement.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLNoNewlineElement.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLSmallElement.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLStrikeElement.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLStrongElement.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLStruckElement.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLTeletypeTextElement.cs" />
     <Compile Include="DOM\Html\Formatting\HTMLTemplateElement.cs" />
+    <Compile Include="DOM\Html\Formatting\HTMLUnderlineElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLAddressElement.cs" />
-    <Compile Include="DOM\Interfaces\IScopeElement.cs" />
+    <Compile Include="DOM\Annotations\IScopeElement.cs" />
     <Compile Include="DOM\Interfaces\IWindow.cs" />
     <Compile Include="DOM\Mathml\MathAnnotationXmlElement.cs" />
     <Compile Include="DOM\Mathml\MathIdentifierElement.cs" />
@@ -99,9 +115,9 @@
     <Compile Include="DOM\Html\HTMLMenuItemElement.cs" />
     <Compile Include="DOM\Html\Forms\HTMLProgressElement.cs" />
     <Compile Include="DOM\Html\HTMLWbrElement.cs" />
-    <Compile Include="DOM\Interfaces\ICSSObject.cs" />
+    <Compile Include="DOM\Annotations\ICSSObject.cs" />
     <Compile Include="DOM\Interfaces\IDocumentFragment.cs" />
-    <Compile Include="DOM\Interfaces\IHTMLObject.cs" />
+    <Compile Include="DOM\Annotations\IHTMLObject.cs" />
     <Compile Include="DOM\Interfaces\ILabelabelElement.cs" />
     <Compile Include="DOM\Interfaces\IQueryElements.cs" />
     <Compile Include="DOM\Interfaces\IValidation.cs" />
@@ -231,7 +247,6 @@
     <Compile Include="DOM\Various\CharacterData.cs" />
     <Compile Include="DOM\Comment.cs" />
     <Compile Include="DOM\DocumentType.cs" />
-    <Compile Include="DOM\Html\Formatting\HTMLFormattingElement.cs" />
     <Compile Include="DOM\Html\Formatting\HTMLAnchorElement.cs" />
     <Compile Include="DOM\Html\Objects\HTMLAppletElement.cs" />
     <Compile Include="DOM\Html\HTMLAreaElement.cs" />
@@ -296,7 +311,7 @@
     <Compile Include="DOM\Html\Lists\HTMLUListElement.cs" />
     <Compile Include="DOM\Html\HTMLUnknownElement.cs" />
     <Compile Include="DOM\Html\Media\HTMLVideoElement.cs" />
-    <Compile Include="DOM\Html\Formatting\ScopeMarkerNode.cs" />
+    <Compile Include="DOM\Html\Formatting\ScopeMarker.cs" />
     <Compile Include="DOM\Mathml\MathElement.cs" />
     <Compile Include="DOM\Node.cs" />
     <Compile Include="Foundation\Errors.cs" />

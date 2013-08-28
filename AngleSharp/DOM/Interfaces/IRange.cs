@@ -5,19 +5,19 @@ namespace AngleSharp.DOM
     interface IRange
     {
         Node StartContainer { get; }
-        int StartOffset { get; }
+        Int32 StartOffset { get; }
         Node EndContainer { get; }
-        int EndOffset { get; }
-        bool Collapsed { get; }
+        Int32 EndOffset { get; }
+        Boolean Collapsed { get; }
         Node CommonAncestorContainer { get; }
 
-        void SetStart(Node refNode, int offset);
-        void SetEnd(Node refNode, int offset);
+        void SetStart(Node refNode, Int32 offset);
+        void SetEnd(Node refNode, Int32 offset);
         void SetStartBefore(Node refNode);
         void SetEndBefore(Node refNode);
         void SetStartAfter(Node refNode);
         void SetEndAfter(Node refNode);
-        void Collapse(bool toStart);
+        void Collapse(Boolean toStart);
         void SelectNode(Node refNode);
         void SelectNodeContents(Node refNode);
 
@@ -28,9 +28,9 @@ namespace AngleSharp.DOM
         void SurroundContents(Node newParent);
         Range CloneRange();
         void Detach();
-        bool IsPointInRange(Node node, int offset);
+        Boolean IsPointInRange(Node node, Int32 offset);
         RangePosition CompareBoundaryPoints(RangeType how, Range sourceRange);
-        RangePosition ComparePoint(Node node, int offset);
-        bool IntersectsNode(Node node);
+        RangePosition ComparePoint(Node node, Int32 offset);
+        Boolean IntersectsNode(Node node);
     }
 }
