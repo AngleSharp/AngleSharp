@@ -1426,7 +1426,7 @@ X</listing>");
         [TestMethod]
         public void FosterFragmentDoubleClosedBody()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<body>X</body></body>", HTMLElement.Factory("html"));
+            var doc = DocumentBuilder.HtmlFragment(@"<body>X</body></body>", HTMLElement.Create("html"));
 
             var dochead0 = doc[0];
             Assert.AreEqual(0, dochead0.ChildNodes.Length);
