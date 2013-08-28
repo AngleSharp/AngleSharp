@@ -342,6 +342,15 @@ namespace AngleSharp.DOM.Collections
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Returns a special textual representation of the node.
+        /// </summary>
+        /// <returns>A string containing only (rendered) text.</returns>
+        public String ToText()
+        {
+            return String.Empty;
+        }
+
         #endregion
     }
 }

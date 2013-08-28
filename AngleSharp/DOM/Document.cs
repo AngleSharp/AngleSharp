@@ -390,7 +390,7 @@ namespace AngleSharp.DOM
             Element element = null;
 
             if (namespaceURI == Namespaces.Html)
-                element = HTMLElement.Factory(tagName);
+                element = HTMLElement.Create(tagName);
             else if (namespaceURI == Namespaces.Svg)
                 element = SVGElement.Create(tagName);
             else if (namespaceURI == Namespaces.MathML)

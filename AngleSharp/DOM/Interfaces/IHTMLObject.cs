@@ -5,5 +5,7 @@ namespace AngleSharp.DOM
     interface IHTMLObject
     {
         String ToHtml();
+
+        String ToText();
     }
 }

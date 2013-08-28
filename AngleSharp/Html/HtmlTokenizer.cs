@@ -679,41 +679,39 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken TagName(Char c, HtmlTagToken tag)
         {
-            if (c.IsSpaceCharacter())
+            while (true)
             {
-                tag.Name = _stringBuffer.ToString();
-                return AttributeBeforeName(_src.Next, tag);
-            }
-            else if (c == Specification.SOLIDUS)
-            {
-                tag.Name = _stringBuffer.ToString();
-                return TagSelfClosing(_src.Next, tag);
-            }
-            else if (c == Specification.GT)
-            {
-                tag.Name = _stringBuffer.ToString();
-                return EmitTag(tag);
-            }
-            else if (Specification.IsUppercaseAscii(c))
-            {
-                _stringBuffer.Append(c.ToLower());
-                return TagName(_src.Next, tag);
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.REPLACEMENT);
-                return TagName(_src.Next, tag);
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                return HtmlToken.EOF;
-            }
-            else
-            {
-                _stringBuffer.Append(c);
-                return TagName(_src.Next, tag);
+                if (c.IsSpaceCharacter())
+                {
+                    tag.Name = _stringBuffer.ToString();
+                    return AttributeBeforeName(_src.Next, tag);
+                }
+                else if (c == Specification.SOLIDUS)
+                {
+                    tag.Name = _stringBuffer.ToString();
+                    return TagSelfClosing(_src.Next, tag);
+                }
+                else if (c == Specification.GT)
+                {
+                    tag.Name = _stringBuffer.ToString();
+                    return EmitTag(tag);
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    _stringBuffer.Append(Specification.REPLACEMENT);
+                }
+                else if (c == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    return HtmlToken.EOF;
+                }
+                else if (Specification.IsUppercaseAscii(c))
+                    _stringBuffer.Append(c.ToLower());
+                else
+                    _stringBuffer.Append(c);
+
+                c = _src.Next;
             }
         }
 
@@ -1723,20 +1721,20 @@ namespace AngleSharp.Html
                     tag.AddAttribute(_stringBuffer.ToString());
                     return EmitTag(tag);
                 }
-                else if (c.IsUppercaseAscii())
-                    _stringBuffer.Append(c.ToLower());
+                else if (c == Specification.EOF)
+                    return HtmlToken.EOF;
                 else if (c == Specification.NULL)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
                     _stringBuffer.Append(Specification.REPLACEMENT);
                 }
+                else if (c.IsUppercaseAscii())
+                    _stringBuffer.Append(c.ToLower());
                 else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT)
                 {
                     RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                     _stringBuffer.Append(c);
                 }
-                else if (c == Specification.EOF)
-                    return HtmlToken.EOF;
                 else
                     _stringBuffer.Append(c);
 

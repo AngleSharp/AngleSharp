@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Reflection;
 using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Html;
 using System.Collections.Generic;
@@ -909,7 +910,12 @@ namespace AngleSharp.DOM
         /// <returns>A string containing some information about the node.</returns>
         public override String ToString()
         {
-            return string.Format("DOM.{0}.{1}", NodeType, _name);
+            var attr = GetType().GetTypeInfo().GetCustomAttribute<DOMAttribute>(true);
+
+            if (attr != null)
+                return attr.OfficialName;
+
+            return "Object";
         }
 
         /// <summary>
@@ -919,6 +925,20 @@ namespace AngleSharp.DOM
         public virtual String ToHtml()
         {
             return TextContent;
+        }
+
+        /// <summary>
+        /// Returns a special textual representation of the node.
+        /// </summary>
+        /// <returns>A string containing only (rendered) text.</returns>
+        public virtual String ToText()
+        {
+            var sb = new StringBuilder();
+
+            foreach (var child in _children)
+                sb.Append(child.ToText());
+
+            return sb.ToString();
         }
 
         /// <summary>

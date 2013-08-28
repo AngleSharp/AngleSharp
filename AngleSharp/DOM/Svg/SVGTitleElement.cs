@@ -2,6 +2,9 @@
 
 namespace AngleSharp.DOM.Svg
 {
+    /// <summary>
+    /// Represents the title element of the SVG DOM.
+    /// </summary>
     [DOM("SVGTitleElement")]
     public class SVGTitleElement : SVGElement
     {

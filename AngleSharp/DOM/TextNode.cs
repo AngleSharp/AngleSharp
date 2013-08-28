@@ -24,7 +24,7 @@ namespace AngleSharp.DOM
         /// Creates a new text node with the given text.
         /// </summary>
         /// <param name="text">The text to set.</param>
-        internal TextNode(string text)
+        internal TextNode(String text)
             : this()
         {
             AppendData(text);
@@ -34,7 +34,7 @@ namespace AngleSharp.DOM
         /// Creates a new text node with the given character.
         /// </summary>
         /// <param name="c">The character to set.</param>
-        internal TextNode(char c)
+        internal TextNode(Char c)
             : this()
         {
             AppendData(c);
@@ -76,6 +76,18 @@ namespace AngleSharp.DOM
             var node = new TextNode(Data);
             CopyProperties(this, node, deep);
             return node;
+        }
+
+        /// <summary>
+        /// Returns a special textual representation of the node.
+        /// </summary>
+        /// <returns>A string containing only (rendered) text.</returns>
+        public override String ToText()
+        {
+            if (IsEmpty && Length > 0)
+                return " ";
+
+            return Data.Trim();
         }
 
         #endregion

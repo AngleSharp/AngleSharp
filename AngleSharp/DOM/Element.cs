@@ -1032,15 +1032,6 @@ namespace AngleSharp.DOM
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Returns a string representation of the element.
-        /// </summary>
-        /// <returns>A string containing some information about the element.</returns>
-        public override String ToString()
-        {
-            return String.Format("<{0}{1}>", _name, _attributes.ToHtml());
-        }
-
         #endregion
 
         #region Helpers

@@ -15,7 +15,7 @@ namespace AngleSharp.Html
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     public class HtmlParser : IParser
     {
         #region Members
@@ -674,7 +674,7 @@ namespace AngleSharp.Html
             else if (token.IsStartTag(Tags.BASE, Tags.BASEFONT, Tags.BGSOUND, Tags.LINK))
             {
                 var name = ((HtmlTagToken)token).Name;
-                var element = HTMLElement.Factory(name);
+                var element = HTMLElement.Create(name);
                 AddElementToCurrentNode(element, token, true);
                 CloseCurrentNode();
                 return;
@@ -1010,7 +1010,7 @@ namespace AngleSharp.Html
                         if (IsInButtonScope(Tags.P))
                             InBodyEndTagParagraph();
 
-                        var element = HTMLElement.Factory(tag.Name);
+                        var element = HTMLElement.Create(tag.Name);
                         AddElementToCurrentNode(element, token);
                         break;
                     }
@@ -1137,7 +1137,7 @@ namespace AngleSharp.Html
                     case Tags.U:
                     {
                         ReconstructFormatting();
-                        var element = HTMLElement.Factory(tag.Name);
+                        var element = HTMLElement.Create(tag.Name);
                         AddElementToCurrentNode(element, token);
                         AddFormattingElement(element);
                         break;
@@ -1163,7 +1163,7 @@ namespace AngleSharp.Html
                     case Tags.OBJECT:
                     {
                         ReconstructFormatting();
-                        var element = HTMLElement.Factory(tag.Name);
+                        var element = HTMLElement.Create(tag.Name);
                         AddElementToCurrentNode(element, token);
                         InsertScopeMarker();
                         frameset = false;
@@ -1205,7 +1205,7 @@ namespace AngleSharp.Html
                     case HTMLSourceElement.Tag:
                     case HTMLTrackElement.Tag:
                     {
-                        var element = HTMLElement.Factory(tag.Name);
+                        var element = HTMLElement.Create(tag.Name);
                         AddElementToCurrentNode(element, token, true);
                         CloseCurrentNode();
                         break;
@@ -1320,7 +1320,7 @@ namespace AngleSharp.Html
                             InBodyEndTagAnythingElse(HtmlToken.CloseTag(Tags.OPTION));
 
                         ReconstructFormatting();
-                        var element = HTMLElement.Factory(tag.Name);
+                        var element = HTMLElement.Create(tag.Name);
                         AddElementToCurrentNode(element, token);
                         break;
                     }
@@ -1335,7 +1335,7 @@ namespace AngleSharp.Html
                                 RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
                         }
                             
-                        var element = HTMLElement.Factory(tag.Name);
+                        var element = HTMLElement.Create(tag.Name);
                         AddElementToCurrentNode(element, token);
                         break;
                     }
@@ -2823,7 +2823,7 @@ namespace AngleSharp.Html
         /// <param name="tag">The given tag token.</param>
         void RawtextAlgorithm(HtmlTagToken tag)
         {
-            var element = HTMLElement.Factory(tag.Name);
+            var element = HTMLElement.Create(tag.Name);
             AddElementToCurrentNode(element, tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
@@ -2836,7 +2836,7 @@ namespace AngleSharp.Html
         /// <param name="tag">The given tag token.</param>
         void RCDataAlgorithm(HtmlTagToken tag)
         {
-            var element = HTMLElement.Factory(tag.Name);
+            var element = HTMLElement.Create(tag.Name);
             AddElementToCurrentNode(element, tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
@@ -2870,7 +2870,7 @@ namespace AngleSharp.Html
             if (IsInButtonScope(Tags.P))
                 InBodyEndTagParagraph();
 
-            var element = HTMLElement.Factory(tag.Name);
+            var element = HTMLElement.Create(tag.Name);
             AddElementToCurrentNode(element, tag);
         }
 
@@ -2901,7 +2901,7 @@ namespace AngleSharp.Html
             if (IsInButtonScope(Tags.P))
                 InBodyEndTagParagraph();
 
-            var element = HTMLElement.Factory(tag.Name);
+            var element = HTMLElement.Create(tag.Name);
             AddElementToCurrentNode(element, tag);
         }
 
@@ -3093,7 +3093,7 @@ namespace AngleSharp.Html
         /// <returns>The new element (target).</returns>
         Element CopyElement(Element element)
         {
-            var newElement = HTMLElement.Factory(element.NodeName);
+            var newElement = HTMLElement.Create(element.NodeName);
             newElement.NodeName = element.NodeName;
             
             for (int i = 0; i < element.Attributes.Length; i++)
@@ -3204,7 +3204,7 @@ namespace AngleSharp.Html
         void InBodyStartTagBreakrow(HtmlTagToken tag)
         {
             ReconstructFormatting();
-            var element = HTMLElement.Factory(tag.Name);
+            var element = HTMLElement.Create(tag.Name);
             AddElementToCurrentNode(element, tag);
             CloseCurrentNode();
             frameset = false;
@@ -3494,8 +3494,7 @@ namespace AngleSharp.Html
 
             if (AdjustedCurrentNode.IsInMathML)
             {
-                node = new MathElement();
-                node.NodeName = tag.Name;
+                node = MathElement.Create(tag.Name);
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
                 {
@@ -3506,8 +3505,7 @@ namespace AngleSharp.Html
             }
             else if (AdjustedCurrentNode.IsInSvg)
             {
-                node = new SVGElement();
-                node.NodeName = SVGHelpers.AdjustTagName(tag.Name);
+                node = SVGElement.Create(SVGHelpers.AdjustTagName(tag.Name));
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
                 {

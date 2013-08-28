@@ -2,6 +2,9 @@
 
 namespace AngleSharp.DOM.Svg
 {
+    /// <summary>
+    /// Represents the desc element of the SVG DOM.
+    /// </summary>
     [DOM("SVGDescElement")]
     public class SVGDescElement : SVGElement
     {

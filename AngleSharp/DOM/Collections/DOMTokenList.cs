@@ -214,6 +214,15 @@ namespace AngleSharp.DOM.Collections
             return String.Join(" ", _tokens);
         }
 
+        /// <summary>
+        /// Returns a special textual representation of the node.
+        /// </summary>
+        /// <returns>A string containing only (rendered) text.</returns>
+        public String ToText()
+        {
+            return String.Empty;
+        }
+
         #endregion
     }
 }

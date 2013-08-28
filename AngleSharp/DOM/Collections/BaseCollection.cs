@@ -193,6 +193,20 @@ namespace AngleSharp.DOM.Collections
         }
 
         /// <summary>
+        /// Returns a special textual representation of the node.
+        /// </summary>
+        /// <returns>A string containing only (rendered) text.</returns>
+        public String ToText()
+        {
+            var sb = new StringBuilder();
+
+            foreach (var entry in _entries)
+                sb.Append(entry.ToText());
+
+            return sb.ToString();
+        }
+
+        /// <summary>
         /// Returns a string representing the collection.
         /// </summary>
         /// <returns>A string describing the collection.</returns>

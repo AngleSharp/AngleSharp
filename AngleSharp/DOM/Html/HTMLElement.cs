@@ -50,7 +50,7 @@ namespace AngleSharp.DOM.Html
         [DOM("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
-            var node = Factory(_name);
+            var node = Create(_name);
             CopyProperties(this, node, deep);
             return node;
         }
@@ -60,7 +60,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         /// <param name="tag">The given tag name.</param>
         /// <returns>The specialized HTMLElement instance.</returns>
-        internal static HTMLElement Factory(String tag)
+        internal static HTMLElement Create(String tag)
         {
             switch (tag)
             {

@@ -11,7 +11,7 @@ namespace AngleSharp.DOM
     {
         #region Members
 
-        StringBuilder sb;
+        String _content;
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace AngleSharp.DOM
         /// </summary>
         internal CharacterData()
         {
-            sb = new StringBuilder();
+            _content = String.Empty;
         }
 
         #endregion
@@ -36,8 +36,22 @@ namespace AngleSharp.DOM
         /// <returns>The character at the position.</returns>
         internal Char this[Int32 index]
         {
-            get { return sb[index]; }
-            set { sb[index] = value; }
+            get { return _content[index]; }
+            set 
+            {
+                if (index < 0)
+                    return;
+
+                if (index >= Length)
+                {
+                    _content = _content.PadRight(index) + value.ToString();
+                    return;
+                }
+
+                var chrs = _content.ToCharArray();
+                chrs[index] = value;
+                _content = new String(chrs);
+            }
         }
 
         /// <summary>
@@ -46,7 +60,7 @@ namespace AngleSharp.DOM
         [DOM("length")]
         public Int32 Length 
         { 
-            get { return sb.Length; } 
+            get { return _content.Length; } 
         }
 
         /// <summary>
@@ -55,8 +69,8 @@ namespace AngleSharp.DOM
         [DOM("nodeValue")]
         public override String NodeValue
         {
-            get { return sb.ToString(); }
-            set { sb.Remove(0, sb.Length).Append(value); }
+            get { return _content; }
+            set { _content = value; }
         }
 
 
@@ -66,8 +80,8 @@ namespace AngleSharp.DOM
         [DOM("textContent")]
         public override String TextContent
         {
-            get { return sb.ToString(); }
-            set { sb.Remove(0, sb.Length).Append(value); }
+            get { return _content; }
+            set { _content = value; }
         }
 
         /// <summary>
@@ -76,8 +90,8 @@ namespace AngleSharp.DOM
         [DOM("data")]
         public String Data
         {
-            get { return sb.ToString(); }
-            set { sb.Remove(0, sb.Length).Append(value); }
+            get { return _content; }
+            set { _content = value; }
         }
 
         #endregion
@@ -152,7 +166,7 @@ namespace AngleSharp.DOM
         [DOM("substringData")]
         public String SubstringData(Int32 offset, Int32 count)
         {
-            return sb.ToString(offset, count);
+            return _content.Substring(offset, count);
         }
 
         /// <summary>
@@ -163,7 +177,7 @@ namespace AngleSharp.DOM
         [DOM("appendData")]
         public CharacterData AppendData(String data)
         {
-            sb.Append(data);
+            _content += data;
             return this;
         }
 
@@ -174,7 +188,7 @@ namespace AngleSharp.DOM
         /// <returns>The current instance.</returns>
         public CharacterData AppendData(Char data)
         {
-            sb.Append(data);
+            _content += data.ToString();
             return this;
         }
 
@@ -187,7 +201,7 @@ namespace AngleSharp.DOM
         [DOM("insertData")]
         public CharacterData InsertData(Int32 offset, String data)
         {
-            sb.Insert(offset, data);
+            _content.Insert(offset, data);
             return this;
         }
 
@@ -199,7 +213,7 @@ namespace AngleSharp.DOM
         /// <returns>The current instance.</returns>
         public CharacterData InsertData(Int32 offset, Char data)
         {
-            sb.Insert(offset, data);
+            _content.Insert(offset, data.ToString());
             return this;
         }
 
@@ -212,7 +226,7 @@ namespace AngleSharp.DOM
         [DOM("deleteData")]
         public CharacterData DeleteData(Int32 offset, Int32 count)
         {
-            sb.Remove(offset, count);
+            _content.Remove(offset, count);
             return this;
         }
 
@@ -226,7 +240,7 @@ namespace AngleSharp.DOM
         [DOM("replaceData")]
         public CharacterData ReplaceData(Int32 offset, Int32 count, String data)
         {
-            sb.Remove(offset, count).Insert(offset, data);
+            _content.Remove(offset, count).Insert(offset, data);
             return this;
         }
 
@@ -238,9 +252,9 @@ namespace AngleSharp.DOM
         {
             var temp = new StringBuilder();
 
-            for (int i = 0; i < sb.Length; i++)
+            for (int i = 0; i < _content.Length; i++)
             {
-                switch (sb[i])
+                switch (_content[i])
                 {
                     case '&':
                         temp.Append("&amp;");
@@ -252,7 +266,7 @@ namespace AngleSharp.DOM
                         temp.Append("&gt;");
                         break;
                     default:
-                        temp.Append(sb[i]);
+                        temp.Append(_content[i]);
                         break;
                 }
             }
