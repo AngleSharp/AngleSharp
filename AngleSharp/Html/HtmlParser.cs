@@ -754,7 +754,7 @@ namespace AngleSharp.Html
             {
                 var element = new HTMLTemplateElement();
                 AddElementToCurrentNode(element, token);
-                InsertScopeMarker();
+                AddScopeMarker();
                 frameset = false;
                 insert = HtmlTreeMode.InTemplate;
                 templateMode.Push(HtmlTreeMode.InTemplate);
@@ -1104,7 +1104,7 @@ namespace AngleSharp.Html
                     {
                         for (var i = formatting.Count - 1; i >= 0; i--)
                         {
-                            if (formatting[i] is ScopeMarker)
+                            if (formatting[i] == null)
                                 break;
                             
                             if (formatting[i] is HTMLAnchorElement)
@@ -1171,7 +1171,7 @@ namespace AngleSharp.Html
                         ReconstructFormatting();
                         var element = HTMLElement.Create(tag.Name);
                         AddElementToCurrentNode(element, token);
-                        InsertScopeMarker();
+                        AddScopeMarker();
                         frameset = false;
                         break;
                     }
@@ -1736,7 +1736,7 @@ namespace AngleSharp.Html
                     case Tags.CAPTION:
                     {
                         ClearStackBackToTable();
-                        InsertScopeMarker();
+                        AddScopeMarker();
                         var element = new HTMLTableCaptionElement();
                         AddElementToCurrentNode(element, token);
                         insert = HtmlTreeMode.InCaption;
@@ -2100,7 +2100,7 @@ namespace AngleSharp.Html
                     var element = new HTMLTableCellElement();
                     AddElementToCurrentNode(element, token);
                     insert = HtmlTreeMode.InCell;
-                    InsertScopeMarker();
+                    AddScopeMarker();
                 }
                 else if (tag.Name.IsGeneralTableElement(true))
                 {
@@ -2965,7 +2965,7 @@ namespace AngleSharp.Html
 
                 for (var j = formatting.Count - 1; j >= 0; j--)
                 {
-                    if (formatting[j] is ScopeMarker)
+                    if (formatting[j] == null)
                         break;
                     
                     if (formatting[j].NodeName == tag.Name)
@@ -4080,14 +4080,6 @@ namespace AngleSharp.Html
                 foster.AppendText(p);
         }
 
-        /// <summary>
-        /// Inserts a scope marker at the end of the list of active formatting elements.
-        /// </summary>
-        void InsertScopeMarker()
-        {
-            formatting.Add(ScopeMarker.Block);
-        }
-
         #endregion
 
         #region Closing Nodes
@@ -4181,6 +4173,14 @@ namespace AngleSharp.Html
         #region Formatting
 
         /// <summary>
+        /// Inserts a scope marker at the end of the list of active formatting elements.
+        /// </summary>
+        void AddScopeMarker()
+        {
+            formatting.Add(null);
+        }
+
+        /// <summary>
         /// Adds an element to the list of active formatting elements.
         /// </summary>
         /// <param name="element">The element to add.</param>
@@ -4192,7 +4192,7 @@ namespace AngleSharp.Html
             {
                 var format = formatting[i];
 
-                if (format is ScopeMarker)
+                if (format == null)
                     break;
 
                 if (format.NodeName == element.NodeName && format.Attributes.Equals(element.Attributes) && format.NamespaceURI == element.NamespaceURI)
@@ -4221,7 +4221,7 @@ namespace AngleSharp.Html
                 var entry = formatting[index];
                 formatting.RemoveAt(index);
 
-                if (entry is ScopeMarker)
+                if (entry == null)
                     break;
             }
         }
@@ -4237,14 +4237,14 @@ namespace AngleSharp.Html
             var index = formatting.Count - 1;
             var entry = formatting[index];
 
-            if (entry is ScopeMarker || open.Contains(entry))
+            if (entry == null|| open.Contains(entry))
                 return;
 
             while (index > 0)
             {
                 entry = formatting[--index];
 
-                if (entry is ScopeMarker || open.Contains(entry))
+                if (entry == null || open.Contains(entry))
                 {
                     index++;
                     break;

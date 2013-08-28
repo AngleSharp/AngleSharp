@@ -311,7 +311,6 @@
     <Compile Include="DOM\Html\Lists\HTMLUListElement.cs" />
     <Compile Include="DOM\Html\HTMLUnknownElement.cs" />
     <Compile Include="DOM\Html\Media\HTMLVideoElement.cs" />
-    <Compile Include="DOM\Html\Formatting\ScopeMarker.cs" />
     <Compile Include="DOM\Mathml\MathElement.cs" />
     <Compile Include="DOM\Node.cs" />
     <Compile Include="Foundation\Errors.cs" />
