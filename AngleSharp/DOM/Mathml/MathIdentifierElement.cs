@@ -2,7 +2,7 @@
 
 namespace AngleSharp.DOM.Mathml
 {
-    class MathIdentifierElement : MathElement
+    sealed class MathIdentifierElement : MathElement, IScopeElement
     {
         internal MathIdentifierElement ()
 	    {

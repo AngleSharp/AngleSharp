@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the HTML caption element.
     /// </summary>
     [DOM("HTMLTableCaptionElement")]
-    public sealed class HTMLTableCaptionElement : HTMLElement
+    public sealed class HTMLTableCaptionElement : HTMLElement, IScopeElement
     {
         #region ctor
 

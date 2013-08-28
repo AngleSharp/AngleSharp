@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the HTML applet element.
     /// </summary>
     [DOM("HTMLAppletElement")]
-    public sealed class HTMLAppletElement : HTMLElement
+    public sealed class HTMLAppletElement : HTMLElement, IScopeElement
     {
         internal HTMLAppletElement()
         {

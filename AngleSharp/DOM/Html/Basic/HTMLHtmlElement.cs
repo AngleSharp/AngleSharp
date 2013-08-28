@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the HTML html element.
     /// </summary>
     [DOM("HTMLHtmlElement")]
-    public sealed class HTMLHtmlElement : HTMLElement
+    public sealed class HTMLHtmlElement : HTMLElement, IScopeElement
     {
         #region ctor
 

@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the HTML marquee element.
     /// </summary>
     [DOM("HTMLMarqueeElement")]
-    public sealed class HTMLMarqueeElement : HTMLElement
+    public sealed class HTMLMarqueeElement : HTMLElement, IScopeElement
     {
         #region ctor
 

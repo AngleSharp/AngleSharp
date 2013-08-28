@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the template element.
     /// </summary>
     [DOM("HTMLTemplateElement")]
-    public sealed class HTMLTemplateElement : HTMLElement
+    public sealed class HTMLTemplateElement : HTMLElement, IScopeElement
     {
         #region Members
 

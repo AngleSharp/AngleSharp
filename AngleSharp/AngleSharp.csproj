@@ -72,6 +72,7 @@
     <Compile Include="DOM\Enums\VerticalAlignment.cs" />
     <Compile Include="DOM\Html\Formatting\HTMLTemplateElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLAddressElement.cs" />
+    <Compile Include="DOM\Interfaces\IScopeElement.cs" />
     <Compile Include="DOM\Interfaces\IWindow.cs" />
     <Compile Include="DOM\Mathml\MathAnnotationXmlElement.cs" />
     <Compile Include="DOM\Mathml\MathIdentifierElement.cs" />
@@ -184,7 +185,7 @@
     <Compile Include="DOM\Attr.cs" />
     <Compile Include="DOM\Css\CSSStyleSheet.cs" />
     <Compile Include="DOM\Document.cs" />
-    <Compile Include="DOM\Html\HTMLMarqueeElement.cs" />
+    <Compile Include="DOM\Html\Objects\HTMLMarqueeElement.cs" />
     <Compile Include="DOM\Html\Basic\HTMLNoElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLSemanticElement.cs" />
     <Compile Include="Foundation\Constants\Tags.cs" />

@@ -2,7 +2,7 @@
 
 namespace AngleSharp.DOM.Mathml
 {
-    class MathTextElement : MathElement
+    sealed class MathTextElement : MathElement, IScopeElement
     {
         internal MathTextElement()
 	    {

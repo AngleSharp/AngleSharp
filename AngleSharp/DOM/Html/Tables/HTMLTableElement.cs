@@ -8,7 +8,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the HTML table element.
     /// </summary>
     [DOM("HTMLTableElement")]
-    public sealed class HTMLTableElement : HTMLElement
+    public sealed class HTMLTableElement : HTMLElement, IScopeElement
     {
         #region Members
 

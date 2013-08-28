@@ -3745,45 +3745,8 @@ namespace AngleSharp.Html
         /// <returns>True if the node matches an element, otherwise false.</returns>
         Boolean CheckAllScopeElements(Element node)
         {
-            if (node.IsInHtml)
-            {
-                switch (node.NodeName)
-                {
-                    case Tags.APPLET:
-                    case Tags.CAPTION:
-                    case Tags.HTML:
-                    case Tags.TABLE:
-                    case Tags.TD:
-                    case Tags.TH:
-                    case Tags.MARQUEE:
-                    case Tags.OBJECT:
-                    case Tags.TEMPLATE:
-                        return true;
-                }
-            }
-            else if (node.IsInSvg)
-            {
-                switch (node.NodeName)
-                {
-                    case Tags.FOREIGNOBJECT:
-                    case Tags.DESC:
-                    case Tags.TITLE:
-                        return true;
-                }
-            }
-            else if (node.IsInMathML)
-            {
-                switch (node.NodeName)
-                {
-                    case Tags.MI:
-                    case Tags.MO:
-                    case Tags.MN:
-                    case Tags.MS:
-                    case Tags.MTEXT:
-                    case Tags.ANNOTATION_XML:
-                        return true;
-                }
-            }
+            if (node is IScopeElement)
+                return true;
 
             return false;
         }
