@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Mathml
     /// <summary>
     /// Represents an element of the MathML DOM.
     /// </summary>
-    public class MathElement : Element
+    class MathElement : Element
     {
         #region ctor
 
