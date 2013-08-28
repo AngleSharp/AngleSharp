@@ -1,4 +1,5 @@
 ﻿using AngleSharp.DOM.Html;
+using AngleSharp.DOM.Xml;
 using System;
 
 namespace AngleSharp.DOM
@@ -31,21 +32,25 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Creates a DOM Document object of the specified type with its document element.
         /// </summary>
-        /// <param name="namespaceURI">The namespace URI of the document element to create or null.</param>
-        /// <param name="qualifiedName">The qualified name of the document element to be created or null.</param>
-        /// <param name="doctype">The type of document to be created or null.</param>
+        /// <param name="namespaceURI">Optional: The namespace URI of the document element to create.</param>
+        /// <param name="qualifiedName">Optional: The qualified name of the document element to be created.</param>
+        /// <param name="doctype">Optional: The type of document to be created.</param>
         /// <returns>A new Document object with its document element.</returns>
         [DOM("createDocument")]
-        public Document CreateDocument(String namespaceURI, String qualifiedName, DocumentType doctype)
+        public Document CreateDocument(String namespaceURI = null, String qualifiedName = null, DocumentType doctype = null)
         {
             Document doc = null;
 
             if (Namespaces.Html == namespaceURI)
                 doc = new HTMLDocument();
+            else if (Namespaces.Xml == namespaceURI)
+                doc = new XMLDocument();
             else
                 doc = new Document();
 
-            doc.AppendChild(doctype);
+            if(doctype != null)
+                doc.AppendChild(doctype);
+
             doc.NodeName = qualifiedName ?? doc.NodeName;
             return doc;
         }

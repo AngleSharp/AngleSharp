@@ -64,7 +64,6 @@ namespace AngleSharp.DOM
             _referrer = string.Empty;
             _ready = Readiness.Complete;
             _name = "#document";
-            _implementation = new DOMImplementation();
             _styleSheets = new StyleSheetList();
             _quirksMode = QuirksMode.Off;
         }
@@ -89,7 +88,7 @@ namespace AngleSharp.DOM
         [DOM("implementation")]
         public DOMImplementation Implementation
         {
-            get { return _implementation; }
+            get { return _implementation ?? (_implementation = new DOMImplementation()); }
         }
 
         /// <summary>
@@ -705,7 +704,7 @@ namespace AngleSharp.DOM
             target._ready = source._ready;
             target._referrer = source._referrer;
             target._location = source._location;
-            target._implementation = source._implementation;
+            target._implementation = source.Implementation;
             target._quirksMode = source._quirksMode;
         }
 

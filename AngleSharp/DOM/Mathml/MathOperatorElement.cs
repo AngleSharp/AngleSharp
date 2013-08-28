@@ -4,6 +4,11 @@ namespace AngleSharp.DOM.Mathml
 {
     class MathOperatorElement : MathElement
     {
+        internal MathOperatorElement()
+	    {
+            _name = Tags.MO;
+	    }
+
         /// <summary>
         /// Gets the status if the node is a MathML text integration point.
         /// </summary>

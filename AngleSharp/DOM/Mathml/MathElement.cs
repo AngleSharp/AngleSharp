@@ -47,6 +47,9 @@ namespace AngleSharp.DOM.Mathml
                 case Tags.MTEXT:
                     return new MathTextElement();
 
+                case Tags.ANNOTATION_XML:
+                    return new MathAnnotationXmlElement();
+
                 default:
                     return new MathElement { _name = tagName };
             }
@@ -62,36 +65,6 @@ namespace AngleSharp.DOM.Mathml
         internal protected override Boolean IsInMathML
         {
             get { return true; }
-        }
-
-        /// <summary>
-        /// Gets the status if the node is an HTML text integration point.
-        /// </summary>
-        protected internal override Boolean IsHtmlTIP
-        {
-            get
-            {
-                if (NodeName.Equals(Specification.XML_ANNOTATION))
-                {
-                    var value = GetAttribute("encoding");
-
-                    if (!String.IsNullOrEmpty(value))
-                    {
-                        value = value.ToLower();
-                        return value.Equals(MimeTypes.Html) || value.Equals(MimeTypes.ApplicationXHtml);
-                    }
-                }
-
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return _name == Specification.XML_ANNOTATION; }
         }
 
         #endregion

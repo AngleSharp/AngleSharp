@@ -71,6 +71,7 @@
     <Compile Include="DOM\Enums\VerticalAlignment.cs" />
     <Compile Include="DOM\Html\Formatting\HTMLTemplateElement.cs" />
     <Compile Include="DOM\Interfaces\IWindow.cs" />
+    <Compile Include="DOM\Mathml\MathAnnotationXmlElement.cs" />
     <Compile Include="DOM\Mathml\MathIdentifierElement.cs" />
     <Compile Include="DOM\Mathml\MathNumberElement.cs" />
     <Compile Include="DOM\Mathml\MathOperatorElement.cs" />

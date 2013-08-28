@@ -4,6 +4,11 @@ namespace AngleSharp.DOM.Mathml
 {
     class MathIdentifierElement : MathElement
     {
+        internal MathIdentifierElement ()
+	    {
+            _name = Tags.MI;
+	    }
+
         /// <summary>
         /// Gets the status if the node is a MathML text integration point.
         /// </summary>
