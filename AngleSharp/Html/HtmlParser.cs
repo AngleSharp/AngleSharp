@@ -350,7 +350,7 @@ namespace AngleSharp.Html
                         break;
 
                     case Tags.HEAD:
-                        insert = HtmlTreeMode.InBody;
+                        insert = last ? HtmlTreeMode.InBody : HtmlTreeMode.InHead;
                         break;
 
                     case Tags.BODY:

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace AngleSharp.DOM.Html
 {
@@ -69,6 +70,29 @@ namespace AngleSharp.DOM.Html
             }
 
             return clone;
+        }
+
+        #endregion
+
+        #region String Representation
+
+        /// <summary>
+        /// Returns an HTML-code representation of the node.
+        /// </summary>
+        /// <returns>A string containing the HTML code.</returns>
+        public override String ToHtml()
+        {
+            var sb = new StringBuilder();
+
+            sb.Append('<').Append(_name);
+            sb.Append(_attributes.ToHtml());
+            sb.Append(">");
+
+            foreach (var child in Content.ChildNodes)
+                sb.Append(child.ToHtml());
+
+            sb.Append("</").Append(_name).Append('>');
+            return sb.ToString();
         }
 
         #endregion
