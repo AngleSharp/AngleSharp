@@ -52,6 +52,18 @@ namespace AngleSharp.DOM.Html
         #region Methods
 
         /// <summary>
+        /// Adds a child to the collection of children.
+        /// </summary>
+        /// <param name="child">The child to add.</param>
+        /// <returns>The added child.</returns>
+        [DOM("appendChild")]
+        public override Node AppendChild(Node child)
+        {
+            Content.AppendChild(child);
+            return child;
+        }
+
+        /// <summary>
         /// Returns a duplicate of the template including the contents if deep is specified.
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be

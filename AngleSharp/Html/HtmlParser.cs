@@ -603,7 +603,7 @@ namespace AngleSharp.Html
         {
             if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(CurrentNode, token);
+                AddComment(token);
                 return;
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
@@ -658,7 +658,7 @@ namespace AngleSharp.Html
             }
             else if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(CurrentNode, token);
+                AddComment(token);
                 return;
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
@@ -852,7 +852,7 @@ namespace AngleSharp.Html
             }
             else if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(CurrentNode, token);
+                AddComment(token);
                 return;
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
@@ -918,7 +918,7 @@ namespace AngleSharp.Html
                     frameset = false;
             }
             else if (token.Type == HtmlTokenType.Comment)
-                AddComment(CurrentNode, token);
+                AddComment(token);
             else if (token.Type == HtmlTokenType.DOCTYPE)
                 RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
             else if (token.Type == HtmlTokenType.StartTag)
@@ -930,7 +930,10 @@ namespace AngleSharp.Html
                     case Tags.HTML:
                     {
                         RaiseErrorOccurred(ErrorCode.HtmlTagMisplaced);
-                        AppendAttributes(tag, open[0]);
+
+                        if(templateMode.Count == 0)
+                            AppendAttributes(tag, open[0]);
+
                         break;
                     }
                     case Tags.BASE:
@@ -952,7 +955,7 @@ namespace AngleSharp.Html
                     {
                         RaiseErrorOccurred(ErrorCode.BodyTagMisplaced);
 
-                        if (open.Count > 1 && open[1] is HTMLBodyElement)
+                        if (templateMode.Count == 0 && open.Count > 1 && open[1] is HTMLBodyElement)
                         {
                             frameset = false;
                             AppendAttributes(tag, open[1]);
@@ -1691,7 +1694,7 @@ namespace AngleSharp.Html
         {
             if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(CurrentNode, token);
+                AddComment(token);
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
             {
@@ -1844,10 +1847,7 @@ namespace AngleSharp.Html
             }
             else if (token.Type == HtmlTokenType.EOF)
             {
-                if (CurrentNode != doc.DocumentElement)
-                    RaiseErrorOccurred(ErrorCode.CurrentNodeIsNotRoot);
-
-                End();
+                InBody(token);
             }
             else
             {
@@ -1964,7 +1964,7 @@ namespace AngleSharp.Html
                 AddCharacters(str);
             }
             else if (token.Type == HtmlTokenType.Comment)
-                AddComment(CurrentNode, token);
+                AddComment(token);
             else if (token.Type == HtmlTokenType.DOCTYPE)
                 RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
             else if (token.IsStartTag(Tags.HTML))
@@ -2177,7 +2177,7 @@ namespace AngleSharp.Html
             }
             else if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(CurrentNode, token);
+                AddComment(token);
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
             {
@@ -2196,7 +2196,7 @@ namespace AngleSharp.Html
                     }
                     case Tags.OPTION:
                     {
-                        if (CurrentNode.NodeName == Tags.OPTION)
+                        if (CurrentNode is HTMLOptionElement)
                             InSelectEndTagOption();
 
                         var element = new HTMLOptionElement();
@@ -2205,10 +2205,10 @@ namespace AngleSharp.Html
                     }
                     case Tags.OPTGROUP:
                     {
-                        if (CurrentNode.NodeName == Tags.OPTION)
+                        if (CurrentNode is HTMLOptionElement)
                             InSelectEndTagOption();
-
-                        if (CurrentNode.NodeName == Tags.OPTGROUP)
+                        
+                        if (CurrentNode is HTMLOptGroupElement)
                             InSelectEndTagOptgroup();
 
                         var element = new HTMLOptGroupElement();
@@ -2287,10 +2287,7 @@ namespace AngleSharp.Html
             }
             else if (token.Type == HtmlTokenType.EOF)
             {
-                if (CurrentNode != doc.DocumentElement)
-                    RaiseErrorOccurred(ErrorCode.CurrentNodeIsNotRoot);
-
-                End();
+                InBody(token);
             }
             else
             {
@@ -2483,7 +2480,7 @@ namespace AngleSharp.Html
             }
             else if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(CurrentNode, token);
+                AddComment(token);
                 return;
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
@@ -2562,7 +2559,7 @@ namespace AngleSharp.Html
             }
             else if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(CurrentNode, token);
+                AddComment(token);
                 return;
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
@@ -3304,7 +3301,7 @@ namespace AngleSharp.Html
             }
             else if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(CurrentNode, token);
+                AddComment(token);
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
             {
@@ -3819,6 +3816,18 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
+        /// Appends a comment node to the current node.
+        /// </summary>
+        /// <param name="commentToken">The comment token.</param>
+        void AddComment(HtmlToken commentToken)
+        {
+            var tag = (HtmlCommentToken)commentToken;
+            var comment = new Comment();
+            comment.Data = tag.Data;
+            CurrentNode.AppendChild(comment);
+        }
+
+        /// <summary>
         /// Appends a comment node to the specified node.
         /// </summary>
         /// <param name="parent">The node which will contain the comment node.</param>
@@ -3900,8 +3909,6 @@ namespace AngleSharp.Html
 
             if (foster && node.IsTableElement())
                 AddElementWithFoster(element);
-            else if (node is HTMLTemplateElement)
-                ((HTMLTemplateElement)node).Content.AppendChild(element);
             else
                 node.AppendChild(element);
 
@@ -3975,8 +3982,6 @@ namespace AngleSharp.Html
 
                 if (foster && node.IsTableElement())
                     AddCharactersWithFoster(text);
-                else if (node is HTMLTemplateElement)
-                    ((HTMLTemplateElement)node).Content.AppendText(text);
                 else
                     node.AppendText(text);
             }
