@@ -7,7 +7,7 @@ namespace AngleSharp.DOM.Html
     /// Represents the object for HTML table section (thead / tbody / tfoot) elements.
     /// </summary>
     [DOM("HTMLTableSectionElement")]
-    public sealed class HTMLTableSectionElement : HTMLElement, IImplClosed
+    public sealed class HTMLTableSectionElement : HTMLElement, IImplClosed, ITableSectionScopeElement
     {
         #region Members
 

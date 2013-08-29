@@ -754,9 +754,9 @@ namespace AngleSharp.Html
                 }
                 else if (TagCurrentlyOpen(Tags.TEMPLATE))
                 {
-                    var node = CurrentNode;
+                    GenerateImpliedEndTags();
 
-                    if (!(node is HTMLTemplateElement))
+                    if (!(CurrentNode is HTMLTemplateElement))
                         RaiseErrorOccurred(ErrorCode.TagClosingMismatch);
 
                     CloseTemplate();
@@ -1081,7 +1081,7 @@ namespace AngleSharp.Html
                         if (IsInScope<HTMLButtonElement>())
                         {
                             RaiseErrorOccurred(ErrorCode.ButtonInScope);
-                            InBodyEndTagBlock(tag.Name);
+                            InBodyEndTagBlock(Tags.BUTTON);
                             InBody(token);
                         }
                         else
@@ -1491,14 +1491,14 @@ namespace AngleSharp.Html
                     }
                     case Tags.LI:
                     {
-                        if (IsInListItemScope(tag.Name))
+                        if (IsInListItemScope())
                         {
                             GenerateImpliedEndTagsExceptFor(tag.Name);
 
-                            if (CurrentNode.NodeName != tag.Name)
+                            if (!(CurrentNode is HTMLLIElement))
                                 RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
 
-                            ClearStackBackTo(tag.Name);
+                            ClearStackBackTo<HTMLLIElement>();
                             CloseCurrentNode();
                         }
                         else
@@ -1538,7 +1538,7 @@ namespace AngleSharp.Html
                             if (CurrentNode.NodeName != tag.Name)
                                 RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
 
-                            ClearStackBackToHeading();
+                            ClearStackBackTo<HTMLHeadingElement>();
                             CloseCurrentNode();
                         }
                         else
@@ -1705,7 +1705,7 @@ namespace AngleSharp.Html
                 {
                     case Tags.CAPTION:
                     {
-                        ClearStackBackToTable();
+                        ClearStackBackTo<HTMLTableElement>();
                         AddScopeMarker();
                         var element = new HTMLTableCaptionElement();
                         AddElement(element, tag);
@@ -1714,7 +1714,7 @@ namespace AngleSharp.Html
                     }
                     case Tags.COLGROUP:
                     {
-                        ClearStackBackToTable();
+                        ClearStackBackTo<HTMLTableElement>();
                         var element = new HTMLTableColElement();
                         AddElement(element, tag);
                         insert = HtmlTreeMode.InColumnGroup;
@@ -1730,7 +1730,7 @@ namespace AngleSharp.Html
                     case Tags.THEAD:
                     case Tags.TFOOT:
                     {
-                        ClearStackBackToTable();
+                        ClearStackBackTo<HTMLTableElement>();
                         var element = new HTMLTableSectionElement();
                         AddElement(element, tag);
                         insert = HtmlTreeMode.InTableBody;
@@ -1999,7 +1999,7 @@ namespace AngleSharp.Html
 
                 if (tag.Name == Tags.TR)
                 {
-                    ClearStackBackToTableSection();
+                    ClearStackBackTo<HTMLTableSectionElement>();
                     var element = new HTMLTableRowElement();
                     AddElement(element, token.AsTag());
                     insert = HtmlTreeMode.InRow;
@@ -2026,7 +2026,7 @@ namespace AngleSharp.Html
                 {
                     if (IsInTableScope(((HtmlTagToken)token).Name))
                     {
-                        ClearStackBackToTableSection();
+                        ClearStackBackTo<HTMLTableSectionElement>();
                         CloseCurrentNode();
                         insert = HtmlTreeMode.InTable;
                     }
@@ -2066,7 +2066,7 @@ namespace AngleSharp.Html
 
                 if (tag.Name.IsTableCellElement())
                 {
-                    ClearStackBackToTableRow();
+                    ClearStackBackTo<HTMLTableRowElement>();
                     var element = new HTMLTableCellElement();
                     AddElement(element, token.AsTag());
                     insert = HtmlTreeMode.InCell;
@@ -2133,28 +2133,21 @@ namespace AngleSharp.Html
                 var tag = (HtmlTagToken)token;
 
                 if (tag.Name.IsTableCellElement())
-                {
-                    InCellEndTagCell(((HtmlTagToken)token).Name);
-                }
+                    InCellEndTagCell();
                 else if (tag.Name.IsSpecialTableElement())
-                {
-                    RaiseErrorOccurred(ErrorCode.TagCannotEndHere);}
+                    RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                 else if (tag.Name.IsTableElement())
                 {
                     if (IsInTableScope(tag.Name))
                     {
-                        CloseTheCell();
+                        InCellEndTagCell();
                         Home(token);
                     }
                     else
-                    {
                         RaiseErrorOccurred(ErrorCode.TableNotInScope);
-                    }
                 }
                 else
-                {
                     InBody(token);
-                }
             }
             else if (token.Type == HtmlTokenType.StartTag && (((HtmlTagToken)token).Name.IsGeneralTableElement(true) || ((HtmlTagToken)token).Name.IsTableCellElement()))
             {
@@ -2162,18 +2155,14 @@ namespace AngleSharp.Html
 
                 if (IsInTableScope(Tags.TD) || IsInTableScope(Tags.TH))
                 {
-                    CloseTheCell();
+                    InCellEndTagCell();
                     Home(token);
                 }
                 else
-                {
                     RaiseErrorOccurred(ErrorCode.TableCellNotInScope);
-                }
             }
             else
-            {
                 InBody(token);
-            }
         }
 
         /// <summary>
@@ -2731,15 +2720,13 @@ namespace AngleSharp.Html
         {
             if (IsInTableScope<HTMLTableSectionElement>())
             {
-                ClearStackBackToTableSection();
+                ClearStackBackTo<HTMLTableSectionElement>();
                 CloseCurrentNode();
                 insert = HtmlTreeMode.InTable;
                 InTable(tag);
             }
             else
-            {
                 RaiseErrorOccurred(ErrorCode.TableSectionNotInScope);
-            }
         }
 
         /// <summary>
@@ -3181,7 +3168,7 @@ namespace AngleSharp.Html
                 if (!(CurrentNode is HTMLParagraphElement))
                     RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
 
-                ClearStackBackTo(Tags.P);
+                ClearStackBackTo<HTMLParagraphElement>();
                 CloseCurrentNode();
                 return true;
             }
@@ -3202,7 +3189,7 @@ namespace AngleSharp.Html
         {
             if (IsInTableScope<HTMLTableElement>())
             {
-                ClearStackBackTo(Tags.TABLE);
+                ClearStackBackTo<HTMLTableElement>();
                 CloseCurrentNode();
                 Reset();
                 return true;
@@ -3222,7 +3209,7 @@ namespace AngleSharp.Html
         {
             if (IsInTableScope<HTMLTableRowElement>())
             {
-                ClearStackBackToTableRow();
+                ClearStackBackTo<HTMLTableRowElement>();
                 CloseCurrentNode();
                 insert = HtmlTreeMode.InTableBody;
                 return true;
@@ -3240,7 +3227,7 @@ namespace AngleSharp.Html
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         void InSelectEndTagSelect()
         {
-            ClearStackBackTo(Tags.SELECT);
+            ClearStackBackTo<HTMLSelectElement>();
             CloseCurrentNode();
             Reset();
         }
@@ -3255,10 +3242,10 @@ namespace AngleSharp.Html
             {
                 GenerateImpliedEndTags();
 
-                if (CurrentNode.NodeName != Tags.CAPTION)
+                if (!(CurrentNode is HTMLTableCaptionElement))
                     RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
 
-                ClearStackBackTo(Tags.CAPTION);
+                ClearStackBackTo<HTMLTableCaptionElement>();
                 CloseCurrentNode();
                 ClearFormattingElements();
                 insert = HtmlTreeMode.InTable;
@@ -3274,18 +3261,17 @@ namespace AngleSharp.Html
         /// <summary>
         /// Act as if an td or th end tag has been found in the InCell state.
         /// </summary>
-        /// <param name="tagName">The tag name (td or th) that has been found.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        Boolean InCellEndTagCell(String tagName)
+        Boolean InCellEndTagCell()
         {
-            if (IsInTableScope(tagName))
+            if (IsInTableScope<HTMLTableCellElement>())
             {
                 GenerateImpliedEndTags();
 
-                if (CurrentNode.NodeName != tagName)
+                if (!(CurrentNode is HTMLTableCellElement))
                     RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
 
-                ClearStackBackTo(tagName);
+                ClearStackBackTo<HTMLTableCellElement>();
                 CloseCurrentNode();
                 ClearFormattingElements();
                 insert = HtmlTreeMode.InRow;
@@ -3561,15 +3547,14 @@ namespace AngleSharp.Html
         /// <summary>
         /// Determines if the given tag name is in the list scope.
         /// </summary>
-        /// <param name="tagName">The tag name to check.</param>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        Boolean IsInListItemScope(String tagName)
+        Boolean IsInListItemScope()
         {
             for (int i = open.Count - 1; i >= 0; i--)
             {
                 var node = open[i];
 
-                if (node.NodeName == tagName)
+                if (node is HTMLLIElement)
                     return true;
 
                 if (node is IListScopeElement)
@@ -3936,7 +3921,13 @@ namespace AngleSharp.Html
 
             while (--index != 0)
             {
-                if (open[index] is HTMLTableElement)
+                if (open[index] is HTMLTemplateElement)
+                {
+                    var template = (HTMLTemplateElement)open[index];
+                    template.Content.AppendChild(element);
+                    return;
+                }
+                else if (open[index] is HTMLTableElement)
                 {
                     table = true;
                     break;
@@ -4002,7 +3993,13 @@ namespace AngleSharp.Html
 
             while (--index != 0)
             {
-                if (open[index] is HTMLTableElement)
+                if (open[index] is HTMLTemplateElement)
+                {
+                    var template = (HTMLTemplateElement)open[index];
+                    template.Content.AppendText(text);
+                    return;
+                }
+                else if (open[index] is HTMLTableElement)
                 {
                     table = true;
                     break;
@@ -4046,59 +4043,21 @@ namespace AngleSharp.Html
         #region Closing Nodes
 
         /// <summary>
-        /// Closes the currently open cell (td or th).
-        /// </summary>
-        void CloseTheCell()
-        {
-            if (IsInTableScope(Tags.TD))
-                InCellEndTagCell(Tags.TD);
-            else
-                InCellEndTagCell(Tags.TH);
-        }
-
-        /// <summary>
         /// Clears the stack of open elements back to the given element name.
         /// </summary>
         /// <param name="tagName">The tag that will be the CurrentNode.</param>
-        void ClearStackBackTo(string tagName)
+        void ClearStackBackTo(String tagName)
         {
-            while (CurrentNode.NodeName != tagName && !(CurrentNode is HTMLHtmlElement))
+            while (CurrentNode.NodeName != tagName && !(CurrentNode is HTMLHtmlElement) && !(CurrentNode is HTMLTemplateElement))
                 CloseCurrentNode();
         }
 
         /// <summary>
         /// Clears the stack of open elements back to any heading element.
         /// </summary>
-        void ClearStackBackToHeading()
+        void ClearStackBackTo<T>()
         {
-            while (!(CurrentNode is HTMLHeadingElement) && !(CurrentNode is HTMLHtmlElement))
-                CloseCurrentNode();
-        }
-
-        /// <summary>
-        /// Clears the stack of open elements back to any table section element.
-        /// </summary>
-        void ClearStackBackToTableSection()
-        {
-            while (!(CurrentNode is HTMLTableSectionElement) && !(CurrentNode is HTMLHtmlElement))
-                CloseCurrentNode();
-        }
-
-        /// <summary>
-        /// Clears the stack of open elements back to a table element.
-        /// </summary>
-        void ClearStackBackToTable()
-        {
-            while (!(CurrentNode is HTMLTableElement) && !(CurrentNode is HTMLHtmlElement))
-                CloseCurrentNode();
-        }
-
-        /// <summary>
-        /// Clears the stack of open elements back to a tr element.
-        /// </summary>
-        void ClearStackBackToTableRow()
-        {
-            while (!(CurrentNode is HTMLTableRowElement) && !(CurrentNode is HTMLHtmlElement))
+            while (!(CurrentNode is T) && !(CurrentNode is HTMLHtmlElement) && !(CurrentNode is HTMLTemplateElement))
                 CloseCurrentNode();
         }
 
@@ -4107,16 +4066,15 @@ namespace AngleSharp.Html
         /// the tag given.
         /// </summary>
         /// <param name="tagName">The tag that will be excluded.</param>
-        void GenerateImpliedEndTagsExceptFor(string tagName)
+        void GenerateImpliedEndTagsExceptFor(String tagName)
         {
-            var list = new List<string>(new[] { Tags.DD, Tags.DT, 
-                Tags.LI, Tags.OPTGROUP, Tags.OPTION, Tags.P, Tags.RP, Tags.RT });
+            while (CurrentNode is IImpliedEnd)
+            {
+                if (CurrentNode.NodeName == tagName)
+                    break;
 
-            if (list.Contains(tagName))
-                list.Remove(tagName);
-
-            while(list.Contains(CurrentNode.NodeName))
                 CloseCurrentNode();
+            }
         }
 
         /// <summary>
@@ -4124,9 +4082,10 @@ namespace AngleSharp.Html
         /// </summary>
         void GenerateImpliedEndTags()
         {
-            while (CurrentNode is HTMLLIElement || CurrentNode is HTMLOptionElement || CurrentNode is HTMLOptGroupElement ||
-                CurrentNode is HTMLParagraphElement || CurrentNode.NodeName == Tags.RP || CurrentNode.NodeName == Tags.RT)
+            while (CurrentNode is IImpliedEnd)
+            {
                 CloseCurrentNode();
+            }
         }
 
         #endregion

@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// Represents an HTML li, dd or dt tag.
     /// </summary>
     [DOM("HTMLLIElement")]
-    public sealed class HTMLLIElement : HTMLElement, IImplClosed
+    public sealed class HTMLLIElement : HTMLElement, IImpliedEnd
     {
         #region ctor
 

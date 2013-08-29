@@ -2,7 +2,7 @@
 
 namespace AngleSharp.DOM.Html
 {
-    sealed class HTMLRTElement : HTMLElement, IImplClosed
+    sealed class HTMLRTElement : HTMLElement, IImpliedEnd
     {
         internal HTMLRTElement()
         {

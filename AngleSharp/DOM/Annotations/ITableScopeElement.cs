@@ -1,7 +1,7 @@
 ﻿
 namespace AngleSharp.DOM
 {
-    interface ITableScopeElement
+    interface ITableScopeElement : ITableSectionScopeElement
     {
     }
 }

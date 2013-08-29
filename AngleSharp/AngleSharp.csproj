@@ -40,9 +40,11 @@
     <Compile Include="Css\CssTokenizer.cs" />
     <Compile Include="DOM\Annotations\IFormatting.cs" />
     <Compile Include="DOM\Annotations\IImplClosed.cs" />
+    <Compile Include="DOM\Annotations\IImpliedEnd.cs" />
     <Compile Include="DOM\Annotations\IListScopeElement.cs" />
     <Compile Include="DOM\Annotations\ISelectScopeElement.cs" />
     <Compile Include="DOM\Annotations\ITableScopeElement.cs" />
+    <Compile Include="DOM\Annotations\ITableSectionScopeElement.cs" />
     <Compile Include="DOM\Collections\HTMLLiveCollectionWithAttr.cs" />
     <Compile Include="DOM\Collections\CSSStyleDeclaration.cs" />
     <Compile Include="DOM\Collections\DOMStringMap.cs" />
@@ -288,7 +290,7 @@
     <Compile Include="DOM\Html\Head\HTMLMetaElement.cs" />
     <Compile Include="DOM\Html\HTMLModElement.cs" />
     <Compile Include="DOM\Html\HTMLElement.cs" />
-    <Compile Include="DOM\Html\Basic\HTMLHeadElement.cs" />
+    <Compile Include="DOM\Html\Head\HTMLHeadElement.cs" />
     <Compile Include="DOM\Html\Basic\HTMLHtmlElement.cs" />
     <Compile Include="DOM\Html\Objects\HTMLObjectElement.cs" />
     <Compile Include="DOM\Html\Lists\HTMLOListElement.cs" />
