@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp;
+using AngleSharp.DOM;
 
 namespace UnitTests
 {
@@ -515,6 +516,341 @@ should be green.</div>";
             Assert.AreEqual(2, selector1.Length);
             var selector2 = doc.QuerySelectorAll("li:lang(en-GB)");
             Assert.AreEqual(2, selector2.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-177a.xml
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(DOMException))]
+        public void ParsingColonVsColonColonA()
+        {
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">When you select this text, it shouldn't go red.</p>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("p:selection");
+            Assert.AreEqual(0, selector1.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-177b.xml
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(DOMException))]
+        public void ParsingColonVsColonColonB()
+        {
+            var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
+  <p>This line should be green.</p>
+ </div>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("div");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("p::first-child");
+            Assert.AreEqual(0, selector2.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-178.xml
+        /// </summary>
+        [TestMethod]
+        public void ParsingNotAndPseudoElements()
+        {
+            var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
+  <p>This line should be green.</p>
+ </div>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("div");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("p:not(:first-line)");
+            Assert.AreEqual(0, selector2.Length);
+            var selector3 = doc.QuerySelectorAll("p:not(:after)");
+            Assert.AreEqual(0, selector3.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-182.xml
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(DOMException))]
+        public void NamespacesAndInSelectors()
+        {
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
+<foo:bar xmlns:foo=""http://www.example.org/"">
+This text should be green.
+</foo:bar>
+</p>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("foo:bar");
+            Assert.AreEqual(0, selector2.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-183.xml
+        /// </summary>
+        [TestMethod]
+        public void SyntaxAndParsingOfClassSelectors()
+        {
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""test"">This text should be green.</p>
+<p xmlns=""http://www.w3.org/1999/xhtml"" class="".test"">This text should be green.</p>
+<p xmlns=""http://www.w3.org/1999/xhtml"" class=""foo"">This text should be green.</p>
+<p xmlns=""http://www.w3.org/1999/xhtml"" class=""foo quux"">This text should be green.</p>
+<p xmlns=""http://www.w3.org/1999/xhtml"" class=""foo  quux"">This text should be green.</p>
+<p xmlns=""http://www.w3.org/1999/xhtml"" class="" bar "">This text should be green.</p>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(6, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("test");
+            Assert.AreEqual(0, selector2.Length);
+            var selector3 = doc.QuerySelectorAll(".fooquux");
+            Assert.AreEqual(0, selector3.Length);
+            var selector4 = doc.QuerySelectorAll(".bar");
+            Assert.AreEqual(1, selector4.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184a.xml
+        /// </summary>
+        [TestMethod]
+        public void EndsWithAttributeSelectorWithEmptyValue()
+        {
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
+<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(2, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("p[class$=\"\"]");
+            Assert.AreEqual(0, selector2.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184b.xml
+        /// </summary>
+        [TestMethod]
+        public void StartsWithAttributeSelectorWithEmptyValue()
+        {
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
+<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(2, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("p[class^='']");
+            Assert.AreEqual(0, selector2.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184c.xml
+        /// </summary>
+        [TestMethod]
+        public void ContainsAttributeSelectorWithEmptyValue()
+        {
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
+<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(2, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("p[class*=\"\"]");
+            Assert.AreEqual(0, selector2.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184d.xml
+        /// </summary>
+        [TestMethod]
+        public void NEGATEDEndsWithAttributeSelectorWithEmptyValue()
+        {
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
+<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(2, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("p:not([class$=\"\"])");
+            Assert.AreEqual(2, selector2.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184e.xml
+        /// </summary>
+        [TestMethod]
+        public void NEGATEDStartsWithAttributeSelectorWithEmptyValue()
+        {
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
+<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(2, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("p:not([class^=\"\"])");
+            Assert.AreEqual(2, selector2.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184f.xml
+        /// </summary>
+        [TestMethod]
+        public void NEGATEDContainsAttributeSelectorWithEmptyValue()
+        {
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
+<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(2, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("p:not([class*=\"\"])");
+            Assert.AreEqual(2, selector2.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d1.xml
+        /// </summary>
+        [TestMethod]
+        public void NEGATEDDynamicHandlingOfEmpty()
+        {
+            var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
+
+  <script type=""text/javascript"">
+   
+  </script>
+
+  <p> The following bar should be green. </p>
+
+  <div id=""test""></div>
+
+ </div>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("#test");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("#test:not(:empty)");
+            Assert.AreEqual(0, selector2.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d1b.xml
+        /// </summary>
+        [TestMethod]
+        public void DynamicHandlingOfEmpty()
+        {
+            var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
+
+  <script type=""text/javascript"">
+   
+  </script>
+
+  <p> The following two bars should be green. </p>
+
+  <div id=""test1""></div>
+  <div id=""test2""></div>
+
+ </div>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("#test1");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("#test1:empty");
+            Assert.AreEqual(1, selector2.Length);
+            var selector3 = doc.QuerySelectorAll("#test2");
+            Assert.AreEqual(1, selector3.Length);
+            var selector4 = doc.QuerySelectorAll("#test2:empty");
+            Assert.AreEqual(1, selector4.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d2.xml
+        /// </summary>
+        [TestMethod]
+        public void DynamicHandlingOfCombinators()
+        {
+            var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
+
+  
+  <script type=""text/javascript"">
+   
+  </script>
+  
+
+  
+
+  <p> The following bar should be green. </p>
+
+  <div id=""stub""></div>
+  <div></div>
+  <div><div><!-- <div/> --><div><div id=""test""></div></div></div></div>
+
+ </div>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("#test");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("#stub~div div+div div");
+            Assert.AreEqual(0, selector2.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d3.xml
+        /// </summary>
+        [TestMethod]
+        public void DynamicHandlingOfAttributeSelectors()
+        {
+            var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
+
+  <script type=""text/javascript"">
+   
+  </script>
+
+  <p> The following block should be green. </p>
+
+  <!-- root of selector -->
+  <stub xmlns=""""></stub>
+
+  <!-- middle part of selector does not match this -->
+  <t xmlns="""" attribute=""fake""></t>
+
+  <!-- middle part of selector matches this once attribute is fixed -->
+  <t xmlns="""" attribute=""start mid dle end""></t>
+
+  <!-- subject of selector -->
+  <t xmlns="""" test=""test""></t>
+
+ </div>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("[test]");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("stub~start:not(mid)dleend~t");
+            Assert.AreEqual(0, selector2.Length);
+        }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d4.xml
+        /// </summary>
+        [TestMethod]
+        public void DynamicUpdatingOfFirstChildAndLastChild()
+        {
+            var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
+
+  <script type=""text/javascript"">
+   
+  </script>
+
+  <div><p id=""two"">This line should be unstyled. (2)</p><p id=""three"">This line should have a green background. (3)</p><p>This line should be unstyled. (4 moving to 1)</p></div>
+
+ </div>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("#two:first-child");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("#three:last-child");
+            Assert.AreEqual(0, selector2.Length);
         }
 
         #endregion
@@ -6423,322 +6759,6 @@ This div should have three addresses above it.</div>";
 	        Assert.AreEqual(0, selector7.Length);
 	        var selector8 = doc.QuerySelectorAll("div:not(#other).class:not(.fail).nottest#theid#other");
 	        Assert.AreEqual(0, selector8.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-177a.xml
-        /// </summary>
-        public void ParsingColonVsColonColonA()
-        {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">When you select this text, it shouldn9t go red.</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-177b.xml
-        /// </summary>
-        public void ParsingColonVsColonColonB()
-        {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
-  <p>This line should be green.</p>
- </div>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("div");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-178.xml
-        /// </summary>
-        public void ParsingNotAndPseudoElements()
-        {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
-  <p>This line should be green.</p>
- </div>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("div");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p:not(:first-line)");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("p:not(:after)");
-	        Assert.AreEqual(0, selector3.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-182.xml
-        /// </summary>
-        public void NamespacesAndInSelectors()
-        {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
-<foo:bar xmlns:foo=""http://www.example.org/"">
-This text should be green.
-</foo:bar>
-</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("foo:bar");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-183.xml
-        /// </summary>
-        public void SyntaxAndParsingOfClassSelectors()
-        {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""test"">This text should be green.</p>
-<p xmlns=""http://www.w3.org/1999/xhtml"" class="".test"">This text should be green.</p>
-<p xmlns=""http://www.w3.org/1999/xhtml"" class=""foo"">This text should be green.</p>
-<p xmlns=""http://www.w3.org/1999/xhtml"" class=""foo quux"">This text should be green.</p>
-<p xmlns=""http://www.w3.org/1999/xhtml"" class=""foo  quux"">This text should be green.</p>
-<p xmlns=""http://www.w3.org/1999/xhtml"" class="" bar "">This text should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("test");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll(".fooquux");
-	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll(".bar");
-	        Assert.AreEqual(0, selector4.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184a.xml
-        /// </summary>
-        public void EndsWithAttributeSelectorWithEmptyValue()
-        {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
-<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184b.xml
-        /// </summary>
-        public void StartsWithAttributeSelectorWithEmptyValue()
-        {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
-<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184c.xml
-        /// </summary>
-        public void ContainsAttributeSelectorWithEmptyValue()
-        {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
-<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184d.xml
-        /// </summary>
-        public void NEGATEDEndsWithAttributeSelectorWithEmptyValue()
-        {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
-<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184e.xml
-        /// </summary>
-        public void NEGATEDStartsWithAttributeSelectorWithEmptyValue()
-        {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
-<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184f.xml
-        /// </summary>
-        public void NEGATEDContainsAttributeSelectorWithEmptyValue()
-        {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
-<p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d1.xml
-        /// </summary>
-        public void NEGATEDDynamicHandlingOfEmpty()
-        {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
-
-  <script type=""text/javascript"">
-   
-  </script>
-
-  <p> The following bar should be green. </p>
-
-  <div id=""test""></div>
-
- </div>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("#test");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("#test:not(:empty)");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d1b.xml
-        /// </summary>
-        public void DynamicHandlingOfEmpty()
-        {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
-
-  <script type=""text/javascript"">
-   
-  </script>
-
-  <p> The following two bars should be green. </p>
-
-  <div id=""test1""></div>
-  <div id=""test2""></div>
-
- </div>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("#test1");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("#test1:empty");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("#test2");
-	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("#test2:empty");
-	        Assert.AreEqual(0, selector4.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d2.xml
-        /// </summary>
-        public void DynamicHandlingOfCombinators()
-        {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
-
-  
-  <script type=""text/javascript"">
-   
-  </script>
-  
-
-  
-
-  <p> The following bar should be green. </p>
-
-  <div id=""stub""></div>
-  <div></div>
-  <div><div><!-- <div/> --><div><div id=""test""></div></div></div></div>
-
- </div>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("#test");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("#stub~div div+div div");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d3.xml
-        /// </summary>
-        public void DynamicHandlingOfAttributeSelectors()
-        {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
-
-  <script type=""text/javascript"">
-   
-  </script>
-
-  <p> The following block should be green. </p>
-
-  <!-- root of selector -->
-  <stub xmlns=""""></stub>
-
-  <!-- middle part of selector does not match this -->
-  <t xmlns="""" attribute=""fake""></t>
-
-  <!-- middle part of selector matches this once attribute is fixed -->
-  <t xmlns="""" attribute=""start mid dle end""></t>
-
-  <!-- subject of selector -->
-  <t xmlns="""" test=""test""></t>
-
- </div>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("[test]");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("stub~start:not(mid)dleend~t");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d4.xml
-        /// </summary>
-        public void DynamicUpdatingOfFirstChildAndLastChild()
-        {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
-
-  <script type=""text/javascript"">
-   
-  </script>
-
-  <div><p id=""two"">This line should be unstyled. (2)</p><p id=""three"">This line should have a green background. (3)</p><p>This line should be unstyled. (4 moving to 1)</p></div>
-
- </div>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("#two:first-child");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("#three:last-child");
-	        Assert.AreEqual(0, selector2.Length);
         }
     }
 }

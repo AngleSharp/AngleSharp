@@ -10,7 +10,7 @@ namespace UnitTests.Library
     public class ConfigurationTests
     {
         [TestCleanup]
-        public void ResetConfig()
+        public void ResetChanges()
         {
             Configuration.Reset();
         }
@@ -30,6 +30,48 @@ namespace UnitTests.Library
 
             Assert.AreNotEqual(culture, Configuration.Culture);
             Assert.AreEqual(language, Configuration.Language);
+        }
+
+        [TestMethod]
+        public void TestSaveConfiguration()
+        {
+            var culture = new CultureInfo("en-gb");
+            var language = Configuration.Language;
+
+            Configuration.Culture = culture;
+
+            Assert.AreEqual(culture, Configuration.Culture);
+            Assert.AreNotEqual(language, Configuration.Language);
+
+            var config = Configuration.Save();
+            Configuration.Reset();
+
+            Assert.AreNotEqual(culture, Configuration.Culture);
+            Assert.AreEqual(language, Configuration.Language);
+            Assert.IsNotNull(config);
+        }
+
+        [TestMethod]
+        public void TestLoadConfiguration()
+        {
+            var culture = new CultureInfo("en-gb");
+            var language = Configuration.Language;
+
+            Configuration.Culture = culture;
+
+            Assert.AreEqual(culture, Configuration.Culture);
+            Assert.AreNotEqual(language, Configuration.Language);
+
+            var config = Configuration.Save();
+            Configuration.Reset();
+
+            Assert.AreNotEqual(culture, Configuration.Culture);
+            Assert.AreEqual(language, Configuration.Language);
+
+            Configuration.Load(config);
+
+            Assert.AreEqual(culture, Configuration.Culture);
+            Assert.AreNotEqual(language, Configuration.Language);
         }
 
         [TestMethod]
