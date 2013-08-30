@@ -192,7 +192,7 @@ namespace AngleSharp.DOM.Html
         [DOM("anchors")]
         public HTMLCollection Anchors
         {
-            get { return _anchors ?? (new HTMLLiveCollectionWithAttr<HTMLAnchorElement>(this, "name")); }
+            get { return _anchors ?? (_anchors = new HTMLLiveCollectionWithAttr<HTMLAnchorElement>(this, "name")); }
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace AngleSharp.DOM.Html
         [DOM("embeds")]
         public HTMLCollection Embeds
         {
-            get { return _embeds ?? (new HTMLLiveCollection<HTMLEmbedElement, HTMLObjectElement, HTMLAppletElement>(this)); }
+            get { return _embeds ?? (_embeds = new HTMLLiveCollection<HTMLEmbedElement, HTMLObjectElement, HTMLAppletElement>(this)); }
         }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace AngleSharp.DOM.Html
         [DOM("links")]
         public HTMLCollection Links
         {
-            get { return _links ?? (new HTMLLiveCollectionWithAttr<HTMLAnchorElement, HTMLAreaElement>(this, "href")); }
+            get { return _links ?? (_links = new HTMLLiveCollectionWithAttr<HTMLAnchorElement, HTMLAreaElement>(this, "href")); }
         }
 
         /// <summary>

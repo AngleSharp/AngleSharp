@@ -7,22 +7,6 @@ namespace AngleSharp
 {
     class DependencyResolver
     {
-        #region Static
-
-        static DependencyResolver _instance;
-
-        static DependencyResolver()
-        {
-            _instance = new DependencyResolver();
-        }
-
-        public static IDependencyResolver Current
-        {
-            get { return _instance.InnerCurrent; }
-        }
-
-        #endregion
-
         #region Members
 
         IDependencyResolver _current;
@@ -35,6 +19,11 @@ namespace AngleSharp
         public DependencyResolver()
         {
             InnerSetResolver(new DefaultDependencyResolver());
+        }
+
+        public DependencyResolver(DependencyResolver resolver)
+        {
+            InnerSetResolver(resolver._current);
         }
 
         #endregion
@@ -60,21 +49,6 @@ namespace AngleSharp
         #endregion
 
         #region Methods
-
-        public static void SetResolver(IDependencyResolver resolver)
-        {
-            _instance.InnerSetResolver(resolver);
-        }
-
-        public static void SetResolver(Object commonServiceLocator)
-        {
-            _instance.InnerSetResolver(commonServiceLocator);
-        }
-
-        public static void SetResolver(Func<Type, Object> getService, Func<Type, IEnumerable<Object>> getServices)
-        {
-            _instance.InnerSetResolver(getService, getServices);
-        }
 
         public void InnerSetResolver(IDependencyResolver resolver)
         {

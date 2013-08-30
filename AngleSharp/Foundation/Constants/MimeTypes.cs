@@ -26,4 +26,5 @@ namespace AngleSharp
         /// Gets the XML mime-type: application/xhtml+xml.
         /// </summary>
         public static readonly String ApplicationXHtml = "application/xhtml+xml";
+    }
 }

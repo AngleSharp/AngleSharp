@@ -26,6 +26,7 @@ namespace AngleSharp
         #region Members
 
         List<Type> requester;
+        DependencyResolver resolver;
         CultureInfo culture;
 
         #endregion
@@ -39,6 +40,7 @@ namespace AngleSharp
         {
             requester = new List<Type>();
             culture = CultureInfo.CurrentUICulture;
+            resolver = new DependencyResolver();
         }
 
         /// <summary>
@@ -46,15 +48,23 @@ namespace AngleSharp
         /// </summary>
         /// <param name="config">The configuration to clone.</param>
         Configuration(Configuration config)
-            : this()
         {
-            requester.AddRange(config.requester);
+            requester = new List<Type>(config.requester);
             culture = config.culture;
+            resolver = new DependencyResolver(config.resolver);
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the current dependency resolver.
+        /// </summary>
+        public static IDependencyResolver CurrentResolver
+        {
+            get { return instance.resolver.InnerCurrent; }
+        }
 
         /// <summary>
         /// Gets if at least one HttpRequester has been registered.
@@ -83,7 +93,7 @@ namespace AngleSharp
 
         #endregion
 
-        #region Register / Unregister
+        #region Register / Unregister requester
 
         /// <summary>
         /// Registers a new HttpRequester for making resource requests.
@@ -109,6 +119,39 @@ namespace AngleSharp
 
             if (instance.requester.Contains(requester))
                 instance.requester.Remove(requester);
+        }
+
+        #endregion
+
+        #region Register IoC container
+
+        /// <summary>
+        /// Sets the dependency resolver to the given one.
+        /// </summary>
+        /// <param name="resolver">The resolver to use.</param>
+        public static void SetDependencyResolver(IDependencyResolver resolver)
+        {
+            instance.resolver.InnerSetResolver(resolver);
+        }
+
+        /// <summary>
+        /// Sets the dependency resolver to the given common service locator object.
+        /// </summary>
+        /// <param name="commonServiceLocator">The common service locator to use.</param>
+        public static void SetDependencyResolver(Object commonServiceLocator)
+        {
+            instance.resolver.InnerSetResolver(commonServiceLocator);
+        }
+
+        /// <summary>
+        /// Sets the dependency resolver to use the given methods for single and
+        /// multiple services.
+        /// </summary>
+        /// <param name="getService">The method to use for resolving a single service.</param>
+        /// <param name="getServices">The method to use for resolving multiple services.</param>
+        public static void SetDependencyResolver(Func<Type, Object> getService, Func<Type, IEnumerable<Object>> getServices)
+        {
+            instance.resolver.InnerSetResolver(getService, getServices);
         }
 
         #endregion

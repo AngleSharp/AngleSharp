@@ -6,6 +6,8 @@ namespace AngleSharp
     /// <summary>
     /// This class contains information about colors like their
     /// given names or assignments of names to colors.
+    /// Most names are derived from
+    /// http://en.wikipedia.org/wiki/X11_color_names
     /// </summary>
     static class Colors
     {

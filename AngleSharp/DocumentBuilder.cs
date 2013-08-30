@@ -32,6 +32,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="source">The code manager.</param>
         /// <param name="document">The document to fill.</param>
+        /// <param name="options">Options to use for the document generation.</param>
         DocumentBuilder(SourceManager source, HTMLDocument document, DocumentOptions options)
         {
             options = options ?? DocumentOptions.Default;
@@ -44,6 +45,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="source">The code manager.</param>
         /// <param name="document">The document to fill.</param>
+        /// <param name="options">Options to use for the document generation.</param>
         DocumentBuilder(SourceManager source, XMLDocument document, DocumentOptions options)
         {
             options = options ?? DocumentOptions.Default;
@@ -56,6 +58,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="source">The code manager.</param>
         /// <param name="sheet">The document to fill.</param>
+        /// <param name="options">Options to use for the document generation.</param>
         DocumentBuilder(SourceManager source, CSSStyleSheet sheet, DocumentOptions options)
         {
             options = options ?? DocumentOptions.Default;
