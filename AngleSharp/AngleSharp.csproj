@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Css\CssTokenizer.cs" />
+    <Compile Include="DocumentOptions.cs" />
     <Compile Include="DOM\Annotations\IFormatting.cs" />
     <Compile Include="DOM\Annotations\IImplClosed.cs" />
     <Compile Include="DOM\Annotations\IImpliedEnd.cs" />

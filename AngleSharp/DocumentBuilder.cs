@@ -31,8 +31,9 @@ namespace AngleSharp
         /// </summary>
         /// <param name="source">The code manager.</param>
         /// <param name="document">The document to fill.</param>
-        DocumentBuilder(SourceManager source, HTMLDocument document)
+        DocumentBuilder(SourceManager source, HTMLDocument document, DocumentOptions options)
         {
+            options = options ?? DocumentOptions.Default;
             parser = new HtmlParser(document, source);
             parser.ErrorOccurred += ParseErrorOccurred;
         }
@@ -42,8 +43,9 @@ namespace AngleSharp
         /// </summary>
         /// <param name="source">The code manager.</param>
         /// <param name="document">The document to fill.</param>
-        DocumentBuilder(SourceManager source, XMLDocument document)
+        DocumentBuilder(SourceManager source, XMLDocument document, DocumentOptions options)
         {
+            options = options ?? DocumentOptions.Default;
             parser = new XmlParser(document, source);
             parser.ErrorOccurred += ParseErrorOccurred;
         }
@@ -53,8 +55,9 @@ namespace AngleSharp
         /// </summary>
         /// <param name="source">The code manager.</param>
         /// <param name="sheet">The document to fill.</param>
-        DocumentBuilder(SourceManager source, CSSStyleSheet sheet)
+        DocumentBuilder(SourceManager source, CSSStyleSheet sheet, DocumentOptions options)
         {
+            options = options ?? DocumentOptions.Default;
             parser = new CssParser(sheet, source);
             parser.ErrorOccurred += ParseErrorOccurred;
         }
@@ -95,11 +98,12 @@ namespace AngleSharp
         /// Builds a new XMLDocument with the given source code string.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
         /// <returns>The constructed XML document.</returns>
-        public static XMLDocument Xml(String sourceCode)
+        public static XMLDocument Xml(String sourceCode, DocumentOptions options = null)
         {
             var source = new SourceManager(sourceCode);
-            var db = new DocumentBuilder(source, new XMLDocument());
+            var db = new DocumentBuilder(source, new XMLDocument(), options);
             return db.XmlResult;
         }
 
@@ -107,24 +111,26 @@ namespace AngleSharp
         /// Builds a new XMLDocument with the given URL.
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
         /// <returns>The constructed XML document.</returns>
-        public static XMLDocument Xml(Uri url)
+        public static XMLDocument Xml(Uri url, DocumentOptions options = null)
         {
             var stream = Builder.Stream(url);
             var source = new SourceManager(stream);
-            var db = new DocumentBuilder(source, new XMLDocument());
+            var db = new DocumentBuilder(source, new XMLDocument(), options);
             return db.XmlResult;
         }
 
         /// <summary>
-        /// Builds a new XMLDocument with the given network stream.
+        /// Builds a new XMLDocument with the given (network) stream.
         /// </summary>
-        /// <param name="networkStream">The stream of chars to use as source code.</param>
+        /// <param name="stream">The stream of chars to use as source code.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
         /// <returns>The constructed XML document.</returns>
-        public static XMLDocument Xml(Stream networkStream)
+        public static XMLDocument Xml(Stream stream, DocumentOptions options = null)
         {
-            var source = new SourceManager(networkStream);
-            var db = new DocumentBuilder(source, new XMLDocument());
+            var source = new SourceManager(stream);
+            var db = new DocumentBuilder(source, new XMLDocument(), options);
             return db.XmlResult;
         }
 
@@ -136,11 +142,12 @@ namespace AngleSharp
         /// Builds a new HTMLDocument with the given source code string.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static HTMLDocument Html(String sourceCode)
+        public static HTMLDocument Html(String sourceCode, DocumentOptions options = null)
         {
             var source = new SourceManager(sourceCode);
-            var db = new DocumentBuilder(source, new HTMLDocument());
+            var db = new DocumentBuilder(source, new HTMLDocument(), options);
             return db.HtmlResult;
         }
 
@@ -148,24 +155,26 @@ namespace AngleSharp
         /// Builds a new HTMLDocument with the given URL.
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static HTMLDocument Html(Uri url)
+        public static HTMLDocument Html(Uri url, DocumentOptions options = null)
         {
             var stream = Builder.Stream(url);
             var source = new SourceManager(stream);
-            var db = new DocumentBuilder(source, new HTMLDocument());
+            var db = new DocumentBuilder(source, new HTMLDocument(), options);
             return db.HtmlResult;
         }
 
         /// <summary>
-        /// Builds a new HTMLDocument with the given network stream.
+        /// Builds a new HTMLDocument with the given (network) stream.
         /// </summary>
-        /// <param name="networkStream">The stream of chars to use as source code.</param>
+        /// <param name="stream">The stream of chars to use as source code.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static HTMLDocument Html(Stream networkStream)
+        public static HTMLDocument Html(Stream stream, DocumentOptions options = null)
         {
-            var source = new SourceManager(networkStream);
-            var db = new DocumentBuilder(source, new HTMLDocument());
+            var source = new SourceManager(stream);
+            var db = new DocumentBuilder(source, new HTMLDocument(), options);
             return db.HtmlResult;
         }
 
@@ -208,11 +217,12 @@ namespace AngleSharp
         /// Builds a new CSSStyleSheet with the given source code string.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
-        public static CSSStyleSheet Css(String sourceCode)
+        public static CSSStyleSheet Css(String sourceCode, DocumentOptions options = null)
         {
             var source = new SourceManager(sourceCode);
-            var db = new DocumentBuilder(source, new CSSStyleSheet());
+            var db = new DocumentBuilder(source, new CSSStyleSheet(), options);
             return db.CssResult;
         }
 
@@ -220,24 +230,26 @@ namespace AngleSharp
         /// Builds a new CSSStyleSheet with the given URL.
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
-        public static CSSStyleSheet Css(Uri url)
+        public static CSSStyleSheet Css(Uri url, DocumentOptions options = null)
         {
             var stream = Builder.Stream(url);
             var source = new SourceManager(stream);
-            var db = new DocumentBuilder(source, new CSSStyleSheet());
+            var db = new DocumentBuilder(source, new CSSStyleSheet(), options);
             return db.CssResult;
         }
 
         /// <summary>
         /// Builds a new CSSStyleSheet with the given network stream.
         /// </summary>
-        /// <param name="networkStream">The stream of chars to use as source code.</param>
+        /// <param name="stream">The stream of chars to use as source code.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
-        public static CSSStyleSheet Css(Stream networkStream)
+        public static CSSStyleSheet Css(Stream stream, DocumentOptions options = null)
         {
-            var source = new SourceManager(networkStream);
-            var db = new DocumentBuilder(source, new CSSStyleSheet());
+            var source = new SourceManager(stream);
+            var db = new DocumentBuilder(source, new CSSStyleSheet(), options);
             return db.CssResult;
         }
 
