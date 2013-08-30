@@ -157,7 +157,18 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static Boolean IsTableElement(this String tagName)
         {
-            return (tagName == Tags.TABLE || tagName == Tags.TBODY || tagName == Tags.TFOOT || tagName == Tags.THEAD || tagName == Tags.TR);
+            switch (tagName)
+            {
+                case Tags.TABLE:
+                case Tags.TBODY:
+                case Tags.TFOOT:
+                case Tags.THEAD:
+                case Tags.TR:
+                    return true;
+
+                default:
+                    return false;
+            }
         }
 
         /// <summary>
@@ -191,8 +202,22 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static Boolean IsGeneralTableElement(this String tagName, Boolean includeRow = false)
         {
-            return (tagName == Tags.CAPTION || tagName == Tags.COL || tagName == Tags.COLGROUP || tagName == Tags.TBODY ||
-                tagName == Tags.TFOOT || tagName == Tags.THEAD) || (includeRow && tagName == Tags.TR);
+            switch (tagName)
+            {
+                case Tags.CAPTION:
+                case Tags.COL:
+                case Tags.COLGROUP:
+                case Tags.TBODY:
+                case Tags.TFOOT:
+                case Tags.THEAD:
+                    return true;
+
+                case Tags.TR:
+                    return includeRow;
+
+                default:
+                    return false;
+            }
         }
 
         /// <summary>
@@ -204,8 +229,23 @@ namespace AngleSharp
         [DebuggerStepThrough]
         public static Boolean IsSpecialTableElement(this String tagName, Boolean includeRow = false)
         {
-            return (tagName == Tags.BODY || tagName == Tags.HTML || tagName == Tags.COLGROUP || tagName == Tags.COL ||
-                tagName == Tags.TH || tagName == Tags.TD || tagName == Tags.CAPTION) || (includeRow && tagName == Tags.TR);
+            switch (tagName)
+            {
+                case Tags.BODY:
+                case Tags.HTML:
+                case Tags.COLGROUP:
+                case Tags.COL:
+                case Tags.TH:
+                case Tags.TD:
+                case Tags.CAPTION:
+                    return true;
+
+                case Tags.TR:
+                    return includeRow;
+
+                default:
+                    return false;
+            }
         }
 
         /// <summary>
