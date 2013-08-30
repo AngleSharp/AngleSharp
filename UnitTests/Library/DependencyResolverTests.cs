@@ -9,9 +9,9 @@ namespace UnitTests
     [TestClass]
     public class DependencyResolverTests
     {
-        private MockResolver mockResolver;
-        private MockService mockService;
-        private List<MockService> mockServices;
+        MockResolver mockResolver;
+        MockService mockService;
+        List<MockService> mockServices;
 
         private void CreateResolver()
         {
@@ -36,18 +36,18 @@ namespace UnitTests
         public void SetsInternalResolver()
         {
             // Act
-            DependencyResolver.SetResolver(mockResolver);
+            Configuration.SetDependencyResolver(mockResolver);
 
             // Assert
-            Assert.AreEqual(mockResolver, DependencyResolver.Current);
+            Assert.AreEqual(mockResolver, Configuration.CurrentResolver);
         }
 
         [TestMethod]
         public void GetServiceReturnsService()
         {
             // Arrange
-            DependencyResolver.SetResolver(mockResolver);
-            var service = DependencyResolver.Current.GetService<MockService>();
+            Configuration.SetDependencyResolver(mockResolver);
+            var service = Configuration.CurrentResolver.GetService<MockService>();
 
             // Assert
             Assert.AreEqual(mockService, service);
@@ -57,8 +57,8 @@ namespace UnitTests
         public void GetServicesReturnsServices()
         {
             // Arrange
-            DependencyResolver.SetResolver(mockResolver);
-            var services = DependencyResolver.Current.GetServices<MockService>();
+            Configuration.SetDependencyResolver(mockResolver);
+            var services = Configuration.CurrentResolver.GetServices<MockService>();
 
             // Assert
             Assert.AreEqual(1, services.Count());

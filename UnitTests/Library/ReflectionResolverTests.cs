@@ -36,19 +36,19 @@ namespace UnitTests
         public void SetsInternalResolver()
         {
             // Act
-            DependencyResolver.SetResolver(mockResolver);
+            Configuration.SetDependencyResolver(mockResolver);
 
             // Assert
-            Assert.IsNotNull(DependencyResolver.Current);
-            Assert.IsInstanceOfType(DependencyResolver.Current, typeof(DelegateBasedDependencyResolver));
+            Assert.IsNotNull(Configuration.CurrentResolver);
+            Assert.IsInstanceOfType(Configuration.CurrentResolver, typeof(DelegateBasedDependencyResolver));
         }
 
         [TestMethod]
         public void GetServiceReturnsService()
         {
             // Arrange
-            DependencyResolver.SetResolver(mockResolver);
-            var service = DependencyResolver.Current.GetService<MockService>();
+            Configuration.SetDependencyResolver(mockResolver);
+            var service = Configuration.CurrentResolver.GetService<MockService>();
 
             // Assert
             Assert.AreEqual(mockService, service);
@@ -58,8 +58,8 @@ namespace UnitTests
         public void GetServicesReturnsServices()
         {
             // Arrange
-            DependencyResolver.SetResolver(mockResolver);
-            var services = DependencyResolver.Current.GetServices<MockService>();
+            Configuration.SetDependencyResolver(mockResolver);
+            var services = Configuration.CurrentResolver.GetServices<MockService>();
 
             // Assert
             Assert.AreEqual(1, services.Count());
