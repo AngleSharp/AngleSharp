@@ -8,6 +8,8 @@ using AngleSharp.Css;
 using System.Text;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Xml;
+using System.Resources;
+using System.Globalization;
 
 namespace ConsoleInteraction
 {
@@ -29,13 +31,7 @@ namespace ConsoleInteraction
 
             TestHtml(Snippets.Invalid, "an invalid snippet");
 
-            TestHtml(HtmlFiles.Test, "a test page");
-
-            TestHtml(HtmlFiles.CodeProject, "CodeProject's webpage");
-
-            TestHtml(HtmlFiles.Simon, "Simon's HP");
-
-            TestHtml(HtmlFiles.W3C, "the W3C webpage");
+            ReadHtmlFiles(HtmlFiles.ResourceManager);
 
             TestXml(XmlFiles.Note, "The XML note file");
 
@@ -56,6 +52,15 @@ namespace ConsoleInteraction
             TestHtmlFrom("http://www.codeproject.com/", false);
 
             TestHtmlFrom("http://www.florian-rappl.de/", false);
+        }
+
+        static void ReadHtmlFiles(ResourceManager resourceManager)
+        {
+            var rs = resourceManager.GetResourceSet(CultureInfo.CurrentCulture, true, true);
+            var it = rs.GetEnumerator();
+
+            while (it.MoveNext())
+                TestHtml(it.Value.ToString(), it.Key.ToString());
         }
 
         static void TestCSSFrom(String url)
