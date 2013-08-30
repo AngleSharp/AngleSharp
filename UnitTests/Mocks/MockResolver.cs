@@ -1,20 +1,20 @@
 using System;
 using System.Collections.Generic;
-using AngleSharp;
+using AngleSharp.Interfaces;
 
 namespace UnitTests.Mocks
 {
     public class MockResolver : IDependencyResolver
     {
-        public Func<object> GetServiceDelegate = null;
-        public Func<IEnumerable<object>> GetServicesDelegate = null;
+        public Func<Object> GetServiceDelegate = null;
+        public Func<IEnumerable<Object>> GetServicesDelegate = null;
 
-        public object GetService(Type requestedService)
+        public Object GetService(Type requestedService)
         {
             return GetServiceDelegate();
         }
 
-        public IEnumerable<object> GetServices(Type requestedService)
+        public IEnumerable<Object> GetServices(Type requestedService)
         {
             return GetServicesDelegate();
         }

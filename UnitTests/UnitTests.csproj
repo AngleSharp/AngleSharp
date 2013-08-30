@@ -55,12 +55,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Assets.resx</DependentUpon>
     </Compile>
-    <Compile Include="Color.cs" />
+    <Compile Include="Library\Color.cs" />
     <Compile Include="Css\CssSheet.cs" />
     <Compile Include="Css\CssTokenization.cs" />
     <Compile Include="Css\CssSelectors.cs" />
     <Compile Include="Css\CssW3CSelectors.cs" />
-    <Compile Include="DependencyResolverTests.cs" />
+    <Compile Include="Library\DependencyResolverTests.cs" />
     <Compile Include="Html\DOM.cs" />
     <Compile Include="Html\HtmlComments.cs" />
     <Compile Include="Html\ScriptData.cs" />
@@ -70,17 +70,19 @@
     <Compile Include="Html\FosterParenting.cs" />
     <Compile Include="Html\HtmlFormatting.cs" />
     <Compile Include="Html\HtmlTemplate.cs" />
+    <Compile Include="Library\ConfigurationTests.cs" />
+    <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Xml\DTDTree.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
     <Compile Include="Mocks\MockReflectionResolver.cs" />
     <Compile Include="Mocks\MockResolver.cs" />
     <Compile Include="Mocks\MockService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CommonExtensions.cs" />
+    <Compile Include="Library\CommonExtensions.cs" />
     <Compile Include="Html\HtmlTokenization.cs" />
     <Compile Include="Html\HtmlTree.cs" />
     <Compile Include="Html\Quirksmode.cs" />
-    <Compile Include="ReflectionResolverTests.cs" />
+    <Compile Include="Library\ReflectionResolverTests.cs" />
     <Compile Include="Html\GumboParser.cs" />
     <Compile Include="Html\Html5TestCom.cs" />
     <Compile Include="Html\Tricky.cs" />
