@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AngleSharp.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace AngleSharp

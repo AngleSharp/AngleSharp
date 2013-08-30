@@ -1,11 +1,13 @@
 ﻿using System;
+using System.IO;
+using System.Text;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using AngleSharp.DOM;
+using AngleSharp.Events;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace AngleSharp.Css
 {
@@ -13,7 +15,8 @@ namespace AngleSharp.Css
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    public class CssParser : IParser
+    [DebuggerStepThrough]
+    public sealed class CssParser : IParser
     {
         #region Members
 
@@ -33,7 +36,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// The event will be fired once an error has been detected.
         /// </summary>
-        public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
+        public event ParseErrorEventHandler ErrorOccurred;
 
         #endregion
 

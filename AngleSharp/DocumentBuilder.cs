@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Diagnostics;
-using AngleSharp.DOM;
-using AngleSharp.DOM.Html;
 using System.IO;
-using AngleSharp.Html;
-using AngleSharp.DOM.Collections;
-using AngleSharp.DOM.Css;
+using System.Diagnostics;
 using AngleSharp.Css;
-using AngleSharp.DOM.Xml;
 using AngleSharp.Xml;
+using AngleSharp.DOM;
+using AngleSharp.Html;
+using AngleSharp.Events;
+using AngleSharp.DOM.Css;
+using AngleSharp.DOM.Xml;
+using AngleSharp.DOM.Html;
+using AngleSharp.DOM.Collections;
 
 namespace AngleSharp
 {

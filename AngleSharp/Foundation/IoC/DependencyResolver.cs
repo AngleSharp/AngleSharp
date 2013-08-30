@@ -1,6 +1,6 @@
-﻿using System;
+﻿using AngleSharp.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Reflection;
 
 namespace AngleSharp

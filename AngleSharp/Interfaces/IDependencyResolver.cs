@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AngleSharp
+namespace AngleSharp.Interfaces
 {
     /// <summary>
     /// Defines the methods that simplify service location and dependency resolution.

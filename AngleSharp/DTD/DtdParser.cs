@@ -1,4 +1,5 @@
 ﻿using AngleSharp.Xml;
+using AngleSharp.Events;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace AngleSharp.DTD
 
         #region Events
 
-        public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
+        public event ParseErrorEventHandler ErrorOccurred;
 
         #endregion
 

@@ -1,10 +1,12 @@
 ﻿using AngleSharp.DOM;
+using AngleSharp.Events;
 using AngleSharp.DOM.Xml;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
+using System.Diagnostics;
+using System.Globalization;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace AngleSharp.Xml
 {
@@ -12,7 +14,8 @@ namespace AngleSharp.Xml
     /// For more details: See http://www.w3.org/TR/xml11/ and 
     /// http://www.w3.org/html/wg/drafts/html/master/the-xhtml-syntax.html#xml-parser.
     /// </summary>
-    public class XmlParser : IParser
+    [DebuggerStepThrough]
+    public sealed class XmlParser : IParser
     {
         #region Members
 
@@ -31,7 +34,7 @@ namespace AngleSharp.Xml
         /// <summary>
         /// This event is raised once a parser error occured.
         /// </summary>
-        public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
+        public event ParseErrorEventHandler ErrorOccurred;
 
         #endregion
 

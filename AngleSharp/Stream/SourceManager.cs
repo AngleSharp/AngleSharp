@@ -35,7 +35,7 @@ namespace AngleSharp
         /// </summary>
         SourceManager()
         {
-            _encoding = HtmlEncoding.Suggest(LocalSettings.Language);
+            _encoding = HtmlEncoding.Suggest(Configuration.Language);
             _buffer = new StringBuilder();
             _collengths = new Stack<int>();
             _column = 1;

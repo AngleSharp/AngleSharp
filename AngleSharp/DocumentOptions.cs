@@ -3,9 +3,8 @@
 namespace AngleSharp
 {
     /// <summary>
-    /// Represents a set of possible options that might
-    /// be applicable (or not) for a specific document
-    /// generation.
+    /// Represents a set of possible options that might be applicable
+    /// (or not) for a specific document generation.
     /// </summary>
     public class DocumentOptions
     {
@@ -17,9 +16,8 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Gets the default options. Changing the properties
-        /// of the default options will change the default
-        /// parameters.
+        /// Gets the default options. Changing the properties of the
+        /// default options will change the default parameters.
         /// </summary>
         public static DocumentOptions Default
         {

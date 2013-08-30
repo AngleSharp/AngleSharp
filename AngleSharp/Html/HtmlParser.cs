@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using AngleSharp.DOM;
+using AngleSharp.Events;
 using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Mathml;
 using AngleSharp.DOM.Svg;
-using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace AngleSharp.Html
 {
@@ -15,8 +16,8 @@ namespace AngleSharp.Html
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    //[DebuggerStepThrough]
-    public class HtmlParser : IParser
+    [DebuggerStepThrough]
+    public sealed class HtmlParser : IParser
     {
         #region Members
 
@@ -44,7 +45,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// The event will be fired once an error has been detected.
         /// </summary>
-        public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
+        public event ParseErrorEventHandler ErrorOccurred;
 
         #endregion
 

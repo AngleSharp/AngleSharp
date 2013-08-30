@@ -14,6 +14,10 @@ namespace AngleSharp
 
         #region Members
 
+        public static readonly HtmlColor Black = new HtmlColor(255, 0, 0, 0);
+
+        public static readonly HtmlColor Transparent = new HtmlColor(0, 0, 0, 0);
+
         [FieldOffset(0)]
         Byte alpha;
         [FieldOffset(1)]

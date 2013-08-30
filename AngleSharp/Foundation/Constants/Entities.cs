@@ -11,7 +11,7 @@ namespace AngleSharp
     [DebuggerStepThrough]
     static class Entities
     {
-        #region ctor
+        #region Members
 
         /// <summary>
         /// Strong entities always end with a semicolon.
@@ -21,6 +21,10 @@ namespace AngleSharp
         /// Weak entities do not end with a semicolon (there are much less weak entities).
         /// </summary>
         static Dictionary<String, String> _weakEntities;
+
+        #endregion
+
+        #region ctor
 
         static Entities()
         {

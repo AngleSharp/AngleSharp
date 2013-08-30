@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AngleSharp.Events;
+using System;
 using System.Threading.Tasks;
 
 namespace AngleSharp
 {
     interface IParser
     {
-        event EventHandler<ParseErrorEventArgs> ErrorOccurred;
+        event ParseErrorEventHandler ErrorOccurred;
 
         Boolean IsAsync { get; }
 

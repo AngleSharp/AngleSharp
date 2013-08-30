@@ -2,8 +2,6 @@
 using System.Text;
 using System.Reflection;
 using AngleSharp.DOM.Collections;
-using AngleSharp.DOM.Html;
-using System.Collections.Generic;
 
 namespace AngleSharp.DOM
 {
@@ -337,7 +335,7 @@ namespace AngleSharp.DOM
         /// </summary>
         internal Boolean IsInMathMLSVGReady
         {
-            get { return IsInMathML && NodeName == Specification.XML_ANNOTATION; }
+            get { return IsInMathML && NodeName == Tags.ANNOTATION_XML; }
         }
 
         /// <summary>

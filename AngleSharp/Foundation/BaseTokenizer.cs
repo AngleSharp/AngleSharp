@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AngleSharp.Events;
+using System;
 using System.Diagnostics;
 using System.Text;
 
@@ -22,7 +23,7 @@ namespace AngleSharp
         /// <summary>
         /// The event will be fired once an error has been detected.
         /// </summary>
-        public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
+        public event ParseErrorEventHandler ErrorOccurred;
 
         #endregion
 

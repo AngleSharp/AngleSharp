@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace AngleSharp
+namespace AngleSharp.Events
 {
     /// <summary>
     /// The ParseErrorEventArgs package.

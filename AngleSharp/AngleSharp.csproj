@@ -37,7 +37,10 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration.cs" />
     <Compile Include="Css\CssTokenizer.cs" />
+    <Compile Include="Events\ParseErrorEventHandler.cs" />
+    <Compile Include="Interfaces\IHttpRequester.cs" />
     <Compile Include="DocumentOptions.cs" />
     <Compile Include="DOM\Annotations\IFormatting.cs" />
     <Compile Include="DOM\Annotations\IImplClosed.cs" />
@@ -149,7 +152,7 @@
     <Compile Include="DTD\Tokens\DtdPIToken.cs" />
     <Compile Include="Foundation\Attributes\DOMAttribute.cs" />
     <Compile Include="Foundation\BaseTokenizer.cs" />
-    <Compile Include="Foundation\Helpers\Colors.cs" />
+    <Compile Include="Foundation\Constants\Colors.cs" />
     <Compile Include="Css\CssCombinator.cs" />
     <Compile Include="DOM\Enums\EventPhase.cs" />
     <Compile Include="DOM\Enums\PowerState.cs" />
@@ -161,16 +164,14 @@
     <Compile Include="Foundation\IoC\DelegateBasedDependencyResolver.cs" />
     <Compile Include="Foundation\IoC\DependencyResolver.cs" />
     <Compile Include="Foundation\IoC\ResolverExtensions.cs" />
-    <Compile Include="Foundation\IoC\IDependencyResolver.cs" />
+    <Compile Include="Interfaces\IDependencyResolver.cs" />
     <Compile Include="Foundation\IParser.cs" />
-    <Compile Include="Foundation\LocalSettings.cs" />
     <Compile Include="Foundation\Constants\MimeTypes.cs" />
     <Compile Include="Foundation\Mutations\MutationCallback.cs" />
     <Compile Include="Foundation\Mutations\MutationObserver.cs" />
     <Compile Include="Foundation\Mutations\MutationObserverInit.cs" />
     <Compile Include="Foundation\Mutations\MutationRecord.cs" />
     <Compile Include="Foundation\Constants\Namespaces.cs" />
-    <Compile Include="Foundation\Pool.cs" />
     <Compile Include="Foundation\Resources.cs" />
     <Compile Include="DOM\Interfaces\IDocumentStyle.cs" />
     <Compile Include="DOM\Interfaces\IDOMImplementation.cs" />
@@ -237,7 +238,7 @@
     <Compile Include="Css\Tokens\CssStringToken.cs" />
     <Compile Include="Css\Tokens\CssUnitToken.cs" />
     <Compile Include="Html\HtmlTokenType.cs" />
-    <Compile Include="Foundation\ParseErrorEventArgs.cs" />
+    <Compile Include="Events\ParseErrorEventArgs.cs" />
     <Compile Include="Foundation\Helpers\CharacterExtensions.cs" />
     <Compile Include="Foundation\Helpers\ForeignHelpers.cs" />
     <Compile Include="Foundation\HtmlColor.cs" />
