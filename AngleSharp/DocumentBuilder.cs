@@ -182,28 +182,23 @@ namespace AngleSharp
         /// Builds a list of nodes according with 8.4 Parsing HTML fragments.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
-        /// <param name="context">The context node to use.</param>
+        /// <param name="context">[Optional] The context node to use.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
         /// <returns>A list of parsed nodes.</returns>
-        public static NodeList HtmlFragment(String sourceCode, Node context = null)
+        public static NodeList HtmlFragment(String sourceCode, Node context = null, DocumentOptions options = null)
         {
             var source = new SourceManager(sourceCode);
             var doc = new HTMLDocument();
-            var db = new DocumentBuilder(source, doc);
+            var db = new DocumentBuilder(source, doc, options);
 
             if (context != null)
             {
                 if (context.OwnerDocument != null && context.OwnerDocument.QuirksMode != QuirksMode.Off)
                     doc.QuirksMode = context.OwnerDocument.QuirksMode;
 
-                //    Note: For performance reasons, an implementation that does not report errors and that uses
-                //          the actual state machine described in this specification directly could use the
-                //          PLAINTEXT state instead of the RAWTEXT and script data states where those are mentioned
-                //          in the list above. Except for rules regarding parse errors, they are equivalent, since
-                //          there is no appropriate end tag token in the fragment case, yet they involve far
-                //          fewer state transitions.
-
-                ((HtmlParser)db.parser).SwitchToFragment(context);
-                return db.HtmlResult.DocumentElement.ChildNodes;
+                var parser = (HtmlParser)db.parser;
+                parser.SwitchToFragment(context);
+                return parser.Result.DocumentElement.ChildNodes;
             }
 
             return db.HtmlResult.ChildNodes;

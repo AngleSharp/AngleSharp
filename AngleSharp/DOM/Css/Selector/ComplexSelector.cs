@@ -227,9 +227,9 @@ namespace AngleSharp.DOM.Css
         static IEnumerable<Element> Single(Element element)
         {
             if (element == null)
-                return System.Linq.Enumerable.Empty<Element>();
+                yield break;
 
-            return new Element[1] { element };
+            yield return element;
         }
 
         #endregion

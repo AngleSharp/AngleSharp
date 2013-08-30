@@ -805,7 +805,7 @@ namespace AngleSharp.Css
                     if (args.Count == 1 && args[0].Type == CssTokenType.Ident)
                     {
                         var dir = ((CssKeywordToken)args[0]).Data;
-                        var code = string.Format("{0}({1})", PSEUDOCLASSFUNCTION_DIR, dir);
+                        var code = String.Format("{0}({1})", PSEUDOCLASSFUNCTION_DIR, dir);
                         var dirCode = dir == "ltr" ? DirectionMode.Ltr : DirectionMode.Rtl;
                         return SimpleSelector.PseudoClass(el => el.Dir == dirCode, code);
                     }
@@ -816,8 +816,8 @@ namespace AngleSharp.Css
                     if (args.Count == 1 && args[0].Type == CssTokenType.Ident)
                     {
                         var lang = ((CssKeywordToken)args[0]).Data;
-                        var code = string.Format("{0}({1})", PSEUDOCLASSFUNCTION_LANG, lang);
-                        return SimpleSelector.PseudoClass(el => el.Lang.Equals(lang, StringComparison.OrdinalIgnoreCase), code);
+                        var code = String.Format("{0}({1})", PSEUDOCLASSFUNCTION_LANG, lang);
+                        return SimpleSelector.PseudoClass(el => el.Lang.StartsWith(lang, StringComparison.OrdinalIgnoreCase), code);
                     }
 
                     break;
@@ -826,13 +826,13 @@ namespace AngleSharp.Css
                     if (args.Count == 1 && args[0].Type == CssTokenType.String)
                     {
                         var str = ((CssStringToken)args[0]).Data;
-                        var code = string.Format("{0}({1})", PSEUDOCLASSFUNCTION_CONTAINS, str);
+                        var code = String.Format("{0}({1})", PSEUDOCLASSFUNCTION_CONTAINS, str);
                         return SimpleSelector.PseudoClass(el => el.TextContent.Contains(str), code);
                     }
                     else if (args.Count == 1 && args[0].Type == CssTokenType.Ident)
                     {
                         var str = ((CssKeywordToken)args[0]).Data;
-                        var code = string.Format("{0}({1})", PSEUDOCLASSFUNCTION_CONTAINS, str);
+                        var code = String.Format("{0}({1})", PSEUDOCLASSFUNCTION_CONTAINS, str);
                         return SimpleSelector.PseudoClass(el => el.TextContent.Contains(str), code);
                     }
 
