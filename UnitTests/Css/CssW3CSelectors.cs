@@ -360,108 +360,108 @@ should be green.</div>";
 	        Assert.AreEqual(1, selector6.Length);
         }
 
-        #endregion
-
-        //TODO 1.) Add correct numbers of matches for each selector
-        //TODO 2.) Decorate each method as [TestMethod]
-
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14d.xml
         /// </summary>
+        [TestMethod]
         public void NEGATEDMoreThanOneClassSelectorA()
         {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll(".t1:not(.t2)");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll(":not(.t2).t1");
-	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll(".t2:not(.t1)");
-	        Assert.AreEqual(0, selector4.Length);
-	        var selector5 = doc.QuerySelectorAll(":not(.t1).t2");
-	        Assert.AreEqual(0, selector5.Length);
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll(".t1:not(.t2)");
+            Assert.AreEqual(0, selector2.Length);
+            var selector3 = doc.QuerySelectorAll(":not(.t2).t1");
+            Assert.AreEqual(0, selector3.Length);
+            var selector4 = doc.QuerySelectorAll(".t2:not(.t1)");
+            Assert.AreEqual(0, selector4.Length);
+            var selector5 = doc.QuerySelectorAll(":not(.t1).t2");
+            Assert.AreEqual(0, selector5.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14e.xml
         /// </summary>
+        [TestMethod]
         public void NEGATEDMoreThanOneClassSelectorB()
         {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>
   <div xmlns=""http://www.w3.org/1999/xhtml"" class=""t3"">This line should be green.</div>
   <address xmlns=""http://www.w3.org/1999/xhtml"" class=""t4 t5 t6"">This line should be green.</address>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p:not(.t1):not(.t2)");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("div");
-	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("div:not(.t1)");
-	        Assert.AreEqual(0, selector4.Length);
-	        var selector5 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector5.Length);
-	        var selector6 = doc.QuerySelectorAll("address:not(.t5):not(.t5)");
-	        Assert.AreEqual(0, selector6.Length);
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("p:not(.t1):not(.t2)");
+            Assert.AreEqual(0, selector2.Length);
+            var selector3 = doc.QuerySelectorAll("div");
+            Assert.AreEqual(1, selector3.Length);
+            var selector4 = doc.QuerySelectorAll("div:not(.t1)");
+            Assert.AreEqual(1, selector4.Length);
+            var selector5 = doc.QuerySelectorAll("address");
+            Assert.AreEqual(1, selector5.Length);
+            var selector6 = doc.QuerySelectorAll("address:not(.t5):not(.t5)");
+            Assert.AreEqual(0, selector6.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-15.xml
         /// </summary>
+        [TestMethod]
         public void IDSelectors()
         {
-	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
+            var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
   <li id=""t1"">This list item should have a green background. because its ID is t1</li>
   <li id=""t2"">This list item should have a green background. because its ID is t2</li>
   <li id=""t3""><span id=""t44"">This list item should have a green background. because the inner SPAN does not match #t4</span></li>
 </ul>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("li");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("#t1");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("li#t2");
-	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("li#t3");
-	        Assert.AreEqual(0, selector4.Length);
-	        var selector5 = doc.QuerySelectorAll("#t4");
-	        Assert.AreEqual(0, selector5.Length);
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("li");
+            Assert.AreEqual(3, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("#t1");
+            Assert.AreEqual(1, selector2.Length);
+            var selector3 = doc.QuerySelectorAll("li#t2");
+            Assert.AreEqual(1, selector3.Length);
+            var selector4 = doc.QuerySelectorAll("li#t3");
+            Assert.AreEqual(1, selector4.Length);
+            var selector5 = doc.QuerySelectorAll("#t4");
+            Assert.AreEqual(0, selector5.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-15b.xml
         /// </summary>
+        [TestMethod]
         public void MultipleIDSelectors()
         {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" id=""test"">This line should be green.</p>
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" id=""test"">This line should be green.</p>
   <div xmlns=""http://www.w3.org/1999/xhtml"" id=""pass"">This line should be green.</div>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("#test#fail");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("#fail#test");
-	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("#fail");
-	        Assert.AreEqual(0, selector4.Length);
-	        var selector5 = doc.QuerySelectorAll("div");
-	        Assert.AreEqual(0, selector5.Length);
-	        var selector6 = doc.QuerySelectorAll("#pass#pass");
-	        Assert.AreEqual(0, selector6.Length);
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("#test#fail");
+            Assert.AreEqual(0, selector2.Length);
+            var selector3 = doc.QuerySelectorAll("#fail#test");
+            Assert.AreEqual(0, selector3.Length);
+            var selector4 = doc.QuerySelectorAll("#fail");
+            Assert.AreEqual(0, selector4.Length);
+            var selector5 = doc.QuerySelectorAll("div");
+            Assert.AreEqual(1, selector5.Length);
+            var selector6 = doc.QuerySelectorAll("#pass#pass");
+            Assert.AreEqual(1, selector6.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-15c.xml
         /// </summary>
+        [TestMethod]
         public void MultipleIds()
         {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""warning"">This test requires support for two or more of XHTML, xml:id, and DOM3 Core.</p>
+            var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""warning"">This test requires support for two or more of XHTML, xml:id, and DOM3 Core.</p>
 <div xmlns=""http://www.w3.org/1999/xhtml"" id=""Aone"" xml:id=""Atwo"" title=""Athree"">This line should be green.</div>
   <p xmlns=""http://www.w3.org/1999/xhtml"" id=""Bone"">This line should be green.</p>
   <p xmlns=""http://www.w3.org/1999/xhtml"" xml:id=""Ctwo"">This line should be green.</p>
@@ -473,23 +473,54 @@ should be green.</div>";
  <!-- This test could also be done using a custom DOCTYPE with an internal subset, which would
       then work in any XHTML UA. However, that requires massive changes to the generator scripts.
       Better, if we need such a test, would be to special-case it and have 15d be a separate file. -->";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll(".warning");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("div");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("#Aone#Atwo,#Aone#Athree,#Atwo#Athree");
-	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector4.Length);
-	        var selector5 = doc.QuerySelectorAll("#Bone#Btwo,#Bone#Bthree,#Btwo#Bthree");
-	        Assert.AreEqual(0, selector5.Length);
-	        var selector6 = doc.QuerySelectorAll("#Cone#Ctwo,#Cone#Cthree,#Ctwo#Cthree");
-	        Assert.AreEqual(0, selector6.Length);
-	        var selector7 = doc.QuerySelectorAll("#Done#Dtwo,#Done#Dthree,#Dtwo#Dthree");
-	        Assert.AreEqual(0, selector7.Length);
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll(".warning");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("div");
+            Assert.AreEqual(1, selector2.Length);
+            var selector3 = doc.QuerySelectorAll("#Aone#Atwo,#Aone#Athree,#Atwo#Athree");
+            Assert.AreEqual(0, selector3.Length);
+            var selector4 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(4, selector4.Length);
+            var selector5 = doc.QuerySelectorAll("#Bone#Btwo,#Bone#Bthree,#Btwo#Bthree");
+            Assert.AreEqual(0, selector5.Length);
+            var selector6 = doc.QuerySelectorAll("#Cone#Ctwo,#Cone#Cthree,#Ctwo#Cthree");
+            Assert.AreEqual(0, selector6.Length);
+            var selector7 = doc.QuerySelectorAll("#Done#Dtwo,#Done#Dthree,#Dtwo#Dthree");
+            Assert.AreEqual(0, selector7.Length);
         }
+
+        /// <summary>
+        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-22.xml
+        /// </summary>
+        [TestMethod]
+        public void LangPseudoClass()
+        {
+            var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
+  <li lang=""en-GB"">This list item should be green because its language is
+        British English</li>
+  <li lang=""en-GB-wa"">This list item should be green because its language
+        is British English (Wales)</li>
+</ul>
+<ol xmlns=""http://www.w3.org/1999/xhtml"">
+  <li lang=""en-US"">This list item should NOT be green because its language
+       is US English</li>
+  <li lang=""fr"">This list item should NOT be green because its language is
+       French</li>
+</ol>";
+            var doc = DocumentBuilder.Html(source);
+
+            var selector1 = doc.QuerySelectorAll("ul li");
+            Assert.AreEqual(2, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("li:lang(en-GB)");
+            Assert.AreEqual(2, selector2.Length);
+        }
+
+        #endregion
+
+        //TODO 1.) Add correct numbers of matches for each selector
+        //TODO 2.) Decorate each method as [TestMethod]
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-16.xml
@@ -685,7 +716,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-21.xml
         /// </summary>
-        public void TargetPseudoClass()
+        public void TargetPseudoClassA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" id=""first"">This paragraph should be unstyled.
        The background of the following paragraph should become green when
@@ -707,7 +738,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-21b.xml
         /// </summary>
-        public void TargetPseudoClassA()
+        public void TargetPseudoClassB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph should be green.</p>";
 	        var doc = DocumentBuilder.Html(source);
@@ -715,45 +746,6 @@ should be green.</div>";
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:target");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-21c.xml
-        /// </summary>
-        public void TargetPseudoClassB()
-        {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This page should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll(":root");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll(":target");
-	        Assert.AreEqual(0, selector2.Length);
-        }
-
-        /// <summary>
-        /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-22.xml
-        /// </summary>
-        public void LangPseudoClass()
-        {
-	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
-  <li lang=""en-GB"">This list item should be green because its language is
-        British English</li>
-  <li lang=""en-GB-wa"">This list item should be green because its language
-        is British English (Wales)</li>
-</ul>
-<ol xmlns=""http://www.w3.org/1999/xhtml"">
-  <li lang=""en-US"">This list item should NOT be green because its language
-       is US English</li>
-  <li lang=""fr"">This list item should NOT be green because its language is
-       French</li>
-</ol>";
-	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("ul li");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("li:lang(en-GB)");
 	        Assert.AreEqual(0, selector2.Length);
         }
 
