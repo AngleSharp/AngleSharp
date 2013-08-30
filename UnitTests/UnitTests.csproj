@@ -88,6 +88,7 @@
     <Compile Include="Html\HtmlFragments.cs" />
     <Compile Include="Html\HtmlEntities.cs" />
     <Compile Include="Html\UserJsUnsafe.cs" />
+    <Compile Include="Xml\XmlSamples.cs" />
     <Compile Include="Xml\XmlDTD.cs" />
     <Compile Include="Xml\XmlTree.cs" />
     <Compile Include="Xml\XmlTokenization.cs" />
