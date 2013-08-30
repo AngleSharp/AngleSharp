@@ -8,6 +8,8 @@ namespace UnitTests
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests (*)
     /// to be more specific: (*)/blob/master/tree-construction/tests_innerHTML_1.dat
+    /// and
+    /// to be more specific: (*)/blob/master/tree-construction/tests4.dat
     /// </summary>
     [TestClass]
     public class HtmlFragments
@@ -354,6 +356,92 @@ namespace UnitTests
             Assert.AreEqual(0, doccol0.Attributes.Length);
             Assert.AreEqual("col", doccol0.NodeName);
             Assert.AreEqual(NodeType.Element, doccol0.NodeType);
+        }
+
+        [TestMethod]
+        public void FragmentDivContextWithText()
+        {
+            var doc = DocumentBuilder.HtmlFragment(@"direct div content", HTMLElement.Create("div"));
+
+            var docText0 = doc[0];
+            Assert.AreEqual(NodeType.Text, docText0.NodeType);
+            Assert.AreEqual("direct div content", docText0.TextContent);
+        }
+
+        [TestMethod]
+        public void FragmentTextareaContextWithText()
+        {
+            var doc = DocumentBuilder.HtmlFragment(@"direct textarea content", HTMLElement.Create("textarea"));
+            var docText0 = doc[0];
+            Assert.AreEqual(NodeType.Text, docText0.NodeType);
+            Assert.AreEqual("direct textarea content", docText0.TextContent);
+        }
+
+        [TestMethod]
+        public void FragmentTextAreaContextWithTextAndMarkup()
+        {
+            var doc = DocumentBuilder.HtmlFragment(@"textarea content with <em>pseudo</em> <foo>markup", HTMLElement.Create("textarea"));
+            var docText0 = doc[0];
+            Assert.AreEqual(NodeType.Text, docText0.NodeType);
+            Assert.AreEqual("textarea content with <em>pseudo</em> <foo>markup", docText0.TextContent);
+        }
+
+        [TestMethod]
+        public void FragmentStyleContextWithText()
+        {
+            var doc = DocumentBuilder.HtmlFragment(@"this is &#x0043;DATA inside a <style> element", HTMLElement.Create("style"));
+
+            var docText0 = doc[0];
+            Assert.AreEqual(NodeType.Text, docText0.NodeType);
+            Assert.AreEqual("this is &#x0043;DATA inside a <style> element", docText0.TextContent);
+        }
+
+        [TestMethod]
+        public void FragmentPlaintextContext()
+        {
+            var doc = DocumentBuilder.HtmlFragment(@"</plaintext>", HTMLElement.Create("plaintext"));
+
+            var docText0 = doc[0];
+            Assert.AreEqual(NodeType.Text, docText0.NodeType);
+            Assert.AreEqual("</plaintext>", docText0.TextContent);
+        }
+
+        [TestMethod]
+        public void FragmentHtmlContextWithText()
+        {
+            var doc = DocumentBuilder.HtmlFragment(@"setting html's innerHTML", HTMLElement.Create("html"));
+
+            var dochead0 = doc[0];
+            Assert.AreEqual(0, dochead0.ChildNodes.Length);
+            Assert.AreEqual(0, dochead0.Attributes.Length);
+            Assert.AreEqual("head", dochead0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochead0.NodeType);
+
+            var docbody1 = doc[1];
+            Assert.AreEqual(1, docbody1.ChildNodes.Length);
+            Assert.AreEqual(0, docbody1.Attributes.Length);
+            Assert.AreEqual("body", docbody1.NodeName);
+            Assert.AreEqual(NodeType.Element, docbody1.NodeType);
+
+            var docbody1Text0 = docbody1.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, docbody1Text0.NodeType);
+            Assert.AreEqual("setting html's innerHTML", docbody1Text0.TextContent);
+        }
+
+        [TestMethod]
+        public void FragmentHeadContextWithTextInTitle()
+        {
+            var doc = DocumentBuilder.HtmlFragment(@"<title>setting head's innerHTML</title>", HTMLElement.Create("head"));
+
+            var doctitle0 = doc[0];
+            Assert.AreEqual(1, doctitle0.ChildNodes.Length);
+            Assert.AreEqual(0, doctitle0.Attributes.Length);
+            Assert.AreEqual("title", doctitle0.NodeName);
+            Assert.AreEqual(NodeType.Element, doctitle0.NodeType);
+
+            var doctitle0Text0 = doctitle0.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, doctitle0Text0.NodeType);
+            Assert.AreEqual("setting head's innerHTML", doctitle0Text0.TextContent);
         }
     }
 }
