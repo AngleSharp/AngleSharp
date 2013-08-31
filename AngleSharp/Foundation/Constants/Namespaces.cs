@@ -12,7 +12,10 @@ namespace AngleSharp
 
         static readonly Dictionary<String, String> _namespaces;
 
-        static readonly String declaration = "xmlns";
+        /// <summary>
+        /// Gets the namespace declaration (xmlns).
+        /// </summary>
+        public static readonly String Declaration = "xmlns";
 
         #endregion
 
@@ -63,14 +66,6 @@ namespace AngleSharp
         public static String Xml
         {
             get { return _namespaces["xml"]; } 
-        }
-
-        /// <summary>
-        /// Gets the namespace declaration (xmlns).
-        /// </summary>
-        public static String Declaration
-        { 
-            get { return declaration; }
         }
 
         /// <summary>

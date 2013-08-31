@@ -329,13 +329,15 @@ namespace AngleSharp.DOM
                 for (int i = n; i >= 0; i--)
                     RemoveChild(_children[i]);
 
-                //TODO Fragment Mode has security consideration ??? i.e. Scripting should be TURNED OFF
-
                 var nodes = DocumentBuilder.HtmlFragment(value, this);
                 n = nodes.Length;
 
                 for (int i = 0; i < n; i++)
+                {
+                    nodes[i].OwnerDocument = null;
+                    nodes[i].ParentNode = null;
                     AppendChild(nodes[i]);
+                }
             }
         }
 
@@ -355,13 +357,15 @@ namespace AngleSharp.DOM
 
                     var pos = _parent.IndexOf(this);
 
-                    //TODO Fragment Mode has security consideration ??? i.e. Scripting should be TURNED OFF
-
-                    var nodes = DocumentBuilder.HtmlFragment(value, this);
+                    var nodes = DocumentBuilder.HtmlFragment(value, this, new DocumentOptions { Scripting = DocumentOptions.State.Disabled });
                     var n = nodes.Length;
 
                     for (int i = 0; i < n; i++)
+                    {
+                        nodes[i].OwnerDocument = null;
+                        nodes[i].ParentNode = null;
                         _parent.InsertChild(pos++, nodes[i]);
+                    }
 
                     _parent.RemoveChild(this);
                 }
@@ -529,7 +533,7 @@ namespace AngleSharp.DOM
         #region Methods
 
         /// <summary>
-        /// Normalizes namespace declaration attributes and prefixes as part of the normlize document
+        /// Normalizes namespace declaration attributes and prefixes as part of the normalize document
         /// method of the document node.
         /// </summary>
         /// <returns>The current element.</returns>

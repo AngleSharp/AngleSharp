@@ -632,6 +632,15 @@ namespace AngleSharp.DOM
 
         #endregion
 
+        #region Internal methods
+
+        internal virtual DocumentFragment Fragment(String value)
+        {
+            return new DocumentFragment();
+        }
+
+        #endregion
+
         #region String representation
 
         /// <summary>
