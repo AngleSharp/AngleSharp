@@ -546,18 +546,8 @@ namespace AngleSharp.DOM
             {
                 var attr = _attributes[i];
 
-                if (attr.Prefix == Namespaces.Declaration)
-                {
-                    if (IsValidNamespaceDeclaration(attr.LocalName, attr.NodeValue))
-                    {
-                        declarations.Add(attr.NodeValue);
-                    }
-                    else
-                    {
-                        //TODO
-                        //Report an error ...
-                    }
-                }
+                if (attr.Prefix == Namespaces.Declaration && IsValidNamespaceDeclaration(attr.LocalName, attr.NodeValue))
+                    declarations.Add(attr.NodeValue);
             }
 
             if (_ns != null)

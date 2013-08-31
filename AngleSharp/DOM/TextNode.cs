@@ -78,6 +78,10 @@ namespace AngleSharp.DOM
             return node;
         }
 
+        #endregion
+
+        #region String representation
+
         /// <summary>
         /// Returns a special textual representation of the node.
         /// </summary>
@@ -89,10 +93,6 @@ namespace AngleSharp.DOM
 
             return Data.Trim();
         }
-
-        #endregion
-
-        #region String representation
 
         /// <summary>
         /// Returns a string containing the text in quotation mark.
