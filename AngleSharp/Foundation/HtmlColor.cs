@@ -13,6 +13,14 @@ namespace AngleSharp
 
         public static readonly HtmlColor Black = new HtmlColor(255, 0, 0, 0);
 
+        public static readonly HtmlColor White = new HtmlColor(255, 255, 255, 255);
+
+        public static readonly HtmlColor Red = new HtmlColor(255, 255, 0, 0);
+
+        public static readonly HtmlColor Green = new HtmlColor(255, 0, 255, 0);
+
+        public static readonly HtmlColor Blue = new HtmlColor(255, 0, 0, 255);
+
         public static readonly HtmlColor Transparent = new HtmlColor(0, 0, 0, 0);
 
         [FieldOffset(0)]
@@ -312,7 +320,7 @@ namespace AngleSharp
         /// Mixes two colors using alpha compositing as described here:
         /// http://en.wikipedia.org/wiki/Alpha_compositing
         /// </summary>
-        /// <param name="below">The first color (above) with transparency.</param>
+        /// <param name="above">The first color (above) with transparency.</param>
         /// <param name="below">The second color (below the first one) without transparency.</param>
         /// <returns>The outcome in the crossing section.</returns>
         public static HtmlColor Mix(HtmlColor above, HtmlColor below)
@@ -325,12 +333,12 @@ namespace AngleSharp
         /// http://en.wikipedia.org/wiki/Alpha_compositing
         /// </summary>
         /// <param name="alpha">The mixing parameter.</param>
-        /// <param name="below">The first color (above) (no transparency).</param>
+        /// <param name="above">The first color (above) (no transparency).</param>
         /// <param name="below">The second color (below the first one) (no transparency).</param>
         /// <returns>The outcome in the crossing section.</returns>
         public static HtmlColor Mix(Double alpha, HtmlColor above, HtmlColor below)
         {
-            var gamma = 1 - alpha;
+            var gamma = 1.0 - alpha;
             var r = gamma * below.R + alpha * above.R;
             var g = gamma * below.G + alpha * above.G;
             var b = gamma * below.B + alpha * above.B;
