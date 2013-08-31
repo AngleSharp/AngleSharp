@@ -477,11 +477,11 @@ namespace AngleSharp.Css
                     return SimpleSelector.PseudoClass(el =>
                     {
                         if (el is HTMLAnchorElement)
-                            return !string.IsNullOrEmpty(el.GetAttribute("href")) && !((HTMLAnchorElement)el).IsVisited;
+                            return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && !((HTMLAnchorElement)el).IsVisited;
                         else if (el is HTMLAreaElement)
-                            return !string.IsNullOrEmpty(el.GetAttribute("href")) && !((HTMLAreaElement)el).IsVisited;
+                            return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && !((HTMLAreaElement)el).IsVisited;
                         else if (el is HTMLLinkElement)
-                            return !string.IsNullOrEmpty(el.GetAttribute("href")) && !((HTMLLinkElement)el).IsVisited;
+                            return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && !((HTMLLinkElement)el).IsVisited;
 
                         return false;
                     }, PSEUDOCLASS_LINK);
@@ -490,11 +490,11 @@ namespace AngleSharp.Css
                     return SimpleSelector.PseudoClass(el =>
                     {
                         if (el is HTMLAnchorElement)
-                            return !string.IsNullOrEmpty(el.GetAttribute("href")) && ((HTMLAnchorElement)el).IsVisited;
+                            return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && ((HTMLAnchorElement)el).IsVisited;
                         else if (el is HTMLAreaElement)
-                            return !string.IsNullOrEmpty(el.GetAttribute("href")) && ((HTMLAreaElement)el).IsVisited;
+                            return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && ((HTMLAreaElement)el).IsVisited;
                         else if (el is HTMLLinkElement)
-                            return !string.IsNullOrEmpty(el.GetAttribute("href")) && ((HTMLLinkElement)el).IsVisited;
+                            return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && ((HTMLLinkElement)el).IsVisited;
 
                         return false;
                     }, PSEUDOCLASS_VISITED);
@@ -503,11 +503,11 @@ namespace AngleSharp.Css
                     return SimpleSelector.PseudoClass(el => 
                     {
                         if (el is HTMLAnchorElement)
-                            return !string.IsNullOrEmpty(el.GetAttribute("href")) && ((HTMLAnchorElement)el).IsActive;
+                            return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && ((HTMLAnchorElement)el).IsActive;
                         else if (el is HTMLAreaElement)
-                            return !string.IsNullOrEmpty(el.GetAttribute("href")) && ((HTMLAreaElement)el).IsActive;
+                            return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && ((HTMLAreaElement)el).IsActive;
                         else if (el is HTMLLinkElement)
-                            return !string.IsNullOrEmpty(el.GetAttribute("href")) && ((HTMLLinkElement)el).IsActive;
+                            return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && ((HTMLLinkElement)el).IsActive;
                         else if (el is HTMLButtonElement)
                             return !((HTMLButtonElement)el).Disabled && ((HTMLButtonElement)el).IsActive;
                         else if (el is HTMLInputElement)
@@ -518,7 +518,7 @@ namespace AngleSharp.Css
                                 inp.IsActive;
                         }
                         else if (el is HTMLMenuItemElement)
-                            return string.IsNullOrEmpty(el.GetAttribute("disabled")) && ((HTMLMenuItemElement)el).IsActive;
+                            return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.DISABLED)) && ((HTMLMenuItemElement)el).IsActive;
 
                         return false;
                     }, PSEUDOCLASS_ACTIVE);
@@ -536,7 +536,7 @@ namespace AngleSharp.Css
                     return SimpleSelector.PseudoClass(el =>
                     {
                         if (el is HTMLAnchorElement || el is HTMLAreaElement || el is HTMLLinkElement)
-                            return !string.IsNullOrEmpty(el.GetAttribute("href"));
+                            return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF));
                         else if (el is HTMLButtonElement)
                             return !((HTMLButtonElement)el).Disabled;
                         else if (el is HTMLInputElement)
@@ -548,7 +548,7 @@ namespace AngleSharp.Css
                         else if (el is HTMLOptionElement)
                             return !((HTMLOptionElement)el).Disabled;
                         else if (el is HTMLOptGroupElement || el is HTMLMenuItemElement || el is HTMLFieldSetElement)
-                            return string.IsNullOrEmpty(el.GetAttribute("disabled"));
+                            return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.DISABLED));
 
                         return false;
                     }, PSEUDOCLASS_ENABLED);
@@ -567,7 +567,7 @@ namespace AngleSharp.Css
                         else if (el is HTMLOptionElement)
                             return ((HTMLOptionElement)el).Disabled;
                         else if (el is HTMLOptGroupElement || el is HTMLMenuItemElement || el is HTMLFieldSetElement)
-                            return !string.IsNullOrEmpty(el.GetAttribute("disabled"));
+                            return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.DISABLED));
 
                         return false;
                     }, PSEUDOCLASS_DISABLED);
@@ -600,7 +600,7 @@ namespace AngleSharp.Css
                             }
                         }
                         else if (el is HTMLOptionElement)
-                            return !string.IsNullOrEmpty(el.GetAttribute("selected"));
+                            return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.SELECTED));
 
                         return false;
                     }, PSEUDOCLASS_DEFAULT);
@@ -635,7 +635,7 @@ namespace AngleSharp.Css
                             return inp.Type == HTMLInputElement.InputType.Checkbox && inp.Indeterminate;
                         }
                         else if (el is HTMLProgressElement)
-                            return string.IsNullOrEmpty(el.GetAttribute("value"));
+                            return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.VALUE));
 
                         return false;
                     }, PSEUDOCLASS_INDETERMINATE);

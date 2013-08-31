@@ -71,8 +71,8 @@ namespace AngleSharp.DOM.Html
         [DOM("href")]
         public String Href
         {
-            get { return HyperRef(GetAttribute("href")); }
-            set { SetAttribute("href", value); }
+            get { return HyperRef(GetAttribute(AttributeNames.HREF)); }
+            set { SetAttribute(AttributeNames.HREF, value); }
         }
 
         /// <summary>
@@ -81,8 +81,8 @@ namespace AngleSharp.DOM.Html
         [DOM("hreflang")]
         public String Hreflang
         {
-            get { return GetAttribute("hreflang"); }
-            set { SetAttribute("hreflang", value); }
+            get { return GetAttribute(AttributeNames.HREFLANG); }
+            set { SetAttribute(AttributeNames.HREFLANG, value); }
         }
 
         /// <summary>
@@ -91,8 +91,8 @@ namespace AngleSharp.DOM.Html
         [DOM("charset")]
         public String Charset
         {
-            get { return GetAttribute(HtmlEncoding.CHARSET); }
-            set { SetAttribute(HtmlEncoding.CHARSET, value); }
+            get { return GetAttribute(AttributeNames.CHARSET); }
+            set { SetAttribute(AttributeNames.CHARSET, value); }
         }
 
         /// <summary>
@@ -101,8 +101,8 @@ namespace AngleSharp.DOM.Html
         [DOM("rel")]
         public RelType Rel
         {
-            get { return ToEnum(GetAttribute("rel"), RelType.Stylesheet); }
-            set { SetAttribute("rel", value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.REL), RelType.Stylesheet); }
+            set { SetAttribute(AttributeNames.REL, value.ToString()); }
         }
 
         /// <summary>
@@ -111,8 +111,8 @@ namespace AngleSharp.DOM.Html
         [DOM("rev")]
         public String Rev
         {
-            get { return GetAttribute("rev"); }
-            set { SetAttribute("rev", value); }
+            get { return GetAttribute(AttributeNames.REV); }
+            set { SetAttribute(AttributeNames.REV, value); }
         }
 
         /// <summary>
@@ -131,8 +131,8 @@ namespace AngleSharp.DOM.Html
         [DOM("target")]
         public String Target
         {
-            get { return GetAttribute("target"); }
-            set { SetAttribute("target", value); }
+            get { return GetAttribute(AttributeNames.TARGET); }
+            set { SetAttribute(AttributeNames.TARGET, value); }
         }
 
         /// <summary>
@@ -141,8 +141,8 @@ namespace AngleSharp.DOM.Html
         [DOM("media")]
         public String Media
         {
-            get { return GetAttribute("media"); }
-            set { SetAttribute("media", value); }
+            get { return GetAttribute(AttributeNames.MEDIA); }
+            set { SetAttribute(AttributeNames.MEDIA, value); }
         }
 
         /// <summary>
@@ -151,8 +151,8 @@ namespace AngleSharp.DOM.Html
         [DOM("type")]
         public String Type
         {
-            get { return GetAttribute("type"); }
-            set { SetAttribute("type", value); }
+            get { return GetAttribute(AttributeNames.TYPE); }
+            set { SetAttribute(AttributeNames.TYPE, value); }
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace AngleSharp.DOM.Html
         [DOM("sheet")]
         public StyleSheet Sheet
         {
-            get { return _sheet; }
+            get { return Rel == RelType.Stylesheet ? _sheet : null; }
         }
 
         #endregion
@@ -174,32 +174,12 @@ namespace AngleSharp.DOM.Html
         /// <param name="name">The name of the attribute that has been changed.</param>
         internal override void OnAttributeChanged(String name)
         {
-            if (name.Equals("media", StringComparison.Ordinal))
+            if (name.Equals(AttributeNames.MEDIA, StringComparison.Ordinal))
                 _sheet.Media.MediaText = Media;
-            else if (name.Equals("href", StringComparison.Ordinal))
+            else if (name.Equals(AttributeNames.HREF, StringComparison.Ordinal))
                 _sheet.ReevaluateFromUrl(Href);
             else
                 base.OnAttributeChanged(name);
-        }
-
-        /// <summary>
-        /// Registers the node at the given document.
-        /// </summary>
-        /// <param name="document">The document where to register.</param>
-        protected override void Register(Document document)
-        {
-            if (Rel == RelType.Stylesheet)
-                document.StyleSheets.Add(Sheet);
-        }
-
-        /// <summary>
-        /// Unregisters the node at the given document.
-        /// </summary>
-        /// <param name="document">The document where to unregister.</param>
-        protected override void Unregister(Document document)
-        {
-            if (Rel == RelType.Stylesheet)
-                document.StyleSheets.Remove(Sheet);
         }
 
         #endregion

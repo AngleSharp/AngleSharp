@@ -57,8 +57,8 @@ namespace AngleSharp.DOM.Html
         [DOM("media")]
         public String Media
         {
-            get { return GetAttribute("media"); }
-            set { SetAttribute("media", value); }
+            get { return GetAttribute(AttributeNames.MEDIA); }
+            set { SetAttribute(AttributeNames.MEDIA, value); }
         }
 
         /// <summary>
@@ -67,8 +67,8 @@ namespace AngleSharp.DOM.Html
         [DOM("type")]
         public String Type
         {
-            get { return GetAttribute("type"); }
-            set { SetAttribute("type", value); }
+            get { return GetAttribute(AttributeNames.TYPE); }
+            set { SetAttribute(AttributeNames.TYPE, value); }
         }
 
         #endregion
@@ -111,28 +111,10 @@ namespace AngleSharp.DOM.Html
         /// <param name="name">The name of the attribute that has been changed.</param>
         internal override void OnAttributeChanged(String name)
         {
-            if (name.Equals("media", StringComparison.Ordinal))
+            if (name.Equals(AttributeNames.MEDIA, StringComparison.Ordinal))
                 _sheet.Media.MediaText = Media;
             else
                 base.OnAttributeChanged(name);
-        }
-
-        /// <summary>
-        /// Registers the node at the given document.
-        /// </summary>
-        /// <param name="document">The document where to register.</param>
-        protected override void Register(Document document)
-        {
-            document.StyleSheets.Add(Sheet);
-        }
-
-        /// <summary>
-        /// Unregisters the node at the given document.
-        /// </summary>
-        /// <param name="document">The document where to unregister.</param>
-        protected override void Unregister(Document document)
-        {
-            document.StyleSheets.Remove(Sheet);
         }
 
         #endregion

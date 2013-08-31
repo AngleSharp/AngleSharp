@@ -37,7 +37,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// The location of the document.
         /// </summary>
-        protected String _location;
+        protected Location _location;
 
         #endregion
 
@@ -64,7 +64,7 @@ namespace AngleSharp.DOM
             _referrer = string.Empty;
             _ready = Readiness.Complete;
             _name = "#document";
-            _styleSheets = new StyleSheetList();
+            _styleSheets = new StyleSheetList(this);
             _quirksMode = QuirksMode.Off;
         }
 
@@ -177,8 +177,8 @@ namespace AngleSharp.DOM
         [DOM("location")]
         public Location Location
         {
-            get { return new Location(_location); }
-            set { _location = value.ToString(); }
+            get { return _location; }
+            set { ReLoad(value); }
         }
 
         /// <summary>
@@ -187,7 +187,8 @@ namespace AngleSharp.DOM
         [DOM("documentURI")]
         public String DocumentURI
         {
-            get { return _location; }
+            get { return _location.Href; }
+            internal set { _location.Href = value; }
         }
 
         /// <summary>
@@ -645,6 +646,15 @@ namespace AngleSharp.DOM
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Reloads the document witht he given location.
+        /// </summary>
+        /// <param name="value">The value for reloading.</param>
+        protected virtual void ReLoad(Location url)
+        {
+            _location = url;
+        }
 
         /// <summary>
         /// Tries to find a direct child of a certain type.

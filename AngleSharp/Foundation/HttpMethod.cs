@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AngleSharp.DOM.Html
+namespace AngleSharp
 {
     /// <summary>
     /// Represents the usable methods for transmitting HTTP forms.

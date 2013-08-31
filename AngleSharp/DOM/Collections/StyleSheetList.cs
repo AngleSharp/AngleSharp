@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.Runtime.CompilerServices;
 using AngleSharp.DOM.Css;
 
 namespace AngleSharp.DOM.Collections
@@ -15,7 +13,7 @@ namespace AngleSharp.DOM.Collections
     {
         #region Members
 
-        List<StyleSheet> _styleSheets;
+        Node _parent;
 
         #endregion
 
@@ -24,9 +22,10 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Creates a new stylesheet class.
         /// </summary>
-        internal StyleSheetList()
+        /// <param name="parent">The parent responsible for this list.</param>
+        internal StyleSheetList(Node parent)
         {
-            _styleSheets = new List<StyleSheet>();
+            _parent = parent;
         }
 
         #endregion
@@ -45,10 +44,18 @@ namespace AngleSharp.DOM.Collections
         {
             get
             {
-                if (index < 0 || index >= _styleSheets.Count)
-                    return null;
+                var it = GetEnumerator();
+                var i = 0;
 
-                return _styleSheets[index];
+                while (it.MoveNext())
+                {
+                    if (i == index)
+                        return it.Current;
+
+                    i++;
+                }
+
+                return null;
             }
         }
 
@@ -62,29 +69,42 @@ namespace AngleSharp.DOM.Collections
         [DOM("length")]
         public Int32 Length
         {
-            get { return _styleSheets.Count; }
+            get
+            {
+                var it = GetEnumerator();
+                var count = 0;
+
+                while (it.MoveNext())
+                    count++;
+
+                return count;
+            }
         }
 
         #endregion
 
         #region Internal methods
 
-        /// <summary>
-        /// Adds a stylesheet to the list.
-        /// </summary>
-        /// <param name="styleSheet">The stylesheet to consider.</param>
-        internal void Add(StyleSheet styleSheet)
+        static IEnumerable<StyleSheet> GetStyleSheets(Node parent)
         {
-            _styleSheets.Add(styleSheet);
-        }
+            foreach (var child in parent.ChildNodes)
+            {
+                if (child is Element)
+                {
+                    if (child is IStyleSheet)
+                    {
+                        var sheet = ((IStyleSheet)child).Sheet;
 
-        /// <summary>
-        /// Removes a stylesheet from the list.
-        /// </summary>
-        /// <param name="styleSheet">The stylesheet to remove.</param>
-        internal void Remove(StyleSheet styleSheet)
-        {
-            _styleSheets.Remove(styleSheet);
+                        if (sheet != null)
+                            yield return sheet;
+                    }
+                    else
+                    {
+                        foreach(var sheet in GetStyleSheets(child))
+                            yield return sheet;
+                    }
+                }
+            }
         }
 
         #endregion
@@ -97,7 +117,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>The enumerator.</returns>
         public IEnumerator<StyleSheet> GetEnumerator()
         {
-            return _styleSheets.GetEnumerator();
+            return GetStyleSheets(_parent).GetEnumerator();
         }
 
         /// <summary>
@@ -106,7 +126,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>The enumerator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)_styleSheets).GetEnumerator();
+            return GetEnumerator();
         }
 
         #endregion

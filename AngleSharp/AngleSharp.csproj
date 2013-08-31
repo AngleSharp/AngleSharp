@@ -40,6 +40,8 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Css\CssTokenizer.cs" />
     <Compile Include="Events\ParseErrorEventHandler.cs" />
+    <Compile Include="Foundation\Constants\AttributeNames.cs" />
+    <Compile Include="Interfaces\IHttpRequest.cs" />
     <Compile Include="Interfaces\IHttpRequester.cs" />
     <Compile Include="DocumentOptions.cs" />
     <Compile Include="DOM\Annotations\IFormatting.cs" />
@@ -112,7 +114,7 @@
     <Compile Include="DOM\Svg\SVGSVGElement.cs" />
     <Compile Include="DOM\Svg\SVGTitleElement.cs" />
     <Compile Include="DOM\Xml\XMLDocument.cs" />
-    <Compile Include="DOM\Enums\HttpMethod.cs" />
+    <Compile Include="Foundation\HttpMethod.cs" />
     <Compile Include="DOM\Html\Forms\HTMLFormControlElement.cs" />
     <Compile Include="DOM\Html\Forms\HTMLFormControlElementWithState.cs" />
     <Compile Include="DOM\Html\Forms\HTMLOutputElement.cs" />
@@ -244,7 +246,7 @@
     <Compile Include="Foundation\HtmlColor.cs" />
     <Compile Include="DOM\Html\HTMLDocument.cs" />
     <Compile Include="Html\HtmlTreeMode.cs" />
-    <Compile Include="Foundation\HtmlEncoding.cs" />
+    <Compile Include="Foundation\DocumentEncoding.cs" />
     <Compile Include="Foundation\Helpers\MathMLHelpers.cs" />
     <Compile Include="DOM\Collections\BaseCollection.cs" />
     <Compile Include="DOM\Collections\HTMLCollection.cs" />
@@ -332,6 +334,7 @@
     <Compile Include="DTD\Tokens\DtdToken.cs" />
     <Compile Include="DTD\DtdParser.cs" />
     <Compile Include="DTD\DtdTokenizer.cs" />
+    <Compile Include="Interfaces\IHttpResponse.cs" />
     <Compile Include="Xml\Tokens\XmlCDataToken.cs" />
     <Compile Include="Xml\Tokens\XmlCharacterToken.cs" />
     <Compile Include="Xml\Tokens\XmlCommentToken.cs" />

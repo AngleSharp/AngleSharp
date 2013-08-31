@@ -684,22 +684,22 @@ namespace AngleSharp.Html
                 AddElement(element, token.AsTag(), true);
                 CloseCurrentNode();
 
-                var charset = element.GetAttribute(HtmlEncoding.CHARSET);
+                var charset = element.GetAttribute(AttributeNames.CHARSET);
 
-                if (charset != null && HtmlEncoding.IsSupported(charset))
+                if (charset != null && DocumentEncoding.IsSupported(charset))
                 {
                     SetCharset(charset);
                     return;
                 }
 
-                charset = element.GetAttribute("http-equiv");
+                charset = element.GetAttribute(AttributeNames.HTTP_EQUIV);
 
                 if (charset != null && charset.Equals("Content-Type", StringComparison.OrdinalIgnoreCase))
                 {
-                    charset = element.GetAttribute("content") ?? string.Empty;
-                    charset = HtmlEncoding.Extract(charset);
+                    charset = element.GetAttribute(AttributeNames.CONTENT) ?? String.Empty;
+                    charset = DocumentEncoding.Extract(charset);
 
-                    if (HtmlEncoding.IsSupported(charset))
+                    if (DocumentEncoding.IsSupported(charset))
                         SetCharset(charset);
                 }
 
@@ -1206,7 +1206,7 @@ namespace AngleSharp.Html
                         AddElement(element, tag, true);
                         CloseCurrentNode();
 
-                        if (!tag.GetAttribute("type").Equals("hidden", StringComparison.OrdinalIgnoreCase))
+                        if (!tag.GetAttribute(AttributeNames.TYPE).Equals("hidden", StringComparison.OrdinalIgnoreCase))
                             frameset = false;
 
                         break;
@@ -1238,23 +1238,23 @@ namespace AngleSharp.Html
                         {
                             InBody(HtmlToken.OpenTag(Tags.FORM));
 
-                            if (tag.GetAttribute("action") != String.Empty)
-                                form.SetAttribute("action", tag.GetAttribute("action"));
+                            if (tag.GetAttribute(AttributeNames.ACTION) != String.Empty)
+                                form.SetAttribute(AttributeNames.ACTION, tag.GetAttribute(AttributeNames.ACTION));
 
                             InBody(HtmlToken.OpenTag(Tags.HR));
                             InBody(HtmlToken.OpenTag(Tags.LABEL));
 
-                            if (tag.GetAttribute("prompt") != String.Empty)
-                                AddCharacters(tag.GetAttribute("prompt"));
+                            if (tag.GetAttribute(AttributeNames.PROMPT) != String.Empty)
+                                AddCharacters(tag.GetAttribute(AttributeNames.PROMPT));
                             else
                                 AddCharacters("This is a searchable index. Enter search keywords: ");
 
                             var input = HtmlToken.OpenTag(Tags.INPUT);
-                            input.AddAttribute("name", Tags.ISINDEX);
+                            input.AddAttribute(AttributeNames.NAME, Tags.ISINDEX);
 
                             for (int i = 0; i < tag.Attributes.Count; i++)
                             {
-                                if (tag.Attributes[i].Key == "name" || tag.Attributes[i].Key == "action" || tag.Attributes[i].Key == "prompt")
+                                if (tag.Attributes[i].Key.IsOneOf(AttributeNames.NAME, AttributeNames.ACTION, AttributeNames.PROMPT))
                                     continue;
 
                                 input.AddAttribute(tag.Attributes[i].Key, tag.Attributes[i].Value);
@@ -1766,7 +1766,7 @@ namespace AngleSharp.Html
                     }
                     case Tags.INPUT:
                     {
-                        if (tag.GetAttribute("type").Equals("hidden", StringComparison.OrdinalIgnoreCase))
+                        if (tag.GetAttribute(AttributeNames.TYPE).Equals("hidden", StringComparison.OrdinalIgnoreCase))
                         {
                             RaiseErrorOccurred(ErrorCode.InputUnexpected);
                             var element = new HTMLInputElement();
@@ -3702,7 +3702,7 @@ namespace AngleSharp.Html
         /// <param name="charset">The charset string.</param>
         void SetCharset(String charset)
         {
-            var enc = HtmlEncoding.Resolve(charset);
+            var enc = DocumentEncoding.Resolve(charset);
 
             if (enc != null)
             {

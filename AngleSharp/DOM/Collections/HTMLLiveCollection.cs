@@ -3,50 +3,91 @@ using System.Collections.Generic;
 
 namespace AngleSharp.DOM.Collections
 {
+    /// <summary>
+    /// An HTML live collection for a specific type.
+    /// </summary>
+    /// <typeparam name="T">The type of elements to contain.</typeparam>
     sealed class HTMLLiveCollection<T> : HTMLCollection
         where T : Element
     {
+        #region Members
+
         Node _parent;
         Boolean _deep;
 
+        #endregion
+
+        #region ctor
+
+        /// <summary>
+        /// Creates a new live collection for the given parent.
+        /// </summary>
+        /// <param name="parent">The parent of this collection.</param>
+        /// <param name="deep">[Optional] Determines if recursive search is activated.</param>
         public HTMLLiveCollection(Node parent, Boolean deep = true)
         {
             _deep = deep;
             _parent = parent;
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets if deep search is active.
+        /// </summary>
         public Boolean IsDeep
         {
             get { return _deep; }
             set { _deep = value; }
         }
 
+        /// <summary>
+        /// Gets the enumerator over all contained elements.
+        /// </summary>
         public IEnumerable<T> Elements
         {
-            get 
-            {
-                var it = GetElements();
-
-                while (it.MoveNext())
-                    yield return it.Current;
-            }
+            get { return GetElements(); }
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets the specific element of type T at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the element to retrieve.</param>
+        /// <returns>The element of type T or null.</returns>
         public T GetElementAt(Int32 index)
         {
-            var it = GetElements();
+            var elements = GetElements();
             var i = 0;
 
-            while (it.MoveNext())
+            foreach(var element in elements)
             {
                 if (i == index)
-                    return it.Current;
+                    return element;
 
                 i++;
             }
 
             return null;
         }
+
+        /// <summary>
+        /// Gets the enumerator over all elements.
+        /// </summary>
+        /// <returns>The enumerator over Element elements.</returns>
+        public override IEnumerator<Element> GetEnumerator()
+        {
+            return GetElements().GetEnumerator();
+        }
+
+        #endregion
+
+        #region Helpers
 
         protected override Element GetItem(Int32 index)
         {
@@ -55,28 +96,23 @@ namespace AngleSharp.DOM.Collections
 
         protected override Int32 GetLength()
         {
-            var it = GetElements();
+            var elements = GetElements();
             var count = 0;
 
-            while (it.MoveNext())
+            foreach(var element in elements)
                 count++;
 
             return count;
         }
 
-        public override IEnumerator<Element> GetEnumerator()
+        internal override Int32 IndexOf(Element child)
         {
-            return GetElements();
-        }
-
-        internal override Int32 IndexOf(Element element)
-        {
-            var it = GetElements();
+            var elements = GetElements();
             var i = 0;
 
-            while (it.MoveNext())
+            foreach (var element in elements)
             {
-                if (it.Current == element)
+                if (element == child)
                     return i;
 
                 i++;
@@ -85,7 +121,7 @@ namespace AngleSharp.DOM.Collections
             return -1;
         }
 
-        IEnumerator<T> GetElements()
+        IEnumerable<T> GetElements()
         {
             if (_deep)
                 return GetElementsOf(_parent);
@@ -93,19 +129,19 @@ namespace AngleSharp.DOM.Collections
                 return GetOnlyElementsOf(_parent);
         }
 
-        static IEnumerator<T> GetElementsOf(Node parent)
+        static IEnumerable<T> GetElementsOf(Node parent)
         {
             foreach (var child in parent.ChildNodes)
             {
                 if (child is T)
                     yield return (T)child;
 
-                if(child.ChildNodes.Length > 0)
-                    GetElementsOf((Element)child);
+                foreach (var element in GetElementsOf(child))
+                    yield return element;
             }
         }
 
-        static IEnumerator<T> GetOnlyElementsOf(Node parent)
+        static IEnumerable<T> GetOnlyElementsOf(Node parent)
         {
             foreach (var child in parent.ChildNodes)
             {
@@ -113,56 +149,101 @@ namespace AngleSharp.DOM.Collections
                     yield return (T)child;
             }
         }
+
+        #endregion
     }
 
+    /// <summary>
+    /// A general HTML live collection for no specific type.
+    /// </summary>
     abstract class HTMLLiveCollection : HTMLCollection
     {
+        #region Members
+
         Node _parent;
         Boolean _deep;
 
-        public HTMLLiveCollection(Node parent, Boolean deep)
+        #endregion
+
+        #region ctor
+
+        /// <summary>
+        /// Creates a new live collection for the given parent.
+        /// </summary>
+        /// <param name="parent">The parent of this collection.</param>
+        /// <param name="deep">[Optional] Determines if recursive search is activated.</param>
+        public HTMLLiveCollection(Node parent, Boolean deep = true)
         {
             _deep = deep;
             _parent = parent;
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the set parent node.
+        /// </summary>
         public Node Parent
         {
             get { return _parent; }
         }
 
+        /// <summary>
+        /// Gets or sets if deep search is active.
+        /// </summary>
         public Boolean IsDeep
         {
             get { return _deep; }
             set { _deep = value; }
         }
 
+        /// <summary>
+        /// Gets the enumerator over all elements.
+        /// </summary>
         public IEnumerable<Element> Elements
         {
-            get
-            {
-                var it = GetElements();
-
-                while (it.MoveNext())
-                    yield return it.Current;
-            }
+            get { return GetElements(); }
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets the element at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the element to retrieve.</param>
+        /// <returns>The element or null.</returns>
         public Element GetElementAt(Int32 index)
         {
-            var it = GetElements();
+            var elements = GetElements();
             var i = 0;
 
-            while (it.MoveNext())
+            foreach(var element in elements)
             {
                 if (i == index)
-                    return it.Current;
+                    return element;
 
                 i++;
             }
 
             return null;
         }
+
+        /// <summary>
+        /// Gets the enumerator over all elements.
+        /// </summary>
+        /// <returns>The enumerator over Element elements.</returns>
+        public override IEnumerator<Element> GetEnumerator()
+        {
+            return GetElements().GetEnumerator();
+        }
+
+        #endregion
+
+        #region Helpers
 
         protected override Element GetItem(Int32 index)
         {
@@ -171,28 +252,23 @@ namespace AngleSharp.DOM.Collections
 
         protected override Int32 GetLength()
         {
-            var it = GetElements();
+            var elements = GetElements();
             var count = 0;
 
-            while (it.MoveNext())
+            foreach(var element in elements)
                 count++;
 
             return count;
         }
 
-        public override IEnumerator<Element> GetEnumerator()
+        internal override Int32 IndexOf(Element child)
         {
-            return GetElements();
-        }
-
-        internal override Int32 IndexOf(Element element)
-        {
-            var it = GetElements();
+            var elements = GetElements();
             var i = 0;
 
-            while (it.MoveNext())
+            foreach (var element in elements)
             {
-                if (it.Current == element)
+                if (child == element)
                     return i;
 
                 i++;
@@ -201,20 +277,34 @@ namespace AngleSharp.DOM.Collections
             return -1;
         }
 
-        protected abstract IEnumerator<Element> GetElements();
+        protected abstract IEnumerable<Element> GetElements();
+
+        #endregion
     }
 
+    /// <summary>
+    /// An HTML live collection for three specific types.
+    /// </summary>
+    /// <typeparam name="T1">The first type to contain.</typeparam>
+    /// <typeparam name="T2">Another type of elements to contain.</typeparam>
+    /// <typeparam name="T3">The last type of elements to contain.</typeparam>
     sealed class HTMLLiveCollection<T1, T2, T3> : HTMLLiveCollection
         where T1 : Element
         where T2 : Element
         where T3 : Element
     {
+        #region ctor
+
         public HTMLLiveCollection(Node parent, Boolean deep = true)
             : base(parent, deep)
         {
         }
 
-        protected override IEnumerator<Element> GetElements()
+        #endregion
+
+        #region Methods
+
+        protected override IEnumerable<Element> GetElements()
         {
             if (IsDeep)
                 return GetElementsOf(Parent);
@@ -222,19 +312,19 @@ namespace AngleSharp.DOM.Collections
                 return GetOnlyElementsOf(Parent);
         }
 
-        static IEnumerator<Element> GetElementsOf(Node parent)
+        static IEnumerable<Element> GetElementsOf(Node parent)
         {
             foreach (var child in parent.ChildNodes)
             {
                 if (child is T1 || child is T2 || child is T3)
                     yield return (Element)child;
 
-                if (child.ChildNodes.Length > 0)
-                    GetElementsOf((Element)child);
+                foreach(var element in GetElementsOf(child))
+                    yield return element;
             }
         }
 
-        static IEnumerator<Element> GetOnlyElementsOf(Node parent)
+        static IEnumerable<Element> GetOnlyElementsOf(Node parent)
         {
             foreach (var child in parent.ChildNodes)
             {
@@ -242,5 +332,7 @@ namespace AngleSharp.DOM.Collections
                     yield return (Element)child;
             }
         }
+
+        #endregion
     }
 }

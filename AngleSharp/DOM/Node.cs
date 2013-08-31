@@ -243,10 +243,6 @@ namespace AngleSharp.DOM
                     return;
                 else if (_owner != null && value != null)
                     throw new DOMException(ErrorCode.InUse);
-                else if(_owner != null)
-                    Unregister(_owner);
-                else
-                    Register(value);
 
                 _owner = value;
 
@@ -365,22 +361,6 @@ namespace AngleSharp.DOM
         #endregion
 
         #region Internal Methods
-
-        /// <summary>
-        /// Registers the node at the given document.
-        /// </summary>
-        /// <param name="document">The document where to register.</param>
-        protected virtual void Register(Document document)
-        {
-        }
-
-        /// <summary>
-        /// Unregisters the node at the given document.
-        /// </summary>
-        /// <param name="document">The document where to unregister.</param>
-        protected virtual void Unregister(Document document)
-        {
-        }
 
         /// <summary>
         /// Entry point for attributes to notify about a change (modified, added, removed).

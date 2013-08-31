@@ -369,9 +369,9 @@ namespace AngleSharp.Xml
 
         void SetEncoding(String encoding)
         {
-            if (HtmlEncoding.IsSupported(encoding))
+            if (DocumentEncoding.IsSupported(encoding))
             {
-                var enc = HtmlEncoding.Resolve(encoding);
+                var enc = DocumentEncoding.Resolve(encoding);
 
                 if (enc != null)
                 {

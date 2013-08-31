@@ -15,6 +15,7 @@ namespace AngleSharp.DOM.Css
         Element _owner;
         StyleSheet _parent;
         MediaList _media;
+        String _url;
 
         #endregion
 
@@ -49,7 +50,7 @@ namespace AngleSharp.DOM.Css
         [DOM("type")]
         public String Type
         {
-            get { return _owner != null ? (_owner.GetAttribute("type") ?? String.Empty) : String.Empty; }
+            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.TYPE) ?? String.Empty) : String.Empty; }
         }
 
         /// <summary>
@@ -59,8 +60,8 @@ namespace AngleSharp.DOM.Css
         [DOM("disabled")]
         public Boolean Disabled
         {
-            get { return _owner != null ? (_owner.GetAttribute("disabled") != null) : false; }
-            set { if (_owner != null) _owner.SetAttribute("disabled", value ? String.Empty : null); }
+            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.DISABLED) != null) : false; }
+            set { if (_owner != null) _owner.SetAttribute(AttributeNames.DISABLED, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -88,7 +89,8 @@ namespace AngleSharp.DOM.Css
         [DOM("href")]
         public String Href
         {
-            get { return _owner != null ? (_owner.GetAttribute("href") ?? String.Empty) : String.Empty; }
+            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.HREF) ?? String.Empty) : (_url ?? String.Empty); }
+            internal set { _url = value; }
         }
 
         /// <summary>
@@ -97,7 +99,7 @@ namespace AngleSharp.DOM.Css
         [DOM("title")]
         public String Title
         {
-            get { return _owner != null ? (_owner.GetAttribute("title") ?? String.Empty) : String.Empty; }
+            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.TITLE) ?? String.Empty) : String.Empty; }
         }
 
         /// <summary>

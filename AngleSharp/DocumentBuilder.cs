@@ -121,7 +121,7 @@ namespace AngleSharp
         {
             var stream = Builder.Stream(url);
             var source = new SourceManager(stream);
-            var db = new DocumentBuilder(source, new XMLDocument(), options);
+            var db = new DocumentBuilder(source, new XMLDocument { DocumentURI = url.OriginalString }, options);
             return db.XmlResult;
         }
 
@@ -165,7 +165,7 @@ namespace AngleSharp
         {
             var stream = Builder.Stream(url);
             var source = new SourceManager(stream);
-            var db = new DocumentBuilder(source, new HTMLDocument(), options);
+            var db = new DocumentBuilder(source, new HTMLDocument { DocumentURI = url.OriginalString }, options);
             return db.HtmlResult;
         }
 
@@ -235,7 +235,7 @@ namespace AngleSharp
         {
             var stream = Builder.Stream(url);
             var source = new SourceManager(stream);
-            var db = new DocumentBuilder(source, new CSSStyleSheet(), options);
+            var db = new DocumentBuilder(source, new CSSStyleSheet { Href = url.OriginalString }, options);
             return db.CssResult;
         }
 

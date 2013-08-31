@@ -6,10 +6,8 @@ namespace AngleSharp
     /// <summary>
     /// Various HTML encoding helpers.
     /// </summary>
-    static class HtmlEncoding
+    static class DocumentEncoding
     {
-        public const String CHARSET = "charset";
-
         /// <summary>
         /// Tries to extract the encoding from the given http-equiv content string.
         /// </summary>
@@ -22,7 +20,7 @@ namespace AngleSharp
 
             for (int i = position; i < content.Length - 7; i++)
             {
-                if (content.Substring(i).StartsWith(CHARSET))
+                if (content.Substring(i).StartsWith(AttributeNames.CHARSET))
                 {
                     position = i + 7;
                     break;

@@ -16,6 +16,7 @@ namespace AngleSharp.DOM.Html
 
         Boolean _embedded;
         Boolean _scripting;
+        Cookie _cookie;
 
         HTMLLiveCollection<Element> _all;
         HTMLLiveCollection<HTMLFormElement> _forms;
@@ -192,7 +193,7 @@ namespace AngleSharp.DOM.Html
         [DOM("anchors")]
         public HTMLCollection Anchors
         {
-            get { return _anchors ?? (_anchors = new HTMLLiveCollectionWithAttr<HTMLAnchorElement>(this, "name")); }
+            get { return _anchors ?? (_anchors = new HTMLLiveCollectionWithAttr<HTMLAnchorElement>(this, AttributeNames.NAME)); }
         }
 
         /// <summary>
@@ -256,7 +257,7 @@ namespace AngleSharp.DOM.Html
         [DOM("links")]
         public HTMLCollection Links
         {
-            get { return _links ?? (_links = new HTMLLiveCollectionWithAttr<HTMLAnchorElement, HTMLAreaElement>(this, "href")); }
+            get { return _links ?? (_links = new HTMLLiveCollectionWithAttr<HTMLAnchorElement, HTMLAreaElement>(this, AttributeNames.HREF)); }
         }
 
         /// <summary>
@@ -323,7 +324,8 @@ namespace AngleSharp.DOM.Html
         }
 
         /// <summary>
-        /// Gets a value to indicate whether the document is rendered in Quirks mode or Strict mode.
+        /// Gets a value to indicate whether the document is rendered in Quirks mode (BackComp) 
+        /// or Strict mode (CSS1Compat).
         /// </summary>
         [DOM("compatMode")]
         public String CompatMode
@@ -336,9 +338,9 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         [DOM("cookie")]
         public Cookie Cookie
-        {   //TODO
-            get { return null; }
-            set { /*TODO*/ }
+        { 
+            get { return _cookie; }
+            set { _cookie = value; }
         }
 
         /// <summary>
@@ -414,7 +416,7 @@ namespace AngleSharp.DOM.Html
         [DOM("load")]
         public HTMLDocument Load(String url)
         {
-            _location = url;
+            _location.Href = url;
             Cookie = new Cookie();
 
             for (int i = _children.Length - 1; i >= 0; i++)
@@ -599,20 +601,29 @@ namespace AngleSharp.DOM.Html
         #region Helpers
 
         /// <summary>
+        /// Reloads the document witht he given location.
+        /// </summary>
+        /// <param name="value">The value for reloading.</param>
+        protected override void ReLoad(Location url)
+        {
+            Load(url.Href);
+        }
+
+        /// <summary>
         /// Gets a list of HTML elements given by their name attribute.
         /// </summary>
         /// <param name="children">The list to investigate.</param>
         /// <param name="name">The name attribute's value.</param>
         /// <param name="result">The result collection.</param>
-        void GetElementsByName(NodeList children, String name, List<Element> result)
+        static void GetElementsByName(NodeList children, String name, List<Element> result)
         {
-            for (int i = 0; i < _children.Length; i++)
+            for (int i = 0; i < children.Length; i++)
             {
                 if (children[i] is HTMLElement)
                 {
                     var element = (HTMLElement)children[i];
 
-                    if (element.GetAttribute("name") == name)
+                    if (element.GetAttribute(AttributeNames.NAME) == name)
                         result.Add(element);
 
                     GetElementsByName(element.ChildNodes, name, result);

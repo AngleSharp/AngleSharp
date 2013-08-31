@@ -9,9 +9,6 @@ namespace AngleSharp
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
     struct HtmlColor : IEquatable<HtmlColor>
     {
-        //TODO
-        //http://en.wikipedia.org/wiki/Alpha_compositing
-
         #region Members
 
         public static readonly HtmlColor Black = new HtmlColor(255, 0, 0, 0);
@@ -305,6 +302,39 @@ namespace AngleSharp
         public override String ToString()
         {
             return String.Format("rgba({0}, {1}, {2}, {3})", red, green, blue, alpha / 255.0);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Mixes two colors using alpha compositing as described here:
+        /// http://en.wikipedia.org/wiki/Alpha_compositing
+        /// </summary>
+        /// <param name="below">The first color (above) with transparency.</param>
+        /// <param name="below">The second color (below the first one) without transparency.</param>
+        /// <returns>The outcome in the crossing section.</returns>
+        public static HtmlColor Mix(HtmlColor above, HtmlColor below)
+        {
+            return Mix(above.Alpha, above, below);
+        }
+
+        /// <summary>
+        /// Mixes two colors using alpha compositing as described here:
+        /// http://en.wikipedia.org/wiki/Alpha_compositing
+        /// </summary>
+        /// <param name="alpha">The mixing parameter.</param>
+        /// <param name="below">The first color (above) (no transparency).</param>
+        /// <param name="below">The second color (below the first one) (no transparency).</param>
+        /// <returns>The outcome in the crossing section.</returns>
+        public static HtmlColor Mix(Double alpha, HtmlColor above, HtmlColor below)
+        {
+            var gamma = 1 - alpha;
+            var r = gamma * below.R + alpha * above.R;
+            var g = gamma * below.G + alpha * above.G;
+            var b = gamma * below.B + alpha * above.B;
+            return new HtmlColor((Byte)r, (Byte)g, (Byte)b);
         }
 
         #endregion
