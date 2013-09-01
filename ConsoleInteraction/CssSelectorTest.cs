@@ -1,5 +1,6 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM.Html;
+using ConsoleInteraction.Assets;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

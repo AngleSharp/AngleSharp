@@ -10,6 +10,7 @@ using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Xml;
 using System.Resources;
 using System.Globalization;
+using ConsoleInteraction.Assets;
 
 namespace ConsoleInteraction
 {
