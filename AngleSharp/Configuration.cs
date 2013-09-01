@@ -76,11 +76,32 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Gets the language (code, e.g. en-US, de-DE) to use.
+        /// Gets or sets if the default Http requester should be used.
+        /// </summary>
+        public static Boolean UseDefaultHttpRequester
+        {
+            get { return instance.requester.Contains(typeof(DefaultHttpRequester)); }
+            set
+            {
+                var current = UseDefaultHttpRequester;
+
+                if (current != value)
+                {
+                    if (value)
+                        RegisterHttpRequester<DefaultHttpRequester>();
+                    else
+                        UnregisterHttpRequester<DefaultHttpRequester>();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the language (code, e.g. en-US, de-DE) to use.
         /// </summary>
         public static String Language
         {
             get { return instance.culture.Name; }
+            set { Culture = new CultureInfo(value); }
         }
 
         /// <summary>
@@ -94,7 +115,26 @@ namespace AngleSharp
 
         #endregion
 
-        #region Register / Unregister requester
+        #region Http requester
+
+        /// <summary>
+        /// Gets a fresh HTTP requester from the first type that can be created.
+        /// </summary>
+        /// <returns>The created HTTP requester instance or null.</returns>
+        public static IHttpRequester GetHttpRequester()
+        {
+            for (int i = 0; i < instance.requester.Count; i++)
+            {
+                var result = CurrentResolver.GetService(instance.requester[i]) as IHttpRequester;
+
+                if (result == null)
+                    continue;
+
+                return result;
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Registers a new HttpRequester for making resource requests.
@@ -106,7 +146,7 @@ namespace AngleSharp
             var requester = typeof(T);
 
             if(!instance.requester.Contains(requester))
-                instance.requester.Add(requester);
+                instance.requester.Insert(0, requester);
         }
 
         /// <summary>
@@ -124,7 +164,7 @@ namespace AngleSharp
 
         #endregion
 
-        #region Register IoC container
+        #region IoC container
 
         /// <summary>
         /// Sets the dependency resolver to the given one.

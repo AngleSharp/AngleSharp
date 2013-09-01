@@ -11,6 +11,7 @@ namespace AngleSharp
         public Object GetService(Type serviceType)
         {
             TypeInfo serviceTypeInfo = serviceType.GetTypeInfo();
+
             if (serviceTypeInfo.IsInterface || serviceTypeInfo.IsAbstract)
                 return null;
 
