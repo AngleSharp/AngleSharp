@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ConsoleInteraction {
+namespace ConsoleInteraction.Assets {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ConsoleInteraction {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ConsoleInteraction.HtmlFiles", typeof(HtmlFiles).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ConsoleInteraction.Assets.HtmlFiles", typeof(HtmlFiles).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

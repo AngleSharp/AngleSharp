@@ -43,28 +43,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CssSelectorTest.cs" />
-    <Compile Include="HtmlSharpConsole.cs" />
-    <Compile Include="MSDNCreator.cs" />
+    <Compile Include="Tools\HtmlSharpConsole.cs" />
+    <Compile Include="Tools\MSDNCreator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Samples.cs" />
-    <Compile Include="Snippets.Designer.cs">
+    <Compile Include="Assets\Snippets.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Snippets.resx</DependentUpon>
     </Compile>
-    <Compile Include="Stylesheets.Designer.cs">
+    <Compile Include="Assets\Stylesheets.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Stylesheets.resx</DependentUpon>
     </Compile>
-    <Compile Include="HtmlFiles.Designer.cs">
+    <Compile Include="Assets\HtmlFiles.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HtmlFiles.resx</DependentUpon>
     </Compile>
-    <Compile Include="W3CCreator.cs" />
-    <Compile Include="XmlFiles.Designer.cs">
+    <Compile Include="Tools\W3CCreator.cs" />
+    <Compile Include="Tools\XMLConfTestCreator.cs" />
+    <Compile Include="Assets\XmlFiles.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>XmlFiles.resx</DependentUpon>
@@ -80,19 +81,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Snippets.resx">
+    <EmbeddedResource Include="Assets\Snippets.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Snippets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Stylesheets.resx">
+    <EmbeddedResource Include="Assets\Stylesheets.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Stylesheets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="HtmlFiles.resx">
+    <EmbeddedResource Include="Assets\HtmlFiles.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>HtmlFiles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="XmlFiles.resx">
+    <EmbeddedResource Include="Assets\XmlFiles.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>XmlFiles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
