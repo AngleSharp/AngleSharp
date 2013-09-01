@@ -42,6 +42,9 @@
     <Compile Include="Events\ParseErrorEventHandler.cs" />
     <Compile Include="Foundation\Constants\AttributeNames.cs" />
     <Compile Include="Foundation\Constants\Headers.cs" />
+    <Compile Include="Foundation\Requests\DefaultHttpRequest.cs" />
+    <Compile Include="Foundation\Requests\DefaultHttpRequester.cs" />
+    <Compile Include="Foundation\Requests\DefaultHttpResponse.cs" />
     <Compile Include="Interfaces\IHttpRequest.cs" />
     <Compile Include="Interfaces\IHttpRequester.cs" />
     <Compile Include="DocumentOptions.cs" />

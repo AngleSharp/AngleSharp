@@ -8,13 +8,13 @@ namespace AngleSharp
     public enum HttpMethod : ushort
     {
         /// <summary>
-        /// The POST method.
-        /// </summary>
-        POST,
-        /// <summary>
         /// The GET method.
         /// </summary>
         GET,
+        /// <summary>
+        /// The POST method.
+        /// </summary>
+        POST,
         /// <summary>
         /// The PUT method.
         /// </summary>
