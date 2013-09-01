@@ -64,7 +64,7 @@
       <DependentUpon>HtmlFiles.resx</DependentUpon>
     </Compile>
     <Compile Include="Tools\W3CCreator.cs" />
-    <Compile Include="Tools\XMLConfTestCreator.cs" />
+    <Compile Include="Tools\XMLConfTest.cs" />
     <Compile Include="Assets\XmlFiles.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

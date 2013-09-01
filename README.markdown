@@ -3,14 +3,24 @@ AngleSharp
 
 AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, MathML and XML. CSS can also be parsed with this library. The parser is build upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code.
 
-The advantage over similar libraries like the HtmlAgilityPack is that CSS (including selectors) is already build in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. While the HtmlAgilityPack focuses on giving .NET users a nice and easy way to handle HTML documents, this library focuses on giving web developers working with C# all possibilities as they would have in a browser using JavaScript.
+The advantage over similar libraries like the HtmlAgilityPack is that e.g. CSS (including selectors) is already build in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. While the HtmlAgilityPack focuses on giving .NET users a nice and easy way to handle HTML documents, this library focuses on giving web developers working with C# all possibilities as they would have in a browser using JavaScript. Hence the DOM is build in a more reliable, standard-conform and faster way than with the other solutions.
+
+Documentation
+-------------
+
+Documentation is available in form of the public Wiki here at GitHub. 
+* [Wiki Home](https://github.com/FlorianRappl/AngleSharp/wiki)
+* [Documentation](https://github.com/FlorianRappl/AngleSharp/wiki/Documentation)
+* [Examples](https://github.com/FlorianRappl/AngleSharp/wiki/Examples)
+
+More information is also available by following some of the hyper references mentioned in the Wiki.
 
 Current status
 --------------
 
 The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML, XML and CSS to the CLR, written in C#. The idea is that you can can basically do everything with the DOM in C# that you can do in JavaScript.
 
-The naming convention has been changing from camelCase to PascalCase (upper camel case). This is intentional to fit the .NET naming coventions. Nevertheless as a long-term plan all W3C defined IDL properties and methods will be decorated with attributes that contain the original name, which will highly simplify using the library in combination with, e.g. V8 and JavaScript files that can then also be used in a browser.
+The naming convention has been changing from camelCase to PascalCase (upper camel case). This is intentional to fit the .NET naming conventions. Nevertheless all W3C defined IDL properties and methods are or will be decorated with an attribute called `DOM`, which contains the original name. This automates the process of separating W3C defined properties and methods from custom helpers / additions.
 
 This is a long-term project which will eventually result in a state of the art parser for the most important angle bracket based hyper-texts (and related description languages like CSS).
 
