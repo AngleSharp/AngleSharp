@@ -2529,7 +2529,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Returns the value of a property.
         /// </summary>
-        /// <param name="propertyName">The name of the property to get the priority of.</param>
+        /// <param name="propertyName">The name of the property to get the value of.</param>
         /// <returns>A value or null if nothing has been set.</returns>
         [DOM("getPropertyValue")]
         public String GetPropertyValue(String propertyName)
@@ -2552,9 +2552,14 @@ namespace AngleSharp.DOM.Collections
         [DOM("setProperty")]
         public CSSStyleDeclaration SetProperty(String propertyName, String propertyValue)
         {
-            //_rules.Add(CssParser.ParseDeclaration(propertyName + ":" + propertyValue));
-            //TODO
-            Propagate();
+            var decl = CssParser.ParseDeclaration(propertyName + ":" + propertyValue);
+
+            if (decl != null)
+            {
+                _rules.Add(decl);
+                Propagate();
+            }
+
             return this;
         }
 

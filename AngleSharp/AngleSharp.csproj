@@ -40,6 +40,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Css\CssTokenizer.cs" />
     <Compile Include="Events\ParseErrorEventHandler.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Foundation\Constants\AttributeNames.cs" />
     <Compile Include="Foundation\Constants\Headers.cs" />
     <Compile Include="Foundation\Requests\DefaultHttpRequest.cs" />

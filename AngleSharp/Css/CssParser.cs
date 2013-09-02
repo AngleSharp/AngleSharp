@@ -1178,6 +1178,25 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
+        /// Takes a string and transforms it into a CSS declaration (CSS property).
+        /// </summary>
+        /// <param name="declarations">The string to parse.</param>
+        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        /// <returns>The CSSProperty object.</returns>
+        public static CSSProperty ParseDeclaration(String declarations, Boolean quirksMode = false)
+        {
+            var parser = new CssParser(declarations);
+            parser.IsQuirksMode = quirksMode;
+            parser.ignore = false;
+            var it = parser.tokenizer.Iterator;
+
+            if (it.MoveNext())
+                return parser.CreateDeclaration(it);
+
+            return null;
+        }
+
+        /// <summary>
         /// Takes a string and transforms it into CSS declarations.
         /// </summary>
         /// <param name="declarations">The string to parse.</param>
