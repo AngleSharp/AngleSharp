@@ -53,5 +53,37 @@ namespace AngleSharp
 
             return elements;
         }
+
+        /// <summary>
+        /// Sets the inner HTML of the given elements.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="html">The source code of the inner HTML to set.</param>
+        /// <returns>The collection itself.</returns>
+        public static T Html<T>(this T elements, String html)
+            where T : IEnumerable<Element>
+        {
+            foreach (var element in elements)
+                element.InnerHTML = html;
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Sets the text content of the given elements.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="text">The text that should be set.</param>
+        /// <returns>The collection itself.</returns>
+        public static T Text<T>(this T elements, String text)
+            where T : IEnumerable<Element>
+        {
+            foreach (var element in elements)
+                element.TextContent = text;
+
+            return elements;
+        }
     }
 }
