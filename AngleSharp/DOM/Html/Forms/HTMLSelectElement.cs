@@ -177,6 +177,17 @@ namespace AngleSharp.DOM.Html
 
         #region Helpers
 
+        internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
+        {
+            var options = _options.Elements;
+
+            foreach (var option in options)
+            {
+                if (option.Selected && !option.Disabled)
+                    dataSet.Append(Name, option.Value, Multiple ? "select-one" : "select-multiple");
+            }
+        }
+
         /// <summary>
         /// Entry point for attributes to notify about a change (modified, added, removed).
         /// </summary>

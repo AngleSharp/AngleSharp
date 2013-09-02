@@ -116,5 +116,15 @@ namespace AngleSharp
         /// The shape attribute.
         /// </summary>
         public const String SHAPE = "shape";
+
+        /// <summary>
+        /// The formnovalidate attribute.
+        /// </summary>
+        public const String FORMNOVALIDATE = "formnovalidate";
+
+        /// <summary>
+        /// The dirname attribute.
+        /// </summary>
+        public const String DIRNAME = "dirname";
     }
 }

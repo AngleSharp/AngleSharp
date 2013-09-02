@@ -13,6 +13,11 @@ namespace AngleSharp
         public static readonly String Html = "text/html";
 
         /// <summary>
+        /// Gets the mime-type for the text data, text/plain.
+        /// </summary>
+        public static readonly String Plain = "text/plain";
+
+        /// <summary>
         /// Gets the mime-type for XML text: text/xml.
         /// </summary>
         public static readonly String Xml = "text/xml";
@@ -31,6 +36,16 @@ namespace AngleSharp
         /// Gets the mime-type for binary data, application/octet-stream.
         /// </summary>
         public static readonly String Binary = "application/octet-stream";
+
+        /// <summary>
+        /// Gets the mime-type for form data, application/x-www-form-urlencoded.
+        /// </summary>
+        public static readonly String StandardForm = "application/x-www-form-urlencoded";
+
+        /// <summary>
+        /// Gets the mime-type for multipart form data, multipart/form-data.
+        /// </summary>
+        public static readonly String MultipartForm = "multipart/form-data";
 
         /// <summary>
         /// Gets a list of mime-types that are recognized as JavaScript.

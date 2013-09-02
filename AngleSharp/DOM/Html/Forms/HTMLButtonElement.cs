@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AngleSharp.DOM.Html
 {
@@ -8,6 +9,12 @@ namespace AngleSharp.DOM.Html
     [DOM("HTMLButtonElement")]
     public sealed class HTMLButtonElement : HTMLFormControlElement
     {
+        #region Members
+
+        String _value;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -97,6 +104,16 @@ namespace AngleSharp.DOM.Html
             set { if (Form != null) Form.Target = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the current value of the control.
+        /// </summary>
+        [DOM("value")]
+        public String Value
+        {
+            get { return _value ?? String.Empty; }
+            set { _value = value; }
+        }
+
         #endregion
 
         #region Design properties
@@ -129,6 +146,23 @@ namespace AngleSharp.DOM.Html
         protected internal override Boolean IsSpecial
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region Helper
+
+        /// <summary>
+        /// Constucts the data set (called from a form).
+        /// </summary>
+        /// <param name="dataSet">The dataset to construct.</param>
+        /// <param name="submitter">The given submitter.</param>
+        internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
+        {
+            if (this == submitter)
+                return;
+            else if (Type == ButtonType.Submit || Type == ButtonType.Reset)
+                dataSet.Append(Name, Value, Type.ToString());
         }
 
         #endregion

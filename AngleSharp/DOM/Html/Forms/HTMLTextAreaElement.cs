@@ -105,6 +105,26 @@ namespace AngleSharp.DOM.Html
         #region Helpers
 
         /// <summary>
+        /// Constucts the data set (called from a form).
+        /// </summary>
+        /// <param name="dataSet">The dataset to construct.</param>
+        /// <param name="submitter">The given submitter.</param>
+        internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
+        {
+            dataSet.Append(Name, Value, Type.ToString());
+
+            if (_attributes[AttributeNames.DIRNAME] != null)
+            {
+                var dirname = _attributes[AttributeNames.DIRNAME].Value;
+
+                if (String.IsNullOrEmpty(dirname))
+                    return;
+
+                dataSet.Append(dirname, Dir.ToString().ToLower(), "Direction");
+            }
+        }
+
+        /// <summary>
         /// Checks the form control for validity.
         /// </summary>
         /// <param name="state">The element's validity state tracker.</param>

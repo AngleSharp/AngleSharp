@@ -1,5 +1,6 @@
 ﻿using System;
 using AngleSharp.DOM.Collections;
+using System.Collections.Generic;
 
 namespace AngleSharp.DOM.Html
 {
@@ -175,8 +176,7 @@ namespace AngleSharp.DOM.Html
         [DOM("submit")]
         public HTMLFormElement Submit()
         {
-            //TODO
-            //http://www.w3.org/html/wg/drafts/html/master/forms.html#dom-form-submit
+            SubmitForm(this, true);
             return this;
         }
 
@@ -211,18 +211,154 @@ namespace AngleSharp.DOM.Html
 
         #region Helpers
 
+        void SubmitForm(HTMLElement from, Boolean submittedFromSubmitMethod)
+        {
+            var formDocument = OwnerDocument;
+
+            //TODO
+            //If form document has no associated browsing context or its active
+            //sandboxing flag set has its sandboxed forms browsing context flag
+            //set, then abort these steps without doing anything.
+
+            var browsingContext = new object();//TODO
+
+            if (!submittedFromSubmitMethod && from.Attributes[AttributeNames.FORMNOVALIDATE] == null && NoValidate)
+            {
+                if (!CheckValidity())
+                {
+                    FireSimpleEvent(EventNames.INVALID);
+                    return;
+                }
+            }
+
+            var formDataSet = ConstructDataSet();
+            var action = Action;
+
+            if (String.IsNullOrEmpty(action))
+                action = formDocument.DocumentURI;
+
+            if (!Location.IsAbsolute(action))
+                action = Location.MakeAbsolute(from.BaseURI, action);
+
+            //Enctype
+            //Method
+            //Target
+
+            //TODO
+            //If the user indicated a specific browsing context to use when submitting
+            //the form, then let target browsing context be that browsing context.
+            //Otherwise, apply the rules for choosing a browsing context given a browsing
+            //context name using target as the name and form browsing context as the
+            //context in which the algorithm is executed, and let target browsing context
+            //be the resulting browsing context.
+
+            //TODO
+            //If target browsing context was created in the previous step, or, alternatively,
+            //if the form document has not yet completely loaded and the submitted from
+            //submit() method is set, then let replace be true. Otherwise, let it be false
+
+            var replace = false;
+            var location = new Location(action);
+
+            switch (location.Protocol)
+            {
+                case "http:":
+                case "https:":
+                    if (Method == HttpMethod.GET)
+                        MutateActionUrl();
+                    else if (Method == HttpMethod.POST)
+                        SubmitAsEntityBody();
+                    break;
+
+                case "ftp:":
+                case "javascript:":
+                    GetActionUrl();
+                    break;
+
+                case "data:":
+                    if (Method == HttpMethod.GET)
+                        GetActionUrl();
+                    else if (Method == HttpMethod.POST)
+                        PostToData();
+                    break;
+
+                case "mailto:":
+                    if (Method == HttpMethod.GET)
+                        MailWithHeaders();
+                    else if (Method == HttpMethod.POST)
+                        MailAsBody();
+                    break;
+            }
+
+            //TODO
+        }
+
+        /// <summary>
+        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-data-post
+        /// </summary>
+        void PostToData()
+        {
+        }
+
+        /// <summary>
+        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-headers
+        /// </summary>
+        void MailWithHeaders()
+        {
+        }
+
+        /// <summary>
+        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-body
+        /// </summary>
+        void MailAsBody()
+        {
+        }
+
+        /// <summary>
+        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-get-action
+        /// </summary>
+        void GetActionUrl()
+        {
+        }
+
+        /// <summary>
+        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-body
+        /// </summary>
+        void SubmitAsEntityBody()
+        {
+        }
+
+        /// <summary>
+        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mutate-action
+        /// </summary>
+        void MutateActionUrl()
+        {
+        }
+
+        FormDataSet ConstructDataSet(HTMLElement submitter = null)
+        {
+            var formDataSet = new FormDataSet();
+            var fields = _elements.Elements;
+
+            foreach (var field in fields)
+            {
+                if (field.ParentElement is HTMLDataListElement)
+                    continue;
+                else if (field.Disabled)
+                    continue;
+
+                field.ConstructDataSet(formDataSet, submitter);
+            }
+
+            return formDataSet;
+        }
+
         String CheckEncType(String encType)
         {
-            switch (encType)
-            {
-                case "application/x-www-form-urlencoded":
-                case "multipart/form-data":
-                case "text/plain":
-                    return encType;
+            if (encType == MimeTypes.Plain || encType == MimeTypes.MultipartForm)
+                return encType;
 
-                default:
-                    return "application/x-www-form-urlencoded";
-            }
+            return MimeTypes.StandardForm;
         }
 
         #endregion

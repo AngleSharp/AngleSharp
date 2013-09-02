@@ -1,5 +1,6 @@
 ﻿using AngleSharp.DOM.Collections;
 using System;
+using System.Collections.Generic;
 
 namespace AngleSharp.DOM.Html
 {
@@ -145,6 +146,14 @@ namespace AngleSharp.DOM.Html
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Constucts the data set (called from a form).
+        /// </summary>
+        /// <param name="dataSet">The dataset to construct.</param>
+        /// <param name="submitter">The given submitter.</param>
+        internal virtual void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
+        { }
 
         /// <summary>
         /// Resets the form control to its initial value.

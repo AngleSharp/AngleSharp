@@ -39,10 +39,13 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Css\CssTokenizer.cs" />
+    <Compile Include="DOM\Objects\FileEntry.cs" />
     <Compile Include="Events\ParseErrorEventHandler.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Foundation\Constants\AttributeNames.cs" />
+    <Compile Include="Foundation\Constants\EventNames.cs" />
     <Compile Include="Foundation\Constants\Headers.cs" />
+    <Compile Include="Foundation\FormDataSet.cs" />
     <Compile Include="Foundation\Info.cs" />
     <Compile Include="Foundation\Requests\DefaultHttpRequest.cs" />
     <Compile Include="Foundation\Requests\DefaultHttpRequester.cs" />

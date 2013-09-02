@@ -1031,6 +1031,19 @@ namespace AngleSharp.DOM
         #region Helpers
 
         /// <summary>
+        /// Firing a simple event named e means that a trusted event with the name e,
+        /// which does not bubble (except where otherwise stated) and is not cancelable
+        /// (except where otherwise stated), and which uses the Event interface, must
+        /// be created and dispatched at the given target.
+        /// </summary>
+        /// <param name="eventName">The name of the event to be fired.</param>
+        protected void FireSimpleEvent(String eventName)
+        {
+            //TODO
+            //http://www.w3.org/html/wg/drafts/html/master/webappapis.html#fire-a-simple-event
+        }
+
+        /// <summary>
         /// Gets the hyperreference of the given URL -
         /// transforming the given (relative) URL to an absolute URL
         /// if required.

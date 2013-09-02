@@ -1,5 +1,6 @@
 ﻿using AngleSharp.DOM.Collections;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace AngleSharp.DOM.Html
@@ -532,6 +533,84 @@ namespace AngleSharp.DOM.Html
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Constucts the data set (called from a form).
+        /// </summary>
+        /// <param name="dataSet">The dataset to construct.</param>
+        /// <param name="submitter">The given submitter.</param>
+        internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
+        {
+            switch (Type)
+            {
+                case InputType.Radio:
+                case InputType.Checkbox:
+                {
+                    if (Checked)
+                    {
+                        var value = "on";
+
+                        if (!String.IsNullOrEmpty(Value))
+                            value = Value;
+
+                        dataSet.Append(Name, value, Type.ToString());
+                    }
+
+                    break;
+                }
+                case InputType.Image:
+                {
+                    if (!String.IsNullOrEmpty(Name))
+                    {
+                        var name = String.Empty;
+
+                        if (!String.IsNullOrEmpty(Value))
+                            name = Value + ".";
+
+                        var namex = name + "x";
+                        var namey = name + "y";
+
+                        //TODO get x and y of submitter and save those
+                        dataSet.Append(namex, "0", Type.ToString());
+                        dataSet.Append(namey, "0", Type.ToString());
+                    }
+
+                    break;
+                }
+                case InputType.File:
+                {
+                    if(_files.Length == 0)
+                        dataSet.Append(Name, String.Empty, "application/octet-stream");
+
+                    foreach (var file in _files)
+                        dataSet.Append(Name, file, Type.ToString());
+
+                    break;
+                }
+                case InputType.Text:
+                case InputType.Search:
+                {
+                    dataSet.Append(Name, Value, Type.ToString());
+
+                    if (_attributes[AttributeNames.DIRNAME] != null)
+                    {
+                        var dirname = _attributes[AttributeNames.DIRNAME].Value;
+
+                        if (String.IsNullOrEmpty(dirname))
+                            break;
+
+                        dataSet.Append(dirname, Dir.ToString().ToLower(), "Direction");
+                    }
+
+                    break;
+                }
+                default:
+                {
+                    dataSet.Append(Name, Value, Type.ToString());
+                    break;
+                }
+            }
+        }
 
         /// <summary>
         /// Takes the given number of steps.
