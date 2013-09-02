@@ -72,6 +72,7 @@
     <Compile Include="Html\HtmlTemplate.cs" />
     <Compile Include="Library\ConfigurationTests.cs" />
     <Compile Include="Library\LiveCollection.cs" />
+    <Compile Include="Library\DOMExtensions.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Xml\DTDTree.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
