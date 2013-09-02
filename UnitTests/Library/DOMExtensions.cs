@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp;
+using AngleSharp.DOM;
 
 namespace UnitTests
 {
@@ -139,6 +140,167 @@ namespace UnitTests
             var color = style4[1];
             Assert.AreEqual("color", color);
             Assert.AreEqual("red", style4.GetPropertyValue(color));
+        }
+
+        [TestMethod]
+        public void ExtensionTextWithEmptyList()
+        {
+            var document = DocumentBuilder.Html("");
+            var elements = document.QuerySelectorAll("li").Text("test");
+            Assert.AreEqual(0, elements.Length);
+        }
+
+        [TestMethod]
+        public void ExtensionTextWithOneElement()
+        {
+            var document = DocumentBuilder.Html("<ul><li>First element");
+            var elements = document.QuerySelectorAll("li").Text("test");
+            Assert.AreEqual(1, elements.Length);
+
+            var text = elements[0].TextContent;
+            Assert.AreEqual(1, elements[0].ChildNodes.Length);
+            Assert.AreEqual("test", text);
+        }
+
+        [TestMethod]
+        public void ExtensionTextWithMultipleElements()
+        {
+            var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
+            var elements = document.QuerySelectorAll("li").Text("test");
+            Assert.AreEqual(4, elements.Length);
+
+            var text1 = elements[0].ChildNodes;
+            Assert.AreEqual(1, text1.Length);
+
+            var test1 = text1[0];
+            Assert.AreEqual("test", test1.TextContent);
+
+            var text2 = elements[1].ChildNodes;
+            Assert.AreEqual(1, text2.Length);
+
+            var test2 = text2[0];
+            Assert.AreEqual("test", test2.TextContent);
+
+            var text3 = elements[2].ChildNodes;
+            Assert.AreEqual(1, text3.Length);
+
+            var test3 = text3[0];
+            Assert.AreEqual("test", test3.TextContent);
+
+            var text4 = elements[3].ChildNodes;
+            Assert.AreEqual(1, text4.Length);
+
+            var test4 = text4[0];
+            Assert.AreEqual("test", test4.TextContent);
+        }
+
+        [TestMethod]
+        public void ExtensionHtmlWithEmptyList()
+        {
+            var document = DocumentBuilder.Html("");
+            var elements = document.QuerySelectorAll("li").Html("<p>Some paragraph</p>");
+            Assert.AreEqual(0, elements.Length);
+        }
+
+        [TestMethod]
+        public void ExtensionHtmlWithOneElement()
+        {
+            var document = DocumentBuilder.Html("<ul><li>First element");
+            var elements = document.QuerySelectorAll("li").Html("<b><i>Text</i></b>");
+            Assert.AreEqual(1, elements.Length);
+
+            var childs = elements[0].ChildNodes;
+            Assert.AreEqual(1, childs.Length);
+
+            var bold = childs[0];
+            Assert.AreEqual(NodeType.Element, bold.NodeType);
+            Assert.AreEqual("b", bold.NodeName);
+            Assert.AreEqual(1, bold.ChildNodes.Length);
+
+            var italic = bold.ChildNodes[0];
+            Assert.AreEqual(NodeType.Element, italic.NodeType);
+            Assert.AreEqual("i", italic.NodeName);
+            Assert.AreEqual(1, italic.ChildNodes.Length);
+
+            var text = italic.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+            Assert.AreEqual("Text", text.TextContent);
+        }
+
+        [TestMethod]
+        public void ExtensionHtmlWithMultipleElements()
+        {
+            var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
+            var elements = document.QuerySelectorAll("li").Html("<b><i>Text</i></b>");
+            Assert.AreEqual(4, elements.Length);
+
+            for (int i = 0; i < 4; i++)
+            {
+                Assert.AreEqual(1, elements[i].ChildNodes.Length);
+
+                var bold = elements[i].ChildNodes[0];
+                Assert.AreEqual(NodeType.Element, bold.NodeType);
+                Assert.AreEqual("b", bold.NodeName);
+                Assert.AreEqual(1, bold.ChildNodes.Length);
+
+                var italic = bold.ChildNodes[0];
+                Assert.AreEqual(NodeType.Element, italic.NodeType);
+                Assert.AreEqual("i", italic.NodeName);
+                Assert.AreEqual(1, italic.ChildNodes.Length);
+
+                var text = italic.ChildNodes[0];
+                Assert.AreEqual(NodeType.Text, text.NodeType);
+                Assert.AreEqual("Text", text.TextContent);
+            }
+        }
+
+        [TestMethod]
+        public void ExtensionHtmlWithMultipleNestedElements()
+        {
+            var document = DocumentBuilder.Html("<ul><li>First element</li><li>Second element</li><li>third</li><li class=bla><ul><li>First nested</li><li>Second nested</li><li><ul><li>Last nesting level</li></ul></li></ul></li>");
+            var elements = document.QuerySelectorAll("li").Html("<b><i>Text</i></b>");
+            Assert.AreEqual(8, elements.Length);
+
+            for (int i = 0; i < elements.Length; i++)
+            {
+                Assert.AreEqual(1, elements[i].ChildNodes.Length);
+
+                var bold = elements[i].ChildNodes[0];
+                Assert.AreEqual(NodeType.Element, bold.NodeType);
+                Assert.AreEqual("b", bold.NodeName);
+                Assert.AreEqual(1, bold.ChildNodes.Length);
+
+                var italic = bold.ChildNodes[0];
+                Assert.AreEqual(NodeType.Element, italic.NodeType);
+                Assert.AreEqual("i", italic.NodeName);
+                Assert.AreEqual(1, italic.ChildNodes.Length);
+
+                var text = italic.ChildNodes[0];
+                Assert.AreEqual(NodeType.Text, text.NodeType);
+                Assert.AreEqual("Text", text.TextContent);
+            }
+
+            var elementsInDocument = document.QuerySelectorAll("li");
+            Assert.AreEqual(4, elementsInDocument.Length);
+
+            for (int i = 0; i < elements.Length; i++)
+            {
+                Assert.AreEqual(1, elements[i].ChildNodes.Length);
+
+                var bold = elements[i].ChildNodes[0];
+                Assert.AreEqual(NodeType.Element, bold.NodeType);
+                Assert.AreEqual("b", bold.NodeName);
+                Assert.AreEqual(1, bold.ChildNodes.Length);
+
+                var italic = bold.ChildNodes[0];
+                Assert.AreEqual(NodeType.Element, italic.NodeType);
+                Assert.AreEqual("i", italic.NodeName);
+                Assert.AreEqual(1, italic.ChildNodes.Length);
+
+                var text = italic.ChildNodes[0];
+                Assert.AreEqual(NodeType.Text, text.NodeType);
+                Assert.AreEqual("Text", text.TextContent);
+            }
         }
     }
 }
