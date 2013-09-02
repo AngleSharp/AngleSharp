@@ -43,6 +43,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Foundation\Constants\AttributeNames.cs" />
     <Compile Include="Foundation\Constants\Headers.cs" />
+    <Compile Include="Foundation\Info.cs" />
     <Compile Include="Foundation\Requests\DefaultHttpRequest.cs" />
     <Compile Include="Foundation\Requests\DefaultHttpRequester.cs" />
     <Compile Include="Foundation\Requests\DefaultHttpResponse.cs" />
