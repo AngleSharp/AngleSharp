@@ -55,6 +55,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Assets.resx</DependentUpon>
     </Compile>
+    <Compile Include="Helper.cs" />
     <Compile Include="Library\Color.cs" />
     <Compile Include="Css\CssSheet.cs" />
     <Compile Include="Css\CssTokenization.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Library\ConfigurationTests.cs" />
     <Compile Include="Library\LiveCollection.cs" />
     <Compile Include="Library\DOMExtensions.cs" />
+    <Compile Include="Library\TestRequester.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Xml\DTDTree.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
