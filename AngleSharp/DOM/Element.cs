@@ -552,13 +552,12 @@ namespace AngleSharp.DOM
 
             if (_ns != null)
             {
-                //TODO
-                //http://www.w3.org/TR/DOM-Level-3-Core/namespaces-algorithms.html#isDefaultNamespaceAlgo
+                if ((_prefix != null || !IsDefaultNamespace(_ns)) && (_prefix == null || LookupNamespaceURI(_prefix) != _ns))
+                    SetAttributeNS(Namespaces.XmlNS, Namespaces.DeclarationFor(_prefix), _ns);
             }
-            else
+            else if (LocalName != null)
             {
                 //TODO
-                //http://www.w3.org/TR/DOM-Level-3-Core/namespaces-algorithms.html#isDefaultNamespaceAlgo
             }
 
             for (int i = 0; i < _attributes.Length; i++)
@@ -662,19 +661,16 @@ namespace AngleSharp.DOM
             if (!String.IsNullOrEmpty(_ns) && Prefix == prefix)
                 return _ns;
 
-            if (HasAttributes)
+            for (int i = 0; i < _attributes.Length; i++)
             {
-                for (int i = 0; i < _attributes.Length; i++)
+                var attr = _attributes[i];
+
+                if ((attr.Prefix == Namespaces.Declaration && attr.LocalName == prefix) || (attr.LocalName == Namespaces.Declaration && prefix == null))
                 {
-                    var attr = _attributes[i];
+                    if (!String.IsNullOrEmpty(attr.NodeValue))
+                        return attr.NodeValue;
 
-                    if ((attr.Prefix == Namespaces.Declaration && attr.LocalName == prefix) || (attr.LocalName == Namespaces.Declaration && prefix == null))
-                    {
-                        if (!String.IsNullOrEmpty(attr.NodeValue))
-                            return attr.NodeValue;
-
-                        return null;
-                    }
+                    return null;
                 }
             }
 
@@ -685,19 +681,21 @@ namespace AngleSharp.DOM
         }
 
         /// <summary>
-        /// Accepts a namespace URI as an argument and returns true if the namespace is the default namespace on the given node or false if not.
+        /// Accepts a namespace URI as an argument and returns true if the namespace is the default
+        /// namespace on the given node or false if not.
         /// </summary>
-        /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
+        /// <param name="namespaceURI">A string representing the namespace against which the element
+        /// will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
         [DOM("isDefaultNamespace")]
         public override Boolean IsDefaultNamespace(String namespaceURI)
         { 
-            if (string.IsNullOrEmpty(Prefix))
+            if (String.IsNullOrEmpty(Prefix))
                 return _ns == namespaceURI;
 
             var ns = GetAttribute(Namespaces.Declaration);
 
-             if (!string.IsNullOrEmpty(ns))
+             if (!String.IsNullOrEmpty(ns))
                  return ns == namespaceURI;
 
              if (_parent != null)

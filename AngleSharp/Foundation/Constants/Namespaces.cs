@@ -89,6 +89,19 @@ namespace AngleSharp
         #region Methods
 
         /// <summary>
+        /// Gets the declaration for the given prefix.
+        /// </summary>
+        /// <param name="prefix">The prefix or null for the default namespace.</param>
+        /// <returns>The name for the declaration attribute.</returns>
+        public static String DeclarationFor(String prefix)
+        {
+            if(String.IsNullOrEmpty(prefix))
+                return Declaration;
+
+            return Declaration + ":" + prefix;
+        }
+
+        /// <summary>
         /// Gets the namespace URI for the given prefix.
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
