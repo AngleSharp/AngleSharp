@@ -145,7 +145,7 @@ namespace Samples.ViewModels
 
         String FindName(MemberInfo member)
         {
-            var objs = member.GetCustomAttributes(typeof(DOMAttribute), false);
+            var objs = member.GetCustomAttributes(typeof(DOMAttribute), true);
 
             if (objs.Length == 0)
                 return member.Name;
