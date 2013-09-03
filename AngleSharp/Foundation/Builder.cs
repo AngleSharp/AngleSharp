@@ -18,13 +18,16 @@ namespace AngleSharp
     {
         public static void StyleFromSource(CSSStyleSheet sheet, String source)
         {
-            var parser = new CssParser(sheet, source);
-            parser.Parse();
+            if (sheet.Options.IsStyling)
+            {
+                var parser = new CssParser(sheet, source);
+                parser.Parse();
+            }
         }
 
         public static async Task StyleFromUrl(CSSStyleSheet sheet, String url, CancellationToken cancel)
         {
-            if (Configuration.UseDefaultHttpRequester)
+            if (sheet.Options.IsStyling && Configuration.UseDefaultHttpRequester)
             {
                 var stream = await GetFromUrl(url, cancel);
                 var parser = new CssParser(sheet, stream);

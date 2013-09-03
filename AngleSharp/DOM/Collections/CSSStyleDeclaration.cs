@@ -31,7 +31,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         internal CSSStyleDeclaration()
         {
-            String text = String.Empty;
+            var text = String.Empty;
             _getter = () => text;
             _setter = value => text = value;
             _rules = new List<CSSProperty>();
@@ -44,8 +44,8 @@ namespace AngleSharp.DOM.Collections
         /// <param name="host">The element to host this representation.</param>
         internal CSSStyleDeclaration(Element host)
         {
-            _getter = () => host.GetAttribute("style");
-            _setter = value => host.SetAttribute("style", value);
+            _getter = () => (host.OwnerDocument == null || host.OwnerDocument.Options.IsStyling) ? host.GetAttribute(AttributeNames.STYLE) : String.Empty;
+            _setter = value => host.SetAttribute(AttributeNames.STYLE, value);
             _rules = new List<CSSProperty>();
         }
 
@@ -2610,7 +2610,7 @@ namespace AngleSharp.DOM.Collections
         /// <summary>
         /// Returns the CSS representation of the list of rules.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A string containing the CSS code of the declarations.</returns>
         public String ToCss()
         {
             var sb = new StringBuilder();

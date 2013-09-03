@@ -16,6 +16,7 @@ namespace AngleSharp.DOM.Css
         StyleSheet _parent;
         MediaList _media;
         String _url;
+        DocumentOptions _options;
 
         #endregion
 
@@ -110,6 +111,29 @@ namespace AngleSharp.DOM.Css
         public MediaList Media
         {
             get { return _media; }
+        }
+
+        #endregion
+
+        #region Internal Properties
+
+        /// <summary>
+        /// Gets or sets the document options.
+        /// </summary>
+        internal DocumentOptions Options
+        {
+            get 
+            {
+                if (_options != null)
+                    return _options;
+                else if (_owner != null && _owner.OwnerDocument != null)
+                    return _owner.OwnerDocument.Options;
+                else if (_parent != null)
+                    return _parent.Options;
+
+                return DocumentOptions.Default; 
+            }
+            set { _options = value; }
         }
 
         #endregion
