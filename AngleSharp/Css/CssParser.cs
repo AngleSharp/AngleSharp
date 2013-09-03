@@ -24,7 +24,7 @@ namespace AngleSharp.Css
         Boolean quirksFlag;
         CssTokenizer tokenizer;
         CSSStyleSheet sheet;
-        TaskCompletionSource<Boolean> tcs;
+        Task task;
         StringBuilder buffer;
         Stack<CSSRule> open;
         Boolean ignore;
@@ -116,7 +116,7 @@ namespace AngleSharp.Css
         /// </summary>
         public Boolean IsAsync
         {
-            get { return tcs != null; }
+            get { return task != null; }
         }
 
         /// <summary>
@@ -154,7 +154,6 @@ namespace AngleSharp.Css
 
         /// <summary>
         /// Parses the given source asynchronously and creates the stylesheet.
-        /// WARNING: This method is not yet implemented.
         /// </summary>
         /// <returns>The task which could be awaited or continued differently.</returns>
         public Task ParseAsync()
@@ -162,18 +161,12 @@ namespace AngleSharp.Css
             if (!started)
             {
                 started = true;
-                tcs = new TaskCompletionSource<bool>();
-                //TODO
-                return tcs.Task;
+                task = Task.Run(() => AppendRules());
             }
-            else if (tcs == null)
-            {
-                var temp = new TaskCompletionSource<bool>();
-                temp.SetResult(true);
-                return temp.Task;
-            }
+            else if (task == null)
+                throw new InvalidOperationException("The parser has already run synchronously.");
 
-            return tcs.Task;
+            return task;
         }
 
         /// <summary>
@@ -184,13 +177,22 @@ namespace AngleSharp.Css
             if (!started)
             {
                 started = true;
-                AppendRules(tokenizer.Iterator, sheet.CssRules.List);
+                AppendRules();
             }
         }
 
         #endregion
 
         #region Stylesheet construction
+
+        /// <summary>
+        /// Appends rules from the document's source
+        /// to the stylesheet's list of rules.
+        /// </summary>
+        void AppendRules()
+        {
+            AppendRules(tokenizer.Iterator, sheet.CssRules.List);
+        }
 
         /// <summary>
         /// Appends rules from the given source to the list of rules.

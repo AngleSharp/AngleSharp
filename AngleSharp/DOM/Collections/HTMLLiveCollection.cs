@@ -131,22 +131,22 @@ namespace AngleSharp.DOM.Collections
 
         static IEnumerable<T> GetElementsOf(Node parent)
         {
-            foreach (var child in parent.ChildNodes)
+            for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
-                if (child is T)
-                    yield return (T)child;
+                if (parent.ChildNodes[i] is T)
+                    yield return (T)parent.ChildNodes[i];
 
-                foreach (var element in GetElementsOf(child))
+                foreach (var element in GetElementsOf(parent.ChildNodes[i]))
                     yield return element;
             }
         }
 
         static IEnumerable<T> GetOnlyElementsOf(Node parent)
         {
-            foreach (var child in parent.ChildNodes)
+            for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
-                if (child is T)
-                    yield return (T)child;
+                if (parent.ChildNodes[i] is T)
+                    yield return (T)parent.ChildNodes[i];
             }
         }
 
@@ -314,8 +314,10 @@ namespace AngleSharp.DOM.Collections
 
         static IEnumerable<Element> GetElementsOf(Node parent)
         {
-            foreach (var child in parent.ChildNodes)
+            for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
+                var child = parent.ChildNodes[i];
+
                 if (child is T1 || child is T2 || child is T3)
                     yield return (Element)child;
 
@@ -326,8 +328,10 @@ namespace AngleSharp.DOM.Collections
 
         static IEnumerable<Element> GetOnlyElementsOf(Node parent)
         {
-            foreach (var child in parent.ChildNodes)
+            for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
+                var child = parent.ChildNodes[i];
+
                 if (child is T1 || child is T2 || child is T3)
                     yield return (Element)child;
             }

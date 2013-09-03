@@ -34,9 +34,9 @@ namespace AngleSharp.Html
         Int32 nesting;
         Boolean pause;
         Boolean started;
-        TaskCompletionSource<Boolean> tcs;
         HTMLScriptElement pendingParsingBlock;
         Stack<HtmlTreeMode> templateMode;
+        Task task;
 
         #endregion
 
@@ -139,7 +139,7 @@ namespace AngleSharp.Html
         /// </summary>
         public Boolean IsAsync
         {
-            get { return tcs != null; }
+            get { return task != null; }
         }
 
         /// <summary>
@@ -182,7 +182,6 @@ namespace AngleSharp.Html
 
         /// <summary>
         /// Parses the given source asynchronously and creates the document.
-        /// WARNING: This method is not yet implemented.
         /// </summary>
         /// <returns>The task which could be awaited or continued differently.</returns>
         public Task ParseAsync()
@@ -190,18 +189,12 @@ namespace AngleSharp.Html
             if (!started)
             {
                 started = true;
-                tcs = new TaskCompletionSource<bool>();
-                //TODO
-                return tcs.Task;
+                task = Task.Run(() => Kernel());
             }
-            else if (tcs == null)
-            {
-                var temp = new TaskCompletionSource<bool>();
-                temp.SetResult(true);
-                return temp.Task;
-            }
+            else if (task == null)
+                throw new InvalidOperationException("The parser has already run synchronously.");
 
-            return tcs.Task;
+            return task;
         }
 
         /// <summary>
@@ -212,14 +205,7 @@ namespace AngleSharp.Html
             if (!started)
             {
                 started = true;
-                HtmlToken token;
-
-                do
-                {
-                    token = tokenizer.Get();
-                    Consume(token);
-                }
-                while (token.Type != HtmlTokenType.EOF);
+                Kernel();
             }
         }
 
@@ -3651,6 +3637,21 @@ namespace AngleSharp.Html
         #region Helpers
 
         /// <summary>
+        /// The kernel that is pulling the tokens into the parser.
+        /// </summary>
+        void Kernel()
+        {
+            HtmlToken token;
+
+            do
+            {
+                token = tokenizer.Get();
+                Consume(token);
+            }
+            while (token.Type != HtmlTokenType.EOF);
+        }
+
+        /// <summary>
         /// If there is a node in the stack of open elements that is not either a dd element, a dt element, an
         /// li element, a p element, a tbody element, a td element, a tfoot element, a th element, a thead
         /// element, a tr element, the body element, or the html element, then this is a parse error.
@@ -3782,8 +3783,6 @@ namespace AngleSharp.Html
 
             //11. The Document is now ready for post-load tasks.
             doc.QueueTask(doc.RaiseLoadedEvent);
-
-            if (IsAsync) tcs.SetResult(true);
         }
 
         #endregion

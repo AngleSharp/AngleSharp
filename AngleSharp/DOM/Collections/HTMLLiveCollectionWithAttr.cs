@@ -41,8 +41,10 @@ namespace AngleSharp.DOM.Collections
 
         IEnumerable<Element> GetElementsOf(Node parent)
         {
-            foreach (var child in parent.ChildNodes)
+            for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
+                var child = parent.ChildNodes[i];
+
                 if (child is T && child.Attributes[_attribute] != null)
                     yield return (Element)child;
 
@@ -94,8 +96,10 @@ namespace AngleSharp.DOM.Collections
 
         IEnumerable<Element> GetElementsOf(Node parent)
         {
-            foreach (var child in parent.ChildNodes)
+            for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
+                var child = parent.ChildNodes[i];
+
                 if ((child is T1 || child is T2) && child.Attributes[_attribute] != null)
                     yield return (Element)child;
 

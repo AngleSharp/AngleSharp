@@ -24,7 +24,7 @@ namespace AngleSharp.Xml
         XMLDocument doc;
         List<Element> open;
         XmlTreeMode insert;
-        TaskCompletionSource<Boolean> tcs;
+        Task task;
         Boolean standalone;
 
         #endregion
@@ -142,12 +142,29 @@ namespace AngleSharp.Xml
         /// </summary>
         public Boolean IsAsync
         {
-            get { return tcs != null; }
+            get { return task != null; }
         }
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Parses the given source asynchronously and creates the document.
+        /// </summary>
+        /// <returns>The task which could be awaited or continued differently.</returns>
+        public Task ParseAsync()
+        {
+            if (!started)
+            {
+                started = true;
+                task = Task.Run(() => Kernel());
+            }
+            else if (task == null)
+                throw new InvalidOperationException("The parser has already run synchronously.");
+
+            return task;
+        }
 
         /// <summary>
         /// Parses the given source and creates the document.
@@ -157,39 +174,8 @@ namespace AngleSharp.Xml
             if (!started)
             {
                 started = true;
-                XmlToken token;
-
-                do
-                {
-                    token = tokenizer.Get();
-                    Consume(token);
-                }
-                while (token.Type != XmlTokenType.EOF);
+                Kernel();
             }
-        }
-
-        /// <summary>
-        /// Parses the given source asynchronously and creates the document.
-        /// WARNING: This method is not yet implemented.
-        /// </summary>
-        /// <returns>The task which could be awaited or continued differently.</returns>
-        public Task ParseAsync()
-        {
-            if (!started)
-            {
-                started = true;
-                tcs = new TaskCompletionSource<bool>();
-                //TODO
-                return tcs.Task;
-            }
-            else if (tcs == null)
-            {
-                var temp = new TaskCompletionSource<bool>();
-                temp.SetResult(true);
-                return temp.Task;
-            }
-
-            return tcs.Task;
         }
 
         /// <summary>
@@ -367,6 +353,25 @@ namespace AngleSharp.Xml
 
         #region Helpers
 
+        /// <summary>
+        /// The kernel that is pulling the tokens into the parser.
+        /// </summary>
+        void Kernel()
+        {
+            XmlToken token;
+
+            do
+            {
+                token = tokenizer.Get();
+                Consume(token);
+            }
+            while (token.Type != XmlTokenType.EOF);
+        }
+
+        /// <summary>
+        /// Sets the document's encoding to the given one.
+        /// </summary>
+        /// <param name="encoding">The encoding to use.</param>
         void SetEncoding(String encoding)
         {
             if (DocumentEncoding.IsSupported(encoding))
