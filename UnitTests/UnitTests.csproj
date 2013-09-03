@@ -56,6 +56,8 @@
       <DependentUpon>Assets.resx</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
+    <Compile Include="Html\HtmlScript.cs" />
+    <Compile Include="Html\HtmlStyle.cs" />
     <Compile Include="Library\Color.cs" />
     <Compile Include="Css\CssSheet.cs" />
     <Compile Include="Css\CssTokenization.cs" />
