@@ -8,6 +8,14 @@ namespace AngleSharp
     /// </summary>
     public class DocumentOptions
     {
+        #region Members
+
+        Boolean _scripting;
+        Boolean _styling;
+        Boolean _embedded;
+
+        #endregion
+
         #region Default
 
         static readonly DocumentOptions _defaultOptions;
@@ -28,64 +36,54 @@ namespace AngleSharp
 
         #endregion
 
+        #region ctor
+
+        /// <summary>
+        /// Creates the document options. Use parameter names
+        /// to set the options you care about.
+        /// </summary>
+        /// <param name="scripting">[Default] On if a scripting engine is available.</param>
+        /// <param name="styling">[Default] On</param>
+        /// <param name="embedded">[Default] Off</param>
+        public DocumentOptions(
+            Boolean scripting = false,
+            Boolean styling = true,
+            Boolean embedded = false)
+        {
+            _scripting = scripting;
+            _styling = styling;
+            _embedded = embedded;
+        }
+
+        #endregion
+
         #region Options
 
         /// <summary>
-        /// Gets or sets the current scripting mode. The default option
-        /// activates scripting if an engine is available, otherwise it
-        /// is disabled.
+        /// Gets the current scripting mode.
         /// </summary>
-        public State Scripting
+        public Boolean IsScripting
         {
-            get;
-            set;
+            get { return _scripting; }
         }
 
         /// <summary>
-        /// Gets or sets the current CSS mode. The default option will
-        /// parse CSS stylesheets and inline-definitions, otherwise no
-        /// CSS will be parsed (or downloaded if possible).
+        /// Gets the current CSS mode. Usually CSS stylesheets and inline-
+        /// definitions are parsed (can be deactivated here).
         /// </summary>
-        public State Styling
+        public Boolean IsStyling
         {
-            get;
-            set;
+            get { return _styling; }
         }
-
-        #endregion
-
-        #region Generators
-
-        internal HtmlOptions ForHtml()
-        {
-            return new HtmlOptions()
-            {
-                IsScripting = (Scripting == State.Default || Scripting == State.Enabled) && false,//TODO deactivated for the moment - last criteria: HasScriptingEngine?
-                IsStyling = Styling != State.Disabled
-            };
-        }
-
-        #endregion
-
-        #region Enumerations
 
         /// <summary>
-        /// The possible value states.
+        /// Gets the current embedding mode. Normally the document is NOT
+        /// embedded. Enabling embedding will emulate the document being rendered
+        /// in an iframe.
         /// </summary>
-        public enum State
+        public Boolean IsEmbedded
         {
-            /// <summary>
-            /// The default (initial) state.
-            /// </summary>
-            Default,
-            /// <summary>
-            /// The option should be enabled.
-            /// </summary>
-            Enabled,
-            /// <summary>
-            /// The option should be disabled.
-            /// </summary>
-            Disabled
+            get { return _embedded; }
         }
 
         #endregion

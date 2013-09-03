@@ -36,8 +36,7 @@ namespace AngleSharp
         /// <param name="options">Options to use for the document generation.</param>
         DocumentBuilder(SourceManager source, HTMLDocument document, DocumentOptions options)
         {
-            options = options ?? DocumentOptions.Default;
-            document.Options = options.ForHtml();
+            document.Options = options;
             parser = new HtmlParser(document, source);
             parser.ErrorOccurred += ParseErrorOccurred;
         }
@@ -50,7 +49,7 @@ namespace AngleSharp
         /// <param name="options">Options to use for the document generation.</param>
         DocumentBuilder(SourceManager source, XMLDocument document, DocumentOptions options)
         {
-            options = options ?? DocumentOptions.Default;
+            document.Options = options;
             parser = new XmlParser(document, source);
             parser.ErrorOccurred += ParseErrorOccurred;
         }
@@ -63,7 +62,6 @@ namespace AngleSharp
         /// <param name="options">Options to use for the document generation.</param>
         DocumentBuilder(SourceManager source, CSSStyleSheet sheet, DocumentOptions options)
         {
-            options = options ?? DocumentOptions.Default;
             parser = new CssParser(sheet, source);
             parser.ErrorOccurred += ParseErrorOccurred;
         }
@@ -219,8 +217,7 @@ namespace AngleSharp
             var doc = new HTMLDocument();
 
             //Disable scripting for HTML fragments (security reasons)
-            options = options ?? DocumentOptions.Default;
-            options.Scripting = DocumentOptions.State.Disabled;
+            options = options ?? new DocumentOptions(scripting: false);
 
             var db = new DocumentBuilder(source, doc, options);
 

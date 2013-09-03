@@ -18,7 +18,7 @@ namespace AngleSharp.DOM
         QuirksMode _quirksMode;
         Readiness _ready;
         DOMImplementation _implementation;
-
+        DocumentOptions _options;
         String _encoding;
         String _originalEncoding;
         
@@ -67,6 +67,7 @@ namespace AngleSharp.DOM
             _styleSheets = new StyleSheetList(this);
             _quirksMode = QuirksMode.Off;
             _location = new Location();
+            _options = DocumentOptions.Default;
         }
 
         #endregion
@@ -259,6 +260,15 @@ namespace AngleSharp.DOM
         #endregion
 
         #region Internal properties
+
+        /// <summary>
+        /// Gets or sets the options to use.
+        /// </summary>
+        internal DocumentOptions Options
+        {
+            get { return _options; }
+            set { _options = value ?? DocumentOptions.Default; }
+        }
 
         /// <summary>
         /// Gets or sets the status of the quirks mode of the document.
@@ -726,6 +736,7 @@ namespace AngleSharp.DOM
             target._location.Href = source._location.Href;
             target._implementation = source.Implementation;
             target._quirksMode = source._quirksMode;
+            target._options = source._options;
         }
 
         #endregion

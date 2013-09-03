@@ -357,7 +357,7 @@ namespace AngleSharp.DOM
 
                     var pos = _parent.IndexOf(this);
 
-                    var nodes = DocumentBuilder.HtmlFragment(value, this, new DocumentOptions { Scripting = DocumentOptions.State.Disabled });
+                    var nodes = DocumentBuilder.HtmlFragment(value, this);
                     var n = nodes.Length;
 
                     for (int i = 0; i < n; i++)

@@ -6,7 +6,7 @@ namespace AngleSharp
     /// <summary>
     /// General information to be used internally about the library.
     /// </summary>
-    class Info
+    sealed class Info
     {
         #region Members
 

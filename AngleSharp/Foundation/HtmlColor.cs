@@ -11,16 +11,34 @@ namespace AngleSharp
     {
         #region Members
 
-        public static readonly HtmlColor Black = new HtmlColor(255, 0, 0, 0);
+        /// <summary>
+        /// The color #000000.
+        /// </summary>
+        public static readonly HtmlColor Black = new HtmlColor(0, 0, 0);
 
-        public static readonly HtmlColor White = new HtmlColor(255, 255, 255, 255);
+        /// <summary>
+        /// The color #FFFFFF.
+        /// </summary>
+        public static readonly HtmlColor White = new HtmlColor(255, 255, 255);
 
-        public static readonly HtmlColor Red = new HtmlColor(255, 255, 0, 0);
+        /// <summary>
+        /// The color #FF0000.
+        /// </summary>
+        public static readonly HtmlColor Red = new HtmlColor(255, 0, 0);
 
-        public static readonly HtmlColor Green = new HtmlColor(255, 0, 255, 0);
+        /// <summary>
+        /// The color #00FF00.
+        /// </summary>
+        public static readonly HtmlColor Green = new HtmlColor(0, 255, 0);
 
-        public static readonly HtmlColor Blue = new HtmlColor(255, 0, 0, 255);
+        /// <summary>
+        /// The color #0000FF.
+        /// </summary>
+        public static readonly HtmlColor Blue = new HtmlColor(0, 0, 255);
 
+        /// <summary>
+        /// The color #00000000.
+        /// </summary>
         public static readonly HtmlColor Transparent = new HtmlColor(0, 0, 0, 0);
 
         [FieldOffset(0)]

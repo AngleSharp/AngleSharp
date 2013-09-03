@@ -1,6 +1,5 @@
 ﻿using System;
 using AngleSharp.DOM.Collections;
-using AngleSharp.DOM.Css;
 using AngleSharp.Html;
 using System.Collections.Generic;
 
@@ -15,7 +14,6 @@ namespace AngleSharp.DOM.Html
         #region Members
 
         Cookie _cookie;
-        HtmlOptions _options;
 
         HTMLLiveCollection<Element> _all;
         HTMLLiveCollection<HTMLFormElement> _forms;
@@ -171,7 +169,6 @@ namespace AngleSharp.DOM.Html
         {
             _contentType = MimeTypes.Xml;
             _ns = Namespaces.Html;
-            _options = HtmlOptions.Default;
             _all = new HTMLLiveCollection<Element>(this);
         }
 
@@ -365,19 +362,6 @@ namespace AngleSharp.DOM.Html
 
         #endregion
 
-        #region Internal properties
-
-        /// <summary>
-        /// Gets or sets the options to use.
-        /// </summary>
-        internal HtmlOptions Options
-        {
-            get { return _options; }
-            set { _options = value; }
-        }
-
-        #endregion
-
         #region Static Helpers
 
         /// <summary>
@@ -448,7 +432,6 @@ namespace AngleSharp.DOM.Html
             var node = new HTMLDocument();
             CopyProperties(this, node, deep);
             CopyDocumentProperties(this, node, deep);
-            node._options = this._options;
             return node;
         }
 
@@ -609,7 +592,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Reloads the document witht he given location.
         /// </summary>
-        /// <param name="value">The value for reloading.</param>
+        /// <param name="url">The value for reloading.</param>
         protected override void ReLoad(Location url)
         {
             Load(url.Href);
