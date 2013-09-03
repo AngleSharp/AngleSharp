@@ -1052,7 +1052,7 @@ namespace AngleSharp.DOM
         /// <returns>The absolute URL.</returns>
         protected String HyperRef(String url)
         {
-            if (Location.IsAbsolute(url))
+            if (url == null || Location.IsAbsolute(url))
                 return url;
 
             return Location.MakeAbsolute(BaseURI, url);

@@ -12,6 +12,7 @@ namespace AngleSharp.DOM.Html
         #region Members
 
         CSSStyleSheet _sheet;
+        String _buffer;
 
         #endregion
 
@@ -101,7 +102,7 @@ namespace AngleSharp.DOM.Html
         [DOM("rel")]
         public RelType Rel
         {
-            get { return ToEnum(GetAttribute(AttributeNames.REL), RelType.Stylesheet); }
+            get { return ToEnum(GetAttribute(AttributeNames.REL), RelType.None); }
             set { SetAttribute(AttributeNames.REL, value.ToString()); }
         }
 
@@ -176,8 +177,19 @@ namespace AngleSharp.DOM.Html
         {
             if (name.Equals(AttributeNames.MEDIA, StringComparison.Ordinal))
                 _sheet.Media.MediaText = Media;
-            else if (name.Equals(AttributeNames.HREF, StringComparison.Ordinal))
-                _sheet.ReevaluateFromUrl(Href);
+            else if (name.Equals(AttributeNames.HREF, StringComparison.Ordinal) || name.Equals(AttributeNames.REL, StringComparison.Ordinal))
+            {
+                var href = Href;
+
+                if (href != null && Rel == RelType.Stylesheet)
+                {
+                    if (_buffer != href)
+                    {
+                        _buffer = href;
+                        _sheet.ReevaluateFromUrl(href);
+                    }
+                }
+            }
             else
                 base.OnAttributeChanged(name);
         }
@@ -191,6 +203,10 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         public enum RelType : ushort
         {
+            /// <summary>
+            /// No particular relation.
+            /// </summary>
+            None,
             /// <summary>
             /// The rel=prefetch value.
             /// </summary>
