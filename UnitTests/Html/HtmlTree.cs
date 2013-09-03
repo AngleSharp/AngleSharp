@@ -2876,9 +2876,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeParagraphWithTightAttributesAndNoScriptTagScriptingEnabled()
         {
             var doc = new HTMLDocument();
-            doc.Options.IsScripting = true;
-
             var parser = new HtmlParser(doc, @"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>");
+            doc.Options = new DocumentOptions(scripting: true);
             parser.Parse();
 
             var dochtml0 = doc.ChildNodes[0];
@@ -4976,7 +4975,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var doc = new HTMLDocument();
             var parser = new HtmlParser(doc, @"<noscript><!--<noscript></noscript>--></noscript>");
-            doc.Options.IsScripting = true;
+            doc.Options = new DocumentOptions(scripting: true);
             parser.Parse();
 
             var dochtml0 = doc.ChildNodes[0];
@@ -5017,7 +5016,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var doc = new HTMLDocument();
             var parser = new HtmlParser(doc, @"<noscript><!--</noscript>X<noscript>--></noscript>");
-            doc.Options.IsScripting = true;
+            doc.Options = new DocumentOptions(scripting: true);
             parser.Parse();
 
             var dochtml0 = doc.ChildNodes[0];
@@ -5068,7 +5067,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var doc = new HTMLDocument();
             var parser = new HtmlParser(doc, @"<noscript><iframe></noscript>X");
-            doc.Options.IsScripting = true;
+            doc.Options = new DocumentOptions(scripting: true);
             parser.Parse();
 
             var dochtml0 = doc.ChildNodes[0];

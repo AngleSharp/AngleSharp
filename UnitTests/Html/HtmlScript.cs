@@ -2823,7 +2823,7 @@ namespace UnitTests
         {
             var doc = new HTMLDocument();
             var parser = new HtmlParser(doc, "<!doctype html><noscript><!--<noscript></noscript>--></noscript>");
-            doc.Options.IsScripting = true;
+            doc.Options = new DocumentOptions(scripting: true);
             parser.Parse();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
@@ -2871,7 +2871,7 @@ namespace UnitTests
         {
             var doc = new HTMLDocument();
             var parser = new HtmlParser(doc, "<!doctype html><noscript><!--</noscript>X<noscript>--></noscript>");
-            doc.Options.IsScripting = true;
+            doc.Options = new DocumentOptions(scripting: true);
             parser.Parse();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
@@ -2929,7 +2929,7 @@ namespace UnitTests
         {
             var doc = new HTMLDocument();
             var parser = new HtmlParser(doc, "<!doctype html><noscript><iframe></noscript>X");
-            doc.Options.IsScripting = true;
+            doc.Options = new DocumentOptions(scripting: true);
             parser.Parse();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
