@@ -11,6 +11,8 @@ using AngleSharp.DOM.Xml;
 using System.Resources;
 using System.Globalization;
 using ConsoleInteraction.Assets;
+using AngleSharp.Html;
+using System.Threading.Tasks;
 
 namespace ConsoleInteraction
 {
@@ -18,6 +20,8 @@ namespace ConsoleInteraction
     {
         static void Main(string[] args)
         {
+            TestAsync().Wait();
+  
             CssSelectorTest.Slickspeed();
 
             //TestCSSFrom("http://www.facebook.com");
@@ -53,6 +57,24 @@ namespace ConsoleInteraction
             TestHtmlFrom("http://www.codeproject.com/", false);
 
             TestHtmlFrom("http://www.florian-rappl.de/", false);
+        }
+
+        static async Task TestAsync()
+        {
+            Console.WriteLine("Starting async!");
+            var sw = Stopwatch.StartNew();
+            var parser = new HtmlParser(HtmlFiles.W3C);
+
+            var task = parser.ParseAsync();
+
+            while (!task.IsCompleted)
+            {
+                await Task.Delay(15);
+                Console.WriteLine("{0} | {1} elements", sw.ElapsedMilliseconds, parser.Result.All.Length);
+            }
+
+            sw.Stop();
+            Console.WriteLine("Done!");
         }
 
         static void ReadHtmlFiles(ResourceManager resourceManager)
