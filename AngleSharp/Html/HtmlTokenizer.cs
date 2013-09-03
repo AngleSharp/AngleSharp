@@ -2056,13 +2056,7 @@ namespace AngleSharp.Html
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEndTag(Char c)
         {
-            if (c.IsUppercaseAscii())
-            {
-                _stringBuffer.Clear();
-                _stringBuffer.Append(c.ToLower());
-                return ScriptDataNameEndTag(_src.Next, HtmlToken.CloseTag());
-            }
-            else if (c.IsLowercaseAscii())
+            if (c.IsLetter())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
@@ -2081,7 +2075,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken ScriptDataNameEndTag(Char c, HtmlTagToken tag)
         {
-            var name = _stringBuffer.ToString();
+            var name = _stringBuffer.ToString().ToLower();
             var appropriateEndTag = name == _lastStartTag;
 
             if (appropriateEndTag && c.IsSpaceCharacter())
@@ -2099,12 +2093,7 @@ namespace AngleSharp.Html
                 tag.Name = name;
                 return EmitTag(tag);
             }
-            else if (c.IsUppercaseAscii())
-            {
-                _stringBuffer.Append(c.ToLower());
-                return ScriptDataNameEndTag(_src.Next, tag);
-            }
-            else if (c.IsLowercaseAscii())
+            else if (c.IsLetter())
             {
                 _stringBuffer.Append(c);
                 return ScriptDataNameEndTag(_src.Next, tag);
@@ -2249,17 +2238,8 @@ namespace AngleSharp.Html
             {
                 return ScriptDataEndTag(_src.Next);
             }
-            else if (c.IsUppercaseAscii())
+            else if (c.IsLetter())
             {
-                _stringBuffer.Clear();
-                _stringBuffer.Append(c.ToLower());
-                _buffer.Append(Specification.LT);
-                _buffer.Append(c);
-                return ScriptDataStartDoubleEscape(_src.Next);
-            }
-            else if (c.IsLowercaseAscii())
-            {
-                _stringBuffer.Clear();
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
                 _buffer.Append(Specification.LT);
@@ -2279,13 +2259,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken ScriptDataEscapedEndTag(Char c, HtmlTagToken tag)
         {
-            if (c.IsUppercaseAscii())
-            {
-                _stringBuffer.Clear();
-                _stringBuffer.Append(c.ToLower());
-                return ScriptDataEscapedEndTag(_src.Next, tag);
-            }
-            else if (c.IsLowercaseAscii())
+            if (c.IsLetter())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
@@ -2304,7 +2278,7 @@ namespace AngleSharp.Html
         /// <returns>The emitted token.</returns>
         HtmlToken ScriptDataEscapedNameTag(Char c, HtmlTagToken tag)
         {
-            var name = _stringBuffer.ToString();
+            var name = _stringBuffer.ToString().ToLower();
             var appropriateEndTag = name == _lastStartTag;
 
             if (appropriateEndTag && c.IsSpaceCharacter())
@@ -2322,12 +2296,7 @@ namespace AngleSharp.Html
                 tag.Name = name;
                 return EmitTag(tag);
             }
-            else if (c.IsUppercaseAscii())
-            {
-                _stringBuffer.Append(c.ToLower());
-                return ScriptDataEscapedNameTag(_src.Next, tag);
-            }
-            else if (c.IsLowercaseAscii())
+            else if (c.IsLetter())
             {
                 _stringBuffer.Append(c);
                 return ScriptDataEscapedNameTag(_src.Next, tag);
@@ -2348,18 +2317,12 @@ namespace AngleSharp.Html
             {
                 _buffer.Append(c);
 
-                if (_stringBuffer.ToString() == "script")
+                if (String.Compare(_stringBuffer.ToString(), Tags.SCRIPT, StringComparison.OrdinalIgnoreCase) == 0)
                     return ScriptDataEscapedDouble(_src.Next);
 
                 return ScriptDataEscaped(_src.Next);
             }
-            else if (c.IsUppercaseAscii())
-            {
-                _stringBuffer.Append(c.ToLower());
-                _buffer.Append(c);
-                return ScriptDataStartDoubleEscape(_src.Next);
-            }
-            else if (c.IsLowercaseAscii())
+            else if (c.IsLetter())
             {
                 _stringBuffer.Append(c);
                 _buffer.Append(c);
@@ -2495,18 +2458,12 @@ namespace AngleSharp.Html
             {
                 _buffer.Append(c);
 
-                if (_stringBuffer.ToString().Equals("script"))
+                if (String.Compare(_stringBuffer.ToString(), Tags.SCRIPT, StringComparison.OrdinalIgnoreCase) == 0)
                     return ScriptDataEscaped(_src.Next);
 
                 return ScriptDataEscapedDouble(_src.Next);
             }
-            else if (c.IsUppercaseAscii())
-            {
-                _stringBuffer.Append(c.ToLower());
-                _buffer.Append(c);
-                return ScriptDataEndDoubleEscape(_src.Next);
-            }
-            else if (c.IsLowercaseAscii())
+            else if (c.IsLetter())
             {
                 _stringBuffer.Append(c);
                 _buffer.Append(c);
