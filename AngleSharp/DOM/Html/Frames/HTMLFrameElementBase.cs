@@ -23,8 +23,8 @@ namespace AngleSharp.DOM.Html
         [DOM("name")]
         public String Name
         {
-            get { return GetAttribute("name"); }
-            set { SetAttribute("name", value); }
+            get { return GetAttribute(AttributeNames.NAME); }
+            set { SetAttribute(AttributeNames.NAME, value); }
         }
 
         /// <summary>
@@ -33,8 +33,8 @@ namespace AngleSharp.DOM.Html
         [DOM("src")]
         public String Src
         {
-            get { return GetAttribute("src"); }
-            set { SetAttribute("src", value); }
+            get { return GetAttribute(AttributeNames.SRC); }
+            set { SetAttribute(AttributeNames.SRC, value); }
         }
 
         /// <summary>
@@ -43,8 +43,8 @@ namespace AngleSharp.DOM.Html
         [DOM("scrolling")]
         public String Scrolling
         {
-            get { return GetAttribute("scrolling"); }
-            set { SetAttribute("scrolling", value); }
+            get { return GetAttribute(AttributeNames.SCROLLING); }
+            set { SetAttribute(AttributeNames.SCROLLING, value); }
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace AngleSharp.DOM.Html
         [DOM("longDesc")]
         public String LongDesc
         {
-            get { return GetAttribute("longdesc"); }
-            set { SetAttribute("longdesc", value); }
+            get { return GetAttribute(AttributeNames.LONGDESC); }
+            set { SetAttribute(AttributeNames.LONGDESC, value); }
         }
 
         /// <summary>
@@ -73,8 +73,8 @@ namespace AngleSharp.DOM.Html
         [DOM("frameBorder")]
         public String FrameBorder
         {
-            get { return GetAttribute("frameborder"); }
-            set { SetAttribute("frameborder", value); }
+            get { return GetAttribute(AttributeNames.FRAMEBORDER); }
+            set { SetAttribute(AttributeNames.FRAMEBORDER, value); }
         }
 
         #endregion

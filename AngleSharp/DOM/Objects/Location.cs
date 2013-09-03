@@ -31,6 +31,14 @@ namespace AngleSharp.DOM
         #region ctor
 
         /// <summary>
+        /// Creates a new location with no URL.
+        /// </summary>
+        internal Location()
+            : this(String.Empty)
+        {
+        }
+
+        /// <summary>
         /// Creates a new location based on the given URL.
         /// </summary>
         /// <param name="url">The URL to represent.</param>
@@ -142,6 +150,15 @@ namespace AngleSharp.DOM
         #endregion
 
         #region String representation
+
+        /// <summary>
+        /// Returns an Uri representation of the currently stored location.
+        /// </summary>
+        /// <returns>The uri instance.</returns>
+        public Uri ToUri()
+        {
+            return new Uri(_url);
+        }
 
         /// <summary>
         /// Returns the string representation of the current location.

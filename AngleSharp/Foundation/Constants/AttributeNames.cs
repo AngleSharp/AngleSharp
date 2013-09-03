@@ -18,9 +18,29 @@ namespace AngleSharp
         public const String HTTP_EQUIV = "http-equiv";
 
         /// <summary>
+        /// The scheme attribute.
+        /// </summary>
+        public const String SCHEME = "scheme";
+
+        /// <summary>
         /// The content attribute.
         /// </summary>
         public const String CONTENT = "content";
+
+        /// <summary>
+        /// The class attribute.
+        /// </summary>
+        public const String CLASS = "class";
+
+        /// <summary>
+        /// The style attribute.
+        /// </summary>
+        public const String STYLE = "style";
+
+        /// <summary>
+        /// The label attribute.
+        /// </summary>
+        public const String LABEL = "label";
 
         /// <summary>
         /// The action attribute.
@@ -126,5 +146,65 @@ namespace AngleSharp
         /// The dirname attribute.
         /// </summary>
         public const String DIRNAME = "dirname";
+
+        /// <summary>
+        /// The noresize attribute.
+        /// </summary>
+        public const String NORESIZE = "noresize";
+
+        /// <summary>
+        /// The src attribute.
+        /// </summary>
+        public const String SRC = "src";
+
+        /// <summary>
+        /// The scrolling attribute.
+        /// </summary>
+        public const String SCROLLING = "scrolling";
+
+        /// <summary>
+        /// The longdesc attribute.
+        /// </summary>
+        public const String LONGDESC = "longdesc";
+
+        /// <summary>
+        /// The frameborder attribute.
+        /// </summary>
+        public const String FRAMEBORDER = "frameborder";
+
+        /// <summary>
+        /// The width attribute.
+        /// </summary>
+        public const String WIDTH = "width";
+
+        /// <summary>
+        /// The height attribute.
+        /// </summary>
+        public const String HEIGHT = "height";
+
+        /// <summary>
+        /// The marginwidth attribute.
+        /// </summary>
+        public const String MARGINWIDTH = "marginwidth";
+
+        /// <summary>
+        /// The marginheight attribute.
+        /// </summary>
+        public const String MARGINHEIGHT = "marginheight";
+
+        /// <summary>
+        /// The cols attribute.
+        /// </summary>
+        public const String COLS = "cols";
+
+        /// <summary>
+        /// The rows attribute.
+        /// </summary>
+        public const String ROWS = "rows";
+
+        /// <summary>
+        /// The align attribute.
+        /// </summary>
+        public const String ALIGN = "align";
     }
 }

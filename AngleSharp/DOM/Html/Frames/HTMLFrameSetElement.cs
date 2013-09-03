@@ -25,8 +25,8 @@ namespace AngleSharp.DOM.Html
         [DOM("cols")]
         public UInt32 Cols
         {
-            get { return ToInteger(GetAttribute("cols"), 1u); }
-            set { SetAttribute("cols", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.COLS), 1u); }
+            set { SetAttribute(AttributeNames.COLS, value.ToString()); }
         }
 
         /// <summary>
@@ -35,8 +35,8 @@ namespace AngleSharp.DOM.Html
         [DOM("rows")]
         public UInt32 Rows
         {
-            get { return ToInteger(GetAttribute("rows"), 1u); }
-            set { SetAttribute("rows", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.ROWS), 1u); }
+            set { SetAttribute(AttributeNames.ROWS, value.ToString()); }
         }
 
         #endregion

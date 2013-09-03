@@ -32,8 +32,8 @@ namespace AngleSharp.DOM.Html
         [DOM("width")]
         public Int32 Width
         {
-            get { return ToInteger(GetAttribute("width"), 0); }
-            set { SetAttribute("width", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.WIDTH), 0); }
+            set { SetAttribute(AttributeNames.WIDTH, value.ToString()); }
         }
 
         /// <summary>
@@ -42,8 +42,8 @@ namespace AngleSharp.DOM.Html
         [DOM("height")]
         public Int32 Height
         {
-            get { return ToInteger(GetAttribute("height"), 0); }
-            set { SetAttribute("height", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.HEIGHT), 0); }
+            set { SetAttribute(AttributeNames.HEIGHT, value.ToString()); }
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace AngleSharp.DOM.Html
         [DOM("marginWidth")]
         public Int32 MarginWidth
         {
-            get { return ToInteger(GetAttribute("marginwidth"), 0); }
-            set { SetAttribute("marginwidth", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.MARGINWIDTH), 0); }
+            set { SetAttribute(AttributeNames.MARGINWIDTH, value.ToString()); }
         }
 
         /// <summary>
@@ -62,8 +62,8 @@ namespace AngleSharp.DOM.Html
         [DOM("marginHeight")]
         public Int32 MarginHeight
         {
-            get { return ToInteger(GetAttribute("marginheight"), 0); }
-            set { SetAttribute("marginheight", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.MARGINHEIGHT), 0); }
+            set { SetAttribute(AttributeNames.MARGINHEIGHT, value.ToString()); }
         }
 
         #endregion

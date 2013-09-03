@@ -378,7 +378,7 @@ namespace AngleSharp.DOM.Html
 
         #endregion
 
-        #region Methods
+        #region Static Helpers
 
         /// <summary>
         /// Loads a HTML document from the given URL.
@@ -401,6 +401,10 @@ namespace AngleSharp.DOM.Html
             return DocumentBuilder.Html(source);
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Loads the document content from the given URL.
         /// </summary>
@@ -417,10 +421,20 @@ namespace AngleSharp.DOM.Html
 
             ReadyState = Readiness.Loading;
             QuirksMode = QuirksMode.Off;
-            var stream = Builder.Stream(url);
-            var source = new SourceManager(stream);
-            var parser = new HtmlParser(this, source);
-            return parser.Result;
+            var task = Builder.GetFromUrl(url);
+
+            task.ContinueWith(m =>
+            {
+                if (m.IsCompleted && !m.IsFaulted)
+                {
+                    var stream = m.Result;
+                    var source = new SourceManager(stream);
+                    var parser = new HtmlParser(this, source);
+                    parser.Parse();
+                }
+            });
+
+            return this;
         }
 
         /// <summary>

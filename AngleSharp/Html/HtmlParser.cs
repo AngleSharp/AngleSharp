@@ -3885,6 +3885,7 @@ namespace AngleSharp.Html
         void AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
             var element = HTMLElement.Create(tag.Name);
+            element.OwnerDocument = doc;
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
         }
@@ -3968,6 +3969,7 @@ namespace AngleSharp.Html
         /// <param name="element">The node which will be added to the list.</param>
         void AddForeignElement(Element element)
         {
+            element.OwnerDocument = doc;
             element.NamespaceURI = AdjustedCurrentNode.NamespaceURI;
             CurrentNode.AppendChild(element);
         }
@@ -3980,15 +3982,11 @@ namespace AngleSharp.Html
         {
             if (String.IsNullOrEmpty(text))
                 return;
-            else
-            {
-                var node = CurrentNode;
 
-                if (foster && node.IsTableElement())
-                    AddCharactersWithFoster(text);
-                else
-                    node.AppendText(text);
-            }
+            if (foster && CurrentNode.IsTableElement())
+                AddCharactersWithFoster(text);
+            else
+                CurrentNode.AppendText(text);
         }
 
         /// <summary>

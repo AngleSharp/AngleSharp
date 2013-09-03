@@ -13,16 +13,23 @@ namespace AngleSharp.DOM.Collections
     {
         List<FileEntry> _entries;
 
-        public FileList()
+        internal FileList()
         {
             _entries = new List<FileEntry>();
         }
 
+        /// <summary>
+        /// Gets the number of contained files.
+        /// </summary>
         public Int32 Length
         {
             get { return _entries.Count; }
         }
 
+        /// <summary>
+        /// Gets the enumerator to iterate over all the stored file entries.
+        /// </summary>
+        /// <returns>The list's enumerator.</returns>
         public IEnumerator<FileEntry> GetEnumerator()
         {
             return _entries.GetEnumerator();

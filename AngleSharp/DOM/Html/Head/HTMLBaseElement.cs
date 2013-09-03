@@ -28,8 +28,8 @@ namespace AngleSharp.DOM.Html
         [DOM("href")]
         public String Href
         {
-            get { return GetAttribute("href"); }
-            set { SetAttribute("href", value); }
+            get { return GetAttribute(AttributeNames.HREF); }
+            set { SetAttribute(AttributeNames.HREF, value); }
         }
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace AngleSharp.DOM.Html
         [DOM("target")]
         public String Target
         {
-            get { return GetAttribute("target"); }
-            set { SetAttribute("target", value); }
+            get { return GetAttribute(AttributeNames.TARGET); }
+            set { SetAttribute(AttributeNames.TARGET, value); }
         }
 
         #endregion

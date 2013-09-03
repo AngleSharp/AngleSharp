@@ -5,6 +5,9 @@ using System.Net;
 
 namespace AngleSharp.Interfaces
 {
+    /// <summary>
+    /// Specifies what is stored when receiving data.
+    /// </summary>
     public interface IHttpResponse
     {
         /// <summary>

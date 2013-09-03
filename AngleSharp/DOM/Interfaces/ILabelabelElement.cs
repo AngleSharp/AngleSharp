@@ -1,7 +1,7 @@
 ﻿using AngleSharp.DOM.Collections;
 using System;
 
-namespace AngleSharp.DOM
+namespace AngleSharp.DOM.Html
 {
     /// <summary>
     /// This interface marks elements that

@@ -320,7 +320,7 @@ namespace AngleSharp
         /// However, P3P did not take off, most browsers have never fully implemented it, a lot of
         /// websites set this header with fake policy text, that was enough to fool browsers the
         /// existence of P3P policy and grant permissions for third party cookies.
-        /// e.g. P3P: CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657 for more info."
+        /// e.g. P3P: CP="This is not a P3P policy! See ... for more info."
         /// </summary>
         public const String P3P = "P3P";
 

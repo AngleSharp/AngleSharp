@@ -94,6 +94,8 @@ namespace AngleSharp.DOM
                     return _baseURI;
                 else if (_parent != null)
                     return _parent.BaseURI;
+                else if (OwnerDocument != null)
+                    return OwnerDocument.DocumentURI;
 
                 return String.Empty;
             }

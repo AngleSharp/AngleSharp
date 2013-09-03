@@ -19,6 +19,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the text of the title.
         /// </summary>
+        [DOM("text")]
         public String Text
         {
             get { return TextContent; }

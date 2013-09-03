@@ -1,6 +1,8 @@
 ﻿using AngleSharp.Css;
 using System;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AngleSharp.DOM.Css
 {
@@ -14,6 +16,8 @@ namespace AngleSharp.DOM.Css
 
         CSSRuleList _cssRules;
         CSSRule _ownerRule;
+        Task _current;
+        CancellationTokenSource _cts;
 
         #endregion
 
@@ -25,6 +29,7 @@ namespace AngleSharp.DOM.Css
         internal CSSStyleSheet()
         {
             _cssRules = new CSSRuleList();
+            _cts = new CancellationTokenSource();
         }
 
         #endregion
@@ -110,14 +115,25 @@ namespace AngleSharp.DOM.Css
 
         internal void ReevaluateFromUrl(String url)
         {
+            TryCancelCurrent();
             _cssRules.List.Clear();
-            Builder.StyleFromUrl(this, url);
+            _current = Builder.StyleFromUrl(this, url, _cts.Token);
         }
 
         internal void ReevaluateFromSource(String source)
         {
+            TryCancelCurrent();
             _cssRules.List.Clear();
             Builder.StyleFromSource(this, source);
+        }
+
+        void TryCancelCurrent()
+        {
+            if (_current != null && !_current.IsCompleted)
+            {
+                _cts.Cancel();
+                _cts = new CancellationTokenSource();
+            }
         }
 
         #endregion

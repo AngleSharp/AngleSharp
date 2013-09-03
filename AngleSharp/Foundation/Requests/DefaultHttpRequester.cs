@@ -91,7 +91,7 @@ namespace AngleSharp
 
         public Task<IHttpResponse> RequestAsync(IHttpRequest request)
         {
-            return RequestAsync(request, new CancellationToken());
+            return RequestAsync(request, CancellationToken.None);
         }
 
         public async Task<IHttpResponse> RequestAsync(IHttpRequest request, CancellationToken cancellationToken)
@@ -99,12 +99,23 @@ namespace AngleSharp
             if (CreateRequest(request))
             {
                 http.BeginGetRequestStream(SendRequest, request);
+
+                if (cancellationToken.IsCancellationRequested)
+                    return null;
+
                 await completed.Task;
                 completed = new TaskCompletionSource<Boolean>();
             }
 
+            if (cancellationToken.IsCancellationRequested)
+                return null;
+
             http.BeginGetResponse(ReceiveResponse, null);
             await completed.Task;
+
+            if (cancellationToken.IsCancellationRequested)
+                return null;
+
             return GetResponse();
         }
 

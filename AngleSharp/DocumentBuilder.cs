@@ -10,6 +10,7 @@ using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Xml;
 using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Collections;
+using System.Threading.Tasks;
 
 namespace AngleSharp
 {
@@ -120,7 +121,18 @@ namespace AngleSharp
         /// <returns>The constructed XML document.</returns>
         public static XMLDocument Xml(Uri url, DocumentOptions options = null)
         {
-            var stream = Builder.Stream(url);
+            return XmlAsync(url, options).Result;
+        }
+
+        /// <summary>
+        /// Builds a new XMLDocument by asynchronously requesting with the given URL.
+        /// </summary>
+        /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
+        /// <returns>The task that constructs XML document.</returns>
+        public static async Task<XMLDocument> XmlAsync(Uri url, DocumentOptions options = null)
+        {
+            var stream = await Builder.GetFromUrl(url);
             var source = new SourceManager(stream);
             var db = new DocumentBuilder(source, new XMLDocument { DocumentURI = url.OriginalString }, options);
             return db.XmlResult;
@@ -164,7 +176,18 @@ namespace AngleSharp
         /// <returns>The constructed HTML document.</returns>
         public static HTMLDocument Html(Uri url, DocumentOptions options = null)
         {
-            var stream = Builder.Stream(url);
+            return HtmlAsync(url, options).Result;
+        }
+
+        /// <summary>
+        /// Builds a new HTMLDocument by asynchronously requesting the given URL.
+        /// </summary>
+        /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
+        /// <returns>The task that constructs the HTML document.</returns>
+        public static async Task<HTMLDocument> HtmlAsync(Uri url, DocumentOptions options = null)
+        {
+            var stream = await Builder.GetFromUrl(url);
             var source = new SourceManager(stream);
             var db = new DocumentBuilder(source, new HTMLDocument { DocumentURI = url.OriginalString }, options);
             return db.HtmlResult;
@@ -239,7 +262,18 @@ namespace AngleSharp
         /// <returns>The constructed CSS stylesheet.</returns>
         public static CSSStyleSheet Css(Uri url, DocumentOptions options = null)
         {
-            var stream = Builder.Stream(url);
+            return CssAsync(url, options).Result;
+        }
+
+        /// <summary>
+        /// Builds a new CSSStyleSheet asynchronously by requesting the given URL.
+        /// </summary>
+        /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="options">[Optional] Options to use for the document generation.</param>
+        /// <returns>The task which constructs the CSS stylesheet.</returns>
+        public static async Task<CSSStyleSheet> CssAsync(Uri url, DocumentOptions options = null)
+        {
+            var stream = await Builder.GetFromUrl(url);
             var source = new SourceManager(stream);
             var db = new DocumentBuilder(source, new CSSStyleSheet { Href = url.OriginalString }, options);
             return db.CssResult;

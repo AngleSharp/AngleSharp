@@ -66,6 +66,7 @@ namespace AngleSharp.DOM
             _name = "#document";
             _styleSheets = new StyleSheetList(this);
             _quirksMode = QuirksMode.Off;
+            _location = new Location();
         }
 
         #endregion
@@ -659,7 +660,7 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Reloads the document witht he given location.
         /// </summary>
-        /// <param name="value">The value for reloading.</param>
+        /// <param name="url">The value for reloading.</param>
         protected virtual void ReLoad(Location url)
         {
             _location = url;
@@ -722,7 +723,7 @@ namespace AngleSharp.DOM
         {
             target._ready = source._ready;
             target._referrer = source._referrer;
-            target._location = source._location;
+            target._location.Href = source._location.Href;
             target._implementation = source.Implementation;
             target._quirksMode = source._quirksMode;
         }
