@@ -2587,9 +2587,8 @@ namespace AngleSharp.DOM.Collections
         {
             if (!_blocking)
             {
-                var rules = CssParser.ParseDeclarations(value ?? String.Empty)._rules;
                 _rules.Clear();
-                _rules.AddRange(rules);
+                CssParser.AppendDeclarations(_rules, value ?? String.Empty);
             }
         }
 

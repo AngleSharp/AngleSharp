@@ -1180,6 +1180,34 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
+        /// Takes a string and appends all rules to the given list of properties.
+        /// </summary>
+        /// <param name="list">The list of css properties to append to.</param>
+        /// <param name="declarations">The string to parse.</param>
+        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        public static void AppendDeclarations(List<CSSProperty> list, String declarations, Boolean quirksMode = false)
+        {
+            var parser = new CssParser(declarations);
+            parser.IsQuirksMode = quirksMode;
+            parser.ignore = false;
+            var it = parser.tokenizer.Iterator;
+            parser.AppendDeclarations(it, list);
+        }
+
+        /// <summary>
+        /// Takes a string and transforms it into CSS declarations.
+        /// </summary>
+        /// <param name="declarations">The string to parse.</param>
+        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        /// <returns>The CSSStyleDeclaration object.</returns>
+        public static CSSStyleDeclaration ParseDeclarations(String declarations, Boolean quirksMode = false)
+        {
+            var decl = new CSSStyleDeclaration();
+            AppendDeclarations(decl.List, declarations, quirksMode);
+            return decl;
+        }
+
+        /// <summary>
         /// Takes a string and transforms it into a CSS declaration (CSS property).
         /// </summary>
         /// <param name="declarations">The string to parse.</param>
@@ -1196,23 +1224,6 @@ namespace AngleSharp.Css
                 return parser.CreateDeclaration(it);
 
             return null;
-        }
-
-        /// <summary>
-        /// Takes a string and transforms it into CSS declarations.
-        /// </summary>
-        /// <param name="declarations">The string to parse.</param>
-        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
-        /// <returns>The CSSStyleDeclaration object.</returns>
-        public static CSSStyleDeclaration ParseDeclarations(String declarations, Boolean quirksMode = false)
-        {
-            var parser = new CssParser(declarations);
-            parser.IsQuirksMode = quirksMode;
-            parser.ignore = false;
-            var it = parser.tokenizer.Iterator;
-            var decl = new CSSStyleDeclaration();
-            parser.AppendDeclarations(it, decl.List);
-            return decl;
         }
 
         /// <summary>
