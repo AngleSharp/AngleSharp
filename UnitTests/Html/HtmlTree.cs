@@ -2708,7 +2708,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeParagraphWithTightAttributesAndNoScriptTagScriptingEnabled()
         {
             var doc = new HTMLDocument();
-            doc.IsScripting = true;
+            doc.Options.IsScripting = true;
 
             var parser = new HtmlParser(doc, @"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>");
             parser.Parse();
