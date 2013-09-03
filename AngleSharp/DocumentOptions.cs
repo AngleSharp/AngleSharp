@@ -8,6 +8,8 @@ namespace AngleSharp
     /// </summary>
     public class DocumentOptions
     {
+        #region Default
+
         static readonly DocumentOptions _defaultOptions;
 
         static DocumentOptions()
@@ -24,6 +26,10 @@ namespace AngleSharp
             get { return _defaultOptions; }
         }
 
+        #endregion
+
+        #region Options
+
         /// <summary>
         /// Gets or sets the current scripting mode. The default option
         /// activates scripting if an engine is available, otherwise it
@@ -35,17 +41,28 @@ namespace AngleSharp
             set;
         }
 
-        #region Internal
-
-        internal Boolean IsScripting
+        /// <summary>
+        /// Gets or sets the current CSS mode. The default option will
+        /// parse CSS stylesheets and inline-definitions, otherwise no
+        /// CSS will be parsed (or downloaded if possible).
+        /// </summary>
+        public State Styling
         {
-            get
-            {
-                if (Scripting == State.Default || Scripting == State.Enabled)
-                    return false;//TODO return true if a scripting engine is registered
+            get;
+            set;
+        }
 
-                return false;
-            }
+        #endregion
+
+        #region Generators
+
+        internal HtmlOptions ForHtml()
+        {
+            return new HtmlOptions()
+            {
+                IsScripting = (Scripting == State.Default || Scripting == State.Enabled) && false,//TODO deactivated for the moment - last criteria: HasScriptingEngine?
+                IsStyling = Styling != State.Disabled
+            };
         }
 
         #endregion

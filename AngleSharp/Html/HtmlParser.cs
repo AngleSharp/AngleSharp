@@ -242,7 +242,7 @@ namespace AngleSharp.Html
                 }
                 case Tags.NOSCRIPT:
                 {
-                    if (doc.IsScripting) 
+                    if (doc.Options.IsScripting) 
                         tokenizer.Switch(HtmlParseMode.Rawtext);
 
                     break;
@@ -520,7 +520,7 @@ namespace AngleSharp.Html
                     return;
             }
 
-            if (!doc.IsEmbedded)
+            if (!doc.Options.IsEmbedded)
             {
                 RaiseErrorOccurred(ErrorCode.DoctypeMissing);
                 doc.QuirksMode = QuirksMode.On;
@@ -696,7 +696,7 @@ namespace AngleSharp.Html
                 RCDataAlgorithm(token.AsTag());
                 return;
             }
-            else if (token.IsStartTag(Tags.NOFRAMES, Tags.STYLE) || (doc.IsScripting && token.IsStartTag(Tags.NOSCRIPT)))
+            else if (token.IsStartTag(Tags.NOFRAMES, Tags.STYLE) || (doc.Options.IsScripting && token.IsStartTag(Tags.NOSCRIPT)))
             {
                 RawtextAlgorithm(token.AsTag());
                 return;
@@ -1333,10 +1333,14 @@ namespace AngleSharp.Html
                     }
                     case Tags.NOSCRIPT:
                     {
-                        if (!doc.IsScripting)
-                            goto default;
+                        if (doc.Options.IsScripting)
+                        {
+                            RawtextAlgorithm(tag);
+                            break;
+                        }
 
-                        RawtextAlgorithm(tag);
+                        ReconstructFormatting();
+                        AddElement(tag);
                         break;
                     }
                     case Tags.MATH:

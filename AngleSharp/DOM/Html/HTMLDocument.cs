@@ -14,9 +14,8 @@ namespace AngleSharp.DOM.Html
     {
         #region Members
 
-        Boolean _embedded;
-        Boolean _scripting;
         Cookie _cookie;
+        HtmlOptions _options;
 
         HTMLLiveCollection<Element> _all;
         HTMLLiveCollection<HTMLFormElement> _forms;
@@ -172,6 +171,7 @@ namespace AngleSharp.DOM.Html
         {
             _contentType = MimeTypes.Xml;
             _ns = Namespaces.Html;
+            _options = HtmlOptions.Default;
             _all = new HTMLLiveCollection<Element>(this);
         }
 
@@ -182,6 +182,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets a list of all elements in the document.
         /// </summary>
+        [DOM("all")]
         public HTMLCollection All
         {
             get { return _all; }
@@ -199,6 +200,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the direction of the document.
         /// </summary>
+        [DOM("dir")]
         public DirectionMode Dir
         {
             get 
@@ -366,21 +368,12 @@ namespace AngleSharp.DOM.Html
         #region Internal properties
 
         /// <summary>
-        /// Gets or sets if the document is embedded by an iframe srcdoc element.
+        /// Gets or sets the options to use.
         /// </summary>
-        internal Boolean IsEmbedded
+        internal HtmlOptions Options
         {
-            get { return _embedded; }
-            set { _embedded = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets if scripting is active and allowed.
-        /// </summary>
-        internal Boolean IsScripting
-        {
-            get { return _scripting; }
-            set { _scripting = value; }
+            get { return _options; }
+            set { _options = value; }
         }
 
         #endregion
@@ -441,8 +434,7 @@ namespace AngleSharp.DOM.Html
             var node = new HTMLDocument();
             CopyProperties(this, node, deep);
             CopyDocumentProperties(this, node, deep);
-            node._embedded = this._embedded;
-            node._scripting = this._scripting;
+            node._options = this._options;
             return node;
         }
 

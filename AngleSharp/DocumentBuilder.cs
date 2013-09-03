@@ -36,7 +36,7 @@ namespace AngleSharp
         DocumentBuilder(SourceManager source, HTMLDocument document, DocumentOptions options)
         {
             options = options ?? DocumentOptions.Default;
-            document.IsScripting = options.IsScripting;
+            document.Options = options.ForHtml();
             parser = new HtmlParser(document, source);
             parser.ErrorOccurred += ParseErrorOccurred;
         }
@@ -194,6 +194,11 @@ namespace AngleSharp
         {
             var source = new SourceManager(sourceCode);
             var doc = new HTMLDocument();
+
+            //Disable scripting for HTML fragments (security reasons)
+            options = options ?? DocumentOptions.Default;
+            options.Scripting = DocumentOptions.State.Disabled;
+
             var db = new DocumentBuilder(source, doc, options);
 
             if (context != null)
@@ -201,7 +206,6 @@ namespace AngleSharp
                 if (context.OwnerDocument != null && context.OwnerDocument.QuirksMode != QuirksMode.Off)
                     doc.QuirksMode = context.OwnerDocument.QuirksMode;
 
-                doc.IsScripting = false;
                 var parser = (HtmlParser)db.parser;
                 parser.SwitchToFragment(context);
                 return parser.Result.DocumentElement.ChildNodes;

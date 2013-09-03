@@ -47,6 +47,7 @@
     <Compile Include="Foundation\Constants\Headers.cs" />
     <Compile Include="Foundation\FormDataSet.cs" />
     <Compile Include="Foundation\Info.cs" />
+    <Compile Include="Foundation\Options\HtmlOptions.cs" />
     <Compile Include="Foundation\Requests\DefaultHttpRequest.cs" />
     <Compile Include="Foundation\Requests\DefaultHttpRequester.cs" />
     <Compile Include="Foundation\Requests\DefaultHttpResponse.cs" />
