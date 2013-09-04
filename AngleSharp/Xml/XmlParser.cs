@@ -16,7 +16,7 @@ namespace AngleSharp.Xml
     /// and a little bit about XML parser (XHTML context)
     /// http://www.w3.org/html/wg/drafts/html/master/the-xhtml-syntax.html#xml-parser.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public sealed class XmlParser : IParser
     {
         #region Members

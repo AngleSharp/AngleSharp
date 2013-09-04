@@ -10,7 +10,7 @@ namespace AngleSharp.DTD
     /// The parser for the Document Type Definition.
     /// Can be used internally and externally.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     sealed class DtdParser : IParser
     {
         #region Members
@@ -173,10 +173,10 @@ namespace AngleSharp.DTD
             }
         }
 
-        private void AddEntity(DtdEntityToken token)
+        void AddEntity(DtdEntityToken token)
         {
             if (token.IsParameter)
-                _result.AddParameterEntity(token.ToElement());
+                tokenizer.AddParameter(token.ToElement());
             else
                 _result.AddEntity(token.ToElement());
         }

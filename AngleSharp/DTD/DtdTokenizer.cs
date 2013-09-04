@@ -1,4 +1,5 @@
-﻿using AngleSharp.Xml;
+﻿using AngleSharp.DOM;
+using AngleSharp.Xml;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,14 +9,23 @@ namespace AngleSharp.DTD
     /// <summary>
     /// The tokenizer class for Document Type Definitions.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     sealed class DtdTokenizer : XmlBaseTokenizer
     {
+        #region Members
+
+        IMS _stream;
+        List<Entity> _parameters;
+
+        #endregion
+
         #region ctor
 
         public DtdTokenizer(SourceManager src)
             : base(src)
         {
+            _stream = new IMS(this, src);
+            _parameters = new List<Entity>();
             End = Specification.EOF;
         }
 
@@ -23,6 +33,9 @@ namespace AngleSharp.DTD
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sends the final character.
+        /// </summary>
         public Char End
         {
             get;
@@ -33,6 +46,11 @@ namespace AngleSharp.DTD
 
         #region Methods
 
+        public void AddParameter(Entity entity)
+        {
+            _parameters.Add(entity);
+        }
+
         /// <summary>
         /// Scans the DTD in the doctype as specified in the
         /// official XML spec and (in German) here:
@@ -40,17 +58,13 @@ namespace AngleSharp.DTD
         /// </summary>
         public DtdToken Get()
         {
-            var c = _src.Current;
+            var c = _stream.Current;
 
             if (c == End)
                 return DtdToken.EOF;
 
             var element = GetElement(c);
-            c = _src.Next;
-
-            while (c.IsSpaceCharacter())
-                c = _src.Next;
-
+            c = SkipSpaces(c);
             return element;
         }
 
@@ -67,53 +81,54 @@ namespace AngleSharp.DTD
         DtdToken GetElement(Char c)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = _stream.Next;
 
-            if (c == Specification.SBC)
-                return DtdToken.EOF;
-
-            if (c == Specification.LT)
+            if (c == End)
             {
-                c = _src.Next;
+                return DtdToken.EOF;
+            }
+            else if (c == Specification.LT)
+            {
+                c = _stream.Next;
 
                 if (c == Specification.QM)
                 {
-                    return Rework(ProcessingStart(_src.Next));
+                    return Rework(ProcessingStart(_stream.Next));
                 }
                 else if (c == Specification.EM)
                 {
-                    _src.Advance();
+                    _stream.Advance();
 
-                    if (_src.ContinuesWith("ENTITY", false))
+                    if (_stream.ContinuesWith("ENTITY"))
                     {
-                        _src.Advance(5);
-                        return EntityDeclaration(_src.Next);
+                        _stream.Advance(5);
+                        return EntityDeclaration(_stream.Next);
                     }
-                    else if (_src.ContinuesWith("ELEMENT", false))
+                    else if (_stream.ContinuesWith("ELEMENT"))
                     {
-                        _src.Advance(6);
-                        return TypeDeclaration(_src.Next);
+                        _stream.Advance(6);
+                        return TypeDeclaration(_stream.Next);
                     }
-                    else if (_src.ContinuesWith("ATTLIST", false))
+                    else if (_stream.ContinuesWith("ATTLIST"))
                     {
-                        _src.Advance(6);
-                        return AttributeDeclaration(_src.Next);
+                        _stream.Advance(6);
+                        return AttributeDeclaration(_stream.Next);
                     }
-                    else if (_src.ContinuesWith("NOTATION", false))
+                    else if (_stream.ContinuesWith("NOTATION"))
                     {
-                        _src.Advance(7);
-                        return NotationDeclaration(_src.Next);
+                        _stream.Advance(7);
+                        return NotationDeclaration(_stream.Next);
                     }
-                    else if (_src.ContinuesWith("--", false))
+                    else if (_stream.ContinuesWith("--"))
                     {
-                        _src.Advance();
-                        return Rework(CommentStart(_src.Next));
+                        _stream.Advance();
+                        return Rework(CommentStart(_stream.Next));
                     }
                 }
             }
             else if (c == Specification.PERCENT)
             {
-                //TODO
+                return PEReference(_stream.Next);
             }
 
             throw new ArgumentException("Invalid document type declaration.");
@@ -138,14 +153,14 @@ namespace AngleSharp.DTD
         Boolean DeclarationNameBefore(Char c, DtdToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = _stream.Next;
 
             if (c == Specification.NULL)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Specification.REPLACEMENT);
-                return DeclarationName(_src.Next, decl);
+                return DeclarationName(_stream.Next, decl);
             }
             else if (c == Specification.GT)
             {
@@ -155,13 +170,13 @@ namespace AngleSharp.DTD
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
+                _stream.Back();
                 return false;
             }
 
             _stringBuffer.Clear();
             _stringBuffer.Append(c);
-            return DeclarationName(_src.Next, decl);
+            return DeclarationName(_stream.Next, decl);
         }
 
         Boolean DeclarationName(Char c, DtdToken decl)
@@ -172,7 +187,7 @@ namespace AngleSharp.DTD
                 {
                     decl.Name = _stringBuffer.ToString();
                     _stringBuffer.Clear();
-                    return DeclarationNameAfter(_src.Next);
+                    return DeclarationNameAfter(_stream.Next);
                 }
                 else if (c == Specification.GT)
                 {
@@ -187,21 +202,21 @@ namespace AngleSharp.DTD
                 else if (c == Specification.EOF)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
+                    _stream.Back();
                     decl.Name = _stringBuffer.ToString();
                     return false;
                 }
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = _stream.Next;
             }
         }
 
         Boolean DeclarationNameAfter(Char c)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = _stream.Next;
 
             if (c == Specification.GT)
             {
@@ -210,7 +225,7 @@ namespace AngleSharp.DTD
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
+                _stream.Back();
                 return false;
             }
 
@@ -225,17 +240,28 @@ namespace AngleSharp.DTD
         {
             _stringBuffer.Clear();
 
-            if (c.IsNameStart())
+            if (c.IsXmlNameStart())
             {
                 do
                 {
                     _stringBuffer.Append(c);
-                    c = _src.Next;
+                    c = _stream.Next;
                 }
-                while (c.IsName());
+                while (c.IsXmlName());
 
                 if (c == Specification.SC)
-                    return new DtdParameterToken { Name = _stringBuffer.ToString() };
+                {
+                    var temp = _stringBuffer.ToString();
+
+                    foreach (var parameter in _parameters)
+                    {
+                        if (parameter.NodeName == temp)
+                        {
+                            _stream.Push(parameter.NodeValue);
+                            return GetElement(_stream.Next);
+                        }
+                    }
+                }
             }
 
             throw new ArgumentException("Invalid parameter entity reference.");
@@ -255,7 +281,7 @@ namespace AngleSharp.DTD
             var canContinue = false;
 
             if (c.IsSpaceCharacter())
-                canContinue = DeclarationNameBefore(_src.Next, decl);
+                canContinue = DeclarationNameBefore(_stream.Next, decl);
             else if (c == Specification.EOF)
                 throw new ArgumentException("The document ended unexpectedly.");
             else
@@ -267,47 +293,50 @@ namespace AngleSharp.DTD
             if (canContinue && decl.Name == "%")
             {
                 decl.IsParameter = true;
-                canContinue = DeclarationNameBefore(_src.Next, decl);
+                canContinue = DeclarationNameBefore(_stream.Next, decl);
             }
 
-            c = _src.Current;
+            c = _stream.Current;
 
             if (canContinue)
             {
-                if (_src.ContinuesWith("SYSTEM", false))
+                if (_stream.ContinuesWith("SYSTEM"))
                 {
-                    _src.Advance(5);
                     decl.IsExtern = true;
-
-                    do
-                    {
-                        c = _src.Next;
-                    }
-                    while (c.IsSpaceCharacter());
+                    _stream.Advance(5);
+                    return EntityDeclarationBeforeValue(_stream.Next, decl);
+                }
+                else if (_stream.ContinuesWith("PUBLIC"))
+                {
+                    decl.IsExtern = true;
+                    _stream.Advance(5);
+                    return EntityDeclarationBeforeSystem(_stream.Next, decl);
                 }
 
-                _stringBuffer.Clear();
-                decl.Value = EntityDeclarationBeforeValue(c);
-                c = _src.Next;
+                return EntityDeclarationBeforeValue(c, decl);
             }
 
             return EntityDeclarationAfter(c, decl);
         }
 
-        String EntityDeclarationBeforeValue(Char c)
+        DtdToken EntityDeclarationBeforeValue(Char c, DtdEntityToken decl)
         {
+            while (c.IsSpaceCharacter())
+                c = _stream.Next;
+
+            _stringBuffer.Clear();
+
             switch (c)
             {
                 case Specification.DQ:
-                    return EntityDeclarationValue(_src.Next, Specification.DQ);
                 case Specification.SQ:
-                    return EntityDeclarationValue(_src.Next, Specification.SQ);
+                    return EntityDeclarationValue(_stream.Next, c, decl);
                 default:
                     throw new ArgumentException("Declaration invalid.");
             }
         }
 
-        String EntityDeclarationValue(Char c, Char end)
+        DtdToken EntityDeclarationValue(Char c, Char end, DtdEntityToken decl)
         {
             while (c != end)
             {
@@ -315,16 +344,62 @@ namespace AngleSharp.DTD
                     throw new ArgumentException("The document ended unexpectedly.");
 
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = _stream.Next;
             }
 
-            return _stringBuffer.ToString();
+            decl.Value = _stringBuffer.ToString();
+            return EntityDeclarationAfter(_stream.Next, decl);
+        }
+
+        DtdToken EntityDeclarationBeforeSystem(Char c, DtdEntityToken decl)
+        {
+            while (c.IsSpaceCharacter())
+                c = _stream.Next;
+
+            _stringBuffer.Clear();
+
+            switch (c)
+            {
+                case Specification.DQ:
+                case Specification.SQ:
+                    return EntityDeclarationSystem(_stream.Next, c, decl);
+                default:
+                    throw new ArgumentException("Declaration invalid.");
+            }
+        }
+
+        DtdToken EntityDeclarationSystem(Char c, Char quote, DtdEntityToken decl)
+        {
+            while (c != quote)
+            {
+                if (c == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    _stream.Back();
+                    decl.PublicIdentifier = _stringBuffer.ToString();
+                    return decl;
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    _stringBuffer.Append(Specification.REPLACEMENT);
+                }
+                else if (c.IsPubidChar())
+                    _stringBuffer.Append(c);
+                else
+                    RaiseErrorOccurred(ErrorCode.InvalidCharacter);
+
+                c = _stream.Next;
+            }
+
+            decl.PublicIdentifier = _stringBuffer.ToString();
+            return EntityDeclarationBeforeValue(_stream.Next, decl);
         }
 
         DtdToken EntityDeclarationAfter(Char c, DtdEntityToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = _stream.Next;
 
             if (c == Specification.EOF)
                 throw new ArgumentException("The document ended unexpectedly.");
@@ -332,24 +407,24 @@ namespace AngleSharp.DTD
                 return decl;
             else if (decl.IsExtern && String.IsNullOrEmpty(decl.ExternNotation))
             {
-                if (_src.ContinuesWith("NDATA", false))
+                if (_stream.ContinuesWith("NDATA"))
                 {
-                    _src.Advance(4);
-                    c = _src.Next;
+                    _stream.Advance(4);
+                    c = _stream.Next;
 
                     while (c.IsSpaceCharacter())
-                        c = _src.Next;
+                        c = _stream.Next;
 
-                    if (c.IsNameStart())
+                    if (c.IsXmlNameStart())
                     {
                         _stringBuffer.Clear();
 
                         do
                         {
                             _stringBuffer.Append(c);
-                            c = _src.Next;
+                            c = _stream.Next;
                         }
-                        while (c.IsName());
+                        while (c.IsXmlName());
 
                         decl.ExternNotation = _stringBuffer.ToString();
                         return EntityDeclarationAfter(c, decl);
@@ -374,7 +449,7 @@ namespace AngleSharp.DTD
             var canContinue = false;
 
             if (c.IsSpaceCharacter())
-                canContinue = DeclarationNameBefore(_src.Next, decl);
+                canContinue = DeclarationNameBefore(_stream.Next, decl);
             else if (c == Specification.EOF)
                 throw new ArgumentException("The document ended unexpectedly.");
             else
@@ -383,20 +458,20 @@ namespace AngleSharp.DTD
                 canContinue = DeclarationNameBefore(c, decl);
             }
 
-            c = _src.Current;
+            c = _stream.Current;
 
             if (canContinue)
             {
                 while (true)
                 {
                     while (c.IsSpaceCharacter())
-                        c = _src.Next;
+                        c = _stream.Next;
 
-                    if (c.IsNameStart())
+                    if (c.IsXmlNameStart())
                     {
                         _stringBuffer.Clear();
                         decl.Attributes.Add(AttributeDeclarationName(c));
-                        c = _src.Current;
+                        c = _stream.Current;
                         continue;
                     }
 
@@ -431,22 +506,22 @@ namespace AngleSharp.DTD
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = _stream.Next;
             }
 
-            return AttributeDeclarationType(_src.Next, value);
+            return AttributeDeclarationType(_stream.Next, value);
         }
 
         AttributeDeclarationEntry AttributeDeclarationType(Char c, AttributeDeclarationEntry value)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = _stream.Next;
 
             if (c == Specification.RBO)
             {
                 var type = new AttributeEnumeratedType();
                 value.ValueType = type;
-                AttributeDeclarationTypeEnumeration(_src.Next, type);
+                AttributeDeclarationTypeEnumeration(_stream.Next, type);
             }
             else if (c.IsUppercaseAscii())
             {
@@ -472,7 +547,7 @@ namespace AngleSharp.DTD
                     else
                         _stringBuffer.Append(c);
 
-                    c = _src.Next;
+                    c = _stream.Next;
                 }
 
                 switch (id)
@@ -506,19 +581,19 @@ namespace AngleSharp.DTD
                         value.ValueType = type;
 
                         while (c.IsSpaceCharacter())
-                            c = _src.Next;
+                            c = _stream.Next;
 
                         if (c != Specification.RBO)
                             throw new ArgumentException("Declaration invalid.");
 
-                        AttributeDeclarationTypeEnumeration(_src.Next, type);
+                        AttributeDeclarationTypeEnumeration(_stream.Next, type);
                         break;
                     default:
                         throw new ArgumentException("Declaration invalid.");
                 }
             }
 
-            return AttributeDeclarationValue(_src.Next, value);
+            return AttributeDeclarationValue(_stream.Next, value);
         }
 
         void AttributeDeclarationTypeEnumeration(Char c, AttributeEnumeratedType parent)
@@ -526,23 +601,23 @@ namespace AngleSharp.DTD
             while (true)
             {
                 while (c.IsSpaceCharacter())
-                    c = _src.Next;
+                    c = _stream.Next;
 
                 if (c == Specification.EOF)
                     throw new ArgumentException("The document ended unexpectedly.");
 
-                if (!c.IsName())
+                if (!c.IsXmlName())
                     throw new ArgumentException("Declaration invalid.");
 
                 do
                 {
                     _stringBuffer.Append(c);
-                    c = _src.Next;
+                    c = _stream.Next;
                 }
-                while (c.IsName());
+                while (c.IsXmlName());
 
                 while (c.IsSpaceCharacter())
-                    c = _src.Next;
+                    c = _stream.Next;
 
                 parent.Names.Add(_stringBuffer.ToString());
                 _stringBuffer.Clear();
@@ -550,7 +625,7 @@ namespace AngleSharp.DTD
                 if (c == Specification.RBC)
                     break;
                 else if (c == Specification.PIPE)
-                    c = _src.Next;
+                    c = _stream.Next;
                 else
                     throw new ArgumentException("Declaration invalid.");
             }
@@ -559,7 +634,7 @@ namespace AngleSharp.DTD
         AttributeDeclarationEntry AttributeDeclarationValue(Char c, AttributeDeclarationEntry value)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = _stream.Next;
 
             var isfixed = false;
 
@@ -568,7 +643,7 @@ namespace AngleSharp.DTD
                 do
                 {
                     _stringBuffer.Append(c);
-                    c = _src.Next;
+                    c = _stream.Next;
 
                     if (c == Specification.EOF)
                         throw new ArgumentException("The document ended unexpectedly.");
@@ -594,12 +669,12 @@ namespace AngleSharp.DTD
                 }
 
                 while (c.IsSpaceCharacter())
-                    c = _src.Next;
+                    c = _stream.Next;
             }
 
             var defvalue = AttributeDeclarationBeforeDefaultValue(c);
             _stringBuffer.Clear();
-            _src.Advance();
+            _stream.Advance();
 
             value.ValueDefault = new AttributeCustomValue
             {
@@ -614,9 +689,9 @@ namespace AngleSharp.DTD
             switch (c)
             {
                 case Specification.DQ:
-                    return AttributeDeclarationDefaultValue(_src.Next, Specification.DQ);
+                    return AttributeDeclarationDefaultValue(_stream.Next, Specification.DQ);
                 case Specification.SQ:
-                    return AttributeDeclarationDefaultValue(_src.Next, Specification.SQ);
+                    return AttributeDeclarationDefaultValue(_stream.Next, Specification.SQ);
                 default:
                     throw new ArgumentException("Declaration invalid.");
             }
@@ -632,7 +707,7 @@ namespace AngleSharp.DTD
                     throw new ArgumentException("The document ended unexpectedly.");
 
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = _stream.Next;
             }
 
             return _stringBuffer.ToString();
@@ -651,7 +726,7 @@ namespace AngleSharp.DTD
                 else if (c == Specification.EOF)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
+                    _stream.Back();
                     return decl;
                 }
                 else if (!c.IsSpaceCharacter())
@@ -662,7 +737,7 @@ namespace AngleSharp.DTD
                     hasError = true;
                 }
 
-                c = _src.Next;
+                c = _stream.Next;
             }
         }
 
@@ -680,7 +755,7 @@ namespace AngleSharp.DTD
             var canContinue = false;
 
             if (c.IsSpaceCharacter())
-                canContinue = DeclarationNameBefore(_src.Next, decl);
+                canContinue = DeclarationNameBefore(_stream.Next, decl);
             else if (c == Specification.EOF)
                 throw new ArgumentException("The document ended unexpectedly.");
             else
@@ -691,15 +766,15 @@ namespace AngleSharp.DTD
 
             if (canContinue)
             {
-                if (_src.ContinuesWith("PUBLIC", false))
+                if (_stream.ContinuesWith("PUBLIC"))
                 {
-                    _src.Advance(5);
-                    return NotationDeclarationBeforePublic(_src.Next, decl);
+                    _stream.Advance(5);
+                    return NotationDeclarationBeforePublic(_stream.Next, decl);
                 }
-                else if (_src.ContinuesWith("SYSTEM", false))
+                else if (_stream.ContinuesWith("SYSTEM"))
                 {
-                    _src.Advance(5);
-                    return NotationDeclarationBeforeSystem(_src.Next, decl);
+                    _stream.Advance(5);
+                    return NotationDeclarationBeforeSystem(_stream.Next, decl);
                 }
 
                 return NotationDeclarationAfterSystem(c, decl);
@@ -712,7 +787,7 @@ namespace AngleSharp.DTD
         DtdNotationToken NotationDeclarationBeforePublic(Char c, DtdNotationToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = _stream.Next;
 
             if (c == Specification.GT)
             {
@@ -722,16 +797,16 @@ namespace AngleSharp.DTD
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
+                _stream.Back();
                 return decl;
             }
             else if (c == Specification.SQ)
             {
-                return NotationDeclarationPublic(_src.Next, Specification.SQ, decl);
+                return NotationDeclarationPublic(_stream.Next, Specification.SQ, decl);
             }
             else if (c == Specification.DQ)
             {
-                return NotationDeclarationPublic(_src.Next, Specification.DQ, decl);
+                return NotationDeclarationPublic(_stream.Next, Specification.DQ, decl);
             }
             else
             {
@@ -748,7 +823,7 @@ namespace AngleSharp.DTD
                 if (c == Specification.EOF)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
+                    _stream.Back();
                     decl.PublicIdentifier = _stringBuffer.ToString();
                     return decl;
                 }
@@ -760,19 +835,19 @@ namespace AngleSharp.DTD
                 else if (c == quote)
                 {
                     decl.PublicIdentifier = _stringBuffer.ToString();
-                    return NotationDeclarationAfterPublic(_src.Next, decl);
+                    return NotationDeclarationAfterPublic(_stream.Next, decl);
                 }
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = _stream.Next;
             }
         }
 
         DtdNotationToken NotationDeclarationAfterPublic(Char c, DtdNotationToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = _stream.Next;
 
             if (c == Specification.GT)
             {
@@ -781,16 +856,16 @@ namespace AngleSharp.DTD
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
+                _stream.Back();
                 return decl;
             }
             else if (c == Specification.SQ)
             {
-                return NotationDeclarationSystem(_src.Next, Specification.SQ, decl);
+                return NotationDeclarationSystem(_stream.Next, Specification.SQ, decl);
             }
             else if (c == Specification.DQ)
             {
-                return NotationDeclarationSystem(_src.Next, Specification.DQ, decl);
+                return NotationDeclarationSystem(_stream.Next, Specification.DQ, decl);
             }
             else
             {
@@ -801,7 +876,7 @@ namespace AngleSharp.DTD
         DtdNotationToken NotationDeclarationBeforeSystem(Char c, DtdNotationToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = _stream.Next;
 
             if (c == Specification.GT)
             {
@@ -811,16 +886,16 @@ namespace AngleSharp.DTD
             else if (c == Specification.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
+                _stream.Back();
                 return decl;
             }
             else if (c == Specification.SQ)
             {
-                return NotationDeclarationSystem(_src.Next, Specification.SQ, decl);
+                return NotationDeclarationSystem(_stream.Next, Specification.SQ, decl);
             }
             else if (c == Specification.DQ)
             {
-                return NotationDeclarationSystem(_src.Next, Specification.DQ, decl);
+                return NotationDeclarationSystem(_stream.Next, Specification.DQ, decl);
             }
             else
             {
@@ -838,7 +913,7 @@ namespace AngleSharp.DTD
                 if (c == Specification.EOF)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
+                    _stream.Back();
                     decl.SystemIdentifier = _stringBuffer.ToString();
                     return decl;
                 }
@@ -850,14 +925,14 @@ namespace AngleSharp.DTD
                 else if (c == quote)
                 {
                     decl.SystemIdentifier = _stringBuffer.ToString();
-                    return NotationDeclarationAfterSystem(_src.Next, decl);
+                    return NotationDeclarationAfterSystem(_stream.Next, decl);
                 }
                 else if (c.IsPubidChar())
                     _stringBuffer.Append(c);
                 else
                     RaiseErrorOccurred(ErrorCode.InvalidCharacter);
 
-                c = _src.Next;
+                c = _stream.Next;
             }
         }
 
@@ -874,7 +949,7 @@ namespace AngleSharp.DTD
                 else if (c == Specification.EOF)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
+                    _stream.Back();
                     return decl;
                 }
                 else if (!c.IsSpaceCharacter())
@@ -885,7 +960,7 @@ namespace AngleSharp.DTD
                     hasError = true;
                 }
 
-                c = _src.Next;
+                c = _stream.Next;
             }
         }
 
@@ -903,7 +978,7 @@ namespace AngleSharp.DTD
             var canContinue = false;
 
             if (c.IsSpaceCharacter())
-                canContinue = DeclarationNameBefore(_src.Next, decl);
+                canContinue = DeclarationNameBefore(_stream.Next, decl);
             else if (c == Specification.EOF)
                 throw new ArgumentException("The document ended unexpectedly.");
             else
@@ -914,24 +989,24 @@ namespace AngleSharp.DTD
 
             if (canContinue)
             {
-                c = _src.Current;
+                c = _stream.Current;
 
                 while (c.IsSpaceCharacter())
-                    c = _src.Next;
+                    c = _stream.Next;
 
                 if (c == Specification.RBO)
-                    return TypeDeclarationBeforeContent(_src.Next, decl);
-                else if (_src.ContinuesWith("ANY", false))
+                    return TypeDeclarationBeforeContent(_stream.Next, decl);
+                else if (_stream.ContinuesWith("ANY"))
                 {
-                    _src.Advance(2);
+                    _stream.Advance(2);
                     decl.CType = ElementDeclarationEntry.ContentType.Any;
-                    return TypeDeclarationAfterContent(_src.Next, decl);
+                    return TypeDeclarationAfterContent(_stream.Next, decl);
                 }
-                else if (_src.ContinuesWith("EMPTY", false))
+                else if (_stream.ContinuesWith("EMPTY"))
                 {
-                    _src.Advance(4);
+                    _stream.Advance(4);
                     decl.CType = ElementDeclarationEntry.ContentType.Empty;
-                    return TypeDeclarationAfterContent(_src.Next, decl);
+                    return TypeDeclarationAfterContent(_stream.Next, decl);
                 }
 
                 return TypeDeclarationAfterContent(c, decl);
@@ -944,13 +1019,13 @@ namespace AngleSharp.DTD
         DtdElementToken TypeDeclarationBeforeContent(Char c, DtdElementToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = _stream.Next;
 
-            if (_src.ContinuesWith("#PCDATA", false))
+            if (_stream.ContinuesWith("#PCDATA"))
             {
-                _src.Advance(6);
+                _stream.Advance(6);
                 decl.CType = ElementDeclarationEntry.ContentType.Mixed;
-                decl.Entry = TypeDeclarationMixed(_src.Next);
+                decl.Entry = TypeDeclarationMixed(_stream.Next);
             }
             else
             {
@@ -958,7 +1033,7 @@ namespace AngleSharp.DTD
                 decl.Entry = TypeDeclarationChildren(c);
             }
 
-            return TypeDeclarationAfterContent(_src.Current, decl);
+            return TypeDeclarationAfterContent(_stream.Current, decl);
         }
 
         ElementDeclarationEntry TypeDeclarationChildren(Char c)
@@ -978,32 +1053,32 @@ namespace AngleSharp.DTD
                     else if (connection != c)
                         throw new ArgumentException("Invalid content specification in element type declaration.");
 
-                    c = _src.Next;
+                    c = _stream.Next;
                 }
 
                 while (c.IsSpaceCharacter())
-                    c = _src.Next;
+                    c = _stream.Next;
 
-                if (c.IsNameStart())
+                if (c.IsXmlNameStart())
                 {
                     var name = TypeDeclarationName(c);
                     entries.Add(name);
                 }
                 else if (c == Specification.RBO)
-                    entries.Add(TypeDeclarationChildren(_src.Next));
+                    entries.Add(TypeDeclarationChildren(_stream.Next));
                 else
                     throw new ArgumentException("Invalid content specification in element type declaration.");
 
-                c = _src.Current;
+                c = _stream.Current;
 
                 while (c.IsSpaceCharacter())
-                    c = _src.Next;
+                    c = _stream.Next;
 
                 if (c == Specification.RBC)
                     break;
             }
 
-            c = _src.Next;
+            c = _stream.Next;
 
             if (entries.Count == 1)
                 return entries[0];
@@ -1028,7 +1103,7 @@ namespace AngleSharp.DTD
             _stringBuffer.Clear();
             _stringBuffer.Append(c);
 
-            while ((c = _src.Next).IsName())
+            while ((c = _stream.Next).IsXmlName())
                 _stringBuffer.Append(c);
 
             return new ElementNameDeclarationEntry
@@ -1043,15 +1118,15 @@ namespace AngleSharp.DTD
             switch (c)
             {
                 case Specification.ASTERISK:
-                    _src.Advance();
+                    _stream.Advance();
                     return ElementDeclarationEntry.ElementQuantifier.ZeroOrMore;
 
                 case Specification.QM:
-                    _src.Advance();
+                    _stream.Advance();
                     return ElementDeclarationEntry.ElementQuantifier.ZeroOrOne;
 
                 case Specification.PLUS:
-                    _src.Advance();
+                    _stream.Advance();
                     return ElementDeclarationEntry.ElementQuantifier.OneOrMore;
 
                 default:
@@ -1066,16 +1141,16 @@ namespace AngleSharp.DTD
             while (true)
             {
                 while (c.IsSpaceCharacter())
-                    c = _src.Next;
+                    c = _stream.Next;
 
                 if (c == Specification.RBC)
                 {
-                    c = _src.Next;
+                    c = _stream.Next;
 
                     if (c == Specification.ASTERISK)
                     {
                         entry.Quantifier = ElementDeclarationEntry.ElementQuantifier.ZeroOrMore;
-                        _src.Advance();
+                        _stream.Advance();
                         return entry;
                     }
 
@@ -1086,18 +1161,18 @@ namespace AngleSharp.DTD
                 }
                 else if (c == Specification.PIPE)
                 {
-                    c = _src.Next;
+                    c = _stream.Next;
 
                     while (c.IsSpaceCharacter())
-                        c = _src.Next;
+                        c = _stream.Next;
 
                     _stringBuffer.Clear();
 
-                    if (c.IsNameStart())
+                    if (c.IsXmlNameStart())
                     {
                         _stringBuffer.Append(c);
 
-                        while ((c = _src.Next).IsName())
+                        while ((c = _stream.Next).IsXmlName())
                             _stringBuffer.Append(c);
 
                         entry.Names.Add(_stringBuffer.ToString());
@@ -1123,7 +1198,7 @@ namespace AngleSharp.DTD
                 else if (c == Specification.EOF)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
+                    _stream.Back();
                     return decl;
                 }
                 else if (!c.IsSpaceCharacter())
@@ -1134,8 +1209,146 @@ namespace AngleSharp.DTD
                     hasError = true;
                 }
 
-                c = _src.Next;
+                c = _stream.Next;
             }
+        }
+
+        #endregion
+
+        #region Intermediate Stream
+
+        sealed class IMS
+        {
+            #region Members
+
+            SourceManager _base;
+            Int32 _current;
+            Int32 _final;
+            IMS _prev;
+            IMS _next;
+            DtdTokenizer _parent;
+
+            #endregion
+
+            #region ctor
+
+            public IMS(DtdTokenizer parent, SourceManager src)
+            {
+                _parent = parent;
+                _base = src;
+                _current = 0;
+                _final = Int32.MaxValue;
+            }
+
+            IMS(IMS prev)
+            {
+                _parent = prev._parent;
+                _base = prev._base;
+                _current = 0;
+                _final = prev._final - prev._current;
+            }
+
+            IMS(IMS prev, IMS next, String text)
+            {
+                _prev = prev;
+                _next = next;
+                _parent = prev._parent;
+                _base = new SourceManager(text);
+                _current = 0;
+                _final = text.Length;
+            }
+
+            #endregion
+
+            #region Properties
+
+            public Char Next
+            {
+                get 
+                { 
+                    var ims = GetCurrent();
+                    var ipBefore = ims._base.InsertionPoint;
+                    var chr = ims._base.Next;
+                    ims._current += ims._base.InsertionPoint - ipBefore;
+                    return chr;
+                }
+            }
+
+            public Char Current 
+            {
+                get { return GetCurrent()._base.Current; }
+            }
+
+            #endregion
+
+            #region Methods
+
+            public void Push(String text)
+            {
+                var after = new IMS(this);
+                _next = after._prev = new IMS(this, after, text);
+                _final = _current;
+            }
+
+            public void Advance()
+            {
+                var ims = GetCurrent();
+                var ipBefore = ims._base.InsertionPoint;
+                ims._base.Advance();
+                ims._current += ims._base.InsertionPoint - ipBefore;
+            }
+
+            public void Back()
+            {
+                var ims = GetCurrent();
+
+                while (ims._current == 0)
+                    ims = ims._prev;
+                    
+                var ipBefore = ims._base.InsertionPoint;
+                ims._base.Back();
+                ims._current += ims._base.InsertionPoint - ipBefore;
+            }
+
+            public void Advance(Int32 n)
+            {
+                for (int i = 0; i < n; i++)
+                    Advance();
+            }
+
+            public Boolean ContinuesWith(String word)
+            {
+                return GetCurrent()._base.ContinuesWith(word, false);
+            }
+
+            #endregion
+
+            #region Helper
+
+            IMS GetCurrent()
+            {
+                if (_current >= _final)
+                    return (_parent._stream = _next);
+
+                return this;
+            }
+
+            #endregion
+        }
+
+        #endregion
+
+        #region Helper
+
+        Char SkipSpaces(Char c)
+        {
+            do
+            {
+                c = _stream.Next;
+            }
+            while (c.IsSpaceCharacter());
+
+            return c;
         }
 
         #endregion

@@ -98,6 +98,16 @@ namespace AngleSharp.DOM
             get { return _xmlVersion; }
         }
 
+        /// <summary>
+        /// Gets or sets the entity's value.
+        /// </summary>
+        [DOM("textContent")]
+        public override String TextContent
+        {
+            get { return NodeValue; }
+            set { NodeValue = value; }
+        }
+
         #endregion
 
         #region Methods

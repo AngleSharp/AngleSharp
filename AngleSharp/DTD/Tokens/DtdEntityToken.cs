@@ -25,6 +25,17 @@ namespace AngleSharp.DTD
             set;
         }
 
+        public String PublicIdentifier 
+        { 
+            get; 
+            set; 
+        }
+
+        public Boolean IsPublic
+        {
+            get { return PublicIdentifier != null; }
+        }
+
         public Boolean IsExtern
         {
             get;
@@ -49,10 +60,10 @@ namespace AngleSharp.DTD
 
         public Entity ToElement()
         {
-            //TODO
             return new Entity
             {
-                NotationName = Name,
+                NodeName = Name,
+                NotationName = null,
                 NodeValue = Value
             };
         }
