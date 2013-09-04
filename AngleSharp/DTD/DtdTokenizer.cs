@@ -3,18 +3,19 @@ using AngleSharp.Xml;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 
 namespace AngleSharp.DTD
 {
     /// <summary>
     /// The tokenizer class for Document Type Definitions.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     sealed class DtdTokenizer : XmlBaseTokenizer
     {
         #region Members
 
-        IMS _stream;
+        IntermediateStream _stream;
         List<Entity> _parameters;
 
         #endregion
@@ -24,7 +25,7 @@ namespace AngleSharp.DTD
         public DtdTokenizer(SourceManager src)
             : base(src)
         {
-            _stream = new IMS(this, src);
+            _stream = new IntermediateStream(src);
             _parameters = new List<Entity>();
             End = Specification.EOF;
         }
@@ -257,7 +258,7 @@ namespace AngleSharp.DTD
                     {
                         if (parameter.NodeName == temp)
                         {
-                            _stream.Push(parameter.NodeValue);
+                            _stream.Push(temp.Length + 2, parameter.NodeValue);
                             return GetElement(_stream.Next);
                         }
                     }
@@ -293,7 +294,7 @@ namespace AngleSharp.DTD
             if (canContinue && decl.Name == "%")
             {
                 decl.IsParameter = true;
-                canContinue = DeclarationNameBefore(_stream.Next, decl);
+                canContinue = DeclarationNameBefore(_stream.Current, decl);
             }
 
             c = _stream.Current;
@@ -1217,45 +1218,23 @@ namespace AngleSharp.DTD
 
         #region Intermediate Stream
 
-        sealed class IMS
+        sealed class IntermediateStream
         {
             #region Members
 
             SourceManager _base;
-            Int32 _current;
-            Int32 _final;
-            IMS _prev;
-            IMS _next;
-            DtdTokenizer _parent;
+            StringBuilder _buffer;
+            Int32 _head;
 
             #endregion
 
             #region ctor
 
-            public IMS(DtdTokenizer parent, SourceManager src)
+            public IntermediateStream(SourceManager src)
             {
-                _parent = parent;
+                _head = 0;
+                _buffer = new StringBuilder();
                 _base = src;
-                _current = 0;
-                _final = Int32.MaxValue;
-            }
-
-            IMS(IMS prev)
-            {
-                _parent = prev._parent;
-                _base = prev._base;
-                _current = 0;
-                _final = prev._final - prev._current;
-            }
-
-            IMS(IMS prev, IMS next, String text)
-            {
-                _prev = prev;
-                _next = next;
-                _parent = prev._parent;
-                _base = new SourceManager(text);
-                _current = 0;
-                _final = text.Length;
             }
 
             #endregion
@@ -1265,49 +1244,47 @@ namespace AngleSharp.DTD
             public Char Next
             {
                 get 
-                { 
-                    var ims = GetCurrent();
-                    var ipBefore = ims._base.InsertionPoint;
-                    var chr = ims._base.Next;
-                    ims._current += ims._base.InsertionPoint - ipBefore;
-                    return chr;
+                {
+                    if (_head == _buffer.Length)
+                    {
+                        var chr = _base.Next;
+                        _buffer.Append(chr);
+                        _head++;
+                        return chr;
+                    }
+
+                    return _buffer[_head++];
                 }
             }
 
             public Char Current 
             {
-                get { return GetCurrent()._base.Current; }
+                get { return _buffer.Length == _head ? _base.Current : _buffer[_head]; }
             }
 
             #endregion
 
             #region Methods
 
-            public void Push(String text)
+            public void Push(Int32 remove, String text)
             {
-                var after = new IMS(this);
-                _next = after._prev = new IMS(this, after, text);
-                _final = _current;
+                var index = _head - remove;
+                _buffer.Remove(index, remove);
+                _buffer.Insert(index, text);
+                _head = index + text.Length;
             }
 
             public void Advance()
             {
-                var ims = GetCurrent();
-                var ipBefore = ims._base.InsertionPoint;
-                ims._base.Advance();
-                ims._current += ims._base.InsertionPoint - ipBefore;
+                if (_head == _buffer.Length)
+                    _buffer.Append(_base.Next);
+
+                _head++;
             }
 
             public void Back()
             {
-                var ims = GetCurrent();
-
-                while (ims._current == 0)
-                    ims = ims._prev;
-                    
-                var ipBefore = ims._base.InsertionPoint;
-                ims._base.Back();
-                ims._current += ims._base.InsertionPoint - ipBefore;
+                _head--;
             }
 
             public void Advance(Int32 n)
@@ -1318,19 +1295,21 @@ namespace AngleSharp.DTD
 
             public Boolean ContinuesWith(String word)
             {
-                return GetCurrent()._base.ContinuesWith(word, false);
-            }
+                if (_head == _buffer.Length)
+                    return _base.ContinuesWith(word, false);
 
-            #endregion
+                for (int i = 0; i < word.Length; i++)
+                {
+                    if (Current != word[i])
+                    {
+                        _head -= i;
+                        return false;
+                    }
 
-            #region Helper
+                    Advance();
+                }
 
-            IMS GetCurrent()
-            {
-                if (_current >= _final)
-                    return (_parent._stream = _next);
-
-                return this;
+                return true;
             }
 
             #endregion

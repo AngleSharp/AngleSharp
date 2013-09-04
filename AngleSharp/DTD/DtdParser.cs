@@ -10,7 +10,7 @@ namespace AngleSharp.DTD
     /// The parser for the Document Type Definition.
     /// Can be used internally and externally.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     sealed class DtdParser : IParser
     {
         #region Members

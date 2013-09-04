@@ -16,6 +16,7 @@ namespace AngleSharp.DOM
         String _inputEncoding;
         String _xmlVersion;
         String _xmlEncoding;
+        String _value;
 
         #endregion
 
@@ -106,6 +107,16 @@ namespace AngleSharp.DOM
         {
             get { return NodeValue; }
             set { NodeValue = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the value of the entity.
+        /// </summary>
+        [DOM("nodeValue")]
+        public override String NodeValue
+        {
+            get { return _value; }
+            set { _value = value; }
         }
 
         #endregion
