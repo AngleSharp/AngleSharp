@@ -9,7 +9,7 @@ namespace UnitTests.Xml
     /// http://www.w3.org/XML/Test/xmlconf-20031210.html
     /// Generated tests taken till ln 2206
     /// </summary>
-    //[TestClass]
+    [TestClass]
     public class XmlValidDocuments
     {		
         /// <summary>
