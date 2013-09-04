@@ -40,6 +40,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Css\CssTokenizer.cs" />
     <Compile Include="DOM\Objects\FileEntry.cs" />
+    <Compile Include="DTD\Tokens\DtdParameterToken.cs" />
     <Compile Include="Events\ParseErrorEventHandler.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Foundation\Constants\AttributeNames.cs" />
@@ -183,7 +184,6 @@
     <Compile Include="Foundation\Mutations\MutationObserverInit.cs" />
     <Compile Include="Foundation\Mutations\MutationRecord.cs" />
     <Compile Include="Foundation\Constants\Namespaces.cs" />
-    <Compile Include="Foundation\Resources.cs" />
     <Compile Include="DOM\Interfaces\IDocumentStyle.cs" />
     <Compile Include="DOM\Interfaces\IDOMImplementation.cs" />
     <Compile Include="DOM\Interfaces\IDocument.cs" />

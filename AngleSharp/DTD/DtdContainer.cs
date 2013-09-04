@@ -16,6 +16,7 @@ namespace AngleSharp.DTD
         List<ProcessingInstruction> _pis;
         List<Comment> _comments;
         List<Entity> _entities;
+        List<Entity> _parameterEntities;
         List<AttributeDeclaration> _attributes;
         List<ElementDeclaration> _elements;
         List<Node> _nodes;
@@ -31,6 +32,7 @@ namespace AngleSharp.DTD
             _pis = new List<ProcessingInstruction>();
             _comments = new List<Comment>();
             _entities = new List<Entity>();
+            _parameterEntities = new List<Entity>();
             _notations = new List<Notation>();
             _attributes = new List<AttributeDeclaration>();
             _elements = new List<ElementDeclaration>();
@@ -160,6 +162,12 @@ namespace AngleSharp.DTD
         {
             _nodes.Add(entity);
             _entities.Add(entity);
+        }
+
+        internal void AddParameterEntity(Entity entity)
+        {
+            _nodes.Add(entity);
+            _parameterEntities.Add(entity);
         }
 
         internal void AddProcessingInstruction(ProcessingInstruction pi)

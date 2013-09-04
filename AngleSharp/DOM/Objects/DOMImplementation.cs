@@ -1,6 +1,7 @@
 ﻿using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Xml;
 using System;
+using System.Collections.Generic;
 
 namespace AngleSharp.DOM
 {
@@ -10,11 +11,46 @@ namespace AngleSharp.DOM
     [DOM("DOMImplementation")]
     public sealed class DOMImplementation : IDOMImplementation
     {
+        #region Features
+
+        static readonly List<KeyValuePair<String, String>> _features;
+
+        static DOMImplementation()
+        {
+            _features = new List<KeyValuePair<String, String>>();
+            AddFeature("XML", "1.0");
+            AddFeature("HTML", "1.0");
+            AddFeature("Core", "2.0");
+            AddFeature("XML", "2.0");
+            AddFeature("HTML", "2.0");
+            AddFeature("Views", "2.0");
+            AddFeature("StyleSheets", "2.0");
+            AddFeature("CSS", "2.0");
+            AddFeature("CSS2", "2.0");
+            //Events 2.0
+            //UIEvents 2.0
+            //MutationEvents 2.0
+            //HTMLEvents 2.0
+            //Range 2.0
+            //Traversal 2.0
+        }
+
+        static void AddFeature(String feature, String version)
+        {
+            _features.Add(new KeyValuePair<String, String>(feature, version));
+        }
+
+        #endregion
+
+        #region ctor
+
         internal DOMImplementation()
         {
         }
 
-        //TODO
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Creates an empty DocumentType node. Entity declarations and notations are not made available. Entity reference expansions and default attribute additions do not occur.
@@ -77,8 +113,13 @@ namespace AngleSharp.DOM
         [DOM("hasFeature")]
         public Boolean HasFeature(String feature, String version)
         {
-            //TODO
+            foreach (var _feature in _features)
+                if (_feature.Key == feature && _feature.Value == version)
+                    return true;
+
             return false;
         }
+
+        #endregion
     }
 }

@@ -33,6 +33,12 @@ namespace AngleSharp.Xml
             set;
         }
 
+        public Boolean IsHex
+        {
+            get;
+            set;
+        }
+
         public String Value
         {
             get { return _value; }

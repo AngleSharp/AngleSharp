@@ -193,15 +193,29 @@ namespace AngleSharp.Xml
             if (c == Specification.NUM)
             {
                 c = _src.Next;
+                var hex = c == 'x' || c == 'X';
 
-                while (c.IsHex())
+                if (hex)
                 {
-                    _stringBuffer.Append(c);
                     c = _src.Next;
+
+                    while (c.IsHex())
+                    {
+                        _stringBuffer.Append(c);
+                        c = _src.Next;
+                    }
+                }
+                else
+                {
+                    while (c.IsDigit())
+                    {
+                        _stringBuffer.Append(c);
+                        c = _src.Next;
+                    }
                 }
 
                 if (_stringBuffer.Length > 0 && c == Specification.SC)
-                    return new XmlEntityToken { Value = _stringBuffer.ToString(), IsNumeric = true };
+                    return new XmlEntityToken { Value = _stringBuffer.ToString(), IsNumeric = true, IsHex = hex };
             }
             else if (c.IsNameStart())
             {

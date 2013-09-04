@@ -49,11 +49,12 @@ namespace AngleSharp.DTD
 
         public Entity ToElement()
         {
-            var entity = new Entity();
             //TODO
-            entity.NotationName = Name;
-            entity.NodeValue = Value;
-            return entity;
+            return new Entity
+            {
+                NotationName = Name,
+                NodeValue = Value
+            };
         }
 
         #endregion

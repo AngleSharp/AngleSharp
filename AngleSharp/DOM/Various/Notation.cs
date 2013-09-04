@@ -20,6 +20,30 @@ namespace AngleSharp.DOM
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the value of the public identifier.
+        /// </summary>
+        [DOM("publicId")]
+        public String PublicId
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the value of the system identifier.
+        /// </summary>
+        [DOM("systemId")]
+        public String SystemId
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>

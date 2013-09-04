@@ -69,6 +69,9 @@ namespace AngleSharp.DTD
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
+            if (c == Specification.SBC)
+                return DtdToken.EOF;
+
             if (c == Specification.LT)
             {
                 c = _src.Next;
@@ -107,6 +110,10 @@ namespace AngleSharp.DTD
                         return Rework(CommentStart(_src.Next));
                     }
                 }
+            }
+            else if (c == Specification.PERCENT)
+            {
+                //TODO
             }
 
             throw new ArgumentException("Invalid document type declaration.");
@@ -212,6 +219,30 @@ namespace AngleSharp.DTD
 
         #endregion
 
+        #region Parameter Entity
+
+        DtdToken PEReference(Char c)
+        {
+            _stringBuffer.Clear();
+
+            if (c.IsNameStart())
+            {
+                do
+                {
+                    _stringBuffer.Append(c);
+                    c = _src.Next;
+                }
+                while (c.IsName());
+
+                if (c == Specification.SC)
+                    return new DtdParameterToken { Name = _stringBuffer.ToString() };
+            }
+
+            throw new ArgumentException("Invalid parameter entity reference.");
+        }
+
+        #endregion
+
         #region Entity Declaration
 
         /// <summary>
@@ -243,7 +274,7 @@ namespace AngleSharp.DTD
 
             if (canContinue)
             {
-                if (_src.ContinuesWith("SYSTEM"))
+                if (_src.ContinuesWith("SYSTEM", false))
                 {
                     _src.Advance(5);
                     decl.IsExtern = true;
@@ -301,7 +332,7 @@ namespace AngleSharp.DTD
                 return decl;
             else if (decl.IsExtern && String.IsNullOrEmpty(decl.ExternNotation))
             {
-                if (_src.ContinuesWith("NDATA"))
+                if (_src.ContinuesWith("NDATA", false))
                 {
                     _src.Advance(4);
                     c = _src.Next;

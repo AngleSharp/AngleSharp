@@ -68,7 +68,12 @@ namespace AngleSharp.DTD
 
         public Notation ToElement()
         {
-            throw new NotImplementedException();
+            return new Notation
+            {
+                NodeName = Name,
+                PublicId = PublicIdentifier,
+                SystemId = SystemIdentifier
+            };
         }
 
         #endregion

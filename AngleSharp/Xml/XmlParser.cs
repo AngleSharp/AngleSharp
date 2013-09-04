@@ -11,7 +11,9 @@ using System.Collections.Generic;
 namespace AngleSharp.Xml
 {
     /// <summary>
-    /// For more details: See http://www.w3.org/TR/xml11/ and 
+    /// For more details: See the W3C Recommendation
+    /// http://www.w3.org/TR/REC-xml/
+    /// and a little bit about XML parser (XHTML context)
     /// http://www.w3.org/html/wg/drafts/html/master/the-xhtml-syntax.html#xml-parser.
     /// </summary>
     [DebuggerStepThrough]

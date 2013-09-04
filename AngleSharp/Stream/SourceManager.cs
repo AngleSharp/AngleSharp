@@ -252,7 +252,7 @@ namespace AngleSharp
         /// <param name="ignoreCase">Optional flag to unignore the case sensitivity.</param>
         /// <returns>The status of the check.</returns>
         [DebuggerStepThrough]
-        public bool ContinuesWith(String s, Boolean ignoreCase = true)
+        public Boolean ContinuesWith(String s, Boolean ignoreCase = true)
         {
             for (var index = 0; index < s.Length; index++)
             {

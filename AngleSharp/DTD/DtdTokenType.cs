@@ -24,6 +24,10 @@ namespace AngleSharp.DTD
         /// </summary>
         Entity,
         /// <summary>
+        /// A parameter entity reference.
+        /// </summary>
+        PEReference,
+        /// <summary>
         /// The comment token to mark a comment.
         /// </summary>
         Comment,
