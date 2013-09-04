@@ -7,6 +7,15 @@ namespace AngleSharp
     /// </summary>
     static class Tags
     {
+        #region General / Special
+
+        /// <summary>
+        /// Gets the !DOCTYPE constant.
+        /// </summary>
+        public const String DOCTYPE = "!DOCTYPE";
+
+        #endregion
+
         #region HTML Tags
 
         /// <summary>

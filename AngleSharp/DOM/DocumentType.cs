@@ -1,5 +1,7 @@
-﻿using System;
+﻿using AngleSharp.DTD;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AngleSharp.DOM
 {
@@ -9,22 +11,6 @@ namespace AngleSharp.DOM
     [DOM("DocumentType")]
     public sealed class DocumentType : Node
     {
-        #region Constants
-
-        /// <summary>
-        /// Gets the !DOCTYPE constant.
-        /// </summary>
-        internal const String Tag = "!DOCTYPE";
-
-        #endregion
-
-        #region Members
-
-        List<Entity> _entities;
-        List<Notation> _notations;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -33,9 +19,7 @@ namespace AngleSharp.DOM
         internal DocumentType()
         {
             _type = NodeType.DocumentType;
-            _name = Tag;
-            _entities = new List<Entity>();
-            _notations = new List<Notation>();
+            _name = Tags.DOCTYPE;
         }
 
         #endregion
@@ -46,18 +30,18 @@ namespace AngleSharp.DOM
         /// Gets a list of defined entities.
         /// </summary>
         [DOM("entities")]
-        public List<Entity> Entities
+        public IEnumerable<Entity> Entities
         {
-            get { return _entities; }
+            get { return TypeDefinitions != null ? TypeDefinitions.Entities : Enumerable.Empty<Entity>(); }
         }
 
         /// <summary>
         /// Gets a list of defined notations.
         /// </summary>
         [DOM("notations")]
-        public List<Notation> Notations
+        public IEnumerable<Notation> Notations
         {
-            get { return _notations; }
+            get { return TypeDefinitions != null ? TypeDefinitions.Notations : Enumerable.Empty<Notation>(); }
         }
 
         /// <summary>
@@ -98,6 +82,19 @@ namespace AngleSharp.DOM
         { 
             get; 
             set; 
+        }
+
+        #endregion
+
+        #region Internal Properties
+
+        /// <summary>
+        /// Gets or sets the DTD for this doctype.
+        /// </summary>
+        internal DtdContainer TypeDefinitions
+        {
+            get;
+            set;
         }
 
         #endregion

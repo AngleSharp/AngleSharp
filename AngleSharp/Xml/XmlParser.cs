@@ -244,6 +244,7 @@ namespace AngleSharp.Xml
                 var doctype = new DocumentType();
                 doctype.SystemId = tok.SystemIdentifier;
                 doctype.PublicId = tok.PublicIdentifier;
+                doctype.TypeDefinitions = tokenizer.DTD;
                 doctype.Name = tok.Name;
                 doc.AppendChild(doctype);
                 insert = XmlTreeMode.Body;
