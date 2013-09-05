@@ -449,7 +449,7 @@ namespace AngleSharp.Html
                     _src.Back();
                     break;
                 }
-                else if (c == ']' && _src.ContinuesWith("]]>"))
+                else if (c == Specification.SBC && _src.ContinuesWith("]]>"))
                 {
                     _src.Advance(2);
                     break;
@@ -481,22 +481,22 @@ namespace AngleSharp.Html
                 var basis = 1;
                 var num = 0;
                 var nums = new List<Int32>();
-                _src.Advance();
-                var isHex = _src.Current == 'x' || _src.Current == 'X';
+                c = _src.Next;
+                var isHex = c == 'x' || c == 'X';
 
                 if (isHex)
                 {
                     exp = 16;
 
-                    while (_src.Next.IsHex())
-                        nums.Add(_src.Current.FromHex());
+                    while ((c = _src.Next).IsHex())
+                        nums.Add(c.FromHex());
                 }
                 else
                 {
-                    while (_src.Current.IsDigit())
+                    while (c.IsDigit())
                     {
-                        nums.Add(_src.Current.FromHex());
-                        _src.Advance();
+                        nums.Add(c.FromHex());
+                        c = _src.Next;
                     }
                 }
 
@@ -517,7 +517,7 @@ namespace AngleSharp.Html
                     return null;
                 }
 
-                if (_src.Current != Specification.SC)
+                if (c != Specification.SC)
                 {
                     RaiseErrorOccurred(ErrorCode.CharacterReferenceSemicolonMissing);
                     _src.Back();

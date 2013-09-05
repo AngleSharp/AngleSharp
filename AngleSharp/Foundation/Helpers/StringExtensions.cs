@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace AngleSharp
 {
@@ -359,6 +360,28 @@ namespace AngleSharp
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Converts the given string to an integer.
+        /// </summary>
+        /// <param name="s">The hexadecimal representation.</param>
+        /// <returns>The integer number.</returns>
+        [DebuggerStepThrough]
+        public static Int32 FromHex(this String s)
+        {
+            return Int32.Parse(s, NumberStyles.HexNumber);
+        }
+
+        /// <summary>
+        /// Converts the given string to an integer.
+        /// </summary>
+        /// <param name="s">The decimal representation.</param>
+        /// <returns>The integer number.</returns>
+        [DebuggerStepThrough]
+        public static Int32 FromDec(this String s)
+        {
+            return Int32.Parse(s, NumberStyles.Integer);
         }
     }
 }

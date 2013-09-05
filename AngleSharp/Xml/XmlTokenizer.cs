@@ -1,8 +1,6 @@
 ﻿using AngleSharp.DTD;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace AngleSharp.Xml
 {
@@ -10,7 +8,7 @@ namespace AngleSharp.Xml
     /// Performs the tokenization of the source code. Most of
     /// the information is taken from http://www.w3.org/TR/REC-xml/.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     sealed class XmlTokenizer : XmlBaseTokenizer
     {
         #region Members
@@ -89,18 +87,7 @@ namespace AngleSharp.Xml
         {
             if (entityToken.IsNumeric)
             {
-                var str = entityToken.Value;
-                var num = 0;
-                var basis = 1;
-
-                var multiplier = entityToken.IsHex ? 16 : 10;
-
-                for (int i = str.Length - 1; i >= 0; i--)
-                {
-                    num += str[i].FromHex() * basis;
-                    basis *= 10;
-                }
-
+                var num = entityToken.IsHex ? entityToken.Value.FromHex() : entityToken.Value.FromDec();
                 return Char.ConvertFromUtf32(num);
             }
             else
