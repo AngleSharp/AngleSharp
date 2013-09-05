@@ -19,7 +19,6 @@ namespace AngleSharp.DOM
         internal DocumentType()
         {
             _type = NodeType.DocumentType;
-            _name = Tags.DOCTYPE;
         }
 
         #endregion
@@ -50,8 +49,8 @@ namespace AngleSharp.DOM
         [DOM("name")]
         public String Name 
         {
-            get; 
-            set; 
+            get { return _name; }
+            set { _name = value; }
         }
 
         /// <summary>

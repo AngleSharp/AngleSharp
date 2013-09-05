@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace AngleSharp.Html
@@ -261,7 +260,7 @@ namespace AngleSharp.Html
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear();
-                _stringBuffer.Append(c.ToLower());
+                _stringBuffer.Append(Char.ToLower(c));
                 return RCDataNameEndTag(_src.Next, HtmlToken.CloseTag());
             }
             else if (c.IsLowercaseAscii())
@@ -303,7 +302,7 @@ namespace AngleSharp.Html
             }
             else if (c.IsUppercaseAscii())
             {
-                _stringBuffer.Append(c.ToLower());
+                _stringBuffer.Append(Char.ToLower(c));
                 return RCDataNameEndTag(_src.Next, tag);
             }
             else if (c.IsLowercaseAscii())
@@ -376,7 +375,7 @@ namespace AngleSharp.Html
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear();
-                _stringBuffer.Append(c.ToLower());
+                _stringBuffer.Append(Char.ToLower(c));
                 return RawtextNameEndTag(_src.Next, HtmlToken.CloseTag());
             }
             else if (c.IsLowercaseAscii())
@@ -418,7 +417,7 @@ namespace AngleSharp.Html
             }
             else if (c.IsUppercaseAscii())
             {
-                _stringBuffer.Append(c.ToLower());
+                _stringBuffer.Append(Char.ToLower(c));
                 return RawtextNameEndTag(_src.Next, tag);
             }
             else if (c.IsLowercaseAscii())
@@ -612,7 +611,7 @@ namespace AngleSharp.Html
             else if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear();
-                _stringBuffer.Append(c.ToLower());
+                _stringBuffer.Append(Char.ToLower(c));
                 return TagName(_src.Next, HtmlToken.OpenTag());
             }
             else if (c.IsLowercaseAscii())
@@ -642,7 +641,7 @@ namespace AngleSharp.Html
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear();
-                _stringBuffer.Append(c.ToLower());
+                _stringBuffer.Append(Char.ToLower(c));
                 return TagName(_src.Next, HtmlToken.CloseTag());
             }
             else if (c.IsLowercaseAscii())
@@ -706,8 +705,8 @@ namespace AngleSharp.Html
                     RaiseErrorOccurred(ErrorCode.EOF);
                     return HtmlToken.EOF;
                 }
-                else if (Specification.IsUppercaseAscii(c))
-                    _stringBuffer.Append(c.ToLower());
+                else if (c.IsUppercaseAscii())
+                    _stringBuffer.Append(Char.ToLower(c));
                 else
                     _stringBuffer.Append(c);
 
@@ -750,7 +749,7 @@ namespace AngleSharp.Html
                 _src.Advance();
                 return CommentStart(_src.Next);
             }
-            else if (_src.ContinuesWith("doctype"))
+            else if (_src.ContinuesWith(Tags.DOCTYPE))
             {
                 _src.Advance(6);
                 return Doctype(_src.Next);
@@ -1039,7 +1038,7 @@ namespace AngleSharp.Html
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear();
-                _stringBuffer.Append(c.ToLower());
+                _stringBuffer.Append(Char.ToLower(c));
                 return DoctypeName(_src.Next, HtmlToken.Doctype(false));
             }
             else if (c == Specification.NULL)
@@ -1090,7 +1089,7 @@ namespace AngleSharp.Html
                     return doctype;
                 }
                 else if (c.IsUppercaseAscii())
-                    _stringBuffer.Append(c.ToLower());
+                    _stringBuffer.Append(Char.ToLower(c));
                 else if (c == Specification.NULL)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
@@ -1662,7 +1661,7 @@ namespace AngleSharp.Html
             else if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear();
-                _stringBuffer.Append(c.ToLower());
+                _stringBuffer.Append(Char.ToLower(c));
                 return AttributeName(_src.Next, tag);
             }
             else if (c == Specification.NULL)
@@ -1729,7 +1728,7 @@ namespace AngleSharp.Html
                     _stringBuffer.Append(Specification.REPLACEMENT);
                 }
                 else if (c.IsUppercaseAscii())
-                    _stringBuffer.Append(c.ToLower());
+                    _stringBuffer.Append(Char.ToLower(c));
                 else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT)
                 {
                     RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
@@ -1768,7 +1767,7 @@ namespace AngleSharp.Html
             else if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear();
-                _stringBuffer.Append(c.ToLower());
+                _stringBuffer.Append(Char.ToLower(c));
                 return AttributeName(_src.Next, tag);
             }
             else if (c == Specification.NULL)

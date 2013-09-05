@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using AngleSharp.DOM;
-using AngleSharp.DOM.Html;
 using System.Diagnostics;
 
 namespace AngleSharp
 {
     /// <summary>
-    /// Some useful extensions for character(s).
+    /// Useful methods for string objects.
     /// </summary>
-    static class CharacterExtensions
+    static class StringExtensions
     {
         /// <summary>
         /// Examines if a the given list of characters contains a certain element.
@@ -139,138 +137,6 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Examines if the given element is one of the table elements (table, tbody, tfoot, thead, tr).
-        /// </summary>
-        /// <param name="node">The node to examine</param>
-        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
-        public static Boolean IsTableElement(this Node node)
-        {
-            return (node is HTMLTableElement || node is HTMLTableSectionElement || node is HTMLTableRowElement);
-        }
-
-        /// <summary>
-        /// Examines if the given element is one of the table elements (table, tbody, tfoot, thead, tr).
-        /// </summary>
-        /// <param name="tagName">The tag name to examine</param>
-        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
-        public static Boolean IsTableElement(this String tagName)
-        {
-            switch (tagName)
-            {
-                case Tags.TABLE:
-                case Tags.TBODY:
-                case Tags.TFOOT:
-                case Tags.THEAD:
-                case Tags.TR:
-                    return true;
-
-                default:
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// Examines if the given tag name matches one of the elements (tbody, tfoot, thead).
-        /// </summary>
-        /// <param name="tagName">The tag name to examine</param>
-        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
-        public static Boolean IsTableSectionElement(this String tagName)
-        {
-            return (tagName == Tags.TBODY || tagName == Tags.TFOOT || tagName == Tags.THEAD);
-        }
-
-        /// <summary>
-        /// Examines if the given tag name matches one of the elements (td, th).
-        /// </summary>
-        /// <param name="tagName">The tag name to examine</param>
-        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
-        public static Boolean IsTableCellElement(this String tagName)
-        {
-            return (tagName == Tags.TD || tagName == Tags.TH);
-        }
-
-        /// <summary>
-        /// Examines if the given tag name matches one of the elements (caption, col, colgroup, tbody, tfoot, thead).
-        /// </summary>
-        /// <param name="tagName">The tag name to examine</param>
-        /// <param name="includeRow">True if the tr element should also be tested.</param>
-        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
-        public static Boolean IsGeneralTableElement(this String tagName, Boolean includeRow = false)
-        {
-            switch (tagName)
-            {
-                case Tags.CAPTION:
-                case Tags.COL:
-                case Tags.COLGROUP:
-                case Tags.TBODY:
-                case Tags.TFOOT:
-                case Tags.THEAD:
-                    return true;
-
-                case Tags.TR:
-                    return includeRow;
-
-                default:
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// Examines if the given tag name matches one of the elements (body, caption, col, colgroup, html, td, th).
-        /// </summary>
-        /// <param name="tagName">The tag name to examine</param>
-        /// <param name="includeRow">True if the tr element should also be tested.</param>
-        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
-        public static Boolean IsSpecialTableElement(this String tagName, Boolean includeRow = false)
-        {
-            switch (tagName)
-            {
-                case Tags.BODY:
-                case Tags.HTML:
-                case Tags.COLGROUP:
-                case Tags.COL:
-                case Tags.TH:
-                case Tags.TD:
-                case Tags.CAPTION:
-                    return true;
-
-                case Tags.TR:
-                    return includeRow;
-
-                default:
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// Converts the given char (should be A-Z) to a lowercase version.
-        /// </summary>
-        /// <param name="chr">The uppercase char.</param>
-        /// <returns>The lowercase char of A-Z, otherwise undefined.</returns>
-        [DebuggerStepThrough]
-        public static Char ToLower(this Char chr)
-        {
-            return (char)(chr + 0x20);
-        }
-
-        /// <summary>
-        /// Converts a given character from the hex representation (0-9A-Fa-f) to an integer.
-        /// </summary>
-        /// <param name="c">The character to convert.</param>
-        /// <returns>The integer value or undefined behavior if invalid.</returns>
-        [DebuggerStepThrough]
-        public static Int32 FromHex(this Char c)
-        {
-            return c.IsDigit() ? c - 0x30 : c - (c.IsLowercaseAscii() ? 0x57 : 0x37);
-        }
-
-        /// <summary>
         /// Strips all line breaks from the given string.
         /// </summary>
         /// <param name="str">The string to examine.</param>
@@ -282,7 +148,7 @@ namespace AngleSharp
             var shift = 0;
             var length = array.Length;
 
-            for (var i = 0; i < length;)
+            for (var i = 0; i < length; )
             {
                 array[i] = array[i + shift];
 
@@ -460,19 +326,39 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Transforms the given number to a hexadecimal string.
+        /// Determines if the given string consists only of digits (0-9) as specified here:
+        /// http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#ascii-digits
         /// </summary>
-        /// <param name="num">The number (0-255).</param>
-        /// <returns>A 2 digit upper case hexadecimal string.</returns>
+        /// <param name="s">The characters to examine.</param>
+        /// <returns>The result of the test.</returns>
         [DebuggerStepThrough]
-        public static String ToHex(this Byte num)
+        public static Boolean IsDigit(this String s)
         {
-            Char[] chrs = new Char[2];
-            var rem = num >> 4;
-            chrs[0] = (Char)(rem + (rem < 10 ? 48 : 55));
-            rem = num - 16 * rem;
-            chrs[1] = (Char)(rem + (rem < 10 ? 48 : 55));
-            return new String(chrs);
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (!s[i].IsDigit())
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Determines if the given string only contains characters, which are hexadecimal (0-9a-fA-F) as specified here:
+        /// http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#ascii-hex-digits
+        /// </summary>
+        /// <param name="s">The string to examine.</param>
+        /// <returns>The result of the test.</returns>
+        [DebuggerStepThrough]
+        public static Boolean IsHex(this String s)
+        {
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (!s[i].IsHex())
+                    return false;
+            }
+
+            return true;
         }
     }
 }

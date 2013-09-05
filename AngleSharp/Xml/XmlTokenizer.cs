@@ -10,7 +10,7 @@ namespace AngleSharp.Xml
     /// Performs the tokenization of the source code. Most of
     /// the information is taken from http://www.w3.org/TR/REC-xml/.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     sealed class XmlTokenizer : XmlBaseTokenizer
     {
         #region Members
@@ -90,13 +90,15 @@ namespace AngleSharp.Xml
             if (entityToken.IsNumeric)
             {
                 var str = entityToken.Value;
-                int num = 0;
-                int basis = 1;
+                var num = 0;
+                var basis = 1;
+
+                var multiplier = entityToken.IsHex ? 16 : 10;
 
                 for (int i = str.Length - 1; i >= 0; i--)
                 {
                     num += str[i].FromHex() * basis;
-                    basis *= 16;
+                    basis *= 10;
                 }
 
                 return Char.ConvertFromUtf32(num);
@@ -118,7 +120,9 @@ namespace AngleSharp.Xml
         /// <returns>The next available token.</returns>
         public XmlToken Get()
         {
-            if (_src.IsEnded) return XmlToken.EOF;
+            if (_src.IsEnded) 
+                return XmlToken.EOF;
+
             XmlToken token = Data(_src.Current);
             _src.Advance();
             return token;
@@ -217,14 +221,14 @@ namespace AngleSharp.Xml
                 if (_stringBuffer.Length > 0 && c == Specification.SC)
                     return new XmlEntityToken { Value = _stringBuffer.ToString(), IsNumeric = true, IsHex = hex };
             }
-            else if (c.IsNameStart())
+            else if (c.IsXmlNameStart())
             {
                 do
                 {
                     _stringBuffer.Append(c);
                     c = _src.Next;
                 }
-                while (c.IsName());
+                while (c.IsXmlName());
 
                 if (c == Specification.SC)
                     return new XmlEntityToken { Value = _stringBuffer.ToString() };
@@ -251,7 +255,7 @@ namespace AngleSharp.Xml
             {
                 c = _src.Next;
 
-                if (_src.ContinuesWith("xml", false))
+                if (_src.ContinuesWith(Tags.XML, false))
                 {
                     _src.Advance(2);
                     return DeclarationStart(_src.Next);
@@ -263,17 +267,14 @@ namespace AngleSharp.Xml
             {
                 return TagEnd(_src.Next);
             }
-            else if (c.IsLetter())
+            else if (c.IsXmlNameStart())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
                 return TagName(_src.Next, XmlToken.OpenTag());
             }
-            else
-            {
-                RaiseErrorOccurred(ErrorCode.AmbiguousOpenTag);
-                return XmlToken.Character(Specification.LT);
-            }
+
+            throw new ArgumentException("Invalid start-tag.");
         }
 
         /// <summary>
@@ -282,7 +283,7 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken TagEnd(Char c)
         {
-            if (c.IsLetter())
+            if (c.IsXmlNameStart())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
@@ -294,11 +295,8 @@ namespace AngleSharp.Xml
                 RaiseErrorOccurred(ErrorCode.EOF);
                 return XmlToken.EOF;
             }
-            else
-            {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return Data(_src.Next);
-            }
+
+            throw new ArgumentException("Invalid end-tag.");
         }
 
         /// <summary>
@@ -309,36 +307,37 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken TagName(Char c, XmlTagToken tag)
         {
-            if (c.IsSpaceCharacter())
+            while (true)
             {
-                tag.Name = _stringBuffer.ToString();
-                return AttributeBeforeName(_src.Next, tag);
-            }
-            else if (c == Specification.SOLIDUS)
-            {
-                tag.Name = _stringBuffer.ToString();
-                return TagSelfClosing(_src.Next, tag);
-            }
-            else if (c == Specification.GT)
-            {
-                tag.Name = _stringBuffer.ToString();
-                return EmitTag(tag);
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.REPLACEMENT);
-                return TagName(_src.Next, tag);
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                return XmlToken.EOF;
-            }
-            else
-            {
-                _stringBuffer.Append(c);
-                return TagName(_src.Next, tag);
+                if (c.IsSpaceCharacter())
+                {
+                    tag.Name = _stringBuffer.ToString();
+                    return AttributeBeforeName(_src.Next, tag);
+                }
+                else if (c == Specification.SOLIDUS)
+                {
+                    tag.Name = _stringBuffer.ToString();
+                    return TagSelfClosing(_src.Next, tag);
+                }
+                else if (c == Specification.GT)
+                {
+                    tag.Name = _stringBuffer.ToString();
+                    return EmitTag(tag);
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    _stringBuffer.Append(Specification.REPLACEMENT);
+                }
+                else if (c == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    return XmlToken.EOF;
+                }
+                else
+                    _stringBuffer.Append(c);
+
+                c = _src.Next;
             }
         }
 
@@ -377,7 +376,7 @@ namespace AngleSharp.Xml
                 _src.Advance();
                 return CommentStart(_src.Next);
             }
-            else if (_src.ContinuesWith("DOCTYPE", false))
+            else if (_src.ContinuesWith(Tags.DOCTYPE, false))
             {
                 _src.Advance(6);
                 return Doctype(_src.Next);
@@ -1516,39 +1515,26 @@ namespace AngleSharp.Xml
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (c == Specification.DQ)
+            if (c == Specification.DQ || c== Specification.SQ)
             {
                 _stringBuffer.Clear();
-                return AttributeDoubleQuotedValue(_src.Next, tag);
-            }
-            else if (c == Specification.SQ)
-            {
-                _stringBuffer.Clear();
-                return AttributeSingleQuotedValue(_src.Next, tag);
-            }
-            else if (c == Specification.GT)
-            {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return EmitTag(tag);
-            }
-            else if (c == Specification.EOF)
-            {
-                return XmlToken.EOF;
+                return AttributeValue(_src.Next, c, tag);
             }
 
-            throw new ArgumentException("Argument values have to be double or single quoted.");
+            throw new ArgumentException("Invalid attribute value.");
         }
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-Attribute.
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="q">The quote character.</param>
         /// <param name="tag">The current tag token.</param>
-        XmlToken AttributeDoubleQuotedValue(Char c, XmlTagToken tag)
+        XmlToken AttributeValue(Char c, Char q, XmlTagToken tag)
         {
             while (true)
             {
-                if (c == Specification.DQ)
+                if (c == q)
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
                     return AttributeAfterValue(_src.Next, tag);
@@ -1563,39 +1549,8 @@ namespace AngleSharp.Xml
                     RaiseErrorOccurred(ErrorCode.NULL);
                     _stringBuffer.Append(Specification.REPLACEMENT);
                 }
-                else if (c == Specification.EOF)
-                    return XmlToken.EOF;
-                else
-                    _stringBuffer.Append(c);
-
-                c = _src.Next;
-            }
-        }
-
-        /// <summary>
-        /// More http://www.w3.org/TR/REC-xml/#NT-Attribute.
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="tag">The current tag token.</param>
-        XmlToken AttributeSingleQuotedValue(Char c, XmlTagToken tag)
-        {
-            while (true)
-            {
-                if (c == Specification.SQ)
-                {
-                    tag.SetAttributeValue(_stringBuffer.ToString());
-                    return AttributeAfterValue(_src.Next, tag);
-                }
-                else if (c == Specification.AMPERSAND)
-                {
-                    var value = CharacterReference(_src.Next);
-                    _stringBuffer.Append(GetEntity(value));
-                }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
-                }
+                else if (c == Specification.LT)
+                    throw new ArgumentException("Well-formedness constraint: No < in Attribute Values.");
                 else if (c == Specification.EOF)
                     return XmlToken.EOF;
                 else
@@ -1641,11 +1596,7 @@ namespace AngleSharp.Xml
                     for (var j = i - 1; j >= 0; j--)
                     {
                         if (tag.Attributes[j].Key == tag.Attributes[i].Key)
-                        {
-                            tag.Attributes.RemoveAt(i);
-                            RaiseErrorOccurred(ErrorCode.AttributeDuplicateOmitted);
-                            break;
-                        }
+                            throw new ArgumentException("Well-formedness constraint: Unique Att Spec.");
                     }
                 }
             }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Threading;
 
 namespace AngleSharp
 {
@@ -258,8 +257,13 @@ namespace AngleSharp
             {
                 var chr = _current;
 
-                if (ignoreCase && Specification.IsUppercaseAscii(chr))
-                    chr = chr.ToLower();
+                if (ignoreCase)
+                {
+                    if (chr.IsUppercaseAscii() && s[index].IsLowercaseAscii())
+                        chr = Char.ToLower(chr);
+                    else if (chr.IsLowercaseAscii() && s[index].IsUppercaseAscii())
+                        chr = Char.ToUpper(chr);
+                }
 
                 if (s[index] != chr)
                 {

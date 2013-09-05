@@ -45,7 +45,10 @@
     <Compile Include="Foundation\Constants\AttributeNames.cs" />
     <Compile Include="Foundation\Constants\EventNames.cs" />
     <Compile Include="Foundation\Constants\Headers.cs" />
+    <Compile Include="Foundation\Helpers\XMLHelpers.cs" />
     <Compile Include="Foundation\FormDataSet.cs" />
+    <Compile Include="Foundation\Helpers\HtmlHelpers.cs" />
+    <Compile Include="Foundation\Helpers\StringExtensions.cs" />
     <Compile Include="Foundation\Info.cs" />
     <Compile Include="Foundation\Requests\DefaultHttpRequest.cs" />
     <Compile Include="Foundation\Requests\DefaultHttpRequester.cs" />
@@ -249,7 +252,7 @@
     <Compile Include="Css\Tokens\CssUnitToken.cs" />
     <Compile Include="Html\HtmlTokenType.cs" />
     <Compile Include="Events\ParseErrorEventArgs.cs" />
-    <Compile Include="Foundation\Helpers\CharacterExtensions.cs" />
+    <Compile Include="Foundation\Helpers\CharExtensions.cs" />
     <Compile Include="Foundation\Helpers\ForeignHelpers.cs" />
     <Compile Include="Foundation\HtmlColor.cs" />
     <Compile Include="DOM\Html\HTMLDocument.cs" />

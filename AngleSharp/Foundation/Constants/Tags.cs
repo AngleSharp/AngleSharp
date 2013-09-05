@@ -10,9 +10,9 @@ namespace AngleSharp
         #region General / Special
 
         /// <summary>
-        /// Gets the !DOCTYPE constant.
+        /// Gets the DOCTYPE constant.
         /// </summary>
-        public const String DOCTYPE = "!DOCTYPE";
+        public const String DOCTYPE = "DOCTYPE";
 
         #endregion
 
@@ -680,6 +680,15 @@ namespace AngleSharp
         /// The circle tag.
         /// </summary>
         public const String CIRCLE = "circle";
+
+        #endregion
+
+        #region XML Tags
+
+        /// <summary>
+        /// The xml tag.
+        /// </summary>
+        public const String XML = "xml";
 
         #endregion
     }

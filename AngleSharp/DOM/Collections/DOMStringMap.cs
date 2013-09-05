@@ -112,7 +112,7 @@ namespace AngleSharp.DOM.Collections
         /// <returns>The name again.</returns>
         String Check(String name)
         {
-            if (name.StartsWith("xml", StringComparison.OrdinalIgnoreCase))
+            if (name.StartsWith(Tags.XML, StringComparison.OrdinalIgnoreCase))
                 throw new DOMException(ErrorCode.SyntaxError);
 
             if (name.IndexOf(Specification.SC) >= 0)
@@ -120,7 +120,7 @@ namespace AngleSharp.DOM.Collections
 
             for (int i = 0; i < name.Length; i++)
             {
-                if (Specification.IsUppercaseAscii(name[i]))
+                if (name[i].IsUppercaseAscii())
                     throw new DOMException(ErrorCode.SyntaxError);
             }
 
