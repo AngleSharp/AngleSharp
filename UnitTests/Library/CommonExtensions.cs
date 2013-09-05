@@ -313,13 +313,5 @@ namespace UnitTests
             var result = str.SplitWithTrimming(';');
             Assert.AreEqual(3, result.Length);
         }
-
-        [TestMethod]
-        public void CharToLower()
-        {
-            var cu = 'A';
-            var cl = cu.ToLower();
-            Assert.AreEqual(cl, 'a');
-        }
     }
 }
