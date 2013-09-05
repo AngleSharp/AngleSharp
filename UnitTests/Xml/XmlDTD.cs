@@ -78,11 +78,16 @@ namespace UnitTests
             var f1 = (t.DTD[0] as ElementDeclaration);
             Assert.AreEqual("TVSCHEDULE", f1.Name);
             Assert.AreEqual(ElementDeclarationEntry.ContentType.Children, f1.Type);
-            Assert.IsTrue(f1.Entry is ElementNameDeclarationEntry);
+            Assert.IsTrue(f1.Entry is ElementChoiceDeclarationEntry);
 
-            var g1 = (f1.Entry as ElementNameDeclarationEntry);
-            Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.OneOrMore, g1.Quantifier);
-            Assert.AreEqual("CHANNEL", g1.Name);
+            var g1 = (f1.Entry as ElementChoiceDeclarationEntry);
+            Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.One, g1.Quantifier);
+            Assert.AreEqual(1, g1.Choice.Count);
+            Assert.IsTrue(g1.Choice[0] is ElementNameDeclarationEntry);
+
+            var h1 = (g1.Choice[0] as ElementNameDeclarationEntry);
+            Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.OneOrMore, h1.Quantifier);
+            Assert.AreEqual("CHANNEL", h1.Name);
 
             Assert.IsTrue(t.DTD[3] is ElementDeclaration);
 
