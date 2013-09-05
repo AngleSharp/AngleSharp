@@ -11,6 +11,14 @@ namespace AngleSharp.Xml
     [DebuggerStepThrough]
     sealed class XmlTokenizer : XmlBaseTokenizer
     {
+        #region Constants
+
+        const String VERSION = "version";
+        const String CDATA = "[CDATA[";
+        const String STANDALONE = "standalone";
+
+        #endregion
+
         #region Members
 
         DtdContainer _dtd;
@@ -90,7 +98,7 @@ namespace AngleSharp.Xml
                 var num = entityToken.IsHex ? entityToken.Value.FromHex() : entityToken.Value.FromDec();
 
                 if (!num.IsValidAsCharRef())
-                    throw new ArgumentException("Invalid character reference.");
+                    throw Errors.GetException(ErrorCode.CharacterReferenceInvalidNumber);
 
                 return Char.ConvertFromUtf32(num);
             }
@@ -99,7 +107,7 @@ namespace AngleSharp.Xml
                 var entity = _dtd.GetEntity(entityToken.Value);
 
                 if (entity == null)
-                    throw new ArgumentException("Well-formedness constraint: entity declared.");
+                    throw Errors.GetException(ErrorCode.CharacterReferenceInvalidCode);
 
                 return entity.NodeValue;
             }
@@ -225,7 +233,7 @@ namespace AngleSharp.Xml
                     return new XmlEntityToken { Value = _stringBuffer.ToString() };
             }
 
-            throw new ArgumentException("Invalid entity reference.");
+            throw Errors.GetException(ErrorCode.CharacterReferenceNotTerminated);
         }
 
         #endregion
@@ -265,7 +273,7 @@ namespace AngleSharp.Xml
                 return TagName(_src.Next, XmlToken.OpenTag());
             }
 
-            throw new ArgumentException("Invalid start-tag.");
+            throw Errors.GetException(ErrorCode.XmlInvalidStartTag);
         }
 
         /// <summary>
@@ -287,7 +295,7 @@ namespace AngleSharp.Xml
                 return XmlToken.EOF;
             }
 
-            throw new ArgumentException("Invalid end-tag.");
+            throw Errors.GetException(ErrorCode.XmlInvalidEndTag);
         }
 
         /// <summary>
@@ -372,7 +380,7 @@ namespace AngleSharp.Xml
                 _src.Advance(6);
                 return Doctype(_src.Next);
             }
-            else if (_src.ContinuesWith("[CDATA[", false))
+            else if (_src.ContinuesWith(CDATA, false))
             {
                 _src.Advance(6);
                 return CData(_src.Next);
@@ -401,13 +409,13 @@ namespace AngleSharp.Xml
             do c = _src.Next;
             while (c.IsSpaceCharacter());
 
-            if (_src.ContinuesWith("version", false))
+            if (_src.ContinuesWith(VERSION, false))
             {
                 _src.Advance(6);
                 return DeclarationVersionAfterName(_src.Next, XmlToken.Declaration());
             }
 
-            throw new ArgumentException("Invalid XML declaration.");
+            throw Errors.GetException(ErrorCode.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -423,7 +431,7 @@ namespace AngleSharp.Xml
             if (c == Specification.EQ)
                 return DeclarationVersionBeforeValue(_src.Next, decl);
 
-            throw new ArgumentException("Invalid XML declaration.");
+            throw Errors.GetException(ErrorCode.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -447,7 +455,7 @@ namespace AngleSharp.Xml
                 return DeclarationVersionValueSQ(_src.Next, decl);
             }
 
-            throw new ArgumentException("Invalid XML declaration.");
+            throw Errors.GetException(ErrorCode.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -511,7 +519,7 @@ namespace AngleSharp.Xml
                 _src.Advance(7);
                 return DeclarationEncodingAfterName(_src.Next, decl);
             }
-            else if (_src.ContinuesWith("standalone", false))
+            else if (_src.ContinuesWith(STANDALONE, false))
             {
                 _src.Advance(9);
                 return DeclarationStandaloneAfterName(_src.Next, decl);
@@ -533,7 +541,7 @@ namespace AngleSharp.Xml
             if (c == Specification.EQ)
                 return DeclarationEncodingBeforeValue(_src.Next, decl);
 
-            throw new ArgumentException("Invalid XML declaration.");
+            throw Errors.GetException(ErrorCode.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -556,7 +564,7 @@ namespace AngleSharp.Xml
                     return DeclarationEncodingValue(c, q, decl);
             }
 
-            throw new ArgumentException("Invalid XML declaration.");
+            throw Errors.GetException(ErrorCode.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -575,7 +583,7 @@ namespace AngleSharp.Xml
                     c = _src.Next;
                 }
                 else
-                    throw new ArgumentException("Invalid XML declaration.");
+                    throw Errors.GetException(ErrorCode.XmlDeclarationInvalid);
             }
             while (c != q);
 
@@ -615,7 +623,7 @@ namespace AngleSharp.Xml
             if (c == Specification.EQ)
                 return DeclarationStandaloneBeforeValue(_src.Next, decl);
 
-            throw new ArgumentException("Invalid XML declaration.");
+            throw Errors.GetException(ErrorCode.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -639,7 +647,7 @@ namespace AngleSharp.Xml
                 return DeclarationStandaloneValueSQ(_src.Next, decl);
             }
 
-            throw new ArgumentException("Invalid XML declaration.");
+            throw Errors.GetException(ErrorCode.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -668,7 +676,7 @@ namespace AngleSharp.Xml
             else if (s.Equals("no"))
                 decl.Standalone = false;
             else
-                throw new ArgumentException("Invalid XML declaration.");
+                throw Errors.GetException(ErrorCode.XmlDeclarationInvalid);
 
             return DeclarationEnd(_src.Next, decl);
         }
@@ -699,7 +707,7 @@ namespace AngleSharp.Xml
             else if (s.Equals("no"))
                 decl.Standalone = false;
             else
-                throw new ArgumentException("Invalid XML declaration.");
+                throw Errors.GetException(ErrorCode.XmlDeclarationInvalid);
 
             return DeclarationEnd(_src.Next, decl);
         }
@@ -715,7 +723,7 @@ namespace AngleSharp.Xml
                 c = _src.Next;
 
             if (c != Specification.QM || _src.Next != Specification.GT)
-                throw new ArgumentException("Invalid XML declaration.");
+                throw Errors.GetException(ErrorCode.XmlDeclarationInvalid);
 
             return decl;
         }
@@ -837,12 +845,12 @@ namespace AngleSharp.Xml
                 _src.Back();
                 return doctype;
             }
-            else if (_src.ContinuesWith("PUBLIC", false))
+            else if (_src.ContinuesWith(PUBLIC, false))
             {
                 _src.Advance(5);
                 return DoctypePublic(_src.Next, doctype);
             }
-            else if (_src.ContinuesWith("SYSTEM", false))
+            else if (_src.ContinuesWith(SYSTEM, false))
             {
                 _src.Advance(5);
                 return DoctypeSystem(_src.Next, doctype);
@@ -1363,9 +1371,9 @@ namespace AngleSharp.Xml
                 return AttributeName(_src.Next, tag);
             }
             else if (c == Specification.EOF)
-                throw new ArgumentException("Unexpected end-of-file.");
+                throw Errors.GetException(ErrorCode.EOF);
 
-            throw new ArgumentException("Invalid start-tag.");
+            throw Errors.GetException(ErrorCode.XmlInvalidStartTag);
         }
 
         /// <summary>
@@ -1398,9 +1406,9 @@ namespace AngleSharp.Xml
                     return EmitTag(tag);
                 }
                 else if (c == Specification.EOF)
-                    throw new ArgumentException("Unexpected end-of-file.");
+                    throw Errors.GetException(ErrorCode.EOF);
                 else if (!c.IsXmlName())
-                    throw new ArgumentException("Invalid attribute specification.");
+                    throw Errors.GetException(ErrorCode.AttributeNameInvalid);
 
                 _stringBuffer.Append(c);
                 c = _src.Next;
@@ -1471,7 +1479,7 @@ namespace AngleSharp.Xml
                 return AttributeValue(_src.Next, c, tag);
             }
 
-            throw new ArgumentException("Invalid attribute value.");
+            throw Errors.GetException(ErrorCode.AttributeValueInvalid);
         }
 
         /// <summary>
@@ -1500,7 +1508,7 @@ namespace AngleSharp.Xml
                     _stringBuffer.Append(Specification.REPLACEMENT);
                 }
                 else if (c == Specification.LT)
-                    throw new ArgumentException("Well-formedness constraint: No < in Attribute Values.");
+                    throw Errors.GetException(ErrorCode.XmlLtInAttributeValue);
                 else if (c == Specification.EOF)
                     return XmlToken.EOF;
                 else
@@ -1526,7 +1534,7 @@ namespace AngleSharp.Xml
             else if (c == Specification.EOF)
                 return XmlTagToken.EOF;
 
-            throw new ArgumentException("Invalid start-tag.");
+            throw Errors.GetException(ErrorCode.XmlInvalidStartTag);
         }
 
         #endregion
@@ -1545,7 +1553,7 @@ namespace AngleSharp.Xml
                     for (var j = i - 1; j >= 0; j--)
                     {
                         if (tag.Attributes[j].Key == tag.Attributes[i].Key)
-                            throw new ArgumentException("Well-formedness constraint: Unique Att Spec.");
+                            throw Errors.GetException(ErrorCode.XmlUniqueAttribute);
                     }
                 }
             }

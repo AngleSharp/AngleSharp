@@ -220,8 +220,8 @@ namespace AngleSharp.Xml
                     SetEncoding(tok.Encoding);
 
                 //The declaration token -- Check version
-                if (!Double.TryParse(tok.Version, NumberStyles.Any, CultureInfo.InvariantCulture , out ver) || ver >= 2.0)
-                    throw new ArgumentException("The given version number is not supported.");
+                if (!Double.TryParse(tok.Version, NumberStyles.Any, CultureInfo.InvariantCulture, out ver) || ver >= 2.0)
+                    throw Errors.GetException(ErrorCode.XmlDeclarationVersionUnsupported);
             }
             else if (!token.IsIgnorable)
             {
@@ -293,12 +293,12 @@ namespace AngleSharp.Xml
                 case XmlTokenType.EndTag:
                 {
                     if (open.Count == 0)
-                        throw new ArgumentException("Unexpected end-tag (no current element).");
+                        throw Errors.GetException(ErrorCode.TagCannotEndHere);
 
                     var tok = (XmlTagToken)token;
 
                     if (CurrentNode.NodeName != tok.Name)
-                        throw new ArgumentException("Mismatched end-tag.");
+                        throw Errors.GetException(ErrorCode.TagClosingMismatch);
 
                     open.RemoveAt(open.Count - 1);
                     break;
@@ -333,19 +333,19 @@ namespace AngleSharp.Xml
                 case XmlTokenType.EOF:
                 {
                     if (open.Count != 0)
-                        throw new ArgumentException("Unexpected end-of-file.");
+                        throw Errors.GetException(ErrorCode.EOF);
                     else if (doc.DocumentElement == null)
-                        throw new ArgumentException("Missing root element.");
+                        throw Errors.GetException(ErrorCode.XmlMissingRoot);
 
                     break;
                 }
                 case XmlTokenType.DOCTYPE:
                 {
-                    throw new ArgumentException("Document type declaration after content.");
+                    throw Errors.GetException(ErrorCode.XmlDoctypeAfterContent);
                 }
                 case XmlTokenType.Declaration:
                 {
-                    throw new ArgumentException("XML declaration not at beginning of document.");
+                    throw Errors.GetException(ErrorCode.XmlDeclarationMisplaced);
                 }
             }
         }

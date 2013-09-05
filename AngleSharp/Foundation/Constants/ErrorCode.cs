@@ -430,6 +430,74 @@ namespace AngleSharp
         /// <summary>
         /// (0x101) The action is not supported in the current context.
         /// </summary>
-        NotSupported = 0x101
+        NotSupported = 0x101,
+        /// <summary>
+        /// (0x200) Missing root element.
+        /// </summary>
+        XmlMissingRoot = 0x200,
+        /// <summary>
+        /// (0x201) Document type declaration after content.
+        /// </summary>
+        XmlDoctypeAfterContent = 0x201,
+        /// <summary>
+        /// (0x202) Invalid XML declaration.
+        /// </summary>
+        XmlDeclarationInvalid = 0x202,
+        /// <summary>
+        /// (0x203) XML declaration not at beginning of document.
+        /// </summary>
+        XmlDeclarationMisplaced = 0x203,
+        /// <summary>
+        /// (0x204) The given version number is not supported.
+        /// </summary>
+        XmlDeclarationVersionUnsupported = 0x204,
+        /// <summary>
+        /// (0x205) Invalid start-tag.
+        /// </summary>
+        XmlInvalidStartTag = 0x205,
+        /// <summary>
+        /// (0x206) Invalid end-tag.
+        /// </summary>
+        XmlInvalidEndTag = 0x206,
+        /// <summary>
+        /// (0x207) Well-formedness constraint: No &lt; in Attribute Values.
+        /// </summary>
+        XmlLtInAttributeValue = 0x207,
+        /// <summary>
+        /// (0x208) Well-formedness constraint: Unique Att Spec.
+        /// </summary>
+        XmlUniqueAttribute = 0x208,
+        /// <summary>
+        /// (0x300) Invalid document type declaration.
+        /// </summary>
+        DtdInvalid = 0x300,
+        /// <summary>
+        /// (0x301) Invalid parameter entity reference.
+        /// </summary>
+        DtdPEReferenceInvalid = 0x301,
+        /// <summary>
+        /// (0x302) Invalid name in entity declaration.
+        /// </summary>
+        DtdNameInvalid = 0x302,
+        /// <summary>
+        /// (0x303) Declaration invalid.
+        /// </summary>
+        DtdDeclInvalid = 0x303,
+        /// <summary>
+        /// (0x304) Invalid element type declaration.
+        /// </summary>
+        DtdTypeInvalid = 0x304,
+        /// <summary>
+        /// (0x305) Invalid entity declaration.
+        /// </summary>
+        DtdEntityInvalid = 0x305,
+        /// <summary>
+        /// (0x306) Invalid element name in attribute-list declaration.
+        /// </summary>
+        DtdAttListInvalid = 0x306,
+        /// <summary>
+        /// (0x307) Invalid content specification in element type declaration.
+        /// </summary>
+        DtdTypeContent = 0x307,
     }
 }

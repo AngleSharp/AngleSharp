@@ -340,5 +340,70 @@ namespace AngleSharp
                     return "An unexpected error occurred.";
             }
         }
+
+        /// <summary>
+        /// Retrieves the exception for the error using the given error error.
+        /// </summary>
+        /// <param name="code">The code to use.</param>
+        /// <returns>An exception instance.</returns>
+        [DebuggerStepThrough]
+        public static Exception GetException(ErrorCode code)
+        {
+            switch (code)
+            {
+                case ErrorCode.EOF:
+                    return new ArgumentException("Unexpected end-of-file.");
+                case ErrorCode.XmlMissingRoot:
+                    return new ArgumentException("Missing root element.");
+                case ErrorCode.XmlDoctypeAfterContent:
+                    return new ArgumentException("Document type declaration after content.");
+                case ErrorCode.XmlDeclarationInvalid:
+                    return new ArgumentException("Invalid XML declaration.");
+                case ErrorCode.XmlDeclarationMisplaced:
+                    return new ArgumentException("XML declaration not at beginning of document.");
+                case ErrorCode.XmlDeclarationVersionUnsupported:
+                    return new ArgumentException("The given version number is not supported.");
+                case ErrorCode.TagClosingMismatch:
+                    return new ArgumentException("Mismatched end-tag.");
+                case ErrorCode.TagCannotEndHere:
+                    return new ArgumentException("Unexpected end-tag (no current element).");
+                case ErrorCode.CharacterReferenceInvalidNumber:
+                    return new ArgumentException("Invalid character reference.");
+                case ErrorCode.CharacterReferenceInvalidCode:
+                    return new ArgumentException("Well-formedness constraint: entity declared.");
+                case ErrorCode.CharacterReferenceNotTerminated:
+                    return new ArgumentException("Invalid entity reference.");
+                case ErrorCode.XmlInvalidStartTag:
+                    return new ArgumentException("Invalid start-tag.");
+                case ErrorCode.XmlInvalidEndTag:
+                    return new ArgumentException("Invalid end-tag.");
+                case ErrorCode.AttributeNameInvalid:
+                    return new ArgumentException("Invalid attribute specification.");
+                case ErrorCode.AttributeValueInvalid:
+                    return new ArgumentException("Invalid attribute value.");
+                case ErrorCode.XmlLtInAttributeValue:
+                    return new ArgumentException("Well-formedness constraint: No < in Attribute Values.");
+                case ErrorCode.XmlUniqueAttribute:
+                    return new ArgumentException("Well-formedness constraint: Unique Att Spec.");
+                case ErrorCode.DtdInvalid:
+                    return new ArgumentException("Invalid document type declaration.");
+                case ErrorCode.DtdPEReferenceInvalid:
+                    return new ArgumentException("Invalid parameter entity reference.");
+                case ErrorCode.DtdNameInvalid:
+                    return new ArgumentException("Invalid name in entity declaration.");
+                case ErrorCode.DtdDeclInvalid:
+                    return new ArgumentException("Declaration invalid.");
+                case ErrorCode.DtdTypeInvalid:
+                    return new ArgumentException("Invalid element type declaration.");
+                case ErrorCode.DtdEntityInvalid:
+                    return new ArgumentException("Invalid entity declaration.");
+                case ErrorCode.DtdAttListInvalid:
+                    return new ArgumentException("Invalid element name in attribute-list declaration.");
+                case ErrorCode.DtdTypeContent:
+                    return new ArgumentException("Invalid content specification in element type declaration.");
+            }
+
+            return new Exception("Unknown exception.");
+        }
     }
 }

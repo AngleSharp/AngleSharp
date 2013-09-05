@@ -7,6 +7,13 @@ namespace AngleSharp.Xml
     /// </summary>
     abstract class XmlBaseTokenizer : BaseTokenizer
     {
+        #region Constants
+
+        protected const String PUBLIC = "PUBLIC";
+        protected const String SYSTEM = "SYSTEM";
+
+        #endregion
+
         #region ctor
 
         public XmlBaseTokenizer(SourceManager src)
