@@ -563,6 +563,7 @@ namespace AngleSharp.Xml
         /// More http://www.w3.org/TR/REC-xml/#NT-EncodingDecl.
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="q">The quote character.</param>
         /// <param name="decl">The current declaration token.</param>
         XmlToken DeclarationEncodingValue(Char c, Char q, XmlDeclarationToken decl)
         {
