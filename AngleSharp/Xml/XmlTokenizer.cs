@@ -88,6 +88,10 @@ namespace AngleSharp.Xml
             if (entityToken.IsNumeric)
             {
                 var num = entityToken.IsHex ? entityToken.Value.FromHex() : entityToken.Value.FromDec();
+
+                if (!num.IsValidAsCharRef())
+                    throw new ArgumentException("Invalid character reference.");
+
                 return Char.ConvertFromUtf32(num);
             }
             else
@@ -390,7 +394,7 @@ namespace AngleSharp.Xml
             if (!c.IsSpaceCharacter())
             {
                 _stringBuffer.Clear();
-                _stringBuffer.Append("xml");
+                _stringBuffer.Append(Tags.XML);
                 return ProcessingTarget(c, XmlToken.Processing());
             }
 
@@ -502,7 +506,7 @@ namespace AngleSharp.Xml
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (_src.ContinuesWith("encoding", false))
+            if (_src.ContinuesWith(AttributeNames.ENCODING, false))
             {
                 _src.Advance(7);
                 return DeclarationEncodingAfterName(_src.Next, decl);
@@ -542,15 +546,14 @@ namespace AngleSharp.Xml
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (c == Specification.DQ)
+            if (c == Specification.DQ || c == Specification.SQ)
             {
+                var q = c;
                 _stringBuffer.Clear();
-                return DeclarationEncodingValueDQ(_src.Next, decl);
-            }
-            else if (c == Specification.SQ)
-            {
-                _stringBuffer.Clear();
-                return DeclarationEncodingValueSQ(_src.Next, decl);
+                c = _src.Next;
+
+                if (c.IsLetter())
+                    return DeclarationEncodingValue(c, q, decl);
             }
 
             throw new ArgumentException("Invalid XML declaration.");
@@ -561,42 +564,19 @@ namespace AngleSharp.Xml
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationEncodingValueSQ(Char c, XmlDeclarationToken decl)
+        XmlToken DeclarationEncodingValue(Char c, Char q, XmlDeclarationToken decl)
         {
-            while (c != Specification.EOF && c != Specification.SQ)
+            do
             {
-                _stringBuffer.Append(c);
-                c = _src.Next;
+                if (c.IsAlphanumericAscii() || c == Specification.DOT || c == Specification.UNDERSCORE || c == Specification.MINUS)
+                {
+                    _stringBuffer.Append(c);
+                    c = _src.Next;
+                }
+                else
+                    throw new ArgumentException("Invalid XML declaration.");
             }
-
-            if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                return XmlToken.EOF;
-            }
-
-            decl.Encoding = _stringBuffer.ToString();
-            return DeclarationAfterEncoding(_src.Next, decl);
-        }
-
-        /// <summary>
-        /// More http://www.w3.org/TR/REC-xml/#NT-EncodingDecl.
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationEncodingValueDQ(Char c, XmlDeclarationToken decl)
-        {
-            while (c != Specification.EOF && c != Specification.DQ)
-            {
-                _stringBuffer.Append(c);
-                c = _src.Next;
-            }
-
-            if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                return XmlToken.EOF;
-            }
+            while (c != q);
 
             decl.Encoding = _stringBuffer.ToString();
             return DeclarationAfterEncoding(_src.Next, decl);
@@ -1375,23 +1355,16 @@ namespace AngleSharp.Xml
                 _stringBuffer.Append(Specification.REPLACEMENT);
                 return AttributeName(_src.Next, tag);
             }
-            else if (c == Specification.SQ || c == Specification.DQ || c == Specification.EQ || c == Specification.LT)
+            else if (c.IsXmlNameStart())
             {
-                RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
                 return AttributeName(_src.Next, tag);
             }
             else if (c == Specification.EOF)
-            {
-                return XmlToken.EOF;
-            }
-            else
-            {
-                _stringBuffer.Clear();
-                _stringBuffer.Append(c);
-                return AttributeName(_src.Next, tag);
-            }
+                throw new ArgumentException("Unexpected end-of-file.");
+
+            throw new ArgumentException("Invalid start-tag.");
         }
 
         /// <summary>
@@ -1423,23 +1396,12 @@ namespace AngleSharp.Xml
                     tag.AddAttribute(_stringBuffer.ToString());
                     return EmitTag(tag);
                 }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
-                }
-                else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT)
-                {
-                    RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
-                    _stringBuffer.Append(c);
-                }
                 else if (c == Specification.EOF)
-                {
-                    return XmlToken.EOF;
-                }
-                else
-                    _stringBuffer.Append(c);
+                    throw new ArgumentException("Unexpected end-of-file.");
+                else if (!c.IsXmlName())
+                    throw new ArgumentException("Invalid attribute specification.");
 
+                _stringBuffer.Append(c);
                 c = _src.Next;
             }
         }
@@ -1563,8 +1525,7 @@ namespace AngleSharp.Xml
             else if (c == Specification.EOF)
                 return XmlTagToken.EOF;
 
-            RaiseErrorOccurred(ErrorCode.AttributeNameExpected);
-            return AttributeBeforeName(c, tag);
+            throw new ArgumentException("Invalid start-tag.");
         }
 
         #endregion

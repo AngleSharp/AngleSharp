@@ -53,5 +53,17 @@ namespace AngleSharp.Xml
             return c.IsXmlNameStart() || c.IsDigit() || c == Specification.MINUS || c == Specification.DOT || c == 0xB7 ||
                    c.IsInRange(0x300, 0x36F) || c.IsInRange(0x203F, 0x2040);
         }
+
+        /// <summary>
+        /// Checks if the given integer would be a valid character.
+        /// </summary>
+        /// <param name="chr">The integer to examine.</param>
+        /// <returns>True if the integer would indeed be valid.</returns>
+        [DebuggerStepThrough]
+        public static Boolean IsValidAsCharRef(this Int32 chr)
+        {
+            return  chr == 0x9 || chr == 0xA || chr == 0xD || (chr >= 0x20 && chr <= 0xD7FF) || 
+                    (chr >= 0xE000 && chr <= 0xFFFD) || (chr >= 0x10000 && chr <= 0x10FFFF);
+        }
     }
 }

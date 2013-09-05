@@ -206,5 +206,10 @@ namespace AngleSharp
         /// The align attribute.
         /// </summary>
         public const String ALIGN = "align";
+
+        /// <summary>
+        /// The encoding attribute.
+        /// </summary>
+        public const String ENCODING = "encoding";
     }
 }

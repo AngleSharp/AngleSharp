@@ -333,21 +333,19 @@ namespace AngleSharp.Xml
                 case XmlTokenType.EOF:
                 {
                     if (open.Count != 0)
-                    {
-                        RaiseErrorOccurred(ErrorCode.EOF);
-                        open.RemoveRange(0, open.Count);
-                    }
+                        throw new ArgumentException("Unexpected end-of-file.");
+                    else if (doc.DocumentElement == null)
+                        throw new ArgumentException("Missing root element.");
+
                     break;
                 }
                 case XmlTokenType.DOCTYPE:
                 {
-                    RaiseErrorOccurred(ErrorCode.DoctypeUnexpected);
-                    break;
+                    throw new ArgumentException("Document type declaration after content.");
                 }
                 case XmlTokenType.Declaration:
                 {
-                    RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
-                    break;
+                    throw new ArgumentException("XML declaration not at beginning of document.");
                 }
             }
         }
