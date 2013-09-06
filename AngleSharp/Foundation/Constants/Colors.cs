@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AngleSharp.DOM.Css;
+using System;
 using System.Collections.Generic;
 
 namespace AngleSharp
@@ -13,7 +14,7 @@ namespace AngleSharp
     {
         #region Members
 
-        static Dictionary<String, HtmlColor> _colors;
+        static Dictionary<String, CSSColor> _colors;
 
         #endregion
 
@@ -21,7 +22,7 @@ namespace AngleSharp
 
         static Colors()
         {
-            _colors = new Dictionary<String, HtmlColor>();
+            _colors = new Dictionary<String, CSSColor>();
 
             Add("aliceblue", 240, 248, 255);
             Add("antiquewhite", 250, 235, 215);
@@ -181,12 +182,12 @@ namespace AngleSharp
         /// </summary>
         /// <param name="name">The name of the color</param>
         /// <returns>The color or transparent if no color was found.</returns>
-        public static HtmlColor FromName(String name)
+        public static CSSColor FromName(String name)
         {
             if (_colors.ContainsKey(name))
                 return _colors[name];
 
-            return HtmlColor.Transparent;
+            return CSSColor.Transparent;
         }
 
         /// <summary>
@@ -194,7 +195,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="color">The color that searches its name.</param>
         /// <returns>The name of the given color or null.</returns>
-        public static String GetNameFromColor(HtmlColor color)
+        public static String GetNameFromColor(CSSColor color)
         {
             foreach (var pair in _colors)
                 if (pair.Value.Equals(color))
@@ -209,7 +210,7 @@ namespace AngleSharp
 
         static void Add(String name, Byte r, Byte g, Byte b)
         {
-            _colors.Add(name, HtmlColor.FromRgb(r, g, b));
+            _colors.Add(name, CSSColor.FromRgb(r, g, b));
         }
 
         #endregion

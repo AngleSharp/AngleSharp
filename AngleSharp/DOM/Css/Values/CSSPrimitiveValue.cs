@@ -10,23 +10,23 @@ namespace AngleSharp.DOM.Css
     {
         #region Members
 
-        Object data;
-        UnitType unit;
+        Object _value;
+        CssUnit _unit;
 
         #endregion
 
         #region ctor
 
-        internal CSSPrimitiveValue(UnitType unitType, String value)
+        internal CSSPrimitiveValue(CssUnit unit, String value)
         {
             _type = CssValueType.PrimitiveValue;
-            SetStringValue(unitType, value);
+            SetStringValue(unit, value);
         }
 
-        internal CSSPrimitiveValue(UnitType unitType, Single value)
+        internal CSSPrimitiveValue(CssUnit unit, Single value)
         {
             _type = CssValueType.PrimitiveValue;
-            SetFloatValue(unitType, value);
+            SetFloatValue(unit, value);
         }
 
         internal CSSPrimitiveValue(String unit, Single value)
@@ -36,12 +36,12 @@ namespace AngleSharp.DOM.Css
             SetFloatValue(unitType, value);
         }
 
-        internal CSSPrimitiveValue(HtmlColor value)
+        internal CSSPrimitiveValue(CSSColor value)
         {
             _text = value.ToCss();
             _type = CssValueType.PrimitiveValue;
-            unit = UnitType.Rgbcolor;
-            data = value;
+            _unit = CssUnit.Rgbcolor;
+            _value = value;
         }
 
         #endregion
@@ -51,9 +51,9 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the unit type of the value.
         /// </summary>
-        public UnitType PrimitiveType
+        public CssUnit PrimitiveType
         {
-            get { return unit; }
+            get { return _unit; }
         }
 
         #endregion
@@ -63,29 +63,29 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Sets the primitive value to the given number.
         /// </summary>
-        /// <param name="unitType">The unit of the number.</param>
+        /// <param name="unit">The unit of the number.</param>
         /// <param name="value">The value of the number.</param>
         /// <returns>The CSS primitive value instance.</returns>
-        public CSSPrimitiveValue SetFloatValue(UnitType unitType, Single value)
+        public CSSPrimitiveValue SetFloatValue(CssUnit unit, Single value)
         {
-            _text = value.ToString(CultureInfo.InvariantCulture) + ConvertUnitTypeToString(unitType);
-            unit = unitType;
-            data = value;
+            _text = value.ToString(CultureInfo.InvariantCulture) + ConvertUnitTypeToString(unit);
+            _unit = unit;
+            _value = value;
             return this;
         }
 
         /// <summary>
         /// Gets the primitive value's number if any.
         /// </summary>
-        /// <param name="unitType">The unit of the number.</param>
+        /// <param name="unit">The unit of the number.</param>
         /// <returns>The value of the number if any.</returns>
-        public Single? GetFloatValue(UnitType unitType)
+        public Single? GetFloatValue(CssUnit unit)
         {
-            if (data is Single)
+            if (_value is Single)
             {
-                var value = (Single)data;
+                var qty = (Single)_value;
                 //TODO Convert
-                return value;
+                return qty;
             }
 
             return null;
@@ -94,17 +94,17 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Sets the primitive value to the given string.
         /// </summary>
-        /// <param name="unitType">The unit of the string.</param>
+        /// <param name="unit">The unit of the string.</param>
         /// <param name="value">The value of the string.</param>
         /// <returns>The CSS primitive value instance.</returns>
-        public CSSPrimitiveValue SetStringValue(UnitType unitType, String value)
+        public CSSPrimitiveValue SetStringValue(CssUnit unit, String value)
         {
-            switch (unitType)
+            switch (unit)
             {
-                case UnitType.String:
+                case CssUnit.String:
                     _text = "'" + value + "'";
                     break;
-                case UnitType.Uri:
+                case CssUnit.Uri:
                     _text = "url('" + value + "')";
                     break;
                 default:
@@ -112,8 +112,8 @@ namespace AngleSharp.DOM.Css
                     break;
             }
 
-            unit = unitType;
-            data = value;
+            _unit = unit;
+            _value = value;
             return this;
         }
 
@@ -123,11 +123,11 @@ namespace AngleSharp.DOM.Css
         /// <returns>The value of the string if any.</returns>
         public String GetStringValue()
         {
-            if (data is String)
+            if (_value is String)
             {
-                var value = (String)data;
+                var qty = (String)_value;
                 //TODO Convert
-                return value;
+                return qty;
             }
 
             return null;
@@ -139,26 +139,26 @@ namespace AngleSharp.DOM.Css
         /// <returns>The value of the counter if any.</returns>
         public Counter GetCounterValue()
         {
-            return data as Counter;
+            return _value as Counter;
         }
 
         /// <summary>
         /// Gets the primitive value's rectangle if any.
         /// </summary>
         /// <returns>The value of the rectangle if any.</returns>
-        public Rect GetRectValue()
+        public CSSRect GetRectValue()
         {
-            return data as Rect;
+            return _value as CSSRect;
         }
 
         /// <summary>
         /// Gets the primitive value's RGB color if any.
         /// </summary>
         /// <returns>The value of the RGB color if any.</returns>
-        public HtmlColor? GetRGBColorValue()
+        public CSSColor? GetRGBColorValue()
         {
-            if(unit == UnitType.Rgbcolor)
-                return (HtmlColor)data;
+            if(_unit == CssUnit.Rgbcolor)
+                return (CSSColor)_value;
 
             return null;
         }
@@ -167,61 +167,61 @@ namespace AngleSharp.DOM.Css
 
         #region Helpers
 
-        internal static UnitType ConvertStringToUnitType(String unit)
+        internal static CssUnit ConvertStringToUnitType(String unit)
         {
             switch (unit)
             {
-                case "%": return UnitType.Percentage;
-                case "em": return UnitType.Ems;
-                case "cm": return UnitType.Cm;
-                case "deg": return UnitType.Deg;
-                case "grad": return UnitType.Grad;
-                case "rad": return UnitType.Rad;
-                case "turn": return UnitType.Turn;
-                case "ex": return UnitType.Exs;
-                case "hz": return UnitType.Hz;
-                case "in": return UnitType.In;
-                case "khz": return UnitType.Khz;
-                case "mm": return UnitType.Mm;
-                case "ms": return UnitType.Ms;
-                case "s": return UnitType.S;
-                case "pc": return UnitType.Pc;
-                case "pt": return UnitType.Pt;
-                case "px": return UnitType.Px;
-                case "vw": return UnitType.Vw;
-                case "vh": return UnitType.Vh;
-                case "vmin": return UnitType.Vmin;
-                case "vmax": return UnitType.Vmax;
+                case "%": return CssUnit.Percentage;
+                case "em": return CssUnit.Ems;
+                case "cm": return CssUnit.Cm;
+                case "deg": return CssUnit.Deg;
+                case "grad": return CssUnit.Grad;
+                case "rad": return CssUnit.Rad;
+                case "turn": return CssUnit.Turn;
+                case "ex": return CssUnit.Exs;
+                case "hz": return CssUnit.Hz;
+                case "in": return CssUnit.In;
+                case "khz": return CssUnit.Khz;
+                case "mm": return CssUnit.Mm;
+                case "ms": return CssUnit.Ms;
+                case "s": return CssUnit.S;
+                case "pc": return CssUnit.Pc;
+                case "pt": return CssUnit.Pt;
+                case "px": return CssUnit.Px;
+                case "vw": return CssUnit.Vw;
+                case "vh": return CssUnit.Vh;
+                case "vmin": return CssUnit.Vmin;
+                case "vmax": return CssUnit.Vmax;
             }
 
-            return UnitType.Unknown;
+            return CssUnit.Unknown;
         }
 
-        internal static String ConvertUnitTypeToString(UnitType unit)
+        internal static String ConvertUnitTypeToString(CssUnit unit)
         {
             switch (unit)
             {
-                case UnitType.Percentage: return "%";
-                case UnitType.Ems: return "em";
-                case UnitType.Cm: return "cm";
-                case UnitType.Deg: return "deg";
-                case UnitType.Grad: return "grad";
-                case UnitType.Rad: return "rad";
-                case UnitType.Turn: return "turn";
-                case UnitType.Exs: return "ex";
-                case UnitType.Hz: return "hz";
-                case UnitType.In: return "in";
-                case UnitType.Khz: return "khz";
-                case UnitType.Mm: return "mm";
-                case UnitType.Ms: return "ms";
-                case UnitType.S: return "s";
-                case UnitType.Pc: return "pc";
-                case UnitType.Pt: return "pt";
-                case UnitType.Px: return "px";
-                case UnitType.Vw: return "vw";
-                case UnitType.Vh: return "vh";
-                case UnitType.Vmin: return "vmin";
-                case UnitType.Vmax: return "vmax";
+                case CssUnit.Percentage: return "%";
+                case CssUnit.Ems: return "em";
+                case CssUnit.Cm: return "cm";
+                case CssUnit.Deg: return "deg";
+                case CssUnit.Grad: return "grad";
+                case CssUnit.Rad: return "rad";
+                case CssUnit.Turn: return "turn";
+                case CssUnit.Exs: return "ex";
+                case CssUnit.Hz: return "hz";
+                case CssUnit.In: return "in";
+                case CssUnit.Khz: return "khz";
+                case CssUnit.Mm: return "mm";
+                case CssUnit.Ms: return "ms";
+                case CssUnit.S: return "s";
+                case CssUnit.Pc: return "pc";
+                case CssUnit.Pt: return "pt";
+                case CssUnit.Px: return "px";
+                case CssUnit.Vw: return "vw";
+                case CssUnit.Vh: return "vh";
+                case CssUnit.Vmin: return "vmin";
+                case CssUnit.Vmax: return "vmax";
             }
 
             return String.Empty;

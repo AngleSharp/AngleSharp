@@ -353,19 +353,19 @@ namespace AngleSharp.Css
             switch (source.Current.Type)
             {
                 case CssTokenType.String:// 'i am a string'
-                    value = new CSSPrimitiveValue(UnitType.String, ((CssStringToken)source.Current).Data);
+                    value = new CSSPrimitiveValue(CssUnit.String, ((CssStringToken)source.Current).Data);
                     break;
 
                 case CssTokenType.Url:// url('this is a valid URL')
-                    value = new CSSPrimitiveValue(UnitType.Uri, ((CssStringToken)source.Current).Data);
+                    value = new CSSPrimitiveValue(CssUnit.Uri, ((CssStringToken)source.Current).Data);
                     break;
 
                 case CssTokenType.Ident: // ident
-                    value = new CSSPrimitiveValue(UnitType.Ident, ((CssKeywordToken)source.Current).Data);
+                    value = new CSSPrimitiveValue(CssUnit.Ident, ((CssKeywordToken)source.Current).Data);
                     break;
 
                 case CssTokenType.Percentage: // 5%
-                    value = new CSSPrimitiveValue(UnitType.Percentage, ((CssUnitToken)source.Current).Data);
+                    value = new CSSPrimitiveValue(CssUnit.Percentage, ((CssUnitToken)source.Current).Data);
                     break;
 
                 case CssTokenType.Dimension: // 3px
@@ -373,13 +373,13 @@ namespace AngleSharp.Css
                     break;
 
                 case CssTokenType.Number: // 173
-                    value = new CSSPrimitiveValue(UnitType.Number, ((CssNumberToken)source.Current).Data);
+                    value = new CSSPrimitiveValue(CssUnit.Number, ((CssNumberToken)source.Current).Data);
                     break;
 
                 case CssTokenType.Hash: // #string
-                    HtmlColor color;
+                    CSSColor color;
 
-                    if(HtmlColor.TryFromHex(((CssKeywordToken)source.Current).Data, out color))
+                    if(CSSColor.TryFromHex(((CssKeywordToken)source.Current).Data, out color))
                         value = new CSSPrimitiveValue(color);
 
                     break;
@@ -416,7 +416,7 @@ namespace AngleSharp.Css
                                 break;
                         }
 
-                        if (HtmlColor.TryFromHex(hash, out color))
+                        if (CSSColor.TryFromHex(hash, out color))
                             value = new CSSPrimitiveValue(color);
                     }
                     break;

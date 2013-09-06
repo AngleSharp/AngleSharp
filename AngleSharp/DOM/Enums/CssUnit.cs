@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// An integer indicating which type of unit applies to the value.
     /// </summary>
-    public enum UnitType : ushort
+    public enum CssUnit : ushort
     {
         /// <summary>
         /// The value is not a recognized CSS value. The value can only be obtained by using the cssText attribute.
