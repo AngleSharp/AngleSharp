@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Css\CssTokenizer.cs" />
+    <Compile Include="DOM\Css\Rules\CSSDocumentRule.cs" />
     <Compile Include="DOM\Css\Values\CSSGradient.cs" />
     <Compile Include="DOM\Css\Values\CSSGradientStop.cs" />
     <Compile Include="DOM\Css\Values\CSSPoint2.cs" />

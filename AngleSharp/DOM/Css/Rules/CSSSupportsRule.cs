@@ -16,7 +16,8 @@ namespace AngleSharp.DOM.Css
 
         #region Members
 
-        String _conditionText;
+        String _condition;
+        Boolean _used;
 
         #endregion
 
@@ -25,7 +26,8 @@ namespace AngleSharp.DOM.Css
         internal CSSSupportsRule()
         {
             _type = CssRuleType.Supports;
-            _conditionText = String.Empty;
+            _condition = String.Empty;
+            _used = true;
         }
 
         #endregion
@@ -38,8 +40,18 @@ namespace AngleSharp.DOM.Css
         [DOM("conditionText")]
         public override String ConditionText
         {
-            get { return _conditionText; }
-            set { _conditionText = value; }
+            get { return _condition; }
+            set { _condition = value; }
+        }
+
+        /// <summary>
+        /// Gets if the rule is used.
+        /// </summary>
+        [DOM("isSupported")]
+        public Boolean IsSupported
+        {
+            get { return _used; }
+            internal set { _used = value; }
         }
 
         #endregion
@@ -52,7 +64,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Format("@supports {0} {{{1}{2}}}", _conditionText, Environment.NewLine, CssRules.ToCss());
+            return String.Format("@supports {0} {{{1}{2}}}", _condition, Environment.NewLine, CssRules.ToCss());
         }
 
         #endregion
