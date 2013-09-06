@@ -58,7 +58,7 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Html\HtmlScript.cs" />
     <Compile Include="Html\HtmlStyle.cs" />
-    <Compile Include="Library\Color.cs" />
+    <Compile Include="Css\Color.cs" />
     <Compile Include="Css\CssSheet.cs" />
     <Compile Include="Css\CssTokenization.cs" />
     <Compile Include="Css\CssSelectors.cs" />
