@@ -15,19 +15,19 @@ namespace AngleSharp.Css
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
         #region Members
 
-        Boolean started;
-        Boolean quirksFlag;
-        CssTokenizer tokenizer;
-        CSSStyleSheet sheet;
-        Task task;
-        StringBuilder buffer;
-        Stack<CSSRule> open;
-        Boolean ignore;
+        Boolean _started;
+        Boolean _quirksFlag;
+        CssTokenizer _tokenizer;
+        CSSStyleSheet _sheet;
+        Task _task;
+        Stack<CSSRule> _open;
+        Boolean _ignore;
+        Object _lock;
 
         #endregion
 
@@ -92,19 +92,19 @@ namespace AngleSharp.Css
         /// <param name="source">The source to use.</param>
         internal CssParser(CSSStyleSheet stylesheet, SourceManager source)
         {
-            ignore = true;
-            buffer = new StringBuilder();
-            tokenizer = new CssTokenizer(source);
+            _lock = new Object();
+            _ignore = true;
+            _tokenizer = new CssTokenizer(source);
 
-            tokenizer.ErrorOccurred += (s, ev) =>
+            _tokenizer.ErrorOccurred += (s, ev) =>
             {
                 if (ErrorOccurred != null)
                     ErrorOccurred(this, ev);
             };
 
-            started = false;
-            sheet = stylesheet;
-            open = new Stack<CSSRule>();
+            _started = false;
+            _sheet = stylesheet;
+            _open = new Stack<CSSRule>();
         }
 
         #endregion
@@ -116,7 +116,7 @@ namespace AngleSharp.Css
         /// </summary>
         public Boolean IsAsync
         {
-            get { return task != null; }
+            get { return _task != null; }
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace AngleSharp.Css
             get 
             {
                 Parse();
-                return sheet; 
+                return _sheet; 
             }
         }
 
@@ -136,8 +136,8 @@ namespace AngleSharp.Css
         /// </summary>
         public Boolean IsQuirksMode
         {
-            get { return quirksFlag; }
-            set { quirksFlag = value; }
+            get { return _quirksFlag; }
+            set { _quirksFlag = value; }
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace AngleSharp.Css
         /// </summary>
         internal CSSRule CurrentRule
         {
-            get { return open.Count > 0 ? open.Peek() : null; }
+            get { return _open.Count > 0 ? _open.Peek() : null; }
         }
 
         #endregion
@@ -158,15 +158,18 @@ namespace AngleSharp.Css
         /// <returns>The task which could be awaited or continued differently.</returns>
         public Task ParseAsync()
         {
-            if (!started)
+            lock (_lock)
             {
-                started = true;
-                task = Task.Run(() => AppendRules());
-            }
-            else if (task == null)
-                throw new InvalidOperationException("The parser has already run synchronously.");
+                if (!_started)
+                {
+                    _started = true;
+                    _task = Task.Run(() => AppendRules());
+                }
+                else if (_task == null)
+                    throw new InvalidOperationException("The parser has already run synchronously.");
 
-            return task;
+                return _task;
+            }
         }
 
         /// <summary>
@@ -174,10 +177,13 @@ namespace AngleSharp.Css
         /// </summary>
         public void Parse()
         {
-            if (!started)
+            lock (_lock)
             {
-                started = true;
-                AppendRules();
+                if (!_started)
+                {
+                    _started = true;
+                    AppendRules();
+                }
             }
         }
 
@@ -191,7 +197,7 @@ namespace AngleSharp.Css
         /// </summary>
         void AppendRules()
         {
-            AppendRules(tokenizer.Iterator, sheet.CssRules.List);
+            AppendRules(_tokenizer.Iterator, _sheet.CssRules.List);
         }
 
         /// <summary>
@@ -270,6 +276,8 @@ namespace AngleSharp.Css
                 else if (source.Current.Type == endToken)
                     break;
 
+                var buffer = Pool.NewStringBuilder();
+
                 do
                 {
                     if (source.Current.Type == CssTokenType.Comma || source.Current.Type == endToken)
@@ -281,8 +289,7 @@ namespace AngleSharp.Css
                 }
                 while (source.MoveNext());
 
-                media.AppendMedium(buffer.ToString());
-                buffer.Clear();
+                media.AppendMedium(buffer.ToPool());
 
                 if (source.Current.Type == endToken)
                     break;
@@ -459,10 +466,10 @@ namespace AngleSharp.Css
         {
             var style = new CSSStyleRule();
             var ctor = new CssSelectorConstructor();
-            ctor.IgnoreErrors = ignore;
-            style.ParentStyleSheet = sheet;
+            ctor.IgnoreErrors = _ignore;
+            style.ParentStyleSheet = _sheet;
             style.ParentRule = CurrentRule;
-            open.Push(style);
+            _open.Push(style);
 
             do
             {
@@ -482,7 +489,7 @@ namespace AngleSharp.Css
             while (source.MoveNext());
 
             style.Selector = ctor.Result;
-            open.Pop();
+            _open.Pop();
             return style;
         }
 
@@ -729,10 +736,10 @@ namespace AngleSharp.Css
         {
             var rule = new CSSUnknownRule();
             var endCurly = 0;
-            rule.ParentStyleSheet = sheet;
+            rule.ParentStyleSheet = _sheet;
             rule.ParentRule = CurrentRule;
-            open.Push(rule);
-            buffer.Append(name).Append(" ");
+            _open.Push(rule);
+            var buffer = Pool.NewStringBuilder().Append(name).Append(Specification.SPACE);
 
             do
             {
@@ -751,9 +758,8 @@ namespace AngleSharp.Css
             }
             while (source.MoveNext());
 
-            rule.SetText(buffer.ToString());
-            buffer.Clear();
-            open.Pop();
+            rule.SetText(buffer.ToPool());
+            _open.Pop();
             return rule;
         }
 
@@ -766,9 +772,9 @@ namespace AngleSharp.Css
         {
             var comma = false;
             var document = new CSSDocumentRule();
-            document.ParentStyleSheet = sheet;
+            document.ParentStyleSheet = _sheet;
             document.ParentRule = CurrentRule;
-            open.Push(document);
+            _open.Push(document);
 
             do
             {
@@ -844,7 +850,7 @@ namespace AngleSharp.Css
                 AppendRules(tokens.GetEnumerator(), document.CssRules.List);
             }
 
-            open.Pop();
+            _open.Pop();
             return document;
         }
 
@@ -856,9 +862,9 @@ namespace AngleSharp.Css
         CSSKeyframesRule CreateKeyframesRule(IEnumerator<CssToken> source)
         {
             var keyframes = new CSSKeyframesRule();
-            keyframes.ParentStyleSheet = sheet;
+            keyframes.ParentStyleSheet = _sheet;
             keyframes.ParentRule = CurrentRule;
-            open.Push(keyframes);
+            _open.Push(keyframes);
 
             if (source.Current.Type == CssTokenType.Ident)
             {
@@ -875,7 +881,7 @@ namespace AngleSharp.Css
                 }
             }
 
-            open.Pop();
+            _open.Pop();
             return keyframes;
         }
 
@@ -887,9 +893,10 @@ namespace AngleSharp.Css
         CSSKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> source)
         {
             var keyframe = new CSSKeyframeRule();
-            keyframe.ParentStyleSheet = sheet;
+            keyframe.ParentStyleSheet = _sheet;
             keyframe.ParentRule = CurrentRule;
-            open.Push(keyframe);
+            _open.Push(keyframe);
+            var buffer = Pool.NewStringBuilder();
 
             do
             {
@@ -908,9 +915,8 @@ namespace AngleSharp.Css
             }
             while (source.MoveNext());
 
-            keyframe.KeyText = buffer.ToString();
-            buffer.Clear();
-            open.Pop();
+            keyframe.KeyText = buffer.ToPool();
+            _open.Pop();
             return keyframe;
         }
 
@@ -922,9 +928,10 @@ namespace AngleSharp.Css
         CSSSupportsRule CreateSupportsRule(IEnumerator<CssToken> source)
         {
             var supports = new CSSSupportsRule();
-            supports.ParentStyleSheet = sheet;
+            supports.ParentStyleSheet = _sheet;
             supports.ParentRule = CurrentRule;
-            open.Push(supports);
+            _open.Push(supports);
+            var buffer = Pool.NewStringBuilder();
 
             do
             {
@@ -943,9 +950,8 @@ namespace AngleSharp.Css
             }
             while (source.MoveNext());
 
-            supports.ConditionText = buffer.ToString();
-            buffer.Clear();
-            open.Pop();
+            supports.ConditionText = buffer.ToPool();
+            _open.Pop();
             return supports;
         }
 
@@ -957,7 +963,7 @@ namespace AngleSharp.Css
         CSSNamespaceRule CreateNamespaceRule(IEnumerator<CssToken> source)
         {
             var ns = new CSSNamespaceRule();
-            ns.ParentStyleSheet = sheet;
+            ns.ParentStyleSheet = _sheet;
 
             if (source.Current.Type == CssTokenType.Ident)
             {
@@ -980,7 +986,7 @@ namespace AngleSharp.Css
         CSSCharsetRule CreateCharsetRule(IEnumerator<CssToken> source)
         {
             var charset = new CSSCharsetRule();
-            charset.ParentStyleSheet = sheet;
+            charset.ParentStyleSheet = _sheet;
 
             if (source.Current.Type == CssTokenType.String)
                 charset.Encoding = ((CssStringToken)source.Current).Data;
@@ -997,9 +1003,9 @@ namespace AngleSharp.Css
         CSSFontFaceRule CreateFontFaceRule(IEnumerator<CssToken> source)
         {
             var fontface = new CSSFontFaceRule();
-            fontface.ParentStyleSheet = sheet;
+            fontface.ParentStyleSheet = _sheet;
             fontface.ParentRule = CurrentRule;
-            open.Push(fontface);
+            _open.Push(fontface);
 
             if(source.Current.Type == CssTokenType.CurlyBracketOpen)
             {
@@ -1010,7 +1016,7 @@ namespace AngleSharp.Css
                 }
             }
 
-            open.Pop();
+            _open.Pop();
             return fontface;
         }
 
@@ -1022,9 +1028,9 @@ namespace AngleSharp.Css
         CSSImportRule CreateImportRule(IEnumerator<CssToken> source)
         {
             var import = new CSSImportRule();
-            import.ParentStyleSheet = sheet;
+            import.ParentStyleSheet = _sheet;
             import.ParentRule = CurrentRule;
-            open.Push(import);
+            _open.Push(import);
 
             switch (source.Current.Type)
             {
@@ -1045,7 +1051,7 @@ namespace AngleSharp.Css
                     break;
             }
 
-            open.Pop();
+            _open.Pop();
             return import;
         }
 
@@ -1057,11 +1063,11 @@ namespace AngleSharp.Css
         CSSPageRule CreatePageRule(IEnumerator<CssToken> source)
         {
             var page = new CSSPageRule();
-            page.ParentStyleSheet = sheet;
+            page.ParentStyleSheet = _sheet;
             page.ParentRule = CurrentRule;
-            open.Push(page);
+            _open.Push(page);
             var ctor = new CssSelectorConstructor();
-            ctor.IgnoreErrors = ignore;
+            ctor.IgnoreErrors = _ignore;
 
             do
             {
@@ -1080,7 +1086,7 @@ namespace AngleSharp.Css
             while (source.MoveNext());
 
             page.Selector = ctor.Result;
-            open.Pop();
+            _open.Pop();
             return page;
         }
 
@@ -1092,9 +1098,9 @@ namespace AngleSharp.Css
         CSSMediaRule CreateMediaRule(IEnumerator<CssToken> source)
         {
             var media = new CSSMediaRule();
-            media.ParentStyleSheet = sheet;
+            media.ParentStyleSheet = _sheet;
             media.ParentRule = CurrentRule;
-            open.Push(media);
+            _open.Push(media);
             AppendMediaList(source, media.Media, CssTokenType.CurlyBracketOpen);
 
             if (source.Current.Type == CssTokenType.CurlyBracketOpen)
@@ -1106,7 +1112,7 @@ namespace AngleSharp.Css
                 }
             }
 
-            open.Pop();
+            _open.Pop();
             return media;
         }
 
@@ -1225,7 +1231,7 @@ namespace AngleSharp.Css
         {
             var parser = new CssParser(selector);
             parser.IsQuirksMode = quirksMode;
-            var tokens = parser.tokenizer.Iterator;
+            var tokens = parser._tokenizer.Iterator;
             var ctor = new CssSelectorConstructor();
 
             while (tokens.MoveNext())
@@ -1256,9 +1262,9 @@ namespace AngleSharp.Css
         public static CSSRule ParseRule(String rule, Boolean quirksMode = false)
         {
             var parser = new CssParser(rule);
-            parser.ignore = false;
+            parser._ignore = false;
             parser.IsQuirksMode = quirksMode;
-            var it = parser.tokenizer.Iterator;
+            var it = parser._tokenizer.Iterator;
 
             if (SkipToNextNonWhitespace(it))
             {
@@ -1281,8 +1287,8 @@ namespace AngleSharp.Css
         {
             var parser = new CssParser(declarations);
             parser.IsQuirksMode = quirksMode;
-            parser.ignore = false;
-            var it = parser.tokenizer.Iterator;
+            parser._ignore = false;
+            var it = parser._tokenizer.Iterator;
             parser.AppendDeclarations(it, list);
         }
 
@@ -1309,8 +1315,8 @@ namespace AngleSharp.Css
         {
             var parser = new CssParser(declarations);
             parser.IsQuirksMode = quirksMode;
-            parser.ignore = false;
-            var it = parser.tokenizer.Iterator;
+            parser._ignore = false;
+            var it = parser._tokenizer.Iterator;
 
             if (it.MoveNext())
                 return parser.CreateDeclaration(it);
@@ -1328,8 +1334,8 @@ namespace AngleSharp.Css
         {
             var parser = new CssParser(source);
             parser.IsQuirksMode = quirksMode;
-            parser.ignore = false;
-            var it = parser.tokenizer.Iterator;
+            parser._ignore = false;
+            var it = parser._tokenizer.Iterator;
             SkipToNextNonWhitespace(it);
             return parser.CreateValue(it);
         }
@@ -1344,8 +1350,8 @@ namespace AngleSharp.Css
         {
             var parser = new CssParser(source);
             parser.IsQuirksMode = quirksMode;
-            parser.ignore = false;
-            var it = parser.tokenizer.Iterator;
+            parser._ignore = false;
+            var it = parser._tokenizer.Iterator;
             return parser.CreateValueList(it);
         }
 
@@ -1359,8 +1365,8 @@ namespace AngleSharp.Css
         {
             var parser = new CssParser(source);
             parser.IsQuirksMode = quirksMode;
-            parser.ignore = false;
-            var it = parser.tokenizer.Iterator;
+            parser._ignore = false;
+            var it = parser._tokenizer.Iterator;
             return parser.CreateMultipleValues(it);
         }
 
@@ -1374,8 +1380,8 @@ namespace AngleSharp.Css
         {
             var parser = new CssParser(rule);
             parser.IsQuirksMode = quirksMode;
-            parser.ignore = false;
-            var it = parser.tokenizer.Iterator;
+            parser._ignore = false;
+            var it = parser._tokenizer.Iterator;
 
             if (SkipToNextNonWhitespace(it))
             {
@@ -1401,8 +1407,8 @@ namespace AngleSharp.Css
             if (ErrorOccurred != null)
             {
                 var pck = new ParseErrorEventArgs((int)code, Errors.GetError(code));
-                pck.Line = tokenizer.Stream.Line;
-                pck.Column = tokenizer.Stream.Column;
+                pck.Line = _tokenizer.Stream.Line;
+                pck.Column = _tokenizer.Stream.Column;
                 ErrorOccurred(this, pck);
             }
         }

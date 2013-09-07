@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Reflection;
 using AngleSharp.DOM.Collections;
 
@@ -913,12 +912,12 @@ namespace AngleSharp.DOM
         /// <returns>A string containing only (rendered) text.</returns>
         public virtual String ToText()
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
 
             foreach (var child in _children)
                 sb.Append(child.ToText());
 
-            return sb.ToString();
+            return sb.ToPool();
         }
 
         /// <summary>
@@ -928,7 +927,7 @@ namespace AngleSharp.DOM
         /// <returns></returns>
         public String ToTree(Int32 indent = 0)
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
             var content = ToString();
 
             if (indent == 0)
@@ -942,7 +941,7 @@ namespace AngleSharp.DOM
             foreach (var child in _children)
                 sb.Append(child.ToTree(indent + 1));
 
-            return sb.ToString();
+            return sb.ToPool();
         }
 
         #endregion

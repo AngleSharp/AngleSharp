@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace AngleSharp.DOM.Html
 {
@@ -94,17 +93,17 @@ namespace AngleSharp.DOM.Html
         /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml()
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
 
-            sb.Append('<').Append(_name);
+            sb.Append(Specification.LT).Append(_name);
             sb.Append(_attributes.ToHtml());
-            sb.Append(">");
+            sb.Append(Specification.GT);
 
             foreach (var child in Content.ChildNodes)
                 sb.Append(child.ToHtml());
 
-            sb.Append("</").Append(_name).Append('>');
-            return sb.ToString();
+            sb.Append(Specification.LT).Append(Specification.SOLIDUS).Append(_name).Append(Specification.GT);
+            return sb.ToPool();
         }
 
         #endregion

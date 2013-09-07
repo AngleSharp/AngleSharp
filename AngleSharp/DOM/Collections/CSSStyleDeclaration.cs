@@ -3,7 +3,6 @@ using AngleSharp.DOM.Css;
 using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.Text;
 
 namespace AngleSharp.DOM.Collections
 {
@@ -2613,12 +2612,12 @@ namespace AngleSharp.DOM.Collections
         /// <returns>A string containing the CSS code of the declarations.</returns>
         public String ToCss()
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
 
             for (int i = 0; i < _rules.Count; i++)
-                sb.Append(_rules[i].ToCss()).Append(';');
+                sb.Append(_rules[i].ToCss()).Append(Specification.SC);
 
-            return sb.ToString();
+            return sb.ToPool();
         }
 
         #endregion

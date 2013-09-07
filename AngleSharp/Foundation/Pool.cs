@@ -49,7 +49,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="sb">The stringbuilder to recycle.</param>
         /// <returns>The string that is contained in the stringbuilder.</returns>
-        public static String Return(this StringBuilder sb)
+        public static String ToPool(this StringBuilder sb)
         {
             lock (_lock)
             {

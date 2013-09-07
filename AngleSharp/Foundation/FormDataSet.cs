@@ -2,18 +2,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AngleSharp
 {
-    class FormDataSet : IEnumerable<String>
+    /// <summary>
+    /// Bundles information stored in HTML forms.
+    /// </summary>
+    sealed class FormDataSet : IEnumerable<String>
     {
+        #region Members
+
         List<FormDataSetEntry> _entries;
+
+        #endregion
+
+        #region ctor
 
         public FormDataSet()
         {
             _entries = new List<FormDataSetEntry>();
         }
+
+        #endregion
+
+        #region Properties
 
         public Object this[String name]
         {
@@ -26,6 +38,10 @@ namespace AngleSharp
             get { return _entries.Where(m => m.Name == name && m.Type == type).Select(m => m.Value).FirstOrDefault(); }
             set { Append(name, value, type); }
         }
+
+        #endregion
+
+        #region Methods
 
         public void Append(String name, Object value, String type)
         {
@@ -40,6 +56,10 @@ namespace AngleSharp
             _entries.Add(new FormDataSetEntry { Name = name, Value = value, Type = type });
         }
 
+        #endregion
+
+        #region Helpers
+
         /// <summary>
         /// Replaces every occurrence of a "CR" (U+000D) character not followed by a "LF" (U+000A)
         /// character, and every occurrence of a "LF" (U+000A) character not preceded by a "CR"
@@ -50,25 +70,40 @@ namespace AngleSharp
         /// <returns>The normalized string.</returns>
         String Normalize(String value)
         {
-            var sb = new StringBuilder(value);
-            sb.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
-            return sb.ToString();
+            var lines = value.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+            return String.Join("\r\n", lines);
         }
 
+        #endregion
+
+        #region Entry Class
+
+        /// <summary>
+        /// Encapsulates the data contained in an entry.
+        /// </summary>
         public class FormDataSetEntry
         {
+            /// <summary>
+            /// Gets or sets the entry's name.
+            /// </summary>
             public String Name
             {
                 get;
                 set;
             }
-
+            
+            /// <summary>
+            /// Gets or sets the entry's value.
+            /// </summary>
             public Object Value
             {
                 get;
                 set;
             }
 
+            /// <summary>
+            /// Gets or sets the entry's type.
+            /// </summary>
             public String Type
             {
                 get;
@@ -76,6 +111,14 @@ namespace AngleSharp
             }
         }
 
+        #endregion
+
+        #region IEnumerable Implementation
+
+        /// <summary>
+        /// Gets an enumerator over all entry names.
+        /// </summary>
+        /// <returns>The enumerator.</returns>
         public IEnumerator<String> GetEnumerator()
         {
             return _entries.Select(m => m.Name).GetEnumerator();
@@ -85,5 +128,7 @@ namespace AngleSharp
         {
             return GetEnumerator();
         }
+
+        #endregion
     }
 }

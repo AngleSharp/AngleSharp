@@ -1,6 +1,5 @@
 ﻿using AngleSharp.Css;
 using System;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -101,12 +100,12 @@ namespace AngleSharp.DOM.Css
         /// <returns>A string that contains the code.</returns>
         public String ToCss()
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
 
             foreach (var rule in _cssRules)
                 sb.AppendLine(rule.ToCss());
 
-            return sb.ToString();
+            return sb.ToPool();
         }
 
         #endregion

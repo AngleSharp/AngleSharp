@@ -69,7 +69,7 @@ namespace AngleSharp.DOM.Css
                     co = true;
                 }
 
-                return sb.Return(); 
+                return sb.ToPool(); 
             }
         }
 

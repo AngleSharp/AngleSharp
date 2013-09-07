@@ -376,7 +376,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="local">The local defined by the BCP 47 language tag.</param>
         /// <returns>The suggested encoding.</returns>
-        public static Encoding Suggest(string local)
+        public static Encoding Suggest(String local)
         {
             var firstTwo = local.Substring(0, 2).ToLower();
 

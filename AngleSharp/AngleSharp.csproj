@@ -54,7 +54,7 @@
     <Compile Include="Foundation\Constants\EventNames.cs" />
     <Compile Include="Foundation\Constants\Headers.cs" />
     <Compile Include="Foundation\Constants\RuleNames.cs" />
-    <Compile Include="Foundation\Helpers\XMLHelpers.cs" />
+    <Compile Include="Foundation\Helpers\XmlHelpers.cs" />
     <Compile Include="Foundation\FormDataSet.cs" />
     <Compile Include="Foundation\Helpers\HtmlHelpers.cs" />
     <Compile Include="Foundation\Helpers\StringExtensions.cs" />
@@ -374,7 +374,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stream\SourceManager.cs" />
     <Compile Include="Foundation\Constants\Specification.cs" />
-    <Compile Include="Foundation\Helpers\SVGHelpers.cs" />
+    <Compile Include="Foundation\Helpers\SvgHelpers.cs" />
     <Compile Include="Html\HtmlTokenizer.cs" />
     <Compile Include="Css\Tokens\CssCharacterToken.cs" />
     <Compile Include="Css\Tokens\CssDelimToken.cs" />

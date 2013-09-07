@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace AngleSharp.DOM.Css
 {
@@ -78,17 +75,17 @@ namespace AngleSharp.DOM.Css
         /// <returns>The CSS to create this selector.</returns>
         public override String ToCss()
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
 
             if (selectors.Count > 0)
             {
                 sb.Append(selectors[0].ToCss());
 
                 for (int i = 1; i < selectors.Count; i++)
-                    sb.Append(',').Append(selectors[i].ToCss());
+                    sb.Append(Specification.COMMA).Append(selectors[i].ToCss());
             }
 
-            return sb.ToString();
+            return sb.ToPool();
         }
 
         #endregion

@@ -6,7 +6,7 @@ namespace AngleSharp.Xml
     /// <summary>
     /// Useful helpers for the XML parser.
     /// </summary>
-    static class XMLHelpers
+    static class XmlHelpers
     {
         /// <summary>
         /// Determines if the given character is a legal character for the public id field:

@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace AngleSharp.DOM.Collections
 {
@@ -184,12 +183,12 @@ namespace AngleSharp.DOM.Collections
         /// <returns>A string containing the HTML code.</returns>
         public virtual String ToHtml()
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
 
             foreach (var entry in _entries)
                 sb.Append(entry.ToHtml());
 
-            return sb.ToString();
+            return sb.ToPool();
         }
 
         /// <summary>
@@ -198,12 +197,12 @@ namespace AngleSharp.DOM.Collections
         /// <returns>A string containing only (rendered) text.</returns>
         public String ToText()
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
 
             foreach (var entry in _entries)
                 sb.Append(entry.ToText());
 
-            return sb.ToString();
+            return sb.ToPool();
         }
 
         /// <summary>
@@ -212,7 +211,12 @@ namespace AngleSharp.DOM.Collections
         /// <returns>A string describing the collection.</returns>
         public override String ToString()
         {
-            return "DOM." + GetType().Name;
+            var attr = GetType().GetTypeInfo().GetCustomAttribute<DOMAttribute>(true);
+
+            if (attr != null)
+                return attr.OfficialName;
+
+            return "Object";
         }
 
         #endregion

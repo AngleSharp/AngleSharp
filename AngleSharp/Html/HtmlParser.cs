@@ -1373,7 +1373,7 @@ namespace AngleSharp.Html
                         {
                             var name = tag.Attributes[i].Key;
                             var value = tag.Attributes[i].Value;
-                            ForeignHelpers.SetAdjustedAttribute(element, SVGHelpers.AdjustAttributeName(name), value);
+                            ForeignHelpers.SetAdjustedAttribute(element, SvgHelpers.AdjustAttributeName(name), value);
                         }
 
                         AddElement(element);
@@ -3437,13 +3437,13 @@ namespace AngleSharp.Html
             }
             else if (AdjustedCurrentNode.IsInSvg)
             {
-                node = SVGElement.Create(SVGHelpers.AdjustTagName(tag.Name));
+                node = SVGElement.Create(SvgHelpers.AdjustTagName(tag.Name));
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
                 {
                     var name = tag.Attributes[i].Key;
                     var value = tag.Attributes[i].Value;
-                    ForeignHelpers.SetAdjustedAttribute(node, SVGHelpers.AdjustAttributeName(name), value);
+                    ForeignHelpers.SetAdjustedAttribute(node, SvgHelpers.AdjustAttributeName(name), value);
                 }
             }
             else

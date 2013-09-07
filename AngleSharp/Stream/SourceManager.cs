@@ -10,7 +10,7 @@ namespace AngleSharp
     /// Represents the source code manager.
     /// </summary>
     [DebuggerStepThrough]
-    sealed class SourceManager
+    sealed class SourceManager : IDisposable
     {
         #region Members
 
@@ -363,6 +363,19 @@ namespace AngleSharp
             }
             else
                 _column--;
+        }
+
+        #endregion
+
+        #region IDisposable Implementation
+
+        /// <summary>
+        /// Disposes all disposable objects.
+        /// </summary>
+        public void Dispose()
+        {
+            if(_reader != null)
+                _reader.Dispose();
         }
 
         #endregion

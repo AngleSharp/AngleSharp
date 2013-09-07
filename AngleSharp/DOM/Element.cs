@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Collections;
 using System.Collections.Generic;
 
@@ -73,18 +71,15 @@ namespace AngleSharp.DOM
         {
             get
             {
-                var sb = new StringBuilder();
+                var sb = Pool.NewStringBuilder();
 
                 for (int i = 0; i < _children.Length; i++)
                     if (_children[i].NodeType != NodeType.Comment && _children[i].NodeType != NodeType.ProcessingInstruction)
                         sb.Append(_children[i].TextContent);
 
-                return sb.ToString();
+                return sb.ToPool();
             }
-            set
-            {
-                base.TextContent = value;
-            }
+            set { base.TextContent = value; }
         }
 
         /// <summary>
@@ -1011,17 +1006,17 @@ namespace AngleSharp.DOM
         /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml()
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
 
-            sb.Append('<').Append(_name);
+            sb.Append(Specification.LT).Append(_name);
             sb.Append(_attributes.ToHtml());
-            sb.Append(">");
+            sb.Append(Specification.GT);
 
             foreach (var child in _children)
                 sb.Append(child.ToHtml());
 
-            sb.Append("</").Append(_name).Append('>');
-            return sb.ToString();
+            sb.Append(Specification.LT).Append(Specification.SOLIDUS).Append(_name).Append(Specification.GT);
+            return sb.ToPool();
         }
 
         #endregion

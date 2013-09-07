@@ -66,6 +66,14 @@ namespace AngleSharp.DTD
             set;
         }
 
+        /// <summary>
+        /// Gets the parsed content.
+        /// </summary>
+        public String Content
+        {
+            get { return _stream.Content; }
+        }
+
         #endregion
 
         #region Methods
@@ -1174,6 +1182,11 @@ namespace AngleSharp.DTD
             #endregion
 
             #region Properties
+
+            public String Content
+            {
+                get { return _buffer.ToString(); }
+            }
 
             public Char Previous
             {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AngleSharp.DOM.Css
 {
@@ -119,12 +118,12 @@ namespace AngleSharp.DOM.Css
         /// <returns>A string that contains the code.</returns>
         public String ToCss()
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
 
             for (int i = 0; i < _rules.Count; i++)
                 sb.AppendLine(_rules[i].ToCss());
 
-            return sb.ToString();
+            return sb.ToPool();
         }
 
         #endregion

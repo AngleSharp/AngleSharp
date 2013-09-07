@@ -5,7 +5,7 @@ namespace AngleSharp
     /// <summary>
     /// A collection of useful helpers when working with SVG.
     /// </summary>
-    static class SVGHelpers
+    static class SvgHelpers
     {
         /// <summary>
         /// Adjusts the tag name to the correct capitalization.

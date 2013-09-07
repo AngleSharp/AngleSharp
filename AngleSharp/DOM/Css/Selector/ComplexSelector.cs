@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections;
 using System.Collections.Generic;
 using AngleSharp.Css;
 
@@ -253,7 +251,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>The CSS to create this selector.</returns>
         public override String ToCss()
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
 
             if (selectors.Count > 0)
             {
@@ -265,7 +263,7 @@ namespace AngleSharp.DOM.Css
                 sb.Append(selectors[n].selector.ToCss());
             }
 
-            return sb.ToString();
+            return sb.ToPool();
         }
 
         #endregion

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace AngleSharp.DOM
 {
@@ -250,28 +249,20 @@ namespace AngleSharp.DOM
         /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml()
         {
-            var temp = new StringBuilder();
+            var temp = Pool.NewStringBuilder();
 
             for (int i = 0; i < _content.Length; i++)
             {
                 switch (_content[i])
                 {
-                    case '&':
-                        temp.Append("&amp;");
-                        break;
-                    case '<':
-                        temp.Append("&lt;");
-                        break;
-                    case '>':
-                        temp.Append("&gt;");
-                        break;
-                    default:
-                        temp.Append(_content[i]);
-                        break;
+                    case '&': temp.Append("&amp;");     break;
+                    case '<': temp.Append("&lt;");      break;
+                    case '>': temp.Append("&gt;");      break;
+                    default : temp.Append(_content[i]); break;
                 }
             }
             
-            return temp.ToString();
+            return temp.ToPool();
         }
 
         #endregion

@@ -66,12 +66,12 @@ namespace AngleSharp.DOM.Css
         /// <returns>The CSS to create this selector.</returns>
         public override String ToCss()
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
 
             for (int i = 0; i < selectors.Count; i++)
                 sb.Append(selectors[i].ToCss());
 
-            return sb.ToString();
+            return sb.ToPool();
         }
 
         #endregion

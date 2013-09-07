@@ -1,7 +1,6 @@
 ﻿using AngleSharp.Events;
 using System;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AngleSharp.DTD
@@ -115,7 +114,6 @@ namespace AngleSharp.DTD
         /// </summary>
         public void Parse()
         {
-            var start = _src.InsertionPoint;
             DtdToken token;
 
             do
@@ -125,18 +123,7 @@ namespace AngleSharp.DTD
             }
             while (token.Type != DtdTokenType.EOF);
 
-            var end = _src.InsertionPoint;
-            var sb = new StringBuilder();
-            _src.InsertionPoint = start;
-            var c = _src.Current;
-
-            for (int i = start; i < end; i++)
-            {
-                sb.Append(c);
-                c = _src.Next;                
-            }
-
-            _result.Text = sb.ToString();
+            _result.Text = tokenizer.Content;
         }
 
         #endregion
