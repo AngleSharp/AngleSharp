@@ -78,6 +78,7 @@
     <Compile Include="Library\DOMExtensions.cs" />
     <Compile Include="Library\TestRequester.cs" />
     <Compile Include="Library\AsyncParsing.cs" />
+    <Compile Include="Library\OptimizationPool.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Xml\DTDTree.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
