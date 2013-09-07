@@ -26,5 +26,20 @@ namespace AngleSharp
         /// The regexp function.
         /// </summary>
         public const String REGEXP = "regexp";
+
+        /// <summary>
+        /// The rgba function.
+        /// </summary>
+        public const String RGBA = "rgba";
+
+        /// <summary>
+        /// The rgb function.
+        /// </summary>
+        public const String RGB = "rgb";
+
+        /// <summary>
+        /// The hsl function.
+        /// </summary>
+        public const String HSL = "hsl";
     }
 }

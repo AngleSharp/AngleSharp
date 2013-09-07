@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace AngleSharp.Css
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
         #region Members
@@ -362,36 +361,34 @@ namespace AngleSharp.Css
                 case CssTokenType.String:// 'i am a string'
                     value = new CSSPrimitiveValue(CssUnit.String, ((CssStringToken)source.Current).Data);
                     break;
-
                 case CssTokenType.Url:// url('this is a valid URL')
                     value = new CSSPrimitiveValue(CssUnit.Uri, ((CssStringToken)source.Current).Data);
                     break;
-
                 case CssTokenType.Ident: // ident
                     value = new CSSPrimitiveValue(CssUnit.Ident, ((CssKeywordToken)source.Current).Data);
                     break;
-
                 case CssTokenType.Percentage: // 5%
                     value = new CSSPrimitiveValue(CssUnit.Percentage, ((CssUnitToken)source.Current).Data);
                     break;
-
                 case CssTokenType.Dimension: // 3px
                     value = new CSSPrimitiveValue(((CssUnitToken)source.Current).Unit, ((CssUnitToken)source.Current).Data);
                     break;
-
                 case CssTokenType.Number: // 173
                     value = new CSSPrimitiveValue(CssUnit.Number, ((CssNumberToken)source.Current).Data);
                     break;
-
                 case CssTokenType.Hash: // #string
+                {
                     CSSColor color;
 
-                    if(CSSColor.TryFromHex(((CssKeywordToken)source.Current).Data, out color))
+                    if (CSSColor.TryFromHex(((CssKeywordToken)source.Current).Data, out color))
                         value = new CSSPrimitiveValue(color);
 
                     break;
-
+                }
                 case CssTokenType.Delim: // e.g. #0F3, #012345, ...
+                {
+                    CSSColor color;
+
                     if (((CssDelimToken)source.Current).Data == '#')
                     {
                         String hash = String.Empty;
@@ -427,34 +424,34 @@ namespace AngleSharp.Css
                             value = new CSSPrimitiveValue(color);
                     }
                     break;
-
+                }
                 case CssTokenType.Function: // rgba(255, 255, 20, 0.5)
-                    value = CreateFunction(source);
+                {
+                    var name = ((CssKeywordToken)source.Current).Data;
+                    var args = new List<CSSValue>();
+
+                    if (SkipToNextNonWhitespace(source) && source.Current.Type != CssTokenType.RoundBracketClose)
+                    {
+                        args.Add(CreateValue(source));
+                        SkipToNextNonWhitespace(source);
+
+                        while (source.Current.Type == CssTokenType.Comma)
+                        {
+                            SkipToNextNonWhitespace(source);
+                            args.Add(CreateValue(source));
+                            SkipToNextNonWhitespace(source);
+                        }
+
+                        if (source.Current.Type != CssTokenType.RoundBracketClose)
+                            RaiseErrorOccurred(ErrorCode.InputUnexpected);
+                    }
+
+                    value = CSSFunction.Create(name, args);
                     break;
+                }
             }
 
             return value;
-        }
-
-        /// <summary>
-        /// Creates a function from the given source.
-        /// </summary>
-        /// <param name="source">The token iterator.</param>
-        /// <returns>The created function.</returns>
-        CSSFunction CreateFunction(IEnumerator<CssToken> source)
-        {
-            var name = ((CssKeywordToken)source.Current).Data;
-            var args = new CSSValueList();
-
-            //TODO
-
-            while (source.MoveNext())
-            {
-                if (source.Current.Type == CssTokenType.RoundBracketClose)
-                    break;
-            }
-
-            return CSSFunction.Create(name, args);
         }
 
         /// <summary>

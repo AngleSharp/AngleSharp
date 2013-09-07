@@ -1,7 +1,4 @@
 ﻿using System;
-using AngleSharp.Css;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AngleSharp.DOM.Css
 {
@@ -16,6 +13,7 @@ namespace AngleSharp.DOM.Css
         /// The type of value.
         /// </summary>
         protected CssValueType _type;
+
         /// <summary>
         /// The CSS text representation of the value.
         /// </summary>

@@ -85,6 +85,14 @@ namespace AngleSharp.DOM.Css
             {
                 var qty = (Single)_value;
                 //TODO Convert
+
+                switch (unit)
+                {
+                    case CssUnit.Percentage:
+                        qty = qty / 100f;
+                        break;
+                }
+
                 return qty;
             }
 

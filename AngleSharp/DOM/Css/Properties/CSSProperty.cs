@@ -6,6 +6,7 @@ namespace AngleSharp.DOM.Css
     /// Fore more information about CSS properties
     /// see http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
+    [DOM("CSSProperty")]
     public sealed class CSSProperty : ICSSObject
     {
         #region Members
@@ -34,6 +35,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the name of the property.
         /// </summary>
+        [DOM("name")]
         public String Name
         {
             get { return _name; }
@@ -42,6 +44,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the value of the property.
         /// </summary>
+        [DOM("value")]
         public CSSValue Value
         {
             get { return _value; }
@@ -51,6 +54,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets if the !important flag has been set.
         /// </summary>
+        [DOM("important")]
         public Boolean Important
         {
             get { return _important; }
