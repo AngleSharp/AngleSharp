@@ -9,12 +9,6 @@ namespace AngleSharp.DOM.Css
     [DOM("CSSFontFaceRule")]
     public sealed class CSSFontFaceRule : CSSRule
     {
-        #region Constants
-
-        internal const String RuleName = "font-face";
-
-        #endregion
-
         #region Members
 
         CSSStyleDeclaration _cssRules;

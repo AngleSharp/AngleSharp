@@ -15,7 +15,7 @@ namespace AngleSharp.Css
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
         #region Members
@@ -498,14 +498,15 @@ namespace AngleSharp.Css
 
             switch (name)
             {
-                case CSSMediaRule.RuleName: return CreateMediaRule(source);
-                case CSSPageRule.RuleName: return CreatePageRule(source);
-                case CSSImportRule.RuleName: return CreateImportRule(source);
-                case CSSFontFaceRule.RuleName: return CreateFontFaceRule(source);
-                case CSSCharsetRule.RuleName: return CreateCharsetRule(source);
-                case CSSNamespaceRule.RuleName: return CreateNamespaceRule(source);
-                case CSSSupportsRule.RuleName: return CreateSupportsRule(source);
-                case CSSKeyframesRule.RuleName: return CreateKeyframesRule(source);
+                case RuleNames.MEDIA: return CreateMediaRule(source);
+                case RuleNames.PAGE: return CreatePageRule(source);
+                case RuleNames.IMPORT: return CreateImportRule(source);
+                case RuleNames.FONT_FACE: return CreateFontFaceRule(source);
+                case RuleNames.CHARSET: return CreateCharsetRule(source);
+                case RuleNames.NAMESPACE: return CreateNamespaceRule(source);
+                case RuleNames.SUPPORTS: return CreateSupportsRule(source);
+                case RuleNames.KEYFRAMES: return CreateKeyframesRule(source);
+                case RuleNames.DOCUMENT: return CreateDocumentRule(source);
                 default: return CreateUnknownRule(name, source);
             }
         }
@@ -754,6 +755,97 @@ namespace AngleSharp.Css
             buffer.Clear();
             open.Pop();
             return rule;
+        }
+
+        /// <summary>
+        /// Creates a new @document-rule from the given source.
+        /// </summary>
+        /// <param name="source">The token iterator.</param>
+        /// <returns>The @document-rule.</returns>
+        CSSDocumentRule CreateDocumentRule(IEnumerator<CssToken> source)
+        {
+            var comma = false;
+            var document = new CSSDocumentRule();
+            document.ParentStyleSheet = sheet;
+            document.ParentRule = CurrentRule;
+            open.Push(document);
+
+            do
+            {
+                var a = source.Current;
+
+                if (a.Type == CssTokenType.Whitespace && SkipToNextNonWhitespace(source))
+                    a = source.Current;
+
+                if (a.Type == CssTokenType.CurlyBracketOpen)
+                    break;
+
+                if (comma)
+                {
+                    if (a.Type != CssTokenType.Comma)
+                    {
+                        RaiseErrorOccurred(ErrorCode.InputUnexpected);
+
+                        if (a.Type == CssTokenType.Semicolon)
+                            break;
+                    }
+
+                    comma = false;    
+                    continue;
+                }
+
+                switch (a.Type)
+                {
+                    case CssTokenType.Url:
+                    {
+                        var url = (CssStringToken)a;
+                        document.Conditions.Add(Tuple.Create(CSSDocumentRule.DocumentFunction.Url, url.Data));
+                        break;
+                    }
+                    case CssTokenType.UrlPrefix:
+                    {
+                        var url = (CssStringToken)a;
+                        document.Conditions.Add(Tuple.Create(CSSDocumentRule.DocumentFunction.UrlPrefix, url.Data));
+                        break;
+                    }
+                    case CssTokenType.Domain:
+                    {
+                        var url = (CssStringToken)a;
+                        document.Conditions.Add(Tuple.Create(CSSDocumentRule.DocumentFunction.Domain, url.Data));
+                        break;
+                    }
+                    case CssTokenType.Function:
+                    {
+                        var function = (CssKeywordToken)a;
+
+                        if (String.Compare(function.Data, FunctionNames.REGEXP, StringComparison.OrdinalIgnoreCase) == 0 && source.MoveNext() && source.Current.Type == CssTokenType.String)
+                        {
+                            var content = (CssStringToken)source.Current;
+                            document.Conditions.Add(Tuple.Create(CSSDocumentRule.DocumentFunction.RegExp, content.Data));
+                            SkipToNextNonWhitespace(source);
+                            break;
+                        }
+
+                        RaiseErrorOccurred(ErrorCode.InputUnexpected);
+                        break;
+                    }
+                    default:
+                        RaiseErrorOccurred(ErrorCode.InputUnexpected);
+                        break;
+                }
+
+                comma = true;
+            }
+            while (source.MoveNext());
+
+            if (SkipToNextNonWhitespace(source))
+            {
+                var tokens = LimitToCurrentBlock(source);
+                AppendRules(tokens.GetEnumerator(), document.CssRules.List);
+            }
+
+            open.Pop();
+            return document;
         }
 
         /// <summary>

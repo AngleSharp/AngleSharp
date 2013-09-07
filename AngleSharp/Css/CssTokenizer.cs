@@ -101,10 +101,10 @@ namespace AngleSharp.Css
                 case Specification.SQ:
                     return StringSQ(_src.Next);
 
-                case '(':
+                case Specification.RBO:
                     return CssBracketToken.OpenRound;
 
-                case ')':
+                case Specification.RBC:
                     return CssBracketToken.CloseRound;
 
                 case Specification.ASTERISK:
@@ -227,10 +227,10 @@ namespace AngleSharp.Css
                 case Specification.AT:
                     return AtKeywordStart(_src.Next);
 
-                case '[':
+                case Specification.SBO:
                     return CssBracketToken.OpenSquare;
 
-                case ']':
+                case Specification.SBC:
                     return CssBracketToken.CloseSquare;
 
                 case Specification.ACCENT:
@@ -593,15 +593,26 @@ namespace AngleSharp.Css
                     current = _src.Next;
                     _stringBuffer.Append(ConsumeEscape(current));
                 }
-                else if (current == '(')
+                else if (current == Specification.RBO)
                 {
-                    if (_stringBuffer.ToString().Equals("url", StringComparison.OrdinalIgnoreCase))
+                    switch (_stringBuffer.ToString().ToLower())
                     {
-                        _stringBuffer.Clear();
-                        return UrlStart(_src.Next);
+                        case FunctionNames.URL:
+                            _stringBuffer.Clear();
+                            return UrlStart(_src.Next, CssTokenType.Url);
+
+                        case FunctionNames.DOMAIN:
+                            _stringBuffer.Clear();
+                            return UrlStart(_src.Next, CssTokenType.Domain);
+
+                        case FunctionNames.URL_PREFIX:
+                            _stringBuffer.Clear();
+                            return UrlStart(_src.Next, CssTokenType.UrlPrefix);
+
+                        default:
+                            return CssKeywordToken.Function(FlushBuffer());
                     }
 
-                    return CssKeywordToken.Function(FlushBuffer());
                 }
                 //false could be replaced with a transform whitespace flag, which is set to true if in SVG transform mode.
                 //else if (false && Specification.IsSpaceCharacter(current))
@@ -625,7 +636,7 @@ namespace AngleSharp.Css
             {
                 current = _src.Next;
 
-                if (current == '(')
+                if (current == Specification.RBO)
                 {
                     _src.Back();
                     return CssKeywordToken.Function(FlushBuffer());
@@ -826,7 +837,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// 4.4.17. URL state
         /// </summary>
-        CssToken UrlStart(Char current)
+        CssToken UrlStart(Char current, CssTokenType type)
         {
             while (current.IsSpaceCharacter())
                 current = _src.Next;
@@ -835,41 +846,41 @@ namespace AngleSharp.Css
             {
                 case Specification.EOF:
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    return CssStringToken.Url(String.Empty, true);
+                    return CssStringToken.Url(type, String.Empty, true);
 
                 case Specification.DQ:
-                    return UrlDQ(_src.Next);
+                    return UrlDQ(_src.Next, type);
 
                 case Specification.SQ:
-                    return UrlSQ(_src.Next);
+                    return UrlSQ(_src.Next, type);
 
                 case ')':
-                    return CssStringToken.Url(String.Empty, false);
+                    return CssStringToken.Url(type, String.Empty, false);
 
                 default:
-                    return UrlUQ(current);
+                    return UrlUQ(current, type);
             }
         }
 
         /// <summary>
         /// 4.4.18. URL-double-quoted state
         /// </summary>
-        CssToken UrlDQ(Char current)
+        CssToken UrlDQ(Char current, CssTokenType type)
         {
             while (true)
             {
                 if (current.IsLineBreak())
                 {
                     RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
-                    return UrlBad(_src.Next);
+                    return UrlBad(_src.Next, type);
                 }
                 else if (Specification.EOF == current)
                 {
-                    return CssStringToken.Url(FlushBuffer());
+                    return CssStringToken.Url(type, FlushBuffer());
                 }
                 else if (current == Specification.DQ)
                 {
-                    return UrlEnd(_src.Next);
+                    return UrlEnd(_src.Next, type);
                 }
                 else if (current == Specification.RSOLIDUS)
                 {
@@ -879,7 +890,7 @@ namespace AngleSharp.Css
                     {
                         _src.Back(2);
                         RaiseErrorOccurred(ErrorCode.EOF);
-                        return CssStringToken.Url(FlushBuffer(), true);
+                        return CssStringToken.Url(type, FlushBuffer(), true);
                     }
                     else if (current.IsLineBreak())
                         _stringBuffer.AppendLine();
@@ -896,22 +907,22 @@ namespace AngleSharp.Css
         /// <summary>
         /// 4.4.19. URL-single-quoted state
         /// </summary>
-        CssToken UrlSQ(Char current)
+        CssToken UrlSQ(Char current, CssTokenType type)
         {
             while (true)
             {
                 if (current.IsLineBreak())
                 {
                     RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
-                    return UrlBad(_src.Next);
+                    return UrlBad(_src.Next, type);
                 }
                 else if (Specification.EOF == current)
                 {
-                    return CssStringToken.Url(FlushBuffer());
+                    return CssStringToken.Url(type, FlushBuffer());
                 }
                 else if (current == Specification.SQ)
                 {
-                    return UrlEnd(_src.Next);
+                    return UrlEnd(_src.Next, type);
                 }
                 else if (current == Specification.RSOLIDUS)
                 {
@@ -921,7 +932,7 @@ namespace AngleSharp.Css
                     {
                         _src.Back(2);
                         RaiseErrorOccurred(ErrorCode.EOF);
-                        return CssStringToken.Url(FlushBuffer(), true);
+                        return CssStringToken.Url(type, FlushBuffer(), true);
                     }
                     else if (current.IsLineBreak())
                         _stringBuffer.AppendLine();
@@ -938,22 +949,22 @@ namespace AngleSharp.Css
         /// <summary>
         /// 4.4.21. URL-unquoted state
         /// </summary>
-        CssToken UrlUQ(Char current)
+        CssToken UrlUQ(Char current, CssTokenType type)
         {
             while (true)
             {
                 if (current.IsSpaceCharacter())
                 {
-                    return UrlEnd(_src.Next);
+                    return UrlEnd(_src.Next, type);
                 }
-                else if (current == ')' || current == Specification.EOF)
+                else if (current == Specification.RBC || current == Specification.EOF)
                 {
-                    return CssStringToken.Url(FlushBuffer());
+                    return CssStringToken.Url(type, FlushBuffer());
                 }
-                else if (current == Specification.DQ || current == Specification.SQ || current == '(' || current.IsNonPrintable())
+                else if (current == Specification.DQ || current == Specification.SQ || current == Specification.RBO || current.IsNonPrintable())
                 {
                     RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                    return UrlBad(_src.Next);
+                    return UrlBad(_src.Next, type);
                 }
                 else if (current == Specification.RSOLIDUS)
                 {
@@ -965,7 +976,7 @@ namespace AngleSharp.Css
                     else
                     {
                         RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                        return UrlBad(_src.Next);
+                        return UrlBad(_src.Next, type);
                     }
                 }
                 else
@@ -978,16 +989,16 @@ namespace AngleSharp.Css
         /// <summary>
         /// 4.4.20. URL-end state
         /// </summary>
-        CssToken UrlEnd(Char current)
+        CssToken UrlEnd(Char current, CssTokenType type)
         {
             while (true)
             {
-                if (current == ')')
-                    return CssStringToken.Url(FlushBuffer());
+                if (current == Specification.RBC)
+                    return CssStringToken.Url(type, FlushBuffer());
                 else if (!current.IsSpaceCharacter())
                 {
                     RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                    return UrlBad(current);
+                    return UrlBad(current, type);
                 }
 
                 current = _src.Next;
@@ -997,18 +1008,18 @@ namespace AngleSharp.Css
         /// <summary>
         /// 4.4.22. Bad URL state
         /// </summary>
-        CssToken UrlBad(Char current)
+        CssToken UrlBad(Char current, CssTokenType type)
         {
             while (true)
             {
                 if (current == Specification.EOF)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    return CssStringToken.Url(FlushBuffer(), true);
+                    return CssStringToken.Url(type, FlushBuffer(), true);
                 }
-                else if (current == ')')
+                else if (current == Specification.RBC)
                 {
-                    return CssStringToken.Url(FlushBuffer(), true);
+                    return CssStringToken.Url(type, FlushBuffer(), true);
                 }
                 else if (IsValidEscape(current))
                 {

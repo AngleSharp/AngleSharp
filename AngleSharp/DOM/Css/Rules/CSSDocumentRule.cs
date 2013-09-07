@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace AngleSharp.DOM.Css.Rules
+namespace AngleSharp.DOM.Css
 {
     /// <summary>
     /// Contains the rules specified by a
@@ -11,8 +13,7 @@ namespace AngleSharp.DOM.Css.Rules
     {
         #region Members
 
-        String _url;
-        DocumentFunction _function;
+        List<Tuple<DocumentFunction, String>> _conditions;
 
         #endregion
 
@@ -21,6 +22,7 @@ namespace AngleSharp.DOM.Css.Rules
         internal CSSDocumentRule()
         {
             _type = CssRuleType.Document;
+            _conditions = new List<Tuple<DocumentFunction, String>>();
         }
 
         #endregion
@@ -28,23 +30,59 @@ namespace AngleSharp.DOM.Css.Rules
         #region Properties
 
         /// <summary>
-        /// Gets the URL to consider.
+        /// Gets the condition text.
         /// </summary>
-        [DOM("url")]
-        public String Url
+        [DOM("conditionText")]
+        public String ConditionText
         {
-            get { return _url; }
-            internal set { _url = value; }
+            get 
+            {
+                var sb = Pool.NewStringBuilder();
+                var co = false;
+
+                foreach (var condition in _conditions)
+                {
+                    if (co)
+                        sb.Append(',');
+
+                    switch (condition.Item1)
+                    {
+                        case DocumentFunction.Url:
+                            sb.Append(FunctionNames.URL);
+                            break;
+                        case DocumentFunction.UrlPrefix:
+                            sb.Append(FunctionNames.URL_PREFIX);
+                            break;
+                        case DocumentFunction.Domain:
+                            sb.Append(FunctionNames.DOMAIN);
+                            break;
+                        case DocumentFunction.RegExp:
+                            sb.Append(FunctionNames.REGEXP);
+                            break;
+                    }
+
+                    sb.Append(Specification.RBO);
+                    sb.Append(Specification.DQ);
+                    sb.Append(condition.Item2);
+                    sb.Append(Specification.DQ);
+                    sb.Append(Specification.RBC);
+                    co = true;
+                }
+
+                return sb.Return(); 
+            }
         }
 
+        #endregion
+
+        #region Internal Properties
+
         /// <summary>
-        /// Gets the function to use.
+        /// Gets the list with the conditions.
         /// </summary>
-        [DOM("function")]
-        public DocumentFunction Function
+        internal List<Tuple<DocumentFunction, String>> Conditions
         {
-            get { return _function; }
-            internal set { _function = value; }
+            get { return _conditions; }
         }
 
         #endregion
@@ -57,7 +95,7 @@ namespace AngleSharp.DOM.Css.Rules
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return "@document " + _url + " {" + Environment.NewLine + CssRules.ToCss() + "}";
+            return "@document " + ConditionText + " {" + Environment.NewLine + CssRules.ToCss() + "}";
         }
 
         #endregion

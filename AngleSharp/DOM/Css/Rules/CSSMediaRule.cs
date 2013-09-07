@@ -9,12 +9,6 @@ namespace AngleSharp.DOM.Css
     [DOM("CSSMediaRule")]
     public sealed class CSSMediaRule : CSSConditionRule
     {
-        #region Constants
-
-        internal const String RuleName = "media";
-
-        #endregion
-
         #region Members
 
         MediaList _media;

@@ -9,12 +9,6 @@ namespace AngleSharp.DOM.Css
     [DOM("CSSCharsetRule")]
     public sealed class CSSCharsetRule : CSSRule
     {
-        #region Constants
-
-        internal const String RuleName = "charset";
-
-        #endregion
-
         #region ctor
 
         internal CSSCharsetRule()

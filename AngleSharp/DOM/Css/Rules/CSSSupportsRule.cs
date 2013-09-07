@@ -8,12 +8,6 @@ namespace AngleSharp.DOM.Css
     [DOM("CSSSupportsRule")]
     public sealed class CSSSupportsRule : CSSConditionRule
     {
-        #region Constants
-
-        internal const String RuleName = "supports";
-
-        #endregion
-
         #region Members
 
         String _condition;

@@ -9,12 +9,6 @@ namespace AngleSharp.DOM.Css
     [DOM("CSSImportRule")]
     public sealed class CSSImportRule : CSSRule
     {
-        #region Constants
-
-        internal const String RuleName = "import";
-
-        #endregion
-
         #region Members
 
         String _href;

@@ -39,12 +39,13 @@ namespace AngleSharp.Css
         /// <summary>
         /// Creates a new CSS string token (URL string).
         /// </summary>
+        /// <param name="token">The token type (url, urlprefix, domain).</param>
         /// <param name="data">The URL string data.</param>
         /// <param name="bad">If the URL was bad (optional).</param>
         /// <returns>The created URL string token.</returns>
-        public static CssStringToken Url(String data, Boolean bad = false)
+        public static CssStringToken Url(CssTokenType token, String data, Boolean bad = false)
         {
-            return new CssStringToken(CssTokenType.Url) { _data = data, _bad = bad };
+            return new CssStringToken(token) { _data = data, _bad = bad };
         }
 
         #endregion

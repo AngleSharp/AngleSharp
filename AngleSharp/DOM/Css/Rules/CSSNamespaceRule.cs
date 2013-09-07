@@ -8,12 +8,6 @@ namespace AngleSharp.DOM.Css
     [DOM("CSSNamespaceRule")]
     public sealed class CSSNamespaceRule : CSSRule
     {
-        #region Constants
-
-        internal const String RuleName = "namespace";
-
-        #endregion
-
         #region Members
 
         String _namespaceURI;

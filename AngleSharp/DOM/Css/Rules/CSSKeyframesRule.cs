@@ -9,12 +9,6 @@ namespace AngleSharp.DOM.Css
     [DOM("CSSKeyframesRule")]
     public sealed class CSSKeyframesRule : CSSRule
     {
-        #region Constants
-
-        internal const String RuleName = "keyframes";
-
-        #endregion
-
         #region Members
 
         CSSRuleList _cssRules;
