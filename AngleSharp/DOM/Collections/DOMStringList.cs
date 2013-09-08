@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -8,12 +9,19 @@ namespace AngleSharp.DOM.Collections
     /// Represents a string list.
     /// </summary>
     [DOM("StringList")]
-    public sealed class DOMStringList : List<String>
+    public sealed class DOMStringList : IEnumerable<String>
     {
+        #region Members
+
+        IEnumerable<String> _list;
+
+        #endregion
+
         #region ctor
 
-        internal DOMStringList()
+        internal DOMStringList(IEnumerable<String> list)
         {
+            _list = list;
         }
 
         #endregion
@@ -26,13 +34,19 @@ namespace AngleSharp.DOM.Collections
         /// <param name="index">The 0-based index of the element.</param>
         /// <returns>The element or null.</returns>
         [DOM("item")]
-        public new String this[Int32 index]
+        public String this[Int32 index]
         {
             get
             {
-                var value = index >= 0 && index < Count ? base[index] : null;
-                Debug.Assert(value != null, "The index you specified is out of range!");
-                return value;
+                var count = 0;
+
+                foreach (var element in _list)
+                {
+                    if (count == index)
+                        return element;
+                }
+
+                return null;
             }
         }
 
@@ -46,7 +60,15 @@ namespace AngleSharp.DOM.Collections
         [DOM("length")]
         public Int32 Length
         {
-            get { return Count; }
+            get 
+            {
+                var count = 0;
+
+                foreach (var element in _list)
+                    count++;
+
+                return count;
+            }
         }
 
         #endregion
@@ -59,9 +81,35 @@ namespace AngleSharp.DOM.Collections
         /// <param name="entry">The entry that will be looked for.</param>
         /// <returns>True if the element is available, otherwise false.</returns>
         [DOM("contains")]
-        public new Boolean Contains(String entry)
+        public Boolean Contains(String entry)
         {
-            return base.Contains(entry);
+            foreach (var _entry in _list)
+                if (_entry == entry)
+                    return true;
+
+            return false;
+        }
+
+        #endregion
+
+        #region IEnumerable implementation
+
+        /// <summary>
+        /// Gets the enumerator over all stylesheet titles.
+        /// </summary>
+        /// <returns>The iterator instance.</returns>
+        public IEnumerator<String> GetEnumerator()
+        {
+            return _list.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the non-generic enumerator.
+        /// </summary>
+        /// <returns>An iterator over all stylesheet titles.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         #endregion

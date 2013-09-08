@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Mathml;
 using AngleSharp.DOM.Svg;
@@ -21,19 +22,14 @@ namespace AngleSharp.DOM
         DocumentOptions _options;
         String _encoding;
         String _originalEncoding;
+        DOMStringList _styles;
+        StyleSheetList _styleSheets;
+        String _referrer;
         
         /// <summary>
         /// The content type of the MIME type from the header.
         /// </summary>
         protected String _contentType;
-        /// <summary>
-        /// The list of contained stylesheets.
-        /// </summary>
-        protected StyleSheetList _styleSheets;
-        /// <summary>
-        /// The original referrer to this document.
-        /// </summary>
-        protected String _referrer;
         /// <summary>
         /// The location of the document.
         /// </summary>
@@ -152,15 +148,7 @@ namespace AngleSharp.DOM
         [DOM("styleSheetSets")]
         public DOMStringList StyleSheetSets
         {
-            get
-            {
-                var list = new DOMStringList();
-
-                for (int i = 0; i < _styleSheets.Length; i++)
-                    list.Add(_styleSheets[i].Title);
-
-                return list;
-            }
+            get { return _styles ?? (_styles = new DOMStringList(_styleSheets.Select(m => m.Title))); }
         }
 
         /// <summary>

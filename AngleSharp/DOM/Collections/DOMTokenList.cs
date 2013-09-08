@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AngleSharp.DOM.Collections
 {
@@ -26,10 +27,10 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         internal DOMTokenList(Element parent, String attribute)
         {
-            this._attribute = attribute;
-            this._parent = parent;
-            this._tokens = new List<String>();
-            this._blocking = false;
+            _attribute = attribute;
+            _parent = parent;
+            _tokens = new List<String>();
+            _blocking = false;
         }
 
         #endregion
@@ -55,10 +56,9 @@ namespace AngleSharp.DOM.Collections
         {
             get
             {
-                if (index < 0 || index >= _tokens.Count)
-                    return null;
-
-                return _tokens[index];
+                var value = index >= 0 && index < _tokens.Count ? _tokens[index] : null;
+                Debug.Assert(value != null, "The index you specified is out of range!");
+                return value;
             }
         }
 
@@ -88,8 +88,9 @@ namespace AngleSharp.DOM.Collections
         [DOM("remove")]
         public DOMTokenList Remove(String token)
         {
-            _tokens.Remove(token);
-            Propagate();
+            if(_tokens.Remove(token))
+                Propagate();
+
             return this;
         }
 
@@ -145,8 +146,10 @@ namespace AngleSharp.DOM.Collections
                 var elements = value.SplitSpaces();
 
                 for (int i = 0; i < elements.Length; i++)
+                {
                     if (!_tokens.Contains(elements[i]))
                         _tokens.Add(elements[i]);
+                }
             }
         }
 
@@ -158,8 +161,10 @@ namespace AngleSharp.DOM.Collections
         internal Boolean Contains(String[] tokens)
         {
             for (int i = 0; i < tokens.Length; i++)
+            {
                 if (!this._tokens.Contains(tokens[i]))
                     return false;
+            }
 
             return true;
         }
