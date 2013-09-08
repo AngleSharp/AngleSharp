@@ -61,10 +61,10 @@ namespace UnitTests
             var valueString = "Arial, Verdana, Helvetica, Sans-Serif";
             var list = CssParser.ParseMultipleValues(valueString);
             Assert.AreEqual(4, list.Count);
-            Assert.AreEqual(list[0].CssText, "Arial");
-            Assert.AreEqual(list[1].CssText, "Verdana");
-            Assert.AreEqual(list[2].CssText, "Helvetica");
-            Assert.AreEqual(list[3].CssText, "Sans-Serif");
+            Assert.AreEqual("Arial", list[0].CssText);
+            Assert.AreEqual("Verdana", list[1].CssText);
+            Assert.AreEqual("Helvetica", list[2].CssText);
+            Assert.AreEqual("Sans-Serif", list[3].CssText);
         }
 
         [TestMethod]
@@ -73,8 +73,8 @@ namespace UnitTests
             var valueString = "Arial 10pt bold, Verdana 12pt italic";
             var list = CssParser.ParseMultipleValues(valueString);
             Assert.AreEqual(2, list.Count);
-            Assert.AreEqual(list[0].CssText, "Arial 10pt bold");
-            Assert.AreEqual(list[1].CssText, "Verdana 12pt italic");
+            Assert.AreEqual("Arial 10pt bold", list[0].CssText);
+            Assert.AreEqual("Verdana 12pt italic", list[1].CssText);
             Assert.AreEqual(CssValueType.ValueList, list[0].CssValueType);
             Assert.AreEqual(CssValueType.ValueList, list[1].CssValueType);
             Assert.AreEqual(3, ((CSSValueList)list[0]).Length);
@@ -87,10 +87,10 @@ namespace UnitTests
             var valueString = "  Arial  ,  Verdana  ,Helvetica,Sans-Serif   ";
             var list = CssParser.ParseMultipleValues(valueString);
             Assert.AreEqual(4, list.Count);
-            Assert.AreEqual(list[0].CssText, "Arial");
-            Assert.AreEqual(list[1].CssText, "Verdana");
-            Assert.AreEqual(list[2].CssText, "Helvetica");
-            Assert.AreEqual(list[3].CssText, "Sans-Serif");
+            Assert.AreEqual("Arial", list[0].CssText);
+            Assert.AreEqual("Verdana", list[1].CssText);
+            Assert.AreEqual("Helvetica", list[2].CssText);
+            Assert.AreEqual("Sans-Serif", list[3].CssText);
         }
 
         [TestMethod]
@@ -175,6 +175,74 @@ namespace UnitTests
             var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
             Assert.IsTrue(color.HasValue);
             Assert.AreEqual(new CSSColor(255, 0, 0), color.Value);
+        }
+
+        [TestMethod]
+        public void CssRgbaFunction()
+        {
+            var decl = CssParser.ParseDeclarations("border-color: rgba(82, 168, 236, 0.8)");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var prop = decl.List[0];
+            Assert.AreEqual("border-color", prop.Name);
+            Assert.IsFalse(prop.Important);
+            Assert.AreEqual(CssValueType.PrimitiveValue, prop.Value.CssValueType);
+
+            var color = ((CSSPrimitiveValue)prop.Value).GetRGBColorValue();
+            Assert.IsTrue(color.HasValue);
+            Assert.AreEqual(new CSSColor(82, 168, 236, 0.8f), color.Value);
+        }
+
+        [TestMethod]
+        public void CssMarginAll()
+        {
+            var decl = CssParser.ParseDeclarations("margin: 20px;");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var prop = decl.List[0];
+            Assert.AreEqual("margin", prop.Name);
+            Assert.IsFalse(prop.Important);
+            Assert.AreEqual(CssValueType.PrimitiveValue, prop.Value.CssValueType);
+            Assert.AreEqual("20px", prop.Value.ToCss());
+        }
+
+        [TestMethod]
+        public void CssSeveralFontFamily()
+        {
+            var decl = CssParser.ParseDeclarations("font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var prop = decl.List[0];
+            Assert.AreEqual("font-family", prop.Name);
+            Assert.IsFalse(prop.Important);
+            Assert.AreEqual(CssValueType.ValueList, prop.Value.CssValueType);
+
+            var value = prop.Value as CSSValueList;
+            Assert.AreEqual(4, value.Length);
+            Assert.AreEqual("'Helvetica Neue',Helvetica,Arial,sans-serif", value.ToCss());
+        }
+
+        [TestMethod]
+        public void CssFontWithSlashAndContent()
+        {
+            var decl = CssParser.ParseDeclarations("font: bold 1em/2em monospace; content: \" (\" attr(href) \")\"");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 2);
+
+            var font = decl.List[0];
+            Assert.AreEqual("font", font.Name);
+            Assert.IsFalse(font.Important);
+            Assert.AreEqual(CssValueType.ValueList, font.Value.CssValueType);
+            Assert.AreEqual("bold 1em/2em monospace", font.Value.ToCss());
+
+            var content = decl.List[1];
+            Assert.AreEqual("content", content.Name);
+            Assert.IsFalse(content.Important);
+            Assert.AreEqual(CssValueType.ValueList, content.Value.CssValueType);
+            Assert.AreEqual("' (' attr(href) ')'", content.Value.ToCss());
         }
     }
 }
