@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 namespace AngleSharp.DOM.Css
@@ -79,11 +80,11 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a CSS color type.
         /// </summary>
-        /// <param name="a">The alpha value.</param>
         /// <param name="r">The red value.</param>
         /// <param name="g">The green value.</param>
         /// <param name="b">The blue value.</param>
-        public CSSColor(Byte a, Byte r, Byte g, Byte b)
+        /// <param name="a">The alpha value.</param>
+        public CSSColor(Byte r, Byte g, Byte b, Byte a)
         {
             hashcode = 0;
             alpha = a;
@@ -95,11 +96,11 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a CSS color type.
         /// </summary>
-        /// <param name="a">The alpha value between 0 and 1.</param>
         /// <param name="r">The red value.</param>
         /// <param name="g">The green value.</param>
         /// <param name="b">The blue value.</param>
-        public CSSColor(Double a, Byte r, Byte g, Byte b)
+        /// <param name="a">The alpha value between 0 and 1.</param>
+        public CSSColor(Byte r, Byte g, Byte b, Double a)
         {
             hashcode = 0;
             alpha = (Byte)Math.Max(Math.Min(Math.Ceiling(255 * a), 255), 0);
@@ -120,22 +121,9 @@ namespace AngleSharp.DOM.Css
         /// <param name="b">The value for blue.</param>
         /// <param name="a">The value for alpha.</param>
         /// <returns>The CSS color value.</returns>
-        public static CSSColor FromRgba(Byte r, Byte g, Byte b, Single a)
-        {
-            return new CSSColor(a, r, g, b);
-        }
-
-        /// <summary>
-        /// Returns the color from the given primitives.
-        /// </summary>
-        /// <param name="r">The value for red.</param>
-        /// <param name="g">The value for green.</param>
-        /// <param name="b">The value for blue.</param>
-        /// <param name="a">The value for alpha.</param>
-        /// <returns>The CSS color value.</returns>
         public static CSSColor FromRgba(Byte r, Byte g, Byte b, Double a)
         {
-            return new CSSColor(a, r, g, b);
+            return new CSSColor(r, g, b, a);
         }
 
 
@@ -444,7 +432,7 @@ namespace AngleSharp.DOM.Css
             if (alpha == 255)
                 return "rgb(" + red.ToString() + ", " + green.ToString() + ", " + blue.ToString() + ")";
 
-            return "rgba(" + red.ToString() + ", " + green.ToString() + ", " + blue.ToString() + ", " + Alpha.ToString() + ")";
+            return "rgba(" + red.ToString() + ", " + green.ToString() + ", " + blue.ToString() + ", " + Alpha.ToString(CultureInfo.InvariantCulture) + ")";
         }
 
         /// <summary>

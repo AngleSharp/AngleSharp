@@ -297,22 +297,26 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
-        /// Creates a list of CSSValueList values from the given source.
+        /// Creates a list of CSSValue values from the given source.
         /// </summary>
         /// <param name="source">The token source.</param>
         /// <returns>The list of CSSValueList instances.</returns>
-        List<CSSValueList> CreateMultipleValues(IEnumerator<CssToken> source)
+        List<CSSValue> CreateMultipleValues(IEnumerator<CssToken> source)
         {
-            var values = new List<CSSValueList>();
+            var values = new List<CSSValue>();
 
             do
             {
                 var list = CreateValueList(source);
 
-                if (list.Length > 0)
+                if (list.Length == 1)
+                    values.Add(list[0]);
+                else if (list.Length != 0)
                     values.Add(list);
+                else
+                    break;
             }
-            while (source.Current != null && source.Current.Type == CssTokenType.Comma);
+            while (source.Current.Type == CssTokenType.Comma);
 
             return values;
         }
@@ -325,26 +329,25 @@ namespace AngleSharp.Css
         CSSValueList CreateValueList(IEnumerator<CssToken> source)
         {
             var list = new List<CSSValue>();
-
-            while (SkipToNextNonWhitespace(source))
+            
+            if(SkipToNextNonWhitespace(source))
             {
-                if (source.Current.Type == CssTokenType.Semicolon)
-                    break;
-                else if (source.Current.Type == CssTokenType.Comma)
-                    break;
-
-                var value = CreateValue(source);
-
-                if (value == null)
+                do
                 {
-                    SkipToNextNonWhitespace(source);
-                    break;
-                }
+                    if (source.Current.Type == CssTokenType.Comma || source.Current.Type == CssTokenType.Semicolon)
+                        break;
 
-                list.Add(value);
+                    var value = CreateValue(source);
+
+                    if (value == null)
+                        SkipToNextNonWhitespace(source);
+                    else
+                        list.Add(value);
+                }
+                while (source.Current.Type == CssTokenType.Whitespace && SkipToNextNonWhitespace(source));
             }
 
-            return new CSSValueList(list);
+            return new CSSValueList(list, false);
         }
 
         /// <summary>
@@ -360,21 +363,35 @@ namespace AngleSharp.Css
             {
                 case CssTokenType.String:// 'i am a string'
                     value = new CSSPrimitiveValue(CssUnit.String, ((CssStringToken)source.Current).Data);
+                    source.MoveNext();
                     break;
                 case CssTokenType.Url:// url('this is a valid URL')
                     value = new CSSPrimitiveValue(CssUnit.Uri, ((CssStringToken)source.Current).Data);
+                    source.MoveNext();
                     break;
                 case CssTokenType.Ident: // ident
                     value = new CSSPrimitiveValue(CssUnit.Ident, ((CssKeywordToken)source.Current).Data);
+                    source.MoveNext();
                     break;
                 case CssTokenType.Percentage: // 5%
                     value = new CSSPrimitiveValue(CssUnit.Percentage, ((CssUnitToken)source.Current).Data);
+                    source.MoveNext();
                     break;
                 case CssTokenType.Dimension: // 3px
                     value = new CSSPrimitiveValue(((CssUnitToken)source.Current).Unit, ((CssUnitToken)source.Current).Data);
+                    source.MoveNext();
+
+                    if (source.Current.Type == CssTokenType.Delim && ((CssDelimToken)source.Current).Data == Specification.SOLIDUS)
+                    {
+                        source.MoveNext();
+                        value = new CSSPrimitiveValue(CssUnit.Unknown, value.ToCss() + "/" + source.Current.ToValue());
+                        source.MoveNext();
+                    }
+
                     break;
                 case CssTokenType.Number: // 173
                     value = new CSSPrimitiveValue(CssUnit.Number, ((CssNumberToken)source.Current).Data);
+                    source.MoveNext();
                     break;
                 case CssTokenType.Hash: // #string
                 {
@@ -383,13 +400,14 @@ namespace AngleSharp.Css
                     if (CSSColor.TryFromHex(((CssKeywordToken)source.Current).Data, out color))
                         value = new CSSPrimitiveValue(color);
 
+                    source.MoveNext();
                     break;
                 }
                 case CssTokenType.Delim: // e.g. #0F3, #012345, ...
                 {
                     CSSColor color;
 
-                    if (((CssDelimToken)source.Current).Data == '#')
+                    if (((CssDelimToken)source.Current).Data == Specification.NUM)
                     {
                         String hash = String.Empty;
 
@@ -423,6 +441,8 @@ namespace AngleSharp.Css
                         if (CSSColor.TryFromHex(hash, out color))
                             value = new CSSPrimitiveValue(color);
                     }
+
+                    source.MoveNext();
                     break;
                 }
                 case CssTokenType.Function: // rgba(255, 255, 20, 0.5)
@@ -433,13 +453,13 @@ namespace AngleSharp.Css
                     if (SkipToNextNonWhitespace(source) && source.Current.Type != CssTokenType.RoundBracketClose)
                     {
                         args.Add(CreateValue(source));
-                        SkipToNextNonWhitespace(source);
+                        SkipWhitespaces(source);
 
                         while (source.Current.Type == CssTokenType.Comma)
                         {
                             SkipToNextNonWhitespace(source);
                             args.Add(CreateValue(source));
-                            SkipToNextNonWhitespace(source);
+                            SkipWhitespaces(source);
                         }
 
                         if (source.Current.Type != CssTokenType.RoundBracketClose)
@@ -447,8 +467,12 @@ namespace AngleSharp.Css
                     }
 
                     value = CSSFunction.Create(name, args);
+                    source.MoveNext();
                     break;
                 }
+                default:
+                    source.MoveNext();
+                    break;
             }
 
             return value;
@@ -528,179 +552,181 @@ namespace AngleSharp.Css
             Boolean hasValue = SkipToNextNonWhitespace(source) && source.Current.Type == CssTokenType.Colon;
 
             if (hasValue)
-                value = CreateValueList(source);
+            {
+                var list = CreateMultipleValues(source);
+                value = list.Count == 1 ? list[0] : new CSSValueList(list, true);
+            }
 
-            //TODO
             switch (name)
             {
-                case "azimuth":
-                case "animation":
-                case "animation-delay":
-                case "animation-direction":
-                case "animation-duration":
-                case "animation-fill-mode":
-                case "animation-iteration-count":
-                case "animation-name":
-                case "animation-play-state":
-                case "animation-timing-function":
-                case "background-attachment":
-                case "background-color":
-                case "background-clip":
-                case "background-origin":
-                case "background-size":
-                case "background-image":
-                case "background-position":
-                case "background-repeat":
-                case "background":
-                case "border-color":
-                case "border-spacing":
-                case "border-collapse":
-                case "border-style":
-                case "border-radius":
-                case "box-shadow":
-                case "box-decoration-break":
-                case "break-after":
-                case "break-before":
-                case "break-inside":
-                case "backface-visibility":
-                case "border-top-left-radius":
-                case "border-top-right-radius":
-                case "border-bottom-left-radius":
-                case "border-bottom-right-radius":
-                case "border-image":
-                case "border-image-outset":
-                case "border-image-repeat":
-                case "border-image-source":
-                case "border-image-slice":
-                case "border-image-width":
-                case "border-top":
-	            case "border-right":
-                case "border-bottom":
-                case "border-left":
-                case "border-top-color":
-                case "border-left-color":
-                case "border-right-color":
-                case "border-bottom-color":
-                case "border-top-style":
-                case "border-left-style":
-                case "border-right-style":
-                case "border-bottom-style":
-                case "border-top-width":
-                case "border-left-width":
-                case "border-right-width":
-                case "border-bottom-width":
-                case "border-width":
-                case "border":
-                case "bottom":
-                case "columns":
-                case "column-count":
-                case "column-fill":
-                case "column-gap":
-                case "column-rule-color":
-                case "column-rule-style":
-                case "column-rule-width":
-                case "column-span":
-                case "column-width":	
-                case "caption-side":
-                case "clear":
-                case "clip":
-                case "color":
-                case "content":
-                case "counter-increment":
-                case "counter-reset":
-                case "cue-after":
-                case "cue-before":
-                case "cue":
-                case "cursor":
-                case "direction":
-                case "display":
-                case "elevation":
-                case "empty-cells":
-                case "float":
-                case "font-family":
-                case "font-size":
-                case "font-style":
-                case "font-variant":
-                case "font-weight":
-                case "font":
-                case "height":
-                case "left":
-                case "letter-spacing":
-                case "line-height":
-                case "list-style-image":
-                case "list-style-position":
-                case "list-style-type":
-                case "list-style":
-                case "marquee-direction":
-                case "marquee-play-count":
-                case "marquee-speed":
-                case "marquee-style":
-                case "margin-right":
-                case "margin-left":
-                case "margin-top":
-		        case "margin-bottom":
-                case "margin":
-                case "max-height":
-                case "max-width":
-                case "min-height":
-                case "min-width":
-                case "opacity":
-                case "orphans":
-                case "outline-color":
-                case "outline-style":
-                case "outline-width":
-                case "outline":
-                case "overflow":
-                case "padding-top":
-                case "padding-right":
-                case "padding-left":
-                case "padding-bottom":
-                case "padding":
-                case "page-break-after":
-                case "page-break-before":
-                case "page-break-inside":
-                case "pause-after":
-                case "pause-before":
-                case "pause":
-                case "perspective":
-                case "perspective-origin":
-                case "pitch-range":
-                case "pitch":
-                case "play-during":
-                case "position":
-                case "quotes":
-                case "richness":
-                case "right":
-                case "speak-header":
-                case "speak-numeral":
-                case "speak-punctuation":
-                case "speak":
-                case "speech-rate":
-                case "stress":
-                case "table-layout":
-                case "text-align":
-                case "text-decoration":
-                case "text-indent":
-                case "text-transform":
-                case "transform":
-                case "transform-origin":
-                case "transform-style":
-                case "transition":
-                case "transition-delay":
-                case "transition-duration":
-                case "transition-timing-function":
-                case "transition-property":
-                case "top":
-                case "unicode-bidi":
-                case "vertical-align":
-                case "visibility":
-                case "voice-family":
-                case "volume":
-                case "white-space":
-                case "widows":
-                case "width":
-                case "word-spacing":
-                case "z-index":
+                //case "azimuth":
+                //case "animation":
+                //case "animation-delay":
+                //case "animation-direction":
+                //case "animation-duration":
+                //case "animation-fill-mode":
+                //case "animation-iteration-count":
+                //case "animation-name":
+                //case "animation-play-state":
+                //case "animation-timing-function":
+                //case "background-attachment":
+                //case "background-color":
+                //case "background-clip":
+                //case "background-origin":
+                //case "background-size":
+                //case "background-image":
+                //case "background-position":
+                //case "background-repeat":
+                //case "background":
+                //case "border-color":
+                //case "border-spacing":
+                //case "border-collapse":
+                //case "border-style":
+                //case "border-radius":
+                //case "box-shadow":
+                //case "box-decoration-break":
+                //case "break-after":
+                //case "break-before":
+                //case "break-inside":
+                //case "backface-visibility":
+                //case "border-top-left-radius":
+                //case "border-top-right-radius":
+                //case "border-bottom-left-radius":
+                //case "border-bottom-right-radius":
+                //case "border-image":
+                //case "border-image-outset":
+                //case "border-image-repeat":
+                //case "border-image-source":
+                //case "border-image-slice":
+                //case "border-image-width":
+                //case "border-top":
+                //case "border-right":
+                //case "border-bottom":
+                //case "border-left":
+                //case "border-top-color":
+                //case "border-left-color":
+                //case "border-right-color":
+                //case "border-bottom-color":
+                //case "border-top-style":
+                //case "border-left-style":
+                //case "border-right-style":
+                //case "border-bottom-style":
+                //case "border-top-width":
+                //case "border-left-width":
+                //case "border-right-width":
+                //case "border-bottom-width":
+                //case "border-width":
+                //case "border":
+                //case "bottom":
+                //case "columns":
+                //case "column-count":
+                //case "column-fill":
+                //case "column-gap":
+                //case "column-rule-color":
+                //case "column-rule-style":
+                //case "column-rule-width":
+                //case "column-span":
+                //case "column-width":	
+                //case "caption-side":
+                //case "clear":
+                //case "clip":
+                //case "color":
+                //case "content":
+                //case "counter-increment":
+                //case "counter-reset":
+                //case "cue-after":
+                //case "cue-before":
+                //case "cue":
+                //case "cursor":
+                //case "direction":
+                //case "display":
+                //case "elevation":
+                //case "empty-cells":
+                //case "float":
+                //case "font-family":
+                //case "font-size":
+                //case "font-style":
+                //case "font-variant":
+                //case "font-weight":
+                //case "font":
+                //case "height":
+                //case "left":
+                //case "letter-spacing":
+                //case "line-height":
+                //case "list-style-image":
+                //case "list-style-position":
+                //case "list-style-type":
+                //case "list-style":
+                //case "marquee-direction":
+                //case "marquee-play-count":
+                //case "marquee-speed":
+                //case "marquee-style":
+                //case "margin-right":
+                //case "margin-left":
+                //case "margin-top":
+                //case "margin-bottom":
+                //case "margin":
+                //case "max-height":
+                //case "max-width":
+                //case "min-height":
+                //case "min-width":
+                //case "opacity":
+                //case "orphans":
+                //case "outline-color":
+                //case "outline-style":
+                //case "outline-width":
+                //case "outline":
+                //case "overflow":
+                //case "padding-top":
+                //case "padding-right":
+                //case "padding-left":
+                //case "padding-bottom":
+                //case "padding":
+                //case "page-break-after":
+                //case "page-break-before":
+                //case "page-break-inside":
+                //case "pause-after":
+                //case "pause-before":
+                //case "pause":
+                //case "perspective":
+                //case "perspective-origin":
+                //case "pitch-range":
+                //case "pitch":
+                //case "play-during":
+                //case "position":
+                //case "quotes":
+                //case "richness":
+                //case "right":
+                //case "speak-header":
+                //case "speak-numeral":
+                //case "speak-punctuation":
+                //case "speak":
+                //case "speech-rate":
+                //case "stress":
+                //case "table-layout":
+                //case "text-align":
+                //case "text-decoration":
+                //case "text-indent":
+                //case "text-transform":
+                //case "transform":
+                //case "transform-origin":
+                //case "transform-style":
+                //case "transition":
+                //case "transition-delay":
+                //case "transition-duration":
+                //case "transition-timing-function":
+                //case "transition-property":
+                //case "top":
+                //case "unicode-bidi":
+                //case "vertical-align":
+                //case "visibility":
+                //case "voice-family":
+                //case "volume":
+                //case "white-space":
+                //case "widows":
+                //case "width":
+                //case "word-spacing":
+                //case "z-index":
                 default:
                     property = new CSSProperty(name);
                     property.Value = value;
@@ -1139,6 +1165,16 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
+        /// Skips all whitespaces beginning at the current position.
+        /// </summary>
+        /// <param name="source">The iterator to walk through.</param>
+        static void SkipWhitespaces(IEnumerator<CssToken> source)
+        {
+            while (source.Current.Type == CssTokenType.Whitespace)
+                source.MoveNext();
+        }
+
+        /// <summary>
         /// Moves from the current position to the next position that is a semicolon token.
         /// </summary>
         /// <param name="source">The iterator to walk through.</param>
@@ -1358,7 +1394,7 @@ namespace AngleSharp.Css
         /// <param name="source">The string to parse.</param>
         /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
         /// <returns>The CSSValueList object.</returns>
-        internal static List<CSSValueList> ParseMultipleValues(String source, Boolean quirksMode = false)
+        internal static List<CSSValue> ParseMultipleValues(String source, Boolean quirksMode = false)
         {
             var parser = new CssParser(source);
             parser.IsQuirksMode = quirksMode;

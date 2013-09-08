@@ -47,7 +47,7 @@ namespace AngleSharp.DOM.Css
                 }
             }
 
-            return new CSSUnknownFunction { _args = arguments };
+            return new CSSUnknownFunction(name) { _args = arguments };
         }
 
         #region Helpers
@@ -80,6 +80,27 @@ namespace AngleSharp.DOM.Css
 
         class CSSUnknownFunction : CSSFunction
         {
+            public CSSUnknownFunction(String name)
+            {
+                _text = name;
+            }
+
+            public override String ToCss()
+            {
+                var sb = Pool.NewStringBuilder().Append(_text);
+                sb.Append(Specification.RBO);
+
+                for (int i = 0; i < _args.Count; i++)
+                {
+                    sb.Append(_args[i].ToCss());
+
+                    if (i != _args.Count - 1)
+                        sb.Append(Specification.COMMA);
+                }
+                
+                sb.Append(Specification.RBC);
+                return sb.ToPool();
+            }
         }
 
         class CSSCalcFunction : CSSFunction

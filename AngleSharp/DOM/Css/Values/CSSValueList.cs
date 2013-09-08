@@ -12,6 +12,7 @@ namespace AngleSharp.DOM.Css
         #region Members
 
         List<CSSValue> _items;
+        Boolean _exclusive;
 
         #endregion
 
@@ -30,9 +31,11 @@ namespace AngleSharp.DOM.Css
         /// Creates a new CSS value list.
         /// </summary>
         /// <param name="items">The list of values to consider.</param>
-        internal CSSValueList(List<CSSValue> items)
+        /// <param name="exclusive">Determines if the list is exclusive.</param>
+        internal CSSValueList(IEnumerable<CSSValue> items, Boolean exclusive)
         {
-            _items = items;
+            _exclusive = exclusive;
+            _items = new List<CSSValue>(items);
             _type = CssValueType.ValueList;
         }
 
@@ -84,7 +87,7 @@ namespace AngleSharp.DOM.Css
             for (int i = 0; i < _items.Count; i++)
                 values[i] = _items[i].CssText;
 
-            return String.Join(" ", values);
+            return String.Join(_exclusive ? "," : " ", values);
         }
 
         #endregion

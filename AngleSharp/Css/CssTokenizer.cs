@@ -13,6 +13,12 @@ namespace AngleSharp.Css
     [DebuggerStepThrough]
     sealed class CssTokenizer : BaseTokenizer
     {
+        #region Members
+
+        Boolean _ignorews;
+
+        #endregion
+
         #region ctor
 
         public CssTokenizer(SourceManager source)
@@ -25,6 +31,15 @@ namespace AngleSharp.Css
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets if whitespaces should be ignored.
+        /// </summary>
+        public Boolean IgnoreWhitespaces
+        {
+            get { return _ignorews; }
+            set { _ignorews = value; }
+        }
 
         /// <summary>
         /// Gets the underlying stream.
@@ -81,6 +96,10 @@ namespace AngleSharp.Css
                 case Specification.SPACE:
                     do { current = _src.Next; }
                     while (current.IsSpaceCharacter());
+
+                    if (_ignorews)
+                        return Data(current);
+
                     _src.Back();
                     return CssSpecialCharacter.Whitespace;
 
