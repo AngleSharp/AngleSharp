@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AngleSharp.DOM.Collections
 {
@@ -48,7 +49,12 @@ namespace AngleSharp.DOM.Collections
         [DOM("item")]
         public T this[Int32 index]
         {
-            get { return index >= 0 && index < _entries.Count ? _entries[index] : null; }
+            get 
+            {
+                var value = index >= 0 && index < _entries.Count ? _entries[index] : null;
+                Debug.Assert(value != null, "The index you specified is out of range!");
+                return value;
+            }
             set { _entries[index] = value; }
         }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AngleSharp.DOM.Collections
 {
@@ -68,7 +67,7 @@ namespace AngleSharp.DOM.Collections
         /// </summary>
         /// <param name="prop">The name of the property.</param>
         /// <returns>True if the property is set, otherwise false.</returns>
-        [DOM("hetDataAttr")]
+        [DOM("hasDataAttr")]
         public bool HasDataAttr(String prop)
         {
             return _parent.HasAttribute(PREFIX + Check(prop));

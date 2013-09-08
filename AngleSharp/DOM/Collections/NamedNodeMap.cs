@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 
 namespace AngleSharp.DOM.Collections
 {
@@ -44,10 +44,9 @@ namespace AngleSharp.DOM.Collections
         {
             get
             {
-                if (index >= _entries.Count || index < 0)
-                    return null;
-
-                return _entries[index];
+                var value = index >= 0 && index < _entries.Count ? _entries[index] : null;
+                Debug.Assert(value != null, "The index you specified is out of range!");
+                return value;
             }
         }
 
@@ -330,15 +329,15 @@ namespace AngleSharp.DOM.Collections
         /// <returns>A string containing the HTML code.</returns>
         public String ToHtml()
         {
-            var sb = new StringBuilder();
+            var sb = Pool.NewStringBuilder();
 
             for (int i = 0; i < _entries.Count; i++)
             {
-                sb.Append(' ');
+                sb.Append(Specification.SPACE);
                 sb.Append(_entries[i].ToHtml());
             }
 
-            return sb.ToString();
+            return sb.ToPool();
         }
 
         /// <summary>
