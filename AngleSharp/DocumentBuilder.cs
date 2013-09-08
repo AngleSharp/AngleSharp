@@ -38,7 +38,10 @@ namespace AngleSharp
         {
             document.Options = options;
             parser = new HtmlParser(document, source);
-            parser.ErrorOccurred += ParseErrorOccurred;
+			parser.ErrorOccurred += ParseErrorOccurred;
+
+			if (options.OnError != null)
+				parser.ErrorOccurred += options.OnError;
         }
 
         /// <summary>
@@ -51,7 +54,10 @@ namespace AngleSharp
         {
             document.Options = options;
             parser = new XmlParser(document, source);
-            parser.ErrorOccurred += ParseErrorOccurred;
+			parser.ErrorOccurred += ParseErrorOccurred;
+
+			if (options.OnError != null)
+				parser.ErrorOccurred += options.OnError;
         }
 
         /// <summary>
@@ -63,7 +69,10 @@ namespace AngleSharp
         DocumentBuilder(SourceManager source, CSSStyleSheet sheet, DocumentOptions options)
         {
             parser = new CssParser(sheet, source);
-            parser.ErrorOccurred += ParseErrorOccurred;
+			parser.ErrorOccurred += ParseErrorOccurred;
+
+			if (options.OnError != null)
+				parser.ErrorOccurred += options.OnError;
         }
 
         #endregion
@@ -107,7 +116,7 @@ namespace AngleSharp
         public static XMLDocument Xml(String sourceCode, DocumentOptions options = null)
         {
             var source = new SourceManager(sourceCode);
-            var db = new DocumentBuilder(source, new XMLDocument(), options);
+			var db = new DocumentBuilder(source, new XMLDocument(), options ?? DocumentOptions.Default);
             return db.XmlResult;
         }
 
@@ -132,7 +141,8 @@ namespace AngleSharp
         {
             var stream = await Builder.GetFromUrl(url);
             var source = new SourceManager(stream);
-            var db = new DocumentBuilder(source, new XMLDocument { DocumentURI = url.OriginalString }, options);
+			var db = new DocumentBuilder(source, new XMLDocument { DocumentURI = url.OriginalString }, options ?? DocumentOptions.Default);
+			await db.parser.ParseAsync();
             return db.XmlResult;
         }
 
@@ -145,7 +155,7 @@ namespace AngleSharp
         public static XMLDocument Xml(Stream stream, DocumentOptions options = null)
         {
             var source = new SourceManager(stream);
-            var db = new DocumentBuilder(source, new XMLDocument(), options);
+			var db = new DocumentBuilder(source, new XMLDocument(), options ?? DocumentOptions.Default);
             return db.XmlResult;
         }
 
@@ -162,7 +172,7 @@ namespace AngleSharp
         public static HTMLDocument Html(String sourceCode, DocumentOptions options = null)
         {
             var source = new SourceManager(sourceCode);
-            var db = new DocumentBuilder(source, new HTMLDocument(), options);
+            var db = new DocumentBuilder(source, new HTMLDocument(), options ?? DocumentOptions.Default);
             return db.HtmlResult;
         }
 
@@ -187,7 +197,8 @@ namespace AngleSharp
         {
             var stream = await Builder.GetFromUrl(url);
             var source = new SourceManager(stream);
-            var db = new DocumentBuilder(source, new HTMLDocument { DocumentURI = url.OriginalString }, options);
+			var db = new DocumentBuilder(source, new HTMLDocument { DocumentURI = url.OriginalString }, options ?? DocumentOptions.Default);
+			await db.parser.ParseAsync();
             return db.HtmlResult;
         }
 
@@ -200,7 +211,7 @@ namespace AngleSharp
         public static HTMLDocument Html(Stream stream, DocumentOptions options = null)
         {
             var source = new SourceManager(stream);
-            var db = new DocumentBuilder(source, new HTMLDocument(), options);
+			var db = new DocumentBuilder(source, new HTMLDocument(), options ?? DocumentOptions.Default);
             return db.HtmlResult;
         }
 
@@ -247,7 +258,7 @@ namespace AngleSharp
         public static CSSStyleSheet Css(String sourceCode, DocumentOptions options = null)
         {
             var source = new SourceManager(sourceCode);
-            var db = new DocumentBuilder(source, new CSSStyleSheet(), options);
+			var db = new DocumentBuilder(source, new CSSStyleSheet(), options ?? DocumentOptions.Default);
             return db.CssResult;
         }
 
@@ -272,7 +283,8 @@ namespace AngleSharp
         {
             var stream = await Builder.GetFromUrl(url);
             var source = new SourceManager(stream);
-            var db = new DocumentBuilder(source, new CSSStyleSheet { Href = url.OriginalString }, options);
+			var db = new DocumentBuilder(source, new CSSStyleSheet { Href = url.OriginalString }, options ?? DocumentOptions.Default);
+			await db.parser.ParseAsync();
             return db.CssResult;
         }
 
@@ -285,7 +297,7 @@ namespace AngleSharp
         public static CSSStyleSheet Css(Stream stream, DocumentOptions options = null)
         {
             var source = new SourceManager(stream);
-            var db = new DocumentBuilder(source, new CSSStyleSheet(), options);
+			var db = new DocumentBuilder(source, new CSSStyleSheet(), options ?? DocumentOptions.Default);
             return db.CssResult;
         }
 

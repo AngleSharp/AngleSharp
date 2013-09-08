@@ -1,4 +1,5 @@
 ﻿using System;
+using AngleSharp.Events;
 
 namespace AngleSharp
 {
@@ -14,6 +15,7 @@ namespace AngleSharp
         Boolean _styling;
         Boolean _embedded;
         Boolean _validating;
+		ParseErrorEventHandler _onerror;
 
         #endregion
 
@@ -46,17 +48,20 @@ namespace AngleSharp
         /// <param name="scripting">[Default: false] Scripting mode of HTML documents.</param>
         /// <param name="styling">[Default: true] Implicit CSS parsing in the HTML DOM.</param>
         /// <param name="embedded">[Default: false] Embedding mode of HTML documents.</param>
-        /// <param name="validating">[Default: false] Validation of XML documents.</param>
+		/// <param name="validating">[Default: false] Validation of XML documents.</param>
+		/// <param name="onerror">[Default: null] Error redirect.</param>
         public DocumentOptions(
             Boolean scripting = false,
             Boolean styling = true,
             Boolean embedded = false,
-            Boolean validating = false)
+            Boolean validating = false,
+			ParseErrorEventHandler onerror = null)
         {
             _scripting = scripting;
             _styling = styling;
             _embedded = embedded;
             _validating = validating;
+			_onerror = onerror;
         }
 
         #endregion
@@ -99,6 +104,16 @@ namespace AngleSharp
         {
             get { return _validating; }
         }
+
+		/// <summary>
+		/// Gets the delegate to call in case of an (tolerable) error. If this
+		/// is null, then the default behavior is to print these errors on the
+		/// debug console (if in debug mode) or to drop the errors completely.
+		/// </summary>
+		public ParseErrorEventHandler OnError
+		{
+			get { return _onerror; }
+		}
 
         #endregion
     }

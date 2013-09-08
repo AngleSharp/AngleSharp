@@ -14,7 +14,7 @@ namespace AngleSharp.Css
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
         #region Members
@@ -27,6 +27,9 @@ namespace AngleSharp.Css
         Stack<CSSRule> _open;
         Boolean _ignore;
         Object _lock;
+		CSSProperty _property;
+		List<CssToken> _buffer;
+		CssSelectorConstructor _selector;
 
         #endregion
 
@@ -101,6 +104,8 @@ namespace AngleSharp.Css
                     ErrorOccurred(this, ev);
             };
 
+			_selector = new CssSelectorConstructor();
+			_buffer = new List<CssToken>();
             _started = false;
             _sheet = stylesheet;
             _open = new Stack<CSSRule>();
@@ -486,8 +491,8 @@ namespace AngleSharp.Css
         CSSStyleRule CreateStyleRule(IEnumerator<CssToken> source)
         {
             var style = new CSSStyleRule();
-            var ctor = new CssSelectorConstructor();
-            ctor.IgnoreErrors = _ignore;
+			_selector.Reset();
+			_selector.IgnoreErrors = _ignore;
             style.ParentStyleSheet = _sheet;
             style.ParentRule = CurrentRule;
             _open.Push(style);
@@ -505,11 +510,11 @@ namespace AngleSharp.Css
                     break;
                 }
 
-                ctor.PickSelector(source);
+				_selector.Apply(source.Current);
             }
             while (source.MoveNext());
 
-            style.Selector = ctor.Result;
+			style.Selector = _selector.Result;
             _open.Pop();
             return style;
         }
@@ -1089,8 +1094,8 @@ namespace AngleSharp.Css
             page.ParentStyleSheet = _sheet;
             page.ParentRule = CurrentRule;
             _open.Push(page);
-            var ctor = new CssSelectorConstructor();
-            ctor.IgnoreErrors = _ignore;
+			_selector.Reset();
+			_selector.IgnoreErrors = _ignore;
 
             do
             {
@@ -1104,11 +1109,11 @@ namespace AngleSharp.Css
                     }
                 }
 
-                ctor.PickSelector(source);
+				_selector.Apply(source.Current);
             }
             while (source.MoveNext());
 
-            page.Selector = ctor.Result;
+			page.Selector = _selector.Result;
             _open.Pop();
             return page;
         }
@@ -1265,12 +1270,11 @@ namespace AngleSharp.Css
             var parser = new CssParser(selector);
             parser.IsQuirksMode = quirksMode;
             var tokens = parser._tokenizer.Iterator;
-            var ctor = new CssSelectorConstructor();
 
             while (tokens.MoveNext())
-                ctor.PickSelector(tokens);
+                parser._selector.Apply(tokens.Current);
 
-            return ctor.Result;
+			return parser._selector.Result;
         }
 
         /// <summary>

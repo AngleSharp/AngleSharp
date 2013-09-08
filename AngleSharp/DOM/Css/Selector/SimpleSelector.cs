@@ -172,7 +172,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>The new selector.</returns>
         public static SimpleSelector AttrList(String match, String value)
         {
-            var code = string.Format("[{0}~={1}]", match, GetValueAsString(value));
+            var code = String.Format("[{0}~={1}]", match, GetValueAsString(value));
 
             if (String.IsNullOrEmpty(value))
                 return new SimpleSelector(_ => false, 10, code);
