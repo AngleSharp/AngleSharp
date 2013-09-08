@@ -17,7 +17,9 @@ namespace AngleSharp.Css
     [DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
-        #region Members
+		#region Members
+
+		static readonly CssSelectorConstructor _selector;
 
         Boolean _started;
         Boolean _quirksFlag;
@@ -28,8 +30,7 @@ namespace AngleSharp.Css
         Boolean _ignore;
         Object _lock;
 		CSSProperty _property;
-		List<CssToken> _buffer;
-		CssSelectorConstructor _selector;
+		CssState _state;
 
         #endregion
 
@@ -43,6 +44,14 @@ namespace AngleSharp.Css
         #endregion
 
         #region ctor
+
+		/// <summary>
+		/// Creates the selector constructor, which is static for performance reasons.
+		/// </summary>
+		static CssParser()
+		{
+			_selector = new CssSelectorConstructor();
+		}
 
         /// <summary>
         /// Creates a new CSS parser instance with a new stylesheet
@@ -104,8 +113,7 @@ namespace AngleSharp.Css
                     ErrorOccurred(this, ev);
             };
 
-			_selector = new CssSelectorConstructor();
-			_buffer = new List<CssToken>();
+			_state = CssState.Data;
             _started = false;
             _sheet = stylesheet;
             _open = new Stack<CSSRule>();
@@ -1267,14 +1275,15 @@ namespace AngleSharp.Css
         /// <returns>The Selector object.</returns>
         public static Selector ParseSelector(String selector, Boolean quirksMode = false)
         {
-            var parser = new CssParser(selector);
+			var parser = new CssParser(selector);
+			_selector.Reset();
             parser.IsQuirksMode = quirksMode;
             var tokens = parser._tokenizer.Iterator;
 
             while (tokens.MoveNext())
-                parser._selector.Apply(tokens.Current);
+                _selector.Apply(tokens.Current);
 
-			return parser._selector.Result;
+			return _selector.Result;
         }
 
         /// <summary>
@@ -1433,9 +1442,29 @@ namespace AngleSharp.Css
 
         #endregion
 
-        #region Event-Helpers
+		#region State Enumeration
 
-        /// <summary>
+		/// <summary>
+		/// The enumeration with possible state values.
+		/// </summary>
+		enum CssState
+		{
+			Data,
+			InSelector,
+			InDeclaration,
+			BeforeProperty,
+			AfterProperty,
+			InValueList,
+			InMultiValue,
+			InSingleValue,
+			InMediaList
+		}
+
+		#endregion
+
+		#region Event-Helpers
+
+		/// <summary>
         /// Fires an error occurred event.
         /// </summary>
         /// <param name="code">The associated error code.</param>

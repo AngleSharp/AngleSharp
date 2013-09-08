@@ -180,7 +180,6 @@ namespace AngleSharp.Css
 		/// </summary>
 		public void Reset()
 		{
-			nested = null;
 			attrName = null;
 			attrValue = null;
 			attrOp = String.Empty;
@@ -211,42 +210,40 @@ namespace AngleSharp.Css
 					attrValue = null;
 					attrOp = String.Empty;
 					state = State.Attribute;
-					break;
+					return;
 
 				//Begin of Pseudo :P
 				case CssTokenType.Colon:
 					state = State.PseudoClass;
-					break;
+					return;
 
 				//Begin of ID #I
 				case CssTokenType.Hash:
 					Insert(SimpleSelector.Id(((CssKeywordToken)token).Data));
-					break;
+					return;
 
 				//Begin of Type E
 				case CssTokenType.Ident:
 					Insert(SimpleSelector.Type(((CssKeywordToken)token).Data));
-					break;
+					return;
 
 				//Whitespace could be significant
 				case CssTokenType.Whitespace:
 					Insert(CssCombinator.Descendent);
-					break;
+					return;
 
 				//Various
 				case CssTokenType.Delim:
 					OnDelim(token);
-					break;
+					return;
 
 				case CssTokenType.Comma:
 					InsertOr();
-					break;
-
-				default:
-					if (!ignoreErrors) 
-						throw new DOMException(ErrorCode.SyntaxError);
-					break;
+					return;
 			}
+
+			if (!ignoreErrors)
+				throw new DOMException(ErrorCode.SyntaxError);
 		}
 
 		/// <summary>
@@ -671,28 +668,31 @@ namespace AngleSharp.Css
 			{
 				case Specification.COMMA:
 					InsertOr();
-					break;
+					return;
 
 				case Specification.GT:
 					Insert(CssCombinator.Child);
-					break;
+					return;
 
 				case Specification.PLUS:
 					Insert(CssCombinator.AdjacentSibling);
-					break;
+					return;
 
 				case Specification.TILDE:
 					Insert(CssCombinator.Sibling);
-					break;
+					return;
 
 				case Specification.ASTERISK:
 					Insert(SimpleSelector.All);
-					break;
+					return;
 
 				case Specification.DOT:
 					state = State.Class;
-					break;
+					return;
 			}
+
+			if (!ignoreErrors)
+				throw new DOMException(ErrorCode.SyntaxError);
 		}
 
         /// <summary>
