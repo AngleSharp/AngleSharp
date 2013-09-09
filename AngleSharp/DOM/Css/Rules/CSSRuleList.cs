@@ -8,7 +8,7 @@ namespace AngleSharp.DOM.Css
     /// Represents an array like structure containing CSS rules.
     /// </summary>
     [DOM("CSSRuleList")]
-    public sealed class CSSRuleList : IEnumerable<CSSRule>, ICSSObject
+    public sealed class CSSRuleList : IEnumerable<CSSRule>, ICssObject
     {
         #region Members
 

@@ -8,7 +8,7 @@ namespace AngleSharp.DOM.Css
     /// Represents the @page rule.
     /// </summary>
     [DOM("CSSPageRule")]
-	public sealed class CSSPageRule : CSSRule, ISelector, IStyleDeclaration
+	public sealed class CSSPageRule : CSSRule, ICssSelector, IStyleDeclaration
     {
         #region Members
 
@@ -51,7 +51,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the selector.
 		/// </summary>
-		Selector ISelector.Selector
+		Selector ICssSelector.Selector
 		{
 			get
 			{

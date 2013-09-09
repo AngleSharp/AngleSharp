@@ -8,7 +8,7 @@ namespace AngleSharp.DOM.Css
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    struct CSSColor : IEquatable<CSSColor>, ICSSObject
+    struct CSSColor : IEquatable<CSSColor>, ICssObject
     {
         #region Members
 

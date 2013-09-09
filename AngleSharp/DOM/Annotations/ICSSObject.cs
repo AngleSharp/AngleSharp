@@ -2,7 +2,7 @@
 
 namespace AngleSharp.DOM
 {
-    interface ICSSObject
+    interface ICssObject
     {
         String ToCss();
     }

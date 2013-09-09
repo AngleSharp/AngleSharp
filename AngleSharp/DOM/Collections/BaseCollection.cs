@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Collections
     /// The abstract template class for most DOM collections.
     /// </summary>
     /// <typeparam name="T">The type of elements to contain.</typeparam>
-    public abstract class BaseCollection<T> : IHTMLObject, IEnumerable<T> where T : Node
+    public abstract class BaseCollection<T> : IHtmlObject, IEnumerable<T> where T : Node
     {
         #region Members
 

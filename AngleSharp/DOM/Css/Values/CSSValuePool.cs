@@ -29,11 +29,11 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new CSS value list.
         /// </summary>
-        /// <param name="item">The first item to add.</param>
-		internal CSSValuePool(CSSValue item)
+        /// <param name="items">The items to add.</param>
+		internal CSSValuePool(IEnumerable<CSSValue> items)
 			: this()
         {
-			_items.Add(item);
+			_items.AddRange(items);
         }
 
         #endregion

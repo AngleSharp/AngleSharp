@@ -39,9 +39,9 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Css\CssTokenizer.cs" />
-    <Compile Include="DOM\Annotations\IMedia.cs" />
-    <Compile Include="DOM\Annotations\IRules.cs" />
-    <Compile Include="DOM\Annotations\ISelector.cs" />
+    <Compile Include="DOM\Annotations\ICssMedia.cs" />
+    <Compile Include="DOM\Annotations\ICssRules.cs" />
+    <Compile Include="DOM\Annotations\ICssSelector.cs" />
     <Compile Include="DOM\Annotations\IStyleDeclaration.cs" />
     <Compile Include="DOM\Css\Rules\CSSDocumentRule.cs" />
     <Compile Include="DOM\Css\Values\CSSGradient.cs" />
@@ -154,9 +154,9 @@
     <Compile Include="DOM\Html\HTMLMenuItemElement.cs" />
     <Compile Include="DOM\Html\Forms\HTMLProgressElement.cs" />
     <Compile Include="DOM\Html\HTMLWbrElement.cs" />
-    <Compile Include="DOM\Annotations\ICSSObject.cs" />
+    <Compile Include="DOM\Annotations\ICssObject.cs" />
     <Compile Include="DOM\Interfaces\IDocumentFragment.cs" />
-    <Compile Include="DOM\Annotations\IHTMLObject.cs" />
+    <Compile Include="DOM\Annotations\IHtmlObject.cs" />
     <Compile Include="DOM\Interfaces\ILabelabelElement.cs" />
     <Compile Include="DOM\Interfaces\IQueryElements.cs" />
     <Compile Include="DOM\Interfaces\IValidation.cs" />

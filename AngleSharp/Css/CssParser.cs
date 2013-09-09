@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using AngleSharp.DOM;
 using AngleSharp.Events;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Collections;
@@ -25,11 +23,14 @@ namespace AngleSharp.Css
 		Boolean skipExceptions;
         CssTokenizer tokenizer;
 		Boolean fraction;
+		CSSProperty property;
+		CSSValue value;
+		List<CSSValue> mvalues;
+		CSSValueList cvalues;
         Boolean started;
         Boolean quirks;
         CSSStyleSheet sheet;
         Stack<CSSRule> open;
-		CSSProperty property;
 		StringBuilder buffer;
 		CssState state;
 		Object sync;
@@ -330,7 +331,7 @@ namespace AngleSharp.Css
 		{
 			if (token.Type == CssTokenType.CurlyBracketOpen)
 			{
-				var rule = CurrentRule as ISelector;
+				var rule = CurrentRule as ICssSelector;
 
 				if (rule != null)
 					rule.Selector = selector.Result;
@@ -354,6 +355,7 @@ namespace AngleSharp.Css
 		{
 			if (token.Type == CssTokenType.CurlyBracketClose)
 			{
+				CloseProperty();
 				SwitchTo(CurrentRule is CSSKeyframeRule ? CssState.KeyframesData : CssState.Data);
 				return CloseRule();
 			}
@@ -489,10 +491,8 @@ namespace AngleSharp.Css
 				SwitchTo(CssState.BeforeValue);
 				return true;
 			}
-			else if (token.Type == CssTokenType.Semicolon)
-				SwitchTo(CssState.InDeclaration);
-			else if (token.Type == CssTokenType.CurlyBracketClose)
-				InDeclaration(token);
+			else if (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketClose)
+				AfterValue(token);
 
 			return false;
 		}
@@ -570,6 +570,7 @@ namespace AngleSharp.Css
 			switch (token.Type)
 			{
 				case CssTokenType.RoundBracketClose:
+					SwitchTo(CssState.InSingleValue);
 					return AddValue(function.Pop().Done());
 				case CssTokenType.Comma:
 					function.Peek().Include();
@@ -586,25 +587,13 @@ namespace AngleSharp.Css
 		/// <returns>The status.</returns>
 		Boolean InValueList(CssToken token)
 		{
-			if (token.Type == CssTokenType.Semicolon)
-				SwitchTo(CssState.InDeclaration);
-			else if (token.Type == CssTokenType.CurlyBracketClose)
-				InDeclaration(token);
+			if (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketClose)
+				AfterValue(token);
 			else if (token.Type == CssTokenType.Comma)
 				SwitchTo(CssState.InValuePool);
 			else
 			{
-				if (property.Value is CSSValuePool)
-				{
-					var pool = (CSSValuePool)property.Value;
-					var item = pool.List[pool.List.Count - 1];
-
-					if (!(item is CSSValueList))
-						pool.List[pool.List.Count - 1] = new CSSValueList(item);
-				}
-				else if (!(property.Value is CSSValueList))
-					property.Value = new CSSValueList(property.Value);
-
+				//TDO
 				SwitchTo(CssState.InSingleValue);
 				return InSingleValue(token);
 			}
@@ -619,15 +608,11 @@ namespace AngleSharp.Css
 		/// <returns>The status.</returns>
 		Boolean InValuePool(CssToken token)
 		{
-			if (token.Type == CssTokenType.Semicolon)
-				SwitchTo(CssState.InDeclaration);
-			else if (token.Type == CssTokenType.CurlyBracketClose)
-				InDeclaration(token);
+			if (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketClose)
+				AfterValue(token);
 			else
 			{
-				if (!(property.Value is CSSValuePool))
-					property.Value = new CSSValuePool(property.Value);
-
+				//TODO
 				SwitchTo(CssState.InSingleValue);
 				return InSingleValue(token);
 			}
@@ -673,6 +658,7 @@ namespace AngleSharp.Css
 		{
 			if (token.Type == CssTokenType.Semicolon)
 			{
+				CloseProperty();
 				SwitchTo(CssState.InDeclaration);
 				return true;
 			}
@@ -899,7 +885,7 @@ namespace AngleSharp.Css
 				case CssTokenType.CurlyBracketOpen:
 				case CssTokenType.Semicolon:
 				{
-					var container = CurrentRule as IMedia;
+					var container = CurrentRule as ICssMedia;
 					var s = buffer.ToPool();
 
 					if (container != null)
@@ -913,7 +899,7 @@ namespace AngleSharp.Css
 				}
 				case CssTokenType.Comma:
 				{
-					var container = CurrentRule as IMedia;
+					var container = CurrentRule as ICssMedia;
 
 					if (container != null)
 						container.Media.AppendMedium(buffer.ToString());
@@ -1005,18 +991,37 @@ namespace AngleSharp.Css
 		/// <returns>The status.</returns>
 		Boolean AddValue(CSSValue value)
 		{
+			if (fraction)
+			{
+				if (this.value != null)
+				{
+					value = new CSSPrimitiveValue(CssUnit.Unknown, this.value.ToCss() + "/" + value.ToCss());
+					this.value = null;
+				}
+
+				fraction = false;
+			}
+
 			if (function.Count > 0)
 				function.Peek().Arguments.Add(value);
-			else if (property.Value is CSSValueList)
-				((CSSValueList)property.Value).List.Add(value);
-			else if (property.Value is CSSValuePool)
-				((CSSValuePool)property.Value).List.Add(value);
-			else if (property.Value == CSSValue.Inherit)
-				property.Value = value;
+			else if (this.value == null)
+				this.value = value;
 			else
 				return false;
 
 			return true;
+		}
+
+		/// <summary>
+		/// Closes a property.
+		/// </summary>
+		void CloseProperty()
+		{
+			if (property != null)
+				property.Value = value;
+
+			value = null;
+			property = null;
 		}
 
 		/// <summary>
@@ -1044,7 +1049,7 @@ namespace AngleSharp.Css
 
 			if (open.Count > 0)
 			{
-				var container = open.Peek() as IRules;
+				var container = open.Peek() as ICssRules;
 
 				if (container != null)
 				{
@@ -1126,116 +1131,94 @@ namespace AngleSharp.Css
 		void Kernel()
 		{
 			var tokens = tokenizer.Tokens;
-			var status = false;
 
 			foreach (var token in tokens)
 			{
-				status = false;
-
-				switch (state)
-				{
-					case CssState.Data:
-						status = Data(token);
-						break;
-					case CssState.InSelector:
-						status = InSelector(token);
-						break;
-					case CssState.InDeclaration:
-						status = InDeclaration(token);
-						break;
-					case CssState.AfterProperty:
-						status = AfterProperty(token);
-						break;
-					case CssState.BeforeValue:
-						status = BeforeValue(token);
-						break;
-					case CssState.InValuePool:
-						status = InValuePool(token);
-						break;
-					case CssState.InValueList:
-						status = InValueList(token);
-						break;
-					case CssState.InSingleValue:
-						status = InSingleValue(token);
-						break;
-					case CssState.ValueImportant:
-						status = ValueImportant(token);
-						break;
-					case CssState.AfterValue:
-						status = AfterValue(token);
-						break;
-					case CssState.InMediaList:
-						status = InMediaList(token);
-						break;
-					case CssState.InMediaValue:
-						status = InMediaValue(token);
-						break;
-					case CssState.BeforeImport:
-						status = BeforeImport(token);
-						break;
-					case CssState.AfterInstruction:
-						status = AfterInstruction(token);
-						break;
-					case CssState.BeforeCharset:
-						status = BeforeCharset(token);
-						break;
-					case CssState.BeforeNamespacePrefix:
-						status = BeforePrefix(token);
-						break;
-					case CssState.AfterNamespacePrefix:
-						status = BeforeNamespace(token);
-						break;
-					case CssState.InCondition:
-						status = InCondition(token);
-						break;
-					case CssState.InUnknown:
-						status = InUnknown(token);
-						break;
-					case CssState.InKeyframeText:
-						status = InKeyframeText(token);
-						break;
-					case CssState.BeforeDocumentFunction:
-						status = BeforeDocumentFunction(token);
-						break;
-					case CssState.InDocumentFunction:
-						status = InDocumentFunction(token);
-						break;
-					case CssState.AfterDocumentFunction:
-						status = AfterDocumentFunction(token);
-						break;
-					case CssState.BetweenDocumentFunctions:
-						status = BetweenDocumentFunctions(token);
-						break;
-					case CssState.BeforeKeyframesName:
-						status = BeforeKeyframesName(token);
-						break;
-					case CssState.BeforeKeyframesData:
-						status = BeforeKeyframesData(token);
-						break;
-					case CssState.KeyframesData:
-						status = KeyframesData(token);
-						break;
-					case CssState.InHexValue:
-						status = InHexValue(token);
-						break;
-					case CssState.InFunction:
-						status = InValueFunction(token);
-						break;
-				}
-
-				if (!status)
+				if (General(token) == false)
 					RaiseErrorOccurred(ErrorCode.InputUnexpected);
 			}
 
-			if (state == CssState.InHexValue)
-				InHexValue(CssToken.Delim(Specification.SC));
+			if (property != null)
+				General(CssSpecialCharacter.Semicolon);
 
 			selector.ToPool();
 		}
 
+		/// <summary>
+		/// Examines the token by using the current state.
+		/// </summary>
+		/// <param name="token">The current token.</param>
+		/// <returns>The status.</returns>
+		Boolean General(CssToken token)
+		{
+			switch (state)
+			{
+				case CssState.Data:
+					return Data(token);
+				case CssState.InSelector:
+					return InSelector(token);
+				case CssState.InDeclaration:
+					return InDeclaration(token);
+				case CssState.AfterProperty:
+					return AfterProperty(token);
+				case CssState.BeforeValue:
+					return BeforeValue(token);
+				case CssState.InValuePool:
+					return InValuePool(token);
+				case CssState.InValueList:
+					return InValueList(token);
+				case CssState.InSingleValue:
+					return InSingleValue(token);
+				case CssState.ValueImportant:
+					return ValueImportant(token);
+				case CssState.AfterValue:
+					return AfterValue(token);
+				case CssState.InMediaList:
+					return InMediaList(token);
+				case CssState.InMediaValue:
+					return InMediaValue(token);
+				case CssState.BeforeImport:
+					return BeforeImport(token);
+				case CssState.AfterInstruction:
+					return AfterInstruction(token);
+				case CssState.BeforeCharset:
+					return BeforeCharset(token);
+				case CssState.BeforeNamespacePrefix:
+					return BeforePrefix(token);
+				case CssState.AfterNamespacePrefix:
+					return BeforeNamespace(token);
+				case CssState.InCondition:
+					return InCondition(token);
+				case CssState.InUnknown:
+					return InUnknown(token);
+				case CssState.InKeyframeText:
+					return InKeyframeText(token);
+				case CssState.BeforeDocumentFunction:
+					return BeforeDocumentFunction(token);
+				case CssState.InDocumentFunction:
+					return InDocumentFunction(token);
+				case CssState.AfterDocumentFunction:
+					return AfterDocumentFunction(token);
+				case CssState.BetweenDocumentFunctions:
+					return BetweenDocumentFunctions(token);
+				case CssState.BeforeKeyframesName:
+					return BeforeKeyframesName(token);
+				case CssState.BeforeKeyframesData:
+					return BeforeKeyframesData(token);
+				case CssState.KeyframesData:
+					return KeyframesData(token);
+				case CssState.InHexValue:
+					return InHexValue(token);
+				case CssState.InFunction:
+					return InValueFunction(token);
+				default:
+					return false;
+			}
+		}
+
 		#endregion
 
-        #region Static methods
+        #region Public static methods
 
         /// <summary>
         /// Takes a string and transforms it into a selector object.
@@ -1335,7 +1318,11 @@ namespace AngleSharp.Css
             return property.Value;
         }
 
-        /// <summary>
+		#endregion
+
+		#region Internal static methods
+
+		/// <summary>
         /// Takes a string and transforms it into a list of CSS values.
         /// </summary>
         /// <param name="source">The string to parse.</param>

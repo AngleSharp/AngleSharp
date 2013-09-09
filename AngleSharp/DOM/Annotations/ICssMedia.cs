@@ -2,7 +2,7 @@
 
 namespace AngleSharp.DOM.Css
 {
-	interface IMedia
+	interface ICssMedia
 	{
 		MediaList Media { get; }
 	}

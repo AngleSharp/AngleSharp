@@ -7,7 +7,7 @@ namespace AngleSharp.DOM.Css
     /// Represents a CSS rule.
     /// </summary>
     [DOM("CSSRule")]
-    public abstract class CSSRule : ICSSObject
+    public abstract class CSSRule : ICssObject
     {
         #region Members
 

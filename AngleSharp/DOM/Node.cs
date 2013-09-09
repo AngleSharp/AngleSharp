@@ -8,7 +8,7 @@ namespace AngleSharp.DOM
     /// Represents a node in the generated tree.
     /// </summary>
     [DOM("Node")]
-    public class Node : INode, IHTMLObject
+    public class Node : INode, IHtmlObject
     {
         #region Members
 

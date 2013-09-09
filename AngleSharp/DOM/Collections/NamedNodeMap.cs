@@ -9,7 +9,7 @@ namespace AngleSharp.DOM.Collections
     /// Represents a named collection of nodes.
     /// </summary>
     [DOM("NamedNodeMap")]
-    public sealed class NamedNodeMap : IHTMLObject, IEnumerable<Attr>
+    public sealed class NamedNodeMap : IHtmlObject, IEnumerable<Attr>
     {
         #region Members
 

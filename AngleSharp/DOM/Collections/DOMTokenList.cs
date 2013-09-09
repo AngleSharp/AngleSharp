@@ -9,7 +9,7 @@ namespace AngleSharp.DOM.Collections
     /// Represents a list of DOMTokens.
     /// </summary>
     [DOM("DOMTokenList")]
-    public sealed class DOMTokenList : IHTMLObject, IEnumerable<String>
+    public sealed class DOMTokenList : IHtmlObject, IEnumerable<String>
     {
         #region Members
 

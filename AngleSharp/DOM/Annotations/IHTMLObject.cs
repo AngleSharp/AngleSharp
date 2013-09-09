@@ -2,7 +2,7 @@
 
 namespace AngleSharp.DOM
 {
-    interface IHTMLObject
+    interface IHtmlObject
     {
         String ToHtml();
 

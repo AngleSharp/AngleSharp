@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Css
     /// Represents a CSS value.
 	/// </summary>
 	[DOM("CSSValue")]
-    public class CSSValue : ICSSObject
+    public class CSSValue : ICssObject
     {
         #region Members
 
