@@ -8,7 +8,7 @@ namespace AngleSharp.DOM.Css
     /// Represents a CSS style rule.
     /// </summary>
     [DOM("CSSStyleRule")]
-    public sealed class CSSStyleRule : CSSRule
+	public sealed class CSSStyleRule : CSSRule, ISelector, IStyleDeclaration
     {
         #region Members
 
@@ -29,22 +29,32 @@ namespace AngleSharp.DOM.Css
             _style = new CSSStyleDeclaration();
         }
 
+		/// <summary>
+		/// Creates a new CSS style rule with the given declaration.
+		/// </summary>
+		/// <param name="style">The declaration to use.</param>
+		internal CSSStyleRule(CSSStyleDeclaration style)
+		{
+			_type = CssRuleType.Style;
+			_style = style;
+		}
+
         #endregion
 
         #region Internal Properties
 
         /// <summary>
         /// Gets or sets the selector.
-        /// </summary>
-        internal Selector Selector
-        {
-            get { return _selector; }
-            set
-            {
-                _selector = value;
-                _selectorText = value.ToCss();
-            }
-        }
+		/// </summary>
+		Selector ISelector.Selector
+		{
+			get { return _selector; }
+			set
+			{
+				_selector = value;
+				_selectorText = value.ToCss();
+			}
+		}
 
         #endregion
 
@@ -87,5 +97,5 @@ namespace AngleSharp.DOM.Css
         }
 
         #endregion
-    }
+	}
 }

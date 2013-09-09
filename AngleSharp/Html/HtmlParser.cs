@@ -37,6 +37,7 @@ namespace AngleSharp.Html
         HTMLScriptElement pendingParsingBlock;
         Stack<HtmlTreeMode> templateMode;
         Task task;
+		Object sync;
 
         #endregion
 
@@ -109,6 +110,7 @@ namespace AngleSharp.Html
                     ErrorOccurred(this, ev);
             };
 
+			sync = new Object();
             started = false;
             doc = document;
             open = new List<Element>();
@@ -186,15 +188,18 @@ namespace AngleSharp.Html
         /// <returns>The task which could be awaited or continued differently.</returns>
         public Task ParseAsync()
         {
-            if (!started)
-            {
-                started = true;
-                task = Task.Run(() => Kernel());
-            }
-            else if (task == null)
-                throw new InvalidOperationException("The parser has already run synchronously.");
+			lock (sync)
+			{
+				if (!started)
+				{
+					started = true;
+					task = Task.Run(() => Kernel());
+				}
+				else if (task == null)
+					throw new InvalidOperationException("The parser has already run synchronously.");
 
-            return task;
+				return task;
+			}
         }
 
         /// <summary>
@@ -202,11 +207,19 @@ namespace AngleSharp.Html
         /// </summary>
         public void Parse()
         {
-            if (!started)
-            {
-                started = true;
-                Kernel();
-            }
+			var run = false;
+
+			lock (sync)
+			{
+				if (!started)
+				{
+					started = true;
+					run = true;
+				}
+			}
+
+			if(run)
+				Kernel();
         }
 
         /// <summary>

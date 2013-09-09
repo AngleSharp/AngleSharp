@@ -4,7 +4,8 @@ namespace AngleSharp.DOM.Css
 {
     /// <summary>
     /// Represents a CSS value.
-    /// </summary>
+	/// </summary>
+	[DOM("CSSValue")]
     public class CSSValue : ICSSObject
     {
         #region Members
@@ -47,7 +48,8 @@ namespace AngleSharp.DOM.Css
 
         /// <summary>
         /// Gets a code defining the type of the value as defined above.
-        /// </summary>
+		/// </summary>
+		[DOM("cssValueType")]
         public CssValueType CssValueType
         {
             get { return _type; }
@@ -56,6 +58,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets a string representation of the current value.
         /// </summary>
+		[DOM("cssText")]
         public String CssText
         {
             get { return ToCss(); }

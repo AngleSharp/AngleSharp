@@ -191,7 +191,17 @@ namespace AngleSharp
         /// <summary>
         /// The square bracket close ( ] ) character.
         /// </summary>
-        public const Char SBC = (Char)0x5d;
+		public const Char SBC = (Char)0x5d;
+
+		/// <summary>
+		/// The curly bracket open ( { ) character.
+		/// </summary>
+		public const Char CBO = (Char)0x7b;
+
+		/// <summary>
+		/// The curly bracket close ( } ) character.
+		/// </summary>
+		public const Char CBC = (Char)0x7d;
 
         /// <summary>
         /// The percent ( % ) character.

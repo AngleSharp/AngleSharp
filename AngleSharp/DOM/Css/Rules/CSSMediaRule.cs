@@ -7,7 +7,7 @@ namespace AngleSharp.DOM.Css
     /// Represents a CSS @media rule.
     /// </summary>
     [DOM("CSSMediaRule")]
-    public sealed class CSSMediaRule : CSSConditionRule
+    public sealed class CSSMediaRule : CSSConditionRule, IMedia
     {
         #region Members
 

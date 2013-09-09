@@ -5,9 +5,9 @@ namespace AngleSharp.DOM.Css
 {
     abstract class CSSFunction : CSSValue
     {
-        List<CSSValue> _args;
+        protected List<CSSValue> _args;
 
-        CSSFunction()
+		internal CSSFunction()
         {
         }
 

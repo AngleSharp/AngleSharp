@@ -39,9 +39,14 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Css\CssTokenizer.cs" />
+    <Compile Include="DOM\Annotations\IMedia.cs" />
+    <Compile Include="DOM\Annotations\IRules.cs" />
+    <Compile Include="DOM\Annotations\ISelector.cs" />
+    <Compile Include="DOM\Annotations\IStyleDeclaration.cs" />
     <Compile Include="DOM\Css\Rules\CSSDocumentRule.cs" />
     <Compile Include="DOM\Css\Values\CSSGradient.cs" />
     <Compile Include="DOM\Css\Values\CSSGradientStop.cs" />
+    <Compile Include="DOM\Css\Values\CSSValuePool.cs" />
     <Compile Include="DOM\Css\Values\CSSPoint2.cs" />
     <Compile Include="DOM\Css\Values\CSSPoint3.cs" />
     <Compile Include="DOM\Css\Values\CSSUri.cs" />

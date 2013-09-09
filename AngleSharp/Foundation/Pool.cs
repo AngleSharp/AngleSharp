@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AngleSharp.Css;
 
 namespace AngleSharp
 {
@@ -11,7 +12,8 @@ namespace AngleSharp
     {
         #region Members
 
-        static Stack<StringBuilder> _builder;
+		static Stack<StringBuilder> _builder;
+		static Stack<CssSelectorConstructor> _selector;
         static Object _lock;
 
         #endregion
@@ -21,6 +23,7 @@ namespace AngleSharp
         static Pool()
         {
             _builder = new Stack<StringBuilder>();
+			_selector = new Stack<CssSelectorConstructor>();
             _lock = new Object();
         }
 
@@ -43,6 +46,21 @@ namespace AngleSharp
             }
         }
 
+		/// <summary>
+		/// Either creates a fresh selector constructor or gets a (cleaned) used one.
+		/// </summary>
+		/// <returns>A selector constructor to use.</returns>
+		public static CssSelectorConstructor NewSelectorConstructor()
+		{
+			lock (_lock)
+			{
+				if (_selector.Count == 0)
+					return new CssSelectorConstructor();
+
+				return _selector.Pop().Reset();
+			}
+		}
+
         /// <summary>
         /// Returns the given stringbuilder to the pool and gets the current
         /// string content.
@@ -59,6 +77,18 @@ namespace AngleSharp
             return sb.ToString();
         }
 
+		/// <summary>
+		/// Returns the given selector constructor to the pool.
+		/// </summary>
+		/// <param name="ctor">The constructor to recycle.</param>
+		public static void ToPool(this CssSelectorConstructor ctor)
+		{
+			lock (_lock)
+			{
+				_selector.Push(ctor);
+			}
+		}
+
         #endregion
-    }
+	}
 }

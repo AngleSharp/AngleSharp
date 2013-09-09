@@ -28,6 +28,7 @@ namespace AngleSharp.Xml
         XmlTreeMode insert;
         Task task;
         Boolean standalone;
+		Object sync;
 
         #endregion
 
@@ -100,6 +101,7 @@ namespace AngleSharp.Xml
                     ErrorOccurred(this, ev);
             };
 
+			sync = new Object();
             started = false;
             doc = document;
             standalone = false;
@@ -157,15 +159,18 @@ namespace AngleSharp.Xml
         /// <returns>The task which could be awaited or continued differently.</returns>
         public Task ParseAsync()
         {
-            if (!started)
-            {
-                started = true;
-                task = Task.Run(() => Kernel());
-            }
-            else if (task == null)
-                throw new InvalidOperationException("The parser has already run synchronously.");
+			lock (sync)
+			{
+				if (!started)
+				{
+					started = true;
+					task = Task.Run(() => Kernel());
+				}
+				else if (task == null)
+					throw new InvalidOperationException("The parser has already run synchronously.");
 
-            return task;
+				return task;
+			}
         }
 
         /// <summary>
@@ -173,11 +178,19 @@ namespace AngleSharp.Xml
         /// </summary>
         public void Parse()
         {
-            if (!started)
-            {
-                started = true;
-                Kernel();
-            }
+			var run = false;
+
+			lock (sync)
+			{
+				if (!started)
+				{
+					started = true;
+					run = true;
+				}
+			}
+
+			if (run)
+				Kernel();
         }
 
         /// <summary>

@@ -12,16 +12,17 @@ namespace AngleSharp.Css
     /// </summary>
     [DebuggerStepThrough]
     sealed class CssTokenizer : BaseTokenizer
-    {
-        #region Members
+	{
+		#region Members
 
-        Boolean _ignorews;
+		Boolean _ignoreWs;
+		Boolean _ignoreCs;
 
-        #endregion
+		#endregion
 
-        #region ctor
+		#region ctor
 
-        public CssTokenizer(SourceManager source)
+		public CssTokenizer(SourceManager source)
             : base(source)
         {
             _stringBuffer = new StringBuilder();
@@ -32,14 +33,23 @@ namespace AngleSharp.Css
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets if whitespaces should be ignored.
-        /// </summary>
-        public Boolean IgnoreWhitespaces
-        {
-            get { return _ignorews; }
-            set { _ignorews = value; }
-        }
+		/// <summary>
+		/// Gets or sets if whitespace tokens should be ignored.
+		/// </summary>
+		public Boolean IgnoreWhitespace
+		{
+			get { return _ignoreWs; }
+			set { _ignoreWs = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets if HTML comment tokens should be ignored.
+		/// </summary>
+		public Boolean IgnoreComments
+		{
+			get { return _ignoreCs; }
+			set { _ignoreCs = value; }
+		}
 
         /// <summary>
         /// Gets the underlying stream.
@@ -47,14 +57,6 @@ namespace AngleSharp.Css
         public SourceManager Stream
         {
             get { return _src; }
-        }
-
-        /// <summary>
-        /// Gets the iterator for the tokens.
-        /// </summary>
-        public IEnumerator<CssToken> Iterator
-        {
-            get { return Tokens.GetEnumerator(); }
         }
 
         /// <summary>
@@ -97,8 +99,8 @@ namespace AngleSharp.Css
                     do { current = _src.Next; }
                     while (current.IsSpaceCharacter());
 
-                    if (_ignorews)
-                        return Data(current);
+					if (_ignoreWs)
+						return Data(current);
 
                     _src.Back();
                     return CssSpecialCharacter.Whitespace;
@@ -189,6 +191,10 @@ namespace AngleSharp.Css
                             else if (c1 == Specification.MINUS && c2 == Specification.GT)
                             {
                                 _src.Advance(2);
+
+								if (_ignoreCs)
+									return Data(_src.Next);
+
                                 return CssCommentToken.Close;
                             }
                         }
@@ -232,8 +238,13 @@ namespace AngleSharp.Css
                         {
                             current = _src.Next;
 
-                            if (current == Specification.MINUS)
-                                return CssCommentToken.Open;
+							if (current == Specification.MINUS)
+							{
+								if (_ignoreCs)
+									return Data(_src.Next);
+
+								return CssCommentToken.Open;
+							}
 
                             current = _src.Previous;
                         }
@@ -260,10 +271,10 @@ namespace AngleSharp.Css
 
                     return CssToken.Delim(_src.Previous);
 
-                case '{':
+                case Specification.CBO:
                     return CssBracketToken.OpenCurly;
 
-                case '}':
+                case Specification.CBC:
                     return CssBracketToken.CloseCurly;
 
                 case '0':

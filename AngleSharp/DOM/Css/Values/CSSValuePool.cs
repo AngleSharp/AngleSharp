@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 namespace AngleSharp.DOM.Css
 {
     /// <summary>
-    /// Represents a list of values in the CSS context.
+    /// Represents multiple values in the CSS context.
     /// </summary>
-    sealed class CSSValueList : CSSValue
+    sealed class CSSValuePool : CSSValue
     {
         #region Members
 
@@ -20,23 +20,23 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Creates a new CSS value list.
         /// </summary>
-        internal CSSValueList()
+        internal CSSValuePool()
         {
             _items = new List<CSSValue>();
-            _type = CssValueType.ValueList;
+            _type = CssValueType.Custom;
         }
 
         /// <summary>
         /// Creates a new CSS value list.
         /// </summary>
         /// <param name="item">The first item to add.</param>
-        internal CSSValueList(CSSValue item)
+		internal CSSValuePool(CSSValue item)
 			: this()
         {
 			_items.Add(item);
         }
 
-		#endregion
+        #endregion
 
 		#region Internal Properties
 
@@ -50,9 +50,9 @@ namespace AngleSharp.DOM.Css
 
 		#endregion
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
+		/// <summary>
         /// Gets the number of CSSValues in the list.
         /// </summary>
         public Int32 Length
@@ -96,7 +96,7 @@ namespace AngleSharp.DOM.Css
             for (int i = 0; i < _items.Count; i++)
                 values[i] = _items[i].CssText;
 
-            return String.Join(" ", values);
+            return String.Join(",", values);
         }
 
         #endregion

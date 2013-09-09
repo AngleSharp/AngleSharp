@@ -178,7 +178,8 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Resets the current state.
 		/// </summary>
-		public void Reset()
+		/// <returns>The current instance.</returns>
+		public CssSelectorConstructor Reset()
 		{
 			attrName = null;
 			attrValue = null;
@@ -190,6 +191,7 @@ namespace AngleSharp.Css
 			temp = null;
 			group = null;
 			complex = null;
+			return this;
 		}
 
 		#endregion

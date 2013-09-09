@@ -7,7 +7,7 @@ namespace AngleSharp.DOM.Css
     /// Represents the @font-face rule.
     /// </summary>
     [DOM("CSSFontFaceRule")]
-    public sealed class CSSFontFaceRule : CSSRule
+	public sealed class CSSFontFaceRule : CSSRule, IStyleDeclaration
     {
         #region Members
 
@@ -148,5 +148,17 @@ namespace AngleSharp.DOM.Css
         }
 
         #endregion
-    }
+
+		#region Style Declaration
+
+		/// <summary>
+		/// Gets the style declaration.
+		/// </summary>
+		CSSStyleDeclaration IStyleDeclaration.Style
+		{
+			get { return _cssRules; }
+		}
+
+		#endregion
+	}
 }

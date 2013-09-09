@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents the CSSGroupingRule interface.
     /// </summary>
-    public abstract class CSSGroupingRule : CSSRule
+    public abstract class CSSGroupingRule : CSSRule, IRules
     {
         #region Members
 
@@ -72,5 +72,5 @@ namespace AngleSharp.DOM.Css
         }
 
         #endregion
-    }
+	}
 }
