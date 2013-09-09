@@ -1,5 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Css;
+﻿using AngleSharp.Css;
 using AngleSharp.DOM.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -60,7 +59,7 @@ namespace UnitTests
         {
             var valueString = "Arial, Verdana, Helvetica, Sans-Serif";
             var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(4, list.Count);
+            Assert.AreEqual(4, list.Length);
             Assert.AreEqual("Arial", list[0].CssText);
             Assert.AreEqual("Verdana", list[1].CssText);
             Assert.AreEqual("Helvetica", list[2].CssText);
@@ -72,7 +71,7 @@ namespace UnitTests
         {
             var valueString = "Arial 10pt bold, Verdana 12pt italic";
             var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(2, list.Count);
+            Assert.AreEqual(2, list.Length);
             Assert.AreEqual("Arial 10pt bold", list[0].CssText);
             Assert.AreEqual("Verdana 12pt italic", list[1].CssText);
             Assert.AreEqual(CssValueType.ValueList, list[0].CssValueType);
@@ -86,7 +85,7 @@ namespace UnitTests
         {
             var valueString = "  Arial  ,  Verdana  ,Helvetica,Sans-Serif   ";
             var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(4, list.Count);
+			Assert.AreEqual(4, list.Length);
             Assert.AreEqual("Arial", list[0].CssText);
             Assert.AreEqual("Verdana", list[1].CssText);
             Assert.AreEqual("Helvetica", list[2].CssText);
@@ -98,7 +97,7 @@ namespace UnitTests
         {
             var valueString = "";
             var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(0, list.Count);
+			Assert.AreEqual(0, list.Length);
         }
 
         [TestMethod]
@@ -106,7 +105,7 @@ namespace UnitTests
         {
             var valueString = "  ";
             var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(0, list.Count);
+			Assert.AreEqual(0, list.Length);
         }
 
         [TestMethod]
@@ -114,7 +113,7 @@ namespace UnitTests
         {
             var valueString = " , ";
             var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(0, list.Count);
+			Assert.AreEqual(0, list.Length);
         }
 
         [TestMethod]
@@ -218,9 +217,9 @@ namespace UnitTests
             var prop = decl.List[0];
             Assert.AreEqual("font-family", prop.Name);
             Assert.IsFalse(prop.Important);
-            Assert.AreEqual(CssValueType.ValueList, prop.Value.CssValueType);
+            Assert.AreEqual(CssValueType.Custom, prop.Value.CssValueType);
 
-            var value = prop.Value as CSSValueList;
+            var value = prop.Value as CSSValuePool;
             Assert.AreEqual(4, value.Length);
             Assert.AreEqual("'Helvetica Neue',Helvetica,Arial,sans-serif", value.ToCss());
         }
