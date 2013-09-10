@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS gradient() object.
     /// </summary>
-    sealed class CSSGradient
+    sealed class CSSGradient : ICssPrimitive
     {
         #region Methods
 
@@ -109,6 +109,42 @@ namespace AngleSharp.DOM.Css
         public Boolean IsRepeating
         {
             get { return _repeat; }
+        }
+
+        #endregion
+
+        #region String Representation
+
+        /// <summary>
+        /// Converts the gradient to a CSS code string.
+        /// </summary>
+        /// <returns>The string that represents the code.</returns>
+        public String ToCss()
+        {
+            var sb = Pool.NewStringBuilder();
+
+            if (_radial)
+            {
+                sb.Append("radial-gradient(");
+
+                sb.Append(")");
+            }
+            else
+            {
+                sb.Append("linear-gradient(");
+
+                for (int i = 0; i < _stops.Count; i++)
+                {
+                    sb.Append(_stops[i].ToCss());
+
+                    if (i != _stops.Count - 1)
+                        sb.Append(",");
+                }
+
+                sb.Append(")");
+            }
+
+            return sb.ToPool();
         }
 
         #endregion

@@ -216,9 +216,21 @@ namespace AngleSharp.DOM.Css
 
 		#endregion
 
-		#region Properties
+        #region Internal Properties
 
-		/// <summary>
+        /// <summary>
+        /// Gets if the property hsa a value.
+        /// </summary>
+        internal Boolean HasValue
+        {
+            get { return _value != null; }
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
         /// Gets the name of the property.
         /// </summary>
         [DOM("name")]

@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents an URI in CSS.
     /// </summary>
-    sealed class CSSUri
+    sealed class CSSUri : ICssPrimitive
     {
         #region Members
 
@@ -59,6 +59,19 @@ namespace AngleSharp.DOM.Css
         {
             if (!Location.IsAbsolute(_originalUrl))
                 _url = Location.MakeAbsolute(basePath, _originalUrl);
+        }
+
+        #endregion
+
+        #region String Representation
+
+        /// <summary>
+        /// Returns the CSS representation of this object.
+        /// </summary>
+        /// <returns>The CSS snippet.</returns>
+        public String ToCss()
+        {
+            return "url('" + _originalUrl + "')";
         }
 
         #endregion

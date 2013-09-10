@@ -21,6 +21,8 @@ namespace AngleSharp.DOM.Css
         protected String _text;
 
         static CSSValue _inherited;
+        static CSSValue _lmarker;
+        static CSSValue _pmarker;
 
         #endregion
 
@@ -44,6 +46,22 @@ namespace AngleSharp.DOM.Css
         public static CSSValue Inherit
         {
             get { return _inherited ?? (_inherited = new CSSValue { _text = "inherit", _type = CssValueType.Inherit }); }
+        }
+
+        /// <summary>
+        /// Gets the list marker.
+        /// </summary>
+        internal static CSSValue ListMarker
+        {
+            get { return _lmarker ?? (_lmarker = new CSSValue()); }
+        }
+
+        /// <summary>
+        /// Gets the pool marker.
+        /// </summary>
+        internal static CSSValue PoolMarker
+        {
+            get { return _pmarker ?? (_pmarker = new CSSValue()); }
         }
 
         /// <summary>

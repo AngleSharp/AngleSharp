@@ -2,7 +2,7 @@
 
 namespace AngleSharp.DOM.Css
 {
-    sealed class CSSGradientStop
+    sealed class CSSGradientStop : ICssPrimitive
     {
         #region Members
 
@@ -29,6 +29,19 @@ namespace AngleSharp.DOM.Css
         {
             get { return _location; }
             set { _location = value; }
+        }
+
+        #endregion
+
+        #region String Representation
+
+        /// <summary>
+        /// Transforms the given data to CSS.
+        /// </summary>
+        /// <returns>The CSS snippet.</returns>
+        public String ToCss()
+        {
+            return _color.ToCss() + " " + _location.ToCss();
         }
 
         #endregion

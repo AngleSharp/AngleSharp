@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents a CSS value triplet.
     /// </summary>
-    sealed class CSSPoint3
+    sealed class CSSPoint3 : ICssPrimitive
     {
         #region Members
 
@@ -57,6 +57,19 @@ namespace AngleSharp.DOM.Css
             X = value;
             Y = value;
             Z = value;
+        }
+
+        #endregion
+
+        #region String Representation
+
+        /// <summary>
+        /// Returns the CSS representation of this object.
+        /// </summary>
+        /// <returns>The CSS snippet.</returns>
+        public String ToCss()
+        {
+            return x.ToCss() + " " + y.ToCss() + " " + z.ToCss();
         }
 
         #endregion

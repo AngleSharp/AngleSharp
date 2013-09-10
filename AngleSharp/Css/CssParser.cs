@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Text;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using AngleSharp.Events;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Collections;
-using System.Text;
 
 namespace AngleSharp.Css
 {
@@ -13,7 +14,7 @@ namespace AngleSharp.Css
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
 		#region Members
@@ -24,9 +25,7 @@ namespace AngleSharp.Css
         CssTokenizer tokenizer;
 		Boolean fraction;
 		CSSProperty property;
-		CSSValue value;
-		List<CSSValue> mvalues;
-		CSSValueList cvalues;
+		List<CSSValue> values;
         Boolean started;
         Boolean quirks;
         CSSStyleSheet sheet;
@@ -110,6 +109,7 @@ namespace AngleSharp.Css
                     ErrorOccurred(this, ev);
             };
 
+            values = new List<CSSValue>();
             started = false;
 			function = new Stack<FunctionBuffer>();
             sheet = stylesheet;
@@ -593,7 +593,7 @@ namespace AngleSharp.Css
 				SwitchTo(CssState.InValuePool);
 			else
 			{
-				//TDO
+                values.Add(CSSValue.ListMarker);
 				SwitchTo(CssState.InSingleValue);
 				return InSingleValue(token);
 			}
@@ -611,8 +611,8 @@ namespace AngleSharp.Css
 			if (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketClose)
 				AfterValue(token);
 			else
-			{
-				//TODO
+            {
+                values.Add(CSSValue.PoolMarker);
 				SwitchTo(CssState.InSingleValue);
 				return InSingleValue(token);
 			}
@@ -993,21 +993,20 @@ namespace AngleSharp.Css
 		{
 			if (fraction)
 			{
-				if (this.value != null)
+				if (values.Count != 0)
 				{
-					value = new CSSPrimitiveValue(CssUnit.Unknown, this.value.ToCss() + "/" + value.ToCss());
-					this.value = null;
+                    var old = values[values.Count - 1];
+					value = new CSSPrimitiveValue(CssUnit.Unknown, old.ToCss() + "/" + value.ToCss());
+                    values.RemoveAt(values.Count - 1);
 				}
 
 				fraction = false;
 			}
 
-			if (function.Count > 0)
-				function.Peek().Arguments.Add(value);
-			else if (this.value == null)
-				this.value = value;
-			else
-				return false;
+            if (function.Count > 0)
+                function.Peek().Arguments.Add(value);
+            else
+                values.Add(value);
 
 			return true;
 		}
@@ -1017,12 +1016,95 @@ namespace AngleSharp.Css
 		/// </summary>
 		void CloseProperty()
 		{
-			if (property != null)
-				property.Value = value;
+            if (property != null)
+            {
+                CSSValue value = null;
 
-			value = null;
-			property = null;
+                while (values.Count != 0 && (values[values.Count - 1] == CSSValue.PoolMarker || values[values.Count - 1] == CSSValue.ListMarker))
+                    values.RemoveAt(values.Count - 1);
+
+                while (values.Count != 0 && (values[0] == CSSValue.PoolMarker || values[0] == CSSValue.ListMarker))
+                    values.RemoveAt(0);
+
+                for (int i = 1; i < values.Count - 1; i++)
+                {
+                    if (values[i] == CSSValue.PoolMarker)
+                    {
+                        value = new CSSValuePool();
+                        break;
+                    }
+                }
+
+                if (value != null)
+                {
+                    var pool = ((CSSValuePool)value).List;
+                    var start = 0;
+
+                    for (int i = 0; i <= values.Count; i++)
+                    {
+                        if (i == values.Count || values[i] == CSSValuePool.PoolMarker)
+                        {
+                            if (i != start)
+                                pool.Add(Create(start, i));
+
+                            start = i + 1;
+                        }
+                    }
+                }
+                else if (values.Count != 0)
+                    value = Create(0, values.Count);
+
+                property.Value = value;
+            }
+
+            values.Clear();
+            property = null;
 		}
+
+        /// <summary>
+        /// Creates a value from the given span.
+        /// </summary>
+        /// <param name="start">The inclusive start index.</param>
+        /// <param name="end">The exclusive end index.</param>
+        /// <returns>The created value (primitive or list).</returns>
+        CSSValue Create(Int32 start, Int32 end)
+        {
+            var value = values[start];
+
+            for (int i = start + 1; i < end - 1; i++)
+            {
+                if (values[i] == CSSValue.ListMarker)
+                {
+                    value = null;
+                    break;
+                }
+            }
+
+            if (value == null)
+            {
+                var list = new CSSValueList();
+                var allowed = true;
+
+                for (int i = start; i < end; i++)
+                {
+                    if (values[i] == CSSValuePool.ListMarker)
+                    {
+                        allowed = true;
+                        continue;
+                    }
+                    
+                    if (allowed)
+                    {
+                        list.List.Add(values[i]);
+                        allowed = false;
+                    }
+                }
+
+                value = list;
+            }
+
+            return value;
+        }
 
 		/// <summary>
 		/// Closes the current rule (if any).
@@ -1229,13 +1311,13 @@ namespace AngleSharp.Css
         {
 			var tokenizer = new CssTokenizer(new SourceManager(selector));
 			var tokens = tokenizer.Tokens;
-			var selctor = Pool.NewSelectorConstructor();
+			var creator = Pool.NewSelectorConstructor();
 
 			foreach (var token in tokens)
-				selctor.Apply(token);
+				creator.Apply(token);
 
-			var result = selctor.Result;
-			selctor.ToPool();
+			var result = creator.Result;
+			creator.ToPool();
 			return result;
         }
 
@@ -1293,11 +1375,13 @@ namespace AngleSharp.Css
         public static CSSProperty ParseDeclaration(String declarations, Boolean quirksMode = false)
         {
             var parser = new CssParser(declarations);
+            var rule = new CSSStyleRule();
+            parser.AddRule(rule);
 			parser.state = CssState.InDeclaration;
             parser.IsQuirksMode = quirksMode;
             parser.skipExceptions = false;
 			parser.Parse();
-            return parser.property;
+            return rule.Style.List.Count != 0 ? rule.Style.List[0] : null;
         }
 
         /// <summary>
@@ -1331,15 +1415,23 @@ namespace AngleSharp.Css
         internal static CSSValueList ParseValueList(String source, Boolean quirksMode = false)
         {
 			var parser = new CssParser(source);
-			var list = new CSSValueList();
 			var property = new CSSProperty(String.Empty);
-			property.Value = list;
 			parser.property = property;
             parser.IsQuirksMode = quirksMode;
 			parser.skipExceptions = false;
 			parser.state = CssState.InValueList;
 			parser.Parse();
-            return list;
+
+            if (!property.HasValue)
+                return new CSSValueList();
+
+            if (property.Value is CSSValuePool)
+                property.Value = ((CSSValuePool)property.Value).List[0];
+
+            if (property.Value is CSSValueList)
+                return (CSSValueList)property.Value;
+
+            return new CSSValueList(property.Value);
         }
 
         /// <summary>
@@ -1351,15 +1443,20 @@ namespace AngleSharp.Css
         internal static CSSValuePool ParseMultipleValues(String source, Boolean quirksMode = false)
         {
 			var parser = new CssParser(source);
-			var pool = new CSSValuePool();
 			var property = new CSSProperty(String.Empty);
-			property.Value = pool;
 			parser.property = property;
             parser.IsQuirksMode = quirksMode;
 			parser.skipExceptions = false;
 			parser.state = CssState.InValuePool;
-			parser.Parse();
-			return pool;
+            parser.Parse();
+
+            if (!property.HasValue)
+                return new CSSValuePool();
+
+            if (property.Value is CSSValuePool)
+                return (CSSValuePool)property.Value;
+
+			return new CSSValuePool(new [] {property.Value });
         }
 
         /// <summary>

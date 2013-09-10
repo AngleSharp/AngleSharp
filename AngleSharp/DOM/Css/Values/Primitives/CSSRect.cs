@@ -2,7 +2,10 @@
 
 namespace AngleSharp.DOM.Css
 {
-    sealed class CSSRect
+    /// <summary>
+    /// Represents a CSS rectangle.
+    /// </summary>
+    sealed class CSSRect : ICssPrimitive
     {
         #region Members
 
@@ -119,6 +122,19 @@ namespace AngleSharp.DOM.Css
             Right = value;
             Bottom = value;
             Left = value;
+        }
+
+        #endregion
+
+        #region String Representation
+
+        /// <summary>
+        /// Returns the CSS representation of this object.
+        /// </summary>
+        /// <returns>The CSS snippet.</returns>
+        public String ToCss()
+        {
+            return String.Format("{0} {1} {2} {3}", top.ToCss(), right.ToCss(), bottom.ToCss(), left.ToCss());
         }
 
         #endregion
