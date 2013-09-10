@@ -1,5 +1,4 @@
 ﻿using AngleSharp.DOM;
-using AngleSharp.Xml;
 using System;
 
 namespace AngleSharp.DTD
@@ -15,10 +14,8 @@ namespace AngleSharp.DTD
 
         #region ctor
 
-        public DtdPIToken(XmlPIToken token)
+        public DtdPIToken()
         {
-            _target = token.Target;
-            _content = token.Content;
             _type = DtdTokenType.ProcessingInstruction;
         }
 

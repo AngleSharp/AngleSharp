@@ -216,5 +216,10 @@ namespace AngleSharp
         /// The standalone attribute.
         /// </summary>
         public const String STANDALONE = "standalone";
+
+        /// <summary>
+        /// The version attribute.
+        /// </summary>
+        public const String VERSION = "version";
     }
 }

@@ -376,7 +376,6 @@
     <Compile Include="Xml\Tokens\XmlTagToken.cs" />
     <Compile Include="Xml\Tokens\XmlToken.cs" />
     <Compile Include="DTD\Tokens\DtdElementToken.cs" />
-    <Compile Include="Xml\XmlBaseTokenizer.cs" />
     <Compile Include="Xml\XmlParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stream\SourceManager.cs" />

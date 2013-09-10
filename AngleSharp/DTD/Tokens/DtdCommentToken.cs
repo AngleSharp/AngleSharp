@@ -1,5 +1,4 @@
 ﻿using AngleSharp.DOM;
-using AngleSharp.Xml;
 using System;
 
 namespace AngleSharp.DTD
@@ -14,10 +13,9 @@ namespace AngleSharp.DTD
 
         #region ctor
 
-        public DtdCommentToken(XmlCommentToken token)
+        public DtdCommentToken()
         {
             _type = DtdTokenType.Comment;
-            _data = token.Data;
         }
 
         #endregion

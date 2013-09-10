@@ -11,7 +11,7 @@ namespace AngleSharp.DTD
     /// The tokenizer class for Document Type Definitions.
     /// </summary>
     [DebuggerStepThrough]
-    sealed class DtdTokenizer : XmlBaseTokenizer
+    sealed class DtdTokenizer : BaseTokenizer
     {
         #region Constants
 
@@ -33,6 +33,8 @@ namespace AngleSharp.DTD
         const String REQUIRED = "#REQUIRED";
         const String IMPLIED = "#IMPLIED";
         const String FIXED = "#FIXED";
+        const String PUBLIC = "PUBLIC";
+        const String SYSTEM = "SYSTEM";
 
         #endregion
 
@@ -124,7 +126,7 @@ namespace AngleSharp.DTD
 
                 if (c == Specification.QM)
                 {
-                    return Rework(ProcessingStart(_stream.Next));
+                    return ProcessingStart(_stream.Next);
                 }
                 else if (c == Specification.EM)
                 {
@@ -165,7 +167,7 @@ namespace AngleSharp.DTD
                     else if (_stream.ContinuesWith("--"))
                     {
                         _stream.Advance();
-                        return Rework(CommentStart(_stream.Next));
+                        return CommentStart(_stream.Next);
                     }
                 }
             }
@@ -175,14 +177,302 @@ namespace AngleSharp.DTD
             throw Errors.GetException(ErrorCode.DtdInvalid);
         }
 
-        DtdToken Rework(XmlToken xmlToken)
-        {
-            if (xmlToken is XmlPIToken)
-                return new DtdPIToken((XmlPIToken)xmlToken);
-            else if (xmlToken is XmlCommentToken)
-                return new DtdCommentToken((XmlCommentToken)xmlToken);
+        #endregion
 
-            return DtdToken.EOF;
+        #region Processing Instruction
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#sec-pi.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        DtdToken ProcessingStart(Char c)
+        {
+            if (c.IsLetter())
+            {
+                _stringBuffer.Clear();
+                _stringBuffer.Append(c);
+                return ProcessingTarget(_stream.Next, new DtdPIToken());
+            }
+            else
+            {
+                RaiseErrorOccurred(ErrorCode.AmbiguousOpenTag);
+                throw new ArgumentException("Invalid processing instruction.");
+            }
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#sec-pi.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="pi">The processing instruction token.</param>
+        DtdToken ProcessingTarget(Char c, DtdPIToken pi)
+        {
+            while (true)
+            {
+                if (c.IsSpaceCharacter())
+                {
+                    pi.Target = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
+                    return ProcessingContent(_stream.Next, pi);
+                }
+                else if (c == Specification.QM)
+                {
+                    pi.Target = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
+                    return ProcessingContent(c, pi);
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    c = Specification.REPLACEMENT;
+                }
+                else if (c == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    return DtdPIToken.EOF;
+                }
+
+                _stringBuffer.Append(c);
+                c = _stream.Next;
+            }
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#sec-pi.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        /// <param name="pi">The processing instruction token.</param>
+        DtdToken ProcessingContent(Char c, DtdPIToken pi)
+        {
+            while (true)
+            {
+                if (c == Specification.QM)
+                {
+                    c = _stream.Next;
+
+                    if (c == Specification.GT)
+                    {
+                        pi.Content = _stringBuffer.ToString();
+                        return pi;
+                    }
+
+                    _stringBuffer.Append(Specification.QM);
+                }
+                else if (c == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    return DtdToken.EOF;
+                }
+                else
+                {
+                    _stringBuffer.Append(c);
+                    c = _stream.Next;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Comments
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#sec-comments.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        DtdToken CommentStart(Char c)
+        {
+            _stringBuffer.Clear();
+
+            if (c == Specification.MINUS)
+                return CommentDashStart(_stream.Next);
+            else if (c == Specification.NULL)
+            {
+                RaiseErrorOccurred(ErrorCode.NULL);
+                _stringBuffer.Append(Specification.REPLACEMENT);
+                return Comment(_stream.Next);
+            }
+            else if (c == Specification.GT)
+            {
+                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
+            }
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                _stream.Back();
+                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
+            }
+            else
+            {
+                _stringBuffer.Append(c);
+                return Comment(_stream.Next);
+            }
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#sec-comments.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        DtdToken CommentDashStart(Char c)
+        {
+            if (c == Specification.MINUS)
+                return CommentEnd(_stream.Next);
+            else if (c == Specification.NULL)
+            {
+                RaiseErrorOccurred(ErrorCode.NULL);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.REPLACEMENT);
+                return Comment(_stream.Next);
+            }
+            else if (c == Specification.GT)
+            {
+                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
+            }
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                _stream.Back();
+                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
+            }
+
+            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(c);
+            return Comment(_stream.Next);
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#sec-comments.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        DtdToken Comment(Char c)
+        {
+            while (true)
+            {
+                if (c == Specification.MINUS)
+                    return CommentDashEnd(_stream.Next);
+                else if (c == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    _stream.Back();
+                    return new DtdCommentToken() { Data = _stringBuffer.ToString() };
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    c = Specification.REPLACEMENT;
+                }
+
+                _stringBuffer.Append(c);
+                c = _stream.Next;
+            }
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#sec-comments.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        DtdToken CommentDashEnd(Char c)
+        {
+            if (c == Specification.MINUS)
+                return CommentEnd(_stream.Next);
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                _stream.Back();
+                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
+            }
+            else if (c == Specification.NULL)
+            {
+                RaiseErrorOccurred(ErrorCode.NULL);
+                c = Specification.REPLACEMENT;
+            }
+
+            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(c);
+            return Comment(_stream.Next);
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#sec-comments.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        DtdToken CommentEnd(Char c)
+        {
+            if (c == Specification.GT)
+            {
+                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
+            }
+            else if (c == Specification.NULL)
+            {
+                RaiseErrorOccurred(ErrorCode.NULL);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.REPLACEMENT);
+                return Comment(_stream.Next);
+            }
+            else if (c == Specification.EM)
+            {
+                RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
+                return CommentBangEnd(_stream.Next);
+            }
+            else if (c == Specification.MINUS)
+            {
+                RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
+                _stringBuffer.Append(Specification.MINUS);
+                return CommentEnd(_stream.Next);
+            }
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                _stream.Back();
+                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
+            }
+
+            RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
+            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(c);
+            return Comment(_stream.Next);
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#sec-comments.
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        DtdToken CommentBangEnd(Char c)
+        {
+            if (c == Specification.MINUS)
+            {
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.EM);
+                return CommentDashEnd(_stream.Next);
+            }
+            else if (c == Specification.GT)
+            {
+                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
+            }
+            else if (c == Specification.NULL)
+            {
+                RaiseErrorOccurred(ErrorCode.NULL);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.EM);
+                _stringBuffer.Append(Specification.REPLACEMENT);
+                return Comment(_stream.Next);
+            }
+            else if (c == Specification.EOF)
+            {
+                RaiseErrorOccurred(ErrorCode.EOF);
+                _stream.Back();
+                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
+            }
+
+            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(Specification.EM);
+            _stringBuffer.Append(c);
+            return Comment(_stream.Next);
         }
 
         #endregion
@@ -274,7 +564,7 @@ namespace AngleSharp.DTD
                         if (parameter.NodeName == temp)
                         {
                             _stream.Push(temp.Length + 2, parameter.NodeValue);
-                            return GetElement(_stream.Next);
+                            return GetElement(_stream.Current);
                         }
                     }
                 }
@@ -1231,8 +1521,13 @@ namespace AngleSharp.DTD
                         _head++;
                         return _base.Next;
                     }
+                    else if (_head == _buffer.Length - 1)
+                    {
+                        _head++;
+                        return _base.Current;
+                    }
 
-                    return _buffer[_head++];
+                    return _buffer[++_head];
                 }
             }
 
@@ -1256,10 +1551,11 @@ namespace AngleSharp.DTD
             /// <param name="text">The text to insert.</param>
             public void Push(Int32 remove, String text)
             {
+                Advance();
                 var index = _head - remove;
                 _buffer.Remove(index, remove);
                 _buffer.Insert(index, text);
-                _head = index + text.Length;
+                _head = index;
             }
 
             /// <summary>
@@ -1270,6 +1566,7 @@ namespace AngleSharp.DTD
                 if (_head == _buffer.Length)
                 {
                     _buffer.Append(_base.Current);
+                    _end = _base.InsertionPoint;
                     _base.Advance();
                 }
 
@@ -1281,9 +1578,6 @@ namespace AngleSharp.DTD
             /// </summary>
             public void Back()
             {
-                if (_head == _buffer.Length)
-                    _buffer.Append(_base.Current);
-
                 _head--;
             }
 
@@ -1307,17 +1601,20 @@ namespace AngleSharp.DTD
                 if (_head == _buffer.Length)
                     return _base.ContinuesWith(word, false);
 
+                var current = _head;
+
                 for (int i = 0; i < word.Length; i++)
                 {
                     if (Current != word[i])
                     {
-                        _head -= i;
+                        _head = current;
                         return false;
                     }
 
                     Advance();
                 }
 
+                _head = current;
                 return true;
             }
 
