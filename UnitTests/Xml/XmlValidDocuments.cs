@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp;
+using AngleSharp.DOM;
 
 namespace UnitTests.Xml
 {
@@ -2842,6 +2843,67 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+        }
+
+        /// <summary>
+        /// Valid doctypedecl with Parameter entity reference. The declaration of a parameter
+        /// entity must precede any reference to it. Here the section(s) 2.8 4.1 [28] [69] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidOP28pass3()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ENTITY % eldecl ""<!ELEMENT doc EMPTY>"">
+%eldecl;
+]>
+<doc/>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+        }
+
+        /// <summary>
+        /// Valid PEReferences. Here the section(s) 4.1 [69] apply. This test is taken from
+        /// the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidOP69pass1()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
+[
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY % pe ""<!---->"">
+%pe;<!---->%pe;
+]>
+<doc/>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+        }
+
+        /// <summary>
+        /// Tests whether entities may be declared more than once, with the first declaration being
+        /// the binding one. There is an output test associated with this input file. Here the section(s) 4.2 apply
+        /// This test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidValidSa086()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e """">
+<!ENTITY e ""<foo>"">
+]>
+<doc>&e;</doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.AreEqual(1, document.DocumentElement.ChildNodes.Length);
+
+            var text = document.DocumentElement.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, text.NodeType);
+            Assert.AreEqual(String.Empty, text.TextContent);
         }
     }
 }
