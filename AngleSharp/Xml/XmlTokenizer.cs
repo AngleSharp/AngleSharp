@@ -152,6 +152,9 @@ namespace AngleSharp.Xml
                 case Specification.EOF:
                     return XmlToken.EOF;
 
+                case Specification.SBC:
+                    return CheckCharacter(_src.Next);
+
                 default:
                     return XmlToken.Character(c);
             }
@@ -160,6 +163,25 @@ namespace AngleSharp.Xml
         #endregion
 
         #region CDATA
+
+        /// <summary>
+        /// Checks if the character sequence is equal to ]]>.
+        /// </summary>
+        /// <param name="ch">The character to examine.</param>
+        /// <returns>The token if everything is alright.</returns>
+        XmlToken CheckCharacter(Char ch)
+        {
+            if (ch == Specification.SBC)
+            {
+                if (_src.Next == Specification.GT)
+                    throw Errors.GetException(ErrorCode.UndefinedMarkupDeclaration);
+
+                _src.Back();
+            }
+
+            _src.Back();
+            return XmlToken.Character(Specification.SBC);
+        }
 
         /// <summary>
         /// See http://www.w3.org/TR/REC-xml/#NT-CData.
@@ -1570,19 +1592,16 @@ namespace AngleSharp.Xml
         /// More http://www.w3.org/TR/REC-xml/#sec-pi.
         /// </summary>
         /// <param name="c">The next input character.</param>
-        protected XmlToken ProcessingStart(Char c)
+        XmlToken ProcessingStart(Char c)
         {
-            if (c.IsLetter())
+            if (c.IsXmlNameStart())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
                 return ProcessingTarget(_src.Next, XmlToken.Processing());
             }
-            else
-            {
-                RaiseErrorOccurred(ErrorCode.AmbiguousOpenTag);
-                throw new ArgumentException("Invalid processing instruction.");
-            }
+
+            throw Errors.GetException(ErrorCode.XmlInvalidPI);
         }
 
         /// <summary>
@@ -1590,36 +1609,31 @@ namespace AngleSharp.Xml
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="pi">The processing instruction token.</param>
-        protected XmlToken ProcessingTarget(Char c, XmlPIToken pi)
+        XmlToken ProcessingTarget(Char c, XmlPIToken pi)
         {
-            while (true)
+            while (c.IsXmlName())
             {
-                if (c.IsSpaceCharacter())
-                {
-                    pi.Target = _stringBuffer.ToString();
-                    _stringBuffer.Clear();
-                    return ProcessingContent(_src.Next, pi);
-                }
-                else if (c == Specification.QM)
-                {
-                    pi.Target = _stringBuffer.ToString();
-                    _stringBuffer.Clear();
-                    return ProcessingContent(c, pi);
-                }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    c = Specification.REPLACEMENT;
-                }
-                else if (c == Specification.EOF)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    return XmlToken.EOF;
-                }
-
                 _stringBuffer.Append(c);
                 c = _src.Next;
             }
+
+            pi.Target = _stringBuffer.ToString();
+            _stringBuffer.Clear();
+
+            if (String.Compare(pi.Target, Tags.XML, StringComparison.OrdinalIgnoreCase) == 0)
+                throw Errors.GetException(ErrorCode.XmlInvalidPI);
+
+            if (c == Specification.QM)
+            {
+                c = _src.Next;
+
+                if (c == Specification.GT)
+                    return pi;
+            }
+            else if (c.IsSpaceCharacter())
+                return ProcessingContent(_src.Next, pi);
+
+            throw Errors.GetException(ErrorCode.XmlInvalidPI);
         }
 
         /// <summary>
@@ -1631,6 +1645,9 @@ namespace AngleSharp.Xml
         {
             while (true)
             {
+                if (c == Specification.EOF)
+                    throw Errors.GetException(ErrorCode.EOF);
+
                 if (c == Specification.QM)
                 {
                     c = _src.Next;
@@ -1642,11 +1659,6 @@ namespace AngleSharp.Xml
                     }
 
                     _stringBuffer.Append(Specification.QM);
-                }
-                else if (c == Specification.EOF)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    return XmlToken.EOF;
                 }
                 else
                 {
@@ -1664,66 +1676,10 @@ namespace AngleSharp.Xml
         /// More http://www.w3.org/TR/REC-xml/#sec-comments.
         /// </summary>
         /// <param name="c">The next input character.</param>
-        protected XmlToken CommentStart(Char c)
+        XmlToken CommentStart(Char c)
         {
             _stringBuffer.Clear();
-
-            if (c == Specification.MINUS)
-                return CommentDashStart(_src.Next);
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(_src.Next);
-            }
-            else if (c == Specification.GT)
-            {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return XmlToken.Comment(_stringBuffer.ToString());
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return XmlToken.Comment(_stringBuffer.ToString());
-            }
-            else
-            {
-                _stringBuffer.Append(c);
-                return Comment(_src.Next);
-            }
-        }
-
-        /// <summary>
-        /// More http://www.w3.org/TR/REC-xml/#sec-comments.
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlToken CommentDashStart(Char c)
-        {
-            if (c == Specification.MINUS)
-                return CommentEnd(_src.Next);
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(_src.Next);
-            }
-            else if (c == Specification.GT)
-            {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return XmlToken.Comment(_stringBuffer.ToString());
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return XmlToken.Comment(_stringBuffer.ToString());
-            }
-
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(c);
-            return Comment(_src.Next);
+            return Comment(c);
         }
 
         /// <summary>
@@ -1732,50 +1688,28 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken Comment(Char c)
         {
-            while (true)
+            while (c.IsXmlChar())
             {
                 if (c == Specification.MINUS)
-                    return CommentDashEnd(_src.Next);
-                else if (c == Specification.EOF)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
-                    return XmlToken.Comment(_stringBuffer.ToString());
-                }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    c = Specification.REPLACEMENT;
-                }
+                    return CommentDash(_src.Next);
 
                 _stringBuffer.Append(c);
                 c = _src.Next;
             }
+
+            throw Errors.GetException(ErrorCode.CommentEndedUnexpected);
         }
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#sec-comments.
         /// </summary>
         /// <param name="c">The next input character.</param>
-        XmlToken CommentDashEnd(Char c)
+        XmlToken CommentDash(Char c)
         {
             if (c == Specification.MINUS)
                 return CommentEnd(_src.Next);
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return XmlToken.Comment(_stringBuffer.ToString());
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                c = Specification.REPLACEMENT;
-            }
-
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(c);
-            return Comment(_src.Next);
+            
+            return Comment(c);
         }
 
         /// <summary>
@@ -1785,79 +1719,9 @@ namespace AngleSharp.Xml
         XmlToken CommentEnd(Char c)
         {
             if (c == Specification.GT)
-            {
                 return XmlToken.Comment(_stringBuffer.ToString());
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(_src.Next);
-            }
-            else if (c == Specification.EM)
-            {
-                RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
-                return CommentBangEnd(_src.Next);
-            }
-            else if (c == Specification.MINUS)
-            {
-                RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
-                _stringBuffer.Append(Specification.MINUS);
-                return CommentEnd(_src.Next);
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return XmlToken.Comment(_stringBuffer.ToString());
-            }
 
-            RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(c);
-            return Comment(_src.Next);
-        }
-
-        /// <summary>
-        /// More http://www.w3.org/TR/REC-xml/#sec-comments.
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlToken CommentBangEnd(Char c)
-        {
-            if (c == Specification.MINUS)
-            {
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.EM);
-                return CommentDashEnd(_src.Next);
-            }
-            else if (c == Specification.GT)
-            {
-                return XmlToken.Comment(_stringBuffer.ToString());
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.EM);
-                _stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(_src.Next);
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return XmlToken.Comment(_stringBuffer.ToString());
-            }
-
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(Specification.EM);
-            _stringBuffer.Append(c);
-            return Comment(_src.Next);
+            throw Errors.GetException(ErrorCode.CommentEndedUnexpected);
         }
 
         #endregion

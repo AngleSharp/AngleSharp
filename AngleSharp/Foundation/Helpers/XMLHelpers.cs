@@ -55,6 +55,18 @@ namespace AngleSharp.Xml
         }
 
         /// <summary>
+        /// Checks if the given char is a valid character.
+        /// </summary>
+        /// <param name="chr">The char to examine.</param>
+        /// <returns>True if the char would indeed be valid.</returns>
+        [DebuggerStepThrough]
+        public static Boolean IsXmlChar(this Char chr)
+        {
+            return chr == 0x9 || chr == 0xA || chr == 0xD || (chr >= 0x20 && chr <= 0xD7FF) ||
+                    (chr >= 0xE000 && chr <= 0xFFFD);
+        }
+
+        /// <summary>
         /// Checks if the given integer would be a valid character.
         /// </summary>
         /// <param name="chr">The integer to examine.</param>

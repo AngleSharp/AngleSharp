@@ -468,6 +468,10 @@ namespace AngleSharp
         /// </summary>
         XmlUniqueAttribute = 0x208,
         /// <summary>
+        /// (0x209) Invalid processing instruction.
+        /// </summary>
+        XmlInvalidPI = 0x209,
+        /// <summary>
         /// (0x300) Invalid document type declaration.
         /// </summary>
         DtdInvalid = 0x300,

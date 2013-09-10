@@ -206,8 +206,14 @@ namespace AngleSharp.Xml
                 case XmlTreeMode.Prolog:
                     BeforeDoctype(token);
                     break;
+                case XmlTreeMode.Misc:
+                    InMisc(token);
+                    break;
                 case XmlTreeMode.Body:
                     InBody(token);
+                    break;
+                case XmlTreeMode.After:
+                    AfterBody(token);
                     break;
             }
         }
@@ -233,9 +239,8 @@ namespace AngleSharp.Xml
                 if (!CheckVersion(tok.Version))
                     throw Errors.GetException(ErrorCode.XmlDeclarationVersionUnsupported);
             }
-            else if (!token.IsIgnorable)
+            else
             {
-                RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
                 insert = XmlTreeMode.Prolog;
                 BeforeDoctype(token);
             }
@@ -259,30 +264,49 @@ namespace AngleSharp.Xml
                     doctype.TypeDefinitions = tokenizer.DTD;
                     doctype.Name = tok.Name;
                     doc.AppendChild(doctype);
-                    insert = XmlTreeMode.Body;
+                    insert = XmlTreeMode.Misc;
+                    break;
+                }
+                default:
+                {
+                    InMisc(token);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// In the body state - no doctypes and declarations allowed.
+        /// </summary>
+        /// <param name="token">The consumed token.</param>
+        void InMisc(XmlToken token)
+        {
+            switch (token.Type)
+            {
+                case XmlTokenType.Comment:
+                {
+                    var tok = (XmlCommentToken)token;
+                    var com = doc.CreateComment(tok.Data);
+                    CurrentNode.AppendChild(com);
                     break;
                 }
                 case XmlTokenType.ProcessingInstruction:
                 {
                     var tok = (XmlPIToken)token;
                     var pi = doc.CreateProcessingInstruction(tok.Target, tok.Content);
-                    doc.AppendChild(pi);
+                    CurrentNode.AppendChild(pi);
                     break;
                 }
-                case XmlTokenType.Comment:
+                case XmlTokenType.StartTag:
                 {
-                    var tok = (XmlCommentToken)token;
-                    var com = doc.CreateComment(tok.Data);
-                    doc.AppendChild(com);
+                    insert = XmlTreeMode.Body;
+                    InBody(token);
                     break;
                 }
                 default:
                 {
                     if (!token.IsIgnorable)
-                    {
-                        insert = XmlTreeMode.Body;
-                        InBody(token);
-                    }
+                        throw Errors.GetException(ErrorCode.XmlMissingRoot);
 
                     break;
                 }
@@ -305,6 +329,8 @@ namespace AngleSharp.Xml
 
                     if (!tok.IsSelfClosing)
                         open.Add(tag);
+                    else if(open.Count == 0)
+                        insert = XmlTreeMode.After;
 
                     for (int i = 0; i < tok.Attributes.Count; i++)
                         tag.SetAttribute(tok.Attributes[i].Key, tok.Attributes[i].Value);
@@ -313,29 +339,22 @@ namespace AngleSharp.Xml
                 }
                 case XmlTokenType.EndTag:
                 {
-                    if (open.Count == 0)
-                        throw Errors.GetException(ErrorCode.TagCannotEndHere);
-
                     var tok = (XmlTagToken)token;
 
                     if (CurrentNode.NodeName != tok.Name)
                         throw Errors.GetException(ErrorCode.TagClosingMismatch);
 
                     open.RemoveAt(open.Count - 1);
-                    break;
-                }
-                case XmlTokenType.Comment:
-                {
-                    var tok = (XmlCommentToken)token;
-                    var com = doc.CreateComment(tok.Data);
-                    CurrentNode.AppendChild(com);
+
+                    if (open.Count == 0)
+                        insert = XmlTreeMode.After;
+
                     break;
                 }
                 case XmlTokenType.ProcessingInstruction:
+                case XmlTokenType.Comment:
                 {
-                    var tok = (XmlPIToken)token;
-                    var pi = doc.CreateProcessingInstruction(tok.Target, tok.Content);
-                    CurrentNode.AppendChild(pi);
+                    InMisc(token);
                     break;
                 }
                 case XmlTokenType.Entity:
@@ -353,12 +372,7 @@ namespace AngleSharp.Xml
                 }
                 case XmlTokenType.EOF:
                 {
-                    if (open.Count != 0)
-                        throw Errors.GetException(ErrorCode.EOF);
-                    else if (doc.DocumentElement == null)
-                        throw Errors.GetException(ErrorCode.XmlMissingRoot);
-
-                    break;
+                    throw Errors.GetException(ErrorCode.EOF);
                 }
                 case XmlTokenType.DOCTYPE:
                 {
@@ -367,6 +381,34 @@ namespace AngleSharp.Xml
                 case XmlTokenType.Declaration:
                 {
                     throw Errors.GetException(ErrorCode.XmlDeclarationMisplaced);
+                }
+            }
+        }
+
+        /// <summary>
+        /// After the body state - nothing except Comment PI S allowed.
+        /// </summary>
+        /// <param name="token">The consumed token.</param>
+        void AfterBody(XmlToken token)
+        {
+            switch (token.Type)
+            {
+                case XmlTokenType.ProcessingInstruction:
+                case XmlTokenType.Comment:
+                {
+                    InMisc(token);
+                    break;
+                }
+                case XmlTokenType.EOF:
+                {
+                    break;
+                }
+                default:
+                {
+                    if (!token.IsIgnorable)
+                        throw Errors.GetException(ErrorCode.XmlMissingRoot);
+
+                    break;
                 }
             }
         }
@@ -382,8 +424,12 @@ namespace AngleSharp.Xml
         /// <returns></returns>
         Boolean CheckVersion(String ver)
         {
-            ver = ver.Trim();
-            return ver.IsOneOf("1", "1.0", "1.1");
+            var t = 0.0;
+
+            if (Double.TryParse(ver, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out t))
+                return t >= 1.0 && t < 2.0;
+
+            return false;
         }
 
         /// <summary>

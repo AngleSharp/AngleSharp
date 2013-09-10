@@ -187,17 +187,14 @@ namespace AngleSharp.DTD
         /// <param name="c">The next input character.</param>
         DtdToken ProcessingStart(Char c)
         {
-            if (c.IsLetter())
+            if (c.IsXmlNameStart())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
                 return ProcessingTarget(_stream.Next, new DtdPIToken());
             }
-            else
-            {
-                RaiseErrorOccurred(ErrorCode.AmbiguousOpenTag);
-                throw new ArgumentException("Invalid processing instruction.");
-            }
+
+            throw Errors.GetException(ErrorCode.XmlInvalidPI);
         }
 
         /// <summary>
@@ -207,34 +204,29 @@ namespace AngleSharp.DTD
         /// <param name="pi">The processing instruction token.</param>
         DtdToken ProcessingTarget(Char c, DtdPIToken pi)
         {
-            while (true)
+            while (c.IsXmlName())
             {
-                if (c.IsSpaceCharacter())
-                {
-                    pi.Target = _stringBuffer.ToString();
-                    _stringBuffer.Clear();
-                    return ProcessingContent(_stream.Next, pi);
-                }
-                else if (c == Specification.QM)
-                {
-                    pi.Target = _stringBuffer.ToString();
-                    _stringBuffer.Clear();
-                    return ProcessingContent(c, pi);
-                }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    c = Specification.REPLACEMENT;
-                }
-                else if (c == Specification.EOF)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    return DtdPIToken.EOF;
-                }
-
                 _stringBuffer.Append(c);
                 c = _stream.Next;
             }
+
+            pi.Target = _stringBuffer.ToString();
+            _stringBuffer.Clear();
+
+            if (String.Compare(pi.Target, Tags.XML, StringComparison.OrdinalIgnoreCase) == 0)
+                throw Errors.GetException(ErrorCode.XmlInvalidPI);
+
+            if (c == Specification.QM)
+            {
+                c = _stream.Next;
+
+                if(c == Specification.GT)
+                    return pi;
+            }
+            else if (c.IsSpaceCharacter())
+                return ProcessingContent(_stream.Next, pi);
+
+            throw Errors.GetException(ErrorCode.XmlInvalidPI);
         }
 
         /// <summary>
@@ -246,9 +238,12 @@ namespace AngleSharp.DTD
         {
             while (true)
             {
+                if (c == Specification.EOF)
+                    throw Errors.GetException(ErrorCode.EOF);
+
                 if (c == Specification.QM)
                 {
-                    c = _stream.Next;
+                    c = _src.Next;
 
                     if (c == Specification.GT)
                     {
@@ -258,15 +253,10 @@ namespace AngleSharp.DTD
 
                     _stringBuffer.Append(Specification.QM);
                 }
-                else if (c == Specification.EOF)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    return DtdToken.EOF;
-                }
                 else
                 {
                     _stringBuffer.Append(c);
-                    c = _stream.Next;
+                    c = _src.Next;
                 }
             }
         }
@@ -282,63 +272,7 @@ namespace AngleSharp.DTD
         DtdToken CommentStart(Char c)
         {
             _stringBuffer.Clear();
-
-            if (c == Specification.MINUS)
-                return CommentDashStart(_stream.Next);
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(_stream.Next);
-            }
-            else if (c == Specification.GT)
-            {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _stream.Back();
-                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
-            }
-            else
-            {
-                _stringBuffer.Append(c);
-                return Comment(_stream.Next);
-            }
-        }
-
-        /// <summary>
-        /// More http://www.w3.org/TR/REC-xml/#sec-comments.
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        DtdToken CommentDashStart(Char c)
-        {
-            if (c == Specification.MINUS)
-                return CommentEnd(_stream.Next);
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(_stream.Next);
-            }
-            else if (c == Specification.GT)
-            {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _stream.Back();
-                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
-            }
-
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(c);
-            return Comment(_stream.Next);
+            return Comment(c);
         }
 
         /// <summary>
@@ -347,50 +281,28 @@ namespace AngleSharp.DTD
         /// <param name="c">The next input character.</param>
         DtdToken Comment(Char c)
         {
-            while (true)
+            while (c.IsXmlChar())
             {
                 if (c == Specification.MINUS)
-                    return CommentDashEnd(_stream.Next);
-                else if (c == Specification.EOF)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    _stream.Back();
-                    return new DtdCommentToken() { Data = _stringBuffer.ToString() };
-                }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    c = Specification.REPLACEMENT;
-                }
+                    return CommentDash(_stream.Next);
 
                 _stringBuffer.Append(c);
                 c = _stream.Next;
             }
+
+            throw Errors.GetException(ErrorCode.CommentEndedUnexpected);
         }
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#sec-comments.
         /// </summary>
         /// <param name="c">The next input character.</param>
-        DtdToken CommentDashEnd(Char c)
+        DtdToken CommentDash(Char c)
         {
             if (c == Specification.MINUS)
                 return CommentEnd(_stream.Next);
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _stream.Back();
-                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                c = Specification.REPLACEMENT;
-            }
 
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(c);
-            return Comment(_stream.Next);
+            return Comment(c);
         }
 
         /// <summary>
@@ -400,79 +312,9 @@ namespace AngleSharp.DTD
         DtdToken CommentEnd(Char c)
         {
             if (c == Specification.GT)
-            {
                 return new DtdCommentToken() { Data = _stringBuffer.ToString() };
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(_stream.Next);
-            }
-            else if (c == Specification.EM)
-            {
-                RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
-                return CommentBangEnd(_stream.Next);
-            }
-            else if (c == Specification.MINUS)
-            {
-                RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
-                _stringBuffer.Append(Specification.MINUS);
-                return CommentEnd(_stream.Next);
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _stream.Back();
-                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
-            }
 
-            RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(c);
-            return Comment(_stream.Next);
-        }
-
-        /// <summary>
-        /// More http://www.w3.org/TR/REC-xml/#sec-comments.
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        DtdToken CommentBangEnd(Char c)
-        {
-            if (c == Specification.MINUS)
-            {
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.EM);
-                return CommentDashEnd(_stream.Next);
-            }
-            else if (c == Specification.GT)
-            {
-                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.EM);
-                _stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(_stream.Next);
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _stream.Back();
-                return new DtdCommentToken() { Data = _stringBuffer.ToString() };
-            }
-
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(Specification.EM);
-            _stringBuffer.Append(c);
-            return Comment(_stream.Next);
+            throw Errors.GetException(ErrorCode.CommentEndedUnexpected);
         }
 
         #endregion
@@ -643,6 +485,10 @@ namespace AngleSharp.DTD
             {
                 if (c == Specification.EOF)
                     throw Errors.GetException(ErrorCode.EOF);
+                else if (c == Specification.PERCENT && !CheckPERef(ref c))
+                    throw Errors.GetException(ErrorCode.DtdPEReferenceInvalid);
+                else if (c == Specification.AMPERSAND && !CheckEntityRef(ref c))
+                    throw Errors.GetException(ErrorCode.CharacterReferenceNotTerminated);
 
                 _stringBuffer.Append(c);
                 c = _stream.Next;
@@ -973,10 +819,14 @@ namespace AngleSharp.DTD
         {
             while (c != end)
             {
-                //TODO Exclude angle brackets and such
-
                 if (c == Specification.EOF)
                     throw Errors.GetException(ErrorCode.EOF);
+                else if (c == Specification.LT)
+                    throw Errors.GetException(ErrorCode.XmlLtInAttributeValue);
+                else if (c == Specification.AMPERSAND && !CheckEntityRef(ref c))
+                    throw Errors.GetException(ErrorCode.CharacterReferenceNotTerminated);
+                else if (c == Specification.PERCENT && CheckPERef(ref c))
+                    throw Errors.GetException(ErrorCode.DtdDeclInvalid);
 
                 _stringBuffer.Append(c);
                 c = _stream.Next;
@@ -1624,6 +1474,80 @@ namespace AngleSharp.DTD
         #endregion
 
         #region Helper
+
+        Boolean CheckEntityRef(ref Char c)
+        {
+            _stringBuffer.Append(c);
+            c = _stream.Next;
+
+            if (c.IsXmlNameStart())
+            {
+                do
+                {
+                    _stringBuffer.Append(c);
+                    c = _stream.Next;
+                }
+                while (c.IsXmlName());
+
+                if (c == Specification.SC)
+                    return true;
+            }
+            else if (c == Specification.NUM)
+            {
+                var i = 0;
+                _stringBuffer.Append(c);
+                c = _src.Next;
+                _stringBuffer.Append(c);
+
+                if (c == 'x' || c == 'X')
+                {
+                    i--;
+
+                    do
+                    {
+                        _stringBuffer.Append(c);
+                        c = _src.Next;
+                        i++;
+                    }
+                    while (c.IsHex());
+                }
+                else
+                {
+                    while (c.IsDigit())
+                    {
+                        _stringBuffer.Append(c);
+                        c = _src.Next;
+                        i++;
+                    }
+                }
+
+                if (i > 0 && c == Specification.SC)
+                    return true;
+            }
+
+            return false;
+        }
+
+        Boolean CheckPERef(ref Char c)
+        {
+            _stringBuffer.Append(c);
+            c = _stream.Next;
+
+            if (c.IsXmlNameStart())
+            {
+                do
+                {
+                    _stringBuffer.Append(c);
+                    c = _stream.Next;
+                }
+                while (c.IsXmlName());
+
+                if (c == Specification.SC)
+                    return true;
+            }
+
+            return false;
+        }
 
         Char SkipSpaces(Char c)
         {

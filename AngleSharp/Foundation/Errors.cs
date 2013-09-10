@@ -403,6 +403,10 @@ namespace AngleSharp
                     return new ArgumentException("Invalid content specification in element type declaration.");
                 case ErrorCode.UndefinedMarkupDeclaration:
                     return new ArgumentException("Undefined markup declaration.");
+                case ErrorCode.XmlInvalidPI:
+                    return new ArgumentException("Invalid processing instruction.");
+                case ErrorCode.CommentEndedUnexpected:
+                    return new ArgumentException("Invalid content in comment detected.");
             }
 
             return new Exception("Unknown exception.");

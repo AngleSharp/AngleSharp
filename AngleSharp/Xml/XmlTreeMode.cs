@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Xml
 {
     /// <summary>
     /// Possible insertation mode values.
@@ -16,8 +14,16 @@ namespace AngleSharp.Xml
         /// </summary>
         Prolog,
         /// <summary>
+        /// The misc mode (e.g. between doctype and first element).
+        /// </summary>
+        Misc,
+        /// <summary>
         /// The body (after the doctype or first element).
         /// </summary>
-        Body
+        Body,
+        /// <summary>
+        /// The misc mode (after root).
+        /// </summary>
+        After
     }
 }
