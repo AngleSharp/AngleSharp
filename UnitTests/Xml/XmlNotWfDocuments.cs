@@ -2696,5 +2696,491 @@ namespace UnitTests
 <doc/>
 ");
         }
+
+        /// <summary>
+        /// incomplete character reference. Here the section(s) 2.3 [9] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP09fail3()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
+[
+<!ELEMENT doc EMPTY>
+<!ENTITY % ent1 ""asdf&#65"">
+]>
+<doc/>");
+        }
+
+        /// <summary>
+        /// quote types must match. Here the section(s) 2.3 [9] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP09fail4()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
+[
+<!ELEMENT doc EMPTY>
+<!ENTITY % ent1 'a"">
+]>
+<doc/>");
+        }
+
+        /// <summary>
+        /// quote types must match. Here the section(s) 2.3 [9] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP09fail5()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
+[
+<!ELEMENT doc EMPTY>
+<!ENTITY % ent1 ""a'>
+]>
+<doc/>");
+        }
+
+        /// <summary>
+        /// '&lt;' excluded. Here the section(s) 2.4 [14] apply. This
+        /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP14fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<doc>< </doc>
+");
+        }
+
+        /// <summary>
+        /// '&' excluded. Here the section(s) 2.4 [14] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP14fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<doc>& </doc>
+");
+        }
+
+        /// <summary>
+        /// "]]>" excluded. Here the section(s) 2.4 [14] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP14fail3()
+        {
+            var document = DocumentBuilder.Xml(@"<doc>a]]>b</doc>
+");
+        }
+
+        /// <summary>
+        /// Comments may not contain "--". Here the section(s) 2.5 [15] apply.
+        /// This test is taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfSgml03()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE root [ <!ELEMENT root EMPTY> ]>
+
+    <!-- SGML-ism:  -- inside comment -->
+<root/>
+");
+        }
+
+        /// <summary>
+        /// comments can't end in '-'. Here the section(s) 2.5 [15] apply. This
+        /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP15fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<!--a--->
+<doc/>");
+        }
+
+        /// <summary>
+        /// one comment per comment (contrasted with SGML). Here the section(s) 2.5 [15]
+        /// apply. This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP15fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<!-- -- -- -->
+<doc/>");
+        }
+
+        /// <summary>
+        /// can't include 2 or more adjacent '-'s. Here the section(s) 2.5 [15] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP15fail3()
+        {
+            var document = DocumentBuilder.Xml(@"<!-- --- -->
+<doc/>");
+        }
+
+        /// <summary>
+        /// No space between PI target name and data. Here the section(s) 2.6 [16] apply.
+        /// This test is taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfPi()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
+<!ELEMENT root EMPTY>
+<!-- space before PI data and ?> -->
+<?bad-pi+?>
+]>
+<root/>
+");
+        }
+
+        /// <summary>
+        /// "xml" is an invalid PITarget. Here the section(s) 2.6 [16] apply. This test
+        /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP16fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<?pitarget?>
+<?xml?>
+<doc/>");
+        }
+
+        /// <summary>
+        /// a PITarget must be present. Here the section(s) 2.6 [16] apply. This test
+        /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP16fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<??>
+<doc/>");
+        }
+
+        /// <summary>
+        /// no space before "CDATA". Here the section(s) 2.7 [18] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP18fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<doc><![ CDATA[a]]></doc>");
+        }
+
+        /// <summary>
+        /// no space after "CDATA". Here the section(s) 2.7 [18] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP18fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<doc><![CDATA [a]]></doc>");
+        }
+
+        /// <summary>
+        /// CDSect's can't nest. Here the section(s) 2.7 [18] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP18fail3()
+        {
+            var document = DocumentBuilder.Xml(@"<doc>
+<![CDATA[
+<![CDATA[XML doesn't allow CDATA sections to nest]]>
+]]>
+</doc>");
+        }
+
+        /// <summary>
+        /// This refers to an undefined parameter entity reference within a markup declaration
+        /// in the internal DTD subset, violating the PEs in Internal Subset WFC. Here the
+        /// section(s) 2.8 apply. This test is taken from the collection James Clark XMLTEST
+        /// cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfValidSa094()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ENTITY % e ""foo"">
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA ""%e;"">
+]>
+<doc></doc>
+");
+        }
+
+        /// <summary>
+        /// XML declaration must be at the very beginning of a document; it"s not a
+        /// processing instruction. Here the section(s) 2.8  apply. This test is
+        /// taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfSgml02()
+        {
+            var document = DocumentBuilder.Xml(@" <?xml version=""1.0""?>
+    <!-- SGML-ism:  XML PI not at beginning -->
+<!DOCTYPE root [ <!ELEMENT root EMPTY> ]>
+<root/>
+");
+        }
+
+        /// <summary>
+        /// prolog must start with XML decl. Here the section(s) 2.8 [22] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP22fail1()
+        {
+            var document = DocumentBuilder.Xml(@"
+<?xml version=""1.0""?>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// prolog must start with XML decl. Here the section(s) 2.8 [22] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP22fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc EMPTY>
+]>
+<?xml version=""1.0""?>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// "xml" must be lower-case. Here the section(s) 2.8 [23] apply. This test
+        /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP23fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<?XML version=""1.0""?>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// VersionInfo must be supplied. Here the section(s) 2.8 [23] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP23fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml encoding=""UTF-8""?>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// VersionInfo must come first. Here the section(s) 2.8 [23] apply. This
+        /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP23fail3()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml encoding=""UTF-8"" version=""1.0""?>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// SDDecl must come last. Here the section(s) 2.8 [23] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP23fail4()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" standalone=""yes"" encoding=""UTF-8""?>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// no SGML-type PIs. Here the section(s) 2.8 [23] apply. This test is taken
+        /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP23fail5()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0"">
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// XML declarations must be correctly terminated. Here the section(s) 2.8 [23] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP39fail4()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0"">
+");
+        }
+
+        /// <summary>
+        /// XML declarations must be correctly terminated. Here the section(s) 2.8 [23] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP39fail5()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0"">
+<!DOCTYPE doc
+[
+<!ELEMENT doc EMPTY>
+]>
+
+<!--comment-->
+<?pi?>
+");
+        }
+
+        /// <summary>
+        /// quote types must match. Here the section(s) 2.8 [24] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP24fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version = '1.0""?>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// quote types must match. Here the section(s) 2.8 [24] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP24fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version = ""1.0'?>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// Comment is illegal in VersionInfo. Here the section(s) 2.8 [25] apply. This test
+        /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP25fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version <!--bad comment--> =""1.0""?>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// Illegal character in VersionNum. Here the section(s) 2.8 [26] apply. This test
+        /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP26fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0?""?>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// Illegal character in VersionNum. Here the section(s) 2.8 [26] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP26fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0^""?>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// References aren't allowed in Misc, even if they would resolve to valid Misc.
+        /// Here the section(s) 2.8 [27] apply. This test is taken from the collection
+        /// OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP27fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+&#32;
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// only declarations in DTD. Here the section(s) 2.8 [28] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP28fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc EMPTY>
+<doc/>
+]>
+");
+        }
+
+        /// <summary>
+        /// A processor must not pass unknown declaration types. Here the section(s) 2.8
+        /// [29] apply. This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP29fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc EMPTY>
+<!DUNNO should not pass unknown declaration types>
+]>
+<doc/>
+");
+        }
     }
 }
