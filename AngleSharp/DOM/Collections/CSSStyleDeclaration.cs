@@ -108,19 +108,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("alignContent")]
         public String AlignContent
         {
-            get { return GetPropertyValue("align-content") ?? String.Empty; }
-            set { SetProperty("align-content", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a string that indicates whether the object represents a
-        /// keyboard shortcut.
-        /// </summary>
-        [DOM("accelerator")]
-        public String Accelerator
-        {
-            get { return GetPropertyValue("accelerator") ?? String.Empty; }
-            set { SetProperty("accelerator", value); }
+            get { return GetPropertyValue(PropertyNames.ALIGN_CONTENT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ALIGN_CONTENT, value); }
         }
 
         /// <summary>
@@ -130,19 +119,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("alignItems")]
         public String AlignItems
         {
-            get { return GetPropertyValue("align-items") ?? String.Empty; }
-            set { SetProperty("align-items", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets which baseline of this element is to be aligned
-        /// with the corresponding baseline of the parent.
-        /// </summary>
-        [DOM("alignmentBaseline")]
-        public String AlignmentBaseline
-        {
-            get { return GetPropertyValue("alignment-baseline") ?? String.Empty; }
-            set { SetProperty("alignment-baseline", value); }
+            get { return GetPropertyValue(PropertyNames.ALIGN_ITEMS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ALIGN_ITEMS, value); }
         }
 
         /// <summary>
@@ -153,8 +131,43 @@ namespace AngleSharp.DOM.Collections
         [DOM("alignSelf")]
         public String AlignSelf
         {
-            get { return GetPropertyValue("align-self") ?? String.Empty; }
-            set { SetProperty("align-self", value); }
+            get { return GetPropertyValue(PropertyNames.ALIGN_SELF) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ALIGN_SELF, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a string that indicates whether the object represents a
+        /// keyboard shortcut.
+        /// </summary>
+        [DOM("accelerator")]
+        public String Accelerator
+        {
+            get { return GetPropertyValue(PropertyNames.ACCELERATOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ACCELERATOR, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets which baseline of this element is to be aligned
+        /// with the corresponding baseline of the parent.
+        /// </summary>
+        [DOM("alignmentBaseline")]
+        public String AlignmentBaseline
+        {
+            get { return GetPropertyValue(PropertyNames.ALIGN_BASELINE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ALIGN_BASELINE, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the azimuth value, which enables different audio sources to
+        /// be positioned spatially for aural presentation. This is important in that
+        /// it provides a natural way to tell several voices apart, as each can be
+        /// positioned to originate at a different location on the sound stage.
+        /// </summary>
+        [DOM("azimuth")]
+        public String Azimuth
+        {
+            get { return GetPropertyValue(PropertyNames.AZIMUTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AZIMUTH, value); }
         }
 
         /// <summary>
@@ -166,8 +179,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("animation")]
         public String Animation
         {
-            get { return GetPropertyValue("animation") ?? String.Empty; }
-            set { SetProperty("animation", value); }
+            get { return GetPropertyValue(PropertyNames.ANIMATION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ANIMATION, value); }
         }
 
         /// <summary>
@@ -180,8 +193,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("animationDelay")]
         public String AnimationDelay
         {
-            get { return GetPropertyValue("animation-delay") ?? String.Empty; }
-            set { SetProperty("animation-delay", value); }
+            get { return GetPropertyValue(PropertyNames.ANIMATION_DELAY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ANIMATION_DELAY, value); }
         }
 
         /// <summary>
@@ -190,8 +203,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("animationDirection")]
         public String AnimationDirection
         {
-            get { return GetPropertyValue("animation-direction") ?? String.Empty; }
-            set { SetProperty("animation-direction", value); }
+            get { return GetPropertyValue(PropertyNames.ANIMATION_DIRECTION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ANIMATION_DIRECTION, value); }
         }
 
         /// <summary>
@@ -200,8 +213,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("animationDuration")]
         public String AnimationDuration
         {
-            get { return GetPropertyValue("animation-duration") ?? String.Empty; }
-            set { SetProperty("animation-duration", value); }
+            get { return GetPropertyValue(PropertyNames.ANIMATION_DURATION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ANIMATION_DURATION, value); }
         }
 
         /// <summary>
@@ -210,8 +223,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("animationFillMode")]
         public String AnimationFillMode
         {
-            get { return GetPropertyValue("animation-fill-mode") ?? String.Empty; }
-            set { SetProperty("animation-fill-mode", value); }
+            get { return GetPropertyValue(PropertyNames.ANIMATION_FILL_MODE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ANIMATION_FILL_MODE, value); }
         }
 
         /// <summary>
@@ -220,8 +233,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("animationIterationCount")]
         public String AnimationIterationCount
         {
-            get { return GetPropertyValue("animation-iteration-count") ?? String.Empty; }
-            set { SetProperty("animation-iteration-count", value); }
+            get { return GetPropertyValue(PropertyNames.ANIMATION_ITERATION_COUNT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ANIMATION_ITERATION_COUNT, value); }
         }
 
         /// <summary>
@@ -231,8 +244,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("animationName")]
         public String AnimationName
         {
-            get { return GetPropertyValue("animation-name") ?? String.Empty; }
-            set { SetProperty("animation-name", value); }
+            get { return GetPropertyValue(PropertyNames.ANIMATION_NAME) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ANIMATION_NAME, value); }
         }
 
         /// <summary>
@@ -241,8 +254,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("animationPlayState")]
         public String AnimationPlayState
         {
-            get { return GetPropertyValue("animation-play-state") ?? String.Empty; }
-            set { SetProperty("animation-play-state", value); }
+            get { return GetPropertyValue(PropertyNames.ANIMATION_PLAY_STATE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ANIMATION_PLAY_STATE, value); }
         }
 
         /// <summary>
@@ -254,8 +267,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("animationTimingFunction")]
         public String AnimationTimingFunction
         {
-            get { return GetPropertyValue("animation-timing-function") ?? String.Empty; }
-            set { SetProperty("animation-timing-function", value); }
+            get { return GetPropertyValue(PropertyNames.ANIMATION_TIMING_FUNCTION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ANIMATION_TIMING_FUNCTION, value); }
         }
 
         /// <summary>
@@ -265,8 +278,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("backfaceVisibility")]
         public String BackfaceVisibility
         {
-            get { return GetPropertyValue("backface-visibility") ?? String.Empty; }
-            set { SetProperty("backface-visibility", value); }
+            get { return GetPropertyValue(PropertyNames.BACKFACE_VISIBILITY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BACKFACE_VISIBILITY, value); }
         }
 
         /// <summary>
@@ -275,8 +288,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("background")]
         public String Background
         {
-            get { return GetPropertyValue("background") ?? String.Empty; }
-            set { SetProperty("background", value); }
+            get { return GetPropertyValue(PropertyNames.BACKGROUND) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BACKGROUND, value); }
         }
 
         /// <summary>
@@ -286,8 +299,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("backgroundAttachment")]
         public String BackgroundAttachment
         {
-            get { return GetPropertyValue("background-attachment") ?? String.Empty; }
-            set { SetProperty("background-attachment", value); }
+            get { return GetPropertyValue(PropertyNames.BACKGROUND_ATTACHMENT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BACKGROUND_ATTACHMENT, value); }
         }
 
         /// <summary>
@@ -297,8 +310,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("backgroundClip")]
         public String BackgroundClip
         {
-            get { return GetPropertyValue("background-clip") ?? String.Empty; }
-            set { SetProperty("background-clip", value); }
+            get { return GetPropertyValue(PropertyNames.BACKGROUND_CLIP) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BACKGROUND_CLIP, value); }
         }
 
         /// <summary>
@@ -307,8 +320,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("backgroundColor")]
         public String BackgroundColor
         {
-            get { return GetPropertyValue("background-color") ?? String.Empty; }
-            set { SetProperty("background-color", value); }
+            get { return GetPropertyValue(PropertyNames.BACKGROUND_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BACKGROUND_COLOR, value); }
         }
 
         /// <summary>
@@ -317,8 +330,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("backgroundImage")]
         public String BackgroundImage
         {
-            get { return GetPropertyValue("background-image") ?? String.Empty; }
-            set { SetProperty("background-image", value); }
+            get { return GetPropertyValue(PropertyNames.BACKGROUND_IMAGE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BACKGROUND_IMAGE, value); }
         }
 
         /// <summary>
@@ -327,8 +340,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("backgroundOrigin")]
         public String BackgroundOrigin
         {
-            get { return GetPropertyValue("background-origin") ?? String.Empty; }
-            set { SetProperty("background-origin", value); }
+            get { return GetPropertyValue(PropertyNames.BACKGROUND_ORIGIN) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BACKGROUND_ORIGIN, value); }
         }
 
         /// <summary>
@@ -337,8 +350,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("backgroundPosition")]
         public String BackgroundPosition
         {
-            get { return GetPropertyValue("background-position") ?? String.Empty; }
-            set { SetProperty("background-position", value); }
+            get { return GetPropertyValue(PropertyNames.BACKGROUND_POSITION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BACKGROUND_POSITION, value); }
         }
 
         /// <summary>
@@ -347,8 +360,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("backgroundPositionX")]
         public String BackgroundPositionX
         {
-            get { return GetPropertyValue("background-position-x") ?? String.Empty; }
-            set { SetProperty("background-position-x", value); }
+            get { return GetPropertyValue(PropertyNames.BACKGROUND_POSITION_X) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BACKGROUND_POSITION_X, value); }
         }
 
         /// <summary>
@@ -357,18 +370,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("backgroundPositionY")]
         public String BackgroundPositionY
         {
-            get { return GetPropertyValue("background-position-y") ?? String.Empty; }
-            set { SetProperty("background-position-y", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the size of the background images.
-        /// </summary>
-        [DOM("backgroundSize")]
-        public String BackgroundSize
-        {
-            get { return GetPropertyValue("background-size") ?? String.Empty; }
-            set { SetProperty("background-size", value); }
+            get { return GetPropertyValue(PropertyNames.BACKGROUND_POSITION_Y) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BACKGROUND_POSITION_Y, value); }
         }
 
         /// <summary>
@@ -377,8 +380,18 @@ namespace AngleSharp.DOM.Collections
         [DOM("backgroundRepeat")]
         public String BackgroundRepeat
         {
-            get { return GetPropertyValue("background-repeat") ?? String.Empty; }
-            set { SetProperty("background-repeat", value); }
+            get { return GetPropertyValue(PropertyNames.BACKGROUND_REPEAT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BACKGROUND_REPEAT, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the size of the background images.
+        /// </summary>
+        [DOM("backgroundSize")]
+        public String BackgroundSize
+        {
+            get { return GetPropertyValue(PropertyNames.BACKGROUND_SIZE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BACKGROUND_SIZE, value); }
         }
 
         /// <summary>
@@ -389,8 +402,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("baselineShift")]
         public String BaselineShift
         {
-            get { return GetPropertyValue("baseline-shift") ?? String.Empty; }
-            set { SetProperty("baseline-shift", value); }
+            get { return GetPropertyValue(PropertyNames.BASELINE_SHIFT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BASELINE_SHIFT, value); }
         }
 
         /// <summary>
@@ -399,8 +412,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("behavior")]
         public String Behavior
         {
-            get { return GetPropertyValue("behavior") ?? String.Empty; }
-            set { SetProperty("behavior", value); }
+            get { return GetPropertyValue(PropertyNames.BEHAVIOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BEHAVIOR, value); }
         }
 
         /// <summary>
@@ -409,8 +422,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("border")]
         public String Border
         {
-            get { return GetPropertyValue("border") ?? String.Empty; }
-            set { SetProperty("border", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER, value); }
         }
 
         /// <summary>
@@ -419,8 +432,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderBottom")]
         public String BorderBottom
         {
-            get { return GetPropertyValue("border-bottom") ?? String.Empty; }
-            set { SetProperty("border-bottom", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_BOTTOM) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_BOTTOM, value); }
         }
 
         /// <summary>
@@ -429,8 +442,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderBottomColor")]
         public String BorderBottomColor
         {
-            get { return GetPropertyValue("border-bottom-color") ?? String.Empty; }
-            set { SetProperty("border-bottom-color", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_BOTTOM_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_BOTTOM_COLOR, value); }
         }
 
         /// <summary>
@@ -440,8 +453,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderBottomLeftRadius")]
         public String BorderBottomLeftRadius
         {
-            get { return GetPropertyValue("border-bottom-left-radius") ?? String.Empty; }
-            set { SetProperty("border-bottom-left-radius", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_BOTTOM_LEFT_RADIUS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_BOTTOM_LEFT_RADIUS, value); }
         }
 
         /// <summary>
@@ -452,8 +465,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderBottomRightRadius")]
         public String BorderBottomRightRadius
         {
-            get { return GetPropertyValue("border-bottom-right-radius") ?? String.Empty; }
-            set { SetProperty("border-bottom-radius", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_BOTTOM_RIGHT_RADIUS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_BOTTOM_RIGHT_RADIUS, value); }
         }
 
         /// <summary>
@@ -462,8 +475,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderBottomStyle")]
         public String BorderBottomStyle
         {
-            get { return GetPropertyValue("border-bottom-style") ?? String.Empty; }
-            set { SetProperty("border-bottom-style", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_BOTTOM_STYLE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_BOTTOM_STYLE, value); }
         }
 
         /// <summary>
@@ -472,8 +485,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderBottomWidth")]
         public String BorderBottomWidth
         {
-            get { return GetPropertyValue("border-bottom-width") ?? String.Empty; }
-            set { SetProperty("border-bottom-width", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_BOTTOM_WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_BOTTOM_WIDTH, value); }
         }
 
         /// <summary>
@@ -483,8 +496,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderCollapse")]
         public String BorderCollapse
         {
-            get { return GetPropertyValue("border-collapse") ?? String.Empty; }
-            set { SetProperty("border-collapse", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_COLLAPSE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_COLLAPSE, value); }
         }
 
         /// <summary>
@@ -493,8 +506,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderColor")]
         public String BorderColor
         {
-            get { return GetPropertyValue("border-color") ?? String.Empty; }
-            set { SetProperty("border-color", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_COLOR, value); }
         }
 
         /// <summary>
@@ -503,8 +516,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderImage")]
         public String BorderImage
         {
-            get { return GetPropertyValue("border-image") ?? String.Empty; }
-            set { SetProperty("border-image", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_IMAGE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_IMAGE, value); }
         }
 
         /// <summary>
@@ -513,8 +526,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderImageOutset")]
         public String BorderImageOutset
         {
-            get { return GetPropertyValue("border-image-outset") ?? String.Empty; }
-            set { SetProperty("border-image-outset", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_IMAGE_OUTSET) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_IMAGE_OUTSET, value); }
         }
 
         /// <summary>
@@ -523,8 +536,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderImageRepeat")]
         public String BorderImageRepeat
         {
-            get { return GetPropertyValue("border-image-repeat") ?? String.Empty; }
-            set { SetProperty("border-image-repeat", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_IMAGE_REPEAT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_IMAGE_REPEAT, value); }
         }
 
         /// <summary>
@@ -534,8 +547,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderImageSlice")]
         public String BorderImageSlice
         {
-            get { return GetPropertyValue("border-image-slice") ?? String.Empty; }
-            set { SetProperty("border-image-slice", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_IMAGE_SLICE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_IMAGE_SLICE, value); }
         }
 
         /// <summary>
@@ -544,8 +557,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderImageSource")]
         public String BorderImageSource
         {
-            get { return GetPropertyValue("border-image-source") ?? String.Empty; }
-            set { SetProperty("border-image-source", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_IMAGE_SOURCE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_IMAGE_SOURCE, value); }
         }
 
         /// <summary>
@@ -554,8 +567,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderImageWidth")]
         public String BorderImageWidth
         {
-            get { return GetPropertyValue("border-image-width") ?? String.Empty; }
-            set { SetProperty("border-image-width", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_IMAGE_WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_IMAGE_WIDTH, value); }
         }
 
         /// <summary>
@@ -564,8 +577,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderLeft")]
         public String BorderLeft
         {
-            get { return GetPropertyValue("border-left") ?? String.Empty; }
-            set { SetProperty("border-left", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_LEFT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_LEFT, value); }
         }
 
         /// <summary>
@@ -574,8 +587,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderLeftColor")]
         public String BorderLeftColor
         {
-            get { return GetPropertyValue("border-left-color") ?? String.Empty; }
-            set { SetProperty("border-left-color", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_LEFT_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_LEFT_COLOR, value); }
         }
 
         /// <summary>
@@ -584,8 +597,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderLeftStyle")]
         public String BorderLeftStyle
         {
-            get { return GetPropertyValue("border-left-style") ?? String.Empty; }
-            set { SetProperty("border-left-style", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_LEFT_STYLE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_LEFT_STYLE, value); }
         }
 
         /// <summary>
@@ -594,8 +607,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderLeftWidth")]
         public String BorderLeftWidth
         {
-            get { return GetPropertyValue("border-left-width") ?? String.Empty; }
-            set { SetProperty("border-left-width", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_LEFT_WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_LEFT_WIDTH, value); }
         }
 
         /// <summary>
@@ -605,8 +618,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderRadius")]
         public String BorderRadius
         {
-            get { return GetPropertyValue("border-radius") ?? String.Empty; }
-            set { SetProperty("border-radius", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_RADIUS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_RADIUS, value); }
         }
 
         /// <summary>
@@ -615,8 +628,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderRight")]
         public String BorderRight
         {
-            get { return GetPropertyValue("border-right") ?? String.Empty; }
-            set { SetProperty("border-right", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_RIGHT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_RIGHT, value); }
         }
 
         /// <summary>
@@ -625,8 +638,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderRightColor")]
         public String BorderRightColor
         {
-            get { return GetPropertyValue("border-right-color") ?? String.Empty; }
-            set { SetProperty("border-right-color", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_RIGHT_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_RIGHT_COLOR, value); }
         }
 
         /// <summary>
@@ -635,8 +648,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderRightStyle")]
         public String BorderRightStyle
         {
-            get { return GetPropertyValue("border-right-style") ?? String.Empty; }
-            set { SetProperty("border-right-style", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_RIGHT_STYLE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_RIGHT_STYLE, value); }
         }
 
         /// <summary>
@@ -645,8 +658,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderRightWidth")]
         public String BorderRightWidth
         {
-            get { return GetPropertyValue("border-right-width") ?? String.Empty; }
-            set { SetProperty("border-right-width", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_RIGHT_WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_RIGHT_WIDTH, value); }
         }
 
         /// <summary>
@@ -655,8 +668,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderSpacing")]
         public String BorderSpacing
         {
-            get { return GetPropertyValue("border-spacing") ?? String.Empty; }
-            set { SetProperty("border-spacing", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_SPACING) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_SPACING, value); }
         }
 
         /// <summary>
@@ -665,8 +678,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderStyle")]
         public String BorderStyle
         {
-            get { return GetPropertyValue("border-style") ?? String.Empty; }
-            set { SetProperty("border-style", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_STYLE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_STYLE, value); }
         }
 
         /// <summary>
@@ -675,8 +688,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderTop")]
         public String BorderTop
         {
-            get { return GetPropertyValue("border-top") ?? String.Empty; }
-            set { SetProperty("border-top", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_TOP) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_TOP, value); }
         }
 
         /// <summary>
@@ -685,8 +698,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderTopColor")]
         public String BorderTopColor
         {
-            get { return GetPropertyValue("border-top-color") ?? String.Empty; }
-            set { SetProperty("border-top-color", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_TOP_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_TOP_COLOR, value); }
         }
 
         /// <summary>
@@ -696,8 +709,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderTopLeftRadius")]
         public String BorderTopLeftRadius
         {
-            get { return GetPropertyValue("border-top-left-radius") ?? String.Empty; }
-            set { SetProperty("border-top-left-radius", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_TOP_LEFT_RADIUS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_TOP_LEFT_RADIUS, value); }
         }
 
         /// <summary>
@@ -708,8 +721,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderTopRightRadius")]
         public String BorderTopRightRadius
         {
-            get { return GetPropertyValue("border-top-right-radius") ?? String.Empty; }
-            set { SetProperty("border-top-right-radius", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_TOP_RIGHT_RADIUS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_TOP_RIGHT_RADIUS, value); }
         }
 
         /// <summary>
@@ -718,8 +731,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderTopStyle")]
         public String BorderTopStyle
         {
-            get { return GetPropertyValue("border-top-style") ?? String.Empty; }
-            set { SetProperty("border-top-style", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_TOP_STYLE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_TOP_STYLE, value); }
         }
 
         /// <summary>
@@ -728,8 +741,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderTopWidth")]
         public String BorderTopWidth
         {
-            get { return GetPropertyValue("border-top-width") ?? String.Empty; }
-            set { SetProperty("border-top-width", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_TOP_WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_TOP_WIDTH, value); }
         }
 
         /// <summary>
@@ -738,8 +751,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("borderWidth")]
         public String BorderWidth
         {
-            get { return GetPropertyValue("border-width") ?? String.Empty; }
-            set { SetProperty("border-width", value); }
+            get { return GetPropertyValue(PropertyNames.BORDER_WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BORDER_WIDTH, value); }
         }
 
         /// <summary>
@@ -749,8 +762,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("boxShadow")]
         public String BoxShadow
         {
-            get { return GetPropertyValue("box-shadow") ?? String.Empty; }
-            set { SetProperty("box-shadow", value); }
+            get { return GetPropertyValue(PropertyNames.BOX_SHADOW) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BOX_SHADOW, value); }
         }
 
         /// <summary>
@@ -759,8 +772,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("boxSizing")]
         public String BoxSizing
         {
-            get { return GetPropertyValue("box-sizing") ?? String.Empty; }
-            set { SetProperty("box-sizing", value); }
+            get { return GetPropertyValue(PropertyNames.BOX_SIZING) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BOX_SIZING, value); }
         }
 
         /// <summary>
@@ -770,8 +783,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("breakAfter")]
         public String BreakAfter
         {
-            get { return GetPropertyValue("break-after") ?? String.Empty; }
-            set { SetProperty("break-after", value); }
+            get { return GetPropertyValue(PropertyNames.BREAK_AFTER) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BREAK_AFTER, value); }
         }
 
         /// <summary>
@@ -781,8 +794,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("breakBefore")]
         public String BreakBefore
         {
-            get { return GetPropertyValue("break-before") ?? String.Empty; }
-            set { SetProperty("break-before", value); }
+            get { return GetPropertyValue(PropertyNames.BREAK_BEFORE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BREAK_BEFORE, value); }
         }
 
         /// <summary>
@@ -792,8 +805,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("breakInside")]
         public String BreakInside
         {
-            get { return GetPropertyValue("break-inside") ?? String.Empty; }
-            set { SetProperty("break-inside", value); }
+            get { return GetPropertyValue(PropertyNames.BREAK_INSIDE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BREAK_INSIDE, value); }
         }
 
         /// <summary>
@@ -802,8 +815,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("captionSide")]
         public String CaptionSide
         {
-            get { return GetPropertyValue("caption-side") ?? String.Empty; }
-            set { SetProperty("caption-side", value); }
+            get { return GetPropertyValue(PropertyNames.CAPTION_SIDE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CAPTION_SIDE, value); }
         }
 
         /// <summary>
@@ -813,8 +826,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("clear")]
         public String Clear
         {
-            get { return GetPropertyValue("clear") ?? String.Empty; }
-            set { SetProperty("clear", value); }
+            get { return GetPropertyValue(PropertyNames.CLEAR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CLEAR, value); }
         }
 
         /// <summary>
@@ -823,8 +836,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("clip")]
         public String Clip
         {
-            get { return GetPropertyValue("clip") ?? String.Empty; }
-            set { SetProperty("clip", value); }
+            get { return GetPropertyValue(PropertyNames.CLIP) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CLIP, value); }
         }
 
         /// <summary>
@@ -833,8 +846,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("clipBottom")]
         public String ClipBottom
         {
-            get { return GetPropertyValue("clip-bottom") ?? String.Empty; }
-            set { SetProperty("clip-bottom", value); }
+            get { return GetPropertyValue(PropertyNames.CLIP_BOTTOM) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CLIP_BOTTOM, value); }
         }
 
         /// <summary>
@@ -843,8 +856,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("clipLeft")]
         public String ClipLeft
         {
-            get { return GetPropertyValue("clip-left") ?? String.Empty; }
-            set { SetProperty("clip-left", value); }
+            get { return GetPropertyValue(PropertyNames.CLIP_LEFT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CLIP_LEFT, value); }
         }
 
         /// <summary>
@@ -854,8 +867,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("clipPath")]
         public String ClipPath
         {
-            get { return GetPropertyValue("clip-path") ?? String.Empty; }
-            set { SetProperty("clip-path", value); }
+            get { return GetPropertyValue(PropertyNames.CLIP_PATH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CLIP_PATH, value); }
         }
 
         /// <summary>
@@ -864,8 +877,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("clipRight")]
         public String ClipRight
         {
-            get { return GetPropertyValue("clip-right") ?? String.Empty; }
-            set { SetProperty("clip-right", value); }
+            get { return GetPropertyValue(PropertyNames.CLIP_RIGHT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CLIP_RIGHT, value); }
         }
 
         /// <summary>
@@ -875,8 +888,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("clipRule")]
         public String ClipRule
         {
-            get { return GetPropertyValue("clip-rule") ?? String.Empty; }
-            set { SetProperty("clip-rule", value); }
+            get { return GetPropertyValue(PropertyNames.CLIP_RULE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CLIP_RULE, value); }
         }
 
         /// <summary>
@@ -885,8 +898,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("clipTop")]
         public String ClipTop
         {
-            get { return GetPropertyValue("clip-top") ?? String.Empty; }
-            set { SetProperty("clip-top", value); }
+            get { return GetPropertyValue(PropertyNames.CLIP_TOP) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CLIP_TOP, value); }
         }
 
         /// <summary>
@@ -895,8 +908,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("color")]
         public String Color
         {
-            get { return GetPropertyValue("color") ?? String.Empty; }
-            set { SetProperty("color", value); }
+            get { return GetPropertyValue(PropertyNames.COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COLOR, value); }
         }
 
         /// <summary>
@@ -905,8 +918,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("colorInterpolationFilters")]
         public String ColorInterpolationFilters
         {
-            get { return GetPropertyValue("color-interpolation-filters") ?? String.Empty; }
-            set { SetProperty("color-interpolation-filters", value); }
+            get { return GetPropertyValue(PropertyNames.COLOR_INTERPOLATION_FILTERS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COLOR_INTERPOLATION_FILTERS, value); }
         }
 
         /// <summary>
@@ -915,8 +928,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("columnCount")]
         public String ColumnCount
         {
-            get { return GetPropertyValue("column-count") ?? String.Empty; }
-            set { SetProperty("column-count", value); }
+            get { return GetPropertyValue(PropertyNames.COLUMN_COUNT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COLUMN_COUNT, value); }
         }
 
         /// <summary>
@@ -926,8 +939,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("columnFill")]
         public String ColumnFill
         {
-            get { return GetPropertyValue("column-fill") ?? String.Empty; }
-            set { SetProperty("column-fill", value); }
+            get { return GetPropertyValue(PropertyNames.COLUMN_FILL) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COLUMN_FILL, value); }
         }
 
         /// <summary>
@@ -936,8 +949,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("columnGap")]
         public String ColumnGap
         {
-            get { return GetPropertyValue("column-gap") ?? String.Empty; }
-            set { SetProperty("column-gap", value); }
+            get { return GetPropertyValue(PropertyNames.COLUMN_GAP) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COLUMN_GAP, value); }
         }
 
         /// <summary>
@@ -947,8 +960,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("columnRule")]
         public String ColumnRule
         {
-            get { return GetPropertyValue("column-rule") ?? String.Empty; }
-            set { SetProperty("column-rule", value); }
+            get { return GetPropertyValue(PropertyNames.COLUMN_RULE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COLUMN_RULE, value); }
         }
 
         /// <summary>
@@ -957,8 +970,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("columnRuleColor")]
         public String ColumnRuleColor
         {
-            get { return GetPropertyValue("column-rule-color") ?? String.Empty; }
-            set { SetProperty("column-rule-color", value); }
+            get { return GetPropertyValue(PropertyNames.COLUMN_RULE_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COLUMN_RULE_COLOR, value); }
         }
 
         /// <summary>
@@ -967,8 +980,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("columnRuleStyle")]
         public String ColumnRuleStyle
         {
-            get { return GetPropertyValue("column-rule-style") ?? String.Empty; }
-            set { SetProperty("column-rule-style", value); }
+            get { return GetPropertyValue(PropertyNames.COLUMN_RULE_STYLE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COLUMN_RULE_STYLE, value); }
         }
 
         /// <summary>
@@ -977,8 +990,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("columnRuleWidth")]
         public String ColumnRuleWidth
         {
-            get { return GetPropertyValue("column-rule-width") ?? String.Empty; }
-            set { SetProperty("column-rule-width", value); }
+            get { return GetPropertyValue(PropertyNames.COLUMN_RULE_WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COLUMN_RULE_WIDTH, value); }
         }
 
         /// <summary>
@@ -988,8 +1001,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("columns")]
         public String Columns
         {
-            get { return GetPropertyValue("columns") ?? String.Empty; }
-            set { SetProperty("columns", value); }
+            get { return GetPropertyValue(PropertyNames.COLUMNS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COLUMNS, value); }
         }
 
         /// <summary>
@@ -999,8 +1012,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("columnSpan")]
         public String ColumnSpan
         {
-            get { return GetPropertyValue("column-span") ?? String.Empty; }
-            set { SetProperty("column-span", value); }
+            get { return GetPropertyValue(PropertyNames.COLUMN_SPAN) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COLUMN_SPAN, value); }
         }
 
         /// <summary>
@@ -1009,8 +1022,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("columnWidth")]
         public String ColumnWidth
         {
-            get { return GetPropertyValue("column-width") ?? String.Empty; }
-            set { SetProperty("column-width", value); }
+            get { return GetPropertyValue(PropertyNames.COLUMN_WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COLUMN_WIDTH, value); }
         }
 
         /// <summary>
@@ -1019,8 +1032,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("content")]
         public String Content
         {
-            get { return GetPropertyValue("content") ?? String.Empty; }
-            set { SetProperty("content", value); }
+            get { return GetPropertyValue(PropertyNames.CONTENT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CONTENT, value); }
         }
 
         /// <summary>
@@ -1029,8 +1042,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("counterIncrement")]
         public String CounterIncrement
         {
-            get { return GetPropertyValue("counter-increment") ?? String.Empty; }
-            set { SetProperty("counter-increment", value); }
+            get { return GetPropertyValue(PropertyNames.COUNTER_INCREMENT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COUNTER_INCREMENT, value); }
         }
 
         /// <summary>
@@ -1039,8 +1052,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("counterReset")]
         public String CounterReset
         {
-            get { return GetPropertyValue("counter-reset") ?? String.Empty; }
-            set { SetProperty("counter-reset", value); }
+            get { return GetPropertyValue(PropertyNames.COUNTER_RESET) ?? String.Empty; }
+            set { SetProperty(PropertyNames.COUNTER_RESET, value); }
         }
 
         /// <summary>
@@ -1048,10 +1061,10 @@ namespace AngleSharp.DOM.Collections
         /// to the left, right, or not at all.
         /// </summary>
         [DOM("cssFloat")]
-        public String CssFloat
+        public String Float
         {
-            get { return GetPropertyValue("css-float") ?? String.Empty; }
-            set { SetProperty("css-float", value); }
+            get { return GetPropertyValue(PropertyNames.FLOAT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FLOAT, value); }
         }
 
         /// <summary>
@@ -1061,8 +1074,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("cursor")]
         public String Cursor
         {
-            get { return GetPropertyValue("cursor") ?? String.Empty; }
-            set { SetProperty("cursor", value); }
+            get { return GetPropertyValue(PropertyNames.CURSOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CURSOR, value); }
         }
 
         /// <summary>
@@ -1071,8 +1084,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("direction")]
         public String Direction
         {
-            get { return GetPropertyValue("direction") ?? String.Empty; }
-            set { SetProperty("direction", value); }
+            get { return GetPropertyValue(PropertyNames.DIRECTION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.DIRECTION, value); }
         }
 
         /// <summary>
@@ -1081,8 +1094,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("display")]
         public String Display
         {
-            get { return GetPropertyValue("display") ?? String.Empty; }
-            set { SetProperty("display", value); }
+            get { return GetPropertyValue(PropertyNames.DISPLAY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.DISPLAY, value); }
         }
 
         /// <summary>
@@ -1091,8 +1104,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("dominantBaseline")]
         public String DominantBaseline
         {
-            get { return GetPropertyValue("dominant-baseline") ?? String.Empty; }
-            set { SetProperty("dominant-baseline", value); }
+            get { return GetPropertyValue(PropertyNames.DOMINANT_BASELINE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.DOMINANT_BASELINE, value); }
         }
 
         /// <summary>
@@ -1101,8 +1114,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("emptyCells")]
         public String EmptyCells
         {
-            get { return GetPropertyValue("empty-cells") ?? String.Empty; }
-            set { SetProperty("empty-cells", value); }
+            get { return GetPropertyValue(PropertyNames.EMPTY_CELLS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.EMPTY_CELLS, value); }
         }
 
         /// <summary>
@@ -1111,8 +1124,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("enableBackground")]
         public String EnableBackground
         {
-            get { return GetPropertyValue("enable-background") ?? String.Empty; }
-            set { SetProperty("enable-background", value); }
+            get { return GetPropertyValue(PropertyNames.ENABLE_BACKGROUND) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ENABLE_BACKGROUND, value); }
         }
 
         /// <summary>
@@ -1122,18 +1135,19 @@ namespace AngleSharp.DOM.Collections
         [DOM("fill")]
         public String Fill
         {
-            get { return GetPropertyValue("fill") ?? String.Empty; }
-            set { SetProperty("fill", value); }
+            get { return GetPropertyValue(PropertyNames.FILL) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FILL, value); }
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies the opacity of the painting operation that is used to paint the interior of the current object.
+        /// Gets or sets a value that specifies the opacity of the painting operation that
+        /// is used to paint the interior of the current object.
         /// </summary>
         [DOM("fillOpacity")]
         public String FillOpacity
         {
-            get { return GetPropertyValue("fill-opacity") ?? String.Empty; }
-            set { SetProperty("fill-opacity", value); }
+            get { return GetPropertyValue(PropertyNames.FILL_OPACITY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FILL_OPACITY, value); }
         }
 
         /// <summary>
@@ -1143,8 +1157,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("fillRule")]
         public String FillRule
         {
-            get { return GetPropertyValue("fill-rule") ?? String.Empty; }
-            set { SetProperty("fill-rule", value); }
+            get { return GetPropertyValue(PropertyNames.FILL_RULE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FILL_RULE, value); }
         }
 
         /// <summary>
@@ -1154,8 +1168,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("filter")]
         public String Filter
         {
-            get { return GetPropertyValue("filter") ?? String.Empty; }
-            set { SetProperty("filter", value); }
+            get { return GetPropertyValue(PropertyNames.FILTER) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FILTER, value); }
         }
 
         /// <summary>
@@ -1165,8 +1179,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("flex")]
         public String Flex
         {
-            get { return GetPropertyValue("flex") ?? String.Empty; }
-            set { SetProperty("flex", value); }
+            get { return GetPropertyValue(PropertyNames.FLEX) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FLEX, value); }
         }
 
         /// <summary>
@@ -1175,8 +1189,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("flexBasis")]
         public String FlexBasis
         {
-            get { return GetPropertyValue("flex-basis") ?? String.Empty; }
-            set { SetProperty("flex-basis", value); }
+            get { return GetPropertyValue(PropertyNames.FLEX_BASIS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FLEX_BASIS, value); }
         }
 
         /// <summary>
@@ -1186,8 +1200,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("flexDirection")]
         public String FlexDirection
         {
-            get { return GetPropertyValue("flex-direction") ?? String.Empty; }
-            set { SetProperty("flex-direction", value); }
+            get { return GetPropertyValue(PropertyNames.FLEX_DIRECTION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FLEX_DIRECTION, value); }
         }
 
         /// <summary>
@@ -1197,8 +1211,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("flexFlow")]
         public String FlexFlow
         {
-            get { return GetPropertyValue("flex-flow") ?? String.Empty; }
-            set { SetProperty("flex-flow", value); }
+            get { return GetPropertyValue(PropertyNames.FLEX_FLOW) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FLEX_FLOW, value); }
         }
 
         /// <summary>
@@ -1207,8 +1221,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("flexGrow")]
         public String FlexGrow
         {
-            get { return GetPropertyValue("flex-grow") ?? String.Empty; }
-            set { SetProperty("flex-grow", value); }
+            get { return GetPropertyValue(PropertyNames.FLEX_GROW) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FLEX_GROW, value); }
         }
 
         /// <summary>
@@ -1217,8 +1231,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("flexShrink")]
         public String FlexShrink
         {
-            get { return GetPropertyValue("flex-shrink") ?? String.Empty; }
-            set { SetProperty("flex-shrink", value); }
+            get { return GetPropertyValue(PropertyNames.FLEX_SHRINK) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FLEX_SHRINK, value); }
         }
 
         /// <summary>
@@ -1229,28 +1243,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("flexWrap")]
         public String FlexWrap
         {
-            get { return GetPropertyValue("flex-wrap") ?? String.Empty; }
-            set { SetProperty("flex-wrap", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the color used to flood the current filter-primitive subregion.
-        /// </summary>
-        [DOM("floodColor")]
-        public String FloodColor
-        {
-            get { return GetPropertyValue("flood-color") ?? String.Empty; }
-            set { SetProperty("flood-color", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the opacity value to use with feFlood elements.
-        /// </summary>
-        [DOM("floodOpacity")]
-        public String FloodOpacity
-        {
-            get { return GetPropertyValue("flood-opacity") ?? String.Empty; }
-            set { SetProperty("flood-opacity", value); }
+            get { return GetPropertyValue(PropertyNames.FLEX_WRAP) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FLEX_WRAP, value); }
         }
 
         /// <summary>
@@ -1261,8 +1255,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("font")]
         public String Font
         {
-            get { return GetPropertyValue("font") ?? String.Empty; }
-            set { SetProperty("font", value); }
+            get { return GetPropertyValue(PropertyNames.FONT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FONT, value); }
         }
 
         /// <summary>
@@ -1271,8 +1265,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("fontFamily")]
         public String FontFamily
         {
-            get { return GetPropertyValue("font-family") ?? String.Empty; }
-            set { SetProperty("font-family", value); }
+            get { return GetPropertyValue(PropertyNames.FONT_FAMILY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FONT_FAMILY, value); }
         }
 
         /// <summary>
@@ -1282,8 +1276,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("fontFeatureSettings")]
         public String FontFeatureSettings
         {
-            get { return GetPropertyValue("font-feature-settings") ?? String.Empty; }
-            set { SetProperty("font-feature-settings", value); }
+            get { return GetPropertyValue(PropertyNames.FONT_FEATURE_SETTINGS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FONT_FEATURE_SETTINGS, value); }
         }
 
         /// <summary>
@@ -1292,8 +1286,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("fontSize")]
         public String FontSize
         {
-            get { return GetPropertyValue("font-size") ?? String.Empty; }
-            set { SetProperty("font-size", value); }
+            get { return GetPropertyValue(PropertyNames.FONT_SIZE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FONT_SIZE, value); }
         }
 
         /// <summary>
@@ -1304,8 +1298,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("fontSizeAdjust")]
         public String FontSizeAdjust
         {
-            get { return GetPropertyValue("font-size-adjust") ?? String.Empty; }
-            set { SetProperty("font-size-adjust", value); }
+            get { return GetPropertyValue(PropertyNames.FONT_SIZE_ADJUST) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FONT_SIZE_ADJUST, value); }
         }
 
         /// <summary>
@@ -1315,8 +1309,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("fontStretch")]
         public String FontStretch
         {
-            get { return GetPropertyValue("font-stretch") ?? String.Empty; }
-            set { SetProperty("font-stretch", value); }
+            get { return GetPropertyValue(PropertyNames.FONT_STRETCH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FONT_STRETCH, value); }
         }
 
         /// <summary>
@@ -1325,8 +1319,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("fontStyle")]
         public String FontStyle
         {
-            get { return GetPropertyValue("font-style") ?? String.Empty; }
-            set { SetProperty("font-style", value); }
+            get { return GetPropertyValue(PropertyNames.FONT_STYLE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FONT_STYLE, value); }
         }
 
         /// <summary>
@@ -1335,8 +1329,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("fontVariant")]
         public String FontVariant
         {
-            get { return GetPropertyValue("font-variant") ?? String.Empty; }
-            set { SetProperty("font-variant", value); }
+            get { return GetPropertyValue(PropertyNames.FONT_VARIANT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FONT_VARIANT, value); }
         }
 
         /// <summary>
@@ -1345,18 +1339,19 @@ namespace AngleSharp.DOM.Collections
         [DOM("fontWeight")]
         public String FontWeight
         {
-            get { return GetPropertyValue("font-weight") ?? String.Empty; }
-            set { SetProperty("font-weight", value); }
+            get { return GetPropertyValue(PropertyNames.FONT_WEIGHT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FONT_WEIGHT, value); }
         }
 
         /// <summary>
-        /// Gets or sets a value that alters the orientation of a sequence of characters relative to an inline-progression-direction  of horizontal.
+        /// Gets or sets a value that alters the orientation of a sequence of characters
+        /// relative to an inline-progression-direction of horizontal.
         /// </summary>
         [DOM("glyphOrientationHorizontal")]
         public String GlyphOrientationHorizontal
         {
-            get { return GetPropertyValue("glyph-orientation-horizontal") ?? String.Empty; }
-            set { SetProperty("glyph-orientation-horizontal", value); }
+            get { return GetPropertyValue(PropertyNames.GLYPH_ORIENTATION_HORIZONTAL) ?? String.Empty; }
+            set { SetProperty(PropertyNames.GLYPH_ORIENTATION_HORIZONTAL, value); }
         }
 
         /// <summary>
@@ -1366,8 +1361,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("glyphOrientationVertical")]
         public String GlyphOrientationVertical
         {
-            get { return GetPropertyValue("glyph-orientation-vertical") ?? String.Empty; }
-            set { SetProperty("glyph-orientation-vertical", value); }
+            get { return GetPropertyValue(PropertyNames.GLYPH_ORIENTATION_VERTICAL) ?? String.Empty; }
+            set { SetProperty(PropertyNames.GLYPH_ORIENTATION_VERTICAL, value); }
         }
 
         /// <summary>
@@ -1376,8 +1371,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("height")]
         public String Height
         {
-            get { return GetPropertyValue("height") ?? String.Empty; }
-            set { SetProperty("height", value); }
+            get { return GetPropertyValue(PropertyNames.HEIGHT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.HEIGHT, value); }
         }
 
         /// <summary>
@@ -1386,8 +1381,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("imeMode")]
         public String ImeMode
         {
-            get { return GetPropertyValue("ime-mode") ?? String.Empty; }
-            set { SetProperty("ime-mode", value); }
+            get { return GetPropertyValue(PropertyNames.IME_MODE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.IME_MODE, value); }
         }
 
         /// <summary>
@@ -1397,8 +1392,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("justifyContent")]
         public String JustifyContent
         {
-            get { return GetPropertyValue("justify-content") ?? String.Empty; }
-            set { SetProperty("justify-content", value); }
+            get { return GetPropertyValue(PropertyNames.JUSTIFY_CONTENT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.JUSTIFY_CONTENT, value); }
         }
 
         /// <summary>
@@ -1408,8 +1403,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("layoutGrid")]
         public String LayoutGrid
         {
-            get { return GetPropertyValue("layout-grid") ?? String.Empty; }
-            set { SetProperty("layout-grid", value); }
+            get { return GetPropertyValue(PropertyNames.LAYOUT_GRID) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LAYOUT_GRID, value); }
         }
 
         /// <summary>
@@ -1419,8 +1414,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("layoutGridChar")]
         public String LayoutGridChar
         {
-            get { return GetPropertyValue("layout-grid-char") ?? String.Empty; }
-            set { SetProperty("layout-grid-char", value); }
+            get { return GetPropertyValue(PropertyNames.LAYOUT_GRID_CHAR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LAYOUT_GRID_CHAR, value); }
         }
 
         /// <summary>
@@ -1430,8 +1425,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("layoutGridLine")]
         public String LayoutGridLine
         {
-            get { return GetPropertyValue("layout-grid-line") ?? String.Empty; }
-            set { SetProperty("layout-grid-line", value); }
+            get { return GetPropertyValue(PropertyNames.LAYOUT_GRID_LINE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LAYOUT_GRID_LINE, value); }
         }
 
         /// <summary>
@@ -1440,8 +1435,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("layoutGridMode")]
         public String LayoutGridMode
         {
-            get { return GetPropertyValue("layout-grid-mode") ?? String.Empty; }
-            set { SetProperty("layout-grid-mode", value); }
+            get { return GetPropertyValue(PropertyNames.LAYOUT_GRID_MODE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LAYOUT_GRID_MODE, value); }
         }
 
         /// <summary>
@@ -1451,8 +1446,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("layoutGridType")]
         public String LayoutGridType
         {
-            get { return GetPropertyValue("layout-grid-type") ?? String.Empty; }
-            set { SetProperty("layout-grid-type", value); }
+            get { return GetPropertyValue(PropertyNames.LAYOUT_GRID_TYPE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LAYOUT_GRID_TYPE, value); }
         }
 
         /// <summary>
@@ -1462,8 +1457,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("left")]
         public String Left
         {
-            get { return GetPropertyValue("left") ?? String.Empty; }
-            set { SetProperty("left", value); }
+            get { return GetPropertyValue(PropertyNames.LEFT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LEFT, value); }
         }
 
         /// <summary>
@@ -1472,19 +1467,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("letterSpacing")]
         public String LetterSpacing
         {
-            get { return GetPropertyValue("letter-spacing") ?? String.Empty; }
-            set { SetProperty("letter-spacing", value); }
-        }
-
-        /// <summary>
-        /// Defines the color of the light source for filter
-        /// primitives feDiffuseLighting and feSpecularLighting.
-        /// </summary>
-        [DOM("lightingColor")]
-        public String LightingColor
-        {
-            get { return GetPropertyValue("lighting-color") ?? String.Empty; }
-            set { SetProperty("lighting-color", value); }
+            get { return GetPropertyValue(PropertyNames.LETTER_SPACING) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LETTER_SPACING, value); }
         }
 
         /// <summary>
@@ -1493,8 +1477,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("lineHeight")]
         public String LineHeight
         {
-            get { return GetPropertyValue("line-height") ?? String.Empty; }
-            set { SetProperty("line-height", value); }
+            get { return GetPropertyValue(PropertyNames.LINE_HEIGHT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LINE_HEIGHT, value); }
         }
 
         /// <summary>
@@ -1503,8 +1487,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("listStyle")]
         public String ListStyle
         {
-            get { return GetPropertyValue("list-style") ?? String.Empty; }
-            set { SetProperty("list-style", value); }
+            get { return GetPropertyValue(PropertyNames.LIST_STYLE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LIST_STYLE, value); }
         }
 
         /// <summary>
@@ -1514,8 +1498,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("listStyleImage")]
         public String ListStyleImage
         {
-            get { return GetPropertyValue("list-style-image") ?? String.Empty; }
-            set { SetProperty("list-style-image", value); }
+            get { return GetPropertyValue(PropertyNames.LIST_STYLE_IMAGE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LIST_STYLE_IMAGE, value); }
         }
 
         /// <summary>
@@ -1525,8 +1509,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("listStylePosition")]
         public String ListStylePosition
         {
-            get { return GetPropertyValue("list-style-position") ?? String.Empty; }
-            set { SetProperty("list-style-position", value); }
+            get { return GetPropertyValue(PropertyNames.LIST_STYLE_POSITION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LIST_STYLE_POSITION, value); }
         }
 
         /// <summary>
@@ -1535,8 +1519,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("listStyleType")]
         public String ListStyleType
         {
-            get { return GetPropertyValue("list-style-type") ?? String.Empty; }
-            set { SetProperty("list-style-type", value); }
+            get { return GetPropertyValue(PropertyNames.LIST_STYLE_TYPE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LIST_STYLE_TYPE, value); }
         }
 
         /// <summary>
@@ -1545,8 +1529,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("margin")]
         public String Margin
         {
-            get { return GetPropertyValue("margin") ?? String.Empty; }
-            set { SetProperty("margin", value); }
+            get { return GetPropertyValue(PropertyNames.MARGIN) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MARGIN, value); }
         }
 
         /// <summary>
@@ -1555,8 +1539,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("marginBottom")]
         public String MarginBottom
         {
-            get { return GetPropertyValue("margin-bottom") ?? String.Empty; }
-            set { SetProperty("margin-bottom", value); }
+            get { return GetPropertyValue(PropertyNames.MARGIN_BOTTOM) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MARGIN_BOTTOM, value); }
         }
 
         /// <summary>
@@ -1565,8 +1549,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("marginLeft")]
         public String MarginLeft
         {
-            get { return GetPropertyValue("margin-left") ?? String.Empty; }
-            set { SetProperty("margin-left", value); }
+            get { return GetPropertyValue(PropertyNames.MARGIN_LEFT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MARGIN_LEFT, value); }
         }
 
         /// <summary>
@@ -1575,8 +1559,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("marginRight")]
         public String MarginRight
         {
-            get { return GetPropertyValue("margin-right") ?? String.Empty; }
-            set { SetProperty("margin-right", value); }
+            get { return GetPropertyValue(PropertyNames.MARGIN_RIGHT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MARGIN_RIGHT, value); }
         }
 
         /// <summary>
@@ -1585,8 +1569,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("marginTop")]
         public String MarginTop
         {
-            get { return GetPropertyValue("margin-top") ?? String.Empty; }
-            set { SetProperty("margin-top", value); }
+            get { return GetPropertyValue(PropertyNames.MARGIN_TOP) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MARGIN_TOP, value); }
         }
 
         /// <summary>
@@ -1596,8 +1580,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("marker")]
         public String Marker
         {
-            get { return GetPropertyValue("marker") ?? String.Empty; }
-            set { SetProperty("marker", value); }
+            get { return GetPropertyValue(PropertyNames.MARKER) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MARKER, value); }
         }
 
         /// <summary>
@@ -1608,8 +1592,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("markerEnd")]
         public String MarkerEnd
         {
-            get { return GetPropertyValue("marker-end") ?? String.Empty; }
-            set { SetProperty("marker-end", value); }
+            get { return GetPropertyValue(PropertyNames.MARKER_END) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MARKER_END, value); }
         }
 
         /// <summary>
@@ -1620,8 +1604,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("markerMid")]
         public String MarkerMid
         {
-            get { return GetPropertyValue("marker-mid") ?? String.Empty; }
-            set { SetProperty("marker-mid", value); }
+            get { return GetPropertyValue(PropertyNames.MARKER_MID) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MARKER_MID, value); }
         }
 
         /// <summary>
@@ -1632,8 +1616,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("markerStart")]
         public String MarkerStart
         {
-            get { return GetPropertyValue("marker-start") ?? String.Empty; }
-            set { SetProperty("marker-start", value); }
+            get { return GetPropertyValue(PropertyNames.MARKER_START) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MARKER_START, value); }
         }
 
         /// <summary>
@@ -1642,8 +1626,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("mask")]
         public String Mask
         {
-            get { return GetPropertyValue("mask") ?? String.Empty; }
-            set { SetProperty("mask", value); }
+            get { return GetPropertyValue(PropertyNames.MASK) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MASK, value); }
         }
 
         /// <summary>
@@ -1652,8 +1636,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("maxHeight")]
         public String MaxHeight
         {
-            get { return GetPropertyValue("max-height") ?? String.Empty; }
-            set { SetProperty("max-height", value); }
+            get { return GetPropertyValue(PropertyNames.MAX_HEIGHT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MAX_HEIGHT, value); }
         }
 
         /// <summary>
@@ -1662,8 +1646,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("maxWidth")]
         public String MaxWidth
         {
-            get { return GetPropertyValue("max-width") ?? String.Empty; }
-            set { SetProperty("max-width", value); }
+            get { return GetPropertyValue(PropertyNames.MAX_WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MAX_WIDTH, value); }
         }
 
         /// <summary>
@@ -1672,8 +1656,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("minHeight")]
         public String MinHeight
         {
-            get { return GetPropertyValue("min-height") ?? String.Empty; }
-            set { SetProperty("min-height", value); }
+            get { return GetPropertyValue(PropertyNames.MIN_HEIGHT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MIN_HEIGHT, value); }
         }
 
         /// <summary>
@@ -1682,8 +1666,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("minWidth")]
         public String MinWidth
         {
-            get { return GetPropertyValue("min-width") ?? String.Empty; }
-            set { SetProperty("min-width", value); }
+            get { return GetPropertyValue(PropertyNames.MIN_WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MIN_WIDTH, value); }
         }
 
         /// <summary>
@@ -1692,19 +1676,21 @@ namespace AngleSharp.DOM.Collections
         [DOM("opacity")]
         public String Opacity
         {
-            get { return GetPropertyValue("opacity") ?? String.Empty; }
-            set { SetProperty("opacity", value); }
+            get { return GetPropertyValue(PropertyNames.OPACITY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OPACITY, value); }
         }
 
         /// <summary>
-        /// Gets or sets the order in which a flex item
-        /// within a flex container is displayed.
+        /// Gets or sets the order, which property specifies the order used to lay out
+        /// flex items in their flex container. Elements are laid out by ascending order
+        /// of the order value. Elements with the same order value are laid out in the
+        /// order they appear in the source code.
         /// </summary>
         [DOM("order")]
         public String Order
         {
-            get { return GetPropertyValue("order") ?? String.Empty; }
-            set { SetProperty("order", value); }
+            get { return GetPropertyValue(PropertyNames.ORDER) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ORDER, value); }
         }
 
         /// <summary>
@@ -1714,8 +1700,28 @@ namespace AngleSharp.DOM.Collections
         [DOM("orphans")]
         public String Orphans
         {
-            get { return GetPropertyValue("orphans") ?? String.Empty; }
-            set { SetProperty("orphans", value); }
+            get { return GetPropertyValue(PropertyNames.ORPHANS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ORPHANS, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the outline frame.
+        /// </summary>
+        [DOM("outline")]
+        public String Outline
+        {
+            get { return GetPropertyValue(PropertyNames.OUTLINE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OUTLINE, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the color of the outline frame.
+        /// </summary>
+        [DOM("outlineColor")]
+        public String OutlineColor
+        {
+            get { return GetPropertyValue(PropertyNames.OUTLINE_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OUTLINE_COLOR, value); }
         }
 
         /// <summary>
@@ -1724,8 +1730,18 @@ namespace AngleSharp.DOM.Collections
         [DOM("outlineStyle")]
         public String OutlineStyle
         {
-            get { return GetPropertyValue("outline-style") ?? String.Empty; }
-            set { SetProperty("outline-style", value); }
+            get { return GetPropertyValue(PropertyNames.OUTLINE_STYLE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OUTLINE_STYLE, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the width of the outline frame.
+        /// </summary>
+        [DOM("outlineWidth")]
+        public String OutlineWidth
+        {
+            get { return GetPropertyValue(PropertyNames.OUTLINE_WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OUTLINE_WIDTH, value); }
         }
 
         /// <summary>
@@ -1735,8 +1751,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("overflow")]
         public String Overflow
         {
-            get { return GetPropertyValue("overflow") ?? String.Empty; }
-            set { SetProperty("overflow", value); }
+            get { return GetPropertyValue(PropertyNames.OVERFLOW) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OVERFLOW, value); }
         }
 
         /// <summary>
@@ -1746,8 +1762,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("overflowX")]
         public String OverflowX
         {
-            get { return GetPropertyValue("overflow-x") ?? String.Empty; }
-            set { SetProperty("overflow-x", value); }
+            get { return GetPropertyValue(PropertyNames.OVERFLOW_X) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OVERFLOW_X, value); }
         }
 
         /// <summary>
@@ -1757,8 +1773,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("overflowY")]
         public String OverflowY
         {
-            get { return GetPropertyValue("overflow-y") ?? String.Empty; }
-            set { SetProperty("overflow-y", value); }
+            get { return GetPropertyValue(PropertyNames.OVERFLOW_Y) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OVERFLOW_Y, value); }
         }
 
         /// <summary>
@@ -1768,8 +1784,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("padding")]
         public String Padding
         {
-            get { return GetPropertyValue("padding") ?? String.Empty; }
-            set { SetProperty("padding", value); }
+            get { return GetPropertyValue(PropertyNames.PADDING) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PADDING, value); }
         }
 
         /// <summary>
@@ -1779,8 +1795,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("paddingBottom")]
         public String PaddingBottom
         {
-            get { return GetPropertyValue("padding-bottom") ?? String.Empty; }
-            set { SetProperty("padding-bottom", value); }
+            get { return GetPropertyValue(PropertyNames.PADDING_BOTTOM) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PADDING_BOTTOM, value); }
         }
 
         /// <summary>
@@ -1790,8 +1806,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("paddingLeft")]
         public String PaddingLeft
         {
-            get { return GetPropertyValue("padding-left") ?? String.Empty; }
-            set { SetProperty("padding-left", value); }
+            get { return GetPropertyValue(PropertyNames.PADDING_LEFT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PADDING_LEFT, value); }
         }
 
         /// <summary>
@@ -1801,8 +1817,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("paddingRight")]
         public String PaddingRight
         {
-            get { return GetPropertyValue("padding-right") ?? String.Empty; }
-            set { SetProperty("padding-right", value); }
+            get { return GetPropertyValue(PropertyNames.PADDING_RIGHT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PADDING_RIGHT, value); }
         }
 
         /// <summary>
@@ -1812,8 +1828,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("paddingTop")]
         public String PaddingTop
         {
-            get { return GetPropertyValue("padding-top") ?? String.Empty; }
-            set { SetProperty("padding-top", value); }
+            get { return GetPropertyValue(PropertyNames.PADDING_TOP) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PADDING_TOP, value); }
         }
 
         /// <summary>
@@ -1822,8 +1838,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("pageBreakAfter")]
         public String PageBreakAfter
         {
-            get { return GetPropertyValue("page-break-after") ?? String.Empty; }
-            set { SetProperty("page-break-after", value); }
+            get { return GetPropertyValue(PropertyNames.PAGE_BREAK_AFTER) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PAGE_BREAK_AFTER, value); }
         }
 
         /// <summary>
@@ -1832,8 +1848,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("pageBreakBefore")]
         public String PageBreakBefore
         {
-            get { return GetPropertyValue("page-break-before") ?? String.Empty; }
-            set { SetProperty("page-break-before", value); }
+            get { return GetPropertyValue(PropertyNames.PAGE_BREAK_BEFORE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PAGE_BREAK_BEFORE, value); }
         }
 
         /// <summary>
@@ -1843,18 +1859,19 @@ namespace AngleSharp.DOM.Collections
         [DOM("pageBreakInside")]
         public String PageBreakInside
         {
-            get { return GetPropertyValue("page-break-inside") ?? String.Empty; }
-            set { SetProperty("page-break-inside", value); }
+            get { return GetPropertyValue(PropertyNames.PAGE_BREAK_INSIDE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PAGE_BREAK_INSIDE, value); }
         }
 
         /// <summary>
-        /// Gets or sets a value that represents the perspective from which all child elements of the object are viewed.
+        /// Gets or sets a value that represents the perspective from which all child
+        /// elements of the object are viewed.
         /// </summary>
         [DOM("perspective")]
         public String Perspective
         {
-            get { return GetPropertyValue("perspective") ?? String.Empty; }
-            set { SetProperty("perspective", value); }
+            get { return GetPropertyValue(PropertyNames.PERSPECTIVE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PERSPECTIVE, value); }
         }
 
         /// <summary>
@@ -1865,8 +1882,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("perspectiveOrigin")]
         public String PerspectiveOrigin
         {
-            get { return GetPropertyValue("perspective-origin") ?? String.Empty; }
-            set { SetProperty("perspective-origin", value); }
+            get { return GetPropertyValue(PropertyNames.PERSPECTIVE_ORIGIN) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PERSPECTIVE_ORIGIN, value); }
         }
 
         /// <summary>
@@ -1876,8 +1893,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("pointerEvents")]
         public String PointerEvents
         {
-            get { return GetPropertyValue("pointer-events") ?? String.Empty; }
-            set { SetProperty("pointer-events", value); }
+            get { return GetPropertyValue(PropertyNames.POINTER_EVENTS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.POINTER_EVENTS, value); }
         }
 
         /// <summary>
@@ -1886,8 +1903,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("position")]
         public String Position
         {
-            get { return GetPropertyValue("position") ?? String.Empty; }
-            set { SetProperty("position", value); }
+            get { return GetPropertyValue(PropertyNames.POSITION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.POSITION, value); }
         }
 
         /// <summary>
@@ -1896,8 +1913,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("quotes")]
         public String Quotes
         {
-            get { return GetPropertyValue("quotes") ?? String.Empty; }
-            set { SetProperty("quotes", value); }
+            get { return GetPropertyValue(PropertyNames.QUOTES) ?? String.Empty; }
+            set { SetProperty(PropertyNames.QUOTES, value); }
         }
 
         /// <summary>
@@ -1907,8 +1924,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("right")]
         public String Right
         {
-            get { return GetPropertyValue("right") ?? String.Empty; }
-            set { SetProperty("right", value); }
+            get { return GetPropertyValue(PropertyNames.RIGHT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.RIGHT, value); }
         }
 
         /// <summary>
@@ -1917,8 +1934,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("rubyAlign")]
         public String RubyAlign
         {
-            get { return GetPropertyValue("ruby-align") ?? String.Empty; }
-            set { SetProperty("ruby-align", value); }
+            get { return GetPropertyValue(PropertyNames.RUBY_ALIGN) ?? String.Empty; }
+            set { SetProperty(PropertyNames.RUBY_ALIGN, value); }
         }
 
         /// <summary>
@@ -1929,18 +1946,19 @@ namespace AngleSharp.DOM.Collections
         [DOM("rubyOverhang")]
         public String RubyOverhang
         {
-            get { return GetPropertyValue("ruby-overhang") ?? String.Empty; }
-            set { SetProperty("ruby-overhang", value); }
+            get { return GetPropertyValue(PropertyNames.RUBY_OVERHANG) ?? String.Empty; }
+            set { SetProperty(PropertyNames.RUBY_OVERHANG, value); }
         }
 
         /// <summary>
-        /// Gets or sets a value that controls the position of the ruby text with respect to its base.
+        /// Gets or sets a value that controls the position of the ruby text
+        /// with respect to its base.
         /// </summary>
         [DOM("rubyPosition")]
         public String RubyPosition
         {
-            get { return GetPropertyValue("ruby-position") ?? String.Empty; }
-            set { SetProperty("ruby-position", value); }
+            get { return GetPropertyValue(PropertyNames.RUBY_POSITION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.RUBY_POSITION, value); }
         }
 
         /// <summary>
@@ -1950,8 +1968,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("scrollbar3dLightColor")]
         public String Scrollbar3dLightColor
         {
-            get { return GetPropertyValue("scrollbar3d-light-color") ?? String.Empty; }
-            set { SetProperty("scrollbar3d-light-color", value); }
+            get { return GetPropertyValue(PropertyNames.SCROLLBAR3D_LIGHT_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.SCROLLBAR3D_LIGHT_COLOR, value); }
         }
 
         /// <summary>
@@ -1960,8 +1978,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("scrollbarArrowColor")]
         public String ScrollbarArrowColor
         {
-            get { return GetPropertyValue("scrollbar-arrow-color") ?? String.Empty; }
-            set { SetProperty("scrollbar-arrow-color", value); }
+            get { return GetPropertyValue(PropertyNames.SCROLLBAR_ARROW_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.SCROLLBAR_ARROW_COLOR, value); }
         }
 
         /// <summary>
@@ -1970,8 +1988,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("scrollbarDarkShadowColor")]
         public String ScrollbarDarkShadowColor
         {
-            get { return GetPropertyValue("scrollbar-dark-shadow-color") ?? String.Empty; }
-            set { SetProperty("scrollbar-dark-shadow-color", value); }
+            get { return GetPropertyValue(PropertyNames.SCROLLBAR_DARK_SHADOW_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.SCROLLBAR_DARK_SHADOW_COLOR, value); }
         }
 
         /// <summary>
@@ -1980,8 +1998,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("scrollbarFaceColor")]
         public String ScrollbarFaceColor
         {
-            get { return GetPropertyValue("scrollbar-face-color") ?? String.Empty; }
-            set { SetProperty("scrollbar-face-color", value); }
+            get { return GetPropertyValue(PropertyNames.SCROLLBAR_FACE_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.SCROLLBAR_FACE_COLOR, value); }
         }
 
         /// <summary>
@@ -1990,8 +2008,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("scrollbarHighlightColor")]
         public String ScrollbarHighlightColor
         {
-            get { return GetPropertyValue("scrollbar-highlight-color") ?? String.Empty; }
-            set { SetProperty("scrollbar-highlight-color", value); }
+            get { return GetPropertyValue(PropertyNames.SCROLLBAR_HIGHLIGHT_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.SCROLLBAR_HIGHLIGHT_COLOR, value); }
         }
 
         /// <summary>
@@ -2001,8 +2019,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("scrollbarShadowColor")]
         public String ScrollbarShadowColor
         {
-            get { return GetPropertyValue("scrollbar-shadow-color") ?? String.Empty; }
-            set { SetProperty("scrollbar-shadow-color", value); }
+            get { return GetPropertyValue(PropertyNames.SCROLLBAR_SHADOW_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.SCROLLBAR_SHADOW_COLOR, value); }
         }
 
         /// <summary>
@@ -2011,28 +2029,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("scrollbarTrackColor")]
         public String ScrollbarTrackColor
         {
-            get { return GetPropertyValue("scrollbar-track-color") ?? String.Empty; }
-            set { SetProperty("scrollbar-track-color", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value that indicates what color to use at the current gradient stop.
-        /// </summary>
-        [DOM("stopColor")]
-        public String StopColor
-        {
-            get { return GetPropertyValue("stop-color") ?? String.Empty; }
-            set { SetProperty("stop-color", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value that defines the opacity of the current gradient stop.
-        /// </summary>
-        [DOM("stopOpacity")]
-        public String StopOpacity
-        {
-            get { return GetPropertyValue("stop-opacity") ?? String.Empty; }
-            set { SetProperty("stop-opacity", value); }
+            get { return GetPropertyValue(PropertyNames.SCROLLBAR_TRACK_COLOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.SCROLLBAR_TRACK_COLOR, value); }
         }
 
         /// <summary>
@@ -2042,8 +2040,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("stroke")]
         public String Stroke
         {
-            get { return GetPropertyValue("stroke") ?? String.Empty; }
-            set { SetProperty("stroke", value); }
+            get { return GetPropertyValue(PropertyNames.STROKE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.STROKE, value); }
         }
 
         /// <summary>
@@ -2053,8 +2051,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("strokeDasharray")]
         public String StrokeDasharray
         {
-            get { return GetPropertyValue("stroke-dasharray") ?? String.Empty; }
-            set { SetProperty("stroke-dasharray", value); }
+            get { return GetPropertyValue(PropertyNames.STROKE_DASHARRAY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.STROKE_DASHARRAY, value); }
         }
 
         /// <summary>
@@ -2064,8 +2062,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("strokeDashoffset")]
         public String StrokeDashoffset
         {
-            get { return GetPropertyValue("stroke-dashoffset") ?? String.Empty; }
-            set { SetProperty("stroke-dashoffset", value); }
+            get { return GetPropertyValue(PropertyNames.STROKE_DASHOFFSET) ?? String.Empty; }
+            set { SetProperty(PropertyNames.STROKE_DASHOFFSET, value); }
         }
 
         /// <summary>
@@ -2075,8 +2073,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("strokeLinecap")]
         public String StrokeLinecap
         {
-            get { return GetPropertyValue("stroke-linecap") ?? String.Empty; }
-            set { SetProperty("stroke-linecap", value); }
+            get { return GetPropertyValue(PropertyNames.STROKE_LINECAP) ?? String.Empty; }
+            set { SetProperty(PropertyNames.STROKE_LINECAP, value); }
         }
 
         /// <summary>
@@ -2086,8 +2084,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("strokeLinejoin")]
         public String StrokeLinejoin
         {
-            get { return GetPropertyValue("stroke-linejoin") ?? String.Empty; }
-            set { SetProperty("stroke-linejoin", value); }
+            get { return GetPropertyValue(PropertyNames.STROKE_LINEJOIN) ?? String.Empty; }
+            set { SetProperty(PropertyNames.STROKE_LINEJOIN, value); }
         }
 
         /// <summary>
@@ -2097,8 +2095,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("strokeMiterlimit")]
         public String StrokeMiterlimit
         {
-            get { return GetPropertyValue("stroke-miterlimit") ?? String.Empty; }
-            set { SetProperty("stroke-miterlimit", value); }
+            get { return GetPropertyValue(PropertyNames.STROKE_MITERLIMIT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.STROKE_MITERLIMIT, value); }
         }
 
         /// <summary>
@@ -2108,8 +2106,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("strokeOpacity")]
         public String StrokeOpacity
         {
-            get { return GetPropertyValue("stroke-opacity") ?? String.Empty; }
-            set { SetProperty("stroke-opacity", value); }
+            get { return GetPropertyValue(PropertyNames.STROKE_OPACITY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.STROKE_OPACITY, value); }
         }
 
         /// <summary>
@@ -2118,18 +2116,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("strokeWidth")]
         public String StrokeWidth
         {
-            get { return GetPropertyValue("stroke-width") ?? String.Empty; }
-            set { SetProperty("stroke-width", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets on which side of the object the text will flow.
-        /// </summary>
-        [DOM("styleFloat")]
-        public String StyleFloat
-        {
-            get { return GetPropertyValue("style-float") ?? String.Empty; }
-            set { SetProperty("style-float", value); }
+            get { return GetPropertyValue(PropertyNames.STROKE_WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.STROKE_WIDTH, value); }
         }
 
         /// <summary>
@@ -2138,8 +2126,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("tableLayout")]
         public String TableLayout
         {
-            get { return GetPropertyValue("table-layout") ?? String.Empty; }
-            set { SetProperty("table-layout", value); }
+            get { return GetPropertyValue(PropertyNames.TABLE_LAYOUT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TABLE_LAYOUT, value); }
         }
 
         /// <summary>
@@ -2149,8 +2137,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("textAlign")]
         public String TextAlign
         {
-            get { return GetPropertyValue("text-align") ?? String.Empty; }
-            set { SetProperty("text-align", value); }
+            get { return GetPropertyValue(PropertyNames.TEXT_ALIGN) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TEXT_ALIGN, value); }
         }
 
         /// <summary>
@@ -2160,8 +2148,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("textAlignLast")]
         public String TextAlignLast
         {
-            get { return GetPropertyValue("text-align-last") ?? String.Empty; }
-            set { SetProperty("text-align-last", value); }
+            get { return GetPropertyValue(PropertyNames.TEXT_ALIGN_LAST) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TEXT_ALIGN_LAST, value); }
         }
 
         /// <summary>
@@ -2170,8 +2158,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("textAnchor")]
         public String TextAnchor
         {
-            get { return GetPropertyValue("text-anchor") ?? String.Empty; }
-            set { SetProperty("text-anchor", value); }
+            get { return GetPropertyValue(PropertyNames.TEXT_ANCHOR) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TEXT_ANCHOR, value); }
         }
 
         /// <summary>
@@ -2180,8 +2168,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("textAutospace")]
         public String TextAutospace
         {
-            get { return GetPropertyValue("text-autospace") ?? String.Empty; }
-            set { SetProperty("text-autospace", value); }
+            get { return GetPropertyValue(PropertyNames.TEXT_AUTOSPACE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TEXT_AUTOSPACE, value); }
         }
 
         /// <summary>
@@ -2191,8 +2179,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("textDecoration")]
         public String TextDecoration
         {
-            get { return GetPropertyValue("text-decoration") ?? String.Empty; }
-            set { SetProperty("text-decoration", value); }
+            get { return GetPropertyValue(PropertyNames.TEXT_DECORATION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TEXT_DECORATION, value); }
         }
 
         /// <summary>
@@ -2201,8 +2189,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("textIndent")]
         public String TextIndent
         {
-            get { return GetPropertyValue("text-indent") ?? String.Empty; }
-            set { SetProperty("text-indent", value); }
+            get { return GetPropertyValue(PropertyNames.TEXT_INDENT) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TEXT_INDENT, value); }
         }
 
         /// <summary>
@@ -2211,8 +2199,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("textJustify")]
         public String TextJustify
         {
-            get { return GetPropertyValue("text-justify") ?? String.Empty; }
-            set { SetProperty("text-justify", value); }
+            get { return GetPropertyValue(PropertyNames.TEXT_JUSTIFY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TEXT_JUSTIFY, value); }
         }
 
         /// <summary>
@@ -2222,8 +2210,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("textOverflow")]
         public String TextOverflow
         {
-            get { return GetPropertyValue("text-overflow") ?? String.Empty; }
-            set { SetProperty("text-overflow", value); }
+            get { return GetPropertyValue(PropertyNames.TEXT_OVERFLOW) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TEXT_OVERFLOW, value); }
         }
 
         /// <summary>
@@ -2233,8 +2221,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("textShadow")]
         public String TextShadow
         {
-            get { return GetPropertyValue("text-shadow") ?? String.Empty; }
-            set { SetProperty("text-shadow", value); }
+            get { return GetPropertyValue(PropertyNames.TEXT_SHADOW) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TEXT_SHADOW, value); }
         }
 
         /// <summary>
@@ -2243,8 +2231,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("textTransform")]
         public String TextTransform
         {
-            get { return GetPropertyValue("text-transform") ?? String.Empty; }
-            set { SetProperty("text-transform", value); }
+            get { return GetPropertyValue(PropertyNames.TEXT_TRANSFORM) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TEXT_TRANSFORM, value); }
         }
 
         /// <summary>
@@ -2254,8 +2242,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("textUnderlinePosition")]
         public String TextUnderlinePosition
         {
-            get { return GetPropertyValue("text-underline-position") ?? String.Empty; }
-            set { SetProperty("text-underline-position", value); }
+            get { return GetPropertyValue(PropertyNames.TEXT_UNDERLINE_POSITION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TEXT_UNDERLINE_POSITION, value); }
         }
 
         /// <summary>
@@ -2265,8 +2253,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("top")]
         public String Top
         {
-            get { return GetPropertyValue("top") ?? String.Empty; }
-            set { SetProperty("top", value); }
+            get { return GetPropertyValue(PropertyNames.TOP) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TOP, value); }
         }
 
         /// <summary>
@@ -2276,8 +2264,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("transform")]
         public String Transform
         {
-            get { return GetPropertyValue("transform") ?? String.Empty; }
-            set { SetProperty("transform", value); }
+            get { return GetPropertyValue(PropertyNames.TRANSFORM) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TRANSFORM, value); }
         }
 
         /// <summary>
@@ -2286,8 +2274,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("transformOrigin")]
         public String TransformOrigin
         {
-            get { return GetPropertyValue("transform-origin") ?? String.Empty; }
-            set { SetProperty("transform-origin", value); }
+            get { return GetPropertyValue(PropertyNames.TRANSFORM_ORIGIN) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TRANSFORM_ORIGIN, value); }
         }
 
         /// <summary>
@@ -2297,8 +2285,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("transformStyle")]
         public String TransformStyle
         {
-            get { return GetPropertyValue("transform-style") ?? String.Empty; }
-            set { SetProperty("transform-style", value); }
+            get { return GetPropertyValue(PropertyNames.TRANSFORM_STYLE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TRANSFORM_STYLE, value); }
         }
 
         /// <summary>
@@ -2309,8 +2297,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("transition")]
         public String Transition
         {
-            get { return GetPropertyValue("transition") ?? String.Empty; }
-            set { SetProperty("transition", value); }
+            get { return GetPropertyValue(PropertyNames.TRANSITION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TRANSITION, value); }
         }
 
         /// <summary>
@@ -2322,8 +2310,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("transitionDelay")]
         public String TransitionDelay
         {
-            get { return GetPropertyValue("transition-delay") ?? String.Empty; }
-            set { SetProperty("transition-delay", value); }
+            get { return GetPropertyValue(PropertyNames.TRANSITION_DELAY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TRANSITION_DELAY, value); }
         }
 
         /// <summary>
@@ -2334,8 +2322,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("transitionDuration")]
         public String TransitionDuration
         {
-            get { return GetPropertyValue("transition-duration") ?? String.Empty; }
-            set { SetProperty("transition-duration", value); }
+            get { return GetPropertyValue(PropertyNames.TRANSITION_DURATION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TRANSITION_DURATION, value); }
         }
 
         /// <summary>
@@ -2346,8 +2334,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("transitionProperty")]
         public String TransitionProperty
         {
-            get { return GetPropertyValue("transition-property") ?? String.Empty; }
-            set { SetProperty("transition-property", value); }
+            get { return GetPropertyValue(PropertyNames.TRANSITION_PROPERTY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TRANSITION_PROPERTY, value); }
         }
 
         /// <summary>
@@ -2358,8 +2346,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("transitionTimingFunction")]
         public String TransitionTimingFunction
         {
-            get { return GetPropertyValue("transition-timing-function") ?? String.Empty; }
-            set { SetProperty("transition-timing-function", value); }
+            get { return GetPropertyValue(PropertyNames.TRANSITION_TIMING_FUNCTION) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TRANSITION_TIMING_FUNCTION, value); }
         }
 
         /// <summary>
@@ -2368,8 +2356,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("unicodeBidi")]
         public String UnicodeBidi
         {
-            get { return GetPropertyValue("unicode-bidi") ?? String.Empty; }
-            set { SetProperty("unicode-bidi", value); }
+            get { return GetPropertyValue(PropertyNames.UNICODE_BIDI) ?? String.Empty; }
+            set { SetProperty(PropertyNames.UNICODE_BIDI, value); }
         }
 
         /// <summary>
@@ -2378,8 +2366,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("verticalAlign")]
         public String VerticalAlign
         {
-            get { return GetPropertyValue("vertical-align") ?? String.Empty; }
-            set { SetProperty("vertical-align", value); }
+            get { return GetPropertyValue(PropertyNames.VERTICAL_ALIGN) ?? String.Empty; }
+            set { SetProperty(PropertyNames.VERTICAL_ALIGN, value); }
         }
 
         /// <summary>
@@ -2388,28 +2376,30 @@ namespace AngleSharp.DOM.Collections
         [DOM("visibility")]
         public String Visibility
         {
-            get { return GetPropertyValue("visibility") ?? String.Empty; }
-            set { SetProperty("visibility", value); }
+            get { return GetPropertyValue(PropertyNames.VISIBILITY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.VISIBILITY, value); }
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether lines are automatically broken inside the object.
+        /// Gets or sets a value that indicates whether lines are automatically
+        /// broken inside the object.
         /// </summary>
         [DOM("whiteSpace")]
         public String WhiteSpace
         {
-            get { return GetPropertyValue("white-space") ?? String.Empty; }
-            set { SetProperty("white-space", value); }
+            get { return GetPropertyValue(PropertyNames.WHITE_SPACE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.WHITE_SPACE, value); }
         }
 
         /// <summary>
-        /// Gets or sets the minimum number of lines of a paragraph that must appear at the top of a document.
+        /// Gets or sets the minimum number of lines of a paragraph that must
+        /// appear at the top of a document.
         /// </summary>
         [DOM("widows")]
         public String Widows
         {
-            get { return GetPropertyValue("widows") ?? String.Empty; }
-            set { SetProperty("widows", value); }
+            get { return GetPropertyValue(PropertyNames.WIDOWS) ?? String.Empty; }
+            set { SetProperty(PropertyNames.WIDOWS, value); }
         }
 
         /// <summary>
@@ -2418,18 +2408,19 @@ namespace AngleSharp.DOM.Collections
         [DOM("width")]
         public String Width
         {
-            get { return GetPropertyValue("width") ?? String.Empty; }
-            set { SetProperty("width", value); }
+            get { return GetPropertyValue(PropertyNames.WIDTH) ?? String.Empty; }
+            set { SetProperty(PropertyNames.WIDTH, value); }
         }
 
         /// <summary>
-        /// Gets or sets line-breaking behavior within words, particularly where multiple languages appear in the object.
+        /// Gets or sets line-breaking behavior within words, particularly where
+        /// multiple languages appear in the object.
         /// </summary>
         [DOM("wordBreak")]
         public String WordBreak
         {
-            get { return GetPropertyValue("word-break") ?? String.Empty; }
-            set { SetProperty("word-break", value); }
+            get { return GetPropertyValue(PropertyNames.WORD_BREAK) ?? String.Empty; }
+            set { SetProperty(PropertyNames.WORD_BREAK, value); }
         }
 
         /// <summary>
@@ -2438,18 +2429,19 @@ namespace AngleSharp.DOM.Collections
         [DOM("wordSpacing")]
         public String WordSpacing
         {
-            get { return GetPropertyValue("word-spacing") ?? String.Empty; }
-            set { SetProperty("word-spacing", value); }
+            get { return GetPropertyValue(PropertyNames.WORD_SPACING) ?? String.Empty; }
+            set { SetProperty(PropertyNames.WORD_SPACING, value); }
         }
 
         /// <summary>
-        /// Gets or sets whether to break words when the content exceeds the boundaries of its container.
+        /// Gets or sets whether to break words when the content exceeds the
+        /// boundaries of its container.
         /// </summary>
         [DOM("wordWrap")]
         public String WordWrap
         {
-            get { return GetPropertyValue("word-wrap") ?? String.Empty; }
-            set { SetProperty("word-wrap", value); }
+            get { return GetPropertyValue(PropertyNames.WORD_WRAP) ?? String.Empty; }
+            set { SetProperty(PropertyNames.WORD_WRAP, value); }
         }
 
         /// <summary>
@@ -2458,8 +2450,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("writingMode")]
         public String WritingMode
         {
-            get { return GetPropertyValue("writing-mode") ?? String.Empty; }
-            set { SetProperty("writing-mode", value); }
+            get { return GetPropertyValue(PropertyNames.WRITING_MODE) ?? String.Empty; }
+            set { SetProperty(PropertyNames.WRITING_MODE, value); }
         }
 
         /// <summary>
@@ -2468,8 +2460,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("zIndex")]
         public String ZIndex
         {
-            get { return GetPropertyValue("z-index") ?? String.Empty; }
-            set { SetProperty("z-index", value); }
+            get { return GetPropertyValue(PropertyNames.Z_INDEX) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Z_INDEX, value); }
         }
 
         /// <summary>
@@ -2478,8 +2470,8 @@ namespace AngleSharp.DOM.Collections
         [DOM("zoom")]
         public String Zoom
         {
-            get { return GetPropertyValue("zoom") ?? String.Empty; }
-            set { SetProperty("zoom", value); }
+            get { return GetPropertyValue(PropertyNames.ZOOM) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ZOOM, value); }
         }
 
         #endregion
