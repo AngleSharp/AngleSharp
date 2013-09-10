@@ -44,7 +44,7 @@ namespace UnitTests.Xml
 </animal>
 <!-- Above is element animal -->
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -59,7 +59,7 @@ namespace UnitTests.Xml
         public void XmlValidValidSa084()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [<!ELEMENT doc (#PCDATA)>]><doc></doc>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -80,7 +80,7 @@ namespace UnitTests.Xml
 
 
 </doc>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -99,7 +99,7 @@ namespace UnitTests.Xml
 ]>
 <doc><![CDATA[
 ]]></doc>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -118,7 +118,7 @@ namespace UnitTests.Xml
 <!ENTITY e SYSTEM ""001.ent"">
 ]>
 <doc>&e;</doc>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -137,7 +137,7 @@ namespace UnitTests.Xml
 <!ENTITY e SYSTEM ""002.ent"">
 ]>
 <doc>&e;</doc>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -156,7 +156,7 @@ namespace UnitTests.Xml
 <!ENTITY e SYSTEM ""004.ent"">
 ]>
 <doc>&e;</doc>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -175,7 +175,7 @@ namespace UnitTests.Xml
 <!ENTITY e SYSTEM ""009.ent"">
 ]>
 <doc>&e;</doc>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -197,7 +197,7 @@ namespace UnitTests.Xml
 <!ATTLIST doc a CDATA #IMPLIED>
 ]>
 <doc a=""x&e;y""></doc>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -218,7 +218,7 @@ namespace UnitTests.Xml
 <!ENTITY e ""&#13;"">
 ]>
 <doc>&e;</doc>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -241,7 +241,7 @@ namespace UnitTests.Xml
 <!ENTITY e SYSTEM ""006.ent"">
 ]>
 <doc>&e;</doc>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -262,7 +262,7 @@ namespace UnitTests.Xml
 <!ENTITY e PUBLIC ""a not very interesting file"" ""011.ent"">
 ]>
 <doc>&e;</doc>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -280,7 +280,7 @@ namespace UnitTests.Xml
    <!ATTLIST book xml:lang CDATA #REQUIRED>
 ]>
 <book xml:lang=""en-US"">It is written in English</book>
-<!-- Tests LanguageID with Langcode - Subcode -->");
+<!-- Tests LanguageID with Langcode - Subcode -->", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -298,7 +298,7 @@ namespace UnitTests.Xml
    <!ATTLIST book xml:lang CDATA #REQUIRED>
 ]>
 <book xml:lang=""en-US"">It is written in English</book>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -316,7 +316,7 @@ namespace UnitTests.Xml
    <!ATTLIST book xml:lang CDATA #REQUIRED>
 ]>
 <book xml:lang=""en"">It is written in English</book>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -334,7 +334,7 @@ namespace UnitTests.Xml
    <!ATTLIST book xml:lang CDATA #REQUIRED>
 ]>
 <book xml:lang=""i-BS-ABCD"">It is written in English</book>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -352,7 +352,7 @@ namespace UnitTests.Xml
    <!ATTLIST book xml:lang CDATA #REQUIRED>
 ]>
 <book xml:lang=""x-uk-eng"">It is written in English</book>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -370,7 +370,7 @@ namespace UnitTests.Xml
    <!ATTLIST book xml:lang CDATA #REQUIRED>
 ]>
 <book xml:lang=""en-USa"">It is written in English</book>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -388,7 +388,7 @@ namespace UnitTests.Xml
 <!ATTLIST root xml:lang CDATA #IMPLIED>
 ]>
 <root xml:lang=""en""/>
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -407,7 +407,7 @@ namespace UnitTests.Xml
 ]>
 <root xml:lang=""en-IN""/>
 
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -426,7 +426,7 @@ namespace UnitTests.Xml
 ]>
 <root xml:lang=""DE""/>
 
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -445,7 +445,7 @@ namespace UnitTests.Xml
 ]>
 <root xml:lang=""i-klingon-whorf""/>
 
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -464,7 +464,7 @@ namespace UnitTests.Xml
 ]>
 <root xml:lang=""x-dialect-valleygirl""/>
 
-");
+", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
         }
@@ -483,7 +483,7 @@ namespace UnitTests.Xml
 ]>
 <root xml:lang=""X-Java""/>
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -506,7 +506,7 @@ _0D-
 _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08ffff-򏿿 This is a PI target ?>
 ]>
 <book/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -541,7 +541,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
 <?PI after document element?>
 <!-- comment after document element-->
 <?PI after document element?>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -559,7 +559,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc>£</doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -577,7 +577,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc>เจมส์</doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -595,7 +595,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
 <!ELEMENT เจมส์  (#PCDATA)>
 ]>
 <เจมส์></เจมส์>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -614,7 +614,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc>𐀀􏿽</doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -646,7 +646,7 @@ _0A-
 
 <book/>
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -679,7 +679,7 @@ _0A-
 
 
 
- ");
+ ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -698,7 +698,7 @@ _0A-
  	<!ENTITY FullName ""SnowMan"">
 ]>
 
-<student>My Name is &FullName;. </student>");
+<student>My Name is &FullName;. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -719,7 +719,7 @@ _0A-
  	<!ENTITY FullName ""&RealName;"">
 ]>
 
-<student>My Name is &FullName;. </student>");
+<student>My Name is &FullName;. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -752,7 +752,7 @@ _0A-
 
 
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -779,7 +779,7 @@ _0A-
 <!-- testing AttValue with empty char inside single quote -->
 <student first='' last=''>My Name is Snow &mylast; Man. </student>
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -805,7 +805,7 @@ _0A-
 	<!ENTITY mylast ""Man'"">
 ]>
 <!-- testing AttValue string with a single quote inside -->
-<student first=""Snow'"" last=""Man"">My Name is &myfirst; &mylast;. </student>");
+<student first=""Snow'"" last=""Man"">My Name is &myfirst; &mylast;. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -833,7 +833,7 @@ _0A-
 <!-- testing AttValue string with a double quote inside -->
 <student first='Snow""' last='Man'>My Name is &myfirst; &mylast;. </student>
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -860,7 +860,7 @@ _0A-
 <!-- testing AttValue with a reference in double quote -->
 <student first=""&myfirst;"" last=""mylast;"">My Name is &mylast;. </student>
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -888,7 +888,7 @@ _0A-
 <!-- testing AttValue with a reference in single quote -->
 <student first='&myfirst;' last='&mylast;'>My Name is &mylast;. </student>
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -915,7 +915,7 @@ _0A-
 ]>
 <!-- testing AttValue with references combination in double quotes -->
 <student first=""Full Name &myfirst; &#x31; and &mylast; &mylast; &#x63;"" last=""&mylast;"" >My first Name is &myfirst; and my last name is &mylast;. </student>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -944,7 +944,7 @@ _0A-
 
 
 
- ");
+ ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -971,7 +971,7 @@ _0A-
 <!-- testing AttValue with references combination in single quote -->
 <student first='Full Name &myfirst; and &#x22;&mylast;&#x22; &mylast;' last='&mylast;'>My first Name is &myfirst; and my last name is &mylast;. </student>
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -992,7 +992,7 @@ _0A-
 
 <!-- testing systemliteral with nothing between the single quotes -->
 <student>My Name is SnowMan. </student>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1011,7 +1011,7 @@ _0A-
 
 <!-- testing Pubid Literal with a string with ""'"" inside -->
 <student>My Name is SnowMan. </student>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1039,7 +1039,7 @@ _0A-
 
 
 
- ");
+ ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1060,7 +1060,7 @@ _0A-
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1082,7 +1082,7 @@ cdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"">
 <!NOTATION not3 PUBLIC ""0123456789-()+,.'/:=?;!*#@$_%"">
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1101,7 +1101,7 @@ cdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"">
 <!ATTLIST doc : CDATA #IMPLIED>
 ]>
 <doc :=""v1""></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1119,7 +1119,7 @@ cdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"">
 <!ELEMENT เจมส์ (#PCDATA)>
 ]>
 <เจมส์></เจมส์>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1146,7 +1146,7 @@ cdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"">
 <refs refs=""A1
 A2	A3""/>
 <refs refs=""A1""/>
-</doc>");
+</doc>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1164,7 +1164,7 @@ A2	A3""/>
 <!ELEMENT doc EMPTY>
 <!ATTLIST doc att (0|35a|A|-a|:a|a:|.|_a) #IMPLIED>
 ]>
-<doc/>");
+<doc/>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1187,7 +1187,7 @@ A2	A3""/>
 abc
 def
 ""/>
-</doc>");
+</doc>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1201,7 +1201,7 @@ def
         public void XmlValidOP09pass1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p09pass1.dtd"">
-<doc/>");
+<doc/>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1225,7 +1225,7 @@ def
 
 
 </doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1244,7 +1244,7 @@ def
 <!ATTLIST doc a CDATA #IMPLIED>
 ]>
 <doc a=""""></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1263,7 +1263,7 @@ def
 <!ATTLIST doc _.-0123456789 CDATA #IMPLIED>
 ]>
 <doc _.-0123456789=""v1""></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1282,7 +1282,7 @@ def
 <!ATTLIST doc abcdefghijklmnopqrstuvwxyz CDATA #IMPLIED>
 ]>
 <doc abcdefghijklmnopqrstuvwxyz=""v1""></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1301,7 +1301,7 @@ def
 <!ATTLIST doc ABCDEFGHIJKLMNOPQRSTUVWXYZ CDATA #IMPLIED>
 ]>
 <doc ABCDEFGHIJKLMNOPQRSTUVWXYZ=""v1""></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1319,7 +1319,7 @@ def
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc>&#x20;</doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1335,7 +1335,7 @@ def
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""023.ent"">
 <doc></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1359,7 +1359,7 @@ def
 <student first=""Snow""></student>
 
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1383,7 +1383,7 @@ def
 <student first=""Eric""> &#x0A; &#x09; &#x0D;&#x20;</student>
 
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1404,7 +1404,7 @@ def
 ]>
 
 <!-- testing chardata with a string of sample legal char except '<' and '&' nor does it contain sequence ""]]>"" -->
-<student first=""Snow"" last=""Man"">This is a test</student>");
+<student first=""Snow"" last=""Man"">This is a test</student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1444,7 +1444,7 @@ CharData
 <?pi?>&ent;&quot;
 CharData
 </elem>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1461,7 +1461,7 @@ CharData
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc>]</doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1478,7 +1478,7 @@ CharData
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc>&amp;&lt;&gt;&quot;&apos;</doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1495,7 +1495,7 @@ CharData
 <!ELEMENT doc ANY>
 ]>
 <doc><!-- -á --></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1517,7 +1517,7 @@ CharData
 <student>My Name is SnowMan. </student>
 
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1536,7 +1536,7 @@ CharData
 ]>
 
 <!-- Student's name -->
-<student>My Name is SnowMan. </student>");
+<student>My Name is SnowMan. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1555,7 +1555,7 @@ CharData
 ]>
 
 <!-- student file-1 -->
-<student>My Name is SnowMan. </student>");
+<student>My Name is SnowMan. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1575,7 +1575,7 @@ CharData
 
 <!--student phone number 408-398 (387)-4758 -->
 <student>My Name is SnowMan. </student>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1595,7 +1595,7 @@ CharData
 ]>
 
 <root/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1612,7 +1612,7 @@ CharData
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc><!-- a comment --></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1630,7 +1630,7 @@ CharData
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc><!-- a comment ->--></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1652,7 +1652,7 @@ CharData
 <student>My Name is SnowMan. </student>
 
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1671,7 +1671,7 @@ CharData
 ]>
 
 <?MyInstruct ?>
-<student>My Name is SnowMan. </student>");
+<student>My Name is SnowMan. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1690,7 +1690,7 @@ CharData
 ]>
 
 <?MyInstruct AVOID ? BEFORE > IN PI ?>
-<student>My Name is SnowMan. </student>");
+<student>My Name is SnowMan. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1712,7 +1712,7 @@ CharData
 <student>My Name is SnowMan. </student>
 
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1732,7 +1732,7 @@ CharData
 <doc></doc>
 <!-- comment -->
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1752,7 +1752,7 @@ CharData
 ]>
 <doc></doc>
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1770,7 +1770,7 @@ CharData
 ]>
 <doc></doc>
 <?pi data?>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1789,7 +1789,7 @@ CharData
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1808,7 +1808,7 @@ CharData
 ]>
 <?pi  data?>
 <doc></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1827,7 +1827,7 @@ CharData
 ]>
 <doc><?pi x
 y?></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1844,7 +1844,7 @@ y?></doc>
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc><?pi?></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1862,7 +1862,7 @@ y?></doc>
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc><?pi some data ? > <??></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1884,7 +1884,7 @@ y?></doc>
 
 <student>My Name is SnowMan. <![CDATA[This is <normal> text]]> </student>
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1906,7 +1906,7 @@ y?></doc>
 <student>My Name is SnowMan. <![CDATA[This is a test]]> </student>
 
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1929,7 +1929,7 @@ y?></doc>
 <student>My Name is SnowMan. <![CDATA[]]></student>
 
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1949,7 +1949,7 @@ y?></doc>
 
 <!-- testing CData with legal chars -->
 
-<student>My Name is SnowMan. <![CDATA[<testing>This is a test</testing>]]></student>");
+<student>My Name is SnowMan. <![CDATA[<testing>This is a test</testing>]]></student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1972,7 +1972,7 @@ y?></doc>
 <student>My Name is SnowMan. <![CDATA[This is a test]]> </student>
 
 
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -1991,7 +1991,7 @@ y?></doc>
 <!ENTITY e ""<![CDATA[&foo;]]>"">
 ]>
 <doc>&e;</doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2008,7 +2008,7 @@ y?></doc>
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc><![CDATA[<foo>]]></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2026,7 +2026,7 @@ y?></doc>
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc><![CDATA[<&]]></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2044,7 +2044,7 @@ y?></doc>
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc><![CDATA[<&]>]]]></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2062,7 +2062,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2079,7 +2079,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2097,7 +2097,7 @@ y?></doc>
 ]>
 <!-- This is a Misc -->
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2115,7 +2115,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2134,7 +2134,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2153,7 +2153,7 @@ y?></doc>
 ]>
 <!-- This is a Misc -->
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2173,7 +2173,7 @@ y?></doc>
 ]>
 <!-- This is a Misc -->
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2191,7 +2191,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2209,7 +2209,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2227,7 +2227,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2245,7 +2245,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2263,7 +2263,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2281,7 +2281,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2299,7 +2299,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2317,7 +2317,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2334,7 +2334,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2352,7 +2352,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2370,7 +2370,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2388,7 +2388,7 @@ y?></doc>
 <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2405,7 +2405,7 @@ y?></doc>
    <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2422,7 +2422,7 @@ y?></doc>
    <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-<!-- This is a comment in Misc -->");
+<!-- This is a comment in Misc -->", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2439,7 +2439,7 @@ y?></doc>
    <!ELEMENT doc EMPTY>
 ]>
 <doc/>
-<?sound ""This is a PI in Misc ?>");
+<?sound ""This is a PI in Misc ?>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2457,7 +2457,7 @@ y?></doc>
    <!ELEMENT doc ANY>
 ]>
 <doc>S is in the following Misc</doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2476,7 +2476,7 @@ y?></doc>
 ]>
 <!-- This a valid test file for production [28] --> 
 <animal/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2515,7 +2515,7 @@ y?></doc>
       <big/>
    </leopard>
 </animal>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2552,7 +2552,7 @@ y?></doc>
       <big/>
    </leopard>
 </animal>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2590,7 +2590,7 @@ y?></doc>
       <big/>
    </leopard>
 </animal>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2606,7 +2606,7 @@ y?></doc>
             var document = DocumentBuilder.Xml(@"<!DOCTYPE animal SYSTEM ""ibm30v01.dtd"">
 <animal/>
 <!-- tests extSubset with extSubsetDecl only in the dtd file -->
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2622,7 +2622,7 @@ y?></doc>
             var document = DocumentBuilder.Xml(@"<!DOCTYPE animal SYSTEM ""ibm30v02.dtd"">
 <animal/>
 <!-- tests extSubset with TextDecl and extSubsetDecl in the dtd file -->
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2640,7 +2640,7 @@ y?></doc>
    <tiger/>
 </animal>
 <!-- tests extSubsetDecl with combinations of markupdecls, conditionalSects, PEReferences and white spaces -->
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2655,7 +2655,7 @@ y?></doc>
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""024.ent"">
 <doc></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2677,7 +2677,7 @@ y?></doc>
 <!--comment--> <?pi?>
 
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2698,7 +2698,7 @@ y?></doc>
 <!--comment--> <?pi?>
 
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2714,7 +2714,7 @@ y?></doc>
 [
 <!ELEMENT doc EMPTY>
 ]><doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2732,7 +2732,7 @@ y?></doc>
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2751,7 +2751,7 @@ y?></doc>
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2770,7 +2770,7 @@ y?></doc>
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2789,7 +2789,7 @@ y?></doc>
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc></doc>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2815,7 +2815,7 @@ y?></doc>
     <a/>
     <b/>
 </violation>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }
@@ -2839,7 +2839,7 @@ y?></doc>
 <?Pi?><!--comment-->
 ]>
 <doc/>
-");
+", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
         }

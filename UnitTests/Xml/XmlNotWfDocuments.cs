@@ -2259,5 +2259,442 @@ namespace UnitTests
 ]>
 <doc/>");
         }
+
+        /// <summary>
+        /// quote types must match. Here the section(s) 2.9 [32] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP32fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" standalone='yes""?>
+<doc/>
+");
+        }
+        /// <summary>
+        /// quote types must match. Here the section(s) 2.9 [32] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP32fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" standalone=""yes'?>
+<doc/>
+");
+        }
+        /// <summary>
+        /// initial S is required. Here the section(s) 2.9 [32] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP32fail3()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""standalone=""yes""?>
+<doc/>
+");
+        }
+        /// <summary>
+        /// quotes are required. Here the section(s) 2.9 [32] apply. This test is taken
+        /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP32fail4()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" standalone=yes?>
+<doc/>
+");
+        }
+        /// <summary>
+        /// yes or no must be lower case. Here the section(s) 2.9 [32] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP32fail5()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" standalone=""YES""?>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// Whitespace required between attributes. Here the section(s) 3.1 [40] apply.
+        /// This test is taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfAttlist10()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
+<!ELEMENT root ANY>
+<!ATTLIST root att1 CDATA #IMPLIED>
+<!ATTLIST root att2 CDATA #IMPLIED>
+]>
+<root att1=""value1""att2=""value2"">
+    <!-- whitespace required between attributes -->
+</root>
+");
+        }
+
+        /// <summary>
+        /// S is required between attributes. Here the section(s) 3.1 [40] apply. This
+        /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP40fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<doc att=""val""att2=""val2""></doc>");
+        }
+
+        /// <summary>
+        /// tags start with names, not nmtokens. Here the section(s) 3.1 [40] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP40fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<3notname></3notname>");
+        }
+
+        /// <summary>
+        /// tags start with names, not nmtokens. Here the section(s) 3.1 [40] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP40fail3()
+        {
+            var document = DocumentBuilder.Xml(@"<3notname></notname>");
+        }
+
+        /// <summary>
+        /// no space before name. Here the section(s) 3.1 [40] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP40fail4()
+        {
+            var document = DocumentBuilder.Xml(@"< doc></doc>");
+        }
+
+        /// <summary>
+        /// quotes are required (contrast with SGML) Here the section(s) 3.1 [41] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP41fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
+[
+<!ELEMENT doc att (val|val2)>
+]>
+<doc att=val></doc>");
+        }
+        /// <summary>
+        /// attribute name is required (contrast with SGML). Here the section(s) 3.1 [41] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP41fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
+[
+<!ELEMENT doc att (val|val2)>
+]>
+<doc val></doc>");
+        }
+        /// <summary>
+        /// Eq required. Here the section(s) 3.1 [41] apply. This test is taken from the
+        /// collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP41fail3()
+        {
+            var document = DocumentBuilder.Xml(@"<doc att ""val""></doc>");
+        }
+
+        /// <summary>
+        /// EOF in middle of incomplete ETAG Here the section(s) 3.1 [42] apply.
+        /// This test is taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfElement00()
+        {
+            var document = DocumentBuilder.Xml(@"<root>
+    Incomplete end tag.
+</ro");
+        }
+
+        /// <summary>
+        /// EOF in middle of incomplete ETAG. Here the section(s) 3.1 [42] apply.
+        /// This test is taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfElement01()
+        {
+            var document = DocumentBuilder.Xml(@"<root>
+    Incomplete end tag.
+</root");
+        }
+
+        /// <summary>
+        /// no space before name. Here the section(s) 3.1 [42] apply. This
+        /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP42fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<doc></ doc>");
+        }
+
+        /// <summary>
+        /// cannot end with "/>". Here the section(s) 3.1 [42] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP42fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<doc></doc/>");
+        }
+
+        /// <summary>
+        /// no NET (contrast with SGML), Here the section(s) 3.1 [42] apply. This
+        /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP42fail3()
+        {
+            var document = DocumentBuilder.Xml(@"<doc/doc/");
+        }
+
+        /// <summary>
+        /// Illegal markup (&lt;%@ ... %&gt;). Here the section(s) 3.1 [43] apply.
+        /// This test is taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfElement02()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE html [ <!ELEMENT html ANY> ]>
+<html>
+    <% @ LANGUAGE=""VBSCRIPT"" %>
+</html>
+");
+        }
+
+        /// <summary>
+        /// Illegal markup (&lt;% ... %&gt;). Here the section(s) 3.1 [43] apply.
+        /// This test is taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfElement03()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE html [ <!ELEMENT html ANY> ]>
+<html>
+    <% document.println (""hello, world""); %>
+</html>
+
+");
+        }
+
+        /// <summary>
+        /// Illegal markup (&lt;!ELEMENT ... >). Here the section(s) 3.1 [43] apply.
+        /// This test is taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfElement04()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE root [ <!ELEMENT root ANY> ]>
+<root>
+    <!ELEMENT foo EMPTY>
+</root>
+");
+        }
+
+        /// <summary>
+        /// no non-comment declarations. Here the section(s) 3.1 [43] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP43fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE elem
+[
+<!ELEMENT elem (#PCDATA|elem)*>
+<!ENTITY ent ""<elem>CharData</elem>"">
+]>
+<elem>
+<!ENTITY badent ""bad"">
+</elem>
+");
+        }
+
+        /// <summary>
+        /// no conditional sections. Here the section(s) 3.1 [43] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP43fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE elem
+[
+<!ELEMENT elem (#PCDATA|elem)*>
+<!ENTITY ent ""<elem>CharData</elem>"">
+]>
+<elem>
+<![IGNORE[This was valid in SGML, but not XML]]>
+</elem>
+");
+        }
+
+        /// <summary>
+        /// no conditional sections. Here the section(s) 3.1 [43] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP43fail3()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE elem
+[
+<!ELEMENT elem (#PCDATA|elem)*>
+<!ENTITY ent ""<elem>CharData</elem>"">
+]>
+<elem>
+<![INCLUDE[This was valid in SGML, but not XML]]>
+</elem>
+");
+        }
+
+        /// <summary>
+        /// Whitespace required between attributes. Here the section(s) 3.1 [44] apply.
+        /// This test is taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfAttlist11()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
+<!ELEMENT root ANY>
+<!ATTLIST root att1 CDATA #IMPLIED>
+<!ATTLIST root att2 CDATA #IMPLIED>
+]>
+<root att1=""value1""att2=""value2""/>
+    <!-- whitespace required between attributes -->
+");
+        }
+
+        /// <summary>
+        /// Illegal space before Empty element tag. Here the section(s) 3.1 [44] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP44fail1()
+        {
+            var document = DocumentBuilder.Xml(@"< doc/>");
+        }
+
+        /// <summary>
+        /// Illegal space after Empty element tag. Here the section(s) 3.1 [44] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP44fail2()
+        {
+            var document = DocumentBuilder.Xml(@"<doc/ >");
+        }
+
+        /// <summary>
+        /// no S after "&lt;!". Here the section(s) 4.2 [71] apply. This test is
+        /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP71fail3()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
+[
+<!ELEMENT doc (#PCDATA)>
+<! ENTITY ge ""replacement text"">
+]>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// S is required after "&lt;!ENTITY". Here the section(s) 4.2 [71] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP71fail4()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
+[
+<!ELEMENT doc (#PCDATA)>
+<!ENTITYge ""replacement text"">
+]>
+<doc/>
+");
+        }
+
+        /// <summary>
+        /// S is required after "&lt;!ENTITY". Here the section(s) 4.2 [72] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlNotWfOP72fail1()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
+[
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY% pe ""<!--replacement decl-->"">
+]>
+<doc/>
+");
+        }
+        /// <summary>
+        /// system literals may not contain URI fragments. Here the section(s) 2.3,
+        /// 4.2.2 [11] apply. This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void XmlErrorOP11pass1()
+        {
+            var document = DocumentBuilder.Xml(@"<!--Inability to resolve a notation should not be reported as an error-->
+<!DOCTYPE doc
+[
+<!ELEMENT doc EMPTY>
+<!NOTATION not1 SYSTEM ""a%a&b&#0<!ELEMENT<!--<?</>?>/\''"">
+<!NOTATION not2 SYSTEM 'a
+	b""""""'>
+<!NOTATION not3 SYSTEM """">
+<!NOTATION not4 SYSTEM ''>
+]>
+<doc/>
+");
+        }
     }
 }
