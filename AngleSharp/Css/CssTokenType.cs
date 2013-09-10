@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.Css
+﻿namespace AngleSharp.Css
 {
     /// <summary>
     /// An enumation of all possible tokens.

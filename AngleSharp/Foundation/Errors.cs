@@ -401,6 +401,8 @@ namespace AngleSharp
                     return new ArgumentException("Invalid element name in attribute-list declaration.");
                 case ErrorCode.DtdTypeContent:
                     return new ArgumentException("Invalid content specification in element type declaration.");
+                case ErrorCode.UndefinedMarkupDeclaration:
+                    return new ArgumentException("Undefined markup declaration.");
             }
 
             return new Exception("Unknown exception.");

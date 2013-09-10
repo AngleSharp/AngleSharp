@@ -285,8 +285,23 @@ namespace AngleSharp.Xml
             if (c.IsXmlNameStart())
             {
                 _stringBuffer.Clear();
-                _stringBuffer.Append(c);
-                return TagName(_src.Next, XmlToken.CloseTag());
+
+                do
+                {
+                    _stringBuffer.Append(c);
+                    c = _src.Next;
+                }
+                while (c.IsXmlName());
+
+                while (c.IsSpaceCharacter())
+                    c = _src.Next;
+
+                if (c == Specification.GT)
+                {
+                    var tag = XmlToken.CloseTag();
+                    tag.Name = _stringBuffer.ToString();
+                    return tag;
+                }
             }
             else if (c == Specification.EOF)
             {
@@ -386,7 +401,7 @@ namespace AngleSharp.Xml
                 return CData(_src.Next);
             }
 
-            return null;
+            throw Errors.GetException(ErrorCode.UndefinedMarkupDeclaration);
         }
 
         #endregion
@@ -501,7 +516,12 @@ namespace AngleSharp.Xml
             }
 
             decl.Version = _stringBuffer.ToString();
-            return DeclarationAfterVersion(_src.Next, decl);
+            c = _src.Next;
+
+            if (c.IsSpaceCharacter())
+                return DeclarationAfterVersion(c, decl);
+
+            return DeclarationEnd(c, decl);
         }
 
         /// <summary>
@@ -588,7 +608,12 @@ namespace AngleSharp.Xml
             while (c != q);
 
             decl.Encoding = _stringBuffer.ToString();
-            return DeclarationAfterEncoding(_src.Next, decl);
+            c = _src.Next;
+
+            if(c.IsSpaceCharacter())
+                return DeclarationAfterEncoding(c, decl);
+
+            return DeclarationEnd(c, decl);
         }
 
         /// <summary>
@@ -601,7 +626,7 @@ namespace AngleSharp.Xml
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (_src.ContinuesWith("standalone", false))
+            if (_src.ContinuesWith(AttributeNames.STANDALONE, false))
             {
                 _src.Advance(9);
                 return DeclarationStandaloneAfterName(_src.Next, decl);
@@ -1546,21 +1571,13 @@ namespace AngleSharp.Xml
         /// </summary>
         XmlTagToken EmitTag(XmlTagToken tag)
         {
-            if (tag.Type == XmlTokenType.StartTag)
+            for (var i = tag.Attributes.Count - 1; i > 0; i--)
             {
-                for (var i = tag.Attributes.Count - 1; i > 0; i--)
+                for (var j = i - 1; j >= 0; j--)
                 {
-                    for (var j = i - 1; j >= 0; j--)
-                    {
-                        if (tag.Attributes[j].Key == tag.Attributes[i].Key)
-                            throw Errors.GetException(ErrorCode.XmlUniqueAttribute);
-                    }
+                    if (tag.Attributes[j].Key == tag.Attributes[i].Key)
+                        throw Errors.GetException(ErrorCode.XmlUniqueAttribute);
                 }
-            }
-            else
-            {
-                if (tag.IsSelfClosing) RaiseErrorOccurred(ErrorCode.EndTagCannotBeSelfClosed);
-                if (tag.Attributes.Count > 0) RaiseErrorOccurred(ErrorCode.EndTagCannotHaveAttributes);
             }
 
             return tag;

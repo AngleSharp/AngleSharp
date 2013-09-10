@@ -211,5 +211,10 @@ namespace AngleSharp
         /// The encoding attribute.
         /// </summary>
         public const String ENCODING = "encoding";
+
+        /// <summary>
+        /// The standalone attribute.
+        /// </summary>
+        public const String STANDALONE = "standalone";
     }
 }

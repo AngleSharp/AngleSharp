@@ -187,6 +187,18 @@ namespace AngleSharp
         #region Methods
 
         /// <summary>
+        /// Copies the given string from the buffer.
+        /// </summary>
+        /// <param name="start">The inclusive insertation point to start.</param>
+        /// <param name="end">The exclusive insertation point to end.</param>
+        /// <returns>The copied string.</returns>
+        [DebuggerStepThrough]
+        public String Copy(Int32 start, Int32 end)
+        {
+            return _buffer.ToString(start, end - start);
+        }
+
+        /// <summary>
         /// Resets the insertion point to the end of the buffer.
         /// </summary>
         [DebuggerStepThrough]

@@ -116,10 +116,9 @@ namespace AngleSharp.DTD
                 c = _stream.Next;
 
             if (c == End)
-            {
                 return DtdToken.EOF;
-            }
-            else if (c == Specification.LT)
+            
+            if (c == Specification.LT)
             {
                 c = _stream.Next;
 
@@ -134,22 +133,34 @@ namespace AngleSharp.DTD
                     if (_stream.ContinuesWith(ENTITY))
                     {
                         _stream.Advance(5);
-                        return EntityDeclaration(_stream.Next);
+                        c = _stream.Next;
+
+                        if(c.IsSpaceCharacter())
+                            return EntityDeclaration(c);
                     }
                     else if (_stream.ContinuesWith(ELEMENT))
                     {
                         _stream.Advance(6);
-                        return TypeDeclaration(_stream.Next);
+                        c = _stream.Next;
+
+                        if (c.IsSpaceCharacter())
+                            return TypeDeclaration(c);
                     }
                     else if (_stream.ContinuesWith(ATTLIST))
                     {
                         _stream.Advance(6);
-                        return AttributeDeclaration(_stream.Next);
+                        c = _stream.Next;
+
+                        if (c.IsSpaceCharacter())
+                            return AttributeDeclaration(c);
                     }
                     else if (_stream.ContinuesWith(NOTATION))
                     {
                         _stream.Advance(7);
-                        return NotationDeclaration(_stream.Next);
+                        c = _stream.Next;
+
+                        if (c.IsSpaceCharacter())
+                            return NotationDeclaration(c);
                     }
                     else if (_stream.ContinuesWith("--"))
                     {
@@ -1167,6 +1178,8 @@ namespace AngleSharp.DTD
             SourceManager _base;
             StringBuilder _buffer;
             Int32 _head;
+            Int32 _start;
+            Int32 _end;
 
             #endregion
 
@@ -1175,6 +1188,7 @@ namespace AngleSharp.DTD
             public IntermediateStream(SourceManager src)
             {
                 _head = 0;
+                _start = src.InsertionPoint - 1;
                 _buffer = new StringBuilder();
                 _base = src;
             }
@@ -1183,11 +1197,17 @@ namespace AngleSharp.DTD
 
             #region Properties
 
+            /// <summary>
+            /// The content (of the original stream).
+            /// </summary>
             public String Content
             {
-                get { return _buffer.ToString(); }
+                get { return _base.Copy(_start, _end); }
             }
 
+            /// <summary>
+            /// The previous character.
+            /// </summary>
             public Char Previous
             {
                 get
@@ -1197,6 +1217,9 @@ namespace AngleSharp.DTD
                 }
             }
 
+            /// <summary>
+            /// The next character.
+            /// </summary>
             public Char Next
             {
                 get 
@@ -1204,6 +1227,7 @@ namespace AngleSharp.DTD
                     if (_head == _buffer.Length)
                     {
                         _buffer.Append(_base.Current);
+                        _end = _base.InsertionPoint;
                         _head++;
                         return _base.Next;
                     }
@@ -1212,6 +1236,9 @@ namespace AngleSharp.DTD
                 }
             }
 
+            /// <summary>
+            /// The current character.
+            /// </summary>
             public Char Current 
             {
                 get { return _buffer.Length == _head ? _base.Current : _buffer[_head]; }
@@ -1221,6 +1248,12 @@ namespace AngleSharp.DTD
 
             #region Methods
 
+            /// <summary>
+            /// Pushes the text at the current point and removes
+            /// the given number of characters.
+            /// </summary>
+            /// <param name="remove">The number of characters to remove.</param>
+            /// <param name="text">The text to insert.</param>
             public void Push(Int32 remove, String text)
             {
                 var index = _head - remove;
@@ -1229,6 +1262,9 @@ namespace AngleSharp.DTD
                 _head = index + text.Length;
             }
 
+            /// <summary>
+            /// Advances by one character.
+            /// </summary>
             public void Advance()
             {
                 if (_head == _buffer.Length)
@@ -1240,6 +1276,9 @@ namespace AngleSharp.DTD
                 _head++;
             }
 
+            /// <summary>
+            /// Goes back by one character.
+            /// </summary>
             public void Back()
             {
                 if (_head == _buffer.Length)
@@ -1248,12 +1287,21 @@ namespace AngleSharp.DTD
                 _head--;
             }
 
+            /// <summary>
+            /// Advances by n characters.
+            /// </summary>
+            /// <param name="n">The number of characters to skip.</param>
             public void Advance(Int32 n)
             {
                 for (int i = 0; i < n; i++)
                     Advance();
             }
 
+            /// <summary>
+            /// Checks if the stream continues with the given word.
+            /// </summary>
+            /// <param name="word">The word to check for.</param>
+            /// <returns>True if it continues, otherwise false.</returns>
             public Boolean ContinuesWith(String word)
             {
                 if (_head == _buffer.Length)

@@ -4,7 +4,6 @@ using AngleSharp.DOM.Xml;
 using System;
 using System.IO;
 using System.Diagnostics;
-using System.Globalization;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -16,7 +15,7 @@ namespace AngleSharp.Xml
     /// and a little bit about XML parser (XHTML context)
     /// http://www.w3.org/html/wg/drafts/html/master/the-xhtml-syntax.html#xml-parser.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public sealed class XmlParser : IParser
     {
         #region Members
@@ -227,13 +226,11 @@ namespace AngleSharp.Xml
             {
                 var tok = (XmlDeclarationToken)token;
                 standalone = tok.Standalone;
-                var ver = 1.0;
 
                 if (!tok.IsEncodingMissing)
                     SetEncoding(tok.Encoding);
 
-                //The declaration token -- Check version
-                if (!Double.TryParse(tok.Version, NumberStyles.Any, CultureInfo.InvariantCulture, out ver) || ver >= 2.0)
+                if (!CheckVersion(tok.Version))
                     throw Errors.GetException(ErrorCode.XmlDeclarationVersionUnsupported);
             }
             else if (!token.IsIgnorable)
@@ -251,33 +248,44 @@ namespace AngleSharp.Xml
         /// <param name="token">The consumed token.</param>
         void BeforeDoctype(XmlToken token)
         {
-            if (token.Type == XmlTokenType.DOCTYPE)
+            switch (token.Type)
             {
-                var tok = (XmlDoctypeToken)token;
-                var doctype = new DocumentType();
-                doctype.SystemId = tok.SystemIdentifier;
-                doctype.PublicId = tok.PublicIdentifier;
-                doctype.TypeDefinitions = tokenizer.DTD;
-                doctype.Name = tok.Name;
-                doc.AppendChild(doctype);
-                insert = XmlTreeMode.Body;
-            }
-            else if (token.Type == XmlTokenType.ProcessingInstruction)
-            {
-                var tok = (XmlPIToken)token;
-                var pi = doc.CreateProcessingInstruction(tok.Target, tok.Content);
-                doc.AppendChild(pi);
-            }
-            else if (token.Type == XmlTokenType.Comment)
-            {
-                var tok = (XmlCommentToken)token;
-                var com = doc.CreateComment(tok.Data);
-                doc.AppendChild(com);
-            }
-            else if (!token.IsIgnorable)
-            {
-                insert = XmlTreeMode.Body;
-                InBody(token);
+                case XmlTokenType.DOCTYPE:
+                {
+                    var tok = (XmlDoctypeToken)token;
+                    var doctype = new DocumentType();
+                    doctype.SystemId = tok.SystemIdentifier;
+                    doctype.PublicId = tok.PublicIdentifier;
+                    doctype.TypeDefinitions = tokenizer.DTD;
+                    doctype.Name = tok.Name;
+                    doc.AppendChild(doctype);
+                    insert = XmlTreeMode.Body;
+                    break;
+                }
+                case XmlTokenType.ProcessingInstruction:
+                {
+                    var tok = (XmlPIToken)token;
+                    var pi = doc.CreateProcessingInstruction(tok.Target, tok.Content);
+                    doc.AppendChild(pi);
+                    break;
+                }
+                case XmlTokenType.Comment:
+                {
+                    var tok = (XmlCommentToken)token;
+                    var com = doc.CreateComment(tok.Data);
+                    doc.AppendChild(com);
+                    break;
+                }
+                default:
+                {
+                    if (!token.IsIgnorable)
+                    {
+                        insert = XmlTreeMode.Body;
+                        InBody(token);
+                    }
+
+                    break;
+                }
             }
         }
 
@@ -366,6 +374,17 @@ namespace AngleSharp.Xml
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Checks the given version number.
+        /// </summary>
+        /// <param name="ver"></param>
+        /// <returns></returns>
+        Boolean CheckVersion(String ver)
+        {
+            ver = ver.Trim();
+            return ver.IsOneOf("1", "1.0", "1.1");
+        }
 
         /// <summary>
         /// The kernel that is pulling the tokens into the parser.
