@@ -1107,13 +1107,13 @@ namespace AngleSharp.DTD
                 else if (_stream.ContinuesWith(ANY))
                 {
                     _stream.Advance(2);
-                    decl.CType = ElementDeclarationEntry.ContentType.Any;
+                    decl.Entry = ElementDeclarationEntry.Any;
                     return TypeDeclarationAfterContent(_stream.Next, decl);
                 }
                 else if (_stream.ContinuesWith(EMPTY))
                 {
                     _stream.Advance(4);
-                    decl.CType = ElementDeclarationEntry.ContentType.Empty;
+                    decl.Entry = ElementDeclarationEntry.Empty;
                     return TypeDeclarationAfterContent(_stream.Next, decl);
                 }
 
@@ -1131,21 +1131,19 @@ namespace AngleSharp.DTD
             if (_stream.ContinuesWith(PCDATA))
             {
                 _stream.Advance(6);
-                decl.CType = ElementDeclarationEntry.ContentType.Mixed;
                 decl.Entry = TypeDeclarationMixed(_stream.Next);
             }
             else
             {
-                decl.CType = ElementDeclarationEntry.ContentType.Children;
                 decl.Entry = TypeDeclarationChildren(c);
             }
 
             return TypeDeclarationAfterContent(_stream.Current, decl);
         }
 
-        ElementDeclarationEntry TypeDeclarationChildren(Char c)
+        ElementChildrenDeclarationEntry TypeDeclarationChildren(Char c)
         {
-            var entries = new List<ElementDeclarationEntry>();
+            var entries = new List<ElementQuantifiedDeclarationEntry>();
             var connection = Specification.NULL;
 
             while (true)
@@ -1218,24 +1216,24 @@ namespace AngleSharp.DTD
             };
         }
 
-        ElementDeclarationEntry.ElementQuantifier TypeDeclarationQuantifier(Char c)
+        ElementQuantifier TypeDeclarationQuantifier(Char c)
         {
             switch (c)
             {
                 case Specification.ASTERISK:
                     _stream.Advance();
-                    return ElementDeclarationEntry.ElementQuantifier.ZeroOrMore;
+                    return ElementQuantifier.ZeroOrMore;
 
                 case Specification.QM:
                     _stream.Advance();
-                    return ElementDeclarationEntry.ElementQuantifier.ZeroOrOne;
+                    return ElementQuantifier.ZeroOrOne;
 
                 case Specification.PLUS:
                     _stream.Advance();
-                    return ElementDeclarationEntry.ElementQuantifier.OneOrMore;
+                    return ElementQuantifier.OneOrMore;
 
                 default:
-                    return ElementDeclarationEntry.ElementQuantifier.One;
+                    return ElementQuantifier.One;
             }
         }
 
@@ -1254,7 +1252,7 @@ namespace AngleSharp.DTD
 
                     if (c == Specification.ASTERISK)
                     {
-                        entry.Quantifier = ElementDeclarationEntry.ElementQuantifier.ZeroOrMore;
+                        entry.Quantifier = ElementQuantifier.ZeroOrMore;
                         _stream.Advance();
                         return entry;
                     }

@@ -3,31 +3,41 @@ using System;
 
 namespace AngleSharp.DTD
 {
+    /// <summary>
+    /// Represents the element declaration.
+    /// </summary>
     sealed class ElementDeclaration : Node
     {
+        internal ElementDeclaration()
+        {
+        }
+
         /// <summary>
-        /// Zero-Order approximation.
+        /// Gets or sets the name of the element to define.
         /// </summary>
-        DtdElementToken _token;
-
-        internal ElementDeclaration(DtdElementToken token)
-        {
-            _token = token;
-        }
-
-        public ElementDeclarationEntry.ContentType Type
-        {
-            get { return _token.CType; }
-        }
-
         public String Name
         {
-            get { return _token.Name; }
+            get;
+            set;
         }
 
+        /// <summary>
+        /// Gets or sets the definition of the element.
+        /// </summary>
         public ElementDeclarationEntry Entry
         {
-            get { return _token.Entry; }
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Checks the element.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <returns>True if everything is according to the definition, otherwise false.</returns>
+        public Boolean Check(Element element)
+        {
+            return Entry.Check(element);
         }
     }
 }

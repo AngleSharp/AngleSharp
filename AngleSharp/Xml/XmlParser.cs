@@ -6,6 +6,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace AngleSharp.Xml
 {
@@ -401,6 +402,9 @@ namespace AngleSharp.Xml
                 }
                 case XmlTokenType.EOF:
                 {
+                    if(doc.Options.IsValidating && !XmlValidator.Run(doc))
+                        throw Errors.GetException(ErrorCode.XmlValidationFailed);
+
                     break;
                 }
                 default:
@@ -426,7 +430,7 @@ namespace AngleSharp.Xml
         {
             var t = 0.0;
 
-            if (Double.TryParse(ver, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out t))
+            if (Double.TryParse(ver, NumberStyles.Any, CultureInfo.InvariantCulture, out t))
                 return t >= 1.0 && t < 2.0;
 
             return false;

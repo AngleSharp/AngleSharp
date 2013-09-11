@@ -19,12 +19,6 @@ namespace AngleSharp.DTD
 
         #region Properties
 
-        public ElementDeclarationEntry.ContentType CType
-        {
-            get;
-            set;
-        }
-
         public ElementDeclarationEntry Entry
         {
             get;
@@ -37,7 +31,7 @@ namespace AngleSharp.DTD
 
         public ElementDeclaration ToElement()
         {
-            return new ElementDeclaration(this);
+            return new ElementDeclaration { Name = Name, Entry = Entry };
         }
 
         #endregion

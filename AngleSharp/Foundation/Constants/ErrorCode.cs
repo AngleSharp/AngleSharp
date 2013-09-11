@@ -472,6 +472,10 @@ namespace AngleSharp
         /// </summary>
         XmlInvalidPI = 0x209,
         /// <summary>
+        /// (0x210) XML validation for the current document failed.
+        /// </summary>
+        XmlValidationFailed = 0x210,
+        /// <summary>
         /// (0x300) Invalid document type declaration.
         /// </summary>
         DtdInvalid = 0x300,
@@ -503,5 +507,9 @@ namespace AngleSharp
         /// (0x307) Invalid content specification in element type declaration.
         /// </summary>
         DtdTypeContent = 0x307,
+        /// <summary>
+        /// (0x308) An element type must not be declared more than once.
+        /// </summary>
+        DtdUniqueElementViolated = 0x308,
     }
 }

@@ -8,7 +8,7 @@ namespace AngleSharp.DTD
     /// <summary>
     /// The DTD container contains the whole DTD.
     /// </summary>
-    sealed class DtdContainer : IEnumerable<Node>
+    sealed class DtdContainer : ICollection<Node>
     {
         #region Members
 
@@ -19,6 +19,7 @@ namespace AngleSharp.DTD
         List<AttributeDeclaration> _attributes;
         List<ElementDeclaration> _elements;
         List<Node> _nodes;
+        Boolean _invalid;
 
         #endregion
 
@@ -49,6 +50,17 @@ namespace AngleSharp.DTD
 
         #region Properties
 
+        /// <summary>
+        /// Gets if the DTD is invalid.
+        /// </summary>
+        public Boolean IsInvalid
+        {
+            get { return _invalid; }
+        }
+
+        /// <summary>
+        /// Gets the nu
+        /// </summary>
         public Int32 Count
         {
             get { return _nodes.Count; }
@@ -168,14 +180,35 @@ namespace AngleSharp.DTD
             _pis.Add(pi);
         }
 
+        internal Boolean ContainsAttribute(String name)
+        {
+            foreach (var attr in _attributes)
+                if (attr.Name == name)
+                    return true;
+
+            return false;
+        }
+
         internal void AddAttribute(AttributeDeclaration attribute)
         {
             _nodes.Add(attribute);
             _attributes.Add(attribute);
         }
 
+        internal Boolean ContainsElement(String name)
+        {
+            foreach (var el in _elements)
+                if (el.Name == name)
+                    return true;
+
+            return false;
+        }
+
         internal void AddElement(ElementDeclaration element)
         {
+            if (ContainsElement(element.Name))
+                _invalid = true;
+
             _nodes.Add(element);
             _elements.Add(element);
         }
@@ -193,6 +226,52 @@ namespace AngleSharp.DTD
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        #endregion
+
+        #region ICollection implementation
+
+        public void Add(Node item)
+        {
+            if (item is Notation)
+                AddNotation((Notation)item);
+            else if (item is Comment)
+                AddComment((Comment)item);
+            else if (item is Entity)
+                AddEntity((Entity)item);
+            else if (item is ProcessingInstruction)
+                AddProcessingInstruction((ProcessingInstruction)item);
+            else if (item is ElementDeclaration)
+                AddElement((ElementDeclaration)item);
+            else if (item is AttributeDeclaration)
+                AddAttribute((AttributeDeclaration)item);
+        }
+
+        public void Clear()
+        {
+            Reset();
+        }
+
+        public Boolean Contains(Node item)
+        {
+            return _nodes.Contains(item);
+        }
+
+        public void CopyTo(Node[] array, Int32 arrayIndex)
+        {
+            for (int i = arrayIndex, j = 0; i < array.Length && j < _nodes.Count; i++, j++)
+                array[i] = _nodes[j];
+        }
+
+        public Boolean IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public Boolean Remove(Node item)
+        {
+            return false;
         }
 
         #endregion

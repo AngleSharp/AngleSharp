@@ -1,0 +1,121 @@
+﻿using AngleSharp.DOM;
+using AngleSharp.DOM.Xml;
+using AngleSharp.DTD;
+using System;
+using System.Collections.Generic;
+
+namespace AngleSharp.Xml
+{
+    /// <summary>
+    /// The XML validator for document validation.
+    /// </summary>
+    sealed class XmlValidator
+    {
+        #region Members
+
+        DtdContainer _dtd;
+        Dictionary<String, Int32> _elements;
+
+        #endregion
+
+        #region ctor
+
+        public XmlValidator()
+        {
+            _elements = new Dictionary<String, Int32>();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// The Document Type Definition if any.
+        /// </summary>
+        public DtdContainer Definition
+        {
+            get { return _dtd; }
+            set { _dtd = value; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Runs the Validation with the given document.
+        /// </summary>
+        /// <param name="doc">The document to inspect.</param>
+        /// <returns>True if the validation has been successful, otherwise false.</returns>
+        public static Boolean Run(XMLDocument doc)
+        {
+            if (doc.Doctype == null || doc.Doctype.TypeDefinitions == null)
+                return false;
+
+            var validator = new XmlValidator();
+            validator.Definition = doc.Doctype.TypeDefinitions;
+
+            if (validator.Definition.IsInvalid)
+                return false;
+
+            return validator.Inspect(doc.DocumentElement);
+        }
+
+        /// <summary>
+        /// Validates the given element and its children (if any).
+        /// </summary>
+        /// <param name="element">The element to validate.</param>
+        /// <returns>True if the given element and its children are valid, otherwise false.</returns>
+        public Boolean Validate(Element element)
+        {
+            if (_dtd == null)
+                return false;
+
+            foreach (var def in _dtd.Elements)
+            {
+                if (def.Name == element.NodeName)
+                {
+                    if (!def.Check(element))
+                        break;
+
+                    //TODO Attribute Checking
+
+                    IncreaseCounter(def.Name);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void IncreaseCounter(String elementName)
+        {
+            if (_elements.ContainsKey(elementName))
+                _elements[elementName] += 1;
+            else
+                _elements[elementName] = 1;
+        }
+
+        Boolean Inspect(Element element)
+        {
+            if (Validate(element))
+            {
+                foreach (var child in element.Children)
+                {
+                    if (!Inspect(child))
+                        return false;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+    }
+}

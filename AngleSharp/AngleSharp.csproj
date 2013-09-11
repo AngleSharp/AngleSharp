@@ -53,6 +53,14 @@
     <Compile Include="DOM\Css\Values\Primitives\CSSUri.cs" />
     <Compile Include="DOM\Enums\CssSide.cs" />
     <Compile Include="DOM\Objects\FileEntry.cs" />
+    <Compile Include="DTD\Declaration\Element\ElementContentType.cs" />
+    <Compile Include="DTD\Declaration\Element\ElementQuantifier.cs" />
+    <Compile Include="DTD\Declaration\Element\ElementAnyDeclarationEntry.cs" />
+    <Compile Include="DTD\Declaration\Element\ElementChoiceDeclarationEntry.cs" />
+    <Compile Include="DTD\Declaration\Element\ElementEmptyDeclarationEntry.cs" />
+    <Compile Include="DTD\Declaration\Element\ElementMixedDeclarationEntry.cs" />
+    <Compile Include="DTD\Declaration\Element\ElementNameDeclarationEntry.cs" />
+    <Compile Include="DTD\Declaration\Element\ElementSequenceDeclarationEntry.cs" />
     <Compile Include="Events\ParseErrorEventHandler.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Foundation\Constants\AttributeNames.cs" />
@@ -175,7 +183,7 @@
     <Compile Include="DTD\Declaration\AttributeTypeDeclaration.cs" />
     <Compile Include="DTD\Declaration\AttributeValueDeclaration.cs" />
     <Compile Include="DTD\Declaration\ElementDeclaration.cs" />
-    <Compile Include="DTD\Declaration\ElementDeclarationEntry.cs" />
+    <Compile Include="DTD\Declaration\Element\ElementDeclarationEntry.cs" />
     <Compile Include="DTD\DtdContainer.cs" />
     <Compile Include="DTD\DtdTokenType.cs" />
     <Compile Include="DTD\Tokens\DtdCommentToken.cs" />
@@ -394,6 +402,7 @@
     <Compile Include="Xml\XmlTokenizer.cs" />
     <Compile Include="Xml\XmlTokenType.cs" />
     <Compile Include="Xml\XmlTreeMode.cs" />
+    <Compile Include="Xml\XmlValidator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
