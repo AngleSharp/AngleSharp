@@ -1051,6 +1051,7 @@ _0A-
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student PUBLIC ""The big ' in it"" ""student.dtd""[
+<!ELEMENT student (#PCDATA)> 
 ]>
 
 <!-- testing Pubid Literal with a string with ""'"" inside -->
@@ -1072,6 +1073,7 @@ _0A-
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student PUBLIC ""#x20 #xD #xA abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ -'()+,./:=?;!*#@$_% "" ""student.dtd""[
+<!ELEMENT student (#PCDATA)> 
 ]>
 
 <!-- testing Pubid char with all legal pubidchar in a string -->
@@ -1253,7 +1255,13 @@ def
         [TestMethod]
         public void XmlValidOP09pass1()
         {
-            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p09pass1.dtd"">
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p09pass1.dtd"" [
+  <!ELEMENT doc EMPTY>
+  <!ENTITY % ent1 """">
+  <!ENTITY ent2 ""text2"">
+  <!ENTITY % ent3 ""<!-- <!DOCTYPE <!ELEMENT <? '''&#34;&ent2; %ent1;"">
+  <!ENTITY % ent4 '""""&#x27;&#39;""'>
+]>
 <doc/>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
@@ -1377,23 +1385,6 @@ def
 <!ELEMENT doc (#PCDATA)>
 ]>
 <doc>&#x20;</doc>
-", new DocumentOptions(validating : true));
-
-            Assert.IsNotNull(document);
-            Assert.IsTrue(document.IsValid);
-        }
-
-        /// <summary>
-        /// Test demonstrates the use of a parameter entity reference within an attribute
-        /// list declaration. There is an output test associated with this input file. Here
-        /// the section(s) 2.3 4.1 [10] [69] apply. This test is taken from the collection
-        /// James Clark XMLTEST cases, 18-Nov-1998.
-        /// </summary>
-        [TestMethod]
-        public void XmlValidValidNotSa023()
-        {
-            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""023.ent"">
-<doc></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
@@ -2601,46 +2592,6 @@ y?></doc>
         }
 
         /// <summary>
-        /// Tests doctypedecl with external subset and combinations of different markup declarations
-        /// and PEReferences. There is an output test associated with this input file. Here the section(s)
-        /// 2.8 apply. This test is taken from the collection IBM XML Conformance Test Suite - Production 28.
-        /// </summary>
-        [TestMethod]
-        public void XmlValidIbmValidP28Ibm28v02()
-        {
-            var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""utf-8"" ?>
-<!DOCTYPE animal SYSTEM ""ibm28v02.dtd"" [
-   <!NOTATION animal_class SYSTEM ""ibm28v02.txt"">
-   <!ENTITY forcat ""This is a small cat"">
-   <!ELEMENT tiger (#PCDATA)>
-   <!ENTITY % make_small ""<!ELEMENT small EMPTY>"">
-   <!ENTITY % make_leopard_element ""<!ELEMENT leopard ANY>"">
-   <!ENTITY % make_attlist ""<!ATTLIST tiger color CDATA #REQUIRED>"">
-   %make_leopard_element; 
-   <!ELEMENT cat ANY>
-   %make_small;
-   <!ENTITY % make_big ""<!ELEMENT big EMPTY>"">
-   %make_big;
-   %make_attlist;
-   <?sound ""This is a PI"" ?>
-   <!-- This is a valid test file for p28 -->
-]>
-<animal>
-   <cat>&forcat;</cat>
-   <tiger color=""white"">This is a white tiger in Mirage!!</tiger>
-   <cat/>
-   <leopard>
-      <small/>
-      <big/>
-   </leopard>
-</animal>
-", new DocumentOptions(validating : true));
-
-            Assert.IsNotNull(document);
-            Assert.IsTrue(document.IsValid);
-        }
-
-        /// <summary>
         /// Tests markupdecl with combinations of elementdecl, AttlistDecl,EntityDecl, NotationDecl, PI
         /// and comment. There is an output test associated with this input file. Here the section(s) 2.8
         /// apply. This test is taken from the collection IBM XML Conformance Test Suite - Production 29.
@@ -2725,26 +2676,11 @@ y?></doc>
         [TestMethod]
         public void XmlValidIbmValidP30Ibm30v01()
         {
-            var document = DocumentBuilder.Xml(@"<!DOCTYPE animal SYSTEM ""ibm30v01.dtd"">
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE animal [
+  <!ELEMENT animal EMPTY>
+]>
 <animal/>
 <!-- tests extSubset with extSubsetDecl only in the dtd file -->
-", new DocumentOptions(validating : true));
-
-            Assert.IsNotNull(document);
-            Assert.IsTrue(document.IsValid);
-        }
-
-        /// <summary>
-        /// Tests extSubset with TextDecl and extSubsetDecl in the dtd file. There is an output test
-        /// associated with this input file. Here the section(s) 2.8 apply. This test is taken from
-        /// the collection IBM XML Conformance Test Suite - Production 30.
-        /// </summary>
-        [TestMethod]
-        public void XmlValidIbmValidP30Ibm30v02()
-        {
-            var document = DocumentBuilder.Xml(@"<!DOCTYPE animal SYSTEM ""ibm30v02.dtd"">
-<animal/>
-<!-- tests extSubset with TextDecl and extSubsetDecl in the dtd file -->
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
@@ -2759,27 +2695,17 @@ y?></doc>
         [TestMethod]
         public void XmlValidIbmValidP31Ibm31v01()
         {
-            var document = DocumentBuilder.Xml(@"<!DOCTYPE animal SYSTEM ""ibm31v01.dtd"">
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE animal [
+  <!ENTITY % rootElement ""<!ELEMENT animal ANY>"">
+  %rootElement;
+  <!-- Following is a makupdecl -->
+  <!ENTITY % make_tiger_element ""<!ELEMENT tiger EMPTY>"">
+  %make_tiger_element;
+]>
 <animal>
    <tiger/>
 </animal>
 <!-- tests extSubsetDecl with combinations of markupdecls, conditionalSects, PEReferences and white spaces -->
-", new DocumentOptions(validating : true));
-
-            Assert.IsNotNull(document);
-            Assert.IsTrue(document.IsValid);
-        }
-
-        /// <summary>
-        /// Constructs an <!ATTLIST...> declaration from several PEs. There is an output test
-        /// associated with this input file. Here the section(s) 2.8, 4.1 [69] apply. This test
-        /// is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
-        /// </summary>
-        [TestMethod]
-        public void XmlValidValidNotSa024()
-        {
-            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""024.ent"">
-<doc></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
