@@ -165,7 +165,7 @@ namespace AngleSharp.Xml
         #region CDATA
 
         /// <summary>
-        /// Checks if the character sequence is equal to ]]>.
+        /// Checks if the character sequence is equal to ]]&gt;.
         /// </summary>
         /// <param name="ch">The character to examine.</param>
         /// <returns>The token if everything is alright.</returns>

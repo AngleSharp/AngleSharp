@@ -643,7 +643,7 @@ namespace AngleSharp.DTD
             if (c == Specification.RBO)
             {
                 var type = new AttributeEnumeratedType();
-                value.ValueType = type;
+                value.Type = type;
                 AttributeDeclarationTypeEnumeration(_stream.Next, type);
             }
             else if (c.IsUppercaseAscii())
@@ -676,32 +676,32 @@ namespace AngleSharp.DTD
                 switch (id)
                 {
                     case CDATA:
-                        value.ValueType = new AttributeStringType();
+                        value.Type = new AttributeStringType();
                         break;
                     case ID:
-                        value.ValueType = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.ID };
+                        value.Type = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.ID };
                         break;
                     case IDREF:
-                        value.ValueType = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.IDREF };
+                        value.Type = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.IDREF };
                         break;
                     case IDREFS:
-                        value.ValueType = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.IDREFS };
+                        value.Type = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.IDREFS };
                         break;
                     case ENTITY:
-                        value.ValueType = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.ENTITY };
+                        value.Type = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.ENTITY };
                         break;
                     case ENTITIES:
-                        value.ValueType = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.ENTITIES };
+                        value.Type = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.ENTITIES };
                         break;
                     case NMTOKEN:
-                        value.ValueType = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.NMTOKEN };
+                        value.Type = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.NMTOKEN };
                         break;
                     case NMTOKENS:
-                        value.ValueType = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.NMTOKENS };
+                        value.Type = new AttributeTokenizedType { Value = AttributeTokenizedType.TokenizedType.NMTOKENS };
                         break;
                     case NOTATION:
                         var type = new AttributeEnumeratedType { IsNotation = true };
-                        value.ValueType = type;
+                        value.Type = type;
 
                         while (c.IsSpaceCharacter())
                             c = _stream.Next;
@@ -781,10 +781,10 @@ namespace AngleSharp.DTD
                 switch (tag)
                 {
                     case REQUIRED:
-                        value.ValueType.ValueDefault = new AttributeRequiredValue();
+                        value.Default = new AttributeRequiredValue();
                         return value;
                     case IMPLIED:
-                        value.ValueType.ValueDefault = new AttributeImpliedValue();
+                        value.Default = new AttributeImpliedValue();
                         return value;
                     case FIXED:
                         isfixed = true;
@@ -799,7 +799,7 @@ namespace AngleSharp.DTD
             _stringBuffer.Clear();
             _stream.Advance();
 
-            value.ValueType.ValueDefault = new AttributeCustomValue
+            value.Default = new AttributeCustomValue
             {
                 Value = defvalue,
                 IsFixed = isfixed

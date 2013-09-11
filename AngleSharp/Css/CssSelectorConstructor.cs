@@ -137,7 +137,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Picks a simple selector from the stream of tokens.
         /// </summary>
-        /// <param name="tokens">The stream of tokens to consider.</param>
+        /// <param name="token">The stream of tokens to consider.</param>
         public void Apply(CssToken token)
         {
 			switch (state)
@@ -700,7 +700,6 @@ namespace AngleSharp.Css
         /// <summary>
         /// Takes string and transforms it into the arguments for the nth-child function.
         /// </summary>
-        /// <param name="it">The token source..</param>
         /// <returns>The function.</returns>
         SimpleSelector GetChildSelector<T>() where T : NthChildSelector, new()
         {

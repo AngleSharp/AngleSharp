@@ -102,6 +102,9 @@ namespace AngleSharp.DOM.Css
 
         #region Enum
 
+        /// <summary>
+        /// An enumeration over possible functions.
+        /// </summary>
         public enum DocumentFunction
         {
             /// <summary>

@@ -5,21 +5,50 @@ namespace AngleSharp.DTD
 {
     sealed class AttributeDeclarationEntry
     {
+        #region Members
+
+        AttributeTypeDeclaration _type;
+        AttributeValueDeclaration _value;
+
+        #endregion
+
+        #region Properties
+
         public String Name
         {
             get;
             set;
         }
 
-        public AttributeTypeDeclaration ValueType
+        public AttributeTypeDeclaration Type
         {
-            get;
-            set;
+            get { return _type; }
+            set
+            {
+                _type = value;
+                _type.Parent = this;
+            }
         }
+
+        public AttributeValueDeclaration Default
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                _value.Parent = this;
+            }
+        }
+
+        #endregion
+
+        #region Methods
 
         public Boolean Check(Element element)
         {
-            return ValueType.Check(element);
+            return Type.Check(element);
         }
+
+        #endregion
     }
 }

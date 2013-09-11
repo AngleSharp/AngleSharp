@@ -968,7 +968,7 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Called in a value - a hash (probably hex) value has been found.
 		/// </summary>
-		/// <param name="token">The value of the token.</param>
+        /// <param name="color">The value of the token.</param>
 		/// <returns>The status.</returns>
 		Boolean InSingleValueHexColor(String color)
 		{

@@ -7,7 +7,7 @@ namespace AngleSharp.DTD
     {
         public override Boolean Check(Element element)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }
