@@ -123,8 +123,8 @@ namespace UnitTests
             Assert.AreEqual("TVSCHEDULE", f7.Name);
             Assert.AreEqual(1, f7.Count);
             Assert.AreEqual("NAME", f7[0].Name);
-            Assert.IsTrue(f7[0].ValueType is AttributeStringType);
-            Assert.IsTrue(f7[0].ValueDefault is AttributeRequiredValue);
+            Assert.IsInstanceOfType(f7[0].ValueType, typeof(AttributeStringType));
+            Assert.IsInstanceOfType(f7[0].ValueType.ValueDefault, typeof( AttributeRequiredValue));
         }
 
         [TestMethod]
