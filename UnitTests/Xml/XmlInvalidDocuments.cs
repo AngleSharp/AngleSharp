@@ -443,6 +443,33 @@ att2=""val2"" att3=""val3""/>");
         }
 
         /// <summary>
+        /// PE name immediately followed by ";" Here the section(s) 4.1 [69] apply.
+        /// This test is taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        public void XmlInvalidDtd03()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE violation [
+<!ELEMENT violation (a,a,a,b)>
+<!ELEMENT a EMPTY>
+<!ELEMENT b EMPTY>
+    <!-- tests the ""element valid"" constraint for content
+	which doesn't match the declared content model.
+	(there can be an infinite number of such tests...)
+	-->
+]>
+<violation>
+    <a/>
+    <a/>
+    <b/>
+</violation>
+");
+
+            Assert.IsNotNull(document);
+            Assert.IsFalse(document.IsValid);
+        }
+
+        /// <summary>
         /// Tests the Attribute Value Type (declared) VC for the xml:lang attribute.
         /// Here the section(s) 3.1 2.12 apply. This test is taken from the collection
         /// Sun Microsystems XML Tests.

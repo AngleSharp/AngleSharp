@@ -2928,33 +2928,6 @@ y?></doc>
         }
 
         /// <summary>
-        /// PE name immediately followed by ";" Here the section(s) 4.1 [69] apply.
-        /// This test is taken from the collection Sun Microsystems XML Tests.
-        /// </summary>
-        [TestMethod]
-        public void XmllValidDtd03()
-        {
-            var document = DocumentBuilder.Xml(@"<!DOCTYPE violation [
-<!ELEMENT violation (a,a,a,b)>
-<!ELEMENT a EMPTY>
-<!ELEMENT b EMPTY>
-    <!-- tests the ""element valid"" constraint for content
-	which doesn't match the declared content model.
-	(there can be an infinite number of such tests...)
-	-->
-]>
-<violation>
-    <a/>
-    <a/>
-    <b/>
-</violation>
-", new DocumentOptions(validating : true));
-
-            Assert.IsNotNull(document);
-            Assert.IsTrue(document.IsValid);
-        }
-
-        /// <summary>
         /// Valid types of markupdecl. Here the section(s) 2.8 [29] apply. This test is
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
