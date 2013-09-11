@@ -77,30 +77,30 @@ namespace UnitTests
 
             var f1 = (t.DTD[0] as ElementDeclaration);
             Assert.AreEqual("TVSCHEDULE", f1.Name);
-            Assert.AreEqual(ElementDeclarationEntry.ContentType.Children, f1.Type);
+            Assert.AreEqual(ElementContentType.Children, f1.Entry.Type);
             Assert.IsTrue(f1.Entry is ElementChoiceDeclarationEntry);
 
             var g1 = (f1.Entry as ElementChoiceDeclarationEntry);
-            Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.One, g1.Quantifier);
+            Assert.AreEqual(ElementQuantifier.One, g1.Quantifier);
             Assert.AreEqual(1, g1.Choice.Count);
             Assert.IsTrue(g1.Choice[0] is ElementNameDeclarationEntry);
 
             var h1 = (g1.Choice[0] as ElementNameDeclarationEntry);
-            Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.OneOrMore, h1.Quantifier);
+            Assert.AreEqual(ElementQuantifier.OneOrMore, h1.Quantifier);
             Assert.AreEqual("CHANNEL", h1.Name);
 
             Assert.IsTrue(t.DTD[3] is ElementDeclaration);
 
             var f2 = (t.DTD[3] as ElementDeclaration);
             Assert.AreEqual("DAY", f2.Name);
-            Assert.AreEqual(ElementDeclarationEntry.ContentType.Children, f2.Type);
+            Assert.AreEqual(ElementContentType.Children, f2.Entry.Type);
             Assert.IsTrue(f2.Entry is ElementSequenceDeclarationEntry);
 
             var g2 = (f2.Entry as ElementSequenceDeclarationEntry);
-            Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.One, g2.Quantifier);
+            Assert.AreEqual(ElementQuantifier.One, g2.Quantifier);
             Assert.AreEqual(2, g2.Sequence.Count);
-            Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.One, g2.Sequence[0].Quantifier);
-            Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.OneOrMore, g2.Sequence[1].Quantifier);
+            Assert.AreEqual(ElementQuantifier.One, g2.Sequence[0].Quantifier);
+            Assert.AreEqual(ElementQuantifier.OneOrMore, g2.Sequence[1].Quantifier);
             Assert.IsTrue(g2.Sequence[0] is ElementNameDeclarationEntry);
             Assert.IsTrue(g2.Sequence[1] is ElementChoiceDeclarationEntry);
 
@@ -115,8 +115,8 @@ namespace UnitTests
             var g6 = (g4.Choice[1] as ElementNameDeclarationEntry);
             Assert.AreEqual("HOLIDAY", g5.Name);
             Assert.AreEqual("PROGRAMSLOT", g6.Name);
-            Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.One, g5.Quantifier);
-            Assert.AreEqual(ElementDeclarationEntry.ElementQuantifier.OneOrMore, g6.Quantifier);
+            Assert.AreEqual(ElementQuantifier.One, g5.Quantifier);
+            Assert.AreEqual(ElementQuantifier.OneOrMore, g6.Quantifier);
 
             Assert.IsTrue(t.DTD[10] is AttributeDeclaration);
             var f7 = (t.DTD[10] as AttributeDeclaration);
