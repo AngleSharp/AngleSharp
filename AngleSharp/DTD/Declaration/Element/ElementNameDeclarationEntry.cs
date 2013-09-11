@@ -18,13 +18,20 @@ namespace AngleSharp.DTD
 
         public override Boolean Check(NodeInspector inspector)
         {
-            if (inspector.Current.NodeName == Name)
+            var min = _quantifier == ElementQuantifier.ZeroOrMore || _quantifier == ElementQuantifier.ZeroOrOne ? 0 : 1;
+            var max = _quantifier == ElementQuantifier.One || _quantifier == ElementQuantifier.ZeroOrOne ? 1 : Int32.MaxValue;
+            var found = 0;
+
+            while (found < max && !inspector.IsCompleted)
             {
+                if (inspector.Current.NodeName != Name)
+                    break;
+
                 inspector.Index++;
-                return true;
+                found++;
             }
 
-            return false;
+            return found >= min;
         }
 
         #endregion
