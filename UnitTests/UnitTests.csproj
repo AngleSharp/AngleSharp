@@ -98,6 +98,7 @@
     <Compile Include="Html\HtmlFragments.cs" />
     <Compile Include="Html\HtmlEntities.cs" />
     <Compile Include="Html\UserJsUnsafe.cs" />
+    <Compile Include="Xml\XmlInvalidDocuments.cs" />
     <Compile Include="Xml\XmlNotWfExtDtd.cs" />
     <Compile Include="Xml\XmlNotWfDocuments.cs" />
     <Compile Include="Xml\XmlValidExtDtd.cs" />

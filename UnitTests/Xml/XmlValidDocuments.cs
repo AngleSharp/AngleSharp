@@ -48,6 +48,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -63,6 +64,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -84,6 +86,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -103,6 +106,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -122,6 +126,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -141,6 +146,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -160,6 +166,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -179,6 +186,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -201,6 +209,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -222,6 +231,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -245,6 +255,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -266,6 +277,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -284,6 +296,7 @@ namespace UnitTests.Xml
 <!-- Tests LanguageID with Langcode - Subcode -->", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -302,6 +315,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -320,6 +334,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -338,6 +353,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -356,6 +372,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -374,6 +391,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -392,6 +410,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -411,6 +430,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -430,6 +450,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -449,6 +470,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -468,6 +490,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -487,6 +510,7 @@ namespace UnitTests.Xml
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -510,6 +534,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -545,6 +570,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -563,6 +589,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -581,6 +608,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -599,6 +627,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -618,6 +647,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -650,6 +680,7 @@ _0A-
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -683,6 +714,7 @@ _0A-
  ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -702,6 +734,7 @@ _0A-
 <student>My Name is &FullName;. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -723,6 +756,7 @@ _0A-
 <student>My Name is &FullName;. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -756,6 +790,7 @@ _0A-
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -783,6 +818,7 @@ _0A-
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -809,6 +845,7 @@ _0A-
 <student first=""Snow'"" last=""Man"">My Name is &myfirst; &mylast;. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -864,6 +901,7 @@ _0A-
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -892,6 +930,7 @@ _0A-
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -919,6 +958,7 @@ _0A-
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -948,6 +988,7 @@ _0A-
  ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -975,6 +1016,7 @@ _0A-
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -996,6 +1038,7 @@ _0A-
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1015,6 +1058,7 @@ _0A-
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1043,6 +1087,7 @@ _0A-
  ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1064,6 +1109,7 @@ _0A-
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1086,6 +1132,7 @@ cdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"">
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1105,6 +1152,7 @@ cdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"">
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1123,6 +1171,7 @@ cdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"">
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1150,6 +1199,7 @@ A2	A3""/>
 </doc>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1168,6 +1218,7 @@ A2	A3""/>
 <doc/>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1191,6 +1242,7 @@ def
 </doc>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1205,6 +1257,7 @@ def
 <doc/>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1229,6 +1282,7 @@ def
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1267,6 +1321,7 @@ def
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1286,6 +1341,7 @@ def
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1305,6 +1361,7 @@ def
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1323,6 +1380,7 @@ def
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1339,6 +1397,7 @@ def
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1363,6 +1422,7 @@ def
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1387,6 +1447,7 @@ def
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1408,6 +1469,7 @@ def
 <student first=""Snow"" last=""Man"">This is a test</student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1448,6 +1510,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1465,6 +1528,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1482,6 +1546,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1499,6 +1564,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1521,6 +1587,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1540,6 +1607,7 @@ CharData
 <student>My Name is SnowMan. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1559,6 +1627,7 @@ CharData
 <student>My Name is SnowMan. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1579,6 +1648,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1599,6 +1669,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1616,6 +1687,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1634,6 +1706,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1656,6 +1729,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1675,6 +1749,7 @@ CharData
 <student>My Name is SnowMan. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1694,6 +1769,7 @@ CharData
 <student>My Name is SnowMan. </student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1716,6 +1792,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1736,6 +1813,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1756,6 +1834,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1774,6 +1853,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1793,6 +1873,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1812,6 +1893,7 @@ CharData
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1831,6 +1913,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1848,6 +1931,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1866,6 +1950,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1888,6 +1973,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1910,6 +1996,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1933,6 +2020,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1953,6 +2041,7 @@ y?></doc>
 <student>My Name is SnowMan. <![CDATA[<testing>This is a test</testing>]]></student>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1976,6 +2065,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -1995,6 +2085,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2012,6 +2103,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2030,6 +2122,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2048,6 +2141,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2066,6 +2160,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2083,6 +2178,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2101,6 +2197,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2119,6 +2216,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2138,6 +2236,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2157,6 +2256,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2177,6 +2277,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2195,6 +2296,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2213,6 +2315,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2231,6 +2334,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2249,6 +2353,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2267,6 +2372,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2285,6 +2391,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2303,6 +2410,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2321,6 +2429,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2338,6 +2447,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2356,6 +2466,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2374,6 +2485,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2392,6 +2504,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2409,6 +2522,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2426,6 +2540,7 @@ y?></doc>
 <!-- This is a comment in Misc -->", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2443,6 +2558,7 @@ y?></doc>
 <?sound ""This is a PI in Misc ?>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2461,6 +2577,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2480,6 +2597,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2519,6 +2637,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2556,6 +2675,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2594,6 +2714,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2610,6 +2731,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2626,6 +2748,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2644,6 +2767,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2659,6 +2783,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2681,6 +2806,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2702,6 +2828,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2718,6 +2845,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2736,6 +2864,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2755,6 +2884,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2774,6 +2904,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2793,6 +2924,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2819,6 +2951,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2843,6 +2976,7 @@ y?></doc>
 ", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2861,6 +2995,7 @@ y?></doc>
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2880,6 +3015,7 @@ y?></doc>
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -2899,6 +3035,7 @@ y?></doc>
 ", new DocumentOptions(validating: true));
 
             Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
             Assert.AreEqual(1, document.DocumentElement.ChildNodes.Length);
 
             var text = document.DocumentElement.ChildNodes[0];
