@@ -1,19 +1,32 @@
-﻿using AngleSharp.DOM;
-using System;
+﻿using System;
 
 namespace AngleSharp.DTD
 {
     sealed class ElementNameDeclarationEntry : ElementQuantifiedDeclarationEntry
     {
+        #region Properties
+
         public String Name
         {
             get;
             set;
         }
 
-        public override Boolean Check(Element element)
+        #endregion
+
+        #region Methods
+
+        public override Boolean Check(NodeInspector inspector)
         {
-            return element.NodeName == Name;
+            if (inspector.Current.NodeName == Name)
+            {
+                inspector.Index++;
+                return true;
+            }
+
+            return false;
         }
+
+        #endregion
     }
 }

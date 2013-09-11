@@ -5,11 +5,15 @@ namespace AngleSharp.DTD
 {
     sealed class AttributeTokenizedType : AttributeTypeDeclaration
     {
+        #region Properties
+
         public TokenizedType Value
         {
             get;
             set;
         }
+
+        #endregion
 
         #region Enumeration
 
@@ -26,9 +30,13 @@ namespace AngleSharp.DTD
 
         #endregion
 
+        #region Methods
+
         public override Boolean Check(Element element)
         {
             return true;
         }
+
+        #endregion
     }
 }

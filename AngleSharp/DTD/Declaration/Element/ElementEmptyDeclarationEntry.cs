@@ -1,5 +1,4 @@
-﻿using AngleSharp.DOM;
-using System;
+﻿using System;
 
 namespace AngleSharp.DTD
 {
@@ -10,9 +9,9 @@ namespace AngleSharp.DTD
             _type = ElementContentType.Empty;
         }
 
-        public override Boolean Check(Element element)
+        public override Boolean Check(NodeInspector inspector)
         {
-            return element.ChildNodes.Length == 0;
+            return inspector.Length == 0;
         }
     }
 }

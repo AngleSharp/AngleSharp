@@ -8,9 +8,15 @@ namespace AngleSharp.DTD
     /// </summary>
     sealed class ElementDeclaration : Node
     {
+        #region ctor
+
         internal ElementDeclaration()
         {
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets or sets the name of the element to define.
@@ -30,6 +36,10 @@ namespace AngleSharp.DTD
             set;
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Checks the element.
         /// </summary>
@@ -37,7 +47,10 @@ namespace AngleSharp.DTD
         /// <returns>True if everything is according to the definition, otherwise false.</returns>
         public Boolean Check(Element element)
         {
-            return Entry.Check(element);
+            var inspector = new NodeInspector(element);
+            return Entry.Check(inspector) && inspector.IsCompleted;
         }
+
+        #endregion
     }
 }

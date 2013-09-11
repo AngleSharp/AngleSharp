@@ -1,4 +1,4 @@
-﻿using AngleSharp.DOM;
+﻿using AngleSharp.DOM.Collections;
 using System;
 using System.Collections.Generic;
 
@@ -6,10 +6,16 @@ namespace AngleSharp.DTD
 {
     abstract class ElementDeclarationEntry
     {
+        #region Members
+
         protected ElementContentType _type;
 
         static ElementAnyDeclarationEntry _any;
         static ElementEmptyDeclarationEntry _empty;
+
+        #endregion
+
+        #region Properties
 
         public ElementContentType Type
         {
@@ -26,7 +32,13 @@ namespace AngleSharp.DTD
             get { return _empty ?? (_empty = new ElementEmptyDeclarationEntry()); }
         }
 
-        public abstract Boolean Check(Element element);
+        #endregion
+
+        #region Methods
+
+        public abstract Boolean Check(NodeInspector inspector);
+
+        #endregion
     }
 
     abstract class ElementQuantifiedDeclarationEntry : ElementDeclarationEntry

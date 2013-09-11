@@ -1,5 +1,4 @@
-﻿using AngleSharp.DOM;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace AngleSharp.DTD
@@ -11,9 +10,15 @@ namespace AngleSharp.DTD
             get { return _children; }
         }
 
-        public override Boolean Check(Element element)
+        public override Boolean Check(NodeInspector inspector)
         {
-            return false;
+            foreach (var child in _children)
+            {
+                if (!child.Check(inspector))
+                    return false;
+            }
+
+            return true;
         }
     }
 }

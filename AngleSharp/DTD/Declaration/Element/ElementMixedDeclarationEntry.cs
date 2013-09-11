@@ -6,7 +6,13 @@ namespace AngleSharp.DTD
 {
     sealed class ElementMixedDeclarationEntry : ElementQuantifiedDeclarationEntry
     {
+        #region Members
+
         List<String> _names;
+
+        #endregion
+
+        #region ctor
 
         public ElementMixedDeclarationEntry()
         {
@@ -14,22 +20,35 @@ namespace AngleSharp.DTD
             _type = ElementContentType.Mixed;
         }
 
+        #endregion
+
+        #region Properties
+
         public List<String> Names
         {
             get { return _names; }
         }
 
-        public override Boolean Check(Element element)
+        #endregion
+
+        #region Methods
+
+        public override Boolean Check(NodeInspector inspector)
         {
-            foreach (var child in element.ChildNodes)
+            if (_quantifier == ElementQuantifier.One && inspector.Length > 1)
+                return false;
+
+            for (; inspector.Index < inspector.Length; inspector.Index++)
             {
-                if (child is TextNode && !_names.Contains("#PCDATA") && !((TextNode)child).IsEmpty)
-                    return false;
-                else if (child is Element && !_names.Contains(child.NodeName))
+                var child = inspector.Current;
+
+                if (child is Element && !_names.Contains(child.NodeName))
                     return false;
             }
 
             return true;
         }
+
+        #endregion
     }
 }
