@@ -97,26 +97,10 @@ namespace AngleSharp.Xml
 
         Boolean ValidateAttribute(Element element)
         {
-            AttributeDeclaration attr = null;
-
             foreach (var def in _dtd.Attributes)
             {
                 if (def.Name == element.NodeName)
-                {
-                    attr = def;
-                    break;
-                }
-            }
-
-            if (attr != null)
-            {
-                foreach(var attribute in element.Attributes)
-                {
-                    if (!attr.Check(attribute))
-                        return false;
-                }
-
-                return true;
+                    return def.Check(element);
             }
 
             return element.Attributes.Length == 0;

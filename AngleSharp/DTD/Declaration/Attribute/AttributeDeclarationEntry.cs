@@ -17,15 +17,9 @@ namespace AngleSharp.DTD
             set;
         }
 
-        public AttributeValueDeclaration ValueDefault
+        public Boolean Check(Element element)
         {
-            get;
-            set;
-        }
-
-        public Boolean Check(Attr element)
-        {
-            return true;
+            return ValueType.Check(element);
         }
     }
 }

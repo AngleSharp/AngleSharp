@@ -6,12 +6,22 @@ namespace AngleSharp.DTD
 {
     sealed class AttributeDeclaration : Node
     {
+        #region Members
+
         List<AttributeDeclarationEntry> _attrs;
+
+        #endregion
+
+        #region ctor
 
         internal AttributeDeclaration(IEnumerable<AttributeDeclarationEntry> attributes)
         {
             _attrs = new List<AttributeDeclarationEntry>(attributes);
         }
+
+        #endregion
+
+        #region Properties
 
         public AttributeDeclarationEntry this[Int32 index]
         {
@@ -38,15 +48,38 @@ namespace AngleSharp.DTD
             set;
         }
 
-        public Boolean Check(Attr attribute)
+        #endregion
+
+        #region Methods
+
+        public Boolean Check(Element element)
         {
-            foreach (var attr in _attrs)
+            if (element.Attributes.Length > _attrs.Count)
+                return false;
+
+            for (int i = 0; i < element.Attributes.Length; i++)
             {
-                if (attr.Name == attribute.Name)
-                    return attr.Check(attribute);
+                var contains = false;
+
+                foreach (var attr in _attrs)
+                {
+                    if (attr.Name == element.Attributes[i].Name)
+                    {
+                        contains = true;
+                        break;
+                    }
+                }
+
+                if (!contains)
+                    return false;
             }
 
-            return false;
+            foreach (var attr in _attrs)
+                return attr.Check(element);
+
+            return true;
         }
+
+        #endregion
     }
 }

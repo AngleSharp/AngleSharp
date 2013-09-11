@@ -2,20 +2,6 @@
 
 namespace AngleSharp.DTD
 {
-    abstract class AttributeValueDeclaration
-    {
-    }
-
-    sealed class AttributeRequiredValue : AttributeValueDeclaration
-    {
-
-    }
-
-    sealed class AttributeImpliedValue : AttributeValueDeclaration
-    {
-
-    }
-
     sealed class AttributeCustomValue : AttributeValueDeclaration
     {
         public Boolean IsFixed

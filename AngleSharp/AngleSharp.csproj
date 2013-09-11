@@ -53,6 +53,12 @@
     <Compile Include="DOM\Css\Values\Primitives\CSSUri.cs" />
     <Compile Include="DOM\Enums\CssSide.cs" />
     <Compile Include="DOM\Objects\FileEntry.cs" />
+    <Compile Include="DTD\Declaration\Attribute\AttributeCustomValue.cs" />
+    <Compile Include="DTD\Declaration\Attribute\AttributeEnumeratedType.cs" />
+    <Compile Include="DTD\Declaration\Attribute\AttributeImpliedValue.cs" />
+    <Compile Include="DTD\Declaration\Attribute\AttributeRequiredValue.cs" />
+    <Compile Include="DTD\Declaration\Attribute\AttributeStringType.cs" />
+    <Compile Include="DTD\Declaration\Attribute\AttributeTokenizedType.cs" />
     <Compile Include="DTD\Declaration\Element\ElementContentType.cs" />
     <Compile Include="DTD\Declaration\Element\ElementQuantifier.cs" />
     <Compile Include="DTD\Declaration\Element\ElementAnyDeclarationEntry.cs" />
@@ -179,9 +185,9 @@
     <Compile Include="DOM\Objects\Range.cs" />
     <Compile Include="DOM\Various\FormControlState.cs" />
     <Compile Include="DTD\Declaration\AttributeDeclaration.cs" />
-    <Compile Include="DTD\Declaration\AttributeDeclarationEntry.cs" />
-    <Compile Include="DTD\Declaration\AttributeTypeDeclaration.cs" />
-    <Compile Include="DTD\Declaration\AttributeValueDeclaration.cs" />
+    <Compile Include="DTD\Declaration\Attribute\AttributeDeclarationEntry.cs" />
+    <Compile Include="DTD\Declaration\Attribute\AttributeTypeDeclaration.cs" />
+    <Compile Include="DTD\Declaration\Attribute\AttributeValueDeclaration.cs" />
     <Compile Include="DTD\Declaration\ElementDeclaration.cs" />
     <Compile Include="DTD\Declaration\Element\ElementDeclarationEntry.cs" />
     <Compile Include="DTD\DtdContainer.cs" />

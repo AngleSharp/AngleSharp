@@ -781,10 +781,10 @@ namespace AngleSharp.DTD
                 switch (tag)
                 {
                     case REQUIRED:
-                        value.ValueDefault = new AttributeRequiredValue();
+                        value.ValueType.ValueDefault = new AttributeRequiredValue();
                         return value;
                     case IMPLIED:
-                        value.ValueDefault = new AttributeImpliedValue();
+                        value.ValueType.ValueDefault = new AttributeImpliedValue();
                         return value;
                     case FIXED:
                         isfixed = true;
@@ -799,7 +799,7 @@ namespace AngleSharp.DTD
             _stringBuffer.Clear();
             _stream.Advance();
 
-            value.ValueDefault = new AttributeCustomValue
+            value.ValueType.ValueDefault = new AttributeCustomValue
             {
                 Value = defvalue,
                 IsFixed = isfixed
