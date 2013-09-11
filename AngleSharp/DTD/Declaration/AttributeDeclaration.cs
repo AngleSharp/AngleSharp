@@ -6,38 +6,47 @@ namespace AngleSharp.DTD
 {
     sealed class AttributeDeclaration : Node
     {
-        /// <summary>
-        /// Zero-Order approximation.
-        /// </summary>
-        DtdAttributeToken _token;
+        List<AttributeDeclarationEntry> _attrs;
 
-        internal AttributeDeclaration(DtdAttributeToken token)
+        internal AttributeDeclaration(IEnumerable<AttributeDeclarationEntry> attributes)
         {
-            _token = token;
+            _attrs = new List<AttributeDeclarationEntry>(attributes);
         }
 
         public AttributeDeclarationEntry this[Int32 index]
         {
-            get { return _token.Attributes[index]; }
+            get { return _attrs[index]; }
         }
 
         public Int32 Count
         {
-            get { return _token.Attributes.Count; }
+            get { return _attrs.Count; }
         }
 
         public IEnumerable<AttributeDeclarationEntry> Declarations
         {
             get
             {
-                foreach (var attribute in _token.Attributes)
+                foreach (var attribute in _attrs)
                     yield return attribute;
             }
         }
 
-        public String Name 
+        public String Name
         {
-            get { return _token.Name; }
+            get;
+            set;
+        }
+
+        public Boolean Check(Attr attribute)
+        {
+            foreach (var attr in _attrs)
+            {
+                if (attr.Name == attribute.Name)
+                    return attr.Check(attribute);
+            }
+
+            return false;
         }
     }
 }

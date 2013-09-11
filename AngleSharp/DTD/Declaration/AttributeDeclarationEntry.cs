@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AngleSharp.DOM;
+using System;
 
 namespace AngleSharp.DTD
 {
@@ -20,6 +21,11 @@ namespace AngleSharp.DTD
         {
             get;
             set;
+        }
+
+        public Boolean Check(Attr element)
+        {
+            return true;
         }
     }
 }

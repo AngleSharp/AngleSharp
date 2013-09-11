@@ -23,7 +23,7 @@ namespace AngleSharp.DTD
         {
             foreach (var child in element.ChildNodes)
             {
-                if (child is TextNode && !_names.Contains("#PCDATA"))
+                if (child is TextNode && !_names.Contains("#PCDATA") && !((TextNode)child).IsEmpty)
                     return false;
                 else if (child is Element && !_names.Contains(child.NodeName))
                     return false;

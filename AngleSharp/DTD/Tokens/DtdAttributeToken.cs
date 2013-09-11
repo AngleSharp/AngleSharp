@@ -40,7 +40,7 @@ namespace AngleSharp.DTD
 
         public AttributeDeclaration ToElement()
         {
-            return new AttributeDeclaration(this);
+            return new AttributeDeclaration(_attributes) { Name = Name };
         }
 
         #endregion

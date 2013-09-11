@@ -71,14 +71,21 @@ namespace AngleSharp.Xml
             if (_dtd == null)
                 return false;
 
+            return ValidateElement(element) && ValidateAttribute(element);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        Boolean ValidateElement(Element element)
+        {
             foreach (var def in _dtd.Elements)
             {
                 if (def.Name == element.NodeName)
                 {
                     if (!def.Check(element))
                         break;
-
-                    //TODO Attribute Checking
 
                     IncreaseCounter(def.Name);
                     return true;
@@ -88,9 +95,32 @@ namespace AngleSharp.Xml
             return false;
         }
 
-        #endregion
+        Boolean ValidateAttribute(Element element)
+        {
+            AttributeDeclaration attr = null;
 
-        #region Helpers
+            foreach (var def in _dtd.Attributes)
+            {
+                if (def.Name == element.NodeName)
+                {
+                    attr = def;
+                    break;
+                }
+            }
+
+            if (attr != null)
+            {
+                foreach(var attribute in element.Attributes)
+                {
+                    if (!attr.Check(attribute))
+                        return false;
+                }
+
+                return true;
+            }
+
+            return element.Attributes.Length == 0;
+        }
 
         void IncreaseCounter(String elementName)
         {

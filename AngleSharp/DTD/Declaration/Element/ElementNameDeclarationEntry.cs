@@ -13,7 +13,7 @@ namespace AngleSharp.DTD
 
         public override Boolean Check(Element element)
         {
-            return false;
+            return element.NodeName == Name;
         }
     }
 }
