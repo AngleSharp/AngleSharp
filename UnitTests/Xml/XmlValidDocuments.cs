@@ -11,7 +11,7 @@ namespace UnitTests.Xml
     /// </summary>
     [TestClass]
     public class XmlValidDocuments
-    {		
+    {
         /// <summary>
         /// Tests with a xml document consisting of prolog followed by element then Misc.
         /// There is an output test associated with this input file. Here the section(s) 2.1
@@ -1042,57 +1042,6 @@ _0A-
         }
 
         /// <summary>
-        /// Tests regular systemliteral using the double quotes. There is an output test
-        /// associated with this input file. Here the section(s) 2.3 apply. This test is
-        /// taken from the collection IBM XML Conformance Test Suite - Production 12.
-        /// </summary>
-        [TestMethod]
-        public void XmlValidIbmValidP12Ibm12v03()
-        {
-            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
-<!DOCTYPE student PUBLIC ""The big ' in it"" ""student.dtd""[
-<!ELEMENT student (#PCDATA)> 
-]>
-
-<!-- testing Pubid Literal with a string with ""'"" inside -->
-<student>My Name is SnowMan. </student>
-", new DocumentOptions(validating : true));
-
-            Assert.IsNotNull(document);
-            Assert.IsTrue(document.IsValid);
-        }
-
-        /// <summary>
-        /// Testing PubidChar with all legal PubidChar in a PubidLiteral. There is an
-        /// output test associated with this input file. Here the section(s) 2.3 apply.
-        /// This test is taken from the collection IBM XML Conformance Test Suite -
-        /// Production 13.
-        /// </summary>
-        [TestMethod]
-        public void XmlValidIbmValidP13Ibm13v01()
-        {
-            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
-<!DOCTYPE student PUBLIC ""#x20 #xD #xA abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ -'()+,./:=?;!*#@$_% "" ""student.dtd""[
-<!ELEMENT student (#PCDATA)> 
-]>
-
-<!-- testing Pubid char with all legal pubidchar in a string -->
-<student>My Name is SnowMan. </student>
-
-
-
-
-
-
-
-
- ", new DocumentOptions(validating : true));
-
-            Assert.IsNotNull(document);
-            Assert.IsTrue(document.IsValid);
-        }
-
-        /// <summary>
         /// Makes sure that PUBLIC identifiers may have some strange characters. NOTE:
         /// The XML editors have said that the XML specification errata will specify that
         /// parameter entity expansion does not occur in PUBLIC identifiers, so that the
@@ -1242,27 +1191,6 @@ abc
 def
 ""/>
 </doc>", new DocumentOptions(validating : true));
-
-            Assert.IsNotNull(document);
-            Assert.IsTrue(document.IsValid);
-        }
-
-        /// <summary>
-        /// valid EntityValue's. Except for entity references, markup is not recognized.
-        /// Here the section(s) 2.3 [9] apply. This test is taken from the collection
-        /// OASIS/NIST TESTS, 1-Nov-1998.
-        /// </summary>
-        [TestMethod]
-        public void XmlValidOP09pass1()
-        {
-            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p09pass1.dtd"" [
-  <!ELEMENT doc EMPTY>
-  <!ENTITY % ent1 """">
-  <!ENTITY ent2 ""text2"">
-  <!ENTITY % ent3 ""<!-- <!DOCTYPE <!ELEMENT <? '''&#34;&ent2; %ent1;"">
-  <!ENTITY % ent4 '""""&#x27;&#39;""'>
-]>
-<doc/>", new DocumentOptions(validating : true));
 
             Assert.IsNotNull(document);
             Assert.IsTrue(document.IsValid);

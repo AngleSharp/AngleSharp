@@ -9,9 +9,9 @@ namespace UnitTests
     [TestClass]
     public class ReflectionResolverTests
     {
-        private MockReflectionResolver mockResolver;
-        private MockService mockService;
-        private List<MockService> mockServices;
+        MockReflectionResolver mockResolver;
+        MockService mockService;
+        List<MockService> mockServices;
 
         private void CreateResolver()
         {
@@ -30,6 +30,12 @@ namespace UnitTests
         public void SetUp()
         {
             CreateResolver();
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            Configuration.Reset();
         }
 
         [TestMethod]
