@@ -186,7 +186,7 @@ namespace AngleSharp.DTD
         internal Boolean ContainsNotation(String name)
         {
             foreach (var notation in _notations)
-                if (notation.PublicId == name)
+                if (notation.NodeName == name)
                     return true;
 
             return false;
@@ -207,7 +207,7 @@ namespace AngleSharp.DTD
         internal Boolean ContainsEntity(String name)
         {
             foreach (var entity in _entities)
-                if (entity.NotationName == name)
+                if (entity.NodeName == name)
                     return true;
 
             return false;

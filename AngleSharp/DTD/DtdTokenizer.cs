@@ -103,12 +103,11 @@ namespace AngleSharp.DTD
         public DtdToken Get()
         {
             var c = _stream.Current;
-
-            if (c == _endChar)
-                return DtdToken.EOF;
-
             var element = GetElement(c);
-            SkipSpaces(c);
+
+            if (element != DtdToken.EOF)
+                SkipSpaces(c);
+
             return element;
         }
 
