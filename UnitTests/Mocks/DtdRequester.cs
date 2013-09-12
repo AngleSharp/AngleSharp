@@ -17,6 +17,10 @@ namespace UnitTests
         {
             var name = request.Address.Segments[1];
             var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTests.Resources." + name);
+
+            if (stream == null)
+                throw new ArgumentException("The DTD " + name + " could not be found! Check the name and the availability of this DTD.");
+
             return new DefaultHttpResponse { Content = stream };
         }
 

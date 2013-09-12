@@ -4,7 +4,7 @@ using AngleSharp;
 
 namespace UnitTests
 {
-    //[TestClass]
+    [TestClass]
     public class XmlValidExtDtd
     {
         [TestInitialize]
@@ -204,8 +204,7 @@ namespace UnitTests
         public void XmlValidIbmValidP09Ibm09v05()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
-<!DOCTYPE student SYSTEM ""student.dtd""[
-	<!ELEMENT student (#PCDATA)> 
+<!DOCTYPE student SYSTEM ""student2.dtd""[
 	<!ENTITY Age ""21"">
 	<!ENTITY Status ""freshman"">
  	<!ENTITY % FullName ""first , last , middle"">
