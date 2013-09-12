@@ -145,6 +145,33 @@ namespace AngleSharp.DTD
 
         #region Internal Methods
 
+        internal void FillWith(DtdContainer external)
+        {
+            foreach (var entity in external.Entities)
+            {
+                if (!ContainsEntity(entity.NotationName))
+                    AddEntity(entity);
+            }
+
+            foreach (var notation in external.Notations)
+            {
+                if (!ContainsNotation(notation.PublicId))
+                    AddNotation(notation);
+            }
+
+            foreach (var attribute in external.Attributes)
+            {
+                if (!ContainsAttribute(attribute.Name))
+                    AddAttribute(attribute);
+            }
+
+            foreach (var element in external.Elements)
+            {
+                if (!ContainsElement(element.Name))
+                    AddElement(element);
+            }
+        }
+
         internal void Reset()
         {
             _attributes.Clear();
@@ -154,6 +181,15 @@ namespace AngleSharp.DTD
             _nodes.Clear();
             _notations.Clear();
             _pis.Clear();
+        }
+
+        internal Boolean ContainsNotation(String name)
+        {
+            foreach (var notation in _notations)
+                if (notation.PublicId == name)
+                    return true;
+
+            return false;
         }
 
         internal void AddNotation(Notation notation)
@@ -166,6 +202,15 @@ namespace AngleSharp.DTD
         {
             _nodes.Add(comment);
             _comments.Add(comment);
+        }
+
+        internal Boolean ContainsEntity(String name)
+        {
+            foreach (var entity in _entities)
+                if (entity.NotationName == name)
+                    return true;
+
+            return false;
         }
 
         internal void AddEntity(Entity entity)

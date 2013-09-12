@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Globalization;
+using AngleSharp.DTD;
 
 namespace AngleSharp.Xml
 {
@@ -266,6 +267,10 @@ namespace AngleSharp.Xml
                     doctype.Name = tok.Name;
                     doc.AppendChild(doctype);
                     insert = XmlTreeMode.Misc;
+
+                    if (!tok.IsSystemIdentifierMissing && !standalone)
+                        ScanExternalSubset(doctype.SystemId, doctype.TypeDefinitions);
+
                     break;
                 }
                 default:
@@ -466,6 +471,31 @@ namespace AngleSharp.Xml
                     doc.InputEncoding = enc.WebName;
                     tokenizer.Stream.Encoding = enc;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Scans the external portion, i.e. the system identifier of the doctype.
+        /// </summary>
+        /// <param name="url">The url to use.</param>
+        /// <param name="typeDefinitions">The type definitions to modify.</param>
+        void ScanExternalSubset(String url, DtdContainer typeDefinitions)
+        {
+            if (Configuration.HasHttpRequester)
+            {
+                if (!Location.IsAbsolute(url))
+                    url = Location.MakeAbsolute(doc.BaseURI, url);
+
+                var http = Configuration.GetHttpRequester();
+                var response = http.Request(new DefaultHttpRequest { Address = new Uri(url) });
+                var stream = new SourceManager(response.Content);
+                var container = new DtdContainer();
+
+                var dtd = new DtdParser(container, stream);
+                dtd.IsInternal = false;
+                dtd.Parse();
+
+                typeDefinitions.FillWith(container);
             }
         }
 

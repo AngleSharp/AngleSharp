@@ -35,13 +35,18 @@ namespace AngleSharp.DTD
         const String FIXED = "#FIXED";
         const String PUBLIC = "PUBLIC";
         const String SYSTEM = "SYSTEM";
+        const String INCLUDE = "INCLUDE";
+        const String IGNORE = "IGNORE";
 
         #endregion
 
         #region Members
 
+        Boolean _external;
+        Char _endChar;
         IntermediateStream _stream;
         List<Entity> _parameters;
+        Int32 _includes;
 
         #endregion
 
@@ -52,7 +57,8 @@ namespace AngleSharp.DTD
         {
             _stream = new IntermediateStream(src);
             _parameters = new List<Entity>();
-            End = Specification.EOF;
+            _includes = 0;
+            IsExternal = true;
         }
 
         #endregion
@@ -60,20 +66,24 @@ namespace AngleSharp.DTD
         #region Properties
 
         /// <summary>
-        /// Gets or sends the final character.
-        /// </summary>
-        public Char End
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets the parsed content.
         /// </summary>
         public String Content
         {
             get { return _stream.Content; }
+        }
+
+        /// <summary>
+        /// Gets or sets if the DTD is from an external source.
+        /// </summary>
+        public Boolean IsExternal 
+        {
+            get { return _external; }
+            set
+            {
+                _external = value;
+                _endChar = _external ? Specification.EOF : Specification.SBC;
+            }
         }
 
         #endregion
@@ -94,11 +104,11 @@ namespace AngleSharp.DTD
         {
             var c = _stream.Current;
 
-            if (c == End)
+            if (c == _endChar)
                 return DtdToken.EOF;
 
             var element = GetElement(c);
-            c = SkipSpaces(c);
+            SkipSpaces(c);
             return element;
         }
 
@@ -117,10 +127,18 @@ namespace AngleSharp.DTD
             while (c.IsSpaceCharacter())
                 c = _stream.Next;
 
-            if (c == End)
+            if (c == _endChar && _includes == 0)
                 return DtdToken.EOF;
             
-            if (c == Specification.LT)
+            if (c == Specification.SBC)
+            {
+                if (_includes > 0 && _stream.Next == Specification.SBC && _stream.Next == Specification.GT)
+                {
+                    _includes--;
+                    return GetElement(_stream.Next);
+                }
+            }
+            else if (c == Specification.LT)
             {
                 c = _stream.Next;
 
@@ -137,7 +155,7 @@ namespace AngleSharp.DTD
                         _stream.Advance(5);
                         c = _stream.Next;
 
-                        if(c.IsSpaceCharacter())
+                        if (c.IsSpaceCharacter())
                             return EntityDeclaration(c);
                     }
                     else if (_stream.ContinuesWith(ELEMENT))
@@ -169,10 +187,76 @@ namespace AngleSharp.DTD
                         _stream.Advance();
                         return CommentStart(_stream.Next);
                     }
+                    else if (_stream.Current == Specification.SBO && _external)
+                        return Conditional(_stream.Next);
                 }
             }
             else if (c == Specification.PERCENT)
                 return PEReference(_stream.Next);
+
+            throw Errors.GetException(ErrorCode.DtdInvalid);
+        }
+
+        #endregion
+
+        #region Conditional
+
+        /// <summary>
+        /// Treats the conditional sects with respect.
+        /// http://www.w3.org/TR/REC-xml/#sec-condition-sect
+        /// </summary>
+        /// <param name="c">The current character.</param>
+        /// <returns>The evaluated token.</returns>
+        DtdToken Conditional(Char c)
+        {
+            while (c.IsSpaceCharacter())
+                c = _stream.Next;
+
+            if (_stream.ContinuesWith(INCLUDE))
+            {
+                _stream.Advance(6);
+
+                do c = _stream.Next;
+                while (c.IsSpaceCharacter());
+
+                if (c == Specification.SBO)
+                {
+                    _includes++;
+                    return GetElement(_stream.Next);
+                }
+            }
+            else if (_stream.ContinuesWith(IGNORE))
+            {
+                _stream.Advance(5);
+
+                do c = _stream.Next;
+                while (c.IsSpaceCharacter());
+
+                if (c == Specification.SBO)
+                {
+                    var nesting = 0;
+                    var lastThree = new[] { Specification.NULL, Specification.NULL, Specification.NULL };
+
+                    do
+                    {
+                        c = _stream.Next;
+
+                        if (c == Specification.EOF)
+                            break;
+
+                        lastThree[0] = lastThree[1];
+                        lastThree[1] = lastThree[2];
+                        lastThree[2] = c;
+
+                        if (lastThree[0] == Specification.LT && lastThree[1] == Specification.EM && lastThree[2] == Specification.SBO)
+                            nesting++;
+                    }
+                    while (nesting == 0 && lastThree[0] == Specification.SBC && lastThree[1] == Specification.SBC && lastThree[2] == Specification.GT);
+
+                    if (c == Specification.GT)
+                        return GetElement(_stream.Next);
+                }
+            }
 
             throw Errors.GetException(ErrorCode.DtdInvalid);
         }
@@ -212,9 +296,6 @@ namespace AngleSharp.DTD
 
             pi.Target = _stringBuffer.ToString();
             _stringBuffer.Clear();
-
-            if (String.Compare(pi.Target, Tags.XML, StringComparison.OrdinalIgnoreCase) == 0)
-                throw Errors.GetException(ErrorCode.XmlInvalidPI);
 
             if (c == Specification.QM)
             {
@@ -326,18 +407,10 @@ namespace AngleSharp.DTD
             while (c.IsSpaceCharacter())
                 c = _stream.Next;
 
-            if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Clear();
-                _stringBuffer.Append(Specification.REPLACEMENT);
-                return DeclarationName(_stream.Next, decl);
-            }
-            else if (c == Specification.EOF)
-            {
+            if (c == Specification.EOF)
                 throw Errors.GetException(ErrorCode.EOF);
-            }
-            else if (c.IsXmlNameStart())
+            
+            if (c.IsXmlNameStart())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
@@ -349,35 +422,19 @@ namespace AngleSharp.DTD
 
         Boolean DeclarationName(Char c, DtdToken decl)
         {
-            while (true)
+            while (c.IsXmlName())
             {
-                if (c.IsXmlName())
-                {
-                    _stringBuffer.Append(c);
-                }
-                else if (c == Specification.GT)
-                {
-                    decl.Name = _stringBuffer.ToString();
-                    return false;
-                }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
-                }
-                else if (c == Specification.EOF)
-                {
-                    throw Errors.GetException(ErrorCode.EOF);
-                }
-                else
-                {
-                    decl.Name = _stringBuffer.ToString();
-                    _stringBuffer.Clear();
-                    return c.IsSpaceCharacter();
-                }
-
+                _stringBuffer.Append(c);
                 c = _stream.Next;
             }
+
+            decl.Name = _stringBuffer.ToString();
+            _stringBuffer.Clear();
+
+            if(c == Specification.EOF)
+                throw Errors.GetException(ErrorCode.EOF);
+
+            return c.IsSpaceCharacter();
         }
 
         #endregion

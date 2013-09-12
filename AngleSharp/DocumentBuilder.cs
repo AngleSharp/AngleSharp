@@ -116,7 +116,7 @@ namespace AngleSharp
         public static XMLDocument Xml(String sourceCode, DocumentOptions options = null)
         {
             var source = new SourceManager(sourceCode);
-			var db = new DocumentBuilder(source, new XMLDocument(), options ?? DocumentOptions.Default);
+            var db = new DocumentBuilder(source, new XMLDocument(), options ?? DocumentOptions.Default);
             return db.XmlResult;
         }
 

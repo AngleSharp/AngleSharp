@@ -440,6 +440,9 @@ namespace AngleSharp
 
                 case ErrorCode.DtdUniqueElementViolated:
                     return new ArgumentException("An element type must not be declared more than once.");
+
+                case ErrorCode.DoctypeInvalid:
+                    return new ArgumentException("The document's doctype is invalid.");
             }
 
             return new Exception("Unknown exception.");

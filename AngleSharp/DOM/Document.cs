@@ -62,7 +62,7 @@ namespace AngleSharp.DOM
             _name = "#document";
             _styleSheets = new StyleSheetList(this);
             _quirksMode = QuirksMode.Off;
-            _location = new Location();
+            _location = new Location("file://localhost/");
             _options = DocumentOptions.Default;
         }
 

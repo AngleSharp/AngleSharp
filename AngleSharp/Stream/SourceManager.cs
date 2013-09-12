@@ -36,7 +36,7 @@ namespace AngleSharp
         {
             _encoding = DocumentEncoding.Suggest(Configuration.Language);
             _buffer = new StringBuilder();
-            _collengths = new Stack<int>();
+            _collengths = new Stack<Int32>();
             _column = 1;
             _row = 1;
         }

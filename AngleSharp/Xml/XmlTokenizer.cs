@@ -1,4 +1,5 @@
-﻿using AngleSharp.DTD;
+﻿using AngleSharp.DOM;
+using AngleSharp.DTD;
 using System;
 using System.Diagnostics;
 
@@ -35,27 +36,27 @@ namespace AngleSharp.Xml
             : base(source)
         {
             _dtd = new DtdContainer();
-            _dtd.AddEntity(new DOM.Entity
+            _dtd.AddEntity(new Entity
             {
                 NodeName = "amp",
                 NodeValue = "&"
             });
-            _dtd.AddEntity(new DOM.Entity
+            _dtd.AddEntity(new Entity
             {
                 NodeName = "lt",
                 NodeValue = "<"
             });
-            _dtd.AddEntity(new DOM.Entity
+            _dtd.AddEntity(new Entity
             {
                 NodeName = "gt",
                 NodeValue = ">"
             });
-            _dtd.AddEntity(new DOM.Entity
+            _dtd.AddEntity(new Entity
             {
                 NodeName = "apos",
                 NodeValue = "'"
             });
-            _dtd.AddEntity(new DOM.Entity
+            _dtd.AddEntity(new Entity
             {
                 NodeName = "quot",
                 NodeValue = "\""
@@ -787,15 +788,8 @@ namespace AngleSharp.Xml
         {
             if (c.IsSpaceCharacter())
                 return DoctypeNameBefore(_src.Next);
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return XmlToken.Doctype();
-            }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeUnexpected);
-            return DoctypeNameBefore(c);
+            throw Errors.GetException(ErrorCode.DoctypeInvalid);
         }
 
         /// <summary>
@@ -807,28 +801,14 @@ namespace AngleSharp.Xml
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (c == Specification.NULL)
+            if (c.IsXmlNameStart())
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
                 _stringBuffer.Clear();
-                _stringBuffer.Append(Specification.REPLACEMENT);
+                _stringBuffer.Append(c);
                 return DoctypeName(_src.Next, XmlToken.Doctype());
             }
-            else if (c == Specification.GT)
-            {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return XmlToken.Doctype();
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return XmlToken.Doctype();
-            }
 
-            _stringBuffer.Clear();
-            _stringBuffer.Append(c);
-            return DoctypeName(_src.Next, XmlToken.Doctype());
+            throw Errors.GetException(ErrorCode.DoctypeInvalid);
         }
 
         /// <summary>
@@ -839,36 +819,21 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken DoctypeName(Char c, XmlDoctypeToken doctype)
         {
-            while (true)
+            while (c.IsXmlName())
             {
-                if (c.IsSpaceCharacter())
-                {
-                    doctype.Name = _stringBuffer.ToString();
-                    _stringBuffer.Clear();
-                    return DoctypeNameAfter(_src.Next, doctype);
-                }
-                else if (c == Specification.GT)
-                {
-                    doctype.Name = _stringBuffer.ToString();
-                    return doctype;
-                }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
-                }
-                else if (c == Specification.EOF)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
-                    doctype.Name = _stringBuffer.ToString();
-                    return doctype;
-                }
-                else
-                    _stringBuffer.Append(c);
-
+                _stringBuffer.Append(c);
                 c = _src.Next;
             }
+
+            doctype.Name = _stringBuffer.ToString();
+            _stringBuffer.Clear();
+
+            if (c == Specification.GT)
+                return doctype;
+            else if(c.IsSpaceCharacter())
+                return DoctypeNameAfter(_src.Next, doctype);
+
+            throw Errors.GetException(ErrorCode.DoctypeInvalid);
         }
 
         /// <summary>
@@ -883,16 +848,9 @@ namespace AngleSharp.Xml
                 c = _src.Next;
 
             if (c == Specification.GT)
-            {
                 return doctype;
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return doctype;
-            }
-            else if (_src.ContinuesWith(PUBLIC, false))
+
+            if (_src.ContinuesWith(PUBLIC, false))
             {
                 _src.Advance(5);
                 return DoctypePublic(_src.Next, doctype);
@@ -909,8 +867,7 @@ namespace AngleSharp.Xml
                 return DoctypeAfter(_src.Next, doctype);
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeUnexpectedAfterName);
-            return BogusDoctype(_src.Next, doctype);
+            throw Errors.GetException(ErrorCode.DoctypeInvalid);
         }
 
         /// <summary>
@@ -923,154 +880,40 @@ namespace AngleSharp.Xml
         {
             if (c.IsSpaceCharacter())
             {
-                return DoctypePublicIdentifierBefore(_src.Next, doctype);
-            }
-            else if (c == Specification.DQ)
-            {
-                RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
-                doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierDoubleQuoted(_src.Next, doctype);
-            }
-            else if (c == Specification.SQ)
-            {
-                RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
-                doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierSingleQuoted(_src.Next, doctype);
-            }
-            else if (c == Specification.GT)
-            {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return doctype;
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return doctype;
+                while (c.IsSpaceCharacter())
+                    c = _src.Next;
+
+                if (c == Specification.DQ || c == Specification.SQ)
+                {
+                    doctype.PublicIdentifier = String.Empty;
+                    return DoctypePublicIdentifierValue(_src.Next, c, doctype);
+                }
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
-            return BogusDoctype(_src.Next, doctype);
-        }
-
-        /// <summary>
-        /// See 8.2.4.57 Before DOCTYPE public identifier state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
-        XmlToken DoctypePublicIdentifierBefore(Char c, XmlDoctypeToken doctype)
-        {
-            while (c.IsSpaceCharacter())
-                c = _src.Next;
-
-            if (c == Specification.DQ)
-            {
-                _stringBuffer.Clear();
-                doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierDoubleQuoted(_src.Next, doctype);
-            }
-            else if (c == Specification.SQ)
-            {
-                _stringBuffer.Clear();
-                doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierSingleQuoted(_src.Next, doctype);
-            }
-            else if (c == Specification.GT)
-            {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return doctype;
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return doctype;
-            }
-
-            RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
-            return BogusDoctype(_src.Next, doctype);
+            throw Errors.GetException(ErrorCode.DoctypeInvalid);
         }
 
         /// <summary>
         /// See 8.2.4.58 DOCTYPE public identifier (double-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="q">The closing character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        XmlToken DoctypePublicIdentifierDoubleQuoted(Char c, XmlDoctypeToken doctype)
+        XmlToken DoctypePublicIdentifierValue(Char c, Char q, XmlDoctypeToken doctype)
         {
-            while (true)
+            while (c != q)
             {
-                if (c == Specification.DQ)
-                {
-                    doctype.PublicIdentifier = _stringBuffer.ToString();
-                    return DoctypePublicIdentifierAfter(_src.Next, doctype); ;
-                }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
-                }
-                else if (c == Specification.GT)
-                {
-                    RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                    doctype.PublicIdentifier = _stringBuffer.ToString();
-                    return doctype;
-                }
-                else if (c == Specification.EOF)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
-                    doctype.PublicIdentifier = _stringBuffer.ToString();
-                    return doctype;
-                }
-                else
-                    _stringBuffer.Append(c);
+                if (!c.IsPubidChar())
+                    throw Errors.GetException(ErrorCode.DoctypeInvalid);
 
+                _stringBuffer.Append(c);
                 c = _src.Next;
             }
-        }
 
-        /// <summary>
-        /// See 8.2.4.59 DOCTYPE public identifier (single-quoted) state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
-        XmlToken DoctypePublicIdentifierSingleQuoted(Char c, XmlDoctypeToken doctype)
-        {
-            while (true)
-            {
-                if (c == Specification.SQ)
-                {
-                    doctype.PublicIdentifier = _stringBuffer.ToString();
-                    _stringBuffer.Clear();
-                    return DoctypePublicIdentifierAfter(_src.Next, doctype);
-                }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
-                }
-                else if (c == Specification.GT)
-                {
-                    RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                    doctype.PublicIdentifier = _stringBuffer.ToString();
-                    return doctype;
-                }
-                else if (c == Specification.EOF)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    doctype.PublicIdentifier = _stringBuffer.ToString();
-                    _src.Back();
-                    return doctype;
-                }
-                else
-                    _stringBuffer.Append(c);
-
-                c = _src.Next;
-            }
+            doctype.PublicIdentifier = _stringBuffer.ToString();
+            _stringBuffer.Clear();
+            return DoctypePublicIdentifierAfter(_src.Next, doctype);
         }
 
         /// <summary>
@@ -1081,36 +924,12 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken DoctypePublicIdentifierAfter(Char c, XmlDoctypeToken doctype)
         {
-            if (c.IsSpaceCharacter())
-            {
-                _stringBuffer.Clear();
+            if (c == Specification.GT)
+                return doctype;
+            else if (c.IsSpaceCharacter())
                 return DoctypeBetween(_src.Next, doctype);
-            }
-            else if (c == Specification.GT)
-            {
-                return doctype;
-            }
-            else if (c == Specification.DQ)
-            {
-                RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(_src.Next, doctype);
-            }
-            else if (c == Specification.SQ)
-            {
-                RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(_src.Next, doctype);
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return doctype;
-            }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-            return BogusDoctype(_src.Next, doctype);
+            throw Errors.GetException(ErrorCode.DoctypeInvalid);
         }
 
         /// <summary>
@@ -1125,28 +944,15 @@ namespace AngleSharp.Xml
                 c = _src.Next;
 
             if (c == Specification.GT)
-            {
                 return doctype;
-            }
-            else if (c == Specification.DQ)
+            
+            if (c == Specification.DQ || c == Specification.SQ)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(_src.Next, doctype);
-            }
-            else if (c == Specification.SQ)
-            {
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(_src.Next, doctype);
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return doctype;
+                return DoctypeSystemIdentifierValue(_src.Next, c, doctype);
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-            return BogusDoctype(_src.Next, doctype);
+            throw Errors.GetException(ErrorCode.DoctypeInvalid);
         }
 
         /// <summary>
@@ -1159,156 +965,40 @@ namespace AngleSharp.Xml
         {
             if (c.IsSpaceCharacter())
             {
-                return DoctypeSystemIdentifierBefore(_src.Next, doctype);
-            }
-            else if (c == Specification.DQ)
-            {
-                RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(_src.Next, doctype);
-            }
-            else if (c == Specification.SQ)
-            {
-                RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(_src.Next, doctype);
-            }
-            else if (c == Specification.GT)
-            {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                doctype.SystemIdentifier = _stringBuffer.ToString();
-                return doctype;
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return doctype;
+                while (c.IsSpaceCharacter())
+                    c = _src.Next;
+
+                if (c == Specification.DQ || c == Specification.SQ)
+                {
+                    doctype.SystemIdentifier = String.Empty;
+                    return DoctypeSystemIdentifierValue(_src.Next, c, doctype);
+                }
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeSystemInvalid);
-            return BogusDoctype(_src.Next, doctype);
-        }
-
-        /// <summary>
-        /// See 8.2.4.63 Before DOCTYPE system identifier state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
-        XmlToken DoctypeSystemIdentifierBefore(Char c, XmlDoctypeToken doctype)
-        {
-            while (c.IsSpaceCharacter())
-                c = _src.Next;
-
-            if (c == Specification.DQ)
-            {
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(_src.Next, doctype);
-            }
-            else if (c == Specification.SQ)
-            {
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(_src.Next, doctype);
-            }
-            else if (c == Specification.GT)
-            {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                doctype.SystemIdentifier = _stringBuffer.ToString();
-                return doctype;
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                doctype.SystemIdentifier = _stringBuffer.ToString();
-                _src.Back();
-                return doctype;
-            }
-
-            RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-            return BogusDoctype(_src.Next, doctype);
+            throw Errors.GetException(ErrorCode.DoctypeInvalid);
         }
 
         /// <summary>
         /// See 8.2.4.64 DOCTYPE system identifier (double-quoted) state
         /// </summary>
         /// <param name="c">The next input character.</param>
+        /// <param name="q">The quote character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        XmlToken DoctypeSystemIdentifierDoubleQuoted(Char c, XmlDoctypeToken doctype)
+        XmlToken DoctypeSystemIdentifierValue(Char c, Char q, XmlDoctypeToken doctype)
         {
-            while (true)
+            while (c != q)
             {
-                if (c == Specification.DQ)
-                {
-                    doctype.SystemIdentifier = _stringBuffer.ToString();
-                    _stringBuffer.Clear();
-                    return DoctypeSystemIdentifierAfter(_src.Next, doctype);
-                }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
-                }
-                else if (c == Specification.GT)
-                {
-                    RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                    doctype.SystemIdentifier = _stringBuffer.ToString();
-                    return doctype;
-                }
-                else if (c == Specification.EOF)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    doctype.SystemIdentifier = _stringBuffer.ToString();
-                    _src.Back();
-                    return doctype;
-                }
-                else
-                    _stringBuffer.Append(c);
+                if (c == Specification.EOF)
+                    throw Errors.GetException(ErrorCode.DoctypeInvalid);
 
+                _stringBuffer.Append(c);
                 c = _src.Next;
             }
-        }
 
-        /// <summary>
-        /// See 8.2.4.65 DOCTYPE system identifier (single-quoted) state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
-        XmlToken DoctypeSystemIdentifierSingleQuoted(Char c, XmlDoctypeToken doctype)
-        {
-            while (true)
-            {
-                if (c == Specification.SQ)
-                {
-                    doctype.SystemIdentifier = _stringBuffer.ToString();
-                    _stringBuffer.Clear();
-                    return DoctypeSystemIdentifierAfter(_src.Next, doctype);
-                }
-                else if (c == Specification.NULL)
-                {
-                    RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
-                }
-                else if (c == Specification.GT)
-                {
-                    RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                    doctype.SystemIdentifier = _stringBuffer.ToString();
-                    return doctype;
-                }
-                else if (c == Specification.EOF)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    doctype.SystemIdentifier = _stringBuffer.ToString();
-                    _src.Back();
-                    return doctype;
-                }
-                else
-                    _stringBuffer.Append(c);
-
-                c = _src.Next;
-            }
+            doctype.SystemIdentifier = _stringBuffer.ToString();
+            _stringBuffer.Clear();
+            return DoctypeSystemIdentifierAfter(_src.Next, doctype);
         }
 
         /// <summary>
@@ -1344,42 +1034,9 @@ namespace AngleSharp.Xml
                 c = _src.Next;
 
             if (c == Specification.GT)
-            {
                 return doctype;
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return doctype;
-            }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-            return BogusDoctype(_src.Next, doctype);
-        }
-
-        /// <summary>
-        /// See 8.2.4.67 Bogus DOCTYPE state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
-        XmlToken BogusDoctype(Char c, XmlDoctypeToken doctype)
-        {
-            while (true)
-            {
-                if (c == Specification.EOF)
-                {
-                    _src.Back();
-                    return doctype;
-                }
-                else if (c == Specification.GT)
-                {
-                    return doctype;
-                }
-
-                c = _src.Next;
-            }
+            throw Errors.GetException(ErrorCode.DoctypeInvalid);
         }
 
         #endregion
@@ -1745,6 +1402,10 @@ namespace AngleSharp.Xml
             return tag;
         }
 
+        /// <summary>
+        /// Scans the internal subset, i.e. the DTD in [] of the current source.
+        /// </summary>
+        /// <param name="doctype">The doctype which contains the subset.</param>
         void ScanInternalSubset(XmlDoctypeToken doctype)
         {
             var dtd = new DtdParser(_dtd, _src);

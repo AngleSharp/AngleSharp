@@ -1,4 +1,5 @@
 ﻿using AngleSharp.Events;
+using AngleSharp.Xml;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -15,7 +16,6 @@ namespace AngleSharp.DTD
         #region Members
 
         DtdTokenizer tokenizer;
-        Boolean _isinternal;
         DtdContainer _result;
         SourceManager _src;
 
@@ -71,12 +71,8 @@ namespace AngleSharp.DTD
         /// </summary>
         public Boolean IsInternal
         {
-            get { return _isinternal; }
-            set 
-            { 
-                _isinternal = value;
-                tokenizer.End = value ? Specification.SBC : Specification.EOF;
-            }
+            get { return tokenizer.IsExternal; }
+            set { tokenizer.IsExternal = !value; }
         }
 
         /// <summary>
@@ -155,8 +151,46 @@ namespace AngleSharp.DTD
                     break;
 
                 case DtdTokenType.ProcessingInstruction:
-                    _result.AddProcessingInstruction(((DtdPIToken)token).ToElement());
+                    var pi = (DtdPIToken)token;
+
+                    if (String.Compare(pi.Target, Tags.XML, StringComparison.OrdinalIgnoreCase) == 0)
+                        HandleXmlDeclaration(pi);
+                    else
+                        _result.AddProcessingInstruction(pi.ToElement());
+
                     break;
+            }
+        }
+
+        void HandleXmlDeclaration(DtdPIToken pi)
+        {
+            if (!tokenizer.IsExternal)
+                throw Errors.GetException(ErrorCode.XmlInvalidPI);
+
+            var xml = String.Format("<test {0} />", pi.Content);
+            var tok = new XmlTokenizer(new SourceManager(xml));
+            var dec = tok.Get() as XmlTagToken;
+            var encoding = dec.GetAttribute("encoding");
+
+            if (!String.IsNullOrEmpty(encoding))
+                SetEncoding(encoding);
+        }
+
+        /// <summary>
+        /// Sets the document's encoding to the given one.
+        /// </summary>
+        /// <param name="encoding">The encoding to use.</param>
+        void SetEncoding(String encoding)
+        {
+            //TODO
+            return;
+
+            if (DocumentEncoding.IsSupported(encoding))
+            {
+                var enc = DocumentEncoding.Resolve(encoding);
+
+                if (enc != null)
+                    _src.Encoding = enc;
             }
         }
 
