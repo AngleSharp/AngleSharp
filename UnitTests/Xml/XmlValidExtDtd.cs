@@ -215,7 +215,10 @@ namespace UnitTests
 
 
 
-");
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -231,7 +234,10 @@ namespace UnitTests
 ]>
 <!-- testing systemliteral with a string with ""'"" -->
 <student>My Name is SnowMan. </student>
-");
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -249,7 +255,10 @@ namespace UnitTests
 <!-- testing systemliteral with a string with '""' -->
 <student>My Name is SnowMan. </student>
 
-");
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -273,7 +282,10 @@ namespace UnitTests
 
 
 
- ");
+ ", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -290,7 +302,10 @@ namespace UnitTests
 
 <!-- testing Pubid Literal with nothing between the single quotes -->
 <student>My Name is SnowMan. </student>
-");
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -307,7 +322,10 @@ namespace UnitTests
 
 <!-- testing Pubid Literal with a string without  ""'"" inside -->
 <student>My Name is SnowMan. </student>
-");
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
 
         /// <summary>
@@ -321,7 +339,10 @@ namespace UnitTests
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""031-1.ent"">
 <doc>&e;</doc>
-");
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
         }
     }
 }

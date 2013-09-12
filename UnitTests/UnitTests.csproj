@@ -136,6 +136,9 @@
     <EmbeddedResource Include="Resources\ibm28v02.dtd" />
     <EmbeddedResource Include="Resources\ibm30v02.dtd" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\student2.dtd" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
