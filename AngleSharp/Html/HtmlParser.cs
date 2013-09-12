@@ -3768,27 +3768,22 @@ namespace AngleSharp.Html
 
             doc.QueueTask(doc.RaiseDomContentLoaded);
 
-            while (doc.ScriptsAsSoonAsPossible != 0)
-                doc.SpinEventLoop();
-
-            while (doc.IsLoadingDelayed)
-                doc.SpinEventLoop();
-
             doc.QueueTask(() =>
             {
                 doc.ReadyState = Readiness.Complete;
-                //7.2 If the Document is in a browsing context, fire a simple event named load at the Document's Window object, but with its target set to the Document object
-                //    (and the currentTarget set to the Window object).
+                doc.QueueTask(doc.RaiseLoadedEvent);
             });
 
             if (doc.IsInBrowsingContext)
             {
-                //8. If the Document is in a browsing context, then queue a task to run the following substeps:
-                //8.1 If the Document's page showing flag is true, then abort this task (i.e. don't fire the event below).
-                //8.2 Set the Document's page showing flag to true.
-                //8.3 Fire a trusted event with the name pageshow at the Window object of the Document, but with its target set to the Document object (and the currentTarget set
-                //    to the Window object), using the PageTransitionEvent interface, with the persisted attribute initialized to false. This event must not bubble, must not be
-                //    cancelable, and has no default action.
+                doc.QueueTask(() =>
+                {
+                    //8.1 If the Document's page showing flag is true, then abort this task (i.e. don't fire the event below).
+                    //8.2 Set the Document's page showing flag to true.
+                    //8.3 Fire a trusted event with the name pageshow at the Window object of the Document, but with its target set to the Document object (and the currentTarget set
+                    //    to the Window object), using the PageTransitionEvent interface, with the persisted attribute initialized to false. This event must not bubble, must not be
+                    //    cancelable, and has no default action.
+                });
             }
 
             //9. If the Document has any pending application cache download process tasks, then queue each such task in the order they were added to the list of pending
@@ -3799,7 +3794,7 @@ namespace AngleSharp.Html
                 doc.Print();
 
             //11. The Document is now ready for post-load tasks.
-            doc.QueueTask(doc.RaiseLoadedEvent);
+            //12. Queue a task to mark the Document as completely loaded.
         }
 
         #endregion
