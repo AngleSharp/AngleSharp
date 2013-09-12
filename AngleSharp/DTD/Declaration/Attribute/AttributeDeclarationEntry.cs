@@ -46,7 +46,7 @@ namespace AngleSharp.DTD
 
         public Boolean Check(Element element)
         {
-            return Type.Check(element);
+            return _type.Check(element) && _value.Apply(element);
         }
 
         #endregion
