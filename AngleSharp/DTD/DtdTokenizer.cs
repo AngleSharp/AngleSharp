@@ -90,6 +90,10 @@ namespace AngleSharp.DTD
 
         #region Methods
 
+        /// <summary>
+        /// Adds a parameter definition in form of an entity for parsing the DTD.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         public void AddParameter(Entity entity)
         {
             _parameters.Add(entity);
@@ -191,7 +195,10 @@ namespace AngleSharp.DTD
                 }
             }
             else if (c == Specification.PERCENT)
-                return PEReference(_stream.Next);
+            {
+                PEReference(_stream.Next);
+                return GetElement(_stream.Current);
+            }
 
             throw Errors.GetException(ErrorCode.DtdInvalid);
         }
@@ -408,6 +415,12 @@ namespace AngleSharp.DTD
 
             if (c == Specification.EOF)
                 throw Errors.GetException(ErrorCode.EOF);
+
+            if (c == Specification.PERCENT)
+            {
+                PEReference(_stream.Next);
+                return DeclarationNameBefore(_stream.Current, decl);
+            }
             
             if (c.IsXmlNameStart())
             {
@@ -427,6 +440,12 @@ namespace AngleSharp.DTD
                 c = _stream.Next;
             }
 
+            if (c == Specification.PERCENT)
+            {
+                PEReference(_stream.Next);
+                return DeclarationName(_stream.Current, decl);
+            }
+
             decl.Name = _stringBuffer.ToString();
             _stringBuffer.Clear();
 
@@ -440,29 +459,29 @@ namespace AngleSharp.DTD
 
         #region Parameter Entity
 
-        DtdToken PEReference(Char c)
+        void PEReference(Char c)
         {
-            _stringBuffer.Clear();
+            var buffer = Pool.NewStringBuilder();
 
             if (c.IsXmlNameStart())
             {
                 do
                 {
-                    _stringBuffer.Append(c);
+                    buffer.Append(c);
                     c = _stream.Next;
                 }
                 while (c.IsXmlName());
 
+                var temp = buffer.ToPool();
+
                 if (c == Specification.SC)
                 {
-                    var temp = _stringBuffer.ToString();
-
                     foreach (var parameter in _parameters)
                     {
                         if (parameter.NodeName == temp)
                         {
                             _stream.Push(temp.Length + 2, parameter.NodeValue);
-                            return GetElement(_stream.Current);
+                            return;
                         }
                     }
                 }
