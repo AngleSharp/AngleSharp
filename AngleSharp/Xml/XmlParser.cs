@@ -489,13 +489,11 @@ namespace AngleSharp.Xml
                 var http = Configuration.GetHttpRequester();
                 var response = http.Request(new DefaultHttpRequest { Address = new Uri(url) });
                 var stream = new SourceManager(response.Content);
-                var container = new DtdContainer();
+                var container = new DtdContainer(typeDefinitions);
 
                 var dtd = new DtdParser(container, stream);
                 dtd.IsInternal = false;
                 dtd.Parse();
-
-                typeDefinitions.FillWith(container);
             }
         }
 

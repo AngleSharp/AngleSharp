@@ -20,6 +20,7 @@ namespace AngleSharp.DTD
         List<ElementDeclaration> _elements;
         List<Node> _nodes;
         Boolean _invalid;
+        DtdContainer _parent;
 
         #endregion
 
@@ -35,6 +36,12 @@ namespace AngleSharp.DTD
             _notations = new List<Notation>();
             _attributes = new List<AttributeDeclaration>();
             _elements = new List<ElementDeclaration>();
+        }
+
+        public DtdContainer(DtdContainer parent)
+            : this()
+        {
+            _parent = parent;
         }
 
         #endregion
@@ -183,27 +190,6 @@ namespace AngleSharp.DTD
             _pis.Clear();
         }
 
-        internal Boolean ContainsNotation(String name)
-        {
-            foreach (var notation in _notations)
-                if (notation.NodeName == name)
-                    return true;
-
-            return false;
-        }
-
-        internal void AddNotation(Notation notation)
-        {
-            _nodes.Add(notation);
-            _notations.Add(notation);
-        }
-
-        internal void AddComment(Comment comment)
-        {
-            _nodes.Add(comment);
-            _comments.Add(comment);
-        }
-
         internal Boolean ContainsEntity(String name)
         {
             foreach (var entity in _entities)
@@ -211,18 +197,6 @@ namespace AngleSharp.DTD
                     return true;
 
             return false;
-        }
-
-        internal void AddEntity(Entity entity)
-        {
-            _nodes.Add(entity);
-            _entities.Add(entity);
-        }
-
-        internal void AddProcessingInstruction(ProcessingInstruction pi)
-        {
-            _nodes.Add(pi);
-            _pis.Add(pi);
         }
 
         internal Boolean ContainsAttribute(String name)
@@ -234,12 +208,6 @@ namespace AngleSharp.DTD
             return false;
         }
 
-        internal void AddAttribute(AttributeDeclaration attribute)
-        {
-            _nodes.Add(attribute);
-            _attributes.Add(attribute);
-        }
-
         internal Boolean ContainsElement(String name)
         {
             foreach (var el in _elements)
@@ -249,10 +217,60 @@ namespace AngleSharp.DTD
             return false;
         }
 
+        internal Boolean ContainsNotation(String name)
+        {
+            foreach (var notation in _notations)
+                if (notation.NodeName == name)
+                    return true;
+
+            return false;
+        }
+
+        internal void AddNotation(Notation notation)
+        {
+            if (_parent != null && !_parent.ContainsNotation(notation.NodeName))
+                _parent.AddNotation(notation);
+
+            _nodes.Add(notation);
+            _notations.Add(notation);
+        }
+
+        internal void AddComment(Comment comment)
+        {
+            _nodes.Add(comment);
+            _comments.Add(comment);
+        }
+
+        internal void AddEntity(Entity entity)
+        {
+            if (_parent != null && !_parent.ContainsEntity(entity.NodeName))
+                _parent.AddEntity(entity);
+
+            _nodes.Add(entity);
+            _entities.Add(entity);
+        }
+
+        internal void AddProcessingInstruction(ProcessingInstruction pi)
+        {
+            _nodes.Add(pi);
+            _pis.Add(pi);
+        }
+
+        internal void AddAttribute(AttributeDeclaration attribute)
+        {
+            if (_parent != null && !_parent.ContainsAttribute(attribute.Name))
+                _parent.AddAttribute(attribute);
+
+            _nodes.Add(attribute);
+            _attributes.Add(attribute);
+        }
+
         internal void AddElement(ElementDeclaration element)
         {
             if (ContainsElement(element.Name))
                 _invalid = true;
+            else if (_parent != null && !_parent.ContainsElement(element.Name))
+                _parent.AddElement(element);
 
             _nodes.Add(element);
             _elements.Add(element);
