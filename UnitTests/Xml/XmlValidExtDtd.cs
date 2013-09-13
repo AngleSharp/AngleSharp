@@ -203,8 +203,16 @@ namespace UnitTests
         [TestMethod]
         public void XmlValidIbmValidP09Ibm09v05()
         {
+            var fullname = "first , last , middle";
+            var age = "21";
+            var status = "freshman";
+
+            var combine = String.Format("This is a test of My Name is {0} and my age is {1} Again {0} {0} and my status is \n\t\t{2} {2} and {0} {1} {0} {2} That is all.",
+                fullname, age, status);
+
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student SYSTEM ""student2.dtd""[
+	<!ELEMENT student (#PCDATA)> 
 	<!ENTITY Age ""21"">
 	<!ENTITY Status ""freshman"">
  	<!ENTITY % FullName ""first , last , middle"">
@@ -219,6 +227,7 @@ namespace UnitTests
 
             Assert.IsNotNull(document);
             Assert.IsTrue(document.IsValid);
+            Assert.AreEqual(combine, document.DocumentElement.TextContent);
         }
 
         /// <summary>
