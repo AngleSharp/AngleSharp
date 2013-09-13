@@ -3,12 +3,14 @@ using AngleSharp.DOM.Xml;
 using AngleSharp.DTD;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AngleSharp.Xml
 {
     /// <summary>
     /// The XML validator for document validation.
     /// </summary>
+    [DebuggerStepThrough]
     sealed class XmlValidator
     {
         #region Members

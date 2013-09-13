@@ -68,6 +68,7 @@
     <Compile Include="DTD\Declaration\Element\ElementNameDeclarationEntry.cs" />
     <Compile Include="DTD\Declaration\Element\ElementSequenceDeclarationEntry.cs" />
     <Compile Include="DTD\Declaration\Element\NodeInspector.cs" />
+    <Compile Include="DTD\Tokens\DtdDeclToken.cs" />
     <Compile Include="Events\ParseErrorEventHandler.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Foundation\Constants\AttributeNames.cs" />

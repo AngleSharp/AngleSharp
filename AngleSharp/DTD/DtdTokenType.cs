@@ -8,6 +8,10 @@ namespace AngleSharp.DTD
     enum DtdTokenType
     {
         /// <summary>
+        /// The prolog text declaration token (for external subsets).
+        /// </summary>
+        TextDecl,
+        /// <summary>
         /// The element token for element definitions.
         /// </summary>
         Element,

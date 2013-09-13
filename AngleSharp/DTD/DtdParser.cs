@@ -132,18 +132,15 @@ namespace AngleSharp.DTD
         /// <param name="token">The token to consume.</param>
         void Prolog(DtdToken token)
         {
-            if (_tokenizer.IsExternal && token.Type == DtdTokenType.ProcessingInstruction)
+            if (_tokenizer.IsExternal && token.Type == DtdTokenType.TextDecl)
             {
-                var pi = (DtdPIToken)token;
+                var pi = (DtdDeclToken)token;
 
-                if (String.Compare(pi.Target, Tags.XML, StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    HandleXmlDeclaration(pi);
-                    return;
-                }
+                if (!String.IsNullOrEmpty(pi.Encoding))
+                    SetEncoding(pi.Encoding);
             }
-
-            Consume(token);
+            else
+                Consume(token);
         }
 
         /// <summary>
@@ -174,30 +171,13 @@ namespace AngleSharp.DTD
                     _result.AddNotation(((DtdNotationToken)token).ToElement());
                     break;
 
+                case DtdTokenType.TextDecl:
+                    throw Errors.GetException(ErrorCode.XmlInvalidPI);
+
                 case DtdTokenType.ProcessingInstruction:
-                    var pi = (DtdPIToken)token;
-
-                    if (String.Compare(pi.Target, Tags.XML, StringComparison.OrdinalIgnoreCase) == 0)
-                        throw Errors.GetException(ErrorCode.XmlInvalidPI);
-
-                    _result.AddProcessingInstruction(pi.ToElement());
+                    _result.AddProcessingInstruction(((DtdPIToken)token).ToElement());
                     break;
             }
-        }
-
-        /// <summary>
-        /// Handles the XML declaration.
-        /// </summary>
-        /// <param name="pi">The processing instruction token.</param>
-        void HandleXmlDeclaration(DtdPIToken pi)
-        {
-            var xml = String.Format("<test {0} />", pi.Content);
-            var tok = new XmlTokenizer(new SourceManager(xml));
-            var dec = tok.Get() as XmlTagToken;
-            var encoding = dec.GetAttribute("encoding");
-
-            if (!String.IsNullOrEmpty(encoding))
-                SetEncoding(encoding);
         }
 
         /// <summary>

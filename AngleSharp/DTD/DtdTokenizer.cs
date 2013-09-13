@@ -298,7 +298,12 @@ namespace AngleSharp.DTD
             pi.Target = _stringBuffer.ToString();
             _stringBuffer.Clear();
 
-            if (c == Specification.QM)
+            if (String.Compare(pi.Target, Tags.XML, StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                if (IsExternal)
+                    return ProcessTextDecl(c);
+            }
+            else if (c == Specification.QM)
             {
                 c = _stream.Next;
 
@@ -341,6 +346,130 @@ namespace AngleSharp.DTD
                     c = _src.Next;
                 }
             }
+        }
+
+        DtdToken ProcessTextDecl(Char c)
+        {
+            var token = new DtdDeclToken();
+
+            if (c.IsSpaceCharacter())
+            {
+                c = SkipSpaces(c);
+
+                if (_stream.ContinuesWith(AttributeNames.VERSION))
+                {
+                    _stream.Advance(6);
+                    return ProcessTextVersion(_stream.Next, token);
+                }
+                else if (_stream.ContinuesWith(AttributeNames.ENCODING))
+                {
+                    _stream.Advance(7);
+                    return ProcessTextEncoding(_stream.Next, token);
+                }
+            }
+
+            if (c == Specification.QM)
+                return ProcessTextAfter(_stream.Next, token);
+
+            throw Errors.GetException(ErrorCode.XmlInvalidPI);
+        }
+
+        DtdToken ProcessTextVersion(Char c, DtdDeclToken decl)
+        {
+            if (c == Specification.EQ)
+            {
+                var q = _stream.Next;
+
+                if (q == Specification.DQ || q == Specification.SQ)
+                {
+                    _stringBuffer.Clear();
+                    c = _stream.Next;
+
+                    while (c.IsDigit() || c == Specification.DOT)
+                    {
+                        _stringBuffer.Append(c);
+                        c = _stream.Next;
+                    }
+
+                    if (c == q)
+                    {
+                        decl.Version = _stringBuffer.ToString();
+                        return ProcessTextBetween(_stream.Next, decl);
+                    }
+                }
+            }
+
+            throw Errors.GetException(ErrorCode.XmlInvalidPI);
+        }
+
+        DtdToken ProcessTextBetween(Char c, DtdDeclToken decl)
+        {
+            if (c.IsSpaceCharacter())
+            {
+                while (c.IsSpaceCharacter())
+                    c = _stream.Next;
+
+                if (_stream.ContinuesWith(AttributeNames.ENCODING))
+                {
+                    _stream.Advance(7);
+                    return ProcessTextEncoding(_stream.Next, decl);
+                }
+                else if (c == Specification.QM)
+                    return ProcessTextAfter(_stream.Next, decl);
+            }
+
+            throw Errors.GetException(ErrorCode.XmlInvalidPI);
+        }
+
+        DtdToken ProcessTextEncoding(Char c, DtdDeclToken decl)
+        {
+            if (c == Specification.EQ)
+            {
+                var q = _stream.Next;
+
+                if (q == Specification.DQ || q == Specification.SQ)
+                {
+                    _stringBuffer.Clear();
+                    c = _stream.Next;
+
+                    if (c.IsLetter())
+                    {
+                        do
+                        {
+                            _stringBuffer.Append(c);
+                            c = _stream.Next;
+                        }
+                        while (c.IsAlphanumericAscii() || c == Specification.DOT || c == Specification.UNDERSCORE || c == Specification.MINUS);
+                    }
+
+                    if (c == q)
+                    {
+                        decl.Encoding = _stringBuffer.ToString();
+                        return ProcessTextEnd(_stream.Next, decl);
+                    }
+                }
+            }
+
+            throw Errors.GetException(ErrorCode.XmlInvalidPI);
+        }
+
+        DtdToken ProcessTextEnd(Char c, DtdDeclToken decl)
+        {
+            while (c.IsSpaceCharacter())
+                c = _stream.Next;
+
+            if (c == Specification.QM)
+                return ProcessTextAfter(_stream.Next, decl);
+
+            throw Errors.GetException(ErrorCode.XmlInvalidPI);
+        }
+
+        DtdToken ProcessTextAfter(Char c, DtdDeclToken decl)
+        {
+            if(c == Specification.GT)
+                return decl;
+
+            throw Errors.GetException(ErrorCode.XmlInvalidPI);
         }
 
         #endregion
@@ -452,9 +581,9 @@ namespace AngleSharp.DTD
 
         #endregion
 
-        #region Parameter Entity
+        #region References
 
-        void PEReference(Char c)
+        void PEReference(Char c, Boolean use = true)
         {
             var buffer = Pool.NewStringBuilder();
 
@@ -475,13 +604,89 @@ namespace AngleSharp.DTD
 
                     if (p != null)
                     {
+                        if (use)
+                        {
+                            _stream.Push(temp.Length + 2, p.NodeValue);
+                            return;
+                        }
+                        else
+                            throw Errors.GetException(ErrorCode.DtdPEReferenceInvalid);
+                    }
+                }
+            }
+
+            if (use)
+                throw Errors.GetException(ErrorCode.DtdPEReferenceInvalid);
+            
+            _stringBuffer.Append(Specification.PERCENT).Append(buffer.ToString());
+        }
+
+        void EReference(Char c)
+        {
+            var buffer = Pool.NewStringBuilder();
+
+            if (c.IsXmlNameStart())
+            {
+                do
+                {
+                    buffer.Append(c);
+                    c = _stream.Next;
+                }
+                while (c.IsXmlName());
+
+                var temp = buffer.ToPool();
+
+                if (temp.Length > 0 && c == Specification.SC)
+                {
+                    var p = _container.GetEntity(temp);
+
+                    if (p != null)
+                    {
                         _stream.Push(temp.Length + 2, p.NodeValue);
                         return;
                     }
                 }
             }
+            else if (c == Specification.NUM)
+            {
+                c = _src.Next;
+                var hex = c == 'x' || c == 'X';
 
-            throw Errors.GetException(ErrorCode.DtdPEReferenceInvalid);
+                if (hex)
+                {
+                    do
+                    {
+                        buffer.Append(c);
+                        c = _src.Next;
+                    }
+                    while (c.IsHex());
+                }
+                else
+                {
+                    while (c.IsDigit())
+                    {
+                        buffer.Append(c);
+                        c = _src.Next;
+                    }
+                }
+
+                var temp = buffer.ToPool();
+
+                if (temp.Length > 0 && c == Specification.SC)
+                {
+                    var num = hex ? temp.FromHex() : temp.FromDec();
+
+                    if (num.IsValidAsCharRef())
+                    {
+                        var o = hex ? 4 : 3;
+                        var p = Char.ConvertFromUtf32(num);
+                        _stream.Push(temp.Length + o, p);
+                        return;
+                    }
+                }
+            }
+
+            throw Errors.GetException(ErrorCode.CharacterReferenceNotTerminated);
         }
 
         #endregion
@@ -554,10 +759,18 @@ namespace AngleSharp.DTD
             {
                 if (c == Specification.EOF)
                     throw Errors.GetException(ErrorCode.EOF);
-                else if (c == Specification.PERCENT && !CheckPERef(ref c))
-                    throw Errors.GetException(ErrorCode.DtdPEReferenceInvalid);
-                else if (c == Specification.AMPERSAND && !CheckEntityRef(ref c))
-                    throw Errors.GetException(ErrorCode.CharacterReferenceNotTerminated);
+                else if (c == Specification.PERCENT)
+                {
+                    PEReference(_stream.Next, IsExternal);
+                    c = _stream.Current;
+                    continue;
+                }
+                else if (c == Specification.AMPERSAND)
+                {
+                    EReference(_stream.Next);
+                    c = _stream.Current;
+                    continue;
+                }
 
                 _stringBuffer.Append(c);
                 c = _stream.Next;
@@ -892,10 +1105,18 @@ namespace AngleSharp.DTD
                     throw Errors.GetException(ErrorCode.EOF);
                 else if (c == Specification.LT)
                     throw Errors.GetException(ErrorCode.XmlLtInAttributeValue);
-                else if (c == Specification.AMPERSAND && !CheckEntityRef(ref c))
-                    throw Errors.GetException(ErrorCode.CharacterReferenceNotTerminated);
-                else if (c == Specification.PERCENT && CheckPERef(ref c))
-                    throw Errors.GetException(ErrorCode.DtdDeclInvalid);
+                else if (c == Specification.PERCENT)
+                {
+                    PEReference(_stream.Next, IsExternal);
+                    c = _stream.Current;
+                    continue;
+                }
+                else if (c == Specification.AMPERSAND)
+                {
+                    EReference(_stream.Next);
+                    c = _stream.Current;
+                    continue;
+                }
 
                 _stringBuffer.Append(c);
                 c = _stream.Next;
@@ -1541,80 +1762,6 @@ namespace AngleSharp.DTD
         #endregion
 
         #region Helper
-
-        Boolean CheckEntityRef(ref Char c)
-        {
-            _stringBuffer.Append(c);
-            c = _stream.Next;
-
-            if (c.IsXmlNameStart())
-            {
-                do
-                {
-                    _stringBuffer.Append(c);
-                    c = _stream.Next;
-                }
-                while (c.IsXmlName());
-
-                if (c == Specification.SC)
-                    return true;
-            }
-            else if (c == Specification.NUM)
-            {
-                var i = 0;
-                _stringBuffer.Append(c);
-                c = _src.Next;
-                _stringBuffer.Append(c);
-
-                if (c == 'x' || c == 'X')
-                {
-                    i--;
-
-                    do
-                    {
-                        _stringBuffer.Append(c);
-                        c = _src.Next;
-                        i++;
-                    }
-                    while (c.IsHex());
-                }
-                else
-                {
-                    while (c.IsDigit())
-                    {
-                        _stringBuffer.Append(c);
-                        c = _src.Next;
-                        i++;
-                    }
-                }
-
-                if (i > 0 && c == Specification.SC)
-                    return true;
-            }
-
-            return false;
-        }
-
-        Boolean CheckPERef(ref Char c)
-        {
-            _stringBuffer.Append(c);
-            c = _stream.Next;
-
-            if (c.IsXmlNameStart())
-            {
-                do
-                {
-                    _stringBuffer.Append(c);
-                    c = _stream.Next;
-                }
-                while (c.IsXmlName());
-
-                if (c == Specification.SC)
-                    return true;
-            }
-
-            return false;
-        }
 
         Char SkipSpaces(Char c)
         {
