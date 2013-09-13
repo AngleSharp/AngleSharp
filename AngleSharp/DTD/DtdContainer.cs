@@ -12,15 +12,17 @@ namespace AngleSharp.DTD
     {
         #region Members
 
-        List<Notation> _notations;
-        List<ProcessingInstruction> _pis;
-        List<Comment> _comments;
-        List<Entity> _entities;
-        List<AttributeDeclaration> _attributes;
-        List<ElementDeclaration> _elements;
+        Bin<Notation> _notations;
+        Bin<ProcessingInstruction> _pis;
+        Bin<Comment> _comments;
+        Bin<Entity> _entities;
+        Bin<Entity> _parameters;
+        Bin<AttributeDeclaration> _attributes;
+        Bin<ElementDeclaration> _elements;
         List<Node> _nodes;
         Boolean _invalid;
         DtdContainer _parent;
+        List<DtdContainer> _children;
 
         #endregion
 
@@ -29,19 +31,22 @@ namespace AngleSharp.DTD
         public DtdContainer()
         {
             _nodes = new List<Node>();
-            _notations = new List<Notation>();
-            _pis = new List<ProcessingInstruction>();
-            _comments = new List<Comment>();
-            _entities = new List<Entity>();
-            _notations = new List<Notation>();
-            _attributes = new List<AttributeDeclaration>();
-            _elements = new List<ElementDeclaration>();
+            _children = new List<DtdContainer>();
+            _parameters = new Bin<Entity>(this, false, m => m.NodeName);
+            _notations = new Bin<Notation>(this, false, m => m.NodeName);
+            _pis = new Bin<ProcessingInstruction>(this, false, m => m.NodeName);
+            _comments = new Bin<Comment>(this, false, m => m.NodeName);
+            _entities = new Bin<Entity>(this, false, m => m.NodeName);
+            _notations = new Bin<Notation>(this, false, m => m.NodeName);
+            _attributes = new Bin<AttributeDeclaration>(this, false, m => m.Name);
+            _elements = new Bin<ElementDeclaration>(this, true, m => m.Name);
         }
 
         public DtdContainer(DtdContainer parent)
             : this()
         {
             _parent = parent;
+            _parent._children.Add(this);
         }
 
         #endregion
@@ -63,86 +68,131 @@ namespace AngleSharp.DTD
         public Boolean IsInvalid
         {
             get { return _invalid; }
+            private set
+            {
+                _invalid = value;
+
+                if (_parent != null)
+                    _parent.IsInvalid = value;
+            }
         }
 
         /// <summary>
-        /// Gets the nu
+        /// Gets the root container.
+        /// </summary>
+        public DtdContainer Root
+        {
+            get { return (_parent != null) ? _parent.Root : this; }
+        }
+
+        /// <summary>
+        /// Gets the number of rules / nodes in this DTD (without the parent).
         /// </summary>
         public Int32 Count
         {
             get { return _nodes.Count; }
         }
 
+        /// <summary>
+        /// Gets the text of this DTD (without the parents text).
+        /// </summary>
         public String Text
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets the enumeration over all the contained (self and parent) notations.
+        /// </summary>
         public IEnumerable<Notation> Notations
         {
-            get
-            {
-                foreach (var notation in _notations)
-                    yield return notation;
-            }
+            get { return _notations.Items(m => m._notations); }
         }
 
+        /// <summary>
+        /// Gets the enumeration over all the contained (self and parent) processing instructions.
+        /// </summary>
         public IEnumerable<ProcessingInstruction> ProcessingInstructions
         {
-            get
-            {
-                foreach (var pi in _pis)
-                    yield return pi;
-            }
+            get { return _pis.Items(m => m._pis); }
         }
 
+        /// <summary>
+        /// Gets the enumeration over all the contained (self and parent) comments.
+        /// </summary>
         public IEnumerable<Comment> Comments
         {
-            get
-            {
-                foreach (var comment in _comments)
-                    yield return comment;
-            }
+            get { return _comments.Items(m => m._comments); }
         }
 
+        /// <summary>
+        /// Gets the enumeration over all the contained (self and parent) entities.
+        /// </summary>
         public IEnumerable<Entity> Entities
         {
-            get
-            {
-                foreach (var entity in _entities)
-                    yield return entity;
-            }
+            get { return _entities.Items(m => m._entities); }
         }
 
+        /// <summary>
+        /// Gets the enumeration over all the contained (self and parent) parameters.
+        /// </summary>
+        public IEnumerable<Entity> Parameters
+        {
+            get { return _parameters.Items(m => m._parameters); }
+        }
+
+        /// <summary>
+        /// Gets the enumeration over all the contained (self and parent) attributes.
+        /// </summary>
         public IEnumerable<AttributeDeclaration> Attributes
         {
-            get
-            {
-                foreach (var attribute in _attributes)
-                    yield return attribute;
-            }
+            get { return _attributes.Items(m => m._attributes); }
         }
 
+        /// <summary>
+        /// Gets the enumeration over all the contained (self and parent) elements.
+        /// </summary>
         public IEnumerable<ElementDeclaration> Elements
         {
-            get
-            {
-                foreach (var element in _elements)
-                    yield return element;
-            }
+            get { return _elements.Items(m => m._elements); }
         }
 
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Gets the entity with the given name.
+        /// </summary>
+        /// <param name="name">The name of the entity.</param>
+        /// <returns>The entity or null if no such entity exists.</returns>
         public Entity GetEntity(String name)
         {
-            for (int i = 0; i < _entities.Count; i++)
+            var entities = Root.Entities;
+
+            foreach (var entity in entities)
             {
-                if (_entities[i].NodeName == name)
-                    return _entities[i];
+                if (entity.NodeName == name)
+                    return entity;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the parameter entity with the given name.
+        /// </summary>
+        /// <param name="name">The name of the parameter.</param>
+        /// <returns>The entity or null if no such entity exists.</returns>
+        public Entity GetParameter(String name)
+        {
+            var parameters = Root.Parameters;
+
+            foreach (var parameter in parameters)
+            {
+                if (parameter.NodeName == name)
+                    return parameter;
             }
 
             return null;
@@ -152,127 +202,74 @@ namespace AngleSharp.DTD
 
         #region Internal Methods
 
-        internal void FillWith(DtdContainer external)
-        {
-            foreach (var entity in external.Entities)
-            {
-                if (!ContainsEntity(entity.NotationName))
-                    AddEntity(entity);
-            }
-
-            foreach (var notation in external.Notations)
-            {
-                if (!ContainsNotation(notation.PublicId))
-                    AddNotation(notation);
-            }
-
-            foreach (var attribute in external.Attributes)
-            {
-                if (!ContainsAttribute(attribute.Name))
-                    AddAttribute(attribute);
-            }
-
-            foreach (var element in external.Elements)
-            {
-                if (!ContainsElement(element.Name))
-                    AddElement(element);
-            }
-        }
-
         internal void Reset()
         {
-            _attributes.Clear();
-            _comments.Clear();
-            _elements.Clear();
-            _entities.Clear();
-            _nodes.Clear();
-            _notations.Clear();
-            _pis.Clear();
+            _parameters.Reset();
+            _attributes.Reset();
+            _comments.Reset();
+            _elements.Reset();
+            _entities.Reset();
+            _notations.Reset();
+            _pis.Reset();
         }
 
         internal Boolean ContainsEntity(String name)
         {
-            foreach (var entity in _entities)
-                if (entity.NodeName == name)
-                    return true;
+            return _entities.Contains(name);
+        }
 
-            return false;
+        internal Boolean ContainsParameter(String name)
+        {
+            return _parameters.Contains(name);
         }
 
         internal Boolean ContainsAttribute(String name)
         {
-            foreach (var attr in _attributes)
-                if (attr.Name == name)
-                    return true;
-
-            return false;
+            return _attributes.Contains(name);
         }
 
         internal Boolean ContainsElement(String name)
         {
-            foreach (var el in _elements)
-                if (el.Name == name)
-                    return true;
-
-            return false;
+            return _elements.Contains(name);
         }
 
         internal Boolean ContainsNotation(String name)
         {
-            foreach (var notation in _notations)
-                if (notation.NodeName == name)
-                    return true;
-
-            return false;
+            return _notations.Contains(name);
         }
 
         internal void AddNotation(Notation notation)
         {
-            if (_parent != null && !_parent.ContainsNotation(notation.NodeName))
-                _parent.AddNotation(notation);
-
-            _nodes.Add(notation);
             _notations.Add(notation);
         }
 
         internal void AddComment(Comment comment)
         {
-            _nodes.Add(comment);
             _comments.Add(comment);
         }
 
         internal void AddEntity(Entity entity)
         {
-            if (_parent != null && !_parent.ContainsEntity(entity.NodeName))
-                _parent.AddEntity(entity);
-
-            _nodes.Add(entity);
             _entities.Add(entity);
+        }
+
+        internal void AddParameter(Entity entity)
+        {
+            _parameters.Add(entity);
         }
 
         internal void AddProcessingInstruction(ProcessingInstruction pi)
         {
-            _nodes.Add(pi);
             _pis.Add(pi);
         }
 
         internal void AddAttribute(AttributeDeclaration attribute)
         {
-            if (_parent != null && !_parent.ContainsAttribute(attribute.Name))
-                _parent.AddAttribute(attribute);
-
-            _nodes.Add(attribute);
             _attributes.Add(attribute);
         }
 
         internal void AddElement(ElementDeclaration element)
         {
-            if (ContainsElement(element.Name))
-                _invalid = true;
-            else if (_parent != null && !_parent.ContainsElement(element.Name))
-                _parent.AddElement(element);
-
-            _nodes.Add(element);
             _elements.Add(element);
         }
 
@@ -335,6 +332,106 @@ namespace AngleSharp.DTD
         public Boolean Remove(Node item)
         {
             return false;
+        }
+
+        #endregion
+
+        #region Bin
+
+        sealed class Bin<T> : IEnumerable<T>
+            where T : Node
+        {
+            DtdContainer _container;
+            List<T> _list;
+            Boolean _unique;
+            Func<T, String> _select;
+
+            public Bin(DtdContainer container, Boolean unique, Func<T, String> select)
+            {
+                _unique = unique;
+                _container = container;
+                _list = new List<T>();
+                _select = select;
+            }
+
+            /// <summary>
+            /// Gets the enumeration over all the contained (self and parent) notations.
+            /// </summary>
+            public IEnumerable<T> Items(Func<DtdContainer, Bin<T>> source)
+            {
+                foreach (var item in _list)
+                    yield return item;
+
+                if(_container._children.Count != 0)
+                {
+                    foreach (var child in _container._children)
+                    {
+                        var bin = source(child);
+
+                        foreach (var item in bin)
+                            yield return item;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Checks if the given name exists in the current bin.
+            /// </summary>
+            /// <param name="name">The name to check for.</param>
+            /// <returns>True if such an item exists, otherwise false.</returns>
+            public Boolean Contains(String name)
+            {
+                foreach (var item in _list)
+                    if (_select(item) == name)
+                        return true;
+
+                return false;
+            }
+
+            /// <summary>
+            /// Adds the item to the bin if the uniqueness contraint (if set) is fulfilled.
+            /// </summary>
+            /// <param name="item">The item to add.</param>
+            public void Add(T item)
+            {
+                if (_unique && Contains(_select(item)))
+                {
+                    _container.IsInvalid = true;
+                    return;
+                }
+
+                _list.Add(item);
+                _container._nodes.Add(item);
+            }
+
+            /// <summary>
+            /// Resets the current bin.
+            /// </summary>
+            public void Reset()
+            {
+                foreach (var entry in _list)
+                    _container._nodes.Remove(entry);
+
+                _list.Clear();
+            }
+
+            /// <summary>
+            /// Gets the enumerator over the items of the current bin.
+            /// </summary>
+            /// <returns>The specific enumerator.</returns>
+            public IEnumerator<T> GetEnumerator()
+            {
+                return _list.GetEnumerator();
+            }
+
+            /// <summary>
+            /// Gets the non-specific enumerator over all the items.
+            /// </summary>
+            /// <returns>The non-specific enumerator.</returns>
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return ((IEnumerable)_list).GetEnumerator();
+            }
         }
 
         #endregion

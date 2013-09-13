@@ -1,5 +1,4 @@
-﻿using AngleSharp.DOM;
-using AngleSharp.Xml;
+﻿using AngleSharp.Xml;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -45,18 +44,23 @@ namespace AngleSharp.DTD
         Boolean _external;
         Char _endChar;
         IntermediateStream _stream;
-        List<Entity> _parameters;
+        DtdContainer _container;
         Int32 _includes;
 
         #endregion
 
         #region ctor
 
-        public DtdTokenizer(SourceManager src)
+        /// <summary>
+        /// Creates a new DTD tokenizer with the given source and container.
+        /// </summary>
+        /// <param name="container">The container to use.</param>
+        /// <param name="src">The source to inspect.</param>
+        public DtdTokenizer(DtdContainer container, SourceManager src)
             : base(src)
         {
             _stream = new IntermediateStream(src);
-            _parameters = new List<Entity>();
+            _container = container;
             _includes = 0;
             IsExternal = true;
         }
@@ -89,15 +93,6 @@ namespace AngleSharp.DTD
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Adds a parameter definition in form of an entity for parsing the DTD.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        public void AddParameter(Entity entity)
-        {
-            _parameters.Add(entity);
-        }
 
         /// <summary>
         /// Scans the DTD in the doctype as specified in the
@@ -476,13 +471,12 @@ namespace AngleSharp.DTD
 
                 if (c == Specification.SC)
                 {
-                    foreach (var parameter in _parameters)
+                    var p = _container.GetParameter(temp);
+
+                    if (p != null)
                     {
-                        if (parameter.NodeName == temp)
-                        {
-                            _stream.Push(temp.Length + 2, parameter.NodeValue);
-                            return;
-                        }
+                        _stream.Push(temp.Length + 2, p.NodeValue);
+                        return;
                     }
                 }
             }

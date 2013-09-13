@@ -15,7 +15,7 @@ namespace AngleSharp.DTD
     {
         #region Members
 
-        DtdTokenizer tokenizer;
+        DtdTokenizer _tokenizer;
         DtdContainer _result;
         SourceManager _src;
 
@@ -51,11 +51,11 @@ namespace AngleSharp.DTD
         /// <param name="source">The source to parse.</param>
         public DtdParser(DtdContainer container, SourceManager source)
         {
-            tokenizer = new DtdTokenizer(source);
+            _tokenizer = new DtdTokenizer(container, source);
             _result = container;
             _src = source;
 
-            tokenizer.ErrorOccurred += (s, ev) =>
+            _tokenizer.ErrorOccurred += (s, ev) =>
             {
                 if (ErrorOccurred != null)
                     ErrorOccurred(this, ev);
@@ -71,8 +71,8 @@ namespace AngleSharp.DTD
         /// </summary>
         public Boolean IsInternal
         {
-            get { return tokenizer.IsExternal; }
-            set { tokenizer.IsExternal = !value; }
+            get { return _tokenizer.IsExternal; }
+            set { _tokenizer.IsExternal = !value; }
         }
 
         /// <summary>
@@ -110,22 +110,46 @@ namespace AngleSharp.DTD
         /// </summary>
         public void Parse()
         {
-            DtdToken token;
+            var token = _tokenizer.Get();
+            Prolog(token);
 
-            do
+            while (token.Type != DtdTokenType.EOF)
             {
-                token = tokenizer.Get();
+                token = _tokenizer.Get();
                 Consume(token);
             }
-            while (token.Type != DtdTokenType.EOF);
 
-            _result.Text = tokenizer.Content;
+            _result.Text = _tokenizer.Content;
         }
 
         #endregion
 
         #region Consuming
 
+        /// <summary>
+        /// Consume the given prolog token (first token to consume).
+        /// </summary>
+        /// <param name="token">The token to consume.</param>
+        void Prolog(DtdToken token)
+        {
+            if (_tokenizer.IsExternal && token.Type == DtdTokenType.ProcessingInstruction)
+            {
+                var pi = (DtdPIToken)token;
+
+                if (String.Compare(pi.Target, Tags.XML, StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    HandleXmlDeclaration(pi);
+                    return;
+                }
+            }
+
+            Consume(token);
+        }
+
+        /// <summary>
+        /// Consumes the given token.
+        /// </summary>
+        /// <param name="token">The token to consume.</param>
         void Consume(DtdToken token)
         {
             switch (token.Type)
@@ -154,19 +178,19 @@ namespace AngleSharp.DTD
                     var pi = (DtdPIToken)token;
 
                     if (String.Compare(pi.Target, Tags.XML, StringComparison.OrdinalIgnoreCase) == 0)
-                        HandleXmlDeclaration(pi);
-                    else
-                        _result.AddProcessingInstruction(pi.ToElement());
+                        throw Errors.GetException(ErrorCode.XmlInvalidPI);
 
+                    _result.AddProcessingInstruction(pi.ToElement());
                     break;
             }
         }
 
+        /// <summary>
+        /// Handles the XML declaration.
+        /// </summary>
+        /// <param name="pi">The processing instruction token.</param>
         void HandleXmlDeclaration(DtdPIToken pi)
         {
-            if (!tokenizer.IsExternal)
-                throw Errors.GetException(ErrorCode.XmlInvalidPI);
-
             var xml = String.Format("<test {0} />", pi.Content);
             var tok = new XmlTokenizer(new SourceManager(xml));
             var dec = tok.Get() as XmlTagToken;
@@ -194,10 +218,14 @@ namespace AngleSharp.DTD
             }
         }
 
+        /// <summary>
+        /// Adds the given entity to the DTD container.
+        /// </summary>
+        /// <param name="token">The entity token to add.</param>
         void AddEntity(DtdEntityToken token)
         {
             if (token.IsParameter)
-                tokenizer.AddParameter(token.ToElement());
+                _result.AddParameter(token.ToElement());
             else
                 _result.AddEntity(token.ToElement());
         }
