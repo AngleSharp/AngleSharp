@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp;
+using AngleSharp.Xml;
 
 namespace UnitTests
 {
@@ -31,7 +32,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlInvalidDocumentMismatchedEndTag()
         {
             var xml = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""ISO-8859-1""?>

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp;
+using AngleSharp.Xml;
 
 namespace UnitTests
 {
@@ -15,7 +16,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfEncoding01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding="" utf-8""?>
@@ -28,7 +29,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfEncoding02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""a/b""?>
@@ -42,7 +43,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfEncoding03()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""just&#41;word""?>
@@ -56,7 +57,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfEncoding04()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""utf:8""?>
@@ -70,7 +71,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfEncoding05()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""@import(sys-encoding)""?>
@@ -84,7 +85,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfEncoding06()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""XYZ+999""?>
@@ -100,7 +101,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP73fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -118,7 +119,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP73fail5()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -136,7 +137,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP74fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -153,7 +154,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP74fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -170,7 +171,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP74fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -186,7 +187,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP72fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -203,7 +204,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP72fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -220,7 +221,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP73fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -238,7 +239,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP73fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -256,7 +257,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP73fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -274,7 +275,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP72fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -291,7 +292,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP76fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -309,7 +310,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP76fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -329,7 +330,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP70fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -346,7 +347,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP71fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -363,7 +364,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP71fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -380,7 +381,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP75fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -396,7 +397,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP75fail5()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -412,7 +413,7 @@ namespace UnitTests
         /// 4.2.2 [75] apply. This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP75fail6()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -428,7 +429,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP76fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -446,7 +447,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP76fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -464,7 +465,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP75fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -480,7 +481,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP75fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -496,7 +497,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP75fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -512,7 +513,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP69fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -530,7 +531,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP69fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -548,7 +549,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP69fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -566,7 +567,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfDtd04()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -584,7 +585,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfDtd05()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -602,7 +603,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP66fail1()
         {
             var document = DocumentBuilder.Xml(@"<doc>&#65</doc>");
@@ -613,7 +614,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP66fail2()
         {
             var document = DocumentBuilder.Xml(@"<doc>&# 65;</doc>");
@@ -624,7 +625,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP66fail3()
         {
             var document = DocumentBuilder.Xml(@"<doc>&#A;</doc>");
@@ -635,7 +636,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP66fail4()
         {
             var document = DocumentBuilder.Xml(@"<doc>&#x4G;</doc>");
@@ -646,7 +647,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP66fail5()
         {
             var document = DocumentBuilder.Xml(@"<doc>&#5;</doc>");
@@ -657,7 +658,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP66fail6()
         {
             var document = DocumentBuilder.Xml(@"<doc>&#xd802;&#xdc02;</doc>");
@@ -668,7 +669,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP68fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -687,7 +688,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP68fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -706,7 +707,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP68fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -725,7 +726,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfDtd02()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -744,7 +745,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfDtd03()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -765,7 +766,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfCond02()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -786,7 +787,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml01()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -804,7 +805,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP39fail1()
         {
             var document = DocumentBuilder.Xml(@"<doc>content");
@@ -815,7 +816,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP39fail2()
         {
             var document = DocumentBuilder.Xml(@"<doc>content</a></doc>");
@@ -826,7 +827,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP39fail3()
         {
             var document = DocumentBuilder.Xml(@"");
@@ -837,7 +838,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP52fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -853,7 +854,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP52fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -869,7 +870,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP53fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -886,7 +887,7 @@ namespace UnitTests
         /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP53fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -903,7 +904,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP53fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -920,7 +921,7 @@ namespace UnitTests
         /// the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP53fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -937,7 +938,7 @@ namespace UnitTests
         /// the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP53fail5()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -954,7 +955,7 @@ namespace UnitTests
         /// apply. This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfAttlist03()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -978,7 +979,7 @@ namespace UnitTests
         /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP59fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -995,7 +996,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP59fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1012,7 +1013,7 @@ namespace UnitTests
         /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP59fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1029,7 +1030,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP60fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1046,7 +1047,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP60fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1063,7 +1064,7 @@ namespace UnitTests
         /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP60fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1080,7 +1081,7 @@ namespace UnitTests
         /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP60fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1097,7 +1098,7 @@ namespace UnitTests
         /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP60fail5()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1114,7 +1115,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml04()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1137,7 +1138,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml06()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1159,7 +1160,7 @@ namespace UnitTests
         /// taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfAttlist08()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1182,7 +1183,7 @@ namespace UnitTests
         /// is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfAttlist09()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1204,7 +1205,7 @@ namespace UnitTests
         /// the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP56fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1221,7 +1222,7 @@ namespace UnitTests
         /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP56fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1238,7 +1239,7 @@ namespace UnitTests
         /// the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP56fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1255,7 +1256,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP56fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1272,7 +1273,7 @@ namespace UnitTests
         /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP56fail5()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1289,7 +1290,7 @@ namespace UnitTests
         /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP57fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1306,7 +1307,7 @@ namespace UnitTests
         /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP58fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1325,7 +1326,7 @@ namespace UnitTests
         /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP58fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1347,7 +1348,7 @@ namespace UnitTests
         /// 3.3.1 [58] apply. This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP58fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1370,7 +1371,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP58fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1389,7 +1390,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP58fail5()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1408,7 +1409,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP58fail6()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1425,7 +1426,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP58fail7()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1443,7 +1444,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP58fail8()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1461,7 +1462,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP54fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1478,7 +1479,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP55fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1495,7 +1496,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfAttlist01()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1518,7 +1519,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfAttlist02()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1542,7 +1543,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfAttlist04()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1566,7 +1567,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfAttlist05()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1590,7 +1591,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfAttlist06()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1614,7 +1615,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfAttlist07()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1638,7 +1639,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP51fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1653,7 +1654,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP51fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1669,7 +1670,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP51fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1685,7 +1686,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP51fail5()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1701,7 +1702,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP51fail6()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1717,7 +1718,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP51fail7()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1733,7 +1734,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml05()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1756,7 +1757,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml07()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1773,7 +1774,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml08()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1791,7 +1792,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml09()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1810,7 +1811,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml10()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1828,7 +1829,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP45fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1843,7 +1844,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP45fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1858,7 +1859,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP45fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1873,7 +1874,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP45fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1888,7 +1889,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml11()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1906,7 +1907,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml12()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -1925,7 +1926,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP46fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1941,7 +1942,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP46fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1957,7 +1958,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP46fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1973,7 +1974,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP46fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -1989,7 +1990,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP46fail5()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2005,7 +2006,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP46fail6()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2021,7 +2022,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP44fail3()
         {
             var document = DocumentBuilder.Xml(@"<doc --bad comment--/>");
@@ -2032,7 +2033,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP44fail4()
         {
             var document = DocumentBuilder.Xml(@"<doc att=""val""att2=""val2""/>");
@@ -2043,7 +2044,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP44fail5()
         {
             var document = DocumentBuilder.Xml(@"<doc att=""val"" att=""val""/>");
@@ -2054,7 +2055,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml13()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -2075,7 +2076,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP47fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2091,7 +2092,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP47fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2107,7 +2108,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP47fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2123,7 +2124,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP47fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2139,7 +2140,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfContent01()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -2155,7 +2156,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfContent02()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -2171,7 +2172,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfContent03()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -2188,7 +2189,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP48fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2204,7 +2205,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP48fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2220,7 +2221,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP49fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2235,7 +2236,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP50fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2250,7 +2251,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP51fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2265,7 +2266,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP32fail1()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" standalone='yes""?>
@@ -2277,7 +2278,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP32fail2()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" standalone=""yes'?>
@@ -2289,7 +2290,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP32fail3()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""standalone=""yes""?>
@@ -2301,7 +2302,7 @@ namespace UnitTests
         /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP32fail4()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" standalone=yes?>
@@ -2313,7 +2314,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP32fail5()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" standalone=""YES""?>
@@ -2326,7 +2327,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfAttlist10()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -2345,7 +2346,7 @@ namespace UnitTests
         /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP40fail1()
         {
             var document = DocumentBuilder.Xml(@"<doc att=""val""att2=""val2""></doc>");
@@ -2356,7 +2357,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP40fail2()
         {
             var document = DocumentBuilder.Xml(@"<3notname></3notname>");
@@ -2367,7 +2368,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP40fail3()
         {
             var document = DocumentBuilder.Xml(@"<3notname></notname>");
@@ -2378,7 +2379,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP40fail4()
         {
             var document = DocumentBuilder.Xml(@"< doc></doc>");
@@ -2389,7 +2390,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP41fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2403,7 +2404,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP41fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2417,7 +2418,7 @@ namespace UnitTests
         /// collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP41fail3()
         {
             var document = DocumentBuilder.Xml(@"<doc att ""val""></doc>");
@@ -2428,7 +2429,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfElement00()
         {
             var document = DocumentBuilder.Xml(@"<root>
@@ -2441,7 +2442,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfElement01()
         {
             var document = DocumentBuilder.Xml(@"<root>
@@ -2454,7 +2455,7 @@ namespace UnitTests
         /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP42fail1()
         {
             var document = DocumentBuilder.Xml(@"<doc></ doc>");
@@ -2465,7 +2466,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP42fail2()
         {
             var document = DocumentBuilder.Xml(@"<doc></doc/>");
@@ -2476,7 +2477,7 @@ namespace UnitTests
         /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP42fail3()
         {
             var document = DocumentBuilder.Xml(@"<doc/doc/");
@@ -2487,7 +2488,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfElement02()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE html [ <!ELEMENT html ANY> ]>
@@ -2502,7 +2503,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfElement03()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE html [ <!ELEMENT html ANY> ]>
@@ -2518,7 +2519,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfElement04()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [ <!ELEMENT root ANY> ]>
@@ -2533,7 +2534,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP43fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE elem
@@ -2552,7 +2553,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP43fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE elem
@@ -2571,7 +2572,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP43fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE elem
@@ -2590,7 +2591,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfAttlist11()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -2608,7 +2609,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP44fail1()
         {
             var document = DocumentBuilder.Xml(@"< doc/>");
@@ -2619,7 +2620,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP44fail2()
         {
             var document = DocumentBuilder.Xml(@"<doc/ >");
@@ -2630,7 +2631,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP71fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2647,7 +2648,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP71fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2664,7 +2665,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP72fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2675,34 +2676,13 @@ namespace UnitTests
 <doc/>
 ");
         }
-        /// <summary>
-        /// system literals may not contain URI fragments. Here the section(s) 2.3,
-        /// 4.2.2 [11] apply. This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void XmlErrorOP11pass1()
-        {
-            var document = DocumentBuilder.Xml(@"<!--Inability to resolve a notation should not be reported as an error-->
-<!DOCTYPE doc
-[
-<!ELEMENT doc EMPTY>
-<!NOTATION not1 SYSTEM ""a%a&b&#0<!ELEMENT<!--<?</>?>/\''"">
-<!NOTATION not2 SYSTEM 'a
-	b""""""'>
-<!NOTATION not3 SYSTEM """">
-<!NOTATION not4 SYSTEM ''>
-]>
-<doc/>
-");
-        }
 
         /// <summary>
         /// incomplete character reference. Here the section(s) 2.3 [9] apply.
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP09fail3()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2718,7 +2698,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP09fail4()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2734,7 +2714,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP09fail5()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc
@@ -2750,7 +2730,7 @@ namespace UnitTests
         /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP14fail1()
         {
             var document = DocumentBuilder.Xml(@"<doc>< </doc>
@@ -2762,7 +2742,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP14fail2()
         {
             var document = DocumentBuilder.Xml(@"<doc>& </doc>
@@ -2774,7 +2754,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP14fail3()
         {
             var document = DocumentBuilder.Xml(@"<doc>a]]>b</doc>
@@ -2786,7 +2766,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml03()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [ <!ELEMENT root EMPTY> ]>
@@ -2801,7 +2781,7 @@ namespace UnitTests
         /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP15fail1()
         {
             var document = DocumentBuilder.Xml(@"<!--a--->
@@ -2813,7 +2793,7 @@ namespace UnitTests
         /// apply. This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP15fail2()
         {
             var document = DocumentBuilder.Xml(@"<!-- -- -- -->
@@ -2825,7 +2805,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP15fail3()
         {
             var document = DocumentBuilder.Xml(@"<!-- --- -->
@@ -2837,7 +2817,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfPi()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -2854,7 +2834,7 @@ namespace UnitTests
         /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP16fail1()
         {
             var document = DocumentBuilder.Xml(@"<?pitarget?>
@@ -2867,7 +2847,7 @@ namespace UnitTests
         /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP16fail2()
         {
             var document = DocumentBuilder.Xml(@"<??>
@@ -2879,7 +2859,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP18fail1()
         {
             var document = DocumentBuilder.Xml(@"<doc><![ CDATA[a]]></doc>");
@@ -2890,7 +2870,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP18fail2()
         {
             var document = DocumentBuilder.Xml(@"<doc><![CDATA [a]]></doc>");
@@ -2901,7 +2881,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP18fail3()
         {
             var document = DocumentBuilder.Xml(@"<doc>
@@ -2918,7 +2898,7 @@ namespace UnitTests
         /// cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfValidSa094()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
@@ -2936,7 +2916,7 @@ namespace UnitTests
         /// taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfSgml02()
         {
             var document = DocumentBuilder.Xml(@" <?xml version=""1.0""?>
@@ -2951,7 +2931,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP22fail1()
         {
             var document = DocumentBuilder.Xml(@"
@@ -2965,7 +2945,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP22fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
@@ -2981,7 +2961,7 @@ namespace UnitTests
         /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP23fail1()
         {
             var document = DocumentBuilder.Xml(@"<?XML version=""1.0""?>
@@ -2994,7 +2974,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP23fail2()
         {
             var document = DocumentBuilder.Xml(@"<?xml encoding=""UTF-8""?>
@@ -3007,7 +2987,7 @@ namespace UnitTests
         /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP23fail3()
         {
             var document = DocumentBuilder.Xml(@"<?xml encoding=""UTF-8"" version=""1.0""?>
@@ -3020,7 +3000,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP23fail4()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" standalone=""yes"" encoding=""UTF-8""?>
@@ -3033,7 +3013,7 @@ namespace UnitTests
         /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP23fail5()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"">
@@ -3046,7 +3026,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP39fail4()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"">
@@ -3058,7 +3038,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP39fail5()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"">
@@ -3077,7 +3057,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP24fail1()
         {
             var document = DocumentBuilder.Xml(@"<?xml version = '1.0""?>
@@ -3090,7 +3070,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP24fail2()
         {
             var document = DocumentBuilder.Xml(@"<?xml version = ""1.0'?>
@@ -3103,7 +3083,7 @@ namespace UnitTests
         /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP25fail1()
         {
             var document = DocumentBuilder.Xml(@"<?xml version <!--bad comment--> =""1.0""?>
@@ -3116,7 +3096,7 @@ namespace UnitTests
         /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP26fail1()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0?""?>
@@ -3129,7 +3109,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP26fail2()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0^""?>
@@ -3143,7 +3123,7 @@ namespace UnitTests
         /// OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP27fail1()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
@@ -3157,7 +3137,7 @@ namespace UnitTests
         /// taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP28fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
@@ -3172,7 +3152,7 @@ namespace UnitTests
         /// [29] apply. This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP29fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [

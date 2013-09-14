@@ -19,7 +19,7 @@ namespace UnitTests.Xml
         /// Production 1.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP01Ibm01v01()
+        public void XmlIbmValidP01Ibm01v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes"" ?>
 <!-- Above is XMLDecl -->
@@ -58,7 +58,7 @@ namespace UnitTests.Xml
         /// test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa084()
+        public void XmlValidSa084()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [<!ELEMENT doc (#PCDATA)>]><doc></doc>
 ", new DocumentOptions(validating: true));
@@ -74,7 +74,7 @@ namespace UnitTests.Xml
         /// from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa093()
+        public void XmlValidSa093()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -96,7 +96,7 @@ namespace UnitTests.Xml
         /// 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa116()
+        public void XmlValidSa116()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -116,7 +116,7 @@ namespace UnitTests.Xml
         /// the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidExtSa001()
+        public void XmlValidExtSa001()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -136,7 +136,7 @@ namespace UnitTests.Xml
         /// James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidExtSa002()
+        public void XmlValidExtSa002()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -156,7 +156,7 @@ namespace UnitTests.Xml
         /// collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidExtSa004()
+        public void XmlValidExtSa004()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -176,7 +176,7 @@ namespace UnitTests.Xml
         /// collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidExtSa009()
+        public void XmlValidExtSa009()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -197,7 +197,7 @@ namespace UnitTests.Xml
         /// 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa108()
+        public void XmlValidSa108()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -221,7 +221,7 @@ namespace UnitTests.Xml
         /// is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa068()
+        public void XmlValidSa068()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -244,7 +244,7 @@ namespace UnitTests.Xml
         /// 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidExtSa006()
+        public void XmlValidExtSa006()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA|e)*>
@@ -267,7 +267,7 @@ namespace UnitTests.Xml
         /// 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidExtSa011()
+        public void XmlValidExtSa011()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -286,7 +286,7 @@ namespace UnitTests.Xml
         /// the collection IBM XML Conformance Test Suite - Production 33.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP33Ibm33v01()
+        public void XmlIbmValidP33Ibm33v01()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE book [
    <!ELEMENT book ANY>
@@ -305,7 +305,7 @@ namespace UnitTests.Xml
         /// collection IBM XML Conformance Test Suite - Production 34.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP34Ibm34v01()
+        public void XmlIbmValidP34Ibm34v01()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE book [
    <!ELEMENT book ANY>
@@ -324,7 +324,7 @@ namespace UnitTests.Xml
         /// XML Conformance Test Suite - Production 35.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP35Ibm35v01()
+        public void XmlIbmValidP35Ibm35v01()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE book [
    <!ELEMENT book ANY>
@@ -343,7 +343,7 @@ namespace UnitTests.Xml
         /// IBM XML Conformance Test Suite - Production 36.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP36Ibm36v01()
+        public void XmlIbmValidP36Ibm36v01()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE book [
    <!ELEMENT book ANY>
@@ -362,7 +362,7 @@ namespace UnitTests.Xml
         /// IBM XML Conformance Test Suite - Production 37.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP37Ibm37v01()
+        public void XmlIbmValidP37Ibm37v01()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE book [
    <!ELEMENT book ANY>
@@ -381,7 +381,7 @@ namespace UnitTests.Xml
         /// Conformance Test Suite - Production 38.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP38Ibm38v01()
+        public void XmlIbmValidP38Ibm38v01()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE book [
    <!ELEMENT book ANY>
@@ -519,7 +519,7 @@ namespace UnitTests.Xml
         /// collection IBM XML Conformance Test Suite - Production 2.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP02Ibm02v01()
+        public void XmlIbmValidP02Ibm02v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""UTF-8"" ?>
 <!DOCTYPE book [
@@ -580,7 +580,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
         /// James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa049()
+        public void XmlValidSa049()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -599,7 +599,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
         /// XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa050()
+        public void XmlValidSa050()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -618,7 +618,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
         /// James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa051()
+        public void XmlValidSa051()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE เจมส์ [
 <!ELEMENT เจมส์  (#PCDATA)>
@@ -638,7 +638,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
         /// collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa052()
+        public void XmlValidSa052()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -656,7 +656,7 @@ _20- _D7FF-퟿_6c0f-氏_E000-_FFFD-�_effe-_010000-𐀀_10FFFF-􏿿_08fff
         /// Conformance Test Suite - Production 3.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP03Ibm03v01()
+        public void XmlIbmValidP03Ibm03v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""UTF-8"" ?>
 
@@ -689,7 +689,7 @@ _0A-
         /// from the collection IBM XML Conformance Test Suite - Production 9.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP09Ibm09v01()
+        public void XmlIbmValidP09Ibm09v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -723,7 +723,7 @@ _0A-
         /// from the collection IBM XML Conformance Test Suite - Production 9.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP09Ibm09v02()
+        public void XmlIbmValidP09Ibm09v02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -743,7 +743,7 @@ _0A-
         /// collection IBM XML Conformance Test Suite - Production 9.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP09Ibm09v04()
+        public void XmlIbmValidP09Ibm09v04()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?> 
 <!DOCTYPE student [
@@ -766,7 +766,7 @@ _0A-
         /// Test Suite - Production 10.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP10Ibm10v01()
+        public void XmlIbmValidP10Ibm10v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -799,7 +799,7 @@ _0A-
         /// is taken from the collection IBM XML Conformance Test Suite - Production 10.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP10Ibm10v02()
+        public void XmlIbmValidP10Ibm10v02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -828,7 +828,7 @@ _0A-
         /// Suite - Production 10.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP10Ibm10v03()
+        public void XmlIbmValidP10Ibm10v03()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -855,7 +855,7 @@ _0A-
         /// Suite - Production 10.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP10Ibm10v04()
+        public void XmlIbmValidP10Ibm10v04()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -882,7 +882,7 @@ _0A-
         /// This test is taken from the collection IBM XML Conformance Test Suite - Production 10.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP10Ibm10v05()
+        public void XmlIbmValidP10Ibm10v05()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -911,7 +911,7 @@ _0A-
         /// Production 10.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP10Ibm10v06()
+        public void XmlIbmValidP10Ibm10v06()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -940,7 +940,7 @@ _0A-
         /// Production 10.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP10Ibm10v07()
+        public void XmlIbmValidP10Ibm10v07()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -967,7 +967,7 @@ _0A-
         /// IBM XML Conformance Test Suite - Production 11.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP11Ibm11v01()
+        public void XmlIbmValidP11Ibm11v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -997,7 +997,7 @@ _0A-
         /// test is taken from the collection IBM XML Conformance Test Suite - Production 10.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP10Ibm10v08()
+        public void XmlIbmValidP10Ibm10v08()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1025,7 +1025,7 @@ _0A-
         /// is taken from the collection IBM XML Conformance Test Suite - Production 11.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP11Ibm11v02()
+        public void XmlIbmValidP11Ibm11v02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1050,7 +1050,7 @@ _0A-
         /// This test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa100()
+        public void XmlValidSa100()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ENTITY e PUBLIC "";!*#@$_%"" ""100.xml"">
@@ -1061,6 +1061,26 @@ _0A-
 
             Assert.IsNotNull(document);
             Assert.IsTrue(document.IsValid);
+        }
+        /// <summary>
+        /// system literals may not contain URI fragments. Here the section(s) 2.3,
+        /// 4.2.2 [11] apply. This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidOP11pass1()
+        {
+            var document = DocumentBuilder.Xml(@"<!--Inability to resolve a notation should not be reported as an error-->
+<!DOCTYPE doc
+[
+<!ELEMENT doc EMPTY>
+<!NOTATION not1 SYSTEM ""a%a&b&#0<!ELEMENT<!--<?</>?>/\''"">
+<!NOTATION not2 SYSTEM 'a
+	b""""""'>
+<!NOTATION not3 SYSTEM """">
+<!NOTATION not4 SYSTEM ''>
+]>
+<doc/>
+");
         }
 
         /// <summary>
@@ -1093,7 +1113,7 @@ cdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"">
         /// the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa012()
+        public void XmlValidSa012()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1113,7 +1133,7 @@ cdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"">
         /// James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa063()
+        public void XmlValidSa063()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE เจมส์ [
 <!ELEMENT เจมส์ (#PCDATA)>
@@ -1203,7 +1223,7 @@ def
         /// XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa092()
+        public void XmlValidSa092()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (a)*>
@@ -1228,7 +1248,7 @@ def
         /// 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa109()
+        public void XmlValidSa109()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1247,7 +1267,7 @@ def
         /// from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa013()
+        public void XmlValidSa013()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1267,7 +1287,7 @@ def
         /// Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa014()
+        public void XmlValidSa014()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1287,7 +1307,7 @@ def
         /// Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa015()
+        public void XmlValidSa015()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1307,7 +1327,7 @@ def
         /// 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa009()
+        public void XmlValidSa009()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1325,7 +1345,7 @@ def
         /// IBM XML Conformance Test Suite - Production 14.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP14Ibm14v01()
+        public void XmlIbmValidP14Ibm14v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1350,7 +1370,7 @@ def
         /// collection IBM XML Conformance Test Suite - Production 14.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP14Ibm14v02()
+        public void XmlIbmValidP14Ibm14v02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1375,7 +1395,7 @@ def
         /// IBM XML Conformance Test Suite - Production 14.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP14Ibm14v03()
+        public void XmlIbmValidP14Ibm14v03()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1438,7 +1458,7 @@ CharData
         /// This test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa048()
+        public void XmlValidSa048()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1456,7 +1476,7 @@ CharData
         /// This test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa008()
+        public void XmlValidSa008()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1474,7 +1494,7 @@ CharData
         /// test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa119()
+        public void XmlValidSa119()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc ANY>
@@ -1492,7 +1512,7 @@ CharData
         /// Suite - Production 15.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP15Ibm15v01()
+        public void XmlIbmValidP15Ibm15v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1515,7 +1535,7 @@ CharData
         /// Test Suite - Production 15.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP15Ibm15v02()
+        public void XmlIbmValidP15Ibm15v02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1535,7 +1555,7 @@ CharData
         /// Test Suite - Production 15.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP15Ibm15v03()
+        public void XmlIbmValidP15Ibm15v03()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1555,7 +1575,7 @@ CharData
         /// Conformance Test Suite - Production 15.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP15Ibm15v04()
+        public void XmlIbmValidP15Ibm15v04()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1597,7 +1617,7 @@ CharData
         /// the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa021()
+        public void XmlValidSa021()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1616,7 +1636,7 @@ CharData
         /// This test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa022()
+        public void XmlValidSa022()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1634,7 +1654,7 @@ CharData
         /// the collection IBM XML Conformance Test Suite - Production 16.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP16Ibm16v01()
+        public void XmlIbmValidP16Ibm16v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1657,7 +1677,7 @@ CharData
         /// the collection IBM XML Conformance Test Suite - Production 16.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP16Ibm16v02()
+        public void XmlIbmValidP16Ibm16v02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1677,7 +1697,7 @@ CharData
         /// apply. This test is taken from the collection IBM XML Conformance Test Suite - Production 16.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP16Ibm16v03()
+        public void XmlIbmValidP16Ibm16v03()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1697,7 +1717,7 @@ CharData
         /// Suite - Production 17.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP17Ibm17v01()
+        public void XmlIbmValidP17Ibm17v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1721,7 +1741,7 @@ CharData
         /// XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa037()
+        public void XmlValidSa037()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1742,7 +1762,7 @@ CharData
         /// Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa038()
+        public void XmlValidSa038()
         {
             var document = DocumentBuilder.Xml(@"<!-- comment -->
 <!DOCTYPE doc [
@@ -1762,7 +1782,7 @@ CharData
         /// collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa036()
+        public void XmlValidSa036()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1782,7 +1802,7 @@ CharData
         /// cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa039()
+        public void XmlValidSa039()
         {
             var document = DocumentBuilder.Xml(@"<?pi data?>
 <!DOCTYPE doc [
@@ -1802,7 +1822,7 @@ CharData
         /// Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa055()
+        public void XmlValidSa055()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1822,7 +1842,7 @@ CharData
         /// Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa098()
+        public void XmlValidSa098()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1841,7 +1861,7 @@ y?></doc>
         /// apply. This test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa016()
+        public void XmlValidSa016()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1860,7 +1880,7 @@ y?></doc>
         /// Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa017()
+        public void XmlValidSa017()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -1878,7 +1898,7 @@ y?></doc>
         /// IBM XML Conformance Test Suite - Production 18.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP18Ibm18v01()
+        public void XmlIbmValidP18Ibm18v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1901,7 +1921,7 @@ y?></doc>
         /// Production 19.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP19Ibm19v01()
+        public void XmlIbmValidP19Ibm19v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1924,7 +1944,7 @@ y?></doc>
         /// Test Suite - Production 20.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP20Ibm20v01()
+        public void XmlIbmValidP20Ibm20v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1948,7 +1968,7 @@ y?></doc>
         /// Test Suite - Production 20.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP20Ibm20v02()
+        public void XmlIbmValidP20Ibm20v02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1969,7 +1989,7 @@ y?></doc>
         /// Production 21.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP21Ibm21v01()
+        public void XmlIbmValidP21Ibm21v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE student [
@@ -1994,7 +2014,7 @@ y?></doc>
         /// cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa114()
+        public void XmlValidSa114()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -2013,7 +2033,7 @@ y?></doc>
         /// taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa018()
+        public void XmlValidSa018()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -2032,7 +2052,7 @@ y?></doc>
         /// 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa019()
+        public void XmlValidSa019()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -2051,7 +2071,7 @@ y?></doc>
         /// collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa020()
+        public void XmlValidSa020()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
@@ -2069,7 +2089,7 @@ y?></doc>
         /// Suite - Production 22.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP22Ibm22v01()
+        public void XmlIbmValidP22Ibm22v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""utf-8"" ?>
 <!DOCTYPE doc [
@@ -2088,7 +2108,7 @@ y?></doc>
         /// Production 22.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP22Ibm22v02()
+        public void XmlIbmValidP22Ibm22v02()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc EMPTY>
@@ -2106,7 +2126,7 @@ y?></doc>
         /// Production 22.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP22Ibm22v03()
+        public void XmlIbmValidP22Ibm22v03()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc EMPTY>
@@ -2125,7 +2145,7 @@ y?></doc>
         /// Production 22.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP22Ibm22v04()
+        public void XmlIbmValidP22Ibm22v04()
         {
             var document = DocumentBuilder.Xml(@"<!-- This is a Misc -->
 <!DOCTYPE doc [
@@ -2144,7 +2164,7 @@ y?></doc>
         /// Test Suite - Production 22.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP22Ibm22v05()
+        public void XmlIbmValidP22Ibm22v05()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""utf-8"" ?>
 <!-- This is a Misc -->
@@ -2164,7 +2184,7 @@ y?></doc>
         /// Test Suite - Production 22.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP22Ibm22v06()
+        public void XmlIbmValidP22Ibm22v06()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""utf-8"" ?>
 <!DOCTYPE doc [
@@ -2184,7 +2204,7 @@ y?></doc>
         /// Conformance Test Suite - Production 22.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP22Ibm22v07()
+        public void XmlIbmValidP22Ibm22v07()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""utf-8"" ?>
 <!-- This is a Misc -->
@@ -2205,7 +2225,7 @@ y?></doc>
         /// Suite - Production 23.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP23Ibm23v01()
+        public void XmlIbmValidP23Ibm23v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0'?>
 <!DOCTYPE doc [
@@ -2224,7 +2244,7 @@ y?></doc>
         /// Test Suite - Production 23.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP23Ibm23v02()
+        public void XmlIbmValidP23Ibm23v02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE doc [
@@ -2243,7 +2263,7 @@ y?></doc>
         /// Suite - Production 23.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP23Ibm23v03()
+        public void XmlIbmValidP23Ibm23v03()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0' standalone='yes' ?>
 <!DOCTYPE doc [
@@ -2262,7 +2282,7 @@ y?></doc>
         /// XML Conformance Test Suite - Production 23.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP23Ibm23v04()
+        public void XmlIbmValidP23Ibm23v04()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0' ?>
 <!DOCTYPE doc [
@@ -2281,7 +2301,7 @@ y?></doc>
         /// Conformance Test Suite - Production 23.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP23Ibm23v05()
+        public void XmlIbmValidP23Ibm23v05()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
 <!DOCTYPE doc [
@@ -2300,7 +2320,7 @@ y?></doc>
         /// the collection IBM XML Conformance Test Suite - Production 23.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP23Ibm23v06()
+        public void XmlIbmValidP23Ibm23v06()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <!DOCTYPE doc [
@@ -2319,7 +2339,7 @@ y?></doc>
         /// Suite - Production 24.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP24Ibm24v01()
+        public void XmlIbmValidP24Ibm24v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0'?>
 <!DOCTYPE doc [
@@ -2338,7 +2358,7 @@ y?></doc>
         /// Test Suite - Production 24.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP24Ibm24v02()
+        public void XmlIbmValidP24Ibm24v02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE doc [
@@ -2356,7 +2376,7 @@ y?></doc>
         /// apply. This test is taken from the collection IBM XML Conformance Test Suite - Production 25.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP25Ibm25v01()
+        public void XmlIbmValidP25Ibm25v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0'?>
 <!DOCTYPE doc [
@@ -2375,7 +2395,7 @@ y?></doc>
         /// Suite - Production 25.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP25Ibm25v02()
+        public void XmlIbmValidP25Ibm25v02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version ='1.0'?>
 <!DOCTYPE doc [
@@ -2394,7 +2414,7 @@ y?></doc>
         /// Suite - Production 25.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP25Ibm25v03()
+        public void XmlIbmValidP25Ibm25v03()
         {
             var document = DocumentBuilder.Xml(@"<?xml version= '1.0'?>
 <!DOCTYPE doc [
@@ -2413,7 +2433,7 @@ y?></doc>
         /// Production 25.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP25Ibm25v04()
+        public void XmlIbmValidP25Ibm25v04()
         {
             var document = DocumentBuilder.Xml(@"<?xml version = '1.0'?>
 <!DOCTYPE doc [
@@ -2431,7 +2451,7 @@ y?></doc>
         /// 2.8 apply. This test is taken from the collection IBM XML Conformance Test Suite - Production 26.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP26Ibm26v01()
+        public void XmlIbmValidP26Ibm26v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0' ?>
 <!DOCTYPE doc [
@@ -2449,7 +2469,7 @@ y?></doc>
         /// 2.8 apply. This test is taken from the collection IBM XML Conformance Test Suite - Production 27.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP27Ibm27v01()
+        public void XmlIbmValidP27Ibm27v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0' ?>
 <!DOCTYPE doc [
@@ -2467,7 +2487,7 @@ y?></doc>
         /// This test is taken from the collection IBM XML Conformance Test Suite - Production 27.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP27Ibm27v02()
+        public void XmlIbmValidP27Ibm27v02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0' ?>
 <!DOCTYPE doc [
@@ -2486,7 +2506,7 @@ y?></doc>
         /// Production 27.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP27Ibm27v03()
+        public void XmlIbmValidP27Ibm27v03()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0' ?>
 <!DOCTYPE doc [
@@ -2505,7 +2525,7 @@ y?></doc>
         /// Suite - Production 28.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP28Ibm28v01()
+        public void XmlIbmValidP28Ibm28v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding='UTF-8'?>
 <!DOCTYPE animal [
@@ -2525,7 +2545,7 @@ y?></doc>
         /// apply. This test is taken from the collection IBM XML Conformance Test Suite - Production 29.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP29Ibm29v01()
+        public void XmlIbmValidP29Ibm29v01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""utf-8"" ?>
 <!DOCTYPE animal [
@@ -2563,7 +2583,7 @@ y?></doc>
         /// XML Conformance Test Suite - Production 29.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP29Ibm29v02()
+        public void XmlIbmValidP29Ibm29v02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""utf-8"" ?>
 <!DOCTYPE animal [
@@ -2602,7 +2622,7 @@ y?></doc>
         /// IBM XML Conformance Test Suite - Production 30.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP30Ibm30v01()
+        public void XmlIbmValidP30Ibm30v01()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE animal [
   <!ELEMENT animal EMPTY>
@@ -2621,7 +2641,7 @@ y?></doc>
         /// 2.8 apply. This test is taken from the collection IBM XML Conformance Test Suite - Production 31.
         /// </summary>
         [TestMethod]
-        public void XmlValidIbmValidP31Ibm31v01()
+        public void XmlIbmValidP31Ibm31v01()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE animal [
   <!ENTITY % rootElement ""<!ELEMENT animal ANY>"">
@@ -2708,7 +2728,7 @@ y?></doc>
         /// apply. This test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa033()
+        public void XmlValidSa033()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0' encoding=""UTF-8"" standalone='yes'?>
 <!DOCTYPE doc [
@@ -2728,7 +2748,7 @@ y?></doc>
         /// cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa028()
+        public void XmlValidSa028()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE doc [
@@ -2748,7 +2768,7 @@ y?></doc>
         /// XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa029()
+        public void XmlValidSa029()
         {
             var document = DocumentBuilder.Xml(@"<?xml version='1.0'?>
 <!DOCTYPE doc [
@@ -2768,7 +2788,7 @@ y?></doc>
         /// the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa030()
+        public void XmlValidSa030()
         {
             var document = DocumentBuilder.Xml(@"<?xml version = ""1.0""?>
 <!DOCTYPE doc [
@@ -2851,7 +2871,7 @@ y?></doc>
         /// This test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
         /// </summary>
         [TestMethod]
-        public void XmlValidValidSa086()
+        public void XmlValidSa086()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
 <!ELEMENT doc (#PCDATA)>
