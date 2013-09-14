@@ -1913,6 +1913,7 @@ y?></doc>
 
             Assert.IsNotNull(document);
             Assert.IsTrue(document.IsValid);
+            Assert.AreEqual("My Name is SnowMan. This is <normal> text ", document.DocumentElement.TextContent);
         }
 
         /// <summary>
@@ -1936,6 +1937,7 @@ y?></doc>
 
             Assert.IsNotNull(document);
             Assert.IsTrue(document.IsValid);
+            Assert.AreEqual("My Name is SnowMan. This is a test ", document.DocumentElement.TextContent);
         }
 
         /// <summary>
@@ -1960,6 +1962,7 @@ y?></doc>
 
             Assert.IsNotNull(document);
             Assert.IsTrue(document.IsValid);
+            Assert.AreEqual("My Name is SnowMan. ", document.DocumentElement.TextContent);
         }
 
         /// <summary>
@@ -1981,6 +1984,7 @@ y?></doc>
 
             Assert.IsNotNull(document);
             Assert.IsTrue(document.IsValid);
+            Assert.AreEqual("My Name is SnowMan. <testing>This is a test</testing>", document.DocumentElement.TextContent);
         }
 
         /// <summary>
@@ -2005,6 +2009,7 @@ y?></doc>
 
             Assert.IsNotNull(document);
             Assert.IsTrue(document.IsValid);
+            Assert.AreEqual("My Name is SnowMan. This is a test ", document.DocumentElement.TextContent);
         }
 
         /// <summary>
@@ -2025,6 +2030,7 @@ y?></doc>
 
             Assert.IsNotNull(document);
             Assert.IsTrue(document.IsValid);
+            Assert.AreEqual("&foo;", document.DocumentElement.TextContent);
         }
 
         /// <summary>
@@ -2043,6 +2049,7 @@ y?></doc>
 
             Assert.IsNotNull(document);
             Assert.IsTrue(document.IsValid);
+            Assert.AreEqual("<foo>", document.DocumentElement.TextContent);
         }
 
         /// <summary>
