@@ -370,6 +370,12 @@ namespace AngleSharp.Xml
                     CurrentNode.AppendText(str);
                     break;
                 }
+                case XmlTokenType.CData:
+                {
+                    var tok = (XmlCDataToken)token;
+                    CurrentNode.AppendText(tok.Data);
+                    break;
+                }
                 case XmlTokenType.Character:
                 {
                     var tok = (XmlCharacterToken)token;
