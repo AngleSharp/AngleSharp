@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using AngleSharp.Xml;
 
 namespace AngleSharp
 {
@@ -342,110 +343,117 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Retrieves the exception for the error using the given error error.
+        /// Gets an XmlSyntaxException object for the defined error code in the DTD context.
         /// </summary>
-        /// <param name="code">The code to use.</param>
-        /// <returns>An exception instance.</returns>
+        /// <param name="code">The error code to generate the exception for.</param>
+        /// <returns>The generated exception.</returns>
         [DebuggerStepThrough]
-        public static Exception GetException(ErrorCode code)
+        public static Exception Xml(ErrorCode code)
         {
             switch (code)
             {
-                case ErrorCode.EOF:
-                    return new ArgumentException("Unexpected end-of-file.");
+                case ErrorCode.XmlDeclarationVersionUnsupported:
+                    return new XmlSyntaxException("The given version number is not supported.", "http://www.w3.org/TR/REC-xml/#NT-VersionInfo", "24");
 
                 case ErrorCode.XmlMissingRoot:
-                    return new ArgumentException("Missing root element.");
+                    return new XmlSyntaxException("Missing root element.", "http://www.w3.org/TR/REC-xml/#dt-root", "39");
+
+                case ErrorCode.EOF:
+                    return new XmlSyntaxException("Unexpected end-of-file.", "http://www.w3.org/TR/REC-xml/#NT-document", "1");
 
                 case ErrorCode.XmlDoctypeAfterContent:
-                    return new ArgumentException("Document type declaration after content.");
-
-                case ErrorCode.XmlDeclarationInvalid:
-                    return new ArgumentException("Invalid XML declaration.");
+                    return new XmlSyntaxException("Document type declaration after content.", "http://www.w3.org/TR/REC-xml/#NT-prolog", "22");
 
                 case ErrorCode.XmlDeclarationMisplaced:
-                    return new ArgumentException("XML declaration not at beginning of document.");
-
-                case ErrorCode.XmlDeclarationVersionUnsupported:
-                    return new ArgumentException("The given version number is not supported.");
+                    return new XmlSyntaxException("XML declaration not at beginning of document.", "http://www.w3.org/TR/REC-xml/#NT-prolog", "22");
 
                 case ErrorCode.TagClosingMismatch:
-                    return new ArgumentException("Mismatched end-tag.");
-
-                case ErrorCode.TagCannotEndHere:
-                    return new ArgumentException("Unexpected end-tag (no current element).");
+                    return new XmlSyntaxException("The given end-tag does not match the current tag.", "http://www.w3.org/TR/REC-xml/#NT-ETag", "42");
 
                 case ErrorCode.CharacterReferenceInvalidNumber:
-                    return new ArgumentException("Invalid character reference.");
+                    return new XmlSyntaxException("Well-formedness constraint: Legal Character.", "http://www.w3.org/TR/REC-xml/#NT-Char", "2");
 
                 case ErrorCode.CharacterReferenceInvalidCode:
-                    return new ArgumentException("Well-formedness constraint: entity declared.");
+                    return new XmlSyntaxException("Well-formedness constraint: Entity Declared.", "http://www.w3.org/TR/REC-xml/#NT-EntityRef", "68");
 
                 case ErrorCode.CharacterReferenceNotTerminated:
-                    return new ArgumentException("Invalid entity reference.");
+                    return new XmlSyntaxException("The reference has not been terminated properly.", "http://www.w3.org/TR/REC-xml/#NT-Reference", "67");
+
+                case ErrorCode.XmlInvalidCharData:
+                    return new XmlSyntaxException("Invalid character data in the document.", "http://www.w3.org/TR/REC-xml/#syntax", "14");
 
                 case ErrorCode.XmlInvalidStartTag:
-                    return new ArgumentException("Invalid start-tag.");
+                    return new XmlSyntaxException("Invalid start-tag.", "http://www.w3.org/TR/REC-xml/#NT-STag", "40");
 
                 case ErrorCode.XmlInvalidEndTag:
-                    return new ArgumentException("Invalid end-tag.");
+                    return new XmlSyntaxException("Invalid end-tag.", "http://www.w3.org/TR/REC-xml/#NT-ETag", "42");
 
-                case ErrorCode.AttributeNameInvalid:
-                    return new ArgumentException("Invalid attribute specification.");
-
-                case ErrorCode.AttributeValueInvalid:
-                    return new ArgumentException("Invalid attribute value.");
-
-                case ErrorCode.XmlLtInAttributeValue:
-                    return new ArgumentException("Well-formedness constraint: No < in Attribute Values.");
-
-                case ErrorCode.XmlUniqueAttribute:
-                    return new ArgumentException("Well-formedness constraint: Unique Att Spec.");
-
-                case ErrorCode.DtdInvalid:
-                    return new ArgumentException("Invalid document type declaration.");
-
-                case ErrorCode.DtdPEReferenceInvalid:
-                    return new ArgumentException("Invalid parameter entity reference.");
-
-                case ErrorCode.DtdNameInvalid:
-                    return new ArgumentException("Invalid name in entity declaration.");
-
-                case ErrorCode.DtdDeclInvalid:
-                    return new ArgumentException("Declaration invalid.");
-
-                case ErrorCode.DtdTypeInvalid:
-                    return new ArgumentException("Invalid element type declaration.");
-
-                case ErrorCode.DtdEntityInvalid:
-                    return new ArgumentException("Invalid entity declaration.");
-
-                case ErrorCode.DtdAttListInvalid:
-                    return new ArgumentException("Invalid element name in attribute-list declaration.");
-
-                case ErrorCode.DtdTypeContent:
-                    return new ArgumentException("Invalid content specification in element type declaration.");
+                case ErrorCode.XmlInvalidName:
+                    return new XmlSyntaxException("Invalid name character.", "http://www.w3.org/TR/REC-xml/#NT-Name", "5");
 
                 case ErrorCode.UndefinedMarkupDeclaration:
-                    return new ArgumentException("Undefined markup declaration.");
+                    return new XmlSyntaxException("Undefined markup declaration.", "http://www.w3.org/TR/REC-xml/#NT-content", "43");
 
-                case ErrorCode.XmlInvalidPI:
-                    return new ArgumentException("Invalid processing instruction.");
-
-                case ErrorCode.CommentEndedUnexpected:
-                    return new ArgumentException("Invalid content in comment detected.");
-
-                case ErrorCode.XmlValidationFailed:
-                    return new ArgumentException("XML validation for the current document failed.");
-
-                case ErrorCode.DtdUniqueElementViolated:
-                    return new ArgumentException("An element type must not be declared more than once.");
+                case ErrorCode.XmlDeclarationInvalid:
+                    return new XmlSyntaxException("Invalid XML declaration.", "http://www.w3.org/TR/REC-xml/#NT-XMLDecl", "23");
 
                 case ErrorCode.DoctypeInvalid:
-                    return new ArgumentException("The document's doctype is invalid.");
-            }
+                    return new XmlSyntaxException("Invalid character in doctype definition.", "http://www.w3.org/TR/REC-xml/#NT-doctypedecl", "28");
 
-            return new Exception("Unknown exception.");
+                case ErrorCode.XmlInvalidPubId:
+                    return new XmlSyntaxException("Invalid character in public id.", "http://www.w3.org/TR/REC-xml/#NT-PubidLiteral", "12");
+
+                case ErrorCode.XmlInvalidAttribute:
+                    return new XmlSyntaxException("The attribute is not valid.", "http://www.w3.org/TR/REC-xml/#NT-Attribute", "41");
+
+                case ErrorCode.XmlLtInAttributeValue:
+                    return new XmlSyntaxException("Well-formedness constraint: No < in Attribute Values.", "http://www.w3.org/TR/REC-xml/#NT-AttValue", "10");
+
+                case ErrorCode.XmlInvalidPI:
+                    return new XmlSyntaxException("Invalid processing instruction.", "http://www.w3.org/TR/REC-xml/#NT-PI", "16");
+
+                case ErrorCode.XmlInvalidComment:
+                    return new XmlSyntaxException("Invalid XML comment.", "http://www.w3.org/TR/REC-xml/#dt-comment", "15");
+
+                case ErrorCode.XmlUniqueAttribute:
+                    return new XmlSyntaxException("Well-formedness constraint: Unique Att Spec.", "http://www.w3.org/TR/REC-xml/#uniqattspec", "40");
+
+                case ErrorCode.XmlValidationFailed:
+                    return new XmlValidationException();
+
+                case ErrorCode.DtdInvalid:
+                    return new XmlSyntaxException("Invalid document type declaration.", "http://www.w3.org/TR/REC-xml/#NT-intSubset", "28b");
+                    
+                case ErrorCode.DtdConditionInvalid:
+                    return new XmlSyntaxException("The condition is not recognized.", "http://www.w3.org/TR/REC-xml/#NT-conditionalSect", "61");
+
+                case ErrorCode.DtdTextDeclInvalid:
+                    return new XmlSyntaxException("The text declaration is invalid.", "http://www.w3.org/TR/REC-xml/#NT-TextDecl", "77");
+
+                case ErrorCode.DtdPEReferenceInvalid:
+                    return new XmlSyntaxException("Invalid parameter entity reference.", "http://www.w3.org/TR/REC-xml/#NT-PEReference", "69");
+
+                case ErrorCode.DtdEntityInvalid:
+                    return new XmlSyntaxException("Invalid entity declaration.", "http://www.w3.org/TR/REC-xml/#NT-EntityDecl", "70");
+
+                case ErrorCode.DtdAttListInvalid:
+                    return new XmlSyntaxException("Invalid attlist declaration.", "http://www.w3.org/TR/REC-xml/#NT-AttlistDecl", "52");
+
+                case ErrorCode.DtdNotationInvalid:
+                    return new XmlSyntaxException("Invalid notation declaration.", "http://www.w3.org/TR/REC-xml/#NT-NotationDecl", "82");
+
+                case ErrorCode.DtdTypeInvalid:
+                    return new XmlSyntaxException("Invalid element declaration.", "http://www.w3.org/TR/REC-xml/#NT-elementdecl", "45");
+
+                case ErrorCode.DtdTypeContent:
+                    return new XmlSyntaxException("Invalid content in element type declaration.", "http://www.w3.org/TR/REC-xml/#NT-contentspec", "46");
+
+                case ErrorCode.DtdUniqueElementViolated:
+                    return new XmlSyntaxException("An element type must not be declared more than once.", "http://www.w3.org/TR/REC-xml/#EDUnique", "45");
+
+                default:
+                    return new XmlSyntaxException("Unknown syntax error.", "http://www.w3.org/TR/REC-xml/", String.Empty);
+            }
         }
     }
 }

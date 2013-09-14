@@ -476,6 +476,26 @@ namespace AngleSharp
         /// </summary>
         XmlValidationFailed = 0x210,
         /// <summary>
+        /// (0x211) XML invalid character data detected.
+        /// </summary>
+        XmlInvalidCharData = 0x211,
+        /// <summary>
+        /// (0x212) XML invalid name found.
+        /// </summary>
+        XmlInvalidName = 0x212,
+        /// <summary>
+        /// (0x213) XML invalid public identifier character.
+        /// </summary>
+        XmlInvalidPubId = 0x213,
+        /// <summary>
+        /// (0x214) XML invalid attribute seen.
+        /// </summary>
+        XmlInvalidAttribute = 0x214,
+        /// <summary>
+        /// (0x215) XML invalid comment detected.
+        /// </summary>
+        XmlInvalidComment = 0x215,
+        /// <summary>
         /// (0x300) Invalid document type declaration.
         /// </summary>
         DtdInvalid = 0x300,
@@ -511,5 +531,17 @@ namespace AngleSharp
         /// (0x308) An element type must not be declared more than once.
         /// </summary>
         DtdUniqueElementViolated = 0x308,
+        /// <summary>
+        /// (0x309) The DTD conditional section is invalid.
+        /// </summary>
+        DtdConditionInvalid = 0x309,
+        /// <summary>
+        /// (0x310) The given text declaration contains errors.s
+        /// </summary>
+        DtdTextDeclInvalid = 0x310,
+        /// <summary>
+        /// (0x311) The notation declaration is invalid.
+        /// </summary>
+        DtdNotationInvalid = 0x311,
     }
 }

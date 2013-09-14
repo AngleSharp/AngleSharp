@@ -70,6 +70,8 @@
     <Compile Include="DTD\Declaration\Element\NodeInspector.cs" />
     <Compile Include="DTD\Tokens\DtdDeclToken.cs" />
     <Compile Include="Events\ParseErrorEventHandler.cs" />
+    <Compile Include="Exception\XmlSyntaxException.cs" />
+    <Compile Include="Exception\XmlValidationException.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Foundation\Constants\AttributeNames.cs" />
     <Compile Include="Foundation\Constants\FunctionNames.cs" />
@@ -251,7 +253,7 @@
     <Compile Include="DOM\Collections\MediaList.cs" />
     <Compile Include="DOM\Collections\NamedNodeMap.cs" />
     <Compile Include="DOM\Collections\DOMStringList.cs" />
-    <Compile Include="DOM\Exception\DOMException.cs" />
+    <Compile Include="Exception\DOMException.cs" />
     <Compile Include="DOM\Attr.cs" />
     <Compile Include="DOM\Css\CSSStyleSheet.cs" />
     <Compile Include="DOM\Document.cs" />

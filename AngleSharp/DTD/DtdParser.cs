@@ -172,7 +172,7 @@ namespace AngleSharp.DTD
                     break;
 
                 case DtdTokenType.TextDecl:
-                    throw Errors.GetException(ErrorCode.XmlInvalidPI);
+                    throw Errors.Xml(ErrorCode.XmlInvalidPI);
 
                 case DtdTokenType.ProcessingInstruction:
                     _result.AddProcessingInstruction(((DtdPIToken)token).ToElement());

@@ -194,6 +194,10 @@ namespace AngleSharp.Xml
 				Kernel();
         }
 
+        #endregion
+
+        #region States
+
         /// <summary>
         /// Consumes a token and processes it.
         /// </summary>
@@ -220,10 +224,6 @@ namespace AngleSharp.Xml
             }
         }
 
-        #endregion
-
-        #region States
-
         /// <summary>
         /// The initial state. Expects an XML declaration.
         /// </summary>
@@ -239,7 +239,7 @@ namespace AngleSharp.Xml
                     SetEncoding(tok.Encoding);
 
                 if (!CheckVersion(tok.Version))
-                    throw Errors.GetException(ErrorCode.XmlDeclarationVersionUnsupported);
+                    throw Errors.Xml(ErrorCode.XmlDeclarationVersionUnsupported);
             }
             else
             {
@@ -312,7 +312,7 @@ namespace AngleSharp.Xml
                 default:
                 {
                     if (!token.IsIgnorable)
-                        throw Errors.GetException(ErrorCode.XmlMissingRoot);
+                        throw Errors.Xml(ErrorCode.XmlMissingRoot);
 
                     break;
                 }
@@ -348,7 +348,7 @@ namespace AngleSharp.Xml
                     var tok = (XmlTagToken)token;
 
                     if (CurrentNode.NodeName != tok.Name)
-                        throw Errors.GetException(ErrorCode.TagClosingMismatch);
+                        throw Errors.Xml(ErrorCode.TagClosingMismatch);
 
                     open.RemoveAt(open.Count - 1);
 
@@ -378,15 +378,15 @@ namespace AngleSharp.Xml
                 }
                 case XmlTokenType.EOF:
                 {
-                    throw Errors.GetException(ErrorCode.EOF);
+                    throw Errors.Xml(ErrorCode.EOF);
                 }
                 case XmlTokenType.DOCTYPE:
                 {
-                    throw Errors.GetException(ErrorCode.XmlDoctypeAfterContent);
+                    throw Errors.Xml(ErrorCode.XmlDoctypeAfterContent);
                 }
                 case XmlTokenType.Declaration:
                 {
-                    throw Errors.GetException(ErrorCode.XmlDeclarationMisplaced);
+                    throw Errors.Xml(ErrorCode.XmlDeclarationMisplaced);
                 }
             }
         }
@@ -408,14 +408,14 @@ namespace AngleSharp.Xml
                 case XmlTokenType.EOF:
                 {
                     if(doc.Options.IsValidating && !XmlValidator.Run(doc))
-                        throw Errors.GetException(ErrorCode.XmlValidationFailed);
+                        throw Errors.Xml(ErrorCode.XmlValidationFailed);
 
                     break;
                 }
                 default:
                 {
                     if (!token.IsIgnorable)
-                        throw Errors.GetException(ErrorCode.XmlMissingRoot);
+                        throw Errors.Xml(ErrorCode.XmlMissingRoot);
 
                     break;
                 }
@@ -494,25 +494,6 @@ namespace AngleSharp.Xml
                 var dtd = new DtdParser(container, stream);
                 dtd.IsInternal = false;
                 dtd.Parse();
-            }
-        }
-
-        #endregion
-
-        #region Handlers
-
-        /// <summary>
-        /// Fires an error occurred event.
-        /// </summary>
-        /// <param name="code">The associated error code.</param>
-        void RaiseErrorOccurred(ErrorCode code)
-        {
-            if (ErrorOccurred != null)
-            {
-                var pck = new ParseErrorEventArgs((int)code, Errors.GetError(code));
-                pck.Line = tokenizer.Stream.Line;
-                pck.Column = tokenizer.Stream.Column;
-                ErrorOccurred(this, pck);
             }
         }
 

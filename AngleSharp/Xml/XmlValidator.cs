@@ -57,10 +57,10 @@ namespace AngleSharp.Xml
             var validator = new XmlValidator();
             validator.Definition = doc.Doctype.TypeDefinitions;
 
-            if (validator.Definition.IsInvalid)
-                return false;
+            if (!validator.Definition.IsInvalid && doc.DocumentElement.NodeName == doc.Doctype.Name)
+                return validator.Inspect(doc.DocumentElement);
 
-            return validator.Inspect(doc.DocumentElement);
+            return false;
         }
 
         /// <summary>
