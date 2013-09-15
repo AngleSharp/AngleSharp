@@ -810,14 +810,7 @@ namespace AngleSharp.DTD
 
         DtdToken EntityDeclarationAfter(Char c, DtdEntityToken decl)
         {
-            while (c.IsSpaceCharacter())
-                c = _stream.Next;
-
-            if (c == Specification.EOF)
-                throw Errors.Xml(ErrorCode.EOF);
-            else if (c == Specification.GT)
-                return decl;
-            else if (c.IsSpaceCharacter())
+            if (c.IsSpaceCharacter())
             {
                 c = SkipSpaces(c);
 
@@ -843,8 +836,15 @@ namespace AngleSharp.DTD
                         decl.ExternNotation = _stringBuffer.ToString();
                         return EntityDeclarationAfter(c, decl);
                     }
+
+                    throw Errors.Xml(ErrorCode.DtdEntityInvalid);
                 }
             }
+
+            if (c == Specification.EOF)
+                throw Errors.Xml(ErrorCode.EOF);
+            else if (c == Specification.GT)
+                return decl;
 
             throw Errors.Xml(ErrorCode.DtdEntityInvalid);
         }
