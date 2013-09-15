@@ -543,5 +543,9 @@ namespace AngleSharp
         /// (0x311) The notation declaration is invalid.
         /// </summary>
         DtdNotationInvalid = 0x311,
+        /// <summary>
+        /// (0x312) No parameter reference recursion allowed.
+        /// </summary>
+        DtdPEReferenceRecursion = 0x312,
     }
 }

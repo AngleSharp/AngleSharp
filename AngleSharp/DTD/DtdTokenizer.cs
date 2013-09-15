@@ -2,14 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace AngleSharp.DTD
 {
     /// <summary>
     /// The tokenizer class for Document Type Definitions.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     sealed class DtdTokenizer : BaseTokenizer
     {
         #region Constants
@@ -641,7 +640,7 @@ namespace AngleSharp.DTD
                     {
                         if (use)
                         {
-                            _stream.Push(temp.Length + 2, p.NodeValue);
+                            _stream.Push(temp, p.NodeValue);
                             return;
                         }
                         else
@@ -1453,9 +1452,10 @@ namespace AngleSharp.DTD
         {
             #region Members
 
+            Stack<String> _params;
+            Stack<Int32> _pos;
+            Stack<String> _texts;
             SourceManager _base;
-            StringBuilder _buffer;
-            Int32 _head;
             Int32 _start;
             Int32 _end;
 
@@ -1465,9 +1465,10 @@ namespace AngleSharp.DTD
 
             public IntermediateStream(SourceManager src)
             {
-                _head = 0;
                 _start = src.InsertionPoint - 1;
-                _buffer = new StringBuilder();
+                _pos = new Stack<Int32>();
+                _params = new Stack<String>();
+                _texts = new Stack<String>();
                 _base = src;
             }
 
@@ -1490,20 +1491,24 @@ namespace AngleSharp.DTD
             {
                 get 
                 {
-                    if (_head == _buffer.Length)
+                    if (_texts.Count == 0)
                     {
-                        _buffer.Append(_base.Current);
                         _end = _base.InsertionPoint;
-                        _head++;
                         return _base.Next;
                     }
-                    else if (_head == _buffer.Length - 1)
+                    else
                     {
-                        _head++;
-                        return _base.Current;
+                        _pos.Push(_pos.Pop() + 1);
+
+                        if (_pos.Peek() == _texts.Peek().Length)
+                        {
+                            _pos.Pop();
+                            _texts.Pop();
+                            _params.Pop();
+                        }
                     }
 
-                    return _buffer[++_head];
+                    return Current;
                 }
             }
 
@@ -1512,7 +1517,7 @@ namespace AngleSharp.DTD
             /// </summary>
             public Char Current 
             {
-                get { return _buffer.Length == _head ? _base.Current : _buffer[_head]; }
+                get { return _texts.Count == 0 ? _base.Current : _texts.Peek()[_pos.Peek()]; }
             }
 
             #endregion
@@ -1520,18 +1525,23 @@ namespace AngleSharp.DTD
             #region Methods
 
             /// <summary>
-            /// Pushes the text at the current point and removes
-            /// the given number of characters.
+            /// Pushes the the param entity with its text onto the stack.
             /// </summary>
-            /// <param name="remove">The number of characters to remove.</param>
+            /// <param name="param">The param entity to use.</param>
             /// <param name="text">The text to insert.</param>
-            public void Push(Int32 remove, String text)
+            public void Push(String param, String text)
             {
+                if (_params.Contains(param))
+                    throw Errors.Xml(ErrorCode.DtdPEReferenceRecursion);
+
                 Advance();
-                var index = _head - remove;
-                _buffer.Remove(index, remove);
-                _buffer.Insert(index, text);
-                _head = index;
+
+                if (String.IsNullOrEmpty(text))
+                    return;
+
+                _params.Push(param);
+                _pos.Push(0);
+                _texts.Push(text);
             }
 
             /// <summary>
@@ -1539,14 +1549,19 @@ namespace AngleSharp.DTD
             /// </summary>
             public void Advance()
             {
-                if (_head == _buffer.Length)
+                if (_texts.Count != 0)
                 {
-                    _buffer.Append(_base.Current);
-                    _end = _base.InsertionPoint;
-                    _base.Advance();
-                }
+                    _pos.Push(_pos.Pop() + 1);
 
-                _head++;
+                    if (_pos.Peek() == _texts.Peek().Length)
+                    {
+                        _pos.Pop();
+                        _texts.Pop();
+                        _params.Pop();
+                    }
+                }
+                else
+                    _base.Advance();
             }
 
             /// <summary>
@@ -1566,23 +1581,21 @@ namespace AngleSharp.DTD
             /// <returns>True if it continues, otherwise false.</returns>
             public Boolean ContinuesWith(String word)
             {
-                if (_head == _buffer.Length)
+                if (_texts.Count == 0)
                     return _base.ContinuesWith(word, false);
 
-                var current = _head;
+                var pos = _pos.Peek();
+                var text = _texts.Peek();
+
+                if (text.Length - pos < word.Length)
+                    return false;
 
                 for (int i = 0; i < word.Length; i++)
                 {
-                    if (Current != word[i])
-                    {
-                        _head = current;
+                    if (text[i + pos] != word[i])
                         return false;
-                    }
-
-                    Advance();
                 }
 
-                _head = current;
                 return true;
             }
 

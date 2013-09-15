@@ -451,6 +451,9 @@ namespace AngleSharp
                 case ErrorCode.DtdUniqueElementViolated:
                     return new XmlSyntaxException("An element type must not be declared more than once.", "http://www.w3.org/TR/REC-xml/#EDUnique", "45");
 
+                case ErrorCode.DtdPEReferenceRecursion:
+                    return new XmlSyntaxException("Recursion in the parameter entity.", "http://www.w3.org/TR/REC-xml/#norecursion", "69");
+
                 default:
                     return new XmlSyntaxException("Unknown syntax error.", "http://www.w3.org/TR/REC-xml/", String.Empty);
             }
