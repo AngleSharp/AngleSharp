@@ -8,7 +8,7 @@ namespace AngleSharp.DTD
     /// <summary>
     /// The tokenizer class for Document Type Definitions.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     sealed class DtdTokenizer : BaseTokenizer
     {
         #region Constants
@@ -251,7 +251,7 @@ namespace AngleSharp.DTD
                         if (lastThree[0] == Specification.LT && lastThree[1] == Specification.EM && lastThree[2] == Specification.SBO)
                             nesting++;
                     }
-                    while (nesting == 0 && lastThree[0] == Specification.SBC && lastThree[1] == Specification.SBC && lastThree[2] == Specification.GT);
+                    while (nesting != 0 || lastThree[0] != Specification.SBC || lastThree[1] != Specification.SBC || lastThree[2] != Specification.GT);
 
                     if (c == Specification.GT)
                         return GetElement(_stream.Next);
