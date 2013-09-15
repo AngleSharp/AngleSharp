@@ -2896,5 +2896,169 @@ y?></doc>
             Assert.AreEqual(NodeType.Text, text.NodeType);
             Assert.AreEqual(String.Empty, text.TextContent);
         }
+
+        /// <summary>
+        /// Test demonstrates a valid SDDecl within the prolog. There is an output test associated with this
+        /// input file. Here the section(s) 2.9 [32] apply. This test is taken from the collection James
+        /// Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa032()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version='1.0' standalone='yes'?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc></doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// A document may be marked 'standalone' if any optional whitespace is defined within the internal
+        /// DTD subset. There is an output test associated with this input file. Here the section(s) 2.9
+        /// [32] apply. This test is taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa01()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version='1.0' standalone='yes'?>
+
+<!DOCTYPE root [
+    <!ELEMENT root (child)*>
+    <!ELEMENT child (#PCDATA)>
+]>
+
+<root>
+    <child>
+    The whitespace around this element would be
+    invalid as standalone were the DTD external.
+    </child>
+</root>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// A document may be marked 'standalone' if any attributes that need normalization are defined within
+        /// the internal DTD subset. There is an output test associated with this input file. Here the section(s)
+        /// 2.9 [32] apply. This test is taken from the collection Sun Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa02()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version='1.0' standalone='yes'?>
+
+<!DOCTYPE attributes [
+    <!ELEMENT attributes EMPTY>
+
+    <!--
+	2.9 gives validity constraints applying to attributes
+	in standalone docs:  no external defaults or decls
+	causing normalization.
+
+	3.3.3 describes the normalization rules
+    -->
+
+    <!ATTLIST attributes
+	token		(a|b|c)		""a""
+	notation	(nonce|foo|bar)	#IMPLIED
+	nmtoken		NMTOKEN		#IMPLIED
+	nmtokens	NMTOKENS	#IMPLIED
+	id		ID		#IMPLIED
+	idref		IDREF		#IMPLIED
+	idrefs		IDREFS		#IMPLIED
+	entity		ENTITY		#IMPLIED
+	entities	ENTITIES	#IMPLIED
+	cdata		CDATA		#IMPLIED
+	>
+    
+    <!ENTITY number ""42"">
+    <!ENTITY internal "" internal&number; "">
+
+    <!NOTATION nonce SYSTEM ""file:/dev/null"">
+    <!NOTATION foo PUBLIC ""-//public id//foo"" ""file:/dev/null"">
+    <!NOTATION bar SYSTEM ""file:/dev/tty"">
+
+    <!ENTITY unparsed-1 PUBLIC ""-//some public//ID"" ""file:/dev/console""
+			NDATA nonce>
+    <!ENTITY unparsed-2 SYSTEM ""scheme://host/data""
+			NDATA foo>
+]>
+
+<attributes
+    notation =	"" nonce ""
+    nmtoken =	"" this-gets-normalized ""
+    nmtokens =	"" this	
+ also	 gets normalized ""
+    id =	""	&internal; ""
+    idref =	"" &internal;
+    ""
+    idrefs =	"" &internal;  &internal;    &internal;""
+    entity =	"" unparsed-1 ""
+    entities =	""unparsed-1 unparsed-2""
+    cdata =	""nothing happens to this one!""
+    />
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Tests clauses 1, 3, and 4 of the Element Valid validity constraint. There is an output test associated
+        /// with this input file. Here the section(s) 3 apply. This test is taken from the collection Sun
+        /// Microsystems XML Tests.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidElement()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
+<!ELEMENT root ANY>
+<!ELEMENT empty EMPTY>
+<!ELEMENT mixed1 (#PCDATA)>
+<!ELEMENT mixed2 (#PCDATA)*>
+<!ELEMENT mixed3 (#PCDATA|empty)*>
+]>
+
+<root>
+    <empty/>
+
+    <mixed1/>
+    <mixed1></mixed1>
+
+    <mixed2/>
+    <mixed2></mixed2>
+
+    <mixed3/>
+    <mixed3></mixed3>
+
+    <mixed1>allowed</mixed1>
+    <mixed1><![CDATA[<allowed>]]></mixed1>
+
+    <mixed2>also</mixed2>
+    <mixed2><![CDATA[<% illegal otherwise %>]]></mixed2>
+
+    <mixed3>moreover</mixed3>
+
+    <mixed1>allowed &amp; stuff</mixed1>
+
+    <mixed2>also</mixed2>
+
+    <mixed3>moreover <empty></empty> </mixed3>
+    <mixed3>moreover <empty/> </mixed3>
+    <mixed3><empty/> </mixed3>
+    <mixed3><empty/> too</mixed3>
+
+</root>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
     }
 }
