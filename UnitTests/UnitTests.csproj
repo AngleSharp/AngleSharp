@@ -139,6 +139,14 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\student2.dtd" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\p28pass4.dtd" />
+    <EmbeddedResource Include="Resources\p28pass5.dtd" />
+    <EmbeddedResource Include="Resources\p30pass1.dtd" />
+    <EmbeddedResource Include="Resources\p30pass2.dtd" />
+    <EmbeddedResource Include="Resources\p31pass1.dtd" />
+    <EmbeddedResource Include="Resources\p31pass2.dtd" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

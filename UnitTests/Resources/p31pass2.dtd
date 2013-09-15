@@ -1,0 +1,11 @@
+<![INCLUDE[
+<!ENTITY % rootel "<!ELEMENT doc EMPTY>">
+]]>
+
+%rootel;
+
+<!ATTLIST doc att CDATA #IMPLIED>
+
+<![IGNORE[
+<!ELEMENT doc (a)>
+]]>

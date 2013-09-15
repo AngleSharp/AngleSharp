@@ -353,5 +353,103 @@ namespace UnitTests
             Assert.IsNotNull(document);
             Assert.IsTrue(document.IsValid);
         }
+
+        /// <summary>
+        /// external subset can be empty. Here the section(s) 2.8 [31] apply. This test is taken
+        /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidOP31pass1()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p31pass1.dtd"" [<!ELEMENT doc EMPTY>]>
+<doc/>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Valid doctypedecl with EXternalID as Enternal Entity. The external entity contains a parameter
+        /// entity reference and condtional sections. Here the section(s) 2.8 3.4 4.2.2 [31] [62] [63] [75]
+        /// apply. This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidOP31pass2()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p31pass2.dtd"">
+<doc/>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Valid doctypedecl with ExternalID as an External Entity. A parameter entity reference is also used.
+        /// Here the section(s) 2.8 4.1 [28] [69] apply. This test is taken from the collection OASIS/NIST
+        /// TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidOP28pass5()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p28pass5.dtd""[
+<!--comment-->
+<!ENTITY % rootdecl ""<!ELEMENT doc (a)>"">
+<!ELEMENT a EMPTY>
+]>
+<doc><a/></doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Valid doctypedecl with ExternalID as an External Entity declaration. Here the section(s) 2.8 4.2.2
+        /// [28] [75] apply. This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidOP28pass4()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p28pass4.dtd"">
+<doc/>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Valid doctypedecl with ExternalID as an External Entity. The external entity has an element declaration.
+        /// Here the section(s) 2.8 4.2.2 [30] [75] apply. This test is taken from the collection OASIS/NIST TESTS,
+        /// 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidOP30pass1()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p30pass1.dtd"">
+<doc/>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Valid doctypedecl with ExternalID as an Enternal Entity. The external entity begins with a Text Declaration.
+        /// Here the section(s) 2.8 4.2.2 4.3.1 [30] [75] [77] apply. This test is taken from the collection OASIS/NIST
+        /// TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidOP30pass2()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p30pass2.dtd"">
+<doc/>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
     }
 }
