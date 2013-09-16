@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.DTD
+﻿namespace AngleSharp.DTD
 {
     /// <summary>
     /// An enumation of all possible tokens.

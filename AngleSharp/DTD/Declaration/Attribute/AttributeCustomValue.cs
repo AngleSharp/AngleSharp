@@ -19,8 +19,10 @@ namespace AngleSharp.DTD
 
         public override Boolean Apply(Element element)
         {
-            if (IsFixed || !element.HasAttribute(Parent.Name))
+            if (!element.HasAttribute(Parent.Name))
                 element.SetAttribute(Parent.Name, Value);
+            else if (IsFixed)
+                return element.GetAttribute(Parent.Name) == Value;
 
             return true;
         }

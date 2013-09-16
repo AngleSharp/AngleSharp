@@ -1,5 +1,4 @@
 ﻿using AngleSharp.Events;
-using AngleSharp.Xml;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;

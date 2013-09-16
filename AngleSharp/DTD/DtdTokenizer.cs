@@ -8,7 +8,7 @@ namespace AngleSharp.DTD
     /// <summary>
     /// The tokenizer class for Document Type Definitions.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     sealed class DtdTokenizer : BaseTokenizer
     {
         #region Constants

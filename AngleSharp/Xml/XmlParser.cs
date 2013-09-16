@@ -339,7 +339,7 @@ namespace AngleSharp.Xml
                         insert = XmlTreeMode.After;
 
                     for (int i = 0; i < tok.Attributes.Count; i++)
-                        tag.SetAttribute(tok.Attributes[i].Key, tok.Attributes[i].Value);
+                        tag.SetAttribute(tok.Attributes[i].Key, tok.Attributes[i].Value.Trim());
 
                     break;
                 }

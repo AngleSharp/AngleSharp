@@ -54,28 +54,9 @@ namespace AngleSharp.DTD
 
         public Boolean Check(Element element)
         {
-            if (element.Attributes.Length > _attrs.Count)
-                return false;
-
-            for (int i = 0; i < element.Attributes.Length; i++)
-            {
-                var contains = false;
-
-                foreach (var attr in _attrs)
-                {
-                    if (attr.Name == element.Attributes[i].Name)
-                    {
-                        contains = true;
-                        break;
-                    }
-                }
-
-                if (!contains)
-                    return false;
-            }
-
             foreach (var attr in _attrs)
-                return attr.Check(element);
+                if (!attr.Check(element))
+                    return false;
 
             return true;
         }

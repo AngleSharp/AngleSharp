@@ -63,22 +63,19 @@ namespace AngleSharp.Xml
             return false;
         }
 
+        #endregion
+
+        #region Helpers
+
         /// <summary>
         /// Validates the given element and its children (if any).
         /// </summary>
         /// <param name="element">The element to validate.</param>
         /// <returns>True if the given element and its children are valid, otherwise false.</returns>
-        public Boolean Validate(Element element)
+        Boolean Validate(Element element)
         {
-            if (_dtd == null)
-                return false;
-
             return ValidateElement(element) && ValidateAttribute(element);
         }
-
-        #endregion
-
-        #region Helpers
 
         Boolean ValidateElement(Element element)
         {
@@ -99,13 +96,25 @@ namespace AngleSharp.Xml
 
         Boolean ValidateAttribute(Element element)
         {
+            var declared = new List<String>();
+
             foreach (var def in _dtd.Attributes)
             {
                 if (def.Name == element.NodeName)
-                    return def.Check(element);
+                {
+                    if (!def.Check(element))
+                        return false;
+
+                    foreach (var attr in def.Declarations)
+                        declared.Add(attr.Name);
+                }
             }
 
-            return element.Attributes.Length == 0;
+            foreach (var attr in element.Attributes)
+                if (!declared.Contains(attr.Name))
+                    return false;
+
+            return true;
         }
 
         void IncreaseCounter(String elementName)
