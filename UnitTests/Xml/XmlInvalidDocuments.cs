@@ -86,7 +86,7 @@ namespace UnitTests
         /// collection IBM XML Conformance Test Suite - Production 39.
         /// </summary>
         [TestMethod]
-        public void XmlInvalidIbmInvalidP39Ibm39i01()
+        public void XmlIbmInvalidP39Ibm39i01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE root [
@@ -114,7 +114,7 @@ namespace UnitTests
         /// from the collection IBM XML Conformance Test Suite - Production 39.
         /// </summary>
         [TestMethod]
-        public void XmlInvalidIbmInvalidP39Ibm39i02()
+        public void XmlIbmInvalidP39Ibm39i02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE root [
@@ -143,7 +143,7 @@ namespace UnitTests
         /// the section(s) 3 apply. This test is taken from the collection IBM XML Conformance Test Suite - Production 39.
         /// </summary>
         [TestMethod]
-        public void XmlInvalidIbmInvalidP39Ibm39i03()
+        public void XmlIbmInvalidP39Ibm39i03()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE root [
@@ -172,7 +172,7 @@ namespace UnitTests
         /// XML Conformance Test Suite - Production 39.
         /// </summary>
         [TestMethod]
-        public void XmlInvalidIbmInvalidP39Ibm39i04()
+        public void XmlIbmInvalidP39Ibm39i04()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE root [
@@ -203,7 +203,7 @@ namespace UnitTests
         /// IBM XML Conformance Test Suite - Production 41.
         /// </summary>
         [TestMethod]
-        public void XmlInvalidIbmInvalidP41Ibm41i01()
+        public void XmIbmInvalidP41Ibm41i01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE root [
@@ -229,7 +229,7 @@ namespace UnitTests
         /// Suite - Production 41.
         /// </summary>
         [TestMethod]
-        public void XmlInvalidIbmInvalidP41Ibm41i02()
+        public void XmlIbmInvalidP41Ibm41i02()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE root [
@@ -516,7 +516,7 @@ att2=""val2"" att3=""val3""/>");
         /// collection IBM XML Conformance Test Suite - Production 45.
         /// </summary>
         [TestMethod]
-        public void XmlInvalidIbmInvalidP45Ibm45i01()
+        public void XmlIbmInvalidP45Ibm45i01()
         {
             var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
 <!DOCTYPE root [
