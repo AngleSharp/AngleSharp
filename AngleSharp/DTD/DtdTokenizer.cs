@@ -344,6 +344,10 @@ namespace AngleSharp.DTD
             throw Errors.Xml(ErrorCode.EOF);
         }
 
+        #endregion
+
+        #region Text Declaration
+
         /// <summary>
         /// The text declaration for external DTDs.
         /// </summary>
@@ -370,9 +374,6 @@ namespace AngleSharp.DTD
                         return TextDeclEncoding(_stream.Next, token);
                     }
                 }
-
-                if (c == Specification.QM)
-                    return TextDeclEnd(_stream.Next, token);
             }
 
             throw Errors.Xml(ErrorCode.DtdTextDeclInvalid);
@@ -430,8 +431,6 @@ namespace AngleSharp.DTD
                     _stream.Advance(7);
                     return TextDeclEncoding(_stream.Next, decl);
                 }
-                else if (c == Specification.QM)
-                    return TextDeclEnd(_stream.Next, decl);
             }
 
             throw Errors.Xml(ErrorCode.DtdTextDeclInvalid);
