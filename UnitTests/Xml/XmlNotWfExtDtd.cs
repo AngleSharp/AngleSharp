@@ -1,19 +1,32 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp;
+using AngleSharp.Xml;
 
 namespace UnitTests
 {
-    //[TestClass]
+    [TestClass]
     public class XmlNotWfExtDtd
     {
+        [TestInitialize]
+        public void SetUp()
+        {
+            Configuration.RegisterHttpRequester<DtdRequester>();
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            Configuration.UnregisterHttpRequester<DtdRequester>();
+        }
+
         /// <summary>
         /// Text declarations (which optionally begin any external entity) are
         /// required to have "encoding=...". Here the section(s) 4.3.1 [77] apply.
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfDtd07()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root SYSTEM ""dtd07.dtd"" [
@@ -29,7 +42,7 @@ namespace UnitTests
         /// from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfEncoding07()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root [
@@ -50,7 +63,7 @@ namespace UnitTests
         /// This test is taken from the collection Sun Microsystems XML Tests.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfCond01()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE root SYSTEM ""cond.dtd"" [
@@ -66,7 +79,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP61fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p61fail1.dtd"">
@@ -78,7 +91,7 @@ namespace UnitTests
         /// test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP62fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p62fail1.dtd"">
@@ -90,7 +103,7 @@ namespace UnitTests
         /// is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP62fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p62fail2.dtd"">
@@ -102,7 +115,7 @@ namespace UnitTests
         /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP63fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p63fail1.dtd"">
@@ -114,7 +127,7 @@ namespace UnitTests
         /// from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP63fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p63fail2.dtd"">
@@ -126,7 +139,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP64fail1()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p64fail1.dtd"">
@@ -139,7 +152,7 @@ namespace UnitTests
         /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(XmlSyntaxException))]
         public void XmlNotWfOP64fail2()
         {
             var document = DocumentBuilder.Xml(@"<!DOCTYPE doc SYSTEM ""p64fail2.dtd"">

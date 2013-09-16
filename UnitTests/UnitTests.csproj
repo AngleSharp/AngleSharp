@@ -147,6 +147,23 @@
     <EmbeddedResource Include="Resources\p31pass1.dtd" />
     <EmbeddedResource Include="Resources\p31pass2.dtd" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\dtd07.dtd" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\cond.dtd" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\p61fail1.dtd" />
+    <EmbeddedResource Include="Resources\p62fail1.dtd" />
+    <EmbeddedResource Include="Resources\p62fail2.dtd" />
+    <EmbeddedResource Include="Resources\p63fail1.dtd" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\p63fail2.dtd" />
+    <EmbeddedResource Include="Resources\p64fail1.dtd" />
+    <EmbeddedResource Include="Resources\p64fail2.dtd" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

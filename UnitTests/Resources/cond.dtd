@@ -1,0 +1,3 @@
+<!-- test conditional sections -->
+<!ENTITY % MAYBE "IGNORE">
+<![%MAYBE;[ <!ENTITY root EMTPY> ]]>
