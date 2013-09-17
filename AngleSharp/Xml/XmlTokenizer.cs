@@ -215,7 +215,7 @@ namespace AngleSharp.Xml
         /// <returns>The entity token.</returns>
         XmlEntityToken CharacterReference(Char c)
         {
-            _stringBuffer.Clear();
+            var buffer = Pool.NewStringBuilder();
 
             if (c == Specification.NUM)
             {
@@ -228,7 +228,7 @@ namespace AngleSharp.Xml
 
                     while (c.IsHex())
                     {
-                        _stringBuffer.Append(c);
+                        buffer.Append(c);
                         c = _src.Next;
                     }
                 }
@@ -236,27 +236,28 @@ namespace AngleSharp.Xml
                 {
                     while (c.IsDigit())
                     {
-                        _stringBuffer.Append(c);
+                        buffer.Append(c);
                         c = _src.Next;
                     }
                 }
 
-                if (_stringBuffer.Length > 0 && c == Specification.SC)
-                    return new XmlEntityToken { Value = _stringBuffer.ToString(), IsNumeric = true, IsHex = hex };
+                if (buffer.Length > 0 && c == Specification.SC)
+                    return new XmlEntityToken { Value = buffer.ToPool(), IsNumeric = true, IsHex = hex };
             }
             else if (c.IsXmlNameStart())
             {
                 do
                 {
-                    _stringBuffer.Append(c);
+                    buffer.Append(c);
                     c = _src.Next;
                 }
                 while (c.IsXmlName());
 
                 if (c == Specification.SC)
-                    return new XmlEntityToken { Value = _stringBuffer.ToString() };
+                    return new XmlEntityToken { Value = buffer.ToPool() };
             }
 
+            buffer.ToPool();
             throw Errors.Xml(ErrorCode.CharacterReferenceNotTerminated);
         }
 

@@ -30,6 +30,19 @@ namespace AngleSharp.DOM.Xml
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets what the id attribute is.
+        /// </summary>
+        internal String IdAttribute
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>

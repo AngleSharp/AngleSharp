@@ -1,4 +1,5 @@
-﻿using AngleSharp.Events;
+﻿using AngleSharp.DOM;
+using AngleSharp.Events;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -179,6 +180,10 @@ namespace AngleSharp.DTD
             }
         }
 
+        #endregion
+
+        #region Helpers
+
         /// <summary>
         /// Sets the document's encoding to the given one.
         /// </summary>
@@ -203,10 +208,36 @@ namespace AngleSharp.DTD
         /// <param name="token">The entity token to add.</param>
         void AddEntity(DtdEntityToken token)
         {
+            if (token.IsExtern)
+                token.Value = GetText(token.PublicIdentifier);
+
             if (token.IsParameter)
                 _result.AddParameter(token.ToElement());
             else
                 _result.AddEntity(token.ToElement());
+        }
+
+        String GetText(String url)
+        {
+            //TODO
+            return String.Empty;
+
+            if (Configuration.HasHttpRequester)
+            {
+                if (!Location.IsAbsolute(url))
+                    url = Location.MakeAbsolute("", url);//TODO
+
+                var http = Configuration.GetHttpRequester();
+                var response = http.Request(new DefaultHttpRequest { Address = new Uri(url) });
+                var stream = new SourceManager(response.Content);
+
+                var tok = new DtdPlainTokenizer(_result, stream);
+                var token = tok.Get();
+
+                //TODO
+            }
+
+            return String.Empty;
         }
 
         #endregion

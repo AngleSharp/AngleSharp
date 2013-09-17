@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using AngleSharp.Css;
+using System.Diagnostics;
 
 namespace AngleSharp
 {
     /// <summary>
     /// Provides a pool of used / recycled resources.
     /// </summary>
+    [DebuggerStepThrough]
     static class Pool
     {
         #region Members
