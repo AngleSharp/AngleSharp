@@ -164,6 +164,9 @@
     <EmbeddedResource Include="Resources\p64fail1.dtd" />
     <EmbeddedResource Include="Resources\p64fail2.dtd" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\031-2.ent" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
