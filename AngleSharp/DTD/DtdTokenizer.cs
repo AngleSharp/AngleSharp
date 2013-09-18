@@ -459,13 +459,13 @@ namespace AngleSharp.DTD
                 {
                     decl.IsExtern = true;
                     _stream.Advance(5);
-                    return EntityDeclarationBeforeValue(_stream.Next, decl);
+                    return EntityDeclarationBeforeSystem(_stream.Next, decl);
                 }
                 else if (_stream.ContinuesWith(PUBLIC))
                 {
                     decl.IsExtern = true;
                     _stream.Advance(5);
-                    return EntityDeclarationBeforeSystem(_stream.Next, decl);
+                    return EntityDeclarationBeforePublic(_stream.Next, decl);
                 }
                 else if (Specification.DQ == c || Specification.SQ == c)
                 {
@@ -497,6 +497,35 @@ namespace AngleSharp.DTD
             return EntityDeclarationAfter(_stream.Next, decl);
         }
 
+        DtdToken EntityDeclarationBeforePublic(Char c, DtdEntityToken decl)
+        {
+            if (c.IsSpaceCharacter())
+            {
+                c = SkipSpaces(c);
+                _stringBuffer.Clear();
+
+                if (Specification.DQ == c || Specification.SQ == c)
+                    return EntityDeclarationPublic(_stream.Next, c, decl);
+            }
+
+            throw Errors.Xml(ErrorCode.DtdEntityInvalid);
+        }
+
+        DtdToken EntityDeclarationPublic(Char c, Char quote, DtdEntityToken decl)
+        {
+            while (c != quote)
+            {
+                if (!c.IsPubidChar())
+                    throw Errors.Xml(ErrorCode.DtdEntityInvalid);
+
+                _stringBuffer.Append(c);
+                c = _stream.Next;
+            }
+
+            decl.PublicIdentifier = _stringBuffer.ToString();
+            return EntityDeclarationBeforeSystem(_stream.Next, decl);
+        }
+
         DtdToken EntityDeclarationBeforeSystem(Char c, DtdEntityToken decl)
         {
             if (c.IsSpaceCharacter())
@@ -515,15 +544,15 @@ namespace AngleSharp.DTD
         {
             while (c != quote)
             {
-                if (!c.IsPubidChar())
+                if (c == Specification.EOF)
                     throw Errors.Xml(ErrorCode.DtdEntityInvalid);
 
                 _stringBuffer.Append(c);
                 c = _stream.Next;
             }
 
-            decl.PublicIdentifier = _stringBuffer.ToString();
-            return EntityDeclarationBeforeValue(_stream.Next, decl);
+            decl.SystemIdentifier = _stringBuffer.ToString();
+            return EntityDeclarationAfter(_stream.Next, decl);
         }
 
         DtdToken EntityDeclarationAfter(Char c, DtdEntityToken decl)

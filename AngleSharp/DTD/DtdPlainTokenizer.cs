@@ -65,11 +65,13 @@ namespace AngleSharp.DTD
                 _stream.Advance(4);
                 return TextDecl(_stream.Next);
             }
-            else
+            else if (c != Specification.EOF)
             {
-                //TODO return String
-                return null;
+                var s = ScanString(c, Specification.EOF);
+                return new DtdCommentToken { Data = s };
             }
+
+            return DtdToken.EOF;
         }
 
         #endregion

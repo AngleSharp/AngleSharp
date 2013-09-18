@@ -137,7 +137,7 @@ namespace AngleSharp.DTD
                 var pi = (DtdDeclToken)token;
 
                 if (!String.IsNullOrEmpty(pi.Encoding))
-                    SetEncoding(pi.Encoding);
+                    SetEncoding(_src, pi.Encoding);
             }
             else
                 Consume(token);
@@ -187,8 +187,9 @@ namespace AngleSharp.DTD
         /// <summary>
         /// Sets the document's encoding to the given one.
         /// </summary>
+        /// <param name="source">The source to change.</param>
         /// <param name="encoding">The encoding to use.</param>
-        void SetEncoding(String encoding)
+        static void SetEncoding(SourceManager source, String encoding)
         {
             //TODO
             return;
@@ -198,7 +199,7 @@ namespace AngleSharp.DTD
                 var enc = DocumentEncoding.Resolve(encoding);
 
                 if (enc != null)
-                    _src.Encoding = enc;
+                    source.Encoding = enc;
             }
         }
 
@@ -209,7 +210,7 @@ namespace AngleSharp.DTD
         void AddEntity(DtdEntityToken token)
         {
             if (token.IsExtern)
-                token.Value = GetText(token.PublicIdentifier);
+                token.Value = GetText(token.SystemIdentifier);
 
             if (token.IsParameter)
                 _result.AddParameter(token.ToElement());
@@ -217,15 +218,17 @@ namespace AngleSharp.DTD
                 _result.AddEntity(token.ToElement());
         }
 
+        /// <summary>
+        /// Gets the text included in the external source.
+        /// </summary>
+        /// <param name="url">The URL of the external source.</param>
+        /// <returns>The contained string.</returns>
         String GetText(String url)
         {
-            //TODO
-            return String.Empty;
-
             if (Configuration.HasHttpRequester)
             {
                 if (!Location.IsAbsolute(url))
-                    url = Location.MakeAbsolute("", url);//TODO
+                    url = Location.MakeAbsolute(_result.Url, url);
 
                 var http = Configuration.GetHttpRequester();
                 var response = http.Request(new DefaultHttpRequest { Address = new Uri(url) });
@@ -234,7 +237,18 @@ namespace AngleSharp.DTD
                 var tok = new DtdPlainTokenizer(_result, stream);
                 var token = tok.Get();
 
-                //TODO
+                if (token.Type == DtdTokenType.TextDecl)
+                {
+                    var pi = (DtdDeclToken)token;
+
+                    if (!String.IsNullOrEmpty(pi.Encoding))
+                        SetEncoding(stream, pi.Encoding);
+
+                    token = tok.Get();
+                }
+
+                if (token.Type == DtdTokenType.Comment)
+                    return ((DtdCommentToken)token).Data;
             }
 
             return String.Empty;

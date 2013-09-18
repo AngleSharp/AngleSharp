@@ -95,6 +95,7 @@ namespace AngleSharp.Xml
         internal XmlParser(XMLDocument document, SourceManager source)
         {
             tokenizer = new XmlTokenizer(source);
+            tokenizer.DTD.Parent = document;
 
             tokenizer.ErrorOccurred += (s, ev) =>
             {
@@ -495,7 +496,11 @@ namespace AngleSharp.Xml
                 var http = Configuration.GetHttpRequester();
                 var response = http.Request(new DefaultHttpRequest { Address = new Uri(url) });
                 var stream = new SourceManager(response.Content);
-                var container = new DtdContainer(typeDefinitions);
+                var container = new DtdContainer(typeDefinitions)
+                {
+                    Url = url,
+                    Parent = doc
+                };
 
                 var dtd = new DtdParser(container, stream);
                 dtd.IsInternal = false;

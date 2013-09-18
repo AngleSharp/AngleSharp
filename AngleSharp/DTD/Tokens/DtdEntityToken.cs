@@ -31,6 +31,12 @@ namespace AngleSharp.DTD
             set; 
         }
 
+        public String SystemIdentifier
+        {
+            get;
+            set;
+        }
+
         public Boolean IsPublic
         {
             get { return PublicIdentifier != null; }

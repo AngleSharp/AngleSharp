@@ -1,4 +1,5 @@
 ﻿using AngleSharp.DOM;
+using AngleSharp.DOM.Xml;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace AngleSharp.DTD
         Boolean _invalid;
         DtdContainer _parent;
         List<DtdContainer> _children;
+        String _url;
 
         #endregion
 
@@ -75,6 +77,24 @@ namespace AngleSharp.DTD
                 if (_parent != null)
                     _parent.IsInvalid = value;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the XML document parent if any.
+        /// </summary>
+        public XMLDocument Parent 
+        { 
+            get; 
+            set; 
+        }
+
+        /// <summary>
+        /// Gets or sets the url of the container.
+        /// </summary>
+        public String Url
+        {
+            get { return _url ?? (Parent != null ? Parent.BaseURI : String.Empty); }
+            set { _url = value; }
         }
 
         /// <summary>
