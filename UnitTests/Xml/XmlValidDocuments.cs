@@ -3060,5 +3060,600 @@ y?></doc>
             Assert.IsNotNull(document);
             Assert.IsTrue(document.IsValid);
         }
+
+        /// <summary>
+        /// Tests element with EmptyElemTag and STag content Etag, also tests the VC: Element Valid
+        /// with elements that have children, Mixed and ANY contents There is an output test associated
+        /// with this input file. Here the section(s) 3 apply. This test is taken from the collection
+        /// IBM XML Conformance Test Suite - Production 39.
+        /// </summary>
+        [TestMethod]
+        public void XmlIbmValidP39Ibm39v01()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+<!DOCTYPE root [
+  <!ELEMENT root (a,b)>
+  <!ELEMENT a EMPTY>
+  <!ELEMENT b (#PCDATA|c)* >
+  <!ELEMENT c ANY>
+  <!ELEMENT d ((e,e)|f)+ >
+  <!ELEMENT e ANY>
+  <!ELEMENT f EMPTY>
+]>
+<root><a/><b>
+   <c></c> 
+   content of b element
+   <c>
+      <d><e>no more children</e><e><f/></e><f/></d>
+   </c>
+</b></root>
+<!--* test P39's syntax and Element Valid VC *-->
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Tests STag with possible combinations of its fields, also tests WFC: Unique Att Spec.
+        /// There is an output test associated with this input file. Here the section(s) 3.1 apply.
+        /// This test is taken from the collection IBM XML Conformance Test Suite - Production 40.
+        /// </summary>
+        [TestMethod]
+        public void XmlIbmValidP40Ibm40v01()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+<!DOCTYPE root [
+  <!ELEMENT root (#PCDATA|b)* >
+  <!ELEMENT b (#PCDATA) >
+  <!ATTLIST b attr1 CDATA #IMPLIED>
+  <!ATTLIST b attr2 CDATA #IMPLIED>
+  <!ATTLIST b attr3 CDATA #IMPLIED>
+]>
+<root>
+  <b>without white space</b>
+  <b > with a white space</b>
+  <b attr1=""value1"">one attribute</b>
+  <b attr1=""value1"" attr2=""value2"" attr3 = ""value3"">one attribute</b>
+</root>
+<!--* testing P40 *-->
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Tests Attribute with Name Eq AttValue and VC: Attribute Value Type There is an output
+        /// test associated with this input file. Here the section(s) 3.1 apply. This test is taken
+        /// from the collection IBM XML Conformance Test Suite - Production 41.
+        /// </summary>
+        [TestMethod]
+        public void XmlIbmValidP41Ibm41v01()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+<!DOCTYPE root [
+  <!ELEMENT root (#PCDATA|b)* >
+  <!ELEMENT b (#PCDATA) >
+  <!ATTLIST b attr1 CDATA #REQUIRED>
+  <!ATTLIST b attr2 (abc|def) ""abc"">
+  <!ATTLIST b attr3 CDATA #FIXED ""fixed"">
+]>
+<root>
+  <b attr1=""value1"" attr2=""def"" attr3=""fixed"">Name eq AttValue</b>
+</root>
+<!--* testing P41 *-->
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Tests ETag with possible combinations of its fields There is an output test associated
+        /// with this input file. Here the section(s) 3.1 apply. This test is taken from the collection
+        /// IBM XML Conformance Test Suite - Production 42.
+        /// </summary>
+        [TestMethod]
+        public void XmlIbmValidP42Ibm42v01()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+<!DOCTYPE root [
+  <!ELEMENT root (a,b)>
+  <!ELEMENT a EMPTY>
+  <!ELEMENT b (#PCDATA|c)* >
+  <!ELEMENT c ANY>
+]>
+<root><a/><b>
+   <c></c > : End tag with a space inside
+   content of b element
+</b></root>
+<!--* test P42 *-->
+
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Tests content with all possible constructs: element, CharData, Reference, CDSect, Comment.
+        /// There is an output test associated with this input file. Here the section(s) 3.1 apply. This test
+        /// is taken from the collection IBM XML Conformance Test Suite - Production 43.
+        /// </summary>
+        [TestMethod]
+        public void XmlIbmValidP43Ibm43v01()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+<!DOCTYPE root [
+  <!ELEMENT root (a,b)>
+  <!ELEMENT a EMPTY>
+  <!ELEMENT b (#PCDATA|c)* >
+  <!ELEMENT c ANY>
+  <!ENTITY inContent ""<b>General entity reference in element content</b>"">
+]>
+<!--* content: element|CharData|Reference|CDSect|PI|CDSect|PI|Comment *-->
+<root><a/><b>
+<!-- there is an empty element in the above line -->
+   <c></c> 
+   CharData: content of b element
+   %paaa; : PE reference should not be recognized in element content 
+   <c>
+<?PIcontent anyProcessingInstruction?>
+<!-- Comment content -->
+    &inContent;
+    Charater reference: &#x41;
+    CDSect in content: <![CDATA[ <html>markups<head>HEAD</head><body>nothing</body></html> ]]>
+   </c>
+</b>
+</root>
+<!--* test P43 *-->
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Tests EmptyElemTag with possible combinations of its fields There is an output test
+        /// associated with this input file. Here the section(s) 3.1 apply. This test is taken from
+        /// the collection IBM XML Conformance Test Suite - Production 44.
+        /// </summary>
+        [TestMethod]
+        public void XmlIbmValidP44Ibm44v01()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+<!DOCTYPE root [
+  <!ELEMENT root (#PCDATA|b)* >
+  <!ELEMENT b EMPTY >
+  <!ATTLIST b attr1 CDATA #IMPLIED>
+  <!ATTLIST b attr2 CDATA #IMPLIED>
+  <!ATTLIST b attr3 CDATA #IMPLIED>
+]>
+<root>
+  <b/>without white space
+  <b /> with a white space
+  <b attr1=""value1"" />
+  <b attr1=""value1"" attr2=""value2"" attr3 = ""value3""/>
+</root>
+<!--* testing P44 *-->
+
+
+
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates that whitespace is permitted after the tag name in a Start-tag. There
+        /// is an output test associated with this input file. Here the section(s) 3.1 [40] apply.
+        /// This test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa002()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc ></doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates a valid attribute specification within a Start-tag that contains whitespace
+        /// on both sides of the equal sign. There is an output test associated with this input file. Here
+        /// the section(s) 3.1 [40] apply. This test is taken from the collection James Clark XMLTEST cases, 
+        /// 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa005()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED>
+]>
+<doc a1 = ""v1""></doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates that whitespace is valid after the Attribute in a Start-tag. There is an output
+        /// test associated with this input file. Here the section(s) 3.1 [40] apply. This test is taken from the
+        /// collection James Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa010()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED>
+]>
+<doc a1=""v1"" ></doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates mutliple Attibutes within the Start-tag. There is an output test
+        /// associated with this input file. Here the section(s) 3.1 [40] apply. This test is taken
+        /// from the collection James Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa011()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED a2 CDATA #IMPLIED>
+]>
+<doc a1=""v1"" a2=""v2""></doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates that extra whitespace within an Attribute of a Start-tag is normalized to
+        /// a single space character. There is an output test associated with this input file. Here the
+        /// section(s) 3.1 [40] apply. This test is taken from the collection James Clark XMLTEST cases,
+        /// 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa104()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a CDATA #IMPLIED>
+]>
+<doc a=""x	y""></doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates that extra whitespace within Start-tags and End-tags are nomalized into
+        /// single spaces. There is an output test associated with this input file. Here the section(s)
+        /// 3.1 [40] [42] apply. This test is taken from the collection James Clark XMLTEST cases,
+        /// 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa054()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+
+
+<doc
+></doc
+>
+
+
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates a valid attribute specification within a Start-tag. There is an output test
+        /// associated with this input file. Here the section(s) 3.1 [41] apply. This test is taken from
+        /// the collection James Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa004()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED>
+]>
+<doc a1=""v1""></doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates that the AttValue within a Start-tag can use a single quote as a delimter.
+        /// There is an output test associated with this input file. Here the section(s) 3.1 [41] apply.
+        /// This test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa006()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED>
+]>
+<doc a1='v1'></doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates that whitespace is permitted after the tag name in an End-tag. There is an output
+        /// test associated with this input file. Here the section(s) 3.1 [42] apply. This test is taken from
+        /// the collection James Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa003()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc></doc >
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates that Entity References are valid element content. There is an output test associated
+        /// with this input file. Here the section(s) 3.1 [43] apply. This test is taken from the collection James
+        /// Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa023()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e """">
+]>
+<doc>&e;</doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates that extra whitespace is normalized into single space character. There is an output test
+        /// associated with this input file. Here the section(s) 3.1 [43] apply. This test is taken from the collection
+        /// James Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa047()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>X
+Y</doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Empty-element tag must be used for element which are declared EMPTY. Here the section(s) 3.1 [43] [44] apply.
+        /// This test is taken from the collection OASIS/NIST TESTS, 1-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidOP28pass1()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE 
+
+doc
+
+[
+<!ELEMENT doc EMPTY>
+]>
+<doc/>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates the correct syntax for an Empty element tag. There is an output test associated with this
+        /// input file. Here the section(s) 3.1 [44] apply. This test is taken from the collection James Clark XMLTEST
+        /// cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa034()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates that whitespace is permissible after the name in an Empty element tag. There is an output
+        /// test associated with this input file. Here the section(s) 3.1 [44] apply. This test is taken from the
+        /// collection James Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa035()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc />
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates that the empty-element tag must be use for an elements that are declared EMPTY.
+        /// There is an output test associated with this input file. Here the section(s) 3.1 [44] apply. This
+        /// test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa044()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (e*)>
+<!ELEMENT e EMPTY>
+<!ATTLIST e a1 CDATA ""v1"" a2 CDATA ""v2"" a3 CDATA #IMPLIED>
+]>
+<doc>
+<e a3=""v3""/>
+<e a1=""w1""/>
+<e a2=""w2"" a3=""v3""/>
+</doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates that Entity References are valid element content and also demonstrates a valid
+        /// Entity Declaration. There is an output test associated with this input file. Here the section(s)
+        /// 3.1 4.1 [43] [66] apply. This test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa024()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (foo)>
+<!ELEMENT foo (#PCDATA)>
+<!ENTITY e ""&#60;foo></foo>"">
+]>
+<doc>&e;</doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Test demonstrates numeric character references can be used for element content. There is
+        /// an output test associated with this input file. Here the section(s) 3.1 4.6 [43] apply.
+        /// This test is taken from the collection James Clark XMLTEST cases, 18-Nov-1998.
+        /// </summary>
+        [TestMethod]
+        public void XmlValidSa007()
+        {
+            var document = DocumentBuilder.Xml(@"<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>&#32;</doc>
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Tests both P45 elementDecl and P46 contentspec with possible combinations of their constructs.
+        /// There is an output test associated with this input file. Here the section(s) 3.2 apply. This
+        /// test is taken from the collection IBM XML Conformance Test Suite - Production 45.
+        /// </summary>
+        [TestMethod]
+        public void XmlIbmValidP45Ibm45v01()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+<!DOCTYPE root [
+  <!ELEMENT root (#PCDATA|b)* >
+  <!--* P45 no space before the end bracket *-->
+  <!ELEMENT b EMPTY>
+  <!ELEMENT unique ANY>
+  <!ELEMENT unique- ANY>
+  <!ELEMENT unique_ ANY>
+  <!ELEMENT unique. ANY>
+  <!ATTLIST b attr1 CDATA #IMPLIED>
+  <!ATTLIST b attr2 CDATA #IMPLIED>
+  <!ATTLIST b attr3 CDATA #IMPLIED>
+]>
+<root>
+  <b/>without white space
+  <b /> with a white space
+  <b attr1=""value1"" />
+  <b attr1=""value1"" attr2=""value2"" attr3 = ""value3""/>
+</root>
+<!--* !!! testing both P45 and p46 *-->
+
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
+
+        /// <summary>
+        /// Tests all possible children,cp,choice,seq patterns in P47,P48,P49,P50 There is an output test
+        /// associated with this input file. Here the section(s) 3.2.1 apply. This test is taken from the
+        /// collection IBM XML Conformance Test Suite - Production 47.
+        /// </summary>
+        [TestMethod]
+        public void XmlIbmValidP47Ibm47v01()
+        {
+            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+<!DOCTYPE root [
+  <!ELEMENT root (a,b)>
+  <!ELEMENT a EMPTY>
+  <!ELEMENT b (#PCDATA|c)* >
+  <!ELEMENT c ANY>
+  <!ELEMENT d ANY>
+  <!ELEMENT e ANY>
+  <!ELEMENT f ANY>
+  <!--* test all possible children,cp,choice,seq patterns in P47,P48,P49,P50 *-->
+  <!ELEMENT child0 (a)>
+  <!ELEMENT child1 (a|b|c)>
+  <!ELEMENT child2 (a ,b,b?,a*,c,c,a,a,b+,c ) >
+  <!ELEMENT child3 (a+|b)? >
+  <!ELEMENT child4 (a, (b|c)+, (a|d)?, (e|f)* )?>
+  <!ELEMENT child5 ( (a,b) | c? | ((d|e),b,c) )* >
+  <!ELEMENT child5_1 ( (a,b)* | (c,b)? | (d,a)+ | ((e|f),b,c) )* >
+  <!ELEMENT child6 (a,b,c)*>
+  <!ELEMENT child7 ((a,b)|c*|((d|e),b,c) )+ >
+  <!ELEMENT child8 ( a, (b|c), (a|b), b)+>  
+]>
+<root><a/><b>
+   <c></c >
+   content of b element
+</b></root>
+<!--* a valid test: tests P47,P48,P49,P50*-->
+
+", new DocumentOptions(validating: true));
+
+            Assert.IsNotNull(document);
+            Assert.IsTrue(document.IsValid);
+        }
     }
 }
