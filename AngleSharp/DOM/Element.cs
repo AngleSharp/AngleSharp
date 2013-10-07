@@ -996,6 +996,38 @@ namespace AngleSharp.DOM
             return this;
         }
 
+        /// <summary>
+        /// Inserts new HTML elements specified by the given HTML string at
+        /// a position relative to the current element specified by the position.
+        /// </summary>
+        /// <param name="position">The relation to the current element.</param>
+        /// <param name="html">The HTML code to generate elements for.</param>
+        [DOM("insertAdjacentHTML")]
+        public void insertAdjacentHTML(AdjacentPosition position, String html)
+        {
+            var nodeParent = position == AdjacentPosition.BeforeBegin || position == AdjacentPosition.AfterEnd ? this : _parent;
+            var nodes = new DocumentFragment(DocumentBuilder.HtmlFragment(html, nodeParent));
+
+            switch (position)
+            {
+                case AdjacentPosition.BeforeBegin:
+                    ParentNode.InsertBefore(nodes, this);
+                    break;
+
+                case AdjacentPosition.AfterEnd:
+                    ParentNode.InsertChild(ParentNode.IndexOf(this) + 1, nodes);
+                    break;
+
+                case AdjacentPosition.AfterBegin:
+                    InsertChild(0, nodes);
+                    break;
+
+                case AdjacentPosition.BeforeEnd:
+                    AppendChild(nodes);
+                    break;
+            }
+        }
+
         #endregion
 
         #region String Representation

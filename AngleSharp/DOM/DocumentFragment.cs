@@ -20,6 +20,17 @@ namespace AngleSharp.DOM
             _name = "#document-fragment";
         }
 
+        /// <summary>
+        /// Creates a new document fragment with the given nodelist as
+        /// children.
+        /// </summary>
+        /// <param name="list">The list to contain.</param>
+        internal DocumentFragment(NodeList list)
+            : this()
+        {
+            _children = list;
+        }
+
         #endregion
 
         #region Methods

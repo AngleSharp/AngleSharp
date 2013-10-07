@@ -51,6 +51,7 @@
     <Compile Include="DOM\Css\Values\Primitives\CSSPoint2.cs" />
     <Compile Include="DOM\Css\Values\Primitives\CSSPoint3.cs" />
     <Compile Include="DOM\Css\Values\Primitives\CSSUri.cs" />
+    <Compile Include="DOM\Enums\AdjacentPosition.cs" />
     <Compile Include="DOM\Enums\CssSide.cs" />
     <Compile Include="DOM\Objects\FileEntry.cs" />
     <Compile Include="DTD\Declaration\Attribute\AttributeCustomValue.cs" />
