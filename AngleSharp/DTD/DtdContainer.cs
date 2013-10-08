@@ -14,8 +14,6 @@ namespace AngleSharp.DTD
         #region Members
 
         Bin<Notation> _notations;
-        Bin<ProcessingInstruction> _pis;
-        Bin<Comment> _comments;
         Bin<Entity> _entities;
         Bin<Entity> _parameters;
         Bin<AttributeDeclaration> _attributes;
@@ -36,8 +34,6 @@ namespace AngleSharp.DTD
             _children = new List<DtdContainer>();
             _parameters = new Bin<Entity>(this, false, m => m.NodeName);
             _notations = new Bin<Notation>(this, false, m => m.NodeName);
-            _pis = new Bin<ProcessingInstruction>(this, false, m => m.NodeName);
-            _comments = new Bin<Comment>(this, false, m => m.NodeName);
             _entities = new Bin<Entity>(this, false, m => m.NodeName);
             _notations = new Bin<Notation>(this, false, m => m.NodeName);
             _attributes = new Bin<AttributeDeclaration>(this, false, m => m.Name);
@@ -131,22 +127,6 @@ namespace AngleSharp.DTD
         }
 
         /// <summary>
-        /// Gets the enumeration over all the contained (self and parent) processing instructions.
-        /// </summary>
-        public IEnumerable<ProcessingInstruction> ProcessingInstructions
-        {
-            get { return _pis.Items(m => m._pis); }
-        }
-
-        /// <summary>
-        /// Gets the enumeration over all the contained (self and parent) comments.
-        /// </summary>
-        public IEnumerable<Comment> Comments
-        {
-            get { return _comments.Items(m => m._comments); }
-        }
-
-        /// <summary>
         /// Gets the enumeration over all the contained (self and parent) entities.
         /// </summary>
         public IEnumerable<Entity> Entities
@@ -226,11 +206,9 @@ namespace AngleSharp.DTD
         {
             _parameters.Reset();
             _attributes.Reset();
-            _comments.Reset();
             _elements.Reset();
             _entities.Reset();
             _notations.Reset();
-            _pis.Reset();
         }
 
         internal Boolean ContainsEntity(String name)
@@ -263,11 +241,6 @@ namespace AngleSharp.DTD
             _notations.Add(notation);
         }
 
-        internal void AddComment(Comment comment)
-        {
-            _comments.Add(comment);
-        }
-
         internal void AddEntity(Entity entity)
         {
             _entities.Add(entity);
@@ -276,11 +249,6 @@ namespace AngleSharp.DTD
         internal void AddParameter(Entity entity)
         {
             _parameters.Add(entity);
-        }
-
-        internal void AddProcessingInstruction(ProcessingInstruction pi)
-        {
-            _pis.Add(pi);
         }
 
         internal void AddAttribute(AttributeDeclaration attribute)
@@ -316,12 +284,8 @@ namespace AngleSharp.DTD
         {
             if (item is Notation)
                 AddNotation((Notation)item);
-            else if (item is Comment)
-                AddComment((Comment)item);
             else if (item is Entity)
                 AddEntity((Entity)item);
-            else if (item is ProcessingInstruction)
-                AddProcessingInstruction((ProcessingInstruction)item);
             else if (item is ElementDeclaration)
                 AddElement((ElementDeclaration)item);
             else if (item is AttributeDeclaration)

@@ -68,6 +68,7 @@ namespace AngleSharp
         /// <param name="options">Options to use for the document generation.</param>
         DocumentBuilder(SourceManager source, CSSStyleSheet sheet, DocumentOptions options)
         {
+            sheet.Options = options;
             parser = new CssParser(sheet, source);
 			parser.ErrorOccurred += ParseErrorOccurred;
 

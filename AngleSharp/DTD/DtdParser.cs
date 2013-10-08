@@ -155,10 +155,6 @@ namespace AngleSharp.DTD
                     _result.AddAttribute(((DtdAttributeToken)token).ToElement());
                     break;
 
-                case DtdTokenType.Comment:
-                    _result.AddComment(((DtdCommentToken)token).ToElement());
-                    break;
-
                 case DtdTokenType.Element:
                     _result.AddElement(((DtdElementToken)token).ToElement());
                     break;
@@ -174,8 +170,8 @@ namespace AngleSharp.DTD
                 case DtdTokenType.TextDecl:
                     throw Errors.Xml(ErrorCode.XmlInvalidPI);
 
+                case DtdTokenType.Comment:
                 case DtdTokenType.ProcessingInstruction:
-                    _result.AddProcessingInstruction(((DtdPIToken)token).ToElement());
                     break;
             }
         }
@@ -233,7 +229,6 @@ namespace AngleSharp.DTD
                 var http = Configuration.GetHttpRequester();
                 var response = http.Request(new DefaultHttpRequest { Address = new Uri(url) });
                 var stream = new SourceManager(response.Content);
-
                 var tok = new DtdPlainTokenizer(_result, stream);
                 var token = tok.Get();
 
