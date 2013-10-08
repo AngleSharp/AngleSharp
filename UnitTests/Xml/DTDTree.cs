@@ -35,8 +35,7 @@ namespace UnitTests
             parser.Parse();
 
             var result = parser.Result;
-            Assert.AreEqual(13, result.Count);
-            Assert.AreEqual(1, result.Comments.Count());
+            Assert.AreEqual(12, result.Count);
             Assert.AreEqual(1, result.Attributes.Count());
             Assert.AreEqual(11, result.Elements.Count());
         }
