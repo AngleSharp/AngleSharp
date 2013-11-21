@@ -1,12 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Net;
-using System.Linq;
-using System.Threading;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using AngleSharp.Interfaces;
+using System;
 using System.Collections.Generic;
-using AngleSharp.Interfaces;
+using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AngleSharp
 {
@@ -19,7 +18,8 @@ namespace AngleSharp
 
         const Int32 CHUNK = 4096;
 
-        static readonly Dictionary<String, String> _defaultHeaders;
+        static TimeSpan _timeOut;
+        static Dictionary<String, String> _defaultHeaders;
         static readonly Dictionary<String, PropertyInfo> _propCache;
 
         #endregion
@@ -40,13 +40,12 @@ namespace AngleSharp
             _propCache = new Dictionary<String, PropertyInfo>();
             _defaultHeaders = new Dictionary<String, String>();
             _defaultHeaders.Add("User-Agent", Info.Agent);
+            _timeOut = new TimeSpan(0, 0, 0, 45);
         }
 
         public DefaultHttpRequester()
         {
             buffer = new Byte[CHUNK];
-            DefaultHeaders = _defaultHeaders;
-            Timeout = new TimeSpan(0, 0, 0, 45);
         }
 
         #endregion
@@ -58,17 +57,17 @@ namespace AngleSharp
         /// </summary>
         public Dictionary<String, String> DefaultHeaders
         {
-            get;
-            set;
+            get { return _defaultHeaders; }
+            set { _defaultHeaders = value; }
         }
 
         /// <summary>
-        /// 
+        /// Gets or sets the timeout value.
         /// </summary>
         public TimeSpan Timeout
         {
-            get;
-            set;
+            get { return _timeOut; }
+            set { _timeOut = value; }
         }
 
         #endregion
