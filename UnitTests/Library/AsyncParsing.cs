@@ -40,24 +40,5 @@ namespace UnitTests
             Assert.AreEqual(1, parser.Result.Body.ChildElementCount);
             Assert.AreEqual("Some text", parser.Result.Body.Children[0].TextContent);
         }
-
-        [TestMethod]
-        public void TestAsyncXmlParsing()
-        {
-            var source = "<html><head><title>My test</title></head><body><p>Some text</p></body></html>";
-            var parser = new XmlParser(source);
-            var task = parser.ParseAsync();
-            Assert.IsFalse(task.IsCompleted);
-            Assert.IsNotNull(parser.Result);
-            Assert.IsFalse(task.IsCompleted);
-            task.Wait();
-            Assert.IsTrue(task.IsCompleted);
-            Assert.IsNotNull(parser.Result);
-            Assert.AreEqual(2, parser.Result.DocumentElement.ChildNodes.Length);
-            Assert.AreEqual(1, parser.Result.DocumentElement.ChildNodes[0].ChildNodes.Length);
-            Assert.AreEqual("My test", parser.Result.DocumentElement.ChildNodes[0].ChildNodes[0].TextContent);
-            Assert.AreEqual(1, parser.Result.DocumentElement.ChildNodes[1].ChildNodes.Length);
-            Assert.AreEqual("Some text", parser.Result.DocumentElement.ChildNodes[1].ChildNodes[0].TextContent);
-        }
     }
 }

@@ -3,7 +3,6 @@ using System.Linq;
 using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Mathml;
 using AngleSharp.DOM.Svg;
-using AngleSharp.DOM.Xml;
 using AngleSharp.DOM.Collections;
 
 namespace AngleSharp.DOM
@@ -395,8 +394,6 @@ namespace AngleSharp.DOM
                 element = SVGElement.Create(tagName);
             else if (namespaceURI == Namespaces.MathML)
                 element = MathElement.Create(tagName);
-            else if (namespaceURI == Namespaces.Xml)
-                element = XMLElement.Create(tagName);
             else
                 element = new Element { NamespaceURI = namespaceURI, NodeName = tagName };
 

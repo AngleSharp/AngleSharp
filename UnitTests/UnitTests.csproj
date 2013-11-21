@@ -81,7 +81,6 @@
     <Compile Include="Library\OptimizationPool.cs" />
     <Compile Include="Mocks\DtdRequester.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
-    <Compile Include="Xml\DtdTree.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
     <Compile Include="Mocks\MockReflectionResolver.cs" />
     <Compile Include="Mocks\MockResolver.cs" />
@@ -99,15 +98,6 @@
     <Compile Include="Html\HtmlFragments.cs" />
     <Compile Include="Html\HtmlEntities.cs" />
     <Compile Include="Html\UserJsUnsafe.cs" />
-    <Compile Include="Xml\XmlInvalidDocuments.cs" />
-    <Compile Include="Xml\XmlNotWfExtDtd.cs" />
-    <Compile Include="Xml\XmlNotWfDocuments.cs" />
-    <Compile Include="Xml\XmlValidExtDtd.cs" />
-    <Compile Include="Xml\XmlValidDocuments.cs" />
-    <Compile Include="Xml\XmlSamples.cs" />
-    <Compile Include="Xml\XmlDtd.cs" />
-    <Compile Include="Xml\XmlTree.cs" />
-    <Compile Include="Xml\XmlTokenization.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AngleSharp\AngleSharp.csproj">
@@ -120,52 +110,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Assets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\ibm09v03.dtd" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\student.dtd" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\p09pass1.dtd" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\023.ent" />
-    <EmbeddedResource Include="Resources\031-1.ent" />
-    <EmbeddedResource Include="Resources\ibm28v02.dtd" />
-    <EmbeddedResource Include="Resources\ibm30v02.dtd" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\student2.dtd" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\p28pass4.dtd" />
-    <EmbeddedResource Include="Resources\p28pass5.dtd" />
-    <EmbeddedResource Include="Resources\p30pass1.dtd" />
-    <EmbeddedResource Include="Resources\p30pass2.dtd" />
-    <EmbeddedResource Include="Resources\p31pass1.dtd" />
-    <EmbeddedResource Include="Resources\p31pass2.dtd" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\dtd07.dtd" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\cond.dtd" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\p61fail1.dtd" />
-    <EmbeddedResource Include="Resources\p62fail1.dtd" />
-    <EmbeddedResource Include="Resources\p62fail2.dtd" />
-    <EmbeddedResource Include="Resources\p63fail1.dtd" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\p63fail2.dtd" />
-    <EmbeddedResource Include="Resources\p64fail1.dtd" />
-    <EmbeddedResource Include="Resources\p64fail2.dtd" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\031-2.ent" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

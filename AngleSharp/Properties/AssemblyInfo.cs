@@ -12,5 +12,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: InternalsVisibleToAttribute("UnitTests")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("0.3.8.*")]
-[assembly: AssemblyFileVersion("0.3.8")]
+[assembly: AssemblyVersion("0.4.0.*")]
+[assembly: AssemblyFileVersion("0.4.0")]

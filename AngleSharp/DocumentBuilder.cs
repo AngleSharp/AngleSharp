@@ -1,15 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Diagnostics;
-using AngleSharp.Css;
-using AngleSharp.Xml;
+﻿using AngleSharp.Css;
 using AngleSharp.DOM;
-using AngleSharp.Html;
-using AngleSharp.Events;
-using AngleSharp.DOM.Css;
-using AngleSharp.DOM.Xml;
-using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Collections;
+using AngleSharp.DOM.Css;
+using AngleSharp.DOM.Html;
+using AngleSharp.Events;
+using AngleSharp.Html;
+using System;
+using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace AngleSharp
@@ -48,22 +46,6 @@ namespace AngleSharp
         /// Creates a new builder with the specified source.
         /// </summary>
         /// <param name="source">The code manager.</param>
-        /// <param name="document">The document to fill.</param>
-        /// <param name="options">Options to use for the document generation.</param>
-        DocumentBuilder(SourceManager source, XMLDocument document, DocumentOptions options)
-        {
-            document.Options = options;
-            parser = new XmlParser(document, source);
-			parser.ErrorOccurred += ParseErrorOccurred;
-
-			if (options.OnError != null)
-				parser.ErrorOccurred += options.OnError;
-        }
-
-        /// <summary>
-        /// Creates a new builder with the specified source.
-        /// </summary>
-        /// <param name="source">The code manager.</param>
         /// <param name="sheet">The document to fill.</param>
         /// <param name="options">Options to use for the document generation.</param>
         DocumentBuilder(SourceManager source, CSSStyleSheet sheet, DocumentOptions options)
@@ -89,75 +71,11 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Gets the result of an XML parsing.
-        /// </summary>
-        public XMLDocument XmlResult
-        {
-            get { return ((XmlParser)parser).Result; }
-        }
-
-        /// <summary>
         /// Gets the result of a CSS parsing.
         /// </summary>
         public CSSStyleSheet CssResult
         {
             get { return ((CssParser)parser).Result; }
-        }
-
-        #endregion
-
-        #region XML Construction
-
-        /// <summary>
-        /// Builds a new XMLDocument with the given source code string.
-        /// </summary>
-        /// <param name="sourceCode">The string to use as source code.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
-        /// <returns>The constructed XML document.</returns>
-        public static XMLDocument Xml(String sourceCode, DocumentOptions options = null)
-        {
-            var source = new SourceManager(sourceCode);
-            var db = new DocumentBuilder(source, new XMLDocument(), options ?? DocumentOptions.Default);
-            return db.XmlResult;
-        }
-
-        /// <summary>
-        /// Builds a new XMLDocument with the given URL.
-        /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
-        /// <returns>The constructed XML document.</returns>
-        public static XMLDocument Xml(Uri url, DocumentOptions options = null)
-        {
-            return XmlAsync(url, options).Result;
-        }
-
-        /// <summary>
-        /// Builds a new XMLDocument by asynchronously requesting with the given URL.
-        /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
-        /// <returns>The task that constructs XML document.</returns>
-        public static async Task<XMLDocument> XmlAsync(Uri url, DocumentOptions options = null)
-        {
-            var stream = await Builder.GetFromUrl(url);
-            var source = new SourceManager(stream);
-			var db = new DocumentBuilder(source, new XMLDocument { DocumentURI = url.OriginalString }, options ?? DocumentOptions.Default);
-			await db.parser.ParseAsync();
-            return db.XmlResult;
-        }
-
-        /// <summary>
-        /// Builds a new XMLDocument with the given (network) stream.
-        /// </summary>
-        /// <param name="stream">The stream of chars to use as source code.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
-        /// <returns>The constructed XML document.</returns>
-        public static XMLDocument Xml(Stream stream, DocumentOptions options = null)
-        {
-            var source = new SourceManager(stream);
-			var db = new DocumentBuilder(source, new XMLDocument(), options ?? DocumentOptions.Default);
-            return db.XmlResult;
         }
 
         #endregion

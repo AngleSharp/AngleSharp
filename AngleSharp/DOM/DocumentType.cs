@@ -1,5 +1,4 @@
-﻿using AngleSharp.DTD;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,7 +30,7 @@ namespace AngleSharp.DOM
         [DOM("entities")]
         public IEnumerable<Entity> Entities
         {
-            get { return TypeDefinitions != null ? TypeDefinitions.Entities : Enumerable.Empty<Entity>(); }
+            get { return Enumerable.Empty<Entity>(); }
         }
 
         /// <summary>
@@ -40,7 +39,7 @@ namespace AngleSharp.DOM
         [DOM("notations")]
         public IEnumerable<Notation> Notations
         {
-            get { return TypeDefinitions != null ? TypeDefinitions.Notations : Enumerable.Empty<Notation>(); }
+            get { return Enumerable.Empty<Notation>(); }
         }
 
         /// <summary>
@@ -81,19 +80,6 @@ namespace AngleSharp.DOM
         { 
             get; 
             set; 
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets or sets the DTD for this doctype.
-        /// </summary>
-        internal DtdContainer TypeDefinitions
-        {
-            get;
-            set;
         }
 
         #endregion

@@ -2,7 +2,6 @@
 using AngleSharp.Css;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
-using AngleSharp.DOM.Xml;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -47,14 +46,14 @@ namespace ConsoleInteraction
             var result = client.GetAsync(url).Result;
             var source = result.Content.ReadAsStreamAsync().Result;
 
-            XMLDocument xml = null;
+            HTMLDocument html = null;
 
-            try { xml = DocumentBuilder.Xml(source); }
+            try { html = DocumentBuilder.Html(source); }
             catch { Console.WriteLine("error!!!"); return; }
 
-            var title = Sanatize(xml.GetElementsByTagName("title")[0].TextContent);
-            var content = xml.GetElementsByTagName("content")[0].InnerHTML.Trim().Replace("\"", "\"\"");
-            var css = xml.GetElementsByTagName("css")[0].TextContent;
+            var title = Sanatize(html.GetElementsByTagName("title")[0].TextContent);
+            var content = html.GetElementsByTagName("content")[0].InnerHTML.Trim().Replace("\"", "\"\"");
+            var css = html.GetElementsByTagName("css")[0].TextContent;
             var sheet = CssParser.ParseStyleSheet(css);
             var selectors = new StringBuilder();
             var i = 1;

@@ -1,5 +1,4 @@
-﻿using AngleSharp.DOM.Xml;
-using System;
+﻿using System;
 
 namespace AngleSharp.DOM.Mathml
 {

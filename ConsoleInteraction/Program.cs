@@ -1,17 +1,16 @@
-﻿using System;
-using System.Text;
-using System.Net.Http;
-using System.Resources;
+﻿using AngleSharp;
+using AngleSharp.Css;
+using AngleSharp.DOM.Collections;
+using AngleSharp.DOM.Css;
+using AngleSharp.DOM.Html;
+using AngleSharp.Html;
+using ConsoleInteraction.Assets;
+using System;
 using System.Diagnostics;
 using System.Globalization;
-using AngleSharp;
-using AngleSharp.Css;
-using AngleSharp.DOM.Html;
-using AngleSharp.DOM.Css;
-using AngleSharp.DOM.Xml;
-using AngleSharp.DOM.Collections;
-using ConsoleInteraction.Assets;
-using AngleSharp.Html;
+using System.Net.Http;
+using System.Resources;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ConsoleInteraction
@@ -37,8 +36,6 @@ namespace ConsoleInteraction
             TestHtml(Snippets.Invalid, "an invalid snippet");
 
             ReadHtmlFiles(HtmlFiles.ResourceManager);
-
-            TestXml(XmlFiles.Note, "The XML note file");
 
             TestHtmlFrom("http://www.imdb.com/", false);
 
@@ -150,23 +147,6 @@ namespace ConsoleInteraction
             }
         }
 
-        static void TestXmlFrom(String url)
-        {
-            var sw = Stopwatch.StartNew();
-            var client = new HttpClient();
-            var result = client.GetAsync(url).Result;
-            var source = result.Content.ReadAsStreamAsync().Result;
-
-            sw.Stop();
-            Console.WriteLine("Loading " + url + " took ... " + sw.ElapsedMilliseconds + "ms");
-            sw.Restart();
-
-            var xml = DocumentBuilder.Xml(source);
-            sw.Stop();
-
-            Console.WriteLine("Parsing " + url + " took ... " + sw.ElapsedMilliseconds + "ms");
-        }
-
         static void TestHtml(String source, Boolean openConsole)
         {
             var doc = TestHtml(source);
@@ -176,15 +156,6 @@ namespace ConsoleInteraction
                 var console = new HtmlSharpConsole(doc);
                 console.Capture();
             }
-        }
-
-        static XMLDocument TestXml(String source, String title = "XML document")
-        {
-            var sw = Stopwatch.StartNew();
-            var xml = DocumentBuilder.Xml(source);
-            sw.Stop();
-            Console.WriteLine("Parsing " + title + " took ... " + sw.ElapsedMilliseconds + "ms");
-            return xml;
         }
 
         static HTMLDocument TestHtml(String source, String title = "HTML document")

@@ -1,5 +1,4 @@
 ﻿using AngleSharp.DOM.Html;
-using AngleSharp.DOM.Xml;
 using System;
 using System.Collections.Generic;
 
@@ -79,8 +78,6 @@ namespace AngleSharp.DOM
 
             if (Namespaces.Html == namespaceURI)
                 doc = new HTMLDocument();
-            else if (Namespaces.Xml == namespaceURI)
-                doc = new XMLDocument();
             else
                 doc = new Document();
 
