@@ -108,7 +108,7 @@ namespace AngleSharp
         /// <returns>An instance of the Encoding class or null.</returns>
         public static Encoding Resolve(String charset)
         {
-            charset = charset.ToLower();
+            charset = (charset ?? String.Empty).ToLower();
 
             switch (charset)
             {
@@ -378,66 +378,69 @@ namespace AngleSharp
         /// <returns>The suggested encoding.</returns>
         public static Encoding Suggest(String local)
         {
-            var firstTwo = local.Substring(0, 2).ToLower();
-
-            switch(firstTwo)
+            if (!String.IsNullOrEmpty(local) && local.Length > 1)
             {
-                case "ar":
-                case "cy":
-                case "fa":
-                case "hr":
-                case "kk":
-                case "mk":
-                case "or":
-                case "ro":
-                case "sr":
-                case "vi":
-                    return Encoding.UTF8;
+                var firstTwo = local.Substring(0, 2).ToLower();
 
-                case "be":
-                    return Encoding.GetEncoding("iso-8859-5");
+                switch (firstTwo)
+                {
+                    case "ar":
+                    case "cy":
+                    case "fa":
+                    case "hr":
+                    case "kk":
+                    case "mk":
+                    case "or":
+                    case "ro":
+                    case "sr":
+                    case "vi":
+                        return Encoding.UTF8;
 
-                case "bg":
-                case "ru":
-                case "uk":
-                    return Encoding.GetEncoding("windows-1251");
+                    case "be":
+                        return Encoding.GetEncoding("iso-8859-5");
 
-                case "cs":
-                case "hu":
-                case "pl":
-                case "sl":
-                    return Encoding.GetEncoding("iso-8859-2");
+                    case "bg":
+                    case "ru":
+                    case "uk":
+                        return Encoding.GetEncoding("windows-1251");
 
-                case "tr":
-                case "ku":
-                    return Encoding.GetEncoding("windows-1254");
-                    
-                case "he":
-                    return Encoding.GetEncoding("windows-1255");
+                    case "cs":
+                    case "hu":
+                    case "pl":
+                    case "sl":
+                        return Encoding.GetEncoding("iso-8859-2");
 
-                case "lv":
-                    return Encoding.GetEncoding("iso-8859-13");
+                    case "tr":
+                    case "ku":
+                        return Encoding.GetEncoding("windows-1254");
 
-                case "ja"://  Windows-31J ???? Replaced by something better anyway
-                    return Encoding.UTF8;
+                    case "he":
+                        return Encoding.GetEncoding("windows-1255");
 
-                case "ko":
-                    return Encoding.GetEncoding("ks_c_5601-1987");
+                    case "lv":
+                        return Encoding.GetEncoding("iso-8859-13");
 
-                case "lt":
-                    return Encoding.GetEncoding("windows-1257");
+                    case "ja"://  Windows-31J ???? Replaced by something better anyway
+                        return Encoding.UTF8;
 
-                case "sk":
-                    return Encoding.GetEncoding("windows-1250");
+                    case "ko":
+                        return Encoding.GetEncoding("ks_c_5601-1987");
 
-                case "th":
-                    return Encoding.GetEncoding("windows-874");
+                    case "lt":
+                        return Encoding.GetEncoding("windows-1257");
+
+                    case "sk":
+                        return Encoding.GetEncoding("windows-1250");
+
+                    case "th":
+                        return Encoding.GetEncoding("windows-874");
+                }
+
+                if (local.Equals("zh-CN", StringComparison.OrdinalIgnoreCase))
+                    return Encoding.GetEncoding("GB18030");
+                else if (local.Equals("zh-TW", StringComparison.OrdinalIgnoreCase))
+                    return Encoding.GetEncoding("big5");
             }
-
-            if (local.Equals("zh-CN", StringComparison.OrdinalIgnoreCase))
-                return Encoding.GetEncoding("GB18030");
-            else if (local.Equals("zh-TW", StringComparison.OrdinalIgnoreCase))
-                return Encoding.GetEncoding("big5");
 
             return Encoding.GetEncoding("windows-1252");
         }
