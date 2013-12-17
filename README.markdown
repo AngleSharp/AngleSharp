@@ -27,6 +27,14 @@ This is a long-term project which will eventually result in a state of the art p
 Change log
 ----------
 
+**0.4.0:**
+- Final alpha version
+- 98% finished HTML5 parser
+- 90% finished CSS3 parser
+- 85% finished HTML DOM
+- Removed XML parser (until HTML and CSS are finished)
+- Included WebRequester
+
 **0.3.0:**
 - Alpha version
 - 95% finished HTML5 parser
@@ -51,32 +59,27 @@ The roadmap presents a draft on what is about to be implemented, and when. The p
 
 The time estimates are all ultra-conservative, which means that the project will probably (and hopefully) be much faster than the predicted schedule.
 
-(September 2013) **0.4.0:**
-- Validating XML parser implemented
-- SVG and MathML DOM started
-- Useful helpers like URL management implemented
-
-(October 2013) **0.5.0**
+(February 2014) **0.5.0**
 - CSS model implemented (e.g. *getComputedStyle* works)
 - Draft interfaces for optional resource and rendering defined
 
-(December 2013) **0.6.0**
+(April 2014) **0.6.0**
 - MathML DOM finished
 - Most important parts of HTML DOM implemented
 
-(March 2014) **0.7.0**
+(June 2014) **0.7.0**
 - SVG document included
 - SVG DOM skeleton implemented
 
-(May 2014) **0.8.0**
+(August 2014) **0.8.0**
 - Full HTML DOM implemented
 - CSS computation works with everything
 
-(July 2014) **0.9.0**
+(October 2014) **0.9.0**
 - Most important SVG elements implemented
 - HTML5 parser at 100% with complete DOM, MathML and SVG
 
-(September 2014) **1.0.0**
+(December 2014) **1.0.0**
 - Final release of the first version
 
 Use-cases
@@ -97,7 +100,7 @@ If you know some feature that AngleSharp is currently missing, and you are willi
 Some legal stuff
 ----------------
 
-Copyright (c) 2013, Florian Rappl and collaborators.
+Copyright (c) 2013-2014, Florian Rappl and collaborators.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -108,4 +111,4 @@ Redistribution and use in source and binary forms, with or without modification,
 
 *	Neither the name of the AngleSharp team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL FLORIAN RAPPL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
