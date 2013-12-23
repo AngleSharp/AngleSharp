@@ -74,6 +74,7 @@ namespace AngleSharp
             get { return instance.requester.Count > 0; }
         }
 
+#if !LEGACY
         /// <summary>
         /// Gets or sets if the default Http requester should be used.
         /// </summary>
@@ -93,6 +94,7 @@ namespace AngleSharp
                 }
             }
         }
+#endif
 
         /// <summary>
         /// Gets or sets the language (code, e.g. en-US, de-DE) to use.

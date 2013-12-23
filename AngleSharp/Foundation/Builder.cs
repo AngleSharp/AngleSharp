@@ -27,7 +27,7 @@ namespace AngleSharp
 
         public static async Task StyleFromUrl(CSSStyleSheet sheet, String url, CancellationToken cancel)
         {
-            if (sheet.Options.IsStyling && Configuration.UseDefaultHttpRequester)
+            if (sheet.Options.IsStyling)
             {
                 var stream = await GetFromUrl(url, cancel);
                 var parser = new CssParser(sheet, stream);

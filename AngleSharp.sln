@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples", "Samples\Samples.csproj", "{DA318620-F6B5-4DFA-B012-38F06141A2DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Legacy", "AngleSharp.Legacy\AngleSharp.Legacy.csproj", "{24FE559B-6557-4078-9B66-75B300BA1CDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{DA318620-F6B5-4DFA-B012-38F06141A2DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA318620-F6B5-4DFA-B012-38F06141A2DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA318620-F6B5-4DFA-B012-38F06141A2DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

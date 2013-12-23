@@ -193,7 +193,7 @@ namespace AngleSharp.Html
 				if (!started)
 				{
 					started = true;
-					task = Task.Run(() => Kernel());
+					task = Task.Factory.StartNew(() => Kernel());
 				}
 				else if (task == null)
 					throw new InvalidOperationException("The parser has already run synchronously.");
