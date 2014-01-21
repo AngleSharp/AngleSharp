@@ -857,5 +857,138 @@ namespace UnitTests
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td1.NodeType);
         }
+
+        [TestMethod]
+        public void TableWithTableRowThatHasStyle()
+        {
+            var doc = DocumentBuilder.Html(@"<table><tr style=""display: none;"">");
+
+            var dochtml0 = doc.ChildNodes[0];
+            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0.Attributes.Length);
+            Assert.AreEqual("html", dochtml0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+
+            var dochtml0head0 = dochtml0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
+            Assert.AreEqual("head", dochtml0head0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+
+            var dochtml0body1 = dochtml0.ChildNodes[1];
+            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
+            Assert.AreEqual("body", dochtml0body1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
+            Assert.AreEqual("table", dochtml0body1table0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
+
+            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0];
+            Assert.AreEqual(1, dochtml0body1table0tbody0.ChildNodes.Length);
+            Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
+            Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
+
+            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0];
+            Assert.AreEqual(0, dochtml0body1table0tbody0tr0.ChildNodes.Length);
+            Assert.AreEqual(1, dochtml0body1table0tbody0tr0.Attributes.Length);
+            Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0.NodeType);
+
+            var styleAttribute = dochtml0body1table0tbody0tr0.Attributes[0];
+            Assert.AreEqual("style", styleAttribute.Name);
+            Assert.AreEqual("display: none;", styleAttribute.Value);
+
+            var style = ((Element)dochtml0body1table0tbody0tr0).Style;
+            Assert.AreEqual("none", style.Display);
+        }
+
+        [TestMethod]
+        public void TableWithTableRowThatHasStyleAndChanged()
+        {
+            var doc = DocumentBuilder.Html(@"<table><tr style=""display: none;"">");
+
+            var html = doc.ChildNodes[0];
+            Assert.AreEqual(2, html.ChildNodes.Length);
+            Assert.AreEqual(0, html.Attributes.Length);
+            Assert.AreEqual("html", html.NodeName);
+            Assert.AreEqual(NodeType.Element, html.NodeType);
+
+            var body = html.ChildNodes[1];
+            Assert.AreEqual(1, body.ChildNodes.Length);
+            Assert.AreEqual(0, body.Attributes.Length);
+            Assert.AreEqual("body", body.NodeName);
+            Assert.AreEqual(NodeType.Element, body.NodeType);
+
+            var table = body.ChildNodes[0];
+            Assert.AreEqual(1, table.ChildNodes.Length);
+            Assert.AreEqual(0, table.Attributes.Length);
+            Assert.AreEqual("table", table.NodeName);
+            Assert.AreEqual(NodeType.Element, table.NodeType);
+
+            var tableBody = table.ChildNodes[0];
+            Assert.AreEqual(1, tableBody.ChildNodes.Length);
+            Assert.AreEqual(0, tableBody.Attributes.Length);
+            Assert.AreEqual("tbody", tableBody.NodeName);
+            Assert.AreEqual(NodeType.Element, tableBody.NodeType);
+
+            var tableRow = tableBody.ChildNodes[0];
+            Assert.AreEqual(0, tableRow.ChildNodes.Length);
+            Assert.AreEqual(1, tableRow.Attributes.Length);
+            Assert.AreEqual("tr", tableRow.NodeName);
+            Assert.AreEqual(NodeType.Element, tableRow.NodeType);
+            
+            var tr = (Element)tableRow;
+            var style = tr.Style;
+            Assert.AreEqual("none", style.Display);
+
+            tr.Style.Display = "block";
+            Assert.AreEqual("block", tr.Style.Display);
+        }
+
+        [TestMethod]
+        public void TableWithTableRowThatHasNoStyleAndChanged()
+        {
+            var doc = DocumentBuilder.Html(@"<table><tr>");
+
+            var html = doc.ChildNodes[0];
+            Assert.AreEqual(2, html.ChildNodes.Length);
+            Assert.AreEqual(0, html.Attributes.Length);
+            Assert.AreEqual("html", html.NodeName);
+            Assert.AreEqual(NodeType.Element, html.NodeType);
+
+            var body = html.ChildNodes[1];
+            Assert.AreEqual(1, body.ChildNodes.Length);
+            Assert.AreEqual(0, body.Attributes.Length);
+            Assert.AreEqual("body", body.NodeName);
+            Assert.AreEqual(NodeType.Element, body.NodeType);
+
+            var table = body.ChildNodes[0];
+            Assert.AreEqual(1, table.ChildNodes.Length);
+            Assert.AreEqual(0, table.Attributes.Length);
+            Assert.AreEqual("table", table.NodeName);
+            Assert.AreEqual(NodeType.Element, table.NodeType);
+
+            var tableBody = table.ChildNodes[0];
+            Assert.AreEqual(1, tableBody.ChildNodes.Length);
+            Assert.AreEqual(0, tableBody.Attributes.Length);
+            Assert.AreEqual("tbody", tableBody.NodeName);
+            Assert.AreEqual(NodeType.Element, tableBody.NodeType);
+
+            var tableRow = tableBody.ChildNodes[0];
+            Assert.AreEqual(0, tableRow.ChildNodes.Length);
+            Assert.AreEqual(0, tableRow.Attributes.Length);
+            Assert.AreEqual("tr", tableRow.NodeName);
+            Assert.AreEqual(NodeType.Element, tableRow.NodeType);
+
+            var tr = (Element)tableRow;
+
+            tr.Style.Display = "none";
+            Assert.AreEqual("none", tr.Style.Display);
+        }
     }
 }
