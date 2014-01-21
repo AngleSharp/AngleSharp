@@ -1,8 +1,8 @@
 ﻿using AngleSharp.Css;
 using AngleSharp.DOM.Css;
 using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace AngleSharp.DOM.Collections
 {
@@ -2486,15 +2486,12 @@ namespace AngleSharp.DOM.Collections
         [DOM("removeProperty")]
         public String RemoveProperty(String propertyName)
         {
-            for (int i = 0; i < _rules.Count; i++)
+            var value = RemovePropertyFromList(_rules, propertyName);
+
+            if (value != null)
             {
-                if (_rules[i].Name.Equals(propertyName))
-                {
-                    var value = _rules[i].Value;
-                    _rules.RemoveAt(i);
-                    Propagate();
-                    return value.CssText;
-                }
+                Propagate();
+                return value.CssText;
             }
 
             return null;
@@ -2547,6 +2544,7 @@ namespace AngleSharp.DOM.Collections
 
             if (decl != null)
             {
+                RemovePropertyFromList(_rules, propertyName);
                 _rules.Add(decl);
                 Propagate();
             }
@@ -2586,6 +2584,21 @@ namespace AngleSharp.DOM.Collections
         #endregion
 
         #region Helpers
+
+        static CSSValue RemovePropertyFromList(List<CSSProperty> rules, String propertyName)
+        {
+            for (int i = 0; i < rules.Count; i++)
+            {
+                if (rules[i].Name.Equals(propertyName))
+                {
+                    var value = rules[i].Value;
+                    rules.RemoveAt(i);
+                    return value;
+                }
+            }
+
+            return null;
+        }
 
         void Propagate()
         {
