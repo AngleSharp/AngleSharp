@@ -6,6 +6,7 @@
     using AngleSharp.Events;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Text;
     using System.Threading.Tasks;
@@ -14,7 +15,7 @@
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
 		#region Members
@@ -108,9 +109,7 @@
                     ErrorOccurred(this, ev);
             };
 
-            //values = new List<CSSValue>();
             started = false;
-            //function = new Stack<FunctionBuffer>();
             sheet = stylesheet;
             open = new Stack<CSSRule>();
 			SwitchTo(CssState.Data);
@@ -486,7 +485,7 @@
 		{
 			if (token.Type == CssTokenType.Colon)
 			{
-				//fraction = false;
+                value.Reset();
 				SwitchTo(CssState.BeforeValue);
 				return true;
 			}
@@ -526,7 +525,8 @@
 			switch (token.Type)
 			{
 				case CssTokenType.Dimension: // e.g. "3px"
-					return AddValue(new CSSPrimitiveValue(((CssUnitToken)token).Unit, ((CssUnitToken)token).Data));
+					value.AddValue(new CSSPrimitiveValue(((CssUnitToken)token).Unit, ((CssUnitToken)token).Data));
+                    return true;
 				case CssTokenType.Hash:// e.g. "#ABCDEF"
 					return InSingleValueHexColor(((CssKeywordToken)token).Data);
 				case CssTokenType.Delim:// e.g. "#"
@@ -534,18 +534,22 @@
 				case CssTokenType.Ident: // e.g. "auto"
 					return InSingleValueIdent((CssKeywordToken)token);
 				case CssTokenType.String:// e.g. "'i am a string'"
-					return AddValue(new CSSPrimitiveValue(CssUnit.String, ((CssStringToken)token).Data));
+					value.AddValue(new CSSPrimitiveValue(CssUnit.String, ((CssStringToken)token).Data));
+                    return true;
 				case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-					return AddValue(new CSSPrimitiveValue(CssUnit.Uri, ((CssStringToken)token).Data));
+                    value.AddValue(new CSSPrimitiveValue(CssUnit.Uri, ((CssStringToken)token).Data));
+                    return true;
 				case CssTokenType.Percentage: // e.g. "5%"
-					return AddValue(new CSSPrimitiveValue(CssUnit.Percentage, ((CssUnitToken)token).Data));
+                    value.AddValue(new CSSPrimitiveValue(CssUnit.Percentage, ((CssUnitToken)token).Data));
+                    return true;
 				case CssTokenType.Number: // e.g. "173"
-					return AddValue(new CSSPrimitiveValue(CssUnit.Number, ((CssNumberToken)token).Data));
+					value.AddValue(new CSSPrimitiveValue(CssUnit.Number, ((CssNumberToken)token).Data));
+                    return true;
 				case CssTokenType.Whitespace: // e.g. " "
 					SwitchTo(CssState.InValueList);
 					return true;
 				case CssTokenType.Function: //e.g. rgba(...)
-                    //function.Push(new FunctionBuffer(((CssKeywordToken)token).Data));
+                    value.AddFunction(((CssKeywordToken)token).Data);
 					SwitchTo(CssState.InFunction);
 					return true;
 				case CssTokenType.Comma: // e.g. ","
@@ -570,9 +574,10 @@
 			{
 				case CssTokenType.RoundBracketClose:
 					SwitchTo(CssState.InSingleValue);
-					return false;//AddValue(function.Pop().ToValue());
+                    value.CloseFunction();
+					return true;
 				case CssTokenType.Comma:
-					//function.Peek().Include();
+                    value.NextArgument();
 					return true;
 				default:
 					return InSingleValue(token);
@@ -592,7 +597,6 @@
 				SwitchTo(CssState.InValuePool);
 			else
 			{
-                //values.Add(CSSValue.ListMarker);
 				SwitchTo(CssState.InSingleValue);
 				return InSingleValue(token);
 			}
@@ -611,7 +615,7 @@
 				AfterValue(token);
 			else
             {
-                //values.Add(CSSValue.PoolMarker);
+                value.NextArgument();
 				SwitchTo(CssState.InSingleValue);
 				return InSingleValue(token);
 			}
@@ -940,7 +944,7 @@
 					SwitchTo(CssState.InHexValue);
 					return true;
 				case Specification.SOLIDUS:
-					//fraction = true;
+                    value.IsFraction = true;
 					return true;
 				default:
 					return false;
@@ -961,7 +965,8 @@
 				return true;
 			}
 
-			return AddValue(new CSSPrimitiveValue(CssUnit.Ident, token.Data));
+            value.AddValue(new CSSPrimitiveValue(CssUnit.Ident, token.Data));
+            return true;
 		}
 
 		/// <summary>
@@ -971,10 +976,13 @@
 		/// <returns>The status.</returns>
 		Boolean InSingleValueHexColor(String color)
 		{
-			CSSColor value;
+			CSSColor colorValue;
 
-			if (CSSColor.TryFromHex(color, out value))
-				return AddValue(new CSSPrimitiveValue(value));
+            if (CSSColor.TryFromHex(color, out colorValue))
+            {
+                value.AddValue(new CSSPrimitiveValue(colorValue));
+                return true;
+            }
 
 			return false;
 		}
@@ -984,113 +992,16 @@
 		#region Rule management
 
 		/// <summary>
-		/// Adds the new value to the current value (or replaces it).
-		/// </summary>
-		/// <param name="value">The value to add.</param>
-		/// <returns>The status.</returns>
-		Boolean AddValue(CSSValue value)
-        {
-			return true;
-		}
-
-		/// <summary>
 		/// Closes a property.
 		/// </summary>
 		void CloseProperty()
 		{
-            //if (property != null)
-            //{
-            //    CSSValue value = null;
-
-            //    if (function.Count == 1)
-            //        values.Add(function.Pop().ToValue());
-
-            //    while (values.Count != 0 && (values[values.Count - 1] == CSSValue.PoolMarker || values[values.Count - 1] == CSSValue.ListMarker))
-            //        values.RemoveAt(values.Count - 1);
-
-            //    while (values.Count != 0 && (values[0] == CSSValue.PoolMarker || values[0] == CSSValue.ListMarker))
-            //        values.RemoveAt(0);
-
-            //    for (int i = 1; i < values.Count - 1; i++)
-            //    {
-            //        if (values[i] == CSSValue.PoolMarker)
-            //        {
-            //            value = new CSSValuePool();
-            //            break;
-            //        }
-            //    }
-
-            //    if (value != null)
-            //    {
-            //        var pool = ((CSSValuePool)value).List;
-            //        var start = 0;
-
-            //        for (int i = 0; i <= values.Count; i++)
-            //        {
-            //            if (i == values.Count || values[i] == CSSValuePool.PoolMarker)
-            //            {
-            //                if (i != start)
-            //                    pool.Add(Create(start, i));
-
-            //                start = i + 1;
-            //            }
-            //        }
-            //    }
-            //    else if (values.Count != 0)
-            //        value = Create(0, values.Count);
-
-            //    property.Value = value;
-            //}
-
-            //values.Clear();
-            property = null;
+            if (property != null)
+            {
+                property.Value = value.ToValue();
+                property = null;
+            }
 		}
-
-        /// <summary>
-        /// Creates a value from the given span.
-        /// </summary>
-        /// <param name="start">The inclusive start index.</param>
-        /// <param name="end">The exclusive end index.</param>
-        /// <returns>The created value (primitive or list).</returns>
-        CSSValue Create(Int32 start, Int32 end)
-        {
-            //var value = values[start];
-
-            //for (int i = start + 1; i < end - 1; i++)
-            //{
-            //    if (values[i] == CSSValue.ListMarker)
-            //    {
-            //        value = null;
-            //        break;
-            //    }
-            //}
-
-            //if (value == null)
-            //{
-            //    var list = new CSSValueList();
-            //    var allowed = true;
-
-            //    for (int i = start; i < end; i++)
-            //    {
-            //        if (values[i] == CSSValuePool.ListMarker)
-            //        {
-            //            allowed = true;
-            //            continue;
-            //        }
-                    
-            //        if (allowed)
-            //        {
-            //            list.List.Add(values[i]);
-            //            allowed = false;
-            //        }
-            //    }
-
-            //    value = list;
-            //}
-
-            //return value;
-            return null;
-        }
 
 		/// <summary>
 		/// Closes the current rule (if any).
