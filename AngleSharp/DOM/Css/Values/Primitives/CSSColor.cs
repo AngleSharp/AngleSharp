@@ -1,16 +1,16 @@
-﻿using System;
-using System.Globalization;
-using System.Runtime.InteropServices;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+    using System.Globalization;
+    using System.Runtime.InteropServices;
+
     /// <summary>
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
     struct CSSColor : IEquatable<CSSColor>, ICssPrimitive
     {
-        #region Members
+        #region Basic colors
 
         /// <summary>
         /// The color #000000.
@@ -46,6 +46,10 @@ namespace AngleSharp.DOM.Css
         /// The color #00000000.
         /// </summary>
         public static readonly CSSColor Transparent = new CSSColor(0, 0, 0, 0);
+
+        #endregion
+
+        #region Fields
 
         [FieldOffset(0)]
         Byte alpha;
@@ -414,6 +418,11 @@ namespace AngleSharp.DOM.Css
 
         #region Implementing Interface
 
+        /// <summary>
+        /// Checks two colors for equality.
+        /// </summary>
+        /// <param name="other">The other color.</param>
+        /// <returns>True if both colors or equal, otherwise false.</returns>
         public Boolean Equals(CSSColor other)
         {
             return this.hashcode == other.hashcode;
@@ -430,9 +439,10 @@ namespace AngleSharp.DOM.Css
         public String ToCss()
         {
             if (alpha == 255)
-                return "rgb(" + red.ToString() + ", " + green.ToString() + ", " + blue.ToString() + ")";
+                return ToHex();
+            // String.Concat("rgb(", red.ToString(), ", ", green.ToString(), ", ", blue.ToString(), ")");
 
-            return "rgba(" + red.ToString() + ", " + green.ToString() + ", " + blue.ToString() + ", " + Alpha.ToString(CultureInfo.InvariantCulture) + ")";
+            return String.Concat("rgba(", red.ToString(), ", ", green.ToString(), ", ", blue.ToString(), ", ", Alpha.ToString(CultureInfo.InvariantCulture), ")");
         }
 
         /// <summary>
@@ -441,7 +451,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>The string with the hex code color.</returns>
         public String ToHex()
         {
-            return "#" + red.ToHex() + green.ToHex() + blue.ToHex();
+            return String.Concat("#", red.ToHex(), green.ToHex(), blue.ToHex());
         }
 
         #endregion

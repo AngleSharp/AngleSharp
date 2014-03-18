@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+
     sealed class CSSGradientStop : ICssPrimitive
     {
         #region Members
