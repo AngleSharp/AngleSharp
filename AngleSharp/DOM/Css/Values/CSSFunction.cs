@@ -77,7 +77,7 @@
                     sb.Append(_args[i].ToCss());
 
                     if (i != _args.Count - 1)
-                        sb.Append(Specification.COMMA);
+                        sb.Append(Specification.COMMA).Append(Specification.SPACE);
                 }
                 
                 sb.Append(Specification.RBC);

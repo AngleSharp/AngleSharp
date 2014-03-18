@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
+
     /// <summary>
     /// Represents multiple values in the CSS context.
     /// </summary>
     sealed class CSSValuePool : CSSValue
     {
-        #region Members
+        #region Fields
 
-        List<CSSValue> _items;
+        readonly List<CSSValue> _items;
 
         #endregion
 
