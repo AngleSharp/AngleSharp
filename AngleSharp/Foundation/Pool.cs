@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AngleSharp.Css;
-using System.Diagnostics;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using AngleSharp.Css;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Text;
+
     /// <summary>
     /// Provides a pool of used / recycled resources.
     /// </summary>
     [DebuggerStepThrough]
     static class Pool
     {
-        #region Members
+        #region Fields
 
-		static Stack<StringBuilder> _builder;
-		static Stack<CssSelectorConstructor> _selector;
-        static Object _lock;
+		static readonly Stack<StringBuilder> _builder;
+        static readonly Stack<CssSelectorConstructor> _selector;
+        static readonly Object _lock;
 
         #endregion
 
@@ -92,5 +92,5 @@ namespace AngleSharp
 		}
 
         #endregion
-	}
+    }
 }

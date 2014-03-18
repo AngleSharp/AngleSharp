@@ -20,6 +20,7 @@
 		#region Members
 		
 		CssSelectorConstructor selector;
+        CssValueBuilder value;
 		Boolean skipExceptions;
         CssTokenizer tokenizer;
 		CSSProperty property;
@@ -96,6 +97,7 @@
         internal CssParser(CSSStyleSheet stylesheet, SourceManager source)
         {
 			selector = Pool.NewSelectorConstructor();
+            value = new CssValueBuilder();
             sync = new Object();
             skipExceptions = true;
             tokenizer = new CssTokenizer(source);
@@ -987,24 +989,7 @@
 		/// <param name="value">The value to add.</param>
 		/// <returns>The status.</returns>
 		Boolean AddValue(CSSValue value)
-		{
-            //if (fraction)
-            //{
-            //    if (values.Count != 0)
-            //    {
-            //        var old = values[values.Count - 1];
-            //        value = new CSSPrimitiveValue(CssUnit.Unknown, old.ToCss() + "/" + value.ToCss());
-            //        values.RemoveAt(values.Count - 1);
-            //    }
-
-            //    fraction = false;
-            //}
-
-            //if (function.Count > 0)
-            //    function.Peek().Arguments.Add(value);
-            //else
-            //    values.Add(value);
-
+        {
 			return true;
 		}
 

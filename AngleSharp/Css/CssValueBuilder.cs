@@ -14,6 +14,58 @@
 
         #endregion
 
+        #region ctor
+
+        public CssValueBuilder()
+        {
+            function = new Stack<FunctionBuffer>();
+            values = new List<CSSValue>();
+            Reset();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Adds the new value to the current value (or replaces it).
+        /// </summary>
+        /// <param name="value">The value to add.</param>
+        /// <returns>The status.</returns>
+        public void AddValue(CSSValue value)
+        {
+            if (fraction)
+            {
+                if (values.Count != 0)
+                {
+                    var old = values[values.Count - 1];
+                    value = new CSSPrimitiveValue(CssUnit.Unknown, old.ToCss() + "/" + value.ToCss());
+                    values.RemoveAt(values.Count - 1);
+                }
+
+                fraction = false;
+            }
+
+            if (function.Count > 0)
+                function.Peek().Arguments.Add(value);
+            else
+                values.Add(value);
+        }
+
+        public void Reset()
+        {
+            fraction = false;
+            function.Clear();
+            values.Clear();
+        }
+
+        public CSSValue ToValue()
+        {
+            return null;
+        }
+
+        #endregion
+
         #region Function Buffer
 
         /// <summary>
