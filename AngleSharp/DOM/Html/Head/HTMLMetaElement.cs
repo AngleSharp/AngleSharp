@@ -28,8 +28,8 @@ namespace AngleSharp.DOM.Html
         [DOM("content")]
         public String Content
         {
-            get { return GetAttribute(AttributeNames.CONTENT); }
-            set { SetAttribute(AttributeNames.CONTENT, value); }
+            get { return GetAttribute(AttributeNames.Content); }
+            set { SetAttribute(AttributeNames.Content, value); }
         }
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace AngleSharp.DOM.Html
         [DOM("httpEquiv")]
         public String HttpEquiv
         {
-            get { return GetAttribute(AttributeNames.HTTP_EQUIV); }
-            set { SetAttribute(AttributeNames.HTTP_EQUIV, value); }
+            get { return GetAttribute(AttributeNames.Http_Equiv); }
+            set { SetAttribute(AttributeNames.Http_Equiv, value); }
         }
 
         /// <summary>
@@ -48,8 +48,8 @@ namespace AngleSharp.DOM.Html
         [DOM("scheme")]
         public String Scheme
         {
-            get { return GetAttribute(AttributeNames.SCHEME); }
-            set { SetAttribute(AttributeNames.SCHEME, value); }
+            get { return GetAttribute(AttributeNames.Scheme); }
+            set { SetAttribute(AttributeNames.Scheme, value); }
         }
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace AngleSharp.DOM.Html
         [DOM("name")]
         public String Name
         {
-            get { return GetAttribute(AttributeNames.NAME); }
-            set { SetAttribute(AttributeNames.NAME, value); }
+            get { return GetAttribute(AttributeNames.Name); }
+            set { SetAttribute(AttributeNames.Name, value); }
         }
 
         #endregion

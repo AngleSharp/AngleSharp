@@ -25,8 +25,8 @@ namespace AngleSharp.DOM.Html
         [DOM("align")]
         public Alignment Align
         {
-            get { return ToEnum(GetAttribute(AttributeNames.ALIGN), Alignment.Bottom); }
-            set { SetAttribute(AttributeNames.ALIGN, value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Align), Alignment.Bottom); }
+            set { SetAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         #endregion

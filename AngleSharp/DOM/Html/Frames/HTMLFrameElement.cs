@@ -25,8 +25,8 @@ namespace AngleSharp.DOM.Html
         [DOM("noResize")]
         public Boolean NoResize
         {
-            get { return ToBoolean(GetAttribute(AttributeNames.NORESIZE), false); }
-            set { SetAttribute(AttributeNames.NORESIZE, value.ToString()); }
+            get { return ToBoolean(GetAttribute(AttributeNames.NoResize), false); }
+            set { SetAttribute(AttributeNames.NoResize, value.ToString()); }
         }
 
         #endregion

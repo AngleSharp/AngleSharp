@@ -48,16 +48,16 @@ namespace AngleSharp.DOM.Css
                     switch (condition.Item1)
                     {
                         case DocumentFunction.Url:
-                            sb.Append(FunctionNames.URL);
+                            sb.Append(FunctionNames.Url);
                             break;
                         case DocumentFunction.UrlPrefix:
-                            sb.Append(FunctionNames.URL_PREFIX);
+                            sb.Append(FunctionNames.Url_Prefix);
                             break;
                         case DocumentFunction.Domain:
-                            sb.Append(FunctionNames.DOMAIN);
+                            sb.Append(FunctionNames.Domain);
                             break;
                         case DocumentFunction.RegExp:
-                            sb.Append(FunctionNames.REGEXP);
+                            sb.Append(FunctionNames.Regexp);
                             break;
                     }
 

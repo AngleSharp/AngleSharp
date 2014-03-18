@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.Css.Tokens
 {
     using System;
     using System.Globalization;

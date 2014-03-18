@@ -28,8 +28,8 @@ namespace AngleSharp.DOM.Html
         [DOM("type")]
         public MenuType Type
         {
-            get { return ToEnum(GetAttribute(AttributeNames.TYPE), MenuType.Popup); }
-            set { SetAttribute(AttributeNames.TYPE, value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Type), MenuType.Popup); }
+            set { SetAttribute(AttributeNames.Type, value.ToString()); }
         }
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace AngleSharp.DOM.Html
         [DOM("label")]
         public String Label
         {
-            get { return GetAttribute(AttributeNames.LABEL); }
-            set { SetAttribute(AttributeNames.LABEL, value); }
+            get { return GetAttribute(AttributeNames.Label); }
+            set { SetAttribute(AttributeNames.Label, value); }
         }
 
         #endregion

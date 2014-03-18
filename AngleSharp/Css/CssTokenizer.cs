@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Css.Tokens;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -625,23 +626,25 @@
                 }
                 else if (current == Specification.RBO)
                 {
-                    switch (_stringBuffer.ToString().ToLower())
+                    var fn = _stringBuffer.ToString().ToLower();
+
+                    if (fn == FunctionNames.Url)
                     {
-                        case FunctionNames.URL:
-                            _stringBuffer.Clear();
-                            return UrlStart(_src.Next, CssTokenType.Url);
-
-                        case FunctionNames.DOMAIN:
-                            _stringBuffer.Clear();
-                            return UrlStart(_src.Next, CssTokenType.Domain);
-
-                        case FunctionNames.URL_PREFIX:
-                            _stringBuffer.Clear();
-                            return UrlStart(_src.Next, CssTokenType.UrlPrefix);
-
-                        default:
-                            return CssKeywordToken.Function(FlushBuffer());
+                        _stringBuffer.Clear();
+                        return UrlStart(_src.Next, CssTokenType.Url);
                     }
+                    else if (fn == FunctionNames.Domain)
+                    {
+                        _stringBuffer.Clear();
+                        return UrlStart(_src.Next, CssTokenType.Domain);
+                    }
+                    else if (fn == FunctionNames.Url_Prefix)
+                    {
+                        _stringBuffer.Clear();
+                        return UrlStart(_src.Next, CssTokenType.UrlPrefix);
+                    }
+
+                    return CssKeywordToken.Function(FlushBuffer());
 
                 }
                 //false could be replaced with a transform whitespace flag, which is set to true if in SVG transform mode.

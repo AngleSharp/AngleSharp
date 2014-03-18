@@ -113,9 +113,9 @@ namespace AngleSharp.DOM.Html
         {
             dataSet.Append(Name, Value, Type.ToString());
 
-            if (_attributes[AttributeNames.DIRNAME] != null)
+            if (_attributes[AttributeNames.DirName] != null)
             {
-                var dirname = _attributes[AttributeNames.DIRNAME].Value;
+                var dirname = _attributes[AttributeNames.DirName].Value;
 
                 if (String.IsNullOrEmpty(dirname))
                     return;

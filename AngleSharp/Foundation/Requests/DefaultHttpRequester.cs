@@ -1,14 +1,14 @@
-﻿using AngleSharp.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using AngleSharp.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Reflection;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// The default (ready-to-use) HTTP requester.
     /// </summary>
@@ -195,50 +195,24 @@ namespace AngleSharp
         /// <param name="value">The value to be set.</param>
         void AddHeader(String key, String value)
         {
-            switch (key)
-            {
-                case Headers.ACCEPT:
-                    http.Accept = value;
-                    break;
-
-                case Headers.CONTENT_TYPE:
-                    http.ContentType = value;
-                    break;
-
-                case Headers.EXPECT:
-                    SetProperty("Expect", value);
-                    break;
-
-                case Headers.DATE:
-                    SetProperty("Date", DateTime.Parse(value));
-                    break;
-
-                case Headers.HOST:
-                    SetProperty("Host", value);
-                    break;
-
-                case Headers.IF_MODIFIED_SINCE:
-                    SetProperty("IfModifiedSince", DateTime.Parse(value));
-                    break;
-
-                case Headers.REFERER:
-                    SetProperty("Referer", value);
-                    break;
-
-                case Headers.USER_AGENT:
-                    SetProperty("UserAgent", value);
-                    break;
-
-                case Headers.CONNECTION:
-                case Headers.RANGE:
-                case Headers.CONTENT_LENGTH:
-                case Headers.TRANSFER_ENCODING:
-                    break;
-
-                default:
-                    http.Headers[key] = value;
-                    break;
-            }
+            if (key == Headers.Accept)
+                http.Accept = value;
+            else if (key == Headers.Content_Type)
+                http.ContentType = value;
+            else if (key == Headers.Expect)
+                SetProperty("Expect", value);
+            else if (key == Headers.Date)
+                SetProperty("Date", DateTime.Parse(value));
+            else if (key == Headers.Host)
+                SetProperty("Host", value);
+            else if (key == Headers.If_Modified_Since)
+                SetProperty("IfModifiedSince", DateTime.Parse(value));
+            else if (key == Headers.Referer)
+                SetProperty("Referer", value);
+            else if (key == Headers.User_Agent)
+                SetProperty("UserAgent", value);
+            else if (key != Headers.Connection && key != Headers.Range && key != Headers.Content_Length && key != Headers.Transfer_Encoding)
+                http.Headers[key] = value;
         }
 
         /// <summary>

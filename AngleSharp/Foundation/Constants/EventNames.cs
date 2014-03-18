@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+
     /// <summary>
     /// The collection of (known / used) event names.
     /// </summary>
@@ -10,16 +10,16 @@ namespace AngleSharp
         /// <summary>
         /// The invalid event.
         /// </summary>
-        public const String INVALID = "invalid";
+        public static readonly String Invalid = "invalid";
 
         /// <summary>
         /// The load event.
         /// </summary>
-        public const String LOAD = "load";
+        public static readonly String Load = "load";
 
         /// <summary>
         /// The DOMContentLoaded event.
         /// </summary>
-        public const String DOMCONTENTLOADED = "DOMContentLoaded";
+        public static readonly String DomContentLoaded = "DOMContentLoaded";
     }
 }

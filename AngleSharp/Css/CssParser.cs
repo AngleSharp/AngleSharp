@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Css.Tokens;
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using AngleSharp.Events;
@@ -19,12 +20,9 @@
 		#region Members
 		
 		CssSelectorConstructor selector;
-		Stack<FunctionBuffer> function;
 		Boolean skipExceptions;
         CssTokenizer tokenizer;
-		Boolean fraction;
 		CSSProperty property;
-		List<CSSValue> values;
         Boolean started;
         Boolean quirks;
         CSSStyleSheet sheet;
@@ -108,9 +106,9 @@
                     ErrorOccurred(this, ev);
             };
 
-            values = new List<CSSValue>();
+            //values = new List<CSSValue>();
             started = false;
-			function = new Stack<FunctionBuffer>();
+            //function = new Stack<FunctionBuffer>();
             sheet = stylesheet;
             open = new Stack<CSSRule>();
 			SwitchTo(CssState.Data);
@@ -486,7 +484,7 @@
 		{
 			if (token.Type == CssTokenType.Colon)
 			{
-				fraction = false;
+				//fraction = false;
 				SwitchTo(CssState.BeforeValue);
 				return true;
 			}
@@ -545,7 +543,7 @@
 					SwitchTo(CssState.InValueList);
 					return true;
 				case CssTokenType.Function: //e.g. rgba(...)
-					function.Push(new FunctionBuffer(((CssKeywordToken)token).Data));
+                    //function.Push(new FunctionBuffer(((CssKeywordToken)token).Data));
 					SwitchTo(CssState.InFunction);
 					return true;
 				case CssTokenType.Comma: // e.g. ","
@@ -570,9 +568,9 @@
 			{
 				case CssTokenType.RoundBracketClose:
 					SwitchTo(CssState.InSingleValue);
-					return AddValue(function.Pop().Done());
+					return false;//AddValue(function.Pop().ToValue());
 				case CssTokenType.Comma:
-					function.Peek().Include();
+					//function.Peek().Include();
 					return true;
 				default:
 					return InSingleValue(token);
@@ -592,7 +590,7 @@
 				SwitchTo(CssState.InValuePool);
 			else
 			{
-                values.Add(CSSValue.ListMarker);
+                //values.Add(CSSValue.ListMarker);
 				SwitchTo(CssState.InSingleValue);
 				return InSingleValue(token);
 			}
@@ -611,7 +609,7 @@
 				AfterValue(token);
 			else
             {
-                values.Add(CSSValue.PoolMarker);
+                //values.Add(CSSValue.PoolMarker);
 				SwitchTo(CssState.InSingleValue);
 				return InSingleValue(token);
 			}
@@ -940,7 +938,7 @@
 					SwitchTo(CssState.InHexValue);
 					return true;
 				case Specification.SOLIDUS:
-					fraction = true;
+					//fraction = true;
 					return true;
 				default:
 					return false;
@@ -990,22 +988,22 @@
 		/// <returns>The status.</returns>
 		Boolean AddValue(CSSValue value)
 		{
-			if (fraction)
-			{
-				if (values.Count != 0)
-				{
-                    var old = values[values.Count - 1];
-					value = new CSSPrimitiveValue(CssUnit.Unknown, old.ToCss() + "/" + value.ToCss());
-                    values.RemoveAt(values.Count - 1);
-				}
+            //if (fraction)
+            //{
+            //    if (values.Count != 0)
+            //    {
+            //        var old = values[values.Count - 1];
+            //        value = new CSSPrimitiveValue(CssUnit.Unknown, old.ToCss() + "/" + value.ToCss());
+            //        values.RemoveAt(values.Count - 1);
+            //    }
 
-				fraction = false;
-			}
+            //    fraction = false;
+            //}
 
-            if (function.Count > 0)
-                function.Peek().Arguments.Add(value);
-            else
-                values.Add(value);
+            //if (function.Count > 0)
+            //    function.Peek().Arguments.Add(value);
+            //else
+            //    values.Add(value);
 
 			return true;
 		}
@@ -1015,51 +1013,51 @@
 		/// </summary>
 		void CloseProperty()
 		{
-            if (property != null)
-            {
-                CSSValue value = null;
+            //if (property != null)
+            //{
+            //    CSSValue value = null;
 
-                if (function.Count == 1)
-                    values.Add(function.Pop().Done());
+            //    if (function.Count == 1)
+            //        values.Add(function.Pop().ToValue());
 
-                while (values.Count != 0 && (values[values.Count - 1] == CSSValue.PoolMarker || values[values.Count - 1] == CSSValue.ListMarker))
-                    values.RemoveAt(values.Count - 1);
+            //    while (values.Count != 0 && (values[values.Count - 1] == CSSValue.PoolMarker || values[values.Count - 1] == CSSValue.ListMarker))
+            //        values.RemoveAt(values.Count - 1);
 
-                while (values.Count != 0 && (values[0] == CSSValue.PoolMarker || values[0] == CSSValue.ListMarker))
-                    values.RemoveAt(0);
+            //    while (values.Count != 0 && (values[0] == CSSValue.PoolMarker || values[0] == CSSValue.ListMarker))
+            //        values.RemoveAt(0);
 
-                for (int i = 1; i < values.Count - 1; i++)
-                {
-                    if (values[i] == CSSValue.PoolMarker)
-                    {
-                        value = new CSSValuePool();
-                        break;
-                    }
-                }
+            //    for (int i = 1; i < values.Count - 1; i++)
+            //    {
+            //        if (values[i] == CSSValue.PoolMarker)
+            //        {
+            //            value = new CSSValuePool();
+            //            break;
+            //        }
+            //    }
 
-                if (value != null)
-                {
-                    var pool = ((CSSValuePool)value).List;
-                    var start = 0;
+            //    if (value != null)
+            //    {
+            //        var pool = ((CSSValuePool)value).List;
+            //        var start = 0;
 
-                    for (int i = 0; i <= values.Count; i++)
-                    {
-                        if (i == values.Count || values[i] == CSSValuePool.PoolMarker)
-                        {
-                            if (i != start)
-                                pool.Add(Create(start, i));
+            //        for (int i = 0; i <= values.Count; i++)
+            //        {
+            //            if (i == values.Count || values[i] == CSSValuePool.PoolMarker)
+            //            {
+            //                if (i != start)
+            //                    pool.Add(Create(start, i));
 
-                            start = i + 1;
-                        }
-                    }
-                }
-                else if (values.Count != 0)
-                    value = Create(0, values.Count);
+            //                start = i + 1;
+            //            }
+            //        }
+            //    }
+            //    else if (values.Count != 0)
+            //        value = Create(0, values.Count);
 
-                property.Value = value;
-            }
+            //    property.Value = value;
+            //}
 
-            values.Clear();
+            //values.Clear();
             property = null;
 		}
 
@@ -1071,41 +1069,42 @@
         /// <returns>The created value (primitive or list).</returns>
         CSSValue Create(Int32 start, Int32 end)
         {
-            var value = values[start];
+            //var value = values[start];
 
-            for (int i = start + 1; i < end - 1; i++)
-            {
-                if (values[i] == CSSValue.ListMarker)
-                {
-                    value = null;
-                    break;
-                }
-            }
+            //for (int i = start + 1; i < end - 1; i++)
+            //{
+            //    if (values[i] == CSSValue.ListMarker)
+            //    {
+            //        value = null;
+            //        break;
+            //    }
+            //}
 
-            if (value == null)
-            {
-                var list = new CSSValueList();
-                var allowed = true;
+            //if (value == null)
+            //{
+            //    var list = new CSSValueList();
+            //    var allowed = true;
 
-                for (int i = start; i < end; i++)
-                {
-                    if (values[i] == CSSValuePool.ListMarker)
-                    {
-                        allowed = true;
-                        continue;
-                    }
+            //    for (int i = start; i < end; i++)
+            //    {
+            //        if (values[i] == CSSValuePool.ListMarker)
+            //        {
+            //            allowed = true;
+            //            continue;
+            //        }
                     
-                    if (allowed)
-                    {
-                        list.List.Add(values[i]);
-                        allowed = false;
-                    }
-                }
+            //        if (allowed)
+            //        {
+            //            list.List.Add(values[i]);
+            //            allowed = false;
+            //        }
+            //    }
 
-                value = list;
-            }
+            //    value = list;
+            //}
 
-            return value;
+            //return value;
+            return null;
         }
 
 		/// <summary>
@@ -1538,67 +1537,6 @@
 			AfterValue,
 			InHexValue,
 			InFunction
-        }
-
-        #endregion
-
-        #region Function Buffer
-
-        /// <summary>
-		/// A buffer for functions.
-		/// </summary>
-		sealed class FunctionBuffer
-		{
-			#region Members
-
-			String _name;
-			List<CSSValue> _arguments;
-			CSSValue _value;
-
-			#endregion
-
-			#region ctor
-
-			internal FunctionBuffer(String name)
-			{
-				this._arguments = new List<CSSValue>();
-				this._name = name;
-			}
-
-			#endregion
-
-			#region Properties
-
-			public List<CSSValue> Arguments
-			{
-				get { return _arguments; }
-			}
-
-			public CSSValue Value
-			{
-				get { return _value; }
-				set { _value = value; }
-			}
-
-			#endregion
-
-			#region Methods
-
-			public void Include()
-			{
-				if (_value != null)
-					_arguments.Add(_value);
-
-				_value = null;
-			}
-
-			public CSSValue Done()
-			{
-				Include();
-				return CSSFunction.Create(_name, _arguments);
-			}
-
-			#endregion
         }
 
         #endregion

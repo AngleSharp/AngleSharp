@@ -222,11 +222,11 @@ namespace AngleSharp.DOM.Html
 
             var browsingContext = new object();//TODO
 
-            if (!submittedFromSubmitMethod && from.Attributes[AttributeNames.FORMNOVALIDATE] == null && NoValidate)
+            if (!submittedFromSubmitMethod && from.Attributes[AttributeNames.FormNoValidate] == null && NoValidate)
             {
                 if (!CheckValidity())
                 {
-                    FireSimpleEvent(EventNames.INVALID);
+                    FireSimpleEvent(EventNames.Invalid);
                     return;
                 }
             }

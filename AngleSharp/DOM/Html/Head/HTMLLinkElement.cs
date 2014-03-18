@@ -72,8 +72,8 @@ namespace AngleSharp.DOM.Html
         [DOM("href")]
         public String Href
         {
-            get { return HyperRef(GetAttribute(AttributeNames.HREF)); }
-            set { SetAttribute(AttributeNames.HREF, value); }
+            get { return HyperRef(GetAttribute(AttributeNames.Href)); }
+            set { SetAttribute(AttributeNames.Href, value); }
         }
 
         /// <summary>
@@ -82,8 +82,8 @@ namespace AngleSharp.DOM.Html
         [DOM("hreflang")]
         public String Hreflang
         {
-            get { return GetAttribute(AttributeNames.HREFLANG); }
-            set { SetAttribute(AttributeNames.HREFLANG, value); }
+            get { return GetAttribute(AttributeNames.HrefLang); }
+            set { SetAttribute(AttributeNames.HrefLang, value); }
         }
 
         /// <summary>
@@ -92,8 +92,8 @@ namespace AngleSharp.DOM.Html
         [DOM("charset")]
         public String Charset
         {
-            get { return GetAttribute(AttributeNames.CHARSET); }
-            set { SetAttribute(AttributeNames.CHARSET, value); }
+            get { return GetAttribute(AttributeNames.Charset); }
+            set { SetAttribute(AttributeNames.Charset, value); }
         }
 
         /// <summary>
@@ -102,8 +102,8 @@ namespace AngleSharp.DOM.Html
         [DOM("rel")]
         public RelType Rel
         {
-            get { return ToEnum(GetAttribute(AttributeNames.REL), RelType.None); }
-            set { SetAttribute(AttributeNames.REL, value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Rel), RelType.None); }
+            set { SetAttribute(AttributeNames.Rel, value.ToString()); }
         }
 
         /// <summary>
@@ -112,8 +112,8 @@ namespace AngleSharp.DOM.Html
         [DOM("rev")]
         public String Rev
         {
-            get { return GetAttribute(AttributeNames.REV); }
-            set { SetAttribute(AttributeNames.REV, value); }
+            get { return GetAttribute(AttributeNames.Rev); }
+            set { SetAttribute(AttributeNames.Rev, value); }
         }
 
         /// <summary>
@@ -132,8 +132,8 @@ namespace AngleSharp.DOM.Html
         [DOM("target")]
         public String Target
         {
-            get { return GetAttribute(AttributeNames.TARGET); }
-            set { SetAttribute(AttributeNames.TARGET, value); }
+            get { return GetAttribute(AttributeNames.Target); }
+            set { SetAttribute(AttributeNames.Target, value); }
         }
 
         /// <summary>
@@ -142,8 +142,8 @@ namespace AngleSharp.DOM.Html
         [DOM("media")]
         public String Media
         {
-            get { return GetAttribute(AttributeNames.MEDIA); }
-            set { SetAttribute(AttributeNames.MEDIA, value); }
+            get { return GetAttribute(AttributeNames.Media); }
+            set { SetAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -152,8 +152,8 @@ namespace AngleSharp.DOM.Html
         [DOM("type")]
         public String Type
         {
-            get { return GetAttribute(AttributeNames.TYPE); }
-            set { SetAttribute(AttributeNames.TYPE, value); }
+            get { return GetAttribute(AttributeNames.Type); }
+            set { SetAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -175,9 +175,9 @@ namespace AngleSharp.DOM.Html
         /// <param name="name">The name of the attribute that has been changed.</param>
         internal override void OnAttributeChanged(String name)
         {
-            if (name.Equals(AttributeNames.MEDIA, StringComparison.Ordinal))
+            if (name.Equals(AttributeNames.Media, StringComparison.Ordinal))
                 _sheet.Media.MediaText = Media;
-            else if (name.Equals(AttributeNames.HREF, StringComparison.Ordinal) || name.Equals(AttributeNames.REL, StringComparison.Ordinal))
+            else if (name.Equals(AttributeNames.Href, StringComparison.Ordinal) || name.Equals(AttributeNames.Rel, StringComparison.Ordinal))
             {
                 var href = Href;
 

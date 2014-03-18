@@ -23,8 +23,8 @@ namespace AngleSharp.DOM.Html
         [DOM("name")]
         public String Name
         {
-            get { return GetAttribute(AttributeNames.NAME); }
-            set { SetAttribute(AttributeNames.NAME, value); }
+            get { return GetAttribute(AttributeNames.Name); }
+            set { SetAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
@@ -33,8 +33,8 @@ namespace AngleSharp.DOM.Html
         [DOM("src")]
         public String Src
         {
-            get { return GetAttribute(AttributeNames.SRC); }
-            set { SetAttribute(AttributeNames.SRC, value); }
+            get { return GetAttribute(AttributeNames.Src); }
+            set { SetAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -43,8 +43,8 @@ namespace AngleSharp.DOM.Html
         [DOM("scrolling")]
         public String Scrolling
         {
-            get { return GetAttribute(AttributeNames.SCROLLING); }
-            set { SetAttribute(AttributeNames.SCROLLING, value); }
+            get { return GetAttribute(AttributeNames.Scrolling); }
+            set { SetAttribute(AttributeNames.Scrolling, value); }
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace AngleSharp.DOM.Html
         [DOM("longDesc")]
         public String LongDesc
         {
-            get { return GetAttribute(AttributeNames.LONGDESC); }
-            set { SetAttribute(AttributeNames.LONGDESC, value); }
+            get { return GetAttribute(AttributeNames.LongDesc); }
+            set { SetAttribute(AttributeNames.LongDesc, value); }
         }
 
         /// <summary>
@@ -73,8 +73,8 @@ namespace AngleSharp.DOM.Html
         [DOM("frameBorder")]
         public String FrameBorder
         {
-            get { return GetAttribute(AttributeNames.FRAMEBORDER); }
-            set { SetAttribute(AttributeNames.FRAMEBORDER, value); }
+            get { return GetAttribute(AttributeNames.FrameBorder); }
+            set { SetAttribute(AttributeNames.FrameBorder, value); }
         }
 
         #endregion

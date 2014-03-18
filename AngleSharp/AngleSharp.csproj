@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Css\CssTokenizer.cs" />
+    <Compile Include="Css\CssValueBuilder.cs" />
     <Compile Include="DOM\Annotations\ICssMedia.cs" />
     <Compile Include="DOM\Annotations\ICssPrimitive.cs" />
     <Compile Include="DOM\Annotations\ICssRules.cs" />

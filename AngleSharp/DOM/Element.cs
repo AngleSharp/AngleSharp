@@ -1089,10 +1089,10 @@ namespace AngleSharp.DOM
         /// <param name="name">The name of the attribute that has been changed.</param>
         internal override void OnAttributeChanged(String name)
         {
-            if (name.Equals(AttributeNames.CLASS, StringComparison.Ordinal))
+            if (name.Equals(AttributeNames.Class, StringComparison.Ordinal))
                 ClassList.Update(ClassName);
-            else if (name.Equals(AttributeNames.STYLE, StringComparison.Ordinal))
-                Style.Update(GetAttribute(AttributeNames.STYLE));
+            else if (name.Equals(AttributeNames.Style, StringComparison.Ordinal))
+                Style.Update(GetAttribute(AttributeNames.Style));
             else
                 base.OnAttributeChanged(name);
         }

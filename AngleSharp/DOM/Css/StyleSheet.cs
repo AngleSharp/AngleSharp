@@ -51,7 +51,7 @@ namespace AngleSharp.DOM.Css
         [DOM("type")]
         public String Type
         {
-            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.TYPE) ?? String.Empty) : String.Empty; }
+            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Type) ?? String.Empty) : String.Empty; }
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace AngleSharp.DOM.Css
         [DOM("disabled")]
         public Boolean Disabled
         {
-            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.DISABLED) != null) : false; }
-            set { if (_owner != null) _owner.SetAttribute(AttributeNames.DISABLED, value ? String.Empty : null); }
+            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Disabled) != null) : false; }
+            set { if (_owner != null) _owner.SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace AngleSharp.DOM.Css
         [DOM("href")]
         public String Href
         {
-            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.HREF) ?? String.Empty) : (_url ?? String.Empty); }
+            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Href) ?? String.Empty) : (_url ?? String.Empty); }
             internal set { _url = value; }
         }
 
@@ -100,7 +100,7 @@ namespace AngleSharp.DOM.Css
         [DOM("title")]
         public String Title
         {
-            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.TITLE) ?? String.Empty) : String.Empty; }
+            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Title) ?? String.Empty) : String.Empty; }
         }
 
         /// <summary>

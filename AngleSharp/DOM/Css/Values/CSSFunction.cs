@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+    using System.Collections.Generic;
+
     abstract class CSSFunction : CSSValue
     {
         protected List<CSSValue> _args;
@@ -13,38 +13,20 @@ namespace AngleSharp.DOM.Css
 
         internal static CSSValue Create(String name, List<CSSValue> arguments)
         {
-            switch (name)
+            if (name == FunctionNames.Rgb && arguments.Count == 3)
             {
-                case FunctionNames.RGB:
-                {
-                    if (arguments.Count == 3)
-                    {
-                        if (CheckNumber(arguments[0]) && CheckNumber(arguments[1]) && CheckNumber(arguments[2]))
-                            return new CSSPrimitiveValue(CSSColor.FromRgb(ToByte(arguments[0]), ToByte(arguments[1]), ToByte(arguments[2])));
-                    }
-
-                    break;
-                }
-                case FunctionNames.RGBA:
-                {
-                    if (arguments.Count == 4)
-                    {
-                        if (CheckNumber(arguments[0]) && CheckNumber(arguments[1]) && CheckNumber(arguments[2]) && CheckNumber(arguments[3]))
-                            return new CSSPrimitiveValue(CSSColor.FromRgba(ToByte(arguments[0]), ToByte(arguments[1]), ToByte(arguments[2]), ToSingle(arguments[3])));
-                    }
-
-                    break;
-                }
-                case FunctionNames.HSL:
-                {
-                    if (arguments.Count == 3)
-                    {
-                        if (CheckNumber(arguments[0]) && CheckNumber(arguments[1]) && CheckNumber(arguments[2]))
-                            return new CSSPrimitiveValue(CSSColor.FromHsl(ToSingle(arguments[0]), ToSingle(arguments[1]), ToSingle(arguments[2])));
-                    }
-
-                    break;
-                }
+                if (CheckNumber(arguments[0]) && CheckNumber(arguments[1]) && CheckNumber(arguments[2]))
+                    return new CSSPrimitiveValue(CSSColor.FromRgb(ToByte(arguments[0]), ToByte(arguments[1]), ToByte(arguments[2])));
+            }
+            else if (name == FunctionNames.Rgba && arguments.Count == 4)
+            {
+                if (CheckNumber(arguments[0]) && CheckNumber(arguments[1]) && CheckNumber(arguments[2]) && CheckNumber(arguments[3]))
+                    return new CSSPrimitiveValue(CSSColor.FromRgba(ToByte(arguments[0]), ToByte(arguments[1]), ToByte(arguments[2]), ToSingle(arguments[3])));
+            }
+            else if (name == FunctionNames.Hsl && arguments.Count == 3)
+            {
+                if (CheckNumber(arguments[0]) && CheckNumber(arguments[1]) && CheckNumber(arguments[2]))
+                    return new CSSPrimitiveValue(CSSColor.FromHsl(ToSingle(arguments[0]), ToSingle(arguments[1]), ToSingle(arguments[2])));
             }
 
             return new CSSUnknownFunction(name) { _args = arguments };

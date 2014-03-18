@@ -20,7 +20,7 @@ namespace AngleSharp
 
             for (int i = position; i < content.Length - 7; i++)
             {
-                if (content.Substring(i).StartsWith(AttributeNames.CHARSET))
+                if (content.Substring(i).StartsWith(AttributeNames.Charset))
                 {
                     position = i + 7;
                     break;

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+
     /// <summary>
     /// The collection of (known / used) header names.
     /// </summary>
@@ -15,58 +15,58 @@ namespace AngleSharp
         /// e.g. Cache-Control: no-cache
         /// e.g. Cache-Control: max-age=3600
         /// </summary>
-        public const String CACHE_CONTROL = "Cache-Control";
+        public static readonly String Cache_Control = "Cache-Control";
 
         /// <summary>
         /// Options that are desired for the connection,
         /// e.g. Connection: keep-alive
         /// e.g. Connection: close
         /// </summary>
-        public const String CONNECTION = "Connection";
+        public static readonly String Connection = "Connection";
 
         /// <summary>
         /// The length of the request/response body in octets (8-bit bytes)
         /// Content-Length: 348
         /// </summary>
-        public const String CONTENT_LENGTH = "Content-Length";
+        public static readonly String Content_Length = "Content-Length";
 
         /// <summary>
         /// A Base64-encoded binary MD5 sum of the content of the response,
         /// e.g. Content-MD5: Q2hlY2sgSW50ZWdyaXR5IQ==
         /// </summary>
-        public const String CONTENT_MD5 = "Content-MD5";
+        public static readonly String Content_Md5 = "Content-MD5";
 
         /// <summary>
         /// The MIME type of this content (requests use this only with POST / PUT methods),
         /// e.g. Content-Type: application/x-www-form-urlencoded
         /// e.g. Content-Type: text/html; charset=utf-8
         /// </summary>
-        public const String CONTENT_TYPE = "Content-Type";
+        public static readonly String Content_Type = "Content-Type";
 
         /// <summary>
         /// The date and time that the message was sent,
         /// e.g. Date: Tue, 15 Nov 1994 08:12:31 GMT
         /// </summary>
-        public const String DATE = "Date";
+        public static readonly String Date = "Date";
 
         /// <summary>
         /// Implementation-specific headers that may have various effects anywhere along the
         /// request-response chain.
         /// e.g. Pragma: no-cache
         /// </summary>
-        public const String PRAGMA = "Pragma";
+        public static readonly String Pragma = "Pragma";
 
         /// <summary>
         /// Informs the client or server of proxies through which the response / request was sent.
         /// e.g. Via: 1.0 fred, 1.1 example.com (Apache/1.1)
         /// </summary>
-        public const String VIA = "Via";
+        public static readonly String Via = "Via";
 
         /// <summary>
         /// A general warning about possible problems with the entity body.
         /// e.g. Warning: 199 Miscellaneous warning
         /// </summary>
-        public const String WARNING = "Warning";
+        public static readonly String Warning = "Warning";
 
         #endregion
 
@@ -76,55 +76,55 @@ namespace AngleSharp
         /// Content-Types that are acceptable for the response,
         /// e.g. Accept: text/plain
         /// </summary>
-        public const String ACCEPT = "Accept";
+        public static readonly String Accept = "Accept";
 
         /// <summary>
         /// Character sets that are acceptable,
         /// e.g. Accept-Charset: utf-8
         /// </summary>
-        public const String ACCEPT_CHARSET = "Accept-Charset";
+        public static readonly String Accept_Charset = "Accept-Charset";
 
         /// <summary>
         /// List of acceptable encodings. See HTTP compression.
         /// e.g. Accept-Encoding: gzip, deflate
         /// </summary>
-        public const String ACCEPT_ENCODING = "Accept-Encoding";
+        public static readonly String Accept_Encoding = "Accept-Encoding";
 
         /// <summary>
         /// List of acceptable human languages for response,
         /// e.g. Accept-Language: en-US
         /// </summary>
-        public const String ACCEPT_LANGUAGE = "Accept-Language";
+        public static readonly String Accept_Language = "Accept-Language";
 
         /// <summary>
         /// Acceptable version in time, 
         /// e.g. Accept-Datetime: Thu, 31 May 2007 20:35:00 GMT
         /// </summary>
-        public const String ACCEPT_DATETIME = "Accept-Datetime";
+        public static readonly String Accept_Datetime = "Accept-Datetime";
 
         /// <summary>
         /// Authentication credentials for HTTP authentication,
         /// e.g. Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
         /// </summary>
-        public const String AUTHORIZATION = "Authorization";
+        public static readonly String Authorization = "Authorization";
 
         /// <summary>
         /// An HTTP cookie previously sent by the server with Set-Cookie (below),
         /// e.g. Cookie: $Version=1; Skin=new;
         /// </summary>
-        public const String COOKIE = "Cookie";
+        public static readonly String Cookie = "Cookie";
 
         /// <summary>
         /// Indicates that particular server behaviors are required by the client,
         /// e.g. Expect: 100-continue
         /// </summary>
-        public const String EXPECT = "Expect";
+        public static readonly String Expect = "Expect";
 
         /// <summary>
         /// The email address of the user making the request,
         /// e.g. From: user@example.com
         /// </summary>
-        public const String FROM = "From";
+        public static readonly String From = "From";
 
         /// <summary>
         /// The domain name of the server (for virtual hosting), and the TCP port number on which
@@ -136,7 +136,7 @@ namespace AngleSharp
         /// case-sensitive manner.
         /// e.g. Host: en.wikipedia.org:80
         /// </summary>
-        public const String HOST = "Host";
+        public static readonly String Host = "Host";
 
         /// <summary>
         /// Only perform the action if the client supplied entity matches the same entity on the
@@ -144,64 +144,64 @@ namespace AngleSharp
         /// been modified since the user last updated it.
         /// e.g. If-Match: "737060cd8c284d8af7ad3082f209582d"
         /// </summary>
-        public const String IF_MATCH = "If-Match";
+        public static readonly String If_Match = "If-Match";
 
         /// <summary>
         /// Allows a 304 Not Modified to be returned if content is unchanged,
         /// e.g. If-Modified-Since: Sat, 29 Oct 1994 19:43:31 GMT
         /// </summary>
-        public const String IF_MODIFIED_SINCE = "If-Modified-Since";
+        public static readonly String If_Modified_Since = "If-Modified-Since";
 
         /// <summary>
         /// Allows a 304 Not Modified to be returned if content is unchanged, see HTTP ETag,
         /// e.g. If-None-Match: "737060cd8c284d8af7ad3082f209582d"
         /// </summary>
-        public const String IF_NONE_MATCH = "If-None-Match";
+        public static readonly String If_None_Match = "If-None-Match";
 
         /// <summary>
         /// If the entity is unchanged, send me the part(s) that I am missing; otherwise, send
         /// me the entire new entity.
         /// e.g. If-Range: "737060cd8c284d8af7ad3082f209582d"
         /// </summary>
-        public const String IF_RANGE = "If-Range";
+        public static readonly String If_Range = "If-Range";
 
         /// <summary>
         /// Only send the response if the entity has not been modified since a specific time,
         /// e.g. If-Unmodified-Since: Sat, 29 Oct 1994 19:43:31 GMT
         /// </summary>
-        public const String IF_UNMODIFIED_SINCE = "If-Unmodified-Since";
+        public static readonly String If_Unmodified_Since = "If-Unmodified-Since";
 
         /// <summary>
         /// Limit the number of times the message can be forwarded through proxies or gateways,
         /// e.g. Max-Forwards: 10
         /// </summary>
-        public const String MAX_FORWARDS = "Max-Forwards";
+        public static readonly String Max_Forwards = "Max-Forwards";
 
         /// <summary>
         /// Initiates a request for cross-origin resource sharing (asks server for an
         /// 'Access-Control-Allow-Origin' response header),
         /// e.g. Origin: http://www.example-social-network.com
         /// </summary>
-        public const String ORIGIN = "Origin";
+        public static readonly String Origin = "Origin";
 
         /// <summary>
         /// Authorization credentials for connecting to a proxy,
         /// e.g. Proxy-Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
         /// </summary>
-        public const String PROXY_AUTHORIZATION = "Proxy-Authorization";
+        public static readonly String Proxy_Authorization = "Proxy-Authorization";
 
         /// <summary>
         /// Request only part of an entity. Bytes are numbered from 0.
         /// e.g. Range: bytes=500-999
         /// </summary>
-        public const String RANGE = "Range";
+        public static readonly String Range = "Range";
 
         /// <summary>
         /// This is the address of the previous web page from which a link to the currently requested
         /// page was followed. (The word referrer is misspelled in the RFC as well as in most implementations.),
         /// e.g. Referer: http://en.wikipedia.org/wiki/Main_Page
         /// </summary>
-        public const String REFERER = "Referer";
+        public static readonly String Referer = "Referer";
 
         /// <summary>
         /// The transfer encodings the user agent is willing to accept: the same values as for the response
@@ -210,19 +210,19 @@ namespace AngleSharp
         /// zero-sized, chunk.	
         /// e.g. TE: trailers, deflate
         /// </summary>
-        public const String TE = "TE";
+        public static readonly String TE = "TE";
 
         /// <summary>
         /// Ask the server to upgrade to another protocol.
         /// e.g. Upgrade: HTTP/2.0, SHTTP/1.3, IRC/6.9, RTA/x11
         /// </summary>
-        public const String UPGRADE = "Upgrade";
+        public static readonly String Upgrade = "Upgrade";
 
         /// <summary>
         /// The user agent string of the user agent,
         /// e.g. User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 Firefox/21.0
         /// </summary>
-        public const String USER_AGENT = "User-Agent";
+        public static readonly String User_Agent = "User-Agent";
 
         #endregion
 
@@ -232,43 +232,43 @@ namespace AngleSharp
         /// Specifying which web sites can participate in cross-origin resource sharing,
         /// e.g. Access-Control-Allow-Origin: *
         /// </summary>
-        public const String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+        public static readonly String Access_Control_Allow_Origin = "Access-Control-Allow-Origin";
 
         /// <summary>
         /// What partial content range types this server supports,
         /// e.g. Accept-Ranges: bytes
         /// </summary>
-        public const String ACCEPT_RANGES = "Accept-Ranges";
+        public static readonly String Accept_Ranges = "Accept-Ranges";
 
         /// <summary>
         /// The age the object has been in a proxy cache in seconds,
         /// e.g. Age: 12
         /// </summary>
-        public const String AGE = "Age";
+        public static readonly String Age = "Age";
 
         /// <summary>
         /// Valid actions for a specified resource. To be used for a 405 Method not allowed.
         /// e.g. Allow: GET, HEAD
         /// </summary>
-        public const String ALLOW = "Allow";
+        public static readonly String Allow = "Allow";
 
         /// <summary>
         /// The type of encoding used on the data. See HTTP compression.
         /// e.g. Content-Encoding: gzip
         /// </summary>
-        public const String CONTENT_ENCODING = "Content-Encoding";
+        public static readonly String Content_Encoding = "Content-Encoding";
 
         /// <summary>
         /// The language the content is in,
         /// e.g. Content-Language: da
         /// </summary>
-        public const String CONTENT_LANGUAGE = "Content-Language";
+        public static readonly String Content_Language = "Content-Language";
 
         /// <summary>
         /// An alternate location for the returned data
         /// Content-Location: /index.htm
         /// </summary>
-        public const String CONTENT_LOCATION = "Content-Location";
+        public static readonly String Content_Location = "Content-Location";
 
         /// <summary>
         /// An opportunity to raise a "File Download" dialogue box for a known MIME type with
@@ -276,44 +276,44 @@ namespace AngleSharp
         /// special characters. 
         /// e.g. Content-Disposition: attachment; filename="fname.ext"
         /// </summary>
-        public const String CONTENT_DISPOSITION = "Content-Disposition";
+        public static readonly String Content_Disposition = "Content-Disposition";
 
         /// <summary>
         /// Where in a full body message this partial message belongs,
         /// e.g. Content-Range: bytes 21010-47021/47022
         /// </summary>
-        public const String CONTENT_RANGE = "Content-Range";
+        public static readonly String Content_Range = "Content-Range";
 
         /// <summary>
         /// An identifier for a specific version of a resource, often a message digest,
         /// e.g. ETag: "737060cd8c284d8af7ad3082f209582d"
         /// </summary>
-        public const String ETAG = "ETag";
+        public static readonly String ETag = "ETag";
 
         /// <summary>
         /// Gives the date/time after which the response is considered stale,
         /// e.g. Expires: Thu, 01 Dec 1994 16:00:00 GMT
         /// </summary>
-        public const String EXPIRES = "Expires";
+        public static readonly String Expires = "Expires";
 
         /// <summary>
         /// The last modified date for the requested object, in RFC 2822 format
         /// e.g. Last-Modified: Tue, 15 Nov 1994 12:45:26 +0000
         /// </summary>
-        public const String LAST_MODIFIED = "Last-Modified";
+        public static readonly String Last_Modified = "Last-Modified";
 
         /// <summary>
         /// Used to express a typed relationship with another resource, where the relation type is
         /// defined by RFC 5988
         /// e.g. Link: &lt;/feed&gt;; rel="alternate"
         /// </summary>
-        public const String LINK = "Link";
+        public static readonly String Link = "Link";
 
         /// <summary>
         /// Used in redirection, or when a new resource has been created.
         /// e.g. Location: http://www.w3.org/pub/WWW/People.html
         /// </summary>
-        public const String LOCATION = "Location";
+        public static readonly String Location = "Location";
 
         /// <summary>
         /// This header is supposed to set P3P policy, in the form of P3P:CP="your_compact_policy".
@@ -322,80 +322,80 @@ namespace AngleSharp
         /// existence of P3P policy and grant permissions for third party cookies.
         /// e.g. P3P: CP="This is not a P3P policy! See ... for more info."
         /// </summary>
-        public const String P3P = "P3P";
+        public static readonly String P3p = "P3P";
 
         /// <summary>
         /// Request authentication to access the proxy.
         /// e.g. Proxy-Authenticate: Basic
         /// </summary>
-        public const String PROXY_AUTHENTICATE = "Proxy-Authenticate";
+        public static readonly String Proxy_Authenticate = "Proxy-Authenticate";
 
         /// <summary>
         /// Used in redirection, or when a new resource has been created. This refresh
         /// redirects after 5 seconds.
         /// e.g. Refresh: 5; url=http://www.w3.org/pub/WWW/People.html
         /// </summary>
-        public const String REFRESH = "Refresh";
+        public static readonly String Refresh = "Refresh";
 
         /// <summary>
         /// If an entity is temporarily unavailable, this instructs the client to try again
         /// after a specified period of time (seconds).
         /// e.g. Retry-After: 120
         /// </summary>
-        public const String RETRY_AFTER = "Retry-After";
+        public static readonly String Retry_After = "Retry-After";
 
         /// <summary>
         /// A name for the server,
         /// e.g. Server: Apache/2.4.1 (Unix)
         /// </summary>
-        public const String SERVER = "Server";
+        public static readonly String Server = "Server";
 
         /// <summary>
         /// An HTTP cookie,
         /// e.g. Set-Cookie: UserID=JohnDoe; Max-Age=3600; Version=1
         /// </summary>
-        public const String SET_COOKIE = "Set-Cookie";
+        public static readonly String Set_Cookie = "Set-Cookie";
 
         /// <summary>
         /// The HTTP status of the response. "Status" is not listed as a registered header. The
         /// "Status-Line" of a "Response" is defined by RFC2616 without any explicit Status: header name.
         /// e.g. Status: 200 OK
         /// </summary>
-        public const String STATUS = "Status";
+        public static readonly String Status = "Status";
 
         /// <summary>
         /// A HSTS Policy informing the HTTP client how long to cache the HTTPS only policy and
         /// whether this applies to subdomains.
         /// e.g. Strict-Transport-Security: max-age=16070400; includeSubDomains
         /// </summary>
-        public const String STRICT_TRANSPORT_SECURITY = "Strict-Transport-Security";
+        public static readonly String Strict_Transport_Security = "Strict-Transport-Security";
 
         /// <summary>
         /// The Trailer general field value indicates that the given set of header fields is present in
         /// the trailer of a message encoded with chunked transfer-coding.
         /// e.g. Trailer: Max-Forwards
         /// </summary>
-        public const String TRAILER = "Trailer";
+        public static readonly String Trailer = "Trailer";
 
         /// <summary>
         /// The form of encoding used to safely transfer the entity to the user. Currently defined methods
         /// are: chunked, compress, deflate, gzip, identity.	
         /// e.g. Transfer-Encoding: chunked
         /// </summary>
-        public const String TRANSFER_ENCODING = "Transfer-Encoding";
+        public static readonly String Transfer_Encoding = "Transfer-Encoding";
 
         /// <summary>
         /// Tells downstream proxies how to match future request headers to decide whether the cached response can
         /// be used rather than requesting a fresh one from the origin server.
         /// e.g. Vary: *
         /// </summary>
-        public const String VARY = "Vary";
+        public static readonly String Vary = "Vary";
 
         /// <summary>
         /// Indicates the authentication scheme that should be used to access the requested entity.
         /// e.g. WWW-Authenticate: Basic
         /// </summary>
-        public const String WWW_AUTHENTICATE = "WWW-Authenticate";
+        public static readonly String Www_Authenticate = "WWW-Authenticate";
 
         #endregion
     }

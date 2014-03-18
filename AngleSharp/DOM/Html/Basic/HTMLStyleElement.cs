@@ -57,8 +57,8 @@ namespace AngleSharp.DOM.Html
         [DOM("media")]
         public String Media
         {
-            get { return GetAttribute(AttributeNames.MEDIA); }
-            set { SetAttribute(AttributeNames.MEDIA, value); }
+            get { return GetAttribute(AttributeNames.Media); }
+            set { SetAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -67,8 +67,8 @@ namespace AngleSharp.DOM.Html
         [DOM("type")]
         public String Type
         {
-            get { return GetAttribute(AttributeNames.TYPE); }
-            set { SetAttribute(AttributeNames.TYPE, value); }
+            get { return GetAttribute(AttributeNames.Type); }
+            set { SetAttribute(AttributeNames.Type, value); }
         }
 
         #endregion
@@ -111,7 +111,7 @@ namespace AngleSharp.DOM.Html
         /// <param name="name">The name of the attribute that has been changed.</param>
         internal override void OnAttributeChanged(String name)
         {
-            if (name.Equals(AttributeNames.MEDIA, StringComparison.Ordinal))
+            if (name.Equals(AttributeNames.Media, StringComparison.Ordinal))
                 _sheet.Media.MediaText = Media;
             else
                 base.OnAttributeChanged(name);

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Css.Tokens;
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
@@ -15,55 +16,55 @@
     {
         #region Constants
 
-        static readonly String NTH_CHILD_ODD = "odd";
-        static readonly String NTH_CHILD_EVEN = "even";
-        static readonly String NTH_CHILD_N = "n";
+        static readonly String nth_child_odd = "odd";
+        static readonly String nth_child_even = "even";
+        static readonly String nth_child_n = "n";
 
-        const String PSEUDOCLASS_ROOT = "root";
-        const String PSEUDOCLASS_FIRSTOFTYPE = "first-of-type";
-        const String PSEUDOCLASS_LASTOFTYPE = "last-of-type";
-        const String PSEUDOCLASS_ONLYCHILD = "only-child";
-        const String PSEUDOCLASS_FIRSTCHILD = "first-child";
-        const String PSEUDOCLASS_LASTCHILD = "last-child";
-        const String PSEUDOCLASS_EMPTY = "empty";
-        const String PSEUDOCLASS_LINK = "link";
-        const String PSEUDOCLASS_VISITED = "visited";
-        const String PSEUDOCLASS_ACTIVE = "active";
-        const String PSEUDOCLASS_HOVER = "hover";
-        const String PSEUDOCLASS_FOCUS = "focus";
-        const String PSEUDOCLASS_TARGET = "target";
-        const String PSEUDOCLASS_ENABLED = "enabled";
-        const String PSEUDOCLASS_DISABLED = "disabled";
-        const String PSEUDOCLASS_CHECKED = "checked";
-        const String PSEUDOCLASS_UNCHECKED = "unchecked";
-        const String PSEUDOCLASS_INDETERMINATE = "indeterminate";
-        const String PSEUDOCLASS_DEFAULT = "default";
+        const String pseudoclass_root = "root";
+        const String pseudoclass_firstoftype = "first-of-type";
+        const String pseudoclass_lastoftype = "last-of-type";
+        const String pseudoclass_onlychild = "only-child";
+        const String pseudoclass_firstchild = "first-child";
+        const String pseudoclass_lastchild = "last-child";
+        const String pseudoclass_empty = "empty";
+        const String pseudoclass_link = "link";
+        const String pseudoclass_visited = "visited";
+        const String pseudoclass_active = "active";
+        const String pseudoclass_hover = "hover";
+        const String pseudoclass_focus = "focus";
+        const String pseudoclass_target = "target";
+        const String pseudoclass_enabled = "enabled";
+        const String pseudoclass_disabled = "disabled";
+        const String pseudoclass_checked = "checked";
+        const String pseudoclass_unchecked = "unchecked";
+        const String pseudoclass_indeterminate = "indeterminate";
+        const String pseudoclass_default = "default";
 
-        const String PSEUDOCLASS_VALID = "valid";
-        const String PSEUDOCLASS_INVALID = "invalid";
-        const String PSEUDOCLASS_REQUIRED = "required";
-        const String PSEUDOCLASS_INRANGE = "in-range";
-        const String PSEUDOCLASS_OUTOFRANGE = "out-of-range";
-        const String PSEUDOCLASS_OPTIONAL = "optional";
-        const String PSEUDOCLASS_READONLY = "read-only";
-        const String PSEUDOCLASS_READWRITE = "read-write";
+        const String pseudoclass_valid = "valid";
+        const String pseudoclass_invalid = "invalid";
+        const String pseudoclass_required = "required";
+        const String pseudoclass_inrange = "in-range";
+        const String pseudoclass_outofrange = "out-of-range";
+        const String pseudoclass_optional = "optional";
+        const String pseudoclass_readonly = "read-only";
+        const String pseudoclass_readwrite = "read-write";
 
-        const String PSEUDOCLASSFUNCTION_DIR = "dir";
-        const String PSEUDOCLASSFUNCTION_NTHCHILD = "nth-child";
-        const String PSEUDOCLASSFUNCTION_NTHLASTCHILD = "nth-last-child";
-        const String PSEUDOCLASSFUNCTION_NOT = "not";
-        const String PSEUDOCLASSFUNCTION_LANG = "lang";
-        const String PSEUDOCLASSFUNCTION_CONTAINS = "contains";
+        const String pseudoclassfunction_dir = "dir";
+        const String pseudoclassfunction_nthchild = "nth-child";
+        const String pseudoclassfunction_nthlastchild = "nth-last-child";
+        const String pseudoclassfunction_not = "not";
+        const String pseudoclassfunction_lang = "lang";
+        const String pseudoclassfunction_contains = "contains";
 
-        const String PSEUDOELEMENT_BEFORE = "before";
-        const String PSEUDOELEMENT_AFTER = "after";
-        const String PSEUDOELEMENT_SELECTION = "selection";
-        const String PSEUDOELEMENT_FIRSTLINE = "first-line";
-        const String PSEUDOELEMENT_FIRSTLETTER = "first-letter";
+        const String pseudoelement_before = "before";
+        const String pseudoelement_after = "after";
+        const String pseudoelement_selection = "selection";
+        const String pseudoelement_firstline = "first-line";
+        const String pseudoelement_firstletter = "first-letter";
 
         #endregion
 
-        #region Members
+        #region Fields
 
 		State state;
         Selector temp;
@@ -402,20 +403,20 @@
 
 				switch (data)
 				{
-					case PSEUDOELEMENT_BEFORE:
-						Insert(SimpleSelector.PseudoElement(MatchBefore, PSEUDOELEMENT_BEFORE));
+					case pseudoelement_before:
+						Insert(SimpleSelector.PseudoElement(MatchBefore, pseudoelement_before));
 						break;
-					case PSEUDOELEMENT_AFTER:
-						Insert(SimpleSelector.PseudoElement(MatchAfter, PSEUDOELEMENT_AFTER));
+					case pseudoelement_after:
+						Insert(SimpleSelector.PseudoElement(MatchAfter, pseudoelement_after));
 						break;
-					case PSEUDOELEMENT_SELECTION:
-						Insert(SimpleSelector.PseudoElement(el => true, PSEUDOELEMENT_SELECTION));
+					case pseudoelement_selection:
+						Insert(SimpleSelector.PseudoElement(el => true, pseudoelement_selection));
 						break;
-					case PSEUDOELEMENT_FIRSTLINE:
-						Insert(SimpleSelector.PseudoElement(MatchFirstLine, PSEUDOELEMENT_FIRSTLINE));
+					case pseudoelement_firstline:
+						Insert(SimpleSelector.PseudoElement(MatchFirstLine, pseudoelement_firstline));
 						break;
-					case PSEUDOELEMENT_FIRSTLETTER:
-						Insert(SimpleSelector.PseudoElement(MatchFirstLetter, PSEUDOELEMENT_FIRSTLETTER));
+					case pseudoelement_firstletter:
+						Insert(SimpleSelector.PseudoElement(MatchFirstLetter, pseudoelement_firstletter));
 						break;
 					default: 
 						if (!ignoreErrors)
@@ -454,8 +455,8 @@
 
 			switch (attrName)
 			{
-				case PSEUDOCLASSFUNCTION_NTHCHILD:
-				case PSEUDOCLASSFUNCTION_NTHLASTCHILD:
+				case pseudoclassfunction_nthchild:
+				case pseudoclassfunction_nthlastchild:
 				{
 					switch (token.Type)
 					{
@@ -479,7 +480,7 @@
 
 					break;
 				}
-				case PSEUDOCLASSFUNCTION_NOT:
+				case pseudoclassfunction_not:
 				{
 					if (nested == null)
 						nested = new CssSelectorConstructor();
@@ -492,7 +493,7 @@
 
 					break;
 				}
-				case PSEUDOCLASSFUNCTION_DIR:
+				case pseudoclassfunction_dir:
 				{
 					if (token.Type == CssTokenType.Ident)
 						attrValue = ((CssKeywordToken)token).Data;
@@ -500,7 +501,7 @@
 					state = State.PseudoClassFunctionEnd;
 					return;
 				}
-				case PSEUDOCLASSFUNCTION_LANG:
+				case pseudoclassfunction_lang:
 				{
 					if (token.Type == CssTokenType.Ident)
 						attrValue = ((CssKeywordToken)token).Data;
@@ -508,7 +509,7 @@
 					state = State.PseudoClassFunctionEnd;
 					return;
 				}
-				case PSEUDOCLASSFUNCTION_CONTAINS:
+				case pseudoclassfunction_contains:
 				{
 					if (token.Type == CssTokenType.String)
 						attrValue = ((CssStringToken)token).Data;
@@ -535,39 +536,39 @@
 			{
 				switch (attrName)
 				{
-					case PSEUDOCLASSFUNCTION_NTHCHILD:
+					case pseudoclassfunction_nthchild:
 					{
 						Insert(GetChildSelector<NthFirstChildSelector>());
 						break;
 					}
-					case PSEUDOCLASSFUNCTION_NTHLASTCHILD:
+					case pseudoclassfunction_nthlastchild:
 					{
 						Insert(GetChildSelector<NthLastChildSelector>());
 						break;
 					}
-					case PSEUDOCLASSFUNCTION_NOT:
+					case pseudoclassfunction_not:
 					{
 						var sel = nested.Result;
-						var code = String.Format("{0}({1})", PSEUDOCLASSFUNCTION_NOT, sel.ToCss());
+						var code = String.Format("{0}({1})", pseudoclassfunction_not, sel.ToCss());
 						Insert(SimpleSelector.PseudoClass(el => !sel.Match(el), code));
 						break;
 					}
-					case PSEUDOCLASSFUNCTION_DIR:
+					case pseudoclassfunction_dir:
 					{
-						var code = String.Format("{0}({1})", PSEUDOCLASSFUNCTION_DIR, attrValue);
+						var code = String.Format("{0}({1})", pseudoclassfunction_dir, attrValue);
 						var dirCode = attrValue == "ltr" ? DirectionMode.Ltr : DirectionMode.Rtl;
 						Insert(SimpleSelector.PseudoClass(el => el.Dir == dirCode, code));
 						break;
 					}
-					case PSEUDOCLASSFUNCTION_LANG:
+					case pseudoclassfunction_lang:
 					{
-						var code = String.Format("{0}({1})", PSEUDOCLASSFUNCTION_LANG, attrValue);
+						var code = String.Format("{0}({1})", pseudoclassfunction_lang, attrValue);
 						Insert(SimpleSelector.PseudoClass(el => el.Lang.StartsWith(attrValue, StringComparison.OrdinalIgnoreCase), code));
 						break;
 					}
-					case PSEUDOCLASSFUNCTION_CONTAINS:
+					case pseudoclassfunction_contains:
 					{
-						var code = String.Format("{0}({1})", PSEUDOCLASSFUNCTION_CONTAINS, attrValue);
+						var code = String.Format("{0}({1})", pseudoclassfunction_contains, attrValue);
 						Insert(SimpleSelector.PseudoClass(el => el.TextContent.Contains(attrValue), code));
 						break;
 					}
@@ -706,19 +707,19 @@
 			var b = new NthFirstChildSelector();
             var selector = new T();
 
-            if (attrValue.Equals(NTH_CHILD_ODD, StringComparison.OrdinalIgnoreCase))
+            if (attrValue.Equals(nth_child_odd, StringComparison.OrdinalIgnoreCase))
             {
                 selector.step = 2;
                 selector.offset = 1;
             }
-			else if (attrValue.Equals(NTH_CHILD_EVEN, StringComparison.OrdinalIgnoreCase))
+			else if (attrValue.Equals(nth_child_even, StringComparison.OrdinalIgnoreCase))
             {
                 selector.step = 2;
                 selector.offset = 0;
             }
 			else if (!Int32.TryParse(attrValue, out selector.offset))
             {
-				var index = attrValue.IndexOf(NTH_CHILD_N, StringComparison.OrdinalIgnoreCase);
+				var index = attrValue.IndexOf(nth_child_n, StringComparison.OrdinalIgnoreCase);
 
 				if (attrValue.Length > 0 && index != -1)
                 {
@@ -752,10 +753,10 @@
 		{
 			switch (((CssKeywordToken)token).Data)
 			{
-				case PSEUDOCLASS_ROOT:
-					return SimpleSelector.PseudoClass(el => el.OwnerDocument.DocumentElement == el, PSEUDOCLASS_ROOT);
+				case pseudoclass_root:
+					return SimpleSelector.PseudoClass(el => el.OwnerDocument.DocumentElement == el, pseudoclass_root);
 
-				case PSEUDOCLASS_FIRSTOFTYPE:
+				case pseudoclass_firstoftype:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						var parent = el.ParentElement;
@@ -770,9 +771,9 @@
 						}
 
 						return false;
-					}, PSEUDOCLASS_FIRSTOFTYPE);
+					}, pseudoclass_firstoftype);
 
-				case PSEUDOCLASS_LASTOFTYPE:
+				case pseudoclass_lastoftype:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						var parent = el.ParentElement;
@@ -787,9 +788,9 @@
 						}
 
 						return false;
-					}, PSEUDOCLASS_LASTOFTYPE);
+					}, pseudoclass_lastoftype);
 
-				case PSEUDOCLASS_ONLYCHILD:
+				case pseudoclass_onlychild:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						var parent = el.ParentElement;
@@ -806,52 +807,52 @@
 						}
 
 						return true;
-					}, PSEUDOCLASS_ONLYCHILD);
+					}, pseudoclass_onlychild);
 
-				case PSEUDOCLASS_FIRSTCHILD:
+				case pseudoclass_firstchild:
 					return FirstChildSelector.Instance;
 
-				case PSEUDOCLASS_LASTCHILD:
+				case pseudoclass_lastchild:
 					return LastChildSelector.Instance;
 
-				case PSEUDOCLASS_EMPTY:
-					return SimpleSelector.PseudoClass(el => el.ChildNodes.Length == 0, PSEUDOCLASS_EMPTY);
+				case pseudoclass_empty:
+					return SimpleSelector.PseudoClass(el => el.ChildNodes.Length == 0, pseudoclass_empty);
 
-				case PSEUDOCLASS_LINK:
+				case pseudoclass_link:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLAnchorElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && !((HTMLAnchorElement)el).IsVisited;
+							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && !((HTMLAnchorElement)el).IsVisited;
 						else if (el is HTMLAreaElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && !((HTMLAreaElement)el).IsVisited;
+							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && !((HTMLAreaElement)el).IsVisited;
 						else if (el is HTMLLinkElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && !((HTMLLinkElement)el).IsVisited;
+							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && !((HTMLLinkElement)el).IsVisited;
 
 						return false;
-					}, PSEUDOCLASS_LINK);
+					}, pseudoclass_link);
 
-				case PSEUDOCLASS_VISITED:
+				case pseudoclass_visited:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLAnchorElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && ((HTMLAnchorElement)el).IsVisited;
+							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAnchorElement)el).IsVisited;
 						else if (el is HTMLAreaElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && ((HTMLAreaElement)el).IsVisited;
+							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAreaElement)el).IsVisited;
 						else if (el is HTMLLinkElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && ((HTMLLinkElement)el).IsVisited;
+							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)el).IsVisited;
 
 						return false;
-					}, PSEUDOCLASS_VISITED);
+					}, pseudoclass_visited);
 
-				case PSEUDOCLASS_ACTIVE:
+				case pseudoclass_active:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLAnchorElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && ((HTMLAnchorElement)el).IsActive;
+							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAnchorElement)el).IsActive;
 						else if (el is HTMLAreaElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && ((HTMLAreaElement)el).IsActive;
+							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAreaElement)el).IsActive;
 						else if (el is HTMLLinkElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF)) && ((HTMLLinkElement)el).IsActive;
+							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)el).IsActive;
 						else if (el is HTMLButtonElement)
 							return !((HTMLButtonElement)el).Disabled && ((HTMLButtonElement)el).IsActive;
 						else if (el is HTMLInputElement)
@@ -862,25 +863,25 @@
 								inp.IsActive;
 						}
 						else if (el is HTMLMenuItemElement)
-							return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.DISABLED)) && ((HTMLMenuItemElement)el).IsActive;
+							return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled)) && ((HTMLMenuItemElement)el).IsActive;
 
 						return false;
-					}, PSEUDOCLASS_ACTIVE);
+					}, pseudoclass_active);
 
-				case PSEUDOCLASS_HOVER:
-					return SimpleSelector.PseudoClass(el => el.IsHovered, PSEUDOCLASS_HOVER);
+				case pseudoclass_hover:
+					return SimpleSelector.PseudoClass(el => el.IsHovered, pseudoclass_hover);
 
-				case PSEUDOCLASS_FOCUS:
-					return SimpleSelector.PseudoClass(el => el.IsFocused, PSEUDOCLASS_FOCUS);
+				case pseudoclass_focus:
+					return SimpleSelector.PseudoClass(el => el.IsFocused, pseudoclass_focus);
 
-				case PSEUDOCLASS_TARGET:
-					return SimpleSelector.PseudoClass(el => el.OwnerDocument != null && el.Id == el.OwnerDocument.Location.Hash, PSEUDOCLASS_TARGET);
+				case pseudoclass_target:
+					return SimpleSelector.PseudoClass(el => el.OwnerDocument != null && el.Id == el.OwnerDocument.Location.Hash, pseudoclass_target);
 
-				case PSEUDOCLASS_ENABLED:
+				case pseudoclass_enabled:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLAnchorElement || el is HTMLAreaElement || el is HTMLLinkElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.HREF));
+							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href));
 						else if (el is HTMLButtonElement)
 							return !((HTMLButtonElement)el).Disabled;
 						else if (el is HTMLInputElement)
@@ -892,12 +893,12 @@
 						else if (el is HTMLOptionElement)
 							return !((HTMLOptionElement)el).Disabled;
 						else if (el is HTMLOptGroupElement || el is HTMLMenuItemElement || el is HTMLFieldSetElement)
-							return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.DISABLED));
+							return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled));
 
 						return false;
-					}, PSEUDOCLASS_ENABLED);
+					}, pseudoclass_enabled);
 
-				case PSEUDOCLASS_DISABLED:
+				case pseudoclass_disabled:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLButtonElement)
@@ -911,12 +912,12 @@
 						else if (el is HTMLOptionElement)
 							return ((HTMLOptionElement)el).Disabled;
 						else if (el is HTMLOptGroupElement || el is HTMLMenuItemElement || el is HTMLFieldSetElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.DISABLED));
+							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled));
 
 						return false;
-					}, PSEUDOCLASS_DISABLED);
+					}, pseudoclass_disabled);
 
-				case PSEUDOCLASS_DEFAULT:
+				case pseudoclass_default:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLButtonElement)
@@ -944,12 +945,12 @@
 							}
 						}
 						else if (el is HTMLOptionElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.SELECTED));
+							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Selected));
 
 						return false;
-					}, PSEUDOCLASS_DEFAULT);
+					}, pseudoclass_default);
 
-				case PSEUDOCLASS_CHECKED:
+				case pseudoclass_checked:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLInputElement)
@@ -968,9 +969,9 @@
 							return ((HTMLOptionElement)el).Selected;
 
 						return false;
-					}, PSEUDOCLASS_CHECKED);
+					}, pseudoclass_checked);
 
-				case PSEUDOCLASS_INDETERMINATE:
+				case pseudoclass_indeterminate:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLInputElement)
@@ -979,12 +980,12 @@
 							return inp.Type == HTMLInputElement.InputType.Checkbox && inp.Indeterminate;
 						}
 						else if (el is HTMLProgressElement)
-							return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.VALUE));
+							return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Value));
 
 						return false;
-					}, PSEUDOCLASS_INDETERMINATE);
+					}, pseudoclass_indeterminate);
 
-				case PSEUDOCLASS_UNCHECKED:
+				case pseudoclass_unchecked:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLInputElement)
@@ -1003,9 +1004,9 @@
 							return !((HTMLOptionElement)el).Selected;
 
 						return false;
-					}, PSEUDOCLASS_UNCHECKED);
+					}, pseudoclass_unchecked);
 
-				case PSEUDOCLASS_VALID:
+				case pseudoclass_valid:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is IValidation)
@@ -1014,9 +1015,9 @@
 							return ((HTMLFormElement)el).CheckValidity();
 
 						return false;
-					}, PSEUDOCLASS_VALID);
+					}, pseudoclass_valid);
 
-				case PSEUDOCLASS_INVALID:
+				case pseudoclass_invalid:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is IValidation)
@@ -1025,9 +1026,9 @@
 							return !((HTMLFormElement)el).CheckValidity();
 
 						return false;
-					}, PSEUDOCLASS_INVALID);
+					}, pseudoclass_invalid);
 
-				case PSEUDOCLASS_REQUIRED:
+				case pseudoclass_required:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLInputElement)
@@ -1038,9 +1039,9 @@
 							return ((HTMLTextAreaElement)el).Required;
 
 						return false;
-					}, PSEUDOCLASS_REQUIRED);
+					}, pseudoclass_required);
 
-				case PSEUDOCLASS_READONLY:
+				case pseudoclass_readonly:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLInputElement)
@@ -1049,9 +1050,9 @@
 							return !((HTMLTextAreaElement)el).IsMutable;
 
 						return !el.IsContentEditable;
-					}, PSEUDOCLASS_READONLY);
+					}, pseudoclass_readonly);
 
-				case PSEUDOCLASS_READWRITE:
+				case pseudoclass_readwrite:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLInputElement)
@@ -1060,9 +1061,9 @@
 							return ((HTMLTextAreaElement)el).IsMutable;
 
 						return el.IsContentEditable;
-					}, PSEUDOCLASS_READWRITE);
+					}, pseudoclass_readwrite);
 
-				case PSEUDOCLASS_INRANGE:
+				case pseudoclass_inrange:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is IValidation)
@@ -1072,9 +1073,9 @@
 						}
 
 						return false;
-					}, PSEUDOCLASS_INRANGE);
+					}, pseudoclass_inrange);
 
-				case PSEUDOCLASS_OUTOFRANGE:
+				case pseudoclass_outofrange:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is IValidation)
@@ -1084,9 +1085,9 @@
 						}
 
 						return false;
-					}, PSEUDOCLASS_OUTOFRANGE);
+					}, pseudoclass_outofrange);
 
-				case PSEUDOCLASS_OPTIONAL:
+				case pseudoclass_optional:
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLInputElement)
@@ -1097,20 +1098,20 @@
 							return !((HTMLTextAreaElement)el).Required;
 
 						return false;
-					}, PSEUDOCLASS_OPTIONAL);
+					}, pseudoclass_optional);
 
 				// LEGACY STYLE OF DEFINING PSEUDO ELEMENTS - AS PSEUDO CLASS!
-				case PSEUDOELEMENT_BEFORE:
-					return SimpleSelector.PseudoClass(MatchBefore, PSEUDOELEMENT_BEFORE);
+				case pseudoelement_before:
+					return SimpleSelector.PseudoClass(MatchBefore, pseudoelement_before);
 
-				case PSEUDOELEMENT_AFTER:
-					return SimpleSelector.PseudoClass(MatchAfter, PSEUDOELEMENT_AFTER);
+				case pseudoelement_after:
+					return SimpleSelector.PseudoClass(MatchAfter, pseudoelement_after);
 
-				case PSEUDOELEMENT_FIRSTLINE:
-					return SimpleSelector.PseudoClass(MatchFirstLine, PSEUDOELEMENT_FIRSTLINE);
+				case pseudoelement_firstline:
+					return SimpleSelector.PseudoClass(MatchFirstLine, pseudoelement_firstline);
 
-				case PSEUDOELEMENT_FIRSTLETTER:
-					return SimpleSelector.PseudoClass(MatchFirstLetter, PSEUDOELEMENT_FIRSTLETTER);
+				case pseudoelement_firstletter:
+					return SimpleSelector.PseudoClass(MatchFirstLetter, pseudoelement_firstletter);
 			}
 
 			return null;
@@ -1230,7 +1231,7 @@
 
             public override String ToCss()
             {
-                return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.PSEUDOCLASSFUNCTION_NTHCHILD, step, offset);
+                return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoclassfunction_nthchild, step, offset);
             }
         }
 
@@ -1261,7 +1262,7 @@
 
             public override String ToCss()
             {
-                return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.PSEUDOCLASSFUNCTION_NTHLASTCHILD, step, offset);
+                return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoclassfunction_nthlastchild, step, offset);
             }
         }
 
@@ -1305,7 +1306,7 @@
 
             public override String ToCss()
             {
-                return ":" + CssSelectorConstructor.PSEUDOCLASS_FIRSTCHILD;
+                return ":" + CssSelectorConstructor.pseudoclass_firstchild;
             }
         }
 
@@ -1349,7 +1350,7 @@
 
             public override String ToCss()
             {
-                return ":" + CssSelectorConstructor.PSEUDOCLASS_LASTCHILD;
+                return ":" + CssSelectorConstructor.pseudoclass_lastchild;
             }
         }
 

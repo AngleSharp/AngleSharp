@@ -35,8 +35,8 @@ namespace AngleSharp.DOM.Html
         [DOM("accessKey")]
         public String AccessKey
         {
-            get { return GetAttribute(AttributeNames.ACCESSKEY); }
-            set { SetAttribute(AttributeNames.ACCESSKEY, value); }
+            get { return GetAttribute(AttributeNames.AccessKey); }
+            set { SetAttribute(AttributeNames.AccessKey, value); }
         }
 
         /// <summary>
@@ -45,8 +45,8 @@ namespace AngleSharp.DOM.Html
         [DOM("charset")]
         public String Charset
         {
-            get { return GetAttribute(AttributeNames.CHARSET); }
-            set { SetAttribute(AttributeNames.CHARSET, value); }
+            get { return GetAttribute(AttributeNames.Charset); }
+            set { SetAttribute(AttributeNames.Charset, value); }
         }
 
         /// <summary>
@@ -57,8 +57,8 @@ namespace AngleSharp.DOM.Html
         [DOM("download")]
         public String Download
         {
-            get { return GetAttribute(AttributeNames.DOWNLOAD); }
-            set { SetAttribute(AttributeNames.DOWNLOAD, value); }
+            get { return GetAttribute(AttributeNames.Download); }
+            set { SetAttribute(AttributeNames.Download, value); }
         }
 
         /// <summary>
@@ -67,8 +67,8 @@ namespace AngleSharp.DOM.Html
         [DOM("href")]
         public String Href
         {
-            get { return HyperRef(GetAttribute(AttributeNames.HREF)); }
-            set { SetAttribute(AttributeNames.HREF, value); }
+            get { return HyperRef(GetAttribute(AttributeNames.Href)); }
+            set { SetAttribute(AttributeNames.Href, value); }
         }
 
         /// <summary>
@@ -77,8 +77,8 @@ namespace AngleSharp.DOM.Html
         [DOM("hreflang")]
         public String Hreflang
         {
-            get { return GetAttribute(AttributeNames.HREFLANG); }
-            set { SetAttribute(AttributeNames.HREFLANG, value); }
+            get { return GetAttribute(AttributeNames.HrefLang); }
+            set { SetAttribute(AttributeNames.HrefLang, value); }
         }
 
         /// <summary>
@@ -88,8 +88,8 @@ namespace AngleSharp.DOM.Html
         [DOM("media")]
         public String Media
         {
-            get { return GetAttribute(AttributeNames.MEDIA); }
-            set { SetAttribute(AttributeNames.MEDIA, value); }
+            get { return GetAttribute(AttributeNames.Media); }
+            set { SetAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -98,8 +98,8 @@ namespace AngleSharp.DOM.Html
         [DOM("name")]
         public String Name
         {
-            get { return GetAttribute(AttributeNames.NAME); }
-            set { SetAttribute(AttributeNames.NAME, value); }
+            get { return GetAttribute(AttributeNames.Name); }
+            set { SetAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
@@ -109,8 +109,8 @@ namespace AngleSharp.DOM.Html
         [DOM("rel")]
         public String Rel
         {
-            get { return GetAttribute(AttributeNames.REL); }
-            set { SetAttribute(AttributeNames.REL, value); }
+            get { return GetAttribute(AttributeNames.Rel); }
+            set { SetAttribute(AttributeNames.Rel, value); }
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace AngleSharp.DOM.Html
         [DOM("relList")]
         public DOMTokenList RelList
         {
-            get { return _relList ?? (_relList = new DOMTokenList(this, AttributeNames.REL)); }
+            get { return _relList ?? (_relList = new DOMTokenList(this, AttributeNames.Rel)); }
         }
 
         /// <summary>
@@ -238,8 +238,8 @@ namespace AngleSharp.DOM.Html
         [DOM("target")]
         public String Target
         {
-            get { return GetAttribute(AttributeNames.TARGET); }
-            set { SetAttribute(AttributeNames.TARGET, value); }
+            get { return GetAttribute(AttributeNames.Target); }
+            set { SetAttribute(AttributeNames.Target, value); }
         }
 
         /// <summary>
@@ -258,8 +258,8 @@ namespace AngleSharp.DOM.Html
         [DOM("type")]
         public String Type
         {
-            get { return GetAttribute(AttributeNames.TYPE); }
-            set { SetAttribute(AttributeNames.TYPE, value); }
+            get { return GetAttribute(AttributeNames.Type); }
+            set { SetAttribute(AttributeNames.Type, value); }
         }
 
         #endregion
@@ -294,7 +294,7 @@ namespace AngleSharp.DOM.Html
         /// <param name="name">The name of the attribute that has been changed.</param>
         internal override void OnAttributeChanged(String name)
         {
-            if (name.Equals(AttributeNames.REL, StringComparison.Ordinal))
+            if (name.Equals(AttributeNames.Rel, StringComparison.Ordinal))
                 RelList.Update(Rel);
             else
                 base.OnAttributeChanged(name);

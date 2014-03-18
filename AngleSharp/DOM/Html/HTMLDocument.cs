@@ -194,7 +194,7 @@ namespace AngleSharp.DOM.Html
         [DOM("anchors")]
         public HTMLCollection Anchors
         {
-            get { return _anchors ?? (_anchors = new HTMLLiveCollectionWithAttr<HTMLAnchorElement>(this, AttributeNames.NAME)); }
+            get { return _anchors ?? (_anchors = new HTMLLiveCollectionWithAttr<HTMLAnchorElement>(this, AttributeNames.Name)); }
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace AngleSharp.DOM.Html
         [DOM("links")]
         public HTMLCollection Links
         {
-            get { return _links ?? (_links = new HTMLLiveCollectionWithAttr<HTMLAnchorElement, HTMLAreaElement>(this, AttributeNames.HREF)); }
+            get { return _links ?? (_links = new HTMLLiveCollectionWithAttr<HTMLAnchorElement, HTMLAreaElement>(this, AttributeNames.Href)); }
         }
 
         /// <summary>
@@ -571,12 +571,12 @@ namespace AngleSharp.DOM.Html
 
         internal void RaiseDomContentLoaded()
         {
-            FireSimpleEvent(EventNames.DOMCONTENTLOADED);
+            FireSimpleEvent(EventNames.DomContentLoaded);
         }
 
         internal void RaiseLoadedEvent()
         {
-            FireSimpleEvent(EventNames.LOAD);
+            FireSimpleEvent(EventNames.Load);
         }
 
         internal void QueueTask(Action action)
@@ -630,7 +630,7 @@ namespace AngleSharp.DOM.Html
                 {
                     var element = (HTMLElement)children[i];
 
-                    if (element.GetAttribute(AttributeNames.NAME) == name)
+                    if (element.GetAttribute(AttributeNames.Name) == name)
                         result.Add(element);
 
                     GetElementsByName(element.ChildNodes, name, result);

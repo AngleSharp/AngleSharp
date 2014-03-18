@@ -43,8 +43,8 @@ namespace AngleSharp.DOM.Collections
         /// <param name="host">The element to host this representation.</param>
         internal CSSStyleDeclaration(Element host)
         {
-            _getter = () => (host.OwnerDocument == null || host.OwnerDocument.Options.IsStyling) ? host.GetAttribute(AttributeNames.STYLE) : String.Empty;
-            _setter = value => host.SetAttribute(AttributeNames.STYLE, value);
+            _getter = () => (host.OwnerDocument == null || host.OwnerDocument.Options.IsStyling) ? host.GetAttribute(AttributeNames.Style) : String.Empty;
+            _setter = value => host.SetAttribute(AttributeNames.Style, value);
             _rules = new List<CSSProperty>();
         }
 

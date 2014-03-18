@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+
     /// <summary>
     /// Contains a list of known CSS functions.
     /// </summary>
@@ -10,36 +10,36 @@ namespace AngleSharp
         /// <summary>
         /// The url function.
         /// </summary>
-        public const String URL = "url";
+        public static readonly String Url = "url";
 
         /// <summary>
         /// The url-prefix function.
         /// </summary>
-        public const String URL_PREFIX = "url-prefix";
+        public static readonly String Url_Prefix = "url-prefix";
 
         /// <summary>
         /// The domain function.
         /// </summary>
-        public const String DOMAIN = "domain";
+        public static readonly String Domain = "domain";
 
         /// <summary>
         /// The regexp function.
         /// </summary>
-        public const String REGEXP = "regexp";
+        public static readonly String Regexp = "regexp";
 
         /// <summary>
         /// The rgba function.
         /// </summary>
-        public const String RGBA = "rgba";
+        public static readonly String Rgba = "rgba";
 
         /// <summary>
         /// The rgb function.
         /// </summary>
-        public const String RGB = "rgb";
+        public static readonly String Rgb = "rgb";
 
         /// <summary>
         /// The hsl function.
         /// </summary>
-        public const String HSL = "hsl";
+        public static readonly String Hsl = "hsl";
     }
 }
