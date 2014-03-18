@@ -1,20 +1,19 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using AngleSharp.Events;
-using AngleSharp.DOM.Css;
-using AngleSharp.DOM.Collections;
-
-namespace AngleSharp.Css
+﻿namespace AngleSharp.Css
 {
+    using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Css;
+    using AngleSharp.Events;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
 		#region Members
@@ -1020,6 +1019,9 @@ namespace AngleSharp.Css
             {
                 CSSValue value = null;
 
+                if (function.Count == 1)
+                    values.Add(function.Pop().Done());
+
                 while (values.Count != 0 && (values[values.Count - 1] == CSSValue.PoolMarker || values[values.Count - 1] == CSSValue.ListMarker))
                     values.RemoveAt(values.Count - 1);
 
@@ -1536,18 +1538,22 @@ namespace AngleSharp.Css
 			AfterValue,
 			InHexValue,
 			InFunction
-		}
+        }
 
-		/// <summary>
+        #endregion
+
+        #region Function Buffer
+
+        /// <summary>
 		/// A buffer for functions.
 		/// </summary>
-		class FunctionBuffer
+		sealed class FunctionBuffer
 		{
 			#region Members
 
-			String name;
-			List<CSSValue> arguments;
-			CSSValue value;
+			String _name;
+			List<CSSValue> _arguments;
+			CSSValue _value;
 
 			#endregion
 
@@ -1555,8 +1561,8 @@ namespace AngleSharp.Css
 
 			internal FunctionBuffer(String name)
 			{
-				this.arguments = new List<CSSValue>();
-				this.name = name;
+				this._arguments = new List<CSSValue>();
+				this._name = name;
 			}
 
 			#endregion
@@ -1565,13 +1571,13 @@ namespace AngleSharp.Css
 
 			public List<CSSValue> Arguments
 			{
-				get { return arguments; }
+				get { return _arguments; }
 			}
 
 			public CSSValue Value
 			{
-				get { return value; }
-				set { this.value = value; }
+				get { return _value; }
+				set { _value = value; }
 			}
 
 			#endregion
@@ -1580,22 +1586,22 @@ namespace AngleSharp.Css
 
 			public void Include()
 			{
-				if (value != null)
-					arguments.Add(value);
+				if (_value != null)
+					_arguments.Add(_value);
 
-				value = null;
+				_value = null;
 			}
 
 			public CSSValue Done()
 			{
 				Include();
-				return CSSFunction.Create(name, arguments);
+				return CSSFunction.Create(_name, _arguments);
 			}
 
 			#endregion
-		}
+        }
 
-		#endregion
+        #endregion
 
 		#region Event-Helpers
 

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.Css
+﻿namespace AngleSharp.Css
 {
+    using System;
+
     /// <summary>
     /// Represents a CSS string token.
     /// </summary>

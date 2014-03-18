@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.Css
+﻿namespace AngleSharp.Css
 {
+    using System;
+
     /// <summary>
     /// The special character token that contains a special character such as a colon.
     /// </summary>

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.Css
+﻿namespace AngleSharp.Css
 {
+    using System;
+
     /// <summary>
     /// The bracket token that contains the opening or closing of a bracket.
     /// </summary>

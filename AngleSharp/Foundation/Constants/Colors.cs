@@ -1,9 +1,9 @@
-﻿using AngleSharp.DOM.Css;
-using System;
-using System.Collections.Generic;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using AngleSharp.DOM.Css;
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// This class contains information about colors like their
     /// given names or assignments of names to colors.

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace AngleSharp.Css
+﻿namespace AngleSharp.Css
 {
+    using System;
+    using System.Diagnostics;
+
     /// <summary>
     /// The base class token for the CSS parser.
     /// </summary>

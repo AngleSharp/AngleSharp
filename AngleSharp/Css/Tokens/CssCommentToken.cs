@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.Css
+﻿namespace AngleSharp.Css
 {
+    using System;
+
     /// <summary>
     /// The comment token that contains an HTML comment.
     /// </summary>

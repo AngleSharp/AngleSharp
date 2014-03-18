@@ -1,11 +1,11 @@
-﻿using System;
-using AngleSharp.DOM;
-using AngleSharp.DOM.Css;
-using AngleSharp.DOM.Html;
-using System.Diagnostics;
-
-namespace AngleSharp.Css
+﻿namespace AngleSharp.Css
 {
+    using AngleSharp.DOM;
+    using AngleSharp.DOM.Css;
+    using AngleSharp.DOM.Html;
+    using System;
+    using System.Diagnostics;
+
     /// <summary>
     /// Class for construction for CSS selectors as specified in
     /// http://www.w3.org/html/wg/drafts/html/master/selectors.html.

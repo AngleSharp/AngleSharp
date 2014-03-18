@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.Css
+﻿namespace AngleSharp.Css
 {
+    using System;
+
     /// <summary>
     /// The column token that contains a column (||).
     /// </summary>

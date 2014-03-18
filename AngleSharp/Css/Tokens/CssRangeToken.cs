@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.Css
+﻿namespace AngleSharp.Css
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents the CSS range token.
     /// </summary>

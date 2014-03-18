@@ -1,8 +1,8 @@
-﻿using System;
-using System.Globalization;
-
-namespace AngleSharp.Css
+﻿namespace AngleSharp.Css
 {
+    using System;
+    using System.Globalization;
+
     /// <summary>
     /// Represents a CSS unit token.
     /// </summary>
