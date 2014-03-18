@@ -247,7 +247,7 @@ namespace UnitTests
         [TestMethod]
         public void CssBackgroundWebkitGradient()
         {
-            var decl = CssParser.ParseDeclarations("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa84c), color-stop(100%,#ff7b0d))");
+            var decl = CssParser.ParseDeclarations("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))");
             Assert.IsNotNull(decl);
             Assert.AreEqual(decl.List.Count, 1);
 
@@ -255,7 +255,7 @@ namespace UnitTests
             Assert.AreEqual("background", background.Name);
             Assert.IsFalse(background.Important);
             Assert.AreEqual(CssValueType.Custom, background.Value.CssValueType);
-            Assert.AreEqual("-webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa84c), color-stop(100%,#ff7b0d))", background.Value.ToCss());
+            Assert.AreEqual("-webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))", background.Value.ToCss());
         }
     }
 }
