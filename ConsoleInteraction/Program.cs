@@ -6,6 +6,7 @@ using AngleSharp.DOM.Html;
 using AngleSharp.Html;
 using ConsoleInteraction.Assets;
 using System;
+using System.Linq;
 using System.Diagnostics;
 using System.Globalization;
 using System.Net.Http;
@@ -19,6 +20,9 @@ namespace ConsoleInteraction
     {
         static void Main(string[] args)
         {
+            test().Wait();
+            return;
+
             TestAsync().Wait();
   
             CssSelectorTest.Slickspeed();
@@ -54,6 +58,30 @@ namespace ConsoleInteraction
             TestHtmlFrom("http://www.codeproject.com/", false);
 
             TestHtmlFrom("http://www.florian-rappl.de/", false);
+        }
+
+        public static async Task test()
+        {
+
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetStreamAsync(new Uri("http://trade.500.com/bjdc/?expect=140107"));
+
+            //string pageSource = Encoding.GetEncoding("gb2312").GetString(response, 0, (int)response.Length - 1);
+            HTMLDocument document = DocumentBuilder.Html(response);
+
+            var ls = document.GetElementsByClassName("vs_lines");
+            var ls2 = document.GetElementsByClassName("vs_lines even");
+            var c = ls.Concat(ls2);
+
+            foreach (var item in c)
+            {
+                var tr = item as HTMLTableRowElement;
+
+                if (tr.RowIndex % 2 == 0)
+                    tr.Style.Display = "none";
+            }
+
+
         }
 
         static async Task TestAsync()

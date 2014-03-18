@@ -76,6 +76,9 @@
     <Compile Include="..\AngleSharp\Css\CssTokenType.cs">
       <Link>Css\CssTokenType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\CssValueBuilder.cs">
+      <Link>Css\CssValueBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Tokens\CssBracketToken.cs">
       <Link>Css\Tokens\CssBracketToken.cs</Link>
     </Compile>
