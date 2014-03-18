@@ -243,5 +243,19 @@ namespace UnitTests
             Assert.AreEqual(CssValueType.ValueList, content.Value.CssValueType);
             Assert.AreEqual("' (' attr(href) ')'", content.Value.ToCss());
         }
+
+        [TestMethod]
+        public void CssBackgroundWebkitGradient()
+        {
+            var decl = CssParser.ParseDeclarations("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa84c), color-stop(100%,#ff7b0d))");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var background = decl.List[0];
+            Assert.AreEqual("background", background.Name);
+            Assert.IsFalse(background.Important);
+            Assert.AreEqual(CssValueType.Custom, background.Value.CssValueType);
+            Assert.AreEqual("-webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa84c), color-stop(100%,#ff7b0d))", background.Value.ToCss());
+        }
     }
 }
