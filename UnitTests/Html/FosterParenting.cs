@@ -1424,28 +1424,6 @@ X</listing>");
         }
 
         [TestMethod]
-        public void FosterFragmentDoubleClosedBody()
-        {
-            var doc = DocumentBuilder.HtmlFragment(@"<body>X</body></body>", HTMLElement.Create("html"));
-
-            var dochead0 = doc[0];
-            Assert.AreEqual(0, dochead0.ChildNodes.Length);
-            Assert.AreEqual(0, dochead0.Attributes.Length);
-            Assert.AreEqual("head", dochead0.NodeName);
-            Assert.AreEqual(NodeType.Element, dochead0.NodeType);
-
-            var docbody1 = doc[1];
-            Assert.AreEqual(1, docbody1.ChildNodes.Length);
-            Assert.AreEqual(0, docbody1.Attributes.Length);
-            Assert.AreEqual("body", docbody1.NodeName);
-            Assert.AreEqual(NodeType.Element, docbody1.NodeType);
-
-            var docbody1Text0 = docbody1.ChildNodes[0];
-            Assert.AreEqual(NodeType.Text, docbody1Text0.NodeType);
-            Assert.AreEqual("X", docbody1Text0.TextContent);
-        }
-
-        [TestMethod]
         public void ParagraphClosedWrongInDiv()
         {
             var doc = DocumentBuilder.Html(@"<div><p>a</x> b");

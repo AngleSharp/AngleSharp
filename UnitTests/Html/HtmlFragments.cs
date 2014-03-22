@@ -14,10 +14,16 @@ namespace UnitTests
     [TestClass]
     public class HtmlFragments
     {
+        HTMLElement Create(string tagName)
+        {
+            var doc = new HTMLDocument();
+            return HTMLFactory.Create(tagName, doc);
+        }
+
         [TestMethod]
         public void FragmentBodyContextDoubleBodyAndSpanElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<body><span>", HTMLElement.Create("body"));
+            var doc = DocumentBuilder.HtmlFragment(@"<body><span>", Create("body"));
 
             var docspan0 = doc[0];
             Assert.AreEqual(0, docspan0.ChildNodes.Length);
@@ -29,7 +35,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentBodyContextSpanAndDoubleBodyElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<span><body>", HTMLElement.Create("body"));
+            var doc = DocumentBuilder.HtmlFragment(@"<span><body>", Create("body"));
 
             var docspan0 = doc[0];
             Assert.AreEqual(0, docspan0.ChildNodes.Length);
@@ -41,7 +47,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentDivContextSpanAndDoubleBodyElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<span><body>", HTMLElement.Create("div"));
+            var doc = DocumentBuilder.HtmlFragment(@"<span><body>", Create("div"));
 
             var docspan0 = doc[0];
             Assert.AreEqual(0, docspan0.ChildNodes.Length);
@@ -53,7 +59,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentHtmlContextBodyAndSpanElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<body><span>", HTMLElement.Create("html"));
+            var doc = DocumentBuilder.HtmlFragment(@"<body><span>", Create("html"));
 
             var dochead0 = doc[0];
             Assert.AreEqual(0, dochead0.ChildNodes.Length);
@@ -77,7 +83,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentBodyContextFramesetAndSpanElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<frameset><span>", HTMLElement.Create("body"));
+            var doc = DocumentBuilder.HtmlFragment(@"<frameset><span>", Create("body"));
 
             var docspan0 = doc[0];
             Assert.AreEqual(0, docspan0.ChildNodes.Length);
@@ -90,7 +96,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentBodyContextSpanAndFramesetElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<span><frameset>", HTMLElement.Create("body"));
+            var doc = DocumentBuilder.HtmlFragment(@"<span><frameset>", Create("body"));
 
             var docspan0 = doc[0];
             Assert.AreEqual(0, docspan0.ChildNodes.Length);
@@ -102,7 +108,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentDivContextSpanAndFramesetElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<span><frameset>", HTMLElement.Create("div"));
+            var doc = DocumentBuilder.HtmlFragment(@"<span><frameset>", Create("div"));
 
             var docspan0 = doc[0];
             Assert.AreEqual(0, docspan0.ChildNodes.Length);
@@ -114,7 +120,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentHtmlContextEmpty()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"", HTMLElement.Create("html"));
+            var doc = DocumentBuilder.HtmlFragment(@"", Create("html"));
             var dochead0 = doc[0];
             Assert.AreEqual(0, dochead0.ChildNodes.Length);
             Assert.AreEqual(0, dochead0.Attributes.Length);
@@ -131,7 +137,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentHtmlContextFramesetAndSpanElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<frameset><span>", HTMLElement.Create("html"));
+            var doc = DocumentBuilder.HtmlFragment(@"<frameset><span>", Create("html"));
 
             var dochead0 = doc[0];
             Assert.AreEqual(0, dochead0.ChildNodes.Length);
@@ -149,7 +155,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentTableContextOpeningTableAndTrElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<table><tr>", HTMLElement.Create("table"));
+            var doc = DocumentBuilder.HtmlFragment(@"<table><tr>", Create("table"));
 
             var doctbody0 = doc[0];
             Assert.AreEqual(1, doctbody0.ChildNodes.Length);
@@ -167,7 +173,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentTableContextClosingTableAndTrElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</table><tr>", HTMLElement.Create("table"));
+            var doc = DocumentBuilder.HtmlFragment(@"</table><tr>", Create("table"));
 
             var doctbody0 = doc[0];
             Assert.AreEqual(1, doctbody0.ChildNodes.Length);
@@ -185,7 +191,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentFramesetContextClosingFramesetAndFrameElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</frameset><frame>", HTMLElement.Create("frameset"));
+            var doc = DocumentBuilder.HtmlFragment(@"</frameset><frame>", Create("frameset"));
 
             var docframe0 = doc[0];
             Assert.AreEqual(0, docframe0.ChildNodes.Length);
@@ -197,7 +203,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentSelectContextClosingSelectAndOptionElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</select><option>", AngleSharp.DOM.Html.HTMLElement.Create("select"));
+            var doc = DocumentBuilder.HtmlFragment(@"</select><option>", Create("select"));
             var docoption0 = doc[0];
             Assert.AreEqual(0, docoption0.ChildNodes.Length);
             Assert.AreEqual(0, docoption0.Attributes.Length);
@@ -208,7 +214,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentSelectContextInputAndOptionElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<input><option>", AngleSharp.DOM.Html.HTMLElement.Create("select"));
+            var doc = DocumentBuilder.HtmlFragment(@"<input><option>", Create("select"));
 
             var docoption0 = doc[0];
             Assert.AreEqual(0, docoption0.ChildNodes.Length);
@@ -220,7 +226,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentTdContextTableAndDoubleTdElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<table><td><td>", AngleSharp.DOM.Html.HTMLElement.Create("td"));
+            var doc = DocumentBuilder.HtmlFragment(@"<table><td><td>", Create("td"));
 
             var doctable0 = doc[0];
             Assert.AreEqual(1, doctable0.ChildNodes.Length);
@@ -257,7 +263,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentTdContextTfootAndAnchorElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<tfoot><a>", AngleSharp.DOM.Html.HTMLElement.Create("td"));
+            var doc = DocumentBuilder.HtmlFragment(@"<tfoot><a>", Create("td"));
 
             var doca0 = doc[0];
             Assert.AreEqual(0, doca0.ChildNodes.Length);
@@ -269,7 +275,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentTrContextTdAndFinishedTableAndTdElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<td><table></table><td>", AngleSharp.DOM.Html.HTMLElement.Create("tr"));
+            var doc = DocumentBuilder.HtmlFragment(@"<td><table></table><td>", Create("tr"));
 
             var doctd0 = doc[0];
             Assert.AreEqual(1, doctd0.ChildNodes.Length);
@@ -294,7 +300,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentTbodyContextTdAndTableAndTbodyAndMisplacedAnchorAndTrElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<td><table><tbody><a><tr>", AngleSharp.DOM.Html.HTMLElement.Create("tbody"));
+            var doc = DocumentBuilder.HtmlFragment(@"<td><table><tbody><a><tr>", Create("tbody"));
 
             var doctr0 = doc[0];
             Assert.AreEqual(1, doctr0.ChildNodes.Length);
@@ -337,7 +343,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentTbodyContextMisplacedTheadAndAnchorElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<thead><a>",HTMLElement.Create("tbody"));
+            var doc = DocumentBuilder.HtmlFragment(@"<thead><a>", Create("tbody"));
 
             var doca0 = doc[0];
             Assert.AreEqual(0, doca0.ChildNodes.Length);
@@ -349,7 +355,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentColgroupContextClosingColgroupAndColElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</colgroup><col>", HTMLElement.Create("colgroup"));
+            var doc = DocumentBuilder.HtmlFragment(@"</colgroup><col>", Create("colgroup"));
 
             var doccol0 = doc[0];
             Assert.AreEqual(0, doccol0.ChildNodes.Length);
@@ -361,7 +367,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentDivContextWithText()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"direct div content", HTMLElement.Create("div"));
+            var doc = DocumentBuilder.HtmlFragment(@"direct div content", Create("div"));
 
             var docText0 = doc[0];
             Assert.AreEqual(NodeType.Text, docText0.NodeType);
@@ -371,7 +377,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentTextareaContextWithText()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"direct textarea content", HTMLElement.Create("textarea"));
+            var doc = DocumentBuilder.HtmlFragment(@"direct textarea content", Create("textarea"));
             var docText0 = doc[0];
             Assert.AreEqual(NodeType.Text, docText0.NodeType);
             Assert.AreEqual("direct textarea content", docText0.TextContent);
@@ -380,7 +386,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentTextAreaContextWithTextAndMarkup()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"textarea content with <em>pseudo</em> <foo>markup", HTMLElement.Create("textarea"));
+            var doc = DocumentBuilder.HtmlFragment(@"textarea content with <em>pseudo</em> <foo>markup", Create("textarea"));
             var docText0 = doc[0];
             Assert.AreEqual(NodeType.Text, docText0.NodeType);
             Assert.AreEqual("textarea content with <em>pseudo</em> <foo>markup", docText0.TextContent);
@@ -389,7 +395,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentStyleContextWithText()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"this is &#x0043;DATA inside a <style> element", HTMLElement.Create("style"));
+            var doc = DocumentBuilder.HtmlFragment(@"this is &#x0043;DATA inside a <style> element", Create("style"));
 
             var docText0 = doc[0];
             Assert.AreEqual(NodeType.Text, docText0.NodeType);
@@ -399,7 +405,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentPlaintextContext()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</plaintext>", HTMLElement.Create("plaintext"));
+            var doc = DocumentBuilder.HtmlFragment(@"</plaintext>", Create("plaintext"));
 
             var docText0 = doc[0];
             Assert.AreEqual(NodeType.Text, docText0.NodeType);
@@ -409,7 +415,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentHtmlContextWithText()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"setting html's innerHTML", HTMLElement.Create("html"));
+            var doc = DocumentBuilder.HtmlFragment(@"setting html's innerHTML", Create("html"));
 
             var dochead0 = doc[0];
             Assert.AreEqual(0, dochead0.ChildNodes.Length);
@@ -431,7 +437,7 @@ namespace UnitTests
         [TestMethod]
         public void FragmentHeadContextWithTextInTitle()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<title>setting head's innerHTML</title>", HTMLElement.Create("head"));
+            var doc = DocumentBuilder.HtmlFragment(@"<title>setting head's innerHTML</title>", Create("head"));
 
             var doctitle0 = doc[0];
             Assert.AreEqual(1, doctitle0.ChildNodes.Length);
@@ -442,6 +448,28 @@ namespace UnitTests
             var doctitle0Text0 = doctitle0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, doctitle0Text0.NodeType);
             Assert.AreEqual("setting head's innerHTML", doctitle0Text0.TextContent);
+        }
+
+        [TestMethod]
+        public void FosterFragmentDoubleClosedBody()
+        {
+            var doc = DocumentBuilder.HtmlFragment(@"<body>X</body></body>", Create("html"));
+
+            var dochead0 = doc[0];
+            Assert.AreEqual(0, dochead0.ChildNodes.Length);
+            Assert.AreEqual(0, dochead0.Attributes.Length);
+            Assert.AreEqual("head", dochead0.NodeName);
+            Assert.AreEqual(NodeType.Element, dochead0.NodeType);
+
+            var docbody1 = doc[1];
+            Assert.AreEqual(1, docbody1.ChildNodes.Length);
+            Assert.AreEqual(0, docbody1.Attributes.Length);
+            Assert.AreEqual("body", docbody1.NodeName);
+            Assert.AreEqual(NodeType.Element, docbody1.NodeType);
+
+            var docbody1Text0 = docbody1.ChildNodes[0];
+            Assert.AreEqual(NodeType.Text, docbody1Text0.NodeType);
+            Assert.AreEqual("X", docbody1Text0.TextContent);
         }
     }
 }
