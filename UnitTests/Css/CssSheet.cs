@@ -266,6 +266,7 @@ namespace UnitTests
             Assert.AreEqual(decl.List.Count, 1);
 
             var font = decl.List[0];
+            Assert.AreEqual("font", font.Name);
         }
 
         [TestMethod]
@@ -276,6 +277,7 @@ namespace UnitTests
             Assert.AreEqual(decl.List.Count, 1);
 
             var textShadow = decl.List[0];
+            Assert.AreEqual("text-shadow", textShadow.Name);
         }
 
         [TestMethod]
@@ -286,6 +288,7 @@ namespace UnitTests
             Assert.AreEqual(decl.List.Count, 1);
 
             var background = decl.List[0];
+            Assert.AreEqual("background", background.Name);
         }
 
         [TestMethod]
@@ -296,6 +299,7 @@ namespace UnitTests
             Assert.AreEqual(decl.List.Count, 1);
 
             var content = decl.List[0];
+            Assert.AreEqual("content", content.Name);
         }
 
         [TestMethod]
@@ -306,6 +310,7 @@ namespace UnitTests
             Assert.AreEqual(decl.List.Count, 1);
 
             var backgroundColor = decl.List[0];
+            Assert.AreEqual("background-color", backgroundColor.Name);
         }
 
         [TestMethod]
@@ -327,6 +332,7 @@ namespace UnitTests
             Assert.AreEqual(decl.List.Count, 1);
 
             var content = decl.List[0];
+            Assert.AreEqual("content", content.Name);
         }
 
         [TestMethod]
@@ -337,6 +343,7 @@ namespace UnitTests
             Assert.AreEqual(decl.List.Count, 1);
 
             var content = decl.List[0];
+            Assert.AreEqual("content", content.Name);
         }
 
         [TestMethod]
@@ -346,7 +353,8 @@ namespace UnitTests
             Assert.IsNotNull(decl);
             Assert.AreEqual(decl.List.Count, 1);
 
-            var content = decl.List[0];
+            var transform = decl.List[0];
+            Assert.AreEqual("transform", transform.Name);
         }
 
         [TestMethod]
@@ -360,6 +368,7 @@ namespace UnitTests
             Assert.AreEqual(decl.List.Count, 1);
 
             var boxShadow = decl.List[0];
+            Assert.AreEqual("box-shadow", boxShadow.Name);
         }
     }
 }
