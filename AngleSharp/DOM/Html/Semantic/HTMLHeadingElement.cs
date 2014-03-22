@@ -8,9 +8,7 @@ namespace AngleSharp.DOM.Html
     public sealed class HTMLHeadingElement : HTMLElement
     {
         internal HTMLHeadingElement()
-        {
-            _name = Tags.H1;
-        }
+        { }
 
         /// <summary>
         /// Gets if the node is in the special category.

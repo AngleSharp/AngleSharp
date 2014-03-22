@@ -10,7 +10,6 @@ namespace AngleSharp.DOM.Html
     {
         internal HTMLQuoteElement()
         {
-            _name = Tags.QUOTE;
         }
 
         /// <summary>

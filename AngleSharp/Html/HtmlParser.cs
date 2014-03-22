@@ -1139,7 +1139,7 @@ namespace AngleSharp.Html
                     case Tags.U:
                     {
                         ReconstructFormatting();
-                        var element = HTMLFactory.Create(tag.Name);
+                        var element = HTMLFactory.Create(tag.Name, doc);
                         AddElement(element, tag);
                         AddFormattingElement(element);
                         break;
@@ -1155,7 +1155,7 @@ namespace AngleSharp.Html
                             ReconstructFormatting();
                         }
 
-                        var element = HTMLFactory.Create(tag.Name);
+                        var element = HTMLFactory.Create(tag.Name, doc);
                         AddElement(element, tag);
                         AddFormattingElement(element);
                         break;
@@ -2792,7 +2792,7 @@ namespace AngleSharp.Html
         /// <param name="tag">The given tag token.</param>
         void RawtextAlgorithm(HtmlTagToken tag)
         {
-            var element = HTMLFactory.Create(tag.Name);
+            var element = HTMLFactory.Create(tag.Name, doc);
             AddElement(element, tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
@@ -2805,7 +2805,7 @@ namespace AngleSharp.Html
         /// <param name="tag">The given tag token.</param>
         void RCDataAlgorithm(HtmlTagToken tag)
         {
-            var element = HTMLFactory.Create(tag.Name);
+            var element = HTMLFactory.Create(tag.Name, doc);
             AddElement(element, tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
@@ -2841,7 +2841,7 @@ namespace AngleSharp.Html
             if (IsInButtonScope())
                 InBodyEndTagParagraph();
 
-            var element = HTMLFactory.Create(tag.Name);
+            var element = HTMLFactory.Create(tag.Name, doc);
             AddElement(element, tag);
         }
 
@@ -2874,7 +2874,7 @@ namespace AngleSharp.Html
             if (IsInButtonScope())
                 InBodyEndTagParagraph();
 
-            var element = HTMLFactory.Create(tag.Name);
+            var element = HTMLFactory.Create(tag.Name, doc);
             AddElement(element, tag);
         }
 
@@ -3067,7 +3067,7 @@ namespace AngleSharp.Html
         /// <returns>The new element (target).</returns>
         Element CopyElement(Element element)
         {
-            var newElement = HTMLFactory.Create(element.NodeName);
+            var newElement = HTMLFactory.Create(element.NodeName, doc);
             newElement.NodeName = element.NodeName;
             
             for (int i = 0; i < element.Attributes.Length; i++)
@@ -3150,7 +3150,7 @@ namespace AngleSharp.Html
         void InBodyStartTagBreakrow(HtmlTagToken tag)
         {
             ReconstructFormatting();
-            var element = HTMLFactory.Create(tag.Name);
+            var element = HTMLFactory.Create(tag.Name, doc);
             AddElement(element, tag);
             CloseCurrentNode();
             frameset = false;
@@ -3435,11 +3435,32 @@ namespace AngleSharp.Html
         /// <param name="tag">The tag token to process.</param>
         void ForeignSpecialTag(HtmlTagToken tag)
         {
-            Element node;
+            var node = CreateForeignElementFrom(tag);
 
+            if (node != null)
+            {
+                AddForeignElement(node);
+
+                if (!tag.IsSelfClosing)
+                {
+                    open.Add(node);
+                    tokenizer.AcceptsCharacterData = true;
+                }
+                else if (tag.Name == Tags.SCRIPT)
+                    Foreign(HtmlToken.CloseTag(Tags.SCRIPT));
+            }
+        }
+
+        /// <summary>
+        /// Creates a foreign element from the given html tag.
+        /// </summary>
+        /// <param name="tag">The tag of the foreign element.</param>
+        /// <returns>The element or NULL if it is no MathML or SVG element.</returns>
+        Element CreateForeignElementFrom(HtmlTagToken tag)
+        {
             if (AdjustedCurrentNode.IsInMathML)
             {
-                node = MathElement.Create(tag.Name);
+                var node = MathFactory.Create(tag.Name, doc);
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
                 {
@@ -3447,10 +3468,12 @@ namespace AngleSharp.Html
                     var value = tag.Attributes[i].Value;
                     ForeignHelpers.SetAdjustedAttribute(node, MathMLHelpers.AdjustAttributeName(name), value);
                 }
+
+                return node;
             }
             else if (AdjustedCurrentNode.IsInSvg)
             {
-                node = SVGElement.Create(SvgHelpers.AdjustTagName(tag.Name));
+                var node = SVGFactory.Create(SvgHelpers.AdjustTagName(tag.Name), doc);
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
                 {
@@ -3458,19 +3481,11 @@ namespace AngleSharp.Html
                     var value = tag.Attributes[i].Value;
                     ForeignHelpers.SetAdjustedAttribute(node, SvgHelpers.AdjustAttributeName(name), value);
                 }
-            }
-            else
-                return;
 
-            AddForeignElement(node);
-
-            if (!tag.IsSelfClosing)
-            {
-                open.Add(node);
-                tokenizer.AcceptsCharacterData = true;
+                return node;
             }
-            else if (tag.Name == Tags.SCRIPT)
-                Foreign(HtmlToken.CloseTag(Tags.SCRIPT));
+
+            return null;
         }
 
         /// <summary>
@@ -3892,8 +3907,7 @@ namespace AngleSharp.Html
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         void AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
-            var element = HTMLFactory.Create(tag.Name);
-            element.OwnerDocument = doc;
+            var element = HTMLFactory.Create(tag.Name, doc);
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
         }
@@ -3977,7 +3991,6 @@ namespace AngleSharp.Html
         /// <param name="element">The node which will be added to the list.</param>
         void AddForeignElement(Element element)
         {
-            element.OwnerDocument = doc;
             element.NamespaceURI = AdjustedCurrentNode.NamespaceURI;
             CurrentNode.AppendChild(element);
         }

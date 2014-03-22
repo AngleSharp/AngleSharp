@@ -12,11 +12,6 @@ namespace AngleSharp
 
         static readonly Dictionary<String, String> _namespaces;
 
-        /// <summary>
-        /// Gets the namespace declaration (xmlns).
-        /// </summary>
-        public static readonly String Declaration = "xmlns";
-
         #endregion
 
         #region ctor
@@ -24,12 +19,12 @@ namespace AngleSharp
         static Namespaces()
         {
             _namespaces = new Dictionary<String, String>();
-            _namespaces.Add("html", "http://www.w3.org/1999/xhtml");
-            _namespaces.Add("xlink", "http://www.w3.org/1999/xlink");
-            _namespaces.Add("xml", "http://www.w3.org/XML/1998/namespace");
-            _namespaces.Add("xmlns", "http://www.w3.org/2000/xmlns/");
-            _namespaces.Add("svg", "http://www.w3.org/2000/svg");
-            _namespaces.Add("mathml", "http://www.w3.org/1998/Math/MathML");
+            _namespaces.Add("html", Html);
+            _namespaces.Add("xlink", XLink);
+            _namespaces.Add("xml", Xml);
+            _namespaces.Add("xmlns", XmlNS);
+            _namespaces.Add("svg", Svg);
+            _namespaces.Add("mathml", MathML);
         }
 
         #endregion
@@ -37,52 +32,39 @@ namespace AngleSharp
         #region Properties
 
         /// <summary>
+        /// Gets the namespace declaration (xmlns).
+        /// </summary>
+        public static readonly String Declaration = "xmlns";
+
+        /// <summary>
         /// Gets the namespace for HTML elements.
         /// </summary>
-        public static String Html 
-        { 
-            get { return _namespaces["html"]; } 
-        }
+        public static readonly String Html = "http://www.w3.org/1999/xhtml";
 
         /// <summary>
         /// Gets the namespace for XMLNS elements.
         /// </summary>
-        public static String XmlNS 
-        {
-            get { return _namespaces["xmlns"]; } 
-        }
+        public static readonly String XmlNS = "http://www.w3.org/2000/xmlns/";
 
         /// <summary>
         /// Gets the namespace for XMLNS elements.
         /// </summary>
-        public static String XLink
-        {
-            get { return _namespaces["xlink"]; } 
-        }
+        public static readonly String XLink = "http://www.w3.org/1999/xlink";
 
         /// <summary>
         /// Gets the namespace for XML elements.
         /// </summary>
-        public static String Xml
-        {
-            get { return _namespaces["xml"]; } 
-        }
+        public static readonly String Xml = "http://www.w3.org/XML/1998/namespace";
 
         /// <summary>
         /// Gets the namespace for SVG elements.
         /// </summary>
-        public static String Svg
-        { 
-            get { return _namespaces["svg"]; } 
-        }
+        public static readonly String Svg = "http://www.w3.org/2000/svg";
 
         /// <summary>
         /// Gets the namespace for MathML elements.
         /// </summary>
-        public static String MathML
-        { 
-            get { return _namespaces["mathml"]; } 
-        }
+        public static readonly String MathML = "http://www.w3.org/1998/Math/MathML";
 
         #endregion
 

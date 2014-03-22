@@ -389,15 +389,14 @@ namespace AngleSharp.DOM
             Element element = null;
 
             if (namespaceURI == Namespaces.Html)
-                element = HTMLFactory.Create(tagName);
+                element = HTMLFactory.Create(tagName, this);
             else if (namespaceURI == Namespaces.Svg)
-                element = SVGElement.Create(tagName);
+                element = SVGFactory.Create(tagName, this);
             else if (namespaceURI == Namespaces.MathML)
-                element = MathElement.Create(tagName);
+                element = MathFactory.Create(tagName, this);
             else
-                element = new Element { NamespaceURI = namespaceURI, NodeName = tagName };
+                element = new Element { NamespaceURI = namespaceURI, NodeName = tagName, OwnerDocument = this };
 
-            element.OwnerDocument = this;
             return element;
         }
 

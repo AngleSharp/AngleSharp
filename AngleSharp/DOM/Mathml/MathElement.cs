@@ -20,42 +20,6 @@ namespace AngleSharp.DOM.Mathml
 
         #endregion
 
-        #region Factory
-
-        /// <summary>
-        /// Returns a specialized MathMLElement instance for the given tag name.
-        /// </summary>
-        /// <param name="tagName">The given tag name.</param>
-        /// <returns>The specialized MathMLElement instance.</returns>
-        internal static MathElement Create(String tagName)
-        {
-            switch (tagName)
-            {
-                case Tags.MN:
-                    return new MathNumberElement();
-
-                case Tags.MO:
-                    return new MathOperatorElement();
-
-                case Tags.MI:
-                    return new MathIdentifierElement();
-
-                case Tags.MS:
-                    return new MathStringElement();
-
-                case Tags.MTEXT:
-                    return new MathTextElement();
-
-                case Tags.ANNOTATION_XML:
-                    return new MathAnnotationXmlElement();
-
-                default:
-                    return new MathElement { _name = tagName };
-            }
-        }
-
-        #endregion
-
         #region Internal properties
 
         /// <summary>
@@ -78,7 +42,7 @@ namespace AngleSharp.DOM.Mathml
         [DOM("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
-            var node = Create(_name);
+            var node = MathFactory.Create(_name, _owner);
             CopyProperties(this, node, deep);
             return node;
         }

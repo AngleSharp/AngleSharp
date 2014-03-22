@@ -20,39 +20,6 @@ namespace AngleSharp.DOM.Svg
 
         #endregion
 
-        #region Factory
-
-        /// <summary>
-        /// Returns a specialized SVGElement instance for the given tag name.
-        /// </summary>
-        /// <param name="tagName">The given tag name.</param>
-        /// <returns>The specialized SVGElement instance.</returns>
-        internal static SVGElement Create(String tagName)
-        {
-            switch (tagName)
-            {
-                case Tags.SVG:
-                    return new SVGSVGElement();
-
-                case Tags.CIRCLE:
-                    return new SVGCircleElement();
-
-                case Tags.DESC:
-                    return new SVGDescElement();
-
-                case Tags.FOREIGNOBJECT:
-                    return new SVGForeignObjectElement();
-
-                case Tags.TITLE:
-                    return new SVGTitleElement();
-
-                default:
-                    return new SVGElement { _name = tagName };
-            }
-        }
-
-        #endregion
-
         #region Internal properties
 
         /// <summary>
@@ -75,7 +42,7 @@ namespace AngleSharp.DOM.Svg
         [DOM("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
-            var node = Create(_name);
+            var node = SVGFactory.Create(_name, _owner);
             CopyProperties(this, node, deep);
             return node;
         }

@@ -15,7 +15,6 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLLIElement()
         {
-            _name = Tags.LI;
         }
 
         #endregion

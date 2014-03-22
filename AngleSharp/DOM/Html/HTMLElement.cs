@@ -50,7 +50,7 @@ namespace AngleSharp.DOM.Html
         [DOM("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
-            var node = HTMLFactory.Create(_name);
+            var node = HTMLFactory.Create(_name, _owner);
             CopyProperties(this, node, deep);
             return node;
         }

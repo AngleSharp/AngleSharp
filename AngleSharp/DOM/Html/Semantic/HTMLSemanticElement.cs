@@ -10,8 +10,7 @@ namespace AngleSharp.DOM.Html
         #region ctor
 
         internal HTMLSemanticElement()
-        {
-        }
+        { }
 
         #endregion
 

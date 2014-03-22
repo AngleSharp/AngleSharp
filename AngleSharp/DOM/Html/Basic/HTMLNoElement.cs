@@ -10,9 +10,7 @@ namespace AngleSharp.DOM.Html
         #region ctor
 
         internal HTMLNoElement()
-        {
-            _name = Tags.NOSCRIPT;
-        }
+        { }
 
         #endregion
 
