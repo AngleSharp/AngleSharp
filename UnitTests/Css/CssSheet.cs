@@ -267,6 +267,8 @@ namespace UnitTests
 
             var font = decl.List[0];
             Assert.AreEqual("font", font.Name);
+            Assert.IsFalse(font.Important);
+            Assert.AreEqual(CssValueType.ValueList, font.Value.CssValueType);
         }
 
         [TestMethod]
@@ -278,6 +280,8 @@ namespace UnitTests
 
             var textShadow = decl.List[0];
             Assert.AreEqual("text-shadow", textShadow.Name);
+            Assert.IsFalse(textShadow.Important);
+            Assert.AreEqual(CssValueType.ValueList, textShadow.Value.CssValueType);
         }
 
         [TestMethod]
@@ -289,6 +293,8 @@ namespace UnitTests
 
             var background = decl.List[0];
             Assert.AreEqual("background", background.Name);
+            Assert.IsFalse(background.Important);
+            Assert.AreEqual(CssValueType.ValueList, background.Value.CssValueType);
         }
 
         [TestMethod]
@@ -300,6 +306,8 @@ namespace UnitTests
 
             var content = decl.List[0];
             Assert.AreEqual("content", content.Name);
+            Assert.IsFalse(content.Important);
+            Assert.AreEqual(CssValueType.Custom, content.Value.CssValueType);
         }
 
         [TestMethod]
@@ -311,6 +319,8 @@ namespace UnitTests
 
             var backgroundColor = decl.List[0];
             Assert.AreEqual("background-color", backgroundColor.Name);
+            Assert.IsFalse(backgroundColor.Important);
+            Assert.AreEqual(CssValueType.PrimitiveValue, backgroundColor.Value.CssValueType);
         }
 
         [TestMethod]
@@ -333,6 +343,8 @@ namespace UnitTests
 
             var content = decl.List[0];
             Assert.AreEqual("content", content.Name);
+            Assert.IsFalse(content.Important);
+            Assert.AreEqual(CssValueType.PrimitiveValue, content.Value.CssValueType);
         }
 
         [TestMethod]
@@ -344,6 +356,8 @@ namespace UnitTests
 
             var content = decl.List[0];
             Assert.AreEqual("content", content.Name);
+            Assert.IsFalse(content.Important);
+            Assert.AreEqual(CssValueType.ValueList, content.Value.CssValueType);
         }
 
         [TestMethod]
@@ -355,6 +369,8 @@ namespace UnitTests
 
             var transform = decl.List[0];
             Assert.AreEqual("transform", transform.Name);
+            Assert.IsFalse(transform.Important);
+            Assert.AreEqual(CssValueType.Custom, transform.Value.CssValueType);
         }
 
         [TestMethod]
@@ -369,6 +385,8 @@ namespace UnitTests
 
             var boxShadow = decl.List[0];
             Assert.AreEqual("box-shadow", boxShadow.Name);
+            Assert.IsFalse(boxShadow.Important);
+            Assert.AreEqual(CssValueType.ValueList, boxShadow.Value.CssValueType);
         }
     }
 }
