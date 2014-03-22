@@ -257,5 +257,109 @@ namespace UnitTests
             Assert.AreEqual(CssValueType.Custom, background.Value.CssValueType);
             Assert.AreEqual("-webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))", background.Value.ToCss());
         }
+
+        [TestMethod]
+        public void CssFontWithFraction()
+        {
+            var decl = CssParser.ParseDeclarations("font:bold 40px/1.13 'PT Sans Narrow', sans-serif");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var font = decl.List[0];
+        }
+
+        [TestMethod]
+        public void CssTextShadow()
+        {
+            var decl = CssParser.ParseDeclarations("text-shadow: 0 0 10px #000");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var textShadow = decl.List[0];
+        }
+
+        [TestMethod]
+        public void CssBackgroundWithImage()
+        {
+            var decl = CssParser.ParseDeclarations("background:url(../images/ribbon.svg) no-repeat");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var background = decl.List[0];
+        }
+
+        [TestMethod]
+        public void CssContentWithCounter()
+        {
+            var decl = CssParser.ParseDeclarations("content:counter(paging, decimal-leading-zero)");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var content = decl.List[0];
+        }
+
+        [TestMethod]
+        public void CssBackgroundColor()
+        {
+            var decl = CssParser.ParseDeclarations("background-color: rgb(245, 0, 111)");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var backgroundColor = decl.List[0];
+        }
+
+        [TestMethod]
+        public void CssImportSheet()
+        {
+            var rule = "@import url(fonts.css);";
+            var decl = CssParser.ParseRule(rule);
+            Assert.IsNotNull(decl);
+            Assert.IsInstanceOfType(decl, typeof(CSSImportRule));
+            var importRule = (CSSImportRule)decl;
+            Assert.AreEqual("fonts.css", importRule.Href);
+        }
+
+        [TestMethod]
+        public void CssContentEscaped()
+        {
+            var decl = CssParser.ParseDeclarations("content:'\005E'");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var content = decl.List[0];
+        }
+
+        [TestMethod]
+        public void CssContentCounter()
+        {
+            var decl = CssParser.ParseDeclarations("content:counter(list)'.'");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var content = decl.List[0];
+        }
+
+        [TestMethod]
+        public void CssTransformTranslate()
+        {
+            var decl = CssParser.ParseDeclarations("transform:translateY(-50%)");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var content = decl.List[0];
+        }
+
+        [TestMethod]
+        public void CssBoxShadowMultiline()
+        {
+            var decl = CssParser.ParseDeclarations(@"
+        box-shadow:
+			0 0 0 10px rgba(60, 61, 64, 0.6),
+			0 0 50px #3C3D40;");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var boxShadow = decl.List[0];
+        }
     }
 }
