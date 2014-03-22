@@ -1139,7 +1139,7 @@ namespace AngleSharp.Html
                     case Tags.U:
                     {
                         ReconstructFormatting();
-                        var element = HTMLElement.Create(tag.Name);
+                        var element = HTMLFactory.Create(tag.Name);
                         AddElement(element, tag);
                         AddFormattingElement(element);
                         break;
@@ -1155,7 +1155,7 @@ namespace AngleSharp.Html
                             ReconstructFormatting();
                         }
 
-                        var element = HTMLElement.Create(tag.Name);
+                        var element = HTMLFactory.Create(tag.Name);
                         AddElement(element, tag);
                         AddFormattingElement(element);
                         break;
@@ -2792,7 +2792,7 @@ namespace AngleSharp.Html
         /// <param name="tag">The given tag token.</param>
         void RawtextAlgorithm(HtmlTagToken tag)
         {
-            var element = HTMLElement.Create(tag.Name);
+            var element = HTMLFactory.Create(tag.Name);
             AddElement(element, tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
@@ -2805,7 +2805,7 @@ namespace AngleSharp.Html
         /// <param name="tag">The given tag token.</param>
         void RCDataAlgorithm(HtmlTagToken tag)
         {
-            var element = HTMLElement.Create(tag.Name);
+            var element = HTMLFactory.Create(tag.Name);
             AddElement(element, tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
@@ -2841,7 +2841,7 @@ namespace AngleSharp.Html
             if (IsInButtonScope())
                 InBodyEndTagParagraph();
 
-            var element = HTMLElement.Create(tag.Name);
+            var element = HTMLFactory.Create(tag.Name);
             AddElement(element, tag);
         }
 
@@ -2874,7 +2874,7 @@ namespace AngleSharp.Html
             if (IsInButtonScope())
                 InBodyEndTagParagraph();
 
-            var element = HTMLElement.Create(tag.Name);
+            var element = HTMLFactory.Create(tag.Name);
             AddElement(element, tag);
         }
 
@@ -3067,7 +3067,7 @@ namespace AngleSharp.Html
         /// <returns>The new element (target).</returns>
         Element CopyElement(Element element)
         {
-            var newElement = HTMLElement.Create(element.NodeName);
+            var newElement = HTMLFactory.Create(element.NodeName);
             newElement.NodeName = element.NodeName;
             
             for (int i = 0; i < element.Attributes.Length; i++)
@@ -3150,7 +3150,7 @@ namespace AngleSharp.Html
         void InBodyStartTagBreakrow(HtmlTagToken tag)
         {
             ReconstructFormatting();
-            var element = HTMLElement.Create(tag.Name);
+            var element = HTMLFactory.Create(tag.Name);
             AddElement(element, tag);
             CloseCurrentNode();
             frameset = false;
@@ -3892,7 +3892,7 @@ namespace AngleSharp.Html
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         void AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
-            var element = HTMLElement.Create(tag.Name);
+            var element = HTMLFactory.Create(tag.Name);
             element.OwnerDocument = doc;
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);

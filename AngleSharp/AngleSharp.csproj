@@ -54,6 +54,7 @@
     <Compile Include="DOM\Css\Values\Primitives\CSSUri.cs" />
     <Compile Include="DOM\Enums\AdjacentPosition.cs" />
     <Compile Include="DOM\Enums\CssSide.cs" />
+    <Compile Include="DOM\Html\HTMLFactory.cs" />
     <Compile Include="DOM\Objects\FileEntry.cs" />
     <Compile Include="Events\ParseErrorEventArgs.cs" />
     <Compile Include="Events\ParseErrorEventHandler.cs" />
