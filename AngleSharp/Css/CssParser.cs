@@ -1314,15 +1314,21 @@
 			parser.Parse();
 
             if (!property.HasValue)
-                return new CSSValueList();
-
-            if (property.Value is CSSValuePool)
-                property.Value = ((CSSValuePool)property.Value).List[0];
+                return new CSSValueList { Separator = ValueListSeparator.Space };
 
             if (property.Value is CSSValueList)
-                return (CSSValueList)property.Value;
+            {
+                var list = (CSSValueList)property.Value;
 
-            return new CSSValueList(property.Value);
+                if (list.Separator == ValueListSeparator.Slash)
+                    list = new CSSValueList(list) { Separator = ValueListSeparator.Space };
+                else if (list.Separator == ValueListSeparator.Comma)
+                    list = list[0] is CSSValueList && ((CSSValueList)list[0]).Separator == ValueListSeparator.Space ? (CSSValueList)list[0] : new CSSValueList(list[0]) { Separator = ValueListSeparator.Space };
+
+                return list;
+            }
+
+            return new CSSValueList(property.Value) { Separator = ValueListSeparator.Space };
         }
 
         /// <summary>
@@ -1331,7 +1337,7 @@
         /// <param name="source">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSValueList object.</returns>
-        internal static CSSValuePool ParseMultipleValues(String source, IConfiguration configuration = null)
+        internal static CSSValueList ParseMultipleValues(String source, IConfiguration configuration = null)
         {
 			var parser = new CssParser(source, configuration);
 			var property = new CSSProperty(String.Empty);
@@ -1341,12 +1347,19 @@
             parser.Parse();
 
             if (!property.HasValue)
-                return new CSSValuePool();
+                return new CSSValueList { Separator = ValueListSeparator.Comma };
 
-            if (property.Value is CSSValuePool)
-                return (CSSValuePool)property.Value;
+            if (property.Value is CSSValueList)
+            {
+                var list = (CSSValueList)property.Value;
 
-			return new CSSValuePool(new [] {property.Value });
+                if (list.Separator != ValueListSeparator.Comma)
+                    list = new CSSValueList(list) { Separator = ValueListSeparator.Comma };
+
+                return list;
+            }
+
+            return new CSSValueList(property.Value) { Separator = ValueListSeparator.Comma };
         }
 
         /// <summary>

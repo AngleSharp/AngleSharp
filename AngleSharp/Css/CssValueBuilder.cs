@@ -71,14 +71,29 @@
         {
             if (_fraction)
             {
+                _fraction = false;
+
                 if (_values.Count != 0)
                 {
-                    var old = _values[_values.Count - 1];
-                    value = new CSSPrimitiveValue(CssUnit.Unknown, old.ToCss() + "/" + value.ToCss());
-                    _values.RemoveAt(_values.Count - 1);
-                }
+                    if (_values[_values.Count - 1] is CSSValueList)
+                    {
+                        if (((CSSValueList)_values[_values.Count - 1]).Separator == ValueListSeparator.Slash)
+                        {
+                            var list = (CSSValueList)_values[_values.Count - 1];
+                            list.List.Add(value);
+                        }
 
-                _fraction = false;
+                        return;
+                    }
+                    else
+                    {
+                        var list = new CSSValueList { Separator = ValueListSeparator.Slash };
+                        list.List.Add(_values[_values.Count - 1]);
+                        _values.RemoveAt(_values.Count - 1);
+                        list.List.Add(value);
+                        value = list;
+                    }
+                }
             }
 
             _values.Add(value);
@@ -126,8 +141,6 @@
         /// <returns>The instance of a value.</returns>
         public CSSValue ToValue()
         {
-            CSSValue value = null;
-
             while (_functions.Count > 0)
                 CloseFunction();
 
@@ -137,40 +150,47 @@
             while (_values.Count != 0 && _values[0] == separator)
                 _values.RemoveAt(0);
 
-            for (int i = 1; i < _values.Count - 1; i++)
-            {
-                if (_values[i] == separator)
-                {
-                    value = new CSSValuePool();
-                    break;
-                }
-            }
-
-            if (value != null)
-            {
-                var pool = ((CSSValuePool)value).List;
-                var start = 0;
-
-                for (int i = 0; i <= _values.Count; i++)
-                {
-                    if (i == _values.Count || _values[i] == separator)
-                    {
-                        if (i != start)
-                            pool.Add(Create(start, i));
-
-                        start = i + 1;
-                    }
-                }
-            }
+            if (IsList())
+                return CreateList();
             else if (_values.Count != 0)
-                value = Create();
+                return Create();
 
-            return value;
+            return null;
         }
 
         #endregion
 
         #region Helpers
+
+        Boolean IsList()
+        {
+            for (int i = 1; i < _values.Count - 1; i++)
+            {
+                if (_values[i] == separator)
+                    return true;
+            }
+
+            return false;
+        }
+
+        CSSValueList CreateList()
+        {
+            var value = new CSSValueList { Separator = ValueListSeparator.Comma };
+            var start = 0;
+
+            for (int i = 0; i <= _values.Count; i++)
+            {
+                if (i == _values.Count || _values[i] == separator)
+                {
+                    if (i != start)
+                        value.List.Add(Create(start, i));
+
+                    start = i + 1;
+                }
+            }
+
+            return value;
+        }
 
         /// <summary>
         /// Creates a value from the given index.
@@ -192,7 +212,7 @@
         {
             if (end - start != 1)
             {
-                var list = new CSSValueList();
+                var list = new CSSValueList { Separator = ValueListSeparator.Space };
 
                 for (var i = start; i < end; i++)
                     list.List.Add(_values[i]);
@@ -212,7 +232,7 @@
         /// </summary>
         sealed class FunctionBuffer
         {
-            #region Members
+            #region Fields
 
             String _name;
             List<CSSValue> _arguments;

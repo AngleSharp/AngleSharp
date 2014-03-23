@@ -49,12 +49,12 @@
     <Compile Include="DOM\Css\Rules\CSSDocumentRule.cs" />
     <Compile Include="DOM\Css\Values\Primitives\CSSGradient.cs" />
     <Compile Include="DOM\Css\Values\Primitives\CSSGradientStop.cs" />
-    <Compile Include="DOM\Css\Values\CSSValuePool.cs" />
     <Compile Include="DOM\Css\Values\Primitives\CSSPoint2.cs" />
     <Compile Include="DOM\Css\Values\Primitives\CSSPoint3.cs" />
     <Compile Include="DOM\Css\Values\Primitives\CSSUri.cs" />
     <Compile Include="DOM\Enums\AdjacentPosition.cs" />
     <Compile Include="DOM\Enums\CssSide.cs" />
+    <Compile Include="DOM\Enums\ValueListSeparator.cs" />
     <Compile Include="DOM\Html\HTMLFactory.cs" />
     <Compile Include="DOM\Mathml\MathFactory.cs" />
     <Compile Include="DOM\Objects\FileEntry.cs" />
