@@ -34,7 +34,7 @@ namespace UnitTests
             return Task.Run(() => Request(request));
         }
 
-        public Dictionary<String, String> DefaultHeaders
+        public Dictionary<String, String> Headers
         {
             get;
             set;

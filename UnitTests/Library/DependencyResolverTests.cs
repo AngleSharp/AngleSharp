@@ -3,6 +3,7 @@ using System.Linq;
 using AngleSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTests.Mocks;
+using AngleSharp.Interfaces;
 
 namespace UnitTests
 {
@@ -12,6 +13,7 @@ namespace UnitTests
         MockResolver mockResolver;
         MockService mockService;
         List<MockService> mockServices;
+        IDependencyResolver originalResolver;
 
         private void CreateResolver()
         {
@@ -29,25 +31,32 @@ namespace UnitTests
         [TestInitialize]
         public void SetUp()
         {
+            originalResolver = DependencyResolver.Current;
             CreateResolver();
+        }
+
+        [TestCleanup]
+        public void Reset()
+        {
+            DependencyResolver.SetResolver(originalResolver);
         }
 
         [TestMethod]
         public void SetsInternalResolver()
         {
             // Act
-            Configuration.SetDependencyResolver(mockResolver);
+            DependencyResolver.SetResolver(mockResolver);
 
             // Assert
-            Assert.AreEqual(mockResolver, Configuration.CurrentResolver);
+            Assert.AreEqual(mockResolver, DependencyResolver.Current);
         }
 
         [TestMethod]
         public void GetServiceReturnsService()
         {
             // Arrange
-            Configuration.SetDependencyResolver(mockResolver);
-            var service = Configuration.CurrentResolver.GetService<MockService>();
+            DependencyResolver.SetResolver(mockResolver);
+            var service = DependencyResolver.Current.GetService<MockService>();
 
             // Assert
             Assert.AreEqual(mockService, service);
@@ -57,8 +66,8 @@ namespace UnitTests
         public void GetServicesReturnsServices()
         {
             // Arrange
-            Configuration.SetDependencyResolver(mockResolver);
-            var services = Configuration.CurrentResolver.GetServices<MockService>();
+            DependencyResolver.SetResolver(mockResolver);
+            var services = DependencyResolver.Current.GetServices<MockService>();
 
             // Assert
             Assert.AreEqual(1, services.Count());

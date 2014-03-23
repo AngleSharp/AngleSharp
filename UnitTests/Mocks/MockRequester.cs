@@ -25,7 +25,7 @@ namespace UnitTests.Mocks
             return null;
         }
 
-        public Dictionary<String, String> DefaultHeaders
+        public Dictionary<String, String> Headers
         {
             get;
             set;

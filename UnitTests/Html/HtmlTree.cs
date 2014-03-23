@@ -2877,7 +2877,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var doc = new HTMLDocument();
             var parser = new HtmlParser(doc, @"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>");
-            doc.Options = new DocumentOptions(scripting: true);
+            doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
 
             var dochtml0 = doc.ChildNodes[0];
@@ -4975,7 +4975,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var doc = new HTMLDocument();
             var parser = new HtmlParser(doc, @"<noscript><!--<noscript></noscript>--></noscript>");
-            doc.Options = new DocumentOptions(scripting: true);
+            doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
 
             var dochtml0 = doc.ChildNodes[0];
@@ -5016,7 +5016,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var doc = new HTMLDocument();
             var parser = new HtmlParser(doc, @"<noscript><!--</noscript>X<noscript>--></noscript>");
-            doc.Options = new DocumentOptions(scripting: true);
+            doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
 
             var dochtml0 = doc.ChildNodes[0];
@@ -5067,7 +5067,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var doc = new HTMLDocument();
             var parser = new HtmlParser(doc, @"<noscript><iframe></noscript>X");
-            doc.Options = new DocumentOptions(scripting: true);
+            doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
 
             var dochtml0 = doc.ChildNodes[0];

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp.Css;
 using AngleSharp.Html;
 using AngleSharp.Xml;
+using AngleSharp;
 
 namespace UnitTests
 {
@@ -13,7 +14,7 @@ namespace UnitTests
         public void TestAsyncCssParsing()
         {
             var source = "h1 { color: red; } h2 { color: blue; } p { font-family: Arial; } div { margin: 10 }";
-            var parser = new CssParser(source);
+            var parser = new CssParser(source, Configuration.Default);
             var task = parser.ParseAsync();
             Assert.IsFalse(task.IsCompleted);
             Assert.IsNotNull(parser.Result);
@@ -28,7 +29,7 @@ namespace UnitTests
         public void TestAsyncHtmlParsing()
         {
             var source = "<html><head><title>My test</title></head><body><p>Some text</p></body></html>";
-            var parser = new HtmlParser(source);
+            var parser = new HtmlParser(source, Configuration.Default);
             var task = parser.ParseAsync();
             Assert.IsFalse(task.IsCompleted);
             Assert.IsNotNull(parser.Result);

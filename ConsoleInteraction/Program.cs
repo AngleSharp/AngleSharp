@@ -80,8 +80,6 @@ namespace ConsoleInteraction
                 if (tr.RowIndex % 2 == 0)
                     tr.Style.Display = "none";
             }
-
-
         }
 
         static async Task TestAsync()

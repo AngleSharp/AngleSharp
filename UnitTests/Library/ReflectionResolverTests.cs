@@ -3,6 +3,7 @@ using System.Linq;
 using AngleSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTests.Mocks;
+using AngleSharp.Interfaces;
 
 namespace UnitTests
 {
@@ -12,14 +13,12 @@ namespace UnitTests
         MockReflectionResolver mockResolver;
         MockService mockService;
         List<MockService> mockServices;
+        IDependencyResolver originalResolver;
 
         private void CreateResolver()
         {
             mockService = new MockService();
-            mockServices = new List<MockService>
-                           {
-                               mockService
-                           };
+            mockServices = new List<MockService> { mockService };
 
             mockResolver = new MockReflectionResolver();
             mockResolver.GetInstanceDelegate = () => mockService;
@@ -29,32 +28,33 @@ namespace UnitTests
         [TestInitialize]
         public void SetUp()
         {
+            originalResolver = DependencyResolver.Current;
             CreateResolver();
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-            Configuration.Reset();
+            DependencyResolver.SetResolver(originalResolver);
         }
 
         [TestMethod]
         public void SetsInternalResolver()
         {
             // Act
-            Configuration.SetDependencyResolver(mockResolver);
+            DependencyResolver.SetResolver(mockResolver);
 
             // Assert
-            Assert.IsNotNull(Configuration.CurrentResolver);
-            Assert.IsInstanceOfType(Configuration.CurrentResolver, typeof(DelegateBasedDependencyResolver));
+            Assert.IsNotNull(DependencyResolver.Current);
+            Assert.IsInstanceOfType(DependencyResolver.Current, typeof(DelegateBasedDependencyResolver));
         }
 
         [TestMethod]
         public void GetServiceReturnsService()
         {
             // Arrange
-            Configuration.SetDependencyResolver(mockResolver);
-            var service = Configuration.CurrentResolver.GetService<MockService>();
+            DependencyResolver.SetResolver(mockResolver);
+            var service = DependencyResolver.Current.GetService<MockService>();
 
             // Assert
             Assert.AreEqual(mockService, service);
@@ -64,8 +64,8 @@ namespace UnitTests
         public void GetServicesReturnsServices()
         {
             // Arrange
-            Configuration.SetDependencyResolver(mockResolver);
-            var services = Configuration.CurrentResolver.GetServices<MockService>();
+            DependencyResolver.SetResolver(mockResolver);
+            var services = DependencyResolver.Current.GetServices<MockService>();
 
             // Assert
             Assert.AreEqual(1, services.Count());
