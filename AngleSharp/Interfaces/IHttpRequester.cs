@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace AngleSharp.Interfaces
+﻿namespace AngleSharp.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Defines the required methods any Http requester object must have.
     /// </summary>
@@ -35,7 +35,7 @@ namespace AngleSharp.Interfaces
         /// <summary>
         /// Gets or sets the default headers to send with every request.
         /// </summary>
-        Dictionary<String, String> DefaultHeaders { get; set; }
+        Dictionary<String, String> Headers { get; }
 
         /// <summary>
         /// Gets or sets the number of milliseconds to wait before the request times out.

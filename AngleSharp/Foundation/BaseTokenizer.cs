@@ -23,7 +23,7 @@ namespace AngleSharp
         /// <summary>
         /// The event will be fired once an error has been detected.
         /// </summary>
-        public event ParseErrorEventHandler ErrorOccurred;
+        public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
 
         #endregion
 

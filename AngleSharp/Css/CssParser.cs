@@ -18,7 +18,7 @@
     [DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
-		#region Members
+		#region Fields
 		
 		CssSelectorConstructor selector;
         CssValueBuilder value;
@@ -41,7 +41,7 @@
         /// <summary>
         /// The event will be fired once an error has been detected.
         /// </summary>
-        public event ParseErrorEventHandler ErrorOccurred;
+        public event EventHandler<ParseErrorEventArgs> ParseError;
 
         #endregion
 
@@ -52,20 +52,20 @@
         /// based on the given source.
         /// </summary>
         /// <param name="source">The source code as a string.</param>
-        public CssParser(String source)
-            : this(new CSSStyleSheet(), new SourceManager(source))
-        {
-        }
+        /// <param name="configuration">[Optional] The configuration to use.</param>
+        public CssParser(String source, IConfiguration configuration = null)
+            : this(new CSSStyleSheet(), new SourceManager(source, configuration))
+        { }
 
         /// <summary>
         /// Creates a new CSS parser instance with an new stylesheet
         /// based on the given stream.
         /// </summary>
         /// <param name="stream">The stream to use as source.</param>
-        public CssParser(Stream stream)
-            : this(new CSSStyleSheet(), new SourceManager(stream))
-        {
-        }
+        /// <param name="configuration">[Optional] The configuration to use.</param>
+        public CssParser(Stream stream, IConfiguration configuration = null)
+            : this(new CSSStyleSheet(), new SourceManager(stream, configuration))
+        { }
 
         /// <summary>
         /// Creates a new CSS parser instance with the specified stylesheet
@@ -74,9 +74,8 @@
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
         /// <param name="source">The source code as a string.</param>
         public CssParser(CSSStyleSheet stylesheet, String source)
-            : this(stylesheet, new SourceManager(source))
-        {
-        }
+            : this(stylesheet, new SourceManager(source, stylesheet.Options))
+        { }
 
         /// <summary>
         /// Creates a new CSS parser instance with the specified stylesheet
@@ -85,9 +84,8 @@
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
         /// <param name="stream">The stream to use as source.</param>
         public CssParser(CSSStyleSheet stylesheet, Stream stream)
-            : this(stylesheet, new SourceManager(stream))
-        {
-        }
+            : this(stylesheet, new SourceManager(stream, stylesheet.Options))
+        { }
 
         /// <summary>
         /// Creates a new CSS parser instance parser with the specified stylesheet
@@ -105,10 +103,11 @@
 
             tokenizer.ErrorOccurred += (s, ev) =>
             {
-                if (ErrorOccurred != null)
-                    ErrorOccurred(this, ev);
+                if (ParseError != null)
+                    ParseError(this, ev);
             };
 
+            quirks = stylesheet.Options.UseQuirksMode;
             started = false;
             sheet = stylesheet;
             open = new Stack<CSSRule>();
@@ -140,12 +139,11 @@
         }
 
         /// <summary>
-        /// Gets or sets if the quirks-mode is activated.
+        /// Gets if the quirks-mode is activated.
         /// </summary>
         public Boolean IsQuirksMode
         {
             get { return quirks; }
-            set { quirks = value; }
         }
 
         /// <summary>
@@ -1203,10 +1201,11 @@
         /// Takes a string and transforms it into a selector object.
         /// </summary>
         /// <param name="selector">The string to parse.</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The Selector object.</returns>
-        public static Selector ParseSelector(String selector)
+        public static Selector ParseSelector(String selector, IConfiguration configuration = null)
         {
-			var tokenizer = new CssTokenizer(new SourceManager(selector));
+			var tokenizer = new CssTokenizer(new SourceManager(selector, configuration ?? Configuration.Default));
 			var tokens = tokenizer.Tokens;
 			var creator = Pool.NewSelectorConstructor();
 
@@ -1222,12 +1221,11 @@
         /// Takes a string and transforms it into a CSS stylesheet.
         /// </summary>
         /// <param name="stylesheet">The string to parse.</param>
-        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSStyleSheet object.</returns>
-        public static CSSStyleSheet ParseStyleSheet(String stylesheet, Boolean quirksMode = false)
+        public static CSSStyleSheet ParseStyleSheet(String stylesheet, IConfiguration configuration = null)
         {
-            var parser = new CssParser(stylesheet);
-            parser.IsQuirksMode = quirksMode;
+            var parser = new CssParser(stylesheet, configuration ?? Configuration.Default);
             return parser.Result;
         }
 
@@ -1237,14 +1235,13 @@
         /// <param name="rule">The string to parse.</param>
         /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
         /// <returns>The CSSRule object.</returns>
-        public static CSSRule ParseRule(String rule, Boolean quirksMode = false)
+        public static CSSRule ParseRule(String rule, IConfiguration configuration = null)
         {
-            var parser = new CssParser(rule);
+            var parser = new CssParser(rule, configuration ?? Configuration.Default);
             parser.skipExceptions = false;
-            parser.IsQuirksMode = quirksMode;
 			parser.Parse();
 
-			if(parser.sheet.CssRules.Length > 0)
+			if (parser.sheet.CssRules.Length > 0)
 				return parser.sheet.CssRules[0];
 
 			return null;
@@ -1254,12 +1251,12 @@
         /// Takes a string and transforms it into CSS declarations.
         /// </summary>
         /// <param name="declarations">The string to parse.</param>
-        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSStyleDeclaration object.</returns>
-        public static CSSStyleDeclaration ParseDeclarations(String declarations, Boolean quirksMode = false)
+        public static CSSStyleDeclaration ParseDeclarations(String declarations, IConfiguration configuration = null)
         {
             var decl = new CSSStyleDeclaration();
-            AppendDeclarations(decl, declarations, quirksMode);
+            AppendDeclarations(decl, declarations, configuration);
             return decl;
         }
 
@@ -1267,15 +1264,14 @@
         /// Takes a string and transforms it into a CSS declaration (CSS property).
         /// </summary>
         /// <param name="declarations">The string to parse.</param>
-        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSProperty object.</returns>
-        public static CSSProperty ParseDeclaration(String declarations, Boolean quirksMode = false)
+        public static CSSProperty ParseDeclaration(String declarations, IConfiguration configuration = null)
         {
-            var parser = new CssParser(declarations);
+            var parser = new CssParser(declarations, configuration ?? Configuration.Default);
             var rule = new CSSStyleRule();
             parser.AddRule(rule);
 			parser.state = CssState.InDeclaration;
-            parser.IsQuirksMode = quirksMode;
             parser.skipExceptions = false;
 			parser.Parse();
             return rule.Style.List.Count != 0 ? rule.Style.List[0] : null;
@@ -1285,14 +1281,13 @@
         /// Takes a string and transforms it into a CSS value.
         /// </summary>
         /// <param name="source">The string to parse.</param>
-        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSValue object.</returns>
-        public static CSSValue ParseValue(String source, Boolean quirksMode = false)
+        public static CSSValue ParseValue(String source, IConfiguration configuration = null)
         {
-            var parser = new CssParser(source);
+            var parser = new CssParser(source, configuration ?? Configuration.Default);
 			var property = new CSSProperty(String.Empty);
 			parser.property = property;
-            parser.IsQuirksMode = quirksMode;
             parser.skipExceptions = false;
 			parser.state = CssState.BeforeValue;
 			parser.Parse();
@@ -1307,14 +1302,13 @@
         /// Takes a string and transforms it into a list of CSS values.
         /// </summary>
         /// <param name="source">The string to parse.</param>
-        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSValueList object.</returns>
-        internal static CSSValueList ParseValueList(String source, Boolean quirksMode = false)
+        internal static CSSValueList ParseValueList(String source, IConfiguration configuration = null)
         {
-			var parser = new CssParser(source);
+			var parser = new CssParser(source, configuration);
 			var property = new CSSProperty(String.Empty);
 			parser.property = property;
-            parser.IsQuirksMode = quirksMode;
 			parser.skipExceptions = false;
 			parser.state = CssState.InValueList;
 			parser.Parse();
@@ -1335,14 +1329,13 @@
         /// Takes a comma separated string and transforms it into a list of CSS values.
         /// </summary>
         /// <param name="source">The string to parse.</param>
-        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSValueList object.</returns>
-        internal static CSSValuePool ParseMultipleValues(String source, Boolean quirksMode = false)
+        internal static CSSValuePool ParseMultipleValues(String source, IConfiguration configuration = null)
         {
-			var parser = new CssParser(source);
+			var parser = new CssParser(source, configuration);
 			var property = new CSSProperty(String.Empty);
 			parser.property = property;
-            parser.IsQuirksMode = quirksMode;
 			parser.skipExceptions = false;
 			parser.state = CssState.InValuePool;
             parser.Parse();
@@ -1361,13 +1354,13 @@
         /// </summary>
         /// <param name="rule">The string to parse.</param>
         /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSKeyframeRule object.</returns>
-        internal static CSSKeyframeRule ParseKeyframeRule(String rule, Boolean quirksMode = false)
+        internal static CSSKeyframeRule ParseKeyframeRule(String rule, IConfiguration configuration = null)
         {
-            var parser = new CssParser(rule);
+            var parser = new CssParser(rule, configuration);
 			var keyframe = new CSSKeyframeRule();
 			parser.AddRule(keyframe);
-            parser.IsQuirksMode = quirksMode;
             parser.skipExceptions = false;
 			parser.state = CssState.InKeyframeText;
 			parser.Parse();
@@ -1378,12 +1371,11 @@
 		/// Takes a string and appends all rules to the given list of properties.
 		/// </summary>
 		/// <param name="list">The list of css properties to append to.</param>
-		/// <param name="declarations">The string to parse.</param>
-		/// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
-		internal static void AppendDeclarations(CSSStyleDeclaration list, String declarations, Boolean quirksMode = false)
+        /// <param name="declarations">The string to parse.</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+		internal static void AppendDeclarations(CSSStyleDeclaration list, String declarations, IConfiguration configuration = null)
 		{
-			var parser = new CssParser(declarations);
-			parser.IsQuirksMode = quirksMode;
+			var parser = new CssParser(declarations, configuration ?? Configuration.Default);
 			parser.skipExceptions = false;
 
 			if (list.ParentRule != null)
@@ -1445,12 +1437,12 @@
         /// <param name="code">The associated error code.</param>
         void RaiseErrorOccurred(ErrorCode code)
         {
-            if (ErrorOccurred != null)
+            if (ParseError != null)
             {
                 var pck = new ParseErrorEventArgs((Int32)code, Errors.GetError(code));
                 pck.Line = tokenizer.Stream.Line;
                 pck.Column = tokenizer.Stream.Column;
-                ErrorOccurred(this, pck);
+                ParseError(this, pck);
             }
         }
 

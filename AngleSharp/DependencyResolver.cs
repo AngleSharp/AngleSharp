@@ -1,14 +1,19 @@
-﻿using AngleSharp.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
-    class DependencyResolver
-    {
-        #region Members
+    using AngleSharp.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
 
+    /// <summary>
+    /// Represents the dependency resolver for supplying
+    /// inversion of control.
+    /// </summary>
+    public sealed class DependencyResolver
+    {
+        #region Fields
+
+        static readonly DependencyResolver _resolver;
         IDependencyResolver _current;
         CacheDependencyResolver _currentCache;
 
@@ -16,15 +21,13 @@ namespace AngleSharp
 
         #region ctor
 
-        public DependencyResolver()
+        static DependencyResolver()
         {
-            InnerSetResolver(new DefaultDependencyResolver());
+            _resolver = new DependencyResolver();
+            SetResolver(new DefaultDependencyResolver());
         }
 
-        public DependencyResolver(DependencyResolver resolver)
-        {
-            InnerSetResolver(resolver._current);
-        }
+        DependencyResolver() { }
 
         #endregion
 
@@ -33,9 +36,9 @@ namespace AngleSharp
         /// <summary>
         /// Gets the current resolver.
         /// </summary>
-        public IDependencyResolver InnerCurrent
+        public static IDependencyResolver Current
         {
-            get { return _current; }
+            get { return _resolver._current; }
         }
 
         /// <summary>
@@ -50,16 +53,16 @@ namespace AngleSharp
 
         #region Methods
 
-        public void InnerSetResolver(IDependencyResolver resolver)
+        public static void SetResolver(IDependencyResolver resolver)
         {
             if (resolver == null)
                 throw new ArgumentNullException("resolver");
 
-            _current = resolver;
-            _currentCache = new CacheDependencyResolver(_current);
+            _resolver._current = resolver;
+            _resolver._currentCache = new CacheDependencyResolver(_resolver._current);
         }
 
-        public void InnerSetResolver(Object commonServiceLocator)
+        public static void SetResolver(Object commonServiceLocator)
         {
             if (commonServiceLocator == null)
                 throw new ArgumentNullException("commonServiceLocator");
@@ -68,21 +71,16 @@ namespace AngleSharp
             var getInstance = locatorType.GetRuntimeMethod("GetInstance", new[] { typeof(Type) });
             var getInstances = locatorType.GetRuntimeMethod("GetAllInstances", new[] { typeof(Type) });
 
-            if (getInstance == null ||
-                getInstance.ReturnType != typeof(Object) ||
-                getInstances == null ||
-                getInstances.ReturnType != typeof(IEnumerable<Object>))
-            {
+            if (getInstance == null || getInstance.ReturnType != typeof(Object) || getInstances == null || getInstances.ReturnType != typeof(IEnumerable<Object>))
                 throw new ArgumentException("commonServiceLocator");
-            }
 
             var getService = (Func<Type, Object>)getInstance.CreateDelegate(typeof(Func<Type, Object>), commonServiceLocator);
             var getServices = (Func<Type, IEnumerable<Object>>)getInstances.CreateDelegate(typeof(Func<Type, IEnumerable<Object>>), commonServiceLocator);
 
-            InnerSetResolver(new DelegateBasedDependencyResolver(getService, getServices));
+            SetResolver(new DelegateBasedDependencyResolver(getService, getServices));
         }
 
-        public void InnerSetResolver(Func<Type, Object> getService, Func<Type, IEnumerable<Object>> getServices)
+        public static void SetResolver(Func<Type, Object> getService, Func<Type, IEnumerable<Object>> getServices)
         {
             if (getService == null)
                 throw new ArgumentNullException("getService");
@@ -90,7 +88,7 @@ namespace AngleSharp
             if (getServices == null)
                 throw new ArgumentNullException("getServices");
 
-            InnerSetResolver(new DelegateBasedDependencyResolver(getService, getServices));
+            SetResolver(new DelegateBasedDependencyResolver(getService, getServices));
         }
 
         #endregion

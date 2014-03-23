@@ -1,24 +1,25 @@
-﻿using AngleSharp.Css;
-using AngleSharp.DOM;
-using AngleSharp.DOM.Collections;
-using AngleSharp.DOM.Css;
-using AngleSharp.DOM.Html;
-using AngleSharp.Events;
-using AngleSharp.Html;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using AngleSharp.Css;
+    using AngleSharp.DOM;
+    using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Css;
+    using AngleSharp.DOM.Html;
+    using AngleSharp.Events;
+    using AngleSharp.Html;
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// A handy helper to construct various kinds of documents
     /// from a given source code, URL or stream.
     /// </summary>
     public sealed class DocumentBuilder
     {
-        #region Members
+        #region Fields
 
         IParser parser;
 
@@ -31,15 +32,14 @@ namespace AngleSharp
         /// </summary>
         /// <param name="source">The code manager.</param>
         /// <param name="document">The document to fill.</param>
-        /// <param name="options">Options to use for the document generation.</param>
-        DocumentBuilder(SourceManager source, HTMLDocument document, DocumentOptions options)
+        /// <param name="configuration">Options to use for the document generation.</param>
+        DocumentBuilder(SourceManager source, HTMLDocument document, IConfiguration configuration)
         {
-            document.Options = options;
             parser = new HtmlParser(document, source);
-			parser.ErrorOccurred += ParseErrorOccurred;
+			parser.ParseError += ParseErrorOccurred;
 
-			if (options.OnError != null)
-				parser.ErrorOccurred += options.OnError;
+			if (configuration.OnError != null)
+				parser.ParseError += configuration.OnError;
         }
 
         /// <summary>
@@ -47,15 +47,15 @@ namespace AngleSharp
         /// </summary>
         /// <param name="source">The code manager.</param>
         /// <param name="sheet">The document to fill.</param>
-        /// <param name="options">Options to use for the document generation.</param>
-        DocumentBuilder(SourceManager source, CSSStyleSheet sheet, DocumentOptions options)
+        /// <param name="configuration">Options to use for the document generation.</param>
+        DocumentBuilder(SourceManager source, CSSStyleSheet sheet, IConfiguration configuration)
         {
-            sheet.Options = options;
+            sheet.Options = configuration;
             parser = new CssParser(sheet, source);
-			parser.ErrorOccurred += ParseErrorOccurred;
+			parser.ParseError += ParseErrorOccurred;
 
-			if (options.OnError != null)
-				parser.ErrorOccurred += options.OnError;
+			if (configuration.OnError != null)
+				parser.ParseError += configuration.OnError;
         }
 
         #endregion
@@ -86,12 +86,16 @@ namespace AngleSharp
         /// Builds a new HTMLDocument with the given source code string.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static HTMLDocument Html(String sourceCode, DocumentOptions options = null)
+        public static HTMLDocument Html(String sourceCode, IConfiguration configuration = null)
         {
-            var source = new SourceManager(sourceCode);
-            var db = new DocumentBuilder(source, new HTMLDocument(), options ?? DocumentOptions.Default);
+            if (configuration == null)
+                configuration = Configuration.Default;
+
+            var source = new SourceManager(sourceCode, configuration);
+            var doc = new HTMLDocument { Options = configuration };
+            var db = new DocumentBuilder(source, doc, configuration);
             return db.HtmlResult;
         }
 
@@ -99,25 +103,40 @@ namespace AngleSharp
         /// Builds a new HTMLDocument with the given URL.
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static HTMLDocument Html(Uri url, DocumentOptions options = null)
+        public static HTMLDocument Html(Uri url, IConfiguration configuration = null)
         {
-            return HtmlAsync(url, options).Result;
+            return HtmlAsync(url, configuration).Result;
         }
 
         /// <summary>
         /// Builds a new HTMLDocument by asynchronously requesting the given URL.
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The task that constructs the HTML document.</returns>
-        public static async Task<HTMLDocument> HtmlAsync(Uri url, DocumentOptions options = null)
+        public static Task<HTMLDocument> HtmlAsync(Uri url, IConfiguration configuration = null)
         {
-            var stream = await Builder.GetFromUrl(url);
-            var source = new SourceManager(stream);
-			var db = new DocumentBuilder(source, new HTMLDocument { DocumentURI = url.OriginalString }, options ?? DocumentOptions.Default);
-			await db.parser.ParseAsync();
+            return HtmlAsync(url, CancellationToken.None, configuration);
+        }
+
+        /// <summary>
+        /// Builds a new HTMLDocument by asynchronously requesting the given URL.
+        /// </summary>
+        /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <returns>The task that constructs the HTML document.</returns>
+        public static async Task<HTMLDocument> HtmlAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
+        {
+            if (configuration == null)
+                configuration = Configuration.Default;
+
+            var stream = await url.LoadAsync(cancel);
+            var source = new SourceManager(stream, configuration);
+            var doc = new HTMLDocument { Options = configuration, DocumentURI = url.OriginalString };
+            var db = new DocumentBuilder(source, doc, configuration);
+            await db.parser.ParseAsync();
             return db.HtmlResult;
         }
 
@@ -125,12 +144,16 @@ namespace AngleSharp
         /// Builds a new HTMLDocument with the given (network) stream.
         /// </summary>
         /// <param name="stream">The stream of chars to use as source code.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static HTMLDocument Html(Stream stream, DocumentOptions options = null)
+        public static HTMLDocument Html(Stream stream, IConfiguration configuration = null)
         {
-            var source = new SourceManager(stream);
-			var db = new DocumentBuilder(source, new HTMLDocument(), options ?? DocumentOptions.Default);
+            if (configuration == null)
+                configuration = Configuration.Default;
+
+            var source = new SourceManager(stream, configuration);
+            var doc = new HTMLDocument { Options = configuration };
+			var db = new DocumentBuilder(source, doc, configuration);
             return db.HtmlResult;
         }
 
@@ -139,17 +162,20 @@ namespace AngleSharp
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
         /// <param name="context">[Optional] The context node to use.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>A list of parsed nodes.</returns>
-        public static NodeList HtmlFragment(String sourceCode, Node context = null, DocumentOptions options = null)
+        public static NodeList HtmlFragment(String sourceCode, Node context = null, IConfiguration configuration = null)
         {
-            var source = new SourceManager(sourceCode);
-            var doc = new HTMLDocument();
+            if (configuration == null)
+                configuration = Configuration.Default;
+
+            var source = new SourceManager(sourceCode, configuration);
+            var doc = new HTMLDocument { Options = configuration };
 
             //Disable scripting for HTML fragments (security reasons)
-            options = options ?? new DocumentOptions(scripting: false);
+            configuration.IsScripting = false;
 
-            var db = new DocumentBuilder(source, doc, options);
+            var db = new DocumentBuilder(source, doc, configuration);
 
             if (context != null)
             {
@@ -172,12 +198,16 @@ namespace AngleSharp
         /// Builds a new CSSStyleSheet with the given source code string.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
-        public static CSSStyleSheet Css(String sourceCode, DocumentOptions options = null)
+        public static CSSStyleSheet Css(String sourceCode, IConfiguration configuration = null)
         {
-            var source = new SourceManager(sourceCode);
-			var db = new DocumentBuilder(source, new CSSStyleSheet(), options ?? DocumentOptions.Default);
+            if (configuration == null)
+                configuration = Configuration.Default;
+
+            var source = new SourceManager(sourceCode, configuration);
+            var sheet = new CSSStyleSheet { Options = configuration };
+			var db = new DocumentBuilder(source, sheet, configuration);
             return db.CssResult;
         }
 
@@ -185,25 +215,40 @@ namespace AngleSharp
         /// Builds a new CSSStyleSheet with the given URL.
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
-        public static CSSStyleSheet Css(Uri url, DocumentOptions options = null)
+        public static CSSStyleSheet Css(Uri url, IConfiguration configuration = null)
         {
-            return CssAsync(url, options).Result;
+            return CssAsync(url, configuration).Result;
         }
 
         /// <summary>
         /// Builds a new CSSStyleSheet asynchronously by requesting the given URL.
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public static async Task<CSSStyleSheet> CssAsync(Uri url, DocumentOptions options = null)
+        public static Task<CSSStyleSheet> CssAsync(Uri url, IConfiguration configuration = null)
         {
-            var stream = await Builder.GetFromUrl(url);
-            var source = new SourceManager(stream);
-			var db = new DocumentBuilder(source, new CSSStyleSheet { Href = url.OriginalString }, options ?? DocumentOptions.Default);
-			await db.parser.ParseAsync();
+            return CssAsync(url, CancellationToken.None, configuration);
+        }
+
+        /// <summary>
+        /// Builds a new CSSStyleSheet asynchronously by requesting the given URL.
+        /// </summary>
+        /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <returns>The task which constructs the CSS stylesheet.</returns>
+        public static async Task<CSSStyleSheet> CssAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
+        {
+            if (configuration == null)
+                configuration = Configuration.Default;
+
+            var stream = await url.LoadAsync(cancel);
+            var source = new SourceManager(stream, configuration);
+            var sheet = new CSSStyleSheet { Href = url.OriginalString, Options = configuration };
+            var db = new DocumentBuilder(source, sheet, configuration);
+            await db.parser.ParseAsync();
             return db.CssResult;
         }
 
@@ -211,12 +256,16 @@ namespace AngleSharp
         /// Builds a new CSSStyleSheet with the given network stream.
         /// </summary>
         /// <param name="stream">The stream of chars to use as source code.</param>
-        /// <param name="options">[Optional] Options to use for the document generation.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
-        public static CSSStyleSheet Css(Stream stream, DocumentOptions options = null)
+        public static CSSStyleSheet Css(Stream stream, IConfiguration configuration = null)
         {
-            var source = new SourceManager(stream);
-			var db = new DocumentBuilder(source, new CSSStyleSheet(), options ?? DocumentOptions.Default);
+            if (configuration == null)
+                configuration = Configuration.Default;
+
+            var source = new SourceManager(stream, configuration);
+            var sheet = new CSSStyleSheet { Options = configuration };
+			var db = new DocumentBuilder(source, sheet, configuration);
             return db.CssResult;
         }
 

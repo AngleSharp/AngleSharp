@@ -1,33 +1,24 @@
-﻿using AngleSharp.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using AngleSharp.Events;
+    using System;
+    using System.Globalization;
+
     /// <summary>
     /// Represents global configuration for the AngleSharp library.
     /// This is independent of parsing / document creation options
     /// given in the DocumentOptions class.
     /// </summary>
-    public sealed class Configuration
+    public sealed class Configuration : IConfiguration
     {
-        #region Singleton
+        #region Fields
 
-        static Configuration instance;
-
-        static Configuration()
-        {
-            Reset();
-        }
-
-        #endregion
-
-        #region Members
-
-        List<Type> requester;
-        DependencyResolver resolver;
-        CultureInfo culture;
+        CultureInfo _culture;
+        Boolean _scripting;
+        Boolean _styling;
+        Boolean _embedded;
+        Boolean _quirks;
+        EventHandler<ParseErrorEventArgs> _onerror;
 
         #endregion
 
@@ -36,22 +27,14 @@ namespace AngleSharp
         /// <summary>
         /// Creates a new default configuration.
         /// </summary>
-        Configuration()
+        public Configuration()
         {
-            requester = new List<Type>();
-            culture = CultureInfo.CurrentUICulture;
-            resolver = new DependencyResolver();
-        }
-
-        /// <summary>
-        /// Copies the new configuration from the given one.
-        /// </summary>
-        /// <param name="config">The configuration to clone.</param>
-        Configuration(Configuration config)
-        {
-            requester = new List<Type>(config.requester);
-            culture = config.culture;
-            resolver = new DependencyResolver(config.resolver);
+            _quirks = false;
+            _scripting = false;
+            _styling = true;
+            _embedded = false;
+            _onerror = null;
+            _culture = CultureInfo.CurrentUICulture;
         }
 
         #endregion
@@ -59,174 +42,79 @@ namespace AngleSharp
         #region Properties
 
         /// <summary>
-        /// Gets the current dependency resolver.
+        /// Gets the default configuration to use.
         /// </summary>
-        public static IDependencyResolver CurrentResolver
+        internal static IConfiguration Default
         {
-            get { return instance.resolver.InnerCurrent; }
+            get { return DependencyResolver.Current.GetService<IConfiguration>() ?? new Configuration(); }
         }
 
         /// <summary>
-        /// Gets if at least one HttpRequester has been registered.
+        /// Gets or sets the current scripting mode.
         /// </summary>
-        public static Boolean HasHttpRequester
+        public Boolean IsScripting
         {
-            get { return instance.requester.Count > 0; }
+            get { return _scripting; }
+            set { _scripting = value; }
         }
 
-#if !LEGACY
         /// <summary>
-        /// Gets or sets if the default Http requester should be used.
+        /// Gets or sets the current CSS mode. Usually CSS stylesheets and inline-
+        /// definitions are parsed (can be deactivated here).
         /// </summary>
-        public static Boolean UseDefaultHttpRequester
+        public Boolean IsStyling
         {
-            get { return instance.requester.Contains(typeof(DefaultHttpRequester)); }
-            set
-            {
-                var current = UseDefaultHttpRequester;
-
-                if (current != value)
-                {
-                    if (value)
-                        RegisterHttpRequester<DefaultHttpRequester>();
-                    else
-                        UnregisterHttpRequester<DefaultHttpRequester>();
-                }
-            }
+            get { return _styling; }
+            set { _styling = value; }
         }
-#endif
+
+        /// <summary>
+        /// Gets or sets the current embedding mode. Normally the document is NOT
+        /// embedded. Enabling embedding will emulate the document being rendered
+        /// in an iframe.
+        /// </summary>
+        public Boolean IsEmbedded
+        {
+            get { return _embedded; }
+            set { _embedded = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the delegate to call in case of an (tolerable) error. If this
+        /// is null, then the default behavior is to print these errors on the
+        /// debug console (if in debug mode) or to drop the errors completely.
+        /// </summary>
+        public EventHandler<ParseErrorEventArgs> OnError
+        {
+            get { return _onerror; }
+            set { _onerror = value; }
+        }
 
         /// <summary>
         /// Gets or sets the language (code, e.g. en-US, de-DE) to use.
         /// </summary>
-        public static String Language
+        public String Language
         {
-            get { return instance.culture.Name; }
+            get { return _culture.Name; }
             set { Culture = new CultureInfo(value); }
         }
 
         /// <summary>
         /// Gets or sets the culture to use.
         /// </summary>
-        public static CultureInfo Culture
+        public CultureInfo Culture
         {
-            get { return instance.culture; }
-            set { instance.culture = value ?? CultureInfo.CurrentUICulture; }
-        }
-
-        #endregion
-
-        #region Http requester
-
-        /// <summary>
-        /// Gets a fresh HTTP requester from the first type that can be created.
-        /// </summary>
-        /// <returns>The created HTTP requester instance or null.</returns>
-        public static IHttpRequester GetHttpRequester()
-        {
-            for (int i = 0; i < instance.requester.Count; i++)
-            {
-                var result = CurrentResolver.GetService(instance.requester[i]) as IHttpRequester;
-
-                if (result == null)
-                    continue;
-
-                return result;
-            }
-
-            return null;
+            get { return _culture; }
+            set { _culture = value ?? CultureInfo.CurrentUICulture; }
         }
 
         /// <summary>
-        /// Registers a new HttpRequester for making resource requests.
+        /// Gets or sets if the quirks mode should be used for HTML / CSS parsing.
         /// </summary>
-        /// <typeparam name="T">The type of the requester.</typeparam>
-        public static void RegisterHttpRequester<T>()
-            where T: IHttpRequester
+        public Boolean UseQuirksMode
         {
-            var requester = typeof(T);
-
-            if(!instance.requester.Contains(requester))
-                instance.requester.Insert(0, requester);
-        }
-
-        /// <summary>
-        /// Removes a registered HttpRequester for making resource requests.
-        /// </summary>
-        /// <typeparam name="T">The type of the requester.</typeparam>
-        public static void UnregisterHttpRequester<T>()
-            where T : IHttpRequester
-        {
-            var requester = typeof(T);
-
-            if (instance.requester.Contains(requester))
-                instance.requester.Remove(requester);
-        }
-
-        #endregion
-
-        #region IoC container
-
-        /// <summary>
-        /// Sets the dependency resolver to the given one.
-        /// </summary>
-        /// <param name="resolver">The resolver to use.</param>
-        public static void SetDependencyResolver(IDependencyResolver resolver)
-        {
-            instance.resolver.InnerSetResolver(resolver);
-        }
-
-        /// <summary>
-        /// Sets the dependency resolver to the given common service locator object.
-        /// </summary>
-        /// <param name="commonServiceLocator">The common service locator to use.</param>
-        public static void SetDependencyResolver(Object commonServiceLocator)
-        {
-            instance.resolver.InnerSetResolver(commonServiceLocator);
-        }
-
-        /// <summary>
-        /// Sets the dependency resolver to use the given methods for single and
-        /// multiple services.
-        /// </summary>
-        /// <param name="getService">The method to use for resolving a single service.</param>
-        /// <param name="getServices">The method to use for resolving multiple services.</param>
-        public static void SetDependencyResolver(Func<Type, Object> getService, Func<Type, IEnumerable<Object>> getServices)
-        {
-            instance.resolver.InnerSetResolver(getService, getServices);
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Resets the current configuration to the initial 
-        /// configuration.
-        /// </summary>
-        public static void Reset()
-        {
-            instance = new Configuration();
-        }
-
-        /// <summary>
-        /// Loads the specified configuration, overwriting the current one.
-        /// </summary>
-        /// <param name="config">The configuration to load.</param>
-        public static void Load(Configuration config)
-        {
-            instance = config;
-        }
-
-        /// <summary>
-        /// Saves the current configuration to be used later.
-        /// </summary>
-        /// <returns>The saved configuration state.</returns>
-        public static Configuration Save()
-        {
-            var old = instance;
-            instance = new Configuration(old);
-            return old;
+            get { return _quirks; }
+            set { _quirks = value; }
         }
 
         #endregion

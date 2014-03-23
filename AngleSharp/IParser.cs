@@ -1,9 +1,9 @@
-﻿using AngleSharp.Events;
-using System;
-using System.Threading.Tasks;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using AngleSharp.Events;
+    using System;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Definition for any parser in the AngleSharp library.
     /// </summary>
@@ -12,7 +12,7 @@ namespace AngleSharp
         /// <summary>
         /// This event is raised when an error occurred.
         /// </summary>
-        event ParseErrorEventHandler ErrorOccurred;
+        event EventHandler<ParseErrorEventArgs> ParseError;
 
         /// <summary>
         /// Determines if the parser is working async.

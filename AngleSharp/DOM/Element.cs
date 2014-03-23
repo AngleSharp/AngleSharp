@@ -156,7 +156,7 @@ namespace AngleSharp.DOM
         [DOM("lang")]
         public String Lang
         {
-            get { return GetAttribute("lang") ?? (ParentElement != null ? ParentElement.Lang : Configuration.Language); }
+            get { return GetAttribute("lang") ?? (ParentElement != null ? ParentElement.Lang : _owner.Options.Language); }
             set { SetAttribute("lang", value); }
         }
 

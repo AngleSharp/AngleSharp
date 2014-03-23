@@ -1,12 +1,12 @@
-﻿using System;
-using System.Reflection;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+    using System.Reflection;
+
     /// <summary>
     /// General information to be used internally about the library.
     /// </summary>
-    sealed class Info
+    sealed class DefaultInfo : IInfo
     {
         #region Members
 
@@ -17,21 +17,10 @@ namespace AngleSharp
 
         #region ctor
 
-        Info()
+        public DefaultInfo()
         {
-            version = typeof(Info).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+            version = typeof(DefaultInfo).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
             agent = "AngleSharp/" + version;
-        }
-
-        #endregion
-
-        #region Singleton
-
-        static readonly Info instance;
-
-        static Info()
-        {
-            instance = new Info();
         }
 
         #endregion
@@ -41,17 +30,17 @@ namespace AngleSharp
         /// <summary>
         /// Gets the version of AngleSharp.
         /// </summary>
-        public static String Version
+        public String Version
         {
-            get { return instance.version; }
+            get { return version; }
         }
 
         /// <summary>
         /// Gets the agent string of AngleSharp.
         /// </summary>
-        public static String Agent
+        public String Agent
         {
-            get { return instance.agent; }
+            get { return agent; }
         }
 
         #endregion

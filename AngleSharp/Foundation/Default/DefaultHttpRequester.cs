@@ -18,18 +18,19 @@
 
         const Int32 CHUNK = 4096;
 
-        static TimeSpan _timeOut;
-        static Dictionary<String, String> _defaultHeaders;
         static readonly Dictionary<String, PropertyInfo> _propCache;
 
         #endregion
 
-        #region Members
+        #region Fields
 
-        Byte[] buffer;
-        HttpWebRequest http;
-        HttpWebResponse response;
-        TaskCompletionSource<Boolean> completed;
+        TimeSpan _timeOut;
+        HttpWebRequest _http;
+        HttpWebResponse _response;
+        TaskCompletionSource<Boolean> _completed;
+
+        readonly Byte[] _buffer;
+        readonly Dictionary<String, String> _headers;
 
         #endregion
 
@@ -38,14 +39,14 @@
         static DefaultHttpRequester()
         {
             _propCache = new Dictionary<String, PropertyInfo>();
-            _defaultHeaders = new Dictionary<String, String>();
-            _defaultHeaders.Add("User-Agent", Info.Agent);
-            _timeOut = new TimeSpan(0, 0, 0, 45);
         }
 
-        public DefaultHttpRequester()
+        public DefaultHttpRequester(IInfo info)
         {
-            buffer = new Byte[CHUNK];
+            _buffer = new Byte[CHUNK];
+            _timeOut = new TimeSpan(0, 0, 0, 45);
+            _headers = new Dictionary<String, String>();
+            _headers.Add("User-Agent", info.Agent);
         }
 
         #endregion
@@ -53,12 +54,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the default headers.
+        /// Gets the used headers.
         /// </summary>
-        public Dictionary<String, String> DefaultHeaders
+        public Dictionary<String, String> Headers
         {
-            get { return _defaultHeaders; }
-            set { _defaultHeaders = value; }
+            get { return _headers; }
         }
 
         /// <summary>
@@ -78,13 +78,13 @@
         {
             if (CreateRequest(request))
             {
-                http.BeginGetRequestStream(SendRequest, request);
-                completed.Task.Wait();
-                completed = new TaskCompletionSource<Boolean>();
+                _http.BeginGetRequestStream(SendRequest, request);
+                _completed.Task.Wait();
+                _completed = new TaskCompletionSource<Boolean>();
             }
 
-            http.BeginGetResponse(ReceiveResponse, null);
-            completed.Task.Wait();
+            _http.BeginGetResponse(ReceiveResponse, null);
+            _completed.Task.Wait();
             return GetResponse();
         }
 
@@ -97,20 +97,20 @@
         {
             if (CreateRequest(request))
             {
-                http.BeginGetRequestStream(SendRequest, request);
+                _http.BeginGetRequestStream(SendRequest, request);
 
                 if (cancellationToken.IsCancellationRequested)
                     return null;
 
-                await completed.Task;
-                completed = new TaskCompletionSource<Boolean>();
+                await _completed.Task;
+                _completed = new TaskCompletionSource<Boolean>();
             }
 
             if (cancellationToken.IsCancellationRequested)
                 return null;
 
-            http.BeginGetResponse(ReceiveResponse, null);
-            await completed.Task;
+            _http.BeginGetResponse(ReceiveResponse, null);
+            await _completed.Task;
 
             if (cancellationToken.IsCancellationRequested)
                 return null;
@@ -124,11 +124,11 @@
 
         Boolean CreateRequest(IHttpRequest request)
         {
-            completed = new TaskCompletionSource<Boolean>();
-            http = WebRequest.CreateHttp(request.Address);
-            http.Method = request.Method.ToString();
+            _completed = new TaskCompletionSource<Boolean>();
+            _http = WebRequest.CreateHttp(request.Address);
+            _http.Method = request.Method.ToString();
 
-            foreach (var header in DefaultHeaders)
+            foreach (var header in _headers)
                 AddHeader(header.Key, header.Value);
 
             foreach (var header in request.Headers)
@@ -141,44 +141,44 @@
         {
             var carrier = (IHttpRequest)ar.AsyncState;
             var source = carrier.Content;
-            var target = http.EndGetRequestStream(ar);
+            var target = _http.EndGetRequestStream(ar);
 
             if (source != null)
             {
                 while (source != null)
                 {
-                    var length = source.Read(buffer, 0, CHUNK);
+                    var length = source.Read(_buffer, 0, CHUNK);
 
                     if (length == 0)
                         break;
 
-                    target.Write(buffer, 0, length);
+                    target.Write(_buffer, 0, length);
                 }
             }
 
-            completed.SetResult(true);
+            _completed.SetResult(true);
         }
 
         void ReceiveResponse(IAsyncResult ar)
         {
             try
             {
-                response = (HttpWebResponse)http.EndGetResponse(ar);
+                _response = (HttpWebResponse)_http.EndGetResponse(ar);
             }
             catch (WebException ex)
             {
-                response = (HttpWebResponse)ex.Response;
+                _response = (HttpWebResponse)ex.Response;
             }
 
-            completed.SetResult(true);
+            _completed.SetResult(true);
         }
 
         DefaultHttpResponse GetResponse()
         {
             var result = new DefaultHttpResponse();
-            var headers = response.Headers.AllKeys.Select(m => new { Key = m, Value = response.Headers[m] });
-            result.Content = response.GetResponseStream();
-            result.StatusCode = response.StatusCode;
+            var headers = _response.Headers.AllKeys.Select(m => new { Key = m, Value = _response.Headers[m] });
+            result.Content = _response.GetResponseStream();
+            result.StatusCode = _response.StatusCode;
 
             foreach (var header in headers)
                 result.Headers.Add(header.Key, header.Value);
@@ -195,24 +195,24 @@
         /// <param name="value">The value to be set.</param>
         void AddHeader(String key, String value)
         {
-            if (key == Headers.Accept)
-                http.Accept = value;
-            else if (key == Headers.Content_Type)
-                http.ContentType = value;
-            else if (key == Headers.Expect)
+            if (key == HeaderNames.Accept)
+                _http.Accept = value;
+            else if (key == HeaderNames.Content_Type)
+                _http.ContentType = value;
+            else if (key == HeaderNames.Expect)
                 SetProperty("Expect", value);
-            else if (key == Headers.Date)
+            else if (key == HeaderNames.Date)
                 SetProperty("Date", DateTime.Parse(value));
-            else if (key == Headers.Host)
+            else if (key == HeaderNames.Host)
                 SetProperty("Host", value);
-            else if (key == Headers.If_Modified_Since)
+            else if (key == HeaderNames.If_Modified_Since)
                 SetProperty("IfModifiedSince", DateTime.Parse(value));
-            else if (key == Headers.Referer)
+            else if (key == HeaderNames.Referer)
                 SetProperty("Referer", value);
-            else if (key == Headers.User_Agent)
+            else if (key == HeaderNames.User_Agent)
                 SetProperty("UserAgent", value);
-            else if (key != Headers.Connection && key != Headers.Range && key != Headers.Content_Length && key != Headers.Transfer_Encoding)
-                http.Headers[key] = value;
+            else if (key != HeaderNames.Connection && key != HeaderNames.Range && key != HeaderNames.Content_Length && key != HeaderNames.Transfer_Encoding)
+                _http.Headers[key] = value;
         }
 
         /// <summary>
@@ -227,12 +227,12 @@
         void SetProperty(String name, Object value)
         {
             if (!_propCache.ContainsKey(name))
-                _propCache.Add(name, http.GetType().GetTypeInfo().GetDeclaredProperty(name));
+                _propCache.Add(name, _http.GetType().GetTypeInfo().GetDeclaredProperty(name));
 
             var property = _propCache[name];
 
             if (property != null)
-                property.SetValue(http, value);
+                property.SetValue(_http, value);
         }
 
         #endregion

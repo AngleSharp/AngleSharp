@@ -1,10 +1,10 @@
-﻿using AngleSharp.Css;
-using AngleSharp.DOM;
-using System;
-using System.Collections.Generic;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using AngleSharp.Css;
+    using AngleSharp.DOM;
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// A set of useful extension methods when dealing with the DOM.
     /// </summary>

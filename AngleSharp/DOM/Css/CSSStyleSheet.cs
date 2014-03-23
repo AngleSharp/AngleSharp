@@ -1,5 +1,6 @@
 ﻿using AngleSharp.Css;
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -116,14 +117,40 @@ namespace AngleSharp.DOM.Css
         {
             TryCancelCurrent();
             _cssRules.List.Clear();
-            _current = Builder.StyleFromUrl(this, url, _cts.Token);
+            _current = ParseAsync(url, _cts.Token);
+        }
+
+
+        async Task ParseAsync(String url, CancellationToken cancel)
+        {
+            if (Options.IsStyling)
+            {
+                var stream = await LoadAsync(url, cancel);
+                var parser = new CssParser(this, stream);
+                await parser.ParseAsync();
+            }
+        }
+
+        async Task<Stream> LoadAsync(String url, CancellationToken cancel)
+        {
+            Uri uri;
+
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
+                throw new ArgumentException("The given URL does not represent a valid absolute URL.");
+
+            return await uri.LoadAsync(cancel);
         }
 
         internal void ReevaluateFromSource(String source)
         {
             TryCancelCurrent();
             _cssRules.List.Clear();
-            Builder.StyleFromSource(this, source);
+
+            if (Options.IsStyling)
+            {
+                var parser = new CssParser(this, source);
+                parser.Parse();
+            }
         }
 
         void TryCancelCurrent()

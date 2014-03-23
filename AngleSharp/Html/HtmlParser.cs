@@ -1,16 +1,16 @@
-﻿using System;
-using System.IO;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using AngleSharp.DOM;
-using AngleSharp.Events;
-using AngleSharp.DOM.Html;
-using AngleSharp.DOM.Mathml;
-using AngleSharp.DOM.Svg;
-
-namespace AngleSharp.Html
+﻿namespace AngleSharp.Html
 {
+    using AngleSharp.DOM;
+    using AngleSharp.DOM.Html;
+    using AngleSharp.DOM.Mathml;
+    using AngleSharp.DOM.Svg;
+    using AngleSharp.Events;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Represents the Tree construction as specified in
     /// 8.2.5 Tree construction, on the following page:
@@ -46,7 +46,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// The event will be fired once an error has been detected.
         /// </summary>
-        public event ParseErrorEventHandler ErrorOccurred;
+        public event EventHandler<ParseErrorEventArgs> ParseError;
 
         #endregion
 
@@ -57,8 +57,9 @@ namespace AngleSharp.Html
         /// based on the given source.
         /// </summary>
         /// <param name="source">The source code as a string.</param>
-        public HtmlParser(String source)
-            : this(new HTMLDocument(), new SourceManager(source))
+        /// <param name="configuration">[Optional] The configuration to use.</param>
+        public HtmlParser(String source, IConfiguration configuration = null)
+            : this(new HTMLDocument(), new SourceManager(source, configuration))
         {
         }
 
@@ -67,8 +68,9 @@ namespace AngleSharp.Html
         /// based on the given stream.
         /// </summary>
         /// <param name="stream">The stream to use as source.</param>
-        public HtmlParser(Stream stream)
-            : this(new HTMLDocument(), new SourceManager(stream))
+        /// <param name="configuration">[Optional] The configuration to use.</param>
+        public HtmlParser(Stream stream, IConfiguration configuration = null)
+            : this(new HTMLDocument(), new SourceManager(stream, configuration))
         {
         }
 
@@ -79,7 +81,7 @@ namespace AngleSharp.Html
         /// <param name="document">The document instance to be constructed.</param>
         /// <param name="source">The source code as a string.</param>
         public HtmlParser(HTMLDocument document, String source)
-            : this(document, new SourceManager(source))
+            : this(document, new SourceManager(source, document.Options))
         {
         }
 
@@ -90,7 +92,7 @@ namespace AngleSharp.Html
         /// <param name="document">The document instance to be constructed.</param>
         /// <param name="stream">The stream to use as source.</param>
         public HtmlParser(HTMLDocument document, Stream stream)
-            : this(document, new SourceManager(stream))
+            : this(document, new SourceManager(stream, document.Options))
         {
         }
 
@@ -106,8 +108,8 @@ namespace AngleSharp.Html
 
             tokenizer.ErrorOccurred += (s, ev) =>
             {
-                if (ErrorOccurred != null)
-                    ErrorOccurred(this, ev);
+                if (ParseError != null)
+                    ParseError(this, ev);
             };
 
 			sync = new Object();
@@ -4218,12 +4220,12 @@ namespace AngleSharp.Html
         /// <param name="code">The associated error code.</param>
         void RaiseErrorOccurred(ErrorCode code)
         {
-            if (ErrorOccurred != null)
+            if (ParseError != null)
             {
                 var pck = new ParseErrorEventArgs((int)code, Errors.GetError(code));
                 pck.Line = tokenizer.Stream.Line;
                 pck.Column = tokenizer.Stream.Column;
-                ErrorOccurred(this, pck);
+                ParseError(this, pck);
             }
         }
 

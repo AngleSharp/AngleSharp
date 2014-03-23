@@ -1,22 +1,22 @@
-﻿using AngleSharp.DOM;
-using AngleSharp.DOM.Collections;
-using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.DOM;
+    using AngleSharp.DOM.Collections;
+    using System;
+
     /// <summary>
     /// Represent a stylesheet object.
     /// </summary>
     [DOM("StyleSheet")]
     public class StyleSheet
     {
-        #region Members
+        #region Fields
 
         Element _owner;
         StyleSheet _parent;
         MediaList _media;
         String _url;
-        DocumentOptions _options;
+        IConfiguration _options;
 
         #endregion
 
@@ -120,7 +120,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets or sets the document options.
         /// </summary>
-        internal DocumentOptions Options
+        internal IConfiguration Options
         {
             get 
             {
@@ -131,7 +131,7 @@ namespace AngleSharp.DOM.Css
                 else if (_parent != null)
                     return _parent.Options;
 
-                return DocumentOptions.Default; 
+                return Configuration.Default; 
             }
             set { _options = value; }
         }

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using AngleSharp.DOM.Html;
-using AngleSharp.DOM.Mathml;
-using AngleSharp.DOM.Svg;
-using AngleSharp.DOM.Collections;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Html;
+    using AngleSharp.DOM.Mathml;
+    using AngleSharp.DOM.Svg;
+    using System;
+    using System.Linq;
+
     /// <summary>
     /// Represents a document node.
     /// </summary>
@@ -18,7 +18,7 @@ namespace AngleSharp.DOM
         QuirksMode _quirksMode;
         Readiness _ready;
         DOMImplementation _implementation;
-        DocumentOptions _options;
+        IConfiguration _options;
         String _encoding;
         String _originalEncoding;
         DOMStringList _styles;
@@ -62,7 +62,7 @@ namespace AngleSharp.DOM
             _styleSheets = new StyleSheetList(this);
             _quirksMode = QuirksMode.Off;
             _location = new Location("file://localhost/");
-            _options = DocumentOptions.Default;
+            _options = Configuration.Default;
         }
 
         #endregion
@@ -251,10 +251,10 @@ namespace AngleSharp.DOM
         /// <summary>
         /// Gets or sets the options to use.
         /// </summary>
-        internal DocumentOptions Options
+        internal IConfiguration Options
         {
             get { return _options; }
-            set { _options = value ?? DocumentOptions.Default; }
+            set { _options = value ?? Configuration.Default; }
         }
 
         /// <summary>

@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Text;
+
     /// <summary>
     /// Represents the source code manager.
     /// </summary>
     [DebuggerStepThrough]
     sealed class SourceManager : IDisposable
     {
-        #region Members
+        #region Fields
 
         Int32 _column;
         Int32 _row;
@@ -32,9 +32,13 @@ namespace AngleSharp
         /// <summary>
         /// Prepares everything.
         /// </summary>
-        SourceManager()
+        /// <param name="configuration">The configuration to use.</param>
+        SourceManager(IConfiguration configuration = null)
         {
-            _encoding = DocumentEncoding.Suggest(Configuration.Language);
+            if (configuration == null)
+                configuration = Configuration.Default;
+
+            _encoding = DocumentEncoding.Suggest(configuration.Language);
             _buffer = new StringBuilder();
             _collengths = new Stack<Int32>();
             _column = 1;
@@ -45,8 +49,9 @@ namespace AngleSharp
         /// Constructs a new instance of the source code manager.
         /// </summary>
         /// <param name="source">The source code string to manage.</param>
-        public SourceManager(String source)
-            : this()
+        /// <param name="configuration">The configuration to use.</param>
+        public SourceManager(String source, IConfiguration configuration = null)
+            : this(configuration)
         {
             _reader = new StringReader(source);
             ReadCurrent();
@@ -56,8 +61,9 @@ namespace AngleSharp
         /// Constructs a new instance of the source code manager.
         /// </summary>
         /// <param name="stream">The source code stream to manage.</param>
-        public SourceManager(Stream stream)
-            : this()
+        /// <param name="configuration">The configuration to use.</param>
+        public SourceManager(Stream stream, IConfiguration configuration = null)
+            : this(configuration)
         {
             _reader = new StreamReader(stream, true);
             ReadCurrent();

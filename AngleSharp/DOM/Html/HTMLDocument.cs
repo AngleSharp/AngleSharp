@@ -3,6 +3,7 @@ using AngleSharp.DOM.Collections;
 using AngleSharp.Html;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace AngleSharp.DOM.Html
 {
@@ -400,6 +401,7 @@ namespace AngleSharp.DOM.Html
         [DOM("load")]
         public HTMLDocument Load(String url)
         {
+            Uri uri;
             _location.Href = url;
             Cookie = new Cookie();
 
@@ -408,14 +410,18 @@ namespace AngleSharp.DOM.Html
 
             ReadyState = Readiness.Loading;
             QuirksMode = QuirksMode.Off;
-            var task = Builder.GetFromUrl(url);
+
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
+                throw new ArgumentException("The given URL is not valid as an absolute URL.");
+
+            var task = uri.LoadAsync();
 
             task.ContinueWith(m =>
             {
                 if (m.IsCompleted && !m.IsFaulted)
                 {
                     var stream = m.Result;
-                    var source = new SourceManager(stream);
+                    var source = new SourceManager(stream, Options);
                     var parser = new HtmlParser(this, source);
                     parser.Parse();
                 }
