@@ -8,11 +8,11 @@
 
     sealed class DefaultDependencyResolver : IDependencyResolver
     {
-        readonly Dictionary<Type, Type> _mapping;
+        readonly Dictionary<Type, Func<Object>> _mapping;
 
         public DefaultDependencyResolver()
         {
-            _mapping = new Dictionary<Type, Type>();
+            _mapping = new Dictionary<Type, Func<Object>>();
         }
 
         public Object GetService(Type serviceType)
@@ -26,18 +26,12 @@
             catch { return null; }
         }
 
-        Object GetServiceFromMapping(Type interfaceType)
+        Object GetServiceFromMapping(Type type)
         {
-            //foreach (var type in typeInfo.Assembly.DefinedTypes.Where(m => !m.IsInterface && !m.IsAbstract))
-            //{
-            //    if (type.IsSubclassOf(type.AsType()))
-            //    {
+            Func<Object> creator = null;
 
-            //    }
-            //}
-
-            if (_mapping.ContainsKey(interfaceType))
-                return GetService(_mapping[interfaceType]);
+            if (_mapping.TryGetValue(type, out creator))
+                return creator();
 
             return null;
         }
@@ -55,9 +49,10 @@
                 _mapping.Remove(key);
         }
 
-        public void AddService<TInterface, TTarget>()
+        public void AddService<TInterface, TTarget>(Func<TTarget> target)
+            where TTarget : TInterface
         {
-            _mapping[typeof(TInterface)] = typeof(TTarget);
+            _mapping[typeof(TInterface)] = () => target();
         }
     }
 }

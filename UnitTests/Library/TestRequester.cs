@@ -25,7 +25,7 @@ namespace UnitTests
         public void CustomGetHttpRequester()
         {
             var current = DependencyResolver.Current as DefaultDependencyResolver;
-            current.AddService<IHttpRequester, DefaultHttpRequester>();
+            current.AddService<IHttpRequester, DefaultHttpRequester>(() => new DefaultHttpRequester(new DefaultInfo()));
             var requ = DependencyResolver.Current.GetService<IHttpRequester>();
             Assert.IsNotNull(requ);
             Assert.IsInstanceOfType(requ, typeof(DefaultHttpRequester));
