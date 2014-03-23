@@ -118,11 +118,11 @@
     <Compile Include="..\AngleSharp\Css\Tokens\CssUnitToken.cs">
       <Link>Css\Tokens\CssUnitToken.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DependencyResolver.cs">
+      <Link>DependencyResolver.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DocumentBuilder.cs">
       <Link>DocumentBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DocumentOptions.cs">
-      <Link>DocumentOptions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\ICssMedia.cs">
       <Link>DOM\Annotations\ICssMedia.cs</Link>
@@ -348,6 +348,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\DocumentType.cs">
       <Link>DOM\DocumentType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\DOMException.cs">
+      <Link>DOM\DOMException.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Element.cs">
       <Link>DOM\Element.cs</Link>
@@ -856,12 +859,6 @@
     <Compile Include="..\AngleSharp\Events\ParseErrorEventArgs.cs">
       <Link>Events\ParseErrorEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Events\ParseErrorEventHandler.cs">
-      <Link>Events\ParseErrorEventHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Exception\DOMException.cs">
-      <Link>Exception\DOMException.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Extensions.cs">
       <Link>Extensions.cs</Link>
     </Compile>
@@ -870,9 +867,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\BaseTokenizer.cs">
       <Link>Foundation\BaseTokenizer.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Builder.cs">
-      <Link>Foundation\Builder.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\AttributeNames.cs">
       <Link>Foundation\Constants\AttributeNames.cs</Link>
@@ -892,8 +886,8 @@
     <Compile Include="..\AngleSharp\Foundation\Constants\FunctionNames.cs">
       <Link>Foundation\Constants\FunctionNames.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\Headers.cs">
-      <Link>Foundation\Constants\Headers.cs</Link>
+    <Compile Include="..\AngleSharp\Foundation\Constants\HeaderNames.cs">
+      <Link>Foundation\Constants\HeaderNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\MimeTypes.cs">
       <Link>Foundation\Constants\MimeTypes.cs</Link>
@@ -946,9 +940,6 @@
     <Compile Include="..\AngleSharp\Foundation\HttpMethod.cs">
       <Link>Foundation\HttpMethod.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Info.cs">
-      <Link>Foundation\Info.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\IoC\CacheDependencyResolver.cs">
       <Link>Foundation\IoC\CacheDependencyResolver.cs</Link>
     </Compile>
@@ -958,14 +949,8 @@
     <Compile Include="..\AngleSharp\Foundation\IoC\DelegateBasedDependencyResolver.cs">
       <Link>Foundation\IoC\DelegateBasedDependencyResolver.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\IoC\DependencyResolver.cs">
-      <Link>Foundation\IoC\DependencyResolver.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\IoC\ResolverExtensions.cs">
       <Link>Foundation\IoC\ResolverExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\IParser.cs">
-      <Link>Foundation\IParser.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Mutations\MutationCallback.cs">
       <Link>Foundation\Mutations\MutationCallback.cs</Link>
@@ -982,11 +967,8 @@
     <Compile Include="..\AngleSharp\Foundation\Pool.cs">
       <Link>Foundation\Pool.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Requests\DefaultHttpRequest.cs">
-      <Link>Foundation\Requests\DefaultHttpRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Requests\DefaultHttpResponse.cs">
-      <Link>Foundation\Requests\DefaultHttpResponse.cs</Link>
+    <Compile Include="..\AngleSharp\Foundation\UriExtensions.cs">
+      <Link>Foundation\UriExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\HtmlParseMode.cs">
       <Link>Html\HtmlParseMode.cs</Link>
@@ -1021,6 +1003,12 @@
     <Compile Include="..\AngleSharp\Html\Tokens\HtmlToken.cs">
       <Link>Html\Tokens\HtmlToken.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\IConfiguration.cs">
+      <Link>IConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\IInfo.cs">
+      <Link>IInfo.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IDependencyResolver.cs">
       <Link>Interfaces\IDependencyResolver.cs</Link>
     </Compile>
@@ -1032,6 +1020,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IHttpResponse.cs">
       <Link>Interfaces\IHttpResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\IParser.cs">
+      <Link>IParser.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>

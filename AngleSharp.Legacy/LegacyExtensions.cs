@@ -10,12 +10,18 @@ namespace AngleSharp
             return type;
         }
 
+        public static Type AsType(this Type type)
+        {
+            return type;
+        }
+
         public static MethodInfo GetRuntimeMethod(this Type type, String name, Type[] parameters)
         {
             return type.GetMethod(name, parameters);
         }
 
-        public static T GetCustomAttribute<T>(this ICustomAttributeProvider provider, Boolean inherit = false) where T : Attribute
+        public static T GetCustomAttribute<T>(this ICustomAttributeProvider provider, Boolean inherit = false) 
+            where T : Attribute
         {
             var objs = provider.GetCustomAttributes(typeof(T), inherit);
 
