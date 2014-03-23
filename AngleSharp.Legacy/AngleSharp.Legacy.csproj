@@ -313,9 +313,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSValueList.cs">
       <Link>DOM\Css\Values\CSSValueList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSValuePool.cs">
-      <Link>DOM\Css\Values\CSSValuePool.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Primitives\CSSColor.cs">
       <Link>DOM\Css\Values\Primitives\CSSColor.cs</Link>
     </Compile>
@@ -402,6 +399,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Enums\Readiness.cs">
       <Link>DOM\Enums\Readiness.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Enums\ValueListSeparator.cs">
+      <Link>DOM\Enums\ValueListSeparator.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Enums\VerticalAlignment.cs">
       <Link>DOM\Enums\VerticalAlignment.cs</Link>
