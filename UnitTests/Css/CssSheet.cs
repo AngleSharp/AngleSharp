@@ -217,11 +217,11 @@ namespace UnitTests
             var prop = decl.List[0];
             Assert.AreEqual("font-family", prop.Name);
             Assert.IsFalse(prop.Important);
-            Assert.AreEqual(CssValueType.Custom, prop.Value.CssValueType);
+            Assert.AreEqual(CssValueType.ValueList, prop.Value.CssValueType);
 
-            var value = prop.Value as CSSValuePool;
+            var value = prop.Value as CSSValueList;
             Assert.AreEqual(4, value.Length);
-            Assert.AreEqual("'Helvetica Neue',Helvetica,Arial,sans-serif", value.ToCss());
+            Assert.AreEqual("'Helvetica Neue', Helvetica, Arial, sans-serif", value.ToCss());
         }
 
         [TestMethod]
@@ -235,7 +235,7 @@ namespace UnitTests
             Assert.AreEqual("font", font.Name);
             Assert.IsFalse(font.Important);
             Assert.AreEqual(CssValueType.ValueList, font.Value.CssValueType);
-            Assert.AreEqual("bold 1em/2em monospace", font.Value.ToCss());
+            Assert.AreEqual("bold 1em / 2em monospace", font.Value.ToCss());
 
             var content = decl.List[1];
             Assert.AreEqual("content", content.Name);
