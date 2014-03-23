@@ -856,17 +856,11 @@
     <Compile Include="..\AngleSharp\DOM\Various\ProcessingInstruction.cs">
       <Link>DOM\Various\ProcessingInstruction.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Events\ParseErrorEventArgs.cs">
-      <Link>Events\ParseErrorEventArgs.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Extensions.cs">
       <Link>Extensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Attributes\DOMAttribute.cs">
       <Link>Foundation\Attributes\DOMAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\BaseTokenizer.cs">
-      <Link>Foundation\BaseTokenizer.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\AttributeNames.cs">
       <Link>Foundation\Constants\AttributeNames.cs</Link>
@@ -1021,14 +1015,20 @@
     <Compile Include="..\AngleSharp\Interfaces\IHttpResponse.cs">
       <Link>Interfaces\IHttpResponse.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\IParser.cs">
-      <Link>IParser.cs</Link>
+    <Compile Include="..\AngleSharp\Parser\BaseTokenizer.cs">
+      <Link>Parser\BaseTokenizer.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\IParser.cs">
+      <Link>Parser\IParser.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\ParseErrorEventArgs.cs">
+      <Link>Parser\ParseErrorEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\SourceManager.cs">
+      <Link>Parser\SourceManager.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Stream\SourceManager.cs">
-      <Link>Stream\SourceManager.cs</Link>
     </Compile>
     <Compile Include="LegacyExtensions.cs" />
   </ItemGroup>
