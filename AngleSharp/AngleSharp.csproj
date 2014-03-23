@@ -59,7 +59,7 @@
     <Compile Include="DOM\Mathml\MathFactory.cs" />
     <Compile Include="DOM\Objects\FileEntry.cs" />
     <Compile Include="DOM\Svg\SVGFactory.cs" />
-    <Compile Include="Events\ParseErrorEventArgs.cs" />
+    <Compile Include="Parser\ParseErrorEventArgs.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Foundation\Constants\AttributeNames.cs" />
     <Compile Include="Foundation\Constants\FunctionNames.cs" />
@@ -177,7 +177,7 @@
     <Compile Include="DOM\Objects\Range.cs" />
     <Compile Include="DOM\Various\FormControlState.cs" />
     <Compile Include="Foundation\Attributes\DOMAttribute.cs" />
-    <Compile Include="Foundation\BaseTokenizer.cs" />
+    <Compile Include="Parser\BaseTokenizer.cs" />
     <Compile Include="Foundation\Constants\Colors.cs" />
     <Compile Include="Css\CssCombinator.cs" />
     <Compile Include="DOM\Enums\EventPhase.cs" />
@@ -191,7 +191,7 @@
     <Compile Include="DependencyResolver.cs" />
     <Compile Include="Foundation\IoC\ResolverExtensions.cs" />
     <Compile Include="Interfaces\IDependencyResolver.cs" />
-    <Compile Include="IParser.cs" />
+    <Compile Include="Parser\IParser.cs" />
     <Compile Include="Foundation\Constants\MimeTypes.cs" />
     <Compile Include="Foundation\Mutations\MutationCallback.cs" />
     <Compile Include="Foundation\Mutations\MutationObserver.cs" />
@@ -352,7 +352,7 @@
     <Compile Include="Html\HtmlParser.cs" />
     <Compile Include="Interfaces\IHttpResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Stream\SourceManager.cs" />
+    <Compile Include="Parser\SourceManager.cs" />
     <Compile Include="Foundation\Constants\Specification.cs" />
     <Compile Include="Foundation\Helpers\SvgHelpers.cs" />
     <Compile Include="Html\HtmlTokenizer.cs" />

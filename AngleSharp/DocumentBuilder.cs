@@ -5,7 +5,7 @@
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
-    using AngleSharp.Events;
+    using AngleSharp.Parser;
     using AngleSharp.Html;
     using System;
     using System.Diagnostics;

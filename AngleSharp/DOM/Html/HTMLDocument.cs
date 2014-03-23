@@ -1,12 +1,12 @@
-﻿using System;
-using AngleSharp.DOM.Collections;
-using AngleSharp.Html;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+    using AngleSharp.Html;
+    using AngleSharp.Parser;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Represents an HTML document.
     /// </summary>

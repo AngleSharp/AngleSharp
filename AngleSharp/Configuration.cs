@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Events;
+    using AngleSharp.Parser;
     using System;
     using System.Globalization;
 

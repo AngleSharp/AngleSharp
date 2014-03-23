@@ -1,6 +1,5 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Parser
 {
-    using AngleSharp.Events;
     using System;
     using System.Threading.Tasks;
 

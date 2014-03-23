@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Parser
 {
     using System;
     using System.Collections.Generic;

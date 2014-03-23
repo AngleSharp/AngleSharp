@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Events
+﻿namespace AngleSharp.Parser
 {
     using System;
     using System.Diagnostics;

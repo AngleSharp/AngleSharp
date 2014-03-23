@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css
 {
     using AngleSharp.Css.Tokens;
+    using AngleSharp.Parser;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;

@@ -1,10 +1,9 @@
-﻿using AngleSharp.Events;
-using System;
-using System.Diagnostics;
-using System.Text;
-
-namespace AngleSharp
+﻿namespace AngleSharp.Parser
 {
+    using System;
+    using System.Diagnostics;
+    using System.Text;
+
     /// <summary>
     /// Common methods and variables of all tokenizers.
     /// </summary>

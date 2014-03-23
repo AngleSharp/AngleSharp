@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-
-namespace AngleSharp.Html
+﻿namespace AngleSharp.Html
 {
+    using AngleSharp.Parser;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Text;
+
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
