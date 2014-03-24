@@ -10,7 +10,7 @@
     [DOM("Node")]
     public class Node : INode, IHtmlObject
     {
-        #region Members
+        #region Fields
 
         /// <summary>
         /// The responsible document.
@@ -61,7 +61,7 @@
 
         #endregion
 
-        #region Public properties
+        #region Public Properties
 
         /// <summary>
         /// Gets a boolean value indicating whether the current Node has attribute nodes or not.

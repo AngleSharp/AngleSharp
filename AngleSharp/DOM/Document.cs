@@ -13,7 +13,7 @@
     [DOM("Document")]
     public class Document : Node, IDocument, IDocumentStyle
     {
-        #region Members
+        #region Fields
 
         QuirksMode _quirksMode;
         Readiness _ready;

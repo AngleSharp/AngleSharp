@@ -94,7 +94,7 @@
     <Compile Include="DOM\Collections\HTMLFormControlsCollection.cs" />
     <Compile Include="DOM\Collections\HTMLLiveCollection.cs" />
     <Compile Include="DOM\Collections\HTMLStaticCollection.cs" />
-    <Compile Include="DOM\ContentEditableMode.cs" />
+    <Compile Include="DOM\Enums\ContentEditableMode.cs" />
     <Compile Include="DOM\Css\Properties\CSSProperty.cs" />
     <Compile Include="DOM\Css\Rules\CSSCharsetRule.cs" />
     <Compile Include="DOM\Css\Rules\CSSConditionRule.cs" />
@@ -115,7 +115,7 @@
     <Compile Include="DOM\Css\Values\CSSValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValueList.cs" />
     <Compile Include="DOM\Css\Values\Primitives\CSSRect.cs" />
-    <Compile Include="DOM\DirectionMode.cs" />
+    <Compile Include="DOM\Enums\DirectionMode.cs" />
     <Compile Include="DOM\Enums\Alignment.cs" />
     <Compile Include="DOM\Enums\HorizontalAlignment.cs" />
     <Compile Include="DOM\Enums\VerticalAlignment.cs" />
