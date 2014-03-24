@@ -61,63 +61,6 @@
     <Compile Include="..\AngleSharp\Configuration.cs">
       <Link>Configuration.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\CssCombinator.cs">
-      <Link>Css\CssCombinator.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\CssParser.cs">
-      <Link>Css\CssParser.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\CssSelectorConstructor.cs">
-      <Link>Css\CssSelectorConstructor.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\CssTokenizer.cs">
-      <Link>Css\CssTokenizer.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\CssTokenType.cs">
-      <Link>Css\CssTokenType.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\CssValueBuilder.cs">
-      <Link>Css\CssValueBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssBracketToken.cs">
-      <Link>Css\Tokens\CssBracketToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssCharacterToken.cs">
-      <Link>Css\Tokens\CssCharacterToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssColumnToken.cs">
-      <Link>Css\Tokens\CssColumnToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssCommentToken.cs">
-      <Link>Css\Tokens\CssCommentToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssDelimToken.cs">
-      <Link>Css\Tokens\CssDelimToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssKeywordToken.cs">
-      <Link>Css\Tokens\CssKeywordToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssMatchToken.cs">
-      <Link>Css\Tokens\CssMatchToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssNumberToken.cs">
-      <Link>Css\Tokens\CssNumberToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssRangeToken.cs">
-      <Link>Css\Tokens\CssRangeToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssSpecialCharacter.cs">
-      <Link>Css\Tokens\CssSpecialCharacter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssStringToken.cs">
-      <Link>Css\Tokens\CssStringToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssToken.cs">
-      <Link>Css\Tokens\CssToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Tokens\CssUnitToken.cs">
-      <Link>Css\Tokens\CssUnitToken.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DependencyResolver.cs">
       <Link>DependencyResolver.cs</Link>
     </Compile>
@@ -922,20 +865,8 @@
     <Compile Include="..\AngleSharp\Foundation\Helpers\CharExtensions.cs">
       <Link>Foundation\Helpers\CharExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Helpers\ForeignHelpers.cs">
-      <Link>Foundation\Helpers\ForeignHelpers.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Helpers\HtmlHelpers.cs">
-      <Link>Foundation\Helpers\HtmlHelpers.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Helpers\MathMLHelpers.cs">
-      <Link>Foundation\Helpers\MathMLHelpers.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Helpers\StringExtensions.cs">
       <Link>Foundation\Helpers\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Helpers\SvgHelpers.cs">
-      <Link>Foundation\Helpers\SvgHelpers.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Helpers\XmlHelpers.cs">
       <Link>Foundation\Helpers\XmlHelpers.cs</Link>
@@ -973,39 +904,6 @@
     <Compile Include="..\AngleSharp\Foundation\UriExtensions.cs">
       <Link>Foundation\UriExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\HtmlParseMode.cs">
-      <Link>Html\HtmlParseMode.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\HtmlParser.cs">
-      <Link>Html\HtmlParser.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\HtmlTokenizer.cs">
-      <Link>Html\HtmlTokenizer.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\HtmlTokenType.cs">
-      <Link>Html\HtmlTokenType.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\HtmlTreeMode.cs">
-      <Link>Html\HtmlTreeMode.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\Tokens\HtmlCharacterToken.cs">
-      <Link>Html\Tokens\HtmlCharacterToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\Tokens\HtmlCommentToken.cs">
-      <Link>Html\Tokens\HtmlCommentToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\Tokens\HtmlDoctypeToken.cs">
-      <Link>Html\Tokens\HtmlDoctypeToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\Tokens\HtmlEndOfFileToken.cs">
-      <Link>Html\Tokens\HtmlEndOfFileToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\Tokens\HtmlTagToken.cs">
-      <Link>Html\Tokens\HtmlTagToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\Tokens\HtmlToken.cs">
-      <Link>Html\Tokens\HtmlToken.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
     </Compile>
@@ -1026,6 +924,108 @@
     </Compile>
     <Compile Include="..\AngleSharp\Parser\BaseTokenizer.cs">
       <Link>Parser\BaseTokenizer.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\CssCombinator.cs">
+      <Link>Parser\Css\CssCombinator.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\CssParser.cs">
+      <Link>Parser\Css\CssParser.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\CssSelectorConstructor.cs">
+      <Link>Parser\Css\CssSelectorConstructor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\CssTokenizer.cs">
+      <Link>Parser\Css\CssTokenizer.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\CssTokenType.cs">
+      <Link>Parser\Css\CssTokenType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\CssValueBuilder.cs">
+      <Link>Parser\Css\CssValueBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssBracketToken.cs">
+      <Link>Parser\Css\Tokens\CssBracketToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssCharacterToken.cs">
+      <Link>Parser\Css\Tokens\CssCharacterToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssColumnToken.cs">
+      <Link>Parser\Css\Tokens\CssColumnToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssCommentToken.cs">
+      <Link>Parser\Css\Tokens\CssCommentToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssDelimToken.cs">
+      <Link>Parser\Css\Tokens\CssDelimToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssKeywordToken.cs">
+      <Link>Parser\Css\Tokens\CssKeywordToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssMatchToken.cs">
+      <Link>Parser\Css\Tokens\CssMatchToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssNumberToken.cs">
+      <Link>Parser\Css\Tokens\CssNumberToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssRangeToken.cs">
+      <Link>Parser\Css\Tokens\CssRangeToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssSpecialCharacter.cs">
+      <Link>Parser\Css\Tokens\CssSpecialCharacter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssStringToken.cs">
+      <Link>Parser\Css\Tokens\CssStringToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssToken.cs">
+      <Link>Parser\Css\Tokens\CssToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssUnitToken.cs">
+      <Link>Parser\Css\Tokens\CssUnitToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\Helpers\ForeignHelpers.cs">
+      <Link>Parser\Html\Helpers\ForeignHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\Helpers\MathMLHelpers.cs">
+      <Link>Parser\Html\Helpers\MathMLHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\Helpers\SvgHelpers.cs">
+      <Link>Parser\Html\Helpers\SvgHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\HtmlHelpers.cs">
+      <Link>Parser\Html\HtmlHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\HtmlParseMode.cs">
+      <Link>Parser\Html\HtmlParseMode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\HtmlParser.cs">
+      <Link>Parser\Html\HtmlParser.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\HtmlTokenizer.cs">
+      <Link>Parser\Html\HtmlTokenizer.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\HtmlTokenType.cs">
+      <Link>Parser\Html\HtmlTokenType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\HtmlTreeMode.cs">
+      <Link>Parser\Html\HtmlTreeMode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlCharacterToken.cs">
+      <Link>Parser\Html\Tokens\HtmlCharacterToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlCommentToken.cs">
+      <Link>Parser\Html\Tokens\HtmlCommentToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlDoctypeToken.cs">
+      <Link>Parser\Html\Tokens\HtmlDoctypeToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlEndOfFileToken.cs">
+      <Link>Parser\Html\Tokens\HtmlEndOfFileToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlTagToken.cs">
+      <Link>Parser\Html\Tokens\HtmlTagToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlToken.cs">
+      <Link>Parser\Html\Tokens\HtmlToken.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\IParser.cs">
       <Link>Parser\IParser.cs</Link>
