@@ -1,7 +1,7 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
-using AngleSharp.Html;
+using AngleSharp.Parser.Html;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests

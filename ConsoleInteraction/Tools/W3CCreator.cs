@@ -1,7 +1,7 @@
 ﻿using AngleSharp;
-using AngleSharp.Css;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
+using AngleSharp.Parser.Css;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

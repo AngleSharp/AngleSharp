@@ -1,9 +1,7 @@
-﻿using System;
+﻿using AngleSharp;
+using AngleSharp.Parser.Css;
+using AngleSharp.Parser.Html;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AngleSharp.Css;
-using AngleSharp.Html;
-using AngleSharp.Xml;
-using AngleSharp;
 
 namespace UnitTests
 {

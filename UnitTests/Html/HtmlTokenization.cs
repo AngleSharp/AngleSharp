@@ -1,5 +1,5 @@
-﻿using AngleSharp.Html;
-using AngleSharp.Parser;
+﻿using AngleSharp.Parser;
+using AngleSharp.Parser.Html;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Text;

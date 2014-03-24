@@ -1,14 +1,14 @@
 ﻿using AngleSharp;
-using AngleSharp.Css;
 using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
-using AngleSharp.Html;
+using AngleSharp.Parser.Css;
+using AngleSharp.Parser.Html;
 using ConsoleInteraction.Assets;
 using System;
-using System.Linq;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Resources;
 using System.Text;
