@@ -844,15 +844,6 @@
     <Compile Include="..\AngleSharp\Foundation\Constants\Tags.cs">
       <Link>Foundation\Constants\Tags.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Default\DefaultHttpRequest.cs">
-      <Link>Foundation\Default\DefaultHttpRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Default\DefaultHttpResponse.cs">
-      <Link>Foundation\Default\DefaultHttpResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Default\DefaultInfo.cs">
-      <Link>Foundation\Default\DefaultInfo.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\DocumentEncoding.cs">
       <Link>Foundation\DocumentEncoding.cs</Link>
     </Compile>
@@ -907,20 +898,29 @@
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\IDependencyResolver.cs">
+      <Link>IDependencyResolver.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\IInfo.cs">
       <Link>IInfo.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IDependencyResolver.cs">
-      <Link>Interfaces\IDependencyResolver.cs</Link>
+    <Compile Include="..\AngleSharp\Info.cs">
+      <Link>Info.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IHttpRequest.cs">
-      <Link>Interfaces\IHttpRequest.cs</Link>
+    <Compile Include="..\AngleSharp\Network\DefaultHttpRequest.cs">
+      <Link>Network\DefaultHttpRequest.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IHttpRequester.cs">
-      <Link>Interfaces\IHttpRequester.cs</Link>
+    <Compile Include="..\AngleSharp\Network\DefaultHttpResponse.cs">
+      <Link>Network\DefaultHttpResponse.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IHttpResponse.cs">
-      <Link>Interfaces\IHttpResponse.cs</Link>
+    <Compile Include="..\AngleSharp\Network\IHttpRequest.cs">
+      <Link>Network\IHttpRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\IHttpRequester.cs">
+      <Link>Network\IHttpRequester.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\IHttpResponse.cs">
+      <Link>Network\IHttpResponse.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\BaseTokenizer.cs">
       <Link>Parser\BaseTokenizer.cs</Link>
@@ -1039,8 +1039,8 @@
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Foundation\Default\DefaultHttpRequester.cs" />
     <Compile Include="LegacyExtensions.cs" />
+    <Compile Include="Network\DefaultHttpRequester.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
