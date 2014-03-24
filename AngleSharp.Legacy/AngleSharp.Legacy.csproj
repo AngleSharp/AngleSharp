@@ -901,6 +901,15 @@
     <Compile Include="..\AngleSharp\Foundation\Constants\Tags.cs">
       <Link>Foundation\Constants\Tags.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Default\DefaultHttpRequest.cs">
+      <Link>Foundation\Default\DefaultHttpRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Default\DefaultHttpResponse.cs">
+      <Link>Foundation\Default\DefaultHttpResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Default\DefaultInfo.cs">
+      <Link>Foundation\Default\DefaultInfo.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\DocumentEncoding.cs">
       <Link>Foundation\DocumentEncoding.cs</Link>
     </Compile>
@@ -1030,6 +1039,7 @@
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Foundation\Default\DefaultHttpRequester.cs" />
     <Compile Include="LegacyExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
