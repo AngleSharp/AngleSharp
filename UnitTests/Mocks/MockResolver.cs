@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using AngleSharp.Interfaces;
+using AngleSharp;
 
 namespace UnitTests.Mocks
 {

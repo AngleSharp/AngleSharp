@@ -3,7 +3,7 @@ using System.Linq;
 using AngleSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTests.Mocks;
-using AngleSharp.Interfaces;
+using AngleSharp;
 
 namespace UnitTests
 {

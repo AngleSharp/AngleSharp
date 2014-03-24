@@ -1,5 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Interfaces;
+﻿using AngleSharp.Network;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
