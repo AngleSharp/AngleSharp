@@ -53,6 +53,33 @@
 
         #region Methods
 
+        /// <summary>
+        /// Sets up the default dependency resolver, optionally including a type
+        /// for resolving http requests.
+        /// </summary>
+        /// <param name="withHttpRequester">[Optional] True to include the http requester.</param>
+        public static void SetDefaultResolver(Boolean withHttpRequester = false)
+        {
+            var resolver = new DefaultDependencyResolver();
+            var info = new DefaultInfo();
+            var config = new Configuration();
+            resolver.AddService<IInfo, DefaultInfo>(() => info);
+            resolver.AddService<IConfiguration, Configuration>(() => config);
+
+            if (withHttpRequester)
+            {
+                resolver.AddService<IHttpResponse, DefaultHttpResponse>(() => new DefaultHttpResponse());
+                resolver.AddService<IHttpRequest, DefaultHttpRequest>(() => new DefaultHttpRequest());
+                resolver.AddService<IHttpRequester, DefaultHttpRequester>(() => new DefaultHttpRequester(resolver.GetService<IInfo>()));
+            }
+
+            SetResolver(resolver);
+        }
+
+        /// <summary>
+        /// Sets a dependency resolver for the IOC pattern.
+        /// </summary>
+        /// <param name="resolver">The resolver to use.</param>
         public static void SetResolver(IDependencyResolver resolver)
         {
             if (resolver == null)
@@ -62,6 +89,11 @@
             _resolver._currentCache = new CacheDependencyResolver(_resolver._current);
         }
 
+        /// <summary>
+        /// Tries to set a common service locator as dependency resolver.
+        /// The provided object requires methods such as GetInstance or GetAllInstances.
+        /// </summary>
+        /// <param name="commonServiceLocator"></param>
         public static void SetResolver(Object commonServiceLocator)
         {
             if (commonServiceLocator == null)
@@ -80,6 +112,12 @@
             SetResolver(new DelegateBasedDependencyResolver(getService, getServices));
         }
 
+        /// <summary>
+        /// Tries to set two functions as source for dependency injection. Both functions
+        /// need to be supplied.
+        /// </summary>
+        /// <param name="getService">The function to get a particular service defined by its type.</param>
+        /// <param name="getServices">The function to get a list of available services defined by their type.</param>
         public static void SetResolver(Func<Type, Object> getService, Func<Type, IEnumerable<Object>> getServices)
         {
             if (getService == null)
