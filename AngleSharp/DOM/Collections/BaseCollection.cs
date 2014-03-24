@@ -1,18 +1,18 @@
-﻿using System;
-using System.Reflection;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Collections
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Reflection;
+
     /// <summary>
     /// The abstract template class for most DOM collections.
     /// </summary>
     /// <typeparam name="T">The type of elements to contain.</typeparam>
     public abstract class BaseCollection<T> : IHtmlObject, IEnumerable<T> where T : Node
     {
-        #region Members
+        #region Fields
 
         /// <summary>
         /// The contained entries.

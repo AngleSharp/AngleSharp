@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Collections
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents a list of media elements.
     /// </summary>
@@ -35,7 +35,7 @@ namespace AngleSharp.DOM.Collections
 
         #endregion
 
-        #region Members
+        #region Fields
 
         List<String> _media;
         String _buffer;

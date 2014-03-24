@@ -1,5 +1,4 @@
-﻿
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
     interface IImpliedEnd : IImplClosed
     {

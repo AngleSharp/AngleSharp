@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Collections
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents a container for file entries captured by the file
     /// upload field.

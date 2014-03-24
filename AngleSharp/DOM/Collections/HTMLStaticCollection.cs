@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Collections
 {
+    using System;
+    using System.Collections.Generic;
+
     sealed class HTMLStaticCollection : HTMLCollection
     {
         List<Element> _elements;

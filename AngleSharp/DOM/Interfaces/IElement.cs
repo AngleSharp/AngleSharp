@@ -1,43 +1,43 @@
-﻿using System;
-using AngleSharp.DOM.Collections;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+    using AngleSharp.DOM.Collections;
+
     interface IElement : INode, IQueryElements
     {
-        int ChildElementCount { get; }
+        Int32 ChildElementCount { get; }
         HTMLCollection Children { get; }
         DOMTokenList ClassList { get; }
-        string ClassName { get; set; }
+        String ClassName { get; set; }
         ContentEditableMode ContentEditable { get; set; }
         DOMStringMap Dataset { get; }
         DirectionMode Dir { get; set; }
         Element FirstElementChild { get; }
-        string GetAttribute(string attrName);
-        Attr GetAttributeNode(string attrName);
-        Attr GetAttributeNodeNS(string namespaceURI, string attrName);
-        string GetAttributeNS(string namespaceURI, string localAttrName);
-        bool HasAttribute(string attrName);
-        bool HasAttributeNS(string namespaceURI, string attrName);
-        string Id { get; set; }
-        string InnerHTML { get; set; }
-        bool IsContentEditable { get; }
-        string Lang { get; set; }
+        String GetAttribute(String attrName);
+        Attr GetAttributeNode(String attrName);
+        Attr GetAttributeNodeNS(String namespaceURI, String attrName);
+        String GetAttributeNS(String namespaceURI, String localAttrName);
+        Boolean HasAttribute(String attrName);
+        Boolean HasAttributeNS(String namespaceURI, String attrName);
+        String Id { get; set; }
+        String InnerHTML { get; set; }
+        Boolean IsContentEditable { get; }
+        String Lang { get; set; }
         Element LastElementChild { get; }
         Element NextElementSibling { get; }
-        string OuterHTML { get; set; }
+        String OuterHTML { get; set; }
         Element PreviousElementSibling { get; }
-        Element RemoveAttribute(string attrName);
+        Element RemoveAttribute(String attrName);
         Attr RemoveAttributeNode(Attr attr);
-        Element RemoveAttributeNS(string namespaceURI, string localAttrName);
-        Element SetAttribute(string name, string value);
+        Element RemoveAttributeNS(String namespaceURI, String localAttrName);
+        Element SetAttribute(String name, String value);
         Attr SetAttributeNode(Attr attr);
-        Attr SetAttributeNodeNS(string namespaceURI, Attr attr);
-        Element SetAttributeNS(string namespaceURI, string name, string value);
-        bool Spellcheck { get; set; }
+        Attr SetAttributeNodeNS(String namespaceURI, Attr attr);
+        Element SetAttributeNS(String namespaceURI, String name, String value);
+        Boolean Spellcheck { get; set; }
         CSSStyleDeclaration Style { get; }
-        int TabIndex { get; set; }
-        string TagName { get; }
-        string Title { get; set; }
+        Int32 TabIndex { get; set; }
+        String TagName { get; }
+        String Title { get; set; }
     }
 }

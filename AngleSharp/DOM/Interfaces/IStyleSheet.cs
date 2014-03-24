@@ -1,8 +1,7 @@
-﻿using AngleSharp.DOM.Css;
-using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.DOM.Css;
+
     interface IStyleSheet
     {
         StyleSheet Sheet { get; }

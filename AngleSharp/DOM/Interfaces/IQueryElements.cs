@@ -1,8 +1,8 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+
     interface IQueryElements
     {
         HTMLCollection GetElementsByClassName(String classNames);

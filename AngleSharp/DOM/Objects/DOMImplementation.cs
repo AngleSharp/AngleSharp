@@ -1,9 +1,9 @@
-﻿using AngleSharp.DOM.Html;
-using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.DOM.Html;
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Provides a number of methods for performing operations that are independent of any particular instance of the DOM.
     /// </summary>

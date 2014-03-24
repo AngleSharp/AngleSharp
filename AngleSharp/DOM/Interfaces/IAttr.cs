@@ -1,12 +1,12 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+
     interface IAttr : INode
     {
-        bool IsId { get; }
-        string Name { get; }
-        bool Specified { get; }
-        string Value { get; set; }
+        Boolean IsId { get; }
+        String Name { get; }
+        Boolean Specified { get; }
+        String Value { get; set; }
     }
 }

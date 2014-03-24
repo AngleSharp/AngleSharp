@@ -1,8 +1,7 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.DOM.Collections;
+
     interface IDocumentStyle
     {
         StyleSheetList StyleSheets { get; }

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+
     /// <summary>
     /// Represents a file captured in the FileList.
     /// </summary>

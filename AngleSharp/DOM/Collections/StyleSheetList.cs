@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using AngleSharp.DOM.Css;
-
-namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Collections
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using AngleSharp.DOM.Css;
+
     /// <summary>
     /// A collection of CSS elements.
     /// </summary>
     [DOM("StyleSheetList")]
     public sealed class StyleSheetList : IEnumerable<StyleSheet>
     {
-        #region Members
+        #region Fields
 
         Node _parent;
 

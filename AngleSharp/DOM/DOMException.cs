@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+
     /// <summary>
     /// Represents a DOM exception.
     /// </summary>

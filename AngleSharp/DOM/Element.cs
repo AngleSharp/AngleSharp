@@ -1,16 +1,16 @@
-﻿using System;
-using AngleSharp.DOM.Collections;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+    using AngleSharp.DOM.Collections;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents an element node.
     /// </summary>
     [DOM("Element")]
     public class Element : Node, IElement
     {
-        #region Members
+        #region Fields
 
         String _prefix;
         DOMTokenList _classList;

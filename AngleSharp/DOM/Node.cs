@@ -1,9 +1,9 @@
-﻿using System;
-using System.Reflection;
-using AngleSharp.DOM.Collections;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+    using System.Reflection;
+    using AngleSharp.DOM.Collections;
+
     /// <summary>
     /// Represents a node in the generated tree.
     /// </summary>

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+
     [DOM("Range")]
     public sealed class Range : IRange
     {
@@ -16,7 +16,7 @@ namespace AngleSharp.DOM
             get { throw new NotImplementedException(); }
         }
 
-        public int StartOffset
+        public Int32 StartOffset
         {
             get { throw new NotImplementedException(); }
         }
@@ -26,12 +26,12 @@ namespace AngleSharp.DOM
             get { throw new NotImplementedException(); }
         }
 
-        public int EndOffset
+        public Int32 EndOffset
         {
             get { throw new NotImplementedException(); }
         }
 
-        public bool Collapsed
+        public Boolean Collapsed
         {
             get { throw new NotImplementedException(); }
         }
@@ -41,12 +41,12 @@ namespace AngleSharp.DOM
             get { throw new NotImplementedException(); }
         }
 
-        public void SetStart(Node refNode, int offset)
+        public void SetStart(Node refNode, Int32 offset)
         {
             throw new NotImplementedException();
         }
 
-        public void SetEnd(Node refNode, int offset)
+        public void SetEnd(Node refNode, Int32 offset)
         {
             throw new NotImplementedException();
         }
@@ -71,7 +71,7 @@ namespace AngleSharp.DOM
             throw new NotImplementedException();
         }
 
-        public void Collapse(bool toStart)
+        public void Collapse(Boolean toStart)
         {
             throw new NotImplementedException();
         }
@@ -121,7 +121,7 @@ namespace AngleSharp.DOM
             throw new NotImplementedException();
         }
 
-        public bool IsPointInRange(Node node, int offset)
+        public Boolean IsPointInRange(Node node, Int32 offset)
         {
             throw new NotImplementedException();
         }
@@ -131,12 +131,12 @@ namespace AngleSharp.DOM
             throw new NotImplementedException();
         }
 
-        public RangePosition ComparePoint(Node node, int offset)
+        public RangePosition ComparePoint(Node node, Int32 offset)
         {
             throw new NotImplementedException();
         }
 
-        public bool IntersectsNode(Node node)
+        public Boolean IntersectsNode(Node node)
         {
             throw new NotImplementedException();
         }

@@ -1,14 +1,14 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+
     /// <summary>
     /// Represents an entity node.
     /// </summary>
     [DOM("Entity")]
     public sealed class Entity : Node
     {
-        #region Members
+        #region Fields
 
         String _publicId;
         String _systemId;

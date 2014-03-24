@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Collections
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// An HTML live collection for a specific type.
     /// </summary>
@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Collections
     sealed class HTMLLiveCollection<T> : HTMLCollection
         where T : Element
     {
-        #region Members
+        #region Fields
 
         Node _parent;
         Boolean _deep;
@@ -158,7 +158,7 @@ namespace AngleSharp.DOM.Collections
     /// </summary>
     abstract class HTMLLiveCollection : HTMLCollection
     {
-        #region Members
+        #region Fields
 
         Node _parent;
         Boolean _deep;

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Collections
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
     /// <summary>
     /// Represents a named collection of nodes.
     /// </summary>
     [DOM("NamedNodeMap")]
     public sealed class NamedNodeMap : IHtmlObject, IEnumerable<Attr>
     {
-        #region Members
+        #region Fields
 
         List<Attr> _entries;
         Node _parent;

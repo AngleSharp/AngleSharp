@@ -1,11 +1,11 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+
     interface IEventTarget
     {
-        void AddEventListener(string type, EventListener callback = null, bool capture = false);
-        void RemoveEventListener(string type, EventListener callback = null, bool capture = false);
-        bool DispatchEvent(Event e);
+        void AddEventListener(String type, EventListener callback = null, Boolean capture = false);
+        void RemoveEventListener(String type, EventListener callback = null, Boolean capture = false);
+        Boolean DispatchEvent(Event e);
     }
 }

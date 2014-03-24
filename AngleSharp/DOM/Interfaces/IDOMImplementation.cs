@@ -1,12 +1,12 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+
     interface IDOMImplementation
     {
-        Document CreateDocument(string namespaceURI, string qualifiedName, DocumentType doctype);
-        DocumentType CreateDocumentType(string qualifiedName, string publicId, string systemId);
-        object GetFeature(string feature, string version);
-        bool HasFeature(string feature, string version);
+        Document CreateDocument(String namespaceURI, String qualifiedName, DocumentType doctype);
+        DocumentType CreateDocumentType(String qualifiedName, String publicId, String systemId);
+        Object GetFeature(String feature, String version);
+        Boolean HasFeature(String feature, String version);
     }
 }

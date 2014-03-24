@@ -1,14 +1,14 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+
     /// <summary>
     /// The base class for all characterdata implementations.
     /// </summary>
     [DOM("CharacterData")]
     public abstract class CharacterData : Node
     {
-        #region Members
+        #region Fields
 
         String _content;
 

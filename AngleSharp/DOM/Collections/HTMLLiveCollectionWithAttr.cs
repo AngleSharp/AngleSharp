@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Collections
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// An HMTL Live collection that also searches for attribute matches.
     /// </summary>
@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Collections
     sealed class HTMLLiveCollectionWithAttr<T> : HTMLLiveCollection
         where T : Element
     {
-        #region Members
+        #region Fields
 
         String _attribute;
 
@@ -65,7 +65,7 @@ namespace AngleSharp.DOM.Collections
         where T1 : Element
         where T2 : Element
     {
-        #region Members
+        #region Fields
 
         String _attribute;
 

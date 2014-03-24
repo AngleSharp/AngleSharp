@@ -1,8 +1,8 @@
-﻿using System;
-using AngleSharp.DOM.Collections;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+    using AngleSharp.DOM.Collections;
+
     interface INode
     {
         Node AppendChild(Node child);

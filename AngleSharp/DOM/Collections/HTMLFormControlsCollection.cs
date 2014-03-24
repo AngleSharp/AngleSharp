@@ -1,16 +1,16 @@
-﻿using AngleSharp.DOM.Html;
-using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Collections
 {
+    using AngleSharp.DOM.Html;
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// A collection of HTML form controls.
     /// </summary>
     [DOM("HTMLFormControlsCollection")]
     public sealed class HTMLFormControlsCollection : HTMLCollection
     {
-        #region Members
+        #region Fields
 
         HTMLLiveCollection<HTMLFormControlElement> _elements;
 

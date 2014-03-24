@@ -1,38 +1,38 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+
     interface IDocument : INode, IQueryElements
     {
         Element ActiveElement { get; }
         Document Append(params Node[] nodes);
-        string CharacterSet { get; set; }
-        Attr CreateAttribute(string name);
-        Attr CreateAttributeNS(string namespaceURI, string name);
-        CDATASection CreateCDATASection(string data);
-        Comment CreateComment(string data);
+        String CharacterSet { get; set; }
+        Attr CreateAttribute(String name);
+        Attr CreateAttributeNS(String namespaceURI, String name);
+        CDATASection CreateCDATASection(String data);
+        Comment CreateComment(String data);
         DocumentFragment CreateDocumentFragment();
-        Element CreateElement(string tagName);
-        Element CreateElementNS(string namespaceURI, string tagName);
-        Event CreateEvent(string type);
-        EntityReference CreateEntityReference(string name);
-        ProcessingInstruction CreateProcessingInstruction(string target, string data);
-        TextNode CreateTextNode(string data);
+        Element CreateElement(String tagName);
+        Element CreateElementNS(String namespaceURI, String tagName);
+        Event CreateEvent(String type);
+        EntityReference CreateEntityReference(String name);
+        ProcessingInstruction CreateProcessingInstruction(String target, String data);
+        TextNode CreateTextNode(String data);
         Range CreateRange();
         IWindow DefaultView { get; }
         IWindow ParentWindow { get; }
         DocumentType Doctype { get; }
         Element DocumentElement { get; }
-        string DocumentURI { get; }
-        Element GetElementById(string elementId);
+        String DocumentURI { get; }
+        Element GetElementById(String elementId);
         DOMImplementation Implementation { get; }
-        string InputEncoding { get; }
+        String InputEncoding { get; }
         DateTime LastModified { get; }
         Location Location { get; set; }
         Readiness ReadyState { get; set; }
         event EventHandler OnReadyStateChange;
-        string Referrer { get; }
+        String Referrer { get; }
         Document Prepend(params Node[] nodes);
         DOMStringList StyleSheetSets { get; }
     }

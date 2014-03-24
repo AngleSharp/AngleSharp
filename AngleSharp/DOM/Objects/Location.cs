@@ -1,8 +1,8 @@
-﻿using System;
-using System.Text.RegularExpressions;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+    using System.Text.RegularExpressions;
+
     /// <summary>
     /// A location object with information about a URL.
     /// </summary>
@@ -15,7 +15,7 @@ namespace AngleSharp.DOM
 
         #endregion
 
-        #region Members
+        #region Fields
 
         String _url;
         String _scheme;

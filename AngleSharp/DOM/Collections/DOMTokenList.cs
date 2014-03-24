@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Collections
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
     /// <summary>
     /// Represents a list of DOMTokens.
     /// </summary>
     [DOM("DOMTokenList")]
     public sealed class DOMTokenList : IHtmlObject, IEnumerable<String>
     {
-        #region Members
+        #region Fields
 
         List<String> _tokens;
         Element _parent;

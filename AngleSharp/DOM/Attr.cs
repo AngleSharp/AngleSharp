@@ -1,14 +1,14 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+
     /// <summary>
     /// Represents a generic node attribute.
     /// </summary>
     [DOM("Attr")]
     public sealed class Attr : Node, IAttr
     {
-        #region Members
+        #region Fields
 
         String _value;
         String _prefix;
