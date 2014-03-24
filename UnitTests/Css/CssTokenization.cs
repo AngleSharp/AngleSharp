@@ -1,6 +1,6 @@
-﻿using AngleSharp;
-using AngleSharp.Css;
+﻿using AngleSharp.Css;
 using AngleSharp.Css.Tokens;
+using AngleSharp.Parser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
