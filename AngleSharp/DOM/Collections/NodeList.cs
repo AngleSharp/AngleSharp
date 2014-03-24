@@ -1,11 +1,11 @@
-﻿using AngleSharp.Css;
-using AngleSharp.DOM.Css;
-using AngleSharp.DOM.Html;
-using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Collections
 {
+    using AngleSharp.DOM.Css;
+    using AngleSharp.DOM.Html;
+    using AngleSharp.Parser.Css;
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents a list of Node instances or nodes.
     /// </summary>

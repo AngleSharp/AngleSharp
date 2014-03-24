@@ -1,15 +1,15 @@
-﻿using AngleSharp.Css;
-using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Parser.Css;
+    using System;
+
     /// <summary>
     /// Represents a CSS rule.
     /// </summary>
     [DOM("CSSRule")]
     public abstract class CSSRule : ICssObject
     {
-        #region Members
+        #region Fields
 
         /// <summary>
         /// The type of CSS rule.

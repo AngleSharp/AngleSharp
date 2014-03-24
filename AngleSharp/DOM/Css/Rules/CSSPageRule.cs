@@ -1,16 +1,16 @@
-﻿using AngleSharp.Css;
-using AngleSharp.DOM.Collections;
-using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Parser.Css;
+    using AngleSharp.DOM.Collections;
+    using System;
+
     /// <summary>
     /// Represents the @page rule.
     /// </summary>
     [DOM("CSSPageRule")]
 	public sealed class CSSPageRule : CSSRule, ICssSelector, IStyleDeclaration
     {
-        #region Members
+        #region Fields
 
         CSSStyleDeclaration _style;
         Selector _selector;
@@ -31,7 +31,7 @@ namespace AngleSharp.DOM.Css
 
         #endregion
 
-        #region Internal methods
+        #region Internal Methods
 
         /// <summary>
         /// Appends the given rule to the list of rules.

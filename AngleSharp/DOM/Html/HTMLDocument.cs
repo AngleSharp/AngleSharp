@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.DOM.Collections;
-    using AngleSharp.Html;
     using AngleSharp.Parser;
+    using AngleSharp.Parser.Html;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;

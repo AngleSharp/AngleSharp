@@ -1,16 +1,16 @@
-﻿using System;
-using AngleSharp.DOM.Collections;
-using AngleSharp.Css;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+    using AngleSharp.DOM.Collections;
+    using AngleSharp.Parser.Css;
+
     /// <summary>
     /// Represents a CSS style rule.
     /// </summary>
     [DOM("CSSStyleRule")]
 	public sealed class CSSStyleRule : CSSRule, ICssSelector, IStyleDeclaration
     {
-        #region Members
+        #region Fields
 
         String _selectorText;
         Selector _selector;

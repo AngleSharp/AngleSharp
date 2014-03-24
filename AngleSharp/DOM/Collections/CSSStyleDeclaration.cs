@@ -1,18 +1,18 @@
-﻿using AngleSharp.Css;
-using AngleSharp.DOM.Css;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Collections
 {
+    using AngleSharp.DOM.Css;
+    using AngleSharp.Parser.Css;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
     [DOM("CSSStyleDeclaration")]
     public sealed class CSSStyleDeclaration : IEnumerable<CSSProperty>
     {
-        #region Members
+        #region Fields
 
         List<CSSProperty> _rules;
         CSSRule _parent;
@@ -2554,7 +2554,7 @@ namespace AngleSharp.DOM.Collections
 
         #endregion
 
-        #region Internal properties
+        #region Internal Properties
 
         /// <summary>
         /// Gets the list of CSS declarations.
@@ -2566,7 +2566,7 @@ namespace AngleSharp.DOM.Collections
 
         #endregion
 
-        #region Internal methods
+        #region Internal Methods
 
         /// <summary>
         /// Updates the CSSStyleDeclaration with the given value.

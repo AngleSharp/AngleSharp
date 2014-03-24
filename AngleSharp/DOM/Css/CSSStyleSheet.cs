@@ -1,18 +1,18 @@
-﻿using AngleSharp.Css;
-using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Parser.Css;
+    using System;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Represents a CSS Stylesheet.
     /// </summary>
     [DOM("CSSStyleSheet")]
     public sealed class CSSStyleSheet : StyleSheet, ICssObject
     {
-        #region Members
+        #region Fields
 
         CSSRuleList _cssRules;
         CSSRule _ownerRule;

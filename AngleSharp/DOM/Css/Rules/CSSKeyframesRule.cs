@@ -1,15 +1,15 @@
-﻿using AngleSharp.Css;
-using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Parser.Css;
+    using System;
+
     /// <summary>
     /// Represents an @keyframes rule.
     /// </summary>
     [DOM("CSSKeyframesRule")]
     public sealed class CSSKeyframesRule : CSSRule, ICssRules
     {
-        #region Members
+        #region Fields
 
         CSSRuleList _cssRules;
         String _name;

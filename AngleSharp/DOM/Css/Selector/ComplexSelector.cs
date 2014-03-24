@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using AngleSharp.Css;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+    using System.Collections.Generic;
+    using AngleSharp.Parser.Css;
+
     /// <summary>
     /// Represents a complex selector.
     /// One or more compound selectors separated by combinators.
     /// </summary>
     internal class ComplexSelector : Selector
     {
-        #region Members
+        #region Fields
 
         List<CombinatorSelector> selectors;
 

@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Css;
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
     using AngleSharp.Parser;
-    using AngleSharp.Html;
+    using AngleSharp.Parser.Html;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Diagnostics;
     using System.IO;
