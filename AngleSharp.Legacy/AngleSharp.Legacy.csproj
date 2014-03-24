@@ -163,9 +163,6 @@
     <Compile Include="..\AngleSharp\DOM\Comment.cs">
       <Link>DOM\Comment.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\ContentEditableMode.cs">
-      <Link>DOM\ContentEditableMode.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSStyleSheet.cs">
       <Link>DOM\Css\CSSStyleSheet.cs</Link>
     </Compile>
@@ -277,9 +274,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\Primitives\CSSUri.cs">
       <Link>DOM\Css\Values\Primitives\CSSUri.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\DirectionMode.cs">
-      <Link>DOM\DirectionMode.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Document.cs">
       <Link>DOM\Document.cs</Link>
     </Compile>
@@ -301,6 +295,9 @@
     <Compile Include="..\AngleSharp\DOM\Enums\Alignment.cs">
       <Link>DOM\Enums\Alignment.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Enums\ContentEditableMode.cs">
+      <Link>DOM\Enums\ContentEditableMode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Enums\CORSSettings.cs">
       <Link>DOM\Enums\CORSSettings.cs</Link>
     </Compile>
@@ -315,6 +312,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Enums\CssValueType.cs">
       <Link>DOM\Enums\CssValueType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Enums\DirectionMode.cs">
+      <Link>DOM\Enums\DirectionMode.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Enums\DocumentPosition.cs">
       <Link>DOM\Enums\DocumentPosition.cs</Link>
