@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
     /// <summary>
     /// An enumeration of possible values for position comparisons in a range object.

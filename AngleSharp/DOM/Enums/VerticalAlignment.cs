@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
     /// <summary>
     /// The list of possible vertical alignments.

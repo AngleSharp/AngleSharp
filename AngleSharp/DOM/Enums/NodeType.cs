@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
     /// <summary>
     /// Contains an enumeration of various node types.

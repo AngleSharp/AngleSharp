@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
     /// <summary>
     /// An enumeration with possible values on how to compare boundary points.

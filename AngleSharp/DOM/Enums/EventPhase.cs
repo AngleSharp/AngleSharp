@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
     /// <summary>
     /// Represents the different phases of an event.

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
     /// <summary>
     /// This enumeration controls whether error information will be exposed for cross origins.

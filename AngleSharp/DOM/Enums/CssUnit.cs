@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
     /// <summary>
     /// An integer indicating which type of unit applies to the value.

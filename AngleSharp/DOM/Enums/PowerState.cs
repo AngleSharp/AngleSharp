@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
     /// <summary>
     /// An enumeration with two known power states: on and off.

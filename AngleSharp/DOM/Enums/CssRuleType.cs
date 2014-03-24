@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
     /// <summary>
     /// The set of possible CSS rules.

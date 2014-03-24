@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM
 {
+    using System;
+
     /// <summary>
     /// Enumeration of possible document position values.
     /// </summary>
