@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Interfaces;
+    using AngleSharp.Network;
     using System;
     using System.IO;
     using System.Threading;

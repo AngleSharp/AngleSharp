@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Interfaces
+﻿namespace AngleSharp.Network
 {
     using System;
     using System.Collections.Generic;

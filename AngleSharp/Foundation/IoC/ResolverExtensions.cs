@@ -1,9 +1,8 @@
-﻿using AngleSharp.Interfaces;
-using System.Linq;
-using System.Collections.Generic;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System.Linq;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Some useful extensions for the dependency resolver interface.
     /// </summary>

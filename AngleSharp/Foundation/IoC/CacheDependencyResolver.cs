@@ -1,9 +1,8 @@
-﻿using AngleSharp.Interfaces;
-using System;
-using System.Collections.Generic;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Wraps an IDependencyResolver and ensures single instance per-type.
     /// </summary>

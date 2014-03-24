@@ -1,9 +1,8 @@
-﻿using AngleSharp.Interfaces;
-using System;
-using System.Collections.Generic;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+    using System.Collections.Generic;
+
     class DelegateBasedDependencyResolver : IDependencyResolver
     {
         readonly Func<Type, Object> _getService;

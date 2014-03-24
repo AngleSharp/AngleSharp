@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace AngleSharp.Interfaces
+﻿namespace AngleSharp.Network
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
     /// <summary>
     /// Specifies what is used for requesting data.
     /// </summary>

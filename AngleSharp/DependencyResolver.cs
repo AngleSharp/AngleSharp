@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Interfaces;
+    using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
     using System.Reflection;
@@ -61,9 +61,9 @@
         public static void SetDefaultResolver(Boolean withHttpRequester = false)
         {
             var resolver = new DefaultDependencyResolver();
-            var info = new DefaultInfo();
+            var info = new Info();
             var config = new Configuration();
-            resolver.AddService<IInfo, DefaultInfo>(() => info);
+            resolver.AddService<IInfo, Info>(() => info);
             resolver.AddService<IConfiguration, Configuration>(() => config);
 
             if (withHttpRequester)

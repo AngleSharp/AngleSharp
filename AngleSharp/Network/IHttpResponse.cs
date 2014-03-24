@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-
-namespace AngleSharp.Interfaces
+﻿namespace AngleSharp.Network
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Net;
+
     /// <summary>
     /// Specifies what is stored when receiving data.
     /// </summary>

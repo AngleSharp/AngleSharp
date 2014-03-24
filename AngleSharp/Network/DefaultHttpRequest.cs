@@ -1,10 +1,9 @@
-﻿using AngleSharp.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace AngleSharp
+﻿namespace AngleSharp.Network
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
     /// <summary>
     /// The default HTTP request encapsulation type.
     /// </summary>

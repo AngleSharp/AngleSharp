@@ -6,7 +6,7 @@
     /// <summary>
     /// General information to be used internally about the library.
     /// </summary>
-    sealed class DefaultInfo : IInfo
+    sealed class Info : IInfo
     {
         #region Members
 
@@ -17,9 +17,9 @@
 
         #region ctor
 
-        public DefaultInfo()
+        public Info()
         {
-            version = typeof(DefaultInfo).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+            version = typeof(Info).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
             agent = "AngleSharp/" + version;
         }
 
