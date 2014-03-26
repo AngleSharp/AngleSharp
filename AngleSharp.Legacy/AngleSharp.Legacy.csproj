@@ -61,6 +61,9 @@
     <Compile Include="..\AngleSharp\Configuration.cs">
       <Link>Configuration.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DefaultInfo.cs">
+      <Link>DefaultInfo.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DependencyResolver.cs">
       <Link>DependencyResolver.cs</Link>
     </Compile>
@@ -805,6 +808,12 @@
     <Compile Include="..\AngleSharp\Foundation\Attributes\DOMAttribute.cs">
       <Link>Foundation\Attributes\DOMAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\CharExtensions.cs">
+      <Link>Foundation\CharExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\ConfigurationExtensions.cs">
+      <Link>Foundation\ConfigurationExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\AttributeNames.cs">
       <Link>Foundation\Constants\AttributeNames.cs</Link>
     </Compile>
@@ -853,29 +862,8 @@
     <Compile Include="..\AngleSharp\Foundation\FormDataSet.cs">
       <Link>Foundation\FormDataSet.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Helpers\CharExtensions.cs">
-      <Link>Foundation\Helpers\CharExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Helpers\StringExtensions.cs">
-      <Link>Foundation\Helpers\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Helpers\XmlHelpers.cs">
-      <Link>Foundation\Helpers\XmlHelpers.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\HttpMethod.cs">
       <Link>Foundation\HttpMethod.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\IoC\CacheDependencyResolver.cs">
-      <Link>Foundation\IoC\CacheDependencyResolver.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\IoC\DefaultDependencyResolver.cs">
-      <Link>Foundation\IoC\DefaultDependencyResolver.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\IoC\DelegateBasedDependencyResolver.cs">
-      <Link>Foundation\IoC\DelegateBasedDependencyResolver.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\IoC\ResolverExtensions.cs">
-      <Link>Foundation\IoC\ResolverExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Mutations\MutationCallback.cs">
       <Link>Foundation\Mutations\MutationCallback.cs</Link>
@@ -889,11 +877,20 @@
     <Compile Include="..\AngleSharp\Foundation\Mutations\MutationRecord.cs">
       <Link>Foundation\Mutations\MutationRecord.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\NodeExtensions.cs">
+      <Link>Foundation\NodeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Pool.cs">
       <Link>Foundation\Pool.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\UriExtensions.cs">
-      <Link>Foundation\UriExtensions.cs</Link>
+    <Compile Include="..\AngleSharp\Foundation\ResolverExtensions.cs">
+      <Link>Foundation\ResolverExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\StringExtensions.cs">
+      <Link>Foundation\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\XmlExtensions.cs">
+      <Link>Foundation\XmlExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
@@ -903,9 +900,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\IInfo.cs">
       <Link>IInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Info.cs">
-      <Link>Info.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultHttpRequest.cs">
       <Link>Network\DefaultHttpRequest.cs</Link>

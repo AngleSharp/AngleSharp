@@ -40,6 +40,20 @@
             _propCache = new Dictionary<String, PropertyInfo>();
         }
 
+        /// <summary>
+        /// Constructs a default HTTP requester with the
+        /// default information (placed in the dependency resolver).
+        /// </summary>
+        public DefaultHttpRequester()
+            : this(DependencyResolver.Current.GetService<IInfo>() ?? new DefaultInfo())
+        {
+        }
+
+        /// <summary>
+        /// Constructs a default HTTP requester with the information
+        /// presented in the info object.
+        /// </summary>
+        /// <param name="info">The information to use.</param>
         public DefaultHttpRequester(IInfo info)
         {
             _buffer = new Byte[CHUNK];
@@ -73,6 +87,11 @@
 
         #region Methods
 
+        /// <summary>
+        /// Performs a blocking http request with the given options.
+        /// </summary>
+        /// <param name="request">The options to consider.</param>
+        /// <returns>The response data.</returns>
         public IHttpResponse Request(IHttpRequest request)
         {
             if (CreateRequest(request))
@@ -87,11 +106,22 @@
             return GetResponse();
         }
 
+        /// <summary>
+        /// Performs an asynchronous http request with the given options.
+        /// </summary>
+        /// <param name="request">The options to consider.</param>
+        /// <returns>The task that will eventually give the response data.</returns>
         public Task<IHttpResponse> RequestAsync(IHttpRequest request)
         {
             return RequestAsync(request, CancellationToken.None);
         }
 
+        /// <summary>
+        /// Performs an asynchronous http request that can be cancelled.
+        /// </summary>
+        /// <param name="request">The options to consider.</param>
+        /// <param name="cancellationToken">The token for cancelling the task.</param>
+        /// <returns>The task that will eventually give the response data.</returns>
         public async Task<IHttpResponse> RequestAsync(IHttpRequest request, CancellationToken cancellationToken)
         {
             if (CreateRequest(request))
