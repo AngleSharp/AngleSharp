@@ -1,0 +1,32 @@
+<!--inform the XML processor
+  that an external DTD is referenced-->
+<?xml version="1.0" standalone="no" ?>
+
+<!--define the location of the
+  external DTD using a relative URL address-->
+<!DOCTYPE document SYSTEM "subjects.dtd">
+
+<document>
+  <title>Subjects available in Mechanical Engineering.</title>
+  <subjectID>2.303</subjectID>
+    <subjectname>Fluid Mechanics</subjectname>
+    <prerequisite>
+      <subjectID>1.001</subjectID>
+      <subjectname>Mathematics</subjectname>
+    </prerequisite>
+    <classes>4 hours per week (lectures and tutorials) for one
+      semester.</classes>
+    <assessment>tutorial assignments and one 2hr exam at end of
+      course.</assessment>
+    <syllabus>
+      Fluid statics. The Bernoulli equation. Energy equation. Momentum
+      equation. Differential Continuity equation. Differential Energy
+      equation. Differential Momentum equation. Dimensional Analysis.
+      Similitude. Laminar flow. Turbulent flow. Lift and Drag. Boundary
+      layer theory.
+    </syllabus>
+    <textbooks>
+      <author>Foobar</author>
+      <booktitle>The Study of Fluid Mechanics</booktitle>
+    </textbooks>
+</document>

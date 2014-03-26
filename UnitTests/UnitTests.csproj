@@ -110,6 +110,15 @@
       <LastGenOutput>Assets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pages\books.xml" />
+    <Content Include="Pages\catalog.xml" />
+    <Content Include="Pages\engineering.xml" />
+    <Content Include="Pages\food.xml" />
+    <Content Include="Pages\nbc.html" />
+    <Content Include="Pages\quirksmode.html" />
+    <Content Include="Pages\selectors.html" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp;
 using AngleSharp.DOM;
+using System;
 
 namespace UnitTests
 {
@@ -494,6 +495,21 @@ namespace UnitTests
             Assert.AreEqual("body", dochtml0body2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body2.NodeType);
 
+        }
+
+        [TestMethod]
+        public void MassiveCommentInNBCPage()
+        {
+            try
+            {
+                var doc = DocumentBuilder.Html(Assets.nbc);
+                Assert.IsNotNull(doc);
+                Assert.AreEqual(1152, doc.QuerySelectorAll("*").Length);
+            }
+            catch (StackOverflowException)
+            {
+                Assert.Fail("The parsing resulted in a stackoverflow.");
+            }
         }
     }
 }

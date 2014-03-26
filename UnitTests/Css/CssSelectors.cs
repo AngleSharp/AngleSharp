@@ -14,7 +14,7 @@ namespace UnitTests
         [TestInitialize]
         public void Setup()
         {
-            document = DocumentBuilder.Html(Assets.SelectorsWebpage);
+            document = DocumentBuilder.Html(Assets.selectors);
         }
 
         string GetAttributeValue(Node node, string attrName)

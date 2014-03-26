@@ -16,7 +16,7 @@ namespace UnitTests
         [TestInitialize]
         public void Setup()
         {
-            document = DocumentBuilder.Html(Assets.QuirksMode);
+            document = DocumentBuilder.Html(Assets.quirksmode);
         }
 
         [TestMethod]
