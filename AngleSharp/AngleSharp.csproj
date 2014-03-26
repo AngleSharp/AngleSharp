@@ -38,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="Foundation\ConcurrentDictionary.cs" />
+    <Compile Include="Foundation\NodeExtensions.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
     <Compile Include="DocumentBuilder.cs" />
@@ -67,12 +69,12 @@
     <Compile Include="Foundation\Constants\HeaderNames.cs" />
     <Compile Include="Foundation\Constants\PropertyNames.cs" />
     <Compile Include="Foundation\Constants\RuleNames.cs" />
-    <Compile Include="Foundation\Helpers\XmlHelpers.cs" />
+    <Compile Include="Foundation\XmlExtensions.cs" />
     <Compile Include="Foundation\FormDataSet.cs" />
     <Compile Include="Parser\Html\HtmlHelpers.cs" />
-    <Compile Include="Foundation\Helpers\StringExtensions.cs" />
+    <Compile Include="Foundation\StringExtensions.cs" />
     <Compile Include="IInfo.cs" />
-    <Compile Include="Info.cs" />
+    <Compile Include="DefaultInfo.cs" />
     <Compile Include="Foundation\Pool.cs" />
     <Compile Include="Network\DefaultHttpRequest.cs" />
     <Compile Include="Network\DefaultHttpRequester.cs" />
@@ -184,12 +186,9 @@
     <Compile Include="DOM\Enums\PowerState.cs" />
     <Compile Include="DOM\Enums\RangePosition.cs" />
     <Compile Include="DOM\Enums\RangeType.cs" />
-    <Compile Include="Foundation\UriExtensions.cs" />
-    <Compile Include="Foundation\IoC\CacheDependencyResolver.cs" />
-    <Compile Include="Foundation\IoC\DefaultDependencyResolver.cs" />
-    <Compile Include="Foundation\IoC\DelegateBasedDependencyResolver.cs" />
+    <Compile Include="Foundation\ConfigurationExtensions.cs" />
     <Compile Include="DependencyResolver.cs" />
-    <Compile Include="Foundation\IoC\ResolverExtensions.cs" />
+    <Compile Include="Foundation\ResolverExtensions.cs" />
     <Compile Include="IDependencyResolver.cs" />
     <Compile Include="Parser\IParser.cs" />
     <Compile Include="Foundation\Constants\MimeTypes.cs" />
@@ -262,7 +261,7 @@
     <Compile Include="Parser\Css\Tokens\CssStringToken.cs" />
     <Compile Include="Parser\Css\Tokens\CssUnitToken.cs" />
     <Compile Include="Parser\Html\HtmlTokenType.cs" />
-    <Compile Include="Foundation\Helpers\CharExtensions.cs" />
+    <Compile Include="Foundation\CharExtensions.cs" />
     <Compile Include="Parser\Html\Helpers\ForeignHelpers.cs" />
     <Compile Include="DOM\Css\Values\Primitives\CSSColor.cs" />
     <Compile Include="DOM\Html\HTMLDocument.cs" />

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Xml
 {
+    using System;
+    using System.Diagnostics;
+
     /// <summary>
     /// Useful helpers for the XML parser.
     /// </summary>

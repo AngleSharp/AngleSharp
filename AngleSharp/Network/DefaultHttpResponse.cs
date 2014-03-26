@@ -8,7 +8,7 @@
     /// <summary>
     /// The default HTTP response encapsulation object.
     /// </summary>
-    sealed class DefaultHttpResponse : IHttpResponse
+    public class DefaultHttpResponse : IHttpResponse
     {
         #region ctor
 

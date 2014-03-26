@@ -5,10 +5,9 @@
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
     using AngleSharp.Parser;
-    using AngleSharp.Parser.Html;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Parser.Html;
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
@@ -36,10 +35,7 @@
         DocumentBuilder(SourceManager source, HTMLDocument document, IConfiguration configuration)
         {
             parser = new HtmlParser(document, source);
-			parser.ParseError += ParseErrorOccurred;
-
-			if (configuration.OnError != null)
-				parser.ParseError += configuration.OnError;
+			parser.ParseError += (s, e) => configuration.ReportError(e);
         }
 
         /// <summary>
@@ -52,10 +48,7 @@
         {
             sheet.Options = configuration;
             parser = new CssParser(sheet, source);
-			parser.ParseError += ParseErrorOccurred;
-
-			if (configuration.OnError != null)
-				parser.ParseError += configuration.OnError;
+            parser.ParseError += (s, e) => configuration.ReportError(e);
         }
 
         #endregion
@@ -132,7 +125,7 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            var stream = await url.LoadAsync(cancel);
+            var stream = await configuration.LoadAsync(url, cancel);
             var source = new SourceManager(stream, configuration);
             var doc = new HTMLDocument { Options = configuration, DocumentURI = url.OriginalString };
             var db = new DocumentBuilder(source, doc, configuration);
@@ -244,7 +237,7 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            var stream = await url.LoadAsync(cancel);
+            var stream = await configuration.LoadAsync(url, cancel);
             var source = new SourceManager(stream, configuration);
             var sheet = new CSSStyleSheet { Href = url.OriginalString, Options = configuration };
             var db = new DocumentBuilder(source, sheet, configuration);
@@ -267,20 +260,6 @@
             var sheet = new CSSStyleSheet { Options = configuration };
 			var db = new DocumentBuilder(source, sheet, configuration);
             return db.CssResult;
-        }
-
-        #endregion
-
-        #region Event Handlers
-
-        /// <summary>
-        /// Called once a helper class finds a parse error.
-        /// </summary>
-        /// <param name="sender">The helper that encountered the error.</param>
-        /// <param name="e">The arguments passed from the helper instance.</param>
-        void ParseErrorOccurred(object sender, ParseErrorEventArgs e)
-        {
-            Debug.WriteLine(e);
         }
 
         #endregion

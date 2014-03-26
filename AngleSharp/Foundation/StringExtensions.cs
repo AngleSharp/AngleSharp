@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+
     /// <summary>
     /// Useful methods for string objects.
     /// </summary>

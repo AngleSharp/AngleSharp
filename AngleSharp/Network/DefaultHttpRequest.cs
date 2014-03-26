@@ -7,7 +7,7 @@
     /// <summary>
     /// The default HTTP request encapsulation type.
     /// </summary>
-    sealed class DefaultHttpRequest : IHttpRequest
+    public class DefaultHttpRequest : IHttpRequest
     {
         #region ctor
 

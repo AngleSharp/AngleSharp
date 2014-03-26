@@ -138,7 +138,7 @@
             if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
                 throw new ArgumentException("The given URL does not represent a valid absolute URL.");
 
-            return await uri.LoadAsync(cancel);
+            return await Options.LoadAsync(uri, cancel);
         }
 
         internal void ReevaluateFromSource(String source)

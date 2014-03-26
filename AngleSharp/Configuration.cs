@@ -1,24 +1,30 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.Network;
     using AngleSharp.Parser;
     using System;
+    using System.Diagnostics;
     using System.Globalization;
 
     /// <summary>
-    /// Represents global configuration for the AngleSharp library.
-    /// This is independent of parsing / document creation options
-    /// given in the DocumentOptions class.
+    /// Represents context configuration for the AngleSharp library.
+    /// Custom configurations can be made by deriving from this class,
+    /// just implementing IConfiguration or modifying an instance of
+    /// this specific class. Default configurations need to be stored
+    /// in the dependency resolver.
     /// </summary>
-    public sealed class Configuration : IConfiguration
+    public class Configuration : IConfiguration
     {
         #region Fields
 
-        CultureInfo _culture;
-        Boolean _scripting;
-        Boolean _styling;
-        Boolean _embedded;
-        Boolean _quirks;
-        EventHandler<ParseErrorEventArgs> _onerror;
+        protected CultureInfo _culture;
+        protected Boolean _scripting;
+        protected Boolean _styling;
+        protected Boolean _embedded;
+        protected Boolean _quirks;
+        protected Boolean _http;
+
+        static readonly Configuration defaultConfiguration = new Configuration();
 
         #endregion
 
@@ -33,7 +39,7 @@
             _scripting = false;
             _styling = true;
             _embedded = false;
-            _onerror = null;
+            _http = false;
             _culture = CultureInfo.CurrentUICulture;
         }
 
@@ -42,15 +48,28 @@
         #region Properties
 
         /// <summary>
-        /// Gets the default configuration to use.
+        /// Gets or sets if HTTP requests should be allowed.
+        /// Default is false.
+        /// </summary>
+        public Boolean AllowHttpRequests
+        {
+            get { return _http; }
+            set { _http = value; }
+        }
+
+        /// <summary>
+        /// Gets the default configuration to use. The default
+        /// configuration can be overriden by placing some
+        /// configuration in the DependencyResolver.
         /// </summary>
         internal static IConfiguration Default
         {
-            get { return DependencyResolver.Current.GetService<IConfiguration>() ?? new Configuration(); }
+            get { return DependencyResolver.Current.GetService<IConfiguration>() ?? defaultConfiguration; }
         }
 
         /// <summary>
         /// Gets or sets the current scripting mode.
+        /// Default is false.
         /// </summary>
         public Boolean IsScripting
         {
@@ -59,8 +78,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the current CSS mode. Usually CSS stylesheets and inline-
-        /// definitions are parsed (can be deactivated here).
+        /// Gets or sets the current CSS mode.
+        /// Default is true.
         /// </summary>
         public Boolean IsStyling
         {
@@ -72,6 +91,7 @@
         /// Gets or sets the current embedding mode. Normally the document is NOT
         /// embedded. Enabling embedding will emulate the document being rendered
         /// in an iframe.
+        /// Default is false.
         /// </summary>
         public Boolean IsEmbedded
         {
@@ -80,18 +100,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the delegate to call in case of an (tolerable) error. If this
-        /// is null, then the default behavior is to print these errors on the
-        /// debug console (if in debug mode) or to drop the errors completely.
-        /// </summary>
-        public EventHandler<ParseErrorEventArgs> OnError
-        {
-            get { return _onerror; }
-            set { _onerror = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the language (code, e.g. en-US, de-DE) to use.
+        /// Default is the system (UI) language.
         /// </summary>
         public String Language
         {
@@ -101,6 +111,7 @@
 
         /// <summary>
         /// Gets or sets the culture to use.
+        /// Default is the system (UI) culture.
         /// </summary>
         public CultureInfo Culture
         {
@@ -110,11 +121,37 @@
 
         /// <summary>
         /// Gets or sets if the quirks mode should be used for HTML / CSS parsing.
+        /// Default is false.
         /// </summary>
         public Boolean UseQuirksMode
         {
             get { return _quirks; }
             set { _quirks = value; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Creates a HTTP requester for performing HTTP requests.
+        /// This method is using the default HTTP requester set over
+        /// the dependency resolver. If nothing is found the 
+        /// </summary>
+        /// <returns>The constructed HTTP requester.</returns>
+        public virtual IHttpRequester CreateHttpRequest()
+        {
+            return DependencyResolver.Current.GetService<IHttpRequester>()
+                ?? new DefaultHttpRequester();
+        }
+
+        /// <summary>
+        /// Reports an error by writing to the debug console.
+        /// </summary>
+        /// <param name="e">The parse error event arguments.</param>
+        public virtual void ReportError(ParseErrorEventArgs e)
+        {
+            Debug.WriteLine(e.ToString());
         }
 
         #endregion

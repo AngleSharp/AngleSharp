@@ -10,16 +10,16 @@
     /// Represents a helper to construct objects with externally
     /// defined classes and libraries.
     /// </summary>
-    static class UriExtensions
+    static class ConfigurationExtensions
     {
-        public static Task<Stream> LoadAsync(this Uri url)
+        public static Task<Stream> LoadAsync(this IConfiguration configuration, Uri url)
         {
-            return url.LoadAsync(CancellationToken.None);
+            return configuration.LoadAsync(url, CancellationToken.None);
         }
 
-        public static async Task<Stream> LoadAsync(this Uri url, CancellationToken cancel)
+        public static async Task<Stream> LoadAsync(this IConfiguration configuration, Uri url, CancellationToken cancel)
         {
-            var requester = DependencyResolver.Current.GetService<IHttpRequester>();
+            var requester = configuration.CreateHttpRequest();
 
             if (requester == null)
                 throw new NullReferenceException("No HTTP requester has been set up. Configure one by adding an entry to the current DependencyResolver.");

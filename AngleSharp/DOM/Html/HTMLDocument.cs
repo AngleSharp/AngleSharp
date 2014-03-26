@@ -414,7 +414,7 @@
             if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
                 throw new ArgumentException("The given URL is not valid as an absolute URL.");
 
-            var task = uri.LoadAsync();
+            var task = Options.LoadAsync(uri);
 
             task.ContinueWith(m =>
             {
