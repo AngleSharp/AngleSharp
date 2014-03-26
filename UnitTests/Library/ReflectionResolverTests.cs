@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AngleSharp;
+﻿using AngleSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Linq;
 using UnitTests.Mocks;
-using AngleSharp;
 
 namespace UnitTests
 {
@@ -46,7 +45,7 @@ namespace UnitTests
 
             // Assert
             Assert.IsNotNull(DependencyResolver.Current);
-            Assert.IsInstanceOfType(DependencyResolver.Current, typeof(DelegateBasedDependencyResolver));
+            Assert.IsNotInstanceOfType(DependencyResolver.Current, typeof(MockReflectionResolver));
         }
 
         [TestMethod]
