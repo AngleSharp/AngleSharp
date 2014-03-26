@@ -12,7 +12,7 @@
     [DebuggerStepThrough]
     sealed class HtmlTokenizer : BaseTokenizer
     {
-        #region Members
+        #region Fields
 
         Boolean _acceptsCharacterData;
         String _lastStartTag;
@@ -803,7 +803,7 @@
         /// See 8.2.4.46 Comment start state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlToken CommentStart(Char c)
+        HtmlCommentToken CommentStart(Char c)
         {
             _stringBuffer.Clear();
 
@@ -838,7 +838,7 @@
         /// See 8.2.4.47 Comment start dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlToken CommentDashStart(Char c)
+        HtmlCommentToken CommentDashStart(Char c)
         {
             if (c == Specification.MINUS)
                 return CommentEnd(_src.Next);
@@ -871,12 +871,17 @@
         /// See 8.2.4.48 Comment state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlToken Comment(Char c)
+        HtmlCommentToken Comment(Char c)
         {
             while (true)
             {
                 if (c == Specification.MINUS)
-                    return CommentDashEnd(_src.Next);
+                {
+                    var result = CommentDashEnd(_src.Next);
+
+                    if (result != null)
+                        return result;
+                }
                 else if (c == Specification.EOF)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
@@ -887,9 +892,11 @@
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
                     c = Specification.REPLACEMENT;
+                    _stringBuffer.Append(c);
                 }
+                else
+                    _stringBuffer.Append(c);
 
-                _stringBuffer.Append(c);
                 c = _src.Next;
             }
         }
@@ -898,7 +905,7 @@
         /// See 8.2.4.49 Comment end dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlToken CommentDashEnd(Char c)
+        HtmlCommentToken CommentDashEnd(Char c)
         {
             if (c == Specification.MINUS)
                 return CommentEnd(_src.Next);
@@ -916,57 +923,61 @@
 
             _stringBuffer.Append(Specification.MINUS);
             _stringBuffer.Append(c);
-            return Comment(_src.Next);
+            return null;
         }
 
         /// <summary>
         /// See 8.2.4.50 Comment end state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlToken CommentEnd(Char c)
+        HtmlCommentToken CommentEnd(Char c)
         {
-            if (c == Specification.GT)
+            while (true)
             {
-                _model = HtmlParseMode.PCData;
-                return HtmlToken.Comment(_stringBuffer.ToString());
-            }
-            else if (c == Specification.NULL)
-            {
-                RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(_src.Next);
-            }
-            else if (c == Specification.EM)
-            {
-                RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
-                return CommentBangEnd(_src.Next);
-            }
-            else if (c == Specification.MINUS)
-            {
-                RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
-                _stringBuffer.Append(Specification.MINUS);
-                return CommentEnd(_src.Next);
-            }
-            else if (c == Specification.EOF)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
-                return HtmlToken.Comment(_stringBuffer.ToString());
-            }
+                if (c == Specification.GT)
+                {
+                    _model = HtmlParseMode.PCData;
+                    return HtmlToken.Comment(_stringBuffer.ToString());
+                }
+                else if (c == Specification.NULL)
+                {
+                    RaiseErrorOccurred(ErrorCode.NULL);
+                    _stringBuffer.Append(Specification.MINUS);
+                    _stringBuffer.Append(Specification.REPLACEMENT);
+                    return null;
+                }
+                else if (c == Specification.EM)
+                {
+                    RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
+                    return CommentBangEnd(_src.Next);
+                }
+                else if (c == Specification.MINUS)
+                {
+                    RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
+                    _stringBuffer.Append(Specification.MINUS);
+                    c = _src.Next;
+                    continue;
+                }
+                else if (c == Specification.EOF)
+                {
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    _src.Back();
+                    return HtmlToken.Comment(_stringBuffer.ToString());
+                }
 
-            RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(c);
-            return Comment(_src.Next);
+                RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(c);
+                return null;
+            }
         }
 
         /// <summary>
         /// See 8.2.4.51 Comment end bang state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlToken CommentBangEnd(Char c)
+        HtmlCommentToken CommentBangEnd(Char c)
         {
             if (c == Specification.MINUS)
             {
@@ -987,7 +998,7 @@
                 _stringBuffer.Append(Specification.MINUS);
                 _stringBuffer.Append(Specification.EM);
                 _stringBuffer.Append(Specification.REPLACEMENT);
-                return Comment(_src.Next);
+                return null;
             }
             else if (c == Specification.EOF)
             {
@@ -1000,7 +1011,7 @@
             _stringBuffer.Append(Specification.MINUS);
             _stringBuffer.Append(Specification.EM);
             _stringBuffer.Append(c);
-            return Comment(_src.Next);
+            return null;
         }
 
         #endregion

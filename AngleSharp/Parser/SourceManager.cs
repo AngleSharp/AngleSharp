@@ -307,34 +307,35 @@
         [DebuggerStepThrough]
         void ReadCurrent()
         {
-            if (_insertion < _buffer.Length)
+            while (true)
             {
-                _current = _buffer[_insertion];
+                if (_insertion < _buffer.Length)
+                {
+                    _current = _buffer[_insertion];
+                    _insertion++;
+                    return;
+                }
+
+                var tmp = _reader.Read();
+                _current = tmp == -1 ? Specification.EOF : (Char)tmp;
+
+                if (_current == Specification.CR)
+                {
+                    _current = Specification.LF;
+                    _lwcr = true;
+                }
+                else if (_lwcr)
+                {
+                    _lwcr = false;
+
+                    if (_current == Specification.LF)
+                        continue;
+                }
+
+                _buffer.Append(_current);
                 _insertion++;
                 return;
             }
-
-            var tmp = _reader.Read();
-            _current = tmp == -1 ? Specification.EOF : (Char)tmp;
-
-            if (_current == Specification.CR)
-            {
-                _current = Specification.LF;
-                _lwcr = true;
-            }
-            else if (_lwcr)
-            {
-                _lwcr = false;
-
-                if (_current == Specification.LF)
-                {
-                    ReadCurrent();
-                    return;
-                }
-            }
-
-            _buffer.Append(_current);
-            _insertion++;
         }
 
         /// <summary>
