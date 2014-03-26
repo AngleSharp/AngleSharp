@@ -20,9 +20,6 @@ namespace ConsoleInteraction
     {
         static void Main(string[] args)
         {
-            test().Wait();
-            return;
-
             TestAsync().Wait();
   
             CssSelectorTest.Slickspeed();
