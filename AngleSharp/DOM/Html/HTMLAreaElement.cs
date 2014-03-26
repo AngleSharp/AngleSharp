@@ -1,15 +1,15 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+
     /// <summary>
     /// Represents the area element.
     /// </summary>
     [DOM("HTMLAreaElement")]
     public sealed class HTMLAreaElement : HTMLElement
     {
-        #region Members
+        #region Fields
 
         DOMTokenList rellist;
 

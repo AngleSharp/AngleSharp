@@ -1,9 +1,8 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+
     /// <summary>
     /// Represents the HTML map element.
     /// </summary>
@@ -19,7 +18,7 @@ namespace AngleSharp.DOM.Html
 
         #endregion
 
-        #region Members
+        #region Fields
 
         HTMLStaticCollection areas;
         HTMLStaticCollection images;

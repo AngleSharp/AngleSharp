@@ -1,17 +1,23 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the HTML dl element.
     /// </summary>
     [DOM("HTMLDListElement")]
     public sealed class HTMLDListElement : HTMLElement
     {
+        #region ctor
+
         internal HTMLDListElement()
         {
             _name = Tags.DL;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets if the node is in the special category.
@@ -20,5 +26,7 @@ namespace AngleSharp.DOM.Html
         {
             get { return true; }
         }
+
+        #endregion
     }
 }

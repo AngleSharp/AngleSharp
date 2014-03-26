@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Rperesents the HTML quote element.
     /// </summary>
@@ -9,8 +9,7 @@ namespace AngleSharp.DOM.Html
     public sealed class HTMLQuoteElement : HTMLElement
     {
         internal HTMLQuoteElement()
-        {
-        }
+        { }
 
         /// <summary>
         /// Gets if the node is in the special category.

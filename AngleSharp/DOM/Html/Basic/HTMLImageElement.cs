@@ -1,14 +1,14 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the image element.
     /// </summary>
     [DOM("HTMLImageElement")]
     public sealed class HTMLImageElement : HTMLElement
     {
-        #region Members
+        #region Fields
 
         UInt32 _imageWidth;
         UInt32 _imageHeight;

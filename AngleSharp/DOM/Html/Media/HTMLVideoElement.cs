@@ -1,14 +1,14 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the HTML video element.
     /// </summary>
     [DOM("HTMLVideoElement")]
     public sealed class HTMLVideoElement : HTMLMediaElement
     {
-        #region Members
+        #region Fields
 
         UInt32 _videoWidth;
         UInt32 _videoHeight;

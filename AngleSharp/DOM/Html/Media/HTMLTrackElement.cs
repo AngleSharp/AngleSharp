@@ -1,14 +1,14 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the HTML track element.
     /// </summary>
     [DOM("HTMLTrackElement")]
     public sealed class HTMLTrackElement : HTMLElement
     {
-        #region Members
+        #region Fields
 
         TrackReadyState _ready;
 

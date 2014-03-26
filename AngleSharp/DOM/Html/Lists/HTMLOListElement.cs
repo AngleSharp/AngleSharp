@@ -1,17 +1,23 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the HTML ordered list (ol) element.
     /// </summary>
     [DOM("HTMLOListElement")]
     public sealed class HTMLOListElement : HTMLElement, IListScopeElement
     {
+        #region ctor
+
         internal HTMLOListElement()
         {
             _name = Tags.OL;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets if the node is in the special category.
@@ -20,5 +26,7 @@ namespace AngleSharp.DOM.Html
         {
             get { return true; }
         }
+
+        #endregion
     }
 }

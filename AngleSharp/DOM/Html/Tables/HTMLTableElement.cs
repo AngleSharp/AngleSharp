@@ -1,16 +1,16 @@
-﻿using AngleSharp.DOM.Collections;
-using AngleSharp.DOM.Css;
-using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Css;
+    using System;
+
     /// <summary>
     /// Represents the HTML table element.
     /// </summary>
     [DOM("HTMLTableElement")]
     public sealed class HTMLTableElement : HTMLElement, IScopeElement, ITableScopeElement
     {
-        #region Members
+        #region Fields
 
         HTMLLiveCollection<HTMLTableCaptionElement> _bodies;
         HTMLLiveCollection<HTMLTableRowElement> _rows;

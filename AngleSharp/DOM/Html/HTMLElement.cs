@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents a standard HTML element in the node tree.
     /// </summary>

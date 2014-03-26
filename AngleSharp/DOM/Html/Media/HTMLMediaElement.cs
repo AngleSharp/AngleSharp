@@ -1,13 +1,13 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the abstract base for HTML media (audio / video) elements.
     /// </summary>
     public abstract class HTMLMediaElement : HTMLElement
     {
-        #region Members
+        #region Fields
 
         /// <summary>
         /// The source url.

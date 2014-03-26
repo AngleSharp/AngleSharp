@@ -1,14 +1,14 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the HTML object element.
     /// </summary>
     [DOM("HTMLObjectElement")]
     public sealed class HTMLObjectElement : HTMLFormControlElement, IScopeElement
     {
-        #region Members
+        #region Fields
 
         Document _contentDocument;
         Object _contentWindow;

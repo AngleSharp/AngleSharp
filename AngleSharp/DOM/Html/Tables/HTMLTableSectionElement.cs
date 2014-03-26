@@ -1,15 +1,15 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+
     /// <summary>
     /// Represents the object for HTML table section (thead / tbody / tfoot) elements.
     /// </summary>
     [DOM("HTMLTableSectionElement")]
     public sealed class HTMLTableSectionElement : HTMLElement, IImplClosed, ITableSectionScopeElement
     {
-        #region Members
+        #region Fields
 
         HTMLLiveCollection<HTMLTableRowElement> _rows;
 

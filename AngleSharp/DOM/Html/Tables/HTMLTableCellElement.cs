@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the object for HTML table cell (td / th) elements.
     /// </summary>

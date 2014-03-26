@@ -13,7 +13,7 @@
     [DOM("HTMLDocument")]
     public sealed class HTMLDocument : Document, IHTMLDocument
     {
-        #region Members
+        #region Fields
 
         Cookie _cookie;
 
@@ -372,10 +372,11 @@
         /// Loads a HTML document from the given URL.
         /// </summary>
         /// <param name="url">The URL that hosts the HTML content.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The document with the parsed content.</returns>
-        public static HTMLDocument LoadFromURL(String url)
+        public static HTMLDocument LoadFromURL(String url, IConfiguration configuration = null)
         {
-            var doc = new HTMLDocument();
+            var doc = new HTMLDocument { Options = configuration ?? Configuration.Default };
             return doc.Load(url);
         }
 
@@ -383,10 +384,11 @@
         /// Loads a HTML document from the given URL.
         /// </summary>
         /// <param name="source">The source code with the HTML content.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The document with the parsed content.</returns>
-        public static HTMLDocument LoadFromSource(String source)
+        public static HTMLDocument LoadFromSource(String source, IConfiguration configuration = null)
         {
-            return DocumentBuilder.Html(source);
+            return DocumentBuilder.Html(source, configuration);
         }
 
         #endregion

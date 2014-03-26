@@ -1,16 +1,16 @@
-﻿using AngleSharp.DOM.Collections;
-using AngleSharp.DOM.Css;
-using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Css;
+    using System;
+
     /// <summary>
     /// Represents the HTML tr element.
     /// </summary>
     [DOM("HTMLTableRowElement")]
     public sealed class HTMLTableRowElement : HTMLElement, IImplClosed
     {
-        #region Members
+        #region Fields
 
         HTMLLiveCollection<HTMLTableCellElement> _cells;
 

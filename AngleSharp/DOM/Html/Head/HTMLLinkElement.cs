@@ -1,15 +1,15 @@
-﻿using AngleSharp.DOM.Css;
-using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Css;
+    using System;
+
     /// <summary>
     /// Represents the HTML link element.
     /// </summary>
     [DOM("HTMLLinkElement")]
     public sealed class HTMLLinkElement : HTMLElement, IStyleSheet
     {
-        #region Members
+        #region Fields
 
         CSSStyleSheet _sheet;
         String _buffer;
