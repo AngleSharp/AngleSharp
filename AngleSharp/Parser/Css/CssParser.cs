@@ -355,7 +355,7 @@
 			}
 			else if (token.Type == CssTokenType.Ident)
 			{
-				AddDeclaration(CSSProperty.Create(((CssKeywordToken)token).Data));
+				AddDeclaration(CSSFactory.Create(((CssKeywordToken)token).Data));
 				SwitchTo(CssState.AfterProperty);
 				return true;
 			}
@@ -961,7 +961,7 @@
 				return true;
 			}
 
-            value.AddValue(new CSSPrimitiveValue(CssUnit.Ident, token.Data));
+            value.AddValue(new CSSIdent(token.Data));
             return true;
 		}
 

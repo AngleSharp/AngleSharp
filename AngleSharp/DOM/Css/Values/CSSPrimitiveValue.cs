@@ -1,14 +1,14 @@
-﻿using System;
-using System.Globalization;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+    using System.Globalization;
+
     /// <summary>
     /// Represents a CSS primitive value.
     /// </summary>
     sealed class CSSPrimitiveValue : CSSValue
     {
-        #region Members
+        #region Fields
 
         Object _value;
         CssUnit _unit;

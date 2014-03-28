@@ -38,6 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="DOM\Css\CSSFactory.cs" />
+    <Compile Include="DOM\Css\Properties\CSSDisplayProperty.cs" />
+    <Compile Include="DOM\Css\Values\CSSIdent.cs" />
     <Compile Include="Foundation\ConcurrentDictionary.cs" />
     <Compile Include="Foundation\NodeExtensions.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
@@ -49,11 +52,11 @@
     <Compile Include="DOM\Annotations\ICssSelector.cs" />
     <Compile Include="DOM\Annotations\IStyleDeclaration.cs" />
     <Compile Include="DOM\Css\Rules\CSSDocumentRule.cs" />
-    <Compile Include="DOM\Css\Values\Primitives\CSSGradient.cs" />
-    <Compile Include="DOM\Css\Values\Primitives\CSSGradientStop.cs" />
-    <Compile Include="DOM\Css\Values\Primitives\CSSPoint2.cs" />
-    <Compile Include="DOM\Css\Values\Primitives\CSSPoint3.cs" />
-    <Compile Include="DOM\Css\Values\Primitives\CSSUri.cs" />
+    <Compile Include="DOM\Css\Values\CSSGradient.cs" />
+    <Compile Include="DOM\Css\Values\CSSGradientStop.cs" />
+    <Compile Include="DOM\Css\Values\CSSPoint2.cs" />
+    <Compile Include="DOM\Css\Values\CSSPoint3.cs" />
+    <Compile Include="DOM\Css\Values\CSSUri.cs" />
     <Compile Include="DOM\Enums\AdjacentPosition.cs" />
     <Compile Include="DOM\Enums\CssSide.cs" />
     <Compile Include="DOM\Enums\ValueListSeparator.cs" />
@@ -97,7 +100,7 @@
     <Compile Include="DOM\Collections\HTMLLiveCollection.cs" />
     <Compile Include="DOM\Collections\HTMLStaticCollection.cs" />
     <Compile Include="DOM\Enums\ContentEditableMode.cs" />
-    <Compile Include="DOM\Css\Properties\CSSProperty.cs" />
+    <Compile Include="DOM\Css\CSSProperty.cs" />
     <Compile Include="DOM\Css\Rules\CSSCharsetRule.cs" />
     <Compile Include="DOM\Css\Rules\CSSConditionRule.cs" />
     <Compile Include="DOM\Css\Rules\CSSFontFaceRule.cs" />
@@ -116,7 +119,7 @@
     <Compile Include="DOM\Css\Values\CSSPrimitiveValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValueList.cs" />
-    <Compile Include="DOM\Css\Values\Primitives\CSSRect.cs" />
+    <Compile Include="DOM\Css\Values\CSSRect.cs" />
     <Compile Include="DOM\Enums\DirectionMode.cs" />
     <Compile Include="DOM\Enums\Alignment.cs" />
     <Compile Include="DOM\Enums\HorizontalAlignment.cs" />
@@ -263,7 +266,7 @@
     <Compile Include="Parser\Html\HtmlTokenType.cs" />
     <Compile Include="Foundation\CharExtensions.cs" />
     <Compile Include="Parser\Html\Helpers\ForeignHelpers.cs" />
-    <Compile Include="DOM\Css\Values\Primitives\CSSColor.cs" />
+    <Compile Include="DOM\Css\Values\CSSColor.cs" />
     <Compile Include="DOM\Html\HTMLDocument.cs" />
     <Compile Include="Parser\Html\HtmlTreeMode.cs" />
     <Compile Include="Foundation\DocumentEncoding.cs" />

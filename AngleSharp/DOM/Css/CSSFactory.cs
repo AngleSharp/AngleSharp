@@ -1,45 +1,18 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
-    /// <summary>
-    /// Fore more information about CSS properties
-    /// see http://www.w3.org/TR/CSS21/propidx.html.
-    /// </summary>
-    [DOM("CSSProperty")]
-    public sealed class CSSProperty : ICssObject
+    using AngleSharp.DOM.Css.Properties;
+    using System;
+
+    internal class CSSFactory
     {
-        #region Members
-
-        String _name;
-        CSSValue _value;
-        Boolean _important;
-
-        #endregion
-
-        #region ctor
-
         /// <summary>
-        /// Creates a new CSS property.
+        /// Creates a new property.
         /// </summary>
-        /// <param name="name"></param>
-        internal CSSProperty(String name)
+        /// <param name="name">The name of the property.</param>
+        /// <returns>The created property</returns>
+        public static CSSProperty Create(String name)
         {
-            _name = name;
-        }
-
-        #endregion
-
-		#region Factory
-
-		/// <summary>
-		/// Creates a new property.
-		/// </summary>
-		/// <param name="name">The name of the property.</param>
-		/// <returns>The created property</returns>
-		static internal CSSProperty Create(String name)
-		{
-			switch (name.ToLower())
+            switch (name.ToLower())
             {
                 //case PropertyNames.AZIMUTH:
                 //case PropertyNames.ANIMATION:
@@ -121,7 +94,9 @@ namespace AngleSharp.DOM.Css
                 //case PropertyNames.CUE:
                 //case PropertyNames.CURSOR:
                 //case PropertyNames.DIRECTION:
-                //case PropertyNames.DISPLAY:
+
+                case PropertyNames.DISPLAY: return new CSSDisplayProperty();
+
                 //case PropertyNames.ELEVATION:
                 //case PropertyNames.EMPTY_CELLS:
                 //case PropertyNames.FLOAT:
@@ -195,74 +170,8 @@ namespace AngleSharp.DOM.Css
                 //case PropertyNames.WORD_SPACING:
                 //case PropertyNames.Z_INDEX:
 
-				default:
-					return new CSSProperty(name);
-			}
-		}
-
-		#endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the property hsa a value.
-        /// </summary>
-        internal Boolean HasValue
-        {
-            get { return _value != null; }
+                default: return new CSSProperty(name);
+            }
         }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the name of the property.
-        /// </summary>
-        [DOM("name")]
-        public String Name
-        {
-            get { return _name; }
-        }
-
-        /// <summary>
-        /// Gets or sets the value of the property.
-        /// </summary>
-        [DOM("value")]
-        public CSSValue Value
-        {
-            get { return _value ?? CSSValue.Inherit; }
-            set { _value = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets if the !important flag has been set.
-        /// </summary>
-        [DOM("important")]
-        public Boolean Important
-        {
-            get { return _important; }
-            set { _important = value; }
-        }
-
-        #endregion
-
-        #region String representation
-
-        /// <summary>
-        /// Returns a CSS code representation of the property.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        public String ToCss()
-        {
-            var value = _name + ":" + _value.ToCss();
-
-            if (_important)
-                value += " !important";
-
-            return value;
-        }
-
-        #endregion
     }
 }
