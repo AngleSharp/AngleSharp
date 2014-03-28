@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AngleSharp;
+﻿using AngleSharp;
 using AngleSharp.DOM;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace UnitTests
 {
@@ -904,7 +904,7 @@ namespace UnitTests
         public void GumboDoctype()
         {
             var html = DocumentBuilder.Html(@"<!doctype html>Test");
-            Assert.AreEqual(AngleSharp.DOM.Html.QuirksMode.Off, html.QuirksMode);
+            Assert.AreEqual(AngleSharp.DOM.QuirksMode.Off, html.QuirksMode);
             Assert.AreEqual(2, html.ChildNodes.Length);
 
             var doctype = html.Doctype;
@@ -917,7 +917,7 @@ namespace UnitTests
         public void GumboInvalidDoctype()
         {
             var html = DocumentBuilder.Html(@"Test<!doctype root_element SYSTEM ""DTD_location"">");
-            Assert.AreEqual(AngleSharp.DOM.Html.QuirksMode.On, html.QuirksMode);
+            Assert.AreEqual(AngleSharp.DOM.QuirksMode.On, html.QuirksMode);
             Assert.AreEqual(1, html.ChildNodes.Length);
 
             Assert.IsNull(html.Doctype);
