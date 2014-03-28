@@ -166,11 +166,17 @@
     <Compile Include="..\AngleSharp\DOM\Comment.cs">
       <Link>DOM\Comment.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\CSSFactory.cs">
+      <Link>DOM\Css\CSSFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\CSSProperty.cs">
+      <Link>DOM\Css\CSSProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSStyleSheet.cs">
       <Link>DOM\Css\CSSStyleSheet.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSProperty.cs">
-      <Link>DOM\Css\Properties\CSSProperty.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSDisplayProperty.cs">
+      <Link>DOM\Css\Properties\CSSDisplayProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSCharsetRule.cs">
       <Link>DOM\Css\Rules\CSSCharsetRule.cs</Link>
@@ -244,38 +250,41 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\Counter.cs">
       <Link>DOM\Css\Values\Counter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSColor.cs">
+      <Link>DOM\Css\Values\CSSColor.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSFunction.cs">
       <Link>DOM\Css\Values\CSSFunction.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSGradient.cs">
+      <Link>DOM\Css\Values\CSSGradient.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSGradientStop.cs">
+      <Link>DOM\Css\Values\CSSGradientStop.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSIdent.cs">
+      <Link>DOM\Css\Values\CSSIdent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPoint2.cs">
+      <Link>DOM\Css\Values\CSSPoint2.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPoint3.cs">
+      <Link>DOM\Css\Values\CSSPoint3.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPrimitiveValue.cs">
       <Link>DOM\Css\Values\CSSPrimitiveValue.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSRect.cs">
+      <Link>DOM\Css\Values\CSSRect.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSUri.cs">
+      <Link>DOM\Css\Values\CSSUri.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSValue.cs">
       <Link>DOM\Css\Values\CSSValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSValueList.cs">
       <Link>DOM\Css\Values\CSSValueList.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitives\CSSColor.cs">
-      <Link>DOM\Css\Values\Primitives\CSSColor.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitives\CSSGradient.cs">
-      <Link>DOM\Css\Values\Primitives\CSSGradient.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitives\CSSGradientStop.cs">
-      <Link>DOM\Css\Values\Primitives\CSSGradientStop.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitives\CSSPoint2.cs">
-      <Link>DOM\Css\Values\Primitives\CSSPoint2.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitives\CSSPoint3.cs">
-      <Link>DOM\Css\Values\Primitives\CSSPoint3.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitives\CSSRect.cs">
-      <Link>DOM\Css\Values\Primitives\CSSRect.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitives\CSSUri.cs">
-      <Link>DOM\Css\Values\Primitives\CSSUri.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Document.cs">
       <Link>DOM\Document.cs</Link>
