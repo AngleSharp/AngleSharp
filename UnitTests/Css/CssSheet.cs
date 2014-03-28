@@ -1,6 +1,7 @@
 ﻿using AngleSharp.Parser.Css;
 using AngleSharp.DOM.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AngleSharp;
 
 namespace UnitTests
 {
@@ -123,9 +124,8 @@ namespace UnitTests
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
-            var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
-            Assert.IsTrue(color.HasValue);
-            Assert.AreEqual(new CSSColor(0, 0, 0), color.Value);
+            var color = ((CSSColor)value).Color;
+            Assert.AreEqual(new Color(0, 0, 0), color);
         }
 
         [TestMethod]
@@ -135,9 +135,8 @@ namespace UnitTests
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
-            var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
-            Assert.IsTrue(color.HasValue);
-            Assert.AreEqual(new CSSColor(255, 0, 0), color.Value);
+            var color = ((CSSColor)value).Color;
+            Assert.AreEqual(new Color(255, 0, 0), color);
         }
 
         [TestMethod]
@@ -147,9 +146,8 @@ namespace UnitTests
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
-            var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
-            Assert.IsTrue(color.HasValue);
-            Assert.AreEqual(new CSSColor(0, 119, 204), color.Value);
+            var color = ((CSSColor)value).Color;
+            Assert.AreEqual(new Color(0, 119, 204), color);
         }
 
         [TestMethod]
@@ -159,9 +157,8 @@ namespace UnitTests
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
-            var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
-            Assert.IsTrue(color.HasValue);
-            Assert.AreEqual(new CSSColor(0, 0, 255), color.Value);
+            var color = ((CSSColor)value).Color;
+            Assert.AreEqual(new Color(0, 0, 255), color);
         }
 
         [TestMethod]
@@ -171,9 +168,8 @@ namespace UnitTests
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
-            var color = ((CSSPrimitiveValue)value).GetRGBColorValue();
-            Assert.IsTrue(color.HasValue);
-            Assert.AreEqual(new CSSColor(255, 0, 0), color.Value);
+            var color = ((CSSColor)value).Color;
+            Assert.AreEqual(new Color(255, 0, 0), color);
         }
 
         [TestMethod]
@@ -188,9 +184,8 @@ namespace UnitTests
             Assert.IsFalse(prop.Important);
             Assert.AreEqual(CssValueType.PrimitiveValue, prop.Value.CssValueType);
 
-            var color = ((CSSPrimitiveValue)prop.Value).GetRGBColorValue();
-            Assert.IsTrue(color.HasValue);
-            Assert.AreEqual(new CSSColor(82, 168, 236, 0.8f), color.Value);
+            var color = ((CSSColor)prop.Value).Color;
+            Assert.AreEqual(new Color(82, 168, 236, 0.8f), color);
         }
 
         [TestMethod]
@@ -255,7 +250,7 @@ namespace UnitTests
             Assert.AreEqual("background", background.Name);
             Assert.IsFalse(background.Important);
             Assert.AreEqual(CssValueType.Custom, background.Value.CssValueType);
-            Assert.AreEqual("-webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))", background.Value.ToCss());
+            Assert.AreEqual("-webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 168, 76, 1)), color-stop(100%, rgba(255, 123, 13, 1)))", background.Value.ToCss());
         }
 
         [TestMethod]
