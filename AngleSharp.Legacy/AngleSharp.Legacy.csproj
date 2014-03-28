@@ -202,8 +202,50 @@
     <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
       <Link>DOM\Css\CssValueType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBorderCollapseProperty.cs">
+      <Link>DOM\Css\Properties\CSSBorderCollapseProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBreakAfterProperty.cs">
+      <Link>DOM\Css\Properties\CSSBreakAfterProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBreakBeforeProperty.cs">
+      <Link>DOM\Css\Properties\CSSBreakBeforeProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBreakInsideProperty.cs">
+      <Link>DOM\Css\Properties\CSSBreakInsideProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBreakProperty.cs">
+      <Link>DOM\Css\Properties\CSSBreakProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSCaptionSideProperty.cs">
+      <Link>DOM\Css\Properties\CSSCaptionSideProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSClearProperty.cs">
+      <Link>DOM\Css\Properties\CSSClearProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSDirectionProperty.cs">
+      <Link>DOM\Css\Properties\CSSDirectionProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSDisplayProperty.cs">
       <Link>DOM\Css\Properties\CSSDisplayProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSEmptyCellsProperty.cs">
+      <Link>DOM\Css\Properties\CSSEmptyCellsProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSFloatProperty.cs">
+      <Link>DOM\Css\Properties\CSSFloatProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSOverflowProperty.cs">
+      <Link>DOM\Css\Properties\CSSOverflowProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSPositionProperty.cs">
+      <Link>DOM\Css\Properties\CSSPositionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSTableLayoutProperty.cs">
+      <Link>DOM\Css\Properties\CSSTableLayoutProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSVisibilityProperty.cs">
+      <Link>DOM\Css\Properties\CSSVisibilityProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSCharsetRule.cs">
       <Link>DOM\Css\Rules\CSSCharsetRule.cs</Link>
