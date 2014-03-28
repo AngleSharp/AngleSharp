@@ -3,7 +3,7 @@
     /// <summary>
     /// A list of possible CSS value list separators.
     /// </summary>
-    enum ValueListSeparator
+    enum CssValueListSeparator
     {
         /// <summary>
         /// A space separating two entities.

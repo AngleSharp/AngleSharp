@@ -3,7 +3,7 @@
     /// <summary>
     /// Enumeration with possible values for the adjacent position insertation.
     /// </summary>
-    public enum AdjacentPosition
+    public enum AdjacentPosition : ushort
     {
         /// <summary>
         /// Before the element itself.

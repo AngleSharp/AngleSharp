@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with all dir modes.
     /// </summary>
-    public enum DirectionMode
+    public enum DirectionMode : ushort
     {
         /// <summary>
         /// From left to right.

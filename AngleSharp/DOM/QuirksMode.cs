@@ -1,9 +1,9 @@
-﻿namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM
 {
     /// <summary>
     /// A list of possible quirks mode states.
     /// </summary>
-    public enum QuirksMode
+    public enum QuirksMode : ushort
     {
         /// <summary>
         /// The quirks mode is deactivated.

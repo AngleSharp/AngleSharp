@@ -1312,21 +1312,21 @@
 			parser.Parse();
 
             if (!property.HasValue)
-                return new CSSValueList { Separator = ValueListSeparator.Space };
+                return new CSSValueList { Separator = CssValueListSeparator.Space };
 
             if (property.Value is CSSValueList)
             {
                 var list = (CSSValueList)property.Value;
 
-                if (list.Separator == ValueListSeparator.Slash)
-                    list = new CSSValueList(list) { Separator = ValueListSeparator.Space };
-                else if (list.Separator == ValueListSeparator.Comma)
-                    list = list[0] is CSSValueList && ((CSSValueList)list[0]).Separator == ValueListSeparator.Space ? (CSSValueList)list[0] : new CSSValueList(list[0]) { Separator = ValueListSeparator.Space };
+                if (list.Separator == CssValueListSeparator.Slash)
+                    list = new CSSValueList(list) { Separator = CssValueListSeparator.Space };
+                else if (list.Separator == CssValueListSeparator.Comma)
+                    list = list[0] is CSSValueList && ((CSSValueList)list[0]).Separator == CssValueListSeparator.Space ? (CSSValueList)list[0] : new CSSValueList(list[0]) { Separator = CssValueListSeparator.Space };
 
                 return list;
             }
 
-            return new CSSValueList(property.Value) { Separator = ValueListSeparator.Space };
+            return new CSSValueList(property.Value) { Separator = CssValueListSeparator.Space };
         }
 
         /// <summary>
@@ -1345,19 +1345,19 @@
             parser.Parse();
 
             if (!property.HasValue)
-                return new CSSValueList { Separator = ValueListSeparator.Comma };
+                return new CSSValueList { Separator = CssValueListSeparator.Comma };
 
             if (property.Value is CSSValueList)
             {
                 var list = (CSSValueList)property.Value;
 
-                if (list.Separator != ValueListSeparator.Comma)
-                    list = new CSSValueList(list) { Separator = ValueListSeparator.Comma };
+                if (list.Separator != CssValueListSeparator.Comma)
+                    list = new CSSValueList(list) { Separator = CssValueListSeparator.Comma };
 
                 return list;
             }
 
-            return new CSSValueList(property.Value) { Separator = ValueListSeparator.Comma };
+            return new CSSValueList(property.Value) { Separator = CssValueListSeparator.Comma };
         }
 
         /// <summary>

@@ -12,7 +12,7 @@
         #region Fields
 
         readonly List<CSSValue> _items;
-        ValueListSeparator _separator;
+        CssValueListSeparator _separator;
 
         #endregion
 
@@ -25,7 +25,7 @@
         {
             _items = new List<CSSValue>();
             _type = CssValueType.ValueList;
-            _separator = ValueListSeparator.Space;
+            _separator = CssValueListSeparator.Space;
         }
 
         /// <summary>
@@ -45,7 +45,7 @@
         /// <summary>
         /// Gets or sets the separator to use.
         /// </summary>
-        internal ValueListSeparator Separator
+        internal CssValueListSeparator Separator
         {
             get { return _separator; }
             set { _separator = value; }
@@ -107,7 +107,7 @@
             for (int i = 0; i < _items.Count; i++)
                 values[i] = _items[i].CssText;
 
-            return String.Join(_separator == ValueListSeparator.Comma ? ", "  : (_separator == ValueListSeparator.Slash ? " / " : " "), values);
+            return String.Join(_separator == CssValueListSeparator.Comma ? ", "  : (_separator == CssValueListSeparator.Slash ? " / " : " "), values);
         }
 
         #endregion

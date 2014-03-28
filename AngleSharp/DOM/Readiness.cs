@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the document readiness.
     /// </summary>
-    public enum Readiness
+    public enum Readiness : ushort
     {
         /// <summary>
         /// The document is still loading.

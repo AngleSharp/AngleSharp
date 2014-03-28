@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with all contenteditable modes.
     /// </summary>
-    public enum ContentEditableMode
+    public enum ContentEditableMode : ushort
     {
         /// <summary>
         /// Not contenteditable.

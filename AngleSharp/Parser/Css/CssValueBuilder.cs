@@ -77,7 +77,7 @@
                 {
                     if (_values[_values.Count - 1] is CSSValueList)
                     {
-                        if (((CSSValueList)_values[_values.Count - 1]).Separator == ValueListSeparator.Slash)
+                        if (((CSSValueList)_values[_values.Count - 1]).Separator == CssValueListSeparator.Slash)
                         {
                             var list = (CSSValueList)_values[_values.Count - 1];
                             list.List.Add(value);
@@ -87,7 +87,7 @@
                     }
                     else
                     {
-                        var list = new CSSValueList { Separator = ValueListSeparator.Slash };
+                        var list = new CSSValueList { Separator = CssValueListSeparator.Slash };
                         list.List.Add(_values[_values.Count - 1]);
                         _values.RemoveAt(_values.Count - 1);
                         list.List.Add(value);
@@ -175,7 +175,7 @@
 
         CSSValueList CreateList()
         {
-            var value = new CSSValueList { Separator = ValueListSeparator.Comma };
+            var value = new CSSValueList { Separator = CssValueListSeparator.Comma };
             var start = 0;
 
             for (int i = 0; i <= _values.Count; i++)
@@ -212,7 +212,7 @@
         {
             if (end - start != 1)
             {
-                var list = new CSSValueList { Separator = ValueListSeparator.Space };
+                var list = new CSSValueList { Separator = CssValueListSeparator.Space };
 
                 for (var i = start; i < end; i++)
                     list.List.Add(_values[i]);
