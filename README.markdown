@@ -1,9 +1,11 @@
 AngleSharp
 ==========
 
-AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, MathML and XML. CSS can also be parsed with this library. The parser is build upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code.
+AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. In the future XML might be included, however, since .NET offers a variety of capable XML parsers there is a discussion about redundancy. An important aspect of AngleSharp is that CSS can also be parsed. The parser is build upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code. Also current features such as `querySelector` or `querySelectorAll` work for tree traversal.
 
 The advantage over similar libraries like the HtmlAgilityPack is that e.g. CSS (including selectors) is already build in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. While the HtmlAgilityPack focuses on giving .NET users a nice and easy way to handle HTML documents, this library focuses on giving web developers working with C# all possibilities as they would have in a browser using JavaScript. Hence the DOM is build in a more reliable, standard-conform and faster way than with the other solutions.
+
+The performance of AngleSharp is quite close to the performance of browsers. Even very large pages can be processed within milliseconds. AngleSharp tries to minimize memory allocations and reuses elements internally to avoid unnecessary object creation.
 
 Documentation
 -------------
@@ -26,6 +28,12 @@ This is a long-term project which will eventually result in a state of the art p
 
 Change log
 ----------
+
+**0.5.0:**
+- Major API changes (DI is now the only singleton)
+- 98% finished HTML5 parser
+- 95% finished CSS3 parser
+- 85% finished HTML DOM
 
 **0.4.0:**
 - Final alpha version
@@ -57,29 +65,27 @@ Roadmap
 
 The roadmap presents a draft on what is about to be implemented, and when. The priorities might change, which will affect the roadmap. Additionally the implementation speed will be impacted by factors like people participating in the project and design decisions.
 
-The time estimates are all ultra-conservative, which means that the project will probably (and hopefully) be much faster than the predicted schedule.
+The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
 
-(February 2014) **0.5.0**
+(May 2014) **0.6.0**
 - CSS model implemented (e.g. *getComputedStyle* works)
 - Draft interfaces for optional resource and rendering defined
-
-(April 2014) **0.6.0**
-- MathML DOM finished
 - Most important parts of HTML DOM implemented
 
-(June 2014) **0.7.0**
+(July 2014) **0.7.0**
+- MathML DOM finished
 - SVG document included
 - SVG DOM skeleton implemented
 
-(August 2014) **0.8.0**
+(September 2014) **0.8.0**
 - Full HTML DOM implemented
 - CSS computation works with everything
 
-(October 2014) **0.9.0**
+(November 2014) **0.9.0**
 - Most important SVG elements implemented
 - HTML5 parser at 100% with complete DOM, MathML and SVG
 
-(December 2014) **1.0.0**
+(January 2015) **1.0.0**
 - Final release of the first version
 
 Use-cases
@@ -96,6 +102,8 @@ Participating in the project
 ----------------------------
 
 If you know some feature that AngleSharp is currently missing, and you are willing to implement the feature, then your contribution is more than welcome! Also if you have a really cool idea - do not be shy, we'd like to hear it.
+
+If you have an idea how to improve the API (or what is missing) then posts / messages are also welcome. There are also ongoing discussions about some styles that are used by AngleSharp (e.g. `HTMLDocument` instead of `HtmlDocument`). If you have a strong opinion about one or the other then participating in those discussions would certainly be helpful.
 
 Some legal stuff
 ----------------
