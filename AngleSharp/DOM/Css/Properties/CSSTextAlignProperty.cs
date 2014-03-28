@@ -5,29 +5,31 @@
 
     /// <summary>
     /// Information can be found on MDN:
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-collapse
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-align
     /// </summary>
-    sealed class CSSBorderCollapseProperty : CSSProperty
+    sealed class CSSTextAlignProperty : CSSProperty
     {
         #region Fields
 
-        static readonly Dictionary<String, BorderCollapseMode> modes = new Dictionary<String, BorderCollapseMode>(StringComparer.OrdinalIgnoreCase);
-        BorderCollapseMode _mode;
+        static readonly Dictionary<String, TextAlignMode> modes = new Dictionary<String, TextAlignMode>(StringComparer.OrdinalIgnoreCase);
+        TextAlignMode _mode;
 
         #endregion
 
         #region ctor
 
-        static CSSBorderCollapseProperty()
+        static CSSTextAlignProperty()
         {
-            modes.Add("collapse", new CollapseBorderCollapseMode());
-            modes.Add("separate", new SeparateBorderCollapseMode());
+            modes.Add("left", new LeftTextAlignMode());
+            modes.Add("right", new RightTextAlignMode());
+            modes.Add("center", new CenterTextAlignMode());
+            modes.Add("justify", new JustifyTextAlignMode());
         }
 
-        public CSSBorderCollapseProperty()
-            : base(PropertyNames.BORDER_COLLAPSE)
+        public CSSTextAlignProperty()
+            : base(PropertyNames.TEXT_ALIGN)
         {
-            _mode = modes["separate"];
+            _mode = modes["left"];
             _inherited = true;
         }
 
@@ -40,7 +42,7 @@
             if (value is CSSIdentifier)
             {
                 var ident = (CSSIdentifier)value;
-                BorderCollapseMode mode;
+                TextAlignMode mode;
 
                 if (modes.TryGetValue(ident.Identifier, out mode))
                 {
@@ -58,16 +60,24 @@
 
         #region Modes
         
-        abstract class BorderCollapseMode
+        abstract class TextAlignMode
         {
             //TODO Add members that make sense
         }
 
-        class CollapseBorderCollapseMode : BorderCollapseMode
+        class LeftTextAlignMode : TextAlignMode
         {
         }
 
-        class SeparateBorderCollapseMode : BorderCollapseMode
+        class RightTextAlignMode : TextAlignMode
+        {
+        }
+
+        class CenterTextAlignMode : TextAlignMode
+        {
+        }
+
+        class JustifyTextAlignMode : TextAlignMode
         {
         }
 

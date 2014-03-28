@@ -536,10 +536,10 @@
                     value.AddValue(new CSSPrimitiveValue(CssUnit.Uri, ((CssStringToken)token).Data));
                     return true;
 				case CssTokenType.Percentage: // e.g. "5%"
-                    value.AddValue(new CSSPrimitiveValue(CssUnit.Percentage, ((CssUnitToken)token).Data));
+                    value.AddValue(new CSSPercent(((CssUnitToken)token).Data));
                     return true;
 				case CssTokenType.Number: // e.g. "173"
-					value.AddValue(new CSSPrimitiveValue(CssUnit.Number, ((CssNumberToken)token).Data));
+					value.AddValue(new CSSNumber(((CssNumberToken)token).Data));
                     return true;
 				case CssTokenType.Whitespace: // e.g. " "
 					SwitchTo(CssState.InValueList);
@@ -961,7 +961,7 @@
 				return true;
 			}
 
-            value.AddValue(new CSSIdent(token.Data));
+            value.AddValue(new CSSIdentifier(token.Data));
             return true;
 		}
 
@@ -972,11 +972,11 @@
 		/// <returns>The status.</returns>
 		Boolean InSingleValueHexColor(String color)
 		{
-			CSSColor colorValue;
+			Color colorValue;
 
-            if (CSSColor.TryFromHex(color, out colorValue))
+            if (Color.TryFromHex(color, out colorValue))
             {
-                value.AddValue(new CSSPrimitiveValue(colorValue));
+                value.AddValue(new CSSColor(colorValue));
                 return true;
             }
 

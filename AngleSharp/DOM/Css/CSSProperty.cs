@@ -69,7 +69,7 @@
         public CSSValue Value
         {
             get { return _value ?? CSSValue.Inherit; }
-            set { _value = CheckValue(value) ?? _value; }
+            set { if (IsValid(value)) _value = value; }
         }
 
         /// <summary>
@@ -89,9 +89,11 @@
         /// <summary>
         /// Notified once the value changed.
         /// </summary>
-        protected virtual CSSValue CheckValue(CSSValue value)
+        /// <param name="value">The value to be checked.</param>
+        /// <returns>True if the value is valid, otherwise false.</returns>
+        protected virtual Boolean IsValid(CSSValue value)
         {
-            return value;
+            return true;
         }
 
         #endregion

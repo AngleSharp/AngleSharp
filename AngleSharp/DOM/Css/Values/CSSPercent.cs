@@ -1,21 +1,22 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Globalization;
 
-    sealed class CSSColor : CSSValue
+    sealed class CSSPercent : CSSValue
     {
         #region Fields
 
-        Color _value;
+        Single _value;
 
         #endregion
 
         #region ctor
 
-        public CSSColor(Color value)
+        public CSSPercent(Single value)
         {
             _type = CssValueType.PrimitiveValue;
-            _text = value.ToString();
+            _text = value.ToString(CultureInfo.InvariantCulture) + "%";
             _value = value;
         }
 
@@ -24,9 +25,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of the CSS color.
+        /// Gets the value of the CSS percentage.
         /// </summary>
-        public Color Color
+        public Single Value
         {
             get { return _value; }
         }
@@ -36,7 +37,7 @@
         /// </summary>
         public CssUnit PrimitiveType
         {
-            get { return CssUnit.Rgbcolor; }
+            get { return CssUnit.Percentage; }
         }
 
         #endregion

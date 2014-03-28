@@ -23,25 +23,11 @@
             SetStringValue(unit, value);
         }
 
-        internal CSSPrimitiveValue(CssUnit unit, Single value)
-        {
-            _type = CssValueType.PrimitiveValue;
-            SetFloatValue(unit, value);
-        }
-
         internal CSSPrimitiveValue(String unit, Single value)
         {
             _type = CssValueType.PrimitiveValue;
             var unitType = ConvertStringToUnitType(unit);
             SetFloatValue(unitType, value);
-        }
-
-        internal CSSPrimitiveValue(CSSColor value)
-        {
-            _text = value.ToCss();
-            _type = CssValueType.PrimitiveValue;
-            _unit = CssUnit.Rgbcolor;
-            _value = value;
         }
 
         #endregion
@@ -163,10 +149,10 @@
         /// Gets the primitive value's RGB color if any.
         /// </summary>
         /// <returns>The value of the RGB color if any.</returns>
-        public CSSColor? GetRGBColorValue()
+        public Color? GetRGBColorValue()
         {
             if(_unit == CssUnit.Rgbcolor)
-                return (CSSColor)_value;
+                return (Color)_value;
 
             return null;
         }

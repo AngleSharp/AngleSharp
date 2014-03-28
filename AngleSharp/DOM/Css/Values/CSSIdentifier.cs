@@ -2,21 +2,14 @@
 {
     using System;
 
-    sealed class CSSColor : CSSValue
+    sealed class CSSIdentifier : CSSValue
     {
-        #region Fields
-
-        Color _value;
-
-        #endregion
-
         #region ctor
 
-        public CSSColor(Color value)
+        public CSSIdentifier(String token)
         {
             _type = CssValueType.PrimitiveValue;
-            _text = value.ToString();
-            _value = value;
+            _text = token;
         }
 
         #endregion
@@ -24,11 +17,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of the CSS color.
+        /// Gets the specified identifier.
         /// </summary>
-        public Color Color
+        public String Identifier
         {
-            get { return _value; }
+            get { return _text; }
         }
 
         /// <summary>
@@ -36,7 +29,7 @@
         /// </summary>
         public CssUnit PrimitiveType
         {
-            get { return CssUnit.Rgbcolor; }
+            get { return CssUnit.Ident; }
         }
 
         #endregion

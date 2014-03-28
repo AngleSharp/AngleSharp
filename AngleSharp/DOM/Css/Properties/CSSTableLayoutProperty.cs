@@ -35,23 +35,23 @@
 
         #region Methods
 
-        protected override CSSValue CheckValue(CSSValue value)
+        protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdent)
+            if (value is CSSIdentifier)
             {
-                var ident = (CSSIdent)value;
+                var ident = (CSSIdentifier)value;
                 TableLayoutMode mode;
 
-                if (modes.TryGetValue(ident.Token, out mode))
+                if (modes.TryGetValue(ident.Identifier, out mode))
                 {
                     _mode = mode;
-                    return value;
+                    return true;
                 }
             }
             else if (value == CSSValue.Inherit)
-                return value;
+                return true;
 
-            return null;
+            return false;
         }
 
         #endregion

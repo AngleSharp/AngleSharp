@@ -126,7 +126,7 @@
                 //case PropertyNames.MAX_WIDTH:
                 //case PropertyNames.MIN_HEIGHT:
                 //case PropertyNames.MIN_WIDTH:
-                //case PropertyNames.OPACITY:
+                case PropertyNames.OPACITY:                      return new CSSOpacityProperty();
                 //case PropertyNames.ORPHANS:
                 //case PropertyNames.OUTLINE_COLOR:
                 //case PropertyNames.OUTLINE_STYLE:
@@ -147,10 +147,10 @@
                 //case PropertyNames.QUOTES:
                 //case PropertyNames.RIGHT:
                 case PropertyNames.TABLE_LAYOUT:                 return new CSSTableLayoutProperty();
-                //case PropertyNames.TEXT_ALIGN:
+                case PropertyNames.TEXT_ALIGN:                   return new CSSTextAlignProperty();
                 //case PropertyNames.TEXT_DECORATION:
                 //case PropertyNames.TEXT_INDENT:
-                //case PropertyNames.TEXT_TRANSFORM:
+                case PropertyNames.TEXT_TRANSFORM:               return new CSSTextTransformProperty();
                 //case PropertyNames.TRANSFORM:
                 //case PropertyNames.TRANSFORM_ORIGIN:
                 //case PropertyNames.TRANSFORM_STYLE:

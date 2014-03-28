@@ -14,7 +14,7 @@
     {
         #region Members
 
-        static Dictionary<String, CSSColor> _colors;
+        static Dictionary<String, Color> _colors;
 
         #endregion
 
@@ -22,7 +22,7 @@
 
         static Colors()
         {
-            _colors = new Dictionary<String, CSSColor>();
+            _colors = new Dictionary<String, Color>();
 
             Add("aliceblue", 240, 248, 255);
             Add("antiquewhite", 250, 235, 215);
@@ -182,12 +182,12 @@
         /// </summary>
         /// <param name="name">The name of the color</param>
         /// <returns>The color or transparent if no color was found.</returns>
-        public static CSSColor FromName(String name)
+        public static Color FromName(String name)
         {
             if (_colors.ContainsKey(name))
                 return _colors[name];
 
-            return CSSColor.Transparent;
+            return Color.Transparent;
         }
 
         /// <summary>
@@ -195,7 +195,7 @@
         /// </summary>
         /// <param name="color">The color that searches its name.</param>
         /// <returns>The name of the given color or null.</returns>
-        public static String GetNameFromColor(CSSColor color)
+        public static String GetNameFromColor(Color color)
         {
             foreach (var pair in _colors)
                 if (pair.Value.Equals(color))
@@ -210,7 +210,7 @@
 
         static void Add(String name, Byte r, Byte g, Byte b)
         {
-            _colors.Add(name, CSSColor.FromRgb(r, g, b));
+            _colors.Add(name, Color.FromRgb(r, g, b));
         }
 
         #endregion

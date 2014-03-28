@@ -43,6 +43,9 @@
     <Compile Include="DOM\Css\Properties\CSSBreakInsideProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakAfterProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSOpacityProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSTextTransformProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSTextAlignProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSDirectionProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSEmptyCellsProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSOverflowProperty.cs" />
@@ -54,7 +57,10 @@
     <Compile Include="DOM\Css\Properties\CSSVisibilityProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSPositionProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSDisplayProperty.cs" />
-    <Compile Include="DOM\Css\Values\CSSIdent.cs" />
+    <Compile Include="DOM\Css\Values\CSSColor.cs" />
+    <Compile Include="DOM\Css\Values\CSSIdentifier.cs" />
+    <Compile Include="DOM\Css\Values\CSSPercent.cs" />
+    <Compile Include="DOM\Css\Values\CSSNumber.cs" />
     <Compile Include="Foundation\ConcurrentDictionary.cs" />
     <Compile Include="Foundation\NodeExtensions.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
@@ -280,7 +286,7 @@
     <Compile Include="Parser\Html\HtmlTokenType.cs" />
     <Compile Include="Foundation\CharExtensions.cs" />
     <Compile Include="Parser\Html\Helpers\ForeignHelpers.cs" />
-    <Compile Include="DOM\Css\Values\CSSColor.cs" />
+    <Compile Include="Foundation\Color.cs" />
     <Compile Include="DOM\Html\HTMLDocument.cs" />
     <Compile Include="Parser\Html\HtmlTreeMode.cs" />
     <Compile Include="Foundation\DocumentEncoding.cs" />
