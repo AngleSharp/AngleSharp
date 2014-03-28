@@ -388,5 +388,19 @@ namespace UnitTests
             Assert.IsFalse(boxShadow.Important);
             Assert.AreEqual(CssValueType.ValueList, boxShadow.Value.CssValueType);
         }
+
+        [TestMethod]
+        public void CssDisplayBlock()
+        {
+            var decl = CssParser.ParseDeclarations("display:block");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(decl.List.Count, 1);
+
+            var display = decl.List[0];
+            Assert.AreEqual("display", display.Name);
+            Assert.IsFalse(display.Important);
+            Assert.AreEqual(CssValueType.PrimitiveValue, display.Value.CssValueType);
+            Assert.AreEqual("block", display.Value.CssText);
+        }
     }
 }
