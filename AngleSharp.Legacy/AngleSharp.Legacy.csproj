@@ -70,6 +70,9 @@
     <Compile Include="..\AngleSharp\DocumentBuilder.cs">
       <Link>DocumentBuilder.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\AdjacentPosition.cs">
+      <Link>DOM\AdjacentPosition.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\ICssMedia.cs">
       <Link>DOM\Annotations\ICssMedia.cs</Link>
     </Compile>
@@ -117,6 +120,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Attr.cs">
       <Link>DOM\Attr.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\CDATASection.cs">
+      <Link>DOM\CDATASection.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\CharacterData.cs">
+      <Link>DOM\CharacterData.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\BaseCollection.cs">
       <Link>DOM\Collections\BaseCollection.cs</Link>
@@ -166,14 +175,32 @@
     <Compile Include="..\AngleSharp\DOM\Comment.cs">
       <Link>DOM\Comment.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\ContentEditableMode.cs">
+      <Link>DOM\ContentEditableMode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSFactory.cs">
       <Link>DOM\Css\CSSFactory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSProperty.cs">
       <Link>DOM\Css\CSSProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\CssRuleType.cs">
+      <Link>DOM\Css\CssRuleType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\CssSide.cs">
+      <Link>DOM\Css\CssSide.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSStyleSheet.cs">
       <Link>DOM\Css\CSSStyleSheet.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\CssUnit.cs">
+      <Link>DOM\Css\CssUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\CssValueListSeparator.cs">
+      <Link>DOM\Css\CssValueListSeparator.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
+      <Link>DOM\Css\CssValueType.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSDisplayProperty.cs">
       <Link>DOM\Css\Properties\CSSDisplayProperty.cs</Link>
@@ -244,9 +271,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Selector\SimpleSelector.cs">
       <Link>DOM\Css\Selector\SimpleSelector.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\StyleSheet.cs">
-      <Link>DOM\Css\StyleSheet.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Counter.cs">
       <Link>DOM\Css\Values\Counter.cs</Link>
     </Compile>
@@ -286,11 +310,17 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSValueList.cs">
       <Link>DOM\Css\Values\CSSValueList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\DirectionMode.cs">
+      <Link>DOM\DirectionMode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Document.cs">
       <Link>DOM\Document.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\DocumentFragment.cs">
       <Link>DOM\DocumentFragment.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\DocumentPosition.cs">
+      <Link>DOM\DocumentPosition.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\DocumentType.cs">
       <Link>DOM\DocumentType.cs</Link>
@@ -301,65 +331,20 @@
     <Compile Include="..\AngleSharp\DOM\Element.cs">
       <Link>DOM\Element.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\AdjacentPosition.cs">
-      <Link>DOM\Enums\AdjacentPosition.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Entity.cs">
+      <Link>DOM\Entity.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\Alignment.cs">
-      <Link>DOM\Enums\Alignment.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\EntityReference.cs">
+      <Link>DOM\EntityReference.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\ContentEditableMode.cs">
-      <Link>DOM\Enums\ContentEditableMode.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\EventPhase.cs">
+      <Link>DOM\EventPhase.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\CORSSettings.cs">
-      <Link>DOM\Enums\CORSSettings.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\FormControlState.cs">
+      <Link>DOM\FormControlState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\CssRuleType.cs">
-      <Link>DOM\Enums\CssRuleType.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\CssSide.cs">
-      <Link>DOM\Enums\CssSide.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\CssUnit.cs">
-      <Link>DOM\Enums\CssUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\CssValueType.cs">
-      <Link>DOM\Enums\CssValueType.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\DirectionMode.cs">
-      <Link>DOM\Enums\DirectionMode.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\DocumentPosition.cs">
-      <Link>DOM\Enums\DocumentPosition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\EventPhase.cs">
-      <Link>DOM\Enums\EventPhase.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\HorizontalAlignment.cs">
-      <Link>DOM\Enums\HorizontalAlignment.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\NodeType.cs">
-      <Link>DOM\Enums\NodeType.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\PowerState.cs">
-      <Link>DOM\Enums\PowerState.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\QuirksMode.cs">
-      <Link>DOM\Enums\QuirksMode.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\RangePosition.cs">
-      <Link>DOM\Enums\RangePosition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\RangeType.cs">
-      <Link>DOM\Enums\RangeType.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\Readiness.cs">
-      <Link>DOM\Enums\Readiness.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\ValueListSeparator.cs">
-      <Link>DOM\Enums\ValueListSeparator.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Enums\VerticalAlignment.cs">
-      <Link>DOM\Enums\VerticalAlignment.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Html\Alignment.cs">
+      <Link>DOM\Html\Alignment.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLBodyElement.cs">
       <Link>DOM\Html\Basic\HTMLBodyElement.cs</Link>
@@ -390,6 +375,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLStyleElement.cs">
       <Link>DOM\Html\Basic\HTMLStyleElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\CorsSettings.cs">
+      <Link>DOM\Html\CorsSettings.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLAnchorElement.cs">
       <Link>DOM\Html\Formatting\HTMLAnchorElement.cs</Link>
@@ -526,6 +514,9 @@
     <Compile Include="..\AngleSharp\DOM\Html\Head\HTMLTitleElement.cs">
       <Link>DOM\Html\Head\HTMLTitleElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\HorizontalAlignment.cs">
+      <Link>DOM\Html\HorizontalAlignment.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\HTMLAreaElement.cs">
       <Link>DOM\Html\HTMLAreaElement.cs</Link>
     </Compile>
@@ -613,6 +604,9 @@
     <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLParamElement.cs">
       <Link>DOM\Html\Objects\HTMLParamElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\PowerState.cs">
+      <Link>DOM\Html\PowerState.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLAddressElement.cs">
       <Link>DOM\Html\Semantic\HTMLAddressElement.cs</Link>
     </Compile>
@@ -654,6 +648,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableSectionElement.cs">
       <Link>DOM\Html\Tables\HTMLTableSectionElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\VerticalAlignment.cs">
+      <Link>DOM\Html\VerticalAlignment.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Interfaces\IAttr.cs">
       <Link>DOM\Interfaces\IAttr.cs</Link>
@@ -736,6 +733,12 @@
     <Compile Include="..\AngleSharp\DOM\Node.cs">
       <Link>DOM\Node.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\NodeType.cs">
+      <Link>DOM\NodeType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Notation.cs">
+      <Link>DOM\Notation.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Objects\Cookie.cs">
       <Link>DOM\Objects\Cookie.cs</Link>
     </Compile>
@@ -766,6 +769,24 @@
     <Compile Include="..\AngleSharp\DOM\Objects\ValidityState.cs">
       <Link>DOM\Objects\ValidityState.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\ProcessingInstruction.cs">
+      <Link>DOM\ProcessingInstruction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\QuirksMode.cs">
+      <Link>DOM\QuirksMode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\RangePosition.cs">
+      <Link>DOM\RangePosition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\RangeType.cs">
+      <Link>DOM\RangeType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Readiness.cs">
+      <Link>DOM\Readiness.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\StyleSheet.cs">
+      <Link>DOM\StyleSheet.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Svg\SVGCircleElement.cs">
       <Link>DOM\Svg\SVGCircleElement.cs</Link>
     </Compile>
@@ -789,27 +810,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\TextNode.cs">
       <Link>DOM\TextNode.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Various\CDATASection.cs">
-      <Link>DOM\Various\CDATASection.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Various\CharacterData.cs">
-      <Link>DOM\Various\CharacterData.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Various\Entity.cs">
-      <Link>DOM\Various\Entity.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Various\EntityReference.cs">
-      <Link>DOM\Various\EntityReference.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Various\FormControlState.cs">
-      <Link>DOM\Various\FormControlState.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Various\Notation.cs">
-      <Link>DOM\Various\Notation.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Various\ProcessingInstruction.cs">
-      <Link>DOM\Various\ProcessingInstruction.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Extensions.cs">
       <Link>Extensions.cs</Link>
