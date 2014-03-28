@@ -39,6 +39,20 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="DOM\Css\CSSFactory.cs" />
+    <Compile Include="DOM\Css\Properties\CSSBorderCollapseProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSBreakInsideProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSBreakProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSBreakAfterProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSDirectionProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSEmptyCellsProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSOverflowProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSTableLayoutProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSCaptionSideProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSClearProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSBreakBeforeProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSFloatProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSVisibilityProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSPositionProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSDisplayProperty.cs" />
     <Compile Include="DOM\Css\Values\CSSIdent.cs" />
     <Compile Include="Foundation\ConcurrentDictionary.cs" />

@@ -40,9 +40,9 @@
                 //case PropertyNames.BORDER_RADIUS:
                 //case PropertyNames.BOX_SHADOW:
                 //case PropertyNames.BOX_DECORATION_BREAK:
-                //case PropertyNames.BREAK_AFTER:
-                //case PropertyNames.BREAK_BEFORE:
-                //case PropertyNames.BREAK_INSIDE:
+                case PropertyNames.BREAK_AFTER:                  return new CSSBreakAfterProperty();
+                case PropertyNames.BREAK_BEFORE:                 return new CSSBreakBeforeProperty();
+                case PropertyNames.BREAK_INSIDE:                 return new CSSBreakInsideProperty();
                 //case PropertyNames.BACKFACE_VISIBILITY:
                 //case PropertyNames.BORDER_TOP_LEFT_RADIUS:
                 //case PropertyNames.BORDER_TOP_RIGHT_RADIUS:
@@ -72,6 +72,7 @@
                 //case PropertyNames.BORDER_BOTTOM_WIDTH:
                 //case PropertyNames.BORDER_WIDTH:
                 //case PropertyNames.BORDER:
+                case PropertyNames.BORDER_COLLAPSE:              return new CSSBorderCollapseProperty();
                 //case PropertyNames.BOTTOM:
                 //case PropertyNames.COLUMNS:
                 //case PropertyNames.COLUMN_COUNT:
@@ -82,8 +83,8 @@
                 //case PropertyNames.COLUMN_RULE_WIDTH:
                 //case PropertyNames.COLUMN_SPAN:
                 //case PropertyNames.COLUMN_WIDTH:
-                //case PropertyNames.CAPTION_SIDE:
-                //case PropertyNames.CLEAR:
+                case PropertyNames.CAPTION_SIDE:                 return new CSSCaptionSideProperty();
+                case PropertyNames.CLEAR:                        return new CSSClearProperty();
                 //case PropertyNames.CLIP:
                 //case PropertyNames.COLOR:
                 //case PropertyNames.CONTENT:
@@ -93,13 +94,11 @@
                 //case PropertyNames.CUE_BEFORE:
                 //case PropertyNames.CUE:
                 //case PropertyNames.CURSOR:
-                //case PropertyNames.DIRECTION:
-
-                case PropertyNames.DISPLAY: return new CSSDisplayProperty();
-
+                case PropertyNames.DIRECTION:                    return new CSSDirectionProperty();
+                case PropertyNames.DISPLAY:                      return new CSSDisplayProperty();
                 //case PropertyNames.ELEVATION:
-                //case PropertyNames.EMPTY_CELLS:
-                //case PropertyNames.FLOAT:
+                case PropertyNames.EMPTY_CELLS:                  return new CSSEmptyCellsProperty();
+                case PropertyNames.FLOAT:                        return new CSSFloatProperty();
                 //case PropertyNames.FONT_FAMILY:
                 //case PropertyNames.FONT_SIZE:
                 //case PropertyNames.FONT_STYLE:
@@ -133,7 +132,7 @@
                 //case PropertyNames.OUTLINE_STYLE:
                 //case PropertyNames.OUTLINE_WIDTH:
                 //case PropertyNames.OUTLINE:
-                //case PropertyNames.OVERFLOW:
+                case PropertyNames.OVERFLOW:                     return new CSSOverflowProperty();
                 //case PropertyNames.PADDING_TOP:
                 //case PropertyNames.PADDING_RIGHT:
                 //case PropertyNames.PADDING_LEFT:
@@ -144,10 +143,10 @@
                 //case PropertyNames.PAGE_BREAK_INSIDE:
                 //case PropertyNames.PERSPECTIVE:
                 //case PropertyNames.PERSPECTIVE_ORIGIN:
-                //case PropertyNames.POSITION:
+                case PropertyNames.POSITION:                     return new CSSPositionProperty();
                 //case PropertyNames.QUOTES:
                 //case PropertyNames.RIGHT:
-                //case PropertyNames.TABLE_LAYOUT:
+                case PropertyNames.TABLE_LAYOUT:                 return new CSSTableLayoutProperty();
                 //case PropertyNames.TEXT_ALIGN:
                 //case PropertyNames.TEXT_DECORATION:
                 //case PropertyNames.TEXT_INDENT:
@@ -163,14 +162,13 @@
                 //case PropertyNames.TOP:
                 //case PropertyNames.UNICODE_BIDI:
                 //case PropertyNames.VERTICAL_ALIGN:
-                //case PropertyNames.VISIBILITY:
+                case PropertyNames.VISIBILITY:                   return new CSSVisibilityProperty();
                 //case PropertyNames.WHITE_SPACE:
                 //case PropertyNames.WIDOWS:
                 //case PropertyNames.WIDTH:
                 //case PropertyNames.WORD_SPACING:
                 //case PropertyNames.Z_INDEX:
-
-                default: return new CSSProperty(name);
+                default:                                         return new CSSProperty(name);
             }
         }
     }

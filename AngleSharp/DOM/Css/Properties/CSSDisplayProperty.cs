@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, DisplayMode> modes = new Dictionary<String, DisplayMode>();
+        static readonly Dictionary<String, DisplayMode> modes = new Dictionary<String, DisplayMode>(StringComparer.OrdinalIgnoreCase);
         DisplayMode _mode;
 
         #endregion
@@ -73,7 +73,7 @@
 
         #endregion
 
-        #region Display Modes
+        #region Modes
 
         abstract class DisplayMode
         {
