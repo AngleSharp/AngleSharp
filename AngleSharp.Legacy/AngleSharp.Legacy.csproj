@@ -235,6 +235,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSFloatProperty.cs">
       <Link>DOM\Css\Properties\CSSFloatProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSOpacityProperty.cs">
+      <Link>DOM\Css\Properties\CSSOpacityProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSOverflowProperty.cs">
       <Link>DOM\Css\Properties\CSSOverflowProperty.cs</Link>
     </Compile>
@@ -243,6 +246,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSTableLayoutProperty.cs">
       <Link>DOM\Css\Properties\CSSTableLayoutProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSTextAlignProperty.cs">
+      <Link>DOM\Css\Properties\CSSTextAlignProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSTextTransformProperty.cs">
+      <Link>DOM\Css\Properties\CSSTextTransformProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSVisibilityProperty.cs">
       <Link>DOM\Css\Properties\CSSVisibilityProperty.cs</Link>
@@ -328,8 +337,14 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSGradientStop.cs">
       <Link>DOM\Css\Values\CSSGradientStop.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSIdent.cs">
-      <Link>DOM\Css\Values\CSSIdent.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSIdentifier.cs">
+      <Link>DOM\Css\Values\CSSIdentifier.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSNumber.cs">
+      <Link>DOM\Css\Values\CSSNumber.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPercent.cs">
+      <Link>DOM\Css\Values\CSSPercent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPoint2.cs">
       <Link>DOM\Css\Values\CSSPoint2.cs</Link>
@@ -861,6 +876,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\CharExtensions.cs">
       <Link>Foundation\CharExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Color.cs">
+      <Link>Foundation\Color.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\ConfigurationExtensions.cs">
       <Link>Foundation\ConfigurationExtensions.cs</Link>
