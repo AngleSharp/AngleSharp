@@ -27,7 +27,7 @@
             modes.Add("page", new PageBreakMode());
             modes.Add("column", new ColumnBreakMode());
             modes.Add("avoid-page", new AvoidPageBreakMode());
-            modes.Add("avoid-colum", new AvoidColumnBreakMode());
+            modes.Add("avoid-column", new AvoidColumnBreakMode());
         }
 
         public CSSBreakProperty(String name)
