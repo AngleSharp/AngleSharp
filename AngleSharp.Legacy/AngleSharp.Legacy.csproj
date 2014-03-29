@@ -205,6 +205,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBorderCollapseProperty.cs">
       <Link>DOM\Css\Properties\CSSBorderCollapseProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBottomProperty.cs">
+      <Link>DOM\Css\Properties\CSSBottomProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBreakAfterProperty.cs">
       <Link>DOM\Css\Properties\CSSBreakAfterProperty.cs</Link>
     </Compile>
@@ -223,6 +226,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSClearProperty.cs">
       <Link>DOM\Css\Properties\CSSClearProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSCoordinateProperty.cs">
+      <Link>DOM\Css\Properties\CSSCoordinateProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSDirectionProperty.cs">
       <Link>DOM\Css\Properties\CSSDirectionProperty.cs</Link>
     </Compile>
@@ -238,6 +244,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSHeightProperty.cs">
       <Link>DOM\Css\Properties\CSSHeightProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSLeftProperty.cs">
+      <Link>DOM\Css\Properties\CSSLeftProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSOpacityProperty.cs">
       <Link>DOM\Css\Properties\CSSOpacityProperty.cs</Link>
     </Compile>
@@ -246,6 +255,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSPositionProperty.cs">
       <Link>DOM\Css\Properties\CSSPositionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSRightProperty .cs">
+      <Link>DOM\Css\Properties\CSSRightProperty .cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSTableLayoutProperty.cs">
       <Link>DOM\Css\Properties\CSSTableLayoutProperty.cs</Link>
@@ -256,8 +268,14 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSTextTransformProperty.cs">
       <Link>DOM\Css\Properties\CSSTextTransformProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSTopProperty.cs">
+      <Link>DOM\Css\Properties\CSSTopProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSVisibilityProperty.cs">
       <Link>DOM\Css\Properties\CSSVisibilityProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSWidthProperty.cs">
+      <Link>DOM\Css\Properties\CSSWidthProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSCharsetRule.cs">
       <Link>DOM\Css\Rules\CSSCharsetRule.cs</Link>
