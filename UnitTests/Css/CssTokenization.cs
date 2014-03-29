@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests
 {
     [TestClass]
-    public class CssTokenization
+    public class CssTokenizationTests
     {
         [TestMethod]
         public void CssParserIdentifier()

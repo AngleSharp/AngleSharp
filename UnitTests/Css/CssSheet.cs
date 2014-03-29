@@ -6,7 +6,7 @@ using AngleSharp;
 namespace UnitTests
 {
     [TestClass]
-    public class CssSheet
+    public class CssSheetTests
     {
         [TestMethod]
         public void CssCreateValueListConformal()

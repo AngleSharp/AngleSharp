@@ -6,7 +6,7 @@ using AngleSharp.DOM;
 namespace UnitTests
 {
     [TestClass]
-    public class CssW3CSelectors
+    public class CssW3CSelectorTests
     {
         #region Already included tests
 

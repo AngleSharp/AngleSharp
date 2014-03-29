@@ -5,7 +5,7 @@ using AngleSharp;
 namespace UnitTests.Library
 {
     [TestClass]
-    public class OptimizationPool
+    public class OptimizationPoolTests
     {
         [TestMethod]
         public void RecycleStringBuilderReused()

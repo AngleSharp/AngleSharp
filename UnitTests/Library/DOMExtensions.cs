@@ -6,7 +6,7 @@ using AngleSharp.DOM;
 namespace UnitTests
 {
     [TestClass]
-    public class DOMExtensions
+    public class DOMExtensionsTests
     {
         [TestMethod]
         public void ExtensionAttrWithEmptyList()

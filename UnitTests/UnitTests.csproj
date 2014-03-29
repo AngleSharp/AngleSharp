@@ -55,6 +55,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Assets.resx</DependentUpon>
     </Compile>
+    <Compile Include="Css\CssProperties.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Html\HtmlScript.cs" />
     <Compile Include="Html\HtmlStyle.cs" />
@@ -63,7 +64,7 @@
     <Compile Include="Css\CssTokenization.cs" />
     <Compile Include="Css\CssSelectors.cs" />
     <Compile Include="Css\CssW3CSelectors.cs" />
-    <Compile Include="Library\DependencyResolverTests.cs" />
+    <Compile Include="Library\DependencyResolver.cs" />
     <Compile Include="Html\DOM.cs" />
     <Compile Include="Html\HtmlComments.cs" />
     <Compile Include="Html\ScriptData.cs" />
@@ -75,7 +76,7 @@
     <Compile Include="Html\HtmlTemplate.cs" />
     <Compile Include="Library\LiveCollection.cs" />
     <Compile Include="Library\DOMExtensions.cs" />
-    <Compile Include="Library\TestRequester.cs" />
+    <Compile Include="Library\HttpRequester.cs" />
     <Compile Include="Library\AsyncParsing.cs" />
     <Compile Include="Library\OptimizationPool.cs" />
     <Compile Include="Mocks\DtdRequester.cs" />
@@ -89,7 +90,7 @@
     <Compile Include="Html\HtmlTokenization.cs" />
     <Compile Include="Html\HtmlTree.cs" />
     <Compile Include="Html\Quirksmode.cs" />
-    <Compile Include="Library\ReflectionResolverTests.cs" />
+    <Compile Include="Library\ReflectionResolver.cs" />
     <Compile Include="Html\GumboParser.cs" />
     <Compile Include="Html\Html5TestCom.cs" />
     <Compile Include="Html\Tricky.cs" />

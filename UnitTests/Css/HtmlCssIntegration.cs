@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests
 {
     [TestClass]
-    public class HtmlCssIntegration
+    public class HtmlCssIntegrationTests
     {
         [TestMethod]
         public void DetectStylesheet()

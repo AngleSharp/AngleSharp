@@ -7,7 +7,7 @@ using System.IO;
 namespace UnitTests
 {
     [TestClass]
-    public class TestRequester
+    public class HttpRequesterTests
     {
         [TestMethod]
         public void DefaultGetHttpRequester()

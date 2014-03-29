@@ -6,7 +6,7 @@ using AngleSharp.DOM;
 namespace UnitTests.Library
 {
     [TestClass]
-    public class LiveCollection
+    public class LiveCollectionTests
     {
         [TestMethod]
         public void HtmlLiveCollectionUpdates()

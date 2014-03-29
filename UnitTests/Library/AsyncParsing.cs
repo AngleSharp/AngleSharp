@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests
 {
     [TestClass]
-    public class AsyncParsing
+    public class AsyncParsingTests
     {
         [TestMethod]
         public void TestAsyncCssParsing()
