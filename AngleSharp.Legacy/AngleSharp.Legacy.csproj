@@ -235,6 +235,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSFloatProperty.cs">
       <Link>DOM\Css\Properties\CSSFloatProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSHeightProperty.cs">
+      <Link>DOM\Css\Properties\CSSHeightProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSOpacityProperty.cs">
       <Link>DOM\Css\Properties\CSSOpacityProperty.cs</Link>
     </Compile>
@@ -340,6 +343,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSIdentifier.cs">
       <Link>DOM\Css\Values\CSSIdentifier.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSLength.cs">
+      <Link>DOM\Css\Values\CSSLength.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSNumber.cs">
       <Link>DOM\Css\Values\CSSNumber.cs</Link>
     </Compile>
@@ -357,6 +363,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSRect.cs">
       <Link>DOM\Css\Values\CSSRect.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSString.cs">
+      <Link>DOM\Css\Values\CSSString.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSUri.cs">
       <Link>DOM\Css\Values\CSSUri.cs</Link>
@@ -957,6 +966,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\StringExtensions.cs">
       <Link>Foundation\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\UnitExtensions.cs">
+      <Link>Foundation\UnitExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\XmlExtensions.cs">
       <Link>Foundation\XmlExtensions.cs</Link>
