@@ -43,6 +43,7 @@
     <Compile Include="DOM\Css\Properties\CSSBreakInsideProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakAfterProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSWidthProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSHeightProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSOpacityProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSTextTransformProperty.cs" />

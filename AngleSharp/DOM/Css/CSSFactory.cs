@@ -105,7 +105,7 @@
                 //case PropertyNames.FONT_VARIANT:
                 //case PropertyNames.FONT_WEIGHT:
                 //case PropertyNames.FONT:
-                //case PropertyNames.HEIGHT:
+                case PropertyNames.HEIGHT:                       return new CSSHeightProperty();
                 //case PropertyNames.LEFT:
                 //case PropertyNames.LETTER_SPACING:
                 //case PropertyNames.LINE_HEIGHT:
@@ -165,7 +165,7 @@
                 case PropertyNames.VISIBILITY:                   return new CSSVisibilityProperty();
                 //case PropertyNames.WHITE_SPACE:
                 //case PropertyNames.WIDOWS:
-                //case PropertyNames.WIDTH:
+                case PropertyNames.WIDTH:                        return new CSSWidthProperty();
                 //case PropertyNames.WORD_SPACING:
                 //case PropertyNames.Z_INDEX:
                 default:                                         return new CSSProperty(name);
