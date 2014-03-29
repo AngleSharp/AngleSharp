@@ -73,7 +73,7 @@
                 //case PropertyNames.BORDER_WIDTH:
                 //case PropertyNames.BORDER:
                 case PropertyNames.BORDER_COLLAPSE:              return new CSSBorderCollapseProperty();
-                //case PropertyNames.BOTTOM:
+                case PropertyNames.BOTTOM:                       return new CSSBottomProperty();
                 //case PropertyNames.COLUMNS:
                 //case PropertyNames.COLUMN_COUNT:
                 //case PropertyNames.COLUMN_FILL:
@@ -106,7 +106,7 @@
                 //case PropertyNames.FONT_WEIGHT:
                 //case PropertyNames.FONT:
                 case PropertyNames.HEIGHT:                       return new CSSHeightProperty();
-                //case PropertyNames.LEFT:
+                case PropertyNames.LEFT:                         return new CSSLeftProperty();
                 //case PropertyNames.LETTER_SPACING:
                 //case PropertyNames.LINE_HEIGHT:
                 //case PropertyNames.LIST_STYLE_IMAGE:
@@ -145,7 +145,7 @@
                 //case PropertyNames.PERSPECTIVE_ORIGIN:
                 case PropertyNames.POSITION:                     return new CSSPositionProperty();
                 //case PropertyNames.QUOTES:
-                //case PropertyNames.RIGHT:
+                case PropertyNames.RIGHT:                        return new CSSRightProperty();
                 case PropertyNames.TABLE_LAYOUT:                 return new CSSTableLayoutProperty();
                 case PropertyNames.TEXT_ALIGN:                   return new CSSTextAlignProperty();
                 //case PropertyNames.TEXT_DECORATION:
@@ -159,7 +159,7 @@
                 //case PropertyNames.TRANSITION_DURATION:
                 //case PropertyNames.TRANSITION_TIMING_FUNCTION:
                 //case PropertyNames.TRANSITION_PROPERTY:
-                //case PropertyNames.TOP:
+                case PropertyNames.TOP:                          return new CSSTopProperty();
                 //case PropertyNames.UNICODE_BIDI:
                 //case PropertyNames.VERTICAL_ALIGN:
                 case PropertyNames.VISIBILITY:                   return new CSSVisibilityProperty();

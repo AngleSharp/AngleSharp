@@ -4,14 +4,14 @@
 
     /// <summary>
     /// Information can be found on MDN:
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/height
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/bottom
     /// </summary>
-    sealed class CSSHeightProperty : CSSCoordinateProperty
+    sealed class CSSBottomProperty : CSSCoordinateProperty
     {
         #region ctor
 
-        public CSSHeightProperty()
-            : base(PropertyNames.HEIGHT)
+        public CSSBottomProperty()
+            : base(PropertyNames.BOTTOM)
         {
         }
 

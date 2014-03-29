@@ -43,6 +43,11 @@
     <Compile Include="DOM\Css\Properties\CSSBreakInsideProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakAfterProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSCoordinateProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSBottomProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSTopProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSRightProperty .cs" />
+    <Compile Include="DOM\Css\Properties\CSSLeftProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSWidthProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSHeightProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSOpacityProperty.cs" />
