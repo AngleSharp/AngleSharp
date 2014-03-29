@@ -43,6 +43,8 @@
     <Compile Include="DOM\Css\Properties\CSSBreakInsideProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakAfterProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSUnicodeBidiProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSVerticalAlignProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSCoordinateProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBottomProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSTopProperty.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="DOM\Css\Properties\CSSVisibilityProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSPositionProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSDisplayProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSZIndexProperty.cs" />
     <Compile Include="DOM\Css\Values\CSSColor.cs" />
     <Compile Include="DOM\Css\Values\CSSIdentifier.cs" />
     <Compile Include="DOM\Css\Values\CSSLength.cs" />

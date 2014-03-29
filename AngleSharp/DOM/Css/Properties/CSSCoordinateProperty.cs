@@ -2,6 +2,10 @@
 {
     using System;
 
+    /// <summary>
+    /// Basis for all properties that have either a length
+    /// or percentage value or an auto value - nothing else.
+    /// </summary>
     abstract class CSSCoordinateProperty : CSSProperty
     {
         #region Fields

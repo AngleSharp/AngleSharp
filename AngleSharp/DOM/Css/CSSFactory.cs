@@ -160,14 +160,14 @@
                 //case PropertyNames.TRANSITION_TIMING_FUNCTION:
                 //case PropertyNames.TRANSITION_PROPERTY:
                 case PropertyNames.TOP:                          return new CSSTopProperty();
-                //case PropertyNames.UNICODE_BIDI:
-                //case PropertyNames.VERTICAL_ALIGN:
+                case PropertyNames.UNICODE_BIDI:                 return new CSSUnicodeBidiProperty();
+                case PropertyNames.VERTICAL_ALIGN:               return new CSSVerticalAlignProperty();
                 case PropertyNames.VISIBILITY:                   return new CSSVisibilityProperty();
                 //case PropertyNames.WHITE_SPACE:
                 //case PropertyNames.WIDOWS:
                 case PropertyNames.WIDTH:                        return new CSSWidthProperty();
                 //case PropertyNames.WORD_SPACING:
-                //case PropertyNames.Z_INDEX:
+                case PropertyNames.Z_INDEX:                      return new CSSZIndexProperty();
                 default:                                         return new CSSProperty(name);
             }
         }
