@@ -43,6 +43,7 @@
     <Compile Include="DOM\Css\Properties\CSSBreakInsideProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakAfterProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSHeightProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSOpacityProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSTextTransformProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSTextAlignProperty.cs" />
@@ -59,10 +60,13 @@
     <Compile Include="DOM\Css\Properties\CSSDisplayProperty.cs" />
     <Compile Include="DOM\Css\Values\CSSColor.cs" />
     <Compile Include="DOM\Css\Values\CSSIdentifier.cs" />
+    <Compile Include="DOM\Css\Values\CSSLength.cs" />
     <Compile Include="DOM\Css\Values\CSSPercent.cs" />
     <Compile Include="DOM\Css\Values\CSSNumber.cs" />
+    <Compile Include="DOM\Css\Values\CSSString.cs" />
     <Compile Include="Foundation\ConcurrentDictionary.cs" />
     <Compile Include="Foundation\NodeExtensions.cs" />
+    <Compile Include="Foundation\UnitExtensions.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
     <Compile Include="DocumentBuilder.cs" />

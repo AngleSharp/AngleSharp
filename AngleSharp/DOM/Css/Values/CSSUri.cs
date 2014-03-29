@@ -5,9 +5,9 @@
     /// <summary>
     /// Represents an URI in CSS.
     /// </summary>
-    sealed class CSSUri : ICssPrimitive
+    sealed class CSSUri : CSSPrimitiveValue
     {
-        #region Members
+        #region Fields
 
         String _originalUrl;
         String _url;
@@ -17,13 +17,13 @@
         #region ctor
 
         public CSSUri(String url, String basePath)
+            : base(CssUnit.Uri)
         {
+            _text = String.Concat("url('", url, "')");
             _originalUrl = url;
+            _url = url;
+            SetBaseUrl(basePath);
 
-            if (Location.IsAbsolute(url))
-                _url = url;
-            else
-                _url = Location.MakeAbsolute(basePath, url);
         }
 
         #endregion
@@ -59,19 +59,6 @@
         {
             if (!Location.IsAbsolute(_originalUrl))
                 _url = Location.MakeAbsolute(basePath, _originalUrl);
-        }
-
-        #endregion
-
-        #region String Representation
-
-        /// <summary>
-        /// Returns the CSS representation of this object.
-        /// </summary>
-        /// <returns>The CSS snippet.</returns>
-        public String ToCss()
-        {
-            return "url('" + _originalUrl + "')";
         }
 
         #endregion

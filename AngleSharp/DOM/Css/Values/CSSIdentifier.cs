@@ -2,13 +2,13 @@
 {
     using System;
 
-    sealed class CSSIdentifier : CSSValue
+    sealed class CSSIdentifier : CSSPrimitiveValue
     {
         #region ctor
 
         public CSSIdentifier(String token)
+            : base(CssUnit.Ident)
         {
-            _type = CssValueType.PrimitiveValue;
             _text = token;
         }
 
@@ -22,14 +22,6 @@
         public String Identifier
         {
             get { return _text; }
-        }
-
-        /// <summary>
-        /// Gets the unit type of the value.
-        /// </summary>
-        public CssUnit PrimitiveType
-        {
-            get { return CssUnit.Ident; }
         }
 
         #endregion

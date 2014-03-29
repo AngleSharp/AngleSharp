@@ -521,7 +521,7 @@
 			switch (token.Type)
 			{
 				case CssTokenType.Dimension: // e.g. "3px"
-					value.AddValue(new CSSPrimitiveValue(((CssUnitToken)token).Unit, ((CssUnitToken)token).Data));
+                    value.AddValue(CSSLength.FromString(((CssUnitToken)token).Data, ((CssUnitToken)token).Unit));
                     return true;
 				case CssTokenType.Hash:// e.g. "#ABCDEF"
 					return InSingleValueHexColor(((CssKeywordToken)token).Data);
@@ -530,10 +530,10 @@
 				case CssTokenType.Ident: // e.g. "auto"
 					return InSingleValueIdent((CssKeywordToken)token);
 				case CssTokenType.String:// e.g. "'i am a string'"
-					value.AddValue(new CSSPrimitiveValue(CssUnit.String, ((CssStringToken)token).Data));
+					value.AddValue(new CSSString(((CssStringToken)token).Data));
                     return true;
 				case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                    value.AddValue(new CSSPrimitiveValue(CssUnit.Uri, ((CssStringToken)token).Data));
+                    value.AddValue(new CSSUri(((CssStringToken)token).Data, sheet.Href));
                     return true;
 				case CssTokenType.Percentage: // e.g. "5%"
                     value.AddValue(new CSSPercent(((CssUnitToken)token).Data));

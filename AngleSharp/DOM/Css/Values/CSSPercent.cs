@@ -3,7 +3,7 @@
     using System;
     using System.Globalization;
 
-    sealed class CSSPercent : CSSValue
+    sealed class CSSPercent : CSSPrimitiveValue
     {
         #region Fields
 
@@ -14,8 +14,8 @@
         #region ctor
 
         public CSSPercent(Single value)
+            : base(CssUnit.Percentage)
         {
-            _type = CssValueType.PrimitiveValue;
             _text = value.ToString(CultureInfo.InvariantCulture) + "%";
             _value = value;
         }
@@ -30,14 +30,6 @@
         public Single Value
         {
             get { return _value; }
-        }
-
-        /// <summary>
-        /// Gets the unit type of the value.
-        /// </summary>
-        public CssUnit PrimitiveType
-        {
-            get { return CssUnit.Percentage; }
         }
 
         #endregion

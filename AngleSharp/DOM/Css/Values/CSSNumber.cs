@@ -3,7 +3,7 @@
     using System;
     using System.Globalization;
 
-    sealed class CSSNumber : CSSValue
+    sealed class CSSNumber : CSSPrimitiveValue
     {
         #region Fields
 
@@ -14,8 +14,8 @@
         #region ctor
 
         public CSSNumber(Single value)
+            : base(CssUnit.Number)
         {
-            _type = CssValueType.PrimitiveValue;
             _text = value.ToString(CultureInfo.InvariantCulture);
             _value = value;
         }
@@ -30,14 +30,6 @@
         public Single Value
         {
             get { return _value; }
-        }
-
-        /// <summary>
-        /// Gets the unit type of the value.
-        /// </summary>
-        public CssUnit PrimitiveType
-        {
-            get { return CssUnit.Number; }
         }
 
         #endregion

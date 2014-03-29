@@ -2,21 +2,25 @@
 {
     using System;
 
-    sealed class CSSColor : CSSPrimitiveValue
+    /// <summary>
+    /// Represents an string in CSS.
+    /// </summary>
+    sealed class CSSString : CSSPrimitiveValue
     {
         #region Fields
 
-        Color _value;
+        String _value;
 
         #endregion
 
         #region ctor
 
-        public CSSColor(Color value)
-            : base(CssUnit.Rgbcolor)
+        public CSSString(String value)
+            : base(CssUnit.String)
         {
-            _text = value.ToString();
+            _text = String.Concat("'", value, "'");
             _value = value;
+
         }
 
         #endregion
@@ -24,9 +28,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of the CSS color.
+        /// Gets the value.
         /// </summary>
-        public Color Color
+        public String Value
         {
             get { return _value; }
         }
