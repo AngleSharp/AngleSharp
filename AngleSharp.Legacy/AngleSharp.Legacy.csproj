@@ -271,11 +271,20 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSTopProperty.cs">
       <Link>DOM\Css\Properties\CSSTopProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSUnicodeBidiProperty.cs">
+      <Link>DOM\Css\Properties\CSSUnicodeBidiProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSVerticalAlignProperty.cs">
+      <Link>DOM\Css\Properties\CSSVerticalAlignProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSVisibilityProperty.cs">
       <Link>DOM\Css\Properties\CSSVisibilityProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSWidthProperty.cs">
       <Link>DOM\Css\Properties\CSSWidthProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSZIndexProperty.cs">
+      <Link>DOM\Css\Properties\CSSZIndexProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSCharsetRule.cs">
       <Link>DOM\Css\Rules\CSSCharsetRule.cs</Link>
