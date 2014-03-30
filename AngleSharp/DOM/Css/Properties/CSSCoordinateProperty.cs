@@ -35,6 +35,8 @@
                 var length = (CSSLength)value;
                 _mode = new AbsoluteCoordinateMode(length.Value, length.PrimitiveType);
             }
+            else if (value is CSSNumber && ((CSSNumber)value).Value == 0f)
+                _mode = new AbsoluteCoordinateMode(0f, CssUnit.Px);
             else if (value is CSSIdentifier && (((CSSIdentifier)value).Identifier).Equals("auto", StringComparison.OrdinalIgnoreCase))
                 _mode = _auto;
             else if (value is CSSPercent)

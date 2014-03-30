@@ -38,8 +38,8 @@
                 //case PropertyNames.BORDER_COLLAPSE:
                 //case PropertyNames.BORDER_STYLE:
                 //case PropertyNames.BORDER_RADIUS:
-                //case PropertyNames.BOX_SHADOW:
-                //case PropertyNames.BOX_DECORATION_BREAK:
+                case PropertyNames.BOX_SHADOW:                   return new CSSBoxShadowProperty();
+                case PropertyNames.BOX_DECORATION_BREAK:         return new CSSBoxDecorationBreak();
                 case PropertyNames.BREAK_AFTER:                  return new CSSBreakAfterProperty();
                 case PropertyNames.BREAK_BEFORE:                 return new CSSBreakBeforeProperty();
                 case PropertyNames.BREAK_INSIDE:                 return new CSSBreakInsideProperty();

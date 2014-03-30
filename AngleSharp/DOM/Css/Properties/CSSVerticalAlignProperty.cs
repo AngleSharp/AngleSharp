@@ -60,6 +60,8 @@
             }
             else if (value is CSSPercent)
                 _mode = new RelativeVerticalAlignMode(((CSSPercent)value).Value);
+            else if (value is CSSNumber && ((CSSNumber)value).Value == 0f)
+                _mode = new AbsoluteVerticalAlignMode(0f, CssUnit.Px);
             else if (value == CSSValue.Inherit)
                 return true;
             else
