@@ -23,7 +23,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("avoid", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("Page", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("avoid-column", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -74,7 +74,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("AUTO", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -117,7 +117,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("avoid-REGION", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -134,7 +134,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("left", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -151,7 +151,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("both", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -194,7 +194,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("28%", value.CssText);
-            Assert.AreEqual(CssUnit.Percentage, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSPercentValue));
         }
 
         [TestMethod]
@@ -211,7 +211,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("0.3em", value.CssText);
-            Assert.AreEqual(CssUnit.Ems, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSUnitValue.Length));
         }
 
         [TestMethod]
@@ -228,7 +228,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("144px", value.CssText);
-            Assert.AreEqual(CssUnit.Px, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSUnitValue.Length));
         }
 
         [TestMethod]
@@ -245,7 +245,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("AUTO", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -262,7 +262,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("0.5cm", value.CssText);
-            Assert.AreEqual(CssUnit.Cm, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSUnitValue.Length));
         }
 
         [TestMethod]
@@ -279,7 +279,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("1.5mm", value.CssText);
-            Assert.AreEqual(CssUnit.Mm, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSUnitValue.Length));
         }
 
         [TestMethod]
@@ -310,7 +310,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("absolute", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -327,7 +327,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("block", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -344,7 +344,7 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("collapse", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -361,7 +361,7 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("HIDDEN", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -378,7 +378,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("auto", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -395,7 +395,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("fiXed", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -412,7 +412,7 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("justify", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
         [TestMethod]
@@ -429,13 +429,323 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("justify", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
-            concrete.Value = new CSSIdentifier("left");
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
+            concrete.Value = new CSSIdentifierValue("left");
             value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("left", value.CssText);
-            Assert.AreEqual(CssUnit.Ident, value.PrimitiveType);
-            concrete.Value = new CSSIdentifier("whatever");
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
+            concrete.Value = new CSSIdentifierValue("whatever");
             Assert.AreEqual(value, concrete.Value);
+        }
+
+        [TestMethod]
+        public void CssLeftLegalPixel()
+        {
+            var snippet = "left: 25px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("left", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSLeftProperty));
+            var concrete = (CSSLeftProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            var value = (CSSUnitValue.Length)concrete.Value;
+            Assert.AreEqual(25f, value.Value);
+            Assert.AreEqual(CssUnit.Px, value.Unit);
+        }
+
+        [TestMethod]
+        public void CssTopLegalEm()
+        {
+            var snippet = "top:  0.7em ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("top", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTopProperty));
+            var concrete = (CSSTopProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            var value = (CSSUnitValue.Length)concrete.Value;
+            Assert.AreEqual(0.7f, value.Value);
+            Assert.AreEqual(CssUnit.Ems, value.Unit);
+        }
+
+        [TestMethod]
+        public void CssRightLegalMm()
+        {
+            var snippet = "right:  1.5mm";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("right", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSRightProperty));
+            var concrete = (CSSRightProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            var value = (CSSUnitValue.Length)concrete.Value;
+            Assert.AreEqual(1.5f, value.Value);
+            Assert.AreEqual(CssUnit.Mm, value.Unit);
+        }
+
+        [TestMethod]
+        public void CssBottomLegalPercent()
+        {
+            var snippet = "bottom:  50%";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("bottom", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBottomProperty));
+            var concrete = (CSSBottomProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            var value = (CSSPercentValue)concrete.Value;
+            Assert.AreEqual(50f, value.Value);
+        }
+
+        [TestMethod]
+        public void CssHeightZeroLegal()
+        {
+            var snippet = "height:0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("height", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSHeightProperty));
+            var concrete = (CSSHeightProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            var value = (CSSNumberValue)concrete.Value;
+            Assert.AreEqual(0f, value.Value);
+        }
+
+        [TestMethod]
+        public void CssWidthZeroLegal()
+        {
+            var snippet = "width  :  0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSWidthProperty));
+            var concrete = (CSSWidthProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            var value = (CSSNumberValue)concrete.Value;
+            Assert.AreEqual(0f, value.Value);
+        }
+
+        [TestMethod]
+        public void CssWidthPercentLegal()
+        {
+            var snippet = "width  :  20.5%";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSWidthProperty));
+            var concrete = (CSSWidthProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            var value = (CSSPercentValue)concrete.Value;
+            Assert.AreEqual(20.5f, value.Value);
+        }
+
+        [TestMethod]
+        public void CssWidthPercentInLegal()
+        {
+            var snippet = "width  :  3in";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSWidthProperty));
+            var concrete = (CSSWidthProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            var value = (CSSUnitValue.Length)concrete.Value;
+            Assert.AreEqual(3f, value.Value);
+        }
+
+        [TestMethod]
+        public void CssHeightAngleIllegal()
+        {
+            var snippet = "height  :  3deg";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("height", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSHeightProperty));
+            var concrete = (CSSHeightProperty)property;
+            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(concrete.IsInherited);
+        }
+
+        [TestMethod]
+        public void CssHeightResolutionIllegal()
+        {
+            var snippet = "height  :  3dpi";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("height", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSHeightProperty));
+            var concrete = (CSSHeightProperty)property;
+            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(concrete.IsInherited);
+        }
+
+        [TestMethod]
+        public void CssTopLegalRem()
+        {
+            var snippet = "top:  1.2rem ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("top", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTopProperty));
+            var concrete = (CSSTopProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            var value = (CSSUnitValue.Length)concrete.Value;
+            Assert.AreEqual(1.2f, value.Value);
+            Assert.AreEqual(CssUnit.Rems, value.Unit);
+        }
+
+        [TestMethod]
+        public void CssRightLegalCm()
+        {
+            var snippet = "right:  0.5cm";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("right", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSRightProperty));
+            var concrete = (CSSRightProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            var value = (CSSUnitValue.Length)concrete.Value;
+            Assert.AreEqual(0.5f, value.Value);
+            Assert.AreEqual(CssUnit.Cm, value.Unit);
+        }
+
+        [TestMethod]
+        public void CssBottomLegalPercentTwo()
+        {
+            var snippet = "bottom:  0.50%";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("bottom", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBottomProperty));
+            var concrete = (CSSBottomProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            var value = (CSSPercentValue)concrete.Value;
+            Assert.AreEqual(0.50f, value.Value);
+        }
+
+        [TestMethod]
+        public void CssBottomLegalZero()
+        {
+            var snippet = "bottom:  0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("bottom", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBottomProperty));
+            var concrete = (CSSBottomProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            var value = (CSSNumberValue)concrete.Value;
+            Assert.AreEqual(0f, value.Value);
+        }
+
+        [TestMethod]
+        public void CssBottomIllegalNumber()
+        {
+            var snippet = "bottom:  20";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("bottom", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBottomProperty));
+            var concrete = (CSSBottomProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowOffsetLegal()
+        {
+            var snippet = "box-shadow:  5px 4px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("5px 4px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowInsetOffsetLegal()
+        {
+            var snippet = "box-shadow: inset 5px 4px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("inset 5px 4px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowOffsetColorLegal()
+        {
+            var snippet = "box-shadow:  5px 4px #000";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("5px 4px rgba(0, 0, 0, 1)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowOffsetBlurColorLegal()
+        {
+            var snippet = "box-shadow:  5px 4px 2px #000";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("5px 4px 2px rgba(0, 0, 0, 1)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowOffsetIllegal()
+        {
+            var snippet = "box-shadow:  5px 4px 2px 1px 3px #f00";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
         }
     }
 }
