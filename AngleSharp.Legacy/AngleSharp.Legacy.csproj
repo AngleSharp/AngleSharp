@@ -196,6 +196,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
       <Link>DOM\Css\CssValueType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBackfaceVisibilityProperty.cs">
+      <Link>DOM\Css\Properties\CSSBackfaceVisibilityProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBorderCollapseProperty.cs">
       <Link>DOM\Css\Properties\CSSBorderCollapseProperty.cs</Link>
     </Compile>
@@ -226,8 +229,14 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSClearProperty.cs">
       <Link>DOM\Css\Properties\CSSClearProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSClipProperty.cs">
+      <Link>DOM\Css\Properties\CSSClipProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSCoordinateProperty.cs">
       <Link>DOM\Css\Properties\CSSCoordinateProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSCursorProperty.cs">
+      <Link>DOM\Css\Properties\CSSCursorProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSDirectionProperty.cs">
       <Link>DOM\Css\Properties\CSSDirectionProperty.cs</Link>
