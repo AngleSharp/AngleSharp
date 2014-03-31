@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AngleSharp.Parser.Css;
-using AngleSharp.DOM.Css.Properties;
+﻿using AngleSharp;
 using AngleSharp.DOM.Css;
-using AngleSharp;
+using AngleSharp.DOM.Css.Properties;
+using AngleSharp.Parser.Css;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Css
 {
@@ -739,7 +738,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
             var concrete = (CSSBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
