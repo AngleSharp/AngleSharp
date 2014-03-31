@@ -208,6 +208,12 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBottomProperty.cs">
       <Link>DOM\Css\Properties\CSSBottomProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBoxDecorationBreak.cs">
+      <Link>DOM\Css\Properties\CSSBoxDecorationBreak.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBoxShadowProperty.cs">
+      <Link>DOM\Css\Properties\CSSBoxShadowProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBreakAfterProperty.cs">
       <Link>DOM\Css\Properties\CSSBreakAfterProperty.cs</Link>
     </Compile>
@@ -352,11 +358,14 @@
     <Compile Include="..\AngleSharp\DOM\Css\Selector\SimpleSelector.cs">
       <Link>DOM\Css\Selector\SimpleSelector.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Counter.cs">
-      <Link>DOM\Css\Values\Counter.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSAttrValue.cs">
+      <Link>DOM\Css\Values\CSSAttrValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSColor.cs">
-      <Link>DOM\Css\Values\CSSColor.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSColorValue.cs">
+      <Link>DOM\Css\Values\CSSColorValue.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSCounter.cs">
+      <Link>DOM\Css\Values\CSSCounter.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSFunction.cs">
       <Link>DOM\Css\Values\CSSFunction.cs</Link>
@@ -367,35 +376,29 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSGradientStop.cs">
       <Link>DOM\Css\Values\CSSGradientStop.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSIdentifier.cs">
-      <Link>DOM\Css\Values\CSSIdentifier.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSIdentifierValue.cs">
+      <Link>DOM\Css\Values\CSSIdentifierValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSLength.cs">
-      <Link>DOM\Css\Values\CSSLength.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSNumberValue.cs">
+      <Link>DOM\Css\Values\CSSNumberValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSNumber.cs">
-      <Link>DOM\Css\Values\CSSNumber.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPercent.cs">
-      <Link>DOM\Css\Values\CSSPercent.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPoint2.cs">
-      <Link>DOM\Css\Values\CSSPoint2.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPoint3.cs">
-      <Link>DOM\Css\Values\CSSPoint3.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPercentValue.cs">
+      <Link>DOM\Css\Values\CSSPercentValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPrimitiveValue.cs">
       <Link>DOM\Css\Values\CSSPrimitiveValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSRect.cs">
-      <Link>DOM\Css\Values\CSSRect.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSShapeValue.cs">
+      <Link>DOM\Css\Values\CSSShapeValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSString.cs">
-      <Link>DOM\Css\Values\CSSString.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSStringValue.cs">
+      <Link>DOM\Css\Values\CSSStringValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSUri.cs">
-      <Link>DOM\Css\Values\CSSUri.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSUnitValue.cs">
+      <Link>DOM\Css\Values\CSSUnitValue.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSUriValue.cs">
+      <Link>DOM\Css\Values\CSSUriValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSValue.cs">
       <Link>DOM\Css\Values\CSSValue.cs</Link>
