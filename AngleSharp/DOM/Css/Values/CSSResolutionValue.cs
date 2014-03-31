@@ -1,20 +1,20 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     /// <summary>
-    /// Represents a color in CSS.
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+    /// Represents a resolution in CSS.
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/resolution
     /// </summary>
-    sealed class CSSColorValue : CSSPrimitiveValue
+    sealed class CSSResolutionValue : CSSPrimitiveValue
     {
         #region Fields
 
-        Color _value;
+        Resolution _value;
 
         #endregion
 
         #region ctor
 
-        public CSSColorValue(Color value)
+        public CSSResolutionValue(Resolution value)
         {
             _text = value.ToString();
             _value = value;
@@ -25,9 +25,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of the CSS color.
+        /// Gets the value of the CSS resolution.
         /// </summary>
-        public Color Color
+        public Resolution Resolution
         {
             get { return _value; }
         }

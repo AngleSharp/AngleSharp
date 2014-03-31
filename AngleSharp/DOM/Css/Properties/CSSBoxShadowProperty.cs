@@ -117,37 +117,37 @@
 
         class InsetBoxShadowMode : BoxShadowMode
         {
-            CSSUnitValue.Length offsetX;
-            CSSUnitValue.Length offsetY;
-            CSSUnitValue.Length blurRadius;
-            CSSUnitValue.Length spreadRadius;
-            CSSColorValue color;
+            Length offsetX;
+            Length offsetY;
+            Length blurRadius;
+            Length spreadRadius;
+            Color color;
 
-            public InsetBoxShadowMode(CSSUnitValue.Length offsetX, CSSUnitValue.Length offsetY, CSSUnitValue.Length blurRadius, CSSUnitValue.Length spreadRadius, CSSColorValue color)
+            public InsetBoxShadowMode(CSSLengthValue offsetX, CSSLengthValue offsetY, CSSLengthValue blurRadius = null, CSSLengthValue spreadRadius = null, CSSColorValue color = null)
             {
-                this.offsetX = offsetX;
-                this.offsetY = offsetY;
-                this.blurRadius = blurRadius;
-                this.spreadRadius = spreadRadius;
-                this.color = color;
+                this.offsetX = offsetX.Length;
+                this.offsetY = offsetY.Length;
+                this.blurRadius = blurRadius != null ? blurRadius.Length : new Length();
+                this.spreadRadius = spreadRadius != null ? spreadRadius.Length : new Length();
+                this.color = color != null ? color.Color : Color.Black;
             }
         }
 
         class NormalBoxShadowMode : BoxShadowMode
         {
-            CSSUnitValue.Length offsetX;
-            CSSUnitValue.Length offsetY;
-            CSSUnitValue.Length blurRadius;
-            CSSUnitValue.Length spreadRadius;
-            CSSColorValue color;
+            Length offsetX;
+            Length offsetY;
+            Length blurRadius;
+            Length spreadRadius;
+            Color color;
 
-            public NormalBoxShadowMode(CSSUnitValue.Length offsetX, CSSUnitValue.Length offsetY, CSSUnitValue.Length blurRadius, CSSUnitValue.Length spreadRadius, CSSColorValue color)
+            public NormalBoxShadowMode(CSSLengthValue offsetX, CSSLengthValue offsetY, CSSLengthValue blurRadius = null, CSSLengthValue spreadRadius = null, CSSColorValue color = null)
             {
-                this.offsetX = offsetX;
-                this.offsetY = offsetY;
-                this.blurRadius = blurRadius;
-                this.spreadRadius = spreadRadius;
-                this.color = color;
+                this.offsetX = offsetX.Length;
+                this.offsetY = offsetY.Length;
+                this.blurRadius = blurRadius != null ? blurRadius.Length : new Length();
+                this.spreadRadius = spreadRadius != null ? spreadRadius.Length : new Length();
+                this.color = color != null ? color.Color : Color.Black;
             }
         }
 

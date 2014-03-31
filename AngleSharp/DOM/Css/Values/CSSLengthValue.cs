@@ -1,20 +1,20 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     /// <summary>
-    /// Represents a color in CSS.
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+    /// Represents a length in CSS.
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/length
     /// </summary>
-    sealed class CSSColorValue : CSSPrimitiveValue
+    sealed class CSSLengthValue : CSSPrimitiveValue
     {
         #region Fields
 
-        Color _value;
+        Length _value;
 
         #endregion
 
         #region ctor
 
-        public CSSColorValue(Color value)
+        public CSSLengthValue(Length value)
         {
             _text = value.ToString();
             _value = value;
@@ -25,9 +25,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of the CSS color.
+        /// Gets the value of the CSS length.
         /// </summary>
-        public Color Color
+        public Length Length
         {
             get { return _value; }
         }

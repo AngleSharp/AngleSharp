@@ -10,32 +10,32 @@
     {
         #region Fields
 
-        CSSUnitValue.Length top;
-        CSSUnitValue.Length right;
-        CSSUnitValue.Length bottom;
-        CSSUnitValue.Length left;
+        Length top;
+        Length right;
+        Length bottom;
+        Length left;
 
         #endregion
 
         #region ctor
 
-        public CSSShapeValue(CSSUnitValue.Length all)
+        public CSSShapeValue(Length all)
             : this(all, all, all, all)
         {
         }
 
-        public CSSShapeValue(CSSUnitValue.Length y, CSSUnitValue.Length x)
+        public CSSShapeValue(Length y, Length x)
             : this(y, x, y, x)
         {
         }
 
-        public CSSShapeValue(CSSUnitValue.Length top, CSSUnitValue.Length right, CSSUnitValue.Length bottom, CSSUnitValue.Length left)
+        public CSSShapeValue(Length top, Length right, Length bottom, Length left)
         {
             this.top = top;
             this.right = right;
             this.bottom = bottom;
             this.left = left;
-            _text = String.Format("rect({0}, {1}, {2}, {3})", top.ToCss(), right.ToCss(), bottom.ToCss(), left.ToCss());
+            _text = String.Format("rect({0}, {1}, {2}, {3})", top.ToString(), right.ToString(), bottom.ToString(), left.ToString());
         }
 
         #endregion
@@ -45,7 +45,7 @@
         /// <summary>
         /// Gets the top side.
         /// </summary>
-        public CSSUnitValue.Length Top
+        public Length Top
         {
             get { return top; }
         }
@@ -53,7 +53,7 @@
         /// <summary>
         /// Gets the right side.
         /// </summary>
-        public CSSUnitValue.Length Right
+        public Length Right
         {
             get { return right; }
         }
@@ -61,7 +61,7 @@
         /// <summary>
         /// Gets the bottom side.
         /// </summary>
-        public CSSUnitValue.Length Bottom
+        public Length Bottom
         {
             get { return bottom; }
         }
@@ -69,35 +69,9 @@
         /// <summary>
         /// Gets the left side.
         /// </summary>
-        public CSSUnitValue.Length Left
+        public Length Left
         {
             get { return left; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Gets the value for the given side.
-        /// </summary>
-        /// <param name="side">The side to use.</param>
-        /// <returns>The value of the given side.</returns>
-        public CSSUnitValue.Length GetSide(CssSide side)
-        {
-            switch (side)
-            {
-                case CssSide.Top:
-                    return top;
-                case CssSide.Right:
-                    return right;
-                case CssSide.Bottom:
-                    return bottom;
-                case CssSide.Left:
-                    return left;
-            }
-
-            throw new ArgumentOutOfRangeException("Invalid value for side.");
         }
 
         #endregion

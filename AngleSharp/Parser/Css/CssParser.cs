@@ -1101,12 +1101,45 @@
         /// <returns>The created value.</returns>
         static CSSValue ToUnit(CssUnitToken token)
         {
-            //if (token.Data == 0f)
-            //    return CSSNumberValue.Zero;
             if (token.Type == CssTokenType.Percentage)
                 return new CSSPercentValue(token.Data);
+            else
+            {
+                switch (token.Unit.ToLower())
+                {
+                    case "em":   return new CSSLengthValue(new Length(token.Data, Length.Unit.Em));
+                    case "cm":   return new CSSLengthValue(new Length(token.Data, Length.Unit.Cm));
+                    case "ex":   return new CSSLengthValue(new Length(token.Data, Length.Unit.Ex));
+                    case "in":   return new CSSLengthValue(new Length(token.Data, Length.Unit.In));
+                    case "mm":   return new CSSLengthValue(new Length(token.Data, Length.Unit.Mm));
+                    case "pc":   return new CSSLengthValue(new Length(token.Data, Length.Unit.Pc));
+                    case "pt":   return new CSSLengthValue(new Length(token.Data, Length.Unit.Pt));
+                    case "px":   return new CSSLengthValue(new Length(token.Data, Length.Unit.Px));
+                    case "rem":  return new CSSLengthValue(new Length(token.Data, Length.Unit.Rem));
+                    case "ch":   return new CSSLengthValue(new Length(token.Data, Length.Unit.Ch));
+                    case "vw":   return new CSSLengthValue(new Length(token.Data, Length.Unit.Vw));
+                    case "vh":   return new CSSLengthValue(new Length(token.Data, Length.Unit.Vh));
+                    case "vmin": return new CSSLengthValue(new Length(token.Data, Length.Unit.Vmin));
+                    case "vmax": return new CSSLengthValue(new Length(token.Data, Length.Unit.Vmax));
 
-            return CSSUnitValue.FromString(token.Data, token.Unit);
+                    case "ms":   return new CSSTimeValue(new Time(token.Data, Time.Unit.Ms));
+                    case "s":    return new CSSTimeValue(new Time(token.Data, Time.Unit.S));
+
+                    case "dpi":  return new CSSResolutionValue(new Resolution(token.Data, Resolution.Unit.Dpi));
+                    case "dpcm": return new CSSResolutionValue(new Resolution(token.Data, Resolution.Unit.Dpcm));
+                    case "dppx": return new CSSResolutionValue(new Resolution(token.Data, Resolution.Unit.Dppx));
+
+                    case "deg":  return new CSSAngleValue(new Angle(token.Data, Angle.Unit.Deg));
+                    case "grad": return new CSSAngleValue(new Angle(token.Data, Angle.Unit.Grad));
+                    case "rad":  return new CSSAngleValue(new Angle(token.Data, Angle.Unit.Rad));
+                    case "turn": return new CSSAngleValue(new Angle(token.Data, Angle.Unit.Turn));
+
+                    case "hz":   return new CSSFrequencyValue(new Frequency(token.Data, Frequency.Unit.Hz));
+                    case "khz":  return new CSSFrequencyValue(new Frequency(token.Data, Frequency.Unit.Khz));
+                }
+            }
+
+            return CSSNumberValue.Zero;
         }
 
         /// <summary>

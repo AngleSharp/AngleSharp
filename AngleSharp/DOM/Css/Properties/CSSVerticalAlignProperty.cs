@@ -43,15 +43,15 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSUnitValue.Length)
+            if (value is CSSLengthValue)
             {
-                var length = (CSSUnitValue)value;
-                _mode = new AbsoluteVerticalAlignMode(length.Value, length.Unit);
+                var length = (CSSLengthValue)value;
+                _mode = new AbsoluteVerticalAlignMode(length.Length);
             }
             else if (value is CSSPercentValue)
                 _mode = new RelativeVerticalAlignMode(((CSSPercentValue)value).Value);
             else if (value == CSSNumberValue.Zero)
-                _mode = new AbsoluteVerticalAlignMode(0f, CssUnit.Px);
+                _mode = new AbsoluteVerticalAlignMode(Length.Zero);
             else if (value is CSSIdentifierValue)
             {
                 var ident = (CSSIdentifierValue)value;
@@ -121,13 +121,11 @@
 
         class AbsoluteVerticalAlignMode : VerticalAlignMode
         {
-            Single _value;
-            CssUnit _unit;
+            Length _value;
 
-            public AbsoluteVerticalAlignMode(Single value, CssUnit unit)
+            public AbsoluteVerticalAlignMode(Length value)
             {
                 _value = value;
-                _unit = unit;
             }
         }
 

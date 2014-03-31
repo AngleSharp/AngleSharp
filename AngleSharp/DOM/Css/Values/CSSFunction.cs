@@ -48,15 +48,15 @@
 
         static Boolean IsLength(CSSValue cssValue)
         {
-            return cssValue is CSSUnitValue.Length || cssValue == CSSNumberValue.Zero;
+            return cssValue is CSSLengthValue || cssValue == CSSNumberValue.Zero;
         }
 
-        static CSSUnitValue.Length ToLength(CSSValue cssValue)
+        static Length ToLength(CSSValue cssValue)
         {
-            if (cssValue is CSSUnitValue.Length)
-                return (CSSUnitValue.Length)cssValue;
+            if (cssValue is CSSLengthValue)
+                return ((CSSLengthValue)cssValue).Length;
 
-            return new CSSUnitValue.Length(0f, CssUnit.Px);
+            return new Length();
         }
 
         static Boolean IsNumber(CSSValue cssValue)

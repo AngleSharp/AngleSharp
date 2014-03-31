@@ -12,7 +12,7 @@
         #region Fields
 
         List<CSSGradientStop> _stops;
-        CSSUnitValue.Angle _angle;
+        Angle _angle;
         CSSPrimitiveValue _position;
         Boolean _radial;
         Boolean _repeat;
@@ -82,7 +82,7 @@
         /// <summary>
         /// Gets or sets the angle.
         /// </summary>
-        public CSSUnitValue.Angle Angle
+        public Angle Angle
         {
             get { return _angle; }
             set { _angle = value; }

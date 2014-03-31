@@ -1,20 +1,20 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     /// <summary>
-    /// Represents a color in CSS.
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+    /// Represents a length in CSS.
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/frequency
     /// </summary>
-    sealed class CSSColorValue : CSSPrimitiveValue
+    sealed class CSSFrequencyValue : CSSPrimitiveValue
     {
         #region Fields
 
-        Color _value;
+        Frequency _value;
 
         #endregion
 
         #region ctor
 
-        public CSSColorValue(Color value)
+        public CSSFrequencyValue(Frequency value)
         {
             _text = value.ToString();
             _value = value;
@@ -25,9 +25,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of the CSS color.
+        /// Gets the value of the CSS frequency.
         /// </summary>
-        public Color Color
+        public Frequency Frequency
         {
             get { return _value; }
         }

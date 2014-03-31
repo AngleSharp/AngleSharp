@@ -30,13 +30,13 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSUnitValue.Length)
+            if (value is CSSLengthValue)
             {
-                var length = (CSSUnitValue)value;
-                _mode = new AbsoluteCoordinateMode(length.Value, length.Unit);
+                var length = (CSSLengthValue)value;
+                _mode = new AbsoluteCoordinateMode(length.Length);
             }
             else if (value == CSSNumberValue.Zero)
-                _mode = new AbsoluteCoordinateMode(0f, CssUnit.Px);
+                _mode = new AbsoluteCoordinateMode(Length.Zero);
             else if (value is CSSPercentValue)
                 _mode = new RelativeCoordinateMode(((CSSPercentValue)value).Value);
             else if (value is CSSIdentifierValue && (((CSSIdentifierValue)value).Value).Equals("auto", StringComparison.OrdinalIgnoreCase))
@@ -74,13 +74,11 @@
 
         class AbsoluteCoordinateMode : CoordinateMode
         {
-            Single _value;
-            CssUnit _unit;
+            Length _value;
 
-            public AbsoluteCoordinateMode(Single value, CssUnit unit)
+            public AbsoluteCoordinateMode(Length value)
             {
                 _value = value;
-                _unit = unit;
             }
         }
 

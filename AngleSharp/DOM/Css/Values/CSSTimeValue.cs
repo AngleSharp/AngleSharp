@@ -1,20 +1,20 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     /// <summary>
-    /// Represents a color in CSS.
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+    /// Represents a time in CSS.
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/time
     /// </summary>
-    sealed class CSSColorValue : CSSPrimitiveValue
+    sealed class CSSTimeValue : CSSPrimitiveValue
     {
         #region Fields
 
-        Color _value;
+        Time _value;
 
         #endregion
 
         #region ctor
 
-        public CSSColorValue(Color value)
+        public CSSTimeValue(Time value)
         {
             _text = value.ToString();
             _value = value;
@@ -25,9 +25,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of the CSS color.
+        /// Gets the value of the CSS time.
         /// </summary>
-        public Color Color
+        public Time Time
         {
             get { return _value; }
         }
