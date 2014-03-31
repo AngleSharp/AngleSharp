@@ -2,7 +2,7 @@
 {
     using System;
 
-    sealed class Counter : CSSPrimitiveValue
+    sealed class CSSCounter : CSSPrimitiveValue
     {
         #region Fields
 
@@ -14,7 +14,7 @@
 
         #region ctor
 
-        public Counter(String identifier, String listStyle, String separator)
+        public CSSCounter(String identifier, String listStyle, String separator)
         {
             this.identifier = identifier;
             this.listStyle = listStyle;

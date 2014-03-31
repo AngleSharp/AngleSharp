@@ -111,39 +111,5 @@
         }
 
         #endregion
-
-        #region Internal Methods
-
-        internal CSSLengthValue ToLength(Int32 index, Boolean required = true)
-        {
-            if (_items.Count > index)
-            {
-                if (_items[index] is CSSLengthValue)
-                    return (CSSLengthValue)_items[index];
-                else if (_items[index] == CSSNumberValue.Zero)
-                    required = false;
-            }
-
-            if (required)
-                return null;
-
-            return new CSSLengthValue(AngleSharp.Length.Zero);
-        }
-
-        internal CSSColorValue ToColor(Int32 index, Boolean required = true)
-        {
-            if (_items.Count > index)
-            {
-                if (_items[index] is CSSColorValue)
-                    return (CSSColorValue)_items[index];
-            }
-
-            if (required)
-                return null;
-
-            return new CSSColorValue(AngleSharp.Color.Black);
-        }
-
-        #endregion
     }
 }

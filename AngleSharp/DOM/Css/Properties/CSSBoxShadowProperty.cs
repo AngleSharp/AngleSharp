@@ -11,12 +11,22 @@
     {
         #region Fields
 
+        static readonly ValueConverter<BoxShadowMode> _creator;
         static readonly NoneBoxShadowMode _none = new NoneBoxShadowMode();
         BoxShadowMode _mode;
 
         #endregion
 
         #region ctor
+
+        static CSSBoxShadowProperty()
+        {
+            _creator = new ValueConverter<BoxShadowMode>();
+            _creator.AddStatic("none", _none);
+            _creator.AddConstructed<NormalBoxShadowMode>();
+            _creator.AddConstructed<InsetBoxShadowMode>("inset");
+            _creator.AddMultiple<MultiBoxShadowMode>();
+        }
 
         public CSSBoxShadowProperty()
             : base(PropertyNames.BOX_SHADOW)
@@ -31,75 +41,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("none", StringComparison.OrdinalIgnoreCase))
-                _mode = _none;
-            else if (value is CSSValueList)
-            {
-                var arguments = (CSSValueList)value;
+            BoxShadowMode mode;
 
-                if (arguments.Separator == CssValueListSeparator.Comma)
-                {
-                    var modes = new List<BoxShadowMode>();
-
-                    for (var i = 0; i < arguments.Length; i++)
-                    {
-                        if (arguments[i] is CSSValueList)
-                        {
-                            var mode = ParseMode((CSSValueList)arguments[i]);
-                            modes.Add(mode);
-
-                            if (mode == null)
-                                return false;
-                        }
-                        else
-                            return false;
-                    }
-
-                    _mode = new MultiBoxShadowMode(modes);
-                }
-                else
-                {
-                    var mode = ParseMode(arguments);
-
-                    if (mode == null)
-                        return false;
-
-                    _mode = mode;
-                }
-            }
+            if (_creator.TryCreate(value, out mode))
+                _mode = mode;
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
-        }
-
-        BoxShadowMode ParseMode(CSSValueList arguments)
-        {
-            if (arguments.Separator != CssValueListSeparator.Space)
-                return null;
-
-            var inset = arguments.Length > 0 && arguments[0] is CSSIdentifierValue && ((CSSIdentifierValue)arguments[0]).Value.Equals("inset", StringComparison.OrdinalIgnoreCase);
-            var offset = inset ? 1 : 0;
-            var offsetX = arguments.ToLength(offset++);
-
-            if (offsetX == null)
-                return null;
-
-            var offsetY = arguments.ToLength(offset++);
-
-            if (offsetY == null)
-                return null;
-
-            var blurRadius = arguments.ToLength(offset, false);
-            offset += blurRadius != null ? 1 : 0;
-            var spreadRadius = arguments.ToLength(offset, false);
-            offset += spreadRadius != null ? 1 : 0;
-            var color = arguments.ToColor(offset, false);
-
-            if (inset)
-                return new InsetBoxShadowMode(offsetX, offsetY, blurRadius, spreadRadius, color);
-
-            return new NormalBoxShadowMode(offsetX, offsetY, blurRadius, spreadRadius, color);
         }
 
         #endregion
@@ -123,13 +72,13 @@
             Length spreadRadius;
             Color color;
 
-            public InsetBoxShadowMode(CSSLengthValue offsetX, CSSLengthValue offsetY, CSSLengthValue blurRadius = null, CSSLengthValue spreadRadius = null, CSSColorValue color = null)
+            public InsetBoxShadowMode(Length offsetX, Length offsetY, Length? blurRadius = null, Length? spreadRadius = null, Color? color = null)
             {
-                this.offsetX = offsetX.Length;
-                this.offsetY = offsetY.Length;
-                this.blurRadius = blurRadius != null ? blurRadius.Length : new Length();
-                this.spreadRadius = spreadRadius != null ? spreadRadius.Length : new Length();
-                this.color = color != null ? color.Color : Color.Black;
+                this.offsetX = offsetX;
+                this.offsetY = offsetY;
+                this.blurRadius = blurRadius ?? Length.Zero;
+                this.spreadRadius = spreadRadius ?? Length.Zero;
+                this.color = color ?? Color.Black;
             }
         }
 
@@ -141,13 +90,13 @@
             Length spreadRadius;
             Color color;
 
-            public NormalBoxShadowMode(CSSLengthValue offsetX, CSSLengthValue offsetY, CSSLengthValue blurRadius = null, CSSLengthValue spreadRadius = null, CSSColorValue color = null)
+            public NormalBoxShadowMode(Length offsetX, Length offsetY, Length? blurRadius = null, Length? spreadRadius = null, Color? color = null)
             {
-                this.offsetX = offsetX.Length;
-                this.offsetY = offsetY.Length;
-                this.blurRadius = blurRadius != null ? blurRadius.Length : new Length();
-                this.spreadRadius = spreadRadius != null ? spreadRadius.Length : new Length();
-                this.color = color != null ? color.Color : Color.Black;
+                this.offsetX = offsetX;
+                this.offsetY = offsetY;
+                this.blurRadius = blurRadius ?? Length.Zero;
+                this.spreadRadius = spreadRadius ?? Length.Zero;
+                this.color = color ?? Color.Black;
             }
         }
 
