@@ -742,5 +742,182 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
+
+        [TestMethod]
+        public void CssClipShapeLegal()
+        {
+            var snippet = "clip: rect( 2px, 3em, 1in, 0cm )";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("clip", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSClipProperty));
+            var concrete = (CSSClipProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("rect(2px, 3em, 1in, 0)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssClipShapeBackwards()
+        {
+            var snippet = "clip: rect( 2px 3em 1in 0cm )";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("clip", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSClipProperty));
+            var concrete = (CSSClipProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("rect(2px, 3em, 1in, 0)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssClipShapeZerosLegal()
+        {
+            var snippet = "clip: rect(0, 0, 0, 0)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("clip", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSClipProperty));
+            var concrete = (CSSClipProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("rect(0, 0, 0, 0)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssClipShapeZerosIllegal()
+        {
+            var snippet = "clip: rect(0, 0, 0 0)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("clip", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSClipProperty));
+            var concrete = (CSSClipProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssClipShapeNonZerosIllegal()
+        {
+            var snippet = "clip: rect(2px, 1cm, 5mm)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("clip", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSClipProperty));
+            var concrete = (CSSClipProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssClipShapeSingleValueIllegal()
+        {
+            var snippet = "clip: rect(1em)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("clip", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSClipProperty));
+            var concrete = (CSSClipProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssCursorDefaultUppercaseLegal()
+        {
+            var snippet = "cursor: DEFAULT";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("cursor", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCursorProperty));
+            var concrete = (CSSCursorProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("DEFAULT", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssCursorAutoLegal()
+        {
+            var snippet = "cursor: auto";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("cursor", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCursorProperty));
+            var concrete = (CSSCursorProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("auto", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssCursorZoomOutLegal()
+        {
+            var snippet = "cursor  : zoom-out";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("cursor", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCursorProperty));
+            var concrete = (CSSCursorProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("zoom-out", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssCursorUrlLegal()
+        {
+            var snippet = "cursor  : url(foo.png)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("cursor", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCursorProperty));
+            var concrete = (CSSCursorProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('foo.png')", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssCursorUrlShiftedLegal()
+        {
+            var snippet = "cursor  : url(foo.png) 0 5";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("cursor", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCursorProperty));
+            var concrete = (CSSCursorProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('foo.png') 0 5", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssCursorUrlsLegal()
+        {
+            var snippet = "cursor  : url(foo.png), url(master.png), url(more.png)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("cursor", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCursorProperty));
+            var concrete = (CSSCursorProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('foo.png'), url('master.png'), url('more.png')", concrete.Value.CssText);
+        }
     }
 }
