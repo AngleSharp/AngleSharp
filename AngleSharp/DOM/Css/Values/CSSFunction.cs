@@ -28,9 +28,13 @@
                 if (IsNumber(arguments[0]) && IsNumber(arguments[1]) && IsNumber(arguments[2]))
                     return new CSSColorValue(Color.FromHsl(ToSingle(arguments[0]), ToSingle(arguments[1]), ToSingle(arguments[2])));
             }
-            else if (name == FunctionNames.Rect && arguments.Count == 4)
+            else if (name == FunctionNames.Rect)
             {
-                if (IsLength(arguments[0]) && IsLength(arguments[1]) && IsLength(arguments[2]) && IsLength(arguments[3]))
+                //Required for backwards-compatibility
+                if (arguments.Count == 1 && arguments[0] is CSSValueList)
+                    arguments = ((CSSValueList)arguments[0]).List;
+
+                if (arguments.Count == 4 && IsLength(arguments[0]) && IsLength(arguments[1]) && IsLength(arguments[2]) && IsLength(arguments[3]))
                     return new CSSShapeValue(ToLength(arguments[0]), ToLength(arguments[1]), ToLength(arguments[2]), ToLength(arguments[3]));
             }
             else if (name == FunctionNames.Attr && arguments.Count == 1)

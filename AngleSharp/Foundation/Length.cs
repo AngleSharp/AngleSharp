@@ -150,6 +150,9 @@
         /// <returns>The unit string.</returns>
         public override String ToString()
         {
+            if (_value == 0f)
+                return _value.ToString(CultureInfo.InvariantCulture);
+
             return String.Concat(_value.ToString(CultureInfo.InvariantCulture), _unit.ToString().ToLower());
         }
 

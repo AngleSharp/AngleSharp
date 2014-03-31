@@ -41,9 +41,9 @@
         /// <summary>
         /// Gets the absolute url.
         /// </summary>
-        public String Uri
+        public Uri Uri
         {
-            get { return _url; }
+            get { return new Uri(_url, UriKind.RelativeOrAbsolute); }
         }
 
         #endregion

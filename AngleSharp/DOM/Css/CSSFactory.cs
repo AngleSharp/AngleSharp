@@ -43,7 +43,7 @@
                 case PropertyNames.BREAK_AFTER:                  return new CSSBreakAfterProperty();
                 case PropertyNames.BREAK_BEFORE:                 return new CSSBreakBeforeProperty();
                 case PropertyNames.BREAK_INSIDE:                 return new CSSBreakInsideProperty();
-                //case PropertyNames.BACKFACE_VISIBILITY:
+                case PropertyNames.BACKFACE_VISIBILITY:          return new CSSBackfaceVisibility();
                 //case PropertyNames.BORDER_TOP_LEFT_RADIUS:
                 //case PropertyNames.BORDER_TOP_RIGHT_RADIUS:
                 //case PropertyNames.BORDER_BOTTOM_LEFT_RADIUS:
@@ -85,7 +85,7 @@
                 //case PropertyNames.COLUMN_WIDTH:
                 case PropertyNames.CAPTION_SIDE:                 return new CSSCaptionSideProperty();
                 case PropertyNames.CLEAR:                        return new CSSClearProperty();
-                //case PropertyNames.CLIP:
+                case PropertyNames.CLIP:                         return new CSSClipProperty();
                 //case PropertyNames.COLOR:
                 //case PropertyNames.CONTENT:
                 //case PropertyNames.COUNTER_INCREMENT:
@@ -93,7 +93,7 @@
                 //case PropertyNames.CUE_AFTER:
                 //case PropertyNames.CUE_BEFORE:
                 //case PropertyNames.CUE:
-                //case PropertyNames.CURSOR:
+                case PropertyNames.CURSOR:                       return new CSSCursorProperty();
                 case PropertyNames.DIRECTION:                    return new CSSDirectionProperty();
                 case PropertyNames.DISPLAY:                      return new CSSDisplayProperty();
                 //case PropertyNames.ELEVATION:

@@ -150,11 +150,27 @@
                     _validators.Add(value => Validate(ToLength(value)));
                 else if (type == typeof(Color) || type == typeof(Color?))
                     _validators.Add(value => Validate(ToColor(value)));
+                else if (type == typeof(Single) || type == typeof(Single?))
+                    _validators.Add(value => Validate(ToNumber(value)));
+                else if (type == typeof(Uri))
+                    _validators.Add(value => ToUri(value));
             }
             
             public override T Create(CSSValue argument)
             {
                 var arguments = argument as CSSValueList;
+
+                if (arguments == null && MinParameters == 1)
+                {
+                    var parameter = _validators[0](argument);
+
+                    if (parameter != null)
+                    {
+                        var parameters = new Object[MaxParameters];
+                        parameters[0] = parameter;
+                        return _constructor(parameters);
+                    }
+                }
 
                 if (arguments != null && arguments.Separator == CssValueListSeparator.Space)
                 {
@@ -194,6 +210,22 @@
                 where TTarget : struct
             {
                 return result.HasValue ? (Object)result.Value : null;
+            }
+
+            static Uri ToUri(CSSValue value)
+            {
+                if (value is CSSUriValue)
+                    return ((CSSUriValue)value).Uri;
+
+                return null;
+            }
+
+            static Single? ToNumber(CSSValue value)
+            {
+                if (value is CSSNumberValue)
+                    return ((CSSNumberValue)value).Value;
+
+                return null;
             }
 
             static Length? ToLength(CSSValue value)

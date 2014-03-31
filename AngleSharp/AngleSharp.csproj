@@ -39,12 +39,15 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="DOM\Css\CSSFactory.cs" />
+    <Compile Include="DOM\Css\Properties\CSSBackfaceVisibilityProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBorderCollapseProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBoxDecorationBreak.cs" />
     <Compile Include="DOM\Css\Properties\CSSBoxShadowProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakInsideProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakAfterProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSCursorProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSClipProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSUnicodeBidiProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSVerticalAlignProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSCoordinateProperty.cs" />
