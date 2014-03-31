@@ -1018,6 +1018,9 @@
     <Compile Include="..\AngleSharp\Foundation\Time.cs">
       <Link>Foundation\Time.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\ValueConverter.cs">
+      <Link>Foundation\ValueConverter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\XmlExtensions.cs">
       <Link>Foundation\XmlExtensions.cs</Link>
     </Compile>

@@ -1,8 +1,9 @@
-﻿using System;
-using System.Reflection;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+    using System.Linq;
+    using System.Reflection;
+
     static class LegacyExtensions
     {
         public static Type GetTypeInfo(this Type type)
@@ -13,6 +14,11 @@ namespace AngleSharp
         public static Type AsType(this Type type)
         {
             return type;
+        }
+
+        public static ConstructorInfo GetDeclaredConstructor(this Type type)
+        {
+            return type.GetConstructors().First();
         }
 
         public static MethodInfo GetRuntimeMethod(this Type type, String name, Type[] parameters)
