@@ -30,17 +30,17 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSLength)
+            if (value is CSSUnitValue.Length)
             {
-                var length = (CSSLength)value;
-                _mode = new AbsoluteCoordinateMode(length.Value, length.PrimitiveType);
+                var length = (CSSUnitValue)value;
+                _mode = new AbsoluteCoordinateMode(length.Value, length.Unit);
             }
-            else if (value is CSSNumber && ((CSSNumber)value).Value == 0f)
+            else if (value == CSSNumberValue.Zero)
                 _mode = new AbsoluteCoordinateMode(0f, CssUnit.Px);
-            else if (value is CSSIdentifier && (((CSSIdentifier)value).Identifier).Equals("auto", StringComparison.OrdinalIgnoreCase))
+            else if (value is CSSPercentValue)
+                _mode = new RelativeCoordinateMode(((CSSPercentValue)value).Value);
+            else if (value is CSSIdentifierValue && (((CSSIdentifierValue)value).Value).Equals("auto", StringComparison.OrdinalIgnoreCase))
                 _mode = _auto;
-            else if (value is CSSPercent)
-                _mode = new RelativeCoordinateMode(((CSSPercent)value).Value);
             else if (value == CSSValue.Inherit)
                 return true;
             else

@@ -3,18 +3,22 @@
     using System;
     using System.Globalization;
 
-    sealed class CSSNumber : CSSPrimitiveValue
+    /// <summary>
+    /// More information:
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/number
+    /// </summary>
+    sealed class CSSNumberValue : CSSPrimitiveValue
     {
         #region Fields
 
+        public static readonly CSSNumberValue Zero = new CSSNumberValue(0f);
         Single _value;
 
         #endregion
 
         #region ctor
 
-        public CSSNumber(Single value)
-            : base(CssUnit.Number)
+        public CSSNumberValue(Single value)
         {
             _text = value.ToString(CultureInfo.InvariantCulture);
             _value = value;

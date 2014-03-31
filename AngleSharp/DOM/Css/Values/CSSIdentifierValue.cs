@@ -2,12 +2,15 @@
 {
     using System;
 
-    sealed class CSSIdentifier : CSSPrimitiveValue
+    /// <summary>
+    /// More information available at
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/user-ident
+    /// </summary>
+    sealed class CSSIdentifierValue : CSSPrimitiveValue
     {
         #region ctor
 
-        public CSSIdentifier(String token)
-            : base(CssUnit.Ident)
+        public CSSIdentifierValue(String token)
         {
             _text = token;
         }
@@ -19,7 +22,7 @@
         /// <summary>
         /// Gets the specified identifier.
         /// </summary>
-        public String Identifier
+        public String Value
         {
             get { return _text; }
         }

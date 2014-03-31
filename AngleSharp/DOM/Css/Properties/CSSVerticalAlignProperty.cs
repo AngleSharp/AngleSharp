@@ -43,28 +43,26 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSLength)
+            if (value is CSSUnitValue.Length)
             {
-                var length = (CSSLength)value;
-                _mode = new AbsoluteVerticalAlignMode(length.Value, length.PrimitiveType);
+                var length = (CSSUnitValue)value;
+                _mode = new AbsoluteVerticalAlignMode(length.Value, length.Unit);
             }
-            else if (value is CSSIdentifier)
+            else if (value is CSSPercentValue)
+                _mode = new RelativeVerticalAlignMode(((CSSPercentValue)value).Value);
+            else if (value == CSSNumberValue.Zero)
+                _mode = new AbsoluteVerticalAlignMode(0f, CssUnit.Px);
+            else if (value is CSSIdentifierValue)
             {
-                var ident = (CSSIdentifier)value;
+                var ident = (CSSIdentifierValue)value;
                 VerticalAlignMode mode;
 
-                if (!modes.TryGetValue(ident.Identifier, out mode))
+                if (!modes.TryGetValue(ident.Value, out mode))
                     return false;
 
                 _mode = mode;
             }
-            else if (value is CSSPercent)
-                _mode = new RelativeVerticalAlignMode(((CSSPercent)value).Value);
-            else if (value is CSSNumber && ((CSSNumber)value).Value == 0f)
-                _mode = new AbsoluteVerticalAlignMode(0f, CssUnit.Px);
-            else if (value == CSSValue.Inherit)
-                return true;
-            else
+            else if (value != CSSValue.Inherit)
                 return false;
 
             return true;

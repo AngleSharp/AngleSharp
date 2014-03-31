@@ -3,7 +3,11 @@
     using System;
     using System.Globalization;
 
-    sealed class CSSPercent : CSSPrimitiveValue
+    /// <summary>
+    /// More information:
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/percentage
+    /// </summary>
+    sealed class CSSPercentValue : CSSPrimitiveValue
     {
         #region Fields
 
@@ -13,8 +17,7 @@
 
         #region ctor
 
-        public CSSPercent(Single value)
-            : base(CssUnit.Percentage)
+        public CSSPercentValue(Single value)
         {
             _text = value.ToString(CultureInfo.InvariantCulture) + "%";
             _value = value;

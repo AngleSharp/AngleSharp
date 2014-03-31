@@ -4,8 +4,9 @@
 
     /// <summary>
     /// Represents an URI in CSS.
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
     /// </summary>
-    sealed class CSSUri : CSSPrimitiveValue
+    sealed class CSSUriValue : CSSPrimitiveValue
     {
         #region Fields
 
@@ -16,8 +17,7 @@
 
         #region ctor
 
-        public CSSUri(String url, String basePath)
-            : base(CssUnit.Uri)
+        public CSSUriValue(String url, String basePath)
         {
             _text = String.Concat("url('", url, "')");
             _originalUrl = url;

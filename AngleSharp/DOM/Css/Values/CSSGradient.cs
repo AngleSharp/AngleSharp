@@ -5,14 +5,15 @@
 
     /// <summary>
     /// Represents a CSS gradient() object.
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/gradient
     /// </summary>
     sealed class CSSGradient : ICssPrimitive
     {
-        #region Methods
+        #region Fields
 
         List<CSSGradientStop> _stops;
-        CSSPrimitiveValue _angle;
-        CSSPoint2 _position;
+        CSSUnitValue.Angle _angle;
+        CSSPrimitiveValue _position;
         Boolean _radial;
         Boolean _repeat;
         CSSPrimitiveValue _shape;
@@ -72,7 +73,7 @@
         /// <summary>
         /// Gets or sets the position.
         /// </summary>
-        public CSSPoint2 Position
+        public CSSPrimitiveValue Position
         {
             get { return _position; }
             set { _position = value; }
@@ -81,7 +82,7 @@
         /// <summary>
         /// Gets or sets the angle.
         /// </summary>
-        public CSSPrimitiveValue Angle
+        public CSSUnitValue.Angle Angle
         {
             get { return _angle; }
             set { _angle = value; }

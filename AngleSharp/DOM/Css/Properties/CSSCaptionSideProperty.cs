@@ -37,12 +37,12 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifier)
+            if (value is CSSIdentifierValue)
             {
-                var ident = (CSSIdentifier)value;
+                var ident = (CSSIdentifierValue)value;
                 CaptionSideMode mode;
 
-                if (modes.TryGetValue(ident.Identifier, out mode))
+                if (modes.TryGetValue(ident.Value, out mode))
                 {
                     _mode = mode;
                     return true;

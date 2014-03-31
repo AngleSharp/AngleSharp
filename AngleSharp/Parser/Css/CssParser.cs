@@ -561,8 +561,9 @@
 		{
 			switch (token.Type)
 			{
-				case CssTokenType.Dimension: // e.g. "3px"
-                    value.AddValue(CSSLength.FromString(((CssUnitToken)token).Data, ((CssUnitToken)token).Unit));
+                case CssTokenType.Dimension: // e.g. "3px"
+                case CssTokenType.Percentage: // e.g. "5%"
+                    value.AddValue(ToUnit((CssUnitToken)token));
                     return true;
 				case CssTokenType.Hash:// e.g. "#ABCDEF"
 					return InSingleValueHexColor(((CssKeywordToken)token).Data);
@@ -571,16 +572,13 @@
 				case CssTokenType.Ident: // e.g. "auto"
 					return InSingleValueIdent((CssKeywordToken)token);
 				case CssTokenType.String:// e.g. "'i am a string'"
-					value.AddValue(new CSSString(((CssStringToken)token).Data));
+					value.AddValue(new CSSStringValue(((CssStringToken)token).Data));
                     return true;
 				case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                    value.AddValue(new CSSUri(((CssStringToken)token).Data, sheet.Href));
-                    return true;
-				case CssTokenType.Percentage: // e.g. "5%"
-                    value.AddValue(new CSSPercent(((CssUnitToken)token).Data));
+                    value.AddValue(new CSSUriValue(((CssStringToken)token).Data, sheet.Href));
                     return true;
 				case CssTokenType.Number: // e.g. "173"
-					value.AddValue(new CSSNumber(((CssNumberToken)token).Data));
+					value.AddValue(ToNumber((CssNumberToken)token));
                     return true;
 				case CssTokenType.Whitespace: // e.g. " "
 					SwitchTo(CssState.InValueList);
@@ -1002,7 +1000,7 @@
 				return true;
 			}
 
-            value.AddValue(new CSSIdentifier(token.Data));
+            value.AddValue(new CSSIdentifierValue(token.Data));
             return true;
 		}
 
@@ -1017,7 +1015,7 @@
 
             if (Color.TryFromHex(color, out colorValue))
             {
-                value.AddValue(new CSSColor(colorValue));
+                value.AddValue(new CSSColorValue(colorValue));
                 return true;
             }
 
@@ -1094,7 +1092,35 @@
 
 		#endregion
 
-		#region Helpers
+        #region Helpers
+
+        /// <summary>
+        /// Converts the given unit to a value. Uses number for 0.
+        /// </summary>
+        /// <param name="token">The token to consider.</param>
+        /// <returns>The created value.</returns>
+        static CSSValue ToUnit(CssUnitToken token)
+        {
+            //if (token.Data == 0f)
+            //    return CSSNumberValue.Zero;
+            if (token.Type == CssTokenType.Percentage)
+                return new CSSPercentValue(token.Data);
+
+            return CSSUnitValue.FromString(token.Data, token.Unit);
+        }
+
+        /// <summary>
+        /// Converts the given number to a value. Uses an allocated value for the 0.
+        /// </summary>
+        /// <param name="token">The token to consider.</param>
+        /// <returns>The created value.</returns>
+        static CSSValue ToNumber(CssNumberToken token)
+        {
+            if (token.Data == 0f)
+                return CSSNumberValue.Zero;
+
+            return new CSSNumberValue(token.Data);
+        }
 
 		/// <summary>
 		/// Gets the current rule casted to the given type.

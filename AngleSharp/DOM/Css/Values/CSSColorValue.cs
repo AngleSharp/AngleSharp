@@ -2,7 +2,11 @@
 {
     using System;
 
-    sealed class CSSColor : CSSPrimitiveValue
+    /// <summary>
+    /// Represents a color in CSS.
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+    /// </summary>
+    sealed class CSSColorValue : CSSPrimitiveValue
     {
         #region Fields
 
@@ -12,8 +16,7 @@
 
         #region ctor
 
-        public CSSColor(Color value)
-            : base(CssUnit.Rgbcolor)
+        public CSSColorValue(Color value)
         {
             _text = value.ToString();
             _value = value;

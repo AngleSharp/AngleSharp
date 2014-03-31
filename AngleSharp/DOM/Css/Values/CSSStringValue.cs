@@ -4,8 +4,9 @@
 
     /// <summary>
     /// Represents an string in CSS.
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/string
     /// </summary>
-    sealed class CSSString : CSSPrimitiveValue
+    sealed class CSSStringValue : CSSPrimitiveValue
     {
         #region Fields
 
@@ -15,8 +16,7 @@
 
         #region ctor
 
-        public CSSString(String value)
-            : base(CssUnit.String)
+        public CSSStringValue(String value)
         {
             _text = String.Concat("'", value, "'");
             _value = value;

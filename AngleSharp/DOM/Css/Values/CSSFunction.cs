@@ -15,18 +15,30 @@
         {
             if (name == FunctionNames.Rgb && arguments.Count == 3)
             {
-                if (CheckNumber(arguments[0]) && CheckNumber(arguments[1]) && CheckNumber(arguments[2]))
-                    return new CSSColor(Color.FromRgb(ToByte(arguments[0]), ToByte(arguments[1]), ToByte(arguments[2])));
+                if (IsNumber(arguments[0]) && IsNumber(arguments[1]) && IsNumber(arguments[2]))
+                    return new CSSColorValue(Color.FromRgb(ToByte(arguments[0]), ToByte(arguments[1]), ToByte(arguments[2])));
             }
             else if (name == FunctionNames.Rgba && arguments.Count == 4)
             {
-                if (CheckNumber(arguments[0]) && CheckNumber(arguments[1]) && CheckNumber(arguments[2]) && CheckNumber(arguments[3]))
-                    return new CSSColor(Color.FromRgba(ToByte(arguments[0]), ToByte(arguments[1]), ToByte(arguments[2]), ToSingle(arguments[3])));
+                if (IsNumber(arguments[0]) && IsNumber(arguments[1]) && IsNumber(arguments[2]) && IsNumber(arguments[3]))
+                    return new CSSColorValue(Color.FromRgba(ToByte(arguments[0]), ToByte(arguments[1]), ToByte(arguments[2]), ToSingle(arguments[3])));
             }
             else if (name == FunctionNames.Hsl && arguments.Count == 3)
             {
-                if (CheckNumber(arguments[0]) && CheckNumber(arguments[1]) && CheckNumber(arguments[2]))
-                    return new CSSColor(Color.FromHsl(ToSingle(arguments[0]), ToSingle(arguments[1]), ToSingle(arguments[2])));
+                if (IsNumber(arguments[0]) && IsNumber(arguments[1]) && IsNumber(arguments[2]))
+                    return new CSSColorValue(Color.FromHsl(ToSingle(arguments[0]), ToSingle(arguments[1]), ToSingle(arguments[2])));
+            }
+            else if (name == FunctionNames.Rect && arguments.Count == 4)
+            {
+                if (IsLength(arguments[0]) && IsLength(arguments[1]) && IsLength(arguments[2]) && IsLength(arguments[3]))
+                    return new CSSShapeValue(ToLength(arguments[0]), ToLength(arguments[1]), ToLength(arguments[2]), ToLength(arguments[3]));
+            }
+            else if (name == FunctionNames.Attr && arguments.Count == 1)
+            {
+                if (arguments[0] is CSSStringValue)
+                    return new CSSAttrValue(((CSSStringValue)arguments[0]).Value);
+                else if (arguments[0] is CSSIdentifierValue)
+                    return new CSSAttrValue(((CSSIdentifierValue)arguments[0]).Value);
             }
 
             return new CSSUnknownFunction(name) { _args = arguments };
@@ -34,19 +46,32 @@
 
         #region Helpers
 
-        static Boolean CheckNumber(CSSValue cssValue)
+        static Boolean IsLength(CSSValue cssValue)
         {
-            return cssValue is CSSNumber;
+            return cssValue is CSSUnitValue.Length || cssValue == CSSNumberValue.Zero;
+        }
+
+        static CSSUnitValue.Length ToLength(CSSValue cssValue)
+        {
+            if (cssValue is CSSUnitValue.Length)
+                return (CSSUnitValue.Length)cssValue;
+
+            return new CSSUnitValue.Length(0f, CssUnit.Px);
+        }
+
+        static Boolean IsNumber(CSSValue cssValue)
+        {
+            return cssValue is CSSNumberValue;
         }
 
         static Single ToSingle(CSSValue cssValue)
         {
-            return ((CSSNumber)cssValue).Value;
+            return ((CSSNumberValue)cssValue).Value;
         }
 
         static Byte ToByte(CSSValue cssValue)
         {
-            return (Byte)Math.Min(Math.Max(((CSSNumber)cssValue).Value, 0), 255);
+            return (Byte)Math.Min(Math.Max(((CSSNumberValue)cssValue).Value, 0), 255);
         }
 
         #endregion
@@ -81,11 +106,6 @@
 
         }
 
-        class CSSAttrFunction : CSSFunction
-        {
-
-        }
-
         class CSSToggleFunction : CSSFunction
         {
 
@@ -102,11 +122,6 @@
         }
 
         class CSSSkewFunction : CSSFunction
-        {
-
-        }
-
-        class CSSLinearGradientFunction : CSSFunction
         {
 
         }

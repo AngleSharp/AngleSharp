@@ -41,5 +41,15 @@
         /// The hsl function.
         /// </summary>
         public static readonly String Hsl = "hsl";
+
+        /// <summary>
+        /// The rect function.
+        /// </summary>
+        public static readonly String Rect = "rect";
+
+        /// <summary>
+        /// The attr function.
+        /// </summary>
+        public static readonly String Attr = "attr";
     }
 }

@@ -13,7 +13,6 @@
         {
             switch (unit)
             {
-                case "%":    return CssUnit.Percentage;
                 case "em":   return CssUnit.Ems;
                 case "cm":   return CssUnit.Cm;
                 case "deg":  return CssUnit.Deg;
@@ -30,10 +29,15 @@
                 case "pc":   return CssUnit.Pc;
                 case "pt":   return CssUnit.Pt;
                 case "px":   return CssUnit.Px;
+                case "rem":  return CssUnit.Rems;
+                case "ch":   return CssUnit.Ch;
                 case "vw":   return CssUnit.Vw;
                 case "vh":   return CssUnit.Vh;
                 case "vmin": return CssUnit.Vmin;
                 case "vmax": return CssUnit.Vmax;
+                case "dpi":  return CssUnit.Dpi;
+                case "dpcm": return CssUnit.Dpcm;
+                case "dppx": return CssUnit.Dppx;
             }
 
             return CssUnit.Unknown;
@@ -48,7 +52,6 @@
         {
             switch (unit)
             {
-                case CssUnit.Percentage: return "%";
                 case CssUnit.Ems:        return "em";
                 case CssUnit.Cm:         return "cm";
                 case CssUnit.Deg:        return "deg";
@@ -69,6 +72,11 @@
                 case CssUnit.Vh:         return "vh";
                 case CssUnit.Vmin:       return "vmin";
                 case CssUnit.Vmax:       return "vmax";
+                case CssUnit.Dpi:        return "dpi";
+                case CssUnit.Dpcm:       return "dpcm";
+                case CssUnit.Dppx:       return "dppx";
+                case CssUnit.Rems:        return "rem";
+                case CssUnit.Ch:         return "ch";
             }
 
             return String.Empty;

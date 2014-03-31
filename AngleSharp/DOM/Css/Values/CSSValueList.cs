@@ -111,5 +111,39 @@
         }
 
         #endregion
+
+        #region Internal Methods
+
+        internal CSSUnitValue.Length ToLength(Int32 index, Boolean required = true)
+        {
+            if (_items.Count > index)
+            {
+                if (_items[index] is CSSUnitValue.Length)
+                    return (CSSUnitValue.Length)_items[index];
+                else if (_items[index] == CSSNumberValue.Zero)
+                    required = false;
+            }
+
+            if (required)
+                return null;
+
+            return new CSSUnitValue.Length(0f, CssUnit.Px);
+        }
+
+        internal CSSColorValue ToColor(Int32 index, Boolean required = true)
+        {
+            if (_items.Count > index)
+            {
+                if (_items[index] is CSSColorValue)
+                    return (CSSColorValue)_items[index];
+            }
+
+            if (required)
+                return null;
+
+            return new CSSColorValue(Color.Black);
+        }
+
+        #endregion
     }
 }

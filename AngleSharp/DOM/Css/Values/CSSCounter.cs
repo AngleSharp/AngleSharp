@@ -1,10 +1,10 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
-    public sealed class Counter
+    using System;
+
+    sealed class Counter : CSSPrimitiveValue
     {
-        #region Members
+        #region Fields
 
         String identifier;
         String listStyle;
@@ -14,8 +14,11 @@ namespace AngleSharp.DOM.Css
 
         #region ctor
 
-        internal Counter()
+        public Counter(String identifier, String listStyle, String separator)
         {
+            this.identifier = identifier;
+            this.listStyle = listStyle;
+            this.separator = separator;
         }
 
         #endregion
@@ -25,19 +28,16 @@ namespace AngleSharp.DOM.Css
         public String Identifier
         {
             get { return identifier; }
-            set { identifier = value; }
         }
 
         public String ListStyle
         {
             get { return listStyle; }
-            set { listStyle = value; }
         }
 
         public String Separator
         {
             get { return separator; }
-            set { separator = value; }
         }
 
         #endregion
