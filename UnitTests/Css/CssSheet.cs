@@ -177,9 +177,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("border-color: rgba(82, 168, 236, 0.8)");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var prop = decl.List[0];
+            var prop = decl.Get(0);
             Assert.AreEqual("border-color", prop.Name);
             Assert.IsFalse(prop.Important);
             Assert.AreEqual(CssValueType.PrimitiveValue, prop.Value.CssValueType);
@@ -193,9 +193,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("margin: 20px;");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var prop = decl.List[0];
+            var prop = decl.Get(0);
             Assert.AreEqual("margin", prop.Name);
             Assert.IsFalse(prop.Important);
             Assert.AreEqual(CssValueType.PrimitiveValue, prop.Value.CssValueType);
@@ -207,9 +207,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var prop = decl.List[0];
+            var prop = decl.Get(0);
             Assert.AreEqual("font-family", prop.Name);
             Assert.IsFalse(prop.Important);
             Assert.AreEqual(CssValueType.ValueList, prop.Value.CssValueType);
@@ -224,15 +224,15 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("font: bold 1em/2em monospace; content: \" (\" attr(href) \")\"");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 2);
+            Assert.AreEqual(2, decl.Length);
 
-            var font = decl.List[0];
+            var font = decl.Get(0);
             Assert.AreEqual("font", font.Name);
             Assert.IsFalse(font.Important);
             Assert.AreEqual(CssValueType.ValueList, font.Value.CssValueType);
             Assert.AreEqual("bold 1em / 2em monospace", font.Value.ToCss());
 
-            var content = decl.List[1];
+            var content = decl.Get(1);
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.Important);
             Assert.AreEqual(CssValueType.ValueList, content.Value.CssValueType);
@@ -244,9 +244,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var background = decl.List[0];
+            var background = decl.Get(0);
             Assert.AreEqual("background", background.Name);
             Assert.IsFalse(background.Important);
             Assert.AreEqual(CssValueType.Custom, background.Value.CssValueType);
@@ -258,9 +258,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("font:bold 40px/1.13 'PT Sans Narrow', sans-serif");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var font = decl.List[0];
+            var font = decl.Get(0);
             Assert.AreEqual("font", font.Name);
             Assert.IsFalse(font.Important);
             Assert.AreEqual(CssValueType.ValueList, font.Value.CssValueType);
@@ -271,9 +271,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("text-shadow: 0 0 10px #000");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var textShadow = decl.List[0];
+            var textShadow = decl.Get(0);
             Assert.AreEqual("text-shadow", textShadow.Name);
             Assert.IsFalse(textShadow.Important);
             Assert.AreEqual(CssValueType.ValueList, textShadow.Value.CssValueType);
@@ -284,9 +284,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("background:url(../images/ribbon.svg) no-repeat");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var background = decl.List[0];
+            var background = decl.Get(0);
             Assert.AreEqual("background", background.Name);
             Assert.IsFalse(background.Important);
             Assert.AreEqual(CssValueType.ValueList, background.Value.CssValueType);
@@ -297,9 +297,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("content:counter(paging, decimal-leading-zero)");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var content = decl.List[0];
+            var content = decl.Get(0);
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.Important);
             Assert.AreEqual(CssValueType.PrimitiveValue, content.Value.CssValueType);
@@ -310,9 +310,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("background-color: rgb(245, 0, 111)");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var backgroundColor = decl.List[0];
+            var backgroundColor = decl.Get(0);
             Assert.AreEqual("background-color", backgroundColor.Name);
             Assert.IsFalse(backgroundColor.Important);
             Assert.AreEqual(CssValueType.PrimitiveValue, backgroundColor.Value.CssValueType);
@@ -334,9 +334,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("content:'\005E'");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var content = decl.List[0];
+            var content = decl.Get(0);
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.Important);
             Assert.AreEqual(CssValueType.PrimitiveValue, content.Value.CssValueType);
@@ -347,9 +347,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("content:counter(list)'.'");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var content = decl.List[0];
+            var content = decl.Get(0);
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.Important);
             Assert.AreEqual(CssValueType.ValueList, content.Value.CssValueType);
@@ -360,9 +360,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("transform:translateY(-50%)");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var transform = decl.List[0];
+            var transform = decl.Get(0);
             Assert.AreEqual("transform", transform.Name);
             Assert.IsFalse(transform.Important);
             Assert.AreEqual(CssValueType.Custom, transform.Value.CssValueType);
@@ -376,9 +376,9 @@ namespace UnitTests
 			0 0 0 10px rgba(60, 61, 64, 0.6),
 			0 0 50px #3C3D40;");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var boxShadow = decl.List[0];
+            var boxShadow = decl.Get(0);
             Assert.AreEqual("box-shadow", boxShadow.Name);
             Assert.IsFalse(boxShadow.Important);
             Assert.AreEqual(CssValueType.ValueList, boxShadow.Value.CssValueType);
@@ -389,9 +389,9 @@ namespace UnitTests
         {
             var decl = CssParser.ParseDeclarations("display:block");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(decl.List.Count, 1);
+            Assert.AreEqual(1, decl.Length);
 
-            var display = decl.List[0];
+            var display = decl.Get(0);
             Assert.AreEqual("display", display.Name);
             Assert.IsFalse(display.Important);
             Assert.AreEqual(CssValueType.PrimitiveValue, display.Value.CssValueType);

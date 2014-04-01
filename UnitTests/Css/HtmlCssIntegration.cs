@@ -34,7 +34,7 @@ namespace UnitTests
             var style = css.CssRules[0] as CSSStyleRule;
             Assert.AreEqual("body", style.SelectorText);
             Assert.AreEqual(1, style.Style.Length);
-            var rule = style.Style.List[0];
+            var rule = style.Style.Get(0);
             Assert.IsTrue(rule.Important);
             Assert.AreEqual("background-color", rule.Name);
             Assert.AreEqual("green", rule.Value.CssText);
