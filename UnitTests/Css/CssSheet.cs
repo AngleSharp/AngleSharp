@@ -302,7 +302,7 @@ namespace UnitTests
             var content = decl.List[0];
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.Important);
-            Assert.AreEqual(CssValueType.Custom, content.Value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, content.Value.CssValueType);
         }
 
         [TestMethod]
