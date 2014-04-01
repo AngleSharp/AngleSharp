@@ -23,7 +23,7 @@
             _creator = new ValueConverter<QuotesMode>();
             _creator.AddStatic("none", new NoQuotesMode(), exclusive: true);
             _creator.AddConstructed<StandardQuotesMode>();
-            _creator.AddMultiple<MultiQuotesMode>();
+            _creator.AddEnumerable<MultiQuotesMode>(2);
         }
 
         public CSSQuotesProperty()

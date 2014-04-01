@@ -100,16 +100,16 @@
                 //case PropertyNames.ELEVATION:
                 case PropertyNames.EMPTY_CELLS:                  return new CSSEmptyCellsProperty { Rule = style };
                 case PropertyNames.FLOAT:                        return new CSSFloatProperty { Rule = style };
-                case PropertyNames.FONT_FAMILY:                  return style.Compound<CSSFontProperty>().FontFamily;
-                case PropertyNames.FONT_SIZE:                    return style.Compound<CSSFontProperty>().FontSize;
-                case PropertyNames.FONT_STYLE:                   return style.Compound<CSSFontProperty>().FontStyle;
-                case PropertyNames.FONT_VARIANT:                 return style.Compound<CSSFontProperty>().FontVariant;
-                case PropertyNames.FONT_WEIGHT:                  return style.Compound<CSSFontProperty>().FontWeight;
+                case PropertyNames.FONT_FAMILY:                  return new CSSFontProperty.Family { Rule = style };
+                case PropertyNames.FONT_SIZE:                    return new CSSFontProperty.Size { Rule = style };
+                case PropertyNames.FONT_STYLE:                   return new CSSFontProperty.Style { Rule = style };
+                case PropertyNames.FONT_VARIANT:                 return new CSSFontProperty.Variant { Rule = style };
+                case PropertyNames.FONT_WEIGHT:                  return new CSSFontProperty.Weight { Rule = style };
                 case PropertyNames.FONT:                         return new CSSFontProperty { Rule = style };
                 case PropertyNames.HEIGHT:                       return new CSSHeightProperty { Rule = style };
                 case PropertyNames.LEFT:                         return new CSSLeftProperty { Rule = style };
                 //case PropertyNames.LETTER_SPACING:
-                case PropertyNames.LINE_HEIGHT:                  return style.Compound<CSSFontProperty>().LineHeight;
+                case PropertyNames.LINE_HEIGHT:                  return new CSSFontProperty.LineHeight { Rule = style };
                 //case PropertyNames.LIST_STYLE_IMAGE:
                 //case PropertyNames.LIST_STYLE_POSITION:
                 //case PropertyNames.LIST_STYLE_TYPE:

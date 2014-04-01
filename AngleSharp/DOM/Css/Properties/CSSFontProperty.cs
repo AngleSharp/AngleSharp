@@ -7,16 +7,16 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font
     /// </summary>
-    sealed class CSSFontProperty : CSSCompoundProperty
+    sealed class CSSFontProperty : CSSProperty
     {
         #region Fields
 
-        CSSFontStyleProperty _style;
-        CSSFontVariantProperty _variant;
-        CSSFontWeightProperty _weight;
-        CSSFontSizeProperty _size;
-        CSSFontFamilyProperty _family;
-        CSSLineHeightProperty _height;
+        Style _style;
+        Variant _variant;
+        Weight _weight;
+        Size _size;
+        Family _family;
+        LineHeight _height;
 
         #endregion
 
@@ -25,65 +25,14 @@
         public CSSFontProperty()
             : base(PropertyNames.FONT)
         {
-            _style = new CSSFontStyleProperty();
-            _variant = new CSSFontVariantProperty();
-            _weight = new CSSFontWeightProperty();
-            _size = new CSSFontSizeProperty();
-            _family = new CSSFontFamilyProperty();
-            _height = new CSSLineHeightProperty();
+            //TODO: These will be only created IF they have been set.
+            //_style = new Style();
+            //_variant = new Variant();
+            //_weight = new Weight();
+            //_size = new Size();
+            //_family = new Family();
+            //_height = new LineHeight();
             _inherited = true;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the style of the font.
-        /// </summary>
-        public CSSProperty FontStyle
-        {
-            get { return _style; }
-        }
-
-        /// <summary>
-        /// Gets or sets the variant of the font.
-        /// </summary>
-        public CSSProperty FontVariant
-        {
-            get { return _variant; }
-        }
-
-        /// <summary>
-        /// Gets or sets the weight of the font.
-        /// </summary>
-        public CSSProperty FontWeight
-        {
-            get { return _weight; }
-        }
-
-        /// <summary>
-        /// Gets or sets the size of the font.
-        /// </summary>
-        public CSSProperty FontSize
-        {
-            get { return _size; }
-        }
-
-        /// <summary>
-        /// Gets or sets the family of the font.
-        /// </summary>
-        public CSSProperty FontFamily
-        {
-            get { return _family; }
-        }
-
-        /// <summary>
-        /// Gets or sets the height of the line.
-        /// </summary>
-        public CSSProperty LineHeight
-        {
-            get { return _height; }
         }
 
         #endregion
@@ -104,19 +53,19 @@
         /// Information:
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-style
         /// </summary>
-        sealed class CSSFontStyleProperty : CSSProperty
+        public sealed class Style : CSSProperty
         {
             static readonly Dictionary<String, FontStyle> _styles = new Dictionary<String, FontStyle>(StringComparer.OrdinalIgnoreCase);
             FontStyle _style;
 
-            static CSSFontStyleProperty()
+            static Style()
             {
                 _styles.Add("normal", FontStyle.Normal);
                 _styles.Add("italic", FontStyle.Italic);
                 _styles.Add("oblique", FontStyle.Oblique);
             }
 
-            public CSSFontStyleProperty()
+            public Style()
                 : base(PropertyNames.FONT_STYLE)
             {
                 _inherited = true;
@@ -147,18 +96,18 @@
         /// Information:
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant
         /// </summary>
-        sealed class CSSFontVariantProperty : CSSProperty
+        public sealed class Variant : CSSProperty
         {
             static readonly Dictionary<String, FontVariant> _styles = new Dictionary<String, FontVariant>(StringComparer.OrdinalIgnoreCase);
             FontVariant _style;
 
-            static CSSFontVariantProperty()
+            static Variant()
             {
                 _styles.Add("normal", FontVariant.Normal);
                 _styles.Add("small-caps", FontVariant.SmallCaps);
             }
 
-            public CSSFontVariantProperty()
+            public Variant()
                 : base(PropertyNames.FONT_VARIANT)
             {
                 _inherited = true;
@@ -188,13 +137,13 @@
         /// Information:
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
         /// </summary>
-        sealed class CSSFontWeightProperty : CSSProperty
+        public sealed class Weight : CSSProperty
         {
             static readonly ValueConverter<FontWeightMode> _weights = new ValueConverter<FontWeightMode>();
             static readonly NormalWeightMode _normal = new NormalWeightMode();
             FontWeightMode _weight;
 
-            static CSSFontWeightProperty()
+            static Weight()
             {
                 _weights.AddStatic("normal", _normal);
                 _weights.AddStatic("bold", new BoldWeightMode());
@@ -203,7 +152,7 @@
                 _weights.AddConstructed<NumberWeightMode>();
             }
 
-            public CSSFontWeightProperty()
+            public Weight()
                 : base(PropertyNames.FONT_WEIGHT)
             {
                 _weight = _normal;
@@ -254,13 +203,13 @@
         /// Information:
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
         /// </summary>
-        sealed class CSSFontSizeProperty : CSSProperty
+        public sealed class Size : CSSProperty
         {
             static readonly ValueConverter<FontSizeMode> _sizes = new ValueConverter<FontSizeMode>();
             static readonly AbsoluteFontSizeMode _medium = new AbsoluteFontSizeMode(AbsoluteSize.Medium);
             FontSizeMode _size;
 
-            static CSSFontSizeProperty()
+            static Size()
             {
                 _sizes.AddStatic("xx-small", new AbsoluteFontSizeMode(AbsoluteSize.Smallest));
                 _sizes.AddStatic("x-small", new AbsoluteFontSizeMode(AbsoluteSize.Smaller));
@@ -275,7 +224,7 @@
                 _sizes.AddConstructed<LengthFontSizeMode>();
             }
 
-            public CSSFontSizeProperty()
+            public Size()
                 : base(PropertyNames.FONT_SIZE)
             {
                 _size = _medium;
@@ -357,9 +306,9 @@
         /// Information:
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
         /// </summary>
-        sealed class CSSFontFamilyProperty : CSSProperty
+        public sealed class Family : CSSProperty
         {
-            public CSSFontFamilyProperty()
+            public Family()
                 : base(PropertyNames.FONT_FAMILY)
             {
                 //TODO
@@ -370,13 +319,13 @@
         /// Information:
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
         /// </summary>
-        sealed class CSSLineHeightProperty : CSSProperty
+        public sealed class LineHeight : CSSProperty
         {
             static readonly ValueConverter<LineHeightMode> _modes = new ValueConverter<LineHeightMode>();
             static readonly NormalLineHeightMode _normal = new NormalLineHeightMode();
             LineHeightMode _mode;
 
-            static CSSLineHeightProperty()
+            static LineHeight()
             {
                 _modes.AddStatic("normal", _normal);
                 _modes.AddConstructed<RelativeLineHeightMode>();
@@ -384,7 +333,7 @@
                 _modes.AddConstructed<MultipleLineHeightMode>();
             }
 
-            public CSSLineHeightProperty()
+            public LineHeight()
                 : base(PropertyNames.LINE_HEIGHT)
             {
                 _inherited = true;

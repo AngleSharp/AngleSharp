@@ -88,14 +88,29 @@
         /// all other possible results. The arguments have to be a list.
         /// </summary>
         /// <typeparam name="TType">The type of the result.</typeparam>
-        /// <param name="separator">The optional list separator.</param>
-        public void AddMultiple<TType>(CssValueListSeparator separator = CssValueListSeparator.Comma)
+        public void AddMultiple<TType>()
             where TType : T
         {
             var type = typeof(TType);
             var constructorInfo = type.GetDeclaredConstructor();
             var entry = new MultipleValueFactoryEntry(_calls, list => (TType)constructorInfo.Invoke(new Object[] { list }));
-            entry.Separator = separator;
+            _calls.Add(entry);
+        }
+
+        /// <summary>
+        /// Adds the possibility of constructing an object based on
+        /// all other possible results. The arguments have to be a list.
+        /// The key difference is that only chunks will be tested.
+        /// </summary>
+        /// <typeparam name="TType">The type of the result.</typeparam>
+        /// <param name="chunkSize">The optional chunk size to use.</param>
+        public void AddEnumerable<TType>(Int32 chunkSize = 1)
+            where TType : T
+        {
+            var type = typeof(TType);
+            var constructorInfo = type.GetDeclaredConstructor();
+            var entry = new EnumerableValueFactoryEntry(_calls, list => (TType)constructorInfo.Invoke(new Object[] { list }));
+            entry.ChunkSize = chunkSize;
             _calls.Add(entry);
         }
 
@@ -243,20 +258,13 @@
             {
                 _source = source;
                 _constructor = constructor;
-                Separator = CssValueListSeparator.Comma;
-            }
-
-            public CssValueListSeparator Separator
-            {
-                get;
-                set;
             }
             
             public override T Create(CSSValue argument)
             {
                 var arguments = argument as CSSValueList;
 
-                if (arguments != null && arguments.Separator == Separator)
+                if (arguments != null && arguments.Separator == CssValueListSeparator.Comma)
                 {
                     var parameters = new List<T>();
 
@@ -280,6 +288,92 @@
                     if (parameters.Count != arguments.Length)
                         return null;
 
+                    return _constructor(parameters);
+                }
+
+                return null;
+            }
+        }
+
+        sealed class EnumerableValueFactoryEntry : ValueFactoryEntry
+        {
+            List<ValueFactoryEntry> _source;
+            Func<List<T>, T> _constructor;
+
+            public EnumerableValueFactoryEntry(List<ValueFactoryEntry> source, Func<List<T>, T> constructor)
+            {
+                _source = source;
+                _constructor = constructor;
+            }
+
+            public Int32 ChunkSize
+            {
+                get;
+                set;
+            }
+
+            public override T Create(CSSValue argument)
+            {
+                if (ChunkSize < 1)
+                    return null;
+
+                var arguments = argument as CSSValueList;
+
+                if (arguments != null && arguments.Separator == CssValueListSeparator.Space && arguments.Length % ChunkSize == 0)
+                {
+                    var parameters = new List<T>();
+
+                    if (ChunkSize > 1)
+                    {
+                        var testList = new CSSValueList();
+
+                        for (var j = 0; j < arguments.Length; j += ChunkSize)
+                        {
+                            for (var i = 0; i < ChunkSize; i++)
+                                testList.List.Add(arguments[i]);
+
+                            for (var i = 0; i < _source.Count; i++)
+                            {
+                                if (_source[i] == this || _source[i].IsExclusive)
+                                    continue;
+
+                                var result = _source[i].Create(testList);
+
+                                if (result != null)
+                                {
+                                    parameters.Add(result);
+                                    testList.List.Clear();
+                                    break;
+                                }
+                            }
+
+                            if (testList.Length != 0)
+                                return null;
+                        }
+                    }
+                    else
+                    {
+                        for (var j = 0; j < arguments.Length; j++)
+                        {
+                            for (var i = 0; i < _source.Count; i++)
+                            {
+                                if (_source[i] == this || _source[i].IsExclusive)
+                                    continue;
+
+                                var result = _source[i].Create(arguments[j]);
+
+                                if (result != null)
+                                {
+                                    parameters.Add(result);
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (parameters.Count != arguments.Length)
+                            return null;
+                    }
+                    
                     return _constructor(parameters);
                 }
 

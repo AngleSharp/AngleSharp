@@ -2556,35 +2556,6 @@
         #region Internal Methods
 
         /// <summary>
-        /// Gets the the existing compound property or creates the compound
-        /// type in order to return it.
-        /// </summary>
-        /// <typeparam name="TProperty">The property compound type.</typeparam>
-        /// <returns>The compound property.</returns>
-        internal TProperty Compound<TProperty>()
-            where TProperty : CSSCompoundProperty, new()
-        {
-            TProperty property = null;
-
-            foreach (var rule in _rules)
-            {
-                if (rule.Value is TProperty)
-                {
-                    property = (TProperty)rule.Value;
-                    break;
-                }
-            }
-
-            if (property == null)
-            {
-                property = new TProperty { Rule = this };
-                Set(property);
-            }
-
-            return property;
-        }
-
-        /// <summary>
         /// Gets the given CSS property.
         /// </summary>
         /// <param name="index">The index of the property to get.</param>

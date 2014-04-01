@@ -32,7 +32,7 @@
             _creator.AddConstructed<UrlContentMode>();
             _creator.AddConstructed<AttributeContentMode>();
             _creator.AddConstructed<CounterContentMode>();
-            _creator.AddMultiple<MultiContentMode>(CssValueListSeparator.Space);
+            _creator.AddEnumerable<MultiContentMode>();
         }
 
         public CSSContentProperty()

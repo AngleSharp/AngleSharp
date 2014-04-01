@@ -235,9 +235,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSColorProperty.cs">
       <Link>DOM\Css\Properties\CSSColorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSCompoundProperty.cs">
-      <Link>DOM\Css\Properties\CSSCompoundProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSContentProperty.cs">
       <Link>DOM\Css\Properties\CSSContentProperty.cs</Link>
     </Compile>
