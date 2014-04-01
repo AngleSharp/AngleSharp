@@ -235,6 +235,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSColorProperty.cs">
       <Link>DOM\Css\Properties\CSSColorProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSCompoundProperty.cs">
+      <Link>DOM\Css\Properties\CSSCompoundProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSContentProperty.cs">
       <Link>DOM\Css\Properties\CSSContentProperty.cs</Link>
     </Compile>
@@ -255,6 +258,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSFloatProperty.cs">
       <Link>DOM\Css\Properties\CSSFloatProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSFontProperty.cs">
+      <Link>DOM\Css\Properties\CSSFontProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSHeightProperty.cs">
       <Link>DOM\Css\Properties\CSSHeightProperty.cs</Link>
