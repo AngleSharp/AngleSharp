@@ -1008,5 +1008,227 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
+
+        [TestMethod]
+        public void CssOrphansZeroLegal()
+        {
+            var snippet = "orphans : 0 ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("orphans", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSOrphansProperty));
+            var concrete = (CSSOrphansProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("0", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssOrphansTwoLegal()
+        {
+            var snippet = "orphans : 2 ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("orphans", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSOrphansProperty));
+            var concrete = (CSSOrphansProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("2", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssOrphansNegativeIllegal()
+        {
+            var snippet = "orphans : -2 ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("orphans", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSOrphansProperty));
+            var concrete = (CSSOrphansProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssOrphansFloatingLegal()
+        {
+            var snippet = "orphans : 1.5 ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("orphans", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSOrphansProperty));
+            var concrete = (CSSOrphansProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("1.5", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssContentNormalLegal()
+        {
+            var snippet = "content : normal ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("content", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSContentProperty));
+            var concrete = (CSSContentProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("normal", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssContentNoneLegalUppercaseN()
+        {
+            var snippet = "content : noNe ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("content", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSContentProperty));
+            var concrete = (CSSContentProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("noNe", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssContentStringLegal()
+        {
+            var snippet = "content : 'hi' ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("content", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSContentProperty));
+            var concrete = (CSSContentProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("'hi'", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssContentNoOpenQuoteNoCloseQuoteLegal()
+        {
+            var snippet = "content : no-open-quote no-close-quote ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("content", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSContentProperty));
+            var concrete = (CSSContentProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("no-open-quote no-close-quote", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssContentUrlLegal()
+        {
+            var snippet = "content : url(test.html) ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("content", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSContentProperty));
+            var concrete = (CSSContentProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('test.html')", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssContentStringsLegal()
+        {
+            var snippet = "content : 'how' 'are' 'you' ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("content", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSContentProperty));
+            var concrete = (CSSContentProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("'how' 'are' 'you'", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssQuoteStringIllegal()
+        {
+            var snippet = "quotes : '\"' ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("quotes", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSQuotesProperty));
+            var concrete = (CSSQuotesProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssQuoteStringsLegal()
+        {
+            var snippet = "quotes : '\"' '\"' ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("quotes", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSQuotesProperty));
+            var concrete = (CSSQuotesProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("'\"' '\"'", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssQuoteStringsMultipleLegal()
+        {
+            var snippet = "quotes : '\"' '\"' '`' '´' ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("quotes", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSQuotesProperty));
+            var concrete = (CSSQuotesProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("'\"' '\"' '`' '´'", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssQuoteNoneLegal()
+        {
+            var snippet = "quotes : none";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("quotes", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSQuotesProperty));
+            var concrete = (CSSQuotesProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("none", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssQuoteNormalIllegal()
+        {
+            var snippet = "quotes : normal ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("quotes", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSQuotesProperty));
+            var concrete = (CSSQuotesProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
     }
 }
