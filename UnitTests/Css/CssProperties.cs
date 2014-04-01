@@ -919,5 +919,94 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("url('foo.png'), url('master.png'), url('more.png')", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssColorHexLegal()
+        {
+            var snippet = "color : #123456";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("color", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColorProperty));
+            var concrete = (CSSColorProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("rgba(18, 52, 86, 1)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColorRgbLegal()
+        {
+            var snippet = "color : rgb(121, 181, 201)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("color", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColorProperty));
+            var concrete = (CSSColorProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("rgba(121, 181, 201, 1)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColorRgbaLegal()
+        {
+            var snippet = "color : rgba(255, 255, 201, 0.7)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("color", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColorProperty));
+            var concrete = (CSSColorProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("rgba(255, 255, 201, 0.7)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColorNameLegal()
+        {
+            var snippet = "color : red";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("color", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColorProperty));
+            var concrete = (CSSColorProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("red", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColorNameUppercaseLegal()
+        {
+            var snippet = "color : BLUE";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("color", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColorProperty));
+            var concrete = (CSSColorProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("BLUE", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColorNameIllegal()
+        {
+            var snippet = "color : horse";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("color", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColorProperty));
+            var concrete = (CSSColorProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
     }
 }

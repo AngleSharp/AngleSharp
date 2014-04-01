@@ -64,6 +64,7 @@ namespace UnitTests
         {
             var color = "red";
             var result = Color.FromName(color);
+            Assert.IsTrue(result.HasValue);
             Assert.AreEqual(Color.Red, result);
         }
 
@@ -72,6 +73,7 @@ namespace UnitTests
         {
             var color = "white";
             var result = Color.FromName(color);
+            Assert.IsTrue(result.HasValue);
             Assert.AreEqual(Color.White, result);
         }
 
@@ -80,7 +82,7 @@ namespace UnitTests
         {
             var color = "bla";
             var result = Color.FromName(color);
-            Assert.AreEqual(Color.Transparent, result);
+            Assert.IsFalse(result.HasValue);
         }
 
         [TestMethod]
