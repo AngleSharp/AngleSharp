@@ -51,5 +51,40 @@
         /// The attr function.
         /// </summary>
         public static readonly String Attr = "attr";
+
+        /// <summary>
+        /// The counter function.
+        /// </summary>
+        public static readonly String Counter = "counter";
+
+        /// <summary>
+        /// The counters function.
+        /// </summary>
+        public static readonly String Counters = "counters";
+
+        /// <summary>
+        /// The calc function.
+        /// </summary>
+        public static readonly String Calc = "calc";
+
+        /// <summary>
+        /// The toggle function.
+        /// </summary>
+        public static readonly String Toggle = "toggle";
+
+        /// <summary>
+        /// The rotate function.
+        /// </summary>
+        public static readonly String Rotate = "rotate";
+
+        /// <summary>
+        /// The transform function.
+        /// </summary>
+        public static readonly String Transform = "transform";
+
+        /// <summary>
+        /// The skew function.
+        /// </summary>
+        public static readonly String Skew = "skew";
     }
 }

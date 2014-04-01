@@ -22,7 +22,7 @@
         static CSSBoxShadowProperty()
         {
             _creator = new ValueConverter<BoxShadowMode>();
-            _creator.AddStatic("none", _none);
+            _creator.AddStatic("none", _none, exclusive: true);
             _creator.AddConstructed<NormalBoxShadowMode>();
             _creator.AddConstructed<InsetBoxShadowMode>("inset");
             _creator.AddMultiple<MultiBoxShadowMode>();
@@ -60,60 +60,53 @@
             //TODO Add members that make sense
         }
 
-        class NoneBoxShadowMode : BoxShadowMode
+        sealed class NoneBoxShadowMode : BoxShadowMode
         {
         }
 
-        class InsetBoxShadowMode : BoxShadowMode
+        sealed class InsetBoxShadowMode : BoxShadowMode
         {
-            Length offsetX;
-            Length offsetY;
-            Length blurRadius;
-            Length spreadRadius;
-            Color color;
+            Length _offsetX;
+            Length _offsetY;
+            Length _blurRadius;
+            Length _spreadRadius;
+            Color _color;
 
             public InsetBoxShadowMode(Length offsetX, Length offsetY, Length? blurRadius = null, Length? spreadRadius = null, Color? color = null)
             {
-                this.offsetX = offsetX;
-                this.offsetY = offsetY;
-                this.blurRadius = blurRadius ?? Length.Zero;
-                this.spreadRadius = spreadRadius ?? Length.Zero;
-                this.color = color ?? Color.Black;
+                _offsetX = offsetX;
+                _offsetY = offsetY;
+                _blurRadius = blurRadius ?? Length.Zero;
+                _spreadRadius = spreadRadius ?? Length.Zero;
+                _color = color ?? Color.Black;
             }
         }
 
-        class NormalBoxShadowMode : BoxShadowMode
+        sealed class NormalBoxShadowMode : BoxShadowMode
         {
-            Length offsetX;
-            Length offsetY;
-            Length blurRadius;
-            Length spreadRadius;
-            Color color;
+            Length _offsetX;
+            Length _offsetY;
+            Length _blurRadius;
+            Length _spreadRadius;
+            Color _color;
 
             public NormalBoxShadowMode(Length offsetX, Length offsetY, Length? blurRadius = null, Length? spreadRadius = null, Color? color = null)
             {
-                this.offsetX = offsetX;
-                this.offsetY = offsetY;
-                this.blurRadius = blurRadius ?? Length.Zero;
-                this.spreadRadius = spreadRadius ?? Length.Zero;
-                this.color = color ?? Color.Black;
+                _offsetX = offsetX;
+                _offsetY = offsetY;
+                _blurRadius = blurRadius ?? Length.Zero;
+                _spreadRadius = spreadRadius ?? Length.Zero;
+                _color = color ?? Color.Black;
             }
         }
 
-        class MultiBoxShadowMode : BoxShadowMode
+        sealed class MultiBoxShadowMode : BoxShadowMode
         {
-            BoxShadowMode top;
-            BoxShadowMode right;
-            BoxShadowMode bottom;
-            BoxShadowMode left;
+            List<BoxShadowMode> _shadows;
 
-            public MultiBoxShadowMode(List<BoxShadowMode> modes)
+            public MultiBoxShadowMode(List<BoxShadowMode> shadows)
             {
-                var count = modes.Count;
-                top = modes[0];
-                right = modes[1 % count];
-                bottom = modes[2 % count];
-                left = modes[3 % count];
+                _shadows = shadows;
             }
 
         }

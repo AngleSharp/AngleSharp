@@ -65,19 +65,19 @@
             //TODO Add members that make sense
         }
 
-        class VisibleOverflowMode : OverflowMode
+        sealed class VisibleOverflowMode : OverflowMode
         {
         }
 
-        class HiddenOverflowMode : OverflowMode
+        sealed class HiddenOverflowMode : OverflowMode
         {
         }
 
-        class ScrollOverflowMode : OverflowMode
+        sealed class ScrollOverflowMode : OverflowMode
         {
         }
 
-        class AutoOverflowMode : OverflowMode
+        sealed class AutoOverflowMode : OverflowMode
         {
         }
 

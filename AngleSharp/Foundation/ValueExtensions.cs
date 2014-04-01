@@ -16,6 +16,14 @@
             return null;
         }
 
+        public static String ToContent(this CSSValue value)
+        {
+            if (value is CSSStringValue)
+                return ((CSSStringValue)value).Value;
+
+            return null;
+        }
+
         public static Single? ToNumber(this CSSValue value)
         {
             if (value is CSSNumberValue)

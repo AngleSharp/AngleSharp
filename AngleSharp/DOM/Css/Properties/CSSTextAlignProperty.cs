@@ -65,19 +65,19 @@
             //TODO Add members that make sense
         }
 
-        class LeftTextAlignMode : TextAlignMode
+        sealed class LeftTextAlignMode : TextAlignMode
         {
         }
 
-        class RightTextAlignMode : TextAlignMode
+        sealed class RightTextAlignMode : TextAlignMode
         {
         }
 
-        class CenterTextAlignMode : TextAlignMode
+        sealed class CenterTextAlignMode : TextAlignMode
         {
         }
 
-        class JustifyTextAlignMode : TextAlignMode
+        sealed class JustifyTextAlignMode : TextAlignMode
         {
         }
 

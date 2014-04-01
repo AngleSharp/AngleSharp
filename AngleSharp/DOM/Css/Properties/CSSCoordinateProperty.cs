@@ -53,11 +53,11 @@
             //TODO Add members that make sense
         }
 
-        class AutoCoordinateMode : CoordinateMode
+        sealed class AutoCoordinateMode : CoordinateMode
         {
         }
 
-        class RelativeCoordinateMode : CoordinateMode
+        sealed class RelativeCoordinateMode : CoordinateMode
         {
             Single _value;
 
@@ -67,7 +67,7 @@
             }
         }
 
-        class AbsoluteCoordinateMode : CoordinateMode
+        sealed class AbsoluteCoordinateMode : CoordinateMode
         {
             Length _value;
 

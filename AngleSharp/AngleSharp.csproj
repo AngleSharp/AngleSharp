@@ -47,6 +47,7 @@
     <Compile Include="DOM\Css\Properties\CSSBreakProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakAfterProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSColorProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSContentProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSCursorProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSClipProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSUnicodeBidiProperty.cs" />

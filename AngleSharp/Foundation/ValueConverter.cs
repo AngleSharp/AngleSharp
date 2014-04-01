@@ -25,6 +25,12 @@
 
         #region Methods
 
+        /// <summary>
+        /// Tries to create an instance of T with the given value.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <param name="mode">The mode to create.</param>
+        /// <returns>True if a mode could be created, otherwise false.</returns>
         public Boolean TryCreate(CSSValue value, out T mode)
         {
             foreach (var call in _calls)
@@ -45,9 +51,12 @@
         /// </summary>
         /// <param name="trigger">The identifier to search.</param>
         /// <param name="instance">The instance to keep.</param>
-        public void AddStatic(String trigger, T instance)
+        /// <param name="exclusive">Optional: Shall this element be exclusive (can only appear single).</param>
+        public void AddStatic(String trigger, T instance, Boolean exclusive = false)
         {
-            _calls.Add(new StaticValueFactoryEntry(trigger, instance));
+            var entry = new StaticValueFactoryEntry(trigger, instance);
+            entry.IsExclusive = exclusive;
+            _calls.Add(entry);
         }
 
         /// <summary>
@@ -79,12 +88,14 @@
         /// all other possible results. The arguments have to be a list.
         /// </summary>
         /// <typeparam name="TType">The type of the result.</typeparam>
-        public void AddMultiple<TType>()
+        /// <param name="separator">The optional list separator.</param>
+        public void AddMultiple<TType>(CssValueListSeparator separator = CssValueListSeparator.Comma)
             where TType : T
         {
             var type = typeof(TType);
             var constructorInfo = type.GetDeclaredConstructor();
             var entry = new MultipleValueFactoryEntry(_calls, list => (TType)constructorInfo.Invoke(new Object[] { list }));
+            entry.Separator = separator;
             _calls.Add(entry);
         }
 
@@ -94,6 +105,12 @@
 
         abstract class ValueFactoryEntry
         {
+            public Boolean IsExclusive
+            {
+                get;
+                set;
+            }
+
             public abstract T Create(CSSValue argument);
         }
 
@@ -154,6 +171,10 @@
                     _validators.Add(value => Validate(value.ToNumber()));
                 else if (type == typeof(Uri))
                     _validators.Add(value => value.ToUri());
+                else if (type == typeof(String))
+                    _validators.Add(value => value.ToContent());
+                else
+                    _validators.Add(value => value.GetType() == type ? value : null);
             }
             
             public override T Create(CSSValue argument)
@@ -222,13 +243,20 @@
             {
                 _source = source;
                 _constructor = constructor;
+                Separator = CssValueListSeparator.Comma;
+            }
+
+            public CssValueListSeparator Separator
+            {
+                get;
+                set;
             }
             
             public override T Create(CSSValue argument)
             {
                 var arguments = argument as CSSValueList;
 
-                if (arguments != null && arguments.Separator == CssValueListSeparator.Comma)
+                if (arguments != null && arguments.Separator == Separator)
                 {
                     var parameters = new List<T>();
 
@@ -236,7 +264,7 @@
                     {
                         for (int i = 0; i < _source.Count; i++)
                         {
-                            if (_source[i] == this)
+                            if (_source[i] == this || _source[i].IsExclusive)
                                 continue;
 
                             var result = _source[i].Create(arg);

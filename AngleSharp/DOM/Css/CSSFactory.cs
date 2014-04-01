@@ -87,7 +87,7 @@
                 case PropertyNames.CLEAR:                        return new CSSClearProperty();
                 case PropertyNames.CLIP:                         return new CSSClipProperty();
                 case PropertyNames.COLOR:                        return new CSSColorProperty();
-                //case PropertyNames.CONTENT:
+                case PropertyNames.CONTENT:                      return new CSSContentProperty();
                 //case PropertyNames.COUNTER_INCREMENT:
                 //case PropertyNames.COUNTER_RESET:
                 //case PropertyNames.CUE_AFTER:
