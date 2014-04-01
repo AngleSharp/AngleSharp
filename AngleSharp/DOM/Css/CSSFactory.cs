@@ -86,7 +86,7 @@
                 case PropertyNames.CAPTION_SIDE:                 return new CSSCaptionSideProperty();
                 case PropertyNames.CLEAR:                        return new CSSClearProperty();
                 case PropertyNames.CLIP:                         return new CSSClipProperty();
-                //case PropertyNames.COLOR:
+                case PropertyNames.COLOR:                        return new CSSColorProperty();
                 //case PropertyNames.CONTENT:
                 //case PropertyNames.COUNTER_INCREMENT:
                 //case PropertyNames.COUNTER_RESET:

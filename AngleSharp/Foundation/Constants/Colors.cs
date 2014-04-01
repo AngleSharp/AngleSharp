@@ -12,7 +12,7 @@
     /// </summary>
     static class Colors
     {
-        #region Members
+        #region Fields
 
         static Dictionary<String, Color> _colors;
 
@@ -182,12 +182,14 @@
         /// </summary>
         /// <param name="name">The name of the color</param>
         /// <returns>The color or transparent if no color was found.</returns>
-        public static Color FromName(String name)
+        public static Color? FromName(String name)
         {
-            if (_colors.ContainsKey(name))
-                return _colors[name];
+            Color color;
 
-            return Color.Transparent;
+            if (_colors.TryGetValue(name.ToLower(), out color))
+                return color;
+
+            return null;
         }
 
         /// <summary>

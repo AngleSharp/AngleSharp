@@ -46,6 +46,7 @@
     <Compile Include="DOM\Css\Properties\CSSBreakInsideProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBreakAfterProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSColorProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSCursorProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSClipProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSUnicodeBidiProperty.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Foundation\Length.cs" />
     <Compile Include="Foundation\NodeExtensions.cs" />
     <Compile Include="Foundation\ValueConverter.cs" />
+    <Compile Include="Foundation\ValueExtensions.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
     <Compile Include="DocumentBuilder.cs" />

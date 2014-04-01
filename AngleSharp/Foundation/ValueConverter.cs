@@ -147,13 +147,13 @@
             public void Consider(Type type)
             {
                 if (type == typeof(Length) || type == typeof(Length?))
-                    _validators.Add(value => Validate(ToLength(value)));
+                    _validators.Add(value => Validate(value.ToLength()));
                 else if (type == typeof(Color) || type == typeof(Color?))
-                    _validators.Add(value => Validate(ToColor(value)));
+                    _validators.Add(value => Validate(value.ToColor()));
                 else if (type == typeof(Single) || type == typeof(Single?))
-                    _validators.Add(value => Validate(ToNumber(value)));
+                    _validators.Add(value => Validate(value.ToNumber()));
                 else if (type == typeof(Uri))
-                    _validators.Add(value => ToUri(value));
+                    _validators.Add(value => value.ToUri());
             }
             
             public override T Create(CSSValue argument)
@@ -210,40 +210,6 @@
                 where TTarget : struct
             {
                 return result.HasValue ? (Object)result.Value : null;
-            }
-
-            static Uri ToUri(CSSValue value)
-            {
-                if (value is CSSUriValue)
-                    return ((CSSUriValue)value).Uri;
-
-                return null;
-            }
-
-            static Single? ToNumber(CSSValue value)
-            {
-                if (value is CSSNumberValue)
-                    return ((CSSNumberValue)value).Value;
-
-                return null;
-            }
-
-            static Length? ToLength(CSSValue value)
-            {
-                if (value is CSSLengthValue)
-                    return ((CSSLengthValue)value).Length;
-                else if (value == CSSNumberValue.Zero)
-                    return Length.Zero;
-
-                return null;
-            }
-
-            static Color? ToColor(CSSValue value)
-            {
-                if (value is CSSColorValue)
-                    return ((CSSColorValue)value).Color;
-
-                return null;
             }
         }
 

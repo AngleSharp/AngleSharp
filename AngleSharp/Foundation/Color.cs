@@ -136,7 +136,7 @@
         /// </summary>
         /// <param name="name">The name of the color.</param>
         /// <returns>The CSS color value.</returns>
-        public static Color FromName(String name)
+        public static Color? FromName(String name)
         {
             return Colors.FromName(name);
         }
@@ -354,7 +354,7 @@
         /// <returns>The RGBA string.</returns>
         public override String ToString()
         {
-            return String.Concat("rgba(", red.ToString(), ", ", green.ToString(), ", ", blue.ToString(), ", ", Alpha.ToString(CultureInfo.InvariantCulture), ")");
+            return String.Concat("rgba(", red.ToString(), ", ", green.ToString(), ", ", blue.ToString(), ", ", Alpha.ToString("0.##", CultureInfo.InvariantCulture), ")");
         }
 
         #endregion
