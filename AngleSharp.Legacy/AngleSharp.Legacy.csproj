@@ -265,11 +265,17 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSOpacityProperty.cs">
       <Link>DOM\Css\Properties\CSSOpacityProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSOrphansProperty.cs">
+      <Link>DOM\Css\Properties\CSSOrphansProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSOverflowProperty.cs">
       <Link>DOM\Css\Properties\CSSOverflowProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSPositionProperty.cs">
       <Link>DOM\Css\Properties\CSSPositionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSQuotesProperty.cs">
+      <Link>DOM\Css\Properties\CSSQuotesProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSRightProperty .cs">
       <Link>DOM\Css\Properties\CSSRightProperty .cs</Link>
