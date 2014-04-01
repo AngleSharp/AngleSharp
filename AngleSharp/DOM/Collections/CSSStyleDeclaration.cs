@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Collections
 {
     using AngleSharp.DOM.Css;
+    using AngleSharp.DOM.Css.Properties;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections;
@@ -14,7 +15,7 @@
     {
         #region Fields
 
-        List<CSSProperty> _rules;
+        Dictionary<String, CSSProperty> _rules;
         CSSRule _parent;
         Func<String> _getter;
         Action<String> _setter;
@@ -33,7 +34,7 @@
             var text = String.Empty;
             _getter = () => text;
             _setter = value => text = value;
-            _rules = new List<CSSProperty>();
+            _rules = new Dictionary<String, CSSProperty>(StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -45,7 +46,7 @@
         {
             _getter = () => (host.OwnerDocument == null || host.OwnerDocument.Options.IsStyling) ? host.GetAttribute(AttributeNames.Style) : String.Empty;
             _setter = value => host.SetAttribute(AttributeNames.Style, value);
-            _rules = new List<CSSProperty>();
+            _rules = new Dictionary<String, CSSProperty>(StringComparer.OrdinalIgnoreCase);
         }
 
         #endregion
@@ -93,7 +94,7 @@
         [DOM("item")]
         public String this[Int32 index]
         {
-            get { return index >= 0 && index < Length ? _rules[index].Name : null; }
+            get { return Get(index).Name; }
         }
 
         #endregion
@@ -2486,12 +2487,13 @@
         [DOM("removeProperty")]
         public String RemoveProperty(String propertyName)
         {
-            var value = RemovePropertyFromList(_rules, propertyName);
+            CSSProperty property;
 
-            if (value != null)
+            if (_rules.TryGetValue(propertyName, out property))
             {
+                _rules.Remove(propertyName);
                 Propagate();
-                return value.CssText;
+                return property.Value.CssText;
             }
 
             return null;
@@ -2505,11 +2507,10 @@
         [DOM("getPropertyPriority")]
         public String GetPropertyPriority(String propertyName)
         {
-            for (int i = 0; i < _rules.Count; i++)
-            {
-                if (_rules[i].Name.Equals(propertyName))
-                    return _rules[i].Important ? "important" : null;
-            }
+            CSSProperty property;
+
+            if (_rules.TryGetValue(propertyName, out property) && property.Important)
+                return "important";
 
             return null;
         }
@@ -2522,11 +2523,10 @@
         [DOM("getPropertyValue")]
         public String GetPropertyValue(String propertyName)
         {
-            for (int i = 0; i < _rules.Count; i++)
-            {
-                if (_rules[i].Name.Equals(propertyName))
-                    return _rules[i].Value.CssText;
-            }
+            CSSProperty property;
+
+            if (_rules.TryGetValue(propertyName, out property))
+                return property.Value.CssText;
 
             return null;
         }
@@ -2544,8 +2544,7 @@
 
             if (decl != null)
             {
-                RemovePropertyFromList(_rules, propertyName);
-                _rules.Add(decl);
+                _rules[propertyName] = decl;
                 Propagate();
             }
 
@@ -2554,19 +2553,63 @@
 
         #endregion
 
-        #region Internal Properties
+        #region Internal Methods
 
         /// <summary>
-        /// Gets the list of CSS declarations.
+        /// Gets the the existing compound property or creates the compound
+        /// type in order to return it.
         /// </summary>
-        internal List<CSSProperty> List
+        /// <typeparam name="TProperty">The property compound type.</typeparam>
+        /// <returns>The compound property.</returns>
+        internal TProperty Compound<TProperty>()
+            where TProperty : CSSCompoundProperty, new()
         {
-            get { return _rules; }
+            TProperty property = null;
+
+            foreach (var rule in _rules)
+            {
+                if (rule.Value is TProperty)
+                {
+                    property = (TProperty)rule.Value;
+                    break;
+                }
+            }
+
+            if (property == null)
+            {
+                property = new TProperty { Rule = this };
+                Set(property);
+            }
+
+            return property;
         }
 
-        #endregion
+        /// <summary>
+        /// Gets the given CSS property.
+        /// </summary>
+        /// <param name="index">The index of the property to get.</param>
+        /// <returns>The property at the specified position.</returns>
+        internal CSSProperty Get(Int32 index)
+        {
+            var i = 0;
 
-        #region Internal Methods
+            foreach (var rule in _rules)
+            {
+                if (i++ == index)
+                    return rule.Value;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Sets the given CSS property.
+        /// </summary>
+        /// <param name="property">The property to set.</param>
+        internal void Set(CSSProperty property)
+        {
+            _rules[property.Name] = property;
+        }
 
         /// <summary>
         /// Updates the CSSStyleDeclaration with the given value.
@@ -2584,21 +2627,6 @@
         #endregion
 
         #region Helpers
-
-        static CSSValue RemovePropertyFromList(List<CSSProperty> rules, String propertyName)
-        {
-            for (int i = 0; i < rules.Count; i++)
-            {
-                if (rules[i].Name.Equals(propertyName))
-                {
-                    var value = rules[i].Value;
-                    rules.RemoveAt(i);
-                    return value;
-                }
-            }
-
-            return null;
-        }
 
         void Propagate()
         {
@@ -2619,8 +2647,8 @@
         {
             var sb = Pool.NewStringBuilder();
 
-            for (int i = 0; i < _rules.Count; i++)
-                sb.Append(_rules[i].ToCss()).Append(Specification.SC);
+            foreach (var rule in _rules)
+                sb.Append(rule.Value.ToCss()).Append(Specification.SC);
 
             return sb.ToPool();
         }
@@ -2635,7 +2663,7 @@
         /// <returns>The iterator.</returns>
         public IEnumerator<CSSProperty> GetEnumerator()
         {
-            return _rules.GetEnumerator();
+            return _rules.Values.GetEnumerator();
         }
 
         /// <summary>
@@ -2644,7 +2672,7 @@
         /// <returns>The iterator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)_rules).GetEnumerator();
+            return GetEnumerator();
         }
 
         #endregion

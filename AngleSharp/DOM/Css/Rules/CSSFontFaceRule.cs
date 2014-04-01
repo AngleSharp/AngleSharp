@@ -1,15 +1,15 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+
     /// <summary>
     /// Represents the @font-face rule.
     /// </summary>
     [DOM("CSSFontFaceRule")]
 	public sealed class CSSFontFaceRule : CSSRule, IStyleDeclaration
     {
-        #region Members
+        #region Fields
 
         CSSStyleDeclaration _cssRules;
 
@@ -37,7 +37,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>The current font-face rule.</returns>
         internal CSSFontFaceRule AppendRule(CSSProperty rule)
         {
-            _cssRules.List.Add(rule);
+            _cssRules.Set(rule);
             return this;
         }
 

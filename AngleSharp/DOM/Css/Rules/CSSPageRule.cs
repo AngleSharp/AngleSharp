@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Parser.Css;
     using AngleSharp.DOM.Collections;
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -40,7 +40,7 @@
         /// <returns>The current font-face rule.</returns>
         internal CSSPageRule AppendRule(CSSProperty rule)
         {
-            _style.List.Add(rule);
+            _style.Set(rule);
             return this;
         }
 

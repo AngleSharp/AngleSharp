@@ -355,7 +355,7 @@
 			}
 			else if (token.Type == CssTokenType.Ident)
 			{
-				AddDeclaration(CSSFactory.Create(((CssKeywordToken)token).Data));
+                AddDeclaration(((CssKeywordToken)token).Data);
 				SwitchTo(CssState.AfterProperty);
 				return true;
 			}
@@ -1080,14 +1080,16 @@
 		/// <summary>
 		/// Adds a declaration.
 		/// </summary>
-		/// <param name="property">The new property.</param>
-		void AddDeclaration(CSSProperty property)
+		/// <param name="propertyName">The name of the new property.</param>
+		void AddDeclaration(String propertyName)
 		{
-			this.property = property;
 			var rule = CurrentRule as IStyleDeclaration;
 
-			if (rule != null)
-				rule.Style.List.Add(property);
+            if (rule != null)
+            {
+                this.property = CSSFactory.Create(propertyName, rule.Style);
+                rule.Style.Set(property);
+            }
 		}
 
 		#endregion
@@ -1372,7 +1374,7 @@
 			parser.state = CssState.InDeclaration;
             parser.skipExceptions = false;
 			parser.Parse();
-            return rule.Style.List.Count != 0 ? rule.Style.List[0] : null;
+            return rule.Style.Length != 0 ? rule.Style.Get(0) : null;
         }
 
         /// <summary>

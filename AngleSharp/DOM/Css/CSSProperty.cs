@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.DOM.Collections;
     using System;
 
     /// <summary>
@@ -15,6 +16,7 @@
         readonly String _name;
         CSSValue _value;
         Boolean _important;
+        CSSStyleDeclaration _rule;
 
         #endregion
 
@@ -32,6 +34,15 @@
         #endregion
 
         #region Internal Properties
+
+        /// <summary>
+        /// Gets or sets the assigned rule.
+        /// </summary>
+        internal CSSStyleDeclaration Rule
+        {
+            get { return _rule; }
+            set { _rule = value; }
+        }
 
         /// <summary>
         /// Gets if the property has a value.

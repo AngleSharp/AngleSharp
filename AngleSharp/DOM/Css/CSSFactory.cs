@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css.Properties;
     using System;
 
@@ -10,7 +11,7 @@
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <returns>The created property</returns>
-        public static CSSProperty Create(String name)
+        public static CSSProperty Create(String name, CSSStyleDeclaration style)
         {
             switch (name.ToLower())
             {
@@ -38,12 +39,12 @@
                 //case PropertyNames.BORDER_COLLAPSE:
                 //case PropertyNames.BORDER_STYLE:
                 //case PropertyNames.BORDER_RADIUS:
-                case PropertyNames.BOX_SHADOW:                   return new CSSBoxShadowProperty();
-                case PropertyNames.BOX_DECORATION_BREAK:         return new CSSBoxDecorationBreak();
-                case PropertyNames.BREAK_AFTER:                  return new CSSBreakAfterProperty();
-                case PropertyNames.BREAK_BEFORE:                 return new CSSBreakBeforeProperty();
-                case PropertyNames.BREAK_INSIDE:                 return new CSSBreakInsideProperty();
-                case PropertyNames.BACKFACE_VISIBILITY:          return new CSSBackfaceVisibility();
+                case PropertyNames.BOX_SHADOW:                   return new CSSBoxShadowProperty { Rule = style };
+                case PropertyNames.BOX_DECORATION_BREAK:         return new CSSBoxDecorationBreak { Rule = style };
+                case PropertyNames.BREAK_AFTER:                  return new CSSBreakAfterProperty { Rule = style };
+                case PropertyNames.BREAK_BEFORE:                 return new CSSBreakBeforeProperty { Rule = style };
+                case PropertyNames.BREAK_INSIDE:                 return new CSSBreakInsideProperty { Rule = style };
+                case PropertyNames.BACKFACE_VISIBILITY:          return new CSSBackfaceVisibility { Rule = style };
                 //case PropertyNames.BORDER_TOP_LEFT_RADIUS:
                 //case PropertyNames.BORDER_TOP_RIGHT_RADIUS:
                 //case PropertyNames.BORDER_BOTTOM_LEFT_RADIUS:
@@ -72,8 +73,8 @@
                 //case PropertyNames.BORDER_BOTTOM_WIDTH:
                 //case PropertyNames.BORDER_WIDTH:
                 //case PropertyNames.BORDER:
-                case PropertyNames.BORDER_COLLAPSE:              return new CSSBorderCollapseProperty();
-                case PropertyNames.BOTTOM:                       return new CSSBottomProperty();
+                case PropertyNames.BORDER_COLLAPSE:              return new CSSBorderCollapseProperty { Rule = style };
+                case PropertyNames.BOTTOM:                       return new CSSBottomProperty { Rule = style };
                 //case PropertyNames.COLUMNS:
                 //case PropertyNames.COLUMN_COUNT:
                 //case PropertyNames.COLUMN_FILL:
@@ -83,32 +84,32 @@
                 //case PropertyNames.COLUMN_RULE_WIDTH:
                 //case PropertyNames.COLUMN_SPAN:
                 //case PropertyNames.COLUMN_WIDTH:
-                case PropertyNames.CAPTION_SIDE:                 return new CSSCaptionSideProperty();
-                case PropertyNames.CLEAR:                        return new CSSClearProperty();
-                case PropertyNames.CLIP:                         return new CSSClipProperty();
-                case PropertyNames.COLOR:                        return new CSSColorProperty();
-                case PropertyNames.CONTENT:                      return new CSSContentProperty();
+                case PropertyNames.CAPTION_SIDE:                 return new CSSCaptionSideProperty { Rule = style };
+                case PropertyNames.CLEAR:                        return new CSSClearProperty { Rule = style };
+                case PropertyNames.CLIP:                         return new CSSClipProperty { Rule = style };
+                case PropertyNames.COLOR:                        return new CSSColorProperty { Rule = style };
+                case PropertyNames.CONTENT:                      return new CSSContentProperty { Rule = style };
                 //case PropertyNames.COUNTER_INCREMENT:
                 //case PropertyNames.COUNTER_RESET:
                 //case PropertyNames.CUE_AFTER:
                 //case PropertyNames.CUE_BEFORE:
                 //case PropertyNames.CUE:
-                case PropertyNames.CURSOR:                       return new CSSCursorProperty();
-                case PropertyNames.DIRECTION:                    return new CSSDirectionProperty();
-                case PropertyNames.DISPLAY:                      return new CSSDisplayProperty();
+                case PropertyNames.CURSOR:                       return new CSSCursorProperty { Rule = style };
+                case PropertyNames.DIRECTION:                    return new CSSDirectionProperty { Rule = style };
+                case PropertyNames.DISPLAY:                      return new CSSDisplayProperty { Rule = style };
                 //case PropertyNames.ELEVATION:
-                case PropertyNames.EMPTY_CELLS:                  return new CSSEmptyCellsProperty();
-                case PropertyNames.FLOAT:                        return new CSSFloatProperty();
-                //case PropertyNames.FONT_FAMILY:
-                //case PropertyNames.FONT_SIZE:
-                //case PropertyNames.FONT_STYLE:
-                //case PropertyNames.FONT_VARIANT:
-                //case PropertyNames.FONT_WEIGHT:
-                //case PropertyNames.FONT:
-                case PropertyNames.HEIGHT:                       return new CSSHeightProperty();
-                case PropertyNames.LEFT:                         return new CSSLeftProperty();
+                case PropertyNames.EMPTY_CELLS:                  return new CSSEmptyCellsProperty { Rule = style };
+                case PropertyNames.FLOAT:                        return new CSSFloatProperty { Rule = style };
+                case PropertyNames.FONT_FAMILY:                  return style.Compound<CSSFontProperty>().FontFamily;
+                case PropertyNames.FONT_SIZE:                    return style.Compound<CSSFontProperty>().FontSize;
+                case PropertyNames.FONT_STYLE:                   return style.Compound<CSSFontProperty>().FontStyle;
+                case PropertyNames.FONT_VARIANT:                 return style.Compound<CSSFontProperty>().FontVariant;
+                case PropertyNames.FONT_WEIGHT:                  return style.Compound<CSSFontProperty>().FontWeight;
+                case PropertyNames.FONT:                         return new CSSFontProperty { Rule = style };
+                case PropertyNames.HEIGHT:                       return new CSSHeightProperty { Rule = style };
+                case PropertyNames.LEFT:                         return new CSSLeftProperty { Rule = style };
                 //case PropertyNames.LETTER_SPACING:
-                //case PropertyNames.LINE_HEIGHT:
+                case PropertyNames.LINE_HEIGHT:                  return style.Compound<CSSFontProperty>().LineHeight;
                 //case PropertyNames.LIST_STYLE_IMAGE:
                 //case PropertyNames.LIST_STYLE_POSITION:
                 //case PropertyNames.LIST_STYLE_TYPE:
@@ -126,13 +127,13 @@
                 //case PropertyNames.MAX_WIDTH:
                 //case PropertyNames.MIN_HEIGHT:
                 //case PropertyNames.MIN_WIDTH:
-                case PropertyNames.OPACITY:                      return new CSSOpacityProperty();
-                case PropertyNames.ORPHANS:                      return new CSSOrphansProperty();
+                case PropertyNames.OPACITY:                      return new CSSOpacityProperty { Rule = style };
+                case PropertyNames.ORPHANS:                      return new CSSOrphansProperty { Rule = style };
                 //case PropertyNames.OUTLINE_COLOR:
                 //case PropertyNames.OUTLINE_STYLE:
                 //case PropertyNames.OUTLINE_WIDTH:
                 //case PropertyNames.OUTLINE:
-                case PropertyNames.OVERFLOW:                     return new CSSOverflowProperty();
+                case PropertyNames.OVERFLOW:                     return new CSSOverflowProperty { Rule = style };
                 //case PropertyNames.PADDING_TOP:
                 //case PropertyNames.PADDING_RIGHT:
                 //case PropertyNames.PADDING_LEFT:
@@ -143,14 +144,14 @@
                 //case PropertyNames.PAGE_BREAK_INSIDE:
                 //case PropertyNames.PERSPECTIVE:
                 //case PropertyNames.PERSPECTIVE_ORIGIN:
-                case PropertyNames.POSITION:                     return new CSSPositionProperty();
-                case PropertyNames.QUOTES:                       return new CSSQuotesProperty();
-                case PropertyNames.RIGHT:                        return new CSSRightProperty();
-                case PropertyNames.TABLE_LAYOUT:                 return new CSSTableLayoutProperty();
-                case PropertyNames.TEXT_ALIGN:                   return new CSSTextAlignProperty();
+                case PropertyNames.POSITION:                     return new CSSPositionProperty { Rule = style };
+                case PropertyNames.QUOTES:                       return new CSSQuotesProperty { Rule = style };
+                case PropertyNames.RIGHT:                        return new CSSRightProperty { Rule = style };
+                case PropertyNames.TABLE_LAYOUT:                 return new CSSTableLayoutProperty { Rule = style };
+                case PropertyNames.TEXT_ALIGN:                   return new CSSTextAlignProperty { Rule = style };
                 //case PropertyNames.TEXT_DECORATION:
                 //case PropertyNames.TEXT_INDENT:
-                case PropertyNames.TEXT_TRANSFORM:               return new CSSTextTransformProperty();
+                case PropertyNames.TEXT_TRANSFORM:               return new CSSTextTransformProperty { Rule = style };
                 //case PropertyNames.TRANSFORM:
                 //case PropertyNames.TRANSFORM_ORIGIN:
                 //case PropertyNames.TRANSFORM_STYLE:
@@ -159,16 +160,16 @@
                 //case PropertyNames.TRANSITION_DURATION:
                 //case PropertyNames.TRANSITION_TIMING_FUNCTION:
                 //case PropertyNames.TRANSITION_PROPERTY:
-                case PropertyNames.TOP:                          return new CSSTopProperty();
-                case PropertyNames.UNICODE_BIDI:                 return new CSSUnicodeBidiProperty();
-                case PropertyNames.VERTICAL_ALIGN:               return new CSSVerticalAlignProperty();
-                case PropertyNames.VISIBILITY:                   return new CSSVisibilityProperty();
+                case PropertyNames.TOP:                          return new CSSTopProperty { Rule = style };
+                case PropertyNames.UNICODE_BIDI:                 return new CSSUnicodeBidiProperty { Rule = style };
+                case PropertyNames.VERTICAL_ALIGN:               return new CSSVerticalAlignProperty { Rule = style };
+                case PropertyNames.VISIBILITY:                   return new CSSVisibilityProperty { Rule = style };
                 //case PropertyNames.WHITE_SPACE:
                 //case PropertyNames.WIDOWS:
-                case PropertyNames.WIDTH:                        return new CSSWidthProperty();
+                case PropertyNames.WIDTH:                        return new CSSWidthProperty { Rule = style };
                 //case PropertyNames.WORD_SPACING:
-                case PropertyNames.Z_INDEX:                      return new CSSZIndexProperty();
-                default:                                         return new CSSProperty(name);
+                case PropertyNames.Z_INDEX:                      return new CSSZIndexProperty { Rule = style };
+                default:                                         return new CSSProperty(name) { Rule = style };
             }
         }
     }
