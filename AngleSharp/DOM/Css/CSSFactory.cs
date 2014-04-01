@@ -127,7 +127,7 @@
                 //case PropertyNames.MIN_HEIGHT:
                 //case PropertyNames.MIN_WIDTH:
                 case PropertyNames.OPACITY:                      return new CSSOpacityProperty();
-                //case PropertyNames.ORPHANS:
+                case PropertyNames.ORPHANS:                      return new CSSOrphansProperty();
                 //case PropertyNames.OUTLINE_COLOR:
                 //case PropertyNames.OUTLINE_STYLE:
                 //case PropertyNames.OUTLINE_WIDTH:
@@ -144,7 +144,7 @@
                 //case PropertyNames.PERSPECTIVE:
                 //case PropertyNames.PERSPECTIVE_ORIGIN:
                 case PropertyNames.POSITION:                     return new CSSPositionProperty();
-                //case PropertyNames.QUOTES:
+                case PropertyNames.QUOTES:                       return new CSSQuotesProperty();
                 case PropertyNames.RIGHT:                        return new CSSRightProperty();
                 case PropertyNames.TABLE_LAYOUT:                 return new CSSTableLayoutProperty();
                 case PropertyNames.TEXT_ALIGN:                   return new CSSTextAlignProperty();

@@ -50,6 +50,8 @@
     <Compile Include="DOM\Css\Properties\CSSContentProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSCursorProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSClipProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSOrphansProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSQuotesProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSUnicodeBidiProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSVerticalAlignProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSCoordinateProperty.cs" />
