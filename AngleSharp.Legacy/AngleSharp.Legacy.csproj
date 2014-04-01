@@ -232,6 +232,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSClipProperty.cs">
       <Link>DOM\Css\Properties\CSSClipProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSColorProperty.cs">
+      <Link>DOM\Css\Properties\CSSColorProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSCoordinateProperty.cs">
       <Link>DOM\Css\Properties\CSSCoordinateProperty.cs</Link>
     </Compile>
@@ -1029,6 +1032,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\ValueConverter.cs">
       <Link>Foundation\ValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\ValueExtensions.cs">
+      <Link>Foundation\ValueExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\XmlExtensions.cs">
       <Link>Foundation\XmlExtensions.cs</Link>
