@@ -307,6 +307,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontSizeProperty.cs">
       <Link>DOM\Css\Properties\Font\CSSFontSizeProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontStretchProperty.cs">
+      <Link>DOM\Css\Properties\Font\CSSFontStretchProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontStyleProperty.cs">
       <Link>DOM\Css\Properties\Font\CSSFontStyleProperty.cs</Link>
     </Compile>
