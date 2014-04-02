@@ -432,5 +432,49 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("400", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssFontStretchNormalUppercaseImportantLegal()
+        {
+            var snippet = "font-stretch : NORMAL !important";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font-stretch", property.Name);
+            Assert.IsTrue(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSFontStretchProperty));
+            var concrete = (CSSFontStretchProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("NORMAL", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontStretchExtraCondensedLegal()
+        {
+            var snippet = "font-stretch : extra-condensed ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font-stretch", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSFontStretchProperty));
+            var concrete = (CSSFontStretchProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("extra-condensed", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontStretchSemiExpandedSpaceBetweenIllegal()
+        {
+            var snippet = "font-stretch : semi expanded ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font-stretch", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSFontStretchProperty));
+            var concrete = (CSSFontStretchProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
     }
 }
