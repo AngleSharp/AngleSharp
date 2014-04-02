@@ -105,6 +105,7 @@
                 case PropertyNames.FONT_STYLE:                   return new CSSFontStyleProperty { Rule = style };
                 case PropertyNames.FONT_VARIANT:                 return new CSSFontVariantProperty { Rule = style };
                 case PropertyNames.FONT_WEIGHT:                  return new CSSFontWeightProperty { Rule = style };
+                case PropertyNames.FONT_STRETCH:                 return new CSSFontStretchProperty { Rule = style };
                 case PropertyNames.FONT:                         return new CSSFontProperty { Rule = style };
                 case PropertyNames.HEIGHT:                       return new CSSHeightProperty { Rule = style };
                 case PropertyNames.LEFT:                         return new CSSLeftProperty { Rule = style };
