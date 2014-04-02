@@ -9,7 +9,7 @@ namespace UnitTests
     /// to be more specific: (*)/blob/master/tree-construction/html5test-com.dat
     /// </summary>
     [TestClass]
-    public class Html5TestCom
+    public class Html5TestComTests
     {
         [TestMethod]
         public void WrongDivTagMistake()

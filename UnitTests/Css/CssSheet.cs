@@ -254,6 +254,20 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void CssBackgroundColorRgba()
+        {
+            var decl = CssParser.ParseDeclarations("background: rgba(255, 123, 13, 1)");
+            Assert.IsNotNull(decl);
+            Assert.AreEqual(1, decl.Length);
+
+            var background = decl.Get(0);
+            Assert.AreEqual("background", background.Name);
+            Assert.IsFalse(background.Important);
+            Assert.AreEqual(CssValueType.PrimitiveValue, background.Value.CssValueType);
+            Assert.AreEqual("rgba(255, 123, 13, 1)", background.Value.ToCss());
+        }
+
+        [TestMethod]
         public void CssFontWithFraction()
         {
             var decl = CssParser.ParseDeclarations("font:bold 40px/1.13 'PT Sans Narrow', sans-serif");
@@ -306,7 +320,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void CssBackgroundColor()
+        public void CssBackgroundColorRgb()
         {
             var decl = CssParser.ParseDeclarations("background-color: rgb(245, 0, 111)");
             Assert.IsNotNull(decl);

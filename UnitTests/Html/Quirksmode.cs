@@ -9,7 +9,7 @@ namespace UnitTests
     /// More information: http://www.quirksmode.org/dom/w3c_core.html
     /// </summary>
     [TestClass]
-    public class Quirksmode
+    public class QuirksmodeTests
     {
         HTMLDocument document;
 

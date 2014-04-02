@@ -9,7 +9,7 @@ namespace UnitTests
     /// to be more specific: (*)/blob/master/tree-construction/tables01.dat
     /// </summary>
     [TestClass]
-    public class HtmlTables
+    public class HtmlTableTests
     {
         [TestMethod]
         public void TableWithSingleTh()

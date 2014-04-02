@@ -10,7 +10,7 @@ namespace UnitTests
     /// to be more specific: (*)/blob/master/tree-construction/comments01.dat
     /// </summary>
     [TestClass]
-    public class HtmlComments
+    public class HtmlCommentTests
     {
         [TestMethod]
         public void ValidCommentInText()

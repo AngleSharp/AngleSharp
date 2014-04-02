@@ -6,7 +6,7 @@ using AngleSharp.DOM;
 namespace UnitTests
 {
     [TestClass]
-    public class HtmlFormatting
+    public class HtmlFormattingTests
     {
         [TestMethod]
         public void FormattingEightFontTagsWithParagraph()

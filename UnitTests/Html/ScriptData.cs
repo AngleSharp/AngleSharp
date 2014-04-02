@@ -9,7 +9,7 @@ namespace UnitTests
     /// to be more specific: (*)/blob/master/tree-construction/scriptdata01.dat
     /// </summary>
     [TestClass]
-    public class ScriptData
+    public class ScriptDataTests
     {
         [TestMethod]
         public void ScriptWithQuotedHelloText()

@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.Css
 {
     [TestClass]
-    public class CssProperties
+    public class CssPropertyTests
     {
         [TestMethod]
         public void CssBreakAfterLegalAvoid()

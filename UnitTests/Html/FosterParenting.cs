@@ -7,7 +7,7 @@ using AngleSharp.DOM.Html;
 namespace UnitTests
 {
     [TestClass]
-    public class FosterParenting
+    public class FosterParentingTests
     {
         [TestMethod]
         public void FosterDivInDivMisclosedSpan()

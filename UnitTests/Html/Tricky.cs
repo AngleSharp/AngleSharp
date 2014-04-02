@@ -9,7 +9,7 @@ namespace UnitTests
     /// to be more specific: (*)/blob/master/tree-construction/tricky01.dat
     /// </summary>
     [TestClass]
-    public class Tricky
+    public class TrickyTests
     {
         [TestMethod]
         public void BoldAndNotBold()

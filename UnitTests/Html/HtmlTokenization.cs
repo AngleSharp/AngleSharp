@@ -7,7 +7,7 @@ using System.Text;
 namespace UnitTests
 {
     [TestClass]
-    public class HtmlTokenization
+    public class HtmlTokenizationTests
     {
         [TestMethod]
         public void TokenizationFinalEOF()

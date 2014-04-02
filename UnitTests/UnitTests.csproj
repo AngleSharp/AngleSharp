@@ -55,20 +55,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Assets.resx</DependentUpon>
     </Compile>
-    <Compile Include="Css\CssProperties.cs" />
+    <Compile Include="Css\CssProperty.cs" />
+    <Compile Include="Css\CssFontProperty.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Html\HtmlScript.cs" />
     <Compile Include="Html\HtmlStyle.cs" />
     <Compile Include="Css\Color.cs" />
     <Compile Include="Css\CssSheet.cs" />
     <Compile Include="Css\CssTokenization.cs" />
-    <Compile Include="Css\CssSelectors.cs" />
-    <Compile Include="Css\CssW3CSelectors.cs" />
+    <Compile Include="Css\CssSelector.cs" />
+    <Compile Include="Css\CssW3CSelector.cs" />
     <Compile Include="Library\DependencyResolver.cs" />
     <Compile Include="Html\DOM.cs" />
-    <Compile Include="Html\HtmlComments.cs" />
+    <Compile Include="Html\HtmlComment.cs" />
     <Compile Include="Html\ScriptData.cs" />
-    <Compile Include="Html\HtmlTables.cs" />
+    <Compile Include="Html\HtmlTable.cs" />
     <Compile Include="Html\HtmlWithMathML.cs" />
     <Compile Include="Html\HtmlWithSvg.cs" />
     <Compile Include="Html\FosterParenting.cs" />
@@ -95,8 +96,8 @@
     <Compile Include="Html\Html5TestCom.cs" />
     <Compile Include="Html\Tricky.cs" />
     <Compile Include="Html\PlaintextUnsafe.cs" />
-    <Compile Include="Html\HtmlFragments.cs" />
-    <Compile Include="Html\HtmlEntities.cs" />
+    <Compile Include="Html\HtmlFragment.cs" />
+    <Compile Include="Html\HtmlEntity.cs" />
     <Compile Include="Html\UserJsUnsafe.cs" />
   </ItemGroup>
   <ItemGroup>

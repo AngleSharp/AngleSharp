@@ -6,7 +6,7 @@ using AngleSharp.DOM;
 namespace UnitTests
 {
     [TestClass]
-    public class HtmlStyle
+    public class HtmlStyleTests
     {
         [TestMethod]
         public void StyleWithCommentThatContainsClosingStyleTag()

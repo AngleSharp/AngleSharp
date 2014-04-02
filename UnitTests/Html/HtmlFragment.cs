@@ -12,7 +12,7 @@ namespace UnitTests
     /// to be more specific: (*)/blob/master/tree-construction/tests4.dat
     /// </summary>
     [TestClass]
-    public class HtmlFragments
+    public class HtmlFragmentTests
     {
         HTMLElement Create(string tagName)
         {

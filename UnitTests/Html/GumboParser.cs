@@ -10,7 +10,7 @@ namespace UnitTests
     /// https://github.com/google/gumbo-parser/blob/master/tests/parser.cc
     /// </summary>
     [TestClass]
-    public class GumboParser
+    public class GumboParserTests
     {
         [TestMethod]
         public void GumboDoubleBody()

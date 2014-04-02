@@ -8,7 +8,7 @@ using System.Linq;
 namespace UnitTests
 {
     [TestClass]
-    public class DOM
+    public class DOMTests
     {
         [TestMethod]
         public void DOMTokenListWritesBack()

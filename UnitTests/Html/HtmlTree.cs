@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests
 {
     [TestClass]
-    public class HtmlTree
+    public class HtmlTreeTests
     {
         [TestMethod]
         public void TreeHasOneBangComment()

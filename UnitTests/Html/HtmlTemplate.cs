@@ -7,7 +7,7 @@ using AngleSharp.DOM.Html;
 namespace UnitTests.Html
 {
     [TestClass]
-    public class HtmlTemplate
+    public class HtmlTemplateTests
     {
         [TestMethod]
         public void TemplateNodeInBodyWithTextContent()

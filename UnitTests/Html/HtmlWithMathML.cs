@@ -6,7 +6,7 @@ using AngleSharp.DOM;
 namespace UnitTests
 {
     [TestClass]
-    public class HtmlWithMathML
+    public class HtmlWithMathMLTests
     {
         [TestMethod]
         public void MathMLCheckAttributesCaseNormalUnchanged()

@@ -6,7 +6,7 @@ using AngleSharp.DOM;
 namespace UnitTests
 {
     [TestClass]
-    public class HtmlWithSVG
+    public class HtmlWithSVGTests
     {
         [TestMethod]
         public void SvgCheckAttributesCaseNormalUnchanged()

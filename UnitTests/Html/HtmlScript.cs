@@ -11,7 +11,7 @@ namespace UnitTests
     /// to be more specific: (*)/blob/master/tree-construction/tests16.dat
     /// </summary>
     [TestClass]
-    public class HtmlScript
+    public class HtmlScriptTests
     {
         [TestMethod]
         public void ScriptElementAfterDoctype()

@@ -9,7 +9,7 @@ namespace UnitTests
     /// to be more specific: (*)/blob/master/tree-construction/domjs-unsafe.dat
     /// </summary>
     [TestClass]
-    public class UserJsUnsafe
+    public class UserJsUnsafeTests
     {
         [TestMethod]
         public void Html5LibSvgCdata()

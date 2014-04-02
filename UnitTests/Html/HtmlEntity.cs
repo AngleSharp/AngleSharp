@@ -10,7 +10,7 @@ namespace UnitTests
     /// and also the following: (*)/blob/master/tree-construction/entities02.dat
     /// </summary>
     [TestClass]
-    public class HtmlEntities
+    public class HtmlEntityTests
     {
         [TestMethod]
         public void EntityValidFullGt()

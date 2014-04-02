@@ -5,7 +5,7 @@ using AngleSharp.DOM;
 namespace UnitTests
 {
     [TestClass]
-    public class PlaintextUnsafe
+    public class PlaintextUnsafeTests
     {
         [TestMethod]
         public void IllegalCodepointForNumericEntity()
