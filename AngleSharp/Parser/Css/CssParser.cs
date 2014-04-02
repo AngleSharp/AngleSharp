@@ -608,12 +608,15 @@
 			switch (token.Type)
 			{
 				case CssTokenType.RoundBracketClose:
-					SwitchTo(CssState.InSingleValue);
-                    value.CloseFunction();
+                    if (value.CloseFunction())
+					    SwitchTo(CssState.InSingleValue);
+
 					return true;
+
 				case CssTokenType.Comma:
                     value.NextArgument();
 					return true;
+
 				default:
 					return InSingleValue(token);
 			}
@@ -1550,6 +1553,8 @@
         /// <param name="code">The associated error code.</param>
         void RaiseErrorOccurred(ErrorCode code)
         {
+            value.IsFaulted = true;
+
             if (ParseError != null)
             {
                 var pck = new ParseErrorEventArgs((Int32)code, Errors.GetError(code));

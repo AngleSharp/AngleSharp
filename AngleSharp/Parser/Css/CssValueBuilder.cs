@@ -14,6 +14,7 @@
     {
         #region Fields
 
+        Boolean _error;
         Boolean _fraction;
         Stack<FunctionBuffer> _functions;
         List<CSSValue> _values;
@@ -37,6 +38,15 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets if the current value contains syntax errors.
+        /// </summary>
+        public Boolean IsFaulted
+        {
+            get { return _error; }
+            set { _error = value; }
+        }
 
         /// <summary>
         /// Gets or sets if the current value is in fraction mode.
@@ -102,10 +112,12 @@
         /// <summary>
         /// Closes the current function.
         /// </summary>
-        public void CloseFunction()
+        /// <returns>True if there are no more functions on the stack, otherwise false.</returns>
+        public Boolean CloseFunction()
         {
             NextArgument();
             AddValue(_functions.Pop().ToValue());
+            return _functions.Count == 0;
         }
 
         /// <summary>
@@ -130,6 +142,7 @@
         /// </summary>
         public void Reset()
         {
+            _error = false;
             _fraction = false;
             _functions.Clear();
             _values.Clear();
@@ -141,19 +154,22 @@
         /// <returns>The instance of a value.</returns>
         public CSSValue ToValue()
         {
-            while (_functions.Count > 0)
-                CloseFunction();
+            if (!_error)
+            {
+                while (_functions.Count > 0)
+                    CloseFunction();
 
-            while (_values.Count != 0 && _values[_values.Count - 1] == separator)
-                _values.RemoveAt(_values.Count - 1);
+                while (_values.Count != 0 && _values[_values.Count - 1] == separator)
+                    _values.RemoveAt(_values.Count - 1);
 
-            while (_values.Count != 0 && _values[0] == separator)
-                _values.RemoveAt(0);
+                while (_values.Count != 0 && _values[0] == separator)
+                    _values.RemoveAt(0);
 
-            if (IsList())
-                return CreateList();
-            else if (_values.Count != 0)
-                return Create();
+                if (IsList())
+                    return CreateList();
+                else if (_values.Count != 0)
+                    return Create();
+            }
 
             return null;
         }

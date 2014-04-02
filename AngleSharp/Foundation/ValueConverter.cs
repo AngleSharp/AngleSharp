@@ -60,6 +60,24 @@
         }
 
         /// <summary>
+        /// Gets the static value entry resolved with the given trigger.
+        /// </summary>
+        /// <param name="trigger">The trigger that is used for value resolution.</param>
+        /// <returns>The instance or null, if no such instance could be found.</returns>
+        public T GetStatic(String trigger)
+        {
+            foreach (var call in _calls)
+            {
+                var entry = call as StaticValueFactoryEntry;
+
+                if (entry != null && entry.Trigger.Equals(trigger, StringComparison.OrdinalIgnoreCase))
+                    return entry.Instance;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Adds a type that is constructed to the list of possible
         /// results. The object is returned if it can be constructed.
         /// Optionally an identifier has to be found before the list of
@@ -81,6 +99,17 @@
                 entry.Consider(parameter.ParameterType);
 
             _calls.Add(entry);
+        }
+
+        /// <summary>
+        /// Adds a delegate to a construction function that is invoked
+        /// to construct the result. If the given argument is not suited,
+        /// then null should be returned.
+        /// </summary>
+        /// <param name="creator">The creator function.</param>
+        public void AddDelegate(Func<CSSValue, T> creator)
+        {
+            _calls.Add(new DelegateValueFactoryEntry(creator));
         }
 
         /// <summary>
@@ -140,12 +169,37 @@
                 _instance = instance;
             }
 
+            public String Trigger
+            {
+                get { return _trigger; }
+            }
+
+            public T Instance
+            {
+                get { return _instance; }
+            }
+
             public override T Create(CSSValue argument)
             {
                 if (argument is CSSIdentifierValue && ((CSSIdentifierValue)argument).Value.Equals(_trigger, StringComparison.OrdinalIgnoreCase))
                     return _instance;
 
                 return null;
+            }
+        }
+
+        sealed class DelegateValueFactoryEntry : ValueFactoryEntry
+        {
+            Func<CSSValue, T> _creator;
+
+            public DelegateValueFactoryEntry(Func<CSSValue, T> creator)
+            {
+                _creator = creator;
+            }
+
+            public override T Create(CSSValue argument)
+            {
+                return _creator(argument);
             }
         }
 
