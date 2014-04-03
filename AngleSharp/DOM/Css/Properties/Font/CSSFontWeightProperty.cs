@@ -11,7 +11,6 @@
         #region Fields
 
         static readonly ValueConverter<FontWeightMode> _weights = new ValueConverter<FontWeightMode>();
-        static readonly CSSFontWeightProperty _default = new CSSFontWeightProperty();
         static readonly NormalWeightMode _normal = new NormalWeightMode();
         FontWeightMode _weight;
 
@@ -33,18 +32,6 @@
         {
             _weight = _normal;
             _inherited = true;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the default font weight.
-        /// </summary>
-        public static CSSFontWeightProperty Default
-        {
-            get { return _default; }
         }
 
         #endregion

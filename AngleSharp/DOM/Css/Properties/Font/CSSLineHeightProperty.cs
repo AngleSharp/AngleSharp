@@ -12,7 +12,6 @@
 
         static readonly ValueConverter<LineHeightMode> _modes = new ValueConverter<LineHeightMode>();
         static readonly NormalLineHeightMode _normal = new NormalLineHeightMode();
-        static readonly CSSLineHeightProperty _default = new CSSLineHeightProperty();
         LineHeightMode _mode;
 
         #endregion
@@ -32,18 +31,6 @@
         {
             _inherited = true;
             _mode = _normal;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the default line height.
-        /// </summary>
-        public static CSSLineHeightProperty Default
-        {
-            get { return _default; }
         }
 
         #endregion

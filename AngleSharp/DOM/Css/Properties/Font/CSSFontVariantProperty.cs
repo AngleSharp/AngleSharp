@@ -12,7 +12,6 @@
         #region Fields
 
         static readonly Dictionary<String, FontVariant> _styles = new Dictionary<String, FontVariant>(StringComparer.OrdinalIgnoreCase);
-        static readonly CSSFontVariantProperty _default = new CSSFontVariantProperty();
         FontVariant _style;
 
         #endregion
@@ -30,18 +29,6 @@
         {
             _inherited = true;
             _style = FontVariant.Normal;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the default font variant.
-        /// </summary>
-        public static CSSFontVariantProperty Default
-        {
-            get { return _default; }
         }
 
         #endregion

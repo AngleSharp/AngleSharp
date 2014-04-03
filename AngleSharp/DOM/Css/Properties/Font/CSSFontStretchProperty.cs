@@ -12,7 +12,6 @@
         #region Fields
 
         static readonly Dictionary<String, FontStretch> _styles = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase);
-        static readonly CSSFontStretchProperty _default = new CSSFontStretchProperty();
         FontStretch _stretch;
 
         #endregion
@@ -37,18 +36,6 @@
         {
             _inherited = true;
             _stretch = FontStretch.Normal;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the default font stretch.
-        /// </summary>
-        public static CSSFontStretchProperty Default
-        {
-            get { return _default; }
         }
 
         #endregion

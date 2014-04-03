@@ -95,6 +95,19 @@
 
         #endregion
 
+        #region Internal Methods
+
+        /// <summary>
+        /// Creates a shallow copy of the current object.
+        /// </summary>
+        /// <returns></returns>
+        internal CSSProperty Clone()
+        {
+            return (CSSProperty)this.MemberwiseClone();
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -105,6 +118,38 @@
         protected virtual Boolean IsValid(CSSValue value)
         {
             return true;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        internal static Boolean CheckSingleProperty(CSSProperty property, Int32 index, CSSValueList arguments)
+        {
+            if (index < arguments.Length)
+            {
+                var argument = arguments[index];
+                property.Value = argument;
+                return property.Value == argument;
+            }
+
+            return false;
+        }
+
+        internal static Boolean CheckLastProperty(CSSProperty property, Int32 index, CSSValueList arguments)
+        {
+            if (arguments.Length - index > 1)
+            {
+                var newList = new CSSValueList();
+
+                while (index < arguments.Length)
+                    newList.Add(arguments[index++]);
+
+                property.Value = newList;
+                return property.Value == newList;
+            }
+
+            return CheckSingleProperty(property, index, arguments);
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// More information available:
@@ -10,9 +11,14 @@
     {
         #region Fields
 
-        static readonly ValueConverter<FontSettingMode> _parts = new ValueConverter<FontSettingMode>();
-        static readonly CustomFontSettingMode _default = new CustomFontSettingMode(null, null, null, null, new CSSFontSizeProperty(), null, new CSSFontFamilyProperty());
-        FontSettingMode _mode;
+        static readonly Dictionary<String, SystemSetting> _parts = new Dictionary<String, SystemSetting>();
+        CSSFontStyleProperty _style;
+        CSSFontVariantProperty _variant;
+        CSSFontWeightProperty _weight;
+        CSSFontStretchProperty _stretch;
+        CSSFontSizeProperty _size;
+        CSSLineHeightProperty _height;
+        CSSFontFamilyProperty _family;
 
         #endregion
 
@@ -20,19 +26,24 @@
 
         static CSSFontProperty()
         {
-            _parts.AddStatic("caption", new SystemFontSettingMode(SystemFontSettingMode.Setting.Caption));
-            _parts.AddStatic("icon", new SystemFontSettingMode(SystemFontSettingMode.Setting.Icon));
-            _parts.AddStatic("menu", new SystemFontSettingMode(SystemFontSettingMode.Setting.Menu));
-            _parts.AddStatic("message-box", new SystemFontSettingMode(SystemFontSettingMode.Setting.MessageBox));
-            _parts.AddStatic("small-caption", new SystemFontSettingMode(SystemFontSettingMode.Setting.SmallCaption));
-            _parts.AddStatic("status-bar", new SystemFontSettingMode(SystemFontSettingMode.Setting.StatusBar));
-            _parts.AddCompound<CustomFontSettingMode>();
+            _parts.Add("caption", SystemSetting.Caption);
+            _parts.Add("icon", SystemSetting.Icon);
+            _parts.Add("menu", SystemSetting.Menu);
+            _parts.Add("message-box", SystemSetting.MessageBox);
+            _parts.Add("small-caption", SystemSetting.SmallCaption);
+            _parts.Add("status-bar", SystemSetting.StatusBar);
         }
 
         public CSSFontProperty()
             : base(PropertyNames.FONT)
         {
-            _mode = _default;
+            _style = new CSSFontStyleProperty();
+            _variant = new CSSFontVariantProperty();
+            _weight = new CSSFontWeightProperty();
+            _stretch = new CSSFontStretchProperty();
+            _size = new CSSFontSizeProperty();
+            _family = new CSSFontFamilyProperty();
+            _height = new CSSLineHeightProperty();
             _inherited = true;
         }
 
@@ -42,87 +53,108 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            //TODO
-            return base.IsValid(value);
-        }
+            SystemSetting setting;
 
-        #endregion
+            if (value is CSSIdentifierValue && _parts.TryGetValue(((CSSIdentifierValue)value).Value, out setting))
+                SetTo(setting);
+            else if (value is CSSValueList)
+            {
+                var list = (CSSValueList)value;
+                var index = 0;
+                var startGroup = new List<CSSProperty>(4);
+                var style = _style.Clone();
+                var variant = _variant.Clone();
+                var weight = _weight.Clone();
+                var stretch = _stretch.Clone();
+                var size = _size.Clone();
+                var height = _height.Clone();
+                var family = _family.Clone();
+                startGroup.Add(style);
+                startGroup.Add(variant);
+                startGroup.Add(weight);
+                startGroup.Add(stretch);
 
-        #region Modes
+                while (true)
+                {
+                    var length = startGroup.Count;
 
-        abstract class FontSettingMode
-        {
-            //TODO Add members that make sense
+                    for (int i = 0; i < length; i++)
+                    {
+                        if (CheckSingleProperty(startGroup[i], index, list))
+                        {
+                            startGroup.RemoveAt(i);
+                            index++;
+                            break;
+                        }
+                    }
+
+                    if (length == startGroup.Count)
+                        break;
+                }
+
+                if (!CheckSingleProperty(size, index, list) || ++index == list.Length)
+                    return false;
+
+                if (list[index] == CSSValue.Delimiter && (!CheckSingleProperty(height, ++index, list) || ++index == list.Length))
+                    return false;
+
+                if (!CheckLastProperty(family, index, list))
+                    return false;
+
+                _style = (CSSFontStyleProperty)style;
+                _variant = (CSSFontVariantProperty)variant;
+                _weight = (CSSFontWeightProperty)weight;
+                _stretch = (CSSFontStretchProperty)stretch;
+                _size = (CSSFontSizeProperty)size;
+                _height = (CSSLineHeightProperty)height;
+                _family = (CSSFontFamilyProperty)family;
+            }
+            else if (value != CSSValue.Inherit)
+                return false;
+
+            return true;
         }
 
         /// <summary>
         /// Instead of specifying individual longhand properties, a
         /// keyword can be used to represent a specific system font.
         /// </summary>
-        sealed class SystemFontSettingMode : FontSettingMode
+        /// <param name="setting">The setting to apply.</param>
+        void SetTo(SystemSetting setting)
         {
-            Setting _setting;
-
-            public SystemFontSettingMode(Setting setting)
-            {
-                _setting = setting;
-            }
-
-            public enum Setting
-            {
-                /// <summary>
-                /// The font used for captioned controls (e.g., buttons, drop-downs, etc.).
-                /// </summary>
-                Caption,
-                /// <summary>
-                /// The font used to label icons.
-                /// </summary>
-                Icon,
-                /// <summary>
-                /// The font used in menus (e.g., dropdown menus and menu lists).
-                /// </summary>
-                Menu,
-                /// <summary>
-                /// The font used in dialog boxes.
-                /// </summary>
-                MessageBox,
-                /// <summary>
-                /// The font used for labeling small controls.
-                /// </summary>
-                SmallCaption,
-                /// <summary>
-                /// The font used in window status bars.
-                /// </summary>
-                StatusBar
-            }
+            //TODO set properties to the setting given by the enumeration value
         }
 
-        /// <summary>
-        /// The font CSS property is a shorthand property for setting font-style,
-        /// font-variant, font-weight, font-size, line-height and font-family.
-        /// </summary>
-        sealed class CustomFontSettingMode : FontSettingMode
+        #endregion
+
+        #region Predefined settings
+
+        enum SystemSetting
         {
-            CSSFontStyleProperty _style;
-            CSSFontVariantProperty _variant;
-            CSSFontWeightProperty _weight;
-            CSSFontStretchProperty _stretch;
-            CSSFontSizeProperty _size;
-            CSSFontFamilyProperty _family;
-            CSSLineHeightProperty _height;
-
-
-            //[ [ <‘font-style’> || <font-variant> || <‘font-weight’> || <‘font-stretch’> ]? <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ]
-            public CustomFontSettingMode(CSSFontStyleProperty style, CSSFontVariantProperty variant, CSSFontWeightProperty weight, CSSFontStretchProperty stretch, CSSFontSizeProperty size, CSSLineHeightProperty height, CSSFontFamilyProperty family)
-            {
-                _style = style ?? CSSFontStyleProperty.Default;
-                _variant = variant ?? CSSFontVariantProperty.Default;
-                _weight = weight ?? CSSFontWeightProperty.Default;
-                _stretch = stretch ?? CSSFontStretchProperty.Default;
-                _size = size;
-                _family = family;
-                _height = height ?? CSSLineHeightProperty.Default;
-            }
+            /// <summary>
+            /// The font used for captioned controls (e.g., buttons, drop-downs, etc.).
+            /// </summary>
+            Caption,
+            /// <summary>
+            /// The font used to label icons.
+            /// </summary>
+            Icon,
+            /// <summary>
+            /// The font used in menus (e.g., dropdown menus and menu lists).
+            /// </summary>
+            Menu,
+            /// <summary>
+            /// The font used in dialog boxes.
+            /// </summary>
+            MessageBox,
+            /// <summary>
+            /// The font used for labeling small controls.
+            /// </summary>
+            SmallCaption,
+            /// <summary>
+            /// The font used in window status bars.
+            /// </summary>
+            StatusBar
         }
 
         #endregion

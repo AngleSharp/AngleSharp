@@ -143,16 +143,6 @@
             _calls.Add(entry);
         }
 
-        /// <summary>
-        /// Adds the constructor for a compound type to the list. A compound
-        /// type has a constructor that consists of several other properties.
-        /// </summary>
-        /// <typeparam name="TType">The type of the result.</typeparam>
-        public void AddCompound<TType>()
-        {
-            //TODO
-        }
-
         #endregion
 
         #region Nested
