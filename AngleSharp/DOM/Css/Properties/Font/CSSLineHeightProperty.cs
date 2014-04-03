@@ -12,6 +12,7 @@
 
         static readonly ValueConverter<LineHeightMode> _modes = new ValueConverter<LineHeightMode>();
         static readonly NormalLineHeightMode _normal = new NormalLineHeightMode();
+        static readonly CSSLineHeightProperty _default = new CSSLineHeightProperty();
         LineHeightMode _mode;
 
         #endregion
@@ -31,6 +32,18 @@
         {
             _inherited = true;
             _mode = _normal;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the default line height.
+        /// </summary>
+        public static CSSLineHeightProperty Default
+        {
+            get { return _default; }
         }
 
         #endregion
@@ -56,9 +69,17 @@
         abstract class LineHeightMode
         { }
 
+        /// <summary>
+        /// Depends on the user agent. Desktop browsers use a default value
+        /// of roughly 1.2, depending on the element's font-family.
+        /// </summary>
         sealed class NormalLineHeightMode : LineHeightMode
         { }
 
+        /// <summary>
+        /// Relative to the font size of the element itself. The computed
+        /// value is this percentage multiplied by the element's computed font size.
+        /// </summary>
         sealed class RelativeLineHeightMode : LineHeightMode
         {
             Single _scale;
@@ -69,6 +90,10 @@
             }
         }
 
+        /// <summary>
+        /// The specified length is used in the calculation of the line box
+        /// height. See length values for possible units.
+        /// </summary>
         sealed class AbsoluteLineHeightMode : LineHeightMode
         {
             Length _length;
@@ -79,6 +104,12 @@
             }
         }
 
+        /// <summary>
+        /// The used value is this unitless number multiplied by the element's font size.
+        /// The computed value is the same as the specified number. In most cases this is
+        /// the preferred way to set line-height with no unexpected results in case of
+        /// inheritance.
+        /// </summary>
         sealed class MultipleLineHeightMode : LineHeightMode
         {
             Single _factor;

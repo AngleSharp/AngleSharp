@@ -11,6 +11,7 @@
         #region Fields
 
         static readonly ValueConverter<FontWeightMode> _weights = new ValueConverter<FontWeightMode>();
+        static readonly CSSFontWeightProperty _default = new CSSFontWeightProperty();
         static readonly NormalWeightMode _normal = new NormalWeightMode();
         FontWeightMode _weight;
 
@@ -36,6 +37,18 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the default font weight.
+        /// </summary>
+        public static CSSFontWeightProperty Default
+        {
+            get { return _default; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)
@@ -57,24 +70,42 @@
         abstract class FontWeightMode
         { }
 
+        /// <summary>
+        /// Normal font weight. Same as 400.
+        /// </summary>
         sealed class NormalWeightMode : FontWeightMode
         {
-            // 400
         }
 
+        /// <summary>
+        /// Bold font weight. Same as 700.
+        /// </summary>
         sealed class BoldWeightMode : FontWeightMode
         {
-            // 700
         }
 
+        /// <summary>
+        /// One font weight lighter than the parent element (among the available weights of the font).
+        /// </summary>
         sealed class LighterWeightMode : FontWeightMode
         {
         }
 
+        /// <summary>
+        /// One font weight darker than the parent element (among the available weights of the font).
+        /// </summary>
         sealed class BolderWeightMode : FontWeightMode
         {
         }
 
+        /// <summary>
+        /// Numeric font weights for fonts that provide more than just normal and bold. If the exact
+        /// weight given is unavailable, then 600-900 use the closest available darker weight
+        /// (or, if there is none, the closest available lighter weight), and 100-500 use the closest
+        /// available lighter weight (or, if there is none, the closest available darker weight). This
+        /// means that for fonts that provide only normal and bold, 100-500 are normal, and 600-900 are
+        /// bold.
+        /// </summary>
         sealed class NumberWeightMode : FontWeightMode
         {
             Int32 _weight;

@@ -65,6 +65,9 @@
             //TODO add members
         }
 
+        /// <summary>
+        /// A set of absolute size keywords based on the user's default font size (which is medium). 
+        /// </summary>
         sealed class AbsoluteFontSizeMode : FontSizeMode
         {
             public AbsoluteFontSizeMode(Size sizeMode)
@@ -74,16 +77,41 @@
 
             public enum Size
             {
+                /// <summary>
+                /// xx-small.
+                /// </summary>
                 Smallest,
+                /// <summary>
+                /// x-small.
+                /// </summary>
                 Smaller,
+                /// <summary>
+                /// small.
+                /// </summary>
                 Small,
+                /// <summary>
+                /// medium.
+                /// </summary>
                 Medium,
+                /// <summary>
+                /// large.
+                /// </summary>
                 Large,
+                /// <summary>
+                /// x-large.
+                /// </summary>
                 Larger,
+                /// <summary>
+                /// xx-large.
+                /// </summary>
                 Largest
             }
         }
 
+        /// <summary>
+        /// Larger or smaller than the parent element's font size, by roughly the ratio used to
+        /// separate the absolute size keywords above.
+        /// </summary>
         sealed class RelativeFontSizeMode : FontSizeMode
         {
             public RelativeFontSizeMode(Size sizeMode)
@@ -93,11 +121,20 @@
 
             public enum Size
             {
+                /// <summary>
+                /// Larger than the parent's font size.
+                /// </summary>
                 Larger,
+                /// <summary>
+                /// Smaller than the parent's font size.
+                /// </summary>
                 Smaller
             }
         }
 
+        /// <summary>
+        /// A positive percentage of the parent element's font size.
+        /// </summary>
         sealed class PercentFontSizeMode : FontSizeMode
         {
             Single _scale;
@@ -108,6 +145,12 @@
             }
         }
 
+        /// <summary>
+        /// A positive length. When the units are specified in em or ex, the
+        /// size is defined relative to the size of the font on the parent element
+        /// of the element in question. For example, 0.5em is half the font size of
+        /// the parent of the current element.
+        /// </summary>
         sealed class LengthFontSizeMode : FontSizeMode
         {
             Length _length;

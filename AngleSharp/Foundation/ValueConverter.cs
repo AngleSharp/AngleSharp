@@ -143,6 +143,16 @@
             _calls.Add(entry);
         }
 
+        /// <summary>
+        /// Adds the constructor for a compound type to the list. A compound
+        /// type has a constructor that consists of several other properties.
+        /// </summary>
+        /// <typeparam name="TType">The type of the result.</typeparam>
+        public void AddCompound<TType>()
+        {
+            //TODO
+        }
+
         #endregion
 
         #region Nested
@@ -238,6 +248,10 @@
                     _validators.Add(value => Validate(value.ToColor()));
                 else if (type == typeof(Single) || type == typeof(Single?))
                     _validators.Add(value => Validate(value.ToNumber()));
+                else if (type == typeof(Int32) || type == typeof(Int32?))
+                    _validators.Add(value => Validate(value.ToInteger()));
+                else if (type == typeof(Byte) || type == typeof(Byte?))
+                    _validators.Add(value => Validate(value.ToByte()));
                 else if (type == typeof(Uri))
                     _validators.Add(value => value.ToUri());
                 else if (type == typeof(String))

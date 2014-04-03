@@ -12,6 +12,7 @@
         #region Fields
 
         static readonly Dictionary<String, FontStretch> _styles = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase);
+        static readonly CSSFontStretchProperty _default = new CSSFontStretchProperty();
         FontStretch _stretch;
 
         #endregion
@@ -40,6 +41,18 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the default font stretch.
+        /// </summary>
+        public static CSSFontStretchProperty Default
+        {
+            get { return _default; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)
@@ -60,14 +73,41 @@
 
         enum FontStretch
         {
+            /// <summary>
+            /// Specifies a normal font face.
+            /// </summary>
             Normal,
+            /// <summary>
+            /// Specifies a font face most condensed.
+            /// </summary>
             UltraCondensed,
+            /// <summary>
+            /// Specifies a font face a lot more condensed than normal.
+            /// </summary>
             ExtraCondensed, 
-            Condensed, 
-            SemiCondensed, 
-            SemiExpanded, 
-            Expanded, 
-            ExtraExpanded, 
+            /// <summary>
+            /// Specifies a font face more condensed than normal.
+            /// </summary>
+            Condensed,
+            /// <summary>
+            /// Specifies a font face a little more condensed than normal.
+            /// </summary>
+            SemiCondensed,
+            /// <summary>
+            /// Specifies a font face a little more expanded than normal.
+            /// </summary>
+            SemiExpanded,
+            /// <summary>
+            /// Specifies a font face more expanded than normal.
+            /// </summary>
+            Expanded,
+            /// <summary>
+            /// Specifies a font face more expanded than normal.
+            /// </summary>
+            ExtraExpanded,
+            /// <summary>
+            /// Specifies a font face most expanded.
+            /// </summary>
             UltraExpanded
         }
 
