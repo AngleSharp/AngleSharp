@@ -60,7 +60,7 @@ namespace UnitTests
         {
             var valueString = "Arial, Verdana, Helvetica, Sans-Serif";
             var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(4, list.Length);
+            Assert.AreEqual(4, list.Count);
             Assert.AreEqual("Arial", list[0].CssText);
             Assert.AreEqual("Verdana", list[1].CssText);
             Assert.AreEqual("Helvetica", list[2].CssText);
@@ -72,7 +72,7 @@ namespace UnitTests
         {
             var valueString = "Arial 10pt bold, Verdana 12pt italic";
             var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(2, list.Length);
+            Assert.AreEqual(2, list.Count);
             Assert.AreEqual("Arial 10pt bold", list[0].CssText);
             Assert.AreEqual("Verdana 12pt italic", list[1].CssText);
             Assert.AreEqual(CssValueType.ValueList, list[0].CssValueType);
@@ -86,7 +86,7 @@ namespace UnitTests
         {
             var valueString = "  Arial  ,  Verdana  ,Helvetica,Sans-Serif   ";
             var list = CssParser.ParseMultipleValues(valueString);
-			Assert.AreEqual(4, list.Length);
+            Assert.AreEqual(4, list.Count);
             Assert.AreEqual("Arial", list[0].CssText);
             Assert.AreEqual("Verdana", list[1].CssText);
             Assert.AreEqual("Helvetica", list[2].CssText);
@@ -98,7 +98,7 @@ namespace UnitTests
         {
             var valueString = "";
             var list = CssParser.ParseMultipleValues(valueString);
-			Assert.AreEqual(0, list.Length);
+            Assert.AreEqual(0, list.Count);
         }
 
         [TestMethod]
@@ -106,7 +106,7 @@ namespace UnitTests
         {
             var valueString = "  ";
             var list = CssParser.ParseMultipleValues(valueString);
-			Assert.AreEqual(0, list.Length);
+            Assert.AreEqual(0, list.Count);
         }
 
         [TestMethod]
@@ -114,7 +114,7 @@ namespace UnitTests
         {
             var valueString = " , ";
             var list = CssParser.ParseMultipleValues(valueString);
-			Assert.AreEqual(0, list.Length);
+            Assert.AreEqual(0, list.Count);
         }
 
         [TestMethod]
@@ -215,7 +215,7 @@ namespace UnitTests
             Assert.AreEqual(CssValueType.ValueList, prop.Value.CssValueType);
 
             var value = prop.Value as CSSValueList;
-            Assert.AreEqual(4, value.Length);
+            Assert.AreEqual(7, value.Length);
             Assert.AreEqual("'Helvetica Neue', Helvetica, Arial, sans-serif", value.ToCss());
         }
 
