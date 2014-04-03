@@ -15,11 +15,8 @@
         #region Fields
 
         Boolean _error;
-        Boolean _fraction;
         Stack<FunctionBuffer> _functions;
         List<CSSValue> _values;
-
-        static readonly CSSValue separator = new CSSValue();
 
         #endregion
 
@@ -48,15 +45,6 @@
             set { _error = value; }
         }
 
-        /// <summary>
-        /// Gets or sets if the current value is in fraction mode.
-        /// </summary>
-        public Boolean IsFraction
-        {
-            get { return _fraction; }
-            set { _fraction = value; }
-        }
-
         #endregion
 
         #region Methods
@@ -79,33 +67,6 @@
         /// <returns>The status.</returns>
         public void AddValue(CSSValue value)
         {
-            if (_fraction)
-            {
-                _fraction = false;
-
-                if (_values.Count != 0)
-                {
-                    if (_values[_values.Count - 1] is CSSValueList)
-                    {
-                        if (((CSSValueList)_values[_values.Count - 1]).Separator == CssValueListSeparator.Slash)
-                        {
-                            var list = (CSSValueList)_values[_values.Count - 1];
-                            list.List.Add(value);
-                        }
-
-                        return;
-                    }
-                    else
-                    {
-                        var list = new CSSValueList { Separator = CssValueListSeparator.Slash };
-                        list.List.Add(_values[_values.Count - 1]);
-                        _values.RemoveAt(_values.Count - 1);
-                        list.List.Add(value);
-                        value = list;
-                    }
-                }
-            }
-
             _values.Add(value);
         }
 
@@ -118,6 +79,14 @@
             NextArgument();
             AddValue(_functions.Pop().ToValue());
             return _functions.Count == 0;
+        }
+
+        /// <summary>
+        /// Inserts a delimiter / into the current value.
+        /// </summary>
+        public void InsertDelimiter()
+        {
+            _values.Add(CSSValue.Delimiter);
         }
 
         /// <summary>
@@ -134,7 +103,7 @@
                 function.StartIndex = _values.Count;
             }
             else
-                _values.Add(separator);
+                _values.Add(CSSValue.Separator);
         }
 
         /// <summary>
@@ -143,7 +112,6 @@
         public void Reset()
         {
             _error = false;
-            _fraction = false;
             _functions.Clear();
             _values.Clear();
         }
@@ -159,16 +127,7 @@
                 while (_functions.Count > 0)
                     CloseFunction();
 
-                while (_values.Count != 0 && _values[_values.Count - 1] == separator)
-                    _values.RemoveAt(_values.Count - 1);
-
-                while (_values.Count != 0 && _values[0] == separator)
-                    _values.RemoveAt(0);
-
-                if (IsList())
-                    return CreateList();
-                else if (_values.Count != 0)
-                    return Create();
+                return Create();
             }
 
             return null;
@@ -177,36 +136,6 @@
         #endregion
 
         #region Helpers
-
-        Boolean IsList()
-        {
-            for (int i = 1; i < _values.Count - 1; i++)
-            {
-                if (_values[i] == separator)
-                    return true;
-            }
-
-            return false;
-        }
-
-        CSSValueList CreateList()
-        {
-            var value = new CSSValueList { Separator = CssValueListSeparator.Comma };
-            var start = 0;
-
-            for (int i = 0; i <= _values.Count; i++)
-            {
-                if (i == _values.Count || _values[i] == separator)
-                {
-                    if (i != start)
-                        value.List.Add(Create(start, i));
-
-                    start = i + 1;
-                }
-            }
-
-            return value;
-        }
 
         /// <summary>
         /// Creates a value from the given index.
@@ -228,10 +157,10 @@
         {
             if (end - start != 1)
             {
-                var list = new CSSValueList { Separator = CssValueListSeparator.Space };
+                var list = new CSSValueList();
 
                 for (var i = start; i < end; i++)
-                    list.List.Add(_values[i]);
+                    list.Add(_values[i]);
 
                 return list;
             }

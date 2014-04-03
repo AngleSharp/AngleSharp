@@ -48,21 +48,17 @@
             else if (value is CSSValueList)
             {
                 var list = (CSSValueList)value;
+                var content = new String[list.Length];
 
-                if (list.Separator == CssValueListSeparator.Space)
+                for (var i = 0; i < list.Length; i++)
                 {
-                    var content = new String[list.Length];
-
-                    for (var i = 0; i < list.Length; i++)
-                    {
-                        if (list[i] is CSSIdentifierValue)
-                            content[i] = ((CSSIdentifierValue)list[i]).Value;
-                        else
-                            return null;
-                    }
-
-                    return new ResolveFontFamily(String.Join(" ", content));
+                    if (list[i] is CSSIdentifierValue)
+                        content[i] = ((CSSIdentifierValue)list[i]).Value;
+                    else
+                        return null;
                 }
+
+                return new ResolveFontFamily(String.Join(" ", content));
             }
 
             return null;

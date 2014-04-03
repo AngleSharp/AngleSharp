@@ -982,7 +982,7 @@
 					SwitchTo(CssState.InHexValue);
 					return true;
 				case Specification.SOLIDUS:
-                    value.IsFraction = true;
+                    value.InsertDelimiter();
 					return true;
 				default:
 					return false;
@@ -1417,21 +1417,22 @@
 			parser.Parse();
 
             if (!property.HasValue)
-                return new CSSValueList { Separator = CssValueListSeparator.Space };
+                return new CSSValueList();
 
-            if (property.Value is CSSValueList)
+            var list = property.Value as CSSValueList ?? new CSSValueList(property.Value);
+
+            for (var i = 0; i < list.Length; i++)
             {
-                var list = (CSSValueList)property.Value;
+                if (list[i] == CSSValue.Separator)
+                {
+                    for (var j = list.Length - 1; j >= i; j--)
+                        list.Remove(list[j]);
 
-                if (list.Separator == CssValueListSeparator.Slash)
-                    list = new CSSValueList(list) { Separator = CssValueListSeparator.Space };
-                else if (list.Separator == CssValueListSeparator.Comma)
-                    list = list[0] is CSSValueList && ((CSSValueList)list[0]).Separator == CssValueListSeparator.Space ? (CSSValueList)list[0] : new CSSValueList(list[0]) { Separator = CssValueListSeparator.Space };
-
-                return list;
+                    break;
+                }
             }
 
-            return new CSSValueList(property.Value) { Separator = CssValueListSeparator.Space };
+            return list;
         }
 
         /// <summary>
@@ -1440,29 +1441,41 @@
         /// <param name="source">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSValueList object.</returns>
-        internal static CSSValueList ParseMultipleValues(String source, IConfiguration configuration = null)
+        internal static List<CSSValueList> ParseMultipleValues(String source, IConfiguration configuration = null)
         {
 			var parser = new CssParser(source, configuration);
 			var property = new CSSProperty(String.Empty);
+            var result = new List<CSSValueList>();
 			parser.property = property;
 			parser.skipExceptions = false;
 			parser.state = CssState.InValuePool;
             parser.Parse();
 
-            if (!property.HasValue)
-                return new CSSValueList { Separator = CssValueListSeparator.Comma };
-
-            if (property.Value is CSSValueList)
+            if (property.HasValue)
             {
-                var list = (CSSValueList)property.Value;
+                var list = property.Value as CSSValueList ?? new CSSValueList(property.Value);
+                var temp = new CSSValueList();
 
-                if (list.Separator != CssValueListSeparator.Comma)
-                    list = new CSSValueList(list) { Separator = CssValueListSeparator.Comma };
+                foreach (var entry in list)
+                {
+                    if (entry == CSSValue.Separator)
+                    {
+                        if (temp.Length > 0)
+                            result.Add(temp);
 
-                return list;
+                        temp = new CSSValueList();
+                    }
+                    else
+                        temp.Add(entry);
+                }
+
+                if (temp.Length > 0)
+                    result.Add(temp);
+
+                temp = null;
             }
 
-            return new CSSValueList(property.Value) { Separator = CssValueListSeparator.Comma };
+            return result;
         }
 
         /// <summary>
@@ -1512,34 +1525,121 @@
 		/// </summary>
 		enum CssState
 		{
+            /// <summary>
+            /// The initial state.
+            /// </summary>
 			Data,
+            /// <summary>
+            /// In some selector.
+            /// </summary>
 			InSelector,
+            /// <summary>
+            /// In a declaration.
+            /// </summary>
 			InDeclaration,
+            /// <summary>
+            /// After a property.
+            /// </summary>
 			AfterProperty,
+            /// <summary>
+            /// Before the value of a property.
+            /// </summary>
 			BeforeValue,
+            /// <summary>
+            /// In a value pool.
+            /// </summary>
 			InValuePool,
+            /// <summary>
+            /// In a value list.
+            /// </summary>
 			InValueList,
+            /// <summary>
+            /// In a single value.
+            /// </summary>
 			InSingleValue,
+            /// <summary>
+            /// In the listing of media.
+            /// </summary>
 			InMediaList,
+            /// <summary>
+            /// In a specific media value.
+            /// </summary>
 			InMediaValue,
+            /// <summary>
+            /// Before the value of the import.
+            /// </summary>
 			BeforeImport,
+            /// <summary>
+            /// Before the charset.
+            /// </summary>
 			BeforeCharset,
-			BeforeNamespacePrefix,
-			AfterNamespacePrefix,
+            /// <summary>
+            /// Before the prefix of a namespace has been declared.
+            /// </summary>
+            BeforeNamespacePrefix,
+            /// <summary>
+            /// After the prefix of a namespace has been declared.
+            /// </summary>
+            AfterNamespacePrefix,
+            /// <summary>
+            /// After an instruction command.
+            /// </summary>
 			AfterInstruction,
+            /// <summary>
+            /// In a CSS3 condition.
+            /// </summary>
 			InCondition,
-			BeforeKeyframesName,
-			BeforeKeyframesData,
-			KeyframesData,
-			InKeyframeText,
-			BeforeDocumentFunction,
-			InDocumentFunction,
-			AfterDocumentFunction,
-			BetweenDocumentFunctions,
+            /// <summary>
+            /// Keyframes rule - before the name.
+            /// </summary>
+            BeforeKeyframesName,
+            /// <summary>
+            /// Keyframes rule - after the name.
+            /// </summary>
+            BeforeKeyframesData,
+            /// <summary>
+            /// Keyframes rule - in the keyframes data.
+            /// </summary>
+            KeyframesData,
+            /// <summary>
+            /// Keyframes rule - in the keyframes text.
+            /// </summary>
+            InKeyframeText,
+            /// <summary>
+            /// Before a CSS3 document function.
+            /// </summary>
+            BeforeDocumentFunction,
+            /// <summary>
+            /// In a CSS3 document function.
+            /// </summary>
+            InDocumentFunction,
+            /// <summary>
+            /// After a CSS3 document function.
+            /// </summary>
+            AfterDocumentFunction,
+            /// <summary>
+            /// Between CSS3 document functions.
+            /// </summary>
+            BetweenDocumentFunctions,
+            /// <summary>
+            /// In an unknown rule.
+            /// </summary>
 			InUnknown,
+            /// <summary>
+            /// Triggered by the ! in a CSS value.
+            /// </summary>
 			ValueImportant,
+            /// <summary>
+            /// After a value (before important or ending).
+            /// </summary>
 			AfterValue,
+            /// <summary>
+            /// In a hex value - e.g. the hash has been found.
+            /// </summary>
 			InHexValue,
+            /// <summary>
+            /// In a CSS value function.
+            /// </summary>
 			InFunction
         }
 

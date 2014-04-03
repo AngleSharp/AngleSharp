@@ -63,11 +63,21 @@
             //TODO Add members that make sense
         }
 
-        class AutoTableLayoutMode : TableLayoutMode
+        /// <summary>
+        /// An automatic table layout algorithm is commonly used by
+        /// most browsers for table layout. The width of the table
+        /// and its cells depends on the content thereof.
+        /// </summary>
+        sealed class AutoTableLayoutMode : TableLayoutMode
         {
         }
 
-        class FixedTableLayoutMode : TableLayoutMode
+        /// <summary>
+        /// Table and column widths are set by the widths of table and
+        /// col elements or by the width of the first row of cells. Cells
+        /// in subsequent rows do not affect column widths.
+        /// </summary>
+        sealed class FixedTableLayoutMode : TableLayoutMode
         {
         }
 

@@ -63,11 +63,17 @@
             //TODO Add members that make sense
         }
 
-        class CollapseBorderCollapseMode : BorderCollapseMode
+        /// <summary>
+        /// Requests the use of the collapsed-border table rendering model.
+        /// </summary>
+        sealed class CollapseBorderCollapseMode : BorderCollapseMode
         {
         }
 
-        class SeparateBorderCollapseMode : BorderCollapseMode
+        /// <summary>
+        /// Requests the use of the separated-border table rendering model. It is the default value.
+        /// </summary>
+        sealed class SeparateBorderCollapseMode : BorderCollapseMode
         {
         }
 

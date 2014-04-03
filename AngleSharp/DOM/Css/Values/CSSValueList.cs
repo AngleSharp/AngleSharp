@@ -1,18 +1,18 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents a list of values in the CSS context.
     /// </summary>
-    sealed class CSSValueList : CSSValue
+    sealed class CSSValueList : CSSValue, ICollection<CSSValue>
     {
         #region Fields
 
         readonly List<CSSValue> _items;
-        CssValueListSeparator _separator;
 
         #endregion
 
@@ -25,7 +25,6 @@
         {
             _items = new List<CSSValue>();
             _type = CssValueType.ValueList;
-            _separator = CssValueListSeparator.Space;
         }
 
         /// <summary>
@@ -37,27 +36,6 @@
         {
 			_items.Add(item);
         }
-
-		#endregion
-
-		#region Internal Properties
-
-        /// <summary>
-        /// Gets or sets the separator to use.
-        /// </summary>
-        internal CssValueListSeparator Separator
-        {
-            get { return _separator; }
-            set { _separator = value; }
-        }
-
-		/// <summary>
-		/// Gets the list with values.
-		/// </summary>
-		internal List<CSSValue> List
-		{
-			get { return _items; }
-		}
 
 		#endregion
 
@@ -102,12 +80,75 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            var values = new String[_items.Count];
+            var builder = Pool.NewStringBuilder();
 
-            for (int i = 0; i < _items.Count; i++)
-                values[i] = _items[i].CssText;
+            if (_items.Count > 0)
+            {
+                builder.Append(_items[0].ToCss());
 
-            return String.Join(_separator == CssValueListSeparator.Comma ? ", "  : (_separator == CssValueListSeparator.Slash ? " / " : " "), values);
+                for (int i = 1; i < _items.Count; i++)
+                {
+                    if (_items[i] == CSSValue.Separator)
+                        builder.Append(',');
+                    else
+                        builder.Append(' ').Append(_items[i].CssText);
+                }
+            }
+
+            return builder.ToPool();
+        }
+
+        #endregion
+
+        #region ICollection
+
+        public void Add(CSSValue item)
+        {
+            _items.Add(item);
+        }
+
+        public void Clear()
+        {
+            _items.Clear();
+        }
+
+        public Boolean Contains(CSSValue item)
+        {
+            return _items.Contains(item);
+        }
+
+        void ICollection<CSSValue>.CopyTo(CSSValue[] array, Int32 arrayIndex)
+        {
+            _items.CopyTo(array, arrayIndex);
+        }
+
+        Int32 ICollection<CSSValue>.Count
+        {
+            get { return _items.Count; }
+        }
+
+        Boolean ICollection<CSSValue>.IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public Boolean Remove(CSSValue item)
+        {
+            return _items.Remove(item);
+        }
+
+        #endregion
+
+        #region IEnumerable
+
+        public IEnumerator<CSSValue> GetEnumerator()
+        {
+            return _items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         #endregion

@@ -63,11 +63,18 @@
             //TODO Add members that make sense
         }
 
-        class LtrDirectionMode : DirectionMode
+        /// <summary>
+        /// The initial value of direction (that is, if not
+        /// otherwise specified). Text and other elements go from left to right.
+        /// </summary>
+        sealed class LtrDirectionMode : DirectionMode
         {
         }
 
-        class RtlDirectionMode : DirectionMode
+        /// <summary>
+        /// Text and other elements go from right to left
+        /// </summary>
+        sealed class RtlDirectionMode : DirectionMode
         {
         }
 

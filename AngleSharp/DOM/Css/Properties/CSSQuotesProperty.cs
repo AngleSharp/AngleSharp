@@ -58,10 +58,18 @@
             //TODO Add members that make sense
         }
 
+        /// <summary>
+        /// The open-quote and close-quote values of the content
+        /// property produce no quotation marks.
+        /// </summary>
         sealed class NoQuotesMode : QuotesMode
         {
         }
 
+        /// <summary>
+        /// A single pair of quotes. A pair consists of an
+        /// open-quote and a close-quote.
+        /// </summary>
         sealed class StandardQuotesMode : QuotesMode
         {
             String _open;
@@ -74,6 +82,12 @@
             }
         }
 
+        /// <summary>
+        /// One or more pairs of values for open-quote and close-quote.
+        /// The first pair represents the outer level of quotation, the
+        /// second pair is for the first nested level, next pair for
+        /// third level and so on.
+        /// </summary>
         sealed class MultiQuotesMode : QuotesMode
         {
             List<QuotesMode> _quotes;

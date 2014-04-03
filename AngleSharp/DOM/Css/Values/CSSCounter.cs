@@ -25,7 +25,7 @@
 
         #region Properties
 
-        public String Identifier
+        public String CounterIdentifier
         {
             get { return identifier; }
         }
@@ -35,7 +35,7 @@
             get { return listStyle; }
         }
 
-        public String Separator
+        public String DefinedSeparator
         {
             get { return separator; }
         }

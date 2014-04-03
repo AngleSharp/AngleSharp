@@ -32,6 +32,22 @@
             return null;
         }
 
+        public static Int32? ToInteger(this CSSValue value)
+        {
+            if (value is CSSNumberValue)
+                return (Byte)((CSSNumberValue)value).Value;
+
+            return null;
+        }
+
+        public static Byte? ToByte(this CSSValue value)
+        {
+            if (value is CSSNumberValue)
+                return (Byte)Math.Min(Math.Max(((CSSNumberValue)value).Value, 0), 255);
+
+            return null;
+        }
+
         public static Length? ToLength(this CSSValue value)
         {
             if (value is CSSLengthValue)

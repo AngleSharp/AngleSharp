@@ -20,7 +20,20 @@
         /// </summary>
         protected String _text;
 
-        static CSSValue _inherited;
+        /// <summary>
+        /// Gets the instance for an delimiter value.
+        /// </summary>
+        internal static readonly CSSValue Delimiter = new CSSValue { _text = "/", _type = CssValueType.Custom };
+
+        /// <summary>
+        /// Gets the instance for an separator value.
+        /// </summary>
+        internal static readonly CSSValue Separator = new CSSValue { _text = ",", _type = CssValueType.Custom };
+
+        /// <summary>
+        /// Gets the instance for an inherited value.
+        /// </summary>
+        public static readonly CSSValue Inherit = new CSSValue { _text = "inherit", _type = CssValueType.Inherit };
 
         #endregion
 
@@ -37,14 +50,6 @@
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets the instance for an inherited value.
-        /// </summary>
-        public static CSSValue Inherit
-        {
-            get { return _inherited ?? (_inherited = new CSSValue { _text = "inherit", _type = CssValueType.Inherit }); }
-        }
 
         /// <summary>
         /// Gets a code defining the type of the value as defined above.

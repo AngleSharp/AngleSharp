@@ -63,11 +63,17 @@
             //TODO Add members that make sense
         }
 
-        class TopCaptionSideMode : CaptionSideMode
+        /// <summary>
+        /// The caption box will be above the table.
+        /// </summary>
+        sealed class TopCaptionSideMode : CaptionSideMode
         {
         }
 
-        class BottomCaptionSideMode : CaptionSideMode
+        /// <summary>
+        /// The caption box will be below the table.
+        /// </summary>
+        sealed class BottomCaptionSideMode : CaptionSideMode
         {
         }
 

@@ -64,11 +64,17 @@
             //TODO Add members that make sense
         }
 
-        class SliceBoxDecorationBreakMode : BoxDecorationBreakMode
+        /// <summary>
+        /// No border and no padding are inserted at the break.
+        /// </summary>
+        sealed class SliceBoxDecorationBreakMode : BoxDecorationBreakMode
         {
         }
 
-        class CloneBoxDecorationBreakMode : BoxDecorationBreakMode
+        /// <summary>
+        /// Each box is independently wrapped with the border and padding.
+        /// </summary>
+        sealed class CloneBoxDecorationBreakMode : BoxDecorationBreakMode
         {
         }
 

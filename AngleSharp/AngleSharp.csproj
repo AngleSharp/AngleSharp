@@ -118,7 +118,6 @@
     <Compile Include="DOM\Css\Values\CSSGradientStop.cs" />
     <Compile Include="DOM\Css\Values\CSSUriValue.cs" />
     <Compile Include="DOM\AdjacentPosition.cs" />
-    <Compile Include="DOM\Css\CssValueListSeparator.cs" />
     <Compile Include="DOM\Html\HTMLFactory.cs" />
     <Compile Include="DOM\Mathml\MathFactory.cs" />
     <Compile Include="DOM\Objects\FileEntry.cs" />

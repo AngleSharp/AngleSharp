@@ -63,11 +63,19 @@
             //TODO Add members that make sense
         }
 
-        class ShowCellMode : CellMode
+        /// <summary>
+        /// Is a keyword indicating that borders and backgrounds
+        /// should be drawn like in a normal cells.
+        /// </summary>
+        sealed class ShowCellMode : CellMode
         {
         }
 
-        class HideCellMode : CellMode
+        /// <summary>
+        /// Is a keyword indicating that no border or backgrounds
+        /// should be drawn.
+        /// </summary>
+        sealed class HideCellMode : CellMode
         {
         }
 

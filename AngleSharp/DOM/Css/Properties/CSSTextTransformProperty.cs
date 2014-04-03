@@ -66,23 +66,42 @@
             //TODO Add members that make sense
         }
 
-        class NoneTextTransformMode : TextTransformMode
+        /// <summary>
+        /// Is a keyword preventing the case of all characters to be changed.
+        /// </summary>
+        sealed class NoneTextTransformMode : TextTransformMode
         {
         }
 
-        class CapitalizeTextTransformMode : TextTransformMode
+        /// <summary>
+        /// Is a keyword forcing the first letter of each word to be converted
+        /// to uppercase. Other characters are unchanged; that is, they retain
+        /// their original case as written in the element's text.
+        /// </summary>
+        sealed class CapitalizeTextTransformMode : TextTransformMode
         {
         }
 
-        class UppercaseTextTransformMode : TextTransformMode
+        /// <summary>
+        /// Is a keyword forcing all characters to be converted to uppercase.
+        /// </summary>
+        sealed class UppercaseTextTransformMode : TextTransformMode
         {
         }
 
-        class LowercaseTextTransformMode : TextTransformMode
+        /// <summary>
+        /// Is a keyword forcing all characters to be converted to lowercase.
+        /// </summary>
+        sealed class LowercaseTextTransformMode : TextTransformMode
         {
         }
 
-        class FullWidthTextTransformMode : TextTransformMode
+        /// <summary>
+        /// Is a keyword forcing the writing of a character, mainly ideograms and
+        /// latin scripts inside a square, allowing them to be aligned in the
+        /// usual East Asian scripts (like Chinese or Japanese).
+        /// </summary>
+        sealed class FullWidthTextTransformMode : TextTransformMode
         {
         }
 

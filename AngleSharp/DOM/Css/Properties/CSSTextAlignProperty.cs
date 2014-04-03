@@ -65,18 +65,31 @@
             //TODO Add members that make sense
         }
 
+        /// <summary>
+        /// The inline contents are aligned to the left edge of the line box.
+        /// </summary>
         sealed class LeftTextAlignMode : TextAlignMode
         {
         }
 
+        /// <summary>
+        /// The inline contents are aligned to the right edge of the line box.
+        /// </summary>
         sealed class RightTextAlignMode : TextAlignMode
         {
         }
 
+        /// <summary>
+        /// The inline contents are centered within the line box.
+        /// </summary>
         sealed class CenterTextAlignMode : TextAlignMode
         {
         }
 
+        /// <summary>
+        /// The text is justified. Text should line up their left and right
+        /// edges to the left and right content edges of the paragraph.
+        /// </summary>
         sealed class JustifyTextAlignMode : TextAlignMode
         {
         }

@@ -48,36 +48,45 @@
 
         static CSSColorValue Rgb(List<CSSValue> arguments)
         {
-            if (arguments.Count == 3 && IsNumber(arguments[0]) && IsNumber(arguments[1]) && IsNumber(arguments[2]))
-                return new CSSColorValue(Color.FromRgb(ToByte(arguments[0]), ToByte(arguments[1]), ToByte(arguments[2])));
+            Byte? r, g, b;
+
+            if (arguments.Count == 3 && (r = arguments[0].ToByte()).HasValue && (g = arguments[1].ToByte()).HasValue && (b = arguments[2].ToByte()).HasValue)
+                return new CSSColorValue(Color.FromRgb(r.Value, g.Value, b.Value));
 
             return null;
         }
 
         static CSSColorValue Rgba(List<CSSValue> arguments)
         {
-            if (arguments.Count == 4 && IsNumber(arguments[0]) && IsNumber(arguments[1]) && IsNumber(arguments[2]) && IsNumber(arguments[3]))
-                return new CSSColorValue(Color.FromRgba(ToByte(arguments[0]), ToByte(arguments[1]), ToByte(arguments[2]), ToSingle(arguments[3])));
+            Byte? r, g, b;
+            Single? a;
+
+            if (arguments.Count == 4 && (r = arguments[0].ToByte()).HasValue && (g = arguments[1].ToByte()).HasValue && (b = arguments[2].ToByte()).HasValue && (a = arguments[3].ToNumber()).HasValue)
+                return new CSSColorValue(Color.FromRgba(r.Value, g.Value, b.Value, a.Value));
 
             return null;
         }
 
         static CSSColorValue Hsl(List<CSSValue> arguments)
         {
-            if (arguments.Count == 3 && IsNumber(arguments[0]) && IsNumber(arguments[1]) && IsNumber(arguments[2]))
-                return new CSSColorValue(Color.FromHsl(ToSingle(arguments[0]), ToSingle(arguments[1]), ToSingle(arguments[2])));
+            Single? h, s, l;
+
+            if (arguments.Count == 3 && (h = arguments[0].ToNumber()).HasValue && (s = arguments[1].ToNumber()).HasValue && (l = arguments[2].ToNumber()).HasValue)
+                return new CSSColorValue(Color.FromHsl(h.Value, s.Value, l.Value));
 
             return null;
         }
 
         static CSSShapeValue Rect(List<CSSValue> arguments)
         {
-            //Required for backwards-compatibility
-            if (arguments.Count == 1 && arguments[0] is CSSValueList)
-                arguments = ((CSSValueList)arguments[0]).List;
+            Length? top, right, bottom, left;
 
-            if (arguments.Count == 4 && IsLength(arguments[0]) && IsLength(arguments[1]) && IsLength(arguments[2]) && IsLength(arguments[3]))
-                return new CSSShapeValue(ToLength(arguments[0]), ToLength(arguments[1]), ToLength(arguments[2]), ToLength(arguments[3]));
+            //Required for backwards-compatibility
+            if (arguments.Count == 1 && arguments[0] is CSSValueList) 
+                arguments = new List<CSSValue>((CSSValueList)arguments[0]);
+
+            if (arguments.Count == 4 && (top = arguments[0].ToLength()).HasValue && (right = arguments[1].ToLength()).HasValue && (bottom = arguments[2].ToLength()).HasValue && (left = arguments[3].ToLength()).HasValue)
+                return new CSSShapeValue(top.Value, right.Value, bottom.Value, left.Value);
 
             return null;
         }
@@ -136,38 +145,6 @@
             }
 
             return null;
-        }
-
-        #endregion
-
-        #region Helpers
-
-        static Boolean IsLength(CSSValue cssValue)
-        {
-            return cssValue is CSSLengthValue || cssValue == CSSNumberValue.Zero;
-        }
-
-        static Length ToLength(CSSValue cssValue)
-        {
-            if (cssValue is CSSLengthValue)
-                return ((CSSLengthValue)cssValue).Length;
-
-            return new Length();
-        }
-
-        static Boolean IsNumber(CSSValue cssValue)
-        {
-            return cssValue is CSSNumberValue;
-        }
-
-        static Single ToSingle(CSSValue cssValue)
-        {
-            return ((CSSNumberValue)cssValue).Value;
-        }
-
-        static Byte ToByte(CSSValue cssValue)
-        {
-            return (Byte)Math.Min(Math.Max(((CSSNumberValue)cssValue).Value, 0), 255);
         }
 
         #endregion

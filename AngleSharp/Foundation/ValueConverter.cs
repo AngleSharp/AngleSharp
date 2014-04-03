@@ -262,7 +262,7 @@
                     }
                 }
 
-                if (arguments != null && arguments.Separator == CssValueListSeparator.Space)
+                if (arguments != null)
                 {
                     int index = 0;
 
@@ -318,31 +318,56 @@
             {
                 var arguments = argument as CSSValueList;
 
-                if (arguments != null && arguments.Separator == CssValueListSeparator.Comma)
+                if (arguments != null)
                 {
-                    var parameters = new List<T>();
+                    var found = false;
 
-                    foreach (var arg in arguments.List)
+                    foreach (var arg in arguments)
+                        if (found = (arg == CSSValue.Separator))
+                            break;
+
+                    if (found)
                     {
-                        for (int i = 0; i < _source.Count; i++)
+                        var parameters = new List<T>();
+                        var bag = new List<CSSValueList>();
+                        var temp = new CSSValueList();
+
+                        foreach (var arg in arguments)
                         {
-                            if (_source[i] == this || _source[i].IsExclusive)
-                                continue;
-
-                            var result = _source[i].Create(arg);
-
-                            if (result != null)
+                            if (arg == CSSValue.Separator)
                             {
-                                parameters.Add(result);
-                                break;
+                                bag.Add(temp);
+                                temp = new CSSValueList();
                             }
+                            else
+                                temp.Add(arg);
                         }
+
+                        bag.Add(temp);
+                        temp = null;
+
+                        foreach (var element in bag)
+                        {
+                            for (int i = 0; i < _source.Count; i++)
+                            {
+                                if (_source[i] == this || _source[i].IsExclusive)
+                                    continue;
+
+                                var result = _source[i].Create(element);
+
+                                if (found = (result != null))
+                                {
+                                    parameters.Add(result);
+                                    break;
+                                }
+                            }
+
+                            if (!found)
+                                return null;
+                        }
+
+                        return _constructor(parameters);
                     }
-
-                    if (parameters.Count != arguments.Length)
-                        return null;
-
-                    return _constructor(parameters);
                 }
 
                 return null;
@@ -373,7 +398,7 @@
 
                 var arguments = argument as CSSValueList;
 
-                if (arguments != null && arguments.Separator == CssValueListSeparator.Space && arguments.Length % ChunkSize == 0)
+                if (arguments != null && arguments.Length % ChunkSize == 0)
                 {
                     var parameters = new List<T>();
 
@@ -384,7 +409,7 @@
                         for (var j = 0; j < arguments.Length; j += ChunkSize)
                         {
                             for (var i = 0; i < ChunkSize; i++)
-                                testList.List.Add(arguments[i]);
+                                testList.Add(arguments[i]);
 
                             for (var i = 0; i < _source.Count; i++)
                             {
@@ -396,7 +421,7 @@
                                 if (result != null)
                                 {
                                     parameters.Add(result);
-                                    testList.List.Clear();
+                                    testList.Clear();
                                     break;
                                 }
                             }

@@ -77,39 +77,77 @@
             //TODO Add members that make sense
         }
 
-        class BaselineCoordinateMode : VerticalAlignMode
+        /// <summary>
+        /// Aligns the baseline of the element with the baseline of its parent.
+        /// The baseline of some replaced elements, like textarea is not specified
+        /// by the HTML specification, meaning that their behavior with this keyword
+        /// may change from one browser to the other.
+        /// </summary>
+        sealed class BaselineCoordinateMode : VerticalAlignMode
         {
         }
 
-        class SubCoordinateMode : VerticalAlignMode
+        /// <summary>
+        /// Aligns the baseline of the element with the subscript-baseline
+        /// of its parent.
+        /// </summary>
+        sealed class SubCoordinateMode : VerticalAlignMode
         {
         }
 
-        class SuperCoordinateMode : VerticalAlignMode
+        /// <summary>
+        /// Aligns the baseline of the element with the superscript-baseline
+        /// of its parent.
+        /// </summary>
+        sealed class SuperCoordinateMode : VerticalAlignMode
         {
         }
 
-        class TextTopCoordinateMode : VerticalAlignMode
+        /// <summary>
+        /// Aligns the top of the element with the top of the parent
+        /// element's font.
+        /// </summary>
+        sealed class TextTopCoordinateMode : VerticalAlignMode
         {
         }
 
-        class TextBottomCoordinateMode : VerticalAlignMode
+        /// <summary>
+        /// Aligns the bottom of the element with the bottom of the parent
+        /// element's font.
+        /// </summary>
+        sealed class TextBottomCoordinateMode : VerticalAlignMode
         {
         }
 
-        class MiddleCoordinateMode : VerticalAlignMode
+        /// <summary>
+        /// Aligns the middle of the element with the middle of lowercase
+        /// letters in the parent.
+        /// </summary>
+        sealed class MiddleCoordinateMode : VerticalAlignMode
         {
         }
 
-        class TopCoordinateMode : VerticalAlignMode
+        /// <summary>
+        /// Align the top of the element and its descendants with the top
+        /// of the entire line.
+        /// </summary>
+        sealed class TopCoordinateMode : VerticalAlignMode
         {
         }
 
-        class BottomCoordinateMode : VerticalAlignMode
+        /// <summary>
+        /// Align the bottom of the element and its descendants with the
+        /// bottom of the entire line.
+        /// </summary>
+        sealed class BottomCoordinateMode : VerticalAlignMode
         {
         }
 
-        class RelativeVerticalAlignMode : VerticalAlignMode
+        /// <summary>
+        /// Like absolute values, with the percentage being a percent of the
+        /// line-height property.
+        /// </summary>
+        sealed class RelativeVerticalAlignMode : VerticalAlignMode
         {
             Single _value;
 
@@ -119,7 +157,11 @@
             }
         }
 
-        class AbsoluteVerticalAlignMode : VerticalAlignMode
+        /// <summary>
+        /// Aligns the baseline of the element at the given length above
+        /// the baseline of its parent.
+        /// </summary>
+        sealed class AbsoluteVerticalAlignMode : VerticalAlignMode
         {
             Length _value;
 
