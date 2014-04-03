@@ -190,9 +190,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\CSSStyleSheet.cs">
       <Link>DOM\Css\CSSStyleSheet.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\CssValueListSeparator.cs">
-      <Link>DOM\Css\CssValueListSeparator.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
       <Link>DOM\Css\CssValueType.cs</Link>
     </Compile>
