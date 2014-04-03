@@ -476,5 +476,65 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
+
+        [TestMethod]
+        public void CssFontShorthandWithFractionLegal()
+        {
+            var snippet = "font : 12px/14px sans-serif ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("12px / 14px sans-serif", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontShorthandPercentLegal()
+        {
+            var snippet = "font : 80% sans-serif ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("80% sans-serif", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontShorthandBoldItalicLargeLegal()
+        {
+            var snippet = "font : bold italic large serif ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("bold italic large serif", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontShorthandPredefinedLegal()
+        {
+            var snippet = "font : status-bar ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("status-bar", concrete.Value.CssText);
+        }
     }
 }
