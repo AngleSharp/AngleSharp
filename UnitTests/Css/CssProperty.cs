@@ -399,46 +399,6 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
-        public void CssTextAlignLegalJustify()
-        {
-            var snippet = "text-align:justify";
-            var property = CssParser.ParseDeclaration(snippet);
-            Assert.AreEqual("text-align", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.Important);
-            Assert.IsInstanceOfType(property, typeof(CSSTextAlignProperty));
-            var concrete = (CSSTextAlignProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
-            Assert.IsTrue(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
-            Assert.AreEqual("justify", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
-        }
-
-        [TestMethod]
-        public void CssTextAlignLegalJustifyChangedToLeftAndThenIllegal()
-        {
-            var snippet = "text-align:justify";
-            var property = CssParser.ParseDeclaration(snippet);
-            Assert.AreEqual("text-align", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.Important);
-            Assert.IsInstanceOfType(property, typeof(CSSTextAlignProperty));
-            var concrete = (CSSTextAlignProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
-            Assert.IsTrue(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
-            Assert.AreEqual("justify", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
-            concrete.Value = new CSSIdentifierValue("left");
-            value = (CSSPrimitiveValue)concrete.Value;
-            Assert.AreEqual("left", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
-            concrete.Value = new CSSIdentifierValue("whatever");
-            Assert.AreEqual(value, concrete.Value);
-        }
-
-        [TestMethod]
         public void CssLeftLegalPixel()
         {
             var snippet = "left: 25px";

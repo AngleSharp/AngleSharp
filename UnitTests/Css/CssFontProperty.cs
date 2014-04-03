@@ -536,5 +536,95 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("status-bar", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssFontShorthandSizeAndFontListLegal()
+        {
+            var snippet = "font : 15px arial,sans-serif ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("15px arial, sans-serif", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontShorthandStyleWeightSizeLineHeightAndFontListLegal()
+        {
+            var snippet = "font : italic bold 12px/30px Georgia, serif";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("italic bold 12px / 30px Georgia, serif", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssLetterSpacingLengthPxLegal()
+        {
+            var snippet = "letter-spacing: 3px ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("letter-spacing", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSLetterSpacingProperty));
+            var concrete = (CSSLetterSpacingProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("3px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssLetterSpacingLengthFloatPxLegal()
+        {
+            var snippet = "letter-spacing: .3px ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("letter-spacing", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSLetterSpacingProperty));
+            var concrete = (CSSLetterSpacingProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("0.3px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssLetterSpacingLengthFloatEmLegal()
+        {
+            var snippet = "letter-spacing: 0.3em ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("letter-spacing", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSLetterSpacingProperty));
+            var concrete = (CSSLetterSpacingProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("0.3em", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssLetterSpacingNormalLegal()
+        {
+            var snippet = "letter-spacing: normal ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("letter-spacing", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSLetterSpacingProperty));
+            var concrete = (CSSLetterSpacingProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("normal", concrete.Value.CssText);
+        }
     }
 }
