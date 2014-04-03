@@ -17,7 +17,7 @@
         #region ctor
 
         public CSSZIndexProperty()
-            : base(PropertyNames.Z_INDEX)
+            : base(PropertyNames.ZIndex)
         {
             _inherited = false;
             _value = null;

@@ -25,7 +25,7 @@
         }
 
         public CSSFontVariantProperty()
-            : base(PropertyNames.FONT_VARIANT)
+            : base(PropertyNames.FontVariant)
         {
             _inherited = true;
             _style = FontVariant.Normal;

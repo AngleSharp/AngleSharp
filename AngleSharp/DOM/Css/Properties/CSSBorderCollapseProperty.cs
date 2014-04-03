@@ -25,7 +25,7 @@
         }
 
         public CSSBorderCollapseProperty()
-            : base(PropertyNames.BORDER_COLLAPSE)
+            : base(PropertyNames.BorderCollapse)
         {
             _mode = modes["separate"];
             _inherited = true;

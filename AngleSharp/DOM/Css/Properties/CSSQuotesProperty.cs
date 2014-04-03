@@ -27,7 +27,7 @@
         }
 
         public CSSQuotesProperty()
-            : base(PropertyNames.QUOTES)
+            : base(PropertyNames.Quotes)
         {
             _mode = new StandardQuotesMode("«", "»");
             _inherited = true;

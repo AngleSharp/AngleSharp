@@ -25,7 +25,7 @@
         }
 
         public CSSEmptyCellsProperty()
-            : base(PropertyNames.EMPTY_CELLS)
+            : base(PropertyNames.EmptyCells)
         {
             _mode = modes["show"];
             _inherited = true;

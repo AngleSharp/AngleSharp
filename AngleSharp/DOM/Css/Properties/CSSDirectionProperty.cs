@@ -25,7 +25,7 @@
         }
 
         public CSSDirectionProperty()
-            : base(PropertyNames.DIRECTION)
+            : base(PropertyNames.Direction)
         {
             _mode = modes["ltr"];
             _inherited = true;

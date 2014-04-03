@@ -25,7 +25,7 @@
         }
 
         public CSSCaptionSideProperty()
-            : base(PropertyNames.CAPTION_SIDE)
+            : base(PropertyNames.CaptionSide)
         {
             _mode = modes["top"];
             _inherited = false;

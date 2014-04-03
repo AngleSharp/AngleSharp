@@ -12,7 +12,7 @@
         #region ctor
 
         public CSSBreakBeforeProperty()
-            : base(PropertyNames.BREAK_BEFORE)
+            : base(PropertyNames.BreakBefore)
         {
         }
 

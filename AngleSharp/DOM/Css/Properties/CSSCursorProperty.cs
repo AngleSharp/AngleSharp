@@ -63,7 +63,7 @@
         }
 
         public CSSCursorProperty()
-            : base(PropertyNames.CURSOR)
+            : base(PropertyNames.Cursor)
         {
             _mode = _auto;
             _inherited = true;

@@ -30,7 +30,7 @@
         }
 
         public CSSBreakInsideProperty()
-            : base(PropertyNames.BREAK_INSIDE)
+            : base(PropertyNames.BreakInside)
         {
             _mode = modes["auto"];
             _inherited = false;

@@ -27,7 +27,7 @@
         }
 
         public CSSClearProperty()
-            : base(PropertyNames.CLEAR)
+            : base(PropertyNames.Clear)
         {
             _mode = modes["none"];
             _inherited = false;

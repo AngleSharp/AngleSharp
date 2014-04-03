@@ -26,7 +26,7 @@
         }
 
         public CSSFloatProperty()
-            : base(PropertyNames.FLOAT)
+            : base(PropertyNames.Float)
         {
             _mode = modes["none"];
             _inherited = false;

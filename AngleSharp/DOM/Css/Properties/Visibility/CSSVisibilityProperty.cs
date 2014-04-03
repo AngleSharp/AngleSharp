@@ -26,7 +26,7 @@
         }
 
         public CSSVisibilityProperty()
-            : base(PropertyNames.VISIBILITY)
+            : base(PropertyNames.Visibility)
         {
             _mode = modes["visible"];
             _inherited = true;

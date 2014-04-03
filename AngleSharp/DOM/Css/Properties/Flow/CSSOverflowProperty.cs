@@ -27,7 +27,7 @@
         }
 
         public CSSOverflowProperty()
-            : base(PropertyNames.OVERFLOW)
+            : base(PropertyNames.Overflow)
         {
             _mode = modes["visible"];
             _inherited = false;

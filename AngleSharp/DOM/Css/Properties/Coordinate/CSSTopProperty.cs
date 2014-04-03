@@ -11,7 +11,7 @@
         #region ctor
 
         public CSSTopProperty()
-            : base(PropertyNames.TOP)
+            : base(PropertyNames.Top)
         {
         }
 

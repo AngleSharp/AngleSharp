@@ -28,7 +28,7 @@
         }
 
         public CSSFontWeightProperty()
-            : base(PropertyNames.FONT_WEIGHT)
+            : base(PropertyNames.FontWeight)
         {
             _weight = _normal;
             _inherited = true;

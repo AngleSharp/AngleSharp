@@ -42,7 +42,7 @@
         }
 
         public CSSDisplayProperty()
-            : base(PropertyNames.DISPLAY)
+            : base(PropertyNames.Display)
         {
             _mode = modes["inline"];
             _inherited = false;

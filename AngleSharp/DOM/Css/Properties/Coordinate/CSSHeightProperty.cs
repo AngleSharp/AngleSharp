@@ -11,7 +11,7 @@
         #region ctor
 
         public CSSHeightProperty()
-            : base(PropertyNames.HEIGHT)
+            : base(PropertyNames.Height)
         {
         }
 

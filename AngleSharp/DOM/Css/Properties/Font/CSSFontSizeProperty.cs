@@ -34,7 +34,7 @@
         }
 
         public CSSFontSizeProperty()
-            : base(PropertyNames.FONT_SIZE)
+            : base(PropertyNames.FontSize)
         {
             _size = _medium;
             _inherited = true;

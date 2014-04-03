@@ -25,7 +25,7 @@
         }
 
         public CSSBackfaceVisibility()
-            : base(PropertyNames.BACKFACE_VISIBILITY)
+            : base(PropertyNames.BackfaceVisibility)
         {
             _mode = modes["visible"];
             _inherited = false;

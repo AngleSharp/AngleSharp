@@ -35,7 +35,7 @@
         }
 
         public CSSFontProperty()
-            : base(PropertyNames.FONT)
+            : base(PropertyNames.Font)
         {
             _style = new CSSFontStyleProperty();
             _variant = new CSSFontVariantProperty();
@@ -62,13 +62,13 @@
                 var list = (CSSValueList)value;
                 var index = 0;
                 var startGroup = new List<CSSProperty>(4);
-                var style = _style.Clone();
-                var variant = _variant.Clone();
-                var weight = _weight.Clone();
-                var stretch = _stretch.Clone();
-                var size = _size.Clone();
-                var height = _height.Clone();
-                var family = _family.Clone();
+                var style = new CSSFontStyleProperty();
+                var variant = new CSSFontVariantProperty();
+                var weight = new CSSFontWeightProperty();
+                var stretch = new CSSFontStretchProperty();
+                var size = new CSSFontSizeProperty();
+                var height = new CSSLineHeightProperty();
+                var family = new CSSFontFamilyProperty();
                 startGroup.Add(style);
                 startGroup.Add(variant);
                 startGroup.Add(weight);
@@ -92,6 +92,8 @@
                         break;
                 }
 
+                startGroup.Clear();
+
                 if (!CheckSingleProperty(size, index, list) || ++index == list.Length)
                     return false;
 
@@ -101,13 +103,13 @@
                 if (!CheckLastProperty(family, index, list))
                     return false;
 
-                _style = (CSSFontStyleProperty)style;
-                _variant = (CSSFontVariantProperty)variant;
-                _weight = (CSSFontWeightProperty)weight;
-                _stretch = (CSSFontStretchProperty)stretch;
-                _size = (CSSFontSizeProperty)size;
-                _height = (CSSLineHeightProperty)height;
-                _family = (CSSFontFamilyProperty)family;
+                _style = style;
+                _variant = variant;
+                _weight = weight;
+                _stretch = stretch;
+                _size = size;
+                _height = height;
+                _family = family;
             }
             else if (value != CSSValue.Inherit)
                 return false;

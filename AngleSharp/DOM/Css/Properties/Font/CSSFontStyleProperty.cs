@@ -26,7 +26,7 @@
         }
 
         public CSSFontStyleProperty()
-            : base(PropertyNames.FONT_STYLE)
+            : base(PropertyNames.FontStyle)
         {
             _inherited = true;
             _style = FontStyle.Normal;

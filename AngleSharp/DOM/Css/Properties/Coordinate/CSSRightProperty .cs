@@ -11,7 +11,7 @@
         #region ctor
 
         public CSSRightProperty()
-            : base(PropertyNames.RIGHT)
+            : base(PropertyNames.Right)
         {
         }
 

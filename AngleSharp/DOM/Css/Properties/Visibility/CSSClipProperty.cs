@@ -18,7 +18,7 @@
         #region ctor
 
         public CSSClipProperty()
-            : base(PropertyNames.CLIP)
+            : base(PropertyNames.Clip)
         {
             _mode = _auto;
             _inherited = false;

@@ -36,7 +36,7 @@
         }
 
         public CSSContentProperty()
-            : base(PropertyNames.CONTENT)
+            : base(PropertyNames.Content)
         {
             _mode = _normal;
             _inherited = false;

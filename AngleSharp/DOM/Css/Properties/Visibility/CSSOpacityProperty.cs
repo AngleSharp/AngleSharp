@@ -17,7 +17,7 @@
         #region ctor
 
         public CSSOpacityProperty()
-            : base(PropertyNames.OPACITY)
+            : base(PropertyNames.Opacity)
         {
             _inherited = false;
             _value = 1f;

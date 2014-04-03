@@ -31,7 +31,7 @@
         }
 
         public CSSFontFamilyProperty()
-            : base(PropertyNames.FONT_FAMILY)
+            : base(PropertyNames.FontFamily)
         {
             _family = _families.GetStatic("serif");
             _inherited = true;

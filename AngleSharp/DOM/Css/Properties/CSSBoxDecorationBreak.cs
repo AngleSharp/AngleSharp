@@ -26,7 +26,7 @@
         }
 
         public CSSBoxDecorationBreak()
-            : base(PropertyNames.BOX_DECORATION_BREAK)
+            : base(PropertyNames.BoxDecorationBreak)
         {
             _mode = modes["slice"];
             _inherited = false;

@@ -4,20 +4,25 @@
 
     /// <summary>
     /// Information can be found on MDN:
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/orphans
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/widows
     /// </summary>
-    sealed class CSSOrphansProperty : CSSProperty
+    sealed class CSSWidowsProperty : CSSProperty
     {
         #region Fields
 
+        /// <summary>
+        /// Denotes the minimum amount of lines that can stay alone
+        /// on the top of a new page. If the value is not positive,
+        /// the declaration is invalid.
+        /// </summary>
         Int32 _value;
 
         #endregion
 
         #region ctor
 
-        public CSSOrphansProperty()
-            : base(PropertyNames.Orphans)
+        public CSSWidowsProperty()
+            : base(PropertyNames.Widows)
         {
             _inherited = true;
             _value = 2;

@@ -29,7 +29,7 @@
         }
 
         public CSSUnicodeBidiProperty()
-            : base(PropertyNames.UNICODE_BIDI)
+            : base(PropertyNames.UnicodeBidi)
         {
             _mode = modes["normal"];
             _inherited = false;

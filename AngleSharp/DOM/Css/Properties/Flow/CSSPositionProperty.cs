@@ -28,7 +28,7 @@
         }
 
         public CSSPositionProperty()
-            : base(PropertyNames.POSITION)
+            : base(PropertyNames.Position)
         {
             _mode = modes["static"];
             _inherited = false;

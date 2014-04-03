@@ -27,7 +27,7 @@
         }
 
         public CSSTextAlignProperty()
-            : base(PropertyNames.TEXT_ALIGN)
+            : base(PropertyNames.TextAlign)
         {
             _mode = modes["left"];
             _inherited = true;

@@ -25,7 +25,7 @@
         }
 
         public CSSTableLayoutProperty()
-            : base(PropertyNames.TABLE_LAYOUT)
+            : base(PropertyNames.TableLayout)
         {
             _mode = modes["auto"];
             _inherited = false;

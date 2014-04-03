@@ -27,7 +27,7 @@
         }
 
         public CSSLineHeightProperty()
-            : base(PropertyNames.LINE_HEIGHT)
+            : base(PropertyNames.LineHeight)
         {
             _inherited = true;
             _mode = _normal;

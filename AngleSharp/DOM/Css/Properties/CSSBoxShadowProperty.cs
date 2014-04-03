@@ -29,7 +29,7 @@
         }
 
         public CSSBoxShadowProperty()
-            : base(PropertyNames.BOX_SHADOW)
+            : base(PropertyNames.BoxShadow)
         {
             _mode = _none;
             _inherited = false;

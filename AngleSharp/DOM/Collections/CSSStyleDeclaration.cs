@@ -109,8 +109,8 @@
         [DOM("alignContent")]
         public String AlignContent
         {
-            get { return GetPropertyValue(PropertyNames.ALIGN_CONTENT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ALIGN_CONTENT, value); }
+            get { return GetPropertyValue(PropertyNames.AlignContent) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AlignContent, value); }
         }
 
         /// <summary>
@@ -120,8 +120,8 @@
         [DOM("alignItems")]
         public String AlignItems
         {
-            get { return GetPropertyValue(PropertyNames.ALIGN_ITEMS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ALIGN_ITEMS, value); }
+            get { return GetPropertyValue(PropertyNames.AlignItems) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AlignItems, value); }
         }
 
         /// <summary>
@@ -132,8 +132,8 @@
         [DOM("alignSelf")]
         public String AlignSelf
         {
-            get { return GetPropertyValue(PropertyNames.ALIGN_SELF) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ALIGN_SELF, value); }
+            get { return GetPropertyValue(PropertyNames.AlignSelf) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AlignSelf, value); }
         }
 
         /// <summary>
@@ -143,8 +143,8 @@
         [DOM("accelerator")]
         public String Accelerator
         {
-            get { return GetPropertyValue(PropertyNames.ACCELERATOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ACCELERATOR, value); }
+            get { return GetPropertyValue(PropertyNames.Accelerator) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Accelerator, value); }
         }
 
         /// <summary>
@@ -154,8 +154,8 @@
         [DOM("alignmentBaseline")]
         public String AlignmentBaseline
         {
-            get { return GetPropertyValue(PropertyNames.ALIGN_BASELINE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ALIGN_BASELINE, value); }
+            get { return GetPropertyValue(PropertyNames.AlignBaseline) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AlignBaseline, value); }
         }
 
         /// <summary>
@@ -167,8 +167,8 @@
         [DOM("azimuth")]
         public String Azimuth
         {
-            get { return GetPropertyValue(PropertyNames.AZIMUTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.AZIMUTH, value); }
+            get { return GetPropertyValue(PropertyNames.Azimuth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Azimuth, value); }
         }
 
         /// <summary>
@@ -180,8 +180,8 @@
         [DOM("animation")]
         public String Animation
         {
-            get { return GetPropertyValue(PropertyNames.ANIMATION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ANIMATION, value); }
+            get { return GetPropertyValue(PropertyNames.Animation) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Animation, value); }
         }
 
         /// <summary>
@@ -194,8 +194,8 @@
         [DOM("animationDelay")]
         public String AnimationDelay
         {
-            get { return GetPropertyValue(PropertyNames.ANIMATION_DELAY) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ANIMATION_DELAY, value); }
+            get { return GetPropertyValue(PropertyNames.AnimationDelay) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AnimationDelay, value); }
         }
 
         /// <summary>
@@ -204,8 +204,8 @@
         [DOM("animationDirection")]
         public String AnimationDirection
         {
-            get { return GetPropertyValue(PropertyNames.ANIMATION_DIRECTION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ANIMATION_DIRECTION, value); }
+            get { return GetPropertyValue(PropertyNames.AnimationDirection) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AnimationDirection, value); }
         }
 
         /// <summary>
@@ -214,8 +214,8 @@
         [DOM("animationDuration")]
         public String AnimationDuration
         {
-            get { return GetPropertyValue(PropertyNames.ANIMATION_DURATION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ANIMATION_DURATION, value); }
+            get { return GetPropertyValue(PropertyNames.AnimationDuration) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AnimationDuration, value); }
         }
 
         /// <summary>
@@ -224,8 +224,8 @@
         [DOM("animationFillMode")]
         public String AnimationFillMode
         {
-            get { return GetPropertyValue(PropertyNames.ANIMATION_FILL_MODE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ANIMATION_FILL_MODE, value); }
+            get { return GetPropertyValue(PropertyNames.AnimationFillMode) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AnimationFillMode, value); }
         }
 
         /// <summary>
@@ -234,8 +234,8 @@
         [DOM("animationIterationCount")]
         public String AnimationIterationCount
         {
-            get { return GetPropertyValue(PropertyNames.ANIMATION_ITERATION_COUNT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ANIMATION_ITERATION_COUNT, value); }
+            get { return GetPropertyValue(PropertyNames.AnimationIterationCount) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AnimationIterationCount, value); }
         }
 
         /// <summary>
@@ -245,8 +245,8 @@
         [DOM("animationName")]
         public String AnimationName
         {
-            get { return GetPropertyValue(PropertyNames.ANIMATION_NAME) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ANIMATION_NAME, value); }
+            get { return GetPropertyValue(PropertyNames.AnimationName) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AnimationName, value); }
         }
 
         /// <summary>
@@ -255,8 +255,8 @@
         [DOM("animationPlayState")]
         public String AnimationPlayState
         {
-            get { return GetPropertyValue(PropertyNames.ANIMATION_PLAY_STATE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ANIMATION_PLAY_STATE, value); }
+            get { return GetPropertyValue(PropertyNames.AnimationPlayState) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AnimationPlayState, value); }
         }
 
         /// <summary>
@@ -268,8 +268,8 @@
         [DOM("animationTimingFunction")]
         public String AnimationTimingFunction
         {
-            get { return GetPropertyValue(PropertyNames.ANIMATION_TIMING_FUNCTION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ANIMATION_TIMING_FUNCTION, value); }
+            get { return GetPropertyValue(PropertyNames.AnimationTimingFunction) ?? String.Empty; }
+            set { SetProperty(PropertyNames.AnimationTimingFunction, value); }
         }
 
         /// <summary>
@@ -279,8 +279,8 @@
         [DOM("backfaceVisibility")]
         public String BackfaceVisibility
         {
-            get { return GetPropertyValue(PropertyNames.BACKFACE_VISIBILITY) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BACKFACE_VISIBILITY, value); }
+            get { return GetPropertyValue(PropertyNames.BackfaceVisibility) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BackfaceVisibility, value); }
         }
 
         /// <summary>
@@ -289,8 +289,8 @@
         [DOM("background")]
         public String Background
         {
-            get { return GetPropertyValue(PropertyNames.BACKGROUND) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BACKGROUND, value); }
+            get { return GetPropertyValue(PropertyNames.Background) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Background, value); }
         }
 
         /// <summary>
@@ -300,8 +300,8 @@
         [DOM("backgroundAttachment")]
         public String BackgroundAttachment
         {
-            get { return GetPropertyValue(PropertyNames.BACKGROUND_ATTACHMENT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BACKGROUND_ATTACHMENT, value); }
+            get { return GetPropertyValue(PropertyNames.BackgroundAttachment) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BackgroundAttachment, value); }
         }
 
         /// <summary>
@@ -311,8 +311,8 @@
         [DOM("backgroundClip")]
         public String BackgroundClip
         {
-            get { return GetPropertyValue(PropertyNames.BACKGROUND_CLIP) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BACKGROUND_CLIP, value); }
+            get { return GetPropertyValue(PropertyNames.BackgroundClip) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BackgroundClip, value); }
         }
 
         /// <summary>
@@ -321,8 +321,8 @@
         [DOM("backgroundColor")]
         public String BackgroundColor
         {
-            get { return GetPropertyValue(PropertyNames.BACKGROUND_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BACKGROUND_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.BackgroundColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BackgroundColor, value); }
         }
 
         /// <summary>
@@ -331,8 +331,8 @@
         [DOM("backgroundImage")]
         public String BackgroundImage
         {
-            get { return GetPropertyValue(PropertyNames.BACKGROUND_IMAGE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BACKGROUND_IMAGE, value); }
+            get { return GetPropertyValue(PropertyNames.BackgroundImage) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BackgroundImage, value); }
         }
 
         /// <summary>
@@ -341,8 +341,8 @@
         [DOM("backgroundOrigin")]
         public String BackgroundOrigin
         {
-            get { return GetPropertyValue(PropertyNames.BACKGROUND_ORIGIN) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BACKGROUND_ORIGIN, value); }
+            get { return GetPropertyValue(PropertyNames.BackgroundOrigin) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BackgroundOrigin, value); }
         }
 
         /// <summary>
@@ -351,8 +351,8 @@
         [DOM("backgroundPosition")]
         public String BackgroundPosition
         {
-            get { return GetPropertyValue(PropertyNames.BACKGROUND_POSITION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BACKGROUND_POSITION, value); }
+            get { return GetPropertyValue(PropertyNames.BackgroundPosition) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BackgroundPosition, value); }
         }
 
         /// <summary>
@@ -361,8 +361,8 @@
         [DOM("backgroundPositionX")]
         public String BackgroundPositionX
         {
-            get { return GetPropertyValue(PropertyNames.BACKGROUND_POSITION_X) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BACKGROUND_POSITION_X, value); }
+            get { return GetPropertyValue(PropertyNames.BackgroundPositionX) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BackgroundPositionX, value); }
         }
 
         /// <summary>
@@ -371,8 +371,8 @@
         [DOM("backgroundPositionY")]
         public String BackgroundPositionY
         {
-            get { return GetPropertyValue(PropertyNames.BACKGROUND_POSITION_Y) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BACKGROUND_POSITION_Y, value); }
+            get { return GetPropertyValue(PropertyNames.BackgroundPositionY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BackgroundPositionY, value); }
         }
 
         /// <summary>
@@ -381,8 +381,8 @@
         [DOM("backgroundRepeat")]
         public String BackgroundRepeat
         {
-            get { return GetPropertyValue(PropertyNames.BACKGROUND_REPEAT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BACKGROUND_REPEAT, value); }
+            get { return GetPropertyValue(PropertyNames.BackgroundRepeat) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BackgroundRepeat, value); }
         }
 
         /// <summary>
@@ -391,8 +391,8 @@
         [DOM("backgroundSize")]
         public String BackgroundSize
         {
-            get { return GetPropertyValue(PropertyNames.BACKGROUND_SIZE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BACKGROUND_SIZE, value); }
+            get { return GetPropertyValue(PropertyNames.BackgroundSize) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BackgroundSize, value); }
         }
 
         /// <summary>
@@ -403,8 +403,8 @@
         [DOM("baselineShift")]
         public String BaselineShift
         {
-            get { return GetPropertyValue(PropertyNames.BASELINE_SHIFT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BASELINE_SHIFT, value); }
+            get { return GetPropertyValue(PropertyNames.BaselineShift) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BaselineShift, value); }
         }
 
         /// <summary>
@@ -413,8 +413,8 @@
         [DOM("behavior")]
         public String Behavior
         {
-            get { return GetPropertyValue(PropertyNames.BEHAVIOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BEHAVIOR, value); }
+            get { return GetPropertyValue(PropertyNames.Behavior) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Behavior, value); }
         }
 
         /// <summary>
@@ -423,8 +423,8 @@
         [DOM("border")]
         public String Border
         {
-            get { return GetPropertyValue(PropertyNames.BORDER) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER, value); }
+            get { return GetPropertyValue(PropertyNames.Border) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Border, value); }
         }
 
         /// <summary>
@@ -433,8 +433,8 @@
         [DOM("borderBottom")]
         public String BorderBottom
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_BOTTOM) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_BOTTOM, value); }
+            get { return GetPropertyValue(PropertyNames.BorderBottom) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderBottom, value); }
         }
 
         /// <summary>
@@ -443,8 +443,8 @@
         [DOM("borderBottomColor")]
         public String BorderBottomColor
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_BOTTOM_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_BOTTOM_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.BorderBottomColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderBottomColor, value); }
         }
 
         /// <summary>
@@ -454,8 +454,8 @@
         [DOM("borderBottomLeftRadius")]
         public String BorderBottomLeftRadius
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_BOTTOM_LEFT_RADIUS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_BOTTOM_LEFT_RADIUS, value); }
+            get { return GetPropertyValue(PropertyNames.BorderBottomLeftRadius) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderBottomLeftRadius, value); }
         }
 
         /// <summary>
@@ -466,8 +466,8 @@
         [DOM("borderBottomRightRadius")]
         public String BorderBottomRightRadius
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_BOTTOM_RIGHT_RADIUS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_BOTTOM_RIGHT_RADIUS, value); }
+            get { return GetPropertyValue(PropertyNames.BorderBottomRightRadius) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderBottomRightRadius, value); }
         }
 
         /// <summary>
@@ -476,8 +476,8 @@
         [DOM("borderBottomStyle")]
         public String BorderBottomStyle
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_BOTTOM_STYLE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_BOTTOM_STYLE, value); }
+            get { return GetPropertyValue(PropertyNames.BorderBottomStyle) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderBottomStyle, value); }
         }
 
         /// <summary>
@@ -486,8 +486,8 @@
         [DOM("borderBottomWidth")]
         public String BorderBottomWidth
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_BOTTOM_WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_BOTTOM_WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.BorderBottomWidth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderBottomWidth, value); }
         }
 
         /// <summary>
@@ -497,8 +497,8 @@
         [DOM("borderCollapse")]
         public String BorderCollapse
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_COLLAPSE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_COLLAPSE, value); }
+            get { return GetPropertyValue(PropertyNames.BorderCollapse) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderCollapse, value); }
         }
 
         /// <summary>
@@ -507,8 +507,8 @@
         [DOM("borderColor")]
         public String BorderColor
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.BorderColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderColor, value); }
         }
 
         /// <summary>
@@ -517,8 +517,8 @@
         [DOM("borderImage")]
         public String BorderImage
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_IMAGE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_IMAGE, value); }
+            get { return GetPropertyValue(PropertyNames.BorderImage) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderImage, value); }
         }
 
         /// <summary>
@@ -527,8 +527,8 @@
         [DOM("borderImageOutset")]
         public String BorderImageOutset
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_IMAGE_OUTSET) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_IMAGE_OUTSET, value); }
+            get { return GetPropertyValue(PropertyNames.BorderImageOutset) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderImageOutset, value); }
         }
 
         /// <summary>
@@ -537,8 +537,8 @@
         [DOM("borderImageRepeat")]
         public String BorderImageRepeat
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_IMAGE_REPEAT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_IMAGE_REPEAT, value); }
+            get { return GetPropertyValue(PropertyNames.BorderImageRepeat) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderImageRepeat, value); }
         }
 
         /// <summary>
@@ -548,8 +548,8 @@
         [DOM("borderImageSlice")]
         public String BorderImageSlice
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_IMAGE_SLICE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_IMAGE_SLICE, value); }
+            get { return GetPropertyValue(PropertyNames.BorderImageSlice) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderImageSlice, value); }
         }
 
         /// <summary>
@@ -558,8 +558,8 @@
         [DOM("borderImageSource")]
         public String BorderImageSource
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_IMAGE_SOURCE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_IMAGE_SOURCE, value); }
+            get { return GetPropertyValue(PropertyNames.BorderImageSource) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderImageSource, value); }
         }
 
         /// <summary>
@@ -568,8 +568,8 @@
         [DOM("borderImageWidth")]
         public String BorderImageWidth
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_IMAGE_WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_IMAGE_WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.BorderImageWidth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderImageWidth, value); }
         }
 
         /// <summary>
@@ -578,8 +578,8 @@
         [DOM("borderLeft")]
         public String BorderLeft
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_LEFT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_LEFT, value); }
+            get { return GetPropertyValue(PropertyNames.BorderLeft) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderLeft, value); }
         }
 
         /// <summary>
@@ -588,8 +588,8 @@
         [DOM("borderLeftColor")]
         public String BorderLeftColor
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_LEFT_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_LEFT_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.BorderLeftColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderLeftColor, value); }
         }
 
         /// <summary>
@@ -598,8 +598,8 @@
         [DOM("borderLeftStyle")]
         public String BorderLeftStyle
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_LEFT_STYLE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_LEFT_STYLE, value); }
+            get { return GetPropertyValue(PropertyNames.BorderLeftStyle) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderLeftStyle, value); }
         }
 
         /// <summary>
@@ -608,8 +608,8 @@
         [DOM("borderLeftWidth")]
         public String BorderLeftWidth
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_LEFT_WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_LEFT_WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.BorderLeftWidth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderLeftWidth, value); }
         }
 
         /// <summary>
@@ -619,8 +619,8 @@
         [DOM("borderRadius")]
         public String BorderRadius
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_RADIUS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_RADIUS, value); }
+            get { return GetPropertyValue(PropertyNames.BorderRadius) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderRadius, value); }
         }
 
         /// <summary>
@@ -629,8 +629,8 @@
         [DOM("borderRight")]
         public String BorderRight
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_RIGHT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_RIGHT, value); }
+            get { return GetPropertyValue(PropertyNames.BorderRight) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderRight, value); }
         }
 
         /// <summary>
@@ -639,8 +639,8 @@
         [DOM("borderRightColor")]
         public String BorderRightColor
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_RIGHT_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_RIGHT_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.BorderRightColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderRightColor, value); }
         }
 
         /// <summary>
@@ -649,8 +649,8 @@
         [DOM("borderRightStyle")]
         public String BorderRightStyle
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_RIGHT_STYLE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_RIGHT_STYLE, value); }
+            get { return GetPropertyValue(PropertyNames.BorderRightStyle) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderRightStyle, value); }
         }
 
         /// <summary>
@@ -659,8 +659,8 @@
         [DOM("borderRightWidth")]
         public String BorderRightWidth
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_RIGHT_WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_RIGHT_WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.BorderRightWidth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderRightWidth, value); }
         }
 
         /// <summary>
@@ -669,8 +669,8 @@
         [DOM("borderSpacing")]
         public String BorderSpacing
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_SPACING) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_SPACING, value); }
+            get { return GetPropertyValue(PropertyNames.BorderSpacing) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderSpacing, value); }
         }
 
         /// <summary>
@@ -679,8 +679,8 @@
         [DOM("borderStyle")]
         public String BorderStyle
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_STYLE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_STYLE, value); }
+            get { return GetPropertyValue(PropertyNames.BorderStyle) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderStyle, value); }
         }
 
         /// <summary>
@@ -689,8 +689,8 @@
         [DOM("borderTop")]
         public String BorderTop
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_TOP) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_TOP, value); }
+            get { return GetPropertyValue(PropertyNames.BorderTop) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderTop, value); }
         }
 
         /// <summary>
@@ -699,8 +699,8 @@
         [DOM("borderTopColor")]
         public String BorderTopColor
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_TOP_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_TOP_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.BorderTopColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderTopColor, value); }
         }
 
         /// <summary>
@@ -710,8 +710,8 @@
         [DOM("borderTopLeftRadius")]
         public String BorderTopLeftRadius
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_TOP_LEFT_RADIUS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_TOP_LEFT_RADIUS, value); }
+            get { return GetPropertyValue(PropertyNames.BorderTopLeftRadius) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderTopLeftRadius, value); }
         }
 
         /// <summary>
@@ -722,8 +722,8 @@
         [DOM("borderTopRightRadius")]
         public String BorderTopRightRadius
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_TOP_RIGHT_RADIUS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_TOP_RIGHT_RADIUS, value); }
+            get { return GetPropertyValue(PropertyNames.BorderTopRightRadius) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderTopRightRadius, value); }
         }
 
         /// <summary>
@@ -732,8 +732,8 @@
         [DOM("borderTopStyle")]
         public String BorderTopStyle
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_TOP_STYLE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_TOP_STYLE, value); }
+            get { return GetPropertyValue(PropertyNames.BorderTopStyle) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderTopStyle, value); }
         }
 
         /// <summary>
@@ -742,8 +742,8 @@
         [DOM("borderTopWidth")]
         public String BorderTopWidth
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_TOP_WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_TOP_WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.BorderTopWidth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderTopWidth, value); }
         }
 
         /// <summary>
@@ -752,8 +752,8 @@
         [DOM("borderWidth")]
         public String BorderWidth
         {
-            get { return GetPropertyValue(PropertyNames.BORDER_WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BORDER_WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.BorderWidth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BorderWidth, value); }
         }
 
         /// <summary>
@@ -763,8 +763,8 @@
         [DOM("boxShadow")]
         public String BoxShadow
         {
-            get { return GetPropertyValue(PropertyNames.BOX_SHADOW) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BOX_SHADOW, value); }
+            get { return GetPropertyValue(PropertyNames.BoxShadow) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BoxShadow, value); }
         }
 
         /// <summary>
@@ -773,8 +773,8 @@
         [DOM("boxSizing")]
         public String BoxSizing
         {
-            get { return GetPropertyValue(PropertyNames.BOX_SIZING) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BOX_SIZING, value); }
+            get { return GetPropertyValue(PropertyNames.BoxSizing) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BoxSizing, value); }
         }
 
         /// <summary>
@@ -784,8 +784,8 @@
         [DOM("breakAfter")]
         public String BreakAfter
         {
-            get { return GetPropertyValue(PropertyNames.BREAK_AFTER) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BREAK_AFTER, value); }
+            get { return GetPropertyValue(PropertyNames.BreakAfter) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BreakAfter, value); }
         }
 
         /// <summary>
@@ -795,8 +795,8 @@
         [DOM("breakBefore")]
         public String BreakBefore
         {
-            get { return GetPropertyValue(PropertyNames.BREAK_BEFORE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BREAK_BEFORE, value); }
+            get { return GetPropertyValue(PropertyNames.BreakBefore) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BreakBefore, value); }
         }
 
         /// <summary>
@@ -806,8 +806,8 @@
         [DOM("breakInside")]
         public String BreakInside
         {
-            get { return GetPropertyValue(PropertyNames.BREAK_INSIDE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.BREAK_INSIDE, value); }
+            get { return GetPropertyValue(PropertyNames.BreakInside) ?? String.Empty; }
+            set { SetProperty(PropertyNames.BreakInside, value); }
         }
 
         /// <summary>
@@ -816,8 +816,8 @@
         [DOM("captionSide")]
         public String CaptionSide
         {
-            get { return GetPropertyValue(PropertyNames.CAPTION_SIDE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.CAPTION_SIDE, value); }
+            get { return GetPropertyValue(PropertyNames.CaptionSide) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CaptionSide, value); }
         }
 
         /// <summary>
@@ -827,8 +827,8 @@
         [DOM("clear")]
         public String Clear
         {
-            get { return GetPropertyValue(PropertyNames.CLEAR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.CLEAR, value); }
+            get { return GetPropertyValue(PropertyNames.Clear) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Clear, value); }
         }
 
         /// <summary>
@@ -837,8 +837,8 @@
         [DOM("clip")]
         public String Clip
         {
-            get { return GetPropertyValue(PropertyNames.CLIP) ?? String.Empty; }
-            set { SetProperty(PropertyNames.CLIP, value); }
+            get { return GetPropertyValue(PropertyNames.Clip) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Clip, value); }
         }
 
         /// <summary>
@@ -847,8 +847,8 @@
         [DOM("clipBottom")]
         public String ClipBottom
         {
-            get { return GetPropertyValue(PropertyNames.CLIP_BOTTOM) ?? String.Empty; }
-            set { SetProperty(PropertyNames.CLIP_BOTTOM, value); }
+            get { return GetPropertyValue(PropertyNames.ClipBottom) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ClipBottom, value); }
         }
 
         /// <summary>
@@ -857,8 +857,8 @@
         [DOM("clipLeft")]
         public String ClipLeft
         {
-            get { return GetPropertyValue(PropertyNames.CLIP_LEFT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.CLIP_LEFT, value); }
+            get { return GetPropertyValue(PropertyNames.ClipLeft) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ClipLeft, value); }
         }
 
         /// <summary>
@@ -868,8 +868,8 @@
         [DOM("clipPath")]
         public String ClipPath
         {
-            get { return GetPropertyValue(PropertyNames.CLIP_PATH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.CLIP_PATH, value); }
+            get { return GetPropertyValue(PropertyNames.ClipPath) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ClipPath, value); }
         }
 
         /// <summary>
@@ -878,8 +878,8 @@
         [DOM("clipRight")]
         public String ClipRight
         {
-            get { return GetPropertyValue(PropertyNames.CLIP_RIGHT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.CLIP_RIGHT, value); }
+            get { return GetPropertyValue(PropertyNames.ClipRight) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ClipRight, value); }
         }
 
         /// <summary>
@@ -889,8 +889,8 @@
         [DOM("clipRule")]
         public String ClipRule
         {
-            get { return GetPropertyValue(PropertyNames.CLIP_RULE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.CLIP_RULE, value); }
+            get { return GetPropertyValue(PropertyNames.ClipRule) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ClipRule, value); }
         }
 
         /// <summary>
@@ -899,8 +899,8 @@
         [DOM("clipTop")]
         public String ClipTop
         {
-            get { return GetPropertyValue(PropertyNames.CLIP_TOP) ?? String.Empty; }
-            set { SetProperty(PropertyNames.CLIP_TOP, value); }
+            get { return GetPropertyValue(PropertyNames.ClipTop) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ClipTop, value); }
         }
 
         /// <summary>
@@ -909,8 +909,8 @@
         [DOM("color")]
         public String Color
         {
-            get { return GetPropertyValue(PropertyNames.COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.Color) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Color, value); }
         }
 
         /// <summary>
@@ -919,8 +919,8 @@
         [DOM("colorInterpolationFilters")]
         public String ColorInterpolationFilters
         {
-            get { return GetPropertyValue(PropertyNames.COLOR_INTERPOLATION_FILTERS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COLOR_INTERPOLATION_FILTERS, value); }
+            get { return GetPropertyValue(PropertyNames.ColorInterpolationFilters) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ColorInterpolationFilters, value); }
         }
 
         /// <summary>
@@ -929,8 +929,8 @@
         [DOM("columnCount")]
         public String ColumnCount
         {
-            get { return GetPropertyValue(PropertyNames.COLUMN_COUNT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COLUMN_COUNT, value); }
+            get { return GetPropertyValue(PropertyNames.ColumnCount) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ColumnCount, value); }
         }
 
         /// <summary>
@@ -940,8 +940,8 @@
         [DOM("columnFill")]
         public String ColumnFill
         {
-            get { return GetPropertyValue(PropertyNames.COLUMN_FILL) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COLUMN_FILL, value); }
+            get { return GetPropertyValue(PropertyNames.ColumnFill) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ColumnFill, value); }
         }
 
         /// <summary>
@@ -950,8 +950,8 @@
         [DOM("columnGap")]
         public String ColumnGap
         {
-            get { return GetPropertyValue(PropertyNames.COLUMN_GAP) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COLUMN_GAP, value); }
+            get { return GetPropertyValue(PropertyNames.ColumnGap) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ColumnGap, value); }
         }
 
         /// <summary>
@@ -961,8 +961,8 @@
         [DOM("columnRule")]
         public String ColumnRule
         {
-            get { return GetPropertyValue(PropertyNames.COLUMN_RULE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COLUMN_RULE, value); }
+            get { return GetPropertyValue(PropertyNames.ColumnRule) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ColumnRule, value); }
         }
 
         /// <summary>
@@ -971,8 +971,8 @@
         [DOM("columnRuleColor")]
         public String ColumnRuleColor
         {
-            get { return GetPropertyValue(PropertyNames.COLUMN_RULE_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COLUMN_RULE_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.ColumnRuleColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ColumnRuleColor, value); }
         }
 
         /// <summary>
@@ -981,8 +981,8 @@
         [DOM("columnRuleStyle")]
         public String ColumnRuleStyle
         {
-            get { return GetPropertyValue(PropertyNames.COLUMN_RULE_STYLE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COLUMN_RULE_STYLE, value); }
+            get { return GetPropertyValue(PropertyNames.ColumnRuleStyle) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ColumnRuleStyle, value); }
         }
 
         /// <summary>
@@ -991,8 +991,8 @@
         [DOM("columnRuleWidth")]
         public String ColumnRuleWidth
         {
-            get { return GetPropertyValue(PropertyNames.COLUMN_RULE_WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COLUMN_RULE_WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.ColumnRuleWidth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ColumnRuleWidth, value); }
         }
 
         /// <summary>
@@ -1002,8 +1002,8 @@
         [DOM("columns")]
         public String Columns
         {
-            get { return GetPropertyValue(PropertyNames.COLUMNS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COLUMNS, value); }
+            get { return GetPropertyValue(PropertyNames.Columns) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Columns, value); }
         }
 
         /// <summary>
@@ -1013,8 +1013,8 @@
         [DOM("columnSpan")]
         public String ColumnSpan
         {
-            get { return GetPropertyValue(PropertyNames.COLUMN_SPAN) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COLUMN_SPAN, value); }
+            get { return GetPropertyValue(PropertyNames.ColumnSpan) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ColumnSpan, value); }
         }
 
         /// <summary>
@@ -1023,8 +1023,8 @@
         [DOM("columnWidth")]
         public String ColumnWidth
         {
-            get { return GetPropertyValue(PropertyNames.COLUMN_WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COLUMN_WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.ColumnWidth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ColumnWidth, value); }
         }
 
         /// <summary>
@@ -1033,8 +1033,8 @@
         [DOM("content")]
         public String Content
         {
-            get { return GetPropertyValue(PropertyNames.CONTENT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.CONTENT, value); }
+            get { return GetPropertyValue(PropertyNames.Content) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Content, value); }
         }
 
         /// <summary>
@@ -1043,8 +1043,8 @@
         [DOM("counterIncrement")]
         public String CounterIncrement
         {
-            get { return GetPropertyValue(PropertyNames.COUNTER_INCREMENT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COUNTER_INCREMENT, value); }
+            get { return GetPropertyValue(PropertyNames.CounterIncrement) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CounterIncrement, value); }
         }
 
         /// <summary>
@@ -1053,8 +1053,8 @@
         [DOM("counterReset")]
         public String CounterReset
         {
-            get { return GetPropertyValue(PropertyNames.COUNTER_RESET) ?? String.Empty; }
-            set { SetProperty(PropertyNames.COUNTER_RESET, value); }
+            get { return GetPropertyValue(PropertyNames.CounterReset) ?? String.Empty; }
+            set { SetProperty(PropertyNames.CounterReset, value); }
         }
 
         /// <summary>
@@ -1064,8 +1064,8 @@
         [DOM("cssFloat")]
         public String Float
         {
-            get { return GetPropertyValue(PropertyNames.FLOAT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FLOAT, value); }
+            get { return GetPropertyValue(PropertyNames.Float) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Float, value); }
         }
 
         /// <summary>
@@ -1075,8 +1075,8 @@
         [DOM("cursor")]
         public String Cursor
         {
-            get { return GetPropertyValue(PropertyNames.CURSOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.CURSOR, value); }
+            get { return GetPropertyValue(PropertyNames.Cursor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Cursor, value); }
         }
 
         /// <summary>
@@ -1085,8 +1085,8 @@
         [DOM("direction")]
         public String Direction
         {
-            get { return GetPropertyValue(PropertyNames.DIRECTION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.DIRECTION, value); }
+            get { return GetPropertyValue(PropertyNames.Direction) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Direction, value); }
         }
 
         /// <summary>
@@ -1095,8 +1095,8 @@
         [DOM("display")]
         public String Display
         {
-            get { return GetPropertyValue(PropertyNames.DISPLAY) ?? String.Empty; }
-            set { SetProperty(PropertyNames.DISPLAY, value); }
+            get { return GetPropertyValue(PropertyNames.Display) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Display, value); }
         }
 
         /// <summary>
@@ -1105,8 +1105,8 @@
         [DOM("dominantBaseline")]
         public String DominantBaseline
         {
-            get { return GetPropertyValue(PropertyNames.DOMINANT_BASELINE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.DOMINANT_BASELINE, value); }
+            get { return GetPropertyValue(PropertyNames.DominantBaseline) ?? String.Empty; }
+            set { SetProperty(PropertyNames.DominantBaseline, value); }
         }
 
         /// <summary>
@@ -1115,8 +1115,8 @@
         [DOM("emptyCells")]
         public String EmptyCells
         {
-            get { return GetPropertyValue(PropertyNames.EMPTY_CELLS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.EMPTY_CELLS, value); }
+            get { return GetPropertyValue(PropertyNames.EmptyCells) ?? String.Empty; }
+            set { SetProperty(PropertyNames.EmptyCells, value); }
         }
 
         /// <summary>
@@ -1125,8 +1125,8 @@
         [DOM("enableBackground")]
         public String EnableBackground
         {
-            get { return GetPropertyValue(PropertyNames.ENABLE_BACKGROUND) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ENABLE_BACKGROUND, value); }
+            get { return GetPropertyValue(PropertyNames.EnableBackground) ?? String.Empty; }
+            set { SetProperty(PropertyNames.EnableBackground, value); }
         }
 
         /// <summary>
@@ -1136,8 +1136,8 @@
         [DOM("fill")]
         public String Fill
         {
-            get { return GetPropertyValue(PropertyNames.FILL) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FILL, value); }
+            get { return GetPropertyValue(PropertyNames.Fill) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Fill, value); }
         }
 
         /// <summary>
@@ -1147,8 +1147,8 @@
         [DOM("fillOpacity")]
         public String FillOpacity
         {
-            get { return GetPropertyValue(PropertyNames.FILL_OPACITY) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FILL_OPACITY, value); }
+            get { return GetPropertyValue(PropertyNames.FillOpacity) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FillOpacity, value); }
         }
 
         /// <summary>
@@ -1158,8 +1158,8 @@
         [DOM("fillRule")]
         public String FillRule
         {
-            get { return GetPropertyValue(PropertyNames.FILL_RULE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FILL_RULE, value); }
+            get { return GetPropertyValue(PropertyNames.FillRule) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FillRule, value); }
         }
 
         /// <summary>
@@ -1169,8 +1169,8 @@
         [DOM("filter")]
         public String Filter
         {
-            get { return GetPropertyValue(PropertyNames.FILTER) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FILTER, value); }
+            get { return GetPropertyValue(PropertyNames.Filter) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Filter, value); }
         }
 
         /// <summary>
@@ -1180,8 +1180,8 @@
         [DOM("flex")]
         public String Flex
         {
-            get { return GetPropertyValue(PropertyNames.FLEX) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FLEX, value); }
+            get { return GetPropertyValue(PropertyNames.Flex) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Flex, value); }
         }
 
         /// <summary>
@@ -1190,8 +1190,8 @@
         [DOM("flexBasis")]
         public String FlexBasis
         {
-            get { return GetPropertyValue(PropertyNames.FLEX_BASIS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FLEX_BASIS, value); }
+            get { return GetPropertyValue(PropertyNames.FlexBasis) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FlexBasis, value); }
         }
 
         /// <summary>
@@ -1201,8 +1201,8 @@
         [DOM("flexDirection")]
         public String FlexDirection
         {
-            get { return GetPropertyValue(PropertyNames.FLEX_DIRECTION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FLEX_DIRECTION, value); }
+            get { return GetPropertyValue(PropertyNames.FlexDirection) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FlexDirection, value); }
         }
 
         /// <summary>
@@ -1212,8 +1212,8 @@
         [DOM("flexFlow")]
         public String FlexFlow
         {
-            get { return GetPropertyValue(PropertyNames.FLEX_FLOW) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FLEX_FLOW, value); }
+            get { return GetPropertyValue(PropertyNames.FlexFlow) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FlexFlow, value); }
         }
 
         /// <summary>
@@ -1222,8 +1222,8 @@
         [DOM("flexGrow")]
         public String FlexGrow
         {
-            get { return GetPropertyValue(PropertyNames.FLEX_GROW) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FLEX_GROW, value); }
+            get { return GetPropertyValue(PropertyNames.FlexGrow) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FlexGrow, value); }
         }
 
         /// <summary>
@@ -1232,8 +1232,8 @@
         [DOM("flexShrink")]
         public String FlexShrink
         {
-            get { return GetPropertyValue(PropertyNames.FLEX_SHRINK) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FLEX_SHRINK, value); }
+            get { return GetPropertyValue(PropertyNames.FlexShrink) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FlexShrink, value); }
         }
 
         /// <summary>
@@ -1244,8 +1244,8 @@
         [DOM("flexWrap")]
         public String FlexWrap
         {
-            get { return GetPropertyValue(PropertyNames.FLEX_WRAP) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FLEX_WRAP, value); }
+            get { return GetPropertyValue(PropertyNames.FlexWrap) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FlexWrap, value); }
         }
 
         /// <summary>
@@ -1256,8 +1256,8 @@
         [DOM("font")]
         public String Font
         {
-            get { return GetPropertyValue(PropertyNames.FONT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FONT, value); }
+            get { return GetPropertyValue(PropertyNames.Font) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Font, value); }
         }
 
         /// <summary>
@@ -1266,8 +1266,8 @@
         [DOM("fontFamily")]
         public String FontFamily
         {
-            get { return GetPropertyValue(PropertyNames.FONT_FAMILY) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FONT_FAMILY, value); }
+            get { return GetPropertyValue(PropertyNames.FontFamily) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FontFamily, value); }
         }
 
         /// <summary>
@@ -1277,8 +1277,8 @@
         [DOM("fontFeatureSettings")]
         public String FontFeatureSettings
         {
-            get { return GetPropertyValue(PropertyNames.FONT_FEATURE_SETTINGS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FONT_FEATURE_SETTINGS, value); }
+            get { return GetPropertyValue(PropertyNames.FontFeatureSettings) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FontFeatureSettings, value); }
         }
 
         /// <summary>
@@ -1287,8 +1287,8 @@
         [DOM("fontSize")]
         public String FontSize
         {
-            get { return GetPropertyValue(PropertyNames.FONT_SIZE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FONT_SIZE, value); }
+            get { return GetPropertyValue(PropertyNames.FontSize) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FontSize, value); }
         }
 
         /// <summary>
@@ -1299,8 +1299,8 @@
         [DOM("fontSizeAdjust")]
         public String FontSizeAdjust
         {
-            get { return GetPropertyValue(PropertyNames.FONT_SIZE_ADJUST) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FONT_SIZE_ADJUST, value); }
+            get { return GetPropertyValue(PropertyNames.FontSizeAdjust) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FontSizeAdjust, value); }
         }
 
         /// <summary>
@@ -1310,8 +1310,8 @@
         [DOM("fontStretch")]
         public String FontStretch
         {
-            get { return GetPropertyValue(PropertyNames.FONT_STRETCH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FONT_STRETCH, value); }
+            get { return GetPropertyValue(PropertyNames.FontStretch) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FontStretch, value); }
         }
 
         /// <summary>
@@ -1320,8 +1320,8 @@
         [DOM("fontStyle")]
         public String FontStyle
         {
-            get { return GetPropertyValue(PropertyNames.FONT_STYLE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FONT_STYLE, value); }
+            get { return GetPropertyValue(PropertyNames.FontStyle) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FontStyle, value); }
         }
 
         /// <summary>
@@ -1330,8 +1330,8 @@
         [DOM("fontVariant")]
         public String FontVariant
         {
-            get { return GetPropertyValue(PropertyNames.FONT_VARIANT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FONT_VARIANT, value); }
+            get { return GetPropertyValue(PropertyNames.FontVariant) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FontVariant, value); }
         }
 
         /// <summary>
@@ -1340,8 +1340,8 @@
         [DOM("fontWeight")]
         public String FontWeight
         {
-            get { return GetPropertyValue(PropertyNames.FONT_WEIGHT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.FONT_WEIGHT, value); }
+            get { return GetPropertyValue(PropertyNames.FontWeight) ?? String.Empty; }
+            set { SetProperty(PropertyNames.FontWeight, value); }
         }
 
         /// <summary>
@@ -1351,8 +1351,8 @@
         [DOM("glyphOrientationHorizontal")]
         public String GlyphOrientationHorizontal
         {
-            get { return GetPropertyValue(PropertyNames.GLYPH_ORIENTATION_HORIZONTAL) ?? String.Empty; }
-            set { SetProperty(PropertyNames.GLYPH_ORIENTATION_HORIZONTAL, value); }
+            get { return GetPropertyValue(PropertyNames.GlyphOrientationHorizontal) ?? String.Empty; }
+            set { SetProperty(PropertyNames.GlyphOrientationHorizontal, value); }
         }
 
         /// <summary>
@@ -1362,8 +1362,8 @@
         [DOM("glyphOrientationVertical")]
         public String GlyphOrientationVertical
         {
-            get { return GetPropertyValue(PropertyNames.GLYPH_ORIENTATION_VERTICAL) ?? String.Empty; }
-            set { SetProperty(PropertyNames.GLYPH_ORIENTATION_VERTICAL, value); }
+            get { return GetPropertyValue(PropertyNames.GlyphOrientationVertical) ?? String.Empty; }
+            set { SetProperty(PropertyNames.GlyphOrientationVertical, value); }
         }
 
         /// <summary>
@@ -1372,8 +1372,8 @@
         [DOM("height")]
         public String Height
         {
-            get { return GetPropertyValue(PropertyNames.HEIGHT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.HEIGHT, value); }
+            get { return GetPropertyValue(PropertyNames.Height) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Height, value); }
         }
 
         /// <summary>
@@ -1382,8 +1382,8 @@
         [DOM("imeMode")]
         public String ImeMode
         {
-            get { return GetPropertyValue(PropertyNames.IME_MODE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.IME_MODE, value); }
+            get { return GetPropertyValue(PropertyNames.ImeMode) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ImeMode, value); }
         }
 
         /// <summary>
@@ -1393,8 +1393,8 @@
         [DOM("justifyContent")]
         public String JustifyContent
         {
-            get { return GetPropertyValue(PropertyNames.JUSTIFY_CONTENT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.JUSTIFY_CONTENT, value); }
+            get { return GetPropertyValue(PropertyNames.JustifyContent) ?? String.Empty; }
+            set { SetProperty(PropertyNames.JustifyContent, value); }
         }
 
         /// <summary>
@@ -1404,8 +1404,8 @@
         [DOM("layoutGrid")]
         public String LayoutGrid
         {
-            get { return GetPropertyValue(PropertyNames.LAYOUT_GRID) ?? String.Empty; }
-            set { SetProperty(PropertyNames.LAYOUT_GRID, value); }
+            get { return GetPropertyValue(PropertyNames.LayoutGrid) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LayoutGrid, value); }
         }
 
         /// <summary>
@@ -1415,8 +1415,8 @@
         [DOM("layoutGridChar")]
         public String LayoutGridChar
         {
-            get { return GetPropertyValue(PropertyNames.LAYOUT_GRID_CHAR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.LAYOUT_GRID_CHAR, value); }
+            get { return GetPropertyValue(PropertyNames.LayoutGridChar) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LayoutGridChar, value); }
         }
 
         /// <summary>
@@ -1426,8 +1426,8 @@
         [DOM("layoutGridLine")]
         public String LayoutGridLine
         {
-            get { return GetPropertyValue(PropertyNames.LAYOUT_GRID_LINE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.LAYOUT_GRID_LINE, value); }
+            get { return GetPropertyValue(PropertyNames.LayoutGridLine) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LayoutGridLine, value); }
         }
 
         /// <summary>
@@ -1436,8 +1436,8 @@
         [DOM("layoutGridMode")]
         public String LayoutGridMode
         {
-            get { return GetPropertyValue(PropertyNames.LAYOUT_GRID_MODE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.LAYOUT_GRID_MODE, value); }
+            get { return GetPropertyValue(PropertyNames.LayoutGridMode) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LayoutGridMode, value); }
         }
 
         /// <summary>
@@ -1447,8 +1447,8 @@
         [DOM("layoutGridType")]
         public String LayoutGridType
         {
-            get { return GetPropertyValue(PropertyNames.LAYOUT_GRID_TYPE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.LAYOUT_GRID_TYPE, value); }
+            get { return GetPropertyValue(PropertyNames.LayoutGridType) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LayoutGridType, value); }
         }
 
         /// <summary>
@@ -1458,8 +1458,8 @@
         [DOM("left")]
         public String Left
         {
-            get { return GetPropertyValue(PropertyNames.LEFT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.LEFT, value); }
+            get { return GetPropertyValue(PropertyNames.Left) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Left, value); }
         }
 
         /// <summary>
@@ -1468,8 +1468,8 @@
         [DOM("letterSpacing")]
         public String LetterSpacing
         {
-            get { return GetPropertyValue(PropertyNames.LETTER_SPACING) ?? String.Empty; }
-            set { SetProperty(PropertyNames.LETTER_SPACING, value); }
+            get { return GetPropertyValue(PropertyNames.LetterSpacing) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LetterSpacing, value); }
         }
 
         /// <summary>
@@ -1478,8 +1478,8 @@
         [DOM("lineHeight")]
         public String LineHeight
         {
-            get { return GetPropertyValue(PropertyNames.LINE_HEIGHT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.LINE_HEIGHT, value); }
+            get { return GetPropertyValue(PropertyNames.LineHeight) ?? String.Empty; }
+            set { SetProperty(PropertyNames.LineHeight, value); }
         }
 
         /// <summary>
@@ -1488,8 +1488,8 @@
         [DOM("listStyle")]
         public String ListStyle
         {
-            get { return GetPropertyValue(PropertyNames.LIST_STYLE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.LIST_STYLE, value); }
+            get { return GetPropertyValue(PropertyNames.ListStyle) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ListStyle, value); }
         }
 
         /// <summary>
@@ -1499,8 +1499,8 @@
         [DOM("listStyleImage")]
         public String ListStyleImage
         {
-            get { return GetPropertyValue(PropertyNames.LIST_STYLE_IMAGE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.LIST_STYLE_IMAGE, value); }
+            get { return GetPropertyValue(PropertyNames.ListStyleImage) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ListStyleImage, value); }
         }
 
         /// <summary>
@@ -1510,8 +1510,8 @@
         [DOM("listStylePosition")]
         public String ListStylePosition
         {
-            get { return GetPropertyValue(PropertyNames.LIST_STYLE_POSITION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.LIST_STYLE_POSITION, value); }
+            get { return GetPropertyValue(PropertyNames.ListStylePosition) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ListStylePosition, value); }
         }
 
         /// <summary>
@@ -1520,8 +1520,8 @@
         [DOM("listStyleType")]
         public String ListStyleType
         {
-            get { return GetPropertyValue(PropertyNames.LIST_STYLE_TYPE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.LIST_STYLE_TYPE, value); }
+            get { return GetPropertyValue(PropertyNames.ListStyleType) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ListStyleType, value); }
         }
 
         /// <summary>
@@ -1530,8 +1530,8 @@
         [DOM("margin")]
         public String Margin
         {
-            get { return GetPropertyValue(PropertyNames.MARGIN) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MARGIN, value); }
+            get { return GetPropertyValue(PropertyNames.Margin) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Margin, value); }
         }
 
         /// <summary>
@@ -1540,8 +1540,8 @@
         [DOM("marginBottom")]
         public String MarginBottom
         {
-            get { return GetPropertyValue(PropertyNames.MARGIN_BOTTOM) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MARGIN_BOTTOM, value); }
+            get { return GetPropertyValue(PropertyNames.MarginBottom) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MarginBottom, value); }
         }
 
         /// <summary>
@@ -1550,8 +1550,8 @@
         [DOM("marginLeft")]
         public String MarginLeft
         {
-            get { return GetPropertyValue(PropertyNames.MARGIN_LEFT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MARGIN_LEFT, value); }
+            get { return GetPropertyValue(PropertyNames.MarginLeft) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MarginLeft, value); }
         }
 
         /// <summary>
@@ -1560,8 +1560,8 @@
         [DOM("marginRight")]
         public String MarginRight
         {
-            get { return GetPropertyValue(PropertyNames.MARGIN_RIGHT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MARGIN_RIGHT, value); }
+            get { return GetPropertyValue(PropertyNames.MarginRight) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MarginRight, value); }
         }
 
         /// <summary>
@@ -1570,8 +1570,8 @@
         [DOM("marginTop")]
         public String MarginTop
         {
-            get { return GetPropertyValue(PropertyNames.MARGIN_TOP) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MARGIN_TOP, value); }
+            get { return GetPropertyValue(PropertyNames.MarginTop) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MarginTop, value); }
         }
 
         /// <summary>
@@ -1581,8 +1581,8 @@
         [DOM("marker")]
         public String Marker
         {
-            get { return GetPropertyValue(PropertyNames.MARKER) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MARKER, value); }
+            get { return GetPropertyValue(PropertyNames.Marker) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Marker, value); }
         }
 
         /// <summary>
@@ -1593,8 +1593,8 @@
         [DOM("markerEnd")]
         public String MarkerEnd
         {
-            get { return GetPropertyValue(PropertyNames.MARKER_END) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MARKER_END, value); }
+            get { return GetPropertyValue(PropertyNames.MarkerEnd) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MarkerEnd, value); }
         }
 
         /// <summary>
@@ -1605,8 +1605,8 @@
         [DOM("markerMid")]
         public String MarkerMid
         {
-            get { return GetPropertyValue(PropertyNames.MARKER_MID) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MARKER_MID, value); }
+            get { return GetPropertyValue(PropertyNames.MarkerMid) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MarkerMid, value); }
         }
 
         /// <summary>
@@ -1617,8 +1617,8 @@
         [DOM("markerStart")]
         public String MarkerStart
         {
-            get { return GetPropertyValue(PropertyNames.MARKER_START) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MARKER_START, value); }
+            get { return GetPropertyValue(PropertyNames.MarkerStart) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MarkerStart, value); }
         }
 
         /// <summary>
@@ -1627,8 +1627,8 @@
         [DOM("mask")]
         public String Mask
         {
-            get { return GetPropertyValue(PropertyNames.MASK) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MASK, value); }
+            get { return GetPropertyValue(PropertyNames.Mask) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Mask, value); }
         }
 
         /// <summary>
@@ -1637,8 +1637,8 @@
         [DOM("maxHeight")]
         public String MaxHeight
         {
-            get { return GetPropertyValue(PropertyNames.MAX_HEIGHT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MAX_HEIGHT, value); }
+            get { return GetPropertyValue(PropertyNames.MaxHeight) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MaxHeight, value); }
         }
 
         /// <summary>
@@ -1647,8 +1647,8 @@
         [DOM("maxWidth")]
         public String MaxWidth
         {
-            get { return GetPropertyValue(PropertyNames.MAX_WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MAX_WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.MaxWidth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MaxWidth, value); }
         }
 
         /// <summary>
@@ -1657,8 +1657,8 @@
         [DOM("minHeight")]
         public String MinHeight
         {
-            get { return GetPropertyValue(PropertyNames.MIN_HEIGHT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MIN_HEIGHT, value); }
+            get { return GetPropertyValue(PropertyNames.MinHeight) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MinHeight, value); }
         }
 
         /// <summary>
@@ -1667,8 +1667,8 @@
         [DOM("minWidth")]
         public String MinWidth
         {
-            get { return GetPropertyValue(PropertyNames.MIN_WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.MIN_WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.MinWidth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.MinWidth, value); }
         }
 
         /// <summary>
@@ -1677,8 +1677,8 @@
         [DOM("opacity")]
         public String Opacity
         {
-            get { return GetPropertyValue(PropertyNames.OPACITY) ?? String.Empty; }
-            set { SetProperty(PropertyNames.OPACITY, value); }
+            get { return GetPropertyValue(PropertyNames.Opacity) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Opacity, value); }
         }
 
         /// <summary>
@@ -1690,8 +1690,8 @@
         [DOM("order")]
         public String Order
         {
-            get { return GetPropertyValue(PropertyNames.ORDER) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ORDER, value); }
+            get { return GetPropertyValue(PropertyNames.Order) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Order, value); }
         }
 
         /// <summary>
@@ -1701,8 +1701,8 @@
         [DOM("orphans")]
         public String Orphans
         {
-            get { return GetPropertyValue(PropertyNames.ORPHANS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ORPHANS, value); }
+            get { return GetPropertyValue(PropertyNames.Orphans) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Orphans, value); }
         }
 
         /// <summary>
@@ -1711,8 +1711,8 @@
         [DOM("outline")]
         public String Outline
         {
-            get { return GetPropertyValue(PropertyNames.OUTLINE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.OUTLINE, value); }
+            get { return GetPropertyValue(PropertyNames.Outline) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Outline, value); }
         }
 
         /// <summary>
@@ -1721,8 +1721,8 @@
         [DOM("outlineColor")]
         public String OutlineColor
         {
-            get { return GetPropertyValue(PropertyNames.OUTLINE_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.OUTLINE_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.OutlineColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OutlineColor, value); }
         }
 
         /// <summary>
@@ -1731,8 +1731,8 @@
         [DOM("outlineStyle")]
         public String OutlineStyle
         {
-            get { return GetPropertyValue(PropertyNames.OUTLINE_STYLE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.OUTLINE_STYLE, value); }
+            get { return GetPropertyValue(PropertyNames.OutlineStyle) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OutlineStyle, value); }
         }
 
         /// <summary>
@@ -1741,8 +1741,8 @@
         [DOM("outlineWidth")]
         public String OutlineWidth
         {
-            get { return GetPropertyValue(PropertyNames.OUTLINE_WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.OUTLINE_WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.OutlineWidth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OutlineWidth, value); }
         }
 
         /// <summary>
@@ -1752,8 +1752,8 @@
         [DOM("overflow")]
         public String Overflow
         {
-            get { return GetPropertyValue(PropertyNames.OVERFLOW) ?? String.Empty; }
-            set { SetProperty(PropertyNames.OVERFLOW, value); }
+            get { return GetPropertyValue(PropertyNames.Overflow) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Overflow, value); }
         }
 
         /// <summary>
@@ -1763,8 +1763,8 @@
         [DOM("overflowX")]
         public String OverflowX
         {
-            get { return GetPropertyValue(PropertyNames.OVERFLOW_X) ?? String.Empty; }
-            set { SetProperty(PropertyNames.OVERFLOW_X, value); }
+            get { return GetPropertyValue(PropertyNames.OverflowX) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OverflowX, value); }
         }
 
         /// <summary>
@@ -1774,8 +1774,8 @@
         [DOM("overflowY")]
         public String OverflowY
         {
-            get { return GetPropertyValue(PropertyNames.OVERFLOW_Y) ?? String.Empty; }
-            set { SetProperty(PropertyNames.OVERFLOW_Y, value); }
+            get { return GetPropertyValue(PropertyNames.OverflowY) ?? String.Empty; }
+            set { SetProperty(PropertyNames.OverflowY, value); }
         }
 
         /// <summary>
@@ -1785,8 +1785,8 @@
         [DOM("padding")]
         public String Padding
         {
-            get { return GetPropertyValue(PropertyNames.PADDING) ?? String.Empty; }
-            set { SetProperty(PropertyNames.PADDING, value); }
+            get { return GetPropertyValue(PropertyNames.Padding) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Padding, value); }
         }
 
         /// <summary>
@@ -1796,8 +1796,8 @@
         [DOM("paddingBottom")]
         public String PaddingBottom
         {
-            get { return GetPropertyValue(PropertyNames.PADDING_BOTTOM) ?? String.Empty; }
-            set { SetProperty(PropertyNames.PADDING_BOTTOM, value); }
+            get { return GetPropertyValue(PropertyNames.PaddingBottom) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PaddingBottom, value); }
         }
 
         /// <summary>
@@ -1807,8 +1807,8 @@
         [DOM("paddingLeft")]
         public String PaddingLeft
         {
-            get { return GetPropertyValue(PropertyNames.PADDING_LEFT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.PADDING_LEFT, value); }
+            get { return GetPropertyValue(PropertyNames.PaddingLeft) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PaddingLeft, value); }
         }
 
         /// <summary>
@@ -1818,8 +1818,8 @@
         [DOM("paddingRight")]
         public String PaddingRight
         {
-            get { return GetPropertyValue(PropertyNames.PADDING_RIGHT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.PADDING_RIGHT, value); }
+            get { return GetPropertyValue(PropertyNames.PaddingRight) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PaddingRight, value); }
         }
 
         /// <summary>
@@ -1829,8 +1829,8 @@
         [DOM("paddingTop")]
         public String PaddingTop
         {
-            get { return GetPropertyValue(PropertyNames.PADDING_TOP) ?? String.Empty; }
-            set { SetProperty(PropertyNames.PADDING_TOP, value); }
+            get { return GetPropertyValue(PropertyNames.PaddingTop) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PaddingTop, value); }
         }
 
         /// <summary>
@@ -1839,8 +1839,8 @@
         [DOM("pageBreakAfter")]
         public String PageBreakAfter
         {
-            get { return GetPropertyValue(PropertyNames.PAGE_BREAK_AFTER) ?? String.Empty; }
-            set { SetProperty(PropertyNames.PAGE_BREAK_AFTER, value); }
+            get { return GetPropertyValue(PropertyNames.PageBreakAfter) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PageBreakAfter, value); }
         }
 
         /// <summary>
@@ -1849,8 +1849,8 @@
         [DOM("pageBreakBefore")]
         public String PageBreakBefore
         {
-            get { return GetPropertyValue(PropertyNames.PAGE_BREAK_BEFORE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.PAGE_BREAK_BEFORE, value); }
+            get { return GetPropertyValue(PropertyNames.PageBreakBefore) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PageBreakBefore, value); }
         }
 
         /// <summary>
@@ -1860,8 +1860,8 @@
         [DOM("pageBreakInside")]
         public String PageBreakInside
         {
-            get { return GetPropertyValue(PropertyNames.PAGE_BREAK_INSIDE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.PAGE_BREAK_INSIDE, value); }
+            get { return GetPropertyValue(PropertyNames.PageBreakInside) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PageBreakInside, value); }
         }
 
         /// <summary>
@@ -1871,8 +1871,8 @@
         [DOM("perspective")]
         public String Perspective
         {
-            get { return GetPropertyValue(PropertyNames.PERSPECTIVE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.PERSPECTIVE, value); }
+            get { return GetPropertyValue(PropertyNames.Perspective) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Perspective, value); }
         }
 
         /// <summary>
@@ -1883,8 +1883,8 @@
         [DOM("perspectiveOrigin")]
         public String PerspectiveOrigin
         {
-            get { return GetPropertyValue(PropertyNames.PERSPECTIVE_ORIGIN) ?? String.Empty; }
-            set { SetProperty(PropertyNames.PERSPECTIVE_ORIGIN, value); }
+            get { return GetPropertyValue(PropertyNames.PerspectiveOrigin) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PerspectiveOrigin, value); }
         }
 
         /// <summary>
@@ -1894,8 +1894,8 @@
         [DOM("pointerEvents")]
         public String PointerEvents
         {
-            get { return GetPropertyValue(PropertyNames.POINTER_EVENTS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.POINTER_EVENTS, value); }
+            get { return GetPropertyValue(PropertyNames.PointerEvents) ?? String.Empty; }
+            set { SetProperty(PropertyNames.PointerEvents, value); }
         }
 
         /// <summary>
@@ -1904,8 +1904,8 @@
         [DOM("position")]
         public String Position
         {
-            get { return GetPropertyValue(PropertyNames.POSITION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.POSITION, value); }
+            get { return GetPropertyValue(PropertyNames.Position) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Position, value); }
         }
 
         /// <summary>
@@ -1914,8 +1914,8 @@
         [DOM("quotes")]
         public String Quotes
         {
-            get { return GetPropertyValue(PropertyNames.QUOTES) ?? String.Empty; }
-            set { SetProperty(PropertyNames.QUOTES, value); }
+            get { return GetPropertyValue(PropertyNames.Quotes) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Quotes, value); }
         }
 
         /// <summary>
@@ -1925,8 +1925,8 @@
         [DOM("right")]
         public String Right
         {
-            get { return GetPropertyValue(PropertyNames.RIGHT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.RIGHT, value); }
+            get { return GetPropertyValue(PropertyNames.Right) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Right, value); }
         }
 
         /// <summary>
@@ -1935,8 +1935,8 @@
         [DOM("rubyAlign")]
         public String RubyAlign
         {
-            get { return GetPropertyValue(PropertyNames.RUBY_ALIGN) ?? String.Empty; }
-            set { SetProperty(PropertyNames.RUBY_ALIGN, value); }
+            get { return GetPropertyValue(PropertyNames.RubyAlign) ?? String.Empty; }
+            set { SetProperty(PropertyNames.RubyAlign, value); }
         }
 
         /// <summary>
@@ -1947,8 +1947,8 @@
         [DOM("rubyOverhang")]
         public String RubyOverhang
         {
-            get { return GetPropertyValue(PropertyNames.RUBY_OVERHANG) ?? String.Empty; }
-            set { SetProperty(PropertyNames.RUBY_OVERHANG, value); }
+            get { return GetPropertyValue(PropertyNames.RubyOverhang) ?? String.Empty; }
+            set { SetProperty(PropertyNames.RubyOverhang, value); }
         }
 
         /// <summary>
@@ -1958,8 +1958,8 @@
         [DOM("rubyPosition")]
         public String RubyPosition
         {
-            get { return GetPropertyValue(PropertyNames.RUBY_POSITION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.RUBY_POSITION, value); }
+            get { return GetPropertyValue(PropertyNames.RubyPosition) ?? String.Empty; }
+            set { SetProperty(PropertyNames.RubyPosition, value); }
         }
 
         /// <summary>
@@ -1969,8 +1969,8 @@
         [DOM("scrollbar3dLightColor")]
         public String Scrollbar3dLightColor
         {
-            get { return GetPropertyValue(PropertyNames.SCROLLBAR3D_LIGHT_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.SCROLLBAR3D_LIGHT_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.Scrollbar3dLightColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Scrollbar3dLightColor, value); }
         }
 
         /// <summary>
@@ -1979,8 +1979,8 @@
         [DOM("scrollbarArrowColor")]
         public String ScrollbarArrowColor
         {
-            get { return GetPropertyValue(PropertyNames.SCROLLBAR_ARROW_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.SCROLLBAR_ARROW_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.ScrollbarArrowColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ScrollbarArrowColor, value); }
         }
 
         /// <summary>
@@ -1989,8 +1989,8 @@
         [DOM("scrollbarDarkShadowColor")]
         public String ScrollbarDarkShadowColor
         {
-            get { return GetPropertyValue(PropertyNames.SCROLLBAR_DARK_SHADOW_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.SCROLLBAR_DARK_SHADOW_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.ScrollbarDarkShadowColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ScrollbarDarkShadowColor, value); }
         }
 
         /// <summary>
@@ -1999,8 +1999,8 @@
         [DOM("scrollbarFaceColor")]
         public String ScrollbarFaceColor
         {
-            get { return GetPropertyValue(PropertyNames.SCROLLBAR_FACE_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.SCROLLBAR_FACE_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.ScrollbarFaceColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ScrollbarFaceColor, value); }
         }
 
         /// <summary>
@@ -2009,8 +2009,8 @@
         [DOM("scrollbarHighlightColor")]
         public String ScrollbarHighlightColor
         {
-            get { return GetPropertyValue(PropertyNames.SCROLLBAR_HIGHLIGHT_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.SCROLLBAR_HIGHLIGHT_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.ScrollbarHighlightColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ScrollbarHighlightColor, value); }
         }
 
         /// <summary>
@@ -2020,8 +2020,8 @@
         [DOM("scrollbarShadowColor")]
         public String ScrollbarShadowColor
         {
-            get { return GetPropertyValue(PropertyNames.SCROLLBAR_SHADOW_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.SCROLLBAR_SHADOW_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.ScrollbarShadowColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ScrollbarShadowColor, value); }
         }
 
         /// <summary>
@@ -2030,8 +2030,8 @@
         [DOM("scrollbarTrackColor")]
         public String ScrollbarTrackColor
         {
-            get { return GetPropertyValue(PropertyNames.SCROLLBAR_TRACK_COLOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.SCROLLBAR_TRACK_COLOR, value); }
+            get { return GetPropertyValue(PropertyNames.ScrollbarTrackColor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ScrollbarTrackColor, value); }
         }
 
         /// <summary>
@@ -2041,8 +2041,8 @@
         [DOM("stroke")]
         public String Stroke
         {
-            get { return GetPropertyValue(PropertyNames.STROKE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.STROKE, value); }
+            get { return GetPropertyValue(PropertyNames.Stroke) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Stroke, value); }
         }
 
         /// <summary>
@@ -2052,8 +2052,8 @@
         [DOM("strokeDasharray")]
         public String StrokeDasharray
         {
-            get { return GetPropertyValue(PropertyNames.STROKE_DASHARRAY) ?? String.Empty; }
-            set { SetProperty(PropertyNames.STROKE_DASHARRAY, value); }
+            get { return GetPropertyValue(PropertyNames.StrokeDasharray) ?? String.Empty; }
+            set { SetProperty(PropertyNames.StrokeDasharray, value); }
         }
 
         /// <summary>
@@ -2063,8 +2063,8 @@
         [DOM("strokeDashoffset")]
         public String StrokeDashoffset
         {
-            get { return GetPropertyValue(PropertyNames.STROKE_DASHOFFSET) ?? String.Empty; }
-            set { SetProperty(PropertyNames.STROKE_DASHOFFSET, value); }
+            get { return GetPropertyValue(PropertyNames.StrokeDashoffset) ?? String.Empty; }
+            set { SetProperty(PropertyNames.StrokeDashoffset, value); }
         }
 
         /// <summary>
@@ -2074,8 +2074,8 @@
         [DOM("strokeLinecap")]
         public String StrokeLinecap
         {
-            get { return GetPropertyValue(PropertyNames.STROKE_LINECAP) ?? String.Empty; }
-            set { SetProperty(PropertyNames.STROKE_LINECAP, value); }
+            get { return GetPropertyValue(PropertyNames.StrokeLinecap) ?? String.Empty; }
+            set { SetProperty(PropertyNames.StrokeLinecap, value); }
         }
 
         /// <summary>
@@ -2085,8 +2085,8 @@
         [DOM("strokeLinejoin")]
         public String StrokeLinejoin
         {
-            get { return GetPropertyValue(PropertyNames.STROKE_LINEJOIN) ?? String.Empty; }
-            set { SetProperty(PropertyNames.STROKE_LINEJOIN, value); }
+            get { return GetPropertyValue(PropertyNames.StrokeLinejoin) ?? String.Empty; }
+            set { SetProperty(PropertyNames.StrokeLinejoin, value); }
         }
 
         /// <summary>
@@ -2096,8 +2096,8 @@
         [DOM("strokeMiterlimit")]
         public String StrokeMiterlimit
         {
-            get { return GetPropertyValue(PropertyNames.STROKE_MITERLIMIT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.STROKE_MITERLIMIT, value); }
+            get { return GetPropertyValue(PropertyNames.StrokeMiterlimit) ?? String.Empty; }
+            set { SetProperty(PropertyNames.StrokeMiterlimit, value); }
         }
 
         /// <summary>
@@ -2107,8 +2107,8 @@
         [DOM("strokeOpacity")]
         public String StrokeOpacity
         {
-            get { return GetPropertyValue(PropertyNames.STROKE_OPACITY) ?? String.Empty; }
-            set { SetProperty(PropertyNames.STROKE_OPACITY, value); }
+            get { return GetPropertyValue(PropertyNames.StrokeOpacity) ?? String.Empty; }
+            set { SetProperty(PropertyNames.StrokeOpacity, value); }
         }
 
         /// <summary>
@@ -2117,8 +2117,8 @@
         [DOM("strokeWidth")]
         public String StrokeWidth
         {
-            get { return GetPropertyValue(PropertyNames.STROKE_WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.STROKE_WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.StrokeWidth) ?? String.Empty; }
+            set { SetProperty(PropertyNames.StrokeWidth, value); }
         }
 
         /// <summary>
@@ -2127,8 +2127,8 @@
         [DOM("tableLayout")]
         public String TableLayout
         {
-            get { return GetPropertyValue(PropertyNames.TABLE_LAYOUT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TABLE_LAYOUT, value); }
+            get { return GetPropertyValue(PropertyNames.TableLayout) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TableLayout, value); }
         }
 
         /// <summary>
@@ -2138,8 +2138,8 @@
         [DOM("textAlign")]
         public String TextAlign
         {
-            get { return GetPropertyValue(PropertyNames.TEXT_ALIGN) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TEXT_ALIGN, value); }
+            get { return GetPropertyValue(PropertyNames.TextAlign) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TextAlign, value); }
         }
 
         /// <summary>
@@ -2149,8 +2149,8 @@
         [DOM("textAlignLast")]
         public String TextAlignLast
         {
-            get { return GetPropertyValue(PropertyNames.TEXT_ALIGN_LAST) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TEXT_ALIGN_LAST, value); }
+            get { return GetPropertyValue(PropertyNames.TextAlignLast) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TextAlignLast, value); }
         }
 
         /// <summary>
@@ -2159,8 +2159,8 @@
         [DOM("textAnchor")]
         public String TextAnchor
         {
-            get { return GetPropertyValue(PropertyNames.TEXT_ANCHOR) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TEXT_ANCHOR, value); }
+            get { return GetPropertyValue(PropertyNames.TextAnchor) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TextAnchor, value); }
         }
 
         /// <summary>
@@ -2169,8 +2169,8 @@
         [DOM("textAutospace")]
         public String TextAutospace
         {
-            get { return GetPropertyValue(PropertyNames.TEXT_AUTOSPACE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TEXT_AUTOSPACE, value); }
+            get { return GetPropertyValue(PropertyNames.TextAutospace) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TextAutospace, value); }
         }
 
         /// <summary>
@@ -2180,8 +2180,8 @@
         [DOM("textDecoration")]
         public String TextDecoration
         {
-            get { return GetPropertyValue(PropertyNames.TEXT_DECORATION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TEXT_DECORATION, value); }
+            get { return GetPropertyValue(PropertyNames.TextDecoration) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TextDecoration, value); }
         }
 
         /// <summary>
@@ -2190,8 +2190,8 @@
         [DOM("textIndent")]
         public String TextIndent
         {
-            get { return GetPropertyValue(PropertyNames.TEXT_INDENT) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TEXT_INDENT, value); }
+            get { return GetPropertyValue(PropertyNames.TextIndent) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TextIndent, value); }
         }
 
         /// <summary>
@@ -2200,8 +2200,8 @@
         [DOM("textJustify")]
         public String TextJustify
         {
-            get { return GetPropertyValue(PropertyNames.TEXT_JUSTIFY) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TEXT_JUSTIFY, value); }
+            get { return GetPropertyValue(PropertyNames.TextJustify) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TextJustify, value); }
         }
 
         /// <summary>
@@ -2211,8 +2211,8 @@
         [DOM("textOverflow")]
         public String TextOverflow
         {
-            get { return GetPropertyValue(PropertyNames.TEXT_OVERFLOW) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TEXT_OVERFLOW, value); }
+            get { return GetPropertyValue(PropertyNames.TextOverflow) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TextOverflow, value); }
         }
 
         /// <summary>
@@ -2222,8 +2222,8 @@
         [DOM("textShadow")]
         public String TextShadow
         {
-            get { return GetPropertyValue(PropertyNames.TEXT_SHADOW) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TEXT_SHADOW, value); }
+            get { return GetPropertyValue(PropertyNames.TextShadow) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TextShadow, value); }
         }
 
         /// <summary>
@@ -2232,8 +2232,8 @@
         [DOM("textTransform")]
         public String TextTransform
         {
-            get { return GetPropertyValue(PropertyNames.TEXT_TRANSFORM) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TEXT_TRANSFORM, value); }
+            get { return GetPropertyValue(PropertyNames.TextTransform) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TextTransform, value); }
         }
 
         /// <summary>
@@ -2243,8 +2243,8 @@
         [DOM("textUnderlinePosition")]
         public String TextUnderlinePosition
         {
-            get { return GetPropertyValue(PropertyNames.TEXT_UNDERLINE_POSITION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TEXT_UNDERLINE_POSITION, value); }
+            get { return GetPropertyValue(PropertyNames.TextUnderlinePosition) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TextUnderlinePosition, value); }
         }
 
         /// <summary>
@@ -2254,8 +2254,8 @@
         [DOM("top")]
         public String Top
         {
-            get { return GetPropertyValue(PropertyNames.TOP) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TOP, value); }
+            get { return GetPropertyValue(PropertyNames.Top) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Top, value); }
         }
 
         /// <summary>
@@ -2265,8 +2265,8 @@
         [DOM("transform")]
         public String Transform
         {
-            get { return GetPropertyValue(PropertyNames.TRANSFORM) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TRANSFORM, value); }
+            get { return GetPropertyValue(PropertyNames.Transform) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Transform, value); }
         }
 
         /// <summary>
@@ -2275,8 +2275,8 @@
         [DOM("transformOrigin")]
         public String TransformOrigin
         {
-            get { return GetPropertyValue(PropertyNames.TRANSFORM_ORIGIN) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TRANSFORM_ORIGIN, value); }
+            get { return GetPropertyValue(PropertyNames.TransformOrigin) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TransformOrigin, value); }
         }
 
         /// <summary>
@@ -2286,8 +2286,8 @@
         [DOM("transformStyle")]
         public String TransformStyle
         {
-            get { return GetPropertyValue(PropertyNames.TRANSFORM_STYLE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TRANSFORM_STYLE, value); }
+            get { return GetPropertyValue(PropertyNames.TransformStyle) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TransformStyle, value); }
         }
 
         /// <summary>
@@ -2298,8 +2298,8 @@
         [DOM("transition")]
         public String Transition
         {
-            get { return GetPropertyValue(PropertyNames.TRANSITION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TRANSITION, value); }
+            get { return GetPropertyValue(PropertyNames.Transition) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Transition, value); }
         }
 
         /// <summary>
@@ -2311,8 +2311,8 @@
         [DOM("transitionDelay")]
         public String TransitionDelay
         {
-            get { return GetPropertyValue(PropertyNames.TRANSITION_DELAY) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TRANSITION_DELAY, value); }
+            get { return GetPropertyValue(PropertyNames.TransitionDelay) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TransitionDelay, value); }
         }
 
         /// <summary>
@@ -2323,8 +2323,8 @@
         [DOM("transitionDuration")]
         public String TransitionDuration
         {
-            get { return GetPropertyValue(PropertyNames.TRANSITION_DURATION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TRANSITION_DURATION, value); }
+            get { return GetPropertyValue(PropertyNames.TransitionDuration) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TransitionDuration, value); }
         }
 
         /// <summary>
@@ -2335,8 +2335,8 @@
         [DOM("transitionProperty")]
         public String TransitionProperty
         {
-            get { return GetPropertyValue(PropertyNames.TRANSITION_PROPERTY) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TRANSITION_PROPERTY, value); }
+            get { return GetPropertyValue(PropertyNames.TransitionProperty) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TransitionProperty, value); }
         }
 
         /// <summary>
@@ -2347,8 +2347,8 @@
         [DOM("transitionTimingFunction")]
         public String TransitionTimingFunction
         {
-            get { return GetPropertyValue(PropertyNames.TRANSITION_TIMING_FUNCTION) ?? String.Empty; }
-            set { SetProperty(PropertyNames.TRANSITION_TIMING_FUNCTION, value); }
+            get { return GetPropertyValue(PropertyNames.TransitionTimingFunction) ?? String.Empty; }
+            set { SetProperty(PropertyNames.TransitionTimingFunction, value); }
         }
 
         /// <summary>
@@ -2357,8 +2357,8 @@
         [DOM("unicodeBidi")]
         public String UnicodeBidi
         {
-            get { return GetPropertyValue(PropertyNames.UNICODE_BIDI) ?? String.Empty; }
-            set { SetProperty(PropertyNames.UNICODE_BIDI, value); }
+            get { return GetPropertyValue(PropertyNames.UnicodeBidi) ?? String.Empty; }
+            set { SetProperty(PropertyNames.UnicodeBidi, value); }
         }
 
         /// <summary>
@@ -2367,8 +2367,8 @@
         [DOM("verticalAlign")]
         public String VerticalAlign
         {
-            get { return GetPropertyValue(PropertyNames.VERTICAL_ALIGN) ?? String.Empty; }
-            set { SetProperty(PropertyNames.VERTICAL_ALIGN, value); }
+            get { return GetPropertyValue(PropertyNames.VerticalAlign) ?? String.Empty; }
+            set { SetProperty(PropertyNames.VerticalAlign, value); }
         }
 
         /// <summary>
@@ -2377,8 +2377,8 @@
         [DOM("visibility")]
         public String Visibility
         {
-            get { return GetPropertyValue(PropertyNames.VISIBILITY) ?? String.Empty; }
-            set { SetProperty(PropertyNames.VISIBILITY, value); }
+            get { return GetPropertyValue(PropertyNames.Visibility) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Visibility, value); }
         }
 
         /// <summary>
@@ -2388,8 +2388,8 @@
         [DOM("whiteSpace")]
         public String WhiteSpace
         {
-            get { return GetPropertyValue(PropertyNames.WHITE_SPACE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.WHITE_SPACE, value); }
+            get { return GetPropertyValue(PropertyNames.WhiteSpace) ?? String.Empty; }
+            set { SetProperty(PropertyNames.WhiteSpace, value); }
         }
 
         /// <summary>
@@ -2399,8 +2399,8 @@
         [DOM("widows")]
         public String Widows
         {
-            get { return GetPropertyValue(PropertyNames.WIDOWS) ?? String.Empty; }
-            set { SetProperty(PropertyNames.WIDOWS, value); }
+            get { return GetPropertyValue(PropertyNames.Widows) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Widows, value); }
         }
 
         /// <summary>
@@ -2409,8 +2409,8 @@
         [DOM("width")]
         public String Width
         {
-            get { return GetPropertyValue(PropertyNames.WIDTH) ?? String.Empty; }
-            set { SetProperty(PropertyNames.WIDTH, value); }
+            get { return GetPropertyValue(PropertyNames.Width) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Width, value); }
         }
 
         /// <summary>
@@ -2420,8 +2420,8 @@
         [DOM("wordBreak")]
         public String WordBreak
         {
-            get { return GetPropertyValue(PropertyNames.WORD_BREAK) ?? String.Empty; }
-            set { SetProperty(PropertyNames.WORD_BREAK, value); }
+            get { return GetPropertyValue(PropertyNames.WordBreak) ?? String.Empty; }
+            set { SetProperty(PropertyNames.WordBreak, value); }
         }
 
         /// <summary>
@@ -2430,8 +2430,8 @@
         [DOM("wordSpacing")]
         public String WordSpacing
         {
-            get { return GetPropertyValue(PropertyNames.WORD_SPACING) ?? String.Empty; }
-            set { SetProperty(PropertyNames.WORD_SPACING, value); }
+            get { return GetPropertyValue(PropertyNames.WordSpacing) ?? String.Empty; }
+            set { SetProperty(PropertyNames.WordSpacing, value); }
         }
 
         /// <summary>
@@ -2441,8 +2441,8 @@
         [DOM("wordWrap")]
         public String WordWrap
         {
-            get { return GetPropertyValue(PropertyNames.WORD_WRAP) ?? String.Empty; }
-            set { SetProperty(PropertyNames.WORD_WRAP, value); }
+            get { return GetPropertyValue(PropertyNames.WordWrap) ?? String.Empty; }
+            set { SetProperty(PropertyNames.WordWrap, value); }
         }
 
         /// <summary>
@@ -2451,8 +2451,8 @@
         [DOM("writingMode")]
         public String WritingMode
         {
-            get { return GetPropertyValue(PropertyNames.WRITING_MODE) ?? String.Empty; }
-            set { SetProperty(PropertyNames.WRITING_MODE, value); }
+            get { return GetPropertyValue(PropertyNames.WritingMode) ?? String.Empty; }
+            set { SetProperty(PropertyNames.WritingMode, value); }
         }
 
         /// <summary>
@@ -2461,8 +2461,8 @@
         [DOM("zIndex")]
         public String ZIndex
         {
-            get { return GetPropertyValue(PropertyNames.Z_INDEX) ?? String.Empty; }
-            set { SetProperty(PropertyNames.Z_INDEX, value); }
+            get { return GetPropertyValue(PropertyNames.ZIndex) ?? String.Empty; }
+            set { SetProperty(PropertyNames.ZIndex, value); }
         }
 
         /// <summary>
@@ -2471,8 +2471,8 @@
         [DOM("zoom")]
         public String Zoom
         {
-            get { return GetPropertyValue(PropertyNames.ZOOM) ?? String.Empty; }
-            set { SetProperty(PropertyNames.ZOOM, value); }
+            get { return GetPropertyValue(PropertyNames.Zoom) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Zoom, value); }
         }
 
         #endregion

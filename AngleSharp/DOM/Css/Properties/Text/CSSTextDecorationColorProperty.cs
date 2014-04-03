@@ -4,9 +4,9 @@
 
     /// <summary>
     /// More Information:
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/color
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-color
     /// </summary>
-    sealed class CSSColorProperty : CSSProperty
+    sealed class CSSTextDecorationColorProperty : CSSProperty
     {
         #region Fields
 
@@ -16,10 +16,10 @@
 
         #region ctor
 
-        public CSSColorProperty()
-            : base(PropertyNames.COLOR)
+        public CSSTextDecorationColorProperty()
+            : base(PropertyNames.TextDecorationColor)
         {
-            _inherited = true;
+            _inherited = false;
             _color = Color.Black;
         }
 

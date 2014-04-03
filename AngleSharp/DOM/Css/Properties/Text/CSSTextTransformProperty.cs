@@ -28,7 +28,7 @@
         }
 
         public CSSTextTransformProperty()
-            : base(PropertyNames.TEXT_TRANSFORM)
+            : base(PropertyNames.TextTransform)
         {
             _mode = modes["none"];
             _inherited = true;

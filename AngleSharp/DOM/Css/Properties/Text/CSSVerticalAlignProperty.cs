@@ -31,7 +31,7 @@
         }
 
         public CSSVerticalAlignProperty()
-            : base(PropertyNames.VERTICAL_ALIGN)
+            : base(PropertyNames.VerticalAlign)
         {
             _inherited = false;
             _mode = modes["baseline"];

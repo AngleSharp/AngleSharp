@@ -11,7 +11,7 @@
         #region ctor
 
         public CSSLeftProperty()
-            : base(PropertyNames.LEFT)
+            : base(PropertyNames.Left)
         {
         }
 

@@ -11,7 +11,7 @@
         #region ctor
 
         public CSSWidthProperty()
-            : base(PropertyNames.WIDTH)
+            : base(PropertyNames.Width)
         {
         }
 
