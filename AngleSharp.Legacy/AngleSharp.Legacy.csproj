@@ -193,6 +193,30 @@
     <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
       <Link>DOM\Css\CssValueType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs">
+      <Link>DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSBoxShadowProperty.cs">
+      <Link>DOM\Css\Properties\Box\CSSBoxShadowProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSPaddingBottomProperty.cs">
+      <Link>DOM\Css\Properties\Box\CSSPaddingBottomProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSPaddingLeftProperty.cs">
+      <Link>DOM\Css\Properties\Box\CSSPaddingLeftProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSPaddingPartProperty.cs">
+      <Link>DOM\Css\Properties\Box\CSSPaddingPartProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSPaddingProperty.cs">
+      <Link>DOM\Css\Properties\Box\CSSPaddingProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSPaddingRightProperty .cs">
+      <Link>DOM\Css\Properties\Box\CSSPaddingRightProperty .cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSPaddingTopProperty.cs">
+      <Link>DOM\Css\Properties\Box\CSSPaddingTopProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSBreakAfterProperty.cs">
       <Link>DOM\Css\Properties\Break\CSSBreakAfterProperty.cs</Link>
     </Compile>
@@ -229,12 +253,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBorderCollapseProperty.cs">
       <Link>DOM\Css\Properties\CSSBorderCollapseProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBoxDecorationBreak.cs">
-      <Link>DOM\Css\Properties\CSSBoxDecorationBreak.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBoxShadowProperty.cs">
-      <Link>DOM\Css\Properties\CSSBoxShadowProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSCaptionSideProperty.cs">
       <Link>DOM\Css\Properties\CSSCaptionSideProperty.cs</Link>
     </Compile>
@@ -243,9 +261,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSCursorProperty.cs">
       <Link>DOM\Css\Properties\CSSCursorProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSDirectionProperty.cs">
-      <Link>DOM\Css\Properties\CSSDirectionProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSEmptyCellsProperty.cs">
       <Link>DOM\Css\Properties\CSSEmptyCellsProperty.cs</Link>
@@ -315,6 +330,21 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSWordSpacingProperty.cs">
       <Link>DOM\Css\Properties\Font\CSSWordSpacingProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Outline\CSSOutlineColorProperty.cs">
+      <Link>DOM\Css\Properties\Outline\CSSOutlineColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Outline\CSSOutlineProperty.cs">
+      <Link>DOM\Css\Properties\Outline\CSSOutlineProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Outline\CSSOutlineStyleProperty.cs">
+      <Link>DOM\Css\Properties\Outline\CSSOutlineStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Outline\CSSOutlineWidthProperty.cs">
+      <Link>DOM\Css\Properties\Outline\CSSOutlineWidthProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSDirectionProperty.cs">
+      <Link>DOM\Css\Properties\Text\CSSDirectionProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSTextAlignProperty.cs">
       <Link>DOM\Css\Properties\Text\CSSTextAlignProperty.cs</Link>
