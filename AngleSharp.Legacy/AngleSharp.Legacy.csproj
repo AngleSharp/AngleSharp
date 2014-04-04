@@ -199,6 +199,24 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSBoxShadowProperty.cs">
       <Link>DOM\Css\Properties\Box\CSSBoxShadowProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSMarginBottomProperty.cs">
+      <Link>DOM\Css\Properties\Box\CSSMarginBottomProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSMarginLeftProperty.cs">
+      <Link>DOM\Css\Properties\Box\CSSMarginLeftProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSMarginPartProperty.cs">
+      <Link>DOM\Css\Properties\Box\CSSMarginPartProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSMarginProperty.cs">
+      <Link>DOM\Css\Properties\Box\CSSMarginProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSMarginRightProperty.cs">
+      <Link>DOM\Css\Properties\Box\CSSMarginRightProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSMarginTopProperty.cs">
+      <Link>DOM\Css\Properties\Box\CSSMarginTopProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSPaddingBottomProperty.cs">
       <Link>DOM\Css\Properties\Box\CSSPaddingBottomProperty.cs</Link>
     </Compile>
