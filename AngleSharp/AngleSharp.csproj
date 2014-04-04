@@ -39,7 +39,13 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="DOM\Css\CSSFactory.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSMarginBottomProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSMarginLeftProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSMarginPartProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSPaddingPartProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSMarginProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSMarginRightProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSMarginTopProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSPaddingTopProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSPaddingBottomProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSPaddingRightProperty .cs" />

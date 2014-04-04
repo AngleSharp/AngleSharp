@@ -119,11 +119,11 @@
                 //case PropertyNames.MARQUEE_PLAY_COUNT:
                 //case PropertyNames.MARQUEE_SPEED:
                 //case PropertyNames.MARQUEE_STYLE:
-                //case PropertyNames.MARGIN_RIGHT:
-                //case PropertyNames.MARGIN_LEFT:
-                //case PropertyNames.MARGIN_TOP:
-                //case PropertyNames.MARGIN_BOTTOM:
-                //case PropertyNames.MARGIN:
+                case PropertyNames.MarginRight:                 return new CSSMarginRightProperty { Rule = style };
+                case PropertyNames.MarginLeft:                  return new CSSMarginLeftProperty { Rule = style };
+                case PropertyNames.MarginTop:                   return new CSSMarginTopProperty { Rule = style };
+                case PropertyNames.MarginBottom:                return new CSSMarginBottomProperty { Rule = style };
+                case PropertyNames.Margin:                      return new CSSMarginProperty { Rule = style };
                 //case PropertyNames.MAX_HEIGHT:
                 //case PropertyNames.MAX_WIDTH:
                 //case PropertyNames.MIN_HEIGHT:
