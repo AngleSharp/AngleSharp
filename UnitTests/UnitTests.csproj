@@ -58,6 +58,7 @@
     <Compile Include="Css\CssProperty.cs" />
     <Compile Include="Css\CssFontProperty.cs" />
     <Compile Include="Css\CssPaddingProperty.cs" />
+    <Compile Include="Css\CssMarginProperty.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Html\HtmlScript.cs" />
     <Compile Include="Html\HtmlStyle.cs" />
