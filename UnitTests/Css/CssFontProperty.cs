@@ -8,7 +8,6 @@ namespace UnitTests.Css
     [TestClass]
     public class CssFontPropertyTests
     {
-
         [TestMethod]
         public void CssFontFamilyMultipleWithIdentifiersLegal()
         {
