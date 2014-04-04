@@ -6,7 +6,7 @@
     /// Basis for all properties that have either a length
     /// or percentage value or an auto value - nothing else.
     /// </summary>
-    abstract class CSSCoordinateProperty : CSSProperty
+    class CSSCoordinateProperty : CSSProperty
     {
         #region Fields
 
@@ -17,7 +17,7 @@
 
         #region ctor
 
-        public CSSCoordinateProperty(String name)
+        protected CSSCoordinateProperty(String name)
             : base(name)
         {
             _inherited = false;

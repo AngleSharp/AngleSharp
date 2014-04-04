@@ -130,16 +130,16 @@
                 //case PropertyNames.MIN_WIDTH:
                 case PropertyNames.Opacity:                     return new CSSOpacityProperty { Rule = style };
                 case PropertyNames.Orphans:                     return new CSSOrphansProperty { Rule = style };
-                //case PropertyNames.OUTLINE_COLOR:
-                //case PropertyNames.OUTLINE_STYLE:
-                //case PropertyNames.OUTLINE_WIDTH:
-                //case PropertyNames.OUTLINE:
+                case PropertyNames.OutlineColor:                return new CSSOutlineColorProperty { Rule = style };
+                case PropertyNames.OutlineStyle:                return new CSSOutlineStyleProperty { Rule = style };
+                case PropertyNames.OutlineWidth:                return new CSSOutlineWidthProperty { Rule = style };
+                case PropertyNames.Outline:                     return new CSSOutlineProperty { Rule = style };
                 case PropertyNames.Overflow:                    return new CSSOverflowProperty { Rule = style };
-                //case PropertyNames.PADDING_TOP:
-                //case PropertyNames.PADDING_RIGHT:
-                //case PropertyNames.PADDING_LEFT:
-                //case PropertyNames.PADDING_BOTTOM:
-                //case PropertyNames.PADDING:
+                case PropertyNames.PaddingTop:                  return new CSSPaddingTopProperty { Rule = style };
+                case PropertyNames.PaddingRight:                return new CSSPaddingRightProperty { Rule = style };
+                case PropertyNames.PaddingLeft:                 return new CSSPaddingLeftProperty { Rule = style };
+                case PropertyNames.PaddingBottom:               return new CSSPaddingBottomProperty { Rule = style };
+                case PropertyNames.Padding:                     return new CSSPaddingProperty { Rule = style };
                 //case PropertyNames.PAGE_BREAK_AFTER:
                 //case PropertyNames.PAGE_BREAK_BEFORE:
                 //case PropertyNames.PAGE_BREAK_INSIDE:

@@ -39,6 +39,16 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="DOM\Css\CSSFactory.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSPaddingPartProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSPaddingTopProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSPaddingBottomProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSPaddingRightProperty .cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSPaddingLeftProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSPaddingProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Outline\CSSOutlineColorProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Outline\CSSOutlineProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Outline\CSSOutlineStyleProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Outline\CSSOutlineWidthProperty.cs" />
     <Compile Include="DOM\Css\Properties\Text\CSSTextDecorationLineProperty.cs" />
     <Compile Include="DOM\Css\Properties\Text\CSSTextDecorationColorProperty.cs" />
     <Compile Include="DOM\Css\Properties\Text\CSSTextDecorationStyleProperty.cs" />
@@ -56,8 +66,8 @@
     <Compile Include="DOM\Css\Properties\Font\CSSLineHeightProperty.cs" />
     <Compile Include="DOM\Css\Properties\Visibility\CSSBackfaceVisibilityProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBorderCollapseProperty.cs" />
-    <Compile Include="DOM\Css\Properties\CSSBoxDecorationBreak.cs" />
-    <Compile Include="DOM\Css\Properties\CSSBoxShadowProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs" />
+    <Compile Include="DOM\Css\Properties\Box\CSSBoxShadowProperty.cs" />
     <Compile Include="DOM\Css\Properties\Break\CSSBreakInsideProperty.cs" />
     <Compile Include="DOM\Css\Properties\Break\CSSBreakProperty.cs" />
     <Compile Include="DOM\Css\Properties\Break\CSSBreakAfterProperty.cs" />
@@ -80,7 +90,7 @@
     <Compile Include="DOM\Css\Properties\Visibility\CSSOpacityProperty.cs" />
     <Compile Include="DOM\Css\Properties\Text\CSSTextTransformProperty.cs" />
     <Compile Include="DOM\Css\Properties\Text\CSSTextAlignProperty.cs" />
-    <Compile Include="DOM\Css\Properties\CSSDirectionProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Text\CSSDirectionProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSEmptyCellsProperty.cs" />
     <Compile Include="DOM\Css\Properties\Flow\CSSOverflowProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSTableLayoutProperty.cs" />
