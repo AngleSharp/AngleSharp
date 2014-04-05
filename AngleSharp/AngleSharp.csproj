@@ -55,6 +55,10 @@
     <Compile Include="DOM\Css\Properties\Coordinate\CSSMinWidthProperty.cs" />
     <Compile Include="DOM\Css\Properties\Coordinate\CSSMaxWidthProperty.cs" />
     <Compile Include="DOM\Css\Properties\Coordinate\CSSMaxHeightProperty.cs" />
+    <Compile Include="DOM\Css\Properties\List\CSSListStyleImageProperty.cs" />
+    <Compile Include="DOM\Css\Properties\List\CSSListStylePositionProperty.cs" />
+    <Compile Include="DOM\Css\Properties\List\CSSListStyleProperty.cs" />
+    <Compile Include="DOM\Css\Properties\List\CSSListStyleTypeProperty.cs" />
     <Compile Include="DOM\Css\Properties\Outline\CSSOutlineColorProperty.cs" />
     <Compile Include="DOM\Css\Properties\Outline\CSSOutlineProperty.cs" />
     <Compile Include="DOM\Css\Properties\Outline\CSSOutlineStyleProperty.cs" />

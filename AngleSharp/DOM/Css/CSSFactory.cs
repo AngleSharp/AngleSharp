@@ -111,10 +111,10 @@
                 case PropertyNames.Left:                        return new CSSLeftProperty { Rule = style };
                 case PropertyNames.LetterSpacing:               return new CSSLetterSpacingProperty { Rule = style };
                 case PropertyNames.LineHeight:                  return new CSSLineHeightProperty { Rule = style };
-                //case PropertyNames.LIST_STYLE_IMAGE:
-                //case PropertyNames.LIST_STYLE_POSITION:
-                //case PropertyNames.LIST_STYLE_TYPE:
-                //case PropertyNames.LIST_STYLE:
+                case PropertyNames.ListStyleImage:              return new CSSListStyleImageProperty { Rule = style };
+                case PropertyNames.ListStylePosition:           return new CSSListStylePositionProperty { Rule = style };
+                case PropertyNames.ListStyleType:               return new CSSListStyleTypeProperty { Rule = style };
+                case PropertyNames.ListStyle:                   return new CSSListStyleProperty { Rule = style };
                 //case PropertyNames.MARQUEE_DIRECTION:
                 //case PropertyNames.MARQUEE_PLAY_COUNT:
                 //case PropertyNames.MARQUEE_SPEED:
