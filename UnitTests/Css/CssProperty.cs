@@ -459,7 +459,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var value = (CSSPercentValue)concrete.Value;
-            Assert.AreEqual(50f, value.Value);
+            Assert.AreEqual(0.50f, value.Value);
         }
 
         [TestMethod]
@@ -507,7 +507,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var value = (CSSPercentValue)concrete.Value;
-            Assert.AreEqual(20.5f, value.Value);
+            Assert.AreEqual(0.205f, value.Value);
         }
 
         [TestMethod]
@@ -596,7 +596,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var value = (CSSPercentValue)concrete.Value;
-            Assert.AreEqual(0.50f, value.Value);
+            Assert.AreEqual(0.0050f, value.Value);
         }
 
         [TestMethod]
