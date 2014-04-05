@@ -259,6 +259,18 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSLeftProperty.cs">
       <Link>DOM\Css\Properties\Coordinate\CSSLeftProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSMaxHeightProperty.cs">
+      <Link>DOM\Css\Properties\Coordinate\CSSMaxHeightProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSMaxWidthProperty.cs">
+      <Link>DOM\Css\Properties\Coordinate\CSSMaxWidthProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSMinHeightProperty.cs">
+      <Link>DOM\Css\Properties\Coordinate\CSSMinHeightProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSMinWidthProperty.cs">
+      <Link>DOM\Css\Properties\Coordinate\CSSMinWidthProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSRightProperty .cs">
       <Link>DOM\Css\Properties\Coordinate\CSSRightProperty .cs</Link>
     </Compile>
