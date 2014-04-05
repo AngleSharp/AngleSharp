@@ -361,6 +361,18 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSWordSpacingProperty.cs">
       <Link>DOM\Css\Properties\Font\CSSWordSpacingProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSListStyleImageProperty.cs">
+      <Link>DOM\Css\Properties\List\CSSListStyleImageProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSListStylePositionProperty.cs">
+      <Link>DOM\Css\Properties\List\CSSListStylePositionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSListStyleProperty.cs">
+      <Link>DOM\Css\Properties\List\CSSListStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSListStyleTypeProperty.cs">
+      <Link>DOM\Css\Properties\List\CSSListStyleTypeProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Outline\CSSOutlineColorProperty.cs">
       <Link>DOM\Css\Properties\Outline\CSSOutlineColorProperty.cs</Link>
     </Compile>
