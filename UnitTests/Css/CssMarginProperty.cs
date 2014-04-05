@@ -40,6 +40,21 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssMarginRightPercentLegal()
+        {
+            var snippet = "margin-right: 10%";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("margin-right", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSMarginRightProperty));
+            var concrete = (CSSMarginRightProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("10%", concrete.Value.CssText);
+        }
+
+        [TestMethod]
         public void CssMarginTopPercentLegal()
         {
             var snippet = "margin-top: 4% ";
@@ -67,6 +82,21 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssMarginBottomAutoLegal()
+        {
+            var snippet = "margin-bottom: auto ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("margin-bottom", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSMarginBottomProperty));
+            var concrete = (CSSMarginBottomProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("auto", concrete.Value.CssText);
         }
 
         [TestMethod]
