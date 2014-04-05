@@ -391,6 +391,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSTextDecorationStyleProperty.cs">
       <Link>DOM\Css\Properties\Text\CSSTextDecorationStyleProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSTextIndentProperty.cs">
+      <Link>DOM\Css\Properties\Text\CSSTextIndentProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSTextTransformProperty.cs">
       <Link>DOM\Css\Properties\Text\CSSTextTransformProperty.cs</Link>
     </Compile>

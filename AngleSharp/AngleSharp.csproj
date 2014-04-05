@@ -63,6 +63,7 @@
     <Compile Include="DOM\Css\Properties\Text\CSSTextDecorationColorProperty.cs" />
     <Compile Include="DOM\Css\Properties\Text\CSSTextDecorationStyleProperty.cs" />
     <Compile Include="DOM\Css\Properties\Text\CSSTextDecorationProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Text\CSSTextIndentProperty.cs" />
     <Compile Include="DOM\Css\Properties\Text\CSSWhiteSpaceProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSWidowsProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSFontFamilyProperty.cs" />
