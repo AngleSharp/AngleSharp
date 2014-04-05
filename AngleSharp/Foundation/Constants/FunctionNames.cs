@@ -43,6 +43,11 @@
         public static readonly String Hsl = "hsl";
 
         /// <summary>
+        /// The hsla function.
+        /// </summary>
+        public static readonly String Hsla = "hsla";
+
+        /// <summary>
         /// The rect function.
         /// </summary>
         public static readonly String Rect = "rect";

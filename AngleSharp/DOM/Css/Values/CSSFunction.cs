@@ -15,6 +15,7 @@
             _functions.Add(FunctionNames.Rgb, Rgb);
             _functions.Add(FunctionNames.Rgba, Rgba);
             _functions.Add(FunctionNames.Hsl, Hsl);
+            _functions.Add(FunctionNames.Hsla, Hsla);
             _functions.Add(FunctionNames.Rect, Rect);
             _functions.Add(FunctionNames.Attr, Attr);
             _functions.Add(FunctionNames.Counter, Counter);
@@ -69,10 +70,22 @@
 
         static CSSColorValue Hsl(List<CSSValue> arguments)
         {
-            Single? h, s, l;
+            const Single hnorm = 1f / 360f;
+            Single? h;
 
-            if (arguments.Count == 3 && (h = arguments[0].ToNumber()).HasValue && (s = arguments[1].ToNumber()).HasValue && (l = arguments[2].ToNumber()).HasValue)
-                return new CSSColorValue(Color.FromHsl(h.Value, s.Value, l.Value));
+            if (arguments.Count == 3 && (h = arguments[0].ToNumber()).HasValue && arguments[1] is CSSPercentValue && arguments[2] is CSSPercentValue)
+                return new CSSColorValue(Color.FromHsl(h.Value * hnorm, ((CSSPercentValue)arguments[1]).Value, ((CSSPercentValue)arguments[2]).Value));
+
+            return null;
+        }
+
+        static CSSColorValue Hsla(List<CSSValue> arguments)
+        {
+            const Single hnorm = 1f / 360f;
+            Single? h, a;
+
+            if (arguments.Count == 4 && (h = arguments[0].ToNumber()).HasValue && arguments[1] is CSSPercentValue && arguments[2] is CSSPercentValue && (a = arguments[3].ToNumber()).HasValue)
+                return new CSSColorValue(Color.FromHsla(h.Value * hnorm, ((CSSPercentValue)arguments[1]).Value, ((CSSPercentValue)arguments[2]).Value, a.Value));
 
             return null;
         }

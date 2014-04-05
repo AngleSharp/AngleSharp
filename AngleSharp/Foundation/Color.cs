@@ -256,6 +256,27 @@
             return new Color(r, g, b);
         }
 
+        /// <summary>
+        /// Returns the color that represents the given HSL values.
+        /// </summary>
+        /// <param name="h">The color angle (between 0 and 1).</param>
+        /// <param name="s">The saturation (between 0 and 1).</param>
+        /// <param name="l">The light value (between 0 and 1).</param>
+        /// <param name="alpha">The alpha value (between 0 and 1).</param>
+        /// <returns>The CSS color.</returns>
+        public static Color FromHsla(Single h, Single s, Single l, Single alpha)
+        {
+            const Single third = 1f / 3f;
+
+            var m2 = l <= 0.5f ? (l * (s + 1f)) : (l + s - l * s);
+            var m1 = 2f * l - m2;
+            var r = (Byte)Math.Round(255f * HueToRgb(m1, m2, h + third));
+            var g = (Byte)Math.Round(255f * HueToRgb(m1, m2, h));
+            var b = (Byte)Math.Round(255f * HueToRgb(m1, m2, h - third));
+            var a = (Byte)Math.Round(255f * alpha);
+            return new Color(r, g, b, a);
+        }
+
         #endregion
 
         #region Properties

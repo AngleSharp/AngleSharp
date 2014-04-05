@@ -20,7 +20,7 @@
         public CSSPercentValue(Single value)
         {
             _text = value.ToString(CultureInfo.InvariantCulture) + "%";
-            _value = value;
+            _value = value * 0.01f;
         }
 
         #endregion
@@ -29,6 +29,7 @@
 
         /// <summary>
         /// Gets the value of the CSS percentage.
+        /// This is already normalized to 1. So 100% is 1.
         /// </summary>
         public Single Value
         {
