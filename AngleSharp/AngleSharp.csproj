@@ -51,6 +51,10 @@
     <Compile Include="DOM\Css\Properties\Box\CSSPaddingRightProperty .cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSPaddingLeftProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSPaddingProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Coordinate\CSSMinHeightProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Coordinate\CSSMinWidthProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Coordinate\CSSMaxWidthProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Coordinate\CSSMaxHeightProperty.cs" />
     <Compile Include="DOM\Css\Properties\Outline\CSSOutlineColorProperty.cs" />
     <Compile Include="DOM\Css\Properties\Outline\CSSOutlineProperty.cs" />
     <Compile Include="DOM\Css\Properties\Outline\CSSOutlineStyleProperty.cs" />

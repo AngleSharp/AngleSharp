@@ -124,10 +124,10 @@
                 case PropertyNames.MarginTop:                   return new CSSMarginTopProperty { Rule = style };
                 case PropertyNames.MarginBottom:                return new CSSMarginBottomProperty { Rule = style };
                 case PropertyNames.Margin:                      return new CSSMarginProperty { Rule = style };
-                //case PropertyNames.MAX_HEIGHT:
-                //case PropertyNames.MAX_WIDTH:
-                //case PropertyNames.MIN_HEIGHT:
-                //case PropertyNames.MIN_WIDTH:
+                case PropertyNames.MaxHeight:                   return new CSSMaxHeightProperty { Rule = style };
+                case PropertyNames.MaxWidth:                    return new CSSMaxWidthProperty { Rule = style };
+                case PropertyNames.MinHeight:                   return new CSSMinHeightProperty { Rule = style };
+                case PropertyNames.MinWidth:                    return new CSSMinWidthProperty { Rule = style };
                 case PropertyNames.Opacity:                     return new CSSOpacityProperty { Rule = style };
                 case PropertyNames.Orphans:                     return new CSSOrphansProperty { Rule = style };
                 case PropertyNames.OutlineColor:                return new CSSOutlineColorProperty { Rule = style };
