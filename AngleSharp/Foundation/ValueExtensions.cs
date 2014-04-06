@@ -24,6 +24,18 @@
             return null;
         }
 
+        public static CSSCalcValue ToCalc(this CSSValue value)
+        {
+            if (value is CSSPercentValue)
+                return CSSCalcValue.FromPercent(((CSSPercentValue)value).Value);
+            else if (value is CSSLengthValue)
+                return CSSCalcValue.FromLength(((CSSLengthValue)value).Length);
+            else if (value == CSSNumberValue.Zero)
+                return CSSCalcValue.FromLength(Length.Zero);
+
+            return null;
+        }
+
         public static Single? ToNumber(this CSSValue value)
         {
             if (value is CSSNumberValue)
@@ -44,6 +56,14 @@
         {
             if (value is CSSNumberValue)
                 return (Byte)Math.Min(Math.Max(((CSSNumberValue)value).Value, 0), 255);
+
+            return null;
+        }
+
+        public static Angle? ToAngle(this CSSValue value)
+        {
+            if (value is CSSAngleValue)
+                return ((CSSAngleValue)value).Angle;
 
             return null;
         }

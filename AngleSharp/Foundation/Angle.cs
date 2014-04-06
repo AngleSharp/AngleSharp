@@ -10,6 +10,11 @@
     {
         #region Fields
 
+        /// <summary>
+        /// The zero angle.
+        /// </summary>
+        public static readonly Angle Zero = new Angle();
+
         Single _value;
         Unit _unit;
 
@@ -43,6 +48,33 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Computes the tangent of the given angle.
+        /// </summary>
+        /// <returns>The tangent.</returns>
+        public Single Tan()
+        {
+            return (Single)Math.Tan(_value);
+        }
+
+        /// <summary>
+        /// Computes the cosine of the given angle.
+        /// </summary>
+        /// <returns>The cosine.</returns>
+        public Single Cos()
+        {
+            return (Single)Math.Cos(_value);
+        }
+
+        /// <summary>
+        /// Computes the sine of the given angle.
+        /// </summary>
+        /// <returns>The sine.</returns>
+        public Single Sin()
+        {
+            return (Single)Math.Sin(_value);
+        }
 
         public Boolean Equals(Angle other)
         {

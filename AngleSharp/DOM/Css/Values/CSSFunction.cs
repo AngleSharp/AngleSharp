@@ -18,6 +18,23 @@
             _functions.Add(FunctionNames.Hsla, Hsla);
             _functions.Add(FunctionNames.Rect, Rect);
             _functions.Add(FunctionNames.Attr, Attr);
+            _functions.Add(FunctionNames.Matrix, Matrix);
+            _functions.Add(FunctionNames.Matrix3d, Matrix3d);
+            _functions.Add(FunctionNames.Translate, Translate);
+            _functions.Add(FunctionNames.Translate3d, Translate3d);
+            _functions.Add(FunctionNames.TranslateX, TranslateX);
+            _functions.Add(FunctionNames.TranslateY, TranslateY);
+            _functions.Add(FunctionNames.TranslateZ, TranslateZ);
+            _functions.Add(FunctionNames.Scale, Scale);
+            _functions.Add(FunctionNames.Scale3d, Scale3d);
+            _functions.Add(FunctionNames.ScaleX, ScaleX);
+            _functions.Add(FunctionNames.ScaleY, ScaleY);
+            _functions.Add(FunctionNames.ScaleZ, ScaleZ);
+            _functions.Add(FunctionNames.Rotate, Rotate);
+            _functions.Add(FunctionNames.Rotate3d, Rotate3d);
+            _functions.Add(FunctionNames.RotateX, RotateX);
+            _functions.Add(FunctionNames.RotateY, RotateY);
+            _functions.Add(FunctionNames.RotateZ, RotateZ);
             _functions.Add(FunctionNames.Counter, Counter);
             _functions.Add(FunctionNames.Counters, Counters);
         }
@@ -117,6 +134,276 @@
             return null;
         }
 
+        static CSSTransformValue Matrix(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 6)
+            {
+                var numbers = new Single[6];
+
+                for (var i = 0; i < arguments.Count; i++)
+                {
+                    var num = arguments[i].ToNumber();
+
+                    if (!num.HasValue)
+                        return null;
+
+                    numbers[i] = num.Value;
+                }
+
+                return new CSSTransformValue.Matrix(numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5]);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue Matrix3d(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 12)
+            {
+                var numbers = new Single[12];
+
+                for (var i = 0; i < arguments.Count; i++)
+                {
+                    var num = arguments[i].ToNumber();
+
+                    if (!num.HasValue)
+                        return null;
+
+                    numbers[i] = num.Value;
+                }
+
+                return new CSSTransformValue.Matrix3D(numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5],
+                    numbers[6], numbers[7], numbers[8], numbers[9], numbers[10], numbers[11]);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue Translate(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+                arguments.Add(new CSSLengthValue(Length.Zero));
+
+            if (arguments.Count == 2)
+            {
+                var dx = arguments[0].ToCalc();
+                var dy = arguments[1].ToCalc();
+
+                if (dx != null && dy != null)
+                    return new CSSTransformValue.Translate(dx, dy);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue Translate3d(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+                arguments.Add(new CSSLengthValue(Length.Zero));
+
+            if (arguments.Count == 2)
+                arguments.Add(new CSSLengthValue(Length.Zero));
+
+            if (arguments.Count == 3)
+            {
+                var dx = arguments[0].ToCalc();
+                var dy = arguments[1].ToCalc();
+                var dz = arguments[2].ToCalc();
+
+                if (dx != null && dy != null && dz != null)
+                    return new CSSTransformValue.Translate3D(dx, dy, dz);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue TranslateX(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+            {
+                var dx = arguments[0].ToCalc();
+
+                if (dx != null)
+                    return CSSTransformValue.Translate.TranslateX(dx);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue TranslateY(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+            {
+                var dy = arguments[0].ToCalc();
+
+                if (dy != null)
+                    return CSSTransformValue.Translate.TranslateY(dy);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue TranslateZ(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+            {
+                var dz = arguments[0].ToCalc();
+
+                if (dz != null)
+                    return CSSTransformValue.Translate3D.TranslateZ(dz);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue Scale(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+                arguments.Add(arguments[0]);
+
+            if (arguments.Count == 2)
+            {
+                var sx = arguments[0].ToNumber();
+                var sy = arguments[1].ToNumber();
+
+                if (sx.HasValue && sy.HasValue)
+                    return new CSSTransformValue.Scale(sx.Value, sy.Value);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue Scale3d(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 2)
+                return null;
+
+            if (arguments.Count == 1)
+            {
+                arguments.Add(arguments[0]);
+                arguments.Add(arguments[0]);
+            }
+
+            if (arguments.Count == 3)
+            {
+                var sx = arguments[0].ToNumber();
+                var sy = arguments[1].ToNumber();
+                var sz = arguments[2].ToNumber();
+
+                if (sx.HasValue && sy.HasValue)
+                    return new CSSTransformValue.Scale3D(sx.Value, sy.Value, sz.Value);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue ScaleX(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+            {
+                var sx = arguments[0].ToNumber();
+
+                if (sx.HasValue)
+                    return CSSTransformValue.Scale.ScaleX(sx.Value);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue ScaleY(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+            {
+                var dy = arguments[0].ToNumber();
+
+                if (dy.HasValue)
+                    return CSSTransformValue.Scale.ScaleY(dy.Value);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue ScaleZ(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+            {
+                var sz = arguments[0].ToNumber();
+
+                if (sz.HasValue)
+                    return CSSTransformValue.Scale3D.ScaleZ(sz.Value);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue Rotate(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+            {
+                var angle = arguments[0].ToAngle();
+
+                if (angle.HasValue)
+                    return new CSSTransformValue.Rotate(angle.Value);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue Rotate3d(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 4)
+            {
+                var x = arguments[0].ToNumber();
+                var y = arguments[1].ToNumber();
+                var z = arguments[2].ToNumber();
+                var angle = arguments[3].ToAngle();
+
+                if (x.HasValue && y.HasValue && z.HasValue && angle.HasValue)
+                    return new CSSTransformValue.Rotate3D(x.Value, y.Value, z.Value, angle.Value);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue RotateX(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+            {
+                var angle = arguments[0].ToAngle();
+
+                if (angle.HasValue)
+                    return CSSTransformValue.Rotate3D.RotateX(angle.Value);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue RotateY(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+            {
+                var angle = arguments[0].ToAngle();
+
+                if (angle.HasValue)
+                    return CSSTransformValue.Rotate3D.RotateY(angle.Value);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue RotateZ(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+            {
+                var angle = arguments[0].ToAngle();
+
+                if (angle.HasValue)
+                    return CSSTransformValue.Rotate3D.RotateZ(angle.Value);
+            }
+
+            return null;
+        }
+
         static CSSCounter Counter(List<CSSValue> arguments)
         {
             if (arguments.Count > 0 && arguments.Count < 3 && arguments[0] is CSSIdentifierValue)
@@ -164,7 +451,7 @@
 
         #region Nested // Actually TODO here ...
 
-        class CSSUnknownFunction : CSSFunction
+        sealed class CSSUnknownFunction : CSSFunction
         {
             public CSSUnknownFunction(String name)
             {
@@ -189,27 +476,7 @@
             }
         }
 
-        class CSSCalcFunction : CSSFunction
-        {
-
-        }
-
         class CSSToggleFunction : CSSFunction
-        {
-
-        }
-
-        class CSSRotateFunction : CSSFunction
-        {
-
-        }
-
-        class CSSTransformFunction : CSSFunction
-        {
-
-        }
-
-        class CSSSkewFunction : CSSFunction
         {
 
         }

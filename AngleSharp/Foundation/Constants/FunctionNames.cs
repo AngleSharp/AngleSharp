@@ -78,18 +78,103 @@
         public static readonly String Toggle = "toggle";
 
         /// <summary>
+        /// The translate function.
+        /// </summary>
+        public static readonly String Translate = "translate";
+
+        /// <summary>
+        /// The translatex function.
+        /// </summary>
+        public static readonly String TranslateX = "translateX";
+
+        /// <summary>
+        /// The translatey function.
+        /// </summary>
+        public static readonly String TranslateY = "translateY";
+
+        /// <summary>
+        /// The translatez function.
+        /// </summary>
+        public static readonly String TranslateZ = "translateZ";
+
+        /// <summary>
+        /// The translate3d function.
+        /// </summary>
+        public static readonly String Translate3d = "translate3d";
+
+        /// <summary>
+        /// The matrix function.
+        /// </summary>
+        public static readonly String Matrix = "matrix";
+
+        /// <summary>
+        /// The matrix3d function.
+        /// </summary>
+        public static readonly String Matrix3d = "matrix3d";
+
+        /// <summary>
         /// The rotate function.
         /// </summary>
         public static readonly String Rotate = "rotate";
 
         /// <summary>
-        /// The transform function.
+        /// The rotate3d function.
         /// </summary>
-        public static readonly String Transform = "transform";
+        public static readonly String Rotate3d = "rotate3d";
+
+        /// <summary>
+        /// The rotatex function.
+        /// </summary>
+        public static readonly String RotateX = "rotateX";
+
+        /// <summary>
+        /// The rotatey function.
+        /// </summary>
+        public static readonly String RotateY = "rotateY";
+
+        /// <summary>
+        /// The rotatez function.
+        /// </summary>
+        public static readonly String RotateZ = "rotateZ";
 
         /// <summary>
         /// The skew function.
         /// </summary>
         public static readonly String Skew = "skew";
+
+        /// <summary>
+        /// The skewx function.
+        /// </summary>
+        public static readonly String SkewX = "skewX";
+
+        /// <summary>
+        /// The skewy function.
+        /// </summary>
+        public static readonly String SkewY = "skewY";
+
+        /// <summary>
+        /// The scale function.
+        /// </summary>
+        public static readonly String Scale = "scale";
+
+        /// <summary>
+        /// The scale3d function.
+        /// </summary>
+        public static readonly String Scale3d = "scale3d";
+
+        /// <summary>
+        /// The scalez function.
+        /// </summary>
+        public static readonly String ScaleX = "scaleX";
+
+        /// <summary>
+        /// The scaley function.
+        /// </summary>
+        public static readonly String ScaleY = "scaleY";
+
+        /// <summary>
+        /// The scalex function.
+        /// </summary>
+        public static readonly String ScaleZ = "scaleZ";
     }
 }

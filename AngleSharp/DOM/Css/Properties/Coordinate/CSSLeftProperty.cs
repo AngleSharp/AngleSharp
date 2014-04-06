@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css.Properties
 {
     /// <summary>
     /// Information can be found on MDN:

@@ -143,8 +143,8 @@
                 //case PropertyNames.PAGE_BREAK_AFTER:
                 //case PropertyNames.PAGE_BREAK_BEFORE:
                 //case PropertyNames.PAGE_BREAK_INSIDE:
-                //case PropertyNames.PERSPECTIVE:
-                //case PropertyNames.PERSPECTIVE_ORIGIN:
+                case PropertyNames.Perspective:                 return new CSSPerspectiveProperty { Rule = style };
+                case PropertyNames.PerspectiveOrigin:           return new CSSPerspectiveOriginProperty { Rule = style };
                 case PropertyNames.Position:                    return new CSSPositionProperty { Rule = style };
                 case PropertyNames.Quotes:                      return new CSSQuotesProperty { Rule = style };
                 case PropertyNames.Right:                       return new CSSRightProperty { Rule = style };
@@ -158,7 +158,7 @@
                 case PropertyNames.TextTransform:               return new CSSTextTransformProperty { Rule = style };
                 //case PropertyNames.TRANSFORM:
                 //case PropertyNames.TRANSFORM_ORIGIN:
-                //case PropertyNames.TRANSFORM_STYLE:
+                case PropertyNames.TransformStyle:              return new CSSTransformStyleProperty { Rule = style };
                 //case PropertyNames.TRANSITION:
                 //case PropertyNames.TRANSITION_DELAY:
                 //case PropertyNames.TRANSITION_DURATION:

@@ -79,6 +79,10 @@
     <Compile Include="DOM\Css\Properties\Font\CSSWordSpacingProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSLetterSpacingProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSLineHeightProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Transform\CSSTransformProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Transform\CSSTransformStyleProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Transform\CSSPerspectiveOriginProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Transform\CSSPerspectiveProperty.cs" />
     <Compile Include="DOM\Css\Properties\Visibility\CSSBackfaceVisibilityProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSBorderCollapseProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs" />
@@ -117,6 +121,7 @@
     <Compile Include="DOM\Css\Properties\Flow\CSSPositionProperty.cs" />
     <Compile Include="DOM\Css\Properties\Flow\CSSDisplayProperty.cs" />
     <Compile Include="DOM\Css\Properties\Flow\CSSZIndexProperty.cs" />
+    <Compile Include="DOM\Css\Values\CSSCalcValue.cs" />
     <Compile Include="DOM\Css\Values\CSSTimeValue.cs" />
     <Compile Include="DOM\Css\Values\CSSResolutionValue.cs" />
     <Compile Include="DOM\Css\Values\CSSFrequencyValue.cs" />
@@ -128,6 +133,7 @@
     <Compile Include="DOM\Css\Values\CSSPercentValue.cs" />
     <Compile Include="DOM\Css\Values\CSSNumberValue.cs" />
     <Compile Include="DOM\Css\Values\CSSStringValue.cs" />
+    <Compile Include="DOM\Css\Values\CSSTransformValue.cs" />
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
     <Compile Include="Foundation\ConcurrentDictionary.cs" />
     <Compile Include="Foundation\Angle.cs" />
@@ -136,6 +142,7 @@
     <Compile Include="Foundation\Resolution.cs" />
     <Compile Include="Foundation\Length.cs" />
     <Compile Include="Foundation\NodeExtensions.cs" />
+    <Compile Include="Foundation\TransformMatrix.cs" />
     <Compile Include="Foundation\ValueConverter.cs" />
     <Compile Include="Foundation\ValueExtensions.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
