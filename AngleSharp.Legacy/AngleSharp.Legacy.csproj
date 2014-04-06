@@ -415,6 +415,18 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSWhiteSpaceProperty.cs">
       <Link>DOM\Css\Properties\Text\CSSWhiteSpaceProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSPerspectiveOriginProperty.cs">
+      <Link>DOM\Css\Properties\Transform\CSSPerspectiveOriginProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSPerspectiveProperty.cs">
+      <Link>DOM\Css\Properties\Transform\CSSPerspectiveProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSTransformProperty.cs">
+      <Link>DOM\Css\Properties\Transform\CSSTransformProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSTransformStyleProperty.cs">
+      <Link>DOM\Css\Properties\Transform\CSSTransformStyleProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Visibility\CSSBackfaceVisibilityProperty.cs">
       <Link>DOM\Css\Properties\Visibility\CSSBackfaceVisibilityProperty.cs</Link>
     </Compile>
@@ -499,6 +511,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSAttrValue.cs">
       <Link>DOM\Css\Values\CSSAttrValue.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSCalcValue.cs">
+      <Link>DOM\Css\Values\CSSCalcValue.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSColorValue.cs">
       <Link>DOM\Css\Values\CSSColorValue.cs</Link>
     </Compile>
@@ -543,6 +558,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSTimeValue.cs">
       <Link>DOM\Css\Values\CSSTimeValue.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSTransformValue.cs">
+      <Link>DOM\Css\Values\CSSTransformValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSUnknownValue.cs">
       <Link>DOM\Css\Values\CSSUnknownValue.cs</Link>
@@ -1161,6 +1179,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Time.cs">
       <Link>Foundation\Time.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\TransformMatrix.cs">
+      <Link>Foundation\TransformMatrix.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\ValueConverter.cs">
       <Link>Foundation\ValueConverter.cs</Link>
