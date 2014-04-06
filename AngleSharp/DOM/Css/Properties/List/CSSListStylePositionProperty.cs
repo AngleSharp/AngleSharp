@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, ListPosition> positions = new Dictionary<String, ListPosition>();
+        static readonly Dictionary<String, ListPosition> positions = new Dictionary<String, ListPosition>(StringComparer.OrdinalIgnoreCase);
         ListPosition _position;
 
         #endregion

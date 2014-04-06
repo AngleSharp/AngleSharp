@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, ListStyle> styles = new Dictionary<String, ListStyle>();
+        static readonly Dictionary<String, ListStyle> styles = new Dictionary<String, ListStyle>(StringComparer.OrdinalIgnoreCase);
         ListStyle _style;
 
         #endregion
