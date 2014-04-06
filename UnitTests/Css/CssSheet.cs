@@ -379,7 +379,7 @@ namespace UnitTests
             var transform = decl.Get(0);
             Assert.AreEqual("transform", transform.Name);
             Assert.IsFalse(transform.Important);
-            Assert.AreEqual(CssValueType.Custom, transform.Value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, transform.Value.CssValueType);
         }
 
         [TestMethod]

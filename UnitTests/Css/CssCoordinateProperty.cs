@@ -1,6 +1,6 @@
-﻿using System;
-using AngleSharp;
+﻿using AngleSharp;
 using AngleSharp.DOM.Css;
+using AngleSharp.DOM.Css.Properties;
 using AngleSharp.Parser.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,7 +9,6 @@ namespace UnitTests.Css
     [TestClass]
     public class CssCoordinatePropertyTests
     {
-
         [TestMethod]
         public void CssHeightLegalPercentage()
         {
