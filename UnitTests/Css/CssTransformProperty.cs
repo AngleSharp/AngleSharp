@@ -14,7 +14,6 @@ namespace UnitTests.Css
             var snippet = "perspective:  NONE ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveProperty));
             var concrete = (CSSPerspectiveProperty)property;
@@ -31,7 +30,6 @@ namespace UnitTests.Css
             var snippet = "perspective:  20px  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveProperty));
             var concrete = (CSSPerspectiveProperty)property;
@@ -48,7 +46,6 @@ namespace UnitTests.Css
             var snippet = "perspective:  3.5em  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveProperty));
             var concrete = (CSSPerspectiveProperty)property;
@@ -65,7 +62,6 @@ namespace UnitTests.Css
             var snippet = "perspective:  0  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveProperty));
             var concrete = (CSSPerspectiveProperty)property;
@@ -82,7 +78,6 @@ namespace UnitTests.Css
             var snippet = "perspective:  10%  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveProperty));
             var concrete = (CSSPerspectiveProperty)property;
@@ -97,7 +92,6 @@ namespace UnitTests.Css
             var snippet = "perspective-origin:  0  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
             var concrete = (CSSPerspectiveOriginProperty)property;
@@ -114,7 +108,6 @@ namespace UnitTests.Css
             var snippet = "perspective-origin:  20px  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
             var concrete = (CSSPerspectiveOriginProperty)property;
@@ -131,7 +124,6 @@ namespace UnitTests.Css
             var snippet = "perspective-origin:  left  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
             var concrete = (CSSPerspectiveOriginProperty)property;
@@ -148,7 +140,6 @@ namespace UnitTests.Css
             var snippet = "perspective-origin:  15%  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
             var concrete = (CSSPerspectiveOriginProperty)property;
@@ -165,7 +156,6 @@ namespace UnitTests.Css
             var snippet = "perspective-origin:  15% 25% ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
             var concrete = (CSSPerspectiveOriginProperty)property;
@@ -182,7 +172,6 @@ namespace UnitTests.Css
             var snippet = "perspective-origin:  left center ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
             var concrete = (CSSPerspectiveOriginProperty)property;
@@ -199,7 +188,6 @@ namespace UnitTests.Css
             var snippet = "perspective-origin:  right BOTTOM ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
             var concrete = (CSSPerspectiveOriginProperty)property;
@@ -216,7 +204,6 @@ namespace UnitTests.Css
             var snippet = "perspective-origin:  top center ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
             var concrete = (CSSPerspectiveOriginProperty)property;
@@ -250,7 +237,6 @@ namespace UnitTests.Css
             var snippet = "transform-style:  none ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-style", property.Name);
-            Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSTransformStyleProperty));
             var concrete = (CSSTransformStyleProperty)property;

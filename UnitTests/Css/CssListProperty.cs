@@ -58,7 +58,7 @@ namespace UnitTests.Css
         {
             var snippet = "list-style-image: none ";
             var property = CssParser.ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-position", property.Name);
+            Assert.AreEqual("list-style-image", property.Name);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSListStyleImageProperty));
             var concrete = (CSSListStyleImageProperty)property;
@@ -73,7 +73,7 @@ namespace UnitTests.Css
         {
             var snippet = "list-style-image: url(http://www.example.com/images/list.png)";
             var property = CssParser.ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-position", property.Name);
+            Assert.AreEqual("list-style-image", property.Name);
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSListStyleImageProperty));
             var concrete = (CSSListStyleImageProperty)property;
@@ -110,7 +110,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("lower-alpha", concrete.Value.CssText);
+            Assert.AreEqual("lower-ALPHA", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -152,7 +152,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSListStyleTypeProperty));
             var concrete = (CSSListStyleTypeProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
