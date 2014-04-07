@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Gets a computed value. Could also be just an absolute or
@@ -55,6 +56,7 @@
             public Absolute(Length length)
             {
                 _length = length;
+                _text = length.ToString();
             }
 
             public override Single ToPixel()
@@ -70,6 +72,7 @@
             public Relative(Single scale)
             {
                 _scale = scale;
+                _text = (scale * 100f).ToString(CultureInfo.InvariantCulture) + "%";
             }
 
             public override Single ToPixel()

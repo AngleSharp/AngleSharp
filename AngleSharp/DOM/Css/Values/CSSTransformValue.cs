@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Represents a transformation in CSS.
@@ -23,6 +24,7 @@
             public Matrix(Single m11, Single m12, Single m21, Single m22, Single tx, Single ty)
             {
                 matrix = new TransformMatrix(m11, m12, 0f, m21, m22, 0f, 0f, 0f, 1f, tx, ty, 0f);
+                _text = FunctionNames.Build(FunctionNames.Matrix, m11.ToString(CultureInfo.InvariantCulture), m12.ToString(CultureInfo.InvariantCulture), m21.ToString(CultureInfo.InvariantCulture), m22.ToString(CultureInfo.InvariantCulture), tx.ToString(CultureInfo.InvariantCulture), ty.ToString(CultureInfo.InvariantCulture));
             }
 
             public override TransformMatrix ComputeMatrix()
@@ -38,6 +40,7 @@
             public Matrix3D(Single m11, Single m12, Single m13, Single m21, Single m22, Single m23, Single m31, Single m32, Single m33, Single tx, Single ty, Single tz)
             {
                 matrix = new TransformMatrix(m11, m12, m13, m21, m22, m23, m31, m32, m33, tx, ty, tz);
+                _text = FunctionNames.Build(FunctionNames.Matrix3d, m11.ToString(CultureInfo.InvariantCulture), m12.ToString(CultureInfo.InvariantCulture), m13.ToString(CultureInfo.InvariantCulture), m21.ToString(CultureInfo.InvariantCulture), m22.ToString(CultureInfo.InvariantCulture), m23.ToString(CultureInfo.InvariantCulture), m31.ToString(CultureInfo.InvariantCulture), m32.ToString(CultureInfo.InvariantCulture), m33.ToString(CultureInfo.InvariantCulture), tx.ToString(CultureInfo.InvariantCulture), ty.ToString(CultureInfo.InvariantCulture), tz.ToString(CultureInfo.InvariantCulture));
             }
 
             public override TransformMatrix ComputeMatrix()
@@ -51,20 +54,35 @@
             CSSCalcValue x;
             CSSCalcValue y;
 
+            private Translate()
+            {
+                x = CSSCalcValue.Zero;
+                y = CSSCalcValue.Zero;
+            }
+
             public Translate(CSSCalcValue x, CSSCalcValue y)
             {
                 this.x = x;
                 this.y = y;
+                _text = FunctionNames.Build(FunctionNames.Translate, x.CssText, y.CssText);
             }
 
             public static CSSTransformValue TranslateX(CSSCalcValue dx)
             {
-                return new Translate(dx, CSSCalcValue.FromLength(Length.Zero));
+                return new Translate
+                {
+                    x = dx,
+                    _text = FunctionNames.Build(FunctionNames.TranslateX, dx.CssText)
+                };
             }
 
             public static CSSTransformValue TranslateY(CSSCalcValue dy)
             {
-                return new Translate(CSSCalcValue.FromLength(Length.Zero), dy);
+                return new Translate
+                {
+                    y = dy,
+                    _text = FunctionNames.Build(FunctionNames.TranslateY, dy.CssText)
+                };
             }
 
             public override TransformMatrix ComputeMatrix()
@@ -86,6 +104,7 @@
                 this.x = x;
                 this.y = y;
                 this.z = z;
+                _text = FunctionNames.Build(FunctionNames.Translate3d, x.CssText, y.CssText, z.CssText);
             }
 
             public static CSSTransformValue TranslateX(CSSCalcValue dx)
@@ -120,6 +139,7 @@
             {
                 sina = angle.Sin();
                 cosa = angle.Cos();
+                _text = FunctionNames.Build(FunctionNames.Rotate, angle.ToString());
             }
 
             public override TransformMatrix ComputeMatrix()
@@ -144,6 +164,7 @@
                 l = x * norm;
                 m = y * norm;
                 n = z * norm;
+                _text = FunctionNames.Build(FunctionNames.Rotate3d, x.ToString(CultureInfo.InvariantCulture), y.ToString(CultureInfo.InvariantCulture), z.ToString(CultureInfo.InvariantCulture), angle.ToString());
             }
 
             public static Rotate3D RotateX(Angle angle)
@@ -177,10 +198,23 @@
             Single sx;
             Single sy;
 
+            private Scale()
+            {
+                sx = sy = 0f;
+            }
+
+            public Scale(Single scale)
+            {
+                this.sx = scale;
+                this.sy = scale;
+                _text = FunctionNames.Build(FunctionNames.Scale, scale.ToString(CultureInfo.InvariantCulture));
+            }
+
             public Scale(Single sx, Single sy)
             {
                 this.sx = sx;
                 this.sy = sy;
+                _text = FunctionNames.Build(FunctionNames.Scale, sx.ToString(CultureInfo.InvariantCulture), sy.ToString(CultureInfo.InvariantCulture));
             }
 
             public override TransformMatrix ComputeMatrix()
@@ -190,12 +224,20 @@
 
             public static Scale ScaleX(Single sx)
             {
-                return new Scale(sx, 0f);
+                return new Scale
+                {
+                    sx = sx,
+                    _text = FunctionNames.Build(FunctionNames.ScaleX, sx.ToString(CultureInfo.InvariantCulture))
+                };
             }
 
             public static Scale ScaleY(Single sy)
             {
-                return new Scale(0f, sy);
+                return new Scale
+                {
+                    sy = sy,
+                    _text = FunctionNames.Build(FunctionNames.ScaleY, sy.ToString(CultureInfo.InvariantCulture))
+                };
             }
         }
 
@@ -210,6 +252,7 @@
                 this.sx = sx;
                 this.sy = sy;
                 this.sz = sz;
+                _text = FunctionNames.Build(FunctionNames.Scale3d, sx.ToString(CultureInfo.InvariantCulture), sy.ToString(CultureInfo.InvariantCulture), sz.ToString(CultureInfo.InvariantCulture));
             }
 
             public static Scale3D ScaleX(Single sx)
@@ -238,20 +281,35 @@
             Single a;
             Single b;
 
+            private Skew()
+            {
+                a = 0f;
+                b = 0f;
+            }
+
             public Skew(Angle alpha, Angle beta)
             {
                 a = alpha.Tan();
                 b = beta.Tan();
+                _text = FunctionNames.Build(FunctionNames.Skew, alpha.ToString(), beta.ToString());
             }
 
             public static Skew SkewX(Angle angle)
             {
-                return new Skew(angle, Angle.Zero);
+                return new Skew
+                {
+                    a = angle.Tan(),
+                    _text = FunctionNames.Build(FunctionNames.SkewX, angle.ToString())
+                };
             }
 
             public static Skew SkewY(Angle angle)
             {
-                return new Skew(Angle.Zero, angle);
+                return new Skew
+                {
+                    b = angle.Tan(),
+                    _text = FunctionNames.Build(FunctionNames.SkewY, angle.ToString())
+                };
             }
 
             public override TransformMatrix ComputeMatrix()

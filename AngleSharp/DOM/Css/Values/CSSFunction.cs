@@ -35,6 +35,9 @@
             _functions.Add(FunctionNames.RotateX, RotateX);
             _functions.Add(FunctionNames.RotateY, RotateY);
             _functions.Add(FunctionNames.RotateZ, RotateZ);
+            _functions.Add(FunctionNames.Skew, Skew);
+            _functions.Add(FunctionNames.SkewX, SkewX);
+            _functions.Add(FunctionNames.SkewY, SkewY);
             _functions.Add(FunctionNames.Counter, Counter);
             _functions.Add(FunctionNames.Counters, Counters);
         }
@@ -253,9 +256,13 @@
         static CSSTransformValue Scale(List<CSSValue> arguments)
         {
             if (arguments.Count == 1)
-                arguments.Add(arguments[0]);
+            {
+                var scale = arguments[0].ToNumber();
 
-            if (arguments.Count == 2)
+                if (scale.HasValue)
+                    return new CSSTransformValue.Scale(scale.Value);
+            }
+            else if (arguments.Count == 2)
             {
                 var sx = arguments[0].ToNumber();
                 var sy = arguments[1].ToNumber();
@@ -436,6 +443,46 @@
                 }
 
                 return new CSSCounter(identifier, listStyle, separator);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue Skew(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 2)
+            {
+                var alpha = arguments[0].ToAngle();
+                var beta = arguments[1].ToAngle();
+
+                if (alpha.HasValue && beta.HasValue)
+                    return new CSSTransformValue.Skew(alpha.Value, beta.Value);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue SkewX(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+            {
+                var angle = arguments[0].ToAngle();
+
+                if (angle.HasValue)
+                    return CSSTransformValue.Skew.SkewX(angle.Value);
+            }
+
+            return null;
+        }
+
+        static CSSTransformValue SkewY(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 1)
+            {
+                var angle = arguments[0].ToAngle();
+
+                if (angle.HasValue)
+                    return CSSTransformValue.Skew.SkewY(angle.Value);
             }
 
             return null;
