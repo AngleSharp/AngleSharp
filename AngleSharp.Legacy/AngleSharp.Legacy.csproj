@@ -247,6 +247,18 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSBreakProperty.cs">
       <Link>DOM\Css\Properties\Break\CSSBreakProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSPageBreakAfterProperty.cs">
+      <Link>DOM\Css\Properties\Break\CSSPageBreakAfterProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSPageBreakBeforeProperty.cs">
+      <Link>DOM\Css\Properties\Break\CSSPageBreakBeforeProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSPageBreakInsideProperty.cs">
+      <Link>DOM\Css\Properties\Break\CSSPageBreakInsideProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSPageBreakProperty.cs">
+      <Link>DOM\Css\Properties\Break\CSSPageBreakProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSBottomProperty.cs">
       <Link>DOM\Css\Properties\Coordinate\CSSBottomProperty.cs</Link>
     </Compile>
