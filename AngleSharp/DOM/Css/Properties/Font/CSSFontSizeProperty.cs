@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Information:
@@ -10,8 +11,7 @@
     {
         #region Fields
 
-        static readonly ValueConverter<FontSizeMode> _sizes = new ValueConverter<FontSizeMode>();
-        static readonly AbsoluteFontSizeMode _medium = new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Medium);
+        static readonly Dictionary<String, FontSizeMode> _sizes = new Dictionary<String, FontSizeMode>(StringComparer.OrdinalIgnoreCase);
         FontSizeMode _size;
 
         #endregion
@@ -20,23 +20,21 @@
 
         static CSSFontSizeProperty()
         {
-            _sizes.AddStatic("xx-small", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Smallest));
-            _sizes.AddStatic("x-small", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Smaller));
-            _sizes.AddStatic("small", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Small));
-            _sizes.AddStatic("medium", _medium);
-            _sizes.AddStatic("large", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Large));
-            _sizes.AddStatic("x-large", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Larger));
-            _sizes.AddStatic("xx-large", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Largest));
-            _sizes.AddStatic("larger", new RelativeFontSizeMode(RelativeFontSizeMode.Size.Smaller));
-            _sizes.AddStatic("smaller", new RelativeFontSizeMode(RelativeFontSizeMode.Size.Larger));
-            _sizes.AddConstructed<PercentFontSizeMode>();
-            _sizes.AddConstructed<LengthFontSizeMode>();
+            _sizes.Add("medium", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Medium));
+            _sizes.Add("xx-small", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Smallest));
+            _sizes.Add("x-small", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Smaller));
+            _sizes.Add("small", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Small));
+            _sizes.Add("large", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Large));
+            _sizes.Add("x-large", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Larger));
+            _sizes.Add("xx-large", new AbsoluteFontSizeMode(AbsoluteFontSizeMode.Size.Largest));
+            _sizes.Add("larger", new RelativeFontSizeMode(RelativeFontSizeMode.Size.Smaller));
+            _sizes.Add("smaller", new RelativeFontSizeMode(RelativeFontSizeMode.Size.Larger));
         }
 
         public CSSFontSizeProperty()
             : base(PropertyNames.FontSize)
         {
-            _size = _medium;
+            _size = _sizes["medium"];
             _inherited = true;
         }
 
@@ -47,8 +45,11 @@
         protected override Boolean IsValid(CSSValue value)
         {
             FontSizeMode size;
+            CSSCalcValue calc = value.ToCalc();
 
-            if (_sizes.TryCreate(value, out size))
+            if (calc != null)
+                _size = new CalcFontSizeMode(calc);
+            else if (value is CSSIdentifierValue && _sizes.TryGetValue(((CSSIdentifierValue)value).Value, out size))
                 _size = size;
             else if (value != CSSValue.Inherit)
                 return false;
@@ -133,31 +134,20 @@
         }
 
         /// <summary>
-        /// A positive percentage of the parent element's font size.
-        /// </summary>
-        sealed class PercentFontSizeMode : FontSizeMode
-        {
-            Single _scale;
-
-            public PercentFontSizeMode(CSSPercentValue percent)
-            {
-                _scale = percent.Value;
-            }
-        }
-
-        /// <summary>
         /// A positive length. When the units are specified in em or ex, the
         /// size is defined relative to the size of the font on the parent element
         /// of the element in question. For example, 0.5em is half the font size of
         /// the parent of the current element.
+        /// OR:
+        /// A positive percentage of the parent element's font size.
         /// </summary>
-        sealed class LengthFontSizeMode : FontSizeMode
+        sealed class CalcFontSizeMode : FontSizeMode
         {
-            Length _length;
+            CSSCalcValue _calc;
 
-            public LengthFontSizeMode(Length length)
+            public CalcFontSizeMode(CSSCalcValue calc)
             {
-                _length = length;
+                _calc = calc;
             }
         }
 

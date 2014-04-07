@@ -43,25 +43,13 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSLengthValue)
-            {
-                var length = (CSSLengthValue)value;
-                _mode = new AbsoluteVerticalAlignMode(length.Length);
-            }
-            else if (value is CSSPercentValue)
-                _mode = new RelativeVerticalAlignMode(((CSSPercentValue)value).Value);
-            else if (value == CSSNumberValue.Zero)
-                _mode = new AbsoluteVerticalAlignMode(Length.Zero);
-            else if (value is CSSIdentifierValue)
-            {
-                var ident = (CSSIdentifierValue)value;
-                VerticalAlignMode mode;
+            VerticalAlignMode mode;
+            var calc = value.ToCalc();
 
-                if (!modes.TryGetValue(ident.Value, out mode))
-                    return false;
-
+            if (calc != null)
+                _mode = new CalcVerticalAlignMode(calc);
+            else if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
                 _mode = mode;
-            }
             else if (value != CSSValue.Inherit)
                 return false;
 
@@ -144,30 +132,19 @@
         }
 
         /// <summary>
+        /// Aligns the baseline of the element at the given length above
+        /// the baseline of its parent.
+        /// OR:
         /// Like absolute values, with the percentage being a percent of the
         /// line-height property.
         /// </summary>
-        sealed class RelativeVerticalAlignMode : VerticalAlignMode
+        sealed class CalcVerticalAlignMode : VerticalAlignMode
         {
-            Single _value;
+            CSSCalcValue _calc;
 
-            public RelativeVerticalAlignMode(Single value)
+            public CalcVerticalAlignMode(CSSCalcValue calc)
             {
-                _value = value;
-            }
-        }
-
-        /// <summary>
-        /// Aligns the baseline of the element at the given length above
-        /// the baseline of its parent.
-        /// </summary>
-        sealed class AbsoluteVerticalAlignMode : VerticalAlignMode
-        {
-            Length _value;
-
-            public AbsoluteVerticalAlignMode(Length value)
-            {
-                _value = value;
+                _calc = calc;
             }
         }
 

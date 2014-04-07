@@ -10,8 +10,12 @@
     {
         #region Fields
 
-        static readonly AbsoluteIntendMode _default = new AbsoluteIntendMode(Length.Zero);
-        IntendMode _mode;
+        /// <summary>
+        /// Indentation is a percentage of the containing block width.
+        /// OR Indentation is specified as fixed length.
+        /// Negative values are allowed.
+        /// </summary>
+        CSSCalcValue _indent;
 
         #endregion
 
@@ -21,7 +25,7 @@
             : base(PropertyNames.TextIndent)
         {
             _inherited = true;
-            _mode = _default;
+            _indent = CSSCalcValue.Zero;
         }
 
         #endregion
@@ -30,52 +34,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var length = value.ToLength();
+            var indent = value.ToCalc();
 
-            if (length.HasValue)
-                _mode = new AbsoluteIntendMode(length.Value);
-            else if (value is CSSPercentValue)
-                _mode = new RelativeIntendMode(((CSSPercentValue)value).Value);
+            if (indent != null)
+                _indent = indent;
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-
-        abstract class IntendMode
-        {
-            //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// Indentation is specified as fixed length.
-        /// Negative values are allowed.
-        /// </summary>
-        sealed class AbsoluteIntendMode : IntendMode
-        {
-            Length _height;
-
-            public AbsoluteIntendMode(Length height)
-            {
-                _height = height;
-            }
-        }
-
-        /// <summary>
-        /// Indentation is a percentage of the containing block width.
-        /// </summary>
-        sealed class RelativeIntendMode : IntendMode
-        {
-            Single _scale;
-
-            public RelativeIntendMode(Single scale)
-            {
-                _scale = scale;
-            }
         }
 
         #endregion

@@ -10,21 +10,12 @@
     {
         #region Fields
 
-        static readonly ValueConverter<LineHeightMode> _modes = new ValueConverter<LineHeightMode>();
         static readonly NormalLineHeightMode _normal = new NormalLineHeightMode();
         LineHeightMode _mode;
 
         #endregion
 
         #region ctor
-
-        static CSSLineHeightProperty()
-        {
-            _modes.AddStatic("normal", _normal);
-            _modes.AddConstructed<RelativeLineHeightMode>();
-            _modes.AddConstructed<AbsoluteLineHeightMode>();
-            _modes.AddConstructed<MultipleLineHeightMode>();
-        }
 
         public CSSLineHeightProperty()
             : base(PropertyNames.LineHeight)
@@ -39,10 +30,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            LineHeightMode mode;
+            CSSCalcValue calc = value.ToCalc();
 
-            if (_modes.TryCreate(value, out mode))
-                _mode = mode;
+            if (calc != null)
+                _mode = new CalcLineHeightMode(calc);
+            else if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("normal", StringComparison.OrdinalIgnoreCase))
+                _mode = _normal;
+            else if (value.ToNumber().HasValue)
+                _mode = new MultipleLineHeightMode(value.ToNumber().Value);
             else if (value != CSSValue.Inherit)
                 return false;
 
@@ -64,30 +59,19 @@
         { }
 
         /// <summary>
+        /// The specified length is used in the calculation of the line box
+        /// height. See length values for possible units.
+        /// OR
         /// Relative to the font size of the element itself. The computed
         /// value is this percentage multiplied by the element's computed font size.
         /// </summary>
-        sealed class RelativeLineHeightMode : LineHeightMode
+        sealed class CalcLineHeightMode : LineHeightMode
         {
-            Single _scale;
+            CSSCalcValue _calc;
 
-            public RelativeLineHeightMode(CSSPercentValue percent)
+            public CalcLineHeightMode(CSSCalcValue calc)
             {
-                _scale = percent.Value;
-            }
-        }
-
-        /// <summary>
-        /// The specified length is used in the calculation of the line box
-        /// height. See length values for possible units.
-        /// </summary>
-        sealed class AbsoluteLineHeightMode : LineHeightMode
-        {
-            Length _length;
-
-            public AbsoluteLineHeightMode(Length length)
-            {
-                _length = length;
+                _calc = calc;
             }
         }
 
