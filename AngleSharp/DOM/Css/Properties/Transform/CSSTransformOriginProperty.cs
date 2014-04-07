@@ -10,8 +10,23 @@
     {
         #region Fields
 
+        /// <summary>
+        /// Is a length or a percentage describing how far from the left edge of
+        /// the box the origin of the transform is set. Or: Is one of the left,
+        /// right, top, bottom or center keyword describing the corresponding offset.
+        /// </summary>
         CSSCalcValue _x;
+        /// <summary>
+        /// Is a length or a percentage describing how far from the top edge of
+        /// the box the origin of the transform is set. Or: Is one of the top,
+        /// bottom or center keyword describing how far from the top edge of the
+        /// box the origin of the transform is set.
+        /// </summary>
         CSSCalcValue _y;
+        /// <summary>
+        /// Is a length (and never a percentage which would made the statement invalid)
+        /// describing how far from the user eye the z=0 origin is set.
+        /// </summary>
         CSSCalcValue _z;
 
         #endregion
@@ -58,15 +73,13 @@
             if (z != CSSCalcValue.Zero || list.Length == 2)
             {
                 var x = GetMode(list[0], "left", "right");
-                var index = 1;
+                var y = GetMode(list[1], "top", "bottom");
 
-                if (x == null)
-                    index--;
-
-                var y = GetMode(list[index], "top", "bottom");
-
-                if (y != null && x == null)
+                if (y == null || x == null)
+                {
                     x = GetMode(list[1], "left", "right");
+                    y = GetMode(list[0], "top", "bottom");
+                }
 
                 if (x != null && y != null)
                 {

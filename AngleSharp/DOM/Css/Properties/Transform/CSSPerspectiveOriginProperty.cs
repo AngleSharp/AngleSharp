@@ -90,15 +90,13 @@
             if (list.Length == 2)
             {
                 var x = GetMode(list[0], "left", "right");
-                var index = 1;
+                var y = GetMode(list[1], "top", "bottom");
 
-                if (x == null)
-                    index--;
-
-                var y = GetMode(list[index], "top", "bottom");
-
-                if (y != null && x == null)
+                if (y == null || x == null)
+                {
                     x = GetMode(list[1], "left", "right");
+                    y = GetMode(list[0], "top", "bottom");
+                }
 
                 if (x != null && y != null)
                 {
@@ -131,6 +129,5 @@
         }
 
         #endregion
-
     }
 }
