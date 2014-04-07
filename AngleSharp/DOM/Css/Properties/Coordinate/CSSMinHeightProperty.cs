@@ -10,8 +10,7 @@
     {
         #region Fields
 
-        static readonly AbsoluteMinHeightMode _default = new AbsoluteMinHeightMode(Length.Zero);
-        MinHeightMode _mode;
+        CSSCalcValue _mode;
 
         #endregion
 
@@ -21,7 +20,7 @@
             : base(PropertyNames.MinHeight)
         {
             _inherited = false;
-            _mode = _default;
+            _mode = CSSCalcValue.Zero;
         }
 
         #endregion
@@ -30,52 +29,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var length = value.ToLength();
+            var calc = value.ToCalc();
 
-            if (length.HasValue)
-                _mode = new AbsoluteMinHeightMode(length.Value);
-            else if (value is CSSPercentValue)
-                _mode = new RelativeMinHeightMode(((CSSPercentValue)value).Value);
+            if (calc != null)
+                _mode = calc;
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-
-        abstract class MinHeightMode
-        {
-            //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// The fixed minimum height. Negative values make the declaration invalid.
-        /// </summary>
-        sealed class AbsoluteMinHeightMode : MinHeightMode
-        {
-            Length _height;
-            
-            public AbsoluteMinHeightMode(Length height)
-            {
-                _height = height;
-            }
-        }
-
-        /// <summary>
-        /// The fixed minimum height expressed as a relative of containing block's height.
-        /// Negative values make the declaration invalid.
-        /// </summary>
-        sealed class RelativeMinHeightMode : MinHeightMode
-        {
-            Single _scale;
-
-            public RelativeMinHeightMode(Single scale)
-            {
-                _scale = scale;
-            }
         }
 
         #endregion

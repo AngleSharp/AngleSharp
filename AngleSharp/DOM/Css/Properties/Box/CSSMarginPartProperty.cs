@@ -10,7 +10,7 @@
         #region Fields
 
         static readonly AutoMarginMode _auto = new AutoMarginMode();
-        static readonly AbsoluteMarginMode _default = new AbsoluteMarginMode(Length.Zero);
+        static readonly CalcMarginMode _default = new CalcMarginMode(CSSCalcValue.Zero);
         MarginMode _mode;
 
         #endregion
@@ -30,12 +30,10 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var length = value.ToLength();
+            var calc = value.ToCalc();
 
-            if (length.HasValue)
-                _mode = new AbsoluteMarginMode(length.Value);
-            else if (value is CSSPercentValue)
-                _mode = new RelativeMarginMode(((CSSPercentValue)value).Value);
+            if (calc != null)
+                _mode = new CalcMarginMode(calc);
             else if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("auto", StringComparison.OrdinalIgnoreCase))
                 _mode = _auto;
             else if (value != CSSValue.Inherit)
@@ -62,27 +60,15 @@
 
         /// <summary>
         /// Relative to the width of the containing block. Negative values are allowed.
+        /// OR: Specifies a fixed width. Negative Values are allowed.
         /// </summary>
-        sealed class RelativeMarginMode : MarginMode
+        sealed class CalcMarginMode : MarginMode
         {
-            Single _percent;
+            CSSCalcValue _calc;
 
-            public RelativeMarginMode(Single percent)
+            public CalcMarginMode(CSSCalcValue calc)
             {
-                _percent = percent;
-            }
-        }
-
-        /// <summary>
-        /// Specifies a fixed width. Negative Values are allowed.
-        /// </summary>
-        sealed class AbsoluteMarginMode : MarginMode
-        {
-            Length _length;
-
-            public AbsoluteMarginMode(Length length)
-            {
-                _length = length;
+                _calc = calc;
             }
         }
 

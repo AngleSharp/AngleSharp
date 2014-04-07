@@ -79,6 +79,7 @@
     <Compile Include="DOM\Css\Properties\Font\CSSWordSpacingProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSLetterSpacingProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSLineHeightProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Transform\CSSTransformOriginProperty.cs" />
     <Compile Include="DOM\Css\Properties\Transform\CSSTransformProperty.cs" />
     <Compile Include="DOM\Css\Properties\Transform\CSSTransformStyleProperty.cs" />
     <Compile Include="DOM\Css\Properties\Transform\CSSPerspectiveOriginProperty.cs" />

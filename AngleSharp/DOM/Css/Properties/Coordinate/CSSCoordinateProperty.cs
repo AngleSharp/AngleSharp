@@ -30,12 +30,10 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var length = value.ToLength();
+            var calc = value.ToCalc();
 
-            if (length.HasValue)
-                _mode = new AbsoluteCoordinateMode(length.Value);
-            else if (value is CSSPercentValue)
-                _mode = new RelativeCoordinateMode(((CSSPercentValue)value).Value);
+            if (calc != null)
+                _mode = new CalcCoordinateMode(calc);
             else if (value is CSSIdentifierValue && (((CSSIdentifierValue)value).Value).Equals("auto", StringComparison.OrdinalIgnoreCase))
                 _mode = _auto;
             else if (value != CSSValue.Inherit)
@@ -57,23 +55,13 @@
         {
         }
 
-        sealed class RelativeCoordinateMode : CoordinateMode
+        sealed class CalcCoordinateMode : CoordinateMode
         {
-            Single _value;
+            CSSCalcValue _calc;
 
-            public RelativeCoordinateMode(Single value)
+            public CalcCoordinateMode(CSSCalcValue calc)
             {
-                _value = value;
-            }
-        }
-
-        sealed class AbsoluteCoordinateMode : CoordinateMode
-        {
-            Length _value;
-
-            public AbsoluteCoordinateMode(Length value)
-            {
-                _value = value;
+                _calc = calc;
             }
         }
 

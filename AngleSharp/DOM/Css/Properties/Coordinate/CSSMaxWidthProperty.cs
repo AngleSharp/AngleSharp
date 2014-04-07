@@ -30,12 +30,10 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var length = value.ToLength();
+            var calc = value.ToCalc();
 
-            if (length.HasValue)
-                _mode = new AbsoluteMaxWidthMode(length.Value);
-            else if (value is CSSPercentValue)
-                _mode = new RelativeMaxWidthMode(((CSSPercentValue)value).Value);
+            if (calc != null)
+                _mode = new CalcMaxWidthMode(calc);
             else if (value is CSSIdentifierValue && (((CSSIdentifierValue)value).Value).Equals("none", StringComparison.OrdinalIgnoreCase))
                 _mode = _none;
             else if (value != CSSValue.Inherit)
@@ -61,28 +59,16 @@
         }
 
         /// <summary>
-        /// Specified as an absolute length.
-        /// </summary>
-        sealed class AbsoluteMaxWidthMode : MaxWidthMode
-        {
-            Length _height;
-            
-            public AbsoluteMaxWidthMode(Length height)
-            {
-                _height = height;
-            }
-        }
-
-        /// <summary>
         /// Specified as a relative of containing block's width.
+        /// OR: Specified as an absolute length.
         /// </summary>
-        sealed class RelativeMaxWidthMode : MaxWidthMode
+        sealed class CalcMaxWidthMode : MaxWidthMode
         {
-            Single _scale;
+            CSSCalcValue _calc;
 
-            public RelativeMaxWidthMode(Single scale)
+            public CalcMaxWidthMode(CSSCalcValue calc)
             {
-                _scale = scale;
+                _calc = calc;
             }
         }
 

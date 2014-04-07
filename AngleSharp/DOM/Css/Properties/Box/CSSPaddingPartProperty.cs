@@ -9,8 +9,7 @@
     {
         #region Fields
 
-        static readonly AbsolutePaddingMode _default = new AbsolutePaddingMode(Length.Zero);
-        PaddingMode _mode;
+        CSSCalcValue _mode;
 
         #endregion
 
@@ -20,7 +19,7 @@
             : base(name)
         {
             _inherited = false;
-            _mode = _default;
+            _mode = CSSCalcValue.Zero;
         }
 
         #endregion
@@ -29,45 +28,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var length = value.ToLength();
+            var calc = value.ToCalc();
 
-            if (length.HasValue)
-                _mode = new AbsolutePaddingMode(length.Value);
-            else if (value is CSSPercentValue)
-                _mode = new RelativePaddingMode(((CSSPercentValue)value).Value);
+            if (calc != null)
+                _mode = calc;
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Mode
-
-        abstract class PaddingMode
-        {
-            //TODO add members
-        }
-
-        sealed class RelativePaddingMode : PaddingMode
-        {
-            Single _percent;
-
-            public RelativePaddingMode(Single percent)
-            {
-                _percent = percent;
-            }
-        }
-
-        sealed class AbsolutePaddingMode : PaddingMode
-        {
-            Length _length;
-
-            public AbsolutePaddingMode(Length length)
-            {
-                _length = length;
-            }
         }
 
         #endregion

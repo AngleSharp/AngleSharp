@@ -30,12 +30,10 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var length = value.ToLength();
+            var calc = value.ToCalc();
 
-            if (length.HasValue)
-                _mode = new AbsoluteMaxHeightMode(length.Value);
-            else if (value is CSSPercentValue)
-                _mode = new RelativeMaxHeightMode(((CSSPercentValue)value).Value);
+            if (calc != null)
+                _mode = new CalcMaxHeightMode(calc);
             else if (value is CSSIdentifierValue && (((CSSIdentifierValue)value).Value).Equals("none", StringComparison.OrdinalIgnoreCase))
                 _mode = _none;
             else if (value != CSSValue.Inherit)
@@ -61,30 +59,18 @@
         }
 
         /// <summary>
-        /// A fixed maximum height.
-        /// </summary>
-        sealed class AbsoluteMaxHeightMode : MaxHeightMode
-        {
-            Length _height;
-            
-            public AbsoluteMaxHeightMode(Length height)
-            {
-                _height = height;
-            }
-        }
-
-        /// <summary>
         /// The percentage is calculated with respect to the height of the
         /// containing block. If the height of the containing block is not
         /// specified explicitly, the percentage value is treated as none.
+        /// OR: A fixed maximum height.
         /// </summary>
-        sealed class RelativeMaxHeightMode : MaxHeightMode
+        sealed class CalcMaxHeightMode : MaxHeightMode
         {
-            Single _scale;
-
-            public RelativeMaxHeightMode(Single scale)
+            CSSCalcValue _calc;
+            
+            public CalcMaxHeightMode(CSSCalcValue calc)
             {
-                _scale = scale;
+                _calc = calc;
             }
         }
 

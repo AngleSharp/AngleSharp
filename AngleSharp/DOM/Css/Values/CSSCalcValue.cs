@@ -8,6 +8,25 @@
     /// </summary>
     abstract class CSSCalcValue : CSSPrimitiveValue
     {
+        #region Fields
+
+        /// <summary>
+        /// Gets a value that computes to 50% of the original dimension.
+        /// </summary>
+        public static readonly CSSCalcValue Center = new Relative(0.5f);
+
+        /// <summary>
+        /// Gets a value that computes to 0.
+        /// </summary>
+        public static readonly CSSCalcValue Zero = new Absolute(Length.Zero);
+
+        /// <summary>
+        /// Gets a value that computes to 100% of the original dimension.
+        /// </summary>
+        public static readonly CSSCalcValue Full = new Relative(1f);
+
+        #endregion
+
         #region Methods
 
         public abstract Single ToPixel();

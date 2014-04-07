@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at
@@ -10,8 +11,9 @@
     {
         #region Fields
 
-        static readonly DefaultImageMode _default = new DefaultImageMode();
-        ImageMode _mode;
+        CSSListStyleTypeProperty _type;
+        CSSListStyleImageProperty _image;
+        CSSListStylePositionProperty _position;
 
         #endregion
 
@@ -21,7 +23,9 @@
             : base(PropertyNames.ListStyle)
         {
             _inherited = true;
-            _mode = _default;
+            _type = new CSSListStyleTypeProperty();
+            _image = new CSSListStyleImageProperty();
+            _position = new CSSListStylePositionProperty();
         }
 
         #endregion
@@ -30,43 +34,50 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("none", StringComparison.OrdinalIgnoreCase))
-                _mode = _default;
-            else if (value is CSSUriValue)
-                _mode = new CustomImageMode(((CSSUriValue)value).Uri);
-            else if (value != CSSValue.Inherit)
-                return false;
+            if (value == CSSValue.Inherit)
+                return true;
 
-            return true;
-        }
+            var list = value as CSSValueList;
 
-        #endregion
+            if (list == null)
+                list = new CSSValueList(value);
 
-        #region Modes
+            var index = 0;
+            var startGroup = new List<CSSProperty>(3);
+            var type = new CSSListStyleTypeProperty();
+            var image = new CSSListStyleImageProperty();
+            var position = new CSSListStylePositionProperty();
+            startGroup.Add(type);
+            startGroup.Add(image);
+            startGroup.Add(position);
 
-        abstract class ImageMode
-        {
-            //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// Default value.
-        /// </summary>
-        sealed class DefaultImageMode : ImageMode
-        {
-        }
-
-        /// <summary>
-        /// Location of image to use as the marker.
-        /// </summary>
-        sealed class CustomImageMode : ImageMode
-        {
-            Uri _url;
-
-            public CustomImageMode(Uri url)
+            while (true)
             {
-                _url = url;
+                var length = startGroup.Count;
+
+                for (int i = 0; i < length; i++)
+                {
+                    if (CheckSingleProperty(startGroup[i], index, list))
+                    {
+                        startGroup.RemoveAt(i);
+                        index++;
+                        break;
+                    }
+                }
+
+                if (length == startGroup.Count)
+                    break;
             }
+
+            if (index == list.Length)
+            {
+                _type = type;
+                _image = image;
+                _position = position;
+                return true;
+            }
+
+            return false;
         }
 
         #endregion

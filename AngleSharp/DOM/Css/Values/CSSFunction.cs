@@ -41,12 +41,6 @@
 
         #endregion
 
-        #region Fields
-
-        protected List<CSSValue> _args;
-
-        #endregion
-
         #region Methods
 
         public static CSSValue Create(String name, List<CSSValue> arguments)
@@ -55,7 +49,7 @@
             Func<List<CSSValue>, CSSValue> creator;
 
             if (!_functions.TryGetValue(name, out creator) || (result = creator(arguments)) == null)
-                return new CSSUnknownFunction(name) { _args = arguments };
+                return new CSSUnknownFunction(name, arguments);
 
             return result;
         }
@@ -449,13 +443,21 @@
 
         #endregion
 
-        #region Nested // Actually TODO here ...
+        #region Unknown Function
 
         sealed class CSSUnknownFunction : CSSFunction
         {
-            public CSSUnknownFunction(String name)
+            List<CSSValue> _args;
+
+            public CSSUnknownFunction(String name, IEnumerable<CSSValue> arguments)
             {
                 _text = name;
+                _args = new List<CSSValue>(arguments);
+            }
+
+            public IEnumerable<CSSValue> Arguments
+            {
+                get { return _args; }
             }
 
             public override String ToCss()
@@ -474,11 +476,6 @@
                 sb.Append(Specification.RBC);
                 return sb.ToPool();
             }
-        }
-
-        class CSSToggleFunction : CSSFunction
-        {
-
         }
 
         #endregion

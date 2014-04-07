@@ -156,8 +156,8 @@
                 case PropertyNames.TextDecorationColor:         return new CSSTextDecorationColorProperty { Rule = style };
                 case PropertyNames.TextIndent:                  return new CSSTextIndentProperty { Rule = style };
                 case PropertyNames.TextTransform:               return new CSSTextTransformProperty { Rule = style };
-                //case PropertyNames.TRANSFORM:
-                //case PropertyNames.TRANSFORM_ORIGIN:
+                case PropertyNames.Transform:                   return new CSSTransformProperty { Rule = style };
+                case PropertyNames.TransformOrigin:             return new CSSTransformOriginProperty { Rule = style };
                 case PropertyNames.TransformStyle:              return new CSSTransformStyleProperty { Rule = style };
                 //case PropertyNames.TRANSITION:
                 //case PropertyNames.TRANSITION_DELAY:

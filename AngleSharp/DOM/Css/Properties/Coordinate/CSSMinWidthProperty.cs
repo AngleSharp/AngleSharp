@@ -10,8 +10,7 @@
     {
         #region Fields
 
-        static readonly AbsoluteMinWidthMode _default = new AbsoluteMinWidthMode(Length.Zero);
-        MinWidthMode _mode;
+        CSSCalcValue _mode;
 
         #endregion
 
@@ -21,7 +20,7 @@
             : base(PropertyNames.MinWidth)
         {
             _inherited = false;
-            _mode = _default;
+            _mode = CSSCalcValue.Zero;
         }
 
         #endregion
@@ -30,52 +29,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var length = value.ToLength();
+            var calc = value.ToCalc();
 
-            if (length.HasValue)
-                _mode = new AbsoluteMinWidthMode(length.Value);
-            else if (value is CSSPercentValue)
-                _mode = new RelativeMinWidthMode(((CSSPercentValue)value).Value);
+            if (calc != null)
+                _mode = calc;
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-
-        abstract class MinWidthMode
-        {
-            //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// The fixed minimum width. Negative values make the declaration invalid.
-        /// </summary>
-        sealed class AbsoluteMinWidthMode : MinWidthMode
-        {
-            Length _height;
-            
-            public AbsoluteMinWidthMode(Length height)
-            {
-                _height = height;
-            }
-        }
-
-        /// <summary>
-        /// The fixed minimum width expressed as a relative of containing block's width.
-        /// Negative values make the declaration invalid.
-        /// </summary>
-        sealed class RelativeMinWidthMode : MinWidthMode
-        {
-            Single _scale;
-
-            public RelativeMinWidthMode(Single scale)
-            {
-                _scale = scale;
-            }
         }
 
         #endregion
