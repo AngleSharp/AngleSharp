@@ -421,6 +421,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSPerspectiveProperty.cs">
       <Link>DOM\Css\Properties\Transform\CSSPerspectiveProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSTransformOriginProperty.cs">
+      <Link>DOM\Css\Properties\Transform\CSSTransformOriginProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSTransformProperty.cs">
       <Link>DOM\Css\Properties\Transform\CSSTransformProperty.cs</Link>
     </Compile>
