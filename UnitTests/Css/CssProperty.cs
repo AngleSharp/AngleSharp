@@ -27,6 +27,23 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssPageBreakAfterLegalAvoid()
+        {
+            var snippet = "page-break-after:avoid";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("page-break-after", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSPageBreakAfterProperty));
+            var concrete = (CSSPageBreakAfterProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            var value = (CSSPrimitiveValue)concrete.Value;
+            Assert.AreEqual("avoid", value.CssText);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
+        }
+
+        [TestMethod]
         public void CssBreakAfterLegalPageCapital()
         {
             var snippet = "break-after:Page";
@@ -41,6 +58,20 @@ namespace UnitTests.Css
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("Page", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
+        }
+
+        [TestMethod]
+        public void CssPageBreakAfterIllegalAvoidColumn()
+        {
+            var snippet = "page-break-after:avoid-column";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("page-break-after", property.Name);
+            Assert.IsFalse(property.HasValue);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSPageBreakAfterProperty));
+            var concrete = (CSSPageBreakAfterProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
         }
 
         [TestMethod]
@@ -74,6 +105,40 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("AUTO", value.CssText);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
+        }
+
+        [TestMethod]
+        public void CssPageBreakBeforeLegalAvoid()
+        {
+            var snippet = "page-break-before:AUTO";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("page-break-before", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSPageBreakBeforeProperty));
+            var concrete = (CSSPageBreakBeforeProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            var value = (CSSPrimitiveValue)concrete.Value;
+            Assert.AreEqual("AUTO", value.CssText);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
+        }
+
+        [TestMethod]
+        public void CssPageBreakBeforeLegalLeft()
+        {
+            var snippet = "page-break-before:left";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("page-break-before", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSPageBreakBeforeProperty));
+            var concrete = (CSSPageBreakBeforeProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            var value = (CSSPrimitiveValue)concrete.Value;
+            Assert.AreEqual("left", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
@@ -117,6 +182,40 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = (CSSPrimitiveValue)concrete.Value;
             Assert.AreEqual("avoid-REGION", value.CssText);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
+        }
+
+        [TestMethod]
+        public void CssPageBreakInsideLegalAvoid()
+        {
+            var snippet = "page-break-inside:avoid";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("page-break-inside", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSPageBreakInsideProperty));
+            var concrete = (CSSPageBreakInsideProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            var value = (CSSPrimitiveValue)concrete.Value;
+            Assert.AreEqual("avoid", value.CssText);
+            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
+        }
+
+        [TestMethod]
+        public void CssPageBreakInsideLegalAutoUppercase()
+        {
+            var snippet = "page-break-inside:AUTO";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("page-break-inside", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSPageBreakInsideProperty));
+            var concrete = (CSSPageBreakInsideProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            var value = (CSSPrimitiveValue)concrete.Value;
+            Assert.AreEqual("AUTO", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
 
