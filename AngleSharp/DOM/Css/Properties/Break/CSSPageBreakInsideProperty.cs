@@ -5,11 +5,9 @@
 
     /// <summary>
     /// Information can be found on MDN:
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/break-inside
-    /// or even better
-    /// http://dev.w3.org/csswg/css-break/#break-inside
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/page-break-inside
     /// </summary>
-    sealed class CSSBreakInsideProperty : CSSProperty
+    sealed class CSSPageBreakInsideProperty : CSSProperty
     {
         #region Fields
 
@@ -20,17 +18,14 @@
 
         #region ctor
 
-        static CSSBreakInsideProperty()
+        static CSSPageBreakInsideProperty()
         {
             modes.Add("auto", new AutoBreakInsideMode());
             modes.Add("avoid", new AvoidBreakInsideMode());
-            modes.Add("avoid-page", new AvoidPageBreakInsideMode());
-            modes.Add("avoid-column", new AvoidColumnBreakInsideMode());
-            modes.Add("avoid-region", new AvoidRegionBreakInsideMode());
         }
 
-        public CSSBreakInsideProperty()
-            : base(PropertyNames.BreakInside)
+        public CSSPageBreakInsideProperty()
+            : base(PropertyNames.PageBreakInside)
         {
             _mode = modes["auto"];
             _inherited = false;
@@ -68,23 +63,18 @@
             //TODO Add members that make sense
         }
         
-        class AutoBreakInsideMode : BreakInsideMode
+        /// <summary>
+        /// Initial value. Automatic page breaks
+        /// (neither forced nor forbidden).
+        /// </summary>
+        sealed class AutoBreakInsideMode : BreakInsideMode
         {
         }
 
-        class AvoidBreakInsideMode : BreakInsideMode
-        {
-        }
-
-        class AvoidPageBreakInsideMode : BreakInsideMode
-        {
-        }
-
-        class AvoidColumnBreakInsideMode : BreakInsideMode
-        {
-        }
-
-        class AvoidRegionBreakInsideMode : BreakInsideMode
+        /// <summary>
+        /// Avoid page breaks inside the element.
+        /// </summary>
+        sealed class AvoidBreakInsideMode : BreakInsideMode
         {
         }
         

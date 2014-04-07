@@ -51,6 +51,10 @@
     <Compile Include="DOM\Css\Properties\Box\CSSPaddingRightProperty .cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSPaddingLeftProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSPaddingProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Break\CSSPageBreakInsideProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Break\CSSPageBreakBeforeProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Break\CSSPageBreakAfterProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Break\CSSPageBreakProperty.cs" />
     <Compile Include="DOM\Css\Properties\Coordinate\CSSMinHeightProperty.cs" />
     <Compile Include="DOM\Css\Properties\Coordinate\CSSMinWidthProperty.cs" />
     <Compile Include="DOM\Css\Properties\Coordinate\CSSMaxWidthProperty.cs" />

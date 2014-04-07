@@ -140,9 +140,9 @@
                 case PropertyNames.PaddingLeft:                 return new CSSPaddingLeftProperty { Rule = style };
                 case PropertyNames.PaddingBottom:               return new CSSPaddingBottomProperty { Rule = style };
                 case PropertyNames.Padding:                     return new CSSPaddingProperty { Rule = style };
-                //case PropertyNames.PAGE_BREAK_AFTER:
-                //case PropertyNames.PAGE_BREAK_BEFORE:
-                //case PropertyNames.PAGE_BREAK_INSIDE:
+                case PropertyNames.PageBreakAfter:              return new CSSPageBreakAfterProperty { Rule = style };
+                case PropertyNames.PageBreakBefore:             return new CSSPageBreakBeforeProperty { Rule = style };
+                case PropertyNames.PageBreakInside:             return new CSSPageBreakInsideProperty { Rule = style };
                 case PropertyNames.Perspective:                 return new CSSPerspectiveProperty { Rule = style };
                 case PropertyNames.PerspectiveOrigin:           return new CSSPerspectiveOriginProperty { Rule = style };
                 case PropertyNames.Position:                    return new CSSPositionProperty { Rule = style };
