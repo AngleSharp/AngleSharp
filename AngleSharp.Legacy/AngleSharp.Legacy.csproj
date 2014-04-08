@@ -193,6 +193,24 @@
     <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
       <Link>DOM\Css\CssValueType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRadiusBottomLeftProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderRadiusBottomLeftProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRadiusBottomRightProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderRadiusBottomRightProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRadiusPartProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderRadiusPartProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRadiusProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderRadiusProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRadiusTopLeftProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderRadiusTopLeftProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRadiusTopRightProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderRadiusTopRightProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs">
       <Link>DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs</Link>
     </Compile>
