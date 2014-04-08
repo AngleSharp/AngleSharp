@@ -53,10 +53,8 @@
             var values = new CSSValue[4];
 
             for (int i = 0; i < count; i++)
-                values[i] = arguments[i];
-
-            for (int i = count; i < 4; i++)
-                values[i] = arguments[i - count];
+                for (int j = i; j < 4; j += i + 1)
+                    values[j] = arguments[i];
 
             return Check(values);
         }

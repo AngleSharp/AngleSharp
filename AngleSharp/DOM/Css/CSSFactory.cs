@@ -38,17 +38,17 @@
                 //case PropertyNames.BORDER_SPACING:
                 //case PropertyNames.BORDER_COLLAPSE:
                 //case PropertyNames.BORDER_STYLE:
-                //case PropertyNames.BORDER_RADIUS:
                 case PropertyNames.BoxShadow:                   return new CSSBoxShadowProperty { Rule = style };
                 case PropertyNames.BoxDecorationBreak:          return new CSSBoxDecorationBreak { Rule = style };
                 case PropertyNames.BreakAfter:                  return new CSSBreakAfterProperty { Rule = style };
                 case PropertyNames.BreakBefore:                 return new CSSBreakBeforeProperty { Rule = style };
                 case PropertyNames.BreakInside:                 return new CSSBreakInsideProperty { Rule = style };
                 case PropertyNames.BackfaceVisibility:          return new CSSBackfaceVisibility { Rule = style };
-                //case PropertyNames.BORDER_TOP_LEFT_RADIUS:
-                //case PropertyNames.BORDER_TOP_RIGHT_RADIUS:
-                //case PropertyNames.BORDER_BOTTOM_LEFT_RADIUS:
-                //case PropertyNames.BORDER_BOTTOM_RIGHT_RADIUS:
+                case PropertyNames.BorderTopLeftRadius:         return new CSSBorderRadiusTopLeftProperty { Rule = style };
+                case PropertyNames.BorderTopRightRadius:        return new CSSBorderRadiusTopRightProperty { Rule = style };
+                case PropertyNames.BorderBottomLeftRadius:      return new CSSBorderRadiusBottomLeftProperty { Rule = style };
+                case PropertyNames.BorderBottomRightRadius:     return new CSSBorderRadiusBottomRightProperty { Rule = style };
+                case PropertyNames.BorderRadius:                return new CSSBorderRadiusProperty { Rule = style };
                 //case PropertyNames.BORDER_IMAGE:
                 //case PropertyNames.BORDER_IMAGE_OUTSET:
                 //case PropertyNames.BORDER_IMAGE_REPEAT:

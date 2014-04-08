@@ -173,6 +173,26 @@ namespace AngleSharp
         public const String BorderRadius = "border-radius";
 
         /// <summary>
+        /// The border-radius-top-right left.
+        /// </summary>
+        public const String BorderRadiusTopLeft = "border-radius-top-left";
+
+        /// <summary>
+        /// The border-radius-top-right style.
+        /// </summary>
+        public const String BorderRadiusTopRight = "border-radius-top-right";
+
+        /// <summary>
+        /// The border-radius-bottom-right left.
+        /// </summary>
+        public const String BorderRadiusBottomLeft = "border-radius-bottom-left";
+
+        /// <summary>
+        /// The border-radius-bottom-right style.
+        /// </summary>
+        public const String BorderRadiusBottomRight = "border-radius-bottom-right";
+
+        /// <summary>
         /// The box-shadow style.
         /// </summary>
         public const String BoxShadow = "box-shadow";

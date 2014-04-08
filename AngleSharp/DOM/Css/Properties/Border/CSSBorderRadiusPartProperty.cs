@@ -1,0 +1,62 @@
+﻿namespace AngleSharp.DOM.Css.Properties
+{
+    using System;
+
+    /// <summary>
+    /// Basis for all elementary border-radius properties.
+    /// </summary>
+    class CSSBorderRadiusPartProperty : CSSProperty
+    {
+        #region Fields
+
+        CSSCalcValue _h;
+        CSSCalcValue _v;
+
+        #endregion
+
+        #region ctor
+
+        protected CSSBorderRadiusPartProperty(String name)
+            : base(name)
+        {
+            _inherited = false;
+            _h = CSSCalcValue.Zero;
+            _v = CSSCalcValue.Zero;
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected override Boolean IsValid(CSSValue value)
+        {
+            var list = value as CSSValueList;
+            var v1 = value;
+            var v2 = value;
+
+            if (list != null)
+            {
+                if (list.Length != 2)
+                    return false;
+
+                v1 = list[0];
+                v2 = list[1];
+            }
+
+            var c1 = v1.ToCalc();
+            var c2 = v2.ToCalc();
+
+            if (c1 != null && c2 != null)
+            {
+                _h = c1;
+                _v = c2;
+            }
+            else if (value != CSSValue.Inherit)
+                return false;
+
+            return true;
+        }
+
+        #endregion
+    }
+}

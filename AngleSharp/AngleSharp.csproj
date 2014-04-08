@@ -39,6 +39,12 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="DOM\Css\CSSFactory.cs" />
+    <Compile Include="DOM\Css\Properties\Border\CSSBorderRadiusBottomLeftProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Border\CSSBorderRadiusTopRightProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Border\CSSBorderRadiusPartProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Border\CSSBorderRadiusProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Border\CSSBorderRadiusBottomRightProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Border\CSSBorderRadiusTopLeftProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSMarginBottomProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSMarginLeftProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSMarginPartProperty.cs" />
