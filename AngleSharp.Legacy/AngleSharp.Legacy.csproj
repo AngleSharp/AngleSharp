@@ -1147,6 +1147,9 @@
     <Compile Include="..\AngleSharp\Foundation\Constants\HeaderNames.cs">
       <Link>Foundation\Constants\HeaderNames.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Constants\KnownProtocols.cs">
+      <Link>Foundation\Constants\KnownProtocols.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\MimeTypes.cs">
       <Link>Foundation\Constants\MimeTypes.cs</Link>
     </Compile>
