@@ -232,7 +232,6 @@ namespace AngleSharp.DOM.Html
                 }
             }
 
-            var formDataSet = ConstructDataSet();
             var action = Action;
 
             if (String.IsNullOrEmpty(action))
@@ -268,7 +267,7 @@ namespace AngleSharp.DOM.Html
                     if (Method == HttpMethod.GET)
                         MutateActionUrl();
                     else if (Method == HttpMethod.POST)
-                        SubmitAsEntityBody();
+                        SubmitAsEntityBody(action);
                     break;
 
                 case KnownProtocols.Ftp:
@@ -323,10 +322,48 @@ namespace AngleSharp.DOM.Html
         }
 
         /// <summary>
+        /// Submits the body of the form.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-body
         /// </summary>
-        void SubmitAsEntityBody()
+        void SubmitAsEntityBody(String action)
         {
+            var encoding = String.IsNullOrEmpty(AcceptCharset) ? OwnerDocument.CharacterSet : AcceptCharset;
+            var formDataSet = ConstructDataSet();
+            var enctype = Enctype;
+            var mimeType = String.Empty;
+            var result = String.Empty;
+
+            if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
+            {
+                result = formDataSet.AsUrlEncoded(DocumentEncoding.Resolve(encoding));
+                mimeType = MimeTypes.StandardForm;
+            }
+            else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
+            {
+                result = formDataSet.AsMultipart(DocumentEncoding.Resolve(encoding));
+                mimeType = String.Concat(MimeTypes.MultipartForm, "; boundary=", formDataSet.Boundary);
+            }
+            else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
+            {
+                result = formDataSet.AsPlaintext(DocumentEncoding.Resolve(encoding));
+                mimeType = MimeTypes.Plain;
+            }
+
+            NavigateTo(action, HttpMethod.POST, result, mimeType);
+        }
+
+        /// <summary>
+        /// Plan to navigate to an action using the specified method with the given
+        /// entity body of the mime type.
+        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#plan-to-navigate
+        /// </summary>
+        /// <param name="action">The action to use.</param>
+        /// <param name="method">The HTTP method.</param>
+        /// <param name="body">The entity body of the request.</param>
+        /// <param name="mime">The MIME type of the entity body.</param>
+        void NavigateTo(String action, HttpMethod method, String body, String mime)
+        {
+            //TODO
         }
 
         /// <summary>

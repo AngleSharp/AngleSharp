@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+
     /// <summary>
     /// Bundles information stored in HTML forms.
     /// </summary>
     sealed class FormDataSet : IEnumerable<String>
     {
-        #region Members
+        #region Fields
 
+        String _boundary;
         List<FormDataSetEntry> _entries;
 
         #endregion
@@ -20,6 +23,7 @@ namespace AngleSharp
 
         public FormDataSet()
         {
+            _boundary = String.Concat("<-----?", Guid.NewGuid().ToString(), "?----->");
             _entries = new List<FormDataSetEntry>();
         }
 
@@ -27,25 +31,98 @@ namespace AngleSharp
 
         #region Properties
 
+        /// <summary>
+        /// Gets the chosen boundary.
+        /// </summary>
+        public String Boundary
+        {
+            get { return _boundary; }
+        }
+
+        /// <summary>
+        /// Gets the object with the given name.
+        /// </summary>
+        /// <param name="name">The name of the object.</param>
+        /// <returns>The value of the object.</returns>
         public Object this[String name]
         {
             get { return _entries.Where(m => m.Name == name).Select(m => m.Value).FirstOrDefault(); }
-            set { Append(name, value, "Text"); }
+            //set { Append(name, value, "text"); }
         }
 
+        /// <summary>
+        /// Gets the object with the given name and type.
+        /// </summary>
+        /// <param name="name">The name of the object.</param>
+        /// <param name="type">The type of the object.</param>
+        /// <returns>The value of the object.</returns>
         public Object this[String name, String type]
         {
             get { return _entries.Where(m => m.Name == name && m.Type == type).Select(m => m.Value).FirstOrDefault(); }
-            set { Append(name, value, type); }
+            //set { Append(name, value, type); }
         }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Applies the multipart/form-data algorithm.
+        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#multipart/form-data-encoding-algorithm
+        /// </summary>
+        /// <param name="encoding">(Optional) Explicit encoding.</param>
+        /// <returns></returns>
+        public String AsMultipart(Encoding encoding = null)
+        {
+            encoding = encoding ?? Encoding.UTF8;
+            var charset = encoding.WebName;
+            var result = Pool.NewStringBuilder();
+
+            foreach (var entry in _entries)
+            {
+                if (entry.Name.Equals("_charset_") && entry.Type.Equals("hidden", StringComparison.OrdinalIgnoreCase))
+                    entry.Value = charset;
+
+                //TODO Replace Characters in Name & Value that cannot be expressed by using current encoding with &#...; base-10 unicode point
+                //RFC 2388
+            }
+
+            return result.ToPool();
+        }
+
+        /// <summary>
+        /// Applies the urlencoded algorithm.
+        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#application/x-www-form-urlencoded-encoding-algorithm
+        /// </summary>
+        /// <param name="encoding">(Optional) Explicit encoding.</param>
+        /// <returns></returns>
+        public String AsUrlEncoded(Encoding encoding = null)
+        {
+            encoding = encoding ?? Encoding.UTF8;
+            var charset = encoding.WebName;
+            var result = Pool.NewStringBuilder();
+            //TODO
+            return result.ToPool();
+        }
+
+        /// <summary>
+        /// Applies the plain encoding algorithm.
+        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#text/plain-encoding-algorithm
+        /// </summary>
+        /// <param name="encoding">(Optional) Explicit encoding.</param>
+        /// <returns></returns>
+        public String AsPlaintext(Encoding encoding = null)
+        {
+            encoding = encoding ?? Encoding.UTF8;
+            var charset = encoding.WebName;
+            var result = Pool.NewStringBuilder();
+            //TODO
+            return result.ToPool();
+        }
+
         public void Append(String name, Object value, String type)
         {
-            if (String.Compare(type, "File", StringComparison.OrdinalIgnoreCase) == 0 || String.Compare(type, "Textarea", StringComparison.OrdinalIgnoreCase) == 0)
+            if (String.Compare(type, "file", StringComparison.OrdinalIgnoreCase) == 0 || String.Compare(type, "textarea", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 name = Normalize(name);
 
@@ -53,12 +130,20 @@ namespace AngleSharp
                     value = Normalize((String)value);
             }
 
+            CheckBoundary(value);
             _entries.Add(new FormDataSetEntry { Name = name, Value = value, Type = type });
         }
 
         #endregion
 
         #region Helpers
+
+        void CheckBoundary(Object value)
+        {
+            //TODO
+            //Check if there is any collision with the boundary string - if there is:
+            //Re-Generate Boundary String until there are no collisions with any value
+        }
 
         /// <summary>
         /// Replaces every occurrence of a "CR" (U+000D) character not followed by a "LF" (U+000A)
