@@ -220,7 +220,8 @@ namespace AngleSharp.DOM.Html
             //sandboxing flag set has its sandboxed forms browsing context flag
             //set, then abort these steps without doing anything.
 
-            var browsingContext = new object();//TODO
+            //TODO
+            //var browsingContext = new object();
 
             if (!submittedFromSubmitMethod && from.Attributes[AttributeNames.FormNoValidate] == null && NoValidate)
             {
@@ -253,36 +254,36 @@ namespace AngleSharp.DOM.Html
             //be the resulting browsing context.
 
             //TODO
+            //var replace = false;
             //If target browsing context was created in the previous step, or, alternatively,
             //if the form document has not yet completely loaded and the submitted from
             //submit() method is set, then let replace be true. Otherwise, let it be false
 
-            var replace = false;
             var location = new Location(action);
 
             switch (location.Protocol)
             {
-                case "http:":
-                case "https:":
+                case KnownProtocols.Http:
+                case KnownProtocols.Https:
                     if (Method == HttpMethod.GET)
                         MutateActionUrl();
                     else if (Method == HttpMethod.POST)
                         SubmitAsEntityBody();
                     break;
 
-                case "ftp:":
-                case "javascript:":
+                case KnownProtocols.Ftp:
+                case KnownProtocols.JavaScript:
                     GetActionUrl();
                     break;
 
-                case "data:":
+                case KnownProtocols.Data:
                     if (Method == HttpMethod.GET)
                         GetActionUrl();
                     else if (Method == HttpMethod.POST)
                         PostToData();
                     break;
 
-                case "mailto:":
+                case KnownProtocols.Mailto:
                     if (Method == HttpMethod.GET)
                         MailWithHeaders();
                     else if (Method == HttpMethod.POST)

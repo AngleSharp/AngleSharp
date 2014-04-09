@@ -148,6 +148,7 @@
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
     <Compile Include="Foundation\ConcurrentDictionary.cs" />
     <Compile Include="Foundation\Angle.cs" />
+    <Compile Include="Foundation\Constants\KnownProtocols.cs" />
     <Compile Include="Foundation\Frequency.cs" />
     <Compile Include="Foundation\Time.cs" />
     <Compile Include="Foundation\Resolution.cs" />
