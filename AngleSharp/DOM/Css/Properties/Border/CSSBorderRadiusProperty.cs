@@ -10,10 +10,10 @@
     {
         #region Fields
 
-        CSSBorderRadiusBottomLeftProperty _bottomLeft;
-        CSSBorderRadiusBottomRightProperty _bottomRight;
-        CSSBorderRadiusTopLeftProperty _topLeft;
-        CSSBorderRadiusTopRightProperty _topRight;
+        CSSBorderBottomLeftRadiusProperty _bottomLeft;
+        CSSBorderBottomRightRadiusProperty _bottomRight;
+        CSSBorderTopLeftRadiusProperty _topLeft;
+        CSSBorderTopRightRadiusProperty _topRight;
 
         #endregion
 
@@ -23,10 +23,10 @@
             : base(PropertyNames.BorderRadius)
         {
             _inherited = false;
-            _topRight = new CSSBorderRadiusTopRightProperty();
-            _bottomRight = new CSSBorderRadiusBottomRightProperty();
-            _bottomLeft = new CSSBorderRadiusBottomLeftProperty();
-            _topLeft = new CSSBorderRadiusTopLeftProperty();
+            _topRight = new CSSBorderTopRightRadiusProperty();
+            _bottomRight = new CSSBorderBottomRightRadiusProperty();
+            _bottomLeft = new CSSBorderBottomLeftRadiusProperty();
+            _topLeft = new CSSBorderTopLeftRadiusProperty();
         }
 
         #endregion
@@ -84,7 +84,7 @@
 
         Boolean Check(CSSValue[] values)
         {
-            var target = new CSSProperty[] { new CSSBorderRadiusBottomLeftProperty(), new CSSBorderRadiusBottomRightProperty(), new CSSBorderRadiusTopLeftProperty(), new CSSBorderRadiusTopRightProperty() };
+            var target = new CSSProperty[] { new CSSBorderBottomLeftRadiusProperty(), new CSSBorderBottomRightRadiusProperty(), new CSSBorderTopLeftRadiusProperty(), new CSSBorderTopRightRadiusProperty() };
 
             for (int i = 0; i < 4; i++)
             {
@@ -94,10 +94,10 @@
                     return false;
             }
 
-            _bottomLeft = (CSSBorderRadiusBottomLeftProperty)target[0];
-            _bottomRight = (CSSBorderRadiusBottomRightProperty)target[1];
-            _topLeft = (CSSBorderRadiusTopLeftProperty)target[2];
-            _topRight = (CSSBorderRadiusTopRightProperty)target[3];
+            _bottomLeft = (CSSBorderBottomLeftRadiusProperty)target[0];
+            _bottomRight = (CSSBorderBottomRightRadiusProperty)target[1];
+            _topLeft = (CSSBorderTopLeftRadiusProperty)target[2];
+            _topRight = (CSSBorderTopRightRadiusProperty)target[3];
             return true;
         }
 

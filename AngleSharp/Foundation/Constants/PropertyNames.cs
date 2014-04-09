@@ -173,24 +173,24 @@ namespace AngleSharp
         public const String BorderRadius = "border-radius";
 
         /// <summary>
-        /// The border-radius-top-right left.
+        /// The border-top-left-radius style.
         /// </summary>
-        public const String BorderRadiusTopLeft = "border-radius-top-left";
+        public const String BorderTopLeftRadius = "border-top-left-radius";
 
         /// <summary>
-        /// The border-radius-top-right style.
+        /// The border-top-right-radius style.
         /// </summary>
-        public const String BorderRadiusTopRight = "border-radius-top-right";
+        public const String BorderTopRightRadius = "border-top-right-radius";
 
         /// <summary>
-        /// The border-radius-bottom-right left.
+        /// The border-bottom-left-radius style.
         /// </summary>
-        public const String BorderRadiusBottomLeft = "border-radius-bottom-left";
+        public const String BorderBottomLeftRadius = "border-bottom-left-radius";
 
         /// <summary>
-        /// The border-radius-bottom-right style.
+        /// The border-bottom-right-radius style.
         /// </summary>
-        public const String BorderRadiusBottomRight = "border-radius-bottom-right";
+        public const String BorderBottomRightRadius = "border-bottom-right-radius";
 
         /// <summary>
         /// The box-shadow style.
@@ -226,26 +226,6 @@ namespace AngleSharp
         /// The backface-visibility style.
         /// </summary>
         public const String BackfaceVisibility = "backface-visibility";
-
-        /// <summary>
-        /// The border-top-left-radius style.
-        /// </summary>
-        public const String BorderTopLeftRadius = "border-top-left-radius";
-
-        /// <summary>
-        /// The border-top-right-radius style.
-        /// </summary>
-        public const String BorderTopRightRadius = "border-top-right-radius";
-
-        /// <summary>
-        /// The border-bottom-left-radius style.
-        /// </summary>
-        public const String BorderBottomLeftRadius = "border-bottom-left-radius";
-
-        /// <summary>
-        /// The border-bottom-right-radius style.
-        /// </summary>
-        public const String BorderBottomRightRadius = "border-bottom-right-radius";
 
         /// <summary>
         /// The border-image style.

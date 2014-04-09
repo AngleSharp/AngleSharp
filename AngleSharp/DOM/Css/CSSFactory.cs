@@ -44,10 +44,10 @@
                 case PropertyNames.BreakBefore:                 return new CSSBreakBeforeProperty { Rule = style };
                 case PropertyNames.BreakInside:                 return new CSSBreakInsideProperty { Rule = style };
                 case PropertyNames.BackfaceVisibility:          return new CSSBackfaceVisibility { Rule = style };
-                case PropertyNames.BorderTopLeftRadius:         return new CSSBorderRadiusTopLeftProperty { Rule = style };
-                case PropertyNames.BorderTopRightRadius:        return new CSSBorderRadiusTopRightProperty { Rule = style };
-                case PropertyNames.BorderBottomLeftRadius:      return new CSSBorderRadiusBottomLeftProperty { Rule = style };
-                case PropertyNames.BorderBottomRightRadius:     return new CSSBorderRadiusBottomRightProperty { Rule = style };
+                case PropertyNames.BorderTopLeftRadius:         return new CSSBorderTopLeftRadiusProperty { Rule = style };
+                case PropertyNames.BorderTopRightRadius:        return new CSSBorderTopRightRadiusProperty { Rule = style };
+                case PropertyNames.BorderBottomLeftRadius:      return new CSSBorderBottomLeftRadiusProperty { Rule = style };
+                case PropertyNames.BorderBottomRightRadius:     return new CSSBorderBottomRightRadiusProperty { Rule = style };
                 case PropertyNames.BorderRadius:                return new CSSBorderRadiusProperty { Rule = style };
                 //case PropertyNames.BORDER_IMAGE:
                 //case PropertyNames.BORDER_IMAGE_OUTSET:
