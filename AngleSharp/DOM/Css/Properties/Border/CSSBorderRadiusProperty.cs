@@ -52,7 +52,7 @@
                 if (arguments[i] == CSSValue.Delimiter)
                     splitIndex = i;
 
-            if (count > splitIndex + 4 || splitIndex > 4 || splitIndex == count - 1 || splitIndex == 0)
+            if (count - 1 > splitIndex + 4 || splitIndex > 4 || splitIndex == count - 1 || splitIndex == 0)
                 return false;
 
             var values = new CSSValue[4];
