@@ -37,11 +37,7 @@
             if (value == CSSValue.Inherit)
                 return true;
 
-            var list = value as CSSValueList;
-
-            if (list == null)
-                list = new CSSValueList(value);
-
+            var list = value as CSSValueList ?? new CSSValueList(value);
             var index = 0;
             var startGroup = new List<CSSProperty>(3);
             var type = new CSSListStyleTypeProperty();

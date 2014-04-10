@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
@@ -10,6 +11,9 @@
     {
         #region Fields
 
+        CSSColumnWidthProperty _width;
+        CSSColumnCountProperty _count;
+
         #endregion
 
         #region ctor
@@ -18,6 +22,8 @@
             : base(PropertyNames.Columns)
         {
             _inherited = false;
+            _count = new CSSColumnCountProperty();
+            _width = new CSSColumnWidthProperty();
         }
 
         #endregion
@@ -26,7 +32,43 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            return base.IsValid(value);
+            if (value == CSSValue.Inherit)
+                return true;
+
+            var index = 0;
+            var list = value as CSSValueList ?? new CSSValueList(value);
+            var startGroup = new List<CSSProperty>(2);
+            var width = new CSSColumnWidthProperty();
+            var count = new CSSColumnCountProperty();
+            startGroup.Add(width);
+            startGroup.Add(count);
+
+            while (true)
+            {
+                var length = startGroup.Count;
+
+                for (int i = 0; i < length; i++)
+                {
+                    if (CheckSingleProperty(startGroup[i], index, list))
+                    {
+                        startGroup.RemoveAt(i);
+                        index++;
+                        break;
+                    }
+                }
+
+                if (length == startGroup.Count)
+                    break;
+            }
+
+            if (index == list.Length)
+            {
+                _width = width;
+                _count = count;
+                return true;
+            }
+
+            return false;
         }
 
         #endregion
