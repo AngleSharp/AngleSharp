@@ -468,21 +468,6 @@ namespace AngleSharp
         public static readonly String CounterReset = "counter-reset";
 
         /// <summary>
-        /// The cue-after style.
-        /// </summary>
-        public static readonly String CueAfter = "cue-after";
-
-        /// <summary>
-        /// The cue-before style.
-        /// </summary>
-        public static readonly String CueBefore = "cue-before";
-
-        /// <summary>
-        /// The cue style.
-        /// </summary>
-        public static readonly String Cue = "cue";
-
-        /// <summary>
         /// The cursor style.
         /// </summary>
         public static readonly String Cursor = "cursor";
