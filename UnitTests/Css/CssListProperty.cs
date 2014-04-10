@@ -201,5 +201,124 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("square url('image.png') inside", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssCounterResetLegal()
+        {
+            var snippet = "counter-reset: chapter section 1 page;";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("counter-reset", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCounterResetProperty));
+            var concrete = (CSSCounterResetProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("chapter section 1 page", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssCounterResetSingleLegal()
+        {
+            var snippet = "counter-reset: counter-name";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("counter-reset", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCounterResetProperty));
+            var concrete = (CSSCounterResetProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("counter-name", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssCounterResetNoneLegal()
+        {
+            var snippet = "counter-reset: none";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("counter-reset", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCounterResetProperty));
+            var concrete = (CSSCounterResetProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("none", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssCounterResetNumberIllegal()
+        {
+            var snippet = "counter-reset: 3";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("counter-reset", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCounterResetProperty));
+            var concrete = (CSSCounterResetProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssCounterResetNegativeLegal()
+        {
+            var snippet = "counter-reset  :  counter-name   -1";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("counter-reset", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCounterResetProperty));
+            var concrete = (CSSCounterResetProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("counter-name -1", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssCounterResetTwoCountersExplicitLegal()
+        {
+            var snippet = "counter-reset  :  counter1   1   counter2   4  ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("counter-reset", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCounterResetProperty));
+            var concrete = (CSSCounterResetProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("counter1 1 counter2 4", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssCounterIncrementNoneLegal()
+        {
+            var snippet = "counter-increment: none";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("counter-increment", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCounterIncrementProperty));
+            var concrete = (CSSCounterIncrementProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("none", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssCounterIncrementLegal()
+        {
+            var snippet = "counter-increment: chapter section 2 page";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("counter-increment", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSCounterIncrementProperty));
+            var concrete = (CSSCounterIncrementProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("chapter section 2 page", concrete.Value.CssText);
+        }
     }
 }
