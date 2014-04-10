@@ -277,6 +277,15 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSPageBreakProperty.cs">
       <Link>DOM\Css\Properties\Break\CSSPageBreakProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnCountProperty.cs">
+      <Link>DOM\Css\Properties\Columns\CSSColumnCountProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnsProperty.cs">
+      <Link>DOM\Css\Properties\Columns\CSSColumnsProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnWidthProperty.cs">
+      <Link>DOM\Css\Properties\Columns\CSSColumnWidthProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSBottomProperty.cs">
       <Link>DOM\Css\Properties\Coordinate\CSSBottomProperty.cs</Link>
     </Compile>
