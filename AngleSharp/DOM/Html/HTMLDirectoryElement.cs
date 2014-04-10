@@ -12,7 +12,7 @@
 
         internal HTMLDirectoryElement()
         {
-            _name = Tags.DIR;
+            _name = Tags.Dir;
         }
 
         #endregion

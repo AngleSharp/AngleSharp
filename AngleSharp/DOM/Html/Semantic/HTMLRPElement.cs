@@ -6,7 +6,7 @@
     {
         internal HTMLRPElement()
         {
-            _name = Tags.RP;
+            _name = Tags.Rp;
         }
     }
 }

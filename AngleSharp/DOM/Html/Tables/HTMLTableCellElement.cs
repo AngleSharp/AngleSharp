@@ -12,7 +12,7 @@
 
         internal HTMLTableCellElement()
         {
-            _name = Tags.TD;
+            _name = Tags.Td;
         }
 
         #endregion

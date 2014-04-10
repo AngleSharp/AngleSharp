@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLDataListElement()
         {
-            _name = Tags.DATALIST;
+            _name = Tags.Datalist;
             _options = new HTMLLiveCollection<HTMLOptionElement>(this);
         }
 

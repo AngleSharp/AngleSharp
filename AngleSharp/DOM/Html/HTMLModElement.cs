@@ -12,7 +12,7 @@
 
         internal HTMLModElement()
         {
-            _name = Tags.INS;
+            _name = Tags.Ins;
         }
 
         #endregion

@@ -21,7 +21,7 @@
 
         internal HTMLObjectElement()
         {
-            _name = Tags.OBJECT;
+            _name = Tags.Object;
 
             //TODO
             _objHeight = 0;

@@ -22,7 +22,7 @@
         /// </summary>
         internal HTMLVideoElement()
         {
-            _name = Tags.VIDEO;
+            _name = Tags.Video;
 
             //TODO
             _videoHeight = 0;

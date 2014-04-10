@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLSourceElement()
         {
-            _name = Tags.SOURCE;
+            _name = Tags.Source;
         }
 
         #endregion

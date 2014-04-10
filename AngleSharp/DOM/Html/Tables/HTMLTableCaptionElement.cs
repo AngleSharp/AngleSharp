@@ -12,7 +12,7 @@
 
         internal HTMLTableCaptionElement()
         {
-            _name = Tags.CAPTION;
+            _name = Tags.Caption;
         }
 
         #endregion

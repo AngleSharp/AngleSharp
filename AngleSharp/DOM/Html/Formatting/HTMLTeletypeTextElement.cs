@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     {
         internal HTMLTeletypeTextElement()
         {
-            _name = Tags.TT;
+            _name = Tags.Tt;
         }
     }
 }

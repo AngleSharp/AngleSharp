@@ -15,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLKeygenElement()
         {
-            _name = Tags.KEYGEN;
+            _name = Tags.Keygen;
         }
 
         #endregion

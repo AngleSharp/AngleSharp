@@ -12,7 +12,7 @@
 
         internal HTMLPreElement()
         {
-            _name = Tags.PRE;
+            _name = Tags.Pre;
         }
 
         #endregion

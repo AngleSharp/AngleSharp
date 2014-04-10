@@ -6,7 +6,7 @@
     {
         internal HTMLRubyElement()
         {
-            _name = Tags.RUBY;
+            _name = Tags.Ruby;
         }
     }
 }

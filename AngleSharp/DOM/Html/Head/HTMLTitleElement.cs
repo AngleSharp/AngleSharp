@@ -13,7 +13,7 @@
         /// </summary>
         internal HTMLTitleElement()
         {
-            _name = Tags.TITLE;
+            _name = Tags.Title;
         }
 
         /// <summary>

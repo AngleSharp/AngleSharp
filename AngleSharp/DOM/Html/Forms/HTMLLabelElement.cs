@@ -12,7 +12,7 @@ namespace AngleSharp.DOM.Html
 
         internal HTMLLabelElement()
         {
-            _name = Tags.LABEL;
+            _name = Tags.Label;
         }
 
         #endregion

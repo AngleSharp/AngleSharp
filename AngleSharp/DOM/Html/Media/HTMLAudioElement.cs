@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLAudioElement()
         {
-            _name = Tags.AUDIO;
+            _name = Tags.Audio;
         }
 
         #endregion

@@ -21,7 +21,7 @@
 
         internal HTMLTableElement()
         {
-            _name = Tags.TABLE;
+            _name = Tags.Table;
             _rows = new HTMLLiveCollection<HTMLTableRowElement>(this);
             _bodies = new HTMLLiveCollection<HTMLTableCaptionElement>(this);
         }
@@ -36,7 +36,7 @@
         [DOM("caption")]
         public HTMLTableCaptionElement Caption
         {
-            get { return _children.QuerySelector<HTMLTableCaptionElement>(SimpleSelector.Type(Tags.CAPTION)); }
+            get { return _children.QuerySelector<HTMLTableCaptionElement>(SimpleSelector.Type(Tags.Caption)); }
         }
 
         /// <summary>
@@ -45,7 +45,7 @@
         [DOM("tHead")]
         public HTMLTableSectionElement THead
         {
-            get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.THEAD)); }
+            get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Thead)); }
         }
 
         /// <summary>
@@ -63,7 +63,7 @@
         [DOM("tFoot")]
         public HTMLTableSectionElement TFoot
         {
-            get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.TFOOT)); }
+            get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Tfoot)); }
         }
 
         /// <summary>
@@ -196,7 +196,7 @@
         public HTMLTableRowElement InsertRow(Int32 index)
         {
             var rows = Rows;
-            var newRow = OwnerDocument.CreateElement(Tags.TR) as HTMLTableRowElement;
+            var newRow = OwnerDocument.CreateElement(Tags.Tr) as HTMLTableRowElement;
 
             if (index >= 0 && index < rows.Length)
             {
@@ -209,7 +209,7 @@
 
                 if (bodies.Length == 0)
                 {
-                    var tbody = OwnerDocument.CreateElement(Tags.TBODY);
+                    var tbody = OwnerDocument.CreateElement(Tags.Tbody);
                     AppendChild(tbody);
                 }
 
@@ -253,7 +253,7 @@
 
             if (head == null)
             {
-                head = OwnerDocument.CreateElement(Tags.THEAD) as HTMLTableSectionElement;
+                head = OwnerDocument.CreateElement(Tags.Thead) as HTMLTableSectionElement;
                 AppendChild(head);
             }
 
@@ -286,7 +286,7 @@
 
             if (foot == null)
             {
-                foot = OwnerDocument.CreateElement(Tags.TFOOT) as HTMLTableSectionElement;
+                foot = OwnerDocument.CreateElement(Tags.Tfoot) as HTMLTableSectionElement;
                 AppendChild(foot);
             }
 
@@ -319,7 +319,7 @@
 
             if (caption == null)
             {
-                caption = OwnerDocument.CreateElement(Tags.CAPTION) as HTMLTableCaptionElement;
+                caption = OwnerDocument.CreateElement(Tags.Caption) as HTMLTableCaptionElement;
                 AppendChild(caption);
             }
 

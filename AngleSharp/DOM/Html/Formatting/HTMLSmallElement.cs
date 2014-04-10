@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     {
         internal HTMLSmallElement()
         {
-            _name = Tags.SMALL;
+            _name = Tags.Small;
         }
     }
 }

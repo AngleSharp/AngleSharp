@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     {
         internal HTMLEmphasizeElement()
         {
-            _name = Tags.EM;
+            _name = Tags.Em;
         }
     }
 }

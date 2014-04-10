@@ -10,7 +10,7 @@
     {
         internal HTMLAppletElement()
         {
-            _name = Tags.APPLET;
+            _name = Tags.Applet;
         }
 
         /// <summary>

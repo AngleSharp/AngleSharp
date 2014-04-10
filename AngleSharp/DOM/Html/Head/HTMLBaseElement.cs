@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLBaseElement()
         {
-            _name = Tags.BASE;
+            _name = Tags.Base;
         }
 
         #endregion

@@ -23,7 +23,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLSelectElement()
         {
-            _name = Tags.SELECT;
+            _name = Tags.Select;
             _options = new HTMLLiveCollection<HTMLOptionElement>(this);
             WillValidate = true;
         }

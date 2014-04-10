@@ -9,7 +9,7 @@
     {
         internal HTMLBgsoundElement()
         {
-            _name = Tags.BGSOUND;
+            _name = Tags.Bgsound;
         }
 
         /// <summary>

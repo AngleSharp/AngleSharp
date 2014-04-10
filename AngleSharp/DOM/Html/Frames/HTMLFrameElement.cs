@@ -12,7 +12,7 @@
 
         internal HTMLFrameElement()
         {
-            _name = Tags.FRAME;
+            _name = Tags.Frame;
         }
 
         #endregion

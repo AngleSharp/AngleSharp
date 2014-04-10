@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     {
         internal HTMLStrikeElement()
         {
-            _name = Tags.STRIKE;
+            _name = Tags.Strike;
         }
     }
 }

@@ -16,7 +16,7 @@
         /// </summary>
         internal HTMLWbrElement()
         {
-            _name = Tags.WBR;
+            _name = Tags.Wbr;
         }
 
         #endregion

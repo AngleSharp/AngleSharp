@@ -12,7 +12,7 @@
 
         internal HTMLDListElement()
         {
-            _name = Tags.DL;
+            _name = Tags.Dl;
         }
 
         #endregion

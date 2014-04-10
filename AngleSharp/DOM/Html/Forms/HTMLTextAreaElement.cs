@@ -15,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLTextAreaElement()
         {
-            _name = Tags.TEXTAREA;
+            _name = Tags.Textarea;
             WillValidate = true;
         }
 

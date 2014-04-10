@@ -518,8 +518,7 @@
         [DOM("createElement")]
         public override Element CreateElement(String tagName)
         {
-            var element = HTMLFactory.Create(tagName.ToLower(), this);
-            return element;
+            return HTMLFactory.Create(tagName, this);
         }
 
         /// <summary>

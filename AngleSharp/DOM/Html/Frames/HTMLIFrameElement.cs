@@ -12,7 +12,7 @@
 
         internal HTMLIFrameElement()
         {
-            _name = Tags.IFRAME;
+            _name = Tags.Iframe;
         }
 
         #endregion

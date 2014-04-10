@@ -27,7 +27,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLInputElement()
         {
-            _name = Tags.INPUT;
+            _name = Tags.Input;
             WillValidate = true;
             _files = new FileList();
         }

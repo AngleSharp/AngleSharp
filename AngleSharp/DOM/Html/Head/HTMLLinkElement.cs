@@ -23,7 +23,7 @@
         /// </summary>
         internal HTMLLinkElement()
         {
-            _name = Tags.LINK;
+            _name = Tags.Link;
             _sheet = new CSSStyleSheet();
             _sheet.OwnerNode = this;
         }

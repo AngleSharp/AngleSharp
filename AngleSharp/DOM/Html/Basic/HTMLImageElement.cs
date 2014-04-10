@@ -24,7 +24,7 @@
         internal HTMLImageElement()
         {
             _loaded = true;
-            _name = Tags.IMAGE;
+            _name = Tags.Image;
 
             //TODO
             _imageHeight = 0;

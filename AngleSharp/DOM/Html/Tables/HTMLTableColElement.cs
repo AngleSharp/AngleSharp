@@ -12,7 +12,7 @@
 
         internal HTMLTableColElement()
         {
-            _name = Tags.COL;
+            _name = Tags.Col;
         }
 
         #endregion

@@ -12,7 +12,7 @@
 
         internal HTMLOListElement()
         {
-            _name = Tags.OL;
+            _name = Tags.Ol;
         }
 
         #endregion

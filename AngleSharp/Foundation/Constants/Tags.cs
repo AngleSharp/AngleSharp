@@ -12,7 +12,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the DOCTYPE constant.
         /// </summary>
-        public const String DOCTYPE = "DOCTYPE";
+        public const String Doctype = "DOCTYPE";
 
         #endregion
 
@@ -21,212 +21,212 @@ namespace AngleSharp
         /// <summary>
         /// The html tag.
         /// </summary>
-        public const String HTML = "html";
+        public const String Html = "html";
 
         /// <summary>
         /// The body tag.
         /// </summary>
-        public const String BODY = "body";
+        public const String Body = "body";
 
         /// <summary>
         /// The head tag.
         /// </summary>
-        public const String HEAD = "head";
+        public const String Head = "head";
 
         /// <summary>
         /// The meta tag.
         /// </summary>
-        public const String META = "meta";
+        public const String Meta = "meta";
 
         /// <summary>
         /// The title tag.
         /// </summary>
-        public const String TITLE = "title";
+        public const String Title = "title";
 
         /// <summary>
         /// The bgsound tag.
         /// </summary>
-        public const String BGSOUND = "bgsound";
+        public const String Bgsound = "bgsound";
 
         /// <summary>
         /// The script tag.
         /// </summary>
-        public const String SCRIPT = "script";
+        public const String Script = "script";
 
         /// <summary>
         /// The style tag.
         /// </summary>
-        public const String STYLE = "style";
+        public const String Style = "style";
 
         /// <summary>
         /// The noembed tag.
         /// </summary>
-        public const string NOEMBED = "noembed";
+        public const String NoEmbed = "noembed";
 
         /// <summary>
         /// The noscript tag.
         /// </summary>
-        public const string NOSCRIPT = "noscript";
+        public const String NoScript = "noscript";
 
         /// <summary>
         /// The noframes tag.
         /// </summary>
-        public const string NOFRAMES = "noframes";
+        public const String NoFrames = "noframes";
 
         /// <summary>
         /// The menu tag.
         /// </summary>
-        public const String MENU = "menu";
+        public const String Menu = "menu";
 
         /// <summary>
         /// The menuitem tag.
         /// </summary>
-        public const String MENUITEM = "menuitem";
+        public const String MenuItem = "menuitem";
 
         /// <summary>
         /// The var tag.
         /// </summary>
-        public const String VAR = "var";
+        public const String Var = "var";
 
         /// <summary>
         /// The ruby tag.
         /// </summary>
-        public const String RUBY = "ruby";
+        public const String Ruby = "ruby";
 
         /// <summary>
         /// The sub tag.
         /// </summary>
-        public const String SUB = "sub";
+        public const String Sub = "sub";
 
         /// <summary>
         /// The sup tag.
         /// </summary>
-        public const String SUP = "sup";
+        public const String Sup = "sup";
 
         /// <summary>
         /// The rp tag.
         /// </summary>
-        public const String RP = "rp";
+        public const String Rp = "rp";
 
         /// <summary>
         /// The rt tag.
         /// </summary>
-        public const String RT = "rt";
+        public const String Rt = "rt";
 
         /// <summary>
         /// The applet tag.
         /// </summary>
-        public const String APPLET = "applet";
+        public const String Applet = "applet";
 
         /// <summary>
         /// The embed tag.
         /// </summary>
-        public const String EMBED = "embed";
+        public const String Embed = "embed";
 
         /// <summary>
         /// The marquee tag.
         /// </summary>
-        public const String MARQUEE = "marquee";
+        public const String Marquee = "marquee";
 
         /// <summary>
         /// The param tag.
         /// </summary>
-        public const String PARAM = "param";
+        public const String Param = "param";
 
         /// <summary>
         /// The object tag.
         /// </summary>
-        public const String OBJECT = "object";
+        public const String Object = "object";
 
         /// <summary>
         /// The canvas tag.
         /// </summary>
-        public const String CANVAS = "canvas";
+        public const String Canvas = "canvas";
 
         /// <summary>
         /// The font tag.
         /// </summary>
-        public const String FONT = "font";
+        public const String Font = "font";
 
         /// <summary>
         /// The ins tag.
         /// </summary>
-        public const String INS = "ins";
+        public const String Ins = "ins";
 
         /// <summary>
         /// The del tag.
         /// </summary>
-        public const String DEL = "del";
+        public const String Del = "del";
 
         /// <summary>
         /// The template tag.
         /// </summary>
-        public const String TEMPLATE = "template";
+        public const String Template = "template";
 
         /// <summary>
         /// The caption tag.
         /// </summary>
-        public const String CAPTION = "caption";
+        public const String Caption = "caption";
 
         /// <summary>
         /// The col tag.
         /// </summary>
-        public const String COL = "col";
+        public const String Col = "col";
 
         /// <summary>
         /// The colgroup tag.
         /// </summary>
-        public const String COLGROUP = "colgroup";
+        public const String Colgroup = "colgroup";
 
         /// <summary>
         /// The table tag.
         /// </summary>
-        public const String TABLE = "table";
+        public const String Table = "table";
 
         /// <summary>
         /// The dialog tag.
         /// </summary>
-        public const String THEAD = "thead";
+        public const String Thead = "thead";
 
         /// <summary>
         /// The dialog tag.
         /// </summary>
-        public const String TBODY = "tbody";
+        public const String Tbody = "tbody";
 
         /// <summary>
         /// The dialog tag.
         /// </summary>
-        public const String TFOOT = "tfoot";
+        public const String Tfoot = "tfoot";
 
         /// <summary>
         /// The th tag.
         /// </summary>
-        public const String TH = "th";
+        public const String Th = "th";
 
         /// <summary>
         /// The td tag.
         /// </summary>
-        public const String TD = "td";
+        public const String Td = "td";
 
         /// <summary>
         /// The tr tag.
         /// </summary>
-        public const String TR = "tr";
+        public const String Tr = "tr";
 
         /// <summary>
         /// The input tag.
         /// </summary>
-        public const String INPUT = "input";
+        public const String Input = "input";
 
         /// <summary>
         /// The keygen tag.
         /// </summary>
-        public const String KEYGEN = "keygen";
+        public const String Keygen = "keygen";
 
         /// <summary>
         /// The textarea tag.
         /// </summary>
-        public const String TEXTAREA = "textarea";
+        public const String Textarea = "textarea";
 
         /// <summary>
         /// The p tag.
@@ -236,82 +236,82 @@ namespace AngleSharp
         /// <summary>
         /// The span tag.
         /// </summary>
-        public const String SPAN = "span";
+        public const String Span = "span";
 
         /// <summary>
         /// The dialog tag.
         /// </summary>
-        public const String DIALOG = "dialog";
+        public const String Dialog = "dialog";
 
         /// <summary>
         /// The fieldset tag.
         /// </summary>
-        public const String FIELDSET = "fieldset";
+        public const String Fieldset = "fieldset";
 
         /// <summary>
         /// The legend tag.
         /// </summary>
-        public const String LEGEND = "legend";
+        public const String Legend = "legend";
 
         /// <summary>
         /// The label tag.
         /// </summary>
-        public const String LABEL = "label";
+        public const String Label = "label";
 
         /// <summary>
         /// The details tag.
         /// </summary>
-        public const String DETAILS = "details";
+        public const String Details = "details";
 
         /// <summary>
         /// The form tag.
         /// </summary>
-        public const String FORM = "form";
+        public const String Form = "form";
 
         /// <summary>
         /// The isindex tag.
         /// </summary>
-        public const String ISINDEX = "isindex";
+        public const String IsIndex = "isindex";
 
         /// <summary>
         /// The pre tag.
         /// </summary>
-        public const String PRE = "pre";
+        public const String Pre = "pre";
 
         /// <summary>
         /// The datalist tag.
         /// </summary>
-        public const String DATALIST = "datalist";
+        public const String Datalist = "datalist";
 
         /// <summary>
         /// The ol tag.
         /// </summary>
-        public const String OL = "ol";
+        public const String Ol = "ol";
 
         /// <summary>
         /// The tag ul.
         /// </summary>
-        public const String UL = "ul";
+        public const String Ul = "ul";
 
         /// <summary>
         /// The dl tag.
         /// </summary>
-        public const String DL = "dl";
+        public const String Dl = "dl";
 
         /// <summary>
         /// The li tag.
         /// </summary>
-        public const String LI = "li";
+        public const String Li = "li";
 
         /// <summary>
         /// The dd tag.
         /// </summary>
-        public const String DD = "dd";
+        public const String Dd = "dd";
 
         /// <summary>
         /// The dt tag.
         /// </summary>
-        public const String DT = "dt";
+        public const String Dt = "dt";
 
         /// <summary>
         /// The b tag.
@@ -321,22 +321,22 @@ namespace AngleSharp
         /// <summary>
         /// The big tag.
         /// </summary>
-        public const String BIG = "big";
+        public const String Big = "big";
 
         /// <summary>
         /// The strike tag.
         /// </summary>
-        public const String STRIKE = "strike";
+        public const String Strike = "strike";
 
         /// <summary>
         /// The code tag.
         /// </summary>
-        public const String CODE = "code";
+        public const String Code = "code";
 
         /// <summary>
         /// The em tag.
         /// </summary>
-        public const String EM = "em";
+        public const String Em = "em";
 
         /// <summary>
         /// The i tag.
@@ -351,12 +351,12 @@ namespace AngleSharp
         /// <summary>
         /// The small tag.
         /// </summary>
-        public const String SMALL = "small";
+        public const String Small = "small";
 
         /// <summary>
         /// The strong tag.
         /// </summary>
-        public const String STRONG = "strong";
+        public const String Strong = "strong";
 
         /// <summary>
         /// The u tag.
@@ -366,67 +366,67 @@ namespace AngleSharp
         /// <summary>
         /// The tt tag.
         /// </summary>
-        public const String TT = "tt";
+        public const String Tt = "tt";
 
         /// <summary>
         /// The nobr tag.
         /// </summary>
-        public const String NOBR = "nobr";
+        public const String NoBr = "nobr";
 
         /// <summary>
         /// The select tag.
         /// </summary>
-        public const String SELECT = "select";
+        public const String Select = "select";
 
         /// <summary>
         /// The option tag.
         /// </summary>
-        public const String OPTION = "option";
+        public const String Option = "option";
 
         /// <summary>
         /// The optgroup tag.
         /// </summary>
-        public const String OPTGROUP = "optgroup";
+        public const String Optgroup = "optgroup";
 
         /// <summary>
         /// The link tag.
         /// </summary>
-        public const String LINK = "link";
+        public const String Link = "link";
 
         /// <summary>
         /// The frameset tag.
         /// </summary>
-        public const String FRAMESET = "frameset";
+        public const String Frameset = "frameset";
 
         /// <summary>
         /// The frame tag.
         /// </summary>
-        public const String FRAME = "frame";
+        public const String Frame = "frame";
 
         /// <summary>
         /// The iframe tag.
         /// </summary>
-        public const String IFRAME = "iframe";
+        public const String Iframe = "iframe";
 
         /// <summary>
         /// The audio tag.
         /// </summary>
-        public const String AUDIO = "audio";
+        public const String Audio = "audio";
 
         /// <summary>
         /// The video tag.
         /// </summary>
-        public const String VIDEO = "video";
+        public const String Video = "video";
 
         /// <summary>
         /// The source tag.
         /// </summary>
-        public const String SOURCE = "source";
+        public const String Source = "source";
 
         /// <summary>
         /// The track tag.
         /// </summary>
-        public const String TRACK = "track";
+        public const String Track = "track";
 
         /// <summary>
         /// The h1 tag.
@@ -461,17 +461,17 @@ namespace AngleSharp
         /// <summary>
         /// The div tag.
         /// </summary>
-        public const String DIV = "div";
+        public const String Div = "div";
 
         /// <summary>
         /// The quote tag.
         /// </summary>
-        public const String QUOTE = "quote";
+        public const String Quote = "quote";
 
         /// <summary>
         /// The blockquote tag.
         /// </summary>
-        public const String BLOCKQUOTE = "blockquote";
+        public const String BlockQuote = "blockquote";
 
         /// <summary>
         /// The q tag.
@@ -481,12 +481,12 @@ namespace AngleSharp
         /// <summary>
         /// The base tag.
         /// </summary>
-        public const String BASE = "base";
+        public const String Base = "base";
 
         /// <summary>
         /// The basefont tag.
         /// </summary>
-        public const String BASEFONT = "basefont";
+        public const String BaseFont = "basefont";
 
         /// <summary>
         /// The a tag.
@@ -496,127 +496,127 @@ namespace AngleSharp
         /// <summary>
         /// The area tag.
         /// </summary>
-        public const String AREA = "area";
+        public const String Area = "area";
 
         /// <summary>
         /// The button tag.
         /// </summary>
-        public const String BUTTON = "button";
+        public const String Button = "button";
 
         /// <summary>
         /// The cite tag.
         /// </summary>
-        public const String CITE = "cite";
+        public const String Cite = "cite";
 
         /// <summary>
         /// The main tag.
         /// </summary>
-        public const String MAIN = "main";
+        public const String Main = "main";
 
         /// <summary>
         /// The summary tag.
         /// </summary>
-        public const String SUMMARY = "summary";
+        public const String Summary = "summary";
 
         /// <summary>
         /// The xmp tag.
         /// </summary>
-        public const String XMP = "xmp";
+        public const String Xmp = "xmp";
 
         /// <summary>
         /// The br tag.
         /// </summary>
-        public const String BR = "br";
+        public const String Br = "br";
 
         /// <summary>
         /// The wbr tag.
         /// </summary>
-        public const String WBR = "wbr";
+        public const String Wbr = "wbr";
 
         /// <summary>
         /// The hr tag.
         /// </summary>
-        public const String HR = "hr";
+        public const String Hr = "hr";
 
         /// <summary>
         /// The dir tag.
         /// </summary>
-        public const String DIR = "dir";
+        public const String Dir = "dir";
 
         /// <summary>
         /// The center tag.
         /// </summary>
-        public const String CENTER = "center";
+        public const String Center = "center";
 
         /// <summary>
         /// The listing tag.
         /// </summary>
-        public const String LISTING = "listing";
+        public const String Listing = "listing";
 
         /// <summary>
         /// The img tag.
         /// </summary>
-        public const String IMG = "img";
+        public const String Img = "img";
 
         /// <summary>
         /// The image tag (this is not the right tag).
         /// </summary>
-        public const String IMAGE = "image";
+        public const String Image = "image";
 
         /// <summary>
         /// The nav tag.
         /// </summary>
-        public const String NAV = "nav";
+        public const String Nav = "nav";
 
         /// <summary>
         /// The address tag.
         /// </summary>
-        public const String ADDRESS = "address";
+        public const String Address = "address";
 
         /// <summary>
         /// The article tag.
         /// </summary>
-        public const String ARTICLE = "article";
+        public const String Article = "article";
 
         /// <summary>
         /// The aside tag.
         /// </summary>
-        public const String ASIDE = "aside";
+        public const String Aside = "aside";
 
         /// <summary>
         /// The figcaption tag.
         /// </summary>
-        public const String FIGCAPTION = "figcaption";
+        public const String Figcaption = "figcaption";
 
         /// <summary>
         /// The figure tag.
         /// </summary>
-        public const String FIGURE = "figure";
+        public const String Figure = "figure";
 
         /// <summary>
         /// The section tag.
         /// </summary>
-        public const String SECTION = "section";
+        public const String Section = "section";
 
         /// <summary>
         /// The footer tag.
         /// </summary>
-        public const String FOOTER = "footer";
+        public const String Footer = "footer";
 
         /// <summary>
         /// The header tag.
         /// </summary>
-        public const String HEADER = "header";
+        public const String Header = "header";
 
         /// <summary>
         /// The hgroup tag.
         /// </summary>
-        public const String HGROUP = "hgroup";
+        public const String Hgroup = "hgroup";
 
         /// <summary>
         /// The plaintext tag.
         /// </summary>
-        public const String PLAINTEXT = "plaintext";
+        public const String Plaintext = "plaintext";
 
         #endregion
 

@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLDivElement()
         {
-            _name = Tags.DIV;
+            _name = Tags.Div;
         }
 
         #endregion

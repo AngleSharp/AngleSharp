@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLScriptElement()
         {
-            _name = Tags.SCRIPT;
+            _name = Tags.Script;
             Async = true;
         }
 

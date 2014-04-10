@@ -10,7 +10,7 @@
     {
         internal HTMLBaseFontElement()
         {
-            _name = Tags.BASEFONT;
+            _name = Tags.BaseFont;
         }
 
         /// <summary>

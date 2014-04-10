@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLHRElement()
         {
-            _name = Tags.HR;
+            _name = Tags.Hr;
         }
 
         #endregion

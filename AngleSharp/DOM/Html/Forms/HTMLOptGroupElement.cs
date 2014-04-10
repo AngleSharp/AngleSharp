@@ -15,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLOptGroupElement()
         {
-            _name = Tags.OPTGROUP;
+            _name = Tags.Optgroup;
         }
 
         #endregion

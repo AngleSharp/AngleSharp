@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLMetaElement()
         {
-            _name = Tags.META;
+            _name = Tags.Meta;
         }
 
         #endregion

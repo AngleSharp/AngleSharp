@@ -1,9 +1,129 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using System;
+    using System.Collections.Generic;
 
     internal class HTMLFactory
     {
+        static readonly Dictionary<String, Func<HTMLElement>> elements = new Dictionary<String, Func<HTMLElement>>(StringComparer.OrdinalIgnoreCase);
+
+        static HTMLFactory()
+        {
+            elements.Add(Tags.Base, () => new HTMLBaseElement());
+            elements.Add(Tags.BaseFont, () => new HTMLBaseFontElement());
+            elements.Add(Tags.Link, () => new HTMLLinkElement());
+            elements.Add(Tags.A, () => new HTMLAnchorElement());
+            elements.Add(Tags.Button, () => new HTMLButtonElement());
+            elements.Add(Tags.Input, () => new HTMLInputElement());
+            elements.Add(Tags.Html, () => new HTMLHtmlElement());
+            elements.Add(Tags.IsIndex, () => new HTMLIsIndexElement());
+            elements.Add(Tags.Br, () => new HTMLBRElement());
+            elements.Add(Tags.Embed, () => new HTMLEmbedElement());
+            elements.Add(Tags.Div, () => new HTMLDivElement());
+            elements.Add(Tags.Area, () => new HTMLAreaElement());
+            elements.Add(Tags.Img, () => new HTMLImageElement());
+            elements.Add(Tags.Dl, () => new HTMLDListElement());
+            elements.Add(Tags.Body, () => new HTMLBodyElement());
+            elements.Add(Tags.Fieldset, () => new HTMLFieldSetElement());
+            elements.Add(Tags.Head, () => new HTMLHeadElement());
+            elements.Add(Tags.Menu, () => new HTMLMenuElement());
+            elements.Add(Tags.Meta, () => new HTMLMetaElement());
+            elements.Add(Tags.Ol, () => new HTMLOListElement());
+            elements.Add(Tags.P, () => new HTMLParagraphElement());
+            elements.Add(Tags.Select, () => new HTMLSelectElement());
+            elements.Add(Tags.Ul, () => new HTMLUListElement());
+            elements.Add(Tags.Hr, () => new HTMLHRElement());
+            elements.Add(Tags.Dir, () => new HTMLDirectoryElement());
+            elements.Add(Tags.Font, () => new HTMLFontElement ());
+            elements.Add(Tags.Form, () => new HTMLFormElement ());
+            elements.Add(Tags.Param, () => new HTMLParamElement ());
+            elements.Add(Tags.Pre, () => new HTMLPreElement ());
+            elements.Add(Tags.Textarea, () => new HTMLTextAreaElement ());
+            elements.Add(Tags.BlockQuote, () => new HTMLQuoteElement { NodeName = Tags.BlockQuote });
+            elements.Add(Tags.Quote, () => new HTMLQuoteElement { NodeName = Tags.Quote });
+            elements.Add(Tags.Q, () => new HTMLQuoteElement { NodeName = Tags.Q });
+            elements.Add(Tags.Canvas, () => new HTMLCanvasElement ());
+            elements.Add(Tags.Caption, () => new HTMLTableCaptionElement ());
+            elements.Add(Tags.Th, () => new HTMLTableCellElement { NodeName = Tags.Th });
+            elements.Add(Tags.Td, () => new HTMLTableCellElement ());
+            elements.Add(Tags.Tr, () => new HTMLTableRowElement ());
+            elements.Add(Tags.Tbody, () => new HTMLTableSectionElement ());
+            elements.Add(Tags.Tfoot, () => new HTMLTableSectionElement { NodeName = Tags.Tfoot });
+            elements.Add(Tags.Thead, () => new HTMLTableSectionElement { NodeName = Tags.Thead });
+            elements.Add(Tags.Table, () => new HTMLTableElement ());
+            elements.Add(Tags.Colgroup, () => new HTMLTableColElement { NodeName = Tags.Colgroup });
+            elements.Add(Tags.Col, () => new HTMLTableColElement ());
+            elements.Add(Tags.Del, () => new HTMLModElement { NodeName = Tags.Del });
+            elements.Add(Tags.Ins, () => new HTMLModElement ());
+            elements.Add(Tags.Legend, () => new HTMLLegendElement ());
+            elements.Add(Tags.Label, () => new HTMLLabelElement ());
+            elements.Add(Tags.Applet, () => new HTMLAppletElement ());
+            elements.Add(Tags.Object, () => new HTMLObjectElement ());
+            elements.Add(Tags.Optgroup, () => new HTMLOptGroupElement ());
+            elements.Add(Tags.Option, () => new HTMLOptionElement ());
+            elements.Add(Tags.Style, () => new HTMLStyleElement ());
+            elements.Add(Tags.Script, () => new HTMLScriptElement ());
+            elements.Add(Tags.Iframe, () => new HTMLIFrameElement ());
+            elements.Add(Tags.Title, () => new HTMLTitleElement ());
+            elements.Add(Tags.Li, () => new HTMLLIElement { NodeName = Tags.Li });
+            elements.Add(Tags.Dd, () => new HTMLLIElement { NodeName = Tags.Dd });
+            elements.Add(Tags.Dt, () => new HTMLLIElement { NodeName = Tags.Dt });
+            elements.Add(Tags.Frameset, () => new HTMLFrameSetElement ());
+            elements.Add(Tags.Frame, () => new HTMLFrameElement ());
+            elements.Add(Tags.H1, () => new HTMLHeadingElement { NodeName = Tags.H1 });
+            elements.Add(Tags.H2, () => new HTMLHeadingElement { NodeName = Tags.H2 });
+            elements.Add(Tags.H3, () => new HTMLHeadingElement { NodeName = Tags.H3 });
+            elements.Add(Tags.H4, () => new HTMLHeadingElement { NodeName = Tags.H4 });
+            elements.Add(Tags.H5, () => new HTMLHeadingElement { NodeName = Tags.H5 });
+            elements.Add(Tags.H6, () => new HTMLHeadingElement { NodeName = Tags.H6 });
+            elements.Add(Tags.Audio, () => new HTMLAudioElement ());
+            elements.Add(Tags.Video, () => new HTMLVideoElement ());
+            elements.Add(Tags.Details, () => new HTMLDetailsElement ());
+            elements.Add(Tags.Span, () => new HTMLSpanElement ());
+            elements.Add(Tags.Dialog, () => new HTMLDialogElement ());
+            elements.Add(Tags.Source, () => new HTMLSourceElement ());
+            elements.Add(Tags.Track, () => new HTMLTrackElement ());
+            elements.Add(Tags.Wbr, () => new HTMLWbrElement ());
+            elements.Add(Tags.B, () => new HTMLBoldElement ());
+            elements.Add(Tags.Big, () => new HTMLBigElement ());
+            elements.Add(Tags.Strike, () => new HTMLStrikeElement ());
+            elements.Add(Tags.Code, () => new HTMLCodeElement ());
+            elements.Add(Tags.Em, () => new HTMLEmphasizeElement ());
+            elements.Add(Tags.I, () => new HTMLItalicElement ());
+            elements.Add(Tags.S, () => new HTMLStruckElement ());
+            elements.Add(Tags.Small, () => new HTMLSmallElement ());
+            elements.Add(Tags.Strong, () => new HTMLStrongElement ());
+            elements.Add(Tags.U, () => new HTMLUnderlineElement ());
+            elements.Add(Tags.Tt, () => new HTMLTeletypeTextElement ());
+            elements.Add(Tags.NoBr, () => new HTMLNoNewlineElement ());
+            elements.Add(Tags.Address, () => new HTMLAddressElement ());
+            elements.Add(Tags.Main, () => new HTMLSemanticElement { NodeName = Tags.Main });
+            elements.Add(Tags.Summary, () => new HTMLSemanticElement { NodeName = Tags.Summary });
+            elements.Add(Tags.Xmp, () => new HTMLSemanticElement { NodeName = Tags.Xmp });
+            elements.Add(Tags.Center, () => new HTMLSemanticElement { NodeName = Tags.Center });
+            elements.Add(Tags.Listing, () => new HTMLSemanticElement { NodeName = Tags.Listing });
+            elements.Add(Tags.Nav, () => new HTMLSemanticElement { NodeName = Tags.Nav });
+            elements.Add(Tags.Article, () => new HTMLSemanticElement { NodeName = Tags.Article });
+            elements.Add(Tags.Aside, () => new HTMLSemanticElement { NodeName = Tags.Aside });
+            elements.Add(Tags.Figcaption, () => new HTMLSemanticElement { NodeName = Tags.Figcaption });
+            elements.Add(Tags.Figure, () => new HTMLSemanticElement { NodeName = Tags.Figure });
+            elements.Add(Tags.Section, () => new HTMLSemanticElement { NodeName = Tags.Section });
+            elements.Add(Tags.Footer, () => new HTMLSemanticElement { NodeName = Tags.Footer });
+            elements.Add(Tags.Header, () => new HTMLSemanticElement { NodeName = Tags.Header });
+            elements.Add(Tags.Hgroup, () => new HTMLSemanticElement { NodeName = Tags.Hgroup });
+            elements.Add(Tags.Plaintext, () => new HTMLSemanticElement { NodeName = Tags.Plaintext });
+            elements.Add(Tags.Bgsound, () => new HTMLBgsoundElement ());
+            elements.Add(Tags.Marquee, () => new HTMLMarqueeElement ());
+            elements.Add(Tags.NoEmbed, () => new HTMLNoElement { NodeName = Tags.NoEmbed });
+            elements.Add(Tags.NoFrames, () => new HTMLNoElement { NodeName = Tags.NoFrames });
+            elements.Add(Tags.NoScript, () => new HTMLNoElement { NodeName = Tags.NoScript });
+            elements.Add(Tags.MenuItem, () => new HTMLMenuItemElement ());
+            elements.Add(Tags.Cite, () => new HTMLElement { NodeName = Tags.Cite });
+            elements.Add(Tags.Ruby, () => new HTMLRubyElement ());
+            elements.Add(Tags.Rt, () => new HTMLRTElement ());
+            elements.Add(Tags.Rp, () => new HTMLRPElement ());
+        }
+
         /// <summary>
         /// Returns a specialized HTMLElement instance for the given tag name.
         /// </summary>
@@ -12,123 +132,16 @@
         /// <returns>The specialized HTMLElement instance.</returns>
         public static HTMLElement Create(String tag, Document document)
         {
-            switch (tag)
+            Func<HTMLElement> elementCreator;
+
+            if (elements.TryGetValue(tag, out elementCreator))
             {
-                case Tags.BASE:         return new HTMLBaseElement { OwnerDocument = document };
-                case Tags.BASEFONT:     return new HTMLBaseFontElement { OwnerDocument = document };
-                case Tags.LINK:         return new HTMLLinkElement { OwnerDocument = document };
-                case Tags.A:            return new HTMLAnchorElement { OwnerDocument = document };
-                case Tags.BUTTON:       return new HTMLButtonElement { OwnerDocument = document };
-                case Tags.INPUT:        return new HTMLInputElement { OwnerDocument = document };
-                case Tags.HTML:         return new HTMLHtmlElement { OwnerDocument = document };
-                case Tags.ISINDEX:      return new HTMLIsIndexElement { OwnerDocument = document };
-                case Tags.BR:           return new HTMLBRElement { OwnerDocument = document };
-                case Tags.EMBED:        return new HTMLEmbedElement { OwnerDocument = document };
-                case Tags.DIV:          return new HTMLDivElement { OwnerDocument = document };
-                case Tags.AREA:         return new HTMLAreaElement { OwnerDocument = document };
-                case Tags.IMG:          return new HTMLImageElement { OwnerDocument = document };
-                case Tags.DL:           return new HTMLDListElement { OwnerDocument = document };
-                case Tags.BODY:         return new HTMLBodyElement { OwnerDocument = document };
-                case Tags.FIELDSET:     return new HTMLFieldSetElement { OwnerDocument = document };
-                case Tags.HEAD:         return new HTMLHeadElement { OwnerDocument = document };
-                case Tags.MENU:         return new HTMLMenuElement { OwnerDocument = document };
-                case Tags.META:         return new HTMLMetaElement { OwnerDocument = document };
-                case Tags.OL:           return new HTMLOListElement { OwnerDocument = document };
-                case Tags.P:            return new HTMLParagraphElement { OwnerDocument = document };
-                case Tags.SELECT:       return new HTMLSelectElement { OwnerDocument = document };
-                case Tags.UL:           return new HTMLUListElement { OwnerDocument = document };
-                case Tags.HR:           return new HTMLHRElement { OwnerDocument = document };
-                case Tags.DIR:          return new HTMLDirectoryElement { OwnerDocument = document };
-                case Tags.FONT:         return new HTMLFontElement { OwnerDocument = document };
-                case Tags.FORM:         return new HTMLFormElement { OwnerDocument = document };
-                case Tags.PARAM:        return new HTMLParamElement { OwnerDocument = document };
-                case Tags.PRE:          return new HTMLPreElement { OwnerDocument = document };
-                case Tags.TEXTAREA:     return new HTMLTextAreaElement { OwnerDocument = document };
-                case Tags.BLOCKQUOTE:   return new HTMLQuoteElement { NodeName = Tags.BLOCKQUOTE, OwnerDocument = document};
-                case Tags.QUOTE:        return new HTMLQuoteElement { NodeName = Tags.QUOTE, OwnerDocument = document };
-                case Tags.Q:            return new HTMLQuoteElement { NodeName = Tags.Q, OwnerDocument = document };
-                case Tags.CANVAS:       return new HTMLCanvasElement { OwnerDocument = document };
-                case Tags.CAPTION:      return new HTMLTableCaptionElement { OwnerDocument = document };
-                case Tags.TH:           return new HTMLTableCellElement { NodeName = Tags.TH, OwnerDocument = document };
-                case Tags.TD:           return new HTMLTableCellElement { OwnerDocument = document };
-                case Tags.TR:           return new HTMLTableRowElement { OwnerDocument = document };
-                case Tags.TBODY:        return new HTMLTableSectionElement { OwnerDocument = document };
-                case Tags.TFOOT:        return new HTMLTableSectionElement { NodeName = Tags.TFOOT, OwnerDocument = document };
-                case Tags.THEAD:        return new HTMLTableSectionElement { NodeName = Tags.THEAD, OwnerDocument = document };
-                case Tags.TABLE:        return new HTMLTableElement { OwnerDocument = document };
-                case Tags.COLGROUP:     return new HTMLTableColElement { NodeName = Tags.COLGROUP, OwnerDocument = document };
-                case Tags.COL:          return new HTMLTableColElement { OwnerDocument = document };
-                case Tags.DEL:          return new HTMLModElement { NodeName = Tags.DEL, OwnerDocument = document };
-                case Tags.INS:          return new HTMLModElement { OwnerDocument = document };
-                case Tags.LEGEND:       return new HTMLLegendElement { OwnerDocument = document };
-                case Tags.LABEL:        return new HTMLLabelElement { OwnerDocument = document };
-                case Tags.APPLET:       return new HTMLAppletElement { OwnerDocument = document };
-                case Tags.OBJECT:       return new HTMLObjectElement { OwnerDocument = document };
-                case Tags.OPTGROUP:     return new HTMLOptGroupElement { OwnerDocument = document };
-                case Tags.OPTION:       return new HTMLOptionElement { OwnerDocument = document };
-                case Tags.STYLE:        return new HTMLStyleElement { OwnerDocument = document };
-                case Tags.SCRIPT:       return new HTMLScriptElement { OwnerDocument = document };
-                case Tags.IFRAME:       return new HTMLIFrameElement { OwnerDocument = document };
-                case Tags.TITLE:        return new HTMLTitleElement { OwnerDocument = document };
-                case Tags.LI:           return new HTMLLIElement { NodeName = Tags.LI, OwnerDocument = document };
-                case Tags.DD:           return new HTMLLIElement { NodeName = Tags.DD, OwnerDocument = document };
-                case Tags.DT:           return new HTMLLIElement { NodeName = Tags.DT, OwnerDocument = document };
-                case Tags.FRAMESET:     return new HTMLFrameSetElement { OwnerDocument = document };
-                case Tags.FRAME:        return new HTMLFrameElement { OwnerDocument = document };
-                case Tags.H1:           return new HTMLHeadingElement { NodeName = Tags.H1, OwnerDocument = document };
-                case Tags.H2:           return new HTMLHeadingElement { NodeName = Tags.H2, OwnerDocument = document };
-                case Tags.H3:           return new HTMLHeadingElement { NodeName = Tags.H3, OwnerDocument = document };
-                case Tags.H4:           return new HTMLHeadingElement { NodeName = Tags.H4, OwnerDocument = document };
-                case Tags.H5:           return new HTMLHeadingElement { NodeName = Tags.H5, OwnerDocument = document };
-                case Tags.H6:           return new HTMLHeadingElement { NodeName = Tags.H6, OwnerDocument = document };
-                case Tags.AUDIO:        return new HTMLAudioElement { OwnerDocument = document };
-                case Tags.VIDEO:        return new HTMLVideoElement { OwnerDocument = document };
-                case Tags.DETAILS:      return new HTMLDetailsElement { OwnerDocument = document };
-                case Tags.SPAN:         return new HTMLSpanElement { OwnerDocument = document };
-                case Tags.DIALOG:       return new HTMLDialogElement { OwnerDocument = document };
-                case Tags.SOURCE:       return new HTMLSourceElement { OwnerDocument = document };
-                case Tags.TRACK:        return new HTMLTrackElement { OwnerDocument = document };
-                case Tags.WBR:          return new HTMLWbrElement { OwnerDocument = document };
-                case Tags.B:            return new HTMLBoldElement { OwnerDocument = document };
-                case Tags.BIG:          return new HTMLBigElement { OwnerDocument = document };
-                case Tags.STRIKE:       return new HTMLStrikeElement { OwnerDocument = document };
-                case Tags.CODE:         return new HTMLCodeElement { OwnerDocument = document };
-                case Tags.EM:           return new HTMLEmphasizeElement { OwnerDocument = document };
-                case Tags.I:            return new HTMLItalicElement { OwnerDocument = document };
-                case Tags.S:            return new HTMLStruckElement { OwnerDocument = document };
-                case Tags.SMALL:        return new HTMLSmallElement { OwnerDocument = document };
-                case Tags.STRONG:       return new HTMLStrongElement { OwnerDocument = document };
-                case Tags.U:            return new HTMLUnderlineElement { OwnerDocument = document };
-                case Tags.TT:           return new HTMLTeletypeTextElement { OwnerDocument = document };
-                case Tags.NOBR:         return new HTMLNoNewlineElement { OwnerDocument = document };
-                case Tags.ADDRESS:      return new HTMLAddressElement { OwnerDocument = document };
-                case Tags.MAIN:
-                case Tags.SUMMARY:
-                case Tags.XMP:
-                case Tags.CENTER:
-                case Tags.LISTING:
-                case Tags.NAV:
-                case Tags.ARTICLE:
-                case Tags.ASIDE:
-                case Tags.FIGCAPTION:
-                case Tags.FIGURE:
-                case Tags.SECTION:
-                case Tags.FOOTER:
-                case Tags.HEADER:
-                case Tags.HGROUP:
-                case Tags.PLAINTEXT:    return new HTMLSemanticElement { NodeName = tag, OwnerDocument = document };
-                case Tags.BGSOUND:      return new HTMLBgsoundElement { OwnerDocument = document };
-                case Tags.MARQUEE:      return new HTMLMarqueeElement { OwnerDocument = document };
-                case Tags.NOEMBED:      return new HTMLNoElement { NodeName = Tags.NOEMBED, OwnerDocument = document };
-                case Tags.NOFRAMES:     return new HTMLNoElement { NodeName = Tags.NOFRAMES, OwnerDocument = document };
-                case Tags.NOSCRIPT:     return new HTMLNoElement { NodeName = Tags.NOSCRIPT, OwnerDocument = document };
-                case Tags.MENUITEM:     return new HTMLMenuItemElement { OwnerDocument = document };
-                case Tags.CITE:         return new HTMLElement { NodeName = Tags.CITE, OwnerDocument = document };
-                case Tags.RUBY:         return new HTMLRubyElement { OwnerDocument = document };
-                case Tags.RT:           return new HTMLRTElement { OwnerDocument = document };
-                case Tags.RP:           return new HTMLRPElement { OwnerDocument = document };
-                default:                return new HTMLUnknownElement { NodeName = tag, OwnerDocument = document };
+                var element = elementCreator();
+                element.OwnerDocument = document;
+                return element;
             }
+
+            return new HTMLUnknownElement { NodeName = tag, OwnerDocument = document };
         }
     }
 }

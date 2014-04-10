@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     {
         internal HTMLStrongElement()
         {
-            _name = Tags.STRONG;
+            _name = Tags.Strong;
         }
     }
 }

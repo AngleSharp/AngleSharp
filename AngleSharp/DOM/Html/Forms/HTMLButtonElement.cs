@@ -22,7 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLButtonElement()
         {
-            _name = Tags.BUTTON;
+            _name = Tags.Button;
         }
 
         #endregion

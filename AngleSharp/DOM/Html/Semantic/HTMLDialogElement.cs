@@ -10,7 +10,7 @@
     {
         internal HTMLDialogElement()
         {
-            _name = Tags.DIALOG;
+            _name = Tags.Dialog;
         }
 
         /// <summary>

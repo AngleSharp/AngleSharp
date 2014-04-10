@@ -16,7 +16,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLBRElement()
         {
-            _name = Tags.BR;
+            _name = Tags.Br;
         }
 
         #endregion

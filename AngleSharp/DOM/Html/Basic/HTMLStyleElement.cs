@@ -22,7 +22,7 @@
         /// </summary>
         internal HTMLStyleElement()
         {
-            _name = Tags.STYLE;
+            _name = Tags.Style;
             _sheet = new CSSStyleSheet();
             _sheet.OwnerNode = this;
             _children.ElementsChanged += OnChildrenChanged;

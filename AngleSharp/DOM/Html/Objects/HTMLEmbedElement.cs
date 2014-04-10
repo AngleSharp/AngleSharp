@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLEmbedElement()
         {
-            _name = Tags.EMBED;
+            _name = Tags.Embed;
         }
 
         #endregion

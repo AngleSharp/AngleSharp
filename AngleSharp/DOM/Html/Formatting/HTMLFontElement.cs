@@ -16,7 +16,7 @@ namespace AngleSharp.DOM.Html
 
         internal HTMLFontElement()
         {
-            _name = Tags.FONT;
+            _name = Tags.Font;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     {
         internal HTMLCodeElement()
         {
-            _name = Tags.CODE;
+            _name = Tags.Code;
         }
     }
 }

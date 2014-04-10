@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLMenuItemElement()
         {
-            _name = Tags.MENUITEM;
+            _name = Tags.MenuItem;
         }
 
         #endregion

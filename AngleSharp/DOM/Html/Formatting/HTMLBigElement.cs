@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     {
         internal HTMLBigElement()
         {
-            _name = Tags.BIG;
+            _name = Tags.Big;
         }
     }
 }

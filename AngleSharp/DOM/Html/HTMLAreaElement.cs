@@ -22,7 +22,7 @@
         /// </summary>
         internal HTMLAreaElement()
         {
-            _name = Tags.AREA;
+            _name = Tags.Area;
         }
 
         #endregion

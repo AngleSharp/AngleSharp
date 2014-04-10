@@ -16,7 +16,7 @@
         /// </summary>
         protected internal override Boolean IsSpecial
         {
-            get { return _name.Equals(Tags.BLOCKQUOTE); }
+            get { return _name.Equals(Tags.BlockQuote); }
         }
     }
 }

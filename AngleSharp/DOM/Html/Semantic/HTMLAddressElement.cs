@@ -6,7 +6,7 @@
     {
         internal HTMLAddressElement()
         {
-            _name = Tags.ADDRESS;
+            _name = Tags.Address;
         }
 
         /// <summary>

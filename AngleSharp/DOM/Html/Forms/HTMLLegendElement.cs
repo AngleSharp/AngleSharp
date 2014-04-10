@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Html
     {
         internal HTMLLegendElement()
         {
-            _name = Tags.LEGEND;
+            _name = Tags.Legend;
         }
 
         /// <summary>

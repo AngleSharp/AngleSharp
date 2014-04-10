@@ -21,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLOptionElement()
         {
-            _name = Tags.OPTION;
+            _name = Tags.Option;
         }
 
         #endregion           

@@ -20,7 +20,7 @@
 
         internal HTMLTableRowElement()
         {
-            _name = Tags.TR;
+            _name = Tags.Tr;
             _cells = new HTMLLiveCollection<HTMLTableCellElement>(this);
         }
 
@@ -133,7 +133,7 @@
         public HTMLTableCellElement InsertCell(Int32 index)
         {
             var cell = _cells[index];
-            var newCell = OwnerDocument.CreateElement(Tags.TD) as HTMLTableCellElement;
+            var newCell = OwnerDocument.CreateElement(Tags.Td) as HTMLTableCellElement;
 
             if (cell != null)
                 InsertBefore(newCell, cell);

@@ -6,7 +6,7 @@
     {
         internal HTMLRTElement()
         {
-            _name = Tags.RT;
+            _name = Tags.Rt;
         }
     }
 }

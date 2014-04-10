@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLDetailsElement()
         {
-            _name = Tags.DETAILS;
+            _name = Tags.Details;
         }
 
         #endregion

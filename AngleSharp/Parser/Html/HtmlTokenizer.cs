@@ -749,7 +749,7 @@
                 _src.Advance();
                 return CommentStart(_src.Next);
             }
-            else if (_src.ContinuesWith(Tags.DOCTYPE))
+            else if (_src.ContinuesWith(Tags.Doctype))
             {
                 _src.Advance(6);
                 return Doctype(_src.Next);
@@ -2327,7 +2327,7 @@
             {
                 _buffer.Append(c);
 
-                if (String.Compare(_stringBuffer.ToString(), Tags.SCRIPT, StringComparison.OrdinalIgnoreCase) == 0)
+                if (String.Compare(_stringBuffer.ToString(), Tags.Script, StringComparison.OrdinalIgnoreCase) == 0)
                     return ScriptDataEscapedDouble(_src.Next);
 
                 return ScriptDataEscaped(_src.Next);
@@ -2468,7 +2468,7 @@
             {
                 _buffer.Append(c);
 
-                if (String.Compare(_stringBuffer.ToString(), Tags.SCRIPT, StringComparison.OrdinalIgnoreCase) == 0)
+                if (String.Compare(_stringBuffer.ToString(), Tags.Script, StringComparison.OrdinalIgnoreCase) == 0)
                     return ScriptDataEscaped(_src.Next);
 
                 return ScriptDataEscapedDouble(_src.Next);

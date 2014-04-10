@@ -22,7 +22,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLFieldSetElement()
         {
-            _name = Tags.FIELDSET;
+            _name = Tags.Fieldset;
         }
 
         #endregion

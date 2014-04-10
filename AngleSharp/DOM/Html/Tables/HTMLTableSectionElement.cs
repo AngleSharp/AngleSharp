@@ -19,7 +19,7 @@
 
         internal HTMLTableSectionElement()
         {
-            _name = Tags.TBODY;
+            _name = Tags.Tbody;
             _rows = new HTMLLiveCollection<HTMLTableRowElement>(this);
         }
 
@@ -85,7 +85,7 @@
         public HTMLTableRowElement InsertRow(Int32 index)
         {
             var row = Rows[index];
-            var newRow = OwnerDocument.CreateElement(Tags.TR) as HTMLTableRowElement;
+            var newRow = OwnerDocument.CreateElement(Tags.Tr) as HTMLTableRowElement;
 
             if (row != null)
                 InsertBefore(newRow, row);

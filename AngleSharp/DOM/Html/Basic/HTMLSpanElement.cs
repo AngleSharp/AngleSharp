@@ -12,7 +12,7 @@
 
         internal HTMLSpanElement()
         {
-            _name = Tags.SPAN;
+            _name = Tags.Span;
         }
 
         #endregion

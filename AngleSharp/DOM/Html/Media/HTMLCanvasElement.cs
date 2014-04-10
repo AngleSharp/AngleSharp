@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLCanvasElement()
         {
-            _name = Tags.CANVAS;
+            _name = Tags.Canvas;
         }
 
         #endregion

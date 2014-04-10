@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     {
         internal HTMLNoNewlineElement()
         {
-            _name = Tags.NOBR;
+            _name = Tags.NoBr;
         }
     }
 }

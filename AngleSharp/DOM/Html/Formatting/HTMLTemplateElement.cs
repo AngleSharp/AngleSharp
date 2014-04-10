@@ -18,7 +18,7 @@ namespace AngleSharp.DOM.Html
 
         internal HTMLTemplateElement()
         {
-            _name = Tags.TEMPLATE;
+            _name = Tags.Template;
         }
 
         #endregion

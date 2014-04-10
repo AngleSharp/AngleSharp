@@ -24,7 +24,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLFormElement()
         {
-            _name = Tags.FORM;
+            _name = Tags.Form;
             _elements = new HTMLLiveCollection<HTMLFormControlElement>(this);
             _formControls = new HTMLFormControlsCollection(_elements);
         }

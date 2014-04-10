@@ -18,11 +18,11 @@
         {
             switch (tagName)
             {
-                case Tags.TABLE:
-                case Tags.TBODY:
-                case Tags.TFOOT:
-                case Tags.THEAD:
-                case Tags.TR:
+                case Tags.Table:
+                case Tags.Tbody:
+                case Tags.Tfoot:
+                case Tags.Thead:
+                case Tags.Tr:
                     return true;
 
                 default:
@@ -38,7 +38,7 @@
         [DebuggerStepThrough]
         public static Boolean IsTableSectionElement(this String tagName)
         {
-            return (tagName == Tags.TBODY || tagName == Tags.TFOOT || tagName == Tags.THEAD);
+            return (tagName == Tags.Tbody || tagName == Tags.Tfoot || tagName == Tags.Thead);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@
         [DebuggerStepThrough]
         public static Boolean IsTableCellElement(this String tagName)
         {
-            return (tagName == Tags.TD || tagName == Tags.TH);
+            return (tagName == Tags.Td || tagName == Tags.Th);
         }
 
         /// <summary>
@@ -63,15 +63,15 @@
         {
             switch (tagName)
             {
-                case Tags.CAPTION:
-                case Tags.COL:
-                case Tags.COLGROUP:
-                case Tags.TBODY:
-                case Tags.TFOOT:
-                case Tags.THEAD:
+                case Tags.Caption:
+                case Tags.Col:
+                case Tags.Colgroup:
+                case Tags.Tbody:
+                case Tags.Tfoot:
+                case Tags.Thead:
                     return true;
 
-                case Tags.TR:
+                case Tags.Tr:
                     return includeRow;
 
                 default:
@@ -90,16 +90,16 @@
         {
             switch (tagName)
             {
-                case Tags.BODY:
-                case Tags.HTML:
-                case Tags.COLGROUP:
-                case Tags.COL:
-                case Tags.TH:
-                case Tags.TD:
-                case Tags.CAPTION:
+                case Tags.Body:
+                case Tags.Html:
+                case Tags.Colgroup:
+                case Tags.Col:
+                case Tags.Th:
+                case Tags.Td:
+                case Tags.Caption:
                     return true;
 
-                case Tags.TR:
+                case Tags.Tr:
                     return includeRow;
 
                 default:

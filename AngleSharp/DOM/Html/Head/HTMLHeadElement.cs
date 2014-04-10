@@ -12,7 +12,7 @@
 
         internal HTMLHeadElement()
         {
-            _name = Tags.HEAD;
+            _name = Tags.Head;
         }
 
         #endregion

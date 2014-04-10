@@ -15,7 +15,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLIsIndexElement()
         {
-            _name = Tags.ISINDEX;
+            _name = Tags.IsIndex;
         }
 
         #endregion

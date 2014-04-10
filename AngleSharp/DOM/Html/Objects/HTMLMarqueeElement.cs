@@ -12,7 +12,7 @@
 
         internal HTMLMarqueeElement()
         {
-            _name = Tags.MARQUEE;
+            _name = Tags.Marquee;
         }
 
         #endregion

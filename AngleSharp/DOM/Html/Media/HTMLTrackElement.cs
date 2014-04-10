@@ -21,7 +21,7 @@
         /// </summary>
         internal HTMLTrackElement()
         {
-            _name = Tags.TRACK;
+            _name = Tags.Track;
 
             //TODO
             _ready = TrackReadyState.None;

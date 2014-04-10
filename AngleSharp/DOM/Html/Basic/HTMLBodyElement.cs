@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLBodyElement()
         {
-            _name = Tags.BODY;
+            _name = Tags.Body;
         }
 
         #endregion

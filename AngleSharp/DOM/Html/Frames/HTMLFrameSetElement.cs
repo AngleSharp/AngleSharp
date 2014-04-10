@@ -12,7 +12,7 @@
 
         internal HTMLFrameSetElement()
         {
-            _name = Tags.FRAMESET;
+            _name = Tags.Frameset;
         }
 
         #endregion

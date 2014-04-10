@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLParamElement()
         {
-            _name = Tags.PARAM;
+            _name = Tags.Param;
         }
 
         #endregion

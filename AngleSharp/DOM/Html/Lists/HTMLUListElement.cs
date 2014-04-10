@@ -12,7 +12,7 @@
 
         internal HTMLUListElement()
         {
-            _name = Tags.UL;
+            _name = Tags.Ul;
         }
 
         #endregion
