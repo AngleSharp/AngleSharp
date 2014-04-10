@@ -65,6 +65,7 @@
     <Compile Include="Css\CssTextProperty.cs" />
     <Compile Include="Css\CssTransformProperty.cs" />
     <Compile Include="Css\CssBorderProperty.cs" />
+    <Compile Include="Css\CssColumnsProperty.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Html\HtmlScript.cs" />
     <Compile Include="Html\HtmlStyle.cs" />
