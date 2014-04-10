@@ -33,11 +33,6 @@ namespace AngleSharp
         public const String Accelerator = "accelerator";
 
         /// <summary>
-        /// The azimuth style.
-        /// </summary>
-        public const String Azimuth = "azimuth";
-
-        /// <summary>
         /// The animation style.
         /// </summary>
         public const String Animation = "animation";
@@ -506,11 +501,6 @@ namespace AngleSharp
         /// The dominant-baseline style.
         /// </summary>
         public const String DominantBaseline = "dominant-baseline";
-
-        /// <summary>
-        /// The elevation style.
-        /// </summary>
-        public const String Elevation = "elevation";
 
         /// <summary>
         /// The empty-cells style.

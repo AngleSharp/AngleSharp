@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Collections
 {
     using AngleSharp.DOM.Css;
-    using AngleSharp.DOM.Css.Properties;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections;
@@ -156,19 +155,6 @@
         {
             get { return GetPropertyValue(PropertyNames.AlignBaseline) ?? String.Empty; }
             set { SetProperty(PropertyNames.AlignBaseline, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the azimuth value, which enables different audio sources to
-        /// be positioned spatially for aural presentation. This is important in that
-        /// it provides a natural way to tell several voices apart, as each can be
-        /// positioned to originate at a different location on the sound stage.
-        /// </summary>
-        [DOM("azimuth")]
-        public String Azimuth
-        {
-            get { return GetPropertyValue(PropertyNames.Azimuth) ?? String.Empty; }
-            set { SetProperty(PropertyNames.Azimuth, value); }
         }
 
         /// <summary>
