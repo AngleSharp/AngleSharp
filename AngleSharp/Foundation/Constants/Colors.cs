@@ -171,6 +171,7 @@
             Add("whitesmoke", 245, 245, 245);
             Add("yellow", 255, 255, 0);
             Add("yellowgreen", 154, 205, 50);
+            Add("transparent", Color.Transparent);
         }
 
         #endregion
@@ -213,6 +214,11 @@
         static void Add(String name, Byte r, Byte g, Byte b)
         {
             _colors.Add(name, Color.FromRgb(r, g, b));
+        }
+
+        static void Add(String name, Color value)
+        {
+            _colors.Add(name, value);
         }
 
         #endregion
