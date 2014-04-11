@@ -193,6 +193,33 @@
     <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
       <Link>DOM\Css\CssValueType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundAttachmentProperty.cs">
+      <Link>DOM\Css\Properties\Background\CSSBackgroundAttachmentProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundClipProperty.cs">
+      <Link>DOM\Css\Properties\Background\CSSBackgroundClipProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundColorProperty.cs">
+      <Link>DOM\Css\Properties\Background\CSSBackgroundColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundImageProperty.cs">
+      <Link>DOM\Css\Properties\Background\CSSBackgroundImageProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundOriginProperty.cs">
+      <Link>DOM\Css\Properties\Background\CSSBackgroundOriginProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundPositionProperty.cs">
+      <Link>DOM\Css\Properties\Background\CSSBackgroundPositionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundProperty.cs">
+      <Link>DOM\Css\Properties\Background\CSSBackgroundProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundRepeatProperty.cs">
+      <Link>DOM\Css\Properties\Background\CSSBackgroundRepeatProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundSizeProperty.cs">
+      <Link>DOM\Css\Properties\Background\CSSBackgroundSizeProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomLeftRadiusProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderBottomLeftRadiusProperty.cs</Link>
     </Compile>
