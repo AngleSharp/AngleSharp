@@ -61,7 +61,14 @@
     <Compile Include="DOM\Css\Properties\Break\CSSPageBreakBeforeProperty.cs" />
     <Compile Include="DOM\Css\Properties\Break\CSSPageBreakAfterProperty.cs" />
     <Compile Include="DOM\Css\Properties\Break\CSSPageBreakProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Columns\CSSColumnRuleStyleProperty.cs" />
     <Compile Include="DOM\Css\Properties\Columns\CSSColumnCountProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Columns\CSSColumnRuleColorProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Columns\CSSColumnFillProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Columns\CSSColumnGapProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Columns\CSSColumnSpanProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Columns\CSSColumnRuleProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Columns\CSSColumnRuleWidthProperty.cs" />
     <Compile Include="DOM\Css\Properties\Columns\CSSColumnWidthProperty.cs" />
     <Compile Include="DOM\Css\Properties\Columns\CSSColumnsProperty.cs" />
     <Compile Include="DOM\Css\Properties\Coordinate\CSSMinHeightProperty.cs" />

@@ -78,6 +78,27 @@
             return null;
         }
 
+        public static Length? ToBorderWidth(this CSSValue value)
+        {
+            if (value is CSSLengthValue)
+                return ((CSSLengthValue)value).Length;
+            else if (value == CSSNumberValue.Zero)
+                return Length.Zero;
+            else if (value is CSSIdentifierValue)
+            {
+                var ident = ((CSSIdentifierValue)value).Value;
+
+                if (ident.Equals("thin", StringComparison.OrdinalIgnoreCase))
+                    return new Length(0.5f, Length.Unit.Px);
+                else if (ident.Equals("medium", StringComparison.OrdinalIgnoreCase))
+                    return new Length(1f, Length.Unit.Px);
+                else if (ident.Equals("thick", StringComparison.OrdinalIgnoreCase))
+                    return new Length(2f, Length.Unit.Px);
+            }
+
+            return null;
+        }
+
         public static Color? ToColor(this CSSValue value)
         {
             if (value is CSSColorValue)
