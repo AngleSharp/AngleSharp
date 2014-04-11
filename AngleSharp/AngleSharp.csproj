@@ -39,6 +39,15 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="DOM\Css\CSSFactory.cs" />
+    <Compile Include="DOM\Css\Properties\Background\CSSBackgroundAttachmentProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Background\CSSBackgroundClipProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Background\CSSBackgroundColorProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Background\CSSBackgroundImageProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Background\CSSBackgroundOriginProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Background\CSSBackgroundPositionProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Background\CSSBackgroundProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Background\CSSBackgroundRepeatProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Background\CSSBackgroundSizeProperty.cs" />
     <Compile Include="DOM\Css\Properties\Border\CSSBorderBottomLeftRadiusProperty.cs" />
     <Compile Include="DOM\Css\Properties\Border\CSSBorderTopRightRadiusProperty.cs" />
     <Compile Include="DOM\Css\Properties\Border\CSSBorderRadiusPartProperty.cs" />
