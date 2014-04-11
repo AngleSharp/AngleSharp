@@ -1,14 +1,17 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
-    /// 
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-image
     /// </summary>
     sealed class CSSBackgroundImageProperty : CSSProperty
     {
         #region Fields
+
+        List<Uri> _images;
 
         #endregion
 
@@ -18,6 +21,7 @@
             : base(PropertyNames.BackgroundImage)
         {
             _inherited = false;
+            _images = new List<Uri>();
         }
 
         #endregion
@@ -26,7 +30,13 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            return base.IsValid(value);
+            if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("none", StringComparison.OrdinalIgnoreCase))
+                _images.Clear();
+            //TODO
+            else if (value != CSSValue.Inherit)
+                return false;
+
+            return true;
         }
 
         #endregion
