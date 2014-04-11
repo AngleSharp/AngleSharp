@@ -280,6 +280,27 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnCountProperty.cs">
       <Link>DOM\Css\Properties\Columns\CSSColumnCountProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnFillProperty.cs">
+      <Link>DOM\Css\Properties\Columns\CSSColumnFillProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnGapProperty.cs">
+      <Link>DOM\Css\Properties\Columns\CSSColumnGapProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnRuleColorProperty.cs">
+      <Link>DOM\Css\Properties\Columns\CSSColumnRuleColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnRuleProperty.cs">
+      <Link>DOM\Css\Properties\Columns\CSSColumnRuleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnRuleStyleProperty.cs">
+      <Link>DOM\Css\Properties\Columns\CSSColumnRuleStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnRuleWidthProperty.cs">
+      <Link>DOM\Css\Properties\Columns\CSSColumnRuleWidthProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnSpanProperty.cs">
+      <Link>DOM\Css\Properties\Columns\CSSColumnSpanProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnsProperty.cs">
       <Link>DOM\Css\Properties\Columns\CSSColumnsProperty.cs</Link>
     </Compile>
