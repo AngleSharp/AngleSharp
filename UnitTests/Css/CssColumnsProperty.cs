@@ -364,5 +364,228 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("auto", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssColumRuleColorTransparentLegal()
+        {
+            var snippet = "column-rule-color: transparent";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule-color", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleColorProperty));
+            var concrete = (CSSColumnRuleColorProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("transparent", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumRuleColorRgbLegal()
+        {
+            var snippet = "column-rule-color: rgb(192, 56, 78)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule-color", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleColorProperty));
+            var concrete = (CSSColumnRuleColorProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("rgba(192, 56, 78, 1)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumRuleColorRedLegal()
+        {
+            var snippet = "column-rule-color: red";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule-color", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleColorProperty));
+            var concrete = (CSSColumnRuleColorProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("red", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumRuleColorNoneIllegal()
+        {
+            var snippet = "column-rule-color: none";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule-color", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleColorProperty));
+            var concrete = (CSSColumnRuleColorProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssColumRuleStyleInsetTailUpperLegal()
+        {
+            var snippet = "column-rule-style: inSET";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule-style", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleStyleProperty));
+            var concrete = (CSSColumnRuleStyleProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("inSET", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumRuleStyleNoneLegal()
+        {
+            var snippet = "column-rule-style: none";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule-style", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleStyleProperty));
+            var concrete = (CSSColumnRuleStyleProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("none", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumRuleStyleAutoIllegal()
+        {
+            var snippet = "column-rule-style: auto ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule-style", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleStyleProperty));
+            var concrete = (CSSColumnRuleStyleProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssColumRuleWidthLengthLegal()
+        {
+            var snippet = "column-rule-width: 2px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleWidthProperty));
+            var concrete = (CSSColumnRuleWidthProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("2px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumRuleWidthThickLegal()
+        {
+            var snippet = "column-rule-width: thick";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleWidthProperty));
+            var concrete = (CSSColumnRuleWidthProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("thick", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumRuleWidthMediumLegal()
+        {
+            var snippet = "column-rule-width : medium !important ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule-width", property.Name);
+            Assert.IsTrue(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleWidthProperty));
+            var concrete = (CSSColumnRuleWidthProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("medium", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumRuleWidthThinUppercaseLegal()
+        {
+            var snippet = "column-rule-width: THIN";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleWidthProperty));
+            var concrete = (CSSColumnRuleWidthProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("THIN", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumRuleDottedLegal()
+        {
+            var snippet = "column-rule: dotted";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleProperty));
+            var concrete = (CSSColumnRuleProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("dotted", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumRuleSolidBlueLegal()
+        {
+            var snippet = "column-rule: solid  blue";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleProperty));
+            var concrete = (CSSColumnRuleProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("solid blue", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumRuleSolidLengthLegal()
+        {
+            var snippet = "column-rule: solid 8px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleProperty));
+            var concrete = (CSSColumnRuleProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("solid 8px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumRuleThickInsetBlueLegal()
+        {
+            var snippet = "column-rule: thick inset blue";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-rule", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnRuleProperty));
+            var concrete = (CSSColumnRuleProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("thick inset blue", concrete.Value.CssText);
+        }
     }
 }
