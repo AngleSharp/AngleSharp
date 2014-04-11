@@ -231,5 +231,138 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
+
+        [TestMethod]
+        public void CssColumSpanAllLegal()
+        {
+            var snippet = "column-span: all";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-span", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnSpanProperty));
+            var concrete = (CSSColumnSpanProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("all", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumSpanNoneUppercaseLegal()
+        {
+            var snippet = "column-span: None";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-span", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnSpanProperty));
+            var concrete = (CSSColumnSpanProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("None", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumSpanLengthIllegal()
+        {
+            var snippet = "column-span: 10px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-span", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnSpanProperty));
+            var concrete = (CSSColumnSpanProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssColumGapLengthLegal()
+        {
+            var snippet = "column-gap: 20px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-gap", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnGapProperty));
+            var concrete = (CSSColumnGapProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("20px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumGapNormalLegal()
+        {
+            var snippet = "column-gap: normal";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-gap", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnGapProperty));
+            var concrete = (CSSColumnGapProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("normal", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumGapZeroLegal()
+        {
+            var snippet = "column-gap: 0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-gap", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnGapProperty));
+            var concrete = (CSSColumnGapProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("0", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumGapPercentIllegal()
+        {
+            var snippet = "column-gap: 20%";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-gap", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnGapProperty));
+            var concrete = (CSSColumnGapProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssColumFillBalanceLegal()
+        {
+            var snippet = "column-fill: balance;";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-fill", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnFillProperty));
+            var concrete = (CSSColumnFillProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("balance", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssColumFillAutoLegal()
+        {
+            var snippet = "column-fill: auto;";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("column-fill", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSColumnFillProperty));
+            var concrete = (CSSColumnFillProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("auto", concrete.Value.CssText);
+        }
     }
 }
