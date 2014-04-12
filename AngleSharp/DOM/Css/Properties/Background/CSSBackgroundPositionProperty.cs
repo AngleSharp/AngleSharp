@@ -65,12 +65,112 @@
 
         static Boolean Check(List<CSSValue> values, ref Position position)
         {
-            throw new NotImplementedException();
+            var index = 0;
+            var shift = CSSCalcValue.Zero;
+            var horizontal = CSSCalcValue.Center;
+            var vertical = CSSCalcValue.Center;
+            var value = values[index];
+
+            if (value.Is("left"))
+            {
+                horizontal = CSSCalcValue.Zero;
+                shift = values[index + 1].ToCalc();
+            }
+            else if (value.Is("right"))
+            {
+                horizontal = CSSCalcValue.Full;
+                shift = values[index + 1].ToCalc();
+            }
+            else if (!value.Is("center"))
+                return false;
+
+            if (shift != null && shift != CSSCalcValue.Zero)
+            {
+                index++;
+                horizontal = horizontal.Add(shift);
+                shift = CSSCalcValue.Zero;
+            }
+
+            value = values[++index];
+
+            if (value.Is("top"))
+            {
+                vertical = CSSCalcValue.Zero;
+
+                if (index + 1 < values.Count)
+                    shift = values[index + 1].ToCalc();
+            }
+            else if (value.Is("bottom"))
+            {
+                vertical = CSSCalcValue.Full;
+
+                if (index + 1 < values.Count)
+                    shift = values[index + 1].ToCalc();
+            }
+            else if (!value.Is("center"))
+                return false;
+
+            if (shift == null)
+                return false;
+            else if (shift != CSSCalcValue.Zero)
+                vertical = vertical.Add(shift);
+
+            position.X = horizontal;
+            position.Y = vertical;
+            return true;
         }
 
         static Boolean Check(CSSValue left, CSSValue right, ref Position position)
         {
-            throw new NotImplementedException();
+            var horizontal = left.ToCalc();
+            var vertical = right.ToCalc();
+
+            if (horizontal == null)
+            {
+                if (left.Is("left"))
+                    horizontal = CSSCalcValue.Zero;
+                else if (left.Is("right"))
+                    horizontal = CSSCalcValue.Full;
+                else if (left.Is("center"))
+                    horizontal = CSSCalcValue.Center;
+                else if (left.Is("top"))
+                {
+                    horizontal = vertical;
+                    vertical = CSSCalcValue.Zero;
+                }
+                else if (left.Is("bottom"))
+                {
+                    horizontal = vertical;
+                    vertical = CSSCalcValue.Full;
+                }
+            }
+
+            if (vertical == null)
+            {
+                if (right.Is("top"))
+                    vertical = CSSCalcValue.Zero;
+                else if (right.Is("bottom"))
+                    vertical = CSSCalcValue.Full;
+                else if (right.Is("center"))
+                    vertical = CSSCalcValue.Center;
+                else if (right.Is("left"))
+                {
+                    vertical = horizontal;
+                    horizontal = CSSCalcValue.Zero;
+                }
+                else if (right.Is("right"))
+                {
+                    vertical = horizontal;
+                    horizontal = CSSCalcValue.Full;
+                }
+            }
+
+            if (horizontal == null || vertical == null)
+                return false;
+
+            position.X = horizontal;
+            position.Y = vertical;
+            return true;
         }
 
         static Boolean Check(CSSValue value, ref Position position)

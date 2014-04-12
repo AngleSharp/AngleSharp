@@ -30,6 +30,11 @@
 
         #region Methods
 
+        public CSSCalcValue Add(CSSCalcValue shift)
+        {
+            return new ComputeAdd(this, shift);
+        }
+
         public abstract Single ToPixel();
 
         #endregion
@@ -79,6 +84,23 @@
             {
                 //TODO require some length to set the scale
                 return _scale * 100f;
+            }
+        }
+
+        sealed class ComputeAdd : CSSCalcValue
+        {
+            CSSCalcValue _origin;
+            CSSCalcValue _shift;
+
+            public ComputeAdd(CSSCalcValue origin, CSSCalcValue shift)
+            {
+                _origin = origin;
+                _shift = shift;
+            }
+
+            public override Single ToPixel()
+            {
+                return _origin.ToPixel() + _shift.ToPixel();
             }
         }
 
