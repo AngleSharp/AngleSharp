@@ -34,19 +34,12 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue)
-            {
-                var ident = ((CSSIdentifierValue)value).Value;
-
-                //The element does not span multiple columns.
-                if (ident.Equals("none", StringComparison.OrdinalIgnoreCase))
-                    _span = false;
-                //The element spans across all columns.
-                else if (ident.Equals("all", StringComparison.OrdinalIgnoreCase))
-                    _span = true;
-                else
-                    return false;
-            }
+            //The element does not span multiple columns.
+            if (value.Is("none"))
+                _span = false;
+            //The element spans across all columns.
+            else if (value.Is("all"))
+                _span = true;
             else if (value != CSSValue.Inherit)
                 return false;
 

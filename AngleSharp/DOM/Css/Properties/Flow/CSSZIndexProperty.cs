@@ -31,7 +31,7 @@
         {
             if (value is CSSNumberValue)
                 _value = (Int32)((CSSNumberValue)value).Value;
-            else if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("auto", StringComparison.OrdinalIgnoreCase))
+            else if (value.Is("auto"))
                 _value = null;
             else if (value != CSSValue.Inherit)
                 return false;

@@ -39,7 +39,7 @@
 
             if (gap.HasValue)
                 _gap = gap.Value;
-            else if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("normal"))
+            else if (value.Is("normal"))
                 _gap = _normal;
             else if (value != CSSValue.Inherit)
                 return false;

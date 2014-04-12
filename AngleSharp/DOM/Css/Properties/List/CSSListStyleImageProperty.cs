@@ -30,7 +30,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("none", StringComparison.OrdinalIgnoreCase))
+            if (value.Is("none"))
                 _mode = _default;
             else if (value is CSSUriValue)
                 _mode = new CustomImageMode(((CSSUriValue)value).Uri);

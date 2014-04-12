@@ -34,7 +34,7 @@
 
             if (calc != null)
                 _mode = new CalcCoordinateMode(calc);
-            else if (value is CSSIdentifierValue && (((CSSIdentifierValue)value).Value).Equals("auto", StringComparison.OrdinalIgnoreCase))
+            else if (value.Is("auto"))
                 _mode = _auto;
             else if (value != CSSValue.Inherit)
                 return false;

@@ -34,7 +34,7 @@
 
             if (calc != null)
                 _mode = new CalcMaxWidthMode(calc);
-            else if (value is CSSIdentifierValue && (((CSSIdentifierValue)value).Value).Equals("none", StringComparison.OrdinalIgnoreCase))
+            else if (value.Is("none"))
                 _mode = _none;
             else if (value != CSSValue.Inherit)
                 return false;

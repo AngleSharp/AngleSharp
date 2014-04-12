@@ -34,7 +34,7 @@
 
             if (calc != null)
                 _mode = new CalcLineHeightMode(calc);
-            else if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("normal", StringComparison.OrdinalIgnoreCase))
+            else if (value.Is("normal"))
                 _mode = _normal;
             else if (value.ToNumber().HasValue)
                 _mode = new MultipleLineHeightMode(value.ToNumber().Value);

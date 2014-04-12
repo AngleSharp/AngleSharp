@@ -31,8 +31,66 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            //TODO
-            return base.IsValid(value);
+            if (value == CSSValue.Inherit)
+                return true;
+
+            var values = value as CSSValueList ?? new CSSValueList(value);
+            var positions = new List<Position>();
+            var temp = new List<CSSValue>();
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                var position = new Position();
+
+                while (i < values.Length && values[i] != CSSValue.Separator)
+                    temp.Add(values[i]);
+
+                if (temp.Count == 0 || temp.Count > 4)
+                    return false;
+
+                if (temp.Count == 1 && !Check(temp[0], ref position))
+                    return false;
+                else if (temp.Count == 2 && !Check(temp[0], temp[1], ref position))
+                    return false;
+                else if (temp.Count > 2 && !Check(temp, ref position))
+                    return false;
+
+                positions.Add(position);
+                temp.Clear();
+            }
+
+            _positions = positions;
+            return true;
+        }
+
+        static Boolean Check(List<CSSValue> values, ref Position position)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Boolean Check(CSSValue left, CSSValue right, ref Position position)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Boolean Check(CSSValue value, ref Position position)
+        {
+            var calc = value.ToCalc();
+
+            if (calc != null)
+                position.X = calc;
+            else if (value.Is("left"))
+                position.X = CSSCalcValue.Zero;
+            else if (value.Is("right"))
+                position.X = CSSCalcValue.Full;
+            else if (value.Is("top"))
+                position.Y = CSSCalcValue.Zero;
+            else if (value.Is("bottom"))
+                position.Y = CSSCalcValue.Full;
+            else if (!value.Is("center"))
+                return false;
+
+            return true;
         }
 
         #endregion
@@ -46,13 +104,13 @@
 
             public CSSCalcValue X
             {
-                get { return _x ?? CSSCalcValue.Zero; }
+                get { return _x ?? CSSCalcValue.Center; }
                 set { _x = value; }
             }
 
             public CSSCalcValue Y
             {
-                get { return _y ?? CSSCalcValue.Zero; }
+                get { return _y ?? CSSCalcValue.Center; }
                 set { _y = value; }
             }
         }

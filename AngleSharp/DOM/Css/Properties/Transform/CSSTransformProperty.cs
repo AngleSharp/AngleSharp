@@ -31,7 +31,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("none", StringComparison.OrdinalIgnoreCase))
+            if (value.Is("none"))
                 _transforms.Clear();
             else if (value is CSSTransformValue)
             {

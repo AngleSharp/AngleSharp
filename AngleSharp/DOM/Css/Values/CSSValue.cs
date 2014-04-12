@@ -21,12 +21,12 @@
         protected String _text;
 
         /// <summary>
-        /// Gets the instance for an delimiter value.
+        /// Gets the instance for a slash delimiter value.
         /// </summary>
         internal static readonly CSSValue Delimiter = new CSSValue { _text = "/", _type = CssValueType.Custom };
 
         /// <summary>
-        /// Gets the instance for an separator value.
+        /// Gets the instance for a comma separator value.
         /// </summary>
         internal static readonly CSSValue Separator = new CSSValue { _text = ",", _type = CssValueType.Custom };
 

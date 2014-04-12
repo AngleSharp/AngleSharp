@@ -36,7 +36,7 @@
 
             if (width.HasValue)
                 _width = width.Value;
-            else if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("auto", StringComparison.OrdinalIgnoreCase))
+            else if (value.Is("auto"))
                 _width = null;
             else if (value != CSSValue.Inherit)
                 return false;

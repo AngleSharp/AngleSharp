@@ -34,7 +34,7 @@
 
             if (color.HasValue)
                 _mode = new SolidColorMode(color.Value);
-            else if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("invert", StringComparison.OrdinalIgnoreCase))
+            else if (value.Is("invert"))
                 _mode = _invert;
             else if (value != CSSValue.Inherit)
                 return false;

@@ -30,7 +30,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("normal", StringComparison.OrdinalIgnoreCase))
+            if (value.Is("normal"))
                 _mode = _normal;
             else if (value.ToLength().HasValue)
                 _mode = new CustomLetterSpacingMode(value.ToLength().Value);

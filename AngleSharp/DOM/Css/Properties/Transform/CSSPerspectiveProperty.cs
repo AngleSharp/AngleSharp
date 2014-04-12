@@ -40,7 +40,7 @@
             if (distance.HasValue)
                 _distance = distance.Value;
             //Is a keyword indicating that no perspective transform has to be applied.
-            else if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("none", StringComparison.OrdinalIgnoreCase))
+            else if (value.Is("none"))
                 _distance = Length.Zero;
             else if (value != CSSValue.Inherit)
                 return false;

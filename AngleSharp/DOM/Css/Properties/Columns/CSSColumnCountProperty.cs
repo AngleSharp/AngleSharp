@@ -36,7 +36,7 @@
 
             if (count.HasValue)
                 _count = count.Value;
-            else if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("auto", StringComparison.OrdinalIgnoreCase))
+            else if (value.Is("auto"))
                 _count = null;
             else if (value != CSSValue.Inherit)
                 return false;

@@ -29,19 +29,12 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue)
-            {
-                var ident = ((CSSIdentifierValue)value).Value;
-
-                //Is a keyword indicating that columns are filled sequentially.
-                if (ident.Equals("auto", StringComparison.OrdinalIgnoreCase))
-                    _balanced = false;
-                //Is a keyword indicating that content is equally divided between columns.
-                else if (ident.Equals("balance", StringComparison.OrdinalIgnoreCase))
-                    _balanced = true;
-                else
-                    return false;
-            }
+            //Is a keyword indicating that columns are filled sequentially.
+            if (value.Is("auto"))
+                _balanced = false;
+            //Is a keyword indicating that content is equally divided between columns.
+            else if (value.Is("balance"))
+                _balanced = true;
             else if (value != CSSValue.Inherit)
                 return false;
 

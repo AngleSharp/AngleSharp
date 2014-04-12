@@ -1,6 +1,5 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.DOM.Css;
     using System;
 
     /// <summary>
@@ -8,6 +7,11 @@
     /// </summary>
     static class ValueExtensions
     {
+        public static Boolean Is(this CSSValue value, String identifier)
+        {
+            return value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals(identifier, StringComparison.OrdinalIgnoreCase);
+        }
+
         public static Uri ToUri(this CSSValue value)
         {
             if (value is CSSUriValue)
