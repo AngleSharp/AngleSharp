@@ -46,7 +46,7 @@
             var values = value as CSSValueList ?? new CSSValueList(value);
             var repeats = new List<Repeat>();
 
-            for (int i = 0; i < values.Length; i+=2)
+            for (int i = 0; i < values.Length; i++)
             {
                 if (values[i] is CSSIdentifierValue == false)
                     return false;
@@ -74,7 +74,7 @@
                 else
                     return false;
 
-                if (i + 1 < values.Length && values[i] != CSSValue.Separator)
+                if (++i < values.Length && values[i] != CSSValue.Separator)
                     return false;
 
                 repeats.Add(repeat);

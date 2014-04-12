@@ -32,7 +32,29 @@
         {
             if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("none", StringComparison.OrdinalIgnoreCase))
                 _images.Clear();
-            //TODO
+            else if (value is CSSUriValue)
+            {
+                _images.Clear();
+                _images.Add(((CSSUriValue)value).Uri);
+            }
+            else if (value is CSSValueList)
+            {
+                var values = (CSSValueList)value;
+                var images = new List<Uri>();
+
+                for (int i = 0; i < values.Length; i++)
+                {
+                    if (values[i] is CSSUriValue == false)
+                        return false;
+
+                    images.Add(((CSSUriValue)values[i]).Uri);
+
+                    if (++i < values.Length && values[i] != CSSValue.Separator)
+                        return false;
+                }
+
+                _images = images;
+            }
             else if (value != CSSValue.Inherit)
                 return false;
 

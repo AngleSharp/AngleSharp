@@ -42,19 +42,19 @@
             if (value == CSSValue.Inherit)
                 return true;
 
-            var list = value as CSSValueList ?? new CSSValueList(value);
+            var values = value as CSSValueList ?? new CSSValueList(value);
             var origins = new List<Origin>();
 
-            for (int i = 0; i < list.Length; i += 2)
+            for (int i = 0; i < values.Length; i++)
             {
                 Origin origin;
 
-                if (list[i] is CSSIdentifierValue && !_modes.TryGetValue(((CSSIdentifierValue)list[i]).Value, out origin))
+                if (values[i] is CSSIdentifierValue && !_modes.TryGetValue(((CSSIdentifierValue)values[i]).Value, out origin))
                     origins.Add(origin);
                 else
                     return false;
 
-                if (i + 1 < list.Length && list[i + 1] != CSSValue.Separator)
+                if (++i < values.Length && values[i] != CSSValue.Separator)
                     return false;
             }
 

@@ -78,7 +78,7 @@
         {
             var sizes = new List<SizeMode>();
 
-            for (int i = 0; i < values.Length; i+=2)
+            for (int i = 0; i < values.Length; i++)
             {
                 var size = Check(values[i]);
 
@@ -87,7 +87,7 @@
 
                 sizes.Add(size);
 
-                if (i + 1 < values.Length && values[i + 1] != CSSValue.Separator)
+                if (++i < values.Length && values[i] != CSSValue.Separator)
                     return false;
             }
 

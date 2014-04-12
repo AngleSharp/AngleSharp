@@ -45,7 +45,7 @@
             var list = value as CSSValueList ?? new CSSValueList(value);
             var clips = new List<Clip>();
 
-            for (int i = 0; i < list.Length; i += 2)
+            for (int i = 0; i < list.Length; i++)
             {
                 Clip clip;
 
@@ -54,7 +54,7 @@
                 else
                     return false;
 
-                if (i + 1 < list.Length && list[i + 1] != CSSValue.Separator)
+                if (++i < list.Length && list[i] != CSSValue.Separator)
                     return false;
             }
 
