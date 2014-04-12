@@ -44,6 +44,7 @@ local.properties
 # Build results
 [Dd]ebug/
 [Rr]elease/
+AngleSharp.sln.ide/
 TestResults/
 /Nuget/lib/
 *.nupkg
