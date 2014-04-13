@@ -40,7 +40,7 @@
         {
             if (value is CSSValueList)
                 return CheckList((CSSValueList)value);
-            else if (!CheckSingle(Value) && value != CSSValue.Inherit)
+            else if (!CheckSingle(value) && value != CSSValue.Inherit)
                 return false;
 
             return true;
