@@ -32,7 +32,7 @@
             _position = new CSSBackgroundPositionProperty();
             _size = new CSSBackgroundSizeProperty();
             _repeat = new CSSBackgroundRepeatProperty();
-            _attachment = new CSSBackgroundOriginProperty();
+            _attachment = new CSSBackgroundAttachmentProperty();
             _origin = new CSSBackgroundOriginProperty();
             _clip = new CSSBackgroundClipProperty();
             _color = new CSSBackgroundColorProperty();
@@ -45,6 +45,9 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
+            //TODO For the moment
+            return true;
+
             if (value == CSSValue.Inherit)
                 return true;
             else
