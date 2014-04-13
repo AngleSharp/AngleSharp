@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
 
-
     /// <summary>
     /// A bunch of useful extension methods.
     /// </summary>
@@ -12,6 +11,22 @@
         public static Boolean Is(this CSSValue value, String identifier)
         {
             return value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals(identifier, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static Boolean IsOneOf(this CSSValue value, params String[] identifiers)
+        {
+            if (value is CSSIdentifierValue)
+            {
+                var ident = ((CSSIdentifierValue)value).Value;
+
+                foreach (var identifier in identifiers)
+                {
+                    if (ident.Equals(identifier, StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         public static Uri ToUri(this CSSValue value)
