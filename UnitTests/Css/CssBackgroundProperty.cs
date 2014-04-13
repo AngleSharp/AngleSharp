@@ -440,5 +440,228 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("repeat-x", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssBackgroundRepeatRepeatYLegal()
+        {
+            var snippet = "background-repeat: repeat-y";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-repeat", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundRepeatProperty));
+            var concrete = (CSSBackgroundRepeatProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("repeat-y", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundRepeatRepeatLegal()
+        {
+            var snippet = "background-repeat: REPEAT";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-repeat", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundRepeatProperty));
+            var concrete = (CSSBackgroundRepeatProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("REPEAT", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundRepeatRoundLegal()
+        {
+            var snippet = "background-repeat: rounD";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-repeat", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundRepeatProperty));
+            var concrete = (CSSBackgroundRepeatProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("rounD", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundRepeatRepeatSpaceLegal()
+        {
+            var snippet = "background-repeat: repeat space";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-repeat", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundRepeatProperty));
+            var concrete = (CSSBackgroundRepeatProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("repeat space", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundRepeatRepeatXSpaceIllegal()
+        {
+            var snippet = "background-repeat: repeat-x space";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-repeat", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundRepeatProperty));
+            var concrete = (CSSBackgroundRepeatProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssBackgroundRepeatRepeatXRepeatYMultipleLegal()
+        {
+            var snippet = "background-repeat: repeat-X, repeat-Y";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-repeat", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundRepeatProperty));
+            var concrete = (CSSBackgroundRepeatProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("repeat-X, repeat-Y", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundRepeatSpaceRoundLegal()
+        {
+            var snippet = "background-repeat: space round";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-repeat", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundRepeatProperty));
+            var concrete = (CSSBackgroundRepeatProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("space round", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundRepeatNoRepeatRepeatXIllegal()
+        {
+            var snippet = "background-repeat: no-repeat repeat-x";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-repeat", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundRepeatProperty));
+            var concrete = (CSSBackgroundRepeatProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssBackgroundRepeatRepeatRepeatNoRepeatRepeatLegal()
+        {
+            var snippet = "background-repeat: repeat repeat, no-repeat repeat";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-repeat", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundRepeatProperty));
+            var concrete = (CSSBackgroundRepeatProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("repeat repeat, no-repeat repeat", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundSizeLengthLegal()
+        {
+            var snippet = "background-size: 2em";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-size", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundSizeProperty));
+            var concrete = (CSSBackgroundSizeProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("2em", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundSizePercentLegal()
+        {
+            var snippet = "background-size: 20%";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-size", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundSizeProperty));
+            var concrete = (CSSBackgroundSizeProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("20%", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundSizeAutoUppercaseLegal()
+        {
+            var snippet = "background-size: AUTO";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-size", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundSizeProperty));
+            var concrete = (CSSBackgroundSizeProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("AUTO", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundSizeCoverLegal()
+        {
+            var snippet = "background-size: cover";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-size", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundSizeProperty));
+            var concrete = (CSSBackgroundSizeProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("cover", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundSizeContainCoverMultipleLegal()
+        {
+            var snippet = "background-size: contain,cover";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-size", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundSizeProperty));
+            var concrete = (CSSBackgroundSizeProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("contain, cover", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundSizeContainLengthAutoPercentLegal()
+        {
+            var snippet = "background-size: contain,100px,auto,20%";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-size", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundSizeProperty));
+            var concrete = (CSSBackgroundSizeProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("contain, 100px, auto, 20%", concrete.Value.CssText);
+        }
     }
 }
