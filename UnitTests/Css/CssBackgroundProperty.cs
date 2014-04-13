@@ -605,6 +605,66 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssBackgroundSizeAutoAutoLegal()
+        {
+            var snippet = "background-size: auto auto";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-size", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundSizeProperty));
+            var concrete = (CSSBackgroundSizeProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("auto auto", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundSizeAutoLengthLegal()
+        {
+            var snippet = "background-size: auto 50px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-size", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundSizeProperty));
+            var concrete = (CSSBackgroundSizeProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("auto 50px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundSizeLengthLengthLegal()
+        {
+            var snippet = "background-size: 25px 50px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-size", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundSizeProperty));
+            var concrete = (CSSBackgroundSizeProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("25px 50px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundSizePercentPercentLegal()
+        {
+            var snippet = "background-size: 50% 50%";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-size", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundSizeProperty));
+            var concrete = (CSSBackgroundSizeProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("50% 50%", concrete.Value.CssText);
+        }
+
+        [TestMethod]
         public void CssBackgroundSizeAutoUppercaseLegal()
         {
             var snippet = "background-size: AUTO";
