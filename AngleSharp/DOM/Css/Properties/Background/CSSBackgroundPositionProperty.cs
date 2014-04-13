@@ -36,34 +36,30 @@
 
             var values = value as CSSValueList ?? new CSSValueList(value);
             var positions = new List<Position>();
-            var temp = new List<CSSValue>();
+            var list = values.ToList();
 
-            for (var i = 0; i < values.Length; i++)
+            foreach (var entry in list)
             {
                 var position = new Position();
 
-                while (i < values.Length && values[i] != CSSValue.Separator)
-                    temp.Add(values[i++]);
-
-                if (temp.Count == 0 || temp.Count > 4)
+                if (entry.Length == 0 || entry.Length > 4)
                     return false;
 
-                if (temp.Count == 1 && !Check(temp[0], ref position))
+                if (entry.Length == 1 && !Check(entry[0], ref position))
                     return false;
-                else if (temp.Count == 2 && !Check(temp[0], temp[1], ref position))
+                else if (entry.Length == 2 && !Check(entry[0], entry[1], ref position))
                     return false;
-                else if (temp.Count > 2 && !Check(temp, ref position))
+                else if (entry.Length > 2 && !Check(entry, ref position))
                     return false;
 
                 positions.Add(position);
-                temp.Clear();
             }
 
             _positions = positions;
             return true;
         }
 
-        static Boolean Check(List<CSSValue> values, ref Position position)
+        static Boolean Check(CSSValueList values, ref Position position)
         {
             var index = 0;
             var shift = CSSCalcValue.Zero;
@@ -97,14 +93,14 @@
             {
                 vertical = CSSCalcValue.Zero;
 
-                if (index + 1 < values.Count)
+                if (index + 1 < values.Length)
                     shift = values[index + 1].ToCalc();
             }
             else if (value.Is("bottom"))
             {
                 vertical = CSSCalcValue.Full;
 
-                if (index + 1 < values.Count)
+                if (index + 1 < values.Length)
                     shift = values[index + 1].ToCalc();
             }
             else if (!value.Is("center"))

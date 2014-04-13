@@ -26,7 +26,24 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the enumeration of all images.
+        /// </summary>
+        public IEnumerable<Uri> Images
+        {
+            get { return _images; }
+        }
+
+        #endregion
+
         #region Methods
+
+        internal void AddImage(Uri image)
+        {
+            _images.Add(image);
+        }
 
         protected override Boolean IsValid(CSSValue value)
         {

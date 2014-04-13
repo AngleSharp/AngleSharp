@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Collections.Generic;
+
 
     /// <summary>
     /// A bunch of useful extension methods.
@@ -111,6 +113,29 @@
                 return Color.FromName(((CSSIdentifierValue)value).Value);
 
             return null;
+        }
+
+        public static List<CSSValueList> ToList(this CSSValueList values)
+        {
+            var list = new List<CSSValueList>();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                var entry = new CSSValueList();
+
+                for (int j = i; j < values.Length; j++)
+                {
+                    if (values[j] == CSSValue.Separator)
+                        break;
+
+                    entry.Add(values[j]);
+                    i++;
+                }
+
+                list.Add(entry);
+            }
+
+            return list;
         }
     }
 }

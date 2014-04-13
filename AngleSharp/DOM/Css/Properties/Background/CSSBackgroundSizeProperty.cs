@@ -84,26 +84,19 @@
         Boolean CheckList(CSSValueList values)
         {
             var sizes = new List<SizeMode>();
+            var list = values.ToList();
 
-            for (int i = 0; i < values.Length; i++)
+            foreach (var entry in list)
             {
-                var j = i + 1;
-
-                while (j < values.Length && values[j] != CSSValue.Separator)
-                    j++;
-
-                var items = j - i;
-
-                if (items > 2)
+                while (entry.Length == 0 || entry.Length > 2)
                     return false;
 
-                var size = items == 1 ? Check(values[i]) : Check(values[i], values[i + 1]);
+                var size = entry.Length == 1 ? Check(entry[0]) : Check(entry[0], entry[1]);
 
                 if (size == null)
                     return false;
 
                 sizes.Add(size);
-                i = j;
             }
 
             _size = new MultipleSizeMode(sizes);

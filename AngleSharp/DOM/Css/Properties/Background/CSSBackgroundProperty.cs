@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
+
 
     /// <summary>
     /// More information available at:
@@ -14,6 +16,7 @@
         CSSBackgroundPositionProperty _position;
         CSSBackgroundSizeProperty _size;
         CSSBackgroundRepeatProperty _repeat;
+        CSSBackgroundAttachmentProperty _attachment;
         CSSBackgroundOriginProperty _origin;
         CSSBackgroundClipProperty _clip;
         CSSBackgroundColorProperty _color;
@@ -29,6 +32,7 @@
             _position = new CSSBackgroundPositionProperty();
             _size = new CSSBackgroundSizeProperty();
             _repeat = new CSSBackgroundRepeatProperty();
+            _attachment = new CSSBackgroundOriginProperty();
             _origin = new CSSBackgroundOriginProperty();
             _clip = new CSSBackgroundClipProperty();
             _color = new CSSBackgroundColorProperty();
@@ -41,11 +45,41 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            //TODO
-            //if (value != CSSValue.Inherit)
-            //    return false;
+            if (value == CSSValue.Inherit)
+                return true;
+            else
+            {
+                var values = value as CSSValueList ?? new CSSValueList(value);
+                var image = new CSSBackgroundImageProperty();
+                var position = new CSSBackgroundPositionProperty();
+                var size = new CSSBackgroundSizeProperty();
+                var repeat = new CSSBackgroundRepeatProperty();
+                var origin = new CSSBackgroundOriginProperty();
+                var clip = new CSSBackgroundClipProperty();
+                var color = new CSSBackgroundColorProperty();
+                var list = values.ToList();
 
-            return true;
+                for (int i = 0; i < list.Count; i++)
+                {
+                    var entry = list[i];
+                    var success = false;
+
+
+
+                    if (!success)
+                        return false;
+                }
+
+                _image = image;
+                _position = position;
+                _repeat = repeat;
+                _origin = origin;
+                _size = size;
+                _clip = clip;
+                _color = color;
+            }
+
+            return false;
         }
 
         #endregion

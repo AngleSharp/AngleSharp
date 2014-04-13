@@ -25,6 +25,19 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the color of the background.
+        /// </summary>
+        /// <returns></returns>
+        public Color Color
+        {
+            get { return _color; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)
