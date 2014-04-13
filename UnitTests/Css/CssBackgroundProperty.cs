@@ -723,5 +723,35 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("contain, 100px, auto, 20%", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssBackgroundRedLegal()
+        {
+            var snippet = "background: red";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundProperty));
+            var concrete = (CSSBackgroundProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("red", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBackgroundImageLegal()
+        {
+            var snippet = "background: url(\"topbanner.png\") #00d repeat-y fixed";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundProperty));
+            var concrete = (CSSBackgroundProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('topbanner.png') rgba(0, 0, 221, 1) repeat-y fixed", concrete.Value.CssText);
+        }
     }
 }
