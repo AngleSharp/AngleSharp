@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Collections.Generic;
-
 
     /// <summary>
     /// More information available at:
