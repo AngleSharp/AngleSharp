@@ -154,6 +154,7 @@
     <Compile Include="DOM\Css\Properties\Flow\CSSDisplayProperty.cs" />
     <Compile Include="DOM\Css\Properties\Flow\CSSZIndexProperty.cs" />
     <Compile Include="DOM\Css\Values\CSSCalcValue.cs" />
+    <Compile Include="DOM\Css\Values\CSSImageValue.cs" />
     <Compile Include="DOM\Css\Values\CSSTimeValue.cs" />
     <Compile Include="DOM\Css\Values\CSSResolutionValue.cs" />
     <Compile Include="DOM\Css\Values\CSSFrequencyValue.cs" />
@@ -187,8 +188,6 @@
     <Compile Include="DOM\Annotations\ICssSelector.cs" />
     <Compile Include="DOM\Annotations\IStyleDeclaration.cs" />
     <Compile Include="DOM\Css\Rules\CSSDocumentRule.cs" />
-    <Compile Include="DOM\Css\Values\CSSGradient.cs" />
-    <Compile Include="DOM\Css\Values\CSSGradientStop.cs" />
     <Compile Include="DOM\Css\Values\CSSUriValue.cs" />
     <Compile Include="DOM\AdjacentPosition.cs" />
     <Compile Include="DOM\Html\HTMLFactory.cs" />
@@ -246,7 +245,7 @@
     <Compile Include="DOM\Css\Rules\CSSUnknownRule.cs" />
     <Compile Include="DOM\Css\Selector\Selectors.cs" />
     <Compile Include="DOM\Css\Values\CSSCounter.cs" />
-    <Compile Include="DOM\Css\Values\CSSFunction.cs" />
+    <Compile Include="DOM\Css\CSSFunctions.cs" />
     <Compile Include="DOM\Css\Values\CSSPrimitiveValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValueList.cs" />
