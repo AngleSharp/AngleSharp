@@ -11,25 +11,20 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, SizeMode> _modes = new Dictionary<String, SizeMode>(StringComparer.OrdinalIgnoreCase);
+        static readonly CalcSizeMode _default = new CalcSizeMode();
+        static readonly CoverSizeMode _cover = new CoverSizeMode();
+        static readonly ContainSizeMode _contain = new ContainSizeMode();
         SizeMode _size;
 
         #endregion
 
         #region ctor
 
-        static CSSBackgroundSizeProperty()
-        {
-            _modes.Add("auto", new AutoSizeMode());
-            _modes.Add("cover", new CoverSizeMode());
-            _modes.Add("contain", new ContainSizeMode());
-        }
-
         public CSSBackgroundSizeProperty()
             : base(PropertyNames.BackgroundSize)
         {
             _inherited = false;
-            _size = _modes["auto"];
+            _size = _default;
         }
 
         #endregion
@@ -52,15 +47,27 @@
 
             if (calc != null)
                 return new CalcSizeMode(calc);
-            else if (value is CSSIdentifierValue)
-            {
-                SizeMode size;
-
-                if (_modes.TryGetValue(((CSSIdentifierValue)value).Value, out size))
-                    return size;
-            }
+            else if (value.Is("auto"))
+                return _default;
+            else if (value.Is("cover"))
+                return _cover;
+            else if (value.Is("contain"))
+                return _contain;
 
             return null;
+        }
+
+        static SizeMode Check(CSSValue horizontal, CSSValue vertical)
+        {
+            var width = horizontal.ToCalc();
+            var height = vertical.ToCalc();
+
+            if (width == null && !horizontal.Is("auto"))
+                return null;
+            else if (height == null && !vertical.Is("auto"))
+                return null;
+
+            return new CalcSizeMode(width, height);
         }
 
         Boolean CheckSingle(CSSValue value)
@@ -80,15 +87,23 @@
 
             for (int i = 0; i < values.Length; i++)
             {
-                var size = Check(values[i]);
+                var j = i + 1;
+
+                while (j < values.Length && values[j] != CSSValue.Separator)
+                    j++;
+
+                var items = j - i;
+
+                if (items > 2)
+                    return false;
+
+                var size = items == 1 ? Check(values[i]) : Check(values[i], values[i + 1]);
 
                 if (size == null)
                     return false;
 
                 sizes.Add(size);
-
-                if (++i < values.Length && values[i] != CSSValue.Separator)
-                    return false;
+                i = j;
             }
 
             _size = new MultipleSizeMode(sizes);
@@ -114,7 +129,7 @@
 
             public MultipleSizeMode(List<SizeMode> sizes)
             {
-                _sizes =_sizes;
+                _sizes =sizes;
             }
         }
 
@@ -124,21 +139,18 @@
         /// </summary>
         sealed class CalcSizeMode : SizeMode
         {
-            CSSCalcValue _calc;
+            CSSCalcValue _width;
+            CSSCalcValue _height;
 
-            public CalcSizeMode(CSSCalcValue calc)
+            /// <summary>
+            /// The auto keyword that scales the background image in the corresponding
+            /// direction such that its intrinsic proportion is maintained.
+            /// </summary>
+            public CalcSizeMode(CSSCalcValue width = null, CSSCalcValue height = null)
             {
-                _calc = calc;
+                _width = width;
+                _height = height;
             }
-        }
-
-        /// <summary>
-        /// The auto keyword that scales the background image in the corresponding
-        /// direction such that its intrinsic proportion is maintained.
-        /// </summary>
-        sealed class AutoSizeMode : SizeMode
-        {
-
         }
 
         /// <summary>
