@@ -109,17 +109,17 @@
 
             public static CSSTransformValue TranslateX(CSSCalcValue dx)
             {
-                return new Translate3D(dx, CSSCalcValue.FromLength(Length.Zero), CSSCalcValue.FromLength(Length.Zero));
+                return new Translate3D(dx, CSSCalcValue.Zero, CSSCalcValue.Zero);
             }
 
             public static CSSTransformValue TranslateY(CSSCalcValue dy)
             {
-                return new Translate3D(CSSCalcValue.FromLength(Length.Zero), dy, CSSCalcValue.FromLength(Length.Zero));
+                return new Translate3D(CSSCalcValue.Zero, dy, CSSCalcValue.Zero);
             }
 
             public static CSSTransformValue TranslateZ(CSSCalcValue dz)
             {
-                return new Translate3D(CSSCalcValue.FromLength(Length.Zero), CSSCalcValue.FromLength(Length.Zero), dz);
+                return new Translate3D(CSSCalcValue.Zero, CSSCalcValue.Zero, dz);
             }
 
             public override TransformMatrix ComputeMatrix()

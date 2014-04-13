@@ -181,6 +181,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\CSSFactory.cs">
       <Link>DOM\Css\CSSFactory.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\CSSFunctions.cs">
+      <Link>DOM\Css\CSSFunctions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSProperty.cs">
       <Link>DOM\Css\CSSProperty.cs</Link>
     </Compile>
@@ -619,17 +622,11 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSFrequencyValue.cs">
       <Link>DOM\Css\Values\CSSFrequencyValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSFunction.cs">
-      <Link>DOM\Css\Values\CSSFunction.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSGradient.cs">
-      <Link>DOM\Css\Values\CSSGradient.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSGradientStop.cs">
-      <Link>DOM\Css\Values\CSSGradientStop.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSIdentifierValue.cs">
       <Link>DOM\Css\Values\CSSIdentifierValue.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSImageValue.cs">
+      <Link>DOM\Css\Values\CSSImageValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSLengthValue.cs">
       <Link>DOM\Css\Values\CSSLengthValue.cs</Link>

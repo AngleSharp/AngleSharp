@@ -41,13 +41,13 @@
 
         #region Constructors
 
-        public static CSSCalcValue FromLength(Length length)
+        public static CSSCalcValue FromLength(CSSLengthValue length)
         {
-            return new Absolute(length);
+            return new Absolute(length.Length);
         }
-        public static CSSCalcValue FromPercent(Single percent)
+        public static CSSCalcValue FromPercent(CSSPercentValue percent)
         {
-            return new Relative(percent);
+            return new Relative(percent.Value);
         }
 
         #endregion

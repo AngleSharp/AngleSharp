@@ -48,11 +48,25 @@
         public static CSSCalcValue ToCalc(this CSSValue value)
         {
             if (value is CSSPercentValue)
-                return CSSCalcValue.FromPercent(((CSSPercentValue)value).Value);
+                return CSSCalcValue.FromPercent((CSSPercentValue)value);
             else if (value is CSSLengthValue)
-                return CSSCalcValue.FromLength(((CSSLengthValue)value).Length);
+                return CSSCalcValue.FromLength((CSSLengthValue)value);
             else if (value == CSSNumberValue.Zero)
-                return CSSCalcValue.FromLength(Length.Zero);
+                return CSSCalcValue.Zero;
+            else if (value is CSSCalcValue)
+                return (CSSCalcValue)value;
+
+            return null;
+        }
+
+        public static CSSImageValue ToImage(this CSSValue value)
+        {
+            if (value is CSSImageValue)
+                return (CSSImageValue)value;
+            else if (value is CSSUriValue)
+                return CSSImageValue.FromUrl((CSSUriValue)value);
+            else if (value.Is("none"))
+                return CSSImageValue.None;
 
             return null;
         }

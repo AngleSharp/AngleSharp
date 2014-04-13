@@ -213,7 +213,7 @@
 
             public CSSValue ToValue()
             {
-                return CSSFunction.Create(_name, _arguments);
+                return CSSFunctions.Create(_name, _arguments);
             }
 
             #endregion

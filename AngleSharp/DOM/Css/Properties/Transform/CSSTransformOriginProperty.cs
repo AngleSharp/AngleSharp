@@ -62,12 +62,10 @@
 
             if (list.Length == 3)
             {
-                var length = list[2].ToLength();
-
-                if (!length.HasValue)
+                if (!list[2].ToLength().HasValue)
                     return false;
 
-                z = CSSCalcValue.FromLength(length.Value);
+                z = list[2].ToCalc();
             }
 
             if (z != CSSCalcValue.Zero || list.Length == 2)

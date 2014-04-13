@@ -47,6 +47,16 @@
             _type = CssValueType.Custom;
         }
 
+        /// <summary>
+        /// Creates a new CSS value.
+        /// </summary>
+        /// <param name="text">The text representation of the new value.</param>
+        internal CSSValue(String text)
+            : this()
+        {
+            _text = text;
+        }
+
         #endregion
 
         #region Properties

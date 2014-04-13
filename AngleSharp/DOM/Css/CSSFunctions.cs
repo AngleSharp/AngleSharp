@@ -2,14 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
-    abstract class CSSFunction : CSSValue
+    static class CSSFunctions
     {
         #region Functions
 
         static readonly Dictionary<String, Func<List<CSSValue>, CSSValue>> _functions;
 
-        static CSSFunction()
+        static CSSFunctions()
         {
             _functions = new Dictionary<String, Func<List<CSSValue>, CSSValue>>(StringComparer.OrdinalIgnoreCase);
             _functions.Add(FunctionNames.Rgb, Rgb);
@@ -52,7 +53,10 @@
             Func<List<CSSValue>, CSSValue> creator;
 
             if (!_functions.TryGetValue(name, out creator) || (result = creator(arguments)) == null)
-                return new CSSUnknownFunction(name, arguments);
+            {
+                var text = String.Format("{0}({1})", name, String.Join(", ", arguments.Select(m => m.CssText)));
+                return new CSSValue(text);
+            }
 
             return result;
         }
@@ -486,43 +490,6 @@
             }
 
             return null;
-        }
-
-        #endregion
-
-        #region Unknown Function
-
-        sealed class CSSUnknownFunction : CSSFunction
-        {
-            List<CSSValue> _args;
-
-            public CSSUnknownFunction(String name, IEnumerable<CSSValue> arguments)
-            {
-                _text = name;
-                _args = new List<CSSValue>(arguments);
-            }
-
-            public IEnumerable<CSSValue> Arguments
-            {
-                get { return _args; }
-            }
-
-            public override String ToCss()
-            {
-                var sb = Pool.NewStringBuilder().Append(_text);
-                sb.Append(Specification.RBO);
-
-                for (int i = 0; i < _args.Count; i++)
-                {
-                    sb.Append(_args[i].ToCss());
-
-                    if (i != _args.Count - 1)
-                        sb.Append(Specification.COMMA).Append(Specification.SPACE);
-                }
-                
-                sb.Append(Specification.RBC);
-                return sb.ToPool();
-            }
         }
 
         #endregion
