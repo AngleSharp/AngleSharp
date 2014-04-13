@@ -49,7 +49,7 @@
             {
                 Attachment attachment;
 
-                if (list[i] is CSSIdentifierValue && !_modes.TryGetValue(((CSSIdentifierValue)list[i]).Value, out attachment))
+                if (list[i] is CSSIdentifierValue && _modes.TryGetValue(((CSSIdentifierValue)list[i]).Value, out attachment))
                     attachments.Add(attachment);
                 else
                     return false;

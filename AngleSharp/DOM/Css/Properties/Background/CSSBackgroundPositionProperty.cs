@@ -43,7 +43,7 @@
                 var position = new Position();
 
                 while (i < values.Length && values[i] != CSSValue.Separator)
-                    temp.Add(values[i]);
+                    temp.Add(values[i++]);
 
                 if (temp.Count == 0 || temp.Count > 4)
                     return false;

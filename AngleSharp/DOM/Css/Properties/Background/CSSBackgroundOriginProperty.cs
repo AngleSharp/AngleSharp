@@ -49,7 +49,7 @@
             {
                 Origin origin;
 
-                if (values[i] is CSSIdentifierValue && !_modes.TryGetValue(((CSSIdentifierValue)values[i]).Value, out origin))
+                if (values[i] is CSSIdentifierValue && _modes.TryGetValue(((CSSIdentifierValue)values[i]).Value, out origin))
                     origins.Add(origin);
                 else
                     return false;

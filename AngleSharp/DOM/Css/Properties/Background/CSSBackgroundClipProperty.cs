@@ -49,7 +49,7 @@
             {
                 Clip clip;
 
-                if (list[i] is CSSIdentifierValue && !_modes.TryGetValue(((CSSIdentifierValue)list[i]).Value, out clip))
+                if (list[i] is CSSIdentifierValue && _modes.TryGetValue(((CSSIdentifierValue)list[i]).Value, out clip))
                     clips.Add(clip);
                 else
                     return false;
