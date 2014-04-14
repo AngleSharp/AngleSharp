@@ -16,24 +16,19 @@
         protected CssValueType _type;
 
         /// <summary>
-        /// The CSS text representation of the value.
-        /// </summary>
-        protected String _text;
-
-        /// <summary>
         /// Gets the instance for a slash delimiter value.
         /// </summary>
-        internal static readonly CSSValue Delimiter = new CSSValue { _text = "/", _type = CssValueType.Custom };
+        internal static readonly CSSValue Delimiter = new CSSValue { _type = CssValueType.Custom };
 
         /// <summary>
         /// Gets the instance for a comma separator value.
         /// </summary>
-        internal static readonly CSSValue Separator = new CSSValue { _text = ",", _type = CssValueType.Custom };
+        internal static readonly CSSValue Separator = new CSSValue { _type = CssValueType.Custom };
 
         /// <summary>
         /// Gets the instance for an inherited value.
         /// </summary>
-        public static readonly CSSValue Inherit = new CSSValue { _text = "inherit", _type = CssValueType.Inherit };
+        public static readonly CSSValue Inherit = new CSSValue { _type = CssValueType.Inherit };
 
         #endregion
 
@@ -45,16 +40,6 @@
         internal CSSValue()
         {
             _type = CssValueType.Custom;
-        }
-
-        /// <summary>
-        /// Creates a new CSS value.
-        /// </summary>
-        /// <param name="text">The text representation of the new value.</param>
-        internal CSSValue(String text)
-            : this()
-        {
-            _text = text;
         }
 
         #endregion
@@ -89,7 +74,7 @@
         /// <returns>A string that contains the code.</returns>
         public virtual String ToCss()
         {
-            return _text;
+            return this == Inherit ? "inherit" : (this == Separator ? "," : (this == Delimiter ? "/" : String.Empty));
         }
 
         #endregion

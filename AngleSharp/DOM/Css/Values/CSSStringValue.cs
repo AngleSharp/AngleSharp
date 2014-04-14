@@ -6,7 +6,7 @@
     /// Represents an string in CSS.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/string
     /// </summary>
-    sealed class CSSStringValue : CSSPrimitiveValue
+    sealed class CSSStringValue : CSSValue
     {
         #region Fields
 
@@ -18,7 +18,7 @@
 
         public CSSStringValue(String value)
         {
-            _text = String.Concat("'", value, "'");
+            _type = CssValueType.PrimitiveValue;
             _value = value;
 
         }
@@ -33,6 +33,15 @@
         public String Value
         {
             get { return _value; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override string ToCss()
+        {
+            return String.Concat("'", _value, "'");
         }
 
         #endregion

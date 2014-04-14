@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.DOM
 {
     using System;
     using System.Globalization;
@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents an angle value.
     /// </summary>
-    struct Angle : IEquatable<Angle>
+    struct Angle : IEquatable<Angle>, ICssObject
     {
         #region Fields
 
@@ -38,11 +38,36 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of angle.
+        /// Gets the value of angle in radians.
         /// </summary>
         public Single Value
         {
-            get { return _value; }
+            get
+            {
+                switch (_unit)
+                {
+                    case Unit.Deg:
+                        return (Single)(Math.PI / 180.0 * _value);
+
+                    case Unit.Grad:
+                        return (Single)(Math.PI / 200.0 * _value);
+
+                    case Unit.Turn:
+                        return (Single)(2.0 * Math.PI * _value);
+
+                    default:
+                        return _value;
+                };
+            }
+        }
+
+        #endregion
+
+        #region Casts
+
+        public static explicit operator Single(Angle angle)
+        {
+            return angle.Value;
         }
 
         #endregion
@@ -55,7 +80,7 @@
         /// <returns>The tangent.</returns>
         public Single Tan()
         {
-            return (Single)Math.Tan(_value);
+            return (Single)Math.Tan(Value);
         }
 
         /// <summary>
@@ -64,7 +89,7 @@
         /// <returns>The cosine.</returns>
         public Single Cos()
         {
-            return (Single)Math.Cos(_value);
+            return (Single)Math.Cos(Value);
         }
 
         /// <summary>
@@ -73,7 +98,7 @@
         /// <returns>The sine.</returns>
         public Single Sin()
         {
-            return (Single)Math.Sin(_value);
+            return (Single)Math.Sin(Value);
         }
 
         public Boolean Equals(Angle other)
@@ -107,7 +132,7 @@
 
         #endregion
 
-        #region Overrides
+        #region Equality
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -131,11 +156,24 @@
             return (Int32)_value;
         }
 
+        #endregion
+
+        #region String Representation
+
         /// <summary>
         /// Returns a string representing the angle.
         /// </summary>
         /// <returns>The unit string.</returns>
         public override String ToString()
+        {
+            return String.Concat(_value.ToString(), _unit.ToString().ToLower());
+        }
+
+        /// <summary>
+        /// Returns a CSS representation of the angle.
+        /// </summary>
+        /// <returns>The CSS value string.</returns>
+        public String ToCss()
         {
             return String.Concat(_value.ToString(CultureInfo.InvariantCulture), _unit.ToString().ToLower());
         }

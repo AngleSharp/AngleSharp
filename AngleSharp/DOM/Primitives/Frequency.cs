@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.DOM
 {
     using System;
     using System.Globalization;
@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a time value.
     /// </summary>
-    struct Frequency : IEquatable<Frequency>
+    struct Frequency : IEquatable<Frequency>, ICssObject
     {
         #region Fields
 
@@ -33,11 +33,20 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of frequency.
+        /// Gets the value of frequency in Hz.
         /// </summary>
         public Single Value
         {
-            get { return _value; }
+            get { return _unit == Unit.Khz ? _value * 1000f : _value; }
+        }
+
+        #endregion
+
+        #region Casts
+
+        public static explicit operator Single(Frequency frequency)
+        {
+            return frequency.Value;
         }
 
         #endregion
@@ -67,7 +76,7 @@
 
         #endregion
 
-        #region Overrides
+        #region Equality
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -91,11 +100,24 @@
             return (Int32)_value;
         }
 
+        #endregion
+
+        #region String Representation
+
         /// <summary>
         /// Returns a string representing the frequency.
         /// </summary>
         /// <returns>The unit string.</returns>
         public override String ToString()
+        {
+            return String.Concat(_value.ToString(), _unit.ToString().ToLower());
+        }
+
+        /// <summary>
+        /// Returns a CSS representation of the frequency.
+        /// </summary>
+        /// <returns>The CSS value string.</returns>
+        public String ToCss()
         {
             return String.Concat(_value.ToString(CultureInfo.InvariantCulture), _unit.ToString().ToLower());
         }

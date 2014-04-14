@@ -1,20 +1,19 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Gets a computed value. Could also be just an absolute or
     /// relative value.
     /// </summary>
-    abstract class CSSCalcValue : CSSPrimitiveValue
+    abstract class CSSCalcValue : CSSValue
     {
         #region Fields
 
         /// <summary>
         /// Gets a value that computes to 50% of the original dimension.
         /// </summary>
-        public static readonly CSSCalcValue Center = new Relative(0.5f);
+        public static readonly CSSCalcValue Center = new Relative(Percent.Fifty);
 
         /// <summary>
         /// Gets a value that computes to 0.
@@ -24,7 +23,7 @@
         /// <summary>
         /// Gets a value that computes to 100% of the original dimension.
         /// </summary>
-        public static readonly CSSCalcValue Full = new Relative(1f);
+        public static readonly CSSCalcValue Full = new Relative(Percent.Hundred);
 
         #endregion
 
@@ -46,7 +45,7 @@
             return new Absolute(length);
         }
 
-        public static CSSCalcValue FromPercent(Single percent)
+        public static CSSCalcValue FromPercent(Percent percent)
         {
             return new Relative(percent);
         }
@@ -62,29 +61,37 @@
             public Absolute(Length length)
             {
                 _length = length;
-                _text = length.ToString();
             }
 
             public override Single ToPixel()
             {
-                return _length.Value;
+                return _length.ToPixel();
+            }
+
+            public override String ToCss()
+            {
+                return _length.ToCss();
             }
         }
 
         sealed class Relative : CSSCalcValue
         {
-            Single _scale;
+            Percent _scale;
 
-            public Relative(Single scale)
+            public Relative(Percent scale)
             {
                 _scale = scale;
-                _text = (scale * 100f).ToString(CultureInfo.InvariantCulture) + "%";
             }
 
             public override Single ToPixel()
             {
                 //TODO require some length to set the scale
-                return _scale * 100f;
+                return _scale.Value;
+            }
+
+            public override String ToCss()
+            {
+                return _scale.ToCss();
             }
         }
 
@@ -102,6 +109,11 @@
             public override Single ToPixel()
             {
                 return _origin.ToPixel() + _shift.ToPixel();
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Calc, String.Concat(_origin.ToCss(), " + ", _shift.ToCss()));
             }
         }
 

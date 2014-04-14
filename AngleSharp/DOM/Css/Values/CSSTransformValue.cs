@@ -7,7 +7,7 @@
     /// Represents a transformation in CSS.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform#CSS_transform_functions
     /// </summary>
-    abstract class CSSTransformValue : CSSPrimitiveValue
+    abstract class CSSTransformValue : CSSValue
     {
         #region Properties
 
@@ -19,92 +19,121 @@
 
         public sealed class Matrix : CSSTransformValue
         {
-            TransformMatrix matrix;
+            TransformMatrix _matrix;
 
             public Matrix(Single m11, Single m12, Single m21, Single m22, Single tx, Single ty)
             {
-                matrix = new TransformMatrix(m11, m12, 0f, m21, m22, 0f, 0f, 0f, 1f, tx, ty, 0f);
-                _text = FunctionNames.Build(FunctionNames.Matrix, m11.ToString(CultureInfo.InvariantCulture), m12.ToString(CultureInfo.InvariantCulture), m21.ToString(CultureInfo.InvariantCulture), m22.ToString(CultureInfo.InvariantCulture), tx.ToString(CultureInfo.InvariantCulture), ty.ToString(CultureInfo.InvariantCulture));
+                _matrix = new TransformMatrix(m11, m12, 0f, m21, m22, 0f, 0f, 0f, 1f, tx, ty, 0f);
             }
 
             public override TransformMatrix ComputeMatrix()
             {
-                return matrix;
+                return _matrix;
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Matrix, _matrix.M11.ToString(CultureInfo.InvariantCulture), _matrix.M12.ToString(CultureInfo.InvariantCulture), _matrix.M21.ToString(CultureInfo.InvariantCulture), _matrix.M22.ToString(CultureInfo.InvariantCulture), _matrix.Tx.ToString(CultureInfo.InvariantCulture), _matrix.Ty.ToString(CultureInfo.InvariantCulture));
             }
         }
 
         public sealed class Matrix3D : CSSTransformValue
         {
-            TransformMatrix matrix;
+            TransformMatrix _matrix;
 
             public Matrix3D(Single m11, Single m12, Single m13, Single m21, Single m22, Single m23, Single m31, Single m32, Single m33, Single tx, Single ty, Single tz)
             {
-                matrix = new TransformMatrix(m11, m12, m13, m21, m22, m23, m31, m32, m33, tx, ty, tz);
-                _text = FunctionNames.Build(FunctionNames.Matrix3d, m11.ToString(CultureInfo.InvariantCulture), m12.ToString(CultureInfo.InvariantCulture), m13.ToString(CultureInfo.InvariantCulture), m21.ToString(CultureInfo.InvariantCulture), m22.ToString(CultureInfo.InvariantCulture), m23.ToString(CultureInfo.InvariantCulture), m31.ToString(CultureInfo.InvariantCulture), m32.ToString(CultureInfo.InvariantCulture), m33.ToString(CultureInfo.InvariantCulture), tx.ToString(CultureInfo.InvariantCulture), ty.ToString(CultureInfo.InvariantCulture), tz.ToString(CultureInfo.InvariantCulture));
+                _matrix = new TransformMatrix(m11, m12, m13, m21, m22, m23, m31, m32, m33, tx, ty, tz);
             }
 
             public override TransformMatrix ComputeMatrix()
             {
-                return matrix;
+                return _matrix;
+            }
+
+            public override String ToCss()
+            {
+                return _matrix.ToCss();
             }
         }
 
         public sealed class Translate : CSSTransformValue
         {
-            CSSCalcValue x;
-            CSSCalcValue y;
-
-            private Translate()
-            {
-                x = CSSCalcValue.Zero;
-                y = CSSCalcValue.Zero;
-            }
+            CSSCalcValue _x;
+            CSSCalcValue _y;
 
             public Translate(CSSCalcValue x, CSSCalcValue y)
             {
-                this.x = x;
-                this.y = y;
-                _text = FunctionNames.Build(FunctionNames.Translate, x.CssText, y.CssText);
-            }
-
-            public static CSSTransformValue TranslateX(CSSCalcValue dx)
-            {
-                return new Translate
-                {
-                    x = dx,
-                    _text = FunctionNames.Build(FunctionNames.TranslateX, dx.CssText)
-                };
-            }
-
-            public static CSSTransformValue TranslateY(CSSCalcValue dy)
-            {
-                return new Translate
-                {
-                    y = dy,
-                    _text = FunctionNames.Build(FunctionNames.TranslateY, dy.CssText)
-                };
+                _x = x;
+                _y = y;
             }
 
             public override TransformMatrix ComputeMatrix()
             {
-                var dx = x.ToPixel();
-                var dy = y.ToPixel();
+                var dx = _x.ToPixel();
+                var dy = _y.ToPixel();
                 return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, 0f);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Translate, _x.CssText, _y.CssText);
+            }
+        }
+
+        public sealed class TranslateX : CSSTransformValue
+        {
+            CSSCalcValue _x;
+
+            public TranslateX(CSSCalcValue x)
+            {
+                _x = x;
+            }
+
+            public override TransformMatrix ComputeMatrix()
+            {
+                var dx = _x.ToPixel();
+                return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, 0f, 0f);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.TranslateX, _x.CssText);
+            }
+        }
+
+        public sealed class TranslateY : CSSTransformValue
+        {
+            CSSCalcValue _y;
+
+            public TranslateY(CSSCalcValue y)
+            {
+                _y = y;
+            }
+
+            public override TransformMatrix ComputeMatrix()
+            {
+                var dy = _y.ToPixel();
+                return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, dy, 0f);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.TranslateY, _y.CssText);
             }
         }
 
         public sealed class Translate3D : CSSTransformValue
         {
-            CSSCalcValue x;
-            CSSCalcValue y;
-            CSSCalcValue z;
+            CSSCalcValue _x;
+            CSSCalcValue _y;
+            CSSCalcValue _z;
 
             public Translate3D(CSSCalcValue x, CSSCalcValue y, CSSCalcValue z)
             {
-                this.x = x;
-                this.y = y;
-                this.z = z;
-                _text = FunctionNames.Build(FunctionNames.Translate3d, x.CssText, y.CssText, z.CssText);
+                _x = x;
+                _y = y;
+                _z = z;
             }
 
             public static CSSTransformValue TranslateX(CSSCalcValue dx)
@@ -124,47 +153,52 @@
 
             public override TransformMatrix ComputeMatrix()
             {
-                var dx = x.ToPixel();
-                var dy = y.ToPixel();
+                var dx = _x.ToPixel();
+                var dy = _y.ToPixel();
                 return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, 0f);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Translate3d, _x.CssText, _y.CssText, _z.CssText);
             }
         }
 
         public sealed class Rotate : CSSTransformValue
         {
-            Single sina;
-            Single cosa;
+            Angle _angle;
 
             public Rotate(Angle angle)
             {
-                sina = angle.Sin();
-                cosa = angle.Cos();
-                _text = FunctionNames.Build(FunctionNames.Rotate, angle.ToString());
+                _angle = angle;
             }
 
             public override TransformMatrix ComputeMatrix()
             {
+                var sina = _angle.Sin();
+                var cosa = _angle.Cos();
                 return new TransformMatrix(cosa, sina, 0f, -sina, cosa, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Rotate, _angle.ToCss());
             }
         }
 
         public sealed class Rotate3D : CSSTransformValue
         {
-            Single sina;
-            Single cosa;
-            Single l;
-            Single m;
-            Single n;
+            Single _x;
+            Single _y;
+            Single _z;
+            Angle _angle;
 
             public Rotate3D(Single x, Single y, Single z, Angle angle)
             {
-                var norm = 1f / (Single)Math.Sqrt(x * x + y * y + z * z);
-                sina = angle.Sin();
-                cosa = angle.Cos();
-                l = x * norm;
-                m = y * norm;
-                n = z * norm;
-                _text = FunctionNames.Build(FunctionNames.Rotate3d, x.ToString(CultureInfo.InvariantCulture), y.ToString(CultureInfo.InvariantCulture), z.ToString(CultureInfo.InvariantCulture), angle.ToString());
+                _x = x;
+                _y = y;
+                _z = z;
+                _angle = angle;
             }
 
             public static Rotate3D RotateX(Angle angle)
@@ -184,6 +218,12 @@
 
             public override TransformMatrix ComputeMatrix()
             {
+                var norm = 1f / (Single)Math.Sqrt(_x * _x + _y * _y + _z * _z);
+                var sina = _angle.Sin();
+                var cosa = _angle.Cos();
+                var l = _x * norm;
+                var m = _y * norm;
+                var n = _z * norm;
                 var omc = (1f - cosa);
                 return new TransformMatrix(
                     l * l * omc + cosa, m * l * omc - n * sina, n * l * omc + m * sina,
@@ -191,68 +231,95 @@
                     l * n * omc - m * sina, m * n * omc + l * sina, n * n * omc + cosa,
                     0f, 0f, 0f);
             }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Rotate3d, _x.ToString(CultureInfo.InvariantCulture), _y.ToString(CultureInfo.InvariantCulture), _z.ToString(CultureInfo.InvariantCulture), _angle.ToCss());
+            }
         }
 
         public sealed class Scale : CSSTransformValue
         {
-            Single sx;
-            Single sy;
-
-            private Scale()
-            {
-                sx = sy = 0f;
-            }
+            Single _sx;
+            Single _sy;
 
             public Scale(Single scale)
             {
-                this.sx = scale;
-                this.sy = scale;
-                _text = FunctionNames.Build(FunctionNames.Scale, scale.ToString(CultureInfo.InvariantCulture));
+                _sx = scale;
+                _sy = scale;
             }
 
             public Scale(Single sx, Single sy)
             {
-                this.sx = sx;
-                this.sy = sy;
-                _text = FunctionNames.Build(FunctionNames.Scale, sx.ToString(CultureInfo.InvariantCulture), sy.ToString(CultureInfo.InvariantCulture));
+                _sx = sx;
+                _sy = sy;
             }
 
             public override TransformMatrix ComputeMatrix()
             {
-                return new TransformMatrix(sx, 0f, 0f, 0f, sy, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+                return new TransformMatrix(_sx, 0f, 0f, 0f, _sy, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
             }
 
-            public static Scale ScaleX(Single sx)
+            public override String ToCss()
             {
-                return new Scale
-                {
-                    sx = sx,
-                    _text = FunctionNames.Build(FunctionNames.ScaleX, sx.ToString(CultureInfo.InvariantCulture))
-                };
+                if (_sx == _sy)
+                    return FunctionNames.Build(FunctionNames.Scale, _sx.ToString(CultureInfo.InvariantCulture));
+
+                return FunctionNames.Build(FunctionNames.Scale, _sx.ToString(CultureInfo.InvariantCulture), _sy.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        public sealed class ScaleX : CSSTransformValue
+        {
+            Single _scale;
+
+            public ScaleX(Single scale)
+            {
+                _scale = scale;
             }
 
-            public static Scale ScaleY(Single sy)
+            public override TransformMatrix ComputeMatrix()
             {
-                return new Scale
-                {
-                    sy = sy,
-                    _text = FunctionNames.Build(FunctionNames.ScaleY, sy.ToString(CultureInfo.InvariantCulture))
-                };
+                return new TransformMatrix(_scale, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.ScaleX, _scale.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        public sealed class ScaleY : CSSTransformValue
+        {
+            Single _scale;
+
+            public ScaleY(Single scale)
+            {
+                _scale = scale;
+            }
+
+            public override TransformMatrix ComputeMatrix()
+            {
+                return new TransformMatrix(1f, 0f, 0f, 0f, _scale, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.ScaleY, _scale.ToString(CultureInfo.InvariantCulture));
             }
         }
 
         public sealed class Scale3D : CSSTransformValue
         {
-            Single sx;
-            Single sy;
-            Single sz;
+            Single _sx;
+            Single _sy;
+            Single _sz;
 
             public Scale3D(Single sx, Single sy, Single sz)
             {
-                this.sx = sx;
-                this.sy = sy;
-                this.sz = sz;
-                _text = FunctionNames.Build(FunctionNames.Scale3d, sx.ToString(CultureInfo.InvariantCulture), sy.ToString(CultureInfo.InvariantCulture), sz.ToString(CultureInfo.InvariantCulture));
+                _sx = sx;
+                _sy = sy;
+                _sz = sz;
             }
 
             public static Scale3D ScaleX(Single sx)
@@ -272,49 +339,78 @@
 
             public override TransformMatrix ComputeMatrix()
             {
-                return new TransformMatrix(sx, 0f, 0f, 0f, sy, 0f, 0f, 0f, sz, 0f, 0f, 0f);
+                return new TransformMatrix(_sx, 0f, 0f, 0f, _sy, 0f, 0f, 0f, _sz, 0f, 0f, 0f);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Scale3d, _sx.ToString(CultureInfo.InvariantCulture), _sy.ToString(CultureInfo.InvariantCulture), _sz.ToString(CultureInfo.InvariantCulture));
             }
         }
 
         public sealed class Skew : CSSTransformValue
         {
-            Single a;
-            Single b;
-
-            private Skew()
-            {
-                a = 0f;
-                b = 0f;
-            }
+            Angle _alpha;
+            Angle _beta;
 
             public Skew(Angle alpha, Angle beta)
             {
-                a = alpha.Tan();
-                b = beta.Tan();
-                _text = FunctionNames.Build(FunctionNames.Skew, alpha.ToString(), beta.ToString());
-            }
-
-            public static Skew SkewX(Angle angle)
-            {
-                return new Skew
-                {
-                    a = angle.Tan(),
-                    _text = FunctionNames.Build(FunctionNames.SkewX, angle.ToString())
-                };
-            }
-
-            public static Skew SkewY(Angle angle)
-            {
-                return new Skew
-                {
-                    b = angle.Tan(),
-                    _text = FunctionNames.Build(FunctionNames.SkewY, angle.ToString())
-                };
+                _alpha = alpha;
+                _beta = beta;
             }
 
             public override TransformMatrix ComputeMatrix()
             {
+                var a = _alpha.Tan();
+                var b = _beta.Tan();
                 return new TransformMatrix(1f, a, 0f, b, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Skew, _alpha.ToCss(), _beta.ToCss());
+            }
+        }
+
+        public sealed class SkewX : CSSTransformValue
+        {
+            Angle _angle;
+
+            public SkewX(Angle alpha)
+            {
+                _angle = alpha;
+            }
+
+            public override TransformMatrix ComputeMatrix()
+            {
+                var a = _angle.Tan();
+                return new TransformMatrix(1f, a, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.SkewX, _angle.ToCss());
+            }
+        }
+
+        public sealed class SkewY : CSSTransformValue
+        {
+            Angle _angle;
+
+            public SkewY(Angle beta)
+            {
+                _angle = beta;
+            }
+
+            public override TransformMatrix ComputeMatrix()
+            {
+                var b = _angle.Tan();
+                return new TransformMatrix(1f, 0f, 0f, b, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.SkewY, _angle.ToCss());
             }
         }
 

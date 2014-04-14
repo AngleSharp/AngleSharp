@@ -29,8 +29,8 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSNumberValue)
-                _value = (Int32)((CSSNumberValue)value).Value;
+            if (value is CSSPrimitiveValue<Number>)
+                _value = (Int32)((CSSPrimitiveValue<Number>)value).Value.Value;
             else if (value.Is("auto"))
                 _value = null;
             else if (value != CSSValue.Inherit)

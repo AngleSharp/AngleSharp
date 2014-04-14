@@ -29,10 +29,10 @@
             return false;
         }
 
-        public static Uri ToUri(this CSSValue value)
+        public static Location ToUri(this CSSValue value)
         {
-            if (value is CSSUriValue)
-                return ((CSSUriValue)value).Uri;
+            if (value is CSSPrimitiveValue<Location>)
+                return ((CSSPrimitiveValue<Location>)value).Value;
 
             return null;
         }
@@ -45,16 +45,16 @@
             return null;
         }
 
-        public static CSSColorValue AsColor(this CSSValue value)
+        public static CSSPrimitiveValue<Color> AsColor(this CSSValue value)
         {
-            if (value is CSSColorValue)
-                return (CSSColorValue)value;
+            if (value is CSSPrimitiveValue<Color>)
+                return (CSSPrimitiveValue<Color>)value;
             else if (value is CSSIdentifierValue)
             {
                 var color = Color.FromName(((CSSIdentifierValue)value).Value);
 
                 if (color.HasValue)
-                    return new CSSColorValue(color.Value);
+                    return new CSSPrimitiveValue<Color>(color.Value);
             }
 
             return null;
@@ -62,14 +62,14 @@
 
         public static CSSCalcValue AsCalc(this CSSValue value)
         {
-            if (value is CSSPercentValue)
-                return CSSCalcValue.FromPercent(((CSSPercentValue)value).Value);
-            else if (value is CSSLengthValue)
-                return CSSCalcValue.FromLength(((CSSLengthValue)value).Length);
-            else if (value == CSSNumberValue.Zero)
-                return CSSCalcValue.Zero;
+            if (value is CSSPrimitiveValue<Percent>)
+                return CSSCalcValue.FromPercent(((CSSPrimitiveValue<Percent>)value).Value);
+            else if (value is CSSPrimitiveValue<Length>)
+                return CSSCalcValue.FromLength(((CSSPrimitiveValue<Length>)value).Value);
             else if (value is CSSCalcValue)
                 return (CSSCalcValue)value;
+            else if (value is CSSPrimitiveValue<Number> && ((CSSPrimitiveValue<Number>)value).Value == Number.Zero)
+                return CSSCalcValue.Zero;
 
             return null;
         }
@@ -78,8 +78,8 @@
         {
             if (value is CSSImageValue)
                 return (CSSImageValue)value;
-            else if (value is CSSUriValue)
-                return CSSImageValue.FromUrl(((CSSUriValue)value).Uri);
+            else if (value is CSSPrimitiveValue<Location>)
+                return CSSImageValue.FromUrl(((CSSPrimitiveValue<Location>)value).Value);
             else if (value.Is("none"))
                 return CSSImageValue.None;
 
@@ -88,32 +88,32 @@
 
         public static Single? ToNumber(this CSSValue value)
         {
-            if (value is CSSNumberValue)
-                return ((CSSNumberValue)value).Value;
+            if (value is CSSPrimitiveValue<Number>)
+                return (Single)((CSSPrimitiveValue<Number>)value).Value;
 
             return null;
         }
 
         public static Int32? ToInteger(this CSSValue value)
         {
-            if (value is CSSNumberValue)
-                return (Byte)((CSSNumberValue)value).Value;
+            if (value is CSSPrimitiveValue<Number>)
+                return (Int32)((CSSPrimitiveValue<Number>)value).Value;
 
             return null;
         }
 
         public static Byte? ToByte(this CSSValue value)
         {
-            if (value is CSSNumberValue)
-                return (Byte)Math.Min(Math.Max(((CSSNumberValue)value).Value, 0), 255);
+            if (value is CSSPrimitiveValue<Number>)
+                return (Byte)Math.Min(Math.Max((Int32)((CSSPrimitiveValue<Number>)value).Value, 0), 255);
 
             return null;
         }
 
         public static Angle? ToAngle(this CSSValue value)
         {
-            if (value is CSSAngleValue)
-                return ((CSSAngleValue)value).Angle;
+            if (value is CSSPrimitiveValue<Angle>)
+                return ((CSSPrimitiveValue<Angle>)value).Value;
             else if (value is CSSValueList)
             {
                 var values = (CSSValueList)value;
@@ -136,9 +136,9 @@
 
         public static Length? ToLength(this CSSValue value)
         {
-            if (value is CSSLengthValue)
-                return ((CSSLengthValue)value).Length;
-            else if (value == CSSNumberValue.Zero)
+            if (value is CSSPrimitiveValue<Length>)
+                return ((CSSPrimitiveValue<Length>)value).Value;
+            else if (value is CSSPrimitiveValue<Number> && ((CSSPrimitiveValue<Number>)value).Value == Number.Zero)
                 return Length.Zero;
 
             return null;
@@ -146,9 +146,9 @@
 
         public static Length? ToBorderWidth(this CSSValue value)
         {
-            if (value is CSSLengthValue)
-                return ((CSSLengthValue)value).Length;
-            else if (value == CSSNumberValue.Zero)
+            if (value is CSSPrimitiveValue<Length>)
+                return ((CSSPrimitiveValue<Length>)value).Value;
+            else if (value is CSSPrimitiveValue<Number> && ((CSSPrimitiveValue<Number>)value).Value == Number.Zero)
                 return Length.Zero;
             else if (value is CSSIdentifierValue)
             {
@@ -167,8 +167,8 @@
 
         public static Color? ToColor(this CSSValue value)
         {
-            if (value is CSSColorValue)
-                return ((CSSColorValue)value).Color;
+            if (value is CSSPrimitiveValue<Color>)
+                return ((CSSPrimitiveValue<Color>)value).Value;
             else if (value is CSSIdentifierValue)
                 return Color.FromName(((CSSIdentifierValue)value).Value);
 

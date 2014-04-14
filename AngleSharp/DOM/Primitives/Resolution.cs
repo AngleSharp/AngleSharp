@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.DOM
 {
     using System;
     using System.Globalization;
@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a resolution value.
     /// </summary>
-    struct Resolution : IEquatable<Resolution>
+    struct Resolution : IEquatable<Resolution>, ICssObject
     {
         #region Fields
 
@@ -71,7 +71,7 @@
 
         #endregion
 
-        #region Overrides
+        #region Equality
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -95,11 +95,24 @@
             return (Int32)_value;
         }
 
+        #endregion
+
+        #region String Representation
+
         /// <summary>
         /// Returns a string representing the resolution.
         /// </summary>
         /// <returns>The unit string.</returns>
         public override String ToString()
+        {
+            return String.Concat(_value.ToString(), _unit.ToString().ToLower());
+        }
+
+        /// <summary>
+        /// Returns a CSS representation of the resolution.
+        /// </summary>
+        /// <returns>The CSS value string.</returns>
+        public String ToCss()
         {
             return String.Concat(_value.ToString(CultureInfo.InvariantCulture), _unit.ToString().ToLower());
         }

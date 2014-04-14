@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using System;
     using System.Collections.Generic;
@@ -242,7 +243,7 @@
                     _validators.Add(value => Validate(value.ToInteger()));
                 else if (type == typeof(Byte) || type == typeof(Byte?))
                     _validators.Add(value => Validate(value.ToByte()));
-                else if (type == typeof(Uri))
+                else if (type == typeof(Location))
                     _validators.Add(value => value.ToUri());
                 else if (type == typeof(String))
                     _validators.Add(value => value.ToContent());

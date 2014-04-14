@@ -6,36 +6,25 @@
     /// Represents a CSS shape.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
     /// </summary>
-    sealed class CSSShapeValue : CSSPrimitiveValue
+    sealed class CSSShapeValue : CSSValue
     {
         #region Fields
 
-        Length top;
-        Length right;
-        Length bottom;
-        Length left;
+        Length _top;
+        Length _right;
+        Length _bottom;
+        Length _left;
 
         #endregion
 
         #region ctor
 
-        public CSSShapeValue(Length all)
-            : this(all, all, all, all)
-        {
-        }
-
-        public CSSShapeValue(Length y, Length x)
-            : this(y, x, y, x)
-        {
-        }
-
         public CSSShapeValue(Length top, Length right, Length bottom, Length left)
         {
-            this.top = top;
-            this.right = right;
-            this.bottom = bottom;
-            this.left = left;
-            _text = String.Format("rect({0}, {1}, {2}, {3})", top.ToString(), right.ToString(), bottom.ToString(), left.ToString());
+            _top = top;
+            _right = right;
+            _bottom = bottom;
+            _left = left;
         }
 
         #endregion
@@ -47,7 +36,7 @@
         /// </summary>
         public Length Top
         {
-            get { return top; }
+            get { return _top; }
         }
 
         /// <summary>
@@ -55,7 +44,7 @@
         /// </summary>
         public Length Right
         {
-            get { return right; }
+            get { return _right; }
         }
 
         /// <summary>
@@ -63,7 +52,7 @@
         /// </summary>
         public Length Bottom
         {
-            get { return bottom; }
+            get { return _bottom; }
         }
 
         /// <summary>
@@ -71,7 +60,16 @@
         /// </summary>
         public Length Left
         {
-            get { return left; }
+            get { return _left; }
+        }
+
+        #endregion
+
+        #region String Representation
+
+        public override String ToCss()
+        {
+            return FunctionNames.Build(FunctionNames.Rect, _top.ToCss(), _right.ToCss(), _bottom.ToCss(), _left.ToCss());
         }
 
         #endregion

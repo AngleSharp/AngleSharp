@@ -1,13 +1,14 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
 
     /// <summary>
     /// More information about the image module:
     /// http://dev.w3.org/csswg/css-images-3/
     /// </summary>
-    abstract class CSSImageValue : CSSPrimitiveValue
+    abstract class CSSImageValue : CSSValue
     {
         #region Fields
 
@@ -17,12 +18,12 @@
 
         #region Constructors
 
-        public static CSSImageValue FromUrl(Uri uri)
+        public static CSSImageValue FromUrl(Location uri)
         {
             return new ImageSource(uri);
         }
 
-        public static CSSImageValue FromUrls(IEnumerable<Uri> uris)
+        public static CSSImageValue FromUrls(IEnumerable<Location> uris)
         {
             return new ImageSources(uris);
         }
@@ -60,6 +61,15 @@
             }
 
             #endregion
+
+            #region String Representation
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Image, _color.ToCss());
+            }
+
+            #endregion
         }
 
         /// <summary>
@@ -69,15 +79,24 @@
         {
             #region Fields
 
-            Uri _url;
+            Location _url;
 
             #endregion
 
             #region ctor
 
-            public ImageSource(Uri url)
+            public ImageSource(Location url)
             {
                 _url = url;
+            }
+
+            #endregion
+
+            #region String Representation
+
+            public override String ToCss()
+            {
+                return _url.ToCss();
             }
 
             #endregion
@@ -90,15 +109,24 @@
         {
             #region Fields
 
-            IEnumerable<Uri> _urls;
+            IEnumerable<Location> _urls;
 
             #endregion
 
             #region ctor
 
-            public ImageSources(IEnumerable<Uri> urls)
+            public ImageSources(IEnumerable<Location> urls)
             {
                 _urls = urls;
+            }
+
+            #endregion
+
+            #region String Representation
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Image, String.Join(", ", _urls.Select(m => m.ToCss())));
             }
 
             #endregion
@@ -136,6 +164,16 @@
             public Angle Angle
             {
                 get { return _angle; }
+            }
+
+            #endregion
+
+            #region String Representation
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(_repeating ? FunctionNames.RepeatingLinearGradient : FunctionNames.LinearGradient, 
+                    _angle.ToCss(), String.Join(", ", _stops));
             }
 
             #endregion
@@ -206,6 +244,17 @@
             }
 
             #endregion
+
+            #region String Representation
+
+            public override String ToCss()
+            {
+                //TODO
+                return FunctionNames.Build(_repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient,
+                    String.Join(", ", _stops));
+            }
+
+            #endregion
         }
 
         #endregion
@@ -220,14 +269,14 @@
         {
             #region Fields
 
-            CSSColorValue _color;
+            CSSPrimitiveValue<Color> _color;
             CSSCalcValue _location;
 
             #endregion
 
             #region ctor
 
-            public GradientStop(CSSColorValue color, CSSCalcValue location)
+            public GradientStop(CSSPrimitiveValue<Color> color, CSSCalcValue location)
             {
                 _color = color;
                 _location = location;
@@ -240,7 +289,7 @@
             /// <summary>
             /// Gets the color of the gradient stop.
             /// </summary>
-            public CSSColorValue Color
+            public CSSPrimitiveValue<Color> Color
             {
                 get { return _color; }
             }
@@ -251,6 +300,15 @@
             public CSSCalcValue Location
             {
                 get { return _location; }
+            }
+
+            #endregion
+
+            #region String Representation
+
+            public override String ToString()
+            {
+                return String.Concat(_color.ToCss(), " ", _location.ToCss());
             }
 
             #endregion

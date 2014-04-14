@@ -53,7 +53,7 @@
                 var attachment = new CSSValueList();
                 var origin = new CSSValueList();
                 var clip = new CSSValueList();
-                var color = new CSSColorValue(Color.Transparent) as CSSValue;
+                var color = new CSSPrimitiveValue<Color>(Color.Transparent);
                 var list = values.ToList();
 
                 for (int i = 0; i < list.Count; i++)
@@ -124,13 +124,17 @@
                             else
                                 clip.Add(new CSSIdentifierValue("border-box"));
                         }
-                        else if (!hasColor && entry[j].ToColor().HasValue)
-                        {
-                            hasColor = true;
-                            color = entry[j];
-                        }
                         else
-                            return false;
+                        {
+                            if (hasColor)
+                                return false;
+
+                            hasColor = true;
+                            color = entry[j].AsColor();
+
+                            if (color == null)
+                                return false;
+                        }
                     }
 
                     if (!hasImage)

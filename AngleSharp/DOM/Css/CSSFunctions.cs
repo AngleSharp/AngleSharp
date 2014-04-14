@@ -60,7 +60,7 @@
             if (!_functions.TryGetValue(name, out creator) || (result = creator(arguments)) == null)
             {
                 var text = String.Format("{0}({1})", name, String.Join(", ", arguments.Select(m => m.CssText)));
-                return new CSSValue(text);
+                return new CSSUnknownValue(text);
             }
 
             return result;
@@ -70,45 +70,45 @@
 
         #region Colors
 
-        static CSSColorValue Rgb(List<CSSValue> arguments)
+        static CSSPrimitiveValue<Color> Rgb(List<CSSValue> arguments)
         {
             Byte? r, g, b;
 
             if (arguments.Count == 3 && (r = arguments[0].ToByte()).HasValue && (g = arguments[1].ToByte()).HasValue && (b = arguments[2].ToByte()).HasValue)
-                return new CSSColorValue(Color.FromRgb(r.Value, g.Value, b.Value));
+                return new CSSPrimitiveValue<Color>(Color.FromRgb(r.Value, g.Value, b.Value));
 
             return null;
         }
 
-        static CSSColorValue Rgba(List<CSSValue> arguments)
+        static CSSPrimitiveValue<Color> Rgba(List<CSSValue> arguments)
         {
             Byte? r, g, b;
             Single? a;
 
             if (arguments.Count == 4 && (r = arguments[0].ToByte()).HasValue && (g = arguments[1].ToByte()).HasValue && (b = arguments[2].ToByte()).HasValue && (a = arguments[3].ToNumber()).HasValue)
-                return new CSSColorValue(Color.FromRgba(r.Value, g.Value, b.Value, a.Value));
+                return new CSSPrimitiveValue<Color>(Color.FromRgba(r.Value, g.Value, b.Value, a.Value));
 
             return null;
         }
 
-        static CSSColorValue Hsl(List<CSSValue> arguments)
+        static CSSPrimitiveValue<Color> Hsl(List<CSSValue> arguments)
         {
             const Single hnorm = 1f / 360f;
             Single? h;
 
-            if (arguments.Count == 3 && (h = arguments[0].ToNumber()).HasValue && arguments[1] is CSSPercentValue && arguments[2] is CSSPercentValue)
-                return new CSSColorValue(Color.FromHsl(h.Value * hnorm, ((CSSPercentValue)arguments[1]).Value, ((CSSPercentValue)arguments[2]).Value));
+            if (arguments.Count == 3 && (h = arguments[0].ToNumber()).HasValue && arguments[1] is CSSPrimitiveValue<Percent> && arguments[2] is CSSPrimitiveValue<Percent>)
+                return new CSSPrimitiveValue<Color>(Color.FromHsl(h.Value * hnorm, ((CSSPrimitiveValue<Percent>)arguments[1]).Value.Value, ((CSSPrimitiveValue<Percent>)arguments[2]).Value.Value));
 
             return null;
         }
 
-        static CSSColorValue Hsla(List<CSSValue> arguments)
+        static CSSPrimitiveValue<Color> Hsla(List<CSSValue> arguments)
         {
             const Single hnorm = 1f / 360f;
             Single? h, a;
 
-            if (arguments.Count == 4 && (h = arguments[0].ToNumber()).HasValue && arguments[1] is CSSPercentValue && arguments[2] is CSSPercentValue && (a = arguments[3].ToNumber()).HasValue)
-                return new CSSColorValue(Color.FromHsla(h.Value * hnorm, ((CSSPercentValue)arguments[1]).Value, ((CSSPercentValue)arguments[2]).Value, a.Value));
+            if (arguments.Count == 4 && (h = arguments[0].ToNumber()).HasValue && arguments[1] is CSSPrimitiveValue<Percent> && arguments[2] is CSSPrimitiveValue<Percent> && (a = arguments[3].ToNumber()).HasValue)
+                return new CSSPrimitiveValue<Color>(Color.FromHsla(h.Value * hnorm, ((CSSPrimitiveValue<Percent>)arguments[1]).Value.Value, ((CSSPrimitiveValue<Percent>)arguments[2]).Value.Value, a.Value));
 
             return null;
         }
@@ -145,12 +145,12 @@
 
                 if (stops.Length > 1)
                 {
-                    var perStop = 1f / (arguments.Count - offset - 1);
+                    var perStop = 100f / (arguments.Count - offset - 1);
 
                     for (int i = offset, k = 0; i < arguments.Count; i++, k++)
                     {
-                        var color = CSSColorValue.Transparent;
-                        var location = CSSCalcValue.FromPercent(perStop * k);
+                        CSSPrimitiveValue<Color> color = null;
+                        var location = CSSCalcValue.FromPercent(new Percent(perStop * k));
 
                         if (arguments[i] is CSSValueList)
                         {
@@ -204,7 +204,7 @@
             if (arguments.Count == 0)
                 return null;
 
-            var imageList = new List<Uri>();
+            var imageList = new List<Location>();
 
             foreach (var argument in arguments)
             {
@@ -213,7 +213,7 @@
                 if (uri == null)
                 {
                     if (argument is CSSStringValue)
-                        uri = new Uri(((CSSStringValue)argument).Value, UriKind.RelativeOrAbsolute);
+                        uri = new Location(((CSSStringValue)argument).Value);
                     else
                         return null;
                 }
@@ -307,7 +307,7 @@
         static CSSTransformValue Translate(List<CSSValue> arguments)
         {
             if (arguments.Count == 1)
-                arguments.Add(new CSSLengthValue(Length.Zero));
+                arguments.Add(new CSSPrimitiveValue<Length>(Length.Zero));
 
             if (arguments.Count == 2)
             {
@@ -324,10 +324,10 @@
         static CSSTransformValue Translate3d(List<CSSValue> arguments)
         {
             if (arguments.Count == 1)
-                arguments.Add(new CSSLengthValue(Length.Zero));
+                arguments.Add(new CSSPrimitiveValue<Length>(Length.Zero));
 
             if (arguments.Count == 2)
-                arguments.Add(new CSSLengthValue(Length.Zero));
+                arguments.Add(new CSSPrimitiveValue<Length>(Length.Zero));
 
             if (arguments.Count == 3)
             {
@@ -349,7 +349,7 @@
                 var dx = arguments[0].AsCalc();
 
                 if (dx != null)
-                    return CSSTransformValue.Translate.TranslateX(dx);
+                    return new CSSTransformValue.TranslateX(dx);
             }
 
             return null;
@@ -362,7 +362,7 @@
                 var dy = arguments[0].AsCalc();
 
                 if (dy != null)
-                    return CSSTransformValue.Translate.TranslateY(dy);
+                    return new CSSTransformValue.TranslateY(dy);
             }
 
             return null;
@@ -433,7 +433,7 @@
                 var sx = arguments[0].ToNumber();
 
                 if (sx.HasValue)
-                    return CSSTransformValue.Scale.ScaleX(sx.Value);
+                    return new CSSTransformValue.ScaleX(sx.Value);
             }
 
             return null;
@@ -446,7 +446,7 @@
                 var dy = arguments[0].ToNumber();
 
                 if (dy.HasValue)
-                    return CSSTransformValue.Scale.ScaleY(dy.Value);
+                    return new CSSTransformValue.ScaleY(dy.Value);
             }
 
             return null;
@@ -597,7 +597,7 @@
                 var angle = arguments[0].ToAngle();
 
                 if (angle.HasValue)
-                    return CSSTransformValue.Skew.SkewX(angle.Value);
+                    return new CSSTransformValue.SkewX(angle.Value);
             }
 
             return null;
@@ -610,7 +610,7 @@
                 var angle = arguments[0].ToAngle();
 
                 if (angle.HasValue)
-                    return CSSTransformValue.Skew.SkewY(angle.Value);
+                    return new CSSTransformValue.SkewY(angle.Value);
             }
 
             return null;

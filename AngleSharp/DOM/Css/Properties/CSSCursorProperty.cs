@@ -106,11 +106,11 @@
         /// </summary>
         sealed class CustomCursorMode : CursorMode
         {
-            Uri _url;
+            Location _url;
             Single _x;
             Single _y;
 
-            public CustomCursorMode(Uri url, Single? x = null, Single? y = null)
+            public CustomCursorMode(Location url, Single? x = null, Single? y = null)
             {
                 _url = url;
                 _x = x ?? 0f;

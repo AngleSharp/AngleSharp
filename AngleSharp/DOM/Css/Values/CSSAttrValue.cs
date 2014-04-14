@@ -6,7 +6,7 @@
     /// More information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/attr
     /// </summary>
-    sealed class CSSAttrValue : CSSPrimitiveValue
+    sealed class CSSAttrValue : CSSValue
     {
         #region Fields
 
@@ -18,7 +18,6 @@
 
         public CSSAttrValue(String name)
         {
-            _text = String.Concat("attr(", name, ")");
             _name = name;
         }
 
@@ -32,6 +31,19 @@
         public String Name
         {
             get { return _name; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns a CSS code representation of the stylesheet.
+        /// </summary>
+        /// <returns>A string that contains the code.</returns>
+        public override String ToCss()
+        {
+            return FunctionNames.Build(FunctionNames.Attr,  _name);
         }
 
         #endregion

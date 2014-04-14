@@ -1,11 +1,13 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.DOM;
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Represents a transformation matrix value.
     /// </summary>
-    struct TransformMatrix : IEquatable<TransformMatrix>
+    struct TransformMatrix : IEquatable<TransformMatrix>, ICssObject
     {
         #region Fields
 
@@ -65,6 +67,70 @@
             _tx = tx;
             _ty = ty;
             _tz = tz;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public Single M11
+        {
+            get { return _m11; }
+        }
+
+        public Single M12
+        {
+            get { return _m12; }
+        }
+
+        public Single M13
+        {
+            get { return _m13; }
+        }
+
+        public Single M21
+        {
+            get { return _m21; }
+        }
+
+        public Single M22
+        {
+            get { return _m22; }
+        }
+
+        public Single M23
+        {
+            get { return _m23; }
+        }
+
+        public Single M31
+        {
+            get { return _m31; }
+        }
+
+        public Single M32
+        {
+            get { return _m32; }
+        }
+
+        public Single M33
+        {
+            get { return _m33; }
+        }
+
+        public Single Tx
+        {
+            get { return _tx; }
+        }
+
+        public Single Ty
+        {
+            get { return _ty; }
+        }
+
+        public Single Tz
+        {
+            get { return _tz; }
         }
 
         #endregion
@@ -131,6 +197,15 @@
         public override Int32 GetHashCode()
         {
             return (Int32)(_m11 + _m12 + _m13 + _m21 + _m22 + _m23 + _m31 + _m32 + _m33 + _tx + _ty + _tz);
+        }
+
+        #endregion
+
+        #region String Representation
+
+        public String ToCss()
+        {
+            return FunctionNames.Build(FunctionNames.Matrix3d, _m11.ToString(CultureInfo.InvariantCulture), _m12.ToString(CultureInfo.InvariantCulture), _m13.ToString(CultureInfo.InvariantCulture), _m21.ToString(CultureInfo.InvariantCulture), _m22.ToString(CultureInfo.InvariantCulture), _m23.ToString(CultureInfo.InvariantCulture), _m31.ToString(CultureInfo.InvariantCulture), _m32.ToString(CultureInfo.InvariantCulture), _m33.ToString(CultureInfo.InvariantCulture), _tx.ToString(CultureInfo.InvariantCulture), _ty.ToString(CultureInfo.InvariantCulture), _tz.ToString(CultureInfo.InvariantCulture));
         }
 
         #endregion

@@ -158,9 +158,9 @@
         /// </summary>
         sealed class UrlContentMode : ContentMode
         {
-            Uri _url;
+            CSSPrimitiveValue<Location> _url;
 
-            public UrlContentMode(Uri url)
+            public UrlContentMode(CSSPrimitiveValue<Location> url)
             {
                 _url = url;
             }

@@ -29,15 +29,10 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSNumberValue)
-            {
-                var num = (Int32)((CSSNumberValue)value).Value;
+            var num = value.ToInteger();
 
-                if (num < 0)
-                    return false;
-
-                _value = num;
-            }
+            if (num.HasValue && num.Value >= 0)
+                _value = num.Value;
             else if (value != CSSValue.Inherit)
                 return false;
 

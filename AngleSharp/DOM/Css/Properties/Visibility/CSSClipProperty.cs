@@ -10,8 +10,7 @@
     {
         #region Fields
 
-        static readonly AutoClipMode _auto = new AutoClipMode();
-        ClipMode _mode;
+        CSSShapeValue _shape;
 
         #endregion
 
@@ -20,7 +19,7 @@
         public CSSClipProperty()
             : base(PropertyNames.Clip)
         {
-            _mode = _auto;
+            _shape = null;
             _inherited = false;
         }
 
@@ -30,45 +29,16 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSShapeValue)
-            {
-                var shape = (CSSShapeValue)value;
-                _mode = new CustomClipMode(shape.Top, shape.Right, shape.Bottom, shape.Left);
-            }
-            else if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("auto", StringComparison.OrdinalIgnoreCase))
-                _mode = _auto;
+            var shape = value as CSSShapeValue;
+
+            if (shape != null)
+                _shape = shape;
+            else if (value.Is("auto"))
+                _shape = null;
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Nested
-
-        abstract class ClipMode
-        {
-            //TODO Members that make sense
-        }
-
-        sealed class AutoClipMode : ClipMode
-        { }
-
-        sealed class CustomClipMode : ClipMode
-        {
-            Length _top;
-            Length _right;
-            Length _bottom;
-            Length _left;
-
-            public CustomClipMode(Length top, Length right, Length bottom, Length left)
-            {
-                _top = top;
-                _right = right;
-                _bottom = bottom;
-                _left = left;
-            }
         }
 
         #endregion

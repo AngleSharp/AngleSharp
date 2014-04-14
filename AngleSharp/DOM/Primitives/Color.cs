@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.DOM
 {
     using System;
     using System.Globalization;
@@ -8,7 +8,7 @@
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    struct Color : IEquatable<Color>
+    struct Color : IEquatable<Color>, ICssObject
     {
         #region Basic colors
 
@@ -331,7 +331,7 @@
 
         #endregion
 
-        #region Operators
+        #region Equality
 
         public static Boolean operator ==(Color a, Color b)
         {
@@ -343,9 +343,15 @@
             return a.hashcode != b.hashcode;
         }
 
-        #endregion
-
-        #region Overrides
+        /// <summary>
+        /// Checks two colors for equality.
+        /// </summary>
+        /// <param name="other">The other color.</param>
+        /// <returns>True if both colors or equal, otherwise false.</returns>
+        public Boolean Equals(Color other)
+        {
+            return this.hashcode == other.hashcode;
+        }
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -367,15 +373,6 @@
         public override Int32 GetHashCode()
         {
             return hashcode;
-        }
-
-        /// <summary>
-        /// Returns a string representing the color.
-        /// </summary>
-        /// <returns>The RGBA string.</returns>
-        public override String ToString()
-        {
-            return String.Concat("rgba(", red.ToString(), ", ", green.ToString(), ", ", blue.ToString(), ", ", Alpha.ToString("0.##", CultureInfo.InvariantCulture), ")");
         }
 
         #endregion
@@ -437,16 +434,24 @@
 
         #endregion
 
-        #region Implementing Interface
+        #region String Representation
 
         /// <summary>
-        /// Checks two colors for equality.
+        /// Returns a string representing the color in ARGB hex.
         /// </summary>
-        /// <param name="other">The other color.</param>
-        /// <returns>True if both colors or equal, otherwise false.</returns>
-        public Boolean Equals(Color other)
+        /// <returns>The ARGB string.</returns>
+        public override String ToString()
         {
-            return this.hashcode == other.hashcode;
+            return String.Concat("#", Alpha.ToString("X2"), red.ToString("X2"), green.ToString("X2"), blue.ToString("X2"));
+        }
+
+        /// <summary>
+        /// Returns a CSS representation of the length.
+        /// </summary>
+        /// <returns>The CSS value string.</returns>
+        public String ToCss()
+        {
+            return FunctionNames.Build(FunctionNames.Rgba, red.ToString(), green.ToString(), blue.ToString(), Alpha.ToString("0.##", CultureInfo.InvariantCulture));
         }
 
         #endregion

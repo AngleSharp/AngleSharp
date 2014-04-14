@@ -29,15 +29,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSNumberValue)
-            {
-                _value = ((CSSNumberValue)value).Value;
-                return true;
-            }
-            else if (value == CSSValue.Inherit)
-                return true;
+            var num = value.ToNumber();
 
-            return false;
+            if (num.HasValue)
+                _value = num.Value;
+            else if (value != CSSValue.Inherit)
+                return false;
+
+            return true;
         }
 
         #endregion

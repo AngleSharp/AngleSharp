@@ -6,13 +6,20 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/user-ident
     /// </summary>
-    sealed class CSSIdentifierValue : CSSPrimitiveValue
+    sealed class CSSIdentifierValue : CSSValue
     {
+        #region Fields
+
+        String _token;
+
+        #endregion
+
         #region ctor
 
         public CSSIdentifierValue(String token)
         {
-            _text = token;
+            _token = token;
+            _type = CssValueType.PrimitiveValue;
         }
 
         #endregion
@@ -24,7 +31,16 @@
         /// </summary>
         public String Value
         {
-            get { return _text; }
+            get { return _token; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override String ToCss()
+        {
+            return _token;
         }
 
         #endregion

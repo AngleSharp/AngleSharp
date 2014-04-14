@@ -7,7 +7,7 @@
     /// A location object with information about a URL.
     /// </summary>
     [DOM("Location")]
-    public sealed class Location
+    public sealed class Location : ICssObject
     {
         #region Regular expression
 
@@ -158,6 +158,15 @@
         public Uri ToUri()
         {
             return new Uri(_url);
+        }
+
+        /// <summary>
+        /// Returns the CSS representation of the given URL.
+        /// </summary>
+        /// <returns>The CSS value string.</returns>
+        public String ToCss()
+        {
+            return FunctionNames.Build(FunctionNames.Url, String.Concat("'", _url, "'"));
         }
 
         /// <summary>
