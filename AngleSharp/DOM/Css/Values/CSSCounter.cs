@@ -6,9 +6,9 @@
     {
         #region Fields
 
-        String identifier;
-        String listStyle;
-        String separator;
+        String _identifier;
+        String _listStyle;
+        String _separator;
 
         #endregion
 
@@ -16,9 +16,9 @@
 
         public CSSCounter(String identifier, String listStyle, String separator)
         {
-            this.identifier = identifier;
-            this.listStyle = listStyle;
-            this.separator = separator;
+            _identifier = identifier;
+            _listStyle = listStyle;
+            _separator = separator;
         }
 
         #endregion
@@ -27,17 +27,17 @@
 
         public String CounterIdentifier
         {
-            get { return identifier; }
+            get { return _identifier; }
         }
 
         public String ListStyle
         {
-            get { return listStyle; }
+            get { return _listStyle; }
         }
 
         public String DefinedSeparator
         {
-            get { return separator; }
+            get { return _separator; }
         }
 
         #endregion
