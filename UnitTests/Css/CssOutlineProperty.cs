@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AngleSharp.Parser.Css;
-using AngleSharp.DOM.Css.Properties;
+﻿using AngleSharp.DOM;
 using AngleSharp.DOM.Css;
-using AngleSharp;
+using AngleSharp.DOM.Css.Properties;
+using AngleSharp.Parser.Css;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Css
 {
@@ -170,9 +169,9 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0.1em", concrete.Value.CssText);
-            Assert.IsInstanceOfType(concrete.Value, typeof(CSSLengthValue));
-            var length = (CSSLengthValue)concrete.Value;
-            Assert.AreEqual(new Length(0.1f, Length.Unit.Em), length.Length);
+            Assert.IsInstanceOfType(concrete.Value, typeof(CSSPrimitiveValue<Length>));
+            var length = (CSSPrimitiveValue<Length>)concrete.Value;
+            Assert.AreEqual(new Length(0.1f, Length.Unit.Em), length.Value);
         }
 
         [TestMethod]

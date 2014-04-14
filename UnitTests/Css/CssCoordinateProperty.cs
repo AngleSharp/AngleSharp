@@ -1,4 +1,4 @@
-﻿using AngleSharp;
+﻿using AngleSharp.DOM;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Css.Properties;
 using AngleSharp.Parser.Css;
@@ -21,9 +21,9 @@ namespace UnitTests.Css
             var concrete = (CSSHeightProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("28%", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSPercentValue));
+            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue<Percent>));
         }
 
         [TestMethod]
@@ -38,9 +38,9 @@ namespace UnitTests.Css
             var concrete = (CSSHeightProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("0.3em", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSLengthValue));
+            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue<Length>));
         }
 
         [TestMethod]
@@ -55,9 +55,9 @@ namespace UnitTests.Css
             var concrete = (CSSHeightProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("144px", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSLengthValue));
+            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue<Length>));
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace UnitTests.Css
             var concrete = (CSSHeightProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("AUTO", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -89,9 +89,9 @@ namespace UnitTests.Css
             var concrete = (CSSWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("0.5cm", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSLengthValue));
+            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue<Length>));
         }
 
         [TestMethod]
@@ -106,9 +106,9 @@ namespace UnitTests.Css
             var concrete = (CSSWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("1.5mm", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSLengthValue));
+            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue<Length>));
         }
 
         [TestMethod]
@@ -137,8 +137,8 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CSSLengthValue)concrete.Value;
-            Assert.AreEqual(new Length(25f, Length.Unit.Px), value.Length);
+            var value = (CSSPrimitiveValue<Length>)concrete.Value;
+            Assert.AreEqual(new Length(25f, Length.Unit.Px), value.Value);
         }
 
         [TestMethod]
@@ -153,8 +153,8 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CSSLengthValue)concrete.Value;
-            Assert.AreEqual(new Length(0.7f, Length.Unit.Em), value.Length);
+            var value = (CSSPrimitiveValue<Length>)concrete.Value;
+            Assert.AreEqual(new Length(0.7f, Length.Unit.Em), value.Value);
         }
 
         [TestMethod]
@@ -169,8 +169,8 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CSSLengthValue)concrete.Value;
-            Assert.AreEqual(new Length(1.5f, Length.Unit.Mm), value.Length);
+            var value = (CSSPrimitiveValue<Length>)concrete.Value;
+            Assert.AreEqual(new Length(1.5f, Length.Unit.Mm), value.Value);
         }
 
         [TestMethod]
@@ -185,8 +185,8 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CSSPercentValue)concrete.Value;
-            Assert.AreEqual(0.50f, value.Value);
+            var value = (CSSPrimitiveValue<Percent>)concrete.Value;
+            Assert.AreEqual(new Percent(50f), value.Value);
         }
 
         [TestMethod]
@@ -201,8 +201,8 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CSSNumberValue)concrete.Value;
-            Assert.AreEqual(0f, value.Value);
+            var value = (CSSPrimitiveValue<Number>)concrete.Value;
+            Assert.AreEqual(new Number(), value.Value);
         }
 
         [TestMethod]
@@ -217,8 +217,8 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CSSNumberValue)concrete.Value;
-            Assert.AreEqual(0f, value.Value);
+            var value = (CSSPrimitiveValue<Number>)concrete.Value;
+            Assert.AreEqual(new Number(), value.Value);
         }
 
         [TestMethod]
@@ -233,8 +233,8 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CSSPercentValue)concrete.Value;
-            Assert.AreEqual(0.205f, value.Value);
+            var value = (CSSPrimitiveValue<Percent>)concrete.Value;
+            Assert.AreEqual(new Percent(20.5f), value.Value);
         }
 
         [TestMethod]
@@ -248,8 +248,8 @@ namespace UnitTests.Css
             var concrete = (CSSWidthProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSLengthValue)concrete.Value;
-            Assert.AreEqual(new Length(3f, Length.Unit.In), value.Length);
+            var value = (CSSPrimitiveValue<Length>)concrete.Value;
+            Assert.AreEqual(new Length(3f, Length.Unit.In), value.Value);
         }
 
         [TestMethod]
@@ -290,8 +290,8 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CSSLengthValue)concrete.Value;
-            Assert.AreEqual(new Length(1.2f, Length.Unit.Rem), value.Length);
+            var value = (CSSPrimitiveValue<Length>)concrete.Value;
+            Assert.AreEqual(new Length(1.2f, Length.Unit.Rem), value.Value);
         }
 
         [TestMethod]
@@ -306,8 +306,8 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CSSLengthValue)concrete.Value;
-            Assert.AreEqual(new Length(0.5f, Length.Unit.Cm), value.Length);
+            var value = (CSSPrimitiveValue<Length>)concrete.Value;
+            Assert.AreEqual(new Length(0.5f, Length.Unit.Cm), value.Value);
         }
 
         [TestMethod]
@@ -322,8 +322,8 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CSSPercentValue)concrete.Value;
-            Assert.AreEqual(0.0050f, value.Value);
+            var value = (CSSPrimitiveValue<Percent>)concrete.Value;
+            Assert.AreEqual(new Percent(0.5f), value.Value);
         }
 
         [TestMethod]
@@ -338,8 +338,8 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CSSNumberValue)concrete.Value;
-            Assert.AreEqual(0f, value.Value);
+            var value = (CSSPrimitiveValue<Number>)concrete.Value;
+            Assert.AreEqual(new Number(), value.Value);
         }
 
         [TestMethod]
@@ -368,8 +368,8 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CSSNumberValue)concrete.Value;
-            Assert.AreEqual(0f, value.Value);
+            var value = (CSSPrimitiveValue<Number>)concrete.Value;
+            Assert.AreEqual(new Number(), value.Value);
         }
 
         [TestMethod]

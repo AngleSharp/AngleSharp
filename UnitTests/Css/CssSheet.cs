@@ -1,7 +1,7 @@
-﻿using AngleSharp.Parser.Css;
+﻿using AngleSharp.DOM;
 using AngleSharp.DOM.Css;
+using AngleSharp.Parser.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AngleSharp;
 
 namespace UnitTests
 {
@@ -124,7 +124,7 @@ namespace UnitTests
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
-            var color = ((CSSColorValue)value).Color;
+            var color = ((CSSPrimitiveValue<Color>)value).Value;
             Assert.AreEqual(new Color(0, 0, 0), color);
         }
 
@@ -135,7 +135,7 @@ namespace UnitTests
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
-            var color = ((CSSColorValue)value).Color;
+            var color = ((CSSPrimitiveValue<Color>)value).Value;
             Assert.AreEqual(new Color(255, 0, 0), color);
         }
 
@@ -146,7 +146,7 @@ namespace UnitTests
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
-            var color = ((CSSColorValue)value).Color;
+            var color = ((CSSPrimitiveValue<Color>)value).Value;
             Assert.AreEqual(new Color(0, 119, 204), color);
         }
 
@@ -157,7 +157,7 @@ namespace UnitTests
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
-            var color = ((CSSColorValue)value).Color;
+            var color = ((CSSPrimitiveValue<Color>)value).Value;
             Assert.AreEqual(new Color(0, 0, 255), color);
         }
 
@@ -168,7 +168,7 @@ namespace UnitTests
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.PrimitiveValue, value.CssValueType);
-            var color = ((CSSColorValue)value).Color;
+            var color = ((CSSPrimitiveValue<Color>)value).Value;
             Assert.AreEqual(new Color(255, 0, 0), color);
         }
 
@@ -184,7 +184,7 @@ namespace UnitTests
             Assert.IsFalse(prop.Important);
             Assert.AreEqual(CssValueType.PrimitiveValue, prop.Value.CssValueType);
 
-            var color = ((CSSColorValue)prop.Value).Color;
+            var color = ((CSSPrimitiveValue<Color>)prop.Value).Value;
             Assert.AreEqual(new Color(82, 168, 236, 0.8f), color);
         }
 
@@ -316,7 +316,7 @@ namespace UnitTests
             var content = decl.Get(0);
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.Important);
-            Assert.AreEqual(CssValueType.PrimitiveValue, content.Value.CssValueType);
+            Assert.AreEqual(CssValueType.Custom, content.Value.CssValueType);
         }
 
         [TestMethod]
@@ -379,7 +379,7 @@ namespace UnitTests
             var transform = decl.Get(0);
             Assert.AreEqual("transform", transform.Name);
             Assert.IsFalse(transform.Important);
-            Assert.AreEqual(CssValueType.PrimitiveValue, transform.Value.CssValueType);
+            Assert.AreEqual(CssValueType.Custom, transform.Value.CssValueType);
         }
 
         [TestMethod]

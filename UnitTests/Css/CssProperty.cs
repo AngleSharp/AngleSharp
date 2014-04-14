@@ -21,7 +21,7 @@ namespace UnitTests.Css
             var concrete = (CSSBreakAfterProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("avoid", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -38,7 +38,7 @@ namespace UnitTests.Css
             var concrete = (CSSPageBreakAfterProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("avoid", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -55,7 +55,7 @@ namespace UnitTests.Css
             var concrete = (CSSBreakAfterProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("Page", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -86,7 +86,7 @@ namespace UnitTests.Css
             var concrete = (CSSBreakAfterProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("avoid-column", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -103,7 +103,7 @@ namespace UnitTests.Css
             var concrete = (CSSBreakBeforeProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("AUTO", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -120,7 +120,7 @@ namespace UnitTests.Css
             var concrete = (CSSPageBreakBeforeProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("AUTO", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -137,7 +137,7 @@ namespace UnitTests.Css
             var concrete = (CSSPageBreakBeforeProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("left", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -180,7 +180,7 @@ namespace UnitTests.Css
             var concrete = (CSSBreakInsideProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("avoid-REGION", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -197,7 +197,7 @@ namespace UnitTests.Css
             var concrete = (CSSPageBreakInsideProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("avoid", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -214,7 +214,7 @@ namespace UnitTests.Css
             var concrete = (CSSPageBreakInsideProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("AUTO", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -231,7 +231,7 @@ namespace UnitTests.Css
             var concrete = (CSSClearProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("left", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -248,7 +248,7 @@ namespace UnitTests.Css
             var concrete = (CSSClearProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("both", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -291,7 +291,7 @@ namespace UnitTests.Css
             var concrete = (CSSPositionProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("absolute", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -308,7 +308,7 @@ namespace UnitTests.Css
             var concrete = (CSSDisplayProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("block", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -325,7 +325,7 @@ namespace UnitTests.Css
             var concrete = (CSSVisibilityProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsTrue(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("collapse", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -342,7 +342,7 @@ namespace UnitTests.Css
             var concrete = (CSSVisibilityProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsTrue(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("HIDDEN", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -359,7 +359,7 @@ namespace UnitTests.Css
             var concrete = (CSSOverflowProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("auto", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -376,7 +376,7 @@ namespace UnitTests.Css
             var concrete = (CSSTableLayoutProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("fiXed", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -464,7 +464,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSClipProperty));
             var concrete = (CSSClipProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.Custom, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("rect(2px, 3em, 1in, 0)", concrete.Value.CssText);
@@ -479,7 +479,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSClipProperty));
             var concrete = (CSSClipProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.Custom, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("rect(2px, 3em, 1in, 0)", concrete.Value.CssText);
@@ -494,7 +494,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSClipProperty));
             var concrete = (CSSClipProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.Custom, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("rect(0, 0, 0, 0)", concrete.Value.CssText);

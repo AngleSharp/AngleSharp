@@ -1,4 +1,5 @@
-﻿using AngleSharp.DOM.Css;
+﻿using AngleSharp.DOM;
+using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Css.Properties;
 using AngleSharp.Parser.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -81,7 +82,7 @@ namespace UnitTests.Css
             var concrete = (CSSTextAlignProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsTrue(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("justify", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
         }
@@ -98,11 +99,11 @@ namespace UnitTests.Css
             var concrete = (CSSTextAlignProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsTrue(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("justify", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
             concrete.Value = new CSSIdentifierValue("left");
-            value = (CSSPrimitiveValue)concrete.Value;
+            value = concrete.Value;
             Assert.AreEqual("left", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
             concrete.Value = new CSSIdentifierValue("whatever");
@@ -121,9 +122,9 @@ namespace UnitTests.Css
             var concrete = (CSSTextIndentProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsTrue(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("3em", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSLengthValue));
+            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue<Length>));
         }
 
         [TestMethod]
@@ -138,9 +139,9 @@ namespace UnitTests.Css
             var concrete = (CSSTextIndentProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsTrue(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("0", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSNumberValue));
+            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue<Number>));
         }
 
         [TestMethod]
@@ -155,9 +156,9 @@ namespace UnitTests.Css
             var concrete = (CSSTextIndentProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsTrue(concrete.IsInherited);
-            var value = (CSSPrimitiveValue)concrete.Value;
+            var value = concrete.Value;
             Assert.AreEqual("10%", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSPercentValue));
+            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue<Percent>));
         }
 
         [TestMethod]
