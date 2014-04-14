@@ -70,12 +70,12 @@
             if (value.Is("left"))
             {
                 horizontal = CSSCalcValue.Zero;
-                shift = values[index + 1].ToCalc();
+                shift = values[index + 1].AsCalc();
             }
             else if (value.Is("right"))
             {
                 horizontal = CSSCalcValue.Full;
-                shift = values[index + 1].ToCalc();
+                shift = values[index + 1].AsCalc();
             }
             else if (!value.Is("center"))
                 return false;
@@ -94,14 +94,14 @@
                 vertical = CSSCalcValue.Zero;
 
                 if (index + 1 < values.Length)
-                    shift = values[index + 1].ToCalc();
+                    shift = values[index + 1].AsCalc();
             }
             else if (value.Is("bottom"))
             {
                 vertical = CSSCalcValue.Full;
 
                 if (index + 1 < values.Length)
-                    shift = values[index + 1].ToCalc();
+                    shift = values[index + 1].AsCalc();
             }
             else if (!value.Is("center"))
                 return false;
@@ -118,8 +118,8 @@
 
         static Boolean Check(CSSValue left, CSSValue right, ref Position position)
         {
-            var horizontal = left.ToCalc();
-            var vertical = right.ToCalc();
+            var horizontal = left.AsCalc();
+            var vertical = right.AsCalc();
 
             if (horizontal == null)
             {
@@ -171,7 +171,7 @@
 
         static Boolean Check(CSSValue value, ref Position position)
         {
-            var calc = value.ToCalc();
+            var calc = value.AsCalc();
 
             if (calc != null)
                 position.X = calc;

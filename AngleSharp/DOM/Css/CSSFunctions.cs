@@ -19,6 +19,11 @@
             _functions.Add(FunctionNames.Hsla, Hsla);
             _functions.Add(FunctionNames.Rect, Rect);
             _functions.Add(FunctionNames.Attr, Attr);
+            _functions.Add(FunctionNames.LinearGradient, LinearGradient);
+            _functions.Add(FunctionNames.RadialGradient, RadialGradient);
+            _functions.Add(FunctionNames.RepeatingLinearGradient, RepeatingLinearGradient);
+            _functions.Add(FunctionNames.RepeatingRadialGradient, RepeatingRadialGradient);
+            _functions.Add(FunctionNames.Image, Image);
             _functions.Add(FunctionNames.Matrix, Matrix);
             _functions.Add(FunctionNames.Matrix3d, Matrix3d);
             _functions.Add(FunctionNames.Translate, Translate);
@@ -63,7 +68,7 @@
 
         #endregion
 
-        #region Creators
+        #region Colors
 
         static CSSColorValue Rgb(List<CSSValue> arguments)
         {
@@ -108,12 +113,125 @@
             return null;
         }
 
+        #endregion
+
+        #region Images
+
+        static CSSImageValue LinearGradient(List<CSSValue> arguments)
+        {
+            return GeneralLinearGradient(arguments, false);
+        }
+
+        static CSSImageValue RepeatingLinearGradient(List<CSSValue> arguments)
+        {
+            return GeneralLinearGradient(arguments, true);
+        }
+
+        static CSSImageValue GeneralLinearGradient(List<CSSValue> arguments, Boolean repeating)
+        {
+            if (arguments.Count > 1)
+            {
+                var direction = Angle.Zero;
+                var angle = arguments[0].ToAngle();
+                var offset = 0;
+
+                if (angle.HasValue)
+                {
+                    direction = angle.Value;
+                    offset++;
+                }
+
+                var stops = new CSSImageValue.GradientStop[arguments.Count - offset];
+
+                if (stops.Length > 1)
+                {
+                    var perStop = 1f / (arguments.Count - offset - 1);
+
+                    for (int i = offset, k = 0; i < arguments.Count; i++, k++)
+                    {
+                        var color = CSSColorValue.Transparent;
+                        var location = CSSCalcValue.FromPercent(perStop * k);
+
+                        if (arguments[i] is CSSValueList)
+                        {
+                            var list = (CSSValueList)arguments[i];
+
+                            if (list.Length != 2)
+                                return null;
+
+                            color = list[0].AsColor();
+                            location = list[1].AsCalc();
+                        }
+                        else
+                            color = arguments[i].AsColor();
+
+                        if (color == null || location == null)
+                            return null;
+
+                        stops[k] = new CSSImageValue.GradientStop(color, location);
+                    }
+
+                    return CSSImageValue.FromLinearGradient(direction, repeating, stops);
+                }
+            }
+
+            return null;
+        }
+
+        static CSSImageValue RadialGradient(List<CSSValue> arguments)
+        {
+            return GeneralRadialGradient(arguments, false);
+        }
+
+        static CSSImageValue RepeatingRadialGradient(List<CSSValue> arguments)
+        {
+            return GeneralRadialGradient(arguments, true);
+        }
+
+        static CSSImageValue GeneralRadialGradient(List<CSSValue> arguments, Boolean repeating)
+        {
+            if (arguments.Count > 1)
+            {
+            }
+
+            return null;
+        }
+
+        static CSSImageValue Image(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 0)
+                return null;
+
+            var imageList = new List<Uri>();
+
+            foreach (var argument in arguments)
+            {
+                var uri = argument.ToUri();
+
+                if (uri == null)
+                {
+                    if (argument is CSSStringValue)
+                        uri = new Uri(((CSSStringValue)argument).Value, UriKind.RelativeOrAbsolute);
+                    else
+                        return null;
+                }
+
+                imageList.Add(uri);
+            }
+
+            return CSSImageValue.FromUrls(imageList);
+        }
+
+        #endregion
+
+        #region Misc
+
         static CSSShapeValue Rect(List<CSSValue> arguments)
         {
             Length? top, right, bottom, left;
 
             //Required for backwards-compatibility
-            if (arguments.Count == 1 && arguments[0] is CSSValueList) 
+            if (arguments.Count == 1 && arguments[0] is CSSValueList)
                 arguments = new List<CSSValue>((CSSValueList)arguments[0]);
 
             if (arguments.Count == 4 && (top = arguments[0].ToLength()).HasValue && (right = arguments[1].ToLength()).HasValue && (bottom = arguments[2].ToLength()).HasValue && (left = arguments[3].ToLength()).HasValue)
@@ -134,6 +252,10 @@
 
             return null;
         }
+
+        #endregion
+
+        #region Transformation
 
         static CSSTransformValue Matrix(List<CSSValue> arguments)
         {
@@ -187,8 +309,8 @@
 
             if (arguments.Count == 2)
             {
-                var dx = arguments[0].ToCalc();
-                var dy = arguments[1].ToCalc();
+                var dx = arguments[0].AsCalc();
+                var dy = arguments[1].AsCalc();
 
                 if (dx != null && dy != null)
                     return new CSSTransformValue.Translate(dx, dy);
@@ -207,9 +329,9 @@
 
             if (arguments.Count == 3)
             {
-                var dx = arguments[0].ToCalc();
-                var dy = arguments[1].ToCalc();
-                var dz = arguments[2].ToCalc();
+                var dx = arguments[0].AsCalc();
+                var dy = arguments[1].AsCalc();
+                var dz = arguments[2].AsCalc();
 
                 if (dx != null && dy != null && dz != null)
                     return new CSSTransformValue.Translate3D(dx, dy, dz);
@@ -222,7 +344,7 @@
         {
             if (arguments.Count == 1)
             {
-                var dx = arguments[0].ToCalc();
+                var dx = arguments[0].AsCalc();
 
                 if (dx != null)
                     return CSSTransformValue.Translate.TranslateX(dx);
@@ -235,7 +357,7 @@
         {
             if (arguments.Count == 1)
             {
-                var dy = arguments[0].ToCalc();
+                var dy = arguments[0].AsCalc();
 
                 if (dy != null)
                     return CSSTransformValue.Translate.TranslateY(dy);
@@ -248,7 +370,7 @@
         {
             if (arguments.Count == 1)
             {
-                var dz = arguments[0].ToCalc();
+                var dz = arguments[0].AsCalc();
 
                 if (dz != null)
                     return CSSTransformValue.Translate3D.TranslateZ(dz);

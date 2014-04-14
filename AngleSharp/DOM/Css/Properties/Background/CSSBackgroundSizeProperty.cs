@@ -43,7 +43,7 @@
 
         static SizeMode Check(CSSValue value)
         {
-            var calc = value.ToCalc();
+            var calc = value.AsCalc();
 
             if (calc != null)
                 return new CalcSizeMode(calc);
@@ -59,8 +59,8 @@
 
         static SizeMode Check(CSSValue horizontal, CSSValue vertical)
         {
-            var width = horizontal.ToCalc();
-            var height = vertical.ToCalc();
+            var width = horizontal.AsCalc();
+            var height = vertical.AsCalc();
 
             if (width == null && !horizontal.Is("auto"))
                 return null;

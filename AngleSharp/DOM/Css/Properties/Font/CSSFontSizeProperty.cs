@@ -45,7 +45,7 @@
         protected override Boolean IsValid(CSSValue value)
         {
             FontSizeMode size;
-            CSSCalcValue calc = value.ToCalc();
+            CSSCalcValue calc = value.AsCalc();
 
             if (calc != null)
                 _size = new CalcFontSizeMode(calc);

@@ -41,7 +41,7 @@
 
         Boolean SetSingle(CSSValue value)
         {
-            var calc = value.ToCalc();
+            var calc = value.AsCalc();
 
             if (calc != null)
             {
@@ -111,7 +111,7 @@
 
         static CSSCalcValue GetMode(CSSValue value, String minIdentifier, String maxIdentifier)
         {
-            var calc = value.ToCalc();
+            var calc = value.AsCalc();
 
             if (calc == null && value is CSSIdentifierValue)
             {

@@ -58,6 +58,31 @@
         public static readonly String Attr = "attr";
 
         /// <summary>
+        /// The linear-gradient function.
+        /// </summary>
+        public static readonly String LinearGradient = "linear-gradient";
+
+        /// <summary>
+        /// The radial-gradient function.
+        /// </summary>
+        public static readonly String RadialGradient = "radial-gradient";
+
+        /// <summary>
+        /// The repeating-linear-gradient function.
+        /// </summary>
+        public static readonly String RepeatingLinearGradient = "repeating-linear-gradient";
+
+        /// <summary>
+        /// The repeating-radial-gradient function.
+        /// </summary>
+        public static readonly String RepeatingRadialGradient = "repeating-radial-gradient";
+
+        /// <summary>
+        /// The image function.
+        /// </summary>
+        public static readonly String Image = "image";
+
+        /// <summary>
         /// The counter function.
         /// </summary>
         public static readonly String Counter = "counter";

@@ -44,7 +44,7 @@
         protected override Boolean IsValid(CSSValue value)
         {
             VerticalAlignMode mode;
-            var calc = value.ToCalc();
+            var calc = value.AsCalc();
 
             if (calc != null)
                 _mode = new CalcVerticalAlignMode(calc);

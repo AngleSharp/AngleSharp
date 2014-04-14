@@ -29,7 +29,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var calc = value.ToCalc();
+            var calc = value.AsCalc();
 
             if (calc != null)
                 _mode = calc;

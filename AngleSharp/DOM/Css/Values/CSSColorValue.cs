@@ -8,6 +8,8 @@
     {
         #region Fields
 
+        public static readonly CSSColorValue Transparent = new CSSColorValue(Color.Transparent);
+
         Color _value;
 
         #endregion

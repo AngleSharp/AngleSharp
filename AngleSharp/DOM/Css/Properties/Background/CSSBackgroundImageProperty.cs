@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<Uri> _images;
+        List<CSSImageValue> _images;
 
         #endregion
 
@@ -21,7 +21,7 @@
             : base(PropertyNames.BackgroundImage)
         {
             _inherited = false;
-            _images = new List<Uri>();
+            _images = new List<CSSImageValue>();
         }
 
         #endregion
@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the enumeration of all images.
         /// </summary>
-        public IEnumerable<Uri> Images
+        public IEnumerable<CSSImageValue> Images
         {
             get { return _images; }
         }
@@ -40,40 +40,35 @@
 
         #region Methods
 
-        internal void AddImage(Uri image)
-        {
-            _images.Add(image);
-        }
-
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals("none", StringComparison.OrdinalIgnoreCase))
-                _images.Clear();
-            else if (value is CSSUriValue)
-            {
-                _images.Clear();
-                _images.Add(((CSSUriValue)value).Uri);
-            }
-            else if (value is CSSValueList)
+            if (value is CSSValueList)
             {
                 var values = (CSSValueList)value;
-                var images = new List<Uri>();
+                var images = new List<CSSImageValue>();
 
                 for (int i = 0; i < values.Length; i++)
                 {
-                    if (values[i] is CSSUriValue == false)
+                    var image = values[i].AsImage();
+
+                    if (image == null || (++i < values.Length && values[i] != CSSValue.Separator))
                         return false;
 
-                    images.Add(((CSSUriValue)values[i]).Uri);
-
-                    if (++i < values.Length && values[i] != CSSValue.Separator)
-                        return false;
+                    images.Add(image);
                 }
 
                 _images = images;
             }
             else if (value != CSSValue.Inherit)
-                return false;
+            {
+                var image = value.AsImage();
+
+                if (image == null)
+                    return false;
+
+                _images.Clear();
+                _images.Add(image);
+            }
 
             return true;
         }

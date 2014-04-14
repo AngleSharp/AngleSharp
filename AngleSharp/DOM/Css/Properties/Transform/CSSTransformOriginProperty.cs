@@ -65,7 +65,7 @@
                 if (!list[2].ToLength().HasValue)
                     return false;
 
-                z = list[2].ToCalc();
+                z = list[2].AsCalc();
             }
 
             if (z != CSSCalcValue.Zero || list.Length == 2)
@@ -93,7 +93,7 @@
 
         Boolean SetSingle(CSSValue value)
         {
-            var calc = value.ToCalc();
+            var calc = value.AsCalc();
 
             if (calc != null)
             {
@@ -144,7 +144,7 @@
 
         static CSSCalcValue GetMode(CSSValue value, String minIdentifier, String maxIdentifier)
         {
-            var calc = value.ToCalc();
+            var calc = value.AsCalc();
 
             if (calc == null && value is CSSIdentifierValue)
             {

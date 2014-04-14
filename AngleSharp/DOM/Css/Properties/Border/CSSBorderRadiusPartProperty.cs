@@ -43,8 +43,8 @@
                 v2 = list[1];
             }
 
-            var c1 = v1.ToCalc();
-            var c2 = v2.ToCalc();
+            var c1 = v1.AsCalc();
+            var c2 = v2.AsCalc();
 
             if (c1 != null && c2 != null)
             {

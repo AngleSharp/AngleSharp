@@ -68,23 +68,23 @@
 
                     for (int j = 0; j < entry.Length; j++)
                     {
-                        if (!hasPosition && (entry[j].IsOneOf("top", "left", "center", "bottom", "right") || entry[j].ToCalc() != null))
+                        if (!hasPosition && (entry[j].IsOneOf("top", "left", "center", "bottom", "right") || entry[j].AsCalc() != null))
                         {
                             hasPosition = true;
                             position.Add(entry[j]);
 
-                            while (j + 1 < entry.Length && (entry[j + 1].IsOneOf("top", "left", "center", "bottom", "right") || entry[j + 1].ToCalc() != null))
+                            while (j + 1 < entry.Length && (entry[j + 1].IsOneOf("top", "left", "center", "bottom", "right") || entry[j + 1].AsCalc() != null))
                                 position.Add(entry[++j]);
 
                             if (j + 1 < entry.Length && entry[j + 1] == CSSValue.Delimiter)
                             {
                                 j += 2;
 
-                                if (j < entry.Length && (entry[j].IsOneOf("auto", "contain", "cover") || entry[j].ToCalc() != null))
+                                if (j < entry.Length && (entry[j].IsOneOf("auto", "contain", "cover") || entry[j].AsCalc() != null))
                                 {
                                     size.Add(entry[j]);
 
-                                    if (j + 1 < entry.Length && (entry[j + 1].Is("auto") || entry[j + 1].ToCalc() != null))
+                                    if (j + 1 < entry.Length && (entry[j + 1].Is("auto") || entry[j + 1].AsCalc() != null))
                                         size.Add(entry[++j]);
                                 }
                                 else
@@ -96,7 +96,7 @@
                             continue;
                         }
 
-                        if (!hasImage && entry[j] is CSSUriValue)
+                        if (!hasImage && entry[j].AsImage() != null)
                         {
                             hasImage = true;
                             image.Add(entry[j]);

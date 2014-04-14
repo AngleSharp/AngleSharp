@@ -45,12 +45,27 @@
             return null;
         }
 
-        public static CSSCalcValue ToCalc(this CSSValue value)
+        public static CSSColorValue AsColor(this CSSValue value)
+        {
+            if (value is CSSColorValue)
+                return (CSSColorValue)value;
+            else if (value is CSSIdentifierValue)
+            {
+                var color = Color.FromName(((CSSIdentifierValue)value).Value);
+
+                if (color.HasValue)
+                    return new CSSColorValue(color.Value);
+            }
+
+            return null;
+        }
+
+        public static CSSCalcValue AsCalc(this CSSValue value)
         {
             if (value is CSSPercentValue)
-                return CSSCalcValue.FromPercent((CSSPercentValue)value);
+                return CSSCalcValue.FromPercent(((CSSPercentValue)value).Value);
             else if (value is CSSLengthValue)
-                return CSSCalcValue.FromLength((CSSLengthValue)value);
+                return CSSCalcValue.FromLength(((CSSLengthValue)value).Length);
             else if (value == CSSNumberValue.Zero)
                 return CSSCalcValue.Zero;
             else if (value is CSSCalcValue)
@@ -59,12 +74,12 @@
             return null;
         }
 
-        public static CSSImageValue ToImage(this CSSValue value)
+        public static CSSImageValue AsImage(this CSSValue value)
         {
             if (value is CSSImageValue)
                 return (CSSImageValue)value;
             else if (value is CSSUriValue)
-                return CSSImageValue.FromUrl((CSSUriValue)value);
+                return CSSImageValue.FromUrl(((CSSUriValue)value).Uri);
             else if (value.Is("none"))
                 return CSSImageValue.None;
 
@@ -99,6 +114,22 @@
         {
             if (value is CSSAngleValue)
                 return ((CSSAngleValue)value).Angle;
+            else if (value is CSSValueList)
+            {
+                var values = (CSSValueList)value;
+
+                if (values.Length == 2 && values[0].Is("to"))
+                {
+                    if (values[1].Is("bottom"))
+                        return new Angle(180f, Angle.Unit.Deg);
+                    else if (values[1].Is("right"))
+                        return new Angle(90f, Angle.Unit.Deg);
+                    else if (values[1].Is("left"))
+                        return new Angle(270f, Angle.Unit.Deg);
+                    else if (values[1].Is("top"))
+                        return new Angle(0f, Angle.Unit.Deg);
+                }
+            }
 
             return null;
         }

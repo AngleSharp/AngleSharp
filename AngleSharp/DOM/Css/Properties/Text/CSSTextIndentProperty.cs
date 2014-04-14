@@ -34,7 +34,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var indent = value.ToCalc();
+            var indent = value.AsCalc();
 
             if (indent != null)
                 _indent = indent;

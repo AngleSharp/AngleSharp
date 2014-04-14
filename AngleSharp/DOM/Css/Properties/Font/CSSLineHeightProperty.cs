@@ -30,7 +30,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            CSSCalcValue calc = value.ToCalc();
+            CSSCalcValue calc = value.AsCalc();
 
             if (calc != null)
                 _mode = new CalcLineHeightMode(calc);
