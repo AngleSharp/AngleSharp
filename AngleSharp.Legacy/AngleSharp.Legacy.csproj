@@ -604,23 +604,14 @@
     <Compile Include="..\AngleSharp\DOM\Css\Selector\SimpleSelector.cs">
       <Link>DOM\Css\Selector\SimpleSelector.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSAngleValue.cs">
-      <Link>DOM\Css\Values\CSSAngleValue.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSAttrValue.cs">
       <Link>DOM\Css\Values\CSSAttrValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSCalcValue.cs">
       <Link>DOM\Css\Values\CSSCalcValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSColorValue.cs">
-      <Link>DOM\Css\Values\CSSColorValue.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSCounter.cs">
       <Link>DOM\Css\Values\CSSCounter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSFrequencyValue.cs">
-      <Link>DOM\Css\Values\CSSFrequencyValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSIdentifierValue.cs">
       <Link>DOM\Css\Values\CSSIdentifierValue.cs</Link>
@@ -628,20 +619,8 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSImageValue.cs">
       <Link>DOM\Css\Values\CSSImageValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSLengthValue.cs">
-      <Link>DOM\Css\Values\CSSLengthValue.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSNumberValue.cs">
-      <Link>DOM\Css\Values\CSSNumberValue.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPercentValue.cs">
-      <Link>DOM\Css\Values\CSSPercentValue.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPrimitiveValue.cs">
       <Link>DOM\Css\Values\CSSPrimitiveValue.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSResolutionValue.cs">
-      <Link>DOM\Css\Values\CSSResolutionValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSShapeValue.cs">
       <Link>DOM\Css\Values\CSSShapeValue.cs</Link>
@@ -649,17 +628,11 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSStringValue.cs">
       <Link>DOM\Css\Values\CSSStringValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSTimeValue.cs">
-      <Link>DOM\Css\Values\CSSTimeValue.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSTransformValue.cs">
       <Link>DOM\Css\Values\CSSTransformValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSUnknownValue.cs">
       <Link>DOM\Css\Values\CSSUnknownValue.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSUriValue.cs">
-      <Link>DOM\Css\Values\CSSUriValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSValue.cs">
       <Link>DOM\Css\Values\CSSValue.cs</Link>
@@ -1114,9 +1087,6 @@
     <Compile Include="..\AngleSharp\DOM\Objects\FileEntry.cs">
       <Link>DOM\Objects\FileEntry.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\Location.cs">
-      <Link>DOM\Objects\Location.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Objects\Range.cs">
       <Link>DOM\Objects\Range.cs</Link>
     </Compile>
@@ -1125,6 +1095,33 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Objects\ValidityState.cs">
       <Link>DOM\Objects\ValidityState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Primitives\Angle.cs">
+      <Link>DOM\Primitives\Angle.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Primitives\Color.cs">
+      <Link>DOM\Primitives\Color.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Primitives\Frequency.cs">
+      <Link>DOM\Primitives\Frequency.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Primitives\Length.cs">
+      <Link>DOM\Primitives\Length.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Primitives\Location.cs">
+      <Link>DOM\Primitives\Location.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Primitives\Number.cs">
+      <Link>DOM\Primitives\Number.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Primitives\Percent.cs">
+      <Link>DOM\Primitives\Percent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Primitives\Resolution.cs">
+      <Link>DOM\Primitives\Resolution.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Primitives\Time.cs">
+      <Link>DOM\Primitives\Time.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\ProcessingInstruction.cs">
       <Link>DOM\ProcessingInstruction.cs</Link>
@@ -1171,17 +1168,11 @@
     <Compile Include="..\AngleSharp\Extensions.cs">
       <Link>Extensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Angle.cs">
-      <Link>Foundation\Angle.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Attributes\DOMAttribute.cs">
       <Link>Foundation\Attributes\DOMAttribute.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\CharExtensions.cs">
       <Link>Foundation\CharExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Color.cs">
-      <Link>Foundation\Color.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\ConfigurationExtensions.cs">
       <Link>Foundation\ConfigurationExtensions.cs</Link>
@@ -1237,14 +1228,8 @@
     <Compile Include="..\AngleSharp\Foundation\FormDataSet.cs">
       <Link>Foundation\FormDataSet.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Frequency.cs">
-      <Link>Foundation\Frequency.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\HttpMethod.cs">
       <Link>Foundation\HttpMethod.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Length.cs">
-      <Link>Foundation\Length.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Mutations\MutationCallback.cs">
       <Link>Foundation\Mutations\MutationCallback.cs</Link>
@@ -1264,17 +1249,11 @@
     <Compile Include="..\AngleSharp\Foundation\Pool.cs">
       <Link>Foundation\Pool.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Resolution.cs">
-      <Link>Foundation\Resolution.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\ResolverExtensions.cs">
       <Link>Foundation\ResolverExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\StringExtensions.cs">
       <Link>Foundation\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Time.cs">
-      <Link>Foundation\Time.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\TransformMatrix.cs">
       <Link>Foundation\TransformMatrix.cs</Link>
