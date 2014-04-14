@@ -278,7 +278,7 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
-        public void CssBackgroundImageUrlNoneIllegal()
+        public void CssBackgroundImageUrlNoneLegal()
         {
             var snippet = "background-image: url(image.png),none";
             var property = CssParser.ParseDeclaration(snippet);
@@ -286,9 +286,10 @@ namespace UnitTests.Css
             Assert.IsFalse(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSBackgroundImageProperty));
             var concrete = (CSSBackgroundImageProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('image.png'), none", concrete.Value.CssText);
         }
 
         [TestMethod]

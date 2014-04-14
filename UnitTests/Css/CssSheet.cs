@@ -249,8 +249,8 @@ namespace UnitTests
             var background = decl.Get(0);
             Assert.AreEqual("background", background.Name);
             Assert.IsFalse(background.Important);
-            Assert.AreEqual(CssValueType.Custom, background.Value.CssValueType);
-            Assert.AreEqual("-webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 168, 76, 1)), color-stop(100%, rgba(255, 123, 13, 1)))", background.Value.ToCss());
+            Assert.AreEqual(CssValueType.Inherit, background.Value.CssValueType);
+            Assert.IsFalse(background.HasValue);
         }
 
         [TestMethod]
