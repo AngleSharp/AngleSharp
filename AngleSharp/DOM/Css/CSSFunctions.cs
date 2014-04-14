@@ -192,6 +192,8 @@
         {
             if (arguments.Count > 1)
             {
+                //TODO
+                //CSSImageValue.FromRadialGradient(CSSCalcValue.Center, CSSCalcValue.Center, repeating);
             }
 
             return null;
