@@ -174,7 +174,7 @@
         /// Gets the URI of the current document.
         /// </summary>
         [DOM("documentURI")]
-        public String DocumentURI
+        public String DocumentUri
         {
             get { return _location.Href; }
             internal set { _location.Href = value; }

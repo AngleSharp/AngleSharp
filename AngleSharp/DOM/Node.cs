@@ -94,7 +94,7 @@
                 else if (_parent != null)
                     return _parent.BaseURI;
                 else if (OwnerDocument != null)
-                    return OwnerDocument.DocumentURI;
+                    return OwnerDocument.DocumentUri;
 
                 return String.Empty;
             }

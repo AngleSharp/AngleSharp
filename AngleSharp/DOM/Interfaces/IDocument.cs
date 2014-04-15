@@ -24,7 +24,7 @@
         IWindow ParentWindow { get; }
         DocumentType Doctype { get; }
         Element DocumentElement { get; }
-        String DocumentURI { get; }
+        String DocumentUri { get; }
         Element GetElementById(String elementId);
         DOMImplementation Implementation { get; }
         String InputEncoding { get; }

@@ -1,11 +1,12 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.DOM.Collections;
-    using AngleSharp.Parser;
-    using AngleSharp.Parser.Html;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+using AngleSharp.Parser;
+using AngleSharp.Parser.Html;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML document.
@@ -32,134 +33,134 @@
 
         //Internal for now until connected properly.
 
-        [DOM("onabort")]
-        internal event EventHandler OnAbort;
-        [DOM("onblur")]
-        internal event EventHandler OnBlur;
-        [DOM("oncanplay")]
-        internal event EventHandler OnCanPlay;
-        [DOM("oncanplaythrough")]
-        internal event EventHandler OnCanPlayThrough;
-        [DOM("onchange")]
-        internal event EventHandler OnChange;
-        [DOM("onclick")]
-        internal event EventHandler OnClick;
-        [DOM("oncontextmenu")]
-        internal event EventHandler OnContextMenu;
-        [DOM("oncopy")]
-        internal event EventHandler OnCopy;
-        [DOM("oncuechange")]
-        internal event EventHandler OnCueChange;
-        [DOM("oncut")]
-        internal event EventHandler OnCut;
-        [DOM("ondblclick")]
-        internal event EventHandler OnDblClick;
-        [DOM("onaondragbort")]
-        internal event EventHandler OnDrag;
-        [DOM("ondragend")]
-        internal event EventHandler OnDragEnd;
-        [DOM("ondragenter")]
-        internal event EventHandler OnDragEnter;
-        [DOM("ondragleave")]
-        internal event EventHandler OnDragLeave;
-        [DOM("ondragover")]
-        internal event EventHandler OnDragOver;
-        [DOM("ondragstart")]
-        internal event EventHandler OnDragStart;
-        [DOM("ondrop")]
-        internal event EventHandler OnDrop;
-        [DOM("ondurationchange")]
-        internal event EventHandler OnDurationChange;
-        [DOM("onemptied")]
-        internal event EventHandler OnEmptied;
-        [DOM("onended")]
-        internal event EventHandler OnEnded;
-        [DOM("onerror")]
-        internal event EventHandler OnError;
-        [DOM("onfocus")]
-        internal event EventHandler OnFocus;
-        [DOM("onfocusin")]
-        internal event EventHandler OnFocusIn;
-        [DOM("onfocusout")]
-        internal event EventHandler OnFocusOut;
-        [DOM("onfullscreenchange")]
-        internal event EventHandler OnFullScreenChange;
-        [DOM("onfullscreenerror")]
-        internal event EventHandler OnFullScreenError;
-        [DOM("oninput")]
-        internal event EventHandler OnInput;
-        [DOM("oninvalid")]
-        internal event EventHandler OnInvalid;
-        [DOM("onkeydown")]
-        internal event EventHandler OnKeyDown;
-        [DOM("onkeypress")]
-        internal event EventHandler OnKeyPress;
-        [DOM("onkeyup")]
-        internal event EventHandler OnKeyUp;
-        [DOM("onload")]
-        internal event EventHandler OnLoad;
-        [DOM("onloadeddata")]
-        internal event EventHandler OnLoadedData;
-        [DOM("onloadedmetadata")]
-        internal event EventHandler OnLoadedMetaData;
-        [DOM("onloadstart")]
-        internal event EventHandler OnLoadStart;
-        [DOM("onmousedown")]
-        internal event EventHandler OnMouseDown;
-        [DOM("onmousemove")]
-        internal event EventHandler OnMouseMove;
-        [DOM("onmouseout")]
-        internal event EventHandler OnMouseOut;
-        [DOM("onmouseover")]
-        internal event EventHandler OnMouseOver;
-        [DOM("onmouseup")]
-        internal event EventHandler OnMouseUp;
-        [DOM("onmousewheel")]
-        internal event EventHandler OnMouseWheel;
-        [DOM("onpaste")]
-        internal event EventHandler OnPaste;
-        [DOM("onpause")]
-        internal event EventHandler OnPause;
-        [DOM("onplay")]
-        internal event EventHandler OnPlay;
-        [DOM("onplaying")]
-        internal event EventHandler OnPlaying;
-        [DOM("onprogress")]
-        internal event EventHandler OnProgress;
-        [DOM("onratechange")]
-        internal event EventHandler OnRateChange;
-        [DOM("onreset")]
-        internal event EventHandler OnReset;
-        [DOM("onscroll")]
-        internal event EventHandler OnScroll;
-        [DOM("onseeked")]
-        internal event EventHandler OnSeeked;
-        [DOM("onseeking")]
-        internal event EventHandler OnSeeking;
-        [DOM("onselect")]
-        internal event EventHandler OnSelect;
-        [DOM("onstalled")]
-        internal event EventHandler OnStalled;
-        [DOM("onsubmit")]
-        internal event EventHandler OnSubmit;
-        [DOM("onsuspend")]
-        internal event EventHandler OnSuspend;
-        [DOM("ontimeout")]
-        internal event EventHandler OnTimeOut;
-        [DOM("ontimeupdate")]
-        internal event EventHandler OnTimeUpdate;
-        [DOM("ontouchcancel")]
-        internal event EventHandler OnTouchCancel;
-        [DOM("ontouchend")]
-        internal event EventHandler OnTouchEnd;
-        [DOM("ontouchmove")]
-        internal event EventHandler OnTouchMove;
-        [DOM("ontouchstart")]
-        internal event EventHandler OnTouchStart;
-        [DOM("onvolumechange")]
-        internal event EventHandler OnVolumeChange;
-        [DOM("onwaiting")]
-        internal event EventHandler OnWaiting;
+        //[DOM("onabort")]
+        //internal event EventHandler OnAbort;
+        //[DOM("onblur")]
+        //internal event EventHandler OnBlur;
+        //[DOM("oncanplay")]
+        //internal event EventHandler OnCanPlay;
+        //[DOM("oncanplaythrough")]
+        //internal event EventHandler OnCanPlayThrough;
+        //[DOM("onchange")]
+        //internal event EventHandler OnChange;
+        //[DOM("onclick")]
+        //internal event EventHandler OnClick;
+        //[DOM("oncontextmenu")]
+        //internal event EventHandler OnContextMenu;
+        //[DOM("oncopy")]
+        //internal event EventHandler OnCopy;
+        //[DOM("oncuechange")]
+        //internal event EventHandler OnCueChange;
+        //[DOM("oncut")]
+        //internal event EventHandler OnCut;
+        //[DOM("ondblclick")]
+        //internal event EventHandler OnDblClick;
+        //[DOM("onaondragbort")]
+        //internal event EventHandler OnDrag;
+        //[DOM("ondragend")]
+        //internal event EventHandler OnDragEnd;
+        //[DOM("ondragenter")]
+        //internal event EventHandler OnDragEnter;
+        //[DOM("ondragleave")]
+        //internal event EventHandler OnDragLeave;
+        //[DOM("ondragover")]
+        //internal event EventHandler OnDragOver;
+        //[DOM("ondragstart")]
+        //internal event EventHandler OnDragStart;
+        //[DOM("ondrop")]
+        //internal event EventHandler OnDrop;
+        //[DOM("ondurationchange")]
+        //internal event EventHandler OnDurationChange;
+        //[DOM("onemptied")]
+        //internal event EventHandler OnEmptied;
+        //[DOM("onended")]
+        //internal event EventHandler OnEnded;
+        //[DOM("onerror")]
+        //internal event EventHandler OnError;
+        //[DOM("onfocus")]
+        //internal event EventHandler OnFocus;
+        //[DOM("onfocusin")]
+        //internal event EventHandler OnFocusIn;
+        //[DOM("onfocusout")]
+        //internal event EventHandler OnFocusOut;
+        //[DOM("onfullscreenchange")]
+        //internal event EventHandler OnFullScreenChange;
+        //[DOM("onfullscreenerror")]
+        //internal event EventHandler OnFullScreenError;
+        //[DOM("oninput")]
+        //internal event EventHandler OnInput;
+        //[DOM("oninvalid")]
+        //internal event EventHandler OnInvalid;
+        //[DOM("onkeydown")]
+        //internal event EventHandler OnKeyDown;
+        //[DOM("onkeypress")]
+        //internal event EventHandler OnKeyPress;
+        //[DOM("onkeyup")]
+        //internal event EventHandler OnKeyUp;
+        //[DOM("onload")]
+        //internal event EventHandler OnLoad;
+        //[DOM("onloadeddata")]
+        //internal event EventHandler OnLoadedData;
+        //[DOM("onloadedmetadata")]
+        //internal event EventHandler OnLoadedMetaData;
+        //[DOM("onloadstart")]
+        //internal event EventHandler OnLoadStart;
+        //[DOM("onmousedown")]
+        //internal event EventHandler OnMouseDown;
+        //[DOM("onmousemove")]
+        //internal event EventHandler OnMouseMove;
+        //[DOM("onmouseout")]
+        //internal event EventHandler OnMouseOut;
+        //[DOM("onmouseover")]
+        //internal event EventHandler OnMouseOver;
+        //[DOM("onmouseup")]
+        //internal event EventHandler OnMouseUp;
+        //[DOM("onmousewheel")]
+        //internal event EventHandler OnMouseWheel;
+        //[DOM("onpaste")]
+        //internal event EventHandler OnPaste;
+        //[DOM("onpause")]
+        //internal event EventHandler OnPause;
+        //[DOM("onplay")]
+        //internal event EventHandler OnPlay;
+        //[DOM("onplaying")]
+        //internal event EventHandler OnPlaying;
+        //[DOM("onprogress")]
+        //internal event EventHandler OnProgress;
+        //[DOM("onratechange")]
+        //internal event EventHandler OnRateChange;
+        //[DOM("onreset")]
+        //internal event EventHandler OnReset;
+        //[DOM("onscroll")]
+        //internal event EventHandler OnScroll;
+        //[DOM("onseeked")]
+        //internal event EventHandler OnSeeked;
+        //[DOM("onseeking")]
+        //internal event EventHandler OnSeeking;
+        //[DOM("onselect")]
+        //internal event EventHandler OnSelect;
+        //[DOM("onstalled")]
+        //internal event EventHandler OnStalled;
+        //[DOM("onsubmit")]
+        //internal event EventHandler OnSubmit;
+        //[DOM("onsuspend")]
+        //internal event EventHandler OnSuspend;
+        //[DOM("ontimeout")]
+        //internal event EventHandler OnTimeOut;
+        //[DOM("ontimeupdate")]
+        //internal event EventHandler OnTimeUpdate;
+        //[DOM("ontouchcancel")]
+        //internal event EventHandler OnTouchCancel;
+        //[DOM("ontouchend")]
+        //internal event EventHandler OnTouchEnd;
+        //[DOM("ontouchmove")]
+        //internal event EventHandler OnTouchMove;
+        //[DOM("ontouchstart")]
+        //internal event EventHandler OnTouchStart;
+        //[DOM("onvolumechange")]
+        //internal event EventHandler OnVolumeChange;
+        //[DOM("onwaiting")]
+        //internal event EventHandler OnWaiting;
 
         #endregion
 
@@ -352,16 +353,16 @@
         [DOM("domain")]
         public String Domain
         {
-            get { return string.IsNullOrEmpty(DocumentURI) ? String.Empty : new Uri(DocumentURI).Host; }
+            get { return String.IsNullOrEmpty(DocumentUri) ? String.Empty : new Uri(DocumentUri).Host; }
         }
 
         /// <summary>
         /// Gets a string containing the URL of the current document.
         /// </summary>
         [DOM("URL")]
-        public String URL
+        public String Url
         {
-            get { return DocumentURI; }
+            get { return DocumentUri; }
         }
 
         #endregion
@@ -374,10 +375,11 @@
         /// <param name="url">The URL that hosts the HTML content.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The document with the parsed content.</returns>
-        public static HTMLDocument LoadFromURL(String url, IConfiguration configuration = null)
+        public static HTMLDocument LoadFromUrl(String url, IConfiguration configuration = null)
         {
             var doc = new HTMLDocument { Options = configuration ?? Configuration.Default };
-            return doc.Load(url);
+            doc.Load(url);
+            return doc;
         }
 
         /// <summary>
@@ -399,9 +401,8 @@
         /// Loads the document content from the given URL.
         /// </summary>
         /// <param name="url">The URL that hosts the HTML content.</param>
-        /// <returns>The document with the parsed content.</returns>
         [DOM("load")]
-        public HTMLDocument Load(String url)
+        public void Load(String url)
         {
             Uri uri;
             _location.Href = url;
@@ -409,10 +410,7 @@
 
             for (int i = _children.Length - 1; i >= 0; i++)
                 RemoveChild(_children[i]);
-
-            ReadyState = Readiness.Loading;
-            QuirksMode = QuirksMode.Off;
-
+            
             if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
                 throw new ArgumentException("The given URL is not valid as an absolute URL.");
 
@@ -421,15 +419,20 @@
             task.ContinueWith(m =>
             {
                 if (m.IsCompleted && !m.IsFaulted)
-                {
-                    var stream = m.Result;
-                    var source = new SourceManager(stream, Options);
-                    var parser = new HtmlParser(this, source);
-                    parser.Parse();
-                }
+                    Load(m.Result);
             });
+        }
 
-            return this;
+        /// <summary>
+        /// Loads the document content from the given stream.
+        /// </summary>
+        /// <param name="stream">The stream that contains the HTML content.</param>
+        internal void Load(Stream stream)
+        {
+            ReadyState = Readiness.Loading;
+            var source = new SourceManager(stream, Options);
+            var parser = new HtmlParser(this, source);
+            parser.Parse();
         }
 
         /// <summary>

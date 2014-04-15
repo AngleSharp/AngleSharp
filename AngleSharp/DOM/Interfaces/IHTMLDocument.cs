@@ -18,10 +18,10 @@
         HTMLCollection Images { get; }
         HTMLCollection Links { get; }
         HTMLDocument Open();
-        HTMLDocument Load(String url);
+        void Load(String url);
         HTMLCollection Scripts { get; }
         String Title { get; set; }
-        String URL { get; }
+        String Url { get; }
         HTMLDocument Write(String content);
         HTMLDocument WriteLn(String content);
     }

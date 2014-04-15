@@ -33,5 +33,28 @@
             var response = await requester.RequestAsync(request, cancel);
             return response.Content;
         }
+
+        public static Task<Stream> SendAsync(this IConfiguration configuration, Uri url, String content, String mimeType, HttpMethod method = HttpMethod.POST)
+        {
+            return configuration.SendAsync(url, content, mimeType, method, CancellationToken.None);
+        }
+
+        public static async Task<Stream> SendAsync(this IConfiguration configuration, Uri url, String content, String mimeType, HttpMethod method, CancellationToken cancel)
+        {
+            if (!configuration.AllowHttpRequests)
+                return Stream.Null;
+
+            var requester = configuration.CreateHttpRequest();
+
+            if (requester == null)
+                throw new NullReferenceException("No HTTP requester has been set up. Configure one by adding an entry to the current DependencyResolver.");
+
+            var request = DependencyResolver.Current.GetService<IHttpRequest>();
+            request.Address = url;
+            request.Headers[HeaderNames.Content_Type] = mimeType;
+            request.Method = method;
+            var response = await requester.RequestAsync(request, cancel);
+            return response.Content;
+        }
     }
 }

@@ -2,6 +2,8 @@
 {
     using AngleSharp.DOM.Collections;
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the form element.
@@ -11,6 +13,8 @@
     {
         #region Fields
 
+        Task _plannedNavigation;
+        CancellationTokenSource _cancel;
         HTMLLiveCollection<HTMLFormControlElement> _elements;
         HTMLFormControlsCollection _formControls;
 
@@ -23,6 +27,7 @@
         /// </summary>
         internal HTMLFormElement()
         {
+            _cancel = new CancellationTokenSource();
             _name = Tags.Form;
             _elements = new HTMLLiveCollection<HTMLFormControlElement>(this);
             _formControls = new HTMLFormControlsCollection(_elements);
@@ -234,7 +239,7 @@
             var action = Action;
 
             if (String.IsNullOrEmpty(action))
-                action = formDocument.DocumentURI;
+                action = formDocument.DocumentUri;
 
             if (!Location.IsAbsolute(action))
                 action = Location.MakeAbsolute(from.BaseURI, action);
@@ -288,8 +293,6 @@
                         MailAsBody();
                     break;
             }
-
-            //TODO
         }
 
         /// <summary>
@@ -348,7 +351,7 @@
                 mimeType = MimeTypes.Plain;
             }
 
-            NavigateTo(action, HttpMethod.POST, result, mimeType);
+            _plannedNavigation = NavigateTo(action, HttpMethod.POST, result, mimeType);
         }
 
         /// <summary>
@@ -360,9 +363,19 @@
         /// <param name="method">The HTTP method.</param>
         /// <param name="body">The entity body of the request.</param>
         /// <param name="mime">The MIME type of the entity body.</param>
-        void NavigateTo(String action, HttpMethod method, String body, String mime)
+        async Task NavigateTo(String action, HttpMethod method, String body, String mime)
         {
-            //TODO
+            if (_plannedNavigation != null)
+            {
+                _cancel.Cancel();
+                _plannedNavigation = null;
+            }
+
+            var stream = await _owner.Options.SendAsync(new Uri(action), body, mime, method, _cancel.Token);
+            var html = _owner as HTMLDocument;
+
+            if (html != null)
+                html.Load(stream);
         }
 
         /// <summary>

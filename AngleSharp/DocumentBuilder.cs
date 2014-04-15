@@ -127,7 +127,7 @@
 
             var stream = await configuration.LoadAsync(url, cancel);
             var source = new SourceManager(stream, configuration);
-            var doc = new HTMLDocument { Options = configuration, DocumentURI = url.OriginalString };
+            var doc = new HTMLDocument { Options = configuration, DocumentUri = url.OriginalString };
             var db = new DocumentBuilder(source, doc, configuration);
             await db.parser.ParseAsync();
             return db.HtmlResult;
