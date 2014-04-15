@@ -375,7 +375,7 @@
                 var dz = arguments[0].AsCalc();
 
                 if (dz != null)
-                    return CSSTransformValue.Translate3D.TranslateZ(dz);
+                    return new CSSTransformValue.TranslateZ(dz);
             }
 
             return null;
@@ -459,7 +459,7 @@
                 var sz = arguments[0].ToNumber();
 
                 if (sz.HasValue)
-                    return CSSTransformValue.Scale3D.ScaleZ(sz.Value);
+                    return new CSSTransformValue.ScaleZ(sz.Value);
             }
 
             return null;

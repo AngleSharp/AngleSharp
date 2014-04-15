@@ -123,6 +123,27 @@
             }
         }
 
+        public sealed class TranslateZ : CSSTransformValue
+        {
+            CSSCalcValue _z;
+
+            public TranslateZ(CSSCalcValue z)
+            {
+                _z = z;
+            }
+
+            public override TransformMatrix ComputeMatrix()
+            {
+                var dz = _z.ToPixel();
+                return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, dz);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.TranslateZ, _z.CssText);
+            }
+        }
+
         public sealed class Translate3D : CSSTransformValue
         {
             CSSCalcValue _x;
@@ -136,26 +157,12 @@
                 _z = z;
             }
 
-            public static CSSTransformValue TranslateX(CSSCalcValue dx)
-            {
-                return new Translate3D(dx, CSSCalcValue.Zero, CSSCalcValue.Zero);
-            }
-
-            public static CSSTransformValue TranslateY(CSSCalcValue dy)
-            {
-                return new Translate3D(CSSCalcValue.Zero, dy, CSSCalcValue.Zero);
-            }
-
-            public static CSSTransformValue TranslateZ(CSSCalcValue dz)
-            {
-                return new Translate3D(CSSCalcValue.Zero, CSSCalcValue.Zero, dz);
-            }
-
             public override TransformMatrix ComputeMatrix()
             {
                 var dx = _x.ToPixel();
                 var dy = _y.ToPixel();
-                return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, 0f);
+                var dz = _z.ToPixel();
+                return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, dz);
             }
 
             public override String ToCss()
@@ -309,6 +316,26 @@
             }
         }
 
+        public sealed class ScaleZ : CSSTransformValue
+        {
+            Single _scale;
+
+            public ScaleZ(Single scale)
+            {
+                _scale = scale;
+            }
+
+            public override TransformMatrix ComputeMatrix()
+            {
+                return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, _scale, 0f, 0f, 0f);
+            }
+
+            public override String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.ScaleZ, _scale.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
         public sealed class Scale3D : CSSTransformValue
         {
             Single _sx;
@@ -320,21 +347,6 @@
                 _sx = sx;
                 _sy = sy;
                 _sz = sz;
-            }
-
-            public static Scale3D ScaleX(Single sx)
-            {
-                return new Scale3D(sx, 0f, 0f);
-            }
-
-            public static Scale3D ScaleY(Single sy)
-            {
-                return new Scale3D(0f, sy, 0f);
-            }
-
-            public static Scale3D ScaleZ(Single sz)
-            {
-                return new Scale3D(0f, 0f, sz);
             }
 
             public override TransformMatrix ComputeMatrix()
