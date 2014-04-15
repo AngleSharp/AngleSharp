@@ -25,6 +25,18 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets if the columns should be filled uniformly.
+        /// </summary>
+        public Boolean IsBalanced
+        {
+            get { return _balanced; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)

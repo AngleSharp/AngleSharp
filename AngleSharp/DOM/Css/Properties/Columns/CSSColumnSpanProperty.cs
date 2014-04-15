@@ -30,6 +30,18 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets if the element should span across all columns.
+        /// </summary>
+        public Boolean IsSpanning
+        {
+            get { return _span; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)
