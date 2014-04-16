@@ -582,8 +582,8 @@ namespace AngleSharp.DOM.Html
                     if(_files.Length == 0)
                         dataSet.Append(Name, String.Empty, "application/octet-stream");
 
-                    foreach (var file in _files)
-                        dataSet.Append(Name, file, Type.ToString());
+                    foreach (var file in _files)//TODO
+                        dataSet.Append(Name, file.Body, Type.ToString());
 
                     break;
                 }

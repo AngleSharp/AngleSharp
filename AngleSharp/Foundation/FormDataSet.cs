@@ -3,7 +3,6 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Text;
 
@@ -39,29 +38,6 @@
             get { return _boundary; }
         }
 
-        /// <summary>
-        /// Gets the object with the given name.
-        /// </summary>
-        /// <param name="name">The name of the object.</param>
-        /// <returns>The value of the object.</returns>
-        public Object this[String name]
-        {
-            get { return _entries.Where(m => m.Name == name).Select(m => m.Value).FirstOrDefault(); }
-            //set { Append(name, value, "text"); }
-        }
-
-        /// <summary>
-        /// Gets the object with the given name and type.
-        /// </summary>
-        /// <param name="name">The name of the object.</param>
-        /// <param name="type">The type of the object.</param>
-        /// <returns>The value of the object.</returns>
-        public Object this[String name, String type]
-        {
-            get { return _entries.Where(m => m.Name == name && m.Type == type).Select(m => m.Value).FirstOrDefault(); }
-            //set { Append(name, value, type); }
-        }
-
         #endregion
 
         #region Methods
@@ -80,8 +56,10 @@
 
             foreach (var entry in _entries)
             {
-                if (entry.Name.Equals("_charset_") && entry.Type.Equals("hidden", StringComparison.OrdinalIgnoreCase))
-                    entry.Value = charset;
+                var text = entry as TextEntry;
+
+                if (text != null && entry.Name.Equals("_charset_") && entry.Type.Equals("hidden", StringComparison.OrdinalIgnoreCase))
+                    text.Value = charset;
 
                 //TODO Replace Characters in Name & Value that cannot be expressed by using current encoding with &#...; base-10 unicode point
                 //RFC 2388
@@ -120,18 +98,25 @@
             return result.ToPool();
         }
 
-        public void Append(String name, Object value, String type)
+        public void Append(String name, String value, String type)
         {
-            if (String.Compare(type, "file", StringComparison.OrdinalIgnoreCase) == 0 || String.Compare(type, "textarea", StringComparison.OrdinalIgnoreCase) == 0)
+            if (String.Compare(type, "textarea", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 name = Normalize(name);
-
-                if(value is String)
-                    value = Normalize((String)value);
+                value = Normalize(value);
             }
 
             CheckBoundary(value);
-            _entries.Add(new FormDataSetEntry { Name = name, Value = value, Type = type });
+            _entries.Add(new TextEntry { Name = name, Value = value, Type = type });
+        }
+
+        public void Append(String name, Byte[] value, String type)
+        {
+            if (String.Compare(type, "file", StringComparison.OrdinalIgnoreCase) == 0)
+                name = Normalize(name);
+
+            CheckBoundary(value);
+            _entries.Add(new BinaryEntry { Name = name, Value = value, Type = type });
         }
 
         #endregion
@@ -166,7 +151,7 @@
         /// <summary>
         /// Encapsulates the data contained in an entry.
         /// </summary>
-        public class FormDataSetEntry
+        abstract class FormDataSetEntry
         {
             /// <summary>
             /// Gets or sets the entry's name.
@@ -176,20 +161,35 @@
                 get;
                 set;
             }
-            
-            /// <summary>
-            /// Gets or sets the entry's value.
-            /// </summary>
-            public Object Value
-            {
-                get;
-                set;
-            }
 
             /// <summary>
             /// Gets or sets the entry's type.
             /// </summary>
             public String Type
+            {
+                get;
+                set;
+            }
+        }
+
+        sealed class TextEntry : FormDataSetEntry
+        {
+            /// <summary>
+            /// Gets or sets the entry's value.
+            /// </summary>
+            public String Value
+            {
+                get;
+                set;
+            }
+        }
+
+        sealed class BinaryEntry : FormDataSetEntry
+        {
+            /// <summary>
+            /// Gets or sets the entry's value.
+            /// </summary>
+            public Byte[] Value
             {
                 get;
                 set;
