@@ -25,6 +25,20 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the shape of the selected clipping region.
+        /// If this value is null, then the clipping is
+        /// determined automatically.
+        /// </summary>
+        public CSSShapeValue Clip
+        {
+            get { return _shape; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)

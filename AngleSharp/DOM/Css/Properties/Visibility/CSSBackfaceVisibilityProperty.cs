@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, BackfaceVisibilityMode> modes = new Dictionary<String, BackfaceVisibilityMode>(StringComparer.OrdinalIgnoreCase);
-        BackfaceVisibilityMode _mode;
+        static readonly Dictionary<String, BackfaceVisibility> modes = new Dictionary<String, BackfaceVisibility>(StringComparer.OrdinalIgnoreCase);
+        BackfaceVisibility _mode;
 
         #endregion
 
@@ -20,14 +20,14 @@
 
         static CSSBackfaceVisibility()
         {
-            modes.Add("visible", new VisibleBackfaceVisibilityMode());
-            modes.Add("hidden", new HiddenBackfaceVisibilityMode());
+            modes.Add("visible", BackfaceVisibility.Visible);
+            modes.Add("hidden", BackfaceVisibility.Hidden);
         }
 
         public CSSBackfaceVisibility()
             : base(PropertyNames.BackfaceVisibility)
         {
-            _mode = modes["visible"];
+            _mode = BackfaceVisibility.Visible;
             _inherited = false;
         }
 
@@ -37,7 +37,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            BackfaceVisibilityMode mode;
+            BackfaceVisibility mode;
 
             if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
                 _mode = mode;
@@ -51,17 +51,17 @@
 
         #region Modes
 
-        abstract class BackfaceVisibilityMode
+        enum BackfaceVisibility
         {
-            //TODO Add members that make sense
-        }
-
-        class VisibleBackfaceVisibilityMode : BackfaceVisibilityMode
-        {
-        }
-
-        class HiddenBackfaceVisibilityMode : BackfaceVisibilityMode
-        {
+            /// <summary>
+            /// The back face is visible, allowing the front
+            /// face to be displayed mirrored.
+            /// </summary>
+            Visible,
+            /// <summary>
+            /// The back face is not visible, hiding the front face.
+            /// </summary>
+            Hidden
         }
 
         #endregion

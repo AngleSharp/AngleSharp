@@ -27,6 +27,18 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the enumeration over all transformations.
+        /// </summary>
+        public IEnumerable<CSSTransformValue> Transforms
+        {
+            get { return _transforms; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)

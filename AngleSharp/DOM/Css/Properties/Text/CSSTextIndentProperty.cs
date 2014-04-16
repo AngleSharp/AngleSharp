@@ -10,11 +10,6 @@
     {
         #region Fields
 
-        /// <summary>
-        /// Indentation is a percentage of the containing block width.
-        /// OR Indentation is specified as fixed length.
-        /// Negative values are allowed.
-        /// </summary>
         CSSCalcValue _indent;
 
         #endregion
@@ -26,6 +21,19 @@
         {
             _inherited = true;
             _indent = CSSCalcValue.Zero;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the indentation, which is either a percentage of the containing block width
+        /// or specified as fixed length. Negative values are allowed.
+        /// </summary>
+        public CSSCalcValue Indent
+        {
+            get { return _indent; }
         }
 
         #endregion

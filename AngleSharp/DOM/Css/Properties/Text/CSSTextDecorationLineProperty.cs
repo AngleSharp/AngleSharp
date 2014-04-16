@@ -11,9 +11,8 @@
     {
         #region Fields
 
-        static readonly ValueConverter<TextDecorationLineMode> _weights = new ValueConverter<TextDecorationLineMode>();
-        static readonly NoTextDecorationLineMode _none = new NoTextDecorationLineMode();
-        TextDecorationLineMode _weight;
+        static readonly Dictionary<String, TextDecorationLine> modes = new Dictionary<String, TextDecorationLine>();
+        List<TextDecorationLine> _line;
 
         #endregion
 
@@ -21,18 +20,16 @@
 
         static CSSTextDecorationLineProperty()
         {
-            _weights.AddStatic("none", _none, exclusive: true);
-            _weights.AddStatic("underline", new UnderlineTextDecorationLineMode());
-            _weights.AddStatic("overline", new OverlineTextDecorationLineMode());
-            _weights.AddStatic("line-through", new LineThroughTextDecorationLineMode());
-            _weights.AddStatic("blink", new BlinkTextDecorationLineMode());
-            _weights.AddMultiple<MultipleTextDecorationLineMode>();
+            modes.Add("underline", TextDecorationLine.Underline);
+            modes.Add("overline", TextDecorationLine.Overline);
+            modes.Add("line-through", TextDecorationLine.LineThrough);
+            modes.Add("blink", TextDecorationLine.Blink);
         }
 
         public CSSTextDecorationLineProperty()
             : base(PropertyNames.TextDecorationLine)
         {
-            _weight = _none;
+            _line = new List<TextDecorationLine>();
             _inherited = false;
         }
 
@@ -42,10 +39,30 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            TextDecorationLineMode weight;
+            TextDecorationLine mode;
 
-            if (_weights.TryCreate(value, out weight))
-                _weight = weight;
+            if (value.Is("none"))
+                _line.Clear();
+            else if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+            {
+                _line.Clear();
+                _line.Add(mode);
+            }
+            else if (value is CSSValueList)
+            {
+                var values = (CSSValueList)value;
+                var list = new List<TextDecorationLine>();
+
+                foreach (var item in values)
+                {
+                    if (item is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+                        list.Add(mode);
+                    else
+                        return false;
+                }
+
+                _line = list;
+            }
             else if (value != CSSValue.Inherit)
                 return false;
 
@@ -55,56 +72,25 @@
         #endregion
 
         #region Mode
-        
-        abstract class TextDecorationLineMode
-        { }
 
-        /// <summary>
-        /// Produces no text decoration.
-        /// </summary>
-        sealed class NoTextDecorationLineMode : TextDecorationLineMode
+        enum TextDecorationLine
         {
-        }
-
-        /// <summary>
-        /// Each line of text is underlined.
-        /// </summary>
-        sealed class UnderlineTextDecorationLineMode : TextDecorationLineMode
-        {
-        }
-
-        /// <summary>
-        /// Each line of text has a line above it.
-        /// </summary>
-        sealed class OverlineTextDecorationLineMode : TextDecorationLineMode
-        {
-        }
-
-        /// <summary>
-        /// Each line of text has a line through the middle.
-        /// </summary>
-        sealed class LineThroughTextDecorationLineMode : TextDecorationLineMode
-        {
-        }
-
-        /// <summary>
-        /// The text blinks (alternates between visible and invisible). Conforming user agents may simply not blink the text.
-        /// </summary>
-        sealed class BlinkTextDecorationLineMode : TextDecorationLineMode
-        {
-        }
-
-        /// <summary>
-        /// A combination of values.
-        /// </summary>
-        sealed class MultipleTextDecorationLineMode : TextDecorationLineMode
-        {
-            List<TextDecorationLineMode> _modes;
-
-            public MultipleTextDecorationLineMode(List<TextDecorationLineMode> modes)
-            {
-                _modes = modes;
-            }
+            /// <summary>
+            /// Each line of text is underlined.
+            /// </summary>
+            Underline,
+            /// <summary>
+            /// Each line of text has a line above it.
+            /// </summary>
+            Overline,
+            /// <summary>
+            /// Each line of text has a line through the middle.
+            /// </summary>
+            LineThrough,
+            /// <summary>
+            /// The text blinks (alternates between visible and invisible). Conforming user agents may simply not blink the text.
+            /// </summary>
+            Blink
         }
 
         #endregion

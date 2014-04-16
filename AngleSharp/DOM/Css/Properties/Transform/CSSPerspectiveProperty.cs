@@ -10,12 +10,6 @@
     {
         #region Fields
 
-        /// <summary>
-        /// Is a length giving the distance from the user to the z=0 plane.
-        /// It is used to apply a perspective transform to the element and
-        /// its content. If it 0 or a negative value, no perspective transform
-        /// is applied.
-        /// </summary>
         Length _distance;
 
         #endregion
@@ -27,6 +21,21 @@
         {
             _inherited = false;
             _distance = Length.Zero;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the distance from the user to the z=0 plane.
+        /// It is used to apply a perspective transform to the element and
+        /// its content. If it 0 or a negative value, no perspective transform
+        /// is applied.
+        /// </summary>
+        public Length Distance
+        {
+            get { return _distance; }
         }
 
         #endregion

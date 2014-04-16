@@ -20,15 +20,27 @@
 
         static CSSDirectionProperty()
         {
-            modes.Add("ltr", new LtrDirectionMode());
-            modes.Add("rtl", new RtlDirectionMode());
+            modes.Add("ltr", DirectionMode.Ltr);
+            modes.Add("rtl", DirectionMode.Rtl);
         }
 
         public CSSDirectionProperty()
             : base(PropertyNames.Direction)
         {
-            _mode = modes["ltr"];
+            _mode = DirectionMode.Ltr;
             _inherited = true;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected text direction.
+        /// </summary>
+        public DirectionMode Direction
+        {
+            get { return _mode; }
         }
 
         #endregion
@@ -43,32 +55,8 @@
                 _mode = mode;
             else if (value != CSSValue.Inherit)
                 return false;
-
+            
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-
-        abstract class DirectionMode
-        {
-            //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// The initial value of direction (that is, if not
-        /// otherwise specified). Text and other elements go from left to right.
-        /// </summary>
-        sealed class LtrDirectionMode : DirectionMode
-        {
-        }
-
-        /// <summary>
-        /// Text and other elements go from right to left
-        /// </summary>
-        sealed class RtlDirectionMode : DirectionMode
-        {
         }
 
         #endregion

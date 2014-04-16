@@ -25,6 +25,18 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected text-decoration color.
+        /// </summary>
+        public Color Color
+        {
+            get { return _color; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)

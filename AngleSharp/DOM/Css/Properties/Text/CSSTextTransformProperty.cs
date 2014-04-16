@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, TextTransformMode> modes = new Dictionary<String, TextTransformMode>(StringComparer.OrdinalIgnoreCase);
-        TextTransformMode _mode;
+        static readonly Dictionary<String, TextTransform> modes = new Dictionary<String, TextTransform>(StringComparer.OrdinalIgnoreCase);
+        TextTransform _mode;
 
         #endregion
 
@@ -20,17 +20,17 @@
 
         static CSSTextTransformProperty()
         {
-            modes.Add("none", new NoneTextTransformMode());
-            modes.Add("capitalize", new CapitalizeTextTransformMode());
-            modes.Add("uppercase", new UppercaseTextTransformMode());
-            modes.Add("lowercase", new LowercaseTextTransformMode());
-            modes.Add("full-width", new FullWidthTextTransformMode());
+            modes.Add("none", TextTransform.None);
+            modes.Add("capitalize", TextTransform.Capitalize);
+            modes.Add("uppercase", TextTransform.Uppercase);
+            modes.Add("lowercase", TextTransform.Lowercase);
+            modes.Add("full-width", TextTransform.FullWidth);
         }
 
         public CSSTextTransformProperty()
             : base(PropertyNames.TextTransform)
         {
-            _mode = modes["none"];
+            _mode = TextTransform.None;
             _inherited = true;
         }
 
@@ -40,7 +40,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            TextTransformMode mode;
+            TextTransform mode;
 
             if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
                 _mode = mode;
@@ -53,49 +53,33 @@
         #endregion
 
         #region Modes
-        
-        abstract class TextTransformMode
-        {
-            //TODO Add members that make sense
-        }
 
-        /// <summary>
-        /// Is a keyword preventing the case of all characters to be changed.
-        /// </summary>
-        sealed class NoneTextTransformMode : TextTransformMode
+        enum TextTransform
         {
-        }
-
-        /// <summary>
-        /// Is a keyword forcing the first letter of each word to be converted
-        /// to uppercase. Other characters are unchanged; that is, they retain
-        /// their original case as written in the element's text.
-        /// </summary>
-        sealed class CapitalizeTextTransformMode : TextTransformMode
-        {
-        }
-
-        /// <summary>
-        /// Is a keyword forcing all characters to be converted to uppercase.
-        /// </summary>
-        sealed class UppercaseTextTransformMode : TextTransformMode
-        {
-        }
-
-        /// <summary>
-        /// Is a keyword forcing all characters to be converted to lowercase.
-        /// </summary>
-        sealed class LowercaseTextTransformMode : TextTransformMode
-        {
-        }
-
-        /// <summary>
-        /// Is a keyword forcing the writing of a character, mainly ideograms and
-        /// latin scripts inside a square, allowing them to be aligned in the
-        /// usual East Asian scripts (like Chinese or Japanese).
-        /// </summary>
-        sealed class FullWidthTextTransformMode : TextTransformMode
-        {
+            /// <summary>
+            /// Is a keyword preventing the case of all characters to be changed.
+            /// </summary>
+            None,
+            /// <summary>
+            /// Is a keyword forcing the first letter of each word to be converted
+            /// to uppercase. Other characters are unchanged; that is, they retain
+            /// their original case as written in the element's text.
+            /// </summary>
+            Capitalize,
+            /// <summary>
+            /// Is a keyword forcing all characters to be converted to uppercase.
+            /// </summary>
+            Uppercase,
+            /// <summary>
+            /// Is a keyword forcing all characters to be converted to lowercase.
+            /// </summary>
+            Lowercase,
+            /// <summary>
+            /// Is a keyword forcing the writing of a character, mainly ideograms and
+            /// latin scripts inside a square, allowing them to be aligned in the
+            /// usual East Asian scripts (like Chinese or Japanese).
+            /// </summary>
+            FullWidth
         }
 
         #endregion

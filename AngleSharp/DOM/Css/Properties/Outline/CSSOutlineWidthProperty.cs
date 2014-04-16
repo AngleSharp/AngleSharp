@@ -34,6 +34,20 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the width of the outline of an element. An outline is a
+        /// line that is drawn around elements, outside the border edge,
+        /// to make the element stand out:
+        /// </summary>
+        public Length Width
+        {
+            get { return _width; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)

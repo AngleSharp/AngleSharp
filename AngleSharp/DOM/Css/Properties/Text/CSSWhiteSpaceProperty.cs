@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, WhiteSpaceMode> modes = new Dictionary<String, WhiteSpaceMode>(StringComparer.OrdinalIgnoreCase);
-        WhiteSpaceMode _mode;
+        static readonly Dictionary<String, Whitespace> modes = new Dictionary<String, Whitespace>(StringComparer.OrdinalIgnoreCase);
+        Whitespace _mode;
 
         #endregion
 
@@ -20,17 +20,17 @@
 
         static CSSWhiteSpaceProperty()
         {
-            modes.Add("normal", new NormalWhiteSpaceMode());
-            modes.Add("pre", new PreWhiteSpaceMode());
-            modes.Add("nowrap", new NoWrapWhiteSpaceMode());
-            modes.Add("pre-wrap", new PreWrapWhiteSpaceMode());
-            modes.Add("pre-line", new PreWrapWhiteSpaceMode());
+            modes.Add("normal", Whitespace.Normal);
+            modes.Add("pre", Whitespace.Pre);
+            modes.Add("nowrap", Whitespace.NoWrap);
+            modes.Add("pre-wrap", Whitespace.PreWrap);
+            modes.Add("pre-line", Whitespace.PreLine);
         }
 
         public CSSWhiteSpaceProperty()
             : base(PropertyNames.WhiteSpace)
         {
-            _mode = modes["normal"];
+            _mode = Whitespace.Normal;
             _inherited = true;
         }
 
@@ -40,7 +40,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            WhiteSpaceMode mode;
+            Whitespace mode;
 
             if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
                 _mode = mode;
@@ -53,51 +53,36 @@
         #endregion
 
         #region Modes
-        
-        abstract class WhiteSpaceMode
-        {
-            //TODO Add members that make sense
-        }
 
-        /// <summary>
-        /// Sequences of whitespace are collapsed. Newline characters in the source
-        /// are handled as other whitespace. Breaks lines as necessary to fill
-        /// line boxes.
-        /// </summary>
-        sealed class NormalWhiteSpaceMode : WhiteSpaceMode
+        enum Whitespace
         {
-        }
+            /// <summary>
+            /// Sequences of whitespace are collapsed. Newline characters in the source
+            /// are handled as other whitespace. Breaks lines as necessary to fill
+            /// line boxes.
+            /// </summary>
+            Normal,
+            /// <summary>
+            /// Sequences of whitespace are preserved, lines are only broken at newline
+            /// characters in the source and at <br> elements.
+            /// </summary>
+            Pre,
+            /// <summary>
+            /// Collapses whitespace as for normal, but suppresses line breaks (text
+            /// wrapping) within text.
+            /// </summary>
+            NoWrap,
+            /// <summary>
+            /// Sequences of whitespace are preserved. Lines are broken at newline characters,
+            /// at br, and as necessary to fill line boxes.
+            /// </summary>
+            PreWrap,
+            /// <summary>
+            /// Sequences of whitespace are collapsed. Lines are broken at newline characters,
+            /// at br, and as necessary to fill line boxes.
+            /// </summary>
+            PreLine
 
-        /// <summary>
-        /// Sequences of whitespace are preserved, lines are only broken at newline
-        /// characters in the source and at <br> elements.
-        /// </summary>
-        sealed class PreWhiteSpaceMode : WhiteSpaceMode
-        {
-        }
-
-        /// <summary>
-        /// Collapses whitespace as for normal, but suppresses line breaks (text
-        /// wrapping) within text.
-        /// </summary>
-        sealed class NoWrapWhiteSpaceMode : WhiteSpaceMode
-        {
-        }
-
-        /// <summary>
-        /// Sequences of whitespace are preserved. Lines are broken at newline characters,
-        /// at br, and as necessary to fill line boxes.
-        /// </summary>
-        sealed class PreWrapWhiteSpaceMode : WhiteSpaceMode
-        {
-        }
-
-        /// <summary>
-        /// Sequences of whitespace are collapsed. Lines are broken at newline characters,
-        /// at br, and as necessary to fill line boxes.
-        /// </summary>
-        sealed class PreLineWhiteSpaceMode : WhiteSpaceMode
-        {
         }
 
         #endregion

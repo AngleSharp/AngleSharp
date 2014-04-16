@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, TextAlignMode> modes = new Dictionary<String, TextAlignMode>(StringComparer.OrdinalIgnoreCase);
-        TextAlignMode _mode;
+        static readonly Dictionary<String, HorizontalAlignment> modes = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase);
+        HorizontalAlignment _mode;
 
         #endregion
 
@@ -20,17 +20,29 @@
 
         static CSSTextAlignProperty()
         {
-            modes.Add("left", new LeftTextAlignMode());
-            modes.Add("right", new RightTextAlignMode());
-            modes.Add("center", new CenterTextAlignMode());
-            modes.Add("justify", new JustifyTextAlignMode());
+            modes.Add("left", HorizontalAlignment.Left);
+            modes.Add("right", HorizontalAlignment.Right);
+            modes.Add("center", HorizontalAlignment.Center);
+            modes.Add("justify", HorizontalAlignment.Justify);
         }
 
         public CSSTextAlignProperty()
             : base(PropertyNames.TextAlign)
         {
-            _mode = modes["left"];
+            _mode = HorizontalAlignment.Left;
             _inherited = true;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected horizontal alignment mode.
+        /// </summary>
+        public HorizontalAlignment Align
+        {
+            get { return _mode; }
         }
 
         #endregion
@@ -39,7 +51,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            TextAlignMode mode;
+            HorizontalAlignment mode;
 
             if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
                 _mode = mode;
@@ -47,44 +59,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-        
-        abstract class TextAlignMode
-        {
-            //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// The inline contents are aligned to the left edge of the line box.
-        /// </summary>
-        sealed class LeftTextAlignMode : TextAlignMode
-        {
-        }
-
-        /// <summary>
-        /// The inline contents are aligned to the right edge of the line box.
-        /// </summary>
-        sealed class RightTextAlignMode : TextAlignMode
-        {
-        }
-
-        /// <summary>
-        /// The inline contents are centered within the line box.
-        /// </summary>
-        sealed class CenterTextAlignMode : TextAlignMode
-        {
-        }
-
-        /// <summary>
-        /// The text is justified. Text should line up their left and right
-        /// edges to the left and right content edges of the paragraph.
-        /// </summary>
-        sealed class JustifyTextAlignMode : TextAlignMode
-        {
         }
 
         #endregion

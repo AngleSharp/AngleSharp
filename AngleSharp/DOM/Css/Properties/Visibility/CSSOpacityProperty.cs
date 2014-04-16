@@ -25,6 +25,18 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the value that should be used for the opacity.
+        /// </summary>
+        public Single Opacity
+        {
+            get { return _value; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)

@@ -20,14 +20,14 @@
 
         static CSSTransformStyleProperty()
         {
-            modes.Add("flat", new FlatTransformStyle());
-            modes.Add("preserve-3d", new Preserve3dTransformStyle());
+            modes.Add("flat", TransformStyle.Flat);
+            modes.Add("preserve-3d", TransformStyle.Preserve3d);
         }
 
         public CSSTransformStyleProperty()
             : base(PropertyNames.TransformStyle)
         {
-            _mode = modes["flat"];
+            _mode = TransformStyle.Flat;
             _inherited = false;
         }
 
@@ -50,26 +50,19 @@
         #endregion
 
         #region Modes
-        
-        abstract class TransformStyle
-        {
-            //TODO Add members that make sense
-        }
 
-        /// <summary>
-        /// Indicates that the children of the element are lying
-        /// in the plane of the element itself.
-        /// </summary>
-        sealed class FlatTransformStyle : TransformStyle
+        enum TransformStyle
         {
-        }
-
-        /// <summary>
-        /// Indicates that the children of the element should
-        /// be positioned in the 3D-space.
-        /// </summary>
-        sealed class Preserve3dTransformStyle : TransformStyle
-        {
+            /// <summary>
+            /// Indicates that the children of the element are lying
+            /// in the plane of the element itself.
+            /// </summary>
+            Flat,
+            /// <summary>
+            /// Indicates that the children of the element should
+            /// be positioned in the 3D-space.
+            /// </summary>
+            Preserve3d
         }
 
         #endregion
