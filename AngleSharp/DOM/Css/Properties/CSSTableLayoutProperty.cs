@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, TableLayoutMode> modes = new Dictionary<String, TableLayoutMode>(StringComparer.OrdinalIgnoreCase);
-        TableLayoutMode _mode;
+        static readonly Dictionary<String, TableLayout> modes = new Dictionary<String, TableLayout>(StringComparer.OrdinalIgnoreCase);
+        TableLayout _mode;
 
         #endregion
 
@@ -20,14 +20,14 @@
 
         static CSSTableLayoutProperty()
         {
-            modes.Add("auto", new AutoTableLayoutMode());
-            modes.Add("fixed", new FixedTableLayoutMode());
+            modes.Add("auto", TableLayout.Auto);
+            modes.Add("fixed", TableLayout.Fixed);
         }
 
         public CSSTableLayoutProperty()
             : base(PropertyNames.TableLayout)
         {
-            _mode = modes["auto"];
+            _mode = TableLayout.Auto;
             _inherited = false;
         }
 
@@ -37,7 +37,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            TableLayoutMode mode;
+            TableLayout mode;
 
             if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
                 _mode = mode;
@@ -50,28 +50,21 @@
         #endregion
 
         #region Modes
-        
-        abstract class TableLayoutMode
-        {
-            //TODO Add members that make sense
-        }
 
-        /// <summary>
-        /// An automatic table layout algorithm is commonly used by
-        /// most browsers for table layout. The width of the table
-        /// and its cells depends on the content thereof.
-        /// </summary>
-        sealed class AutoTableLayoutMode : TableLayoutMode
+        enum TableLayout
         {
-        }
-
-        /// <summary>
-        /// Table and column widths are set by the widths of table and
-        /// col elements or by the width of the first row of cells. Cells
-        /// in subsequent rows do not affect column widths.
-        /// </summary>
-        sealed class FixedTableLayoutMode : TableLayoutMode
-        {
+            /// <summary>
+            /// An automatic table layout algorithm is commonly used by
+            /// most browsers for table layout. The width of the table
+            /// and its cells depends on the content thereof.
+            /// </summary>
+            Auto,
+            /// <summary>
+            /// Table and column widths are set by the widths of table and
+            /// col elements or by the width of the first row of cells. Cells
+            /// in subsequent rows do not affect column widths.
+            /// </summary>
+            Fixed
         }
 
         #endregion

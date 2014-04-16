@@ -25,6 +25,19 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the minimum number of lines in a block container
+        /// that must be left at the bottom of the page. 
+        /// </summary>
+        public Int32 Count
+        {
+            get { return _value; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)

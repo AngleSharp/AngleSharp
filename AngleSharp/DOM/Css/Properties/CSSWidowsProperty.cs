@@ -30,6 +30,19 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the number of lines, which must be left on top
+        /// of a new page, on a paged media.
+        /// </summary>
+        public Int32 Count
+        {
+            get { return _value; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)

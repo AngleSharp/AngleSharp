@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, CaptionSideMode> modes = new Dictionary<String, CaptionSideMode>(StringComparer.OrdinalIgnoreCase);
-        CaptionSideMode _mode;
+        static readonly Dictionary<String, CaptionSide> modes = new Dictionary<String, CaptionSide>(StringComparer.OrdinalIgnoreCase);
+        CaptionSide _mode;
 
         #endregion
 
@@ -20,14 +20,14 @@
 
         static CSSCaptionSideProperty()
         {
-            modes.Add("top", new TopCaptionSideMode());
-            modes.Add("bottom", new BottomCaptionSideMode());
+            modes.Add("top", CaptionSide.Top);
+            modes.Add("bottom", CaptionSide.Bottom);
         }
 
         public CSSCaptionSideProperty()
             : base(PropertyNames.CaptionSide)
         {
-            _mode = modes["top"];
+            _mode = CaptionSide.Top;
             _inherited = false;
         }
 
@@ -37,7 +37,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            CaptionSideMode mode;
+            CaptionSide mode;
 
             if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
                 _mode = mode;
@@ -50,24 +50,17 @@
         #endregion
 
         #region Modes
-        
-        abstract class CaptionSideMode
-        {
-            //TODO Add members that make sense
-        }
 
-        /// <summary>
-        /// The caption box will be above the table.
-        /// </summary>
-        sealed class TopCaptionSideMode : CaptionSideMode
+        enum CaptionSide
         {
-        }
-
-        /// <summary>
-        /// The caption box will be below the table.
-        /// </summary>
-        sealed class BottomCaptionSideMode : CaptionSideMode
-        {
+            /// <summary>
+            /// The caption box will be above the table.
+            /// </summary>
+            Top,
+            /// <summary>
+            /// The caption box will be below the table.
+            /// </summary>
+            Bottom
         }
 
         #endregion

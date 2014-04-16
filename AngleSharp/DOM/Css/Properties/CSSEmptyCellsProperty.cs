@@ -20,14 +20,14 @@
 
         static CSSEmptyCellsProperty()
         {
-            modes.Add("show", new ShowCellMode());
-            modes.Add("hide", new HideCellMode());
+            modes.Add("show", CellMode.Show);
+            modes.Add("hide", CellMode.Hide);
         }
 
         public CSSEmptyCellsProperty()
             : base(PropertyNames.EmptyCells)
         {
-            _mode = modes["show"];
+            _mode = CellMode.Show;
             _inherited = true;
         }
 
@@ -51,25 +51,18 @@
 
         #region Modes
 
-        abstract class CellMode
+        enum CellMode
         {
-            //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// Is a keyword indicating that borders and backgrounds
-        /// should be drawn like in a normal cells.
-        /// </summary>
-        sealed class ShowCellMode : CellMode
-        {
-        }
-
-        /// <summary>
-        /// Is a keyword indicating that no border or backgrounds
-        /// should be drawn.
-        /// </summary>
-        sealed class HideCellMode : CellMode
-        {
+            /// <summary>
+            /// Is a keyword indicating that borders and backgrounds
+            /// should be drawn like in a normal cells.
+            /// </summary>
+            Show,
+            /// <summary>
+            /// Is a keyword indicating that no border or backgrounds
+            /// should be drawn.
+            /// </summary>
+            Hide
         }
 
         #endregion
