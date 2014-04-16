@@ -6,11 +6,11 @@
     public enum DirectionMode : ushort
     {
         /// <summary>
-        /// From left to right.
+        /// Text and other elements go from left to right.
         /// </summary>
         Ltr,
         /// <summary>
-        /// From right to left.
+        /// Text and other elements go from right to left
         /// </summary>
         Rtl
     }
