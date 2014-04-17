@@ -1,17 +1,16 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+    using System.Globalization;
+
     /// <summary>
     /// Represents an HTML input element.
     /// </summary>
     [DOM("HTMLInputElement")]
     public sealed class HTMLInputElement : HTMLTextFormControlElement
     {
-        #region Members
+        #region Fields
 
         UInt32 _imageWidth;
         UInt32 _imageHeight;
@@ -582,8 +581,8 @@ namespace AngleSharp.DOM.Html
                     if(_files.Length == 0)
                         dataSet.Append(Name, String.Empty, "application/octet-stream");
 
-                    foreach (var file in _files)//TODO
-                        dataSet.Append(Name, file.Body, Type.ToString());
+                    foreach (var file in _files)
+                        dataSet.Append(Name, file, Type.ToString());
 
                     break;
                 }

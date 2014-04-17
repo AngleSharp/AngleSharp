@@ -34,12 +34,12 @@
             return response.Content;
         }
 
-        public static Task<Stream> SendAsync(this IConfiguration configuration, Uri url, String content, String mimeType, HttpMethod method = HttpMethod.POST)
+        public static Task<Stream> SendAsync(this IConfiguration configuration, Uri url, Stream content, String mimeType, HttpMethod method = HttpMethod.POST)
         {
             return configuration.SendAsync(url, content, mimeType, method, CancellationToken.None);
         }
 
-        public static async Task<Stream> SendAsync(this IConfiguration configuration, Uri url, String content, String mimeType, HttpMethod method, CancellationToken cancel)
+        public static async Task<Stream> SendAsync(this IConfiguration configuration, Uri url, Stream content, String mimeType, HttpMethod method, CancellationToken cancel)
         {
             if (!configuration.AllowHttpRequests)
                 return Stream.Null;
@@ -51,6 +51,7 @@
 
             var request = DependencyResolver.Current.GetService<IHttpRequest>();
             request.Address = url;
+            request.Content = content;
             request.Headers[HeaderNames.Content_Type] = mimeType;
             request.Method = method;
             var response = await requester.RequestAsync(request, cancel);

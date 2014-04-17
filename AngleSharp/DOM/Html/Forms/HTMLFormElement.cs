@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM.Collections;
     using System;
+    using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -333,7 +334,7 @@
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
             var mimeType = String.Empty;
-            var result = String.Empty;
+            Stream result = null;
 
             if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
             {
@@ -363,7 +364,7 @@
         /// <param name="method">The HTTP method.</param>
         /// <param name="body">The entity body of the request.</param>
         /// <param name="mime">The MIME type of the entity body.</param>
-        async Task NavigateTo(String action, HttpMethod method, String body, String mime)
+        async Task NavigateTo(String action, HttpMethod method, Stream body, String mime)
         {
             if (_plannedNavigation != null)
             {
@@ -413,7 +414,7 @@
 
         #endregion
 
-        #region Internal properties
+        #region Internal Properties
 
         /// <summary>
         /// Gets if the node is in the special category.

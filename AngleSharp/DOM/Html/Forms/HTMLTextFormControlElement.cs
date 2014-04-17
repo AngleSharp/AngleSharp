@@ -1,13 +1,13 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the base class for all HTML text form controls.
     /// </summary>
     public abstract class HTMLTextFormControlElement : HTMLFormControlElementWithState
     {
-        #region Members
+        #region Fields
 
         String _value;
         SelectionType _direction;
@@ -141,7 +141,7 @@ namespace AngleSharp.DOM.Html
 
         #endregion
 
-        #region Members
+        #region Methods
 
         /// <summary>
         /// Selects a range of text, and sets selectionStart and selectionEnd.

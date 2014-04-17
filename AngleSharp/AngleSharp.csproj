@@ -196,7 +196,7 @@
     <Compile Include="Foundation\Constants\PropertyNames.cs" />
     <Compile Include="Foundation\Constants\RuleNames.cs" />
     <Compile Include="Foundation\XmlExtensions.cs" />
-    <Compile Include="Foundation\FormDataSet.cs" />
+    <Compile Include="DOM\Objects\FormDataSet.cs" />
     <Compile Include="Parser\Html\HtmlHelpers.cs" />
     <Compile Include="Foundation\StringExtensions.cs" />
     <Compile Include="IInfo.cs" />

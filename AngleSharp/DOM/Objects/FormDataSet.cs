@@ -1,8 +1,9 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.DOM
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Text;
 
@@ -48,24 +49,23 @@
         /// </summary>
         /// <param name="encoding">(Optional) Explicit encoding.</param>
         /// <returns></returns>
-        public String AsMultipart(Encoding encoding = null)
+        public Stream AsMultipart(Encoding encoding = null)
         {
             encoding = encoding ?? Encoding.UTF8;
             var charset = encoding.WebName;
-            var result = Pool.NewStringBuilder();
+            var ms = new MemoryStream();
 
             foreach (var entry in _entries)
             {
-                var text = entry as TextEntry;
-
-                if (text != null && entry.Name.Equals("_charset_") && entry.Type.Equals("hidden", StringComparison.OrdinalIgnoreCase))
-                    text.Value = charset;
+                if (entry.Name.Equals("_charset_") && entry.Type.Equals("hidden", StringComparison.OrdinalIgnoreCase))
+                    entry.Value = charset;
 
                 //TODO Replace Characters in Name & Value that cannot be expressed by using current encoding with &#...; base-10 unicode point
                 //RFC 2388
             }
 
-            return result.ToPool();
+            ms.Position = 0;
+            return ms;
         }
 
         /// <summary>
@@ -74,13 +74,14 @@
         /// </summary>
         /// <param name="encoding">(Optional) Explicit encoding.</param>
         /// <returns></returns>
-        public String AsUrlEncoded(Encoding encoding = null)
+        public Stream AsUrlEncoded(Encoding encoding = null)
         {
             encoding = encoding ?? Encoding.UTF8;
             var charset = encoding.WebName;
-            var result = Pool.NewStringBuilder();
+            var ms = new MemoryStream();
             //TODO
-            return result.ToPool();
+            ms.Position = 0;
+            return ms;
         }
 
         /// <summary>
@@ -89,13 +90,14 @@
         /// </summary>
         /// <param name="encoding">(Optional) Explicit encoding.</param>
         /// <returns></returns>
-        public String AsPlaintext(Encoding encoding = null)
+        public Stream AsPlaintext(Encoding encoding = null)
         {
             encoding = encoding ?? Encoding.UTF8;
             var charset = encoding.WebName;
-            var result = Pool.NewStringBuilder();
+            var ms = new MemoryStream();
             //TODO
-            return result.ToPool();
+            ms.Position = 0;
+            return ms;
         }
 
         public void Append(String name, String value, String type)
@@ -107,16 +109,16 @@
             }
 
             CheckBoundary(value);
-            _entries.Add(new TextEntry { Name = name, Value = value, Type = type });
+            _entries.Add(new FormDataSetEntry { Name = name, Value = value, Type = type });
         }
 
-        public void Append(String name, Byte[] value, String type)
+        public void Append(String name, FileEntry value, String type)
         {
             if (String.Compare(type, "file", StringComparison.OrdinalIgnoreCase) == 0)
                 name = Normalize(name);
 
             CheckBoundary(value);
-            _entries.Add(new BinaryEntry { Name = name, Value = value, Type = type });
+            _entries.Add(new FormDataSetEntry { Name = name, Value = value, Type = type });
         }
 
         #endregion
@@ -151,7 +153,7 @@
         /// <summary>
         /// Encapsulates the data contained in an entry.
         /// </summary>
-        abstract class FormDataSetEntry
+        sealed class FormDataSetEntry
         {
             /// <summary>
             /// Gets or sets the entry's name.
@@ -170,26 +172,11 @@
                 get;
                 set;
             }
-        }
 
-        sealed class TextEntry : FormDataSetEntry
-        {
             /// <summary>
             /// Gets or sets the entry's value.
             /// </summary>
-            public String Value
-            {
-                get;
-                set;
-            }
-        }
-
-        sealed class BinaryEntry : FormDataSetEntry
-        {
-            /// <summary>
-            /// Gets or sets the entry's value.
-            /// </summary>
-            public Byte[] Value
+            public Object Value
             {
                 get;
                 set;
