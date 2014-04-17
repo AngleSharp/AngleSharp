@@ -1099,6 +1099,9 @@
     <Compile Include="..\AngleSharp\DOM\Objects\FileEntry.cs">
       <Link>DOM\Objects\FileEntry.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Objects\FormDataSet.cs">
+      <Link>DOM\Objects\FormDataSet.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Objects\Range.cs">
       <Link>DOM\Objects\Range.cs</Link>
     </Compile>
@@ -1224,9 +1227,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Errors.cs">
       <Link>Foundation\Errors.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\FormDataSet.cs">
-      <Link>Foundation\FormDataSet.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\HttpMethod.cs">
       <Link>Foundation\HttpMethod.cs</Link>
