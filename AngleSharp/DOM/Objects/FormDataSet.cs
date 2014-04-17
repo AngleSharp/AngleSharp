@@ -92,13 +92,18 @@
 
             using (var tw = new StreamWriter(ms, encoding))
             {
-                tw.WriteLine();
-
-                foreach (var entry in _entries)
+                if (_entries.Count > 0)
                 {
-                    tw.Write(entry.Name);
-                    tw.Write('=');
-                    entry.AsUrlEncoded(tw);
+                    if (_entries[0].Name.Equals("isindex") && _entries[0].Type.Equals("text", StringComparison.OrdinalIgnoreCase))
+                        tw.Write(((TextDataSetEntry)_entries[0]).Value);
+                    else
+                        _entries[0].AsUrlEncoded(tw);
+
+                    for (int i = 1; i < _entries.Count; i++)
+                    {
+                        tw.Write('&');
+                        _entries[i].AsUrlEncoded(tw);
+                    }
                 }
             }
 
@@ -126,9 +131,8 @@
 
                 foreach (var entry in _entries)
                 {
-                    tw.Write(entry.Name);
-                    tw.Write('=');
                     entry.AsPlaintext(tw);
+                    tw.Write("\r\n");
                 }
             }
 
@@ -211,13 +215,16 @@
         /// </summary>
         abstract class FormDataSetEntry
         {
+            protected String _name;
+            protected String _type;
+
             /// <summary>
             /// Gets or sets the entry's name.
             /// </summary>
             public String Name
             {
-                get;
-                set;
+                get { return _name; }
+                set { _name = value; }
             }
 
             /// <summary>
@@ -225,8 +232,8 @@
             /// </summary>
             public String Type
             {
-                get;
-                set;
+                get { return _type; }
+                set { _type = value; }
             }
 
             /// <summary>
@@ -250,29 +257,35 @@
 
         sealed class TextDataSetEntry : FormDataSetEntry
         {
+            String _value;
+
             /// <summary>
             /// Gets or sets the entry's value.
             /// </summary>
             public String Value
             {
-                get;
-                set;
+                get { return _value; }
+                set { _value = value; }
             }
 
             public override void AsMultipart(StreamWriter stream)
             {
-                stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", Sanatize(Name, stream.Encoding), "\""));
+                stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", Sanatize(_name, stream.Encoding), "\""));
                 stream.WriteLine();
-                stream.WriteLine(Sanatize(Value, stream.Encoding));
+                stream.WriteLine(Sanatize(_value, stream.Encoding));
             }
 
             public override void AsPlaintext(StreamWriter stream)
             {
-                stream.WriteLine(Value);
+                stream.Write(_name);
+                stream.Write('=');
+                stream.Write(_value);
             }
 
             public override void AsUrlEncoded(StreamWriter stream)
             {
+                stream.Write(_name);
+                stream.Write('=');
                 //TODO
                 throw new NotImplementedException();
             }
@@ -280,32 +293,38 @@
 
         sealed class FileDataSetEntry : FormDataSetEntry
         {
+            FileEntry _value;
+
             /// <summary>
             /// Gets or sets the entry's value.
             /// </summary>
             public FileEntry Value
             {
-                get;
-                set;
+                get { return _value; }
+                set { _value = value; }
             }
 
             public override void AsMultipart(StreamWriter stream)
             {
-                stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", Sanatize(Name, stream.Encoding), Value.FileName);
-                stream.WriteLine("content-type: " + Value.Type);
+                stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", Sanatize(_name, stream.Encoding), _value.FileName);
+                stream.WriteLine("content-type: " + _value.Type);
                 stream.WriteLine("content-transfer-encoding: binary");
                 stream.WriteLine();
-                stream.BaseStream.Write(Value.Body, 0, Value.Body.Length);
+                stream.BaseStream.Write(_value.Body, 0, _value.Body.Length);
                 stream.WriteLine();
             }
 
             public override void AsPlaintext(StreamWriter stream)
             {
-                stream.WriteLine(Value.FileName);
+                stream.Write(_name);
+                stream.Write('=');
+                stream.Write(_value.FileName);
             }
 
             public override void AsUrlEncoded(StreamWriter stream)
             {
+                stream.Write(_name);
+                stream.Write('=');
                 //TODO
                 throw new NotImplementedException();
             }
