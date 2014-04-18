@@ -7,20 +7,20 @@
 
     interface IHTMLDocument : IDocument
     {
-        HTMLCollection Anchors { get; }
+        HTMLCollection<HTMLAnchorElement> Anchors { get; }
         HTMLBodyElement Body { get; }
         HTMLDocument Close();
         Cookie Cookie { get; set; }
         String Domain { get; }
         HTMLCollection Embeds { get; }
-        HTMLCollection Forms { get; }
+        HTMLCollection<HTMLFormElement> Forms { get; }
         HTMLCollection GetElementsByName(String name);
         HTMLHeadElement Head { get; }
-        HTMLCollection Images { get; }
+        HTMLCollection<HTMLImageElement> Images { get; }
         HTMLCollection Links { get; }
         HTMLDocument Open();
         void Load(String url);
-        HTMLCollection Scripts { get; }
+        HTMLCollection<HTMLScriptElement> Scripts { get; }
         String Title { get; set; }
         String Url { get; }
         HTMLDocument Write(String content);

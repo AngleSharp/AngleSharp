@@ -215,13 +215,9 @@
     <Compile Include="DOM\Annotations\ISelectScopeElement.cs" />
     <Compile Include="DOM\Annotations\ITableScopeElement.cs" />
     <Compile Include="DOM\Annotations\ITableSectionScopeElement.cs" />
-    <Compile Include="DOM\Collections\HTMLLiveCollectionWithAttr.cs" />
     <Compile Include="DOM\Collections\CSSStyleDeclaration.cs" />
     <Compile Include="DOM\Collections\DOMStringMap.cs" />
     <Compile Include="DOM\Collections\FileList.cs" />
-    <Compile Include="DOM\Collections\HTMLFormControlsCollection.cs" />
-    <Compile Include="DOM\Collections\HTMLLiveCollection.cs" />
-    <Compile Include="DOM\Collections\HTMLStaticCollection.cs" />
     <Compile Include="DOM\Constants\ContentEditableMode.cs" />
     <Compile Include="DOM\Css\CSSProperty.cs" />
     <Compile Include="DOM\Css\Rules\CSSCharsetRule.cs" />

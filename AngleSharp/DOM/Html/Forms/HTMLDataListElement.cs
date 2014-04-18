@@ -1,16 +1,16 @@
-﻿using AngleSharp.DOM.Collections;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+
     /// <summary>
     /// Represents the HTML datalist element.
     /// </summary>
     [DOM("HTMLDataListElement")]
     public sealed class HTMLDataListElement : HTMLElement
     {
-        #region Members
+        #region Fields
 
-        HTMLLiveCollection<HTMLOptionElement> _options;
+        HTMLCollection<HTMLOptionElement> _options;
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace AngleSharp.DOM.Html
         internal HTMLDataListElement()
         {
             _name = Tags.Datalist;
-            _options = new HTMLLiveCollection<HTMLOptionElement>(this);
+            _options = new HTMLCollection<HTMLOptionElement>(this);
         }
 
         #endregion
@@ -33,7 +33,7 @@ namespace AngleSharp.DOM.Html
         /// Gets a collection whose filter matches option elements.
         /// </summary>
         [DOM("options")]
-        public HTMLCollection Options
+        public HTMLCollection<HTMLOptionElement> Options
         {
             get { return _options; }
         }

@@ -16,7 +16,7 @@
         DOMTokenList _classList;
         DOMStringMap _dataset;
         CSSStyleDeclaration _style;
-        HTMLLiveCollection<Element> _elements;
+        HTMLCollection _elements;
 
         #endregion
 
@@ -28,7 +28,7 @@
         internal Element()
         {
             _type = NodeType.Element;
-            _elements = new HTMLLiveCollection<Element>(this, false);
+            _elements = new HTMLCollection(this, deep: false);
         }
 
         #endregion

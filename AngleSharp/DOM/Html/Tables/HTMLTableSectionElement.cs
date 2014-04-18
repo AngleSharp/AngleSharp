@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        HTMLLiveCollection<HTMLTableRowElement> _rows;
+        HTMLCollection<HTMLTableRowElement> _rows;
 
         #endregion
 
@@ -20,7 +20,7 @@
         internal HTMLTableSectionElement()
         {
             _name = Tags.Tbody;
-            _rows = new HTMLLiveCollection<HTMLTableRowElement>(this);
+            _rows = new HTMLCollection<HTMLTableRowElement>(this);
         }
 
         #endregion
@@ -41,7 +41,7 @@
         /// Gets the assigned table rows.
         /// </summary>
         [DOM("rows")]
-        public HTMLCollection Rows
+        public HTMLCollection<HTMLTableRowElement> Rows
         {
             get { return _rows; }
         }

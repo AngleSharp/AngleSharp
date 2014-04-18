@@ -12,8 +12,8 @@
     {
         #region Fields
 
-        HTMLLiveCollection<HTMLTableCaptionElement> _bodies;
-        HTMLLiveCollection<HTMLTableRowElement> _rows;
+        HTMLCollection<HTMLTableCaptionElement> _bodies;
+        HTMLCollection<HTMLTableRowElement> _rows;
 
         #endregion
 
@@ -22,8 +22,8 @@
         internal HTMLTableElement()
         {
             _name = Tags.Table;
-            _rows = new HTMLLiveCollection<HTMLTableRowElement>(this);
-            _bodies = new HTMLLiveCollection<HTMLTableCaptionElement>(this);
+            _rows = new HTMLCollection<HTMLTableRowElement>(this);
+            _bodies = new HTMLCollection<HTMLTableCaptionElement>(this);
         }
 
         #endregion
@@ -52,7 +52,7 @@
         /// Gets the assigned body sections.
         /// </summary>
         [DOM("tBodies")]
-        public HTMLCollection TBodies
+        public HTMLCollection<HTMLTableCaptionElement> TBodies
         {
             get { return _bodies; }
         }
@@ -70,7 +70,7 @@
         /// Gets the assigned table rows.
         /// </summary>
         [DOM("rows")]
-        public HTMLCollection Rows
+        public HTMLCollection<HTMLTableRowElement> Rows
         {
             get { return _rows; }
         }

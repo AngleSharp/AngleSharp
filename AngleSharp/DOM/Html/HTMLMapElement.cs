@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM.Collections;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the HTML map element.
@@ -20,8 +21,8 @@
 
         #region Fields
 
-        HTMLStaticCollection areas;
-        HTMLStaticCollection images;
+        List<Element> _areas;
+        List<Element> _images;
 
         #endregion
 
@@ -30,8 +31,10 @@
         internal HTMLMapElement()
         {
             _name = Tag;
-            areas = new HTMLStaticCollection();
-            images = new HTMLStaticCollection();
+            _areas = new List<Element>();
+            _images = new List<Element>();
+            Areas = new HTMLCollection(_areas);
+            Images = new HTMLCollection(_images);
         }
 
         #endregion
@@ -55,7 +58,8 @@
         [DOM("areas")]
         public HTMLCollection Areas
         {
-            get { return areas; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -65,7 +69,8 @@
         [DOM("images")]
         public HTMLCollection Images
         {
-            get { return images; }
+            get;
+            private set;
         }
 
         #endregion
@@ -74,22 +79,22 @@
 
         internal void RegisterArea(Element area)
         {
-            areas.List.Add(area);
+            _areas.Add(area);
         }
 
         internal void UnregisterArea(Element area)
         {
-            areas.List.Remove(area);
+            _areas.Remove(area);
         }
 
         internal void RegisterImage(Element imageOrObject)
         {
-            images.List.Add(imageOrObject);
+            _images.Add(imageOrObject);
         }
 
         internal void UnregisterImage(Element imageOrObject)
         {
-            images.List.Remove(imageOrObject);
+            _images.Remove(imageOrObject);
         }
 
         #endregion

@@ -1,18 +1,18 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents the select element.
     /// </summary>
     [DOM("HTMLSelectElement")]
     public sealed class HTMLSelectElement : HTMLFormControlElementWithState
     {
-        #region Members
+        #region Fields
 
-        HTMLLiveCollection<HTMLOptionElement> _options;
+        HTMLCollection<HTMLOptionElement> _options;
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace AngleSharp.DOM.Html
         internal HTMLSelectElement()
         {
             _name = Tags.Select;
-            _options = new HTMLLiveCollection<HTMLOptionElement>(this);
+            _options = new HTMLCollection<HTMLOptionElement>(this);
             WillValidate = true;
         }
 
@@ -46,17 +46,17 @@ namespace AngleSharp.DOM.Html
         /// Gets the set of options that are selected.
         /// </summary>
         [DOM("selectedOptions")]
-        public HTMLCollection SelectedOptions
+        public HTMLCollection<HTMLOptionElement> SelectedOptions
         {
             get 
             {
-                var result = new List<Element>();
+                var result = new List<HTMLOptionElement>();
 
-                foreach (var option in _options.Elements)
+                foreach (var option in _options)
                     if (option.Selected)
                         result.Add(option);
 
-                return new HTMLStaticCollection(result);
+                return new HTMLCollection<HTMLOptionElement>(result);
             }
         }
 
@@ -70,7 +70,7 @@ namespace AngleSharp.DOM.Html
             { 
                 var index = 0;
 
-                foreach (var option in _options.Elements)
+                foreach (var option in _options)
                 {
                     if (option.Selected)
                         return index;
@@ -90,7 +90,7 @@ namespace AngleSharp.DOM.Html
         {
             get
             {
-                foreach (var option in _options.Elements)
+                foreach (var option in _options)
                 {
                     if (option.Selected)
                         return option.Value;
@@ -100,7 +100,7 @@ namespace AngleSharp.DOM.Html
             }
             set
             {
-                foreach (var option in _options.Elements)
+                foreach (var option in _options)
                     option.Selected = option.Value == value;
             }
         }
@@ -128,7 +128,7 @@ namespace AngleSharp.DOM.Html
         /// Gets the set of option elements contained by this element. 
         /// </summary>
         [DOM("options")]
-        public HTMLCollection Options
+        public HTMLCollection<HTMLOptionElement> Options
         {
             get { return _options; }
         }
@@ -179,9 +179,7 @@ namespace AngleSharp.DOM.Html
 
         internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
         {
-            var options = _options.Elements;
-
-            foreach (var option in options)
+            foreach (var option in _options)
             {
                 if (option.Selected && !option.Disabled)
                     dataSet.Append(Name, option.Value, Multiple ? "select-one" : "select-multiple");
@@ -205,7 +203,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal override void Reset()
         {
-            foreach (var option in _options.Elements)
+            foreach (var option in _options)
                 option.Selected = option.DefaultSelected;
         }
 

@@ -1,21 +1,39 @@
 ﻿namespace AngleSharp.DOM.Collections
 {
+    using AngleSharp.DOM.Html;
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
-    /// <summary>
-    /// A collection of HTML nodes.
-    /// </summary>
-    [DOM("HTMLCollection")]
-    public abstract class HTMLCollection : IEnumerable<Element>
+    public class HTMLCollection<T> : IEnumerable<T>
+        where T : Element
     {
+        #region Fields
+
+        IEnumerable<T> _elements;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
         /// Creates a new list of HTML elements.
         /// </summary>
-        internal HTMLCollection()
+        /// <param name="elements">The elements to use.</param>
+        internal HTMLCollection(IEnumerable<T> elements)
+        {
+            _elements = elements;
+        }
+
+        /// <summary>
+        /// Creates a new live collection for the given parent.
+        /// </summary>
+        /// <param name="parent">The parent of this collection.</param>
+        /// <param name="deep">[Optional] Determines if recursive search is activated.</param>
+        /// <param name="predicate">[Optional] The predicate function for picking elements.</param>
+        internal HTMLCollection(Node parent, Boolean deep = true, Predicate<T> predicate = null)
+            : this(GetElements(parent, deep, predicate))
         {
         }
 
@@ -31,22 +49,22 @@
         /// <param name="index">The 0-based index of the element.</param>
         /// <returns>The element at the specified index.</returns>
         [DOM("item")]
-        public Element this[Int32 index]
+        public T this[Int32 index]
         {
-            get { return GetItem(index); }
+            get { return _elements.Skip(index).FirstOrDefault(); }
         }
 
         /// <summary>
         /// Gets the specific node whose id matches the string specified by the attribute.
         /// Matching by name is only done as a last resort, only in HTML, and only if the referenced
-        /// element supports the name attribute. Returns null if no node exists by the given name.
+        /// element supports the name attribute. Returns null if no node exists with the given name.
         /// </summary>
         /// <param name="id">The id of the element.</param>
-        /// <returns>The element(s) with the specified identifier.</returns>
+        /// <returns>The element with the specified identifier.</returns>
         [DOM("namedItem")]
-        public Object this[String id]
+        public T this[String id]
         {
-            get { return GetItem(id); }
+            get { return _elements.FirstOrDefault(m => m.Id == id) ?? _elements.FirstOrDefault(m => m.GetAttribute("name") == id); }
         }
 
         #endregion
@@ -59,64 +77,62 @@
         [DOM("length")]
         public Int32 Length
         {
-            get { return GetLength(); }
+            get { return _elements.Count(); }
         }
 
         #endregion
 
-        #region Helpers
+        #region Methods
 
-        /// <summary>
-        /// Gets the index of the given element.
-        /// </summary>
-        /// <param name="element">The element to find.</param>
-        /// <returns>The index of the element.</returns>
-        internal abstract Int32 IndexOf(Element element);
-
-        /// <summary>
-        /// Gets the item at the specified index.
-        /// </summary>
-        /// <param name="index">The 0-based index.</param>
-        /// <returns>The item at the specified index.</returns>
-        protected abstract Element GetItem(Int32 index);
-
-        /// <summary>
-        /// Gets the item with the specified id.
-        /// </summary>
-        /// <param name="id">The id of the item.</param>
-        /// <returns>The item with with the id or null.</returns>
-        protected virtual Object GetItem(String id)
+        internal Int32 IndexOf(T item)
         {
-            var result = new List<Element>();
+            var index = 0;
 
-            for (int i = 0; i < Length; i++)
+            foreach (var element in _elements)
             {
-                if (this[i].Id == id)
-                    result.Add(this[i]);
+                if (element == item)
+                    return index;
+
+                index++;
             }
 
-            if (result.Count == 0)
-            {
-                for (int i = 0; i < Length; i++)
-                {
-                    if (this[i].GetAttribute("name") == id)
-                        result.Add(this[i]);
-                }
-            }
-
-            if (result.Count == 1)
-                return result[0];
-            else if (result.Count != 0)
-                return new HTMLStaticCollection(result);
-
-            return null;
+            return -1;
         }
 
-        /// <summary>
-        /// Gets the number of items in the collection.
-        /// </summary>
-        /// <returns>The number.</returns>
-        protected abstract Int32 GetLength();
+        #endregion
+
+        #region Live
+
+        static IEnumerable<T> GetElements(Node parent, Boolean deep, Predicate<T> predicate)
+        {
+            var items = deep ? GetElementsOf(parent) : GetOnlyElementsOf(parent);
+
+            if (predicate != null)
+                return items.Where(m => predicate(m));
+
+            return items;
+        }
+
+        static IEnumerable<T> GetElementsOf(Node parent)
+        {
+            for (int i = 0; i < parent.ChildNodes.Length; i++)
+            {
+                if (parent.ChildNodes[i] is T)
+                    yield return (T)parent.ChildNodes[i];
+
+                foreach (var element in GetElementsOf(parent.ChildNodes[i]))
+                    yield return element;
+            }
+        }
+
+        static IEnumerable<T> GetOnlyElementsOf(Node parent)
+        {
+            for (int i = 0; i < parent.ChildNodes.Length; i++)
+            {
+                if (parent.ChildNodes[i] is T)
+                    yield return (T)parent.ChildNodes[i];
+            }
+        }
 
         #endregion
 
@@ -126,11 +142,66 @@
         /// Gets an enumerator over the contained elements.
         /// </summary>
         /// <returns>The enumerator.</returns>
-        public abstract IEnumerator<Element> GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _elements.GetEnumerator();
+        }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// A collection of HTML nodes.
+    /// </summary>
+    [DOM("HTMLCollection")]
+    public sealed class HTMLCollection : HTMLCollection<Element>
+    {
+        #region ctor
+
+        /// <summary>
+        /// Creates a new list of HTML elements.
+        /// </summary>
+        /// <param name="elements">The elements to use.</param>
+        internal HTMLCollection(IEnumerable<Element> elements)
+            : base(elements)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new live collection for the given parent.
+        /// </summary>
+        /// <param name="parent">The parent of this collection.</param>
+        /// <param name="deep">[Optional] Determines if recursive search is activated.</param>
+        /// <param name="predicate">[Optional] The predicate function for picking elements.</param>
+        internal HTMLCollection(Node parent, Boolean deep = true, Predicate<Element> predicate = null)
+            : base(parent, deep, predicate)
+        {
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// A collection of HTML form controls.
+    /// </summary>
+    [DOM("HTMLFormControlsCollection")]
+    public sealed class HTMLFormControlsCollection : HTMLCollection<HTMLFormControlElement>
+    {
+        #region ctor
+
+        internal HTMLFormControlsCollection(IEnumerable<HTMLFormControlElement> elements)
+            : base(elements)
+        {
+        }
+
+        internal HTMLFormControlsCollection(Element parent)
+            : base(parent)
+        {
         }
 
         #endregion

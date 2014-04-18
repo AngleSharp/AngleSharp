@@ -70,7 +70,7 @@
             var sg = CssParser.ParseSelector(selectors);
             var result = new List<Element>();
             QuerySelectorAll(this, sg, result);
-            return new HTMLStaticCollection(result);
+            return new HTMLCollection(result);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@
         {
             var result = new List<Element>();
             QuerySelectorAll(this, selector, result);
-            return new HTMLStaticCollection(result);
+            return new HTMLCollection(result);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@
             if(names.Length > 0)
                 GetElementsByClassName(this, names, result);
 
-            return new HTMLStaticCollection(result);
+            return new HTMLCollection(result);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@
             var result = new List<Element>();
             var takeAll = tagName == "*";
             GetElementsByTagName(this, tagName, result, takeAll);
-            return new HTMLStaticCollection(result);
+            return new HTMLCollection(result);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@
         {
             var result = new List<Element>();
             GetElementsByTagNameNS(this, namespaceURI, localName, result);
-            return new HTMLStaticCollection(result);
+            return new HTMLCollection(result);
         }
 
         #endregion

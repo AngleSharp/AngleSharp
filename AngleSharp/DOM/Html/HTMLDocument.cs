@@ -18,15 +18,14 @@
         #region Fields
 
         Cookie _cookie;
-
-        HTMLLiveCollection<Element> _all;
-        HTMLLiveCollection<HTMLFormElement> _forms;
-        HTMLLiveCollection<HTMLScriptElement> _scripts;
-        HTMLLiveCollection<HTMLImageElement> _images;
-        HTMLLiveCollectionWithAttr<HTMLAnchorElement> _anchors;
-        HTMLLiveCollection<HTMLEmbedElement, HTMLObjectElement, HTMLAppletElement> _embeds;
-        HTMLLiveCollectionWithAttr<HTMLAnchorElement, HTMLAreaElement> _links;
         Task _queue;
+        HTMLCollection _all;
+        HTMLCollection<HTMLFormElement> _forms;
+        HTMLCollection<HTMLScriptElement> _scripts;
+        HTMLCollection<HTMLImageElement> _images;
+        HTMLCollection<HTMLAnchorElement> _anchors;
+        HTMLCollection _embeds;
+        HTMLCollection _links;
 
         #endregion
 
@@ -174,7 +173,7 @@
         {
             _contentType = MimeTypes.Xml;
             _ns = Namespaces.Html;
-            _all = new HTMLLiveCollection<Element>(this);
+            _all = new HTMLCollection(this);
             _queue = new Task(() => { });
         }
 
@@ -195,9 +194,9 @@
         /// Gets a list of all of the anchors in the document.
         /// </summary>
         [DOM("anchors")]
-        public HTMLCollection Anchors
+        public HTMLCollection<HTMLAnchorElement> Anchors
         {
-            get { return _anchors ?? (_anchors = new HTMLLiveCollectionWithAttr<HTMLAnchorElement>(this, AttributeNames.Name)); }
+            get { return _anchors ?? (_anchors = new HTMLCollection<HTMLAnchorElement>(this, predicate: element => element.Attributes[AttributeNames.Name] != null)); }
         }
 
         /// <summary>
@@ -224,27 +223,27 @@
         /// Gets the forms in the document.
         /// </summary>
         [DOM("forms")]
-        public HTMLCollection Forms
+        public HTMLCollection<HTMLFormElement> Forms
         {
-            get { return _forms ?? (_forms = new HTMLLiveCollection<HTMLFormElement>(this)); }
+            get { return _forms ?? (_forms = new HTMLCollection<HTMLFormElement>(this)); }
         }
 
         /// <summary>
         /// Gets the images in the document.
         /// </summary>
         [DOM("images")]
-        public HTMLCollection Images
+        public HTMLCollection<HTMLImageElement> Images
         {
-            get { return _images ?? (_images = new HTMLLiveCollection<HTMLImageElement>(this)); }
+            get { return _images ?? (_images = new HTMLCollection<HTMLImageElement>(this)); }
         }
 
         /// <summary>
         /// Gets the scripts in the document.
         /// </summary>
         [DOM("scripts")]
-        public HTMLCollection Scripts
+        public HTMLCollection<HTMLScriptElement> Scripts
         {
-            get { return _scripts ?? (_scripts = new HTMLLiveCollection<HTMLScriptElement>(this)); }
+            get { return _scripts ?? (_scripts = new HTMLCollection<HTMLScriptElement>(this)); }
         }
 
         /// <summary>
@@ -253,7 +252,7 @@
         [DOM("embeds")]
         public HTMLCollection Embeds
         {
-            get { return _embeds ?? (_embeds = new HTMLLiveCollection<HTMLEmbedElement, HTMLObjectElement, HTMLAppletElement>(this)); }
+            get { return _embeds ?? (_embeds = new HTMLCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement)); }
         }
 
         /// <summary>
@@ -262,7 +261,7 @@
         [DOM("links")]
         public HTMLCollection Links
         {
-            get { return _links ?? (_links = new HTMLLiveCollectionWithAttr<HTMLAnchorElement, HTMLAreaElement>(this, AttributeNames.Href)); }
+            get { return _links ?? (_links = new HTMLCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes[AttributeNames.Href] != null)); }
         }
 
         /// <summary>
@@ -339,7 +338,7 @@
         }
 
         /// <summary>
-        /// Gets the cookie containing all cookies for the document or (re-)sets a single cookie.
+        /// Gets or sets the document cookie.
         /// </summary>
         [DOM("cookie")]
         public Cookie Cookie
@@ -546,7 +545,7 @@
         {
             var result = new List<Element>();
             GetElementsByName(_children, name, result);
-            return new HTMLStaticCollection(result);
+            return new HTMLCollection(result);
         }
 
         #endregion

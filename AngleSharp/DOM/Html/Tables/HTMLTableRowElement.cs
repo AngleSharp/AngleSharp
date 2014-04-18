@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        HTMLLiveCollection<HTMLTableCellElement> _cells;
+        HTMLCollection<HTMLTableCellElement> _cells;
 
         #endregion
 
@@ -21,7 +21,7 @@
         internal HTMLTableRowElement()
         {
             _name = Tags.Tr;
-            _cells = new HTMLLiveCollection<HTMLTableCellElement>(this);
+            _cells = new HTMLCollection<HTMLTableCellElement>(this);
         }
 
         #endregion
@@ -62,7 +62,7 @@
         /// Gets the assigned table cells.
         /// </summary>
         [DOM("cells")]
-        public HTMLCollection Cells
+        public HTMLCollection<HTMLTableCellElement> Cells
         {
             get { return _cells; }
         }

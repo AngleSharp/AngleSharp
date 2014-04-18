@@ -16,8 +16,7 @@
 
         Task _plannedNavigation;
         CancellationTokenSource _cancel;
-        HTMLLiveCollection<HTMLFormControlElement> _elements;
-        HTMLFormControlsCollection _formControls;
+        HTMLFormControlsCollection _elements;
 
         #endregion
 
@@ -30,8 +29,7 @@
         {
             _cancel = new CancellationTokenSource();
             _name = Tags.Form;
-            _elements = new HTMLLiveCollection<HTMLFormControlElement>(this);
-            _formControls = new HTMLFormControlsCollection(_elements);
+            _elements = new HTMLFormControlsCollection(this);
         }
 
         #endregion
@@ -87,7 +85,7 @@
         [DOM("elements")]
         public HTMLFormControlsCollection Elements
         {
-            get { return _formControls; }
+            get { return _elements; }
         }
 
         /// <summary>
@@ -192,7 +190,7 @@
         [DOM("reset")]
         public HTMLFormElement Reset()
         {
-            foreach (var element in _elements.Elements)
+            foreach (var element in _elements)
                 element.Reset();
 
             return this;
@@ -205,7 +203,7 @@
         [DOM("checkValidity")]
         public Boolean CheckValidity()
         {
-            foreach (var element in _elements.Elements)
+            foreach (var element in _elements)
                 if (!element.CheckValidity())
                     return false;
 
@@ -389,9 +387,8 @@
         FormDataSet ConstructDataSet(HTMLElement submitter = null)
         {
             var formDataSet = new FormDataSet();
-            var fields = _elements.Elements;
 
-            foreach (var field in fields)
+            foreach (var field in _elements)
             {
                 if (field.ParentElement is HTMLDataListElement)
                     continue;
