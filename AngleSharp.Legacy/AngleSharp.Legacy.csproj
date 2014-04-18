@@ -1081,9 +1081,6 @@
     <Compile Include="..\AngleSharp\DOM\Notation.cs">
       <Link>DOM\Notation.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\Cookie.cs">
-      <Link>DOM\Objects\Cookie.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Objects\DOMImplementation.cs">
       <Link>DOM\Objects\DOMImplementation.cs</Link>
     </Compile>
