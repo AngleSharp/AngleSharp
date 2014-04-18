@@ -17,9 +17,9 @@
             return configuration.LoadAsync(url, CancellationToken.None);
         }
 
-        public static async Task<Stream> LoadAsync(this IConfiguration configuration, Uri url, CancellationToken cancel)
+        public static async Task<Stream> LoadAsync(this IConfiguration configuration, Uri url, CancellationToken cancel, Boolean force = false)
         {
-            if (!configuration.AllowHttpRequests)
+            if (!configuration.AllowHttpRequests && !force)
                 return Stream.Null;
 
             var requester = configuration.CreateHttpRequest();

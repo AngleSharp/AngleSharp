@@ -175,25 +175,20 @@
         /// <summary>
         /// Submits the form element from the form element itself.
         /// </summary>
-        /// <returns>The current form element.</returns>
         [DOM("submit")]
-        public HTMLFormElement Submit()
+        public void Submit()
         {
             SubmitForm(this, true);
-            return this;
         }
 
         /// <summary>
         /// Resets the form to the previous (default) state.
         /// </summary>
-        /// <returns>The current form element.</returns>
         [DOM("reset")]
-        public HTMLFormElement Reset()
+        public void Reset()
         {
             foreach (var element in _elements)
                 element.Reset();
-
-            return this;
         }
 
         /// <summary>
@@ -382,6 +377,7 @@
         /// </summary>
         void MutateActionUrl()
         {
+            //TODO
         }
 
         FormDataSet ConstructDataSet(HTMLElement submitter = null)

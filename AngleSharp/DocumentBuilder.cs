@@ -125,7 +125,7 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            var stream = await configuration.LoadAsync(url, cancel);
+            var stream = await configuration.LoadAsync(url, cancel, force: true);
             var source = new SourceManager(stream, configuration);
             var doc = new HTMLDocument { Options = configuration, DocumentUri = url.OriginalString };
             var db = new DocumentBuilder(source, doc, configuration);
@@ -237,7 +237,7 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            var stream = await configuration.LoadAsync(url, cancel);
+            var stream = await configuration.LoadAsync(url, cancel, force: true);
             var source = new SourceManager(stream, configuration);
             var sheet = new CSSStyleSheet { Href = url.OriginalString, Options = configuration };
             var db = new DocumentBuilder(source, sheet, configuration);

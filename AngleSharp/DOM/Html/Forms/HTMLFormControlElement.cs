@@ -1,15 +1,14 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+
     /// <summary>
     /// Represents the base class for all HTML form control elements.
     /// </summary>
     public abstract class HTMLFormControlElement : HTMLElement, ILabelabelElement, IValidation
     {
-        #region Members
+        #region Fields
 
         NodeList _labels;
         ValidityState _vstate;
