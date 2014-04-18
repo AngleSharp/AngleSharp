@@ -145,18 +145,6 @@
     <Compile Include="..\AngleSharp\DOM\Collections\HTMLCollection.cs">
       <Link>DOM\Collections\HTMLCollection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\HTMLFormControlsCollection.cs">
-      <Link>DOM\Collections\HTMLFormControlsCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\HTMLLiveCollection.cs">
-      <Link>DOM\Collections\HTMLLiveCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\HTMLLiveCollectionWithAttr.cs">
-      <Link>DOM\Collections\HTMLLiveCollectionWithAttr.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\HTMLStaticCollection.cs">
-      <Link>DOM\Collections\HTMLStaticCollection.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\MediaList.cs">
       <Link>DOM\Collections\MediaList.cs</Link>
     </Compile>
