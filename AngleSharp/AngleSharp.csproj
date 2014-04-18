@@ -334,7 +334,6 @@
     <Compile Include="DOM\Interfaces\IElement.cs" />
     <Compile Include="DOM\Interfaces\IStyleSheet.cs" />
     <Compile Include="DOM\Interfaces\INode.cs" />
-    <Compile Include="DOM\Objects\Cookie.cs" />
     <Compile Include="DOM\Css\Selector\ComplexSelector.cs" />
     <Compile Include="DOM\Css\Selector\CompoundSelector.cs" />
     <Compile Include="DOM\Interfaces\IRange.cs" />

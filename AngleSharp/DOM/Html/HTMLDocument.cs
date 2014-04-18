@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.DOM.Collections;
-using AngleSharp.Parser;
-using AngleSharp.Parser.Html;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
+    using AngleSharp.Parser;
+    using AngleSharp.Parser.Html;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Net;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML document.

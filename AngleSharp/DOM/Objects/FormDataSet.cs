@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Net;
     using System.Text;
 
     /// <summary>
@@ -163,6 +164,10 @@
 
         #region Helpers
 
+        /// <summary>
+        /// Replaces a charset field (if any) that is hidden with the given character encoding.
+        /// </summary>
+        /// <param name="encoding">The encoding to use.</param>
         void ReplaceCharset(Encoding encoding)
         {
             for (int i = 0; i < _entries.Count; i++ )
@@ -174,6 +179,12 @@
             }
         }
 
+        /// <summary>
+        /// Checks the entries for boundary collisions. If a collision is detected, then a new
+        /// boundary string is generated. This algorithm will produce a boundary string that
+        /// satisfies all requirements.
+        /// </summary>
+        /// <param name="encoding">The encoding to use.</param>
         void CheckBoundaries(Encoding encoding)
         {
             var found = false;
@@ -182,13 +193,12 @@
             {
                 for (int i = 0; i < _entries.Count; i++)
                 {
-                    if (_entries[i].Name.Contains(_boundary))
-                    { }
+                    if (found = _entries[i].Contains(_boundary, encoding))
+                    {
+                        _boundary = Guid.NewGuid().ToString();
+                        break;
+                    }
                 }
-
-                //TODO
-                //Check if there is any collision with the boundary string - if there is:
-                //Re-Generate Boundary String until there are no collisions with any value
             } while (found);
         }
 
@@ -243,9 +253,24 @@
             /// <param name="value">The value to sanatize.</param>
             /// <param name="encoding">The encoding to consider.</param>
             /// <returns>The sanatized value.</returns>
-            protected static String Sanatize(String value, Encoding encoding)
+            protected static String FormEncode(String value, Encoding encoding)
             {
+                //Decide if the encoding is sufficient (How?)
                 return value;
+            }
+
+            /// <summary>
+            /// Replaces characters in names and values that should not be in URL values.
+            /// Replaces the bytes 0x20 (U+0020 SPACE if interpreted as ASCII) with a single 0x2B byte ("+" (U+002B)
+            /// character if interpreted as ASCII).
+            /// If a byte is not in the range 0x2A, 0x2D, 0x2E, 0x30 to 0x39, 0x41 to 0x5A, 0x5F, 0x61 to 0x7A, it is
+            /// replaced with its hexadecimal value (zero-padded if necessary), starting with the percent sign.
+            /// </summary>
+            /// <param name="value">The value to encode.</param>
+            /// <returns>The encoded value.</returns>
+            protected static String UrlEncode(String value)
+            {
+                return WebUtility.UrlEncode(value);
             }
 
             public abstract void AsMultipart(StreamWriter stream);
@@ -253,6 +278,8 @@
             public abstract void AsPlaintext(StreamWriter stream);
 
             public abstract void AsUrlEncoded(StreamWriter stream);
+
+            public abstract Boolean Contains(String boundary, Encoding encoding);
         }
 
         sealed class TextDataSetEntry : FormDataSetEntry
@@ -268,11 +295,16 @@
                 set { _value = value; }
             }
 
+            public override Boolean Contains(String boundary, Encoding encoding)
+            {
+                return _value.Contains(boundary);
+            }
+
             public override void AsMultipart(StreamWriter stream)
             {
-                stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", Sanatize(_name, stream.Encoding), "\""));
+                stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", FormEncode(_name, stream.Encoding), "\""));
                 stream.WriteLine();
-                stream.WriteLine(Sanatize(_value, stream.Encoding));
+                stream.WriteLine(FormEncode(_value, stream.Encoding));
             }
 
             public override void AsPlaintext(StreamWriter stream)
@@ -284,10 +316,9 @@
 
             public override void AsUrlEncoded(StreamWriter stream)
             {
-                stream.Write(_name);
+                stream.Write(UrlEncode(_name));
                 stream.Write('=');
-                //TODO
-                throw new NotImplementedException();
+                stream.Write(UrlEncode(_value));
             }
         }
 
@@ -304,9 +335,38 @@
                 set { _value = value; }
             }
 
+            public override Boolean Contains(String boundary, Encoding encoding)
+            {
+                var b = encoding.GetBytes(boundary);
+                var content = _value.Body;
+                var l = content.Length;
+
+                for (int i = 0, n = l - b.Length; i < n; i++)
+                {
+                    if (content[i] == b[0])
+                    {
+                        var found = true;
+
+                        for (int j = 1; j < l; j++)
+                        {
+                            if (content[i + j] != b[j])
+                            {
+                                found = false;
+                                break;
+                            }
+                        }
+
+                        if (found)
+                            return true;
+                    }
+                }
+
+                return false;
+            }
+
             public override void AsMultipart(StreamWriter stream)
             {
-                stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", Sanatize(_name, stream.Encoding), _value.FileName);
+                stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", FormEncode(_name, stream.Encoding), _value.FileName);
                 stream.WriteLine("content-type: " + _value.Type);
                 stream.WriteLine("content-transfer-encoding: binary");
                 stream.WriteLine();
@@ -325,8 +385,7 @@
             {
                 stream.Write(_name);
                 stream.Write('=');
-                //TODO
-                throw new NotImplementedException();
+                stream.Write(UrlEncode(_value.FileName));
             }
         }
 
