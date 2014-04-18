@@ -90,16 +90,17 @@
             set
             {
                 _encoding = value;
+                var reader = _reader as StreamReader;
 
-                if (_reader is StreamReader)
+                if (reader != null && reader.CurrentEncoding != value)
                 {
                     var chars = _buffer.Length;
-                    var stream = ((StreamReader)_reader).BaseStream;
-                    //_insertion = 0;
-                    //stream.Position = 0;
-                    //_buffer.Clear();
+                    var stream = reader.BaseStream;
+                    _insertion = 0;
+                    stream.Position = 0;
+                    _buffer.Clear();
                     _reader = new StreamReader(stream, value);
-                    //Advance(chars);
+                    Advance(chars);
                 }
             }
         }
