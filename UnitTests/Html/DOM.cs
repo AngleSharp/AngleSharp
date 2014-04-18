@@ -1,4 +1,5 @@
-﻿using AngleSharp.DOM;
+﻿using AngleSharp;
+using AngleSharp.DOM;
 using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Html;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -378,6 +379,44 @@ namespace UnitTests
             element.Style.CssText = text;
             Assert.AreEqual(text, element.Attributes["style"].Value);
             Assert.AreEqual(2, element.Style.Length);
+        }
+
+        [TestMethod]
+        public void HtmlStandardHead()
+        {
+            var content = @"<!doctype html>
+<html class=""no-js"" lang=""en"">
+<head>
+<meta charset=""utf-8"" />
+<meta http-equiv=""X-UA-Compatible"" content=""IE=edge,chrome=1"" />
+<title>Allgemeines - Webseite von Florian Rappl</title>
+<meta name=""keywords"" content=""Florian Rappl, Rappl, Regensburg, Physics, Quantum Chromo Dynamics, QCD, Lattice QCD, IT, C#, .NET, HTML5, JavaScript, Web, Software, Software engineer, Programmer, Modern, Professional,"" />
+<meta name=""description"" content=""The personal homepage of Florian Rappl from Regensburg, Germany. Physicist, software engineer, developer and designer for modern information technology."" />
+<meta name=""author"" content=""Florian Rappl"" />
+<meta name=""viewport"" content=""width=device-width, initial-scale=1"" />
+<link href=""/Content/style?v=o2O40dFmfq2JG0tQyfQctozyaA9IcUQxq9b6x16JOKw1"" rel=""stylesheet""/>
+
+<!--[if lt IE 9]><script src=""//html5shim.googlecode.com/svn/trunk/html5.js""></script><![endif]-->
+</head><body></body></html>";
+
+            var doc = DocumentBuilder.Html(content);
+
+            var docType = doc.ChildNodes[0] as DocumentType;
+            Assert.IsNotNull(docType);
+            Assert.AreEqual(NodeType.DocumentType, docType.NodeType);
+            Assert.AreEqual(@"html", docType.Name);
+            
+            var html = doc.DocumentElement;
+            Assert.AreEqual(2, html.ChildNodes.Length);
+            Assert.AreEqual(2, html.Attributes.Length);
+            Assert.AreEqual(NodeType.Element, html.NodeType);
+            Assert.AreEqual(@"html", html.NodeName);
+
+            var head = doc.Head;
+            Assert.AreEqual(19, head.ChildNodes.Length);
+            Assert.AreEqual(0, head.Attributes.Length);
+            Assert.AreEqual("head", head.NodeName);
+            Assert.AreEqual(NodeType.Element, head.NodeType);
         }
     }
 }
