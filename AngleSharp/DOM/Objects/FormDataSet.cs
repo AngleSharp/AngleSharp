@@ -5,7 +5,6 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Net;
     using System.Text;
 
     /// <summary>
@@ -267,10 +266,26 @@
             /// replaced with its hexadecimal value (zero-padded if necessary), starting with the percent sign.
             /// </summary>
             /// <param name="value">The value to encode.</param>
+            /// <param name="encoding">The encoding to consider.</param>
             /// <returns>The encoded value.</returns>
-            protected static String UrlEncode(String value)
+            public static String UrlEncode(String value, Encoding encoding)
             {
-                return WebUtility.UrlEncode(value);
+                var builder = Pool.NewStringBuilder();
+                var content = encoding.GetBytes(value);
+
+                foreach (var val in content)
+                {
+                    var chr = (Char)val;
+
+                    if (chr == Specification.SPACE)
+                        builder.Append(Specification.PLUS);
+                    else if (chr == Specification.ASTERISK || chr == Specification.MINUS || chr == Specification.DOT || chr.IsAlphanumericAscii())
+                        builder.Append(chr);
+                    else
+                        builder.Append(Specification.PERCENT).Append(val.ToString("X2"));
+                }
+
+                return builder.ToPool();
             }
 
             public abstract void AsMultipart(StreamWriter stream);
@@ -316,9 +331,9 @@
 
             public override void AsUrlEncoded(StreamWriter stream)
             {
-                stream.Write(UrlEncode(_name));
+                stream.Write(UrlEncode(_name, stream.Encoding));
                 stream.Write('=');
-                stream.Write(UrlEncode(_value));
+                stream.Write(UrlEncode(_value, stream.Encoding));
             }
         }
 
@@ -385,7 +400,7 @@
             {
                 stream.Write(_name);
                 stream.Write('=');
-                stream.Write(UrlEncode(_value.FileName));
+                stream.Write(UrlEncode(_value.FileName, stream.Encoding));
             }
         }
 
