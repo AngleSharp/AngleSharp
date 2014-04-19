@@ -27,6 +27,24 @@
         }
 
         /// <summary>
+        /// Replaces the first occurance of the string search with replace.
+        /// </summary>
+        /// <param name="text">The text to use.</param>
+        /// <param name="search">The string to search for.</param>
+        /// <param name="replace">The one-time replacement string.</param>
+        /// <returns>The result of the search-and-replace.</returns>
+        [DebuggerStepThrough]
+        public static String ReplaceFirst(this String text, String search, String replace)
+        {
+            var pos = text.IndexOf(search);
+
+            if (pos < 0)
+                return text;
+
+            return String.Concat(text.Substring(0, pos), replace, text.Substring(pos + search.Length));
+        }
+
+        /// <summary>
         /// Returns a value indicating whether the specified object occurs within this string.
         /// This method might seem obsolete, but it is quite useful in case of porting
         /// AngleSharp to a PCL, where String instances to not have a Contains method.

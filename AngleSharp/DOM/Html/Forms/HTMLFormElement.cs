@@ -246,10 +246,6 @@
             if (!Location.IsAbsolute(action))
                 action = Location.MakeAbsolute(from.BaseURI, action);
 
-            //Enctype
-            //Method
-            //Target
-
             //TODO
             //If the user indicated a specific browsing context to use when submitting
             //the form, then let target browsing context be that browsing context.
@@ -278,14 +274,14 @@
 
                 case KnownProtocols.Ftp:
                 case KnownProtocols.JavaScript:
-                    GetActionUrl();
+                    GetActionUrl(location);
                     break;
 
                 case KnownProtocols.Data:
                     if (Method == HttpMethod.GET)
-                        GetActionUrl();
+                        GetActionUrl(location);
                     else if (Method == HttpMethod.POST)
-                        PostToData();
+                        PostToData(location);
                     break;
 
                 case KnownProtocols.Mailto:
@@ -294,35 +290,79 @@
                     else if (Method == HttpMethod.POST)
                         MailAsBody();
                     break;
+
+                default:
+                    MutateActionUrl(location);
+                    break;
             }
         }
 
         /// <summary>
+        /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-data-post
         /// </summary>
-        void PostToData()
+        void PostToData(Location action)
         {
+            var encoding = String.IsNullOrEmpty(AcceptCharset) ? OwnerDocument.CharacterSet : AcceptCharset;
+            var formDataSet = ConstructDataSet();
+            var enctype = Enctype;
+            var result = String.Empty;
+
+            if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
+            {
+                using (var sr = new StreamReader(formDataSet.AsUrlEncoded(DocumentEncoding.Resolve(encoding))))
+                    result = sr.ReadToEnd();
+            }
+            else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
+            {
+                using (var sr = new StreamReader(formDataSet.AsMultipart(DocumentEncoding.Resolve(encoding))))
+                    result = sr.ReadToEnd();
+            }
+            else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
+            {
+                using (var sr = new StreamReader(formDataSet.AsPlaintext(DocumentEncoding.Resolve(encoding))))
+                    result = sr.ReadToEnd();
+            }
+
+            if (action.Href.Contains("%%%%"))
+            {
+                //TODO mutate result by percent encode all bytes
+                action.Href = action.Href.ReplaceFirst("%%%%", result);
+            }
+            else if (action.Href.Contains("%%"))
+            {
+                //TODO mutate result by UTF-8 percent encode all characters
+                action.Href = action.Href.ReplaceFirst("%%", result);
+            }
+
+            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.GET);
         }
 
         /// <summary>
+        /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-headers
         /// </summary>
         void MailWithHeaders()
         {
+            //TODO
         }
 
         /// <summary>
+        /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-body
         /// </summary>
         void MailAsBody()
         {
+            //TODO
         }
 
         /// <summary>
+        /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-get-action
         /// </summary>
-        void GetActionUrl()
+        void GetActionUrl(Location action)
         {
+            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.GET);
         }
 
         /// <summary>
@@ -382,6 +422,7 @@
         }
 
         /// <summary>
+        /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mutate-action
         /// </summary>
         void MutateActionUrl(Location action)
@@ -394,9 +435,14 @@
             using (var sr = new StreamReader(result))
                 action.Search = sr.ReadToEnd();
 
-            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.GET);
+            GetActionUrl(action);
         }
 
+        /// <summary>
+        /// Constructs the form data set with the given submitter.
+        /// </summary>
+        /// <param name="submitter">[Optional] The submitter to use.</param>
+        /// <returns>The constructed form data set.</returns>
         FormDataSet ConstructDataSet(HTMLElement submitter = null)
         {
             var formDataSet = new FormDataSet();
@@ -414,9 +460,15 @@
             return formDataSet;
         }
 
+        /// <summary>
+        /// Checks the encoding type of the form and returns the appropriate
+        /// encoding type, which is either the given one, or the default one.
+        /// </summary>
+        /// <param name="encType">The encoding type used by the form.</param>
+        /// <returns>A valid encoding type.</returns>
         String CheckEncType(String encType)
         {
-            if (encType == MimeTypes.Plain || encType == MimeTypes.MultipartForm)
+            if (!String.IsNullOrEmpty(encType) && (encType.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase) || encType.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase)))
                 return encType;
 
             return MimeTypes.StandardForm;

@@ -5,6 +5,8 @@
 
     /// <summary>
     /// A location object with information about a URL.
+    /// More information is available at:
+    /// http://url.spec.whatwg.org/
     /// </summary>
     [DOM("Location")]
     public sealed class Location : ICssObject
