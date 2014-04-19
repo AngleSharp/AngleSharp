@@ -90,6 +90,7 @@
     <Compile Include="Library\HttpRequester.cs" />
     <Compile Include="Library\AsyncParsing.cs" />
     <Compile Include="Library\OptimizationPool.cs" />
+    <Compile Include="Library\FormSubmit.cs" />
     <Compile Include="Mocks\DtdRequester.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
