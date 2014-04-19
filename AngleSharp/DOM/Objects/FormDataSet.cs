@@ -168,7 +168,7 @@
             {
                 var entry = _entries[i];
 
-                if (entry.Name.Equals("_charset_") && entry.Type.Equals("hidden", StringComparison.OrdinalIgnoreCase))
+                if (!String.IsNullOrEmpty(entry.Name) && entry.Name.Equals("_charset_") && entry.Type.Equals("hidden", StringComparison.OrdinalIgnoreCase))
                     _entries[i] = new TextDataSetEntry { Name = entry.Name, Type = entry.Type, Value = encoding.WebName };
             }
         }
@@ -307,28 +307,40 @@
 
             public override Boolean Contains(String boundary, Encoding encoding)
             {
+                if (_value == null)
+                    return false;
+
                 return _value.Contains(boundary);
             }
 
             public override void AsMultipart(StreamWriter stream)
             {
-                stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", FormEncode(_name, stream.Encoding), "\""));
-                stream.WriteLine();
-                stream.WriteLine(FormEncode(_value, stream.Encoding));
+                if (_name != null && _value != null)
+                {
+                    stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", FormEncode(_name, stream.Encoding), "\""));
+                    stream.WriteLine();
+                    stream.WriteLine(FormEncode(_value, stream.Encoding));
+                }
             }
 
             public override void AsPlaintext(StreamWriter stream)
             {
-                stream.Write(_name);
-                stream.Write('=');
-                stream.Write(_value);
+                if (_name != null && _value != null)
+                {
+                    stream.Write(_name);
+                    stream.Write('=');
+                    stream.Write(_value);
+                }
             }
 
             public override void AsUrlEncoded(StreamWriter stream)
             {
-                stream.Write(UrlEncode(_name, stream.Encoding));
-                stream.Write('=');
-                stream.Write(UrlEncode(_value, stream.Encoding));
+                if (_name != null && _value != null)
+                {
+                    stream.Write(UrlEncode(_name, stream.Encoding));
+                    stream.Write('=');
+                    stream.Write(UrlEncode(_value, stream.Encoding));
+                }
             }
         }
 
@@ -347,6 +359,9 @@
 
             public override Boolean Contains(String boundary, Encoding encoding)
             {
+                if (_value == null || _value.Body == null)
+                    return false;
+
                 var b = encoding.GetBytes(boundary);
                 var content = _value.Body;
                 var l = content.Length;
@@ -376,27 +391,36 @@
 
             public override void AsMultipart(StreamWriter stream)
             {
-                stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", FormEncode(_name, stream.Encoding), _value.FileName);
-                stream.WriteLine("content-type: " + _value.Type);
-                stream.WriteLine("content-transfer-encoding: binary");
-                stream.WriteLine();
-                stream.Flush();
-                stream.BaseStream.Write(_value.Body, 0, _value.Body.Length);
-                stream.WriteLine();
+                if (_name != null && _value != null && _value.Body != null && _value.Type != null && _value.FileName != null)
+                {
+                    stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", FormEncode(_name, stream.Encoding), _value.FileName);
+                    stream.WriteLine("content-type: " + _value.Type);
+                    stream.WriteLine("content-transfer-encoding: binary");
+                    stream.WriteLine();
+                    stream.Flush();
+                    stream.BaseStream.Write(_value.Body, 0, _value.Body.Length);
+                    stream.WriteLine();
+                }
             }
 
             public override void AsPlaintext(StreamWriter stream)
             {
-                stream.Write(_name);
-                stream.Write('=');
-                stream.Write(_value.FileName);
+                if (_name != null && _value != null && _value.FileName != null)
+                {
+                    stream.Write(_name);
+                    stream.Write('=');
+                    stream.Write(_value.FileName);
+                }
             }
 
             public override void AsUrlEncoded(StreamWriter stream)
             {
-                stream.Write(_name);
-                stream.Write('=');
-                stream.Write(UrlEncode(_value.FileName, stream.Encoding));
+                if (_name != null && _value != null && _value.FileName != null)
+                {
+                    stream.Write(_name);
+                    stream.Write('=');
+                    stream.Write(UrlEncode(_value.FileName, stream.Encoding));
+                }
             }
         }
 
