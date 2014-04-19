@@ -168,6 +168,14 @@
             set { SetAttribute("target", value); }
         }
 
+        /// <summary>
+        /// Gets the planned navigation task, if any.
+        /// </summary>
+        public Task PlannedNavigation
+        {
+            get { return _plannedNavigation; }
+        }
+
         #endregion
 
         #region Methods
