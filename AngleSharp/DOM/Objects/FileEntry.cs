@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents a file captured in the FileList.
@@ -8,9 +9,30 @@
     [DOM("FileEntry")]
     public sealed class FileEntry
     {
+        #region ctor
+
         internal FileEntry()
         {
         }
+
+        /// <summary>
+        /// Creates a new file entry from the given file properties.
+        /// </summary>
+        /// <param name="name">The name of the file (not the full path).</param>
+        /// <param name="body">The stream of bytes of the file's contents.</param>
+        /// <returns>The file entry.</returns>
+        public static FileEntry FromFile(String name, Stream body)
+        {
+            using (var ms = new MemoryStream())
+            {
+                body.CopyTo(ms);
+                return new FileEntry { FileName = name, Type = MimeTypes.FromExtension(Path.GetExtension(name)), Body = ms.ToArray() };
+            }
+        }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the file name for the captured file.
@@ -38,5 +60,7 @@
             get;
             internal set;
         }
+
+        #endregion
     }
 }

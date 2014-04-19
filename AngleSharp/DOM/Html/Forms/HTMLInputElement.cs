@@ -534,7 +534,7 @@
         #region Helpers
 
         /// <summary>
-        /// Constucts the data set (called from a form).
+        /// Constructs the data set (called from a form).
         /// </summary>
         /// <param name="dataSet">The dataset to construct.</param>
         /// <param name="submitter">The given submitter.</param>
@@ -578,8 +578,8 @@
                 }
                 case InputType.File:
                 {
-                    if(_files.Length == 0)
-                        dataSet.Append(Name, String.Empty, "application/octet-stream");
+                    if(_files.Count == 0)
+                        dataSet.Append(Name, String.Empty, MimeTypes.Binary);
 
                     foreach (var file in _files)
                         dataSet.Append(Name, file, Type.ToString());

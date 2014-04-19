@@ -380,6 +380,7 @@
                 stream.WriteLine("content-type: " + _value.Type);
                 stream.WriteLine("content-transfer-encoding: binary");
                 stream.WriteLine();
+                stream.Flush();
                 stream.BaseStream.Write(_value.Body, 0, _value.Body.Length);
                 stream.WriteLine();
             }

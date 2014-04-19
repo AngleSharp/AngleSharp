@@ -9,7 +9,6 @@
     {
         HTMLCollection<HTMLAnchorElement> Anchors { get; }
         HTMLBodyElement Body { get; }
-        HTMLDocument Close();
         Cookie Cookie { get; set; }
         String Domain { get; }
         HTMLCollection Embeds { get; }
@@ -18,12 +17,13 @@
         HTMLHeadElement Head { get; }
         HTMLCollection<HTMLImageElement> Images { get; }
         HTMLCollection Links { get; }
-        HTMLDocument Open();
         void Load(String url);
         HTMLCollection<HTMLScriptElement> Scripts { get; }
         String Title { get; set; }
         String Url { get; }
-        HTMLDocument Write(String content);
-        HTMLDocument WriteLn(String content);
+        void Open();
+        void Close();
+        void Write(String content);
+        void WriteLn(String content);
     }
 }
