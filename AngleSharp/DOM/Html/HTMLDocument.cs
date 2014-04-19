@@ -407,9 +407,6 @@
             Uri uri;
             _location.Href = url;
             Cookie = new Cookie();
-
-            for (int i = _children.Length - 1; i >= 0; i++)
-                RemoveChild(_children[i]);
             
             if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
                 throw new ArgumentException("The given URL is not valid as an absolute URL.");
@@ -421,18 +418,6 @@
                 if (m.IsCompleted && !m.IsFaulted)
                     Load(m.Result);
             });
-        }
-
-        /// <summary>
-        /// Loads the document content from the given stream.
-        /// </summary>
-        /// <param name="stream">The stream that contains the HTML content.</param>
-        internal void Load(Stream stream)
-        {
-            ReadyState = Readiness.Loading;
-            var source = new SourceManager(stream, Options);
-            var parser = new HtmlParser(this, source);
-            parser.Parse();
         }
 
         /// <summary>
@@ -471,46 +456,39 @@
         /// <summary>
         /// Opens a document stream for writing.
         /// </summary>
-        /// <returns>The current document.</returns>
         [DOM("open")]
-        public HTMLDocument Open()
+        public void Open()
         {
             //TODO
-            return this;
         }
 
         /// <summary>
         /// Finishes writing to a document.
         /// </summary>
-        /// <returns>The current document.</returns>
         [DOM("close")]
-        public HTMLDocument Close()
+        public void Close()
         {
             //TODO
-            return this;
         }
 
         /// <summary>
         /// Writes text to a document.
         /// </summary>
         /// <param name="content">The text to be written on the document.</param>
-        /// <returns>The current document.</returns>
         [DOM("write")]
-        public HTMLDocument Write(String content)
+        public void Write(String content)
         {
             //TODO
-            return this;
         }
 
         /// <summary>
         /// Writes a line of text to a document.
         /// </summary>
         /// <param name="content">The text to be written on the document.</param>
-        /// <returns>The current document.</returns>
         [DOM("writeln")]
-        public HTMLDocument WriteLn(String content)
+        public void WriteLn(String content)
         {
-            return Write(content + Specification.LF);
+            Write(content + Specification.LF);
         }
 
         /// <summary>
@@ -602,6 +580,28 @@
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Destroys the generated DOM, leaving only the document behind.
+        /// </summary>
+        void Destroy()
+        {
+            for (int i = _children.Length - 1; i >= 0; i--)
+                RemoveChild(_children[i]);
+        }
+
+        /// <summary>
+        /// Loads the document content from the given stream.
+        /// </summary>
+        /// <param name="stream">The stream that contains the HTML content.</param>
+        internal void Load(Stream stream)
+        {
+            ReadyState = Readiness.Loading;
+            var source = new SourceManager(stream, Options);
+            Destroy();
+            var parser = new HtmlParser(this, source);
+            parser.Parse();
+        }
 
         /// <summary>
         /// Firing a simple event named e means that a trusted event with the name e,

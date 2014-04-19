@@ -263,9 +263,9 @@
                 case KnownProtocols.Http:
                 case KnownProtocols.Https:
                     if (Method == HttpMethod.GET)
-                        MutateActionUrl();
+                        MutateActionUrl(location);
                     else if (Method == HttpMethod.POST)
-                        SubmitAsEntityBody(action);
+                        SubmitAsEntityBody(location);
                     break;
 
                 case KnownProtocols.Ftp:
@@ -321,7 +321,7 @@
         /// Submits the body of the form.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-body
         /// </summary>
-        void SubmitAsEntityBody(String action)
+        void SubmitAsEntityBody(Location action)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? OwnerDocument.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
@@ -345,7 +345,7 @@
                 mimeType = MimeTypes.Plain;
             }
 
-            _plannedNavigation = NavigateTo(action, HttpMethod.POST, result, mimeType);
+            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.POST, result, mimeType);
         }
 
         /// <summary>
@@ -357,15 +357,16 @@
         /// <param name="method">The HTTP method.</param>
         /// <param name="body">The entity body of the request.</param>
         /// <param name="mime">The MIME type of the entity body.</param>
-        async Task NavigateTo(String action, HttpMethod method, Stream body, String mime)
+        async Task NavigateTo(Uri action, HttpMethod method, Stream body = null, String mime = null)
         {
             if (_plannedNavigation != null)
             {
                 _cancel.Cancel();
                 _plannedNavigation = null;
+                _cancel = new CancellationTokenSource();
             }
 
-            var stream = await _owner.Options.SendAsync(new Uri(action), body, mime, method, _cancel.Token);
+            var stream = await _owner.Options.SendAsync(action, body, mime, method, _cancel.Token);
             var html = _owner as HTMLDocument;
 
             if (html != null)
@@ -375,9 +376,17 @@
         /// <summary>
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mutate-action
         /// </summary>
-        void MutateActionUrl()
+        void MutateActionUrl(Location action)
         {
-            //TODO
+            var encoding = String.IsNullOrEmpty(AcceptCharset) ? OwnerDocument.CharacterSet : AcceptCharset;
+            var formDataSet = ConstructDataSet();
+            var enctype = Enctype;
+            var result = formDataSet.AsUrlEncoded(DocumentEncoding.Resolve(encoding));
+
+            using (var sr = new StreamReader(result))
+                action.Search = sr.ReadToEnd();
+
+            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.GET);
         }
 
         FormDataSet ConstructDataSet(HTMLElement submitter = null)

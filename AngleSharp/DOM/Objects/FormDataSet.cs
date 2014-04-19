@@ -55,23 +55,21 @@
             var ms = new MemoryStream();
             CheckBoundaries(encoding);
             ReplaceCharset(encoding);
+            var tw = new StreamWriter(ms, encoding);
+            tw.WriteLine();
 
-            using (var tw = new StreamWriter(ms, encoding))
+            foreach (var entry in _entries)
             {
-                tw.WriteLine();
-
-                foreach (var entry in _entries)
-                {
-                    tw.Write("--");
-                    tw.WriteLine(_boundary);
-                    entry.AsMultipart(tw);
-                }
-
                 tw.Write("--");
-                tw.Write(_boundary);
-                tw.Write("--");
+                tw.WriteLine(_boundary);
+                entry.AsMultipart(tw);
             }
 
+            tw.Write("--");
+            tw.Write(_boundary);
+            tw.Write("--");
+
+            tw.Flush();
             ms.Position = 0;
             return ms;
         }
@@ -89,24 +87,23 @@
             var ms = new MemoryStream();
             CheckBoundaries(encoding);
             ReplaceCharset(encoding);
+            var tw = new StreamWriter(ms, encoding);
 
-            using (var tw = new StreamWriter(ms, encoding))
+            if (_entries.Count > 0)
             {
-                if (_entries.Count > 0)
-                {
-                    if (_entries[0].Name.Equals("isindex") && _entries[0].Type.Equals("text", StringComparison.OrdinalIgnoreCase))
-                        tw.Write(((TextDataSetEntry)_entries[0]).Value);
-                    else
-                        _entries[0].AsUrlEncoded(tw);
+                if (_entries[0].Name.Equals("isindex") && _entries[0].Type.Equals("text", StringComparison.OrdinalIgnoreCase))
+                    tw.Write(((TextDataSetEntry)_entries[0]).Value);
+                else
+                    _entries[0].AsUrlEncoded(tw);
 
-                    for (int i = 1; i < _entries.Count; i++)
-                    {
-                        tw.Write('&');
-                        _entries[i].AsUrlEncoded(tw);
-                    }
+                for (int i = 1; i < _entries.Count; i++)
+                {
+                    tw.Write('&');
+                    _entries[i].AsUrlEncoded(tw);
                 }
             }
 
+            tw.Flush();
             ms.Position = 0;
             return ms;
         }
@@ -124,18 +121,16 @@
             var ms = new MemoryStream();
             CheckBoundaries(encoding);
             ReplaceCharset(encoding);
+            var tw = new StreamWriter(ms, encoding);
+            tw.WriteLine();
 
-            using (var tw = new StreamWriter(ms, encoding))
+            foreach (var entry in _entries)
             {
-                tw.WriteLine();
-
-                foreach (var entry in _entries)
-                {
-                    entry.AsPlaintext(tw);
-                    tw.Write("\r\n");
-                }
+                entry.AsPlaintext(tw);
+                tw.Write("\r\n");
             }
 
+            tw.Flush();
             ms.Position = 0;
             return ms;
         }

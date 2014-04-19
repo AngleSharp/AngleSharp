@@ -34,7 +34,7 @@
             return response.Content;
         }
 
-        public static Task<Stream> SendAsync(this IConfiguration configuration, Uri url, Stream content, String mimeType, HttpMethod method = HttpMethod.POST)
+        public static Task<Stream> SendAsync(this IConfiguration configuration, Uri url, Stream content = null, String mimeType = null, HttpMethod method = HttpMethod.POST)
         {
             return configuration.SendAsync(url, content, mimeType, method, CancellationToken.None);
         }
@@ -52,7 +52,10 @@
             var request = DependencyResolver.Current.GetService<IHttpRequest>();
             request.Address = url;
             request.Content = content;
-            request.Headers[HeaderNames.Content_Type] = mimeType;
+
+            if (mimeType != null)
+                request.Headers[HeaderNames.Content_Type] = mimeType;
+
             request.Method = method;
             var response = await requester.RequestAsync(request, cancel);
             return response.Content;
