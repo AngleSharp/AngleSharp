@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/unicode-bidi
     /// </summary>
-    sealed class CSSUnicodeBidiProperty : CSSProperty
+    public sealed class CSSUnicodeBidiProperty : CSSProperty
     {
         #region Fields
 
@@ -28,7 +28,7 @@
             modes.Add("plaintext", UnicodeMode.Plaintext);
         }
 
-        public CSSUnicodeBidiProperty()
+        internal CSSUnicodeBidiProperty()
             : base(PropertyNames.UnicodeBidi)
         {
             _mode = UnicodeMode.Normal;

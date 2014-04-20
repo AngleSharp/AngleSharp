@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/content
     /// </summary>
-    sealed class CSSContentProperty : CSSProperty
+    public sealed class CSSContentProperty : CSSProperty
     {
         #region Fields
 
@@ -35,7 +35,7 @@
             _creator.AddEnumerable<MultiContentMode>();
         }
 
-        public CSSContentProperty()
+        internal CSSContentProperty()
             : base(PropertyNames.Content)
         {
             _mode = _normal;

@@ -1,33 +1,25 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-collapse
     /// </summary>
-    sealed class CSSBorderCollapseProperty : CSSProperty
+    public sealed class CSSBorderCollapseProperty : CSSProperty
     {
         #region Fields
 
-        static readonly Dictionary<String, BorderCollapse> modes = new Dictionary<String, BorderCollapse>(StringComparer.OrdinalIgnoreCase);
-        BorderCollapse _mode;
+        Boolean _separate;
 
         #endregion
 
         #region ctor
 
-        static CSSBorderCollapseProperty()
-        {
-            modes.Add("collapse", BorderCollapse.Collapse);
-            modes.Add("separate", BorderCollapse.Separate);
-        }
-
-        public CSSBorderCollapseProperty()
+        internal CSSBorderCollapseProperty()
             : base(PropertyNames.BorderCollapse)
         {
-            _mode = BorderCollapse.Separate;
+            _separate = true;
             _inherited = true;
         }
 
@@ -37,10 +29,10 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            BorderCollapse mode;
-
-            if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
-                _mode = mode;
+            if (value.Is("separate"))
+                _separate = true;
+            else if (value.Is("collapse"))
+                _separate = false;
             else if (value != CSSValue.Inherit)
                 return false;
 
@@ -49,18 +41,15 @@
 
         #endregion
 
-        #region Modes
+        #region Properties
 
-        enum BorderCollapse
+        /// <summary>
+        /// Gets the use of the separated-border table rendering model.
+        /// Otherwise the collapsed-border table rendering model is used.
+        /// </summary>
+        public Boolean IsSeparated
         {
-            /// <summary>
-            /// Requests the use of the collapsed-border table rendering model.
-            /// </summary>
-            Collapse,
-            /// <summary>
-            /// Requests the use of the separated-border table rendering model. It is the default value.
-            /// </summary>
-            Separate
+            get { return _separate; }
         }
 
         #endregion

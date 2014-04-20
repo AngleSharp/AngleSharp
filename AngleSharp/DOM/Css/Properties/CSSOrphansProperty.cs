@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/orphans
     /// </summary>
-    sealed class CSSOrphansProperty : CSSProperty
+    public sealed class CSSOrphansProperty : CSSProperty
     {
         #region Fields
 
@@ -16,7 +16,7 @@
 
         #region ctor
 
-        public CSSOrphansProperty()
+        internal CSSOrphansProperty()
             : base(PropertyNames.Orphans)
         {
             _inherited = true;

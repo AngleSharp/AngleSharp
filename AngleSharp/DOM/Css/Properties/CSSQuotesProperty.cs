@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/quotes
     /// </summary>
-    sealed class CSSQuotesProperty : CSSProperty
+    public sealed class CSSQuotesProperty : CSSProperty
     {
         #region Fields
 
@@ -26,7 +26,7 @@
             _creator.AddEnumerable<MultiQuotesMode>(2);
         }
 
-        public CSSQuotesProperty()
+        internal CSSQuotesProperty()
             : base(PropertyNames.Quotes)
         {
             _mode = new StandardQuotesMode("«", "»");

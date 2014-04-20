@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/widows
     /// </summary>
-    sealed class CSSWidowsProperty : CSSProperty
+    public sealed class CSSWidowsProperty : CSSProperty
     {
         #region Fields
 
@@ -21,7 +21,7 @@
 
         #region ctor
 
-        public CSSWidowsProperty()
+        internal CSSWidowsProperty()
             : base(PropertyNames.Widows)
         {
             _inherited = true;

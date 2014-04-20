@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor
     /// </summary>
-    sealed class CSSCursorProperty : CSSProperty
+    public sealed class CSSCursorProperty : CSSProperty
     {
         #region Fields
 
@@ -62,7 +62,7 @@
             modes.AddMultiple<MultiCursorMode>();
         }
 
-        public CSSCursorProperty()
+        internal CSSCursorProperty()
             : base(PropertyNames.Cursor)
         {
             _mode = _auto;

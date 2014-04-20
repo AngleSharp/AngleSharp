@@ -1,33 +1,25 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/empty-cells
     /// </summary>
-    sealed class CSSEmptyCellsProperty : CSSProperty
+    public sealed class CSSEmptyCellsProperty : CSSProperty
     {
         #region Fields
 
-        static readonly Dictionary<String, CellMode> modes = new Dictionary<String, CellMode>(StringComparer.OrdinalIgnoreCase);
-        CellMode _mode;
+        Boolean _visible;
 
         #endregion
 
         #region ctor
 
-        static CSSEmptyCellsProperty()
-        {
-            modes.Add("show", CellMode.Show);
-            modes.Add("hide", CellMode.Hide);
-        }
-
-        public CSSEmptyCellsProperty()
+        internal CSSEmptyCellsProperty()
             : base(PropertyNames.EmptyCells)
         {
-            _mode = CellMode.Show;
+            _visible = true;
             _inherited = true;
         }
 
@@ -37,10 +29,10 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            CellMode mode;
-
-            if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
-                _mode = mode;
+            if (value.Is("show"))
+                _visible = true;
+            else if (value.Is("hide"))
+                _visible = false;
             else if (value != CSSValue.Inherit)
                 return false;
 
@@ -49,20 +41,16 @@
 
         #endregion
 
-        #region Modes
+        #region Properties
 
-        enum CellMode
+        /// <summary>
+        /// Gets if borders and backgrounds should be drawn like
+        /// in a normal cells. Otherwise no border or backgrounds
+        /// should be drawn.
+        /// </summary>
+        public Boolean IsVisible
         {
-            /// <summary>
-            /// Is a keyword indicating that borders and backgrounds
-            /// should be drawn like in a normal cells.
-            /// </summary>
-            Show,
-            /// <summary>
-            /// Is a keyword indicating that no border or backgrounds
-            /// should be drawn.
-            /// </summary>
-            Hide
+            get { return _visible; }
         }
 
         #endregion
