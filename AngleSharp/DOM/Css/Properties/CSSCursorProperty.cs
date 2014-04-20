@@ -72,21 +72,21 @@
         protected override Boolean IsValid(CSSValue value)
         {
             if (value.Is("auto"))
-            {
                 _mode = _auto;
-                return true;
-            }
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);
             else if (value == CSSValue.Inherit)
                 return true;
+            else
+            {
+                var mode = Evaluate(value);
 
-            var mode = Evaluate(value);
+                if (mode == null)
+                    return false;
 
-            if (mode == null)
-                return false;
+                _mode = mode;
+            }
 
-            _mode = mode;
             return true;
         }
 

@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        static readonly ValueConverter<ContentMode> _creator;
+        static readonly Dictionary<String, ContentMode> modes = new Dictionary<String,ContentMode>(StringComparer.OrdinalIgnoreCase);
         static readonly NormalContentMode _normal = new NormalContentMode();
         ContentMode _mode;
 
@@ -21,18 +21,10 @@
 
         static CSSContentProperty()
         {
-            _creator = new ValueConverter<ContentMode>();
-            _creator.AddStatic("normal", _normal, exclusive: true);
-            _creator.AddStatic("none", new NoContentMode(), exclusive: true);
-            _creator.AddStatic("open-quote", new OpenQuoteContentMode());
-            _creator.AddStatic("no-open-quote", new NoOpenQuoteContentMode());
-            _creator.AddStatic("close-quote", new CloseQuoteContentMode());
-            _creator.AddStatic("no-close-quote", new NoCloseQuoteContentMode());
-            _creator.AddConstructed<TextContentMode>();
-            _creator.AddConstructed<UrlContentMode>();
-            _creator.AddConstructed<AttributeContentMode>();
-            _creator.AddConstructed<CounterContentMode>();
-            _creator.AddEnumerable<MultiContentMode>();
+            modes.Add("open-quote", new OpenQuoteContentMode());
+            modes.Add("no-open-quote", new NoOpenQuoteContentMode());
+            modes.Add("close-quote", new CloseQuoteContentMode());
+            modes.Add("no-close-quote", new NoCloseQuoteContentMode());
         }
 
         internal CSSContentProperty()
@@ -48,12 +40,65 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            ContentMode mode;
+            if (value.Is("normal"))
+                _mode = _normal;
+            else if (value.Is("none"))
+                _mode = null;
+            else if (value is CSSValueList)
+                return Evaluate((CSSValueList)value);
+            else if (value == CSSValue.Inherit)
+                return true;
+            else
+            {
+                var mode = Evaluate(value);
 
-            if (_creator.TryCreate(value, out mode))
+                if (mode == null)
+                    return false;
+
                 _mode = mode;
-            else if (value != CSSValue.Inherit)
+            }
+
+            return true;
+        }
+
+        static ContentMode Evaluate(CSSValue value)
+        {
+            ContentMode mode = null;
+
+            if (value is CSSIdentifierValue)
+                modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode);
+            else if (value is CSSAttrValue)
+                mode = new AttributeContentMode(((CSSAttrValue)value).Name);
+            else if (value is CSSStringValue)
+                mode = new TextContentMode(((CSSStringValue)value).Value);
+            else if (value is CSSCounter)
+                mode = new CounterContentMode((CSSCounter)value);
+            else if (value is CSSPrimitiveValue<Location>)
+                mode = new UrlContentMode(((CSSPrimitiveValue<Location>)value).Value);
+
+            return mode;
+        }
+
+        Boolean Evaluate(CSSValueList values)
+        {
+            var items = new List<ContentMode>();
+
+            foreach (var value in values)
+            {
+                var item = Evaluate(value);
+
+                if (item == null)
+                    return false;
+
+                items.Add(item);
+            }
+
+            if (items.Count == 0)
                 return false;
+            else if (items.Count == 1)
+                _mode = items[0];
+            else
+                _mode = new MultiContentMode(items);
 
             return true;
         }
@@ -65,13 +110,6 @@
         abstract class ContentMode
         {
             //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// The pseudo-element is not generated.
-        /// </summary>
-        sealed class NoContentMode : ContentMode
-        {
         }
 
         /// <summary>
@@ -143,9 +181,9 @@
         /// </summary>
         sealed class AttributeContentMode : ContentMode
         {
-            CSSAttrValue _attribute;
+            String _attribute;
 
-            public AttributeContentMode(CSSAttrValue attribute)
+            public AttributeContentMode(String attribute)
             {
                 _attribute = attribute;
             }
@@ -158,9 +196,9 @@
         /// </summary>
         sealed class UrlContentMode : ContentMode
         {
-            CSSPrimitiveValue<Location> _url;
+            Location _url;
 
-            public UrlContentMode(CSSPrimitiveValue<Location> url)
+            public UrlContentMode(Location url)
             {
                 _url = url;
             }
