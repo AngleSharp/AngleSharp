@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/opacity
     /// </summary>
-    sealed class CSSOpacityProperty : CSSProperty
+    public sealed class CSSOpacityProperty : CSSProperty
     {
         #region Fields
 
@@ -16,7 +16,7 @@
 
         #region ctor
 
-        public CSSOpacityProperty()
+        internal CSSOpacityProperty()
             : base(PropertyNames.Opacity)
         {
             _inherited = false;

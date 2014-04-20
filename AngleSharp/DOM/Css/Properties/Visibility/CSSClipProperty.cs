@@ -6,7 +6,7 @@
     /// More information can be found:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/clip
     /// </summary>
-    sealed class CSSClipProperty : CSSProperty
+    public sealed class CSSClipProperty : CSSProperty
     {
         #region Fields
 
@@ -16,7 +16,7 @@
 
         #region ctor
 
-        public CSSClipProperty()
+        internal CSSClipProperty()
             : base(PropertyNames.Clip)
         {
             _shape = null;

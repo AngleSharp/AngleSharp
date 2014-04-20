@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="DOM\Constants\Visibility.cs" />
     <Compile Include="DOM\Css\CSSFactory.cs" />
     <Compile Include="DOM\Css\Properties\Background\CSSBackgroundAttachmentProperty.cs" />
     <Compile Include="DOM\Css\Properties\Background\CSSBackgroundClipProperty.cs" />

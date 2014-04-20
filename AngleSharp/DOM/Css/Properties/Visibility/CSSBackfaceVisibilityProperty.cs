@@ -1,33 +1,25 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/backface-visibility
     /// </summary>
-    sealed class CSSBackfaceVisibility : CSSProperty
+    public sealed class CSSBackfaceVisibility : CSSProperty
     {
         #region Fields
 
-        static readonly Dictionary<String, BackfaceVisibility> modes = new Dictionary<String, BackfaceVisibility>(StringComparer.OrdinalIgnoreCase);
-        BackfaceVisibility _mode;
+        Boolean _visible;
 
         #endregion
 
         #region ctor
 
-        static CSSBackfaceVisibility()
-        {
-            modes.Add("visible", BackfaceVisibility.Visible);
-            modes.Add("hidden", BackfaceVisibility.Hidden);
-        }
-
-        public CSSBackfaceVisibility()
+        internal CSSBackfaceVisibility()
             : base(PropertyNames.BackfaceVisibility)
         {
-            _mode = BackfaceVisibility.Visible;
+            _visible = true;
             _inherited = false;
         }
 
@@ -37,10 +29,10 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            BackfaceVisibility mode;
-
-            if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
-                _mode = mode;
+            if (value.Is("visible"))
+                _visible = true;
+            else if (value.Is("hidden"))
+                _visible = false;
             else if (value != CSSValue.Inherit)
                 return false;
 
@@ -49,19 +41,16 @@
 
         #endregion
 
-        #region Modes
+        #region Properties
 
-        enum BackfaceVisibility
+        /// <summary>
+        /// Gets if the back face is visible, allowing the front
+        /// face to be displayed mirrored. Otherwise the back face
+        /// is not visible, hiding the front face.
+        /// </summary>
+        public Boolean IsVisible
         {
-            /// <summary>
-            /// The back face is visible, allowing the front
-            /// face to be displayed mirrored.
-            /// </summary>
-            Visible,
-            /// <summary>
-            /// The back face is not visible, hiding the front face.
-            /// </summary>
-            Hidden
+            get { return _visible; }
         }
 
         #endregion

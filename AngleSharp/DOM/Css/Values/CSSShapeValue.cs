@@ -6,7 +6,7 @@
     /// Represents a CSS shape.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
     /// </summary>
-    sealed class CSSShapeValue : CSSValue
+    public sealed class CSSShapeValue : CSSValue
     {
         #region Fields
 

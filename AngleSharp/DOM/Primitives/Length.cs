@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a length value.
     /// </summary>
-    struct Length : IEquatable<Length>, ICssObject
+    public struct Length : IEquatable<Length>, ICssObject
     {
         #region Fields
 
