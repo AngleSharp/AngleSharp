@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        static readonly ValueConverter<CursorMode> modes;
+        static readonly Dictionary<String, CursorMode> modes = new Dictionary<String, CursorMode>(StringComparer.OrdinalIgnoreCase);
         static readonly AutoCursorMode _auto = new AutoCursorMode();
         CursorMode _mode;
 
@@ -21,45 +21,41 @@
 
         static CSSCursorProperty()
         {
-            modes = new ValueConverter<CursorMode>();
-            modes.AddStatic("auto", _auto);
-            modes.AddStatic("default", new SystemCursorMode(Cursor.Default));
-            modes.AddStatic("none", new SystemCursorMode(Cursor.None));
-            modes.AddStatic("context-menu", new SystemCursorMode(Cursor.ContextMenu));
-            modes.AddStatic("help", new SystemCursorMode(Cursor.Help));
-            modes.AddStatic("pointer", new SystemCursorMode(Cursor.Pointer));
-            modes.AddStatic("progress", new SystemCursorMode(Cursor.Progress));
-            modes.AddStatic("wait", new SystemCursorMode(Cursor.Wait));
-            modes.AddStatic("cell", new SystemCursorMode(Cursor.Cell));
-            modes.AddStatic("crosshair", new SystemCursorMode(Cursor.Crosshair));
-            modes.AddStatic("text", new SystemCursorMode(Cursor.Text));
-            modes.AddStatic("vertical-text", new SystemCursorMode(Cursor.VerticalText));
-            modes.AddStatic("alias", new SystemCursorMode(Cursor.Alias));
-            modes.AddStatic("copy", new SystemCursorMode(Cursor.Copy));
-            modes.AddStatic("move", new SystemCursorMode(Cursor.Move));
-            modes.AddStatic("no-drop", new SystemCursorMode(Cursor.NoDrop));
-            modes.AddStatic("not-allowed", new SystemCursorMode(Cursor.NotAllowed));
-            modes.AddStatic("e-resize", new SystemCursorMode(Cursor.EResize));
-            modes.AddStatic("n-resize", new SystemCursorMode(Cursor.NResize));
-            modes.AddStatic("ne-resize", new SystemCursorMode(Cursor.NeResize));
-            modes.AddStatic("nw-resize", new SystemCursorMode(Cursor.NwResize));
-            modes.AddStatic("s-resize", new SystemCursorMode(Cursor.SResize));
-            modes.AddStatic("se-resize", new SystemCursorMode(Cursor.SeResize));
-            modes.AddStatic("sw-resize", new SystemCursorMode(Cursor.WResize));
-            modes.AddStatic("w-resize", new SystemCursorMode(Cursor.WResize));
-            modes.AddStatic("ew-resize", new SystemCursorMode(Cursor.EwResize));
-            modes.AddStatic("ns-resize", new SystemCursorMode(Cursor.NsResize));
-            modes.AddStatic("nesw-resize", new SystemCursorMode(Cursor.NeswResize));
-            modes.AddStatic("nwse-resize", new SystemCursorMode(Cursor.NwseResize));
-            modes.AddStatic("col-resize", new SystemCursorMode(Cursor.ColResize));
-            modes.AddStatic("row-resize", new SystemCursorMode(Cursor.RowResize));
-            modes.AddStatic("all-scroll", new SystemCursorMode(Cursor.AllScroll));
-            modes.AddStatic("zoom-in", new SystemCursorMode(Cursor.ZoomIn));
-            modes.AddStatic("zoom-out", new SystemCursorMode(Cursor.ZoomOut));
-            modes.AddStatic("grab", new SystemCursorMode(Cursor.Grab));
-            modes.AddStatic("grabbing", new SystemCursorMode(Cursor.Grabbing));
-            modes.AddConstructed<CustomCursorMode>();
-            modes.AddMultiple<MultiCursorMode>();
+            modes.Add("default", new SystemCursorMode(Cursor.Default));
+            modes.Add("none", new SystemCursorMode(Cursor.None));
+            modes.Add("context-menu", new SystemCursorMode(Cursor.ContextMenu));
+            modes.Add("help", new SystemCursorMode(Cursor.Help));
+            modes.Add("pointer", new SystemCursorMode(Cursor.Pointer));
+            modes.Add("progress", new SystemCursorMode(Cursor.Progress));
+            modes.Add("wait", new SystemCursorMode(Cursor.Wait));
+            modes.Add("cell", new SystemCursorMode(Cursor.Cell));
+            modes.Add("crosshair", new SystemCursorMode(Cursor.Crosshair));
+            modes.Add("text", new SystemCursorMode(Cursor.Text));
+            modes.Add("vertical-text", new SystemCursorMode(Cursor.VerticalText));
+            modes.Add("alias", new SystemCursorMode(Cursor.Alias));
+            modes.Add("copy", new SystemCursorMode(Cursor.Copy));
+            modes.Add("move", new SystemCursorMode(Cursor.Move));
+            modes.Add("no-drop", new SystemCursorMode(Cursor.NoDrop));
+            modes.Add("not-allowed", new SystemCursorMode(Cursor.NotAllowed));
+            modes.Add("e-resize", new SystemCursorMode(Cursor.EResize));
+            modes.Add("n-resize", new SystemCursorMode(Cursor.NResize));
+            modes.Add("ne-resize", new SystemCursorMode(Cursor.NeResize));
+            modes.Add("nw-resize", new SystemCursorMode(Cursor.NwResize));
+            modes.Add("s-resize", new SystemCursorMode(Cursor.SResize));
+            modes.Add("se-resize", new SystemCursorMode(Cursor.SeResize));
+            modes.Add("sw-resize", new SystemCursorMode(Cursor.WResize));
+            modes.Add("w-resize", new SystemCursorMode(Cursor.WResize));
+            modes.Add("ew-resize", new SystemCursorMode(Cursor.EwResize));
+            modes.Add("ns-resize", new SystemCursorMode(Cursor.NsResize));
+            modes.Add("nesw-resize", new SystemCursorMode(Cursor.NeswResize));
+            modes.Add("nwse-resize", new SystemCursorMode(Cursor.NwseResize));
+            modes.Add("col-resize", new SystemCursorMode(Cursor.ColResize));
+            modes.Add("row-resize", new SystemCursorMode(Cursor.RowResize));
+            modes.Add("all-scroll", new SystemCursorMode(Cursor.AllScroll));
+            modes.Add("zoom-in", new SystemCursorMode(Cursor.ZoomIn));
+            modes.Add("zoom-out", new SystemCursorMode(Cursor.ZoomOut));
+            modes.Add("grab", new SystemCursorMode(Cursor.Grab));
+            modes.Add("grabbing", new SystemCursorMode(Cursor.Grabbing));
         }
 
         internal CSSCursorProperty()
@@ -75,14 +71,88 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            CursorMode mode;
+            if (value.Is("auto"))
+            {
+                _mode = _auto;
+                return true;
+            }
+            else if (value is CSSValueList)
+                return Evaluate((CSSValueList)value);
+            else if (value == CSSValue.Inherit)
+                return true;
 
-            if (modes.TryCreate(value, out mode))
-                _mode = mode;
-            else if (value != CSSValue.Inherit)
+            var mode = Evaluate(value);
+
+            if (mode == null)
                 return false;
 
+            _mode = mode;
             return true;
+        }
+
+        Boolean Evaluate(CSSValueList values)
+        {
+            var modes = new List<CursorMode>();
+            var entries = values.ToList();
+            var acceptMore = true;
+
+            foreach (var entry in entries)
+            {
+                if (!acceptMore || entry.Length == 0)
+                    return false;
+
+                if (entry.Length == 1)
+                {
+                    var item = Evaluate(entry[0]);
+
+                    if (item == null)
+                        return false;
+
+                    acceptMore = item is CustomCursorMode;
+                    modes.Add(item);
+                }
+                else if(entry.Length == 3)
+                {
+                    var location = entry[0].ToUri();
+                    var x = entry[1].ToNumber();
+                    var y = entry[2].ToNumber();
+
+                    if (location == null || !x.HasValue || !y.HasValue)
+                        return false;
+
+                    modes.Add(new CustomCursorMode(location, x, y));
+                }
+                else
+                    return false;
+            }
+
+            if (modes.Count == 1)
+                _mode = modes[0];
+            else if (modes.Count == 0)
+                return false;
+
+            _mode = new MultiCursorMode(modes);
+            return true;
+        }
+
+        static CursorMode Evaluate(CSSValue value)
+        {
+            var ident = value as CSSIdentifierValue;
+
+            if (ident != null)
+            {
+                CursorMode mode;
+
+                if (modes.TryGetValue(ident.Value, out mode))
+                    return mode;
+            }
+
+            var location = value.ToUri();
+
+            if (location != null)
+                return new CustomCursorMode(location);
+
+            return null;
         }
 
         #endregion
