@@ -11,26 +11,34 @@
     {
         #region Fields
 
-        static readonly ValueConverter<QuotesMode> _creator;
-        QuotesMode _mode;
+        static readonly Tuple<String, String> _default = new Tuple<String, String>("«", "»");
+        List<Tuple<String, String>> _quotes;
 
         #endregion
 
         #region ctor
 
-        static CSSQuotesProperty()
-        {
-            _creator = new ValueConverter<QuotesMode>();
-            _creator.AddStatic("none", new NoQuotesMode(), exclusive: true);
-            _creator.AddConstructed<StandardQuotesMode>();
-            _creator.AddEnumerable<MultiQuotesMode>(2);
-        }
-
         internal CSSQuotesProperty()
             : base(PropertyNames.Quotes)
         {
-            _mode = new StandardQuotesMode("«", "»");
+            _quotes = new List<Tuple<String, String>>();
+            _quotes.Add(_default);
             _inherited = true;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the enumeration with pairs of values for open-quote and
+        /// close-quote. The first pair represents the outer level of quotation,
+        /// the second pair is for the first nested level, next pair for third
+        /// level and so on.
+        /// </summary>
+        public IEnumerable<Tuple<String, String>> Quotes
+        {
+            get { return _quotes; }
         }
 
         #endregion
@@ -39,63 +47,34 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            QuotesMode mode;
+            if (value.Is("none"))
+                _quotes.Clear();
+            else if (value is CSSValueList)
+            {
+                var values = (CSSValueList)value;
 
-            if (_creator.TryCreate(value, out mode))
-                _mode = mode;
+                if (values.Length % 2 != 0)
+                    return false;
+
+                var quotes = new List<Tuple<String, String>>();
+
+                for (int i = 0; i < values.Length; i += 2)
+                {
+                    var open = values[i] as CSSStringValue;
+                    var close = values[i + 1] as CSSStringValue;
+
+                    if (open == null || close == null)
+                        return false;
+
+                    quotes.Add(Tuple.Create(open.Value, close.Value));
+                }
+
+                _quotes = quotes;
+            }
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-
-        abstract class QuotesMode
-        {
-            //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// The open-quote and close-quote values of the content
-        /// property produce no quotation marks.
-        /// </summary>
-        sealed class NoQuotesMode : QuotesMode
-        {
-        }
-
-        /// <summary>
-        /// A single pair of quotes. A pair consists of an
-        /// open-quote and a close-quote.
-        /// </summary>
-        sealed class StandardQuotesMode : QuotesMode
-        {
-            String _open;
-            String _closed;
-
-            public StandardQuotesMode(String open, String closed)
-            {
-                _open = open;
-                _closed = closed;
-            }
-        }
-
-        /// <summary>
-        /// One or more pairs of values for open-quote and close-quote.
-        /// The first pair represents the outer level of quotation, the
-        /// second pair is for the first nested level, next pair for
-        /// third level and so on.
-        /// </summary>
-        sealed class MultiQuotesMode : QuotesMode
-        {
-            List<QuotesMode> _quotes;
-
-            public MultiQuotesMode(List<QuotesMode> quotes)
-            {
-                _quotes = quotes;
-            }
         }
 
         #endregion
