@@ -196,6 +196,15 @@
     <Compile Include="..\AngleSharp\DOM\Constants\Visibility.cs">
       <Link>DOM\Constants\Visibility.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\TextDecorationStyle.cs">
+      <Link>DOM\Css\Constants\TextDecorationStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\TextTransform.cs">
+      <Link>DOM\Css\Constants\TextTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\Whitespace.cs">
+      <Link>DOM\Css\Constants\Whitespace.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSFactory.cs">
       <Link>DOM\Css\CSSFactory.cs</Link>
     </Compile>
