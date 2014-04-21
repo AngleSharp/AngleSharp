@@ -34,6 +34,7 @@ Change log
 - 98% finished HTML5 parser
 - 95% finished CSS3 parser
 - 85% finished HTML DOM
+- Included `Submit()` method for forms
 
 **0.4.0:**
 - Final alpha version
