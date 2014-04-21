@@ -1195,15 +1195,6 @@
     <Compile Include="..\AngleSharp\Foundation\Constants\FunctionNames.cs">
       <Link>Foundation\Constants\FunctionNames.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\HeaderNames.cs">
-      <Link>Foundation\Constants\HeaderNames.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\KnownProtocols.cs">
-      <Link>Foundation\Constants\KnownProtocols.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\MimeTypes.cs">
-      <Link>Foundation\Constants\MimeTypes.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\Namespaces.cs">
       <Link>Foundation\Constants\Namespaces.cs</Link>
     </Compile>
@@ -1272,6 +1263,15 @@
     </Compile>
     <Compile Include="..\AngleSharp\IInfo.cs">
       <Link>IInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\Constants\HeaderNames.cs">
+      <Link>Network\Constants\HeaderNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\Constants\KnownProtocols.cs">
+      <Link>Network\Constants\KnownProtocols.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\Constants\MimeTypes.cs">
+      <Link>Network\Constants\MimeTypes.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultHttpRequest.cs">
       <Link>Network\DefaultHttpRequest.cs</Link>
