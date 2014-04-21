@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents an angle value.
     /// </summary>
-    struct Angle : IEquatable<Angle>, ICssObject
+    public struct Angle : IEquatable<Angle>, ICssObject
     {
         #region Fields
 

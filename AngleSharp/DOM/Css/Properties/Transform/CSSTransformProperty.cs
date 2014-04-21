@@ -7,7 +7,7 @@
     /// More information available at MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform
     /// </summary>
-    sealed class CSSTransformProperty : CSSProperty
+    public sealed class CSSTransformProperty : CSSProperty
     {
         #region Fields
 
@@ -17,7 +17,7 @@
 
         #region ctor
 
-        public CSSTransformProperty()
+        internal CSSTransformProperty()
             : base(PropertyNames.Transform)
         {
             _inherited = false;

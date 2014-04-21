@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a transformation matrix value.
     /// </summary>
-    struct TransformMatrix : IEquatable<TransformMatrix>, ICssObject
+    public struct TransformMatrix : IEquatable<TransformMatrix>, ICssObject
     {
         #region Fields
 

@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align
     /// </summary>
-    sealed class CSSVerticalAlignProperty : CSSProperty
+    public sealed class CSSVerticalAlignProperty : CSSProperty
     {
         #region Fields
 
@@ -30,7 +30,7 @@
             modes.Add("bottom", new BottomCoordinateMode());
         }
 
-        public CSSVerticalAlignProperty()
+        internal CSSVerticalAlignProperty()
             : base(PropertyNames.VerticalAlign)
         {
             _inherited = false;

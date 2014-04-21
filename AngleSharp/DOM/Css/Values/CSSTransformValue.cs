@@ -7,7 +7,7 @@
     /// Represents a transformation in CSS.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform#CSS_transform_functions
     /// </summary>
-    abstract class CSSTransformValue : CSSValue
+    public abstract class CSSTransformValue : CSSValue
     {
         #region Properties
 

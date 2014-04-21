@@ -7,7 +7,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-style
     /// </summary>
-    sealed class CSSTextDecorationStyleProperty : CSSProperty
+    public sealed class CSSTextDecorationStyleProperty : CSSProperty
     {
         #region Fields
 
@@ -27,11 +27,23 @@
             _styles.Add("wavy", TextDecorationStyle.Wavy);
         }
 
-        public CSSTextDecorationStyleProperty()
+        internal CSSTextDecorationStyleProperty()
             : base(PropertyNames.TextDecorationStyle)
         {
             _inherited = false;
             _style = TextDecorationStyle.Solid;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected decoration style.
+        /// </summary>
+        public TextDecorationStyle DecorationStyle
+        {
+            get { return _style; }
         }
 
         #endregion
@@ -48,34 +60,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Style Enumeration
-
-        enum TextDecorationStyle
-        {
-            /// <summary>
-            /// Draws a single line.
-            /// </summary>
-            Solid,
-            /// <summary>
-            /// Draws a double line.
-            /// </summary>
-            Double,
-            /// <summary>
-            /// Draws a dotted line.
-            /// </summary>
-            Dotted,
-            /// <summary>
-            /// Draws a dashed line.
-            /// </summary>
-            Dashed,
-            /// <summary>
-            /// Draws a wavy line.
-            /// </summary>
-            Wavy
         }
 
         #endregion

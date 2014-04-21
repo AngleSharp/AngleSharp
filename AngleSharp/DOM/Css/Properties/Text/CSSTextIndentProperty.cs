@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-indent
     /// </summary>
-    sealed class CSSTextIndentProperty : CSSProperty
+    public sealed class CSSTextIndentProperty : CSSProperty
     {
         #region Fields
 
@@ -16,7 +16,7 @@
 
         #region ctor
 
-        public CSSTextIndentProperty()
+        internal CSSTextIndentProperty()
             : base(PropertyNames.TextIndent)
         {
             _inherited = true;

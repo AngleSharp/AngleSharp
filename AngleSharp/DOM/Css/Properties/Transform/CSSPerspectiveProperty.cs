@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/perspective
     /// </summary>
-    sealed class CSSPerspectiveProperty : CSSProperty
+    public sealed class CSSPerspectiveProperty : CSSProperty
     {
         #region Fields
 
@@ -16,7 +16,7 @@
 
         #region ctor
 
-        public CSSPerspectiveProperty()
+        internal CSSPerspectiveProperty()
             : base(PropertyNames.Perspective)
         {
             _inherited = false;
