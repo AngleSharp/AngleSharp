@@ -6,34 +6,19 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin
     /// </summary>
-    sealed class CSSTransformOriginProperty : CSSProperty
+    public sealed class CSSTransformOriginProperty : CSSProperty
     {
         #region Fields
 
-        /// <summary>
-        /// Is a length or a percentage describing how far from the left edge of
-        /// the box the origin of the transform is set. Or: Is one of the left,
-        /// right, top, bottom or center keyword describing the corresponding offset.
-        /// </summary>
         CSSCalcValue _x;
-        /// <summary>
-        /// Is a length or a percentage describing how far from the top edge of
-        /// the box the origin of the transform is set. Or: Is one of the top,
-        /// bottom or center keyword describing how far from the top edge of the
-        /// box the origin of the transform is set.
-        /// </summary>
         CSSCalcValue _y;
-        /// <summary>
-        /// Is a length (and never a percentage which would made the statement invalid)
-        /// describing how far from the user eye the z=0 origin is set.
-        /// </summary>
         CSSCalcValue _z;
 
         #endregion
 
         #region ctor
 
-        public CSSTransformOriginProperty()
+        internal CSSTransformOriginProperty()
             : base(PropertyNames.TransformOrigin)
         {
             _inherited = false;
@@ -159,6 +144,34 @@
             }
 
             return calc;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets how far from the left edge of the box the origin of the transform is set.
+        /// </summary>
+        public CSSCalcValue X
+        {
+            get { return _x; }
+        }
+
+        /// <summary>
+        /// Gets how far from the top edge of the box the origin of the transform is set.
+        /// </summary>
+        public CSSCalcValue Y
+        {
+            get { return _y; }
+        }
+
+        /// <summary>
+        /// Gets how far from the user eye the z = 0 origin is set.
+        /// </summary>
+        public CSSCalcValue Z
+        {
+            get { return _z; }
         }
 
         #endregion
