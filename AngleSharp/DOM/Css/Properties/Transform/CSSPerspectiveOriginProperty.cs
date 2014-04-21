@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/perspective-origin
     /// </summary>
-    sealed class CSSPerspectiveOriginProperty : CSSProperty
+    public sealed class CSSPerspectiveOriginProperty : CSSProperty
     {
         #region Fields
 
@@ -17,7 +17,7 @@
 
         #region ctor
 
-        public CSSPerspectiveOriginProperty()
+        internal CSSPerspectiveOriginProperty()
             : base(PropertyNames.PerspectiveOrigin)
         {
             _inherited = false;
@@ -126,6 +126,26 @@
             }
 
             return calc;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the position of the abscissa of the vanishing point.
+        /// </summary>
+        public CSSCalcValue X
+        {
+            get { return _x; }
+        }
+
+        /// <summary>
+        /// Gets the position of the ordinate of the vanishing point.
+        /// </summary>
+        public CSSCalcValue Y
+        {
+            get { return _y; }
         }
 
         #endregion

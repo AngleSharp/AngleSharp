@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a percentage value.
     /// </summary>
-    struct Percent : IEquatable<Percent>, ICssObject
+    public struct Percent : IEquatable<Percent>, ICssObject
     {
         #region Fields
 
