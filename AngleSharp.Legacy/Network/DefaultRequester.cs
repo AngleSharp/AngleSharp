@@ -11,7 +11,7 @@
     /// <summary>
     /// The default (ready-to-use) HTTP requester.
     /// </summary>
-    sealed class DefaultHttpRequester : IHttpRequester
+    sealed class DefaultRequester : IRequester
     {
         #region Constants
 
@@ -35,7 +35,7 @@
 
         #region ctor
 
-        static DefaultHttpRequester()
+        static DefaultRequester()
         {
             _propCache = new Dictionary<String, PropertyInfo>();
         }
@@ -44,7 +44,7 @@
         /// Constructs a default HTTP requester with the
         /// default information (placed in the dependency resolver).
         /// </summary>
-        public DefaultHttpRequester()
+        public DefaultRequester()
             : this(DependencyResolver.Current.GetService<IInfo>() ?? new DefaultInfo())
         {
         }
@@ -54,7 +54,7 @@
         /// presented in the info object.
         /// </summary>
         /// <param name="info">The information to use.</param>
-        public DefaultHttpRequester(IInfo info)
+        public DefaultRequester(IInfo info)
         {
             _buffer = new Byte[CHUNK];
             _timeOut = new TimeSpan(0, 0, 0, 45);
@@ -92,7 +92,7 @@
         /// </summary>
         /// <param name="request">The options to consider.</param>
         /// <returns>The response data.</returns>
-        public IHttpResponse Request(IHttpRequest request)
+        public IResponse Request(IRequest request)
         {
             if (CreateRequest(request))
             {
@@ -111,7 +111,7 @@
         /// </summary>
         /// <param name="request">The options to consider.</param>
         /// <returns>The task that will eventually give the response data.</returns>
-        public Task<IHttpResponse> RequestAsync(IHttpRequest request)
+        public Task<IResponse> RequestAsync(IRequest request)
         {
             return RequestAsync(request, CancellationToken.None);
         }
@@ -122,7 +122,7 @@
         /// <param name="request">The options to consider.</param>
         /// <param name="cancellationToken">The token for cancelling the task.</param>
         /// <returns>The task that will eventually give the response data.</returns>
-        public async Task<IHttpResponse> RequestAsync(IHttpRequest request, CancellationToken cancellationToken)
+        public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
         {
             if (CreateRequest(request))
             {
@@ -151,7 +151,7 @@
 
         #region Helpers
 
-        Boolean CreateRequest(IHttpRequest request)
+        Boolean CreateRequest(IRequest request)
         {
             _completed = new TaskCompletionSource<Boolean>();
             _http = WebRequest.Create(request.Address) as HttpWebRequest;
@@ -168,7 +168,7 @@
 
         void SendRequest(IAsyncResult ar)
         {
-            var carrier = (IHttpRequest)ar.AsyncState;
+            var carrier = (IRequest)ar.AsyncState;
             var source = carrier.Content;
             var target = _http.EndGetRequestStream(ar);
 
@@ -202,9 +202,9 @@
             _completed.SetResult(true);
         }
 
-        DefaultHttpResponse GetResponse()
+        DefaultResponse GetResponse()
         {
-            var result = new DefaultHttpResponse();
+            var result = new DefaultResponse();
             var headers = _response.Headers.AllKeys.Select(m => new { Key = m, Value = _response.Headers[m] });
             result.Content = _response.GetResponseStream();
             result.StatusCode = _response.StatusCode;
