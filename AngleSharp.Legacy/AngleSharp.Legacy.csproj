@@ -1264,6 +1264,9 @@
     <Compile Include="..\AngleSharp\IInfo.cs">
       <Link>IInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\Constants\DefaultPorts.cs">
+      <Link>Network\Constants\DefaultPorts.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\Constants\HeaderNames.cs">
       <Link>Network\Constants\HeaderNames.cs</Link>
     </Compile>
