@@ -196,6 +196,12 @@
     <Compile Include="..\AngleSharp\DOM\Constants\Visibility.cs">
       <Link>DOM\Constants\Visibility.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\ListPosition.cs">
+      <Link>DOM\Css\Constants\ListPosition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\ListStyle.cs">
+      <Link>DOM\Css\Constants\ListStyle.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\OutlineStyle.cs">
       <Link>DOM\Css\Constants\OutlineStyle.cs</Link>
     </Compile>
