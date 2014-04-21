@@ -38,7 +38,7 @@ namespace UnitTests
         [TestMethod]
         public void NullCharacterAfterHtml()
         {
-            var doc = DocumentBuilder.Html("<html>" + Specification.NULL.ToString() + "<frameset></frameset>");
+            var doc = DocumentBuilder.Html("<html>" + Specification.Null.ToString() + "<frameset></frameset>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -62,7 +62,7 @@ namespace UnitTests
         [TestMethod]
         public void NullCharacterWithSpacesAfterHtml()
         {
-            var doc = DocumentBuilder.Html("<html> " + Specification.NULL.ToString() + " <frameset></frameset>");
+            var doc = DocumentBuilder.Html("<html> " + Specification.Null.ToString() + " <frameset></frameset>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -86,7 +86,7 @@ namespace UnitTests
         [TestMethod]
         public void NullCharacterWithCharactersAfterHtml()
         {
-            var doc = DocumentBuilder.Html("<html>a" + Specification.NULL.ToString() + "a<frameset></frameset>");
+            var doc = DocumentBuilder.Html("<html>a" + Specification.Null.ToString() + "a<frameset></frameset>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -114,7 +114,7 @@ namespace UnitTests
         [TestMethod]
         public void DoubleNullCharactersAfterHtml()
         {
-            var doc = DocumentBuilder.Html(@"<html>" + Specification.NULL.ToString() + Specification.NULL.ToString() + "<frameset></frameset>");
+            var doc = DocumentBuilder.Html(@"<html>" + Specification.Null.ToString() + Specification.Null.ToString() + "<frameset></frameset>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -138,7 +138,7 @@ namespace UnitTests
         [TestMethod]
         public void NullCharacterWithLinebreakAfterHtml()
         {
-            var doc = DocumentBuilder.Html("<html>" + Specification.NULL.ToString() + @"
+            var doc = DocumentBuilder.Html("<html>" + Specification.Null.ToString() + @"
  <frameset></frameset>");
 
             var dochtml0 = doc.ChildNodes[0];
@@ -163,7 +163,7 @@ namespace UnitTests
         [TestMethod]
         public void PlaintextWithFillerText()
         {
-            var doc = DocumentBuilder.Html(@"<plaintext>□filler□text□".Replace('□', Specification.NULL));
+            var doc = DocumentBuilder.Html(@"<plaintext>□filler□text□".Replace('□', Specification.Null));
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -191,15 +191,15 @@ namespace UnitTests
 
             var dochtml0body1plaintext0Text0 = dochtml0body1plaintext0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1plaintext0Text0.NodeType);
-            Assert.AreEqual("�filler�text�".Replace('�', Specification.REPLACEMENT), dochtml0body1plaintext0Text0.TextContent);
+            Assert.AreEqual("�filler�text�".Replace('�', Specification.Replacement), dochtml0body1plaintext0Text0.TextContent);
 
         }
 
         [TestMethod]
         public void NullCharacterInCDataWithFillerInSvg()
         {
-            var doc = DocumentBuilder.Html("<svg><![CDATA[" + Specification.NULL.ToString() + 
-                "filler" + Specification.NULL.ToString() + "text" + Specification.NULL.ToString() + "]]>");
+            var doc = DocumentBuilder.Html("<svg><![CDATA[" + Specification.Null.ToString() + 
+                "filler" + Specification.Null.ToString() + "text" + Specification.Null.ToString() + "]]>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -227,13 +227,13 @@ namespace UnitTests
 
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
-            Assert.AreEqual("�filler�text�".Replace('�', Specification.REPLACEMENT), dochtml0body1svg0Text0.TextContent);
+            Assert.AreEqual("�filler�text�".Replace('�', Specification.Replacement), dochtml0body1svg0Text0.TextContent);
         }
 
         [TestMethod]
         public void NullCharacterInComment()
         {
-            var doc = DocumentBuilder.Html(@"<body><!" + Specification.NULL.ToString() + ">");
+            var doc = DocumentBuilder.Html(@"<body><!" + Specification.Null.ToString() + ">");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -256,14 +256,14 @@ namespace UnitTests
             var dochtml0body1child = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(0, dochtml0body1child.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1child.Attributes.Length);
-            Assert.AreEqual(Specification.REPLACEMENT.ToString(), dochtml0body1child.TextContent);
+            Assert.AreEqual(Specification.Replacement.ToString(), dochtml0body1child.TextContent);
             Assert.AreEqual(NodeType.Comment, dochtml0body1child.NodeType);
         }
 
         [TestMethod]
         public void NullAndOtherCharactersInComment()
         {
-            var doc = DocumentBuilder.Html(@"<body><!" + Specification.NULL.ToString() + "filler" + Specification.NULL.ToString() + "text>");
+            var doc = DocumentBuilder.Html(@"<body><!" + Specification.Null.ToString() + "filler" + Specification.Null.ToString() + "text>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -286,14 +286,14 @@ namespace UnitTests
             var dochtml0body1Comment = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(0, dochtml0body1Comment.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1Comment.Attributes.Length);
-            Assert.AreEqual("�filler�text".Replace('�', Specification.REPLACEMENT), dochtml0body1Comment.TextContent);
+            Assert.AreEqual("�filler�text".Replace('�', Specification.Replacement), dochtml0body1Comment.TextContent);
             Assert.AreEqual(NodeType.Comment, dochtml0body1Comment.NodeType);
         }
 
         [TestMethod]
         public void NullCharactersInForeignObjectInSvg()
         {
-            var doc = DocumentBuilder.Html(@"<body><svg><foreignObject>" + Specification.NULL.ToString() + "filler" + Specification.NULL.ToString() + "text");
+            var doc = DocumentBuilder.Html(@"<body><svg><foreignObject>" + Specification.Null.ToString() + "filler" + Specification.Null.ToString() + "text");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -414,7 +414,7 @@ A</pre>");
         [TestMethod]
         public void NullCharacterInMathTextInMathTag()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><table><tr><td><math><mtext>" + Specification.NULL.ToString() + "a");
+            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><table><tr><td><math><mtext>" + Specification.Null.ToString() + "a");
 
             var doctype = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(doctype);
@@ -483,7 +483,7 @@ A</pre>");
         [TestMethod]
         public void NullCharacterAfterLetterInMathIdentifier()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math><mi>a" + Specification.NULL.ToString() + "b");
+            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math><mi>a" + Specification.Null.ToString() + "b");
 
             var doctype = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(doctype);
@@ -528,7 +528,7 @@ A</pre>");
         [TestMethod]
         public void NullCharacterAfterLetterInMathNumeric()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math><mn>a" + Specification.NULL.ToString() + "b");
+            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math><mn>a" + Specification.Null.ToString() + "b");
 
             var doctype = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(doctype);
