@@ -6,7 +6,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline-color
     /// </summary>
-    sealed class CSSOutlineColorProperty : CSSProperty
+    public sealed class CSSOutlineColorProperty : CSSProperty
     {
         #region Fields
 
@@ -17,11 +17,23 @@
 
         #region ctor
 
-        public CSSOutlineColorProperty()
+        internal CSSOutlineColorProperty()
             : base(PropertyNames.OutlineColor)
         {
             _inherited = false;
             _mode = _invert;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the color of the outline.
+        /// </summary>
+        public Color Color
+        {
+            get { return _mode.ComputeColor(); }
         }
 
         #endregion
@@ -48,7 +60,7 @@
 
         abstract class ColorMode
         {
-            //TODO add members that make sense
+            public abstract Color ComputeColor();
         }
 
         /// <summary>
@@ -62,6 +74,11 @@
             {
                 _color = color;
             }
+
+            public override Color ComputeColor()
+            {
+                return _color;
+            }
         }
 
         /// <summary>
@@ -71,6 +88,11 @@
         /// </summary>
         sealed class InvertColorMode : ColorMode
         {
+            public override Color ComputeColor()
+            {
+                //TODO
+                return Color.Transparent;
+            }
         }
 
         #endregion

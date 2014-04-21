@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="DOM\Constants\Visibility.cs" />
+    <Compile Include="DOM\Css\Constants\OutlineStyle.cs" />
     <Compile Include="DOM\Css\Constants\TextDecorationStyle.cs" />
     <Compile Include="DOM\Css\Constants\TextTransform.cs" />
     <Compile Include="DOM\Css\Constants\Whitespace.cs" />

@@ -7,7 +7,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline
     /// </summary>
-    sealed class CSSOutlineProperty : CSSProperty
+    public sealed class CSSOutlineProperty : CSSProperty
     {
         #region Fields
 
@@ -19,13 +19,41 @@
 
         #region ctor
 
-        public CSSOutlineProperty()
+        internal CSSOutlineProperty()
             : base(PropertyNames.Outline)
         {
             _style = new CSSOutlineStyleProperty();
             _width = new CSSOutlineWidthProperty();
             _color = new CSSOutlineColorProperty();
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected outline style property.
+        /// </summary>
+        public CSSOutlineStyleProperty Style
+        {
+            get { return _style; }
+        }
+
+        /// <summary>
+        /// Gets the selected outline width property.
+        /// </summary>
+        public CSSOutlineWidthProperty Width
+        {
+            get { return _width; }
+        }
+
+        /// <summary>
+        /// Gets the selected outline color property.
+        /// </summary>
+        public CSSOutlineColorProperty Color
+        {
+            get { return _color; }
         }
 
         #endregion
