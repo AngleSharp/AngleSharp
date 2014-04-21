@@ -7,7 +7,7 @@
     /// <summary>
     /// Specifies what is used for requesting data.
     /// </summary>
-    public interface IHttpRequest
+    public interface IRequest
     {
         /// <summary>
         /// Gets or sets the used request method.

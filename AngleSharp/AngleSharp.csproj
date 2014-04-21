@@ -208,12 +208,12 @@
     <Compile Include="IInfo.cs" />
     <Compile Include="DefaultInfo.cs" />
     <Compile Include="Foundation\Pool.cs" />
-    <Compile Include="Network\DefaultHttpRequest.cs" />
-    <Compile Include="Network\DefaultHttpRequester.cs" />
-    <Compile Include="Network\DefaultHttpResponse.cs" />
+    <Compile Include="Network\DefaultRequest.cs" />
+    <Compile Include="Network\DefaultRequester.cs" />
+    <Compile Include="Network\DefaultResponse.cs" />
     <Compile Include="IConfiguration.cs" />
-    <Compile Include="Network\IHttpRequest.cs" />
-    <Compile Include="Network\IHttpRequester.cs" />
+    <Compile Include="Network\IRequest.cs" />
+    <Compile Include="Network\IRequester.cs" />
     <Compile Include="DOM\Annotations\IFormatting.cs" />
     <Compile Include="DOM\Annotations\IImplClosed.cs" />
     <Compile Include="DOM\Annotations\IImpliedEnd.cs" />
@@ -475,7 +475,7 @@
     <Compile Include="DOM\Svg\SVGElement.cs" />
     <Compile Include="DOM\TextNode.cs" />
     <Compile Include="Parser\Html\HtmlParser.cs" />
-    <Compile Include="Network\IHttpResponse.cs" />
+    <Compile Include="Network\IResponse.cs" />
     <Compile Include="PortableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parser\SourceManager.cs" />

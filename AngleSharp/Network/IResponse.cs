@@ -8,7 +8,7 @@
     /// <summary>
     /// Specifies what is stored when receiving data.
     /// </summary>
-    public interface IHttpResponse
+    public interface IResponse
     {
         /// <summary>
         /// Gets the status code that has been send with the response.

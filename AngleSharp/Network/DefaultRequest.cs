@@ -3,26 +3,30 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Net;
 
     /// <summary>
-    /// The default HTTP response encapsulation object.
+    /// The default HTTP request encapsulation type.
     /// </summary>
-    public class DefaultHttpResponse : IHttpResponse
+    public class DefaultRequest : IRequest
     {
         #region ctor
 
-        public DefaultHttpResponse()
+        public DefaultRequest()
         {
             Headers = new Dictionary<String, String>();
-            StatusCode = HttpStatusCode.Accepted;
         }
 
         #endregion
 
         #region Properties
 
-        public HttpStatusCode StatusCode
+        public HttpMethod Method
+        {
+            get;
+            set;
+        }
+
+        public Uri Address
         {
             get;
             set;

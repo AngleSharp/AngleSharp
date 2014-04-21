@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Network;
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
@@ -184,24 +183,10 @@
 
         sealed class DefaultDependencyResolver : IDependencyResolver
         {
-            Dictionary<Type, Func<Object>> _items;
-
-            public DefaultDependencyResolver ()
-	        {
-                var info = new DefaultInfo();
-                _items = new Dictionary<Type, Func<Object>>();
-                _items.Add(typeof(IHttpRequest), () => new DefaultHttpRequest());
-                _items.Add(typeof(IHttpResponse), () => new DefaultHttpResponse());
-                _items.Add(typeof(IInfo), () => info);
-	        }
-
             public Object GetService(Type serviceType)
             {
                 // Since attempting to create an instance of an interface or an abstract type results in an exception, immediately return null
                 // to improve performance and the debugging experience with first-chance exceptions enabled.
-                if (_items.ContainsKey(serviceType))
-                    return _items[serviceType]();
-
                 if (serviceType.GetTypeInfo().IsInterface || serviceType.GetTypeInfo().IsAbstract)
                     return null;
 

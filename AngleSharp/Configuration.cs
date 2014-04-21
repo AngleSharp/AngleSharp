@@ -17,12 +17,12 @@
     {
         #region Fields
 
-        protected CultureInfo _culture;
-        protected Boolean _scripting;
-        protected Boolean _styling;
-        protected Boolean _embedded;
-        protected Boolean _quirks;
-        protected Boolean _http;
+        CultureInfo _culture;
+        Boolean _scripting;
+        Boolean _styling;
+        Boolean _embedded;
+        Boolean _quirks;
+        Boolean _requests;
 
         static readonly Configuration defaultConfiguration = new Configuration();
 
@@ -39,7 +39,7 @@
             _scripting = false;
             _styling = true;
             _embedded = false;
-            _http = false;
+            _requests = false;
             _culture = CultureInfo.CurrentUICulture;
         }
 
@@ -48,13 +48,13 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets if HTTP requests should be allowed.
+        /// Gets or sets if external requests should be allowed.
         /// Default is false.
         /// </summary>
-        public Boolean AllowHttpRequests
+        public Boolean AllowRequests
         {
-            get { return _http; }
-            set { _http = value; }
+            get { return _requests; }
+            set { _requests = value; }
         }
 
         /// <summary>
@@ -134,15 +134,29 @@
         #region Methods
 
         /// <summary>
-        /// Creates a HTTP requester for performing HTTP requests.
-        /// This method is using the default HTTP requester set over
-        /// the dependency resolver. If nothing is found the 
+        /// Creates a requester for performing HTTP / web requests.
+        /// This method is using the default requester set over the
+        /// dependency resolver. If nothing is found the default
+        /// requester is constructed.
         /// </summary>
-        /// <returns>The constructed HTTP requester.</returns>
-        public virtual IHttpRequester CreateHttpRequest()
+        /// <returns>The constructed requester.</returns>
+        public virtual IRequester GetRequester()
         {
-            return DependencyResolver.Current.GetService<IHttpRequester>()
-                ?? new DefaultHttpRequester();
+            return DependencyResolver.Current.GetService<IRequester>()
+                ?? new DefaultRequester();
+        }
+
+        /// <summary>
+        /// Creates a request container that is passed to a requester
+        /// object for sending a request to a server. This method is using
+        /// the default request object set over the dependency resolver.
+        /// If nothing is found the default request is constructed.
+        /// </summary>
+        /// <returns>The constructed request object.</returns>
+        public virtual IRequest CreateRequest()
+        {
+            return DependencyResolver.Current.GetService<IRequest>()
+                ?? new DefaultRequest();
         }
 
         /// <summary>

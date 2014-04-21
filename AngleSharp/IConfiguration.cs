@@ -12,9 +12,9 @@
     public interface IConfiguration
     {
         /// <summary>
-        /// Gets or sets if HTTP requests should be allowed.
+        /// Gets or sets if (external) requests should be allowed.
         /// </summary>
-        Boolean AllowHttpRequests { get; set; }
+        Boolean AllowRequests { get; set; }
 
         /// <summary>
         /// Gets or sets the current scripting mode.
@@ -48,10 +48,16 @@
         CultureInfo Culture { get; set; }
 
         /// <summary>
-        /// Creates a HTTP requester for performing HTTP requests.
+        /// Creates a new request object that might be passed to a requester.
+        /// </summary>
+        /// <returns>The created request object.</returns>
+        IRequest CreateRequest();
+
+        /// <summary>
+        /// Creates a requester for performing web (e.g. HTTP) requests.
         /// </summary>
         /// <returns>The constructed HTTP requester.</returns>
-        IHttpRequester CreateHttpRequest();
+        IRequester GetRequester();
 
         /// <summary>
         /// Method that is called once parse errors are encountered.
