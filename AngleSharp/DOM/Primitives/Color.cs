@@ -8,7 +8,7 @@
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    struct Color : IEquatable<Color>, ICssObject
+    public struct Color : IEquatable<Color>, ICssObject
     {
         #region Basic colors
 

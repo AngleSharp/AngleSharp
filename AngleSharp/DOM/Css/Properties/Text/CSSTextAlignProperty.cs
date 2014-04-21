@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-align
     /// </summary>
-    sealed class CSSTextAlignProperty : CSSProperty
+    public sealed class CSSTextAlignProperty : CSSProperty
     {
         #region Fields
 
@@ -26,7 +26,7 @@
             modes.Add("justify", HorizontalAlignment.Justify);
         }
 
-        public CSSTextAlignProperty()
+        internal CSSTextAlignProperty()
             : base(PropertyNames.TextAlign)
         {
             _mode = HorizontalAlignment.Left;

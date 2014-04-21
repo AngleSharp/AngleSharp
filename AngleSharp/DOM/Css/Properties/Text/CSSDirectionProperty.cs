@@ -7,24 +7,17 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/direction
     /// </summary>
-    sealed class CSSDirectionProperty : CSSProperty
+    public sealed class CSSDirectionProperty : CSSProperty
     {
         #region Fields
 
-        static readonly Dictionary<String, DirectionMode> modes = new Dictionary<String, DirectionMode>(StringComparer.OrdinalIgnoreCase);
         DirectionMode _mode;
 
         #endregion
 
         #region ctor
 
-        static CSSDirectionProperty()
-        {
-            modes.Add("ltr", DirectionMode.Ltr);
-            modes.Add("rtl", DirectionMode.Rtl);
-        }
-
-        public CSSDirectionProperty()
+        internal CSSDirectionProperty()
             : base(PropertyNames.Direction)
         {
             _mode = DirectionMode.Ltr;
@@ -49,10 +42,10 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            DirectionMode mode;
-
-            if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
-                _mode = mode;
+            if (value.Is("ltr"))
+                _mode = DirectionMode.Ltr;
+            else if (value.Is("rtl"))
+                _mode = DirectionMode.Rtl;
             else if (value != CSSValue.Inherit)
                 return false;
             

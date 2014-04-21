@@ -6,7 +6,7 @@
     /// More Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-color
     /// </summary>
-    sealed class CSSTextDecorationColorProperty : CSSProperty
+    public sealed class CSSTextDecorationColorProperty : CSSProperty
     {
         #region Fields
 
@@ -16,7 +16,7 @@
 
         #region ctor
 
-        public CSSTextDecorationColorProperty()
+        internal CSSTextDecorationColorProperty()
             : base(PropertyNames.TextDecorationColor)
         {
             _inherited = false;
