@@ -333,7 +333,7 @@
 
             for (int i = 0; i < _entries.Count; i++)
             {
-                sb.Append(Specification.SPACE);
+                sb.Append(Specification.Space);
                 sb.Append(_entries[i].ToHtml());
             }
 

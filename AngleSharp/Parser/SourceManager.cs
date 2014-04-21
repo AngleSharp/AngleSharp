@@ -160,7 +160,7 @@
         /// </summary>
         public Boolean IsEnding
         {
-            get { return _current == Specification.EOF; }
+            get { return _current == Specification.EndOfFile; }
         }
 
         /// <summary>
@@ -318,18 +318,18 @@
                 }
 
                 var tmp = _reader.Read();
-                _current = tmp == -1 ? Specification.EOF : (Char)tmp;
+                _current = tmp == -1 ? Specification.EndOfFile : (Char)tmp;
 
-                if (_current == Specification.CR)
+                if (_current == Specification.CarriageReturn)
                 {
-                    _current = Specification.LF;
+                    _current = Specification.LineFeed;
                     _lwcr = true;
                 }
                 else if (_lwcr)
                 {
                     _lwcr = false;
 
-                    if (_current == Specification.LF)
+                    if (_current == Specification.LineFeed)
                         continue;
                 }
 
@@ -370,7 +370,7 @@
             if (_insertion == 0)
             {
                 _column = 0;
-                _current = Specification.NULL;
+                _current = Specification.Null;
                 return;
             }
 

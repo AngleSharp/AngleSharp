@@ -128,7 +128,7 @@
         /// </summary>
         public void RemoveNewLine()
         {
-            if (!String.IsNullOrEmpty(_data) && _data[0] == Specification.LF)
+            if (!String.IsNullOrEmpty(_data) && _data[0] == Specification.LineFeed)
                 _data = _data.Substring(1);
         }
 

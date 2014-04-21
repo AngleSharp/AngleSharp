@@ -77,7 +77,7 @@
                     if (hasSpace)
                         continue;
 
-                    chars.Add(Specification.SPACE);
+                    chars.Add(Specification.Space);
                     hasSpace = true;
                 }
                 else
@@ -111,7 +111,7 @@
                     if (hasSpace)
                         continue;
 
-                    chars.Add(Specification.SPACE);
+                    chars.Add(Specification.Space);
                     hasSpace = true;
                 }
                 else
@@ -275,7 +275,7 @@
         [DebuggerStepThrough]
         public static String[] SplitHyphens(this String str)
         {
-            return SplitWithTrimming(str, Specification.MINUS);
+            return SplitWithTrimming(str, Specification.Minus);
         }
 
         /// <summary>
@@ -437,12 +437,12 @@
             {
                 var chr = (Char)val;
 
-                if (chr == Specification.SPACE)
-                    builder.Append(Specification.PLUS);
-                else if (chr == Specification.ASTERISK || chr == Specification.MINUS || chr == Specification.DOT || chr.IsAlphanumericAscii())
+                if (chr == Specification.Space)
+                    builder.Append(Specification.Plus);
+                else if (chr == Specification.Asterisk || chr == Specification.Minus || chr == Specification.Dot || chr.IsAlphanumericAscii())
                     builder.Append(chr);
                 else
-                    builder.Append(Specification.PERCENT).Append(val.ToString("X2"));
+                    builder.Append(Specification.Percent).Append(val.ToString("X2"));
             }
 
             return builder.ToPool();

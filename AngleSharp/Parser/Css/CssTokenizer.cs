@@ -92,10 +92,10 @@
         {
             switch (current)
             {
-                case Specification.LF:
-                case Specification.CR:
-                case Specification.TAB:
-                case Specification.SPACE:
+                case Specification.LineFeed:
+                case Specification.CarriageReturn:
+                case Specification.Tab:
+                case Specification.Space:
                     do { current = _src.Next; }
                     while (current.IsSpaceCharacter());
 
@@ -105,42 +105,42 @@
                     _src.Back();
                     return CssSpecialCharacter.Whitespace;
 
-                case Specification.DQ:
+                case Specification.DoubleQuote:
                     return StringDQ(_src.Next);
 
-                case Specification.NUM:
+                case Specification.Num:
                     return HashStart(_src.Next);
 
-                case Specification.DOLLAR:
+                case Specification.Dollar:
                     current = _src.Next;
 
-                    if (current == Specification.EQ)
+                    if (current == Specification.Equality)
                         return CssMatchToken.Suffix;
 
                     return CssToken.Delim(_src.Previous);
 
-                case Specification.SQ:
+                case Specification.SingleQuote:
                     return StringSQ(_src.Next);
 
-                case Specification.RBO:
+                case Specification.RoundBracketOpen:
                     return CssBracketToken.OpenRound;
 
-                case Specification.RBC:
+                case Specification.RoundBracketClose:
                     return CssBracketToken.CloseRound;
 
-                case Specification.ASTERISK:
+                case Specification.Asterisk:
                     current = _src.Next;
 
-                    if (current == Specification.EQ)
+                    if (current == Specification.Equality)
                         return CssMatchToken.Substring;
 
                     return CssToken.Delim(_src.Previous);
 
-                case Specification.PLUS:
+                case Specification.Plus:
                     {
                         var c1 = _src.Next;
 
-                        if (c1 == Specification.EOF)
+                        if (c1 == Specification.EndOfFile)
                         {
                             _src.Back();
                         }
@@ -149,17 +149,17 @@
                             var c2 = _src.Next;
                             _src.Back(2);
 
-                            if (c1.IsDigit() || (c1 == Specification.DOT && c2.IsDigit()))
+                            if (c1.IsDigit() || (c1 == Specification.Dot && c2.IsDigit()))
                                 return NumberStart(current);
                         }
                         
                         return CssToken.Delim(current);
                     }
 
-                case Specification.COMMA:
+                case Specification.Comma:
                     return CssSpecialCharacter.Comma;
 
-                case Specification.DOT:
+                case Specification.Dot:
                     {
                         var c = _src.Next;
 
@@ -169,11 +169,11 @@
                         return CssToken.Delim(_src.Previous);
                     }
 
-                case Specification.MINUS:
+                case Specification.Minus:
                     {
                         var c1 = _src.Next;
 
-                        if (c1 == Specification.EOF)
+                        if (c1 == Specification.EndOfFile)
                         {
                             _src.Back();
                         }
@@ -182,13 +182,13 @@
                             var c2 = _src.Next;
                             _src.Back(2);
 
-                            if (c1.IsDigit() || (c1 == Specification.DOT && c2.IsDigit()))
+                            if (c1.IsDigit() || (c1 == Specification.Dot && c2.IsDigit()))
                                 return NumberStart(current);
                             else if (c1.IsNameStart())
                                 return IdentStart(current);
-                            else if (c1 == Specification.RSOLIDUS && !c2.IsLineBreak() && c2 != Specification.EOF)
+                            else if (c1 == Specification.ReverseSolidus && !c2.IsLineBreak() && c2 != Specification.EndOfFile)
                                 return IdentStart(current);
-                            else if (c1 == Specification.MINUS && c2 == Specification.GT)
+                            else if (c1 == Specification.Minus && c2 == Specification.GreaterThan)
                             {
                                 _src.Advance(2);
 
@@ -202,43 +202,43 @@
                         return CssToken.Delim(current);
                     }
 
-                case Specification.SOLIDUS:
+                case Specification.Solidus:
                     current = _src.Next;
 
-                    if (current == Specification.ASTERISK)
+                    if (current == Specification.Asterisk)
                         return Comment(_src.Next);
                         
                     return CssToken.Delim(_src.Previous);
 
-                case Specification.RSOLIDUS:
+                case Specification.ReverseSolidus:
                     current = _src.Next;
 
-                    if (current.IsLineBreak() || current == Specification.EOF)
+                    if (current.IsLineBreak() || current == Specification.EndOfFile)
                     {
-                        RaiseErrorOccurred(current == Specification.EOF ? ErrorCode.EOF : ErrorCode.LineBreakUnexpected);
+                        RaiseErrorOccurred(current == Specification.EndOfFile ? ErrorCode.EOF : ErrorCode.LineBreakUnexpected);
                         return CssToken.Delim(_src.Previous);
                     }
 
                     return IdentStart(_src.Previous);
 
-                case Specification.COLON:
+                case Specification.Colon:
                     return CssSpecialCharacter.Colon;
 
-                case Specification.SC:
+                case Specification.Semicolon:
                     return CssSpecialCharacter.Semicolon;
 
-                case Specification.LT:
+                case Specification.LessThan:
                     current = _src.Next;
 
-                    if (current == Specification.EM)
+                    if (current == Specification.ExclamationMark)
                     {
                         current = _src.Next;
 
-                        if (current == Specification.MINUS)
+                        if (current == Specification.Minus)
                         {
                             current = _src.Next;
 
-							if (current == Specification.MINUS)
+							if (current == Specification.Minus)
 							{
 								if (_ignoreCs)
 									return Data(_src.Next);
@@ -254,27 +254,27 @@
 
                     return CssToken.Delim(_src.Previous);
 
-                case Specification.AT:
+                case Specification.At:
                     return AtKeywordStart(_src.Next);
 
-                case Specification.SBO:
+                case Specification.SquareBracketOpen:
                     return CssBracketToken.OpenSquare;
 
-                case Specification.SBC:
+                case Specification.SquareBracketClose:
                     return CssBracketToken.CloseSquare;
 
-                case Specification.ACCENT:
+                case Specification.Accent:
                     current = _src.Next;
 
-                    if (current == Specification.EQ)
+                    if (current == Specification.Equality)
                         return CssMatchToken.Prefix;
 
                     return CssToken.Delim(_src.Previous);
 
-                case Specification.CBO:
+                case Specification.CurlyBracketOpen:
                     return CssBracketToken.OpenCurly;
 
-                case Specification.CBC:
+                case Specification.CurlyBracketClose:
                     return CssBracketToken.CloseCurly;
 
                 case '0':
@@ -293,11 +293,11 @@
                 case 'u':
                     current = _src.Next;
 
-                    if (current == Specification.PLUS)
+                    if (current == Specification.Plus)
                     {
                         current = _src.Next;
 
-                        if (current.IsHex() || current == Specification.QM)
+                        if (current.IsHex() || current == Specification.QuestionMark)
                             return UnicodeRange(current);
 
                         current = _src.Previous;
@@ -305,31 +305,31 @@
 
                     return IdentStart(_src.Previous);
 
-                case Specification.PIPE:
+                case Specification.Pipe:
                     current = _src.Next;
 
-                    if (current == Specification.EQ)
+                    if (current == Specification.Equality)
                         return CssMatchToken.Dash;
-                    else if (current == Specification.PIPE)
+                    else if (current == Specification.Pipe)
                         return CssToken.Column;
 
                     return CssToken.Delim(_src.Previous);
 
-                case Specification.TILDE:
+                case Specification.Tilde:
                     current = _src.Next;
 
-                    if (current == Specification.EQ)
+                    if (current == Specification.Equality)
                         return CssMatchToken.Include;
 
                     return CssToken.Delim(_src.Previous);
 
-                case Specification.EOF:
+                case Specification.EndOfFile:
                     return null;
 
-                case Specification.EM:
+                case Specification.ExclamationMark:
                     current = _src.Next;
 
-                    if (current == Specification.EQ)
+                    if (current == Specification.Equality)
                         return CssMatchToken.Not;
 
                     return CssToken.Delim(_src.Previous);
@@ -351,22 +351,22 @@
             {
                 switch (current)
                 {
-                    case Specification.DQ:
-                    case Specification.EOF:
+                    case Specification.DoubleQuote:
+                    case Specification.EndOfFile:
                         return CssStringToken.Plain(FlushBuffer());
 
-                    case Specification.FF:
-                    case Specification.LF:
+                    case Specification.FormFeed:
+                    case Specification.LineFeed:
                         RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
                         _src.Back();
                         return CssStringToken.Plain(FlushBuffer(), true);
 
-                    case Specification.RSOLIDUS:
+                    case Specification.ReverseSolidus:
                         current = _src.Next;
 
                         if (current.IsLineBreak())
                             _stringBuffer.AppendLine();
-                        else if (current != Specification.EOF)
+                        else if (current != Specification.EndOfFile)
                             _stringBuffer.Append(ConsumeEscape(current));
                         else
                         {
@@ -395,22 +395,22 @@
             {
                 switch (current)
                 {
-                    case Specification.SQ:
-                    case Specification.EOF:
+                    case Specification.SingleQuote:
+                    case Specification.EndOfFile:
                         return CssStringToken.Plain(FlushBuffer());
 
-                    case Specification.FF:
-                    case Specification.LF:
+                    case Specification.FormFeed:
+                    case Specification.LineFeed:
                         RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
                         _src.Back();
                         return (CssStringToken.Plain(FlushBuffer(), true));
 
-                    case Specification.RSOLIDUS:
+                    case Specification.ReverseSolidus:
                         current = _src.Next;
 
                         if (current.IsLineBreak())
                             _stringBuffer.AppendLine();
-                        else if (current != Specification.EOF)
+                        else if (current != Specification.EndOfFile)
                             _stringBuffer.Append(ConsumeEscape(current));
                         else
                         {
@@ -446,16 +446,16 @@
                 _stringBuffer.Append(ConsumeEscape(current));
                 return HashRest(_src.Next);
             }
-            else if (current == Specification.RSOLIDUS)
+            else if (current == Specification.ReverseSolidus)
             {
                 RaiseErrorOccurred(ErrorCode.InvalidCharacter);
                 _src.Back();
-                return CssToken.Delim(Specification.NUM);
+                return CssToken.Delim(Specification.Num);
             }
             else
             {
                 _src.Back();
-                return CssToken.Delim(Specification.NUM);
+                return CssToken.Delim(Specification.Num);
             }
         }
 
@@ -473,7 +473,7 @@
                     current = _src.Next;
                     _stringBuffer.Append(ConsumeEscape(current));
                 }
-                else if (current == Specification.RSOLIDUS)
+                else if (current == Specification.ReverseSolidus)
                 {
                     RaiseErrorOccurred(ErrorCode.InvalidCharacter);
                     _src.Back();
@@ -496,14 +496,14 @@
         {
             while (true)
             {
-                if (current == Specification.ASTERISK)
+                if (current == Specification.Asterisk)
                 {
                     current = _src.Next;
 
-                    if (current == Specification.SOLIDUS)
+                    if (current == Specification.Solidus)
                         return Data(_src.Next);
                 }
-                else if (current == Specification.EOF)
+                else if (current == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     return Data(current);
@@ -518,18 +518,18 @@
         /// </summary>
         CssToken AtKeywordStart(Char current)
         {
-            if (current == Specification.MINUS)
+            if (current == Specification.Minus)
             {
                 current = _src.Next;
 
                 if (current.IsNameStart() || IsValidEscape(current))
                 {
-                    _stringBuffer.Append(Specification.MINUS);
+                    _stringBuffer.Append(Specification.Minus);
                     return AtKeywordRest(current);
                 }
 
                 _src.Back(2);
-                return CssToken.Delim(Specification.AT);
+                return CssToken.Delim(Specification.At);
             }
             else if (current.IsNameStart())
             {
@@ -545,7 +545,7 @@
             else
             {
                 _src.Back();
-                return CssToken.Delim(Specification.AT);
+                return CssToken.Delim(Specification.At);
             }
         }
 
@@ -578,25 +578,25 @@
         /// </summary>
         CssToken IdentStart(Char current)
         {
-            if (current == Specification.MINUS)
+            if (current == Specification.Minus)
             {
                 current = _src.Next;
 
                 if (current.IsNameStart() || IsValidEscape(current))
                 {
-                    _stringBuffer.Append(Specification.MINUS);
+                    _stringBuffer.Append(Specification.Minus);
                     return IdentRest(current);
                 }
 
                 _src.Back();
-                return CssToken.Delim(Specification.MINUS);
+                return CssToken.Delim(Specification.Minus);
             }
             else if (current.IsNameStart())
             {
                 _stringBuffer.Append(current);
                 return IdentRest(_src.Next);
             }
-            else if (current == Specification.RSOLIDUS)
+            else if (current == Specification.ReverseSolidus)
             {
                 if (IsValidEscape(current))
                 {
@@ -623,7 +623,7 @@
                     current = _src.Next;
                     _stringBuffer.Append(ConsumeEscape(current));
                 }
-                else if (current == Specification.RBO)
+                else if (current == Specification.RoundBracketOpen)
                 {
                     var fn = _stringBuffer.ToString().ToLower();
 
@@ -668,7 +668,7 @@
             {
                 current = _src.Next;
 
-                if (current == Specification.RBO)
+                if (current == Specification.RoundBracketOpen)
                 {
                     _src.Back();
                     return CssKeywordToken.Function(FlushBuffer());
@@ -688,12 +688,12 @@
         {
             while (true)
             {
-                if (current == Specification.PLUS || current == Specification.MINUS)
+                if (current == Specification.Plus || current == Specification.Minus)
                 {
                     _stringBuffer.Append(current);
                     current = _src.Next;
 
-                    if (current == Specification.DOT)
+                    if (current == Specification.Dot)
                     {
                         _stringBuffer.Append(current);
                         _stringBuffer.Append(_src.Next);
@@ -703,7 +703,7 @@
                     _stringBuffer.Append(current);
                     return NumberRest(_src.Next);
                 }
-                else if (current == Specification.DOT)
+                else if (current == Specification.Dot)
                 {
                     _stringBuffer.Append(current);
                     _stringBuffer.Append(_src.Next);
@@ -749,12 +749,12 @@
 
             switch (current)
             {
-                case Specification.DOT:
+                case Specification.Dot:
                     current = _src.Next;
 
                     if (current.IsDigit())
                     {
-                        _stringBuffer.Append(Specification.DOT).Append(current);
+                        _stringBuffer.Append(Specification.Dot).Append(current);
                         return NumberFraction(_src.Next);
                     }
 
@@ -768,7 +768,7 @@
                 case 'E':
                     return NumberExponential(current);
 
-                case Specification.MINUS:
+                case Specification.Minus:
                     return NumberDash(current);
 
                 default:
@@ -814,7 +814,7 @@
                 case '%':
                     return CssUnitToken.Percentage(FlushBuffer());
 
-                case Specification.MINUS:
+                case Specification.Minus:
                     return NumberDash(current);
 
                 default:
@@ -876,14 +876,14 @@
 
             switch (current)
             {
-                case Specification.EOF:
+                case Specification.EndOfFile:
                     RaiseErrorOccurred(ErrorCode.EOF);
                     return CssStringToken.Url(type, String.Empty, true);
 
-                case Specification.DQ:
+                case Specification.DoubleQuote:
                     return UrlDQ(_src.Next, type);
 
-                case Specification.SQ:
+                case Specification.SingleQuote:
                     return UrlSQ(_src.Next, type);
 
                 case ')':
@@ -906,19 +906,19 @@
                     RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
                     return UrlBad(_src.Next, type);
                 }
-                else if (Specification.EOF == current)
+                else if (Specification.EndOfFile == current)
                 {
                     return CssStringToken.Url(type, FlushBuffer());
                 }
-                else if (current == Specification.DQ)
+                else if (current == Specification.DoubleQuote)
                 {
                     return UrlEnd(_src.Next, type);
                 }
-                else if (current == Specification.RSOLIDUS)
+                else if (current == Specification.ReverseSolidus)
                 {
                     current = _src.Next;
 
-                    if (current == Specification.EOF)
+                    if (current == Specification.EndOfFile)
                     {
                         _src.Back(2);
                         RaiseErrorOccurred(ErrorCode.EOF);
@@ -948,19 +948,19 @@
                     RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
                     return UrlBad(_src.Next, type);
                 }
-                else if (Specification.EOF == current)
+                else if (Specification.EndOfFile == current)
                 {
                     return CssStringToken.Url(type, FlushBuffer());
                 }
-                else if (current == Specification.SQ)
+                else if (current == Specification.SingleQuote)
                 {
                     return UrlEnd(_src.Next, type);
                 }
-                else if (current == Specification.RSOLIDUS)
+                else if (current == Specification.ReverseSolidus)
                 {
                     current = _src.Next;
 
-                    if (current == Specification.EOF)
+                    if (current == Specification.EndOfFile)
                     {
                         _src.Back(2);
                         RaiseErrorOccurred(ErrorCode.EOF);
@@ -989,16 +989,16 @@
                 {
                     return UrlEnd(_src.Next, type);
                 }
-                else if (current == Specification.RBC || current == Specification.EOF)
+                else if (current == Specification.RoundBracketClose || current == Specification.EndOfFile)
                 {
                     return CssStringToken.Url(type, FlushBuffer());
                 }
-                else if (current == Specification.DQ || current == Specification.SQ || current == Specification.RBO || current.IsNonPrintable())
+                else if (current == Specification.DoubleQuote || current == Specification.SingleQuote || current == Specification.RoundBracketOpen || current.IsNonPrintable())
                 {
                     RaiseErrorOccurred(ErrorCode.InvalidCharacter);
                     return UrlBad(_src.Next, type);
                 }
-                else if (current == Specification.RSOLIDUS)
+                else if (current == Specification.ReverseSolidus)
                 {
                     if (IsValidEscape(current))
                     {
@@ -1025,7 +1025,7 @@
         {
             while (true)
             {
-                if (current == Specification.RBC)
+                if (current == Specification.RoundBracketClose)
                     return CssStringToken.Url(type, FlushBuffer());
                 else if (!current.IsSpaceCharacter())
                 {
@@ -1044,12 +1044,12 @@
         {
             while (true)
             {
-                if (current == Specification.EOF)
+                if (current == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     return CssStringToken.Url(type, FlushBuffer(), true);
                 }
-                else if (current == Specification.RBC)
+                else if (current == Specification.RoundBracketClose)
                 {
                     return CssStringToken.Url(type, FlushBuffer(), true);
                 }
@@ -1081,7 +1081,7 @@
             {
                 for (int i = 0; i < 6 - _stringBuffer.Length; i++)
                 {
-                    if (current != Specification.QM)
+                    if (current != Specification.QuestionMark)
                     {
                         current = _src.Previous;
                         break;
@@ -1092,11 +1092,11 @@
                 }
 
                 var range = FlushBuffer();
-                var start = range.Replace(Specification.QM, '0');
-                var end = range.Replace(Specification.QM, 'F');
+                var start = range.Replace(Specification.QuestionMark, '0');
+                var end = range.Replace(Specification.QuestionMark, 'F');
                 return CssToken.Range(start, end);
             }
-            else if (current == Specification.MINUS)
+            else if (current == Specification.Minus)
             {
                 current = _src.Next;
 
@@ -1156,7 +1156,7 @@
                 _stringBuffer.Append('e').Append(current);
                 return SciNotation(_src.Next);
             }
-            else if (current == Specification.PLUS || current == Specification.MINUS)
+            else if (current == Specification.Plus || current == Specification.Minus)
             {
                 var op = current;
                 current = _src.Next;
@@ -1186,14 +1186,14 @@
             if (current.IsNameStart())
             {
                 var number = FlushBuffer();
-                _stringBuffer.Append(Specification.MINUS).Append(current);
+                _stringBuffer.Append(Specification.Minus).Append(current);
                 return Dimension(_src.Next, number);
             }
             else if (IsValidEscape(current))
             {
                 current = _src.Next;
                 var number = FlushBuffer();
-                _stringBuffer.Append(Specification.MINUS).Append(ConsumeEscape(current));
+                _stringBuffer.Append(Specification.Minus).Append(ConsumeEscape(current));
                 return Dimension(_src.Next, number);
             }
             else
@@ -1237,13 +1237,13 @@
         /// <returns>The result of the check.</returns>
         Boolean IsValidEscape(Char current)
         {
-            if (current != Specification.RSOLIDUS)
+            if (current != Specification.ReverseSolidus)
                 return false;
 
             current = _src.Next;
             _src.Back();
 
-            if (current == Specification.EOF)
+            if (current == Specification.EndOfFile)
                 return false;
             else if (current.IsLineBreak())
                 return false;

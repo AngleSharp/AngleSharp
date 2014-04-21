@@ -54,7 +54,7 @@
             request.Content = content;
 
             if (mimeType != null)
-                request.Headers[HeaderNames.Content_Type] = mimeType;
+                request.Headers[HeaderNames.ContentType] = mimeType;
 
             request.Method = method;
             var response = await requester.RequestAsync(request, cancel);

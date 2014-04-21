@@ -38,8 +38,8 @@
         [DOM("httpEquiv")]
         public String HttpEquiv
         {
-            get { return GetAttribute(AttributeNames.Http_Equiv); }
-            set { SetAttribute(AttributeNames.Http_Equiv, value); }
+            get { return GetAttribute(AttributeNames.HttpEquiv); }
+            set { SetAttribute(AttributeNames.HttpEquiv, value); }
         }
 
         /// <summary>

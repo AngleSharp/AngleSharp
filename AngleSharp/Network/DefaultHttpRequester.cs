@@ -226,7 +226,7 @@
         {
             if (key == HeaderNames.Accept)
                 _http.Accept = value;
-            else if (key == HeaderNames.Content_Type)
+            else if (key == HeaderNames.ContentType)
                 _http.ContentType = value;
             else if (key == HeaderNames.Expect)
                 SetProperty("Expect", value);
@@ -234,13 +234,13 @@
                 SetProperty("Date", DateTime.Parse(value));
             else if (key == HeaderNames.Host)
                 SetProperty("Host", value);
-            else if (key == HeaderNames.If_Modified_Since)
+            else if (key == HeaderNames.IfModifiedSince)
                 SetProperty("IfModifiedSince", DateTime.Parse(value));
             else if (key == HeaderNames.Referer)
                 SetProperty("Referer", value);
-            else if (key == HeaderNames.User_Agent)
+            else if (key == HeaderNames.UserAgent)
                 SetProperty("UserAgent", value);
-            else if (key != HeaderNames.Connection && key != HeaderNames.Range && key != HeaderNames.Content_Length && key != HeaderNames.Transfer_Encoding)
+            else if (key != HeaderNames.Connection && key != HeaderNames.Range && key != HeaderNames.ContentLength && key != HeaderNames.TransferEncoding)
                 _http.Headers[key] = value;
         }
 

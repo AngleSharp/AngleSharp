@@ -166,7 +166,7 @@
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
     <Compile Include="Foundation\ConcurrentDictionary.cs" />
     <Compile Include="DOM\Primitives\Angle.cs" />
-    <Compile Include="Foundation\Constants\KnownProtocols.cs" />
+    <Compile Include="Network\Constants\KnownProtocols.cs" />
     <Compile Include="DOM\Primitives\Frequency.cs" />
     <Compile Include="DOM\Primitives\Number.cs" />
     <Compile Include="DOM\Primitives\Percent.cs" />
@@ -196,7 +196,7 @@
     <Compile Include="Foundation\Constants\AttributeNames.cs" />
     <Compile Include="Foundation\Constants\FunctionNames.cs" />
     <Compile Include="Foundation\Constants\EventNames.cs" />
-    <Compile Include="Foundation\Constants\HeaderNames.cs" />
+    <Compile Include="Network\Constants\HeaderNames.cs" />
     <Compile Include="Foundation\Constants\PropertyNames.cs" />
     <Compile Include="Foundation\Constants\RuleNames.cs" />
     <Compile Include="Foundation\XmlExtensions.cs" />
@@ -317,7 +317,7 @@
     <Compile Include="Foundation\ResolverExtensions.cs" />
     <Compile Include="IDependencyResolver.cs" />
     <Compile Include="Parser\IParser.cs" />
-    <Compile Include="Foundation\Constants\MimeTypes.cs" />
+    <Compile Include="Network\Constants\MimeTypes.cs" />
     <Compile Include="Foundation\Mutations\MutationCallback.cs" />
     <Compile Include="Foundation\Mutations\MutationObserver.cs" />
     <Compile Include="Foundation\Mutations\MutationObserverInit.cs" />

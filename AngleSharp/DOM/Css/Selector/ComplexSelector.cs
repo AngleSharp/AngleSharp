@@ -121,19 +121,19 @@
             {
                 case CssCombinator.Child:
                 {
-                    delim = Specification.GT;
+                    delim = Specification.GreaterThan;
                     transform = el => Single(el.ParentElement);
                     break;
                 }
                 case CssCombinator.AdjacentSibling:
                 {
-                    delim = Specification.PLUS;
+                    delim = Specification.Plus;
                     transform = el => Single(el.PreviousElementSibling);
                     break;
                 }
                 case CssCombinator.Descendent:
                 {
-                    delim = Specification.SPACE;
+                    delim = Specification.Space;
                     transform = el =>
                     {
                         var parents = new List<Element>();
@@ -151,7 +151,7 @@
                 }
                 case CssCombinator.Sibling:
                 {
-                    delim = Specification.TILDE;
+                    delim = Specification.Tilde;
                     transform = el =>
                     {
                         var parent = el.ParentElement;

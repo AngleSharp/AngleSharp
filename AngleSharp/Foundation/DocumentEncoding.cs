@@ -37,7 +37,7 @@ namespace AngleSharp
                         break;
                 }
 
-                if (content[position] != Specification.EQ)
+                if (content[position] != Specification.Equality)
                     return Extract(content.Substring(position));
 
                 position++;
@@ -52,18 +52,18 @@ namespace AngleSharp
 
                 if (position < content.Length)
                 {
-                    if (content[position] == Specification.DQ)
+                    if (content[position] == Specification.DoubleQuote)
                     {
                         content = content.Substring(position + 1);
-                        var index = content.IndexOf(Specification.DQ);
+                        var index = content.IndexOf(Specification.DoubleQuote);
 
                         if (index != -1)
                             return content.Substring(0, index);
                     }
-                    else if (content[position] == Specification.SQ)
+                    else if (content[position] == Specification.SingleQuote)
                     {
                         content = content.Substring(position + 1);
-                        var index = content.IndexOf(Specification.SQ);
+                        var index = content.IndexOf(Specification.SingleQuote);
 
                         if (index != -1)
                             return content.Substring(0, index);

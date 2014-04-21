@@ -137,7 +137,7 @@
         [DebuggerStepThrough]
         public static Boolean IsName(this Char c)
         {
-            return c >= 0x80 || c.IsLetter() || c == Specification.UNDERSCORE || c == Specification.MINUS || IsDigit(c);
+            return c >= 0x80 || c.IsLetter() || c == Specification.Underscore || c == Specification.Minus || IsDigit(c);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@
         [DebuggerStepThrough]
         public static Boolean IsNameStart(this Char c)
         {
-            return c >= 0x80 || IsUppercaseAscii(c) || IsLowercaseAscii(c) || c == Specification.UNDERSCORE;
+            return c >= 0x80 || IsUppercaseAscii(c) || IsLowercaseAscii(c) || c == Specification.Underscore;
         }
 
         /// <summary>
@@ -161,7 +161,7 @@
         public static Boolean IsLineBreak(this Char c)
         {
             //line feed, carriage return
-            return c == Specification.LF || c == Specification.CR;
+            return c == Specification.LineFeed || c == Specification.CarriageReturn;
         }
 
         /// <summary>
@@ -174,7 +174,7 @@
         public static Boolean IsSpaceCharacter(this Char c)
         {
             //white space, tab, line feed, form feed, carriage return
-            return c == Specification.SPACE || c == Specification.TAB || c == Specification.LF || c == Specification.FF || c == Specification.CR;
+            return c == Specification.Space || c == Specification.Tab || c == Specification.LineFeed || c == Specification.FormFeed || c == Specification.CarriageReturn;
         }
 
         /// <summary>

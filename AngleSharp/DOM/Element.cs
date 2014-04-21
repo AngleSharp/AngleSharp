@@ -1040,14 +1040,14 @@
         {
             var sb = Pool.NewStringBuilder();
 
-            sb.Append(Specification.LT).Append(_name);
+            sb.Append(Specification.LessThan).Append(_name);
             sb.Append(_attributes.ToHtml());
-            sb.Append(Specification.GT);
+            sb.Append(Specification.GreaterThan);
 
             foreach (var child in _children)
                 sb.Append(child.ToHtml());
 
-            sb.Append(Specification.LT).Append(Specification.SOLIDUS).Append(_name).Append(Specification.GT);
+            sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(_name).Append(Specification.GreaterThan);
             return sb.ToPool();
         }
 

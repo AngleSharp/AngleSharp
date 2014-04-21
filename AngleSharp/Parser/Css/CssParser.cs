@@ -975,14 +975,14 @@
 		{
 			switch (token.Data)
 			{
-				case Specification.EM:
+				case Specification.ExclamationMark:
 					SwitchTo(CssState.ValueImportant);
 					return true;
-				case Specification.NUM:
+				case Specification.Num:
 					buffer = Pool.NewStringBuilder();
 					SwitchTo(CssState.InHexValue);
 					return true;
-				case Specification.SOLIDUS:
+				case Specification.Solidus:
                     value.InsertDelimiter();
 					return true;
 				default:

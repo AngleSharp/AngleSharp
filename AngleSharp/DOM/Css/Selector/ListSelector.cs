@@ -82,7 +82,7 @@ namespace AngleSharp.DOM.Css
                 sb.Append(selectors[0].ToCss());
 
                 for (int i = 1; i < selectors.Count; i++)
-                    sb.Append(Specification.COMMA).Append(selectors[i].ToCss());
+                    sb.Append(Specification.Comma).Append(selectors[i].ToCss());
             }
 
             return sb.ToPool();

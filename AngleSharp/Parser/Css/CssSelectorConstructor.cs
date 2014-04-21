@@ -468,7 +468,7 @@
 						case CssTokenType.Delim:
 							var chr = ((CssDelimToken)token).Data;
 
-							if (chr == Specification.PLUS || chr == Specification.MINUS)
+							if (chr == Specification.Plus || chr == Specification.Minus)
 							{
 								attrValue += chr;
 								return;
@@ -668,27 +668,27 @@
 		{
 			switch (((CssDelimToken)token).Data)
 			{
-				case Specification.COMMA:
+				case Specification.Comma:
 					InsertOr();
 					return;
 
-				case Specification.GT:
+				case Specification.GreaterThan:
 					Insert(CssCombinator.Child);
 					return;
 
-				case Specification.PLUS:
+				case Specification.Plus:
 					Insert(CssCombinator.AdjacentSibling);
 					return;
 
-				case Specification.TILDE:
+				case Specification.Tilde:
 					Insert(CssCombinator.Sibling);
 					return;
 
-				case Specification.ASTERISK:
+				case Specification.Asterisk:
 					Insert(SimpleSelector.All);
 					return;
 
-				case Specification.DOT:
+				case Specification.Dot:
 					state = State.Class;
 					return;
 			}
@@ -725,9 +725,9 @@
 					var first = attrValue.Substring(0, index).Replace(" ", "");
 					var second = attrValue.Substring(index + 1).Replace(" ", "");
 
-                    if (first == String.Empty || (first.Length == 1 && first[0] == Specification.PLUS))
+                    if (first == String.Empty || (first.Length == 1 && first[0] == Specification.Plus))
                         selector.step = 1;
-                    else if (first.Length == 1 && first[0] == Specification.MINUS)
+                    else if (first.Length == 1 && first[0] == Specification.Minus)
                         selector.step = -1;
                     else if (!Int32.TryParse(first, out selector.step))
                         throw new DOMException(ErrorCode.SyntaxError);

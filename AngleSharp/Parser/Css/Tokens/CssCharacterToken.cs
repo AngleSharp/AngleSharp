@@ -20,7 +20,7 @@
         /// </summary>
         public CssCharacterToken()
         {
-            _data = Specification.NULL;
+            _data = Specification.Null;
         }
 
         /// <summary>

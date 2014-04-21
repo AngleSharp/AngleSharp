@@ -692,7 +692,7 @@
                     return;
                 }
 
-                charset = element.GetAttribute(AttributeNames.Http_Equiv);
+                charset = element.GetAttribute(AttributeNames.HttpEquiv);
 
                 if (charset != null && charset.Equals("Content-Type", StringComparison.OrdinalIgnoreCase))
                 {
@@ -3299,7 +3299,7 @@
             if (token.Type == HtmlTokenType.Character)
             {
                 var chrs = (HtmlCharacterToken)token;
-                AddCharacters(chrs.Data.Replace(Specification.NULL, Specification.REPLACEMENT));
+                AddCharacters(chrs.Data.Replace(Specification.Null, Specification.Replacement));
 
                 if(chrs.HasContent)
                     frameset = false;

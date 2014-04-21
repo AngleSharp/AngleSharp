@@ -15,7 +15,7 @@
         /// e.g. Cache-Control: no-cache
         /// e.g. Cache-Control: max-age=3600
         /// </summary>
-        public static readonly String Cache_Control = "Cache-Control";
+        public static readonly String CacheControl = "Cache-Control";
 
         /// <summary>
         /// Options that are desired for the connection,
@@ -28,20 +28,20 @@
         /// The length of the request/response body in octets (8-bit bytes)
         /// Content-Length: 348
         /// </summary>
-        public static readonly String Content_Length = "Content-Length";
+        public static readonly String ContentLength = "Content-Length";
 
         /// <summary>
         /// A Base64-encoded binary MD5 sum of the content of the response,
         /// e.g. Content-MD5: Q2hlY2sgSW50ZWdyaXR5IQ==
         /// </summary>
-        public static readonly String Content_Md5 = "Content-MD5";
+        public static readonly String ContentMd5 = "Content-MD5";
 
         /// <summary>
         /// The MIME type of this content (requests use this only with POST / PUT methods),
         /// e.g. Content-Type: application/x-www-form-urlencoded
         /// e.g. Content-Type: text/html; charset=utf-8
         /// </summary>
-        public static readonly String Content_Type = "Content-Type";
+        public static readonly String ContentType = "Content-Type";
 
         /// <summary>
         /// The date and time that the message was sent,
@@ -82,25 +82,25 @@
         /// Character sets that are acceptable,
         /// e.g. Accept-Charset: utf-8
         /// </summary>
-        public static readonly String Accept_Charset = "Accept-Charset";
+        public static readonly String AcceptCharset = "Accept-Charset";
 
         /// <summary>
         /// List of acceptable encodings. See HTTP compression.
         /// e.g. Accept-Encoding: gzip, deflate
         /// </summary>
-        public static readonly String Accept_Encoding = "Accept-Encoding";
+        public static readonly String AcceptEncoding = "Accept-Encoding";
 
         /// <summary>
         /// List of acceptable human languages for response,
         /// e.g. Accept-Language: en-US
         /// </summary>
-        public static readonly String Accept_Language = "Accept-Language";
+        public static readonly String AcceptLanguage = "Accept-Language";
 
         /// <summary>
         /// Acceptable version in time, 
         /// e.g. Accept-Datetime: Thu, 31 May 2007 20:35:00 GMT
         /// </summary>
-        public static readonly String Accept_Datetime = "Accept-Datetime";
+        public static readonly String AcceptDatetime = "Accept-Datetime";
 
         /// <summary>
         /// Authentication credentials for HTTP authentication,
@@ -144,38 +144,38 @@
         /// been modified since the user last updated it.
         /// e.g. If-Match: "737060cd8c284d8af7ad3082f209582d"
         /// </summary>
-        public static readonly String If_Match = "If-Match";
+        public static readonly String IfMatch = "If-Match";
 
         /// <summary>
         /// Allows a 304 Not Modified to be returned if content is unchanged,
         /// e.g. If-Modified-Since: Sat, 29 Oct 1994 19:43:31 GMT
         /// </summary>
-        public static readonly String If_Modified_Since = "If-Modified-Since";
+        public static readonly String IfModifiedSince = "If-Modified-Since";
 
         /// <summary>
         /// Allows a 304 Not Modified to be returned if content is unchanged, see HTTP ETag,
         /// e.g. If-None-Match: "737060cd8c284d8af7ad3082f209582d"
         /// </summary>
-        public static readonly String If_None_Match = "If-None-Match";
+        public static readonly String IfNoneMatch = "If-None-Match";
 
         /// <summary>
         /// If the entity is unchanged, send me the part(s) that I am missing; otherwise, send
         /// me the entire new entity.
         /// e.g. If-Range: "737060cd8c284d8af7ad3082f209582d"
         /// </summary>
-        public static readonly String If_Range = "If-Range";
+        public static readonly String IfRange = "If-Range";
 
         /// <summary>
         /// Only send the response if the entity has not been modified since a specific time,
         /// e.g. If-Unmodified-Since: Sat, 29 Oct 1994 19:43:31 GMT
         /// </summary>
-        public static readonly String If_Unmodified_Since = "If-Unmodified-Since";
+        public static readonly String IfUnmodifiedSince = "If-Unmodified-Since";
 
         /// <summary>
         /// Limit the number of times the message can be forwarded through proxies or gateways,
         /// e.g. Max-Forwards: 10
         /// </summary>
-        public static readonly String Max_Forwards = "Max-Forwards";
+        public static readonly String MaxForwards = "Max-Forwards";
 
         /// <summary>
         /// Initiates a request for cross-origin resource sharing (asks server for an
@@ -188,7 +188,7 @@
         /// Authorization credentials for connecting to a proxy,
         /// e.g. Proxy-Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
         /// </summary>
-        public static readonly String Proxy_Authorization = "Proxy-Authorization";
+        public static readonly String ProxyAuthorization = "Proxy-Authorization";
 
         /// <summary>
         /// Request only part of an entity. Bytes are numbered from 0.
@@ -210,7 +210,7 @@
         /// zero-sized, chunk.	
         /// e.g. TE: trailers, deflate
         /// </summary>
-        public static readonly String TE = "TE";
+        public static readonly String Te = "TE";
 
         /// <summary>
         /// Ask the server to upgrade to another protocol.
@@ -222,7 +222,7 @@
         /// The user agent string of the user agent,
         /// e.g. User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 Firefox/21.0
         /// </summary>
-        public static readonly String User_Agent = "User-Agent";
+        public static readonly String UserAgent = "User-Agent";
 
         #endregion
 
@@ -232,13 +232,13 @@
         /// Specifying which web sites can participate in cross-origin resource sharing,
         /// e.g. Access-Control-Allow-Origin: *
         /// </summary>
-        public static readonly String Access_Control_Allow_Origin = "Access-Control-Allow-Origin";
+        public static readonly String AccessControlAllowOrigin = "Access-Control-Allow-Origin";
 
         /// <summary>
         /// What partial content range types this server supports,
         /// e.g. Accept-Ranges: bytes
         /// </summary>
-        public static readonly String Accept_Ranges = "Accept-Ranges";
+        public static readonly String AcceptRanges = "Accept-Ranges";
 
         /// <summary>
         /// The age the object has been in a proxy cache in seconds,
@@ -256,19 +256,19 @@
         /// The type of encoding used on the data. See HTTP compression.
         /// e.g. Content-Encoding: gzip
         /// </summary>
-        public static readonly String Content_Encoding = "Content-Encoding";
+        public static readonly String ContentEncoding = "Content-Encoding";
 
         /// <summary>
         /// The language the content is in,
         /// e.g. Content-Language: da
         /// </summary>
-        public static readonly String Content_Language = "Content-Language";
+        public static readonly String ContentLanguage = "Content-Language";
 
         /// <summary>
         /// An alternate location for the returned data
         /// Content-Location: /index.htm
         /// </summary>
-        public static readonly String Content_Location = "Content-Location";
+        public static readonly String ContentLocation = "Content-Location";
 
         /// <summary>
         /// An opportunity to raise a "File Download" dialogue box for a known MIME type with
@@ -276,13 +276,13 @@
         /// special characters. 
         /// e.g. Content-Disposition: attachment; filename="fname.ext"
         /// </summary>
-        public static readonly String Content_Disposition = "Content-Disposition";
+        public static readonly String ContentDisposition = "Content-Disposition";
 
         /// <summary>
         /// Where in a full body message this partial message belongs,
         /// e.g. Content-Range: bytes 21010-47021/47022
         /// </summary>
-        public static readonly String Content_Range = "Content-Range";
+        public static readonly String ContentRange = "Content-Range";
 
         /// <summary>
         /// An identifier for a specific version of a resource, often a message digest,
@@ -300,7 +300,7 @@
         /// The last modified date for the requested object, in RFC 2822 format
         /// e.g. Last-Modified: Tue, 15 Nov 1994 12:45:26 +0000
         /// </summary>
-        public static readonly String Last_Modified = "Last-Modified";
+        public static readonly String LastModified = "Last-Modified";
 
         /// <summary>
         /// Used to express a typed relationship with another resource, where the relation type is
@@ -328,7 +328,7 @@
         /// Request authentication to access the proxy.
         /// e.g. Proxy-Authenticate: Basic
         /// </summary>
-        public static readonly String Proxy_Authenticate = "Proxy-Authenticate";
+        public static readonly String ProxyAuthenticate = "Proxy-Authenticate";
 
         /// <summary>
         /// Used in redirection, or when a new resource has been created. This refresh
@@ -342,7 +342,7 @@
         /// after a specified period of time (seconds).
         /// e.g. Retry-After: 120
         /// </summary>
-        public static readonly String Retry_After = "Retry-After";
+        public static readonly String RetryAfter = "Retry-After";
 
         /// <summary>
         /// A name for the server,
@@ -354,7 +354,7 @@
         /// An HTTP cookie,
         /// e.g. Set-Cookie: UserID=JohnDoe; Max-Age=3600; Version=1
         /// </summary>
-        public static readonly String Set_Cookie = "Set-Cookie";
+        public static readonly String SetCookie = "Set-Cookie";
 
         /// <summary>
         /// The HTTP status of the response. "Status" is not listed as a registered header. The
@@ -368,7 +368,7 @@
         /// whether this applies to subdomains.
         /// e.g. Strict-Transport-Security: max-age=16070400; includeSubDomains
         /// </summary>
-        public static readonly String Strict_Transport_Security = "Strict-Transport-Security";
+        public static readonly String StrictTransportSecurity = "Strict-Transport-Security";
 
         /// <summary>
         /// The Trailer general field value indicates that the given set of header fields is present in
@@ -382,7 +382,7 @@
         /// are: chunked, compress, deflate, gzip, identity.	
         /// e.g. Transfer-Encoding: chunked
         /// </summary>
-        public static readonly String Transfer_Encoding = "Transfer-Encoding";
+        public static readonly String TransferEncoding = "Transfer-Encoding";
 
         /// <summary>
         /// Tells downstream proxies how to match future request headers to decide whether the cached response can
@@ -395,7 +395,7 @@
         /// Indicates the authentication scheme that should be used to access the requested entity.
         /// e.g. WWW-Authenticate: Basic
         /// </summary>
-        public static readonly String Www_Authenticate = "WWW-Authenticate";
+        public static readonly String WwwAuthenticate = "WWW-Authenticate";
 
         #endregion
     }

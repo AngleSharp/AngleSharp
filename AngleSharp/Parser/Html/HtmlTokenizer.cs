@@ -136,12 +136,12 @@
             {
                 switch (c)
                 {
-                    case Specification.NULL:
+                    case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.NULL);
-                        _buffer.Append(Specification.REPLACEMENT);
+                        _buffer.Append(Specification.Replacement);
                         break;
 
-                    case Specification.EOF:
+                    case Specification.EndOfFile:
                         return HtmlToken.EOF;
 
                     default:
@@ -163,23 +163,23 @@
             {
                 switch (c)
                 {
-                    case Specification.AMPERSAND:
+                    case Specification.Ampersand:
                         var value = CharacterReference(_src.Next);
 
                         if (value == null)
-                            _buffer.Append(Specification.AMPERSAND);
+                            _buffer.Append(Specification.Ampersand);
 
                         _buffer.Append(value);
                         break;
 
-                    case Specification.LT:
+                    case Specification.LessThan:
                         return TagOpen(_src.Next);
 
-                    case Specification.NULL:
+                    case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.NULL);
                         return Data(_src.Next);
 
-                    case Specification.EOF:
+                    case Specification.EndOfFile:
                         return HtmlToken.EOF;
 
                     default:
@@ -205,24 +205,24 @@
             {
                 switch (c)
                 {
-                    case Specification.AMPERSAND:
+                    case Specification.Ampersand:
                         var value = CharacterReference(_src.Next);
 
                         if (value == null)
-                            _buffer.Append(Specification.AMPERSAND);
+                            _buffer.Append(Specification.Ampersand);
 
                         _buffer.Append(value);
                         break;
 
-                    case Specification.LT:
+                    case Specification.LessThan:
                         return RCDataLT(_src.Next);
 
-                    case Specification.NULL:
+                    case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.NULL);
-                        _buffer.Append(Specification.REPLACEMENT);
+                        _buffer.Append(Specification.Replacement);
                         break;
 
-                    case Specification.EOF:
+                    case Specification.EndOfFile:
                         return HtmlToken.EOF;
 
                     default:
@@ -240,13 +240,13 @@
         /// <param name="c">The next input character.</param>
         HtmlToken RCDataLT(Char c)
         {
-            if (c == Specification.SOLIDUS)
+            if (c == Specification.Solidus)
             {
                 _stringBuffer.Clear();
                 return RCDataEndTag(_src.Next);
             }
 
-            _buffer.Append(Specification.LT);
+            _buffer.Append(Specification.LessThan);
             return RCData(c);
         }
 
@@ -270,7 +270,7 @@
                 return RCDataNameEndTag(_src.Next, HtmlToken.CloseTag());
             }
 
-            _buffer.Append(Specification.LT).Append(Specification.SOLIDUS);
+            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
             return RCData(c);
         }
 
@@ -290,12 +290,12 @@
                 tag.Name = name;
                 return AttributeBeforeName(_src.Next, tag);
             }
-            else if (appropriateTag && c == Specification.SOLIDUS)
+            else if (appropriateTag && c == Specification.Solidus)
             {
                 tag.Name = name;
                 return TagSelfClosing(_src.Next, tag);
             }
-            else if (appropriateTag && c == Specification.GT)
+            else if (appropriateTag && c == Specification.GreaterThan)
             {
                 tag.Name = name;
                 return EmitTag(tag);
@@ -311,7 +311,7 @@
                 return RCDataNameEndTag(_src.Next, tag);
             }
 
-            _buffer.Append(Specification.LT).Append(Specification.SOLIDUS);
+            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
             _buffer.Append(_stringBuffer.ToString());
             return RCData(c);
         }
@@ -330,15 +330,15 @@
             {
                 switch (c)
                 {
-                    case Specification.LT:
+                    case Specification.LessThan:
                         return RawtextLT(_src.Next);
 
-                    case Specification.NULL:
+                    case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.NULL);
-                        _buffer.Append(Specification.REPLACEMENT);
+                        _buffer.Append(Specification.Replacement);
                         break;
 
-                    case Specification.EOF:
+                    case Specification.EndOfFile:
                         return HtmlToken.EOF;
 
                     default:
@@ -356,13 +356,13 @@
         /// <param name="c">The next input character.</param>
         HtmlToken RawtextLT(Char c)
         {
-            if (c == Specification.SOLIDUS)
+            if (c == Specification.Solidus)
             {
                 _stringBuffer.Clear();
                 return RawtextEndTag(_src.Next);
             }
 
-            _buffer.Append(Specification.LT);
+            _buffer.Append(Specification.LessThan);
             return Rawtext(c);
         }
 
@@ -385,7 +385,7 @@
                 return RawtextNameEndTag(_src.Next, HtmlToken.CloseTag());
             }
 
-            _buffer.Append(Specification.LT).Append(Specification.SOLIDUS);
+            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
             return Rawtext(c);
         }
 
@@ -405,12 +405,12 @@
                 tag.Name = name;
                 return AttributeBeforeName(_src.Next, tag);
             }
-            else if (appropriateTag && c == Specification.SOLIDUS)
+            else if (appropriateTag && c == Specification.Solidus)
             {
                 tag.Name = name;
                 return TagSelfClosing(_src.Next, tag);
             }
-            else if (appropriateTag && c == Specification.GT)
+            else if (appropriateTag && c == Specification.GreaterThan)
             {
                 tag.Name = name;
                 return EmitTag(tag);
@@ -426,7 +426,7 @@
                 return RawtextNameEndTag(_src.Next, tag);
             }
 
-            _buffer.Append(Specification.LT).Append(Specification.SOLIDUS);
+            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
             _buffer.Append(_stringBuffer.ToString());
             return Rawtext(c);
         }
@@ -444,12 +444,12 @@
 
             while (true)
             {
-                if (c == Specification.EOF)
+                if (c == Specification.EndOfFile)
                 {
                     _src.Back();
                     break;
                 }
-                else if (c == Specification.SBC && _src.ContinuesWith("]]>"))
+                else if (c == Specification.SquareBracketClose && _src.ContinuesWith("]]>"))
                 {
                     _src.Advance(2);
                     break;
@@ -467,15 +467,15 @@
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="allowedCharacter">The additionally allowed character if there is one.</param>
-        String CharacterReference(Char c, Char allowedCharacter = Specification.NULL)
+        String CharacterReference(Char c, Char allowedCharacter = Specification.Null)
         {
-            if (c.IsSpaceCharacter() || c == Specification.LT || c == Specification.EOF || c == Specification.AMPERSAND || c == allowedCharacter)
+            if (c.IsSpaceCharacter() || c == Specification.LessThan || c == Specification.EndOfFile || c == Specification.Ampersand || c == allowedCharacter)
             {
                 _src.Back();
                 return null;
             }
 
-            if (c == Specification.NUM)
+            if (c == Specification.Num)
             {
                 var exp = 10;
                 var basis = 1;
@@ -517,7 +517,7 @@
                     return null;
                 }
 
-                if (c != Specification.SC)
+                if (c != Specification.Semicolon)
                 {
                     RaiseErrorOccurred(ErrorCode.CharacterReferenceSemicolonMissing);
                     _src.Back();
@@ -532,7 +532,7 @@
                 if (Entities.IsInvalidNumber(num))
                 {
                     RaiseErrorOccurred(ErrorCode.CharacterReferenceInvalidNumber);
-                    return Specification.REPLACEMENT.ToString();
+                    return Specification.Replacement.ToString();
                 }
 
                 if (Entities.IsInInvalidRange(num))
@@ -551,14 +551,14 @@
 
                 do
                 {
-                    if (chr == Specification.SC || !chr.IsName())
+                    if (chr == Specification.Semicolon || !chr.IsName())
                         break;
 
                     reference[index++] = chr;
                     var value = new String(reference, 0, index);
                     chr = _src.Next;
                     consumed++;
-                    value = chr == Specification.SC ? Entities.GetSymbol(value) : Entities.GetSymbolWithoutSemicolon(value);
+                    value = chr == Specification.Semicolon ? Entities.GetSymbol(value) : Entities.GetSymbolWithoutSemicolon(value);
 
                     if (value != null)
                     {
@@ -571,11 +571,11 @@
                 _src.Back(consumed);
                 chr = _src.Current;
 
-                if (chr != Specification.SC)
+                if (chr != Specification.Semicolon)
                 {
-                    if (allowedCharacter != Specification.NULL && (chr == Specification.EQ || chr.IsAlphanumericAscii()))
+                    if (allowedCharacter != Specification.Null && (chr == Specification.Equality || chr.IsAlphanumericAscii()))
                     {
-                        if (chr == Specification.EQ)
+                        if (chr == Specification.Equality)
                             RaiseErrorOccurred(ErrorCode.CharacterReferenceAttributeEqualsFound);
 
                         _src.InsertionPoint = start;
@@ -600,11 +600,11 @@
         /// <param name="c">The next input character.</param>
         HtmlToken TagOpen(Char c)
         {
-            if (c == Specification.EM)
+            if (c == Specification.ExclamationMark)
             {
                 return MarkupDeclaration(_src.Next);
             }
-            else if (c == Specification.SOLIDUS)
+            else if (c == Specification.Solidus)
             {
                 return TagEnd(_src.Next);
             }
@@ -620,7 +620,7 @@
                 _stringBuffer.Append(c);
                 return TagName(_src.Next, HtmlToken.OpenTag());
             }
-            else if (c == Specification.QM)
+            else if (c == Specification.QuestionMark)
             {
                 RaiseErrorOccurred(ErrorCode.BogusComment);
                 return BogusComment(c);
@@ -628,7 +628,7 @@
 
             _model = HtmlParseMode.PCData;
             RaiseErrorOccurred(ErrorCode.AmbiguousOpenTag);
-            _buffer.Append(Specification.LT);
+            _buffer.Append(Specification.LessThan);
             return Data(c);
         }
 
@@ -650,17 +650,17 @@
                 _stringBuffer.Append(c);
                 return TagName(_src.Next, HtmlToken.CloseTag());
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 return Data(_src.Next);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 _src.Back();
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _buffer.Append(Specification.LT).Append(Specification.SOLIDUS);
+                _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
                 return HtmlToken.EOF;
             }
             else
@@ -685,22 +685,22 @@
                     tag.Name = _stringBuffer.ToString();
                     return AttributeBeforeName(_src.Next, tag);
                 }
-                else if (c == Specification.SOLIDUS)
+                else if (c == Specification.Solidus)
                 {
                     tag.Name = _stringBuffer.ToString();
                     return TagSelfClosing(_src.Next, tag);
                 }
-                else if (c == Specification.GT)
+                else if (c == Specification.GreaterThan)
                 {
                     tag.Name = _stringBuffer.ToString();
                     return EmitTag(tag);
                 }
-                else if (c == Specification.NULL)
+                else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
+                    _stringBuffer.Append(Specification.Replacement);
                 }
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     return HtmlToken.EOF;
@@ -722,12 +722,12 @@
         /// <returns>The emitted token.</returns>
         HtmlToken TagSelfClosing(Char c, HtmlTagToken tag)
         {
-            if (c == Specification.GT)
+            if (c == Specification.GreaterThan)
             {
                 tag.IsSelfClosing = true;
                 return EmitTag(tag);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 return HtmlToken.EOF;
@@ -780,15 +780,15 @@
             while(true)
             {
 
-                if (c == Specification.GT)
+                if (c == Specification.GreaterThan)
                     break;
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                 {
                     _src.Back();
                     break;
                 }
-                else if (c == Specification.NULL)
-                    _stringBuffer.Append(Specification.REPLACEMENT);
+                else if (c == Specification.Null)
+                    _stringBuffer.Append(Specification.Replacement);
                 else
                     _stringBuffer.Append(c);
 
@@ -807,21 +807,21 @@
         {
             _stringBuffer.Clear();
 
-            if (c == Specification.MINUS)
+            if (c == Specification.Minus)
                 return CommentDashStart(_src.Next);
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.REPLACEMENT);
+                _stringBuffer.Append(Specification.Replacement);
                 return Comment(_src.Next);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 _src.Back();
@@ -840,29 +840,29 @@
         /// <param name="c">The next input character.</param>
         HtmlCommentToken CommentDashStart(Char c)
         {
-            if (c == Specification.MINUS)
+            if (c == Specification.Minus)
                 return CommentEnd(_src.Next);
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.REPLACEMENT);
+                _stringBuffer.Append(Specification.Minus);
+                _stringBuffer.Append(Specification.Replacement);
                 return Comment(_src.Next);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 _src.Back();
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
 
-            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(Specification.Minus);
             _stringBuffer.Append(c);
             return Comment(_src.Next);
         }
@@ -875,23 +875,23 @@
         {
             while (true)
             {
-                if (c == Specification.MINUS)
+                if (c == Specification.Minus)
                 {
                     var result = CommentDashEnd(_src.Next);
 
                     if (result != null)
                         return result;
                 }
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     _src.Back();
                     return HtmlToken.Comment(_stringBuffer.ToString());
                 }
-                else if (c == Specification.NULL)
+                else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    c = Specification.REPLACEMENT;
+                    c = Specification.Replacement;
                     _stringBuffer.Append(c);
                 }
                 else
@@ -907,21 +907,21 @@
         /// <param name="c">The next input character.</param>
         HtmlCommentToken CommentDashEnd(Char c)
         {
-            if (c == Specification.MINUS)
+            if (c == Specification.Minus)
                 return CommentEnd(_src.Next);
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 _src.Back();
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                c = Specification.REPLACEMENT;
+                c = Specification.Replacement;
             }
 
-            _stringBuffer.Append(Specification.MINUS);
+            _stringBuffer.Append(Specification.Minus);
             _stringBuffer.Append(c);
             return null;
         }
@@ -934,31 +934,31 @@
         {
             while (true)
             {
-                if (c == Specification.GT)
+                if (c == Specification.GreaterThan)
                 {
                     _model = HtmlParseMode.PCData;
                     return HtmlToken.Comment(_stringBuffer.ToString());
                 }
-                else if (c == Specification.NULL)
+                else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.MINUS);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
+                    _stringBuffer.Append(Specification.Minus);
+                    _stringBuffer.Append(Specification.Replacement);
                     return null;
                 }
-                else if (c == Specification.EM)
+                else if (c == Specification.ExclamationMark)
                 {
                     RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
                     return CommentBangEnd(_src.Next);
                 }
-                else if (c == Specification.MINUS)
+                else if (c == Specification.Minus)
                 {
                     RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
-                    _stringBuffer.Append(Specification.MINUS);
+                    _stringBuffer.Append(Specification.Minus);
                     c = _src.Next;
                     continue;
                 }
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     _src.Back();
@@ -966,8 +966,8 @@
                 }
 
                 RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.MINUS);
+                _stringBuffer.Append(Specification.Minus);
+                _stringBuffer.Append(Specification.Minus);
                 _stringBuffer.Append(c);
                 return null;
             }
@@ -979,37 +979,37 @@
         /// <param name="c">The next input character.</param>
         HtmlCommentToken CommentBangEnd(Char c)
         {
-            if (c == Specification.MINUS)
+            if (c == Specification.Minus)
             {
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.EM);
+                _stringBuffer.Append(Specification.Minus);
+                _stringBuffer.Append(Specification.Minus);
+                _stringBuffer.Append(Specification.ExclamationMark);
                 return CommentDashEnd(_src.Next);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.MINUS);
-                _stringBuffer.Append(Specification.EM);
-                _stringBuffer.Append(Specification.REPLACEMENT);
+                _stringBuffer.Append(Specification.Minus);
+                _stringBuffer.Append(Specification.Minus);
+                _stringBuffer.Append(Specification.ExclamationMark);
+                _stringBuffer.Append(Specification.Replacement);
                 return null;
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 _src.Back();
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
 
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(Specification.MINUS);
-            _stringBuffer.Append(Specification.EM);
+            _stringBuffer.Append(Specification.Minus);
+            _stringBuffer.Append(Specification.Minus);
+            _stringBuffer.Append(Specification.ExclamationMark);
             _stringBuffer.Append(c);
             return null;
         }
@@ -1026,7 +1026,7 @@
         {
             if (c.IsSpaceCharacter())
                 return DoctypeNameBefore(_src.Next);
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 _src.Back();
@@ -1052,20 +1052,20 @@
                 _stringBuffer.Append(Char.ToLower(c));
                 return DoctypeName(_src.Next, HtmlToken.Doctype(false));
             }
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 _stringBuffer.Clear();
-                _stringBuffer.Append(Specification.REPLACEMENT);
+                _stringBuffer.Append(Specification.Replacement);
                 return DoctypeName(_src.Next, HtmlToken.Doctype(false));
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 return HtmlToken.Doctype(true);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 _src.Back();
@@ -1093,7 +1093,7 @@
                     _stringBuffer.Clear();
                     return DoctypeNameAfter(_src.Next, doctype);
                 }
-                else if (c == Specification.GT)
+                else if (c == Specification.GreaterThan)
                 {
                     _model = HtmlParseMode.PCData;
                     doctype.Name = _stringBuffer.ToString();
@@ -1101,12 +1101,12 @@
                 }
                 else if (c.IsUppercaseAscii())
                     _stringBuffer.Append(Char.ToLower(c));
-                else if (c == Specification.NULL)
+                else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
+                    _stringBuffer.Append(Specification.Replacement);
                 }
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     _src.Back();
@@ -1132,12 +1132,12 @@
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (c == Specification.GT)
+            if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 return doctype;
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 _src.Back();
@@ -1172,26 +1172,26 @@
             {
                 return DoctypePublicIdentifierBefore(_src.Next, doctype);
             }
-            else if (c == Specification.DQ)
+            else if (c == Specification.DoubleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
                 doctype.PublicIdentifier = String.Empty;
                 return DoctypePublicIdentifierDoubleQuoted(_src.Next, doctype);
             }
-            else if (c == Specification.SQ)
+            else if (c == Specification.SingleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
                 doctype.PublicIdentifier = String.Empty;
                 return DoctypePublicIdentifierSingleQuoted(_src.Next, doctype);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
                 return doctype;
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
@@ -1215,26 +1215,26 @@
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (c == Specification.DQ)
+            if (c == Specification.DoubleQuote)
             {
                 _stringBuffer.Clear();
                 doctype.PublicIdentifier = String.Empty;
                 return DoctypePublicIdentifierDoubleQuoted(_src.Next, doctype);
             }
-            else if (c == Specification.SQ)
+            else if (c == Specification.SingleQuote)
             {
                 _stringBuffer.Clear();
                 doctype.PublicIdentifier = String.Empty;
                 return DoctypePublicIdentifierSingleQuoted(_src.Next, doctype);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
                 return doctype;
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
@@ -1257,18 +1257,18 @@
         {
             while (true)
             {
-                if (c == Specification.DQ)
+                if (c == Specification.DoubleQuote)
                 {
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     _stringBuffer.Clear();
                     return DoctypePublicIdentifierAfter(_src.Next, doctype); ;
                 }
-                else if (c == Specification.NULL)
+                else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
+                    _stringBuffer.Append(Specification.Replacement);
                 }
-                else if (c == Specification.GT)
+                else if (c == Specification.GreaterThan)
                 {
                     _model = HtmlParseMode.PCData;
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
@@ -1276,7 +1276,7 @@
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     return doctype;
                 }
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     _src.Back();
@@ -1301,18 +1301,18 @@
         {
             while (true)
             {
-                if (c == Specification.SQ)
+                if (c == Specification.SingleQuote)
                 {
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     _stringBuffer.Clear();
                     return DoctypePublicIdentifierAfter(_src.Next, doctype);
                 }
-                else if (c == Specification.NULL)
+                else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
+                    _stringBuffer.Append(Specification.Replacement);
                 }
-                else if (c == Specification.GT)
+                else if (c == Specification.GreaterThan)
                 {
                     _model = HtmlParseMode.PCData;
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
@@ -1320,7 +1320,7 @@
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     return doctype;
                 }
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     doctype.IsQuirksForced = true;
@@ -1348,24 +1348,24 @@
                 _stringBuffer.Clear();
                 return DoctypeBetween(_src.Next, doctype);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 return doctype;
             }
-            else if (c == Specification.DQ)
+            else if (c == Specification.DoubleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = String.Empty;
                 return DoctypeSystemIdentifierDoubleQuoted(_src.Next, doctype);
             }
-            else if (c == Specification.SQ)
+            else if (c == Specification.SingleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = String.Empty;
                 return DoctypeSystemIdentifierSingleQuoted(_src.Next, doctype);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
@@ -1389,22 +1389,22 @@
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (c == Specification.GT)
+            if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 return doctype;
             }
-            else if (c == Specification.DQ)
+            else if (c == Specification.DoubleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
                 return DoctypeSystemIdentifierDoubleQuoted(_src.Next, doctype);
             }
-            else if (c == Specification.SQ)
+            else if (c == Specification.SingleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
                 return DoctypeSystemIdentifierSingleQuoted(_src.Next, doctype);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
@@ -1430,26 +1430,26 @@
                 _model = HtmlParseMode.PCData;
                 return DoctypeSystemIdentifierBefore(_src.Next, doctype);
             }
-            else if (c == Specification.DQ)
+            else if (c == Specification.DoubleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = string.Empty;
                 return DoctypeSystemIdentifierDoubleQuoted(_src.Next, doctype);
             }
-            else if (c == Specification.SQ)
+            else if (c == Specification.SingleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = string.Empty;
                 return DoctypeSystemIdentifierSingleQuoted(_src.Next, doctype);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.SystemIdentifier = _stringBuffer.ToString();
                 doctype.IsQuirksForced = true;
                 return doctype;
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
@@ -1473,17 +1473,17 @@
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (c == Specification.DQ)
+            if (c == Specification.DoubleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
                 return DoctypeSystemIdentifierDoubleQuoted(_src.Next, doctype);
             }
-            else if (c == Specification.SQ)
+            else if (c == Specification.SingleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
                 return DoctypeSystemIdentifierSingleQuoted(_src.Next, doctype);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
@@ -1491,7 +1491,7 @@
                 doctype.SystemIdentifier = _stringBuffer.ToString();
                 return doctype;
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
@@ -1515,18 +1515,18 @@
         {
             while (true)
             {
-                if (c == Specification.DQ)
+                if (c == Specification.DoubleQuote)
                 {
                     doctype.SystemIdentifier = _stringBuffer.ToString();
                     _stringBuffer.Clear();
                     return DoctypeSystemIdentifierAfter(_src.Next, doctype);
                 }
-                else if (c == Specification.NULL)
+                else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
+                    _stringBuffer.Append(Specification.Replacement);
                 }
-                else if (c == Specification.GT)
+                else if (c == Specification.GreaterThan)
                 {
                     _model = HtmlParseMode.PCData;
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
@@ -1534,7 +1534,7 @@
                     doctype.SystemIdentifier = _stringBuffer.ToString();
                     return doctype;
                 }
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     doctype.IsQuirksForced = true;
@@ -1559,18 +1559,18 @@
         {
             while (true)
             {
-                if (c == Specification.SQ)
+                if (c == Specification.SingleQuote)
                 {
                     doctype.SystemIdentifier = _stringBuffer.ToString();
                     _stringBuffer.Clear();
                     return DoctypeSystemIdentifierAfter(_src.Next, doctype);
                 }
-                else if (c == Specification.NULL)
+                else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
+                    _stringBuffer.Append(Specification.Replacement);
                 }
-                else if (c == Specification.GT)
+                else if (c == Specification.GreaterThan)
                 {
                     _model = HtmlParseMode.PCData;
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
@@ -1578,7 +1578,7 @@
                     doctype.SystemIdentifier = _stringBuffer.ToString();
                     return doctype;
                 }
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     doctype.IsQuirksForced = true;
@@ -1604,12 +1604,12 @@
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (c == Specification.GT)
+            if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 return doctype;
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
@@ -1631,12 +1631,12 @@
         {
             while (true)
             {
-                if (c == Specification.EOF)
+                if (c == Specification.EndOfFile)
                 {
                     _src.Back();
                     return doctype;
                 }
-                else if (c == Specification.GT)
+                else if (c == Specification.GreaterThan)
                 {
                     _model = HtmlParseMode.PCData;
                     return doctype;
@@ -1661,11 +1661,11 @@
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (c == Specification.SOLIDUS)
+            if (c == Specification.Solidus)
             {
                 return TagSelfClosing(_src.Next, tag);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 return EmitTag(tag);
             }
@@ -1675,21 +1675,21 @@
                 _stringBuffer.Append(Char.ToLower(c));
                 return AttributeName(_src.Next, tag);
             }
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 _stringBuffer.Clear();
-                _stringBuffer.Append(Specification.REPLACEMENT);
+                _stringBuffer.Append(Specification.Replacement);
                 return AttributeName(_src.Next, tag);
             }
-            else if (c == Specification.SQ || c == Specification.DQ || c == Specification.EQ || c == Specification.LT)
+            else if (c == Specification.SingleQuote || c == Specification.DoubleQuote || c == Specification.Equality || c == Specification.LessThan)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
                 return AttributeName(_src.Next, tag);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 return HtmlToken.EOF;
             }
@@ -1716,31 +1716,31 @@
                     tag.AddAttribute(_stringBuffer.ToString());
                     return AttributeAfterName(_src.Next, tag);
                 }
-                else if (c == Specification.SOLIDUS)
+                else if (c == Specification.Solidus)
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
                     return TagSelfClosing(_src.Next, tag);
                 }
-                else if (c == Specification.EQ)
+                else if (c == Specification.Equality)
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
                     return AttributeBeforeValue(_src.Next, tag);
                 }
-                else if (c == Specification.GT)
+                else if (c == Specification.GreaterThan)
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
                     return EmitTag(tag);
                 }
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                     return HtmlToken.EOF;
-                else if (c == Specification.NULL)
+                else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
+                    _stringBuffer.Append(Specification.Replacement);
                 }
                 else if (c.IsUppercaseAscii())
                     _stringBuffer.Append(Char.ToLower(c));
-                else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT)
+                else if (c == Specification.DoubleQuote || c == Specification.SingleQuote || c == Specification.LessThan)
                 {
                     RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                     _stringBuffer.Append(c);
@@ -1763,15 +1763,15 @@
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (c == Specification.SOLIDUS)
+            if (c == Specification.Solidus)
             {
                 return TagSelfClosing(_src.Next, tag);
             }
-            else if (c == Specification.EQ)
+            else if (c == Specification.Equality)
             {
                 return AttributeBeforeValue(_src.Next, tag);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 return EmitTag(tag);
             }
@@ -1781,21 +1781,21 @@
                 _stringBuffer.Append(Char.ToLower(c));
                 return AttributeName(_src.Next, tag);
             }
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
                 _stringBuffer.Clear();
-                _stringBuffer.Append(Specification.REPLACEMENT);
+                _stringBuffer.Append(Specification.Replacement);
                 return AttributeName(_src.Next, tag);
             }
-            else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT)
+            else if (c == Specification.DoubleQuote || c == Specification.SingleQuote || c == Specification.LessThan)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
                 return AttributeName(_src.Next, tag);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 return HtmlToken.EOF;
             }
@@ -1818,39 +1818,39 @@
             while (c.IsSpaceCharacter())
                 c = _src.Next;
 
-            if (c == Specification.DQ)
+            if (c == Specification.DoubleQuote)
             {
                 _stringBuffer.Clear();
                 return AttributeDoubleQuotedValue(_src.Next, tag);
             }
-            else if (c == Specification.AMPERSAND)
+            else if (c == Specification.Ampersand)
             {
                 _stringBuffer.Clear();
                 return AttributeUnquotedValue(c, tag);
             }
-            else if (c == Specification.SQ)
+            else if (c == Specification.SingleQuote)
             {
                 _stringBuffer.Clear();
                 return AttributeSingleQuotedValue(_src.Next, tag);
             }
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                _stringBuffer.Append(Specification.REPLACEMENT);
+                _stringBuffer.Append(Specification.Replacement);
                 return AttributeUnquotedValue(_src.Next, tag);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 return EmitTag(tag);
             }
-            else if (c == Specification.LT || c == Specification.EQ || c == Specification.CQ)
+            else if (c == Specification.LessThan || c == Specification.Equality || c == Specification.CurvedQuote)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
                 _stringBuffer.Clear().Append(c);
                 return AttributeUnquotedValue(_src.Next, tag);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 return HtmlToken.EOF;
             }
@@ -1871,26 +1871,26 @@
         {
             while (true)
             {
-                if (c == Specification.DQ)
+                if (c == Specification.DoubleQuote)
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
                     return AttributeAfterValue(_src.Next, tag);
                 }
-                else if (c == Specification.AMPERSAND)
+                else if (c == Specification.Ampersand)
                 {
-                    var value = CharacterReference(_src.Next, Specification.DQ);
+                    var value = CharacterReference(_src.Next, Specification.DoubleQuote);
 
                     if (value == null)
-                        _stringBuffer.Append(Specification.AMPERSAND);
+                        _stringBuffer.Append(Specification.Ampersand);
                     else
                         _stringBuffer.Append(value);
                 }
-                else if (c == Specification.NULL)
+                else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
+                    _stringBuffer.Append(Specification.Replacement);
                 }
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                     return HtmlToken.EOF;
                 else
                     _stringBuffer.Append(c);
@@ -1909,26 +1909,26 @@
         {
             while (true)
             {
-                if (c == Specification.SQ)
+                if (c == Specification.SingleQuote)
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
                     return AttributeAfterValue(_src.Next, tag);
                 }
-                else if (c == Specification.AMPERSAND)
+                else if (c == Specification.Ampersand)
                 {
-                    var value = CharacterReference(_src.Next, Specification.SQ);
+                    var value = CharacterReference(_src.Next, Specification.SingleQuote);
 
                     if (value == null)
-                        _stringBuffer.Append(Specification.AMPERSAND);
+                        _stringBuffer.Append(Specification.Ampersand);
                     else
                         _stringBuffer.Append(value);
                 }
-                else if (c == Specification.NULL)
+                else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
+                    _stringBuffer.Append(Specification.Replacement);
                 }
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                     return HtmlToken.EOF;
                 else
                     _stringBuffer.Append(c);
@@ -1952,31 +1952,31 @@
                     tag.SetAttributeValue(_stringBuffer.ToString());
                     return AttributeBeforeName(_src.Next, tag);
                 }
-                else if (c == Specification.AMPERSAND)
+                else if (c == Specification.Ampersand)
                 {
-                    var value = CharacterReference(_src.Next, Specification.GT);
+                    var value = CharacterReference(_src.Next, Specification.GreaterThan);
 
                     if (value == null)
-                        _stringBuffer.Append(Specification.AMPERSAND);
+                        _stringBuffer.Append(Specification.Ampersand);
                     else
                         _stringBuffer.Append(value);
                 }
-                else if (c == Specification.GT)
+                else if (c == Specification.GreaterThan)
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
                     return EmitTag(tag);
                 }
-                else if (c == Specification.NULL)
+                else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.NULL);
-                    _stringBuffer.Append(Specification.REPLACEMENT);
+                    _stringBuffer.Append(Specification.Replacement);
                 }
-                else if (c == Specification.DQ || c == Specification.SQ || c == Specification.LT || c == Specification.EQ || c == Specification.CQ)
+                else if (c == Specification.DoubleQuote || c == Specification.SingleQuote || c == Specification.LessThan || c == Specification.Equality || c == Specification.CurvedQuote)
                 {
                     RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
                     _stringBuffer.Append(c);
                 }
-                else if (c == Specification.EOF)
+                else if (c == Specification.EndOfFile)
                     return HtmlToken.EOF;
                 else
                     _stringBuffer.Append(c);
@@ -1995,11 +1995,11 @@
         {
             if (c.IsSpaceCharacter())
                 return AttributeBeforeName(_src.Next, tag);
-            else if (c == Specification.SOLIDUS)
+            else if (c == Specification.Solidus)
                 return TagSelfClosing(_src.Next, tag);
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
                 return EmitTag(tag);
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
                 return HtmlTagToken.EOF;
 
             RaiseErrorOccurred(ErrorCode.AttributeNameExpected);
@@ -2020,15 +2020,15 @@
             {
                 switch (c)
                 {
-                    case Specification.LT:
+                    case Specification.LessThan:
                         return ScriptDataLT(_src.Next);
 
-                    case Specification.NULL:
+                    case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.NULL);
-                        _buffer.Append(Specification.REPLACEMENT);
+                        _buffer.Append(Specification.Replacement);
                         break;
 
-                    case Specification.EOF:
+                    case Specification.EndOfFile:
                         return HtmlToken.EOF;
 
                     default:
@@ -2046,17 +2046,17 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataLT(Char c)
         {
-            if (c == Specification.SOLIDUS)
+            if (c == Specification.Solidus)
             {
                 return ScriptDataEndTag(_src.Next);
             }
-            else if (c == Specification.EM)
+            else if (c == Specification.ExclamationMark)
             {
-                _buffer.Append(Specification.LT).Append(Specification.EM);
+                _buffer.Append(Specification.LessThan).Append(Specification.ExclamationMark);
                 return ScriptDataStartEscape(_src.Next);
             }
 
-            _buffer.Append(Specification.LT);
+            _buffer.Append(Specification.LessThan);
             return ScriptData(c);
         }
 
@@ -2073,7 +2073,7 @@
                 return ScriptDataNameEndTag(_src.Next, HtmlToken.CloseTag());
             }
 
-            _buffer.Append(Specification.LT).Append(Specification.SOLIDUS);
+            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
             return ScriptData(c);
         }
 
@@ -2093,12 +2093,12 @@
                 tag.Name = name;
                 return AttributeBeforeName(_src.Next, tag);
             }
-            else if (appropriateEndTag && c == Specification.SOLIDUS)
+            else if (appropriateEndTag && c == Specification.Solidus)
             {
                 tag.Name = name;
                 return TagSelfClosing(_src.Next, tag);
             }
-            else if (appropriateEndTag && c == Specification.GT)
+            else if (appropriateEndTag && c == Specification.GreaterThan)
             {
                 tag.Name = name;
                 return EmitTag(tag);
@@ -2109,7 +2109,7 @@
                 return ScriptDataNameEndTag(_src.Next, tag);
             }
 
-            _buffer.Append(Specification.LT).Append(Specification.SOLIDUS);
+            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
             _buffer.Append(_stringBuffer.ToString());
             return ScriptData(c);
         }
@@ -2120,9 +2120,9 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataStartEscape(Char c)
         {
-            if (c == Specification.MINUS)
+            if (c == Specification.Minus)
             {
-                _buffer.Append(Specification.MINUS);
+                _buffer.Append(Specification.Minus);
                 return ScriptDataStartEscapeDash(_src.Next);
             }
 
@@ -2135,22 +2135,22 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscaped(Char c)
         {
-            if (c == Specification.MINUS)
+            if (c == Specification.Minus)
             {
-                _buffer.Append(Specification.MINUS);
+                _buffer.Append(Specification.Minus);
                 return ScriptDataEscapedDash(_src.Next);
             }
-            else if (c == Specification.LT)
+            else if (c == Specification.LessThan)
             {
                 return ScriptDataEscapedLT(_src.Next);
             }
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                _buffer.Append(Specification.REPLACEMENT);
+                _buffer.Append(Specification.Replacement);
                 return ScriptDataEscaped(_src.Next);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 return HtmlToken.EOF;
             }
@@ -2164,9 +2164,9 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataStartEscapeDash(Char c)
         {
-            if (c == Specification.MINUS)
+            if (c == Specification.Minus)
             {
-                _buffer.Append(Specification.MINUS);
+                _buffer.Append(Specification.Minus);
                 return ScriptDataEscapedDashDash(_src.Next);
             }
 
@@ -2179,22 +2179,22 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDash(Char c)
         {
-            if (c == Specification.MINUS)
+            if (c == Specification.Minus)
             {
-                _buffer.Append(Specification.MINUS);
+                _buffer.Append(Specification.Minus);
                 return ScriptDataEscapedDashDash(_src.Next);
             }
-            else if (c == Specification.LT)
+            else if (c == Specification.LessThan)
             {
                 return ScriptDataEscapedLT(_src.Next);
             }
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                _buffer.Append(Specification.REPLACEMENT);
+                _buffer.Append(Specification.Replacement);
                 return ScriptDataEscaped(_src.Next);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 return HtmlToken.EOF;
             }
@@ -2209,27 +2209,27 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDashDash(Char c)
         {
-            if (c == Specification.MINUS)
+            if (c == Specification.Minus)
             {
-                _buffer.Append(Specification.MINUS);
+                _buffer.Append(Specification.Minus);
                 return ScriptDataEscapedDashDash(_src.Next);
             }
-            else if (c == Specification.LT)
+            else if (c == Specification.LessThan)
             {
                 return ScriptDataEscapedLT(_src.Next);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
-                _buffer.Append(Specification.GT);
+                _buffer.Append(Specification.GreaterThan);
                 return ScriptData(_src.Next);
             }
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                _buffer.Append(Specification.REPLACEMENT);
+                _buffer.Append(Specification.Replacement);
                 return ScriptDataEscaped(_src.Next);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 return HtmlToken.EOF;
             }
@@ -2244,7 +2244,7 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedLT(Char c)
         {
-            if (c == Specification.SOLIDUS)
+            if (c == Specification.Solidus)
             {
                 return ScriptDataEndTag(_src.Next);
             }
@@ -2252,12 +2252,12 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                _buffer.Append(Specification.LT);
+                _buffer.Append(Specification.LessThan);
                 _buffer.Append(c);
                 return ScriptDataStartDoubleEscape(_src.Next);
             }
 
-            _buffer.Append(Specification.LT);
+            _buffer.Append(Specification.LessThan);
             return ScriptDataEscaped(c);
         }
 
@@ -2276,7 +2276,7 @@
                 return ScriptDataEscapedEndTag(_src.Next, tag);
             }
 
-            _buffer.Append(Specification.LT).Append(Specification.SOLIDUS);
+            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
             return ScriptDataEscaped(c);
         }
 
@@ -2296,12 +2296,12 @@
                 tag.Name = name;
                 return AttributeBeforeName(_src.Next, tag);
             }
-            else if (appropriateEndTag && c == Specification.SOLIDUS)
+            else if (appropriateEndTag && c == Specification.Solidus)
             {
                 tag.Name = name;
                 return TagSelfClosing(_src.Next, tag);
             }
-            else if (appropriateEndTag && c == Specification.GT)
+            else if (appropriateEndTag && c == Specification.GreaterThan)
             {
                 tag.Name = name;
                 return EmitTag(tag);
@@ -2312,7 +2312,7 @@
                 return ScriptDataEscapedNameTag(_src.Next, tag);
             }
 
-            _buffer.Append(Specification.LT).Append(Specification.SOLIDUS);
+            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
             _buffer.Append(_stringBuffer.ToString());
             return ScriptDataEscaped(c);
         }
@@ -2323,7 +2323,7 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataStartDoubleEscape(Char c)
         {
-            if (c.IsSpaceCharacter() || c == Specification.SOLIDUS || c == Specification.GT)
+            if (c.IsSpaceCharacter() || c == Specification.Solidus || c == Specification.GreaterThan)
             {
                 _buffer.Append(c);
 
@@ -2348,22 +2348,22 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDouble(Char c)
         {
-            if (c == Specification.MINUS)
+            if (c == Specification.Minus)
             {
-                _buffer.Append(Specification.MINUS);
+                _buffer.Append(Specification.Minus);
                 return ScriptDataEscapedDoubleDash(_src.Next);
             }
-            else if (c == Specification.LT)
+            else if (c == Specification.LessThan)
             {
-                _buffer.Append(Specification.LT);
+                _buffer.Append(Specification.LessThan);
                 return ScriptDataEscapedDoubleLT(_src.Next);
             }
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                _buffer.Append(Specification.REPLACEMENT);
+                _buffer.Append(Specification.Replacement);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 return HtmlToken.EOF;
@@ -2379,23 +2379,23 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDoubleDash(Char c)
         {
-            if (c == Specification.MINUS)
+            if (c == Specification.Minus)
             {
-                _buffer.Append(Specification.MINUS);
+                _buffer.Append(Specification.Minus);
                 return ScriptDataEscapedDoubleDashDash(_src.Next);
             }
-            else if (c == Specification.LT)
+            else if (c == Specification.LessThan)
             {
-                _buffer.Append(Specification.LT);
+                _buffer.Append(Specification.LessThan);
                 return ScriptDataEscapedDoubleLT(_src.Next);
             }
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                _buffer.Append(Specification.REPLACEMENT);
+                _buffer.Append(Specification.Replacement);
                 return ScriptDataEscapedDouble(_src.Next);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 return HtmlToken.EOF;
@@ -2411,28 +2411,28 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDoubleDashDash(Char c)
         {
-            if (c == Specification.MINUS)
+            if (c == Specification.Minus)
             {
-                _buffer.Append(Specification.MINUS);
+                _buffer.Append(Specification.Minus);
                 return ScriptDataEscapedDoubleDashDash(_src.Next);
             }
-            else if (c == Specification.LT)
+            else if (c == Specification.LessThan)
             {
-                _buffer.Append(Specification.LT);
+                _buffer.Append(Specification.LessThan);
                 return ScriptDataEscapedDoubleLT(_src.Next);
             }
-            else if (c == Specification.GT)
+            else if (c == Specification.GreaterThan)
             {
-                _buffer.Append(Specification.GT);
+                _buffer.Append(Specification.GreaterThan);
                 return ScriptData(_src.Next);
             }
-            else if (c == Specification.NULL)
+            else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.NULL);
-                _buffer.Append(Specification.REPLACEMENT);
+                _buffer.Append(Specification.Replacement);
                 return ScriptDataEscapedDouble(_src.Next);
             }
-            else if (c == Specification.EOF)
+            else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 return HtmlToken.EOF;
@@ -2448,10 +2448,10 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDoubleLT(Char c)
         {
-            if (c == Specification.SOLIDUS)
+            if (c == Specification.Solidus)
             {
                 _stringBuffer.Clear();
-                _buffer.Append(Specification.SOLIDUS);
+                _buffer.Append(Specification.Solidus);
                 return ScriptDataEndDoubleEscape(_src.Next);
             }
 
@@ -2464,7 +2464,7 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEndDoubleEscape(Char c)
         {
-            if (c.IsSpaceCharacter() || c == Specification.SOLIDUS || c == Specification.GT)
+            if (c.IsSpaceCharacter() || c == Specification.Solidus || c == Specification.GreaterThan)
             {
                 _buffer.Append(c);
 

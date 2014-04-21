@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
     /// <summary>
     /// Represents the list of all Html entities.
     /// </summary>
     [DebuggerStepThrough]
     static class Entities
     {
-        #region Members
+        #region Fields
 
         /// <summary>
         /// Strong entities always end with a semicolon.

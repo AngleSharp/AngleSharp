@@ -114,7 +114,7 @@
             if (name.StartsWith(Tags.XML, StringComparison.OrdinalIgnoreCase))
                 throw new DOMException(ErrorCode.SyntaxError);
 
-            if (name.IndexOf(Specification.SC) >= 0)
+            if (name.IndexOf(Specification.Semicolon) >= 0)
                 throw new DOMException(ErrorCode.SyntaxError);
 
             for (int i = 0; i < name.Length; i++)

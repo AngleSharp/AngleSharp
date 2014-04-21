@@ -20,10 +20,10 @@
 
         static CssSpecialCharacter()
         {
-            colon = new CssSpecialCharacter(Specification.COLON, CssTokenType.Colon);
-            comma = new CssSpecialCharacter(Specification.COMMA, CssTokenType.Comma);
-            semicolon = new CssSpecialCharacter(Specification.SC, CssTokenType.Semicolon);
-            whitespace = new CssSpecialCharacter(Specification.SPACE, CssTokenType.Whitespace);
+            colon = new CssSpecialCharacter(Specification.Colon, CssTokenType.Colon);
+            comma = new CssSpecialCharacter(Specification.Comma, CssTokenType.Comma);
+            semicolon = new CssSpecialCharacter(Specification.Semicolon, CssTokenType.Semicolon);
+            whitespace = new CssSpecialCharacter(Specification.Space, CssTokenType.Whitespace);
         }
 
         /// <summary>

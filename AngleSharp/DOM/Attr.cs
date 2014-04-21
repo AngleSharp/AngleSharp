@@ -265,10 +265,10 @@
         /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml()
         {
-            if (_value.IndexOf(Specification.DQ) >= 0)
-                _value = _value.Replace(Specification.DQ.ToString(), "&quot;");
+            if (_value.IndexOf(Specification.DoubleQuote) >= 0)
+                _value = _value.Replace(Specification.DoubleQuote.ToString(), "&quot;");
 
-            return string.Format("{0}={2}{1}{2}", _name, _value, Specification.DQ);
+            return string.Format("{0}={2}{1}{2}", _name, _value, Specification.DoubleQuote);
         }
 
         #endregion

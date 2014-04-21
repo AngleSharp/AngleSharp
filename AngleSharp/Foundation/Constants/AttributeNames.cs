@@ -15,7 +15,7 @@
         /// <summary>
         /// The http-equiv attribute.
         /// </summary>
-        public static readonly String Http_Equiv = "http-equiv";
+        public static readonly String HttpEquiv = "http-equiv";
 
         /// <summary>
         /// The scheme attribute.

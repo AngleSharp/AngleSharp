@@ -58,7 +58,7 @@
         {
             var i = int.Parse(start, System.Globalization.NumberStyles.HexNumber);
 
-            if (i <= Specification.MAXIMUM_CODEPOINT)
+            if (i <= Specification.MaximumCodepoint)
             {
                 if (end == null)
                 {
@@ -69,8 +69,8 @@
                     var list = new List<string>();
                     var f = int.Parse(end, System.Globalization.NumberStyles.HexNumber);
 
-                    if (f > Specification.MAXIMUM_CODEPOINT)
-                        f = Specification.MAXIMUM_CODEPOINT;
+                    if (f > Specification.MaximumCodepoint)
+                        f = Specification.MaximumCodepoint;
 
                     for (; i <= f; i++)
                         list.Add(char.ConvertFromUtf32(i));

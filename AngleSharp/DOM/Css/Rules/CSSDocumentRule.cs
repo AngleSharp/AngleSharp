@@ -61,11 +61,11 @@ namespace AngleSharp.DOM.Css
                             break;
                     }
 
-                    sb.Append(Specification.RBO);
-                    sb.Append(Specification.DQ);
+                    sb.Append(Specification.RoundBracketOpen);
+                    sb.Append(Specification.DoubleQuote);
                     sb.Append(condition.Item2);
-                    sb.Append(Specification.DQ);
-                    sb.Append(Specification.RBC);
+                    sb.Append(Specification.DoubleQuote);
+                    sb.Append(Specification.RoundBracketClose);
                     co = true;
                 }
 

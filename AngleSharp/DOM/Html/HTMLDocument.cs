@@ -488,7 +488,7 @@
         [DOM("writeln")]
         public void WriteLn(String content)
         {
-            Write(content + Specification.LF);
+            Write(content + Specification.LineFeed);
         }
 
         /// <summary>

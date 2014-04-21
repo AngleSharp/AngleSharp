@@ -273,7 +273,7 @@ namespace AngleSharp.DOM.Css
 
             if (containsSpace)
             {
-                if (value.IndexOf(Specification.SQ) != -1)
+                if (value.IndexOf(Specification.SingleQuote) != -1)
                     return '"' + value + '"';
 
                 return "'" + value + "'";
