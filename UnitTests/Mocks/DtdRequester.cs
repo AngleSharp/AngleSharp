@@ -10,9 +10,9 @@ namespace UnitTests
     /// <summary>
     /// Requests a DTD file from an embedded resource.
     /// </summary>
-    public class DtdRequester : IHttpRequester
+    public class DtdRequester : IRequester
     {
-        public IHttpResponse Request(IHttpRequest request)
+        public IResponse Request(IRequest request)
         {
             var name = request.Address.Segments[1];
             var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTests.Resources." + name);
@@ -20,15 +20,15 @@ namespace UnitTests
             if (stream == null)
                 throw new ArgumentException("The DTD " + name + " could not be found! Check the name and the availability of this DTD.");
 
-            return new DefaultHttpResponse { Content = stream };
+            return new DefaultResponse { Content = stream };
         }
 
-        public Task<IHttpResponse> RequestAsync(IHttpRequest request)
+        public Task<IResponse> RequestAsync(IRequest request)
         {
             return RequestAsync(request, CancellationToken.None);
         }
 
-        public Task<IHttpResponse> RequestAsync(IHttpRequest request, CancellationToken cancellationToken)
+        public Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
         {
             return Task.Run(() => Request(request));
         }

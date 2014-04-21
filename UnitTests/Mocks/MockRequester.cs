@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace UnitTests.Mocks
 {
-    public class MockRequester : IHttpRequester
+    public class MockRequester : IRequester
     {
-        public IHttpResponse Request(IHttpRequest request)
+        public IResponse Request(IRequest request)
         {
             return null;
         }
 
-        public Task<IHttpResponse> RequestAsync(IHttpRequest request)
+        public Task<IResponse> RequestAsync(IRequest request)
         {
             return null;
         }
 
-        public Task<IHttpResponse> RequestAsync(IHttpRequest request, CancellationToken cancellationToken)
+        public Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
         {
             return null;
         }

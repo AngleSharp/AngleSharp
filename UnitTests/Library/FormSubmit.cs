@@ -32,7 +32,7 @@ namespace UnitTests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostUrlencodeNormal";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowHttpRequests = true });
+                var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowRequests = true });
                 Assert.AreEqual(1, html.Forms.Length);
                 var form = html.Forms[0];
                 var name = form.Elements["Name"] as HTMLInputElement;
@@ -59,7 +59,7 @@ namespace UnitTests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostUrlencodeFile";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowHttpRequests = true });
+                var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowRequests = true });
                 Assert.AreEqual(1, html.Forms.Length);
                 var form = html.Forms[0];
                 var name = form.Elements["Name"] as HTMLInputElement;
@@ -90,7 +90,7 @@ namespace UnitTests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostMultipartNormal";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowHttpRequests = true });
+                var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowRequests = true });
                 Assert.AreEqual(1, html.Forms.Length);
                 var form = html.Forms[0];
                 var name = form.Elements["Name"] as HTMLInputElement;
@@ -117,7 +117,7 @@ namespace UnitTests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostMultipartFile";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowHttpRequests = true });
+                var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowRequests = true });
                 Assert.AreEqual(1, html.Forms.Length);
                 var form = html.Forms[0];
                 var name = form.Elements["Name"] as HTMLInputElement;
@@ -148,7 +148,7 @@ namespace UnitTests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostMultipartFiles";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowHttpRequests = true });
+                var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowRequests = true });
                 Assert.AreEqual(1, html.Forms.Length);
                 var form = html.Forms[0];
                 var name = form.Elements["Name"] as HTMLInputElement;
