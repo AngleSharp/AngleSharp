@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/counter-reset
     /// </summary>
-    sealed class CSSCounterResetProperty : CSSProperty
+    public sealed class CSSCounterResetProperty : CSSProperty
     {
         #region Fields
 
@@ -17,11 +17,33 @@
 
         #region ctor
 
-        public CSSCounterResetProperty()
+        internal CSSCounterResetProperty()
             : base(PropertyNames.CounterReset)
         {
             _resets = new Dictionary<String, Int32>();
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the reset-value of the specified counter.
+        /// </summary>
+        /// <param name="counter"></param>
+        /// <returns></returns>
+        public Int32 this[String counter]
+        {
+            get { return _resets[counter]; }
+        }
+
+        /// <summary>
+        /// Gets an enumeration over all counters.
+        /// </summary>
+        public IEnumerable<String> Counters
+        {
+            get { return _resets.Keys; }
         }
 
         #endregion

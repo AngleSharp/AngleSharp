@@ -7,7 +7,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style
     /// </summary>
-    sealed class CSSListStyleProperty : CSSProperty
+    public sealed class CSSListStyleProperty : CSSProperty
     {
         #region Fields
 
@@ -19,13 +19,41 @@
 
         #region ctor
 
-        public CSSListStyleProperty()
+        internal CSSListStyleProperty()
             : base(PropertyNames.ListStyle)
         {
             _inherited = true;
             _type = new CSSListStyleTypeProperty();
             _image = new CSSListStyleImageProperty();
             _position = new CSSListStylePositionProperty();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected list-style type.
+        /// </summary>
+        public CSSListStyleTypeProperty Type
+        {
+            get { return _type; }
+        }
+
+        /// <summary>
+        /// Gets the selected image for the list.
+        /// </summary>
+        public CSSListStyleImageProperty Image
+        {
+            get { return _image; }
+        }
+
+        /// <summary>
+        /// Gets the selected position for the list-style.
+        /// </summary>
+        public CSSListStylePositionProperty Position
+        {
+            get { return _position; }
         }
 
         #endregion

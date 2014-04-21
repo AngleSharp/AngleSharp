@@ -168,7 +168,7 @@
                         if (color == null || location == null)
                             return null;
 
-                        stops[k] = new CSSImageValue.GradientStop(color, location);
+                        stops[k] = new CSSImageValue.GradientStop(color.Value, location);
                     }
 
                     return CSSImageValue.FromLinearGradient(direction, repeating, stops);

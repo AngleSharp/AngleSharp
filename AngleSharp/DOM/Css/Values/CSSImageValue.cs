@@ -1,14 +1,14 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// More information about the image module:
     /// http://dev.w3.org/csswg/css-images-3/
     /// </summary>
-    abstract class CSSImageValue : CSSValue
+    public abstract class CSSImageValue : CSSValue
     {
         #region Fields
 
@@ -269,14 +269,14 @@
         {
             #region Fields
 
-            CSSPrimitiveValue<Color> _color;
+            Color _color;
             CSSCalcValue _location;
 
             #endregion
 
             #region ctor
 
-            public GradientStop(CSSPrimitiveValue<Color> color, CSSCalcValue location)
+            public GradientStop(Color color, CSSCalcValue location)
             {
                 _color = color;
                 _location = location;
@@ -289,7 +289,7 @@
             /// <summary>
             /// Gets the color of the gradient stop.
             /// </summary>
-            public CSSPrimitiveValue<Color> Color
+            public Color Color
             {
                 get { return _color; }
             }

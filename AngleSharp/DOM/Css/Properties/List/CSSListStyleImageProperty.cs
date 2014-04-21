@@ -6,7 +6,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-image
     /// </summary>
-    sealed class CSSListStyleImageProperty : CSSProperty
+    public sealed class CSSListStyleImageProperty : CSSProperty
     {
         #region Fields
 
@@ -16,11 +16,23 @@
 
         #region ctor
 
-        public CSSListStyleImageProperty()
+        internal CSSListStyleImageProperty()
             : base(PropertyNames.ListStyleImage)
         {
             _inherited = true;
             _image = null;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected image.
+        /// </summary>
+        public CSSImageValue Image
+        {
+            get { return _image; }
         }
 
         #endregion

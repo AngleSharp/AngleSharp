@@ -10,8 +10,9 @@
     /// Represents context configuration for the AngleSharp library.
     /// Custom configurations can be made by deriving from this class,
     /// just implementing IConfiguration or modifying an instance of
-    /// this specific class. Default configurations need to be stored
-    /// in the dependency resolver.
+    /// this specific class. To change the default configuration one
+    /// needs to provide a service that implements IConfiguration in
+    /// the dependency resolver.
     /// </summary>
     public class Configuration : IConfiguration
     {

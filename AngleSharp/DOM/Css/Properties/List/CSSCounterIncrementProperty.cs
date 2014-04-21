@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/counter-increment
     /// </summary>
-    sealed class CSSCounterIncrementProperty : CSSProperty
+    public sealed class CSSCounterIncrementProperty : CSSProperty
     {
         #region Fields
 
@@ -17,11 +17,33 @@
 
         #region ctor
 
-        public CSSCounterIncrementProperty()
+        internal CSSCounterIncrementProperty()
             : base(PropertyNames.CounterIncrement)
         {
             _increments = new Dictionary<String, Int32>();
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the increment of the specified counter.
+        /// </summary>
+        /// <param name="counter"></param>
+        /// <returns></returns>
+        public Int32 this[String counter]
+        {
+            get { return _increments[counter]; }
+        }
+
+        /// <summary>
+        /// Gets an enumeration over all counters.
+        /// </summary>
+        public IEnumerable<String> Counters
+        {
+            get { return _increments.Keys; }
         }
 
         #endregion

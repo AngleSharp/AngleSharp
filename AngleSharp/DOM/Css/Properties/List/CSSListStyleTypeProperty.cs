@@ -7,7 +7,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type
     /// </summary>
-    sealed class CSSListStyleTypeProperty : CSSProperty
+    public sealed class CSSListStyleTypeProperty : CSSProperty
     {
         #region Fields
 
@@ -37,7 +37,7 @@
             styles.Add("none", ListStyle.None);
         }
 
-        public CSSListStyleTypeProperty()
+        internal CSSListStyleTypeProperty()
             : base(PropertyNames.ListStyleType)
         {
             _inherited = true;
@@ -46,85 +46,30 @@
 
         #endregion
 
-        #region Methods
+        #region Properties
 
-        protected override Boolean IsValid(CSSValue value)
+        /// <summary>
+        /// Gets the selected style for the list.
+        /// </summary>
+        public ListStyle Style
         {
-            if (value is CSSIdentifierValue)
-            {
-                var ident = (CSSIdentifierValue)value;
-                ListStyle position;
-
-                if (styles.TryGetValue(ident.Value, out position))
-                {
-                    _style = position;
-                    return true;
-                }
-            }
-            else if (value == CSSValue.Inherit)
-                return true;
-
-            return false;
+            get { return _style; }
         }
 
         #endregion
 
-        #region Positions
+        #region Methods
 
-        enum ListStyle
+        protected override Boolean IsValid(CSSValue value)
         {
-            /// <summary>
-            /// No list style at all.
-            /// </summary>
-            None,
-            /// <summary>
-            /// A filled circle (default value)
-            /// </summary>
-            Disc,
-            /// <summary>
-            /// A hollow circle
-            /// </summary>
-            Circle,
-            /// <summary>
-            /// A filled square
-            /// </summary>
-            Square,
-            /// <summary>
-            /// Han decimal numbers, Beginning with 1.
-            /// </summary>
-            Decimal,
-            /// <summary>
-            /// Decimal numbers, Padded by initial zeros, E.g. 01, 02, 03, ... 98, 99
-            /// </summary>
-            DecimalLeadingZero,
-            /// <summary>
-            /// Lowercase roman numerals, E.g.i, ii, iii, iv, v, ...
-            /// </summary>
-            LowerRoman,
-            /// <summary>
-            /// Uppercase roman numerals, E.g.I, II, III, IV, V ...
-            /// </summary>
-            UpperRoman,
-            /// <summary>
-            /// Lowercase classical Greek, alpha, beta, gamma…, E.g.α, β, γ ...
-            /// </summary>
-            LowerGreek,
-            /// <summary>
-            /// Lowercase ASCII letters, E.g.a, b, c, ... z
-            /// </summary>
-            LowerLatin,
-            /// <summary>
-            /// Uppercase ASCII letters, E.g.A, B, C, ... Z
-            /// </summary>
-            UpperLatin,
-            /// <summary>
-            /// Traditional Armenian numbering, (ayb/ayp, ben/pen, gim/keem ... )
-            /// </summary>
-            Armenian,
-            /// <summary>
-            /// Traditional Georgian numbering, E.g.an, ban, gan, ... he, tan, in…
-            /// </summary>
-            Georgian
+            ListStyle position;
+
+            if (value is CSSIdentifierValue && styles.TryGetValue(((CSSIdentifierValue)value).Value, out position))
+                _style = position;
+            else if (value != CSSValue.Inherit)
+                return false;
+
+            return true;
         }
 
         #endregion

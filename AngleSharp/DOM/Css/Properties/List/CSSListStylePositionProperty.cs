@@ -1,30 +1,22 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-position
     /// </summary>
-    sealed class CSSListStylePositionProperty : CSSProperty
+    public sealed class CSSListStylePositionProperty : CSSProperty
     {
         #region Fields
 
-        static readonly Dictionary<String, ListPosition> positions = new Dictionary<String, ListPosition>(StringComparer.OrdinalIgnoreCase);
         ListPosition _position;
 
         #endregion
 
         #region ctor
 
-        static CSSListStylePositionProperty()
-        {
-            positions.Add("inside", ListPosition.Inside);
-            positions.Add("outside", ListPosition.Outside);
-        }
-
-        public CSSListStylePositionProperty()
+        internal CSSListStylePositionProperty()
             : base(PropertyNames.ListStylePosition)
         {
             _inherited = true;
@@ -33,42 +25,30 @@
 
         #endregion
 
-        #region Methods
+        #region Properties
 
-        protected override Boolean IsValid(CSSValue value)
+        /// <summary>
+        /// Gets the selected position.
+        /// </summary>
+        public ListPosition Position
         {
-            if (value is CSSIdentifierValue)
-            {
-                var ident = (CSSIdentifierValue)value;
-                ListPosition position;
-
-                if (positions.TryGetValue(ident.Value, out position))
-                {
-                    _position = position;
-                    return true;
-                }
-            }
-            else if (value == CSSValue.Inherit)
-                return true;
-
-            return false;
+            get { return _position; }
         }
 
         #endregion
 
-        #region Positions
+        #region Methods
 
-        enum ListPosition
+        protected override Boolean IsValid(CSSValue value)
         {
-            /// <summary>
-            /// The marker box is the first inline box in the principal
-            /// block box, after which the element's content flows.
-            /// </summary>
-            Inside,
-            /// <summary>
-            /// The marker box is outside the principal block box.
-            /// </summary>
-            Outside
+            if (value.Is("inside"))
+                _position = ListPosition.Inside;
+            else if (value.Is("outside"))
+                _position = ListPosition.Outside;
+            else if (value != CSSValue.Inherit)
+                return false;
+
+            return true;
         }
 
         #endregion

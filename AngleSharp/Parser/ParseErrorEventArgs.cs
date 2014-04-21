@@ -73,7 +73,7 @@
         /// code as well as line and column.</returns>
         public override String ToString()
         {
-            return String.Format("Ln {0}, Col {1}: ERR{2} ({3}).", Line, Column, ErrorCode, ErrorMessage);
+            return String.Format("Ln {0}, Col {1}: ERR{2} ({3}).", Line.ToString(), Column.ToString(), ErrorCode.ToString(), ErrorMessage);
         }
 
         #endregion
