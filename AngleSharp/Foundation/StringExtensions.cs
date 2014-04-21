@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
+    using System.Text;
 
     /// <summary>
     /// Useful methods for string objects.
@@ -400,6 +401,51 @@
         public static Int32 FromDec(this String s)
         {
             return Int32.Parse(s, NumberStyles.Integer);
+        }
+
+        /// <summary>
+        /// Replaces characters in names and values that cannot be expressed by using the given
+        /// encoding with &#...; base-10 unicode point.
+        /// </summary>
+        /// <param name="value">The value to sanatize.</param>
+        /// <param name="encoding">The encoding to consider.</param>
+        /// <returns>The sanatized value.</returns>
+        [DebuggerStepThrough]
+        public static String HtmlEncode(this String value, Encoding encoding)
+        {
+            //Decide if the encoding is sufficient (How?)
+            return value;
+        }
+
+        /// <summary>
+        /// Replaces characters in names and values that should not be in URL values.
+        /// Replaces the bytes 0x20 (U+0020 SPACE if interpreted as ASCII) with a single 0x2B byte ("+" (U+002B)
+        /// character if interpreted as ASCII).
+        /// If a byte is not in the range 0x2A, 0x2D, 0x2E, 0x30 to 0x39, 0x41 to 0x5A, 0x5F, 0x61 to 0x7A, it is
+        /// replaced with its hexadecimal value (zero-padded if necessary), starting with the percent sign.
+        /// </summary>
+        /// <param name="value">The value to encode.</param>
+        /// <param name="encoding">The encoding to consider.</param>
+        /// <returns>The encoded value.</returns>
+        [DebuggerStepThrough]
+        public static String UrlEncode(this String value, Encoding encoding)
+        {
+            var builder = Pool.NewStringBuilder();
+            var content = encoding.GetBytes(value);
+
+            foreach (var val in content)
+            {
+                var chr = (Char)val;
+
+                if (chr == Specification.SPACE)
+                    builder.Append(Specification.PLUS);
+                else if (chr == Specification.ASTERISK || chr == Specification.MINUS || chr == Specification.DOT || chr.IsAlphanumericAscii())
+                    builder.Append(chr);
+                else
+                    builder.Append(Specification.PERCENT).Append(val.ToString("X2"));
+            }
+
+            return builder.ToPool();
         }
     }
 }

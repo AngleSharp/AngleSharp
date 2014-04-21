@@ -286,9 +286,9 @@
 
                 case KnownProtocols.Mailto:
                     if (Method == HttpMethod.GET)
-                        MailWithHeaders();
+                        MailWithHeaders(location);
                     else if (Method == HttpMethod.POST)
-                        MailAsBody();
+                        MailAsBody(location);
                     break;
 
                 default:
@@ -326,12 +326,12 @@
 
             if (action.Href.Contains("%%%%"))
             {
-                //TODO mutate result by percent encode all bytes
+                result = result.UrlEncode(System.Text.Encoding.GetEncoding("us-ascii"));
                 action.Href = action.Href.ReplaceFirst("%%%%", result);
             }
             else if (action.Href.Contains("%%"))
             {
-                //TODO mutate result by UTF-8 percent encode all characters
+                result = result.UrlEncode(System.Text.Encoding.UTF8);
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
@@ -342,18 +342,48 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-headers
         /// </summary>
-        void MailWithHeaders()
+        void MailWithHeaders(Location action)
         {
-            //TODO
+            var formDataSet = ConstructDataSet();
+            var result = formDataSet.AsUrlEncoded(System.Text.Encoding.GetEncoding("us-ascii"));
+            var headers = String.Empty;
+
+            using (var sr = new StreamReader(result))
+                headers = sr.ReadToEnd();
+
+            action.Search = headers.Replace("+", "%20");
+            GetActionUrl(action);
         }
 
         /// <summary>
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-body
         /// </summary>
-        void MailAsBody()
+        void MailAsBody(Location action)
         {
-            //TODO
+            var formDataSet = ConstructDataSet();
+            var enctype = Enctype;
+            var encoding = System.Text.Encoding.GetEncoding("us-ascii");
+            var body = String.Empty;
+
+            if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
+            {
+                using (var sr = new StreamReader(formDataSet.AsUrlEncoded(encoding)))
+                    body = sr.ReadToEnd();
+            }
+            else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
+            {
+                using (var sr = new StreamReader(formDataSet.AsMultipart(encoding)))
+                    body = sr.ReadToEnd();
+            }
+            else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
+            {
+                using (var sr = new StreamReader(formDataSet.AsPlaintext(encoding)))
+                    body = sr.ReadToEnd();
+            }
+
+            action.Search = "body=" + body.UrlEncode(encoding);
+            GetActionUrl(action);
         }
 
         /// <summary>
@@ -429,7 +459,6 @@
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? OwnerDocument.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
-            var enctype = Enctype;
             var result = formDataSet.AsUrlEncoded(DocumentEncoding.Resolve(encoding));
 
             using (var sr = new StreamReader(result))

@@ -240,49 +240,6 @@
                 set { _type = value; }
             }
 
-            /// <summary>
-            /// Replaces characters in names and values that cannot be expressed by using the given
-            /// encoding with &#...; base-10 unicode point.
-            /// </summary>
-            /// <param name="value">The value to sanatize.</param>
-            /// <param name="encoding">The encoding to consider.</param>
-            /// <returns>The sanatized value.</returns>
-            protected static String FormEncode(String value, Encoding encoding)
-            {
-                //Decide if the encoding is sufficient (How?)
-                return value;
-            }
-
-            /// <summary>
-            /// Replaces characters in names and values that should not be in URL values.
-            /// Replaces the bytes 0x20 (U+0020 SPACE if interpreted as ASCII) with a single 0x2B byte ("+" (U+002B)
-            /// character if interpreted as ASCII).
-            /// If a byte is not in the range 0x2A, 0x2D, 0x2E, 0x30 to 0x39, 0x41 to 0x5A, 0x5F, 0x61 to 0x7A, it is
-            /// replaced with its hexadecimal value (zero-padded if necessary), starting with the percent sign.
-            /// </summary>
-            /// <param name="value">The value to encode.</param>
-            /// <param name="encoding">The encoding to consider.</param>
-            /// <returns>The encoded value.</returns>
-            public static String UrlEncode(String value, Encoding encoding)
-            {
-                var builder = Pool.NewStringBuilder();
-                var content = encoding.GetBytes(value);
-
-                foreach (var val in content)
-                {
-                    var chr = (Char)val;
-
-                    if (chr == Specification.SPACE)
-                        builder.Append(Specification.PLUS);
-                    else if (chr == Specification.ASTERISK || chr == Specification.MINUS || chr == Specification.DOT || chr.IsAlphanumericAscii())
-                        builder.Append(chr);
-                    else
-                        builder.Append(Specification.PERCENT).Append(val.ToString("X2"));
-                }
-
-                return builder.ToPool();
-            }
-
             public abstract void AsMultipart(StreamWriter stream);
 
             public abstract void AsPlaintext(StreamWriter stream);
@@ -317,9 +274,9 @@
             {
                 if (_name != null && _value != null)
                 {
-                    stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", FormEncode(_name, stream.Encoding), "\""));
+                    stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", _name.HtmlEncode(stream.Encoding), "\""));
                     stream.WriteLine();
-                    stream.WriteLine(FormEncode(_value, stream.Encoding));
+                    stream.WriteLine(_value.HtmlEncode(stream.Encoding));
                 }
             }
 
@@ -337,9 +294,9 @@
             {
                 if (_name != null && _value != null)
                 {
-                    stream.Write(UrlEncode(_name, stream.Encoding));
+                    stream.Write(_name.UrlEncode(stream.Encoding));
                     stream.Write('=');
-                    stream.Write(UrlEncode(_value, stream.Encoding));
+                    stream.Write(_value.UrlEncode(stream.Encoding));
                 }
             }
         }
@@ -393,7 +350,7 @@
             {
                 if (_name != null && _value != null && _value.Body != null && _value.Type != null && _value.FileName != null)
                 {
-                    stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", FormEncode(_name, stream.Encoding), _value.FileName);
+                    stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", _name.HtmlEncode(stream.Encoding), _value.FileName.HtmlEncode(stream.Encoding));
                     stream.WriteLine("content-type: " + _value.Type);
                     stream.WriteLine("content-transfer-encoding: binary");
                     stream.WriteLine();
@@ -417,9 +374,9 @@
             {
                 if (_name != null && _value != null && _value.FileName != null)
                 {
-                    stream.Write(_name);
+                    stream.Write(_name.UrlEncode(stream.Encoding));
                     stream.Write('=');
-                    stream.Write(UrlEncode(_value.FileName, stream.Encoding));
+                    stream.Write(_value.FileName.UrlEncode(stream.Encoding));
                 }
             }
         }
