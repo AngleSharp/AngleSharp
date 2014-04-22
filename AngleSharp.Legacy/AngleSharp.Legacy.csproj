@@ -295,6 +295,48 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderTopRightRadiusProperty.cs">
       <Link>DOM\Css\Properties\BorderRadius\CSSBorderTopRightRadiusProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomColorProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderBottomColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomStyleProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderBottomStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderCollapseProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderCollapseProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderColorProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderLeftColorProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderLeftColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderLeftStyleProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderLeftStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartColorProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderPartColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartStyleProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderPartStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRightColorProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderRightColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRightStyleProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderRightStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderSpacingProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderSpacingProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderStyleProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopColorProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderTopColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopStyleProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderTopStyleProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs">
       <Link>DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs</Link>
     </Compile>
@@ -423,9 +465,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSWidthProperty.cs">
       <Link>DOM\Css\Properties\Coordinate\CSSWidthProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSBorderCollapseProperty.cs">
-      <Link>DOM\Css\Properties\CSSBorderCollapseProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSCaptionSideProperty.cs">
       <Link>DOM\Css\Properties\CSSCaptionSideProperty.cs</Link>
@@ -1438,9 +1477,7 @@
     <Compile Include="LegacyExtensions.cs" />
     <Compile Include="Network\DefaultRequester.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DOM\Css\Properties\Border\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
