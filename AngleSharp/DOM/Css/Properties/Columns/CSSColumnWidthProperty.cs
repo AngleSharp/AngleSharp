@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-width
     /// </summary>
-    sealed class CSSColumnWidthProperty : CSSProperty
+    public sealed class CSSColumnWidthProperty : CSSProperty
     {
         #region Fields
 
@@ -19,11 +19,31 @@
 
         #region ctor
 
-        public CSSColumnWidthProperty()
+        internal CSSColumnWidthProperty()
             : base(PropertyNames.ColumnWidth)
         {
             _width = null;
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets if the column width should be considered.
+        /// </summary>
+        public Boolean IsUsed
+        {
+            get { return _width.HasValue; }
+        }
+
+        /// <summary>
+        /// Gets the width of a single columns.
+        /// </summary>
+        public Length Count
+        {
+            get { return _width.HasValue ? _width.Value : Length.Zero; }
         }
 
         #endregion

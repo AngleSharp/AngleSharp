@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-fill
     /// </summary>
-    sealed class CSSColumnFillProperty : CSSProperty
+    public sealed class CSSColumnFillProperty : CSSProperty
     {
         #region Fields
 
@@ -16,7 +16,7 @@
 
         #region ctor
 
-        public CSSColumnFillProperty()
+        internal CSSColumnFillProperty()
             : base(PropertyNames.ColumnFill)
         {
             _balanced = true;

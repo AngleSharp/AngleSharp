@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-count
     /// </summary>
-    sealed class CSSColumnCountProperty : CSSProperty
+    public sealed class CSSColumnCountProperty : CSSProperty
     {
         #region Fields
 
@@ -19,11 +19,31 @@
 
         #region ctor
 
-        public CSSColumnCountProperty()
+        internal CSSColumnCountProperty()
             : base(PropertyNames.ColumnCount)
         {
             _count = null;
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets if the column count should be considered.
+        /// </summary>
+        public Boolean IsUsed
+        {
+            get { return _count.HasValue; }
+        }
+
+        /// <summary>
+        /// Gets the number of columns.
+        /// </summary>
+        public Int32 Count
+        {
+            get { return _count.HasValue ? _count.Value : 0; }
         }
 
         #endregion

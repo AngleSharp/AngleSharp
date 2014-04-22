@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-gap
     /// </summary>
-    sealed class CSSColumnGapProperty : CSSProperty
+    public sealed class CSSColumnGapProperty : CSSProperty
     {
         #region Fields
 
@@ -22,11 +22,23 @@
 
         #region ctor
 
-        public CSSColumnGapProperty()
+        internal CSSColumnGapProperty()
             : base(PropertyNames.ColumnGap)
         {
             _gap = _normal;
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected width of gaps between columns.
+        /// </summary>
+        public Length Gap
+        {
+            get { return _gap; }
         }
 
         #endregion

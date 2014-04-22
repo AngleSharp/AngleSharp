@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/columns
     /// </summary>
-    sealed class CSSColumnsProperty : CSSProperty
+    public sealed class CSSColumnsProperty : CSSProperty
     {
         #region Fields
 
@@ -18,12 +18,32 @@
 
         #region ctor
 
-        public CSSColumnsProperty()
+        internal CSSColumnsProperty()
             : base(PropertyNames.Columns)
         {
             _inherited = false;
             _count = new CSSColumnCountProperty();
             _width = new CSSColumnWidthProperty();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the width for the columns, if set.
+        /// </summary>
+        public CSSColumnWidthProperty Width
+        {
+            get { return _width; }
+        }
+
+        /// <summary>
+        /// Gets the count for the columns, if set.
+        /// </summary>
+        public CSSColumnCountProperty Count
+        {
+            get { return _count; }
         }
 
         #endregion

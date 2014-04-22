@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, OutlineStyle> _styles = new Dictionary<String, OutlineStyle>(StringComparer.OrdinalIgnoreCase);
-        OutlineStyle _style;
+        static readonly Dictionary<String, LineStyle> _styles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
+        LineStyle _style;
 
         #endregion
 
@@ -20,22 +20,22 @@
 
         static CSSOutlineStyleProperty()
         {
-            _styles.Add("none", OutlineStyle.None);
-            _styles.Add("solid", OutlineStyle.Solid);
-            _styles.Add("double", OutlineStyle.Double);
-            _styles.Add("dotted", OutlineStyle.Dotted);
-            _styles.Add("dashed", OutlineStyle.Dashed);
-            _styles.Add("inset", OutlineStyle.Inset);
-            _styles.Add("outset", OutlineStyle.Outset);
-            _styles.Add("ridge", OutlineStyle.Ridge);
-            _styles.Add("groove", OutlineStyle.Groove);
+            _styles.Add("none", LineStyle.None);
+            _styles.Add("solid", LineStyle.Solid);
+            _styles.Add("double", LineStyle.Double);
+            _styles.Add("dotted", LineStyle.Dotted);
+            _styles.Add("dashed", LineStyle.Dashed);
+            _styles.Add("inset", LineStyle.Inset);
+            _styles.Add("outset", LineStyle.Outset);
+            _styles.Add("ridge", LineStyle.Ridge);
+            _styles.Add("groove", LineStyle.Groove);
         }
 
         internal CSSOutlineStyleProperty()
             : base(PropertyNames.OutlineStyle)
         {
             _inherited = false;
-            _style = OutlineStyle.None;
+            _style = LineStyle.None;
         }
 
         #endregion
@@ -45,7 +45,7 @@
         /// <summary>
         /// Gets the selected outline style.
         /// </summary>
-        public OutlineStyle Style
+        public LineStyle Style
         {
             get { return _style; }
         }
@@ -56,7 +56,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            OutlineStyle style;
+            LineStyle style;
 
             if (value is CSSIdentifierValue && _styles.TryGetValue(((CSSIdentifierValue)value).Value, out style))
                 _style = style;

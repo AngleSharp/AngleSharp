@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-color
     /// </summary>
-    sealed class CSSColumnRuleColorProperty : CSSProperty
+    public sealed class CSSColumnRuleColorProperty : CSSProperty
     {
         #region Fields
 
@@ -19,11 +19,23 @@
 
         #region ctor
 
-        public CSSColumnRuleColorProperty()
+        internal CSSColumnRuleColorProperty()
             : base(PropertyNames.ColumnRuleColor)
         {
             _color = Color.Transparent;
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the color for the vertical column rule.
+        /// </summary>
+        public Color Color
+        {
+            get { return _color; }
         }
 
         #endregion

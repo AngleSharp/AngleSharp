@@ -1,14 +1,18 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     /// <summary>
-    /// An enumeration with all possible outlien styles.
+    /// An enumeration with all possible line styles.
     /// </summary>
-    public enum OutlineStyle : ushort
+    public enum LineStyle : ushort
     {
         /// <summary>
         /// No outline (outline-width is 0).
         /// </summary>
         None,
+        /// <summary>
+        /// Same as 'none', except in terms of border conflict resolution for table elements.
+        /// </summary>
+        Hidden,
         /// <summary>
         /// The outline is a series of dots.
         /// </summary>

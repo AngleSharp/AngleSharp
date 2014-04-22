@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule
     /// </summary>
-    sealed class CSSColumnRuleProperty : CSSProperty
+    public sealed class CSSColumnRuleProperty : CSSProperty
     {
         #region Fields
 
@@ -19,13 +19,41 @@
 
         #region ctor
 
-        public CSSColumnRuleProperty()
+        internal CSSColumnRuleProperty()
             : base(PropertyNames.ColumnRule)
         {
             _inherited = false;
             _style = new CSSColumnRuleStyleProperty();
             _width = new CSSColumnRuleWidthProperty();
             _color = new CSSColumnRuleColorProperty();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the value of the column-rule color.
+        /// </summary>
+        public CSSColumnRuleColorProperty Color
+        {
+            get { return _color; }
+        }
+
+        /// <summary>
+        /// Gets the value of the column-rule style.
+        /// </summary>
+        public CSSColumnRuleStyleProperty Style
+        {
+            get { return _style; }
+        }
+
+        /// <summary>
+        /// Gets the value of the column-rule width.
+        /// </summary>
+        public CSSColumnRuleWidthProperty Width
+        {
+            get { return _width; }
         }
 
         #endregion

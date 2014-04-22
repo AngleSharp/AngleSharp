@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-span
     /// </summary>
-    sealed class CSSColumnSpanProperty : CSSProperty
+    public sealed class CSSColumnSpanProperty : CSSProperty
     {
         #region Fields
 
@@ -21,7 +21,7 @@
 
         #region ctor
 
-        public CSSColumnSpanProperty()
+        internal CSSColumnSpanProperty()
             : base(PropertyNames.ColumnSpan)
         {
             _span = false;

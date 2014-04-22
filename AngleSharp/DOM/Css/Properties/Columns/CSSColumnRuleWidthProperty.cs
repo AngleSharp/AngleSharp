@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-width
     /// </summary>
-    sealed class CSSColumnRuleWidthProperty : CSSProperty
+    public sealed class CSSColumnRuleWidthProperty : CSSProperty
     {
         #region Fields
 
@@ -19,11 +19,23 @@
 
         #region ctor
 
-        public CSSColumnRuleWidthProperty()
+        internal CSSColumnRuleWidthProperty()
             : base(PropertyNames.ColumnRuleWidth)
         {
             _width = new Length(1f, Length.Unit.Px);
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the width of the column-rule.
+        /// </summary>
+        public Length Width
+        {
+            get { return _width; }
         }
 
         #endregion
