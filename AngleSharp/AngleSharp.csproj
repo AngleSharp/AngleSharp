@@ -44,6 +44,7 @@
     <Compile Include="DOM\Css\Constants\OutlineStyle.cs" />
     <Compile Include="DOM\Css\Constants\TextDecorationStyle.cs" />
     <Compile Include="DOM\Css\Constants\TextTransform.cs" />
+    <Compile Include="DOM\Css\Constants\UnicodeMode.cs" />
     <Compile Include="DOM\Css\Constants\Whitespace.cs" />
     <Compile Include="DOM\Css\CSSFactory.cs" />
     <Compile Include="DOM\Css\Properties\Background\CSSBackgroundAttachmentProperty.cs" />
