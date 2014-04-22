@@ -6,7 +6,7 @@
     /// <summary>
     /// Basis for page-break-before or page-break-after property.
     /// </summary>
-    abstract class CSSPageBreakProperty : CSSProperty
+    public abstract class CSSPageBreakProperty : CSSProperty
     {
         #region Fields
 
@@ -19,18 +19,30 @@
 
         static CSSPageBreakProperty()
         {
-            modes.Add("auto", new AutoBreakMode());
-            modes.Add("always", new AlwaysBreakMode());
-            modes.Add("avoid", new AvoidBreakMode());
-            modes.Add("left", new LeftBreakMode());
-            modes.Add("right", new RightBreakMode());
+            modes.Add("auto", BreakMode.Auto);
+            modes.Add("always", BreakMode.Always);
+            modes.Add("avoid", BreakMode.Avoid);
+            modes.Add("left", BreakMode.Left);
+            modes.Add("right", BreakMode.Right);
         }
 
-        public CSSPageBreakProperty(String name)
+        internal CSSPageBreakProperty(String name)
             : base(name)
         {
-            _mode = modes["auto"];
+            _mode = BreakMode.Auto;
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected break mode.
+        /// </summary>
+        public BreakMode Mode
+        {
+            get { return _mode; }
         }
 
         #endregion
@@ -56,53 +68,6 @@
             return false;
         }
 
-        #endregion
-
-        #region Modes
-
-        abstract class BreakMode
-        {
-            //TODO Add members that make sense
-        }
-        
-        /// <summary>
-        /// Initial value. Automatic page breaks (neither forced
-        /// nor forbidden).
-        /// </summary>
-        sealed class AutoBreakMode : BreakMode
-        {
-        }
-
-        /// <summary>
-        /// Always force page breaks before the element.
-        /// </summary>
-        sealed class AlwaysBreakMode : BreakMode
-        {
-        }
-
-        /// <summary>
-        /// Avoid page breaks before the element.
-        /// </summary>
-        sealed class AvoidBreakMode : BreakMode
-        {
-        }
-
-        /// <summary>
-        /// Force page breaks before the element so that the next
-        /// page is formatted as a left page.
-        /// </summary>
-        sealed class LeftBreakMode : BreakMode
-        {
-        }
-
-        /// <summary>
-        /// Force page breaks before the element so that the next
-        /// page is formatted as a right page.
-        /// </summary>
-        sealed class RightBreakMode : BreakMode
-        {
-        }
-        
         #endregion
     }
 }

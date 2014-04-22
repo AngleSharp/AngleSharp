@@ -35,10 +35,12 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <Folder Include="DOM\Css\Properties\Border\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="DOM\Constants\Visibility.cs" />
+    <Compile Include="DOM\Css\Constants\BreakMode.cs" />
     <Compile Include="DOM\Css\Constants\FontStretch.cs" />
     <Compile Include="DOM\Css\Constants\FontStyle.cs" />
     <Compile Include="DOM\Css\Constants\FontVariant.cs" />
@@ -60,12 +62,12 @@
     <Compile Include="DOM\Css\Properties\Background\CSSBackgroundProperty.cs" />
     <Compile Include="DOM\Css\Properties\Background\CSSBackgroundRepeatProperty.cs" />
     <Compile Include="DOM\Css\Properties\Background\CSSBackgroundSizeProperty.cs" />
-    <Compile Include="DOM\Css\Properties\Border\CSSBorderBottomLeftRadiusProperty.cs" />
-    <Compile Include="DOM\Css\Properties\Border\CSSBorderTopRightRadiusProperty.cs" />
-    <Compile Include="DOM\Css\Properties\Border\CSSBorderRadiusPartProperty.cs" />
-    <Compile Include="DOM\Css\Properties\Border\CSSBorderRadiusProperty.cs" />
-    <Compile Include="DOM\Css\Properties\Border\CSSBorderBottomRightRadiusProperty.cs" />
-    <Compile Include="DOM\Css\Properties\Border\CSSBorderTopLeftRadiusProperty.cs" />
+    <Compile Include="DOM\Css\Properties\BorderRadius\CSSBorderBottomLeftRadiusProperty.cs" />
+    <Compile Include="DOM\Css\Properties\BorderRadius\CSSBorderTopRightRadiusProperty.cs" />
+    <Compile Include="DOM\Css\Properties\BorderRadius\CSSBorderRadiusPartProperty.cs" />
+    <Compile Include="DOM\Css\Properties\BorderRadius\CSSBorderRadiusProperty.cs" />
+    <Compile Include="DOM\Css\Properties\BorderRadius\CSSBorderBottomRightRadiusProperty.cs" />
+    <Compile Include="DOM\Css\Properties\BorderRadius\CSSBorderTopLeftRadiusProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSMarginBottomProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSMarginLeftProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSMarginPartProperty.cs" />

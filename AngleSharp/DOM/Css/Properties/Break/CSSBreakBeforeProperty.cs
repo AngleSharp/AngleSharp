@@ -7,11 +7,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/break-before
     /// </summary>
-    sealed class CSSBreakBeforeProperty : CSSBreakProperty
+    public sealed class CSSBreakBeforeProperty : CSSBreakProperty
     {
         #region ctor
 
-        public CSSBreakBeforeProperty()
+        internal CSSBreakBeforeProperty()
             : base(PropertyNames.BreakBefore)
         {
         }

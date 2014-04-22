@@ -7,28 +7,33 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/page-break-inside
     /// </summary>
-    sealed class CSSPageBreakInsideProperty : CSSProperty
+    public sealed class CSSPageBreakInsideProperty : CSSProperty
     {
         #region Fields
 
-        static readonly Dictionary<String, BreakInsideMode> modes = new Dictionary<String, BreakInsideMode>(StringComparer.OrdinalIgnoreCase);
-        BreakInsideMode _mode;
+        BreakMode _mode;
 
         #endregion
 
         #region ctor
 
-        static CSSPageBreakInsideProperty()
-        {
-            modes.Add("auto", new AutoBreakInsideMode());
-            modes.Add("avoid", new AvoidBreakInsideMode());
-        }
-
-        public CSSPageBreakInsideProperty()
+        internal CSSPageBreakInsideProperty()
             : base(PropertyNames.PageBreakInside)
         {
-            _mode = modes["auto"];
+            _mode = BreakMode.Auto;
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected break mode.
+        /// </summary>
+        public BreakMode Mode
+        {
+            get { return _mode; }
         }
 
         #endregion
@@ -37,47 +42,16 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue)
-            {
-                var ident = (CSSIdentifierValue)value;
-                BreakInsideMode mode;
+            if (value.Is("auto"))
+                _mode = BreakMode.Auto;
+            else if (value.Is("avoid"))
+                _mode = BreakMode.Avoid;
+            else if (value != CSSValue.Inherit)
+                return false;
 
-                if (modes.TryGetValue(ident.Value, out mode))
-                {
-                    _mode = mode;
-                    return true;
-                }
-            }
-            else if (value == CSSValue.Inherit)
-                return true;
-
-            return false;
+            return true;
         }
 
-        #endregion
-
-        #region Modes
-
-        abstract class BreakInsideMode
-        {
-            //TODO Add members that make sense
-        }
-        
-        /// <summary>
-        /// Initial value. Automatic page breaks
-        /// (neither forced nor forbidden).
-        /// </summary>
-        sealed class AutoBreakInsideMode : BreakInsideMode
-        {
-        }
-
-        /// <summary>
-        /// Avoid page breaks inside the element.
-        /// </summary>
-        sealed class AvoidBreakInsideMode : BreakInsideMode
-        {
-        }
-        
         #endregion
     }
 }

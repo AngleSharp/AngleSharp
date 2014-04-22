@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
     /// </summary>
-    sealed class CSSBorderRadiusProperty : CSSProperty
+    public sealed class CSSBorderRadiusProperty : CSSProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        public CSSBorderRadiusProperty()
+        internal CSSBorderRadiusProperty()
             : base(PropertyNames.BorderRadius)
         {
             _inherited = false;
@@ -27,6 +27,42 @@
             _bottomRight = new CSSBorderBottomRightRadiusProperty();
             _bottomLeft = new CSSBorderBottomLeftRadiusProperty();
             _topLeft = new CSSBorderTopLeftRadiusProperty();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the value of the bottom-left radius.
+        /// </summary>
+        public CSSBorderBottomLeftRadiusProperty BottomLeft
+        {
+            get { return _bottomLeft; }
+        }
+
+        /// <summary>
+        /// Gets the value of the bottom-right radius.
+        /// </summary>
+        public CSSBorderBottomRightRadiusProperty BottomRight
+        {
+            get { return _bottomRight; }
+        }
+
+        /// <summary>
+        /// Gets the value of the top-left radius.
+        /// </summary>
+        public CSSBorderTopLeftRadiusProperty TopLeft
+        {
+            get { return _topLeft; }
+        }
+
+        /// <summary>
+        /// Gets the value of the top-right radius.
+        /// </summary>
+        public CSSBorderTopRightRadiusProperty TopRight
+        {
+            get { return _topRight; }
         }
 
         #endregion

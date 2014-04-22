@@ -7,11 +7,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/break-after
     /// </summary>
-    sealed class CSSBreakAfterProperty : CSSBreakProperty
+    public sealed class CSSBreakAfterProperty : CSSBreakProperty
     {
         #region ctor
 
-        public CSSBreakAfterProperty()
+        internal CSSBreakAfterProperty()
             : base(PropertyNames.BreakAfter)
         {
         }

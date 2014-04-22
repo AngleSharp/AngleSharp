@@ -5,7 +5,7 @@
     /// <summary>
     /// Basis for all elementary border-radius properties.
     /// </summary>
-    class CSSBorderRadiusPartProperty : CSSProperty
+    public class CSSBorderRadiusPartProperty : CSSProperty
     {
         #region Fields
 
@@ -22,6 +22,26 @@
             _inherited = false;
             _h = CSSCalcValue.Zero;
             _v = CSSCalcValue.Zero;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the horizontal radius of the ellipse.
+        /// </summary>
+        public CSSCalcValue HorizontalRadius
+        {
+            get { return _h; }
+        }
+
+        /// <summary>
+        /// Gets the vertical radius of the ellipse.
+        /// </summary>
+        public CSSCalcValue VerticalRadius
+        {
+            get { return _v; }
         }
 
         #endregion

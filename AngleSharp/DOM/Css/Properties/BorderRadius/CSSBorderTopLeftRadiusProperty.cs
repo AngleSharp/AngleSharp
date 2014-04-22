@@ -4,11 +4,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-left-radius
     /// </summary>
-    sealed class CSSBorderTopLeftRadiusProperty : CSSBorderRadiusPartProperty
+    public sealed class CSSBorderTopLeftRadiusProperty : CSSBorderRadiusPartProperty
     {
         #region ctor
 
-        public CSSBorderTopLeftRadiusProperty()
+        internal CSSBorderTopLeftRadiusProperty()
             : base(PropertyNames.BorderTopLeftRadius)
         {
         }

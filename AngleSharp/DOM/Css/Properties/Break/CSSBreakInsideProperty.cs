@@ -9,12 +9,12 @@
     /// or even better
     /// http://dev.w3.org/csswg/css-break/#break-inside
     /// </summary>
-    sealed class CSSBreakInsideProperty : CSSProperty
+    public sealed class CSSBreakInsideProperty : CSSProperty
     {
         #region Fields
 
-        static readonly Dictionary<String, BreakInsideMode> modes = new Dictionary<String, BreakInsideMode>(StringComparer.OrdinalIgnoreCase);
-        BreakInsideMode _mode;
+        static readonly Dictionary<String, BreakMode> modes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
+        BreakMode _mode;
 
         #endregion
 
@@ -22,18 +22,30 @@
 
         static CSSBreakInsideProperty()
         {
-            modes.Add("auto", new AutoBreakInsideMode());
-            modes.Add("avoid", new AvoidBreakInsideMode());
-            modes.Add("avoid-page", new AvoidPageBreakInsideMode());
-            modes.Add("avoid-column", new AvoidColumnBreakInsideMode());
-            modes.Add("avoid-region", new AvoidRegionBreakInsideMode());
+            modes.Add("auto", BreakMode.Auto);
+            modes.Add("avoid", BreakMode.Avoid);
+            modes.Add("avoid-page", BreakMode.AvoidPage);
+            modes.Add("avoid-column", BreakMode.AvoidColumn);
+            modes.Add("avoid-region", BreakMode.AvoidRegion);
         }
 
-        public CSSBreakInsideProperty()
+        internal CSSBreakInsideProperty()
             : base(PropertyNames.BreakInside)
         {
-            _mode = modes["auto"];
+            _mode = BreakMode.Auto;
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected break mode.
+        /// </summary>
+        public BreakMode Mode
+        {
+            get { return _mode; }
         }
 
         #endregion
@@ -42,52 +54,16 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue)
-            {
-                var ident = (CSSIdentifierValue)value;
-                BreakInsideMode mode;
+            BreakMode mode;
 
-                if (modes.TryGetValue(ident.Value, out mode))
-                {
-                    _mode = mode;
-                    return true;
-                }
-            }
-            else if (value == CSSValue.Inherit)
-                return true;
+            if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+                _mode = mode;
+            else if (value != CSSValue.Inherit)
+                return false;
 
-            return false;
+            return true;
         }
 
-        #endregion
-
-        #region Modes
-
-        abstract class BreakInsideMode
-        {
-            //TODO Add members that make sense
-        }
-        
-        class AutoBreakInsideMode : BreakInsideMode
-        {
-        }
-
-        class AvoidBreakInsideMode : BreakInsideMode
-        {
-        }
-
-        class AvoidPageBreakInsideMode : BreakInsideMode
-        {
-        }
-
-        class AvoidColumnBreakInsideMode : BreakInsideMode
-        {
-        }
-
-        class AvoidRegionBreakInsideMode : BreakInsideMode
-        {
-        }
-        
         #endregion
     }
 }

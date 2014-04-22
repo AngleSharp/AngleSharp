@@ -4,11 +4,11 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/page-break-after
     /// </summary>
-    sealed class CSSPageBreakAfterProperty : CSSPageBreakProperty
+    public sealed class CSSPageBreakAfterProperty : CSSPageBreakProperty
     {
         #region ctor
 
-        public CSSPageBreakAfterProperty()
+        internal CSSPageBreakAfterProperty()
             : base(PropertyNames.PageBreakAfter)
         {
             _inherited = false;
