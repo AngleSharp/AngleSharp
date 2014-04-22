@@ -17,7 +17,7 @@
 
         #region ctor
 
-        public CSSLineHeightProperty()
+        internal CSSLineHeightProperty()
             : base(PropertyNames.LineHeight)
         {
             _inherited = true;

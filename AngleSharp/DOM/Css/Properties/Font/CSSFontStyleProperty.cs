@@ -7,7 +7,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-style
     /// </summary>
-    sealed class CSSFontStyleProperty : CSSProperty
+    public sealed class CSSFontStyleProperty : CSSProperty
     {
         #region Fields
 
@@ -25,11 +25,23 @@
             _styles.Add("oblique", FontStyle.Oblique);
         }
 
-        public CSSFontStyleProperty()
+        internal CSSFontStyleProperty()
             : base(PropertyNames.FontStyle)
         {
             _inherited = true;
             _style = FontStyle.Normal;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected font style.
+        /// </summary>
+        public FontStyle Style
+        {
+            get { return _style; }
         }
 
         #endregion
@@ -46,26 +58,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Style Enumeration
-
-        enum FontStyle
-        {
-            /// <summary>
-            /// Selects a font that is classified as normal within a font-family.
-            /// </summary>
-            Normal,
-            /// <summary>
-            /// Selects a font that is labeled italic, if that is not available, one labeled oblique.
-            /// </summary>
-            Italic,
-            /// <summary>
-            /// Selects a font that is labeled oblique.
-            /// </summary>
-            Oblique
         }
 
         #endregion

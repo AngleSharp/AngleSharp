@@ -6,7 +6,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/word-spacing
     /// </summary>
-    sealed class CSSWordSpacingProperty : CSSProperty
+    public sealed class CSSWordSpacingProperty : CSSProperty
     {
         #region Fields
 
@@ -17,7 +17,7 @@
 
         #region ctor
 
-        public CSSWordSpacingProperty()
+        internal CSSWordSpacingProperty()
             : base(PropertyNames.WordSpacing)
         {
             _inherited = true;

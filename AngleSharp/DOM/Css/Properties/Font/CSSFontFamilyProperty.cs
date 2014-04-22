@@ -30,7 +30,7 @@
             _families.AddMultiple<AlternativeFontFamily>();
         }
 
-        public CSSFontFamilyProperty()
+        internal CSSFontFamilyProperty()
             : base(PropertyNames.FontFamily)
         {
             _family = _families.GetStatic("serif");

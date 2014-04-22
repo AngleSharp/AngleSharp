@@ -1,30 +1,22 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant
     /// </summary>
-    sealed class CSSFontVariantProperty : CSSProperty
+    public sealed class CSSFontVariantProperty : CSSProperty
     {
         #region Fields
 
-        static readonly Dictionary<String, FontVariant> _styles = new Dictionary<String, FontVariant>(StringComparer.OrdinalIgnoreCase);
         FontVariant _style;
 
         #endregion
 
         #region ctor
 
-        static CSSFontVariantProperty()
-        {
-            _styles.Add("normal", FontVariant.Normal);
-            _styles.Add("small-caps", FontVariant.SmallCaps);
-        }
-
-        public CSSFontVariantProperty()
+        internal CSSFontVariantProperty()
             : base(PropertyNames.FontVariant)
         {
             _inherited = true;
@@ -33,34 +25,30 @@
 
         #endregion
 
-        #region Methods
+        #region Properties
 
-        protected override Boolean IsValid(CSSValue value)
+        /// <summary>
+        /// Gets the selected font variant transformation, if any.
+        /// </summary>
+        public FontVariant Variant
         {
-            FontVariant style;
-                
-            if (value is CSSIdentifierValue && _styles.TryGetValue(((CSSIdentifierValue)value).Value, out style))
-                _style = style;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+            get { return _style; }
         }
 
         #endregion
 
-        #region Variant Enumeration
+        #region Methods
 
-        enum FontVariant
+        protected override Boolean IsValid(CSSValue value)
         {
-            /// <summary>
-            /// Specifies a normal font face.
-            /// </summary>
-            Normal,
-            /// <summary>
-            /// Specifies a font that is labeled as a small-caps font. 
-            /// </summary>
-            SmallCaps
+            if (value.Is("normal"))
+                _style = FontVariant.Normal;
+            else if (value.Is("small-caps"))
+                _style = FontVariant.SmallCaps;
+            else if (value != CSSValue.Inherit)
+                return false;
+
+            return true;
         }
 
         #endregion

@@ -6,7 +6,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing
     /// </summary>
-    sealed class CSSLetterSpacingProperty : CSSProperty
+    public sealed class CSSLetterSpacingProperty : CSSProperty
     {
         #region Fields
 
@@ -17,7 +17,7 @@
 
         #region ctor
 
-        public CSSLetterSpacingProperty()
+        internal CSSLetterSpacingProperty()
             : base(PropertyNames.LetterSpacing)
         {
             _inherited = true;

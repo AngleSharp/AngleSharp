@@ -27,7 +27,7 @@
             _weights.AddConstructed<NumberWeightMode>();
         }
 
-        public CSSFontWeightProperty()
+        internal CSSFontWeightProperty()
             : base(PropertyNames.FontWeight)
         {
             _weight = _normal;

@@ -6,7 +6,7 @@
     /// More Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/color
     /// </summary>
-    sealed class CSSColorProperty : CSSProperty
+    public sealed class CSSColorProperty : CSSProperty
     {
         #region Fields
 
@@ -16,11 +16,23 @@
 
         #region ctor
 
-        public CSSColorProperty()
+        internal CSSColorProperty()
             : base(PropertyNames.Color)
         {
             _inherited = true;
             _color = Color.Black;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected color for the foreground.
+        /// </summary>
+        public Color Color
+        {
+            get { return _color; }
         }
 
         #endregion

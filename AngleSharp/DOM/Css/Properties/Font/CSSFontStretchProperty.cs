@@ -7,7 +7,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-stretch
     /// </summary>
-    sealed class CSSFontStretchProperty : CSSProperty
+    public sealed class CSSFontStretchProperty : CSSProperty
     {
         #region Fields
 
@@ -31,11 +31,23 @@
             _styles.Add("ultra-expanded", FontStretch.UltraExpanded);
         }
 
-        public CSSFontStretchProperty()
+        internal CSSFontStretchProperty()
             : base(PropertyNames.FontStretch)
         {
             _inherited = true;
             _stretch = FontStretch.Normal;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the selected font stretch setting.
+        /// </summary>
+        public FontStretch Stretch
+        {
+            get { return _stretch; }
         }
 
         #endregion
@@ -52,50 +64,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Style Enumeration
-
-        enum FontStretch
-        {
-            /// <summary>
-            /// Specifies a normal font face.
-            /// </summary>
-            Normal,
-            /// <summary>
-            /// Specifies a font face most condensed.
-            /// </summary>
-            UltraCondensed,
-            /// <summary>
-            /// Specifies a font face a lot more condensed than normal.
-            /// </summary>
-            ExtraCondensed, 
-            /// <summary>
-            /// Specifies a font face more condensed than normal.
-            /// </summary>
-            Condensed,
-            /// <summary>
-            /// Specifies a font face a little more condensed than normal.
-            /// </summary>
-            SemiCondensed,
-            /// <summary>
-            /// Specifies a font face a little more expanded than normal.
-            /// </summary>
-            SemiExpanded,
-            /// <summary>
-            /// Specifies a font face more expanded than normal.
-            /// </summary>
-            Expanded,
-            /// <summary>
-            /// Specifies a font face more expanded than normal.
-            /// </summary>
-            ExtraExpanded,
-            /// <summary>
-            /// Specifies a font face most expanded.
-            /// </summary>
-            UltraExpanded
         }
 
         #endregion

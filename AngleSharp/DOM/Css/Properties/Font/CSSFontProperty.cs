@@ -7,7 +7,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font
     /// </summary>
-    sealed class CSSFontProperty : CSSProperty
+    public sealed class CSSFontProperty : CSSProperty
     {
         #region Fields
 
@@ -34,7 +34,7 @@
             _parts.Add("status-bar", SystemSetting.StatusBar);
         }
 
-        public CSSFontProperty()
+        internal CSSFontProperty()
             : base(PropertyNames.Font)
         {
             _style = new CSSFontStyleProperty();
@@ -45,6 +45,66 @@
             _family = new CSSFontFamilyProperty();
             _height = new CSSLineHeightProperty();
             _inherited = true;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the value of the font style property.
+        /// </summary>
+        public CSSFontStyleProperty Style
+        {
+            get { return _style; }
+        }
+
+        /// <summary>
+        /// Gets the value of the font variant property.
+        /// </summary>
+        public CSSFontVariantProperty Variant
+        {
+            get { return _variant; }
+        }
+
+        /// <summary>
+        /// Gets the value of the font weight property.
+        /// </summary>
+        public CSSFontWeightProperty Weight
+        {
+            get { return _weight; }
+        }
+
+        /// <summary>
+        /// Gets the value of the font stretch property.
+        /// </summary>
+        public CSSFontStretchProperty Stretch
+        {
+            get { return _stretch; }
+        }
+
+        /// <summary>
+        /// Gets the value of the font size property.
+        /// </summary>
+        public CSSFontSizeProperty Size
+        {
+            get { return _size; }
+        }
+
+        /// <summary>
+        /// Gets the value of the line height property.
+        /// </summary>
+        public CSSLineHeightProperty Height
+        {
+            get { return _height; }
+        }
+
+        /// <summary>
+        /// Gets the value of the font family property.
+        /// </summary>
+        public CSSFontFamilyProperty Family
+        {
+            get { return _family; }
         }
 
         #endregion

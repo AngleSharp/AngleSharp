@@ -31,7 +31,7 @@
             _sizes.Add("smaller", new RelativeFontSizeMode(RelativeFontSizeMode.Size.Larger));
         }
 
-        public CSSFontSizeProperty()
+        internal CSSFontSizeProperty()
             : base(PropertyNames.FontSize)
         {
             _size = _sizes["medium"];
