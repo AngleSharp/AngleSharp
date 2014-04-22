@@ -25,6 +25,19 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the use of the separated-border table rendering model.
+        /// Otherwise the collapsed-border table rendering model is used.
+        /// </summary>
+        public Boolean IsSeparated
+        {
+            get { return _separate; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)
@@ -37,19 +50,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the use of the separated-border table rendering model.
-        /// Otherwise the collapsed-border table rendering model is used.
-        /// </summary>
-        public Boolean IsSeparated
-        {
-            get { return _separate; }
         }
 
         #endregion

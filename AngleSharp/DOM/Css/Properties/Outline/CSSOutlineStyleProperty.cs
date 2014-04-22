@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// More information available:
@@ -11,25 +10,11 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, LineStyle> _styles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
         LineStyle _style;
 
         #endregion
 
         #region ctor
-
-        static CSSOutlineStyleProperty()
-        {
-            _styles.Add("none", LineStyle.None);
-            _styles.Add("solid", LineStyle.Solid);
-            _styles.Add("double", LineStyle.Double);
-            _styles.Add("dotted", LineStyle.Dotted);
-            _styles.Add("dashed", LineStyle.Dashed);
-            _styles.Add("inset", LineStyle.Inset);
-            _styles.Add("outset", LineStyle.Outset);
-            _styles.Add("ridge", LineStyle.Ridge);
-            _styles.Add("groove", LineStyle.Groove);
-        }
 
         internal CSSOutlineStyleProperty()
             : base(PropertyNames.OutlineStyle)
@@ -56,10 +41,10 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            LineStyle style;
+            var ls = value.ToLineStyle();
 
-            if (value is CSSIdentifierValue && _styles.TryGetValue(((CSSIdentifierValue)value).Value, out style))
-                _style = style;
+            if (ls.HasValue)
+                _style = ls.Value;
             else if (value != CSSValue.Inherit)
                 return false;
 

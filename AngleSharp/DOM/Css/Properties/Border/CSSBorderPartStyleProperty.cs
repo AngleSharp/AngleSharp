@@ -3,10 +3,9 @@
     using System;
 
     /// <summary>
-    /// More information available at:
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-style
+    /// The abstract base class for all border-style sub-properties.
     /// </summary>
-    public sealed class CSSColumnRuleStyleProperty : CSSProperty
+    public abstract class CSSBorderPartStyleProperty : CSSProperty
     {
         #region Fields
 
@@ -16,8 +15,8 @@
 
         #region ctor
 
-        internal CSSColumnRuleStyleProperty()
-            : base(PropertyNames.ColumnRuleStyle)
+        protected CSSBorderPartStyleProperty(String name)
+            : base(name)
         {
             _style = LineStyle.None;
             _inherited = false;
@@ -28,7 +27,7 @@
         #region Properties
 
         /// <summary>
-        /// Gets the selected column-rule line style.
+        /// Gets the selected style for the border.
         /// </summary>
         public LineStyle Style
         {

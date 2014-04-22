@@ -29,10 +29,10 @@
             properties.Add(PropertyNames.BackgroundPosition, () => new CSSBackgroundPositionProperty());
             properties.Add(PropertyNames.BackgroundRepeat, () => new CSSBackgroundRepeatProperty());
             properties.Add(PropertyNames.Background, () => new CSSBackgroundProperty());
-            //properties.Add(PropertyNames.BORDER_COLOR, () => new CSSProperty());
-            //properties.Add(PropertyNames.BORDER_SPACING, () => new CSSProperty());
-            //properties.Add(PropertyNames.BORDER_COLLAPSE, () => new CSSProperty());
-            //properties.Add(PropertyNames.BORDER_STYLE, () => new CSSProperty());
+            properties.Add(PropertyNames.BorderColor, () => new CSSBorderColorProperty());
+            properties.Add(PropertyNames.BorderSpacing, () => new CSSBorderSpacingProperty());
+            properties.Add(PropertyNames.BorderCollapse, () => new CSSBorderCollapseProperty());
+            properties.Add(PropertyNames.BorderColor, () => new CSSBorderColorProperty());
             properties.Add(PropertyNames.BoxShadow, () => new CSSBoxShadowProperty());
             properties.Add(PropertyNames.BoxDecorationBreak, () => new CSSBoxDecorationBreak());
             properties.Add(PropertyNames.BreakAfter, () => new CSSBreakAfterProperty());
@@ -68,7 +68,6 @@
             //properties.Add(PropertyNames.BORDER_BOTTOM_WIDTH, () => new CSSProperty());
             //properties.Add(PropertyNames.BORDER_WIDTH, () => new CSSProperty());
             //properties.Add(PropertyNames.BORDER, () => new CSSProperty());
-            properties.Add(PropertyNames.BorderCollapse, () => new CSSBorderCollapseProperty());
             properties.Add(PropertyNames.Bottom, () => new CSSBottomProperty());
             properties.Add(PropertyNames.Columns, () => new CSSColumnsProperty());
             properties.Add(PropertyNames.ColumnCount, () => new CSSColumnCountProperty());

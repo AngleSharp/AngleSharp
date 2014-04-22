@@ -3,23 +3,22 @@
     using System;
 
     /// <summary>
-    /// More information available at:
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-style
+    /// The abstract base class for all border-color sub-properties.
     /// </summary>
-    public sealed class CSSColumnRuleStyleProperty : CSSProperty
+    public abstract class CSSBorderPartColorProperty : CSSProperty
     {
         #region Fields
 
-        LineStyle _style;
+        Color _color;
 
         #endregion
 
         #region ctor
 
-        internal CSSColumnRuleStyleProperty()
-            : base(PropertyNames.ColumnRuleStyle)
+        protected CSSBorderPartColorProperty(String name)
+            : base(name)
         {
-            _style = LineStyle.None;
+            _color = Color.Transparent;
             _inherited = false;
         }
 
@@ -28,11 +27,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets the selected column-rule line style.
+        /// Gets the selected color for the border.
         /// </summary>
-        public LineStyle Style
+        public Color Color
         {
-            get { return _style; }
+            get { return _color; }
         }
 
         #endregion
@@ -41,10 +40,10 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var style = value.ToLineStyle();
+            var color = value.ToColor();
 
-            if (style.HasValue)
-                _style = style.Value;
+            if (color.HasValue)
+                _color = color.Value;
             else if (value != CSSValue.Inherit)
                 return false;
 

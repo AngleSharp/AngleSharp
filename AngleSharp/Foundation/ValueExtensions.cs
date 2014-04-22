@@ -8,6 +8,32 @@
     /// </summary>
     static class ValueExtensions
     {
+        static readonly Dictionary<String, LineStyle> lineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
+
+        static ValueExtensions()
+        {
+            lineStyles.Add("none", LineStyle.None);
+            lineStyles.Add("solid", LineStyle.Solid);
+            lineStyles.Add("double", LineStyle.Double);
+            lineStyles.Add("dotted", LineStyle.Dotted);
+            lineStyles.Add("dashed", LineStyle.Dashed);
+            lineStyles.Add("inset", LineStyle.Inset);
+            lineStyles.Add("outset", LineStyle.Outset);
+            lineStyles.Add("ridge", LineStyle.Ridge);
+            lineStyles.Add("groove", LineStyle.Groove);
+            lineStyles.Add("hidden", LineStyle.Hidden);
+        }
+
+        public static LineStyle? ToLineStyle(this CSSValue value)
+        {
+            LineStyle style;
+
+            if (value is CSSIdentifierValue && lineStyles.TryGetValue(((CSSIdentifierValue)value).Value, out style))
+                return style;
+
+            return null;
+        }
+
         public static Boolean Is(this CSSValue value, String identifier)
         {
             return value is CSSIdentifierValue && ((CSSIdentifierValue)value).Value.Equals(identifier, StringComparison.OrdinalIgnoreCase);
