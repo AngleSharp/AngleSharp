@@ -205,14 +205,14 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\FontVariant.cs">
       <Link>DOM\Css\Constants\FontVariant.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\LineStyle.cs">
+      <Link>DOM\Css\Constants\LineStyle.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\ListPosition.cs">
       <Link>DOM\Css\Constants\ListPosition.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\ListStyle.cs">
       <Link>DOM\Css\Constants\ListStyle.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\OutlineStyle.cs">
-      <Link>DOM\Css\Constants\OutlineStyle.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\TextDecorationLine.cs">
       <Link>DOM\Css\Constants\TextDecorationLine.cs</Link>
