@@ -196,6 +196,9 @@
     <Compile Include="..\AngleSharp\DOM\Constants\Visibility.cs">
       <Link>DOM\Constants\Visibility.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\BreakMode.cs">
+      <Link>DOM\Css\Constants\BreakMode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\FontStretch.cs">
       <Link>DOM\Css\Constants\FontStretch.cs</Link>
     </Compile>
@@ -274,23 +277,23 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundSizeProperty.cs">
       <Link>DOM\Css\Properties\Background\CSSBackgroundSizeProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomLeftRadiusProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderBottomLeftRadiusProperty.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderBottomLeftRadiusProperty.cs">
+      <Link>DOM\Css\Properties\BorderRadius\CSSBorderBottomLeftRadiusProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomRightRadiusProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderBottomRightRadiusProperty.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderBottomRightRadiusProperty.cs">
+      <Link>DOM\Css\Properties\BorderRadius\CSSBorderBottomRightRadiusProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRadiusPartProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderRadiusPartProperty.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderRadiusPartProperty.cs">
+      <Link>DOM\Css\Properties\BorderRadius\CSSBorderRadiusPartProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRadiusProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderRadiusProperty.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderRadiusProperty.cs">
+      <Link>DOM\Css\Properties\BorderRadius\CSSBorderRadiusProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopLeftRadiusProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderTopLeftRadiusProperty.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderTopLeftRadiusProperty.cs">
+      <Link>DOM\Css\Properties\BorderRadius\CSSBorderTopLeftRadiusProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopRightRadiusProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderTopRightRadiusProperty.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderTopRightRadiusProperty.cs">
+      <Link>DOM\Css\Properties\BorderRadius\CSSBorderTopRightRadiusProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs">
       <Link>DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs</Link>
@@ -1434,6 +1437,9 @@
     </Compile>
     <Compile Include="LegacyExtensions.cs" />
     <Compile Include="Network\DefaultRequester.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DOM\Css\Properties\Border\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
