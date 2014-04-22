@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        static readonly ValueConverter<BaseFontFamily> _families = new ValueConverter<BaseFontFamily>();
-        BaseFontFamily _family;
+        static readonly Dictionary<String, SystemFontFamily> defaultfamilies = new Dictionary<String, SystemFontFamily>(StringComparer.OrdinalIgnoreCase);
+        List<BaseFontFamily> _families;
 
         #endregion
 
@@ -20,31 +20,45 @@
 
         static CSSFontFamilyProperty()
         {
-            _families.AddStatic("serif", new SystemFontFamily(SystemFonts.Serif));
-            _families.AddStatic("sans-serif", new SystemFontFamily(SystemFonts.SansSerif));
-            _families.AddStatic("monospace", new SystemFontFamily(SystemFonts.Monospace));
-            _families.AddStatic("cursive", new SystemFontFamily(SystemFonts.Cursive));
-            _families.AddStatic("fantasy", new SystemFontFamily(SystemFonts.Fantasy));
-            _families.AddConstructed<ResolveFontFamily>();
-            _families.AddDelegate(FromIdentifiers);
-            _families.AddMultiple<AlternativeFontFamily>();
+            defaultfamilies.Add("serif", new SystemFontFamily(SystemFonts.Serif));
+            defaultfamilies.Add("sans-serif", new SystemFontFamily(SystemFonts.SansSerif));
+            defaultfamilies.Add("monospace", new SystemFontFamily(SystemFonts.Monospace));
+            defaultfamilies.Add("cursive", new SystemFontFamily(SystemFonts.Cursive));
+            defaultfamilies.Add("fantasy", new SystemFontFamily(SystemFonts.Fantasy));
         }
 
         internal CSSFontFamilyProperty()
             : base(PropertyNames.FontFamily)
         {
-            _family = _families.GetStatic("serif");
+            _families = new List<BaseFontFamily>();
+            _families.Add(defaultfamilies["serif"]);
             _inherited = true;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets an enumeration over all font names.
+        /// </summary>
+        public IEnumerable<String> Families
+        {
+            get 
+            {
+                foreach (var family in _families)
+                    yield return family.FontName;
+            }
         }
 
         #endregion
 
         #region Methods
 
-        static ResolveFontFamily FromIdentifiers(CSSValue value)
+        static CustomFontFamily FromIdentifiers(CSSValue value)
         {
             if (value is CSSIdentifierValue)
-                return new ResolveFontFamily(((CSSIdentifierValue)value).Value);
+                return new CustomFontFamily(((CSSIdentifierValue)value).Value);
             else if (value is CSSValueList)
             {
                 var list = (CSSValueList)value;
@@ -58,7 +72,7 @@
                         return null;
                 }
 
-                return new ResolveFontFamily(String.Join(" ", content));
+                return new CustomFontFamily(String.Join(" ", content));
             }
 
             return null;
@@ -66,14 +80,71 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            BaseFontFamily family;
-
-            if (_families.TryCreate(value, out family))
-                _family = family;
+            if (value is CSSIdentifierValue || value is CSSStringValue)
+            {
+                _families.Clear();
+                _families.Add(GetFamily(value));
+            }
+            else if (value is CSSValueList)
+                return SetFamilies((CSSValueList)value);
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
+        }
+
+        Boolean SetFamilies(CSSValueList values)
+        {
+            var families = new List<BaseFontFamily>();
+            var items = values.ToList();
+
+            foreach (var item in items)
+            {
+                var family = GetFamily(item.Length == 1 ? item[0] : item);
+
+                if (family == null)
+                    return false;
+
+                families.Add(family);
+            }
+
+            _families = families;
+            return true;
+        }
+
+        static BaseFontFamily GetFamily(CSSValue value)
+        {
+            if (value is CSSIdentifierValue)
+            {
+                SystemFontFamily family;
+                var name = ((CSSIdentifierValue)value).Value;
+
+                if (defaultfamilies.TryGetValue(name, out family))
+                    return family;
+
+                return new CustomFontFamily(name);
+            }
+            else if (value is CSSValueList)
+            {
+                var values = (CSSValueList)value;
+                var names = new String[values.Length];
+
+                for (var i = 0; i < names.Length; i++)
+                {
+                    var ident = values[i] as CSSIdentifierValue;
+
+                    if (ident == null)
+                        return null;
+
+                    names[i] = ident.Value;
+                }
+
+                return new CustomFontFamily(String.Join(" ", names));
+            }
+            else if (value is CSSStringValue)
+                return new CustomFontFamily(((CSSStringValue)value).Value);
+
+            return null;
         }
 
         #endregion
@@ -82,25 +153,19 @@
 
         abstract class BaseFontFamily
         {
-        }
+            protected String _name;
 
-        sealed class ResolveFontFamily : BaseFontFamily
-        {
-            String _familyName;
-
-            public ResolveFontFamily(String familyName)
+            public String FontName
             {
-                _familyName = familyName;
+                get { return _name; }
             }
         }
 
-        sealed class AlternativeFontFamily : BaseFontFamily
+        sealed class CustomFontFamily : BaseFontFamily
         {
-            List<BaseFontFamily> _fonts;
-
-            public AlternativeFontFamily(List<BaseFontFamily> fonts)
+            public CustomFontFamily(String familyName)
             {
-                _fonts = fonts;
+                _name = familyName;
             }
         }
 
@@ -108,6 +173,7 @@
         {
             public SystemFontFamily(SystemFonts font)
             {
+                _name = font.ToString();
                 //TODO select appropriate font
             }
         }
