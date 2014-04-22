@@ -25,6 +25,20 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets if the back face is visible, allowing the front
+        /// face to be displayed mirrored. Otherwise the back face
+        /// is not visible, hiding the front face.
+        /// </summary>
+        public Boolean IsVisible
+        {
+            get { return _visible; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)
@@ -37,20 +51,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets if the back face is visible, allowing the front
-        /// face to be displayed mirrored. Otherwise the back face
-        /// is not visible, hiding the front face.
-        /// </summary>
-        public Boolean IsVisible
-        {
-            get { return _visible; }
         }
 
         #endregion

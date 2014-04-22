@@ -42,6 +42,7 @@
     <Compile Include="DOM\Css\Constants\ListPosition.cs" />
     <Compile Include="DOM\Css\Constants\ListStyle.cs" />
     <Compile Include="DOM\Css\Constants\OutlineStyle.cs" />
+    <Compile Include="DOM\Css\Constants\TextDecorationLine.cs" />
     <Compile Include="DOM\Css\Constants\TextDecorationStyle.cs" />
     <Compile Include="DOM\Css\Constants\TextTransform.cs" />
     <Compile Include="DOM\Css\Constants\UnicodeMode.cs" />

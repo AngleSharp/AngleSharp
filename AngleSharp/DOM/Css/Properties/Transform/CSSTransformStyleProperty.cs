@@ -25,6 +25,20 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets if the children of the element are lying in the plane of
+        /// the element itself. Otherwise the children of the element should
+        /// be positioned in the 3D-space.
+        /// </summary>
+        public Boolean IsFlat
+        {
+            get { return _flat; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)
@@ -37,20 +51,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets if the children of the element are lying in the plane of
-        /// the element itself. Otherwise the children of the element should
-        /// be positioned in the 3D-space.
-        /// </summary>
-        public Boolean IsFlat
-        {
-            get { return _flat; }
         }
 
         #endregion

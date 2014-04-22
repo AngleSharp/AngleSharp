@@ -27,6 +27,26 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the position of the abscissa of the vanishing point.
+        /// </summary>
+        public CSSCalcValue X
+        {
+            get { return _x; }
+        }
+
+        /// <summary>
+        /// Gets the position of the ordinate of the vanishing point.
+        /// </summary>
+        public CSSCalcValue Y
+        {
+            get { return _y; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)
@@ -126,26 +146,6 @@
             }
 
             return calc;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the position of the abscissa of the vanishing point.
-        /// </summary>
-        public CSSCalcValue X
-        {
-            get { return _x; }
-        }
-
-        /// <summary>
-        /// Gets the position of the ordinate of the vanishing point.
-        /// </summary>
-        public CSSCalcValue Y
-        {
-            get { return _y; }
         }
 
         #endregion

@@ -29,6 +29,34 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets how far from the left edge of the box the origin of the transform is set.
+        /// </summary>
+        public CSSCalcValue X
+        {
+            get { return _x; }
+        }
+
+        /// <summary>
+        /// Gets how far from the top edge of the box the origin of the transform is set.
+        /// </summary>
+        public CSSCalcValue Y
+        {
+            get { return _y; }
+        }
+
+        /// <summary>
+        /// Gets how far from the user eye the z = 0 origin is set.
+        /// </summary>
+        public CSSCalcValue Z
+        {
+            get { return _z; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)
@@ -144,34 +172,6 @@
             }
 
             return calc;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets how far from the left edge of the box the origin of the transform is set.
-        /// </summary>
-        public CSSCalcValue X
-        {
-            get { return _x; }
-        }
-
-        /// <summary>
-        /// Gets how far from the top edge of the box the origin of the transform is set.
-        /// </summary>
-        public CSSCalcValue Y
-        {
-            get { return _y; }
-        }
-
-        /// <summary>
-        /// Gets how far from the user eye the z = 0 origin is set.
-        /// </summary>
-        public CSSCalcValue Z
-        {
-            get { return _z; }
         }
 
         #endregion

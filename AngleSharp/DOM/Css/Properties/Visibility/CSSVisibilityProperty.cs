@@ -34,6 +34,18 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the visibility mode.
+        /// </summary>
+        public Visibility Visibility
+        {
+            get { return _mode; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)
@@ -46,18 +58,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the visibility mode.
-        /// </summary>
-        public Visibility Visibility
-        {
-            get { return _mode; }
         }
 
         #endregion
