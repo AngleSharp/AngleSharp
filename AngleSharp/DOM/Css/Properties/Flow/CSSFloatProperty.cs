@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/float
     /// </summary>
-    sealed class CSSFloatProperty : CSSProperty
+    public sealed class CSSFloatProperty : CSSProperty
     {
         #region Fields
 
@@ -25,7 +25,7 @@
             modes.Add("right", new RightFloatMode());
         }
 
-        public CSSFloatProperty()
+        internal CSSFloatProperty()
             : base(PropertyNames.Float)
         {
             _mode = modes["none"];
@@ -38,21 +38,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue)
-            {
-                var ident = (CSSIdentifierValue)value;
-                FloatMode mode;
+            FloatMode mode;
 
-                if (modes.TryGetValue(ident.Value, out mode))
-                {
-                    _mode = mode;
-                    return true;
-                }
-            }
-            else if (value == CSSValue.Inherit)
-                return true;
+            if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+                _mode = mode;
+            else if (value != CSSValue.Inherit)
+                return false;
 
-            return false;
+            return true;
         }
 
         #endregion

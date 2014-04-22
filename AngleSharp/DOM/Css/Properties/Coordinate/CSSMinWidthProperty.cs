@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/min-width
     /// </summary>
-    sealed class CSSMinWidthProperty : CSSProperty
+    public sealed class CSSMinWidthProperty : CSSProperty
     {
         #region Fields
 
@@ -16,11 +16,23 @@
 
         #region ctor
 
-        public CSSMinWidthProperty()
+        internal CSSMinWidthProperty()
             : base(PropertyNames.MinWidth)
         {
             _inherited = false;
             _mode = CSSCalcValue.Zero;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the minimum height of the element.
+        /// </summary>
+        public CSSCalcValue Limit
+        {
+            get { return _mode; }
         }
 
         #endregion

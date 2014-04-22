@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/display
     /// </summary>
-    sealed class CSSDisplayProperty : CSSProperty
+    public sealed class CSSDisplayProperty : CSSProperty
     {
         #region Fields
 
@@ -41,7 +41,7 @@
             modes.Add("run-in", new RunInDisplayMode());
         }
 
-        public CSSDisplayProperty()
+        internal CSSDisplayProperty()
             : base(PropertyNames.Display)
         {
             _mode = modes["inline"];
@@ -54,21 +54,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue)
-            {
-                var ident = (CSSIdentifierValue)value;
-                DisplayMode mode;
+            DisplayMode mode;
 
-                if (modes.TryGetValue(ident.Value, out mode))
-                {
-                    _mode = mode;
-                    return true;
-                }
-            }
-            else if (value == CSSValue.Inherit)
-                return true;
+            if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+                _mode = mode;
+            else if (value != CSSValue.Inherit)
+                return false;
 
-            return false;
+            return true;
         }
 
         #endregion

@@ -6,7 +6,7 @@
     /// Basis for all properties that have either a length
     /// or percentage value or an auto value - nothing else.
     /// </summary>
-    class CSSCoordinateProperty : CSSProperty
+    public class CSSCoordinateProperty : CSSProperty
     {
         #region Fields
 
@@ -22,6 +22,18 @@
         {
             _inherited = false;
             _mode = _auto;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets if the position is automatically calculated.
+        /// </summary>
+        public Boolean IsAuto
+        {
+            get { return _mode is AutoCoordinateMode; }
         }
 
         #endregion

@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/clear
     /// </summary>
-    sealed class CSSClearProperty : CSSProperty
+    public sealed class CSSClearProperty : CSSProperty
     {
         #region Fields
 
@@ -26,7 +26,7 @@
             modes.Add("both", new BothClearMode());
         }
 
-        public CSSClearProperty()
+        internal CSSClearProperty()
             : base(PropertyNames.Clear)
         {
             _mode = modes["none"];
@@ -39,21 +39,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue)
-            {
-                var ident = (CSSIdentifierValue)value;
-                ClearMode mode;
+            ClearMode mode;
 
-                if (modes.TryGetValue(ident.Value, out mode))
-                {
-                    _mode = mode;
-                    return true;
-                }
-            }
-            else if (value == CSSValue.Inherit)
-                return true;
+            if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+                _mode = mode;
+            else if (value != CSSValue.Inherit)
+                return false;
 
-            return false;
+            return true;
         }
 
         #endregion

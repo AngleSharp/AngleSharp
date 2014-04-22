@@ -6,22 +6,45 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/max-width
     /// </summary>
-    sealed class CSSMaxWidthProperty : CSSProperty
+    public sealed class CSSMaxWidthProperty : CSSProperty
     {
         #region Fields
 
-        static readonly NoMaxWidthMode _none = new NoMaxWidthMode();
-        MaxWidthMode _mode;
+        /// <summary>
+        /// The width has no maximum value if _mode == null.
+        /// </summary>
+        CSSCalcValue _mode;
 
         #endregion
 
         #region ctor
 
-        public CSSMaxWidthProperty()
+        internal CSSMaxWidthProperty()
             : base(PropertyNames.MaxWidth)
         {
             _inherited = false;
-            _mode = _none;
+            _mode = null;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets if a limit has been specified, otherwise the value is none.
+        /// </summary>
+        public Boolean IsLimited
+        {
+            get { return _mode != null; }
+        }
+
+        /// <summary>
+        /// Gets the specified max-width of the element. A percentage is calculated
+        /// with respect to the width of the containing block.
+        /// </summary>
+        public CSSCalcValue Limit
+        {
+            get { return _mode; }
         }
 
         #endregion
@@ -33,43 +56,13 @@
             var calc = value.AsCalc();
 
             if (calc != null)
-                _mode = new CalcMaxWidthMode(calc);
+                _mode = calc;
             else if (value.Is("none"))
-                _mode = _none;
+                _mode = null;
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-
-        abstract class MaxWidthMode
-        {
-            //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// The width has no maximum value.
-        /// </summary>
-        sealed class NoMaxWidthMode : MaxWidthMode
-        {
-        }
-
-        /// <summary>
-        /// Specified as a relative of containing block's width.
-        /// OR: Specified as an absolute length.
-        /// </summary>
-        sealed class CalcMaxWidthMode : MaxWidthMode
-        {
-            CSSCalcValue _calc;
-
-            public CalcMaxWidthMode(CSSCalcValue calc)
-            {
-                _calc = calc;
-            }
         }
 
         #endregion

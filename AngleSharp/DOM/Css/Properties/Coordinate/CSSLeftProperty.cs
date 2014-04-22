@@ -4,11 +4,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/left
     /// </summary>
-    sealed class CSSLeftProperty : CSSCoordinateProperty
+    public sealed class CSSLeftProperty : CSSCoordinateProperty
     {
         #region ctor
 
-        public CSSLeftProperty()
+        internal CSSLeftProperty()
             : base(PropertyNames.Left)
         {
         }

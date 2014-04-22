@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/overflow
     /// </summary>
-    sealed class CSSOverflowProperty : CSSProperty
+    public sealed class CSSOverflowProperty : CSSProperty
     {
         #region Fields
 
@@ -26,7 +26,7 @@
             modes.Add("auto", new AutoOverflowMode());
         }
 
-        public CSSOverflowProperty()
+        internal CSSOverflowProperty()
             : base(PropertyNames.Overflow)
         {
             _mode = modes["visible"];
@@ -39,21 +39,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue)
-            {
-                var ident = (CSSIdentifierValue)value;
-                OverflowMode mode;
+            OverflowMode mode;
 
-                if (modes.TryGetValue(ident.Value, out mode))
-                {
-                    _mode = mode;
-                    return true;
-                }
-            }
-            else if (value == CSSValue.Inherit)
-                return true;
+            if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+                _mode = mode;
+            else if (value != CSSValue.Inherit)
+                return false;
 
-            return false;
+            return true;
         }
 
         #endregion

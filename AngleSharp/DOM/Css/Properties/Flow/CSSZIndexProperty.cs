@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/z-index
     /// </summary>
-    sealed class CSSZIndexProperty : CSSProperty
+    public sealed class CSSZIndexProperty : CSSProperty
     {
         #region Fields
 
@@ -16,11 +16,31 @@
 
         #region ctor
 
-        public CSSZIndexProperty()
+        internal CSSZIndexProperty()
             : base(PropertyNames.ZIndex)
         {
             _inherited = false;
             _value = null;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets if the z-index has been set at all.
+        /// </summary>
+        public Boolean HasIndex
+        {
+            get { return _value.HasValue; }
+        }
+
+        /// <summary>
+        /// Gets the index in the stacking order, if any.
+        /// </summary>
+        public Int32 Index
+        {
+            get { return _value.HasValue ? _value.Value : 0; }
         }
 
         #endregion

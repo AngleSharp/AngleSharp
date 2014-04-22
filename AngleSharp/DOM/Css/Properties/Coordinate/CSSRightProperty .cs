@@ -4,11 +4,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/right
     /// </summary>
-    sealed class CSSRightProperty : CSSCoordinateProperty
+    public sealed class CSSRightProperty : CSSCoordinateProperty
     {
         #region ctor
 
-        public CSSRightProperty()
+        internal CSSRightProperty()
             : base(PropertyNames.Right)
         {
         }

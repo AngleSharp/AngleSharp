@@ -4,11 +4,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/top
     /// </summary>
-    sealed class CSSTopProperty : CSSCoordinateProperty
+    public sealed class CSSTopProperty : CSSCoordinateProperty
     {
         #region ctor
 
-        public CSSTopProperty()
+        internal CSSTopProperty()
             : base(PropertyNames.Top)
         {
         }

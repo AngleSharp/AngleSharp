@@ -6,22 +6,47 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/max-height
     /// </summary>
-    sealed class CSSMaxHeightProperty : CSSProperty
+    public sealed class CSSMaxHeightProperty : CSSProperty
     {
         #region Fields
 
-        static readonly NoMaxHeightMode _none = new NoMaxHeightMode();
-        MaxHeightMode _mode;
+        /// <summary>
+        /// No limit on the height of the box if _mode == null.
+        /// </summary>
+        CSSCalcValue _mode;
 
         #endregion
 
         #region ctor
 
-        public CSSMaxHeightProperty()
+        internal CSSMaxHeightProperty()
             : base(PropertyNames.MaxHeight)
         {
             _inherited = false;
-            _mode = _none;
+            _mode = null;
+        }
+
+        #endregion
+
+        #region Properties
+        
+        /// <summary>
+        /// Gets if a limit has been specified, otherwise the value is none.
+        /// </summary>
+        public Boolean IsLimited
+        {
+            get { return _mode != null; }
+        }
+
+        /// <summary>
+        /// Gets the specified max-height of the element. A percentage is calculated
+        /// with respect to the height of the containing block. If the height of the
+        /// containing block is not specified explicitly, the percentage value is
+        /// treated as none.
+        /// </summary>
+        public CSSCalcValue Limit
+        {
+            get { return _mode; }
         }
 
         #endregion
@@ -33,45 +58,13 @@
             var calc = value.AsCalc();
 
             if (calc != null)
-                _mode = new CalcMaxHeightMode(calc);
+                _mode = calc;
             else if (value.Is("none"))
-                _mode = _none;
+                _mode = null;
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-
-        abstract class MaxHeightMode
-        {
-            //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// No limit on the height of the box.
-        /// </summary>
-        sealed class NoMaxHeightMode : MaxHeightMode
-        {
-        }
-
-        /// <summary>
-        /// The percentage is calculated with respect to the height of the
-        /// containing block. If the height of the containing block is not
-        /// specified explicitly, the percentage value is treated as none.
-        /// OR: A fixed maximum height.
-        /// </summary>
-        sealed class CalcMaxHeightMode : MaxHeightMode
-        {
-            CSSCalcValue _calc;
-            
-            public CalcMaxHeightMode(CSSCalcValue calc)
-            {
-                _calc = calc;
-            }
         }
 
         #endregion

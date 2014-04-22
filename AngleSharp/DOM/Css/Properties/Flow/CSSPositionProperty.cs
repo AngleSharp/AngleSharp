@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/position
     /// </summary>
-    sealed class CSSPositionProperty : CSSProperty
+    public sealed class CSSPositionProperty : CSSProperty
     {
         #region Fields
 
@@ -27,7 +27,7 @@
             modes.Add("fixed", new FixedPositionMode());
         }
 
-        public CSSPositionProperty()
+        internal CSSPositionProperty()
             : base(PropertyNames.Position)
         {
             _mode = modes["static"];
@@ -40,21 +40,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue)
-            {
-                var ident = (CSSIdentifierValue)value;
-                PositionMode mode;
+            PositionMode mode;
 
-                if (modes.TryGetValue(ident.Value, out mode))
-                {
-                    _mode = mode;
-                    return true;
-                }
-            }
-            else if (value == CSSValue.Inherit)
-                return true;
+            if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+                _mode = mode;
+            else if (value != CSSValue.Inherit)
+                return false;
 
-            return false;
+            return true;
         }
 
         #endregion

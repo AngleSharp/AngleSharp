@@ -4,11 +4,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/bottom
     /// </summary>
-    sealed class CSSBottomProperty : CSSCoordinateProperty
+    public sealed class CSSBottomProperty : CSSCoordinateProperty
     {
         #region ctor
 
-        public CSSBottomProperty()
+        internal CSSBottomProperty()
             : base(PropertyNames.Bottom)
         {
         }

@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/min-height
     /// </summary>
-    sealed class CSSMinHeightProperty : CSSProperty
+    public sealed class CSSMinHeightProperty : CSSProperty
     {
         #region Fields
 
@@ -16,11 +16,23 @@
 
         #region ctor
 
-        public CSSMinHeightProperty()
+        internal CSSMinHeightProperty()
             : base(PropertyNames.MinHeight)
         {
             _inherited = false;
             _mode = CSSCalcValue.Zero;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the minimum height of the element.
+        /// </summary>
+        public CSSCalcValue Limit
+        {
+            get { return _mode; }
         }
 
         #endregion
