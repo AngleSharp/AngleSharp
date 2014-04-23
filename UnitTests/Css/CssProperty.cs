@@ -412,6 +412,126 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssBoxShadowNoneUppercaseLegal()
+        {
+            var snippet = "box-shadow: NONE";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("NONE", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowNormalTealLegal()
+        {
+            var snippet = "box-shadow: 60px -16px teal";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("60px -16px teal", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowNormalSpreadBlackLegal()
+        {
+            var snippet = "box-shadow: 10px 5px 5px black";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("10px 5px 5px black", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowOliveAndRedLegal()
+        {
+            var snippet = "box-shadow: 3px 3px red, -1em 0 0.4em olive";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("3px 3px red, -1em 0 0.4em olive", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowInsetGoldLegal()
+        {
+            var snippet = "box-shadow: inset 5em 1em gold";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("inset 5em 1em gold", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowZeroGoldLegal()
+        {
+            var snippet = "box-shadow: 0 0 1em gold";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("0 0 1em gold", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowInsetZeroGoldLegal()
+        {
+            var snippet = "box-shadow: inset  0 0 1em gold";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("inset 0 0 1em gold", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowInsetZeroGoldAndNormalRedLegal()
+        {
+            var snippet = "box-shadow: inset  0 0 1em  gold   ,  0 0   1em   red !important";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsTrue(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("inset 0 0 1em gold, 0 0 1em red", concrete.Value.CssText);
+        }
+
+        [TestMethod]
         public void CssBoxShadowOffsetColorLegal()
         {
             var snippet = "box-shadow:  5px 4px #000";
