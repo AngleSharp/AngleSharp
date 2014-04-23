@@ -1,4 +1,5 @@
-﻿using AngleSharp.DOM.Css;
+﻿using AngleSharp.DOM;
+using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Css.Properties;
 using AngleSharp.Parser.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -378,6 +379,193 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("hidden", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderBottomWidthThinLegal()
+        {
+            var snippet = "border-bottom-width: THIN";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-bottom-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderBottomWidthProperty));
+            var concrete = (CSSBorderBottomWidthProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("THIN", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderTopWidthZeroLegal()
+        {
+            var snippet = "border-top-width: 0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-top-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderTopWidthProperty));
+            var concrete = (CSSBorderTopWidthProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("0", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderRightWidthEmLegal()
+        {
+            var snippet = "border-right-width: 3em";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-right-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderRightWidthProperty));
+            var concrete = (CSSBorderRightWidthProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("3em", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderLeftWidthThickLegal()
+        {
+            var snippet = "border-left-width: thick !important";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-left-width", property.Name);
+            Assert.IsTrue(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderLeftWidthProperty));
+            var concrete = (CSSBorderLeftWidthProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("thick", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderWidthMediumLegal()
+        {
+            var snippet = "border-width: medium";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderWidthProperty));
+            var concrete = (CSSBorderWidthProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("medium", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderWidthLengthZeroLegal()
+        {
+            var snippet = "border-width: 3px   0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderWidthProperty));
+            var concrete = (CSSBorderWidthProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("3px 0", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderWidthThinLengthLegal()
+        {
+            var snippet = "border-width: THIN   1px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderWidthProperty));
+            var concrete = (CSSBorderWidthProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("THIN 1px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderWidthMediumThinThickLegal()
+        {
+            var snippet = "border-width: medium thin thick";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderWidthProperty));
+            var concrete = (CSSBorderWidthProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("medium thin thick", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderWidthLengthLengthLengthLengthLegal()
+        {
+            var snippet = "border-width:  1px  2px   3px  4px  !important ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-width", property.Name);
+            Assert.IsTrue(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderWidthProperty));
+            var concrete = (CSSBorderWidthProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("1px 2px 3px 4px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderWidthLengthInEmZeroLegal()
+        {
+            var snippet = "border-width:  0.3em 0 ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderWidthProperty));
+            var concrete = (CSSBorderWidthProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("0.3em 0", concrete.Value.CssText);
+            Assert.AreEqual(new Length(0.3f, Length.Unit.Em), concrete.Top.Width);
+            Assert.AreEqual(Length.Zero, concrete.Right.Width);
+            Assert.AreEqual(new Length(0.3f, Length.Unit.Em), concrete.Bottom.Width);
+            Assert.AreEqual(Length.Zero, concrete.Left.Width);
+        }
+
+        [TestMethod]
+        public void CssBorderWidthMediumZeroLengthThickLegal()
+        {
+            var snippet = "border-width:   medium 0 1px thick ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderWidthProperty));
+            var concrete = (CSSBorderWidthProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("medium 0 1px thick", concrete.Value.CssText);
+            Assert.AreEqual(Length.Medium, concrete.Top.Width);
+            Assert.AreEqual(Length.Zero, concrete.Right.Width);
+            Assert.AreEqual(new Length(1f, Length.Unit.Px), concrete.Bottom.Width);
+            Assert.AreEqual(Length.Thick, concrete.Left.Width);
+        }
+
+        [TestMethod]
+        public void CssBorderWidthZerosIllegal()
+        {
+            var snippet = "border-width: 0 0 0 0 0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-width", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderWidthProperty));
+            var concrete = (CSSBorderWidthProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
         }
     }
 }
