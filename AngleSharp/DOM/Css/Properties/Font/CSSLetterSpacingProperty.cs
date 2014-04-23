@@ -10,8 +10,7 @@
     {
         #region Fields
 
-        static readonly NormalLetterSpacingMode _normal = new NormalLetterSpacingMode();
-        LetterSpacingMode _mode;
+        Length? _spacing;
 
         #endregion
 
@@ -21,7 +20,32 @@
             : base(PropertyNames.LetterSpacing)
         {
             _inherited = true;
-            _mode = _normal;
+            _spacing = null;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets if the spacing is the normal spacing for the current font. This value
+        /// allows the user agent to alter the space between characters in order to
+        /// justify text. That's the difference to the length value 0.
+        /// </summary>
+        public Boolean IsNormal
+        {
+            get { return _spacing.HasValue == false; }
+        }
+
+        /// <summary>
+        /// Gets the defined custom spacing, if any. Indicates inter-character space in
+        /// addition to the default space between characters. Values may be negative,
+        /// but there may be implementation-specific limits. User agents may not further
+        /// increase or decrease the inter-character space in order to justify text.
+        /// </summary>
+        public Length? Spacing
+        {
+            get { return _spacing; }
         }
 
         #endregion
@@ -31,48 +55,13 @@
         protected override Boolean IsValid(CSSValue value)
         {
             if (value.Is("normal"))
-                _mode = _normal;
+                _spacing = null;
             else if (value.ToLength().HasValue)
-                _mode = new CustomLetterSpacingMode(value.ToLength().Value);
+                _spacing = value.ToLength();
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-
-        abstract class LetterSpacingMode
-        {
-            //TODO add members
-        }
-
-        /// <summary>
-        /// The spacing is the normal spacing for the current font. This value
-        /// allows the user agent to alter the space between characters in order
-        /// to justify text. That's the difference to the length value 0.
-        /// </summary>
-        sealed class NormalLetterSpacingMode : LetterSpacingMode
-        {
-
-        }
-
-        /// <summary>
-        /// Indicates inter-character space in addition to the default space between
-        /// characters. Values may be negative, but there may be implementation-specific
-        /// limits. User agents may not further increase or decrease the inter-character
-        /// space in order to justify text.
-        /// </summary>
-        sealed class CustomLetterSpacingMode : LetterSpacingMode
-        {
-            Length _spacing;
-
-            public CustomLetterSpacingMode(Length spacing)
-            {
-                _spacing = spacing;
-            }
         }
 
         #endregion
