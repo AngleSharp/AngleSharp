@@ -7,12 +7,12 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment
     /// </summary>
-    sealed class CSSBackgroundAttachmentProperty : CSSProperty
+    public sealed class CSSBackgroundAttachmentProperty : CSSProperty
     {
         #region Fields
 
-        static readonly Dictionary<String, Attachment> _modes = new Dictionary<String, Attachment>(StringComparer.OrdinalIgnoreCase);
-        List<Attachment> _attachments;
+        static readonly Dictionary<String, BackgroundAttachment> _modes = new Dictionary<String, BackgroundAttachment>(StringComparer.OrdinalIgnoreCase);
+        List<BackgroundAttachment> _attachments;
 
         #endregion
 
@@ -20,17 +20,29 @@
 
         static CSSBackgroundAttachmentProperty()
         {
-            _modes.Add("fixed", Attachment.Fixed);
-            _modes.Add("local", Attachment.Local);
-            _modes.Add("scroll", Attachment.Scroll);
+            _modes.Add("fixed", BackgroundAttachment.Fixed);
+            _modes.Add("local", BackgroundAttachment.Local);
+            _modes.Add("scroll", BackgroundAttachment.Scroll);
         }
 
-        public CSSBackgroundAttachmentProperty()
+        internal CSSBackgroundAttachmentProperty()
             : base(PropertyNames.BackgroundAttachment)
         {
-            _attachments = new List<Attachment>();
-            _attachments.Add(Attachment.Scroll);
+            _attachments = new List<BackgroundAttachment>();
+            _attachments.Add(BackgroundAttachment.Scroll);
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets an enumeration with the desired attachment settings.
+        /// </summary>
+        public IEnumerable<BackgroundAttachment> Attachments
+        {
+            get { return _attachments; }
         }
 
         #endregion
@@ -43,11 +55,11 @@
                 return true;
 
             var list = value as CSSValueList ?? new CSSValueList(value);
-            var attachments = new List<Attachment>();
+            var attachments = new List<BackgroundAttachment>();
 
             for (int i = 0; i < list.Length; i++)
             {
-                Attachment attachment;
+                BackgroundAttachment attachment;
 
                 if (list[i] is CSSIdentifierValue && _modes.TryGetValue(((CSSIdentifierValue)list[i]).Value, out attachment))
                     attachments.Add(attachment);
@@ -60,34 +72,6 @@
 
             _attachments = attachments;
             return true;
-        }
-
-        #endregion
-
-        #region Attachment
-
-        enum Attachment
-        {
-            /// <summary>
-            /// This keyword means that the background is fixed with regard to the viewport.
-            /// Even if an element has a scrolling mechanism, a ‘fixed’ background doesn't
-            /// move with the element.
-            /// </summary>
-            Fixed,
-            /// <summary>
-            /// This keyword means that the background is fixed with regard to the element's
-            /// contents: if the element has a scrolling mechanism, the background scrolls
-            /// with the element's contents, and the background painting area and background
-            /// positioning area are relative to the scrollable area of the element rather
-            /// than to the border framing them.
-            /// </summary>
-            Local,
-            /// <summary>
-            /// This keyword means that the background is fixed with regard to the element
-            /// itself and does not scroll with its contents. (It is effectively attached
-            /// to the element's border.)
-            /// </summary>
-            Scroll
         }
 
         #endregion

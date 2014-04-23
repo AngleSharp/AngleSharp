@@ -7,24 +7,25 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-size
     /// </summary>
-    sealed class CSSBackgroundSizeProperty : CSSProperty
+    public sealed class CSSBackgroundSizeProperty : CSSProperty
     {
         #region Fields
 
         static readonly CalcSizeMode _default = new CalcSizeMode();
         static readonly CoverSizeMode _cover = new CoverSizeMode();
         static readonly ContainSizeMode _contain = new ContainSizeMode();
-        SizeMode _size;
+        List<SizeMode> _sizes;
 
         #endregion
 
         #region ctor
 
-        public CSSBackgroundSizeProperty()
+        internal CSSBackgroundSizeProperty()
             : base(PropertyNames.BackgroundSize)
         {
             _inherited = false;
-            _size = _default;
+            _sizes = new List<SizeMode>();
+            _sizes.Add(_default);
         }
 
         #endregion
@@ -77,7 +78,8 @@
             if (size == null)
                 return false;
 
-            _size = size;
+            _sizes.Clear();
+            _sizes.Add(size);
             return true;
         }
 
@@ -99,7 +101,7 @@
                 sizes.Add(size);
             }
 
-            _size = new MultipleSizeMode(sizes);
+            _sizes = sizes;
             return true;
         }
 
@@ -110,20 +112,6 @@
         abstract class SizeMode
         {
             //TODO Add Members that make sense
-        }
-
-        /// <summary>
-        /// A list of sizes defining the background-size properties of every
-        /// given image.
-        /// </summary>
-        sealed class MultipleSizeMode : SizeMode
-        {
-            List<SizeMode> _sizes;
-
-            public MultipleSizeMode(List<SizeMode> sizes)
-            {
-                _sizes =sizes;
-            }
         }
 
         /// <summary>

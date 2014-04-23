@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background
     /// </summary>
-    sealed class CSSBackgroundProperty : CSSProperty
+    public sealed class CSSBackgroundProperty : CSSProperty
     {
         #region Fields
 
@@ -23,7 +23,7 @@
 
         #region ctor
 
-        public CSSBackgroundProperty()
+        internal CSSBackgroundProperty()
             : base(PropertyNames.Background)
         {
             _image = new CSSBackgroundImageProperty();
@@ -35,6 +35,74 @@
             _clip = new CSSBackgroundClipProperty();
             _color = new CSSBackgroundColorProperty();
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the value of the background image property.
+        /// </summary>
+        public CSSBackgroundImageProperty Image
+        {
+            get { return _image; }
+        }
+
+        /// <summary>
+        /// Gets the value of the background position property.
+        /// </summary>
+        public CSSBackgroundPositionProperty Position
+        {
+            get { return _position; }
+        }
+
+        /// <summary>
+        /// Gets the value of the background size property.
+        /// </summary>
+        public CSSBackgroundSizeProperty Size
+        {
+            get { return _size; }
+        }
+
+        /// <summary>
+        /// Gets the value of the background repeat property.
+        /// </summary>
+        public CSSBackgroundRepeatProperty Repeat
+        {
+            get { return _repeat; }
+        }
+
+        /// <summary>
+        /// Gets the value of the background attachment property.
+        /// </summary>
+        public CSSBackgroundAttachmentProperty Attachment
+        {
+            get { return _attachment; }
+        }
+
+        /// <summary>
+        /// Gets the value of the background origin property.
+        /// </summary>
+        public CSSBackgroundOriginProperty Origin
+        {
+            get { return _origin; }
+        }
+
+        /// <summary>
+        /// Gets the value of the background clip property.
+        /// </summary>
+        public CSSBackgroundClipProperty Clip
+        {
+            get { return _clip; }
+        }
+
+        /// <summary>
+        /// Gets the value of the background color property.
+        /// </summary>
+        public CSSBackgroundColorProperty Color
+        {
+            get { return _color; }
         }
 
         #endregion
@@ -53,7 +121,7 @@
                 var attachment = new CSSValueList();
                 var origin = new CSSValueList();
                 var clip = new CSSValueList();
-                var color = new CSSPrimitiveValue<Color>(Color.Transparent);
+                var color = new CSSPrimitiveValue<Color>(AngleSharp.DOM.Color.Transparent);
                 var list = values.ToList();
 
                 for (int i = 0; i < list.Count; i++)

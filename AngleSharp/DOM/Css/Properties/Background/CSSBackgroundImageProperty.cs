@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-image
     /// </summary>
-    sealed class CSSBackgroundImageProperty : CSSProperty
+    public sealed class CSSBackgroundImageProperty : CSSProperty
     {
         #region Fields
 
@@ -17,7 +17,7 @@
 
         #region ctor
 
-        public CSSBackgroundImageProperty()
+        internal CSSBackgroundImageProperty()
             : base(PropertyNames.BackgroundImage)
         {
             _inherited = false;

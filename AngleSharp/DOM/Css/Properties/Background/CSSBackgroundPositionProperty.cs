@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-position
     /// </summary>
-    sealed class CSSBackgroundPositionProperty : CSSProperty
+    public sealed class CSSBackgroundPositionProperty : CSSProperty
     {
         #region Fields
 
@@ -17,7 +17,7 @@
 
         #region ctor
 
-        public CSSBackgroundPositionProperty()
+        internal CSSBackgroundPositionProperty()
             : base(PropertyNames.BackgroundPosition)
         {
             _inherited = false;

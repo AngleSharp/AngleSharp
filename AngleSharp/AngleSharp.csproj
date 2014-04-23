@@ -39,7 +39,9 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="DOM\Constants\Visibility.cs" />
+    <Compile Include="DOM\Css\Constants\BackgroundAttachment.cs" />
     <Compile Include="DOM\Css\Constants\BreakMode.cs" />
+    <Compile Include="DOM\Css\Constants\BoxModel.cs" />
     <Compile Include="DOM\Css\Constants\FontStretch.cs" />
     <Compile Include="DOM\Css\Constants\FontStyle.cs" />
     <Compile Include="DOM\Css\Constants\FontVariant.cs" />

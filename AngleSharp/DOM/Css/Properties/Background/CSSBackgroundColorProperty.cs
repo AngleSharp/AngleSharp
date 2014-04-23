@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-color
     /// </summary>
-    sealed class CSSBackgroundColorProperty : CSSProperty
+    public sealed class CSSBackgroundColorProperty : CSSProperty
     {
         #region Fields
 
@@ -16,7 +16,7 @@
 
         #region ctor
 
-        public CSSBackgroundColorProperty()
+        internal CSSBackgroundColorProperty()
             : base(PropertyNames.BackgroundColor)
         {
             _color = Color.Transparent;

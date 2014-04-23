@@ -9,6 +9,7 @@
     static class ValueExtensions
     {
         static readonly Dictionary<String, LineStyle> lineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, BoxModel> boxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase);
 
         static ValueExtensions()
         {
@@ -22,6 +23,10 @@
             lineStyles.Add("ridge", LineStyle.Ridge);
             lineStyles.Add("groove", LineStyle.Groove);
             lineStyles.Add("hidden", LineStyle.Hidden);
+
+            boxModels.Add("border-box", BoxModel.BorderBox);
+            boxModels.Add("padding-box", BoxModel.PaddingBox);
+            boxModels.Add("content-box", BoxModel.ContentBox);
         }
 
         public static LineStyle? ToLineStyle(this CSSValue value)
@@ -30,6 +35,16 @@
 
             if (value is CSSIdentifierValue && lineStyles.TryGetValue(((CSSIdentifierValue)value).Value, out style))
                 return style;
+
+            return null;
+        }
+
+        public static BoxModel? ToBoxModel(this CSSValue value)
+        {
+            BoxModel model;
+
+            if (value is CSSIdentifierValue && boxModels.TryGetValue(((CSSIdentifierValue)value).Value, out model))
+                return model;
 
             return null;
         }

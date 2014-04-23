@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat
     /// </summary>
-    sealed class CSSBackgroundRepeatProperty : CSSProperty
+    public sealed class CSSBackgroundRepeatProperty : CSSProperty
     {
         #region Fields
 
@@ -26,7 +26,7 @@
             _modes.Add("space", RepeatMode.Space);
         }
 
-        public CSSBackgroundRepeatProperty()
+        internal CSSBackgroundRepeatProperty()
             : base(PropertyNames.BackgroundRepeat)
         {
             _inherited = false;
