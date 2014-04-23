@@ -198,7 +198,6 @@
     <Compile Include="DOM\Primitives\Length.cs" />
     <Compile Include="Foundation\NodeExtensions.cs" />
     <Compile Include="Foundation\TransformMatrix.cs" />
-    <Compile Include="Foundation\ValueConverter.cs" />
     <Compile Include="Foundation\ValueExtensions.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
