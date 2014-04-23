@@ -4,11 +4,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-bottom
     /// </summary>
-    sealed class CSSPaddingBottomProperty : CSSPaddingPartProperty
+    public sealed class CSSPaddingBottomProperty : CSSPaddingPartProperty
     {
         #region ctor
 
-        public CSSPaddingBottomProperty()
+        internal CSSPaddingBottomProperty()
             : base(PropertyNames.PaddingBottom)
         {
         }

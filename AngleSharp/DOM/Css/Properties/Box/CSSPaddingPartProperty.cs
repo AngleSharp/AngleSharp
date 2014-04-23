@@ -5,11 +5,11 @@
     /// <summary>
     /// Basis for all elementary padding properties.
     /// </summary>
-    class CSSPaddingPartProperty : CSSProperty
+    public abstract class CSSPaddingPartProperty : CSSProperty
     {
         #region Fields
 
-        CSSCalcValue _mode;
+        CSSCalcValue _padding;
 
         #endregion
 
@@ -19,7 +19,20 @@
             : base(name)
         {
             _inherited = false;
-            _mode = CSSCalcValue.Zero;
+            _padding = CSSCalcValue.Zero;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the padding relative to the width of the containing block or
+        /// a fixed width.
+        /// </summary>
+        public CSSCalcValue Margin
+        {
+            get { return _padding; }
         }
 
         #endregion
@@ -31,7 +44,7 @@
             var calc = value.AsCalc();
 
             if (calc != null)
-                _mode = calc;
+                _padding = calc;
             else if (value != CSSValue.Inherit)
                 return false;
 

@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
     /// </summary>
-    sealed class CSSBoxShadowProperty : CSSProperty
+    public sealed class CSSBoxShadowProperty : CSSProperty
     {
         #region Fields
 
@@ -28,7 +28,7 @@
             _creator.AddMultiple<MultiBoxShadowMode>();
         }
 
-        public CSSBoxShadowProperty()
+        internal CSSBoxShadowProperty()
             : base(PropertyNames.BoxShadow)
         {
             _mode = _none;

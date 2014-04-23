@@ -4,11 +4,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin-bottom
     /// </summary>
-    sealed class CSSMarginBottomProperty : CSSMarginPartProperty
+    public sealed class CSSMarginBottomProperty : CSSMarginPartProperty
     {
         #region ctor
 
-        public CSSMarginBottomProperty()
+        internal CSSMarginBottomProperty()
             : base(PropertyNames.MarginBottom)
         {
         }

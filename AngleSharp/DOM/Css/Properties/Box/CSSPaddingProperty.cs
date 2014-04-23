@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding
     /// </summary>
-    sealed class CSSPaddingProperty : CSSProperty
+    public sealed class CSSPaddingProperty : CSSProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        public CSSPaddingProperty()
+        internal CSSPaddingProperty()
             : base(PropertyNames.Padding)
         {
             _inherited = false;
@@ -27,6 +27,42 @@
             _right = new CSSPaddingRightProperty();
             _top = new CSSPaddingTopProperty();
             _bottom = new CSSPaddingBottomProperty();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the value of the property for the top padding.
+        /// </summary>
+        public CSSPaddingTopProperty Top
+        {
+            get { return _top; }
+        }
+
+        /// <summary>
+        /// Gets the value of the property for the right padding.
+        /// </summary>
+        public CSSPaddingRightProperty Right
+        {
+            get { return _right; }
+        }
+
+        /// <summary>
+        /// Gets the value of the property for the bottom padding.
+        /// </summary>
+        public CSSPaddingBottomProperty Bottom
+        {
+            get { return _bottom; }
+        }
+
+        /// <summary>
+        /// Gets the value of the property for the left padding.
+        /// </summary>
+        public CSSPaddingLeftProperty Left
+        {
+            get { return _left; }
         }
 
         #endregion

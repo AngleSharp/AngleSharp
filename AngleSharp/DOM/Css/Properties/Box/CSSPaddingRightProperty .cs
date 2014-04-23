@@ -4,11 +4,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-right
     /// </summary>
-    sealed class CSSPaddingRightProperty : CSSPaddingPartProperty
+    public sealed class CSSPaddingRightProperty : CSSPaddingPartProperty
     {
         #region ctor
 
-        public CSSPaddingRightProperty()
+        internal CSSPaddingRightProperty()
             : base(PropertyNames.PaddingRight)
         {
         }

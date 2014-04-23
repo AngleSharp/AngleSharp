@@ -4,11 +4,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-top
     /// </summary>
-    sealed class CSSPaddingTopProperty : CSSPaddingPartProperty
+    public sealed class CSSPaddingTopProperty : CSSPaddingPartProperty
     {
         #region ctor
 
-        public CSSPaddingTopProperty()
+        internal CSSPaddingTopProperty()
             : base(PropertyNames.PaddingTop)
         {
         }

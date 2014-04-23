@@ -1,16 +1,14 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
-    using System;
-
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin-top
     /// </summary>
-    sealed class CSSMarginTopProperty : CSSMarginPartProperty
+    public sealed class CSSMarginTopProperty : CSSMarginPartProperty
     {
         #region ctor
 
-        public CSSMarginTopProperty()
+        internal CSSMarginTopProperty()
             : base(PropertyNames.MarginTop)
         {
         }

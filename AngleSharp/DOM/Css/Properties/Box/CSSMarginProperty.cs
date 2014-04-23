@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin
     /// </summary>
-    sealed class CSSMarginProperty : CSSProperty
+    public sealed class CSSMarginProperty : CSSProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        public CSSMarginProperty()
+        internal CSSMarginProperty()
             : base(PropertyNames.Margin)
         {
             _inherited = false;
@@ -27,6 +27,42 @@
             _right = new CSSMarginRightProperty();
             _top = new CSSMarginTopProperty();
             _bottom = new CSSMarginBottomProperty();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the value of the property for the top margin.
+        /// </summary>
+        public CSSMarginTopProperty Top
+        {
+            get { return _top; }
+        }
+
+        /// <summary>
+        /// Gets the value of the property for the right margin.
+        /// </summary>
+        public CSSMarginRightProperty Right
+        {
+            get { return _right; }
+        }
+
+        /// <summary>
+        /// Gets the value of the property for the bottom margin.
+        /// </summary>
+        public CSSMarginBottomProperty Bottom
+        {
+            get { return _bottom; }
+        }
+
+        /// <summary>
+        /// Gets the value of the property for the left margin.
+        /// </summary>
+        public CSSMarginLeftProperty Left
+        {
+            get { return _left; }
         }
 
         #endregion
