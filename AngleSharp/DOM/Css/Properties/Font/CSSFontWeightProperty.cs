@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Information:
@@ -10,8 +11,7 @@
     {
         #region Fields
 
-        static readonly ValueConverter<FontWeightMode> _weights = new ValueConverter<FontWeightMode>();
-        static readonly NormalWeightMode _normal = new NormalWeightMode();
+        static readonly Dictionary<String, FontWeightMode> _weights = new Dictionary<String, FontWeightMode>(StringComparer.OrdinalIgnoreCase);
         FontWeightMode _weight;
 
         #endregion
@@ -20,17 +20,16 @@
 
         static CSSFontWeightProperty()
         {
-            _weights.AddStatic("normal", _normal);
-            _weights.AddStatic("bold", new BoldWeightMode());
-            _weights.AddStatic("bolder", new BolderWeightMode());
-            _weights.AddStatic("lighter", new LighterWeightMode());
-            _weights.AddConstructed<NumberWeightMode>();
+            _weights.Add("normal", new NormalWeightMode());
+            _weights.Add("bold", new BoldWeightMode());
+            _weights.Add("bolder", new BolderWeightMode());
+            _weights.Add("lighter", new LighterWeightMode());
         }
 
         internal CSSFontWeightProperty()
             : base(PropertyNames.FontWeight)
         {
-            _weight = _normal;
+            _weight = _weights["normal"];
             _inherited = true;
         }
 
@@ -42,8 +41,10 @@
         {
             FontWeightMode weight;
 
-            if (_weights.TryCreate(value, out weight))
+            if (value is CSSIdentifierValue && _weights.TryGetValue(((CSSIdentifierValue)value).Value, out weight))
                 _weight = weight;
+            else if (value.ToInteger().HasValue)
+                _weight = new NumberWeightMode(value.ToInteger().Value);
             else if (value != CSSValue.Inherit)
                 return false;
 
@@ -97,9 +98,9 @@
         {
             Int32 _weight;
 
-            public NumberWeightMode(Single weight)
+            public NumberWeightMode(Int32 weight)
             {
-                _weight = (Int32)Math.Min(900, Math.Max(100, Math.Round(weight * 0.01) * 100f));
+                _weight = Math.Min(900, Math.Max(100, weight));
             }
         }
 
