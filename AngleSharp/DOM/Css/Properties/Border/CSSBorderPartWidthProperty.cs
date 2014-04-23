@@ -3,10 +3,9 @@
     using System;
 
     /// <summary>
-    /// More information available:
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline-width
+    /// The abstract base class for all border-width sub properties.
     /// </summary>
-    public sealed class CSSOutlineWidthProperty : CSSProperty
+    public abstract class CSSBorderPartWidthProperty : CSSProperty
     {
         #region Fields
 
@@ -16,8 +15,8 @@
 
         #region ctor
 
-        internal CSSOutlineWidthProperty()
-            : base(PropertyNames.OutlineWidth)
+        protected CSSBorderPartWidthProperty(String name)
+            : base(name)
         {
             _inherited = false;
             _width = Length.Medium;
@@ -28,9 +27,7 @@
         #region Properties
 
         /// <summary>
-        /// Gets the width of the outline of an element. An outline is a
-        /// line that is drawn around elements, outside the border edge,
-        /// to make the element stand out:
+        /// Gets the thickness of the given border.
         /// </summary>
         public Length Width
         {

@@ -22,7 +22,7 @@
         internal CSSColumnRuleWidthProperty()
             : base(PropertyNames.ColumnRuleWidth)
         {
-            _width = new Length(1f, Length.Unit.Px);
+            _width = Length.Medium;
             _inherited = false;
         }
 

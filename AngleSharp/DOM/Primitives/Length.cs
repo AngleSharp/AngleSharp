@@ -15,6 +15,21 @@
         /// </summary>
         public static readonly Length Zero = new Length();
 
+        /// <summary>
+        /// Gets a thin length value.
+        /// </summary>
+        public static readonly Length Thin = new Length(1f, Unit.Px);
+
+        /// <summary>
+        /// Gets a medium length value.
+        /// </summary>
+        public static readonly Length Medium = new Length(3f, Unit.Px);
+
+        /// <summary>
+        /// Gets a thick length value.
+        /// </summary>
+        public static readonly Length Thick = new Length(5f, Unit.Px);
+
         Single _value;
         Unit _unit;
 

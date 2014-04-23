@@ -176,17 +176,12 @@
                 return ((CSSPrimitiveValue<Length>)value).Value;
             else if (value is CSSPrimitiveValue<Number> && ((CSSPrimitiveValue<Number>)value).Value == Number.Zero)
                 return Length.Zero;
-            else if (value is CSSIdentifierValue)
-            {
-                var ident = ((CSSIdentifierValue)value).Value;
-
-                if (ident.Equals("thin", StringComparison.OrdinalIgnoreCase))
-                    return new Length(0.5f, Length.Unit.Px);
-                else if (ident.Equals("medium", StringComparison.OrdinalIgnoreCase))
-                    return new Length(1f, Length.Unit.Px);
-                else if (ident.Equals("thick", StringComparison.OrdinalIgnoreCase))
-                    return new Length(2f, Length.Unit.Px);
-            }
+            else if (value.Is("thin"))
+                return Length.Thin;
+            else if (value.Is("medium"))
+                return Length.Medium;
+            else if (value.Is("thick"))
+                return Length.Thick;
 
             return null;
         }

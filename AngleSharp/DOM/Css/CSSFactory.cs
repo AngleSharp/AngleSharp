@@ -62,11 +62,11 @@
             properties.Add(PropertyNames.BorderLeftStyle, () => new CSSBorderLeftStyleProperty());
             properties.Add(PropertyNames.BorderRightStyle, () => new CSSBorderRightStyleProperty());
             properties.Add(PropertyNames.BorderBottomStyle, () => new CSSBorderBottomStyleProperty());
-            //properties.Add(PropertyNames.BORDER_TOP_WIDTH, () => new CSSProperty());
-            //properties.Add(PropertyNames.BORDER_LEFT_WIDTH, () => new CSSProperty());
-            //properties.Add(PropertyNames.BORDER_RIGHT_WIDTH, () => new CSSProperty());
-            //properties.Add(PropertyNames.BORDER_BOTTOM_WIDTH, () => new CSSProperty());
-            //properties.Add(PropertyNames.BORDER_WIDTH, () => new CSSProperty());
+            properties.Add(PropertyNames.BorderTopWidth, () => new CSSBorderTopWidthProperty());
+            properties.Add(PropertyNames.BorderLeftWidth, () => new CSSBorderLeftWidthProperty());
+            properties.Add(PropertyNames.BorderRightWidth, () => new CSSBorderRightWidthProperty());
+            properties.Add(PropertyNames.BorderBottomWidth, () => new CSSBorderBottomWidthProperty());
+            properties.Add(PropertyNames.BorderWidth, () => new CSSBorderWidthProperty());
             //properties.Add(PropertyNames.BORDER, () => new CSSProperty());
             properties.Add(PropertyNames.Bottom, () => new CSSBottomProperty());
             properties.Add(PropertyNames.Columns, () => new CSSColumnsProperty());
