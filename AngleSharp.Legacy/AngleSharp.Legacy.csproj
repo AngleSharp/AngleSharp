@@ -301,6 +301,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomStyleProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderBottomStyleProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomWidthProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderBottomWidthProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderCollapseProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderCollapseProperty.cs</Link>
     </Compile>
@@ -313,17 +316,26 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderLeftStyleProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderLeftStyleProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderLeftWidthProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderLeftWidthProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartColorProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderPartColorProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartStyleProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderPartStyleProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartWidthProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderPartWidthProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRightColorProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderRightColorProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRightStyleProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderRightStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRightWidthProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderRightWidthProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderSpacingProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderSpacingProperty.cs</Link>
@@ -336,6 +348,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopStyleProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderTopStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopWidthProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderTopWidthProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderWidthProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderWidthProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs">
       <Link>DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs</Link>
