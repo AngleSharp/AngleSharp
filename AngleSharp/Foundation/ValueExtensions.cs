@@ -127,6 +127,14 @@
             return null;
         }
 
+        public static Percent? ToPercent(this CSSValue value)
+        {
+            if (value is CSSPrimitiveValue<Percent>)
+                return ((CSSPrimitiveValue<Percent>)value).Value;
+
+            return null;
+        }
+
         public static Single? ToNumber(this CSSValue value)
         {
             if (value is CSSPrimitiveValue<Number>)
