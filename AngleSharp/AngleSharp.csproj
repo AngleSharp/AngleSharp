@@ -63,6 +63,12 @@
     <Compile Include="DOM\Css\Properties\Background\CSSBackgroundProperty.cs" />
     <Compile Include="DOM\Css\Properties\Background\CSSBackgroundRepeatProperty.cs" />
     <Compile Include="DOM\Css\Properties\Background\CSSBackgroundSizeProperty.cs" />
+    <Compile Include="DOM\Css\Properties\BorderImage\CSSBorderImageOutsetProperty.cs" />
+    <Compile Include="DOM\Css\Properties\BorderImage\CSSBorderImageProperty.cs" />
+    <Compile Include="DOM\Css\Properties\BorderImage\CSSBorderImageRepeatProperty.cs" />
+    <Compile Include="DOM\Css\Properties\BorderImage\CSSBorderImageSliceProperty.cs" />
+    <Compile Include="DOM\Css\Properties\BorderImage\CSSBorderImageSourceProperty.cs" />
+    <Compile Include="DOM\Css\Properties\BorderImage\CSSBorderImageWidthProperty.cs" />
     <Compile Include="DOM\Css\Properties\BorderRadius\CSSBorderBottomLeftRadiusProperty.cs" />
     <Compile Include="DOM\Css\Properties\BorderRadius\CSSBorderTopRightRadiusProperty.cs" />
     <Compile Include="DOM\Css\Properties\BorderRadius\CSSBorderRadiusPartProperty.cs" />
