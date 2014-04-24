@@ -10,6 +10,11 @@
     {
         #region Fields
 
+        CSSCalcValue _top;
+        CSSCalcValue _right;
+        CSSCalcValue _bottom;
+        CSSCalcValue _left;
+
         #endregion
 
         #region ctor
@@ -18,11 +23,47 @@
             : base(PropertyNames.BorderImageOutset)
         {
             _inherited = false;
+            _top = CSSCalcValue.Zero;
+            _right = CSSCalcValue.Zero;
+            _bottom = CSSCalcValue.Zero;
+            _left = CSSCalcValue.Zero;
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the length or percentage for the outset of the top border.
+        /// </summary>
+        public CSSCalcValue Top
+        {
+            get { return _top; }
+        }
+
+        /// <summary>
+        /// Gets the length or percentage for the outset of the right border.
+        /// </summary>
+        public CSSCalcValue Right
+        {
+            get { return _right; }
+        }
+
+        /// <summary>
+        /// Gets the length or percentage for the outset of the bottom border.
+        /// </summary>
+        public CSSCalcValue Bottom
+        {
+            get { return _bottom; }
+        }
+
+        /// <summary>
+        /// Gets the length or percentage for the outset of the left border.
+        /// </summary>
+        public CSSCalcValue Left
+        {
+            get { return _left; }
+        }
 
         #endregion
 
@@ -30,9 +71,51 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value != CSSValue.Inherit)
+            var calc = value.AsCalc();
+
+            if (calc != null)
+                _top = _bottom = _right = _left = calc;
+            else if (value is CSSValueList)
+                return Evaluate((CSSValueList)value);
+            else if (value != CSSValue.Inherit)
                 return false;
 
+            return true;
+        }
+
+        Boolean Evaluate(CSSValueList values)
+        {
+            if (values.Length > 4)
+                return false;
+
+            var top = values[0].AsCalc();
+            var right = values[1].AsCalc();
+            var bottom = top;
+            var left = right;
+
+            if (top == null || right == null)
+                return false;
+
+            if (values.Length > 2)
+            {
+                bottom = values[2].AsCalc();
+
+                if (bottom == null)
+                    return false;
+
+                if (values.Length > 3)
+                {
+                    left = values[3].AsCalc();
+
+                    if (left == null)
+                        return false;
+                }
+            }
+
+            _left = left;
+            _right = right;
+            _bottom = bottom;
+            _top = top;
             return true;
         }
 

@@ -10,6 +10,14 @@
     {
         #region Fields
 
+        static readonly MultipleImageWidthMode _default = new MultipleImageWidthMode(1f);
+        static readonly AutoImageWidthMode _auto = new AutoImageWidthMode();
+
+        ImageWidthMode _top;
+        ImageWidthMode _right;
+        ImageWidthMode _bottom;
+        ImageWidthMode _left;
+
         #endregion
 
         #region ctor
@@ -18,6 +26,10 @@
             : base(PropertyNames.BorderImageWidth)
         {
             _inherited = false;
+            _top = _default;
+            _right = _default;
+            _bottom = _default;
+            _left = _default;
         }
 
         #endregion
@@ -30,10 +42,115 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value != CSSValue.Inherit)
+            var mode = ToMode(value);
+
+            if (mode != null)
+                _top = _right = _left = _bottom = mode;
+            else if (value is CSSValueList)
+                return Evaluate((CSSValueList)value);
+            else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
+        }
+
+        static ImageWidthMode ToMode(CSSValue value)
+        {
+            if (value.Is("auto"))
+                return _auto;
+
+            var multiple = value.ToNumber();
+
+            if (multiple.HasValue)
+                return new MultipleImageWidthMode(multiple.Value);
+
+            var calc = value.AsCalc();
+
+            if (calc != null)
+                return new CalcImageWidthMode(calc);
+
+            return null;
+        }
+
+        Boolean Evaluate(CSSValueList values)
+        {
+            if (values.Length > 4)
+                return false;
+
+            var top = ToMode(values[0]);
+            var right = ToMode(values[1]);
+            var bottom = top;
+            var left = right;
+
+            if (top == null || right == null)
+                return false;
+
+            if (values.Length > 2)
+            {
+                bottom = ToMode(values[2]);
+
+                if (bottom == null)
+                    return false;
+
+                if (values.Length > 3)
+                {
+                    left = ToMode(values[3]);
+
+                    if (left == null)
+                        return false;
+                }
+            }
+
+            _left = left;
+            _right = right;
+            _bottom = bottom;
+            _top = top;
+            return true;
+        }
+
+        #endregion
+
+        #region Mode
+
+        abstract class ImageWidthMode
+        { }
+
+        /// <summary>
+        /// Indicates that the width, or height, of the image size must be the
+        /// intrinsic size of that dimension.
+        /// </summary>
+        sealed class AutoImageWidthMode : ImageWidthMode
+        { }
+
+        /// <summary>
+        /// Represents the length of the image slice. It can be an absolute or
+        /// relative length. This length must not be negative.
+        /// OR
+        /// Represents the percentage of the image slice relative to the height,
+        /// or width, of the border image area. The percentage must not be negative.
+        /// </summary>
+        sealed class CalcImageWidthMode : ImageWidthMode
+        {
+            CSSCalcValue _calc;
+
+            public CalcImageWidthMode(CSSCalcValue calc)
+            {
+                _calc = calc;
+            }
+        }
+
+        /// <summary>
+        /// Represents a multiple of the computed value of the element's border-width
+        /// property to be used as the image slice size. The number must not be negative.
+        /// </summary>
+        sealed class MultipleImageWidthMode : ImageWidthMode
+        {
+            Single _factor;
+
+            public MultipleImageWidthMode(Single factor)
+            {
+                _factor = factor;
+            }
         }
 
         #endregion
