@@ -304,5 +304,122 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
+
+        [TestMethod]
+        public void CssBorderImageSlicePixelsLegal()
+        {
+            var snippet = "border-image-slice: 3";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image-slice", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
+            var concrete = (CSSBorderImageSliceProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("3", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageSlicePercentLegal()
+        {
+            var snippet = "border-image-slice: 10%";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image-slice", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
+            var concrete = (CSSBorderImageSliceProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("10%", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageSliceFillIllegal()
+        {
+            var snippet = "border-image-slice: fill";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image-slice", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
+            var concrete = (CSSBorderImageSliceProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssBorderImageSlicePercentFillLegal()
+        {
+            var snippet = "border-image-slice: 10% fill";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image-slice", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
+            var concrete = (CSSBorderImageSliceProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("10% fill", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageSlicePercentPixelsFillLegal()
+        {
+            var snippet = "border-image-slice: 10% 30 fill";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image-slice", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
+            var concrete = (CSSBorderImageSliceProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("10% 30 fill", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageSlicePercentPixelsFillZerosLegal()
+        {
+            var snippet = "border-image-slice: 10% 30 fill 0 0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image-slice", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
+            var concrete = (CSSBorderImageSliceProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("10% 30 fill 0 0", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageSlicePercentPixelsFillZerosIllegal()
+        {
+            var snippet = "border-image-slice: 10% 30 fill 0 0 0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image-slice", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
+            var concrete = (CSSBorderImageSliceProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssBorderImageSlicePercentPixelsZerosFillIllegal()
+        {
+            var snippet = "border-image-slice: 10% 30  0 0 0 fill";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image-slice", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
+            var concrete = (CSSBorderImageSliceProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
     }
 }
