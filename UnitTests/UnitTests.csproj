@@ -68,6 +68,7 @@
     <Compile Include="Css\CssColumnsProperty.cs" />
     <Compile Include="Css\CssBackgroundProperty.cs" />
     <Compile Include="Css\CssBorderProperty.cs" />
+    <Compile Include="Css\CssBorderImageProperty.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Html\HtmlScript.cs" />
     <Compile Include="Html\HtmlStyle.cs" />
