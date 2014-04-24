@@ -182,12 +182,12 @@
                             hasAttachment = true;
                             attachment.Add(entry[j]);
                         }
-                        else if (!hasBox && entry[j].IsOneOf("border-box", "content-box", "padding-box"))
+                        else if (!hasBox && entry[j].ToBoxModel().HasValue)
                         {
                             hasBox = true;
                             origin.Add(entry[j]);
 
-                            if (j + 1 < entry.Length && entry[j + 1].IsOneOf("border-box", "content-box", "padding-box"))
+                            if (j + 1 < entry.Length && entry[j + 1].ToBoxModel().HasValue)
                                 clip.Add(entry[++j]);
                             else
                                 clip.Add(new CSSIdentifierValue("border-box"));

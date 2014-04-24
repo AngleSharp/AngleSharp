@@ -81,9 +81,37 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value != CSSValue.Inherit)
-                return false;
+            if (value == CSSValue.Inherit)
+                return true;
+            else if (value is CSSValueList)
+                return Evaluate((CSSValueList)value);
 
+            return Evaluate(new CSSValueList(value));
+        }
+
+        Boolean Evaluate(CSSValueList values)
+        {
+            var outset = new CSSBorderImageOutsetProperty();
+            var repeat = new CSSBorderImageRepeatProperty();
+            var slice = new CSSBorderImageSliceProperty();
+            var source = new CSSBorderImageSourceProperty();
+            var width = new CSSBorderImageWidthProperty();
+            var foundSource = false;
+
+            //TODO
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (!foundSource && CheckSingleProperty(source, i, values))
+                    foundSource = true;
+                else
+                    return false;
+            }
+
+            _outset = outset;
+            _repeat = repeat;
+            _slice = slice;
+            _source = source;
+            _width = width;
             return true;
         }
 
