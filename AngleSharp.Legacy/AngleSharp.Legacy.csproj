@@ -283,6 +283,24 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundSizeProperty.cs">
       <Link>DOM\Css\Properties\Background\CSSBackgroundSizeProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderImage\CSSBorderImageOutsetProperty.cs">
+      <Link>DOM\Css\Properties\BorderImage\CSSBorderImageOutsetProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderImage\CSSBorderImageProperty.cs">
+      <Link>DOM\Css\Properties\BorderImage\CSSBorderImageProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderImage\CSSBorderImageRepeatProperty.cs">
+      <Link>DOM\Css\Properties\BorderImage\CSSBorderImageRepeatProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderImage\CSSBorderImageSliceProperty.cs">
+      <Link>DOM\Css\Properties\BorderImage\CSSBorderImageSliceProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderImage\CSSBorderImageSourceProperty.cs">
+      <Link>DOM\Css\Properties\BorderImage\CSSBorderImageSourceProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderImage\CSSBorderImageWidthProperty.cs">
+      <Link>DOM\Css\Properties\BorderImage\CSSBorderImageWidthProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderBottomLeftRadiusProperty.cs">
       <Link>DOM\Css\Properties\BorderRadius\CSSBorderBottomLeftRadiusProperty.cs</Link>
     </Compile>
