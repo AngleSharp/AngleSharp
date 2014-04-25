@@ -37,6 +37,19 @@ h1 {
         }
 
         [TestMethod]
+        public void CssSheetIgnoreUnknownProperty()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"h1 { color: red; rotation: 70minutes }");
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
+            var h1 = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual("h1", h1.SelectorText);
+            Assert.AreEqual(1, h1.Style.Length);
+            Assert.AreEqual("color", h1.Style[0]);
+            Assert.AreEqual("red", h1.Style.Color);
+        }
+
+        [TestMethod]
         public void CssCreateValueListConformal()
         {
             var valueString = "24px 12px 6px";
