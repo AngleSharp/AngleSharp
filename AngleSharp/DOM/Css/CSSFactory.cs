@@ -175,15 +175,15 @@
         public static CSSProperty Create(String name, CSSStyleDeclaration style)
         {
             Func<CSSProperty> propertyCreator;
-
-            if (properties.TryGetValue(name, out propertyCreator))
+            var property = style.Get(name);
+            
+            if (property == null && properties.TryGetValue(name, out propertyCreator))
             {
-                var property = propertyCreator();
+                property = propertyCreator();
                 property.Rule = style;
-                return property;
             }
 
-            return null;
+            return property;
         }
     }
 }

@@ -2545,7 +2545,7 @@
         /// Gets the given CSS property.
         /// </summary>
         /// <param name="index">The index of the property to get.</param>
-        /// <returns>The property at the specified position.</returns>
+        /// <returns>The property at the specified position or null.</returns>
         internal CSSProperty Get(Int32 index)
         {
             var i = 0;
@@ -2555,6 +2555,21 @@
                 if (i++ == index)
                     return rule.Value;
             }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the given CSS property.
+        /// </summary>
+        /// <param name="name">The name of the property to get.</param>
+        /// <returns>The property with the specified name or null.</returns>
+        internal CSSProperty Get(String name)
+        {
+            CSSProperty prop;
+
+            if (_rules.TryGetValue(name, out prop))
+                return prop;
 
             return null;
         }
