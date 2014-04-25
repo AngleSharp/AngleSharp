@@ -60,7 +60,82 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            return base.IsValid(value);
+            if (value == CSSValue.Inherit)
+                return true;
+
+            var width = Length.Medium;
+            var color = Color.Transparent;
+            var style = LineStyle.None;
+
+            if (value is CSSValueList)
+            {
+                var values = (CSSValueList)value;
+
+                if (values.Length > 3)
+                    return false;
+
+                Length? w = null;
+                Color? c = null;
+                LineStyle? s = null;
+
+                foreach (var v in values)
+                {
+                    if (!w.HasValue)
+                    {
+                        w = value.ToBorderWidth();
+
+                        if (w.HasValue)
+                        {
+                            width = w.Value;
+                            continue;
+                        }
+                    }
+
+                    if (!c.HasValue)
+                    {
+                        c = value.ToColor();
+
+                        if (c.HasValue)
+                        {
+                            color = c.Value;
+                            continue;
+                        }
+                    }
+
+                    if (!s.HasValue)
+                    {
+                        s = value.ToLineStyle();
+
+                        if (s.HasValue)
+                        {
+                            style = s.Value;
+                            continue;
+                        }
+                    }
+
+                    return false;
+                }
+            }
+            else
+            {
+                var w = value.ToBorderWidth();
+                var c = value.ToColor();
+                var s = value.ToLineStyle();
+
+                if (w.HasValue)
+                    width = w.Value;
+                else if (c.HasValue)
+                    color = c.Value;
+                else if (s.HasValue)
+                    style = s.Value;
+                else
+                    return false;
+            }
+
+            _width = width;
+            _color = color;
+            _style = style;
+            return true;
         }
 
         #endregion
