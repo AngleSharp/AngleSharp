@@ -52,11 +52,35 @@
 
         #region Methods
 
+        /// <summary>
+        /// Converts the length to a number of pixels, if possible.
+        /// </summary>
+        /// <returns>The number of pixels represented by the current length.</returns>
         public Single ToPixel()
         {
-            return _value;
+            switch (_unit)
+            {
+                case Unit.In: // 1 in = 2.54 cm
+                    return _value * 96f;
+                case Unit.Mm: // 1 mm = 0.1 cm
+                    return _value * 5f * 96f / 127f;
+                case Unit.Pc: // 1 pc = 12 pt
+                    return _value * 12f * 96f / 72f;
+                case Unit.Pt: // 1 pt = 1/72 in
+                    return _value * 96f / 72f;
+                case Unit.Cm: // 1 cm = 50/127 in
+                    return _value * 50f * 96f / 127f;
+                case Unit.Px: // 1 px = 1/96 in
+                default:
+                    return _value;
+            }
         }
 
+        /// <summary>
+        /// Checks if both lengths are actually equal.
+        /// </summary>
+        /// <param name="other">The other length to compare to.</param>
+        /// <returns>True if both lengths are equal, otherwise false.</returns>
         public Boolean Equals(Length other)
         {
             return _value == other._value && _unit == other._unit;
