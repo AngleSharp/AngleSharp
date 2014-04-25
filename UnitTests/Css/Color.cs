@@ -122,7 +122,7 @@ namespace UnitTests
         [TestMethod]
         public void ColorMixGreenOnRed30Percent()
         {
-            var color1 = Color.Green;
+            var color1 = Color.PureGreen;
             var color2 = Color.Red;
             var mix = Color.Mix(0.3, color1, color2);
             Assert.AreEqual(Color.FromRgb(178, 76, 0), mix);
@@ -169,7 +169,7 @@ namespace UnitTests
         public void ColorHslGreenPure()
         {
             var color = Color.FromHsl(1f / 3f, 1, 0.5f);
-            Assert.AreEqual(Color.Green, color);
+            Assert.AreEqual(Color.PureGreen, color);
         }
 
         [TestMethod]
