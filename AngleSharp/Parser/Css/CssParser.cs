@@ -719,8 +719,10 @@
 		{
 			if (token.Type == CssTokenType.Ident && ((CssKeywordToken)token).Data == "important")
 			{
+                if (property != null)
+                    property.Important = true;
+
 				SwitchTo(CssState.AfterValue);
-				property.Important = true;
 				return true;
 			}
 
