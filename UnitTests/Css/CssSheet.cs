@@ -9,6 +9,34 @@ namespace UnitTests
     public class CssSheetTests
     {
         [TestMethod]
+        public void CssSheetOnEofDuringRuleWithoutSemicolon()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"
+h1 {
+ color: red;
+ font-weight: bold");
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
+            var h1 = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual("h1", h1.SelectorText);
+            Assert.AreEqual("red", h1.Style.Color);
+            Assert.AreEqual("bold", h1.Style.FontWeight);
+        }
+
+        [TestMethod]
+        public void CssSheetOnEofDuringRuleWithinString()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"
+#something {
+ content: 'hi there");
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
+            var id = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual("#something", id.SelectorText);
+            Assert.AreEqual("'hi there'", id.Style.Content);
+        }
+
+        [TestMethod]
         public void CssCreateValueListConformal()
         {
             var valueString = "24px 12px 6px";
