@@ -74,13 +74,23 @@
         }
 
         /// <summary>
+        /// Gets if the property has a valid value, otherwise the property
+        /// is ignored.
+        /// </summary>
+        public Boolean IsLegal
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets or sets the value of the property.
         /// </summary>
         [DOM("value")]
         public CSSValue Value
         {
             get { return _value ?? CSSValue.Inherit; }
-            set { if (IsValid(value)) _value = value; }
+            set { if (IsLegal = IsValid(value)) _value = value; }
         }
 
         /// <summary>
