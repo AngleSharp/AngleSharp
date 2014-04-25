@@ -322,6 +322,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomColorProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderBottomColorProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderBottomProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomStyleProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderBottomStyleProperty.cs</Link>
     </Compile>
@@ -337,6 +340,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderLeftColorProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderLeftColorProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderLeftProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderLeftProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderLeftStyleProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderLeftStyleProperty.cs</Link>
     </Compile>
@@ -346,14 +352,23 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartColorProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderPartColorProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderPartProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartStyleProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderPartStyleProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartWidthProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderPartWidthProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRightColorProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderRightColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRightProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderRightProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRightStyleProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderRightStyleProperty.cs</Link>
@@ -369,6 +384,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopColorProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderTopColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopProperty.cs">
+      <Link>DOM\Css\Properties\Border\CSSBorderTopProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopStyleProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderTopStyleProperty.cs</Link>
