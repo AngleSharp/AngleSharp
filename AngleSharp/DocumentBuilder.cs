@@ -86,7 +86,7 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            var source = new SourceManager(sourceCode, configuration);
+            var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
             var doc = new HTMLDocument { Options = configuration };
             var db = new DocumentBuilder(source, doc, configuration);
             return db.HtmlResult;
@@ -126,7 +126,7 @@
                 configuration = Configuration.Default;
 
             var stream = await configuration.LoadAsync(url, cancel, force: true);
-            var source = new SourceManager(stream, configuration);
+            var source = new SourceManager(stream, configuration.DefaultEncoding());
             var doc = new HTMLDocument { Options = configuration, DocumentUri = url.OriginalString };
             var db = new DocumentBuilder(source, doc, configuration);
             await db.parser.ParseAsync();
@@ -144,7 +144,7 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            var source = new SourceManager(stream, configuration);
+            var source = new SourceManager(stream, configuration.DefaultEncoding());
             var doc = new HTMLDocument { Options = configuration };
 			var db = new DocumentBuilder(source, doc, configuration);
             return db.HtmlResult;
@@ -162,7 +162,7 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            var source = new SourceManager(sourceCode, configuration);
+            var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
             var doc = new HTMLDocument { Options = configuration };
 
             //Disable scripting for HTML fragments (security reasons)
@@ -198,7 +198,7 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            var source = new SourceManager(sourceCode, configuration);
+            var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet { Options = configuration };
 			var db = new DocumentBuilder(source, sheet, configuration);
             return db.CssResult;
@@ -238,7 +238,7 @@
                 configuration = Configuration.Default;
 
             var stream = await configuration.LoadAsync(url, cancel, force: true);
-            var source = new SourceManager(stream, configuration);
+            var source = new SourceManager(stream, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet { Href = url.OriginalString, Options = configuration };
             var db = new DocumentBuilder(source, sheet, configuration);
             await db.parser.ParseAsync();
@@ -256,7 +256,7 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            var source = new SourceManager(stream, configuration);
+            var source = new SourceManager(stream, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet { Options = configuration };
 			var db = new DocumentBuilder(source, sheet, configuration);
             return db.CssResult;

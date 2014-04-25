@@ -597,7 +597,7 @@
         internal void Load(Stream stream)
         {
             ReadyState = Readiness.Loading;
-            var source = new SourceManager(stream, Options);
+            var source = new SourceManager(stream, Options.DefaultEncoding());
             Destroy();
             var parser = new HtmlParser(this, source);
             parser.Parse();

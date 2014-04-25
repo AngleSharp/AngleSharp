@@ -32,13 +32,10 @@
         /// <summary>
         /// Prepares everything.
         /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        SourceManager(IConfiguration configuration = null)
+        /// <param name="encoding">The default encoding to use.</param>
+        SourceManager(Encoding encoding = null)
         {
-            if (configuration == null)
-                configuration = Configuration.Default;
-
-            _encoding = DocumentEncoding.Suggest(configuration.Language);
+            _encoding = encoding ?? Encoding.UTF8;
             _buffer = new StringBuilder();
             _collengths = new Stack<Int32>();
             _column = 1;
@@ -49,9 +46,9 @@
         /// Constructs a new instance of the source code manager.
         /// </summary>
         /// <param name="source">The source code string to manage.</param>
-        /// <param name="configuration">The configuration to use.</param>
-        public SourceManager(String source, IConfiguration configuration = null)
-            : this(configuration)
+        /// <param name="encoding">The default encoding to use.</param>
+        public SourceManager(String source, Encoding encoding = null)
+            : this(encoding)
         {
             _reader = new StringReader(source);
             ReadCurrent();
@@ -61,9 +58,9 @@
         /// Constructs a new instance of the source code manager.
         /// </summary>
         /// <param name="stream">The source code stream to manage.</param>
-        /// <param name="configuration">The configuration to use.</param>
-        public SourceManager(Stream stream, IConfiguration configuration = null)
-            : this(configuration)
+        /// <param name="encoding">The default encoding to use.</param>
+        public SourceManager(Stream stream, Encoding encoding = null)
+            : this(encoding)
         {
             _reader = new StreamReader(stream, true);
             ReadCurrent();

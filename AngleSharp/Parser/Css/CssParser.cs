@@ -53,7 +53,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public CssParser(String source, IConfiguration configuration = null)
-            : this(new CSSStyleSheet { Options = configuration }, new SourceManager(source, configuration))
+            : this(new CSSStyleSheet { Options = configuration }, new SourceManager(source, configuration.DefaultEncoding()))
         { }
 
         /// <summary>
@@ -63,7 +63,7 @@
         /// <param name="stream">The stream to use as source.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public CssParser(Stream stream, IConfiguration configuration = null)
-            : this(new CSSStyleSheet { Options = configuration }, new SourceManager(stream, configuration))
+            : this(new CSSStyleSheet { Options = configuration }, new SourceManager(stream, configuration.DefaultEncoding()))
         { }
 
         /// <summary>
@@ -73,7 +73,7 @@
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
         /// <param name="source">The source code as a string.</param>
         public CssParser(CSSStyleSheet stylesheet, String source)
-            : this(stylesheet, new SourceManager(source, stylesheet.Options))
+            : this(stylesheet, new SourceManager(source, stylesheet.Options.DefaultEncoding()))
         { }
 
         /// <summary>
@@ -83,7 +83,7 @@
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
         /// <param name="stream">The stream to use as source.</param>
         public CssParser(CSSStyleSheet stylesheet, Stream stream)
-            : this(stylesheet, new SourceManager(stream, stylesheet.Options))
+            : this(stylesheet, new SourceManager(stream, stylesheet.Options.DefaultEncoding()))
         { }
 
         /// <summary>
@@ -1309,7 +1309,7 @@
         /// <returns>The Selector object.</returns>
         public static Selector ParseSelector(String selector, IConfiguration configuration = null)
         {
-			var tokenizer = new CssTokenizer(new SourceManager(selector, configuration ?? Configuration.Default));
+            var tokenizer = new CssTokenizer(new SourceManager(selector, configuration.DefaultEncoding()));
 			var tokens = tokenizer.Tokens;
 			var creator = Pool.NewSelectorConstructor();
 

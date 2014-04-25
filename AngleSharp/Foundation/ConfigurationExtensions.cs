@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -11,6 +12,19 @@
     /// </summary>
     static class ConfigurationExtensions
     {
+        /// <summary>
+        /// Gets the default encoding for the given configuration.
+        /// </summary>
+        /// <param name="configuration">The configuration to use for getting the default encoding.</param>
+        /// <returns>The current encoding.</returns>
+        public static Encoding DefaultEncoding(this IConfiguration configuration)
+        {
+            if (configuration == null)
+                configuration = Configuration.Default;
+
+            return DocumentEncoding.Suggest(configuration.Language);
+        }
+
         /// <summary>
         /// Loads the given URI by using an asynchronous GET request.
         /// </summary>

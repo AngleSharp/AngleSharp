@@ -58,7 +58,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public HtmlParser(String source, IConfiguration configuration = null)
-            : this(new HTMLDocument { Options = configuration }, new SourceManager(source, configuration))
+            : this(new HTMLDocument { Options = configuration }, new SourceManager(source, configuration.DefaultEncoding()))
         {
         }
 
@@ -69,7 +69,7 @@
         /// <param name="stream">The stream to use as source.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public HtmlParser(Stream stream, IConfiguration configuration = null)
-            : this(new HTMLDocument { Options = configuration }, new SourceManager(stream, configuration))
+            : this(new HTMLDocument { Options = configuration }, new SourceManager(stream, configuration.DefaultEncoding()))
         {
         }
 
@@ -80,7 +80,7 @@
         /// <param name="document">The document instance to be constructed.</param>
         /// <param name="source">The source code as a string.</param>
         public HtmlParser(HTMLDocument document, String source)
-            : this(document, new SourceManager(source, document.Options))
+            : this(document, new SourceManager(source, document.Options.DefaultEncoding()))
         {
         }
 
@@ -91,7 +91,7 @@
         /// <param name="document">The document instance to be constructed.</param>
         /// <param name="stream">The stream to use as source.</param>
         public HtmlParser(HTMLDocument document, Stream stream)
-            : this(document, new SourceManager(stream, document.Options))
+            : this(document, new SourceManager(stream, document.Options.DefaultEncoding()))
         {
         }
 
