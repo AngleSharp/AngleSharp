@@ -58,7 +58,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public HtmlParser(String source, IConfiguration configuration = null)
-            : this(new HTMLDocument(), new SourceManager(source, configuration))
+            : this(new HTMLDocument { Options = configuration }, new SourceManager(source, configuration))
         {
         }
 
@@ -69,7 +69,7 @@
         /// <param name="stream">The stream to use as source.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public HtmlParser(Stream stream, IConfiguration configuration = null)
-            : this(new HTMLDocument(), new SourceManager(stream, configuration))
+            : this(new HTMLDocument { Options = configuration }, new SourceManager(stream, configuration))
         {
         }
 

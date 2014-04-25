@@ -53,7 +53,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public CssParser(String source, IConfiguration configuration = null)
-            : this(new CSSStyleSheet(), new SourceManager(source, configuration))
+            : this(new CSSStyleSheet { Options = configuration }, new SourceManager(source, configuration))
         { }
 
         /// <summary>
@@ -63,7 +63,7 @@
         /// <param name="stream">The stream to use as source.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public CssParser(Stream stream, IConfiguration configuration = null)
-            : this(new CSSStyleSheet(), new SourceManager(stream, configuration))
+            : this(new CSSStyleSheet { Options = configuration }, new SourceManager(stream, configuration))
         { }
 
         /// <summary>
@@ -350,7 +350,7 @@
 		{
 			if (token.Type == CssTokenType.CurlyBracketClose)
 			{
-				CloseProperty();
+                CloseProperty(value.ToValue());
 				SwitchTo(CurrentRule is CSSKeyframeRule ? CssState.KeyframesData : CssState.Data);
 				return CloseRule();
 			}
@@ -700,7 +700,7 @@
 		{
 			if (token.Type == CssTokenType.Semicolon)
 			{
-				CloseProperty();
+                CloseProperty(value.ToValue());
 				SwitchTo(CssState.InDeclaration);
 				return true;
 			}
@@ -999,7 +999,7 @@
 		{
 			if (token.Data == "inherit")
 			{
-				property.Value = CSSValue.Inherit;
+                CloseProperty(CSSValue.Inherit);
 				SwitchTo(CssState.AfterValue);
 				return true;
 			}
@@ -1033,11 +1033,11 @@
 		/// <summary>
 		/// Closes a property.
 		/// </summary>
-		void CloseProperty()
+		void CloseProperty(CSSValue value)
 		{
             if (property != null)
             {
-                property.Value = value.ToValue();
+                property.Value = value;
                 property = null;
             }
 		}
