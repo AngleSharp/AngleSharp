@@ -5,9 +5,9 @@
 
     /// <summary>
     /// Information can be found on MDN:
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow
     /// </summary>
-    public sealed class CSSBoxShadowProperty : CSSProperty
+    public sealed class CSSTextShadowProperty : CSSProperty
     {
         #region Fields
 
@@ -17,11 +17,11 @@
 
         #region ctor
 
-        internal CSSBoxShadowProperty()
-            : base(PropertyNames.BoxShadow)
+        internal CSSTextShadowProperty()
+            : base(PropertyNames.TextShadow)
         {
             _shadows = new List<Shadow>();
-            _inherited = false;
+            _inherited = true;
         }
 
         #endregion
@@ -56,7 +56,7 @@
         {
             var shadows = new List<Shadow>();
             var items = values.ToList();
-            
+
             foreach (var item in items)
             {
                 var shadow = item.ToShadow();

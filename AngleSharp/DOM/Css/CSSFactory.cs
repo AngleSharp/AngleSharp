@@ -147,6 +147,7 @@
             properties.Add(PropertyNames.TextDecorationColor, () => new CSSTextDecorationColorProperty());
             properties.Add(PropertyNames.TextIndent, () => new CSSTextIndentProperty());
             properties.Add(PropertyNames.TextTransform, () => new CSSTextTransformProperty());
+            properties.Add(PropertyNames.TextShadow, () => new CSSTextShadowProperty());
             properties.Add(PropertyNames.Transform, () => new CSSTransformProperty());
             properties.Add(PropertyNames.TransformOrigin, () => new CSSTransformOriginProperty());
             properties.Add(PropertyNames.TransformStyle, () => new CSSTransformStyleProperty());
@@ -182,7 +183,7 @@
                 return property;
             }
 
-            return new CSSProperty(name) { Rule = style };
+            return null;
         }
     }
 }

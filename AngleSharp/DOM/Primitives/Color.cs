@@ -33,9 +33,14 @@
         public static readonly Color Magenta = new Color(255, 0, 255);
 
         /// <summary>
+        /// The color #008000.
+        /// </summary>
+        public static readonly Color Green = new Color(0, 128, 0);
+
+        /// <summary>
         /// The color #00FF00.
         /// </summary>
-        public static readonly Color Green = new Color(0, 255, 0);
+        public static readonly Color PureGreen = new Color(0, 255, 0);
 
         /// <summary>
         /// The color #0000FF.
@@ -442,7 +447,7 @@
         /// <returns>The ARGB string.</returns>
         public override String ToString()
         {
-            return String.Concat("#", Alpha.ToString("X2"), red.ToString("X2"), green.ToString("X2"), blue.ToString("X2"));
+            return String.Concat("#", alpha.ToString("X2"), red.ToString("X2"), green.ToString("X2"), blue.ToString("X2"));
         }
 
         /// <summary>

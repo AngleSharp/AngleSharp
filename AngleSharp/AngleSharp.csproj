@@ -145,6 +145,7 @@
     <Compile Include="DOM\Css\Properties\Text\CSSTextDecorationStyleProperty.cs" />
     <Compile Include="DOM\Css\Properties\Text\CSSTextDecorationProperty.cs" />
     <Compile Include="DOM\Css\Properties\Text\CSSTextIndentProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Text\CSSTextShadowProperty.cs" />
     <Compile Include="DOM\Css\Properties\Text\CSSWhiteSpaceProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSWidowsProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSFontFamilyProperty.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="DOM\Css\Values\CSSStringValue.cs" />
     <Compile Include="DOM\Css\Values\CSSTransformValue.cs" />
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
+    <Compile Include="DOM\Objects\Shadow.cs" />
     <Compile Include="Foundation\ConcurrentDictionary.cs" />
     <Compile Include="DOM\Primitives\Angle.cs" />
     <Compile Include="Network\Constants\DefaultPorts.cs" />

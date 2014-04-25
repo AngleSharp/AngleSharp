@@ -2565,7 +2565,8 @@
         /// <param name="property">The property to set.</param>
         internal void Set(CSSProperty property)
         {
-            _rules[property.Name] = property;
+            if (property != null)
+                _rules[property.Name] = property;
         }
 
         /// <summary>
