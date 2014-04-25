@@ -80,40 +80,14 @@
 
                 foreach (var v in values)
                 {
-                    if (!w.HasValue)
-                    {
-                        w = value.ToBorderWidth();
-
-                        if (w.HasValue)
-                        {
-                            width = w.Value;
-                            continue;
-                        }
-                    }
-
-                    if (!c.HasValue)
-                    {
-                        c = value.ToColor();
-
-                        if (c.HasValue)
-                        {
-                            color = c.Value;
-                            continue;
-                        }
-                    }
-
-                    if (!s.HasValue)
-                    {
-                        s = value.ToLineStyle();
-
-                        if (s.HasValue)
-                        {
-                            style = s.Value;
-                            continue;
-                        }
-                    }
-
-                    return false;
+                    if (!w.HasValue && (w = v.ToBorderWidth()).HasValue)
+                        width = w.Value;
+                    else if (!c.HasValue && (c = v.ToColor()).HasValue)
+                        color = c.Value;
+                    else if (!s.HasValue && (s = v.ToLineStyle()).HasValue)
+                        style = s.Value;
+                    else
+                        return false;
                 }
             }
             else
