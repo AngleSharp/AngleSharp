@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents an array like structure containing CSS rules.
     /// </summary>
     [DOM("CSSRuleList")]
     public sealed class CSSRuleList : IEnumerable<CSSRule>, ICssObject
     {
-        #region Members
+        #region Fields
 
         List<CSSRule> _rules;
 
@@ -52,19 +52,24 @@ namespace AngleSharp.DOM.Css
 
         #endregion
 
-        #region Internal properties
+        #region Internal Methods
 
         /// <summary>
-        /// Gets the list with css rules.
+        /// Clears the rules.
         /// </summary>
-        internal List<CSSRule> List
+        internal void Clear()
         {
-            get { return _rules; }
+            _rules.Clear();
         }
 
-        #endregion
-
-        #region Internal methods
+        /// <summary>
+        /// Adds a rule to the list of rules.
+        /// </summary>
+        /// <param name="rule">The rule to be added.</param>
+        internal void Add(CSSRule rule)
+        {
+            _rules.Add(rule);
+        }
 
         /// <summary>
         /// Removes the rule at the given index.

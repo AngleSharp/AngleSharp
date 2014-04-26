@@ -7,7 +7,7 @@
     /// Represents the @font-face rule.
     /// </summary>
     [DOM("CSSFontFaceRule")]
-	public sealed class CSSFontFaceRule : CSSRule, IStyleDeclaration
+	public sealed class CSSFontFaceRule : CSSRule
     {
         #region Fields
 
@@ -154,7 +154,7 @@
 		/// <summary>
 		/// Gets the style declaration.
 		/// </summary>
-		CSSStyleDeclaration IStyleDeclaration.Style
+		public CSSStyleDeclaration Styles
 		{
 			get { return _cssRules; }
 		}

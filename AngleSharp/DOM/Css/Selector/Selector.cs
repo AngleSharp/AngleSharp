@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents a CSS selector as specified in
     /// http://dev.w3.org/csswg/selectors4/

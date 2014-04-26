@@ -1,15 +1,14 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+
     /// <summary>
     /// Represents an unknown rule.
     /// </summary>
 	sealed class CSSUnknownRule : CSSGroupingRule
 	{
-		#region Members
+		#region Fields
 
-		Boolean _stopped;
 		String _text;
 
 		#endregion
@@ -17,26 +16,13 @@ namespace AngleSharp.DOM.Css
 		#region Internal Methods
 
 		/// <summary>
-        /// Sets the textual representation for rules with
-		/// no sub-rules (instruction - stopped by ;).
+        /// Sets the textual representation of this unknown rule.
         /// </summary>
         /// <param name="text">The test to set.</param>
-        internal void SetInstruction(String text)
+        internal void SetText(String text)
         {
             _text = text;
-			_stopped = true;
         }
-
-		/// <summary>
-		/// Sets the textual representation for rules with
-		/// sub-rules (curly brackets).
-		/// </summary>
-		/// <param name="text">The test to set.</param>
-		internal void SetCondition(String text)
-		{
-			_text = text;
-			_stopped = false;
-		}
 
 		#endregion
 
@@ -48,10 +34,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-			if (_stopped)
-				return _text + ";";
-			
-			return _text + "{" + CssRules.ToCss() + "}";
+			return _text;
 		}
 
 		#endregion

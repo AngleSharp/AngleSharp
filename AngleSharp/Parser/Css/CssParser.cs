@@ -14,22 +14,17 @@
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
 		#region Fields
 		
 		CssSelectorConstructor selector;
-        CssValueBuilder value;
 		Boolean skipExceptions;
         CssTokenizer tokenizer;
-		CSSProperty property;
         Boolean started;
         Boolean quirks;
         CSSStyleSheet sheet;
-        Stack<CSSRule> open;
-		StringBuilder buffer;
-		CssState state;
 		Object sync;
 		Task task;
 
@@ -95,7 +90,6 @@
         internal CssParser(CSSStyleSheet stylesheet, SourceManager source)
         {
 			selector = Pool.NewSelectorConstructor();
-            value = new CssValueBuilder();
             sync = new Object();
             skipExceptions = true;
             tokenizer = new CssTokenizer(source);
@@ -109,8 +103,6 @@
             quirks = stylesheet.Options.UseQuirksMode;
             started = false;
             sheet = stylesheet;
-            open = new Stack<CSSRule>();
-			SwitchTo(CssState.Data);
         }
 
         #endregion
@@ -143,14 +135,6 @@
         public Boolean IsQuirksMode
         {
             get { return quirks; }
-        }
-
-        /// <summary>
-        /// Gets the current rule if any.
-        /// </summary>
-        internal CSSRule CurrentRule
-        {
-            get { return open.Count > 0 ? open.Peek() : null; }
         }
 
         #endregion
@@ -199,199 +183,543 @@
 
         #endregion
 
-		#region States
+        #region Create Rules
 
-		/// <summary>
-		/// The general state.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean Data(CssToken token)
-		{
-			if (token.Type == CssTokenType.AtKeyword)
-			{
-				switch (((CssKeywordToken)token).Data)
-				{
-					case RuleNames.MEDIA:
-					{
-						AddRule(new CSSMediaRule());
-						SwitchTo(CssState.InMediaList);
-						break;
-					}
-					case RuleNames.PAGE:
-					{
-						AddRule(new CSSPageRule());
-						SwitchTo(CssState.InSelector);
-						break;
-					}
-					case RuleNames.IMPORT:
-					{
-						AddRule(new CSSImportRule());
-						SwitchTo(CssState.BeforeImport);
-						break;
-					}
-					case RuleNames.FONT_FACE:
-					{
-						AddRule(new CSSFontFaceRule());
-						SwitchTo(CssState.InDeclaration);
-						break;
-					}
-					case RuleNames.CHARSET:
-					{
-						AddRule(new CSSCharsetRule());
-						SwitchTo(CssState.BeforeCharset);
-						break;
-					}
-					case RuleNames.NAMESPACE:
-					{
-						AddRule(new CSSNamespaceRule());
-						SwitchTo(CssState.BeforeNamespacePrefix);
-						break;
-					}
-					case RuleNames.SUPPORTS:
-					{
-						buffer = Pool.NewStringBuilder();
-						AddRule(new CSSSupportsRule());
-						SwitchTo(CssState.InCondition);
-						break;
-					}
-					case RuleNames.KEYFRAMES:
-					{
-						AddRule(new CSSKeyframesRule());
-						SwitchTo(CssState.BeforeKeyframesName);
-						break;
-					}
-					case RuleNames.DOCUMENT:
-					{
-						AddRule(new CSSDocumentRule());
-						SwitchTo(CssState.BeforeDocumentFunction);
-						break;
-					}
-					default: 
-					{
-						buffer = Pool.NewStringBuilder();
-						AddRule(new CSSUnknownRule());
-						SwitchTo(CssState.InUnknown);
-						InUnknown(token);
-						break;
-					}
-				}
+        /// <summary>
+        /// Called before a medialist has been created.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The created media rule.</returns>
+        CSSMediaRule CreateMediaRule(IEnumerator<CssToken> tokens)
+        {
+            var rule = new CSSMediaRule();
 
-				return true;
-			}
-			else if (token.Type == CssTokenType.CurlyBracketClose)
-			{
-				return CloseRule();
-			}
-			else
-			{
-				AddRule(new CSSStyleRule());
-				SwitchTo(CssState.InSelector);
-				InSelector(token);
-				return true;
-			}
-		}
+            if (tokens.MoveNext())
+                rule.Media = InMediaList(tokens);
+
+            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
+                FillRules(rule, tokens);
+
+            return rule;
+        }
+
+        /// <summary>
+        /// Called before a page selector has been found.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The created page rule.</returns>
+        CSSPageRule CreatePageRule(IEnumerator<CssToken> tokens)
+        {
+            var rule = new CSSPageRule();
+
+            if (tokens.MoveNext())
+                rule.Selector = InSelector(tokens);
+
+            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
+                FillDeclarations(rule.Style, tokens);
+
+            return rule;
+        }
+
+        /// <summary>
+        /// Called before the body of the font-face rule.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The created font-face rule.</returns>
+        CSSFontFaceRule CreateFontFaceRule(IEnumerator<CssToken> tokens)
+        {
+            var rule = new CSSFontFaceRule();
+
+            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
+                FillDeclarations(rule.Styles, tokens);
+
+            return rule;
+        }
+
+        /// <summary>
+        /// Called before a supports condition has been found.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The created supports rule.</returns>
+        CSSSupportsRule CreateSupportsRule(IEnumerator<CssToken> tokens)
+        {
+            var rule = new CSSSupportsRule();
+
+            if (tokens.MoveNext())
+                rule.ConditionText = Condition(tokens);
+
+            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
+                FillRules(rule, tokens);
+
+            return rule;
+        }
+
+        /// <summary>
+        /// Called before a document function has been found.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The generated document rule.</returns>
+        CSSDocumentRule CreateDocumentRule(IEnumerator<CssToken> tokens)
+        {
+            var rule = new CSSDocumentRule();
+
+            if (tokens.MoveNext())
+                rule.Conditions.AddRange(InDocumentFunctions(tokens));
+
+            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
+                FillRules(rule, tokens);
+
+            return rule;
+        }
+
+        /// <summary>
+        /// Called before a keyframes identifier has been found.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The generated keyframes rule.</returns>
+        CSSKeyframesRule CreateKeyframesRule(IEnumerator<CssToken> tokens)
+        {
+            var rule = new CSSKeyframesRule();
+
+            if (tokens.MoveNext())
+                rule.Name = InKeyframesName(tokens);
+
+            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
+                FillRules(rule, tokens);
+
+            return rule;
+        }
+
+        /// <summary>
+        /// Called before a prefix has been found for the namespace rule.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The generated namespace rule.</returns>
+        CSSNamespaceRule CreateNamespaceRule(IEnumerator<CssToken> tokens)
+        {
+            var rule = new CSSNamespaceRule();
+
+            if (tokens.MoveNext())
+            {
+                var token = tokens.Current;
+
+                if (token.Type == CssTokenType.Ident)
+                {
+                    rule.Prefix = ((CssKeywordToken)token).Data;
+
+                    if (tokens.MoveNext())
+                        token = tokens.Current;
+
+                    if (token.Type == CssTokenType.String)
+                        rule.NamespaceURI = ((CssStringToken)token).Data;
+                }
+
+                JumpToNextSemicolon(tokens);
+            }
+
+            return rule;
+        }
+
+        /// <summary>
+        /// Before a charset string has been found.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The generated rule.</returns>
+        CSSCharsetRule CreateCharsetRule(IEnumerator<CssToken> tokens)
+        {
+            var rule = new CSSCharsetRule();
+
+            if (tokens.MoveNext())
+            {
+                var token = tokens.Current;
+
+                if (token.Type == CssTokenType.String)
+                {
+                    rule.Encoding = ((CssStringToken)token).Data;
+                    tokens.MoveNext();
+                }
+
+                JumpToNextSemicolon(tokens);
+            }
+
+            return rule;
+        }
+
+        /// <summary>
+        /// Before an URL has been found for the import rule.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The created rule.</returns>
+        CSSImportRule CreateImportRule(IEnumerator<CssToken> tokens)
+        {
+            var import = new CSSImportRule();
+
+            if (tokens.MoveNext())
+            {
+                var token = tokens.Current;
+
+                if (token.Type == CssTokenType.String || token.Type == CssTokenType.Url)
+                {
+                    import.Href = ((CssStringToken)token).Data;
+
+                    if (tokens.MoveNext())
+                        import.Media = InMediaList(tokens);
+                }
+
+                JumpToNextSemicolon(tokens);
+            }
+
+            return import;
+        }
 
 		/// <summary>
 		/// State that is called once in the head of an unknown @ rule.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InUnknown(CssToken token)
-		{
-			switch (token.Type)
-			{
-				case CssTokenType.Semicolon:
-					CurrentRuleAs<CSSUnknownRule>().SetInstruction(buffer.ToPool());
-					SwitchTo(CssState.Data);
-					return CloseRule();
-				case CssTokenType.CurlyBracketOpen:
-					CurrentRuleAs<CSSUnknownRule>().SetCondition(buffer.ToPool());
-					SwitchTo(CssState.Data);
-					break;
-				default:
-					buffer.Append(token.ToValue());
-					break;
-			}
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+		/// <returns>The constructed rule.</returns>
+        CSSUnknownRule CreateUnknownRule(IEnumerator<CssToken> tokens)
+        {
+            var rule = new CSSUnknownRule();
+            var buffer = Pool.NewStringBuilder();
+            tokenizer.IgnoreWhitespace = false;
+            var open = 1;
 
-			return true;
+            do
+            {
+                var token = tokens.Current;
+                buffer.Append(token.ToValue());
+
+                if (token.Type == CssTokenType.CurlyBracketOpen)
+                    open++;
+                else if (token.Type == CssTokenType.CurlyBracketClose)
+                    open--;
+
+                if (open == 0)
+                    break;
+            }
+            while (tokens.MoveNext());
+
+            rule.SetText(buffer.ToPool());
+            tokenizer.IgnoreWhitespace = true;
+            return rule;
 		}
+
+        #endregion
+
+        #region States
+
+        /// <summary>
+        /// The general state.
+        /// </summary>
+        /// <param name="token">The current token.</param>
+        /// <returns>The status.</returns>
+        CSSRule Data(IEnumerator<CssToken> tokens)
+        {
+            var token = tokens.Current;
+
+            if (token.Type == CssTokenType.AtKeyword)
+            {
+                switch (((CssKeywordToken)token).Data)
+                {
+                    case RuleNames.Media:
+                        return CreateMediaRule(tokens);
+                    case RuleNames.Page:
+                        return CreatePageRule(tokens);
+                    case RuleNames.Import:
+                        return CreateImportRule(tokens);
+                    case RuleNames.FontFace:
+                        return CreateFontFaceRule(tokens);
+                    case RuleNames.Charset:
+                        return CreateCharsetRule(tokens);
+                    case RuleNames.Namespace:
+                        return CreateNamespaceRule(tokens);
+                    case RuleNames.Supports:
+                        return CreateSupportsRule(tokens);
+                    case RuleNames.Keyframes:
+                        return CreateKeyframesRule(tokens);
+                    case RuleNames.Document:
+                        return CreateDocumentRule(tokens);
+                }
+
+                return CreateUnknownRule(tokens);
+            }
+            else
+            {
+                var rule = new CSSStyleRule
+                {
+                    Selector = InSelector(tokens)
+                };
+
+                FillDeclarations(rule.Style, tokens);
+                return rule;
+            }
+        }
 
 		/// <summary>
 		/// State that is called once we are in a CSS selector.
 		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InSelector(CssToken token)
-		{
-			if (token.Type == CssTokenType.CurlyBracketOpen)
-			{
-				var rule = CurrentRule as ICssSelector;
+		/// <param name="tokens">The stream of tokens.</param>
+		/// <returns>The generated selector.</returns>
+		Selector InSelector(IEnumerator<CssToken> tokens)
+        {
+            tokenizer.IgnoreWhitespace = false;
+            selector.Reset();
+            selector.IgnoreErrors = skipExceptions;
 
-				if (rule != null)
-					rule.Selector = selector.Result;
+            do
+            {
+                var token = tokens.Current;
 
-				SwitchTo(CurrentRule is CSSStyleRule ? CssState.InDeclaration : CssState.Data);
-			}
-			else if (token.Type == CssTokenType.CurlyBracketClose)
-				return false;
-			else
-				selector.Apply(token);
+                if (token.Type == CssTokenType.CurlyBracketOpen || token.Type == CssTokenType.CurlyBracketClose)
+                    break;
+                
+                selector.Apply(token);
+            }
+            while (tokens.MoveNext());
 
-			return true;
+            tokenizer.IgnoreWhitespace = true;
+            return selector.Result;
 		}
 
 		/// <summary>
 		/// Called before the property name has been detected.
 		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InDeclaration(CssToken token)
-		{
-			if (token.Type == CssTokenType.CurlyBracketClose)
-			{
-                CloseProperty(value.ToValue());
-				SwitchTo(CurrentRule is CSSKeyframeRule ? CssState.KeyframesData : CssState.Data);
-				return CloseRule();
-			}
-			else if (token.Type == CssTokenType.Ident)
-			{
-                AddDeclaration(((CssKeywordToken)token).Data);
-				SwitchTo(CssState.AfterProperty);
-				return true;
-			}
+		/// <param name="tokens">The stream of tokens.</param>
+		/// <returns>The created property.</returns>
+		CSSProperty Declaration(CSSStyleDeclaration style, IEnumerator<CssToken> tokens)
+        {
+            var token = tokens.Current;
 
-			return false;
+            if (token.Type == CssTokenType.Ident)
+            {
+                var propertyName = ((CssKeywordToken)token).Data;
+
+                if (!tokens.MoveNext())
+                    return null;
+
+                token = tokens.Current;
+
+                if (token.Type != CssTokenType.Colon || !tokens.MoveNext())
+                    return null;
+
+                var property = CSSFactory.Create(propertyName, style);
+                property.Value = InValue(tokens);
+                property.Important = IsImportant(tokens);
+                JumpToEndOfDeclaration(tokens);
+                return property;
+            }
+
+			return null;
 		}
 
-        // ----------------------------------------------
-        //TODO:
+        Boolean IsImportant(IEnumerator<CssToken> tokens)
+        {
+            var token = tokens.Current;
 
-        //UNITLESS in QUIRKSMODE:
-        //  border-top-width
-        //  border-right-width
-        //  border-bottom-width
-        //  border-left-width
-        //  border-width
-        //  bottom
-        //  font-size
-        //  height
-        //  left
-        //  letter-spacing
-        //  margin
-        //  margin-right
-        //  margin-left
-        //  margin-top
-        //  margin-bottom
-        //  padding
-        //  padding-top
-        //  padding-bottom
-        //  padding-left
-        //  padding-right
-        //  right
-        //  top
-        //  width
-        //  word-spacing
+            if (token.Type == CssTokenType.Delim && ((CssDelimToken)token).Data == Specification.ExclamationMark)
+                return tokens.MoveNext() && tokens.Current.Type == CssTokenType.Ident && ((CssKeywordToken)tokens.Current).Data == "important";
+
+            return false;
+        }
+
+		/// <summary>
+		/// In the condition text of a supports rule.
+		/// </summary>
+		/// <param name="tokens">The stream of tokens.</param>
+		/// <returns>The condition text.</returns>
+		String Condition(IEnumerator<CssToken> tokens)
+        {
+            var buffer = Pool.NewStringBuilder();
+            tokenizer.IgnoreWhitespace = false;
+
+            do
+            {
+                var token = tokens.Current;
+
+                if (token.Type == CssTokenType.CurlyBracketOpen)
+                    break;
+
+                buffer.Append(token.ToValue());
+            }
+            while (tokens.MoveNext());
+
+            tokenizer.IgnoreWhitespace = true;
+			return buffer.ToPool();
+		}
+
+        #endregion
+
+        #region Document Functions
+
+        /// <summary>
+		/// Called when the document functions have to been found.
+		/// </summary>
+		/// <param name="tokens">The stream of tokens.</param>
+		/// <returns>The iteration over all found document functions.</returns>
+        IEnumerable<Tuple<CSSDocumentRule.DocumentFunction, String>> InDocumentFunctions(IEnumerator<CssToken> tokens)
+        {
+            do
+            {
+                var function = InDocumentFunction(tokens);
+
+                if (function != null)
+                    yield return function;
+            }
+            while (tokens.MoveNext() && tokens.Current.Type == CssTokenType.Comma);
+        }
+
+        /// <summary>
+		/// Called before a document function has been found.
+		/// </summary>
+		/// <param name="tokens">The stream of tokens.</param>
+		/// <returns>A single document function or null if none has been found.</returns>
+        Tuple<CSSDocumentRule.DocumentFunction, String> InDocumentFunction(IEnumerator<CssToken> tokens)
+        {
+            var token = tokens.Current;
+
+            switch (token.Type)
+            {
+                case CssTokenType.Url:
+                    return Tuple.Create(CSSDocumentRule.DocumentFunction.Url, ((CssStringToken)token).Data);
+
+                case CssTokenType.UrlPrefix:
+                    return Tuple.Create(CSSDocumentRule.DocumentFunction.UrlPrefix, ((CssStringToken)token).Data);
+
+                case CssTokenType.Domain:
+                    return Tuple.Create(CSSDocumentRule.DocumentFunction.Domain, ((CssStringToken)token).Data);
+
+                case CssTokenType.Function:
+                    if (String.Compare(((CssKeywordToken)token).Data, "regexp", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        if (!tokens.MoveNext())
+                            break;
+
+                        token = tokens.Current;
+
+                        if (token.Type == CssTokenType.String)
+                            return Tuple.Create(CSSDocumentRule.DocumentFunction.RegExp, ((CssStringToken)token).Data);
+
+                        JumpToClosedArguments(tokens);
+                    }
+                    break;
+            }
+
+            return null;
+		}
+
+        #endregion
+
+        #region Keyframes
+
+        /// <summary>
+        /// Before the name of an @keyframes rule has been detected.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The name of the keyframes.</returns>
+        String InKeyframesName(IEnumerator<CssToken> tokens)
+        {
+            var token = tokens.Current;
+
+            if (token.Type == CssTokenType.Ident)
+            {
+                tokens.MoveNext();
+                return ((CssKeywordToken)token).Data;
+            }
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Before the curly bracket of an @keyframes rule has been seen.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The generated keyframe data.</returns>
+        CSSKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
+        {
+            var rule = new CSSKeyframeRule();
+            rule.KeyText = InKeyframeText(tokens);
+            FillDeclarations(rule.Style, tokens);
+            return rule;
+        }
+
+        /// <summary>
+        /// Called in the text for a frame in the @keyframes rule.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The text of the keyframe.</returns>
+        String InKeyframeText(IEnumerator<CssToken> tokens)
+        {
+            var buffer = Pool.NewStringBuilder();
+
+            do
+            {
+                var token = tokens.Current;
+
+                if (token.Type == CssTokenType.CurlyBracketOpen)
+                    break;
+
+                buffer.Append(token.ToValue());
+            } while (tokens.MoveNext());
+
+            return buffer.ToPool();
+        }
+
+        #endregion
+
+        #region Media List
+
+        /// <summary>
+		/// Before any medium has been found for the @media or @import rule.
+		/// </summary>
+		/// <param name="tokens">The stream of tokens.</param>
+		/// <returns>The generated medialist.</returns>
+		MediaList InMediaList(IEnumerator<CssToken> tokens)
+		{
+            var list = new MediaList();
+            tokenizer.IgnoreWhitespace = false;
+
+            do
+            {              
+                var medium = InMediaValue(tokens);
+
+                if (!String.IsNullOrEmpty(medium))
+                    list.AppendMedium(medium);
+
+                if (tokens.Current.Type == CssTokenType.Semicolon || tokens.Current.Type == CssTokenType.CurlyBracketOpen)
+                    break;
+            }
+            while (tokens.MoveNext());
+            
+            tokenizer.IgnoreWhitespace = true;
+			return list;
+		}
+
+		/// <summary>
+		/// Scans the current medium for the @media or @import rule.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+		/// <returns>The medium.</returns>
+		String InMediaValue(IEnumerator<CssToken> tokens)
+		{
+            var buffer = Pool.NewStringBuilder();
+
+            do
+            {
+                var token = tokens.Current;
+
+                if (token.Type == CssTokenType.CurlyBracketOpen || token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.Comma)
+                    break;
+
+                buffer.Append(token.ToValue());
+            }
+            while (tokens.MoveNext());
+
+            return buffer.ToPool();
+		}
+
+		#endregion
+
+        #region Value
 
         //HASHLESS in QUIRKSMODE:
         //  background-color
@@ -402,705 +730,373 @@
         //  border-left-color
         //  color
 
-        //
-        // ----------------------------------------------
+        /// <summary>
+        /// Called before any token in the value regime had been seen.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The computed value.</returns>
+        CSSValue InValue(IEnumerator<CssToken> tokens)
+        {
+            tokenizer.IgnoreWhitespace = false;
+            var values = new List<CSSValue>();
 
-		/// <summary>
-		/// After instruction rules a semicolon is required.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean AfterInstruction(CssToken token)
-		{
-			if (token.Type == CssTokenType.Semicolon)
-			{
-				SwitchTo(CssState.Data);
-				return CloseRule();
-			}
+            do
+            {
+                var value = GetSingleValue(tokens);
 
-			return false;
-		}
+                if (value == null)
+                    break;
 
-		/// <summary>
-		/// In the condition text of a supports rule.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InCondition(CssToken token)
-		{
-			switch (token.Type)
-			{
-				case CssTokenType.CurlyBracketOpen:
-					CurrentRuleAs<CSSSupportsRule>().ConditionText = buffer.ToPool();
-					SwitchTo(CssState.Data);
-					break;
-				default:
-					buffer.Append(token.ToValue());
-					break;
-			}
+                values.Add(value);
+            }
+            while (tokens.MoveNext());
 
-			return true;
-		}
 
-		/// <summary>
-		/// Called before a prefix has been found for the namespace rule.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean BeforePrefix(CssToken token)
-		{
-			if (token.Type == CssTokenType.Ident)
-			{
-				CurrentRuleAs<CSSNamespaceRule>().Prefix = ((CssKeywordToken)token).Data;
-				SwitchTo(CssState.AfterNamespacePrefix);
-				return true;
-			}
+            tokenizer.IgnoreWhitespace = true;
 
-			SwitchTo(CssState.AfterInstruction);
-			return AfterInstruction(token);
-		}
+            if (values.Count == 1)
+                return values[0];
 
-		/// <summary>
-		/// Called before a namespace has been found for the namespace rule.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean BeforeNamespace(CssToken token)
-		{
-			SwitchTo(CssState.AfterInstruction);
+            return new CSSValueList(values);
+        }
 
-			if (token.Type == CssTokenType.String)
-			{
-				CurrentRuleAs<CSSNamespaceRule>().NamespaceURI = ((CssStringToken)token).Data;
-				return true;
-			}
+        static CSSValue GetSingleValue(IEnumerator<CssToken> tokens)
+        {
+            var token = tokens.Current;
 
-			return AfterInstruction(token);
-		}
-
-		/// <summary>
-		/// Before a charset string has been found.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean BeforeCharset(CssToken token)
-		{
-			SwitchTo(CssState.AfterInstruction);
-
-			if (token.Type == CssTokenType.String)
-			{
-				CurrentRuleAs<CSSCharsetRule>().Encoding = ((CssStringToken)token).Data;
-				return true;
-			}
-
-			return AfterInstruction(token);
-		}
-
-		/// <summary>
-		/// Before an URL has been found for the import rule.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean BeforeImport(CssToken token)
-		{
-			if (token.Type == CssTokenType.String || token.Type == CssTokenType.Url)
-			{
-				CurrentRuleAs<CSSImportRule>().Href = ((CssStringToken)token).Data;
-				SwitchTo(CssState.InMediaList);
-				return true;
-			}
-
-			SwitchTo(CssState.AfterInstruction);
-			return false;
-		}
-
-		/// <summary>
-		/// Called before the property separating colon has been seen.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean AfterProperty(CssToken token)
-		{
-			if (token.Type == CssTokenType.Colon)
-			{
-                value.Reset();
-				SwitchTo(CssState.BeforeValue);
-				return true;
-			}
-			else if (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketClose)
-				AfterValue(token);
-
-			return false;
-		}
-
-		/// <summary>
-		/// Called before any token in the value regime had been seen.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean BeforeValue(CssToken token)
-		{
-			if (token.Type == CssTokenType.Semicolon)
-				SwitchTo(CssState.InDeclaration);
-			else if (token.Type == CssTokenType.CurlyBracketClose)
-				InDeclaration(token);
-			else
-			{
-				SwitchTo(CssState.InSingleValue);
-				return InSingleValue(token);
-			}
-
-			return false;
-		}
-
-		/// <summary>
-		/// Called when a value has to be computed.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InSingleValue(CssToken token)
-		{
-			switch (token.Type)
-			{
+            switch (token.Type)
+            {
                 case CssTokenType.Dimension: // e.g. "3px"
                 case CssTokenType.Percentage: // e.g. "5%"
-                    value.AddValue(ToUnit((CssUnitToken)token));
-                    return true;
-				case CssTokenType.Hash:// e.g. "#ABCDEF"
-					return InSingleValueHexColor(((CssKeywordToken)token).Data);
-				case CssTokenType.Delim:// e.g. "#"
-					return InSingleValueDelim((CssDelimToken)token);
-				case CssTokenType.Ident: // e.g. "auto"
-					return InSingleValueIdent((CssKeywordToken)token);
-				case CssTokenType.String:// e.g. "'i am a string'"
-					value.AddValue(new CSSStringValue(((CssStringToken)token).Data));
-                    return true;
-				case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                    value.AddValue(new CSSPrimitiveValue<Location>(new Location(((CssStringToken)token).Data)));
-                    return true;
-				case CssTokenType.Number: // e.g. "173"
-					value.AddValue(ToNumber((CssNumberToken)token));
-                    return true;
-				case CssTokenType.Whitespace: // e.g. " "
-					SwitchTo(CssState.InValueList);
-					return true;
-				case CssTokenType.Function: //e.g. rgba(...)
-                    value.AddFunction(((CssKeywordToken)token).Data);
-					SwitchTo(CssState.InFunction);
-					return true;
-				case CssTokenType.Comma: // e.g. ","
-					SwitchTo(CssState.InValuePool);
-					return true;
-				case CssTokenType.Semicolon: // e.g. ";"
-				case CssTokenType.CurlyBracketClose: // e.g. "}"
-					return AfterValue(token);
-				default:
-					return false;
-			}
-		}
+                    return ToUnit((CssUnitToken)token);
+                case CssTokenType.Hash:// e.g. "#ABCDEF"
+                    return GetColorFromHexValue(((CssKeywordToken)token).Data);
+                case CssTokenType.Delim:// e.g. "#"
+                    return GetValueFromDelim(((CssDelimToken)token).Data, tokens);
+                case CssTokenType.Ident: // e.g. "auto"
+                    return GetIdentValue(((CssKeywordToken)token).Data);
+                case CssTokenType.String:// e.g. "'i am a string'"
+                    return new CSSStringValue(((CssStringToken)token).Data);
+                case CssTokenType.Url:// e.g. "url('this is a valid URL')"
+                    return new CSSPrimitiveValue<Location>(new Location(((CssStringToken)token).Data));
+                case CssTokenType.Number: // e.g. "173"
+                    return ToNumber((CssNumberToken)token);
+                case CssTokenType.Function: //e.g. rgba(...)
+                    return GetValueFunction(tokens);
+            }
 
-		/// <summary>
-		/// Gathers a value inside a function.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InValueFunction(CssToken token)
-		{
-			switch (token.Type)
-			{
-				case CssTokenType.RoundBracketClose:
-                    if (value.CloseFunction())
-					    SwitchTo(CssState.InSingleValue);
+            return null;
+        }
 
-					return true;
+        static CSSValue GetValueFromDelim(Char delimiter, IEnumerator<CssToken> tokens)
+        {
+            if (delimiter == Specification.Num)
+                return GetColorFromHexValue(tokens);
+            else if (delimiter == Specification.Solidus)
+                return CSSValue.Delimiter;
 
-				case CssTokenType.Comma:
-                    value.NextArgument();
-					return true;
+            return null;
+        }
 
-				default:
-					return InSingleValue(token);
-			}
-		}
+        static CSSValue GetIdentValue(String identifier)
+        {
+            if (identifier == "inherit")
+                return CSSValue.Inherit;
 
-		/// <summary>
-		/// Called when a new value is seen from the zero-POV (whitespace seen previously).
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InValueList(CssToken token)
-		{
-			if (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketClose)
-				AfterValue(token);
-			else if (token.Type == CssTokenType.Comma)
-				SwitchTo(CssState.InValuePool);
-			else
-			{
-				SwitchTo(CssState.InSingleValue);
-				return InSingleValue(token);
-			}
+            return new CSSIdentifierValue(identifier);
+        }
 
-			return true;
-		}
+        static CSSValue GetPoolOfValues(IEnumerator<CssToken> tokens)
+        {
+            var value = GetSingleValue(tokens);
 
-		/// <summary>
-		/// Called when a new value is seen from the zero-POV (comma seen previously).
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InValuePool(CssToken token)
-		{
-			if (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketClose)
-				AfterValue(token);
-			else
+            if (value != null && tokens.MoveNext() && tokens.Current.Type == CssTokenType.Whitespace)
             {
-                value.NextArgument();
-				SwitchTo(CssState.InSingleValue);
-				return InSingleValue(token);
-			}
+                var list = new CSSValueList(value);
 
-			return false;
-		}
+                while (tokens.MoveNext())
+                {
+                    value = GetSingleValue(tokens);
 
-		/// <summary>
-		/// Called if a # sign has been found.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InHexValue(CssToken token)
-		{
-			switch (token.Type)
-			{
-				case CssTokenType.Number:
-				case CssTokenType.Dimension:
-				case CssTokenType.Ident:
-					var rest = token.ToValue();
+                    if (value == null)
+                        break;
 
-					if (buffer.Length + rest.Length <= 6)
-					{
-						buffer.Append(rest);
-						return true;
-					}
+                    list.Add(value);
 
-					break;
-			}
+                    if (!tokens.MoveNext() || tokens.Current.Type != CssTokenType.Whitespace)
+                        break;
+                }
 
-			var s = buffer.ToPool();
-			InSingleValueHexColor(buffer.ToString());
-			SwitchTo(CssState.InSingleValue);
-			return InSingleValue(token);
-		}
+                return list;
+            }
 
-		/// <summary>
-		/// Called after the value is known to be over.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean AfterValue(CssToken token)
-		{
-			if (token.Type == CssTokenType.Semicolon)
-			{
-                CloseProperty(value.ToValue());
-				SwitchTo(CssState.InDeclaration);
-				return true;
-			}
-			else if (token.Type == CssTokenType.CurlyBracketClose)
-				return InDeclaration(token);
+            return value;
+        }
 
-			return false;
-		}
+        static List<CSSValue> GetListOfValues(IEnumerator<CssToken> tokens)
+        {
+            var list = new List<CSSValue>();
 
-		/// <summary>
-		/// Called once an important instruction is expected.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean ValueImportant(CssToken token)
-		{
-			if (token.Type == CssTokenType.Ident && ((CssKeywordToken)token).Data == "important")
-			{
-                if (property != null)
-                    property.Important = true;
+            do
+            {
+                var value = GetPoolOfValues(tokens);
 
-				SwitchTo(CssState.AfterValue);
-				return true;
-			}
+                if (tokens.Current.Type != CssTokenType.Comma)
+                    break;
+            }
+            while (tokens.MoveNext());
 
-			return AfterValue(token);
-		}
+            return list;
+        }
 
-		/// <summary>
-		/// Before the name of an @keyframes rule has been detected.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean BeforeKeyframesName(CssToken token)
-		{
-			SwitchTo(CssState.BeforeKeyframesData);
+        /// <summary>
+        /// Gathers a value from a CSS function.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The computed function.</returns>
+        static CSSValue GetValueFunction(IEnumerator<CssToken> tokens)
+        {
+            var name = ((CssKeywordToken)tokens.Current).Data;
+            var args = tokens.MoveNext() ? GetListOfValues(tokens) : new List<CSSValue>();
 
-			if (token.Type == CssTokenType.Ident)
-			{
-				CurrentRuleAs<CSSKeyframesRule>().Name = ((CssKeywordToken)token).Data;
-				return true;
-			}
-			else if (token.Type == CssTokenType.CurlyBracketOpen)
-			{
-				SwitchTo(CssState.KeyframesData);
-			}
+            if (tokens.Current.Type == CssTokenType.RoundBracketClose)
+                tokens.MoveNext();
 
-			return false;
-		}
+            return CSSFunctions.Create(name, args);
+        }
 
-		/// <summary>
-		/// Before the curly bracket of an @keyframes rule has been seen.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean BeforeKeyframesData(CssToken token)
-		{
-			if (token.Type == CssTokenType.CurlyBracketOpen)
-			{
-				SwitchTo(CssState.BeforeKeyframesData);
-				return true;
-			}
+        /// <summary>
+        /// Called if a # sign has been found.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The generated value.</returns>
+        static CSSPrimitiveValue<Color> GetColorFromHexValue(IEnumerator<CssToken> tokens)
+        {
+            var buffer = Pool.NewStringBuilder();
 
-			return false;
-		}
+            do
+            {
+                var token = tokens.Current;
 
-		/// <summary>
-		/// Called in the @keyframes rule.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean KeyframesData(CssToken token)
-		{
-			if (token.Type == CssTokenType.CurlyBracketClose)
-			{
-				SwitchTo(CssState.Data);
-				return CloseRule();
-			}
-			else
-			{
-				buffer = Pool.NewStringBuilder();
-				return InKeyframeText(token);
-			}
-		}
+                if (token.Type != CssTokenType.Number && token.Type != CssTokenType.Dimension && token.Type != CssTokenType.Ident)
+                    break;
 
-		/// <summary>
-		/// Called in the text for a frame in the @keyframes rule.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InKeyframeText(CssToken token)
-		{
-			if (token.Type == CssTokenType.CurlyBracketOpen)
-			{
-				var frame = new CSSKeyframeRule();
-				frame.KeyText = buffer.ToPool();
-				AddRule(frame);
-				SwitchTo(CssState.InDeclaration);
-				return true;
-			}
-			else if (token.Type == CssTokenType.CurlyBracketClose)
-			{
-				buffer.ToPool();
-				KeyframesData(token);
-				return false;
-			}
+                var rest = token.ToValue();
 
-			buffer.Append(token.ToValue());
-			return true;
-		}
+                if (buffer.Length + rest.Length > 6)
+                    break;
 
-		/// <summary>
-		/// Called before a document function has been found.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean BeforeDocumentFunction(CssToken token)
-		{
-			switch (token.Type)
-			{
-				case CssTokenType.Url:
-					CurrentRuleAs<CSSDocumentRule>().Conditions.Add(Tuple.Create(CSSDocumentRule.DocumentFunction.Url, ((CssStringToken)token).Data));
-					break;
-				case CssTokenType.UrlPrefix:
-					CurrentRuleAs<CSSDocumentRule>().Conditions.Add(Tuple.Create(CSSDocumentRule.DocumentFunction.UrlPrefix, ((CssStringToken)token).Data));
-					break;
-				case CssTokenType.Domain:
-					CurrentRuleAs<CSSDocumentRule>().Conditions.Add(Tuple.Create(CSSDocumentRule.DocumentFunction.Domain, ((CssStringToken)token).Data));
-					break;
-				case CssTokenType.Function:
-					if (String.Compare(((CssKeywordToken)token).Data, "regexp", StringComparison.OrdinalIgnoreCase) == 0)
-					{
-						SwitchTo(CssState.InDocumentFunction);
-						return true;
-					}
-					SwitchTo(CssState.AfterDocumentFunction);
-					return false;
-				default:
-					SwitchTo(CssState.Data);
-					return false;
-			}
+                buffer.Append(rest);
+            } while (tokens.MoveNext());
 
-			SwitchTo(CssState.BetweenDocumentFunctions);
-			return true;
-		}
-
-		/// <summary>
-		/// Called before the argument of a document function has been found.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InDocumentFunction(CssToken token)
-		{
-			SwitchTo(CssState.AfterDocumentFunction);
-
-			if (token.Type == CssTokenType.String)
-			{
-				CurrentRuleAs<CSSDocumentRule>().Conditions.Add(Tuple.Create(CSSDocumentRule.DocumentFunction.RegExp, ((CssStringToken)token).Data));
-				return true;
-			}
-
-			return false;
-		}
-
-		/// <summary>
-		/// Called after the arguments of a document function has been found.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean AfterDocumentFunction(CssToken token)
-		{
-			SwitchTo(CssState.BetweenDocumentFunctions);
-			return token.Type == CssTokenType.RoundBracketClose;
-		}
-
-		/// <summary>
-		/// Called after a function has been completed.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean BetweenDocumentFunctions(CssToken token)
-		{
-			if (token.Type == CssTokenType.Comma)
-			{
-				SwitchTo(CssState.BeforeDocumentFunction);
-				return true;
-			}
-			else if (token.Type == CssTokenType.CurlyBracketOpen)
-			{
-				SwitchTo(CssState.Data);
-				return true;
-			}
-
-			SwitchTo(CssState.Data);
-			return false;
-		}
-
-		/// <summary>
-		/// Before any medium has been found for the @media or @import rule.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InMediaList(CssToken token)
-		{
-			if (token.Type == CssTokenType.Semicolon)
-			{
-				CloseRule();
-				SwitchTo(CssState.Data);
-				return true;
-			}
-
-			buffer = Pool.NewStringBuilder();
-			SwitchTo(CssState.InMediaValue);
-			return InMediaValue(token);
-		}
-
-		/// <summary>
-		/// Scans the current medium for the @media or @import rule.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean InMediaValue(CssToken token)
-		{
-			switch (token.Type)
-			{
-				case CssTokenType.CurlyBracketOpen:
-				case CssTokenType.Semicolon:
-				{
-					var container = CurrentRule as ICssMedia;
-					var s = buffer.ToPool();
-
-					if (container != null)
-						container.Media.AppendMedium(s);
-
-					if (CurrentRule is CSSImportRule)
-						return AfterInstruction(token);
-
-					SwitchTo(CssState.Data);
-					return token.Type == CssTokenType.CurlyBracketClose;
-				}
-				case CssTokenType.Comma:
-				{
-					var container = CurrentRule as ICssMedia;
-
-					if (container != null)
-						container.Media.AppendMedium(buffer.ToString());
-
-					buffer.Clear();
-					return true;
-				}
-				case CssTokenType.Whitespace:
-				{
-					buffer.Append(' ');
-					return true;
-				}
-				default:
-				{
-					buffer.Append(token.ToValue());
-					return true;
-				}
-			}
-		}
-
-		#endregion
-
-		#region Substates
-
-		/// <summary>
-		/// Called in a value - a delimiter has been found.
-		/// </summary>
-		/// <param name="token">The current delim token.</param>
-		/// <returns>The status.</returns>
-		Boolean InSingleValueDelim(CssDelimToken token)
-		{
-			switch (token.Data)
-			{
-				case Specification.ExclamationMark:
-					SwitchTo(CssState.ValueImportant);
-					return true;
-				case Specification.Num:
-					buffer = Pool.NewStringBuilder();
-					SwitchTo(CssState.InHexValue);
-					return true;
-				case Specification.Solidus:
-                    value.InsertDelimiter();
-					return true;
-				default:
-					return false;
-			}
-		}
-
-		/// <summary>
-		/// Called in a value - an identifier has been found.
-		/// </summary>
-		/// <param name="token">The current keyword token.</param>
-		/// <returns>The status.</returns>
-		Boolean InSingleValueIdent(CssKeywordToken token)
-		{
-			if (token.Data == "inherit")
-			{
-                CloseProperty(CSSValue.Inherit);
-				SwitchTo(CssState.AfterValue);
-				return true;
-			}
-
-            value.AddValue(new CSSIdentifierValue(token.Data));
-            return true;
-		}
+            return GetColorFromHexValue(buffer.ToPool());
+        }
 
 		/// <summary>
 		/// Called in a value - a hash (probably hex) value has been found.
 		/// </summary>
-        /// <param name="color">The value of the token.</param>
-		/// <returns>The status.</returns>
-		Boolean InSingleValueHexColor(String color)
+        /// <param name="hexColor">The value of the token.</param>
+		/// <returns>The generated value.</returns>
+        static CSSPrimitiveValue<Color> GetColorFromHexValue(String hexColor)
 		{
 			Color colorValue;
 
-            if (Color.TryFromHex(color, out colorValue))
-            {
-                value.AddValue(new CSSPrimitiveValue<Color>(colorValue));
-                return true;
-            }
+            if (Color.TryFromHex(hexColor, out colorValue))
+                return new CSSPrimitiveValue<Color>(colorValue);
 
-			return false;
-		}
-
-		#endregion
-
-		#region Rule management
-
-		/// <summary>
-		/// Closes a property.
-		/// </summary>
-		void CloseProperty(CSSValue value)
-		{
-            if (property != null)
-            {
-                property.Value = value;
-                property = null;
-            }
-		}
-
-		/// <summary>
-		/// Closes the current rule (if any).
-		/// </summary>
-		/// <returns>The status.</returns>
-		Boolean CloseRule()
-		{
-			if (open.Count > 0)
-			{
-				open.Pop();
-				return true;
-			}
-
-			return false;
-		}
-
-		/// <summary>
-		/// Adds a new rule.
-		/// </summary>
-		/// <param name="rule">The new rule.</param>
-		void AddRule(CSSRule rule)
-		{
-			rule.ParentStyleSheet = sheet;
-
-			if (open.Count > 0)
-			{
-				var container = open.Peek() as ICssRules;
-
-				if (container != null)
-				{
-					container.CssRules.List.Add(rule);
-					rule.ParentRule = open.Peek();
-				}
-			}
-			else
-				sheet.CssRules.List.Add(rule);
-
-			open.Push(rule);
-		}
-
-		/// <summary>
-		/// Adds a declaration.
-		/// </summary>
-		/// <param name="propertyName">The name of the new property.</param>
-		void AddDeclaration(String propertyName)
-		{
-			var rule = CurrentRule as IStyleDeclaration;
-
-            if (rule != null)
-            {
-                this.property = CSSFactory.Create(propertyName, rule.Style);
-                rule.Style.Set(property);
-            }
+			return null;
 		}
 
 		#endregion
 
         #region Helpers
+
+        /// <summary>
+        /// The kernel that is pulling the tokens into the parser.
+        /// </summary>
+        void Kernel()
+        {
+            var tokens = tokenizer.Tokens.GetEnumerator();
+
+            while (tokens.MoveNext())
+            {
+                var rule = Data(tokens);
+
+                if (rule == null)
+                    continue;
+
+                rule.ParentStyleSheet = sheet;
+                sheet.CssRules.Add(rule);
+            }
+        }
+
+        /// <summary>
+        /// Fills the given parent rule with rules given by the tokens.
+        /// </summary>
+        /// <param name="parentRule">The parent rule to fill.</param>
+        /// <param name="tokens">The stream of tokens.</param>
+        void FillRules(CSSGroupingRule parentRule, IEnumerator<CssToken> tokens)
+        {
+            while (tokens.MoveNext())
+            {
+                if (tokens.Current.Type == CssTokenType.CurlyBracketClose)
+                    break;
+
+                var rule = Data(tokens);
+
+                if (rule == null)
+                    continue;
+
+                rule.ParentStyleSheet = sheet;
+                rule.ParentRule = parentRule;
+                parentRule.CssRules.Add(rule);
+            }
+        }
+
+        /// <summary>
+        /// Fills the given keyframe rule with rules given by the tokens.
+        /// </summary>
+        /// <param name="parentRule">The parent rule to fill.</param>
+        /// <param name="tokens">The stream of tokens.</param>
+        void FillRules(CSSKeyframesRule parentRule, IEnumerator<CssToken> tokens)
+        {
+            while (tokens.MoveNext())
+            {
+                if (tokens.Current.Type == CssTokenType.CurlyBracketClose)
+                    break;
+
+                var rule = CreateKeyframeRule(tokens);
+
+                if (rule == null)
+                    continue;
+
+                rule.ParentStyleSheet = sheet;
+                rule.ParentRule = parentRule;
+                parentRule.CssRules.Add(rule);
+            }
+        }
+
+        /// <summary>
+        /// Fills the given parent style with declarations given by the tokens.
+        /// </summary>
+        /// <param name="style">The style to declare.</param>
+        /// <param name="tokens">The stream of tokens.</param>
+        void FillDeclarations(CSSStyleDeclaration style, IEnumerator<CssToken> tokens)
+        {
+            while (tokens.MoveNext())
+            {
+                if (tokens.Current.Type == CssTokenType.CurlyBracketClose)
+                    break;
+
+                var property = Declaration(style, tokens);
+
+                if (property == null)
+                    continue;
+
+                style.Set(property);
+            }
+        }
+
+        static void JumpToEndOfDeclaration(IEnumerator<CssToken> tokens)
+        {
+            JumpTo(tokens, CssTokenType.Semicolon, CssTokenType.CurlyBracketClose);
+        }
+
+        static void JumpToNextSemicolon(IEnumerator<CssToken> tokens)
+        {
+            JumpTo(tokens, CssTokenType.Semicolon);
+        }
+
+        static void JumpToClosedArguments(IEnumerator<CssToken> tokens)
+        {
+            JumpTo(tokens, CssTokenType.RoundBracketClose);
+        }
+
+        static void JumpTo(IEnumerator<CssToken> tokens, CssTokenType target)
+        {
+            var round = 0;
+            var curly = 0;
+            var square = 0;
+            var canBeFound = true;
+
+            do
+            {
+                if (canBeFound && tokens.Current.Type == target)
+                    break;
+
+                switch (tokens.Current.Type)
+                {
+                    case CssTokenType.CurlyBracketClose:
+                        curly--;
+                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                    case CssTokenType.CurlyBracketOpen:
+                        curly++;
+                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                    case CssTokenType.RoundBracketClose:
+                        round--;
+                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                    case CssTokenType.RoundBracketOpen:
+                        round++;
+                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                    case CssTokenType.SquareBracketClose:
+                        square--;
+                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                    case CssTokenType.SquareBracketOpen:
+                        square++;
+                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                }
+            }
+            while (tokens.MoveNext());
+        }
+
+        static void JumpTo(IEnumerator<CssToken> tokens, CssTokenType target1, CssTokenType target2)
+        {
+            var round = 0;
+            var curly = 0;
+            var square = 0;
+            var canBeFound = true;
+
+            do
+            {
+                if (canBeFound && (tokens.Current.Type == target1 || tokens.Current.Type == target2))
+                    break;
+
+                switch (tokens.Current.Type)
+                {
+                    case CssTokenType.CurlyBracketClose:
+                        curly--;
+                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                    case CssTokenType.CurlyBracketOpen:
+                        curly++;
+                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                    case CssTokenType.RoundBracketClose:
+                        round--;
+                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                    case CssTokenType.RoundBracketOpen:
+                        round++;
+                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                    case CssTokenType.SquareBracketClose:
+                        square--;
+                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                    case CssTokenType.SquareBracketOpen:
+                        square++;
+                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                }
+            }
+            while (tokens.MoveNext());
+        }
 
         /// <summary>
         /// Converts the given unit to a value. Uses number for 0.
@@ -1161,142 +1157,6 @@
             return new CSSPrimitiveValue<Number>(new Number(token.Data));
         }
 
-		/// <summary>
-		/// Gets the current rule casted to the given type.
-		/// </summary>
-		T CurrentRuleAs<T>()
-			where T : CSSRule
-		{
-			if (open.Count > 0)
-				return open.Peek() as T;
-
-			return default(T);
-		}
-
-		/// <summary>
-		/// Switches the current state to the given one.
-		/// </summary>
-		/// <param name="newState">The state to switch to.</param>
-		void SwitchTo(CssState newState)
-		{
-			switch (newState)
-			{
-				case CssState.InSelector:
-					tokenizer.IgnoreComments = true;
-					tokenizer.IgnoreWhitespace = false;
-					selector.Reset();
-					selector.IgnoreErrors = skipExceptions;
-					break;
-
-				case CssState.InHexValue:
-				case CssState.InUnknown:
-				case CssState.InCondition:
-				case CssState.InSingleValue:
-				case CssState.InMediaValue:
-					tokenizer.IgnoreComments = true;
-					tokenizer.IgnoreWhitespace = false;
-					break;
-
-				default:
-					tokenizer.IgnoreComments = true;
-					tokenizer.IgnoreWhitespace = true;
-					break;
-			}
-
-			state = newState;
-		}
-
-		/// <summary>
-		/// The kernel that is pulling the tokens into the parser.
-		/// </summary>
-		void Kernel()
-		{
-			var tokens = tokenizer.Tokens;
-
-			foreach (var token in tokens)
-			{
-				if (General(token) == false)
-					RaiseErrorOccurred(ErrorCode.InputUnexpected);
-			}
-
-			if (property != null)
-				General(CssSpecialCharacter.Semicolon);
-
-			selector.ToPool();
-		}
-
-		/// <summary>
-		/// Examines the token by using the current state.
-		/// </summary>
-		/// <param name="token">The current token.</param>
-		/// <returns>The status.</returns>
-		Boolean General(CssToken token)
-		{
-			switch (state)
-			{
-				case CssState.Data:
-					return Data(token);
-				case CssState.InSelector:
-					return InSelector(token);
-				case CssState.InDeclaration:
-					return InDeclaration(token);
-				case CssState.AfterProperty:
-					return AfterProperty(token);
-				case CssState.BeforeValue:
-					return BeforeValue(token);
-				case CssState.InValuePool:
-					return InValuePool(token);
-				case CssState.InValueList:
-					return InValueList(token);
-				case CssState.InSingleValue:
-					return InSingleValue(token);
-				case CssState.ValueImportant:
-					return ValueImportant(token);
-				case CssState.AfterValue:
-					return AfterValue(token);
-				case CssState.InMediaList:
-					return InMediaList(token);
-				case CssState.InMediaValue:
-					return InMediaValue(token);
-				case CssState.BeforeImport:
-					return BeforeImport(token);
-				case CssState.AfterInstruction:
-					return AfterInstruction(token);
-				case CssState.BeforeCharset:
-					return BeforeCharset(token);
-				case CssState.BeforeNamespacePrefix:
-					return BeforePrefix(token);
-				case CssState.AfterNamespacePrefix:
-					return BeforeNamespace(token);
-				case CssState.InCondition:
-					return InCondition(token);
-				case CssState.InUnknown:
-					return InUnknown(token);
-				case CssState.InKeyframeText:
-					return InKeyframeText(token);
-				case CssState.BeforeDocumentFunction:
-					return BeforeDocumentFunction(token);
-				case CssState.InDocumentFunction:
-					return InDocumentFunction(token);
-				case CssState.AfterDocumentFunction:
-					return AfterDocumentFunction(token);
-				case CssState.BetweenDocumentFunctions:
-					return BetweenDocumentFunctions(token);
-				case CssState.BeforeKeyframesName:
-					return BeforeKeyframesName(token);
-				case CssState.BeforeKeyframesData:
-					return BeforeKeyframesData(token);
-				case CssState.KeyframesData:
-					return KeyframesData(token);
-				case CssState.InHexValue:
-					return InHexValue(token);
-				case CssState.InFunction:
-					return InValueFunction(token);
-				default:
-					return false;
-			}
-		}
-
 		#endregion
 
         #region Public static methods
@@ -1312,13 +1172,11 @@
             var tokenizer = new CssTokenizer(new SourceManager(selector, configuration.DefaultEncoding()));
 			var tokens = tokenizer.Tokens;
 			var creator = Pool.NewSelectorConstructor();
-
+            
 			foreach (var token in tokens)
 				creator.Apply(token);
 
-			var result = creator.Result;
-			creator.ToPool();
-			return result;
+			return creator.ToPool();
         }
 
         /// <summary>
@@ -1337,7 +1195,7 @@
         /// Takes a string and transforms it into a CSS rule.
         /// </summary>
         /// <param name="rule">The string to parse.</param>
-        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSRule object.</returns>
         public static CSSRule ParseRule(String rule, IConfiguration configuration = null)
         {
@@ -1345,10 +1203,10 @@
             parser.skipExceptions = false;
 			parser.Parse();
 
-			if (parser.sheet.CssRules.Length > 0)
-				return parser.sheet.CssRules[0];
+            if (parser.sheet.CssRules.Length == 0)
+                return null;
 
-			return null;
+            return parser.sheet.CssRules[0];
         }
 
         /// <summary>
@@ -1373,12 +1231,14 @@
         public static CSSProperty ParseDeclaration(String declarations, IConfiguration configuration = null)
         {
             var parser = new CssParser(declarations, configuration ?? Configuration.Default);
-            var rule = new CSSStyleRule();
-            parser.AddRule(rule);
-			parser.state = CssState.InDeclaration;
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+            var style = new CSSStyleDeclaration();
             parser.skipExceptions = false;
-			parser.Parse();
-            return rule.Style.Length != 0 ? rule.Style.Get(0) : null;
+
+            if (!tokens.MoveNext())
+                return null;
+
+            return parser.Declaration(style, tokens);
         }
 
         /// <summary>
@@ -1390,12 +1250,13 @@
         public static CSSValue ParseValue(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration ?? Configuration.Default);
-			var property = new CSSProperty(String.Empty);
-			parser.property = property;
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
             parser.skipExceptions = false;
-			parser.state = CssState.BeforeValue;
-			parser.Parse();
-            return property.Value;
+
+            if (!tokens.MoveNext())
+                return null;
+
+            return parser.InValue(tokens);
         }
 
 		#endregion
@@ -1410,30 +1271,21 @@
         /// <returns>The CSSValueList object.</returns>
         internal static CSSValueList ParseValueList(String source, IConfiguration configuration = null)
         {
-			var parser = new CssParser(source, configuration);
-			var property = new CSSProperty(String.Empty);
-			parser.property = property;
-			parser.skipExceptions = false;
-			parser.state = CssState.InValueList;
-			parser.Parse();
+            var parser = new CssParser(source, configuration);
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+            parser.skipExceptions = false;
 
-            if (!property.HasValue)
+            if (!tokens.MoveNext())
+                return null;
+
+            var value = parser.InValue(tokens);
+
+            if (value == null)
                 return new CSSValueList();
+            else if (value is CSSValueList)
+                return (CSSValueList)value;
 
-            var list = property.Value as CSSValueList ?? new CSSValueList(property.Value);
-
-            for (var i = 0; i < list.Length; i++)
-            {
-                if (list[i] == CSSValue.Separator)
-                {
-                    for (var j = list.Length - 1; j >= i; j--)
-                        list.Remove(list[j]);
-
-                    break;
-                }
-            }
-
-            return list;
+            return new CSSValueList(value);
         }
 
         /// <summary>
@@ -1444,39 +1296,7 @@
         /// <returns>The CSSValueList object.</returns>
         internal static List<CSSValueList> ParseMultipleValues(String source, IConfiguration configuration = null)
         {
-			var parser = new CssParser(source, configuration);
-			var property = new CSSProperty(String.Empty);
-            var result = new List<CSSValueList>();
-			parser.property = property;
-			parser.skipExceptions = false;
-			parser.state = CssState.InValuePool;
-            parser.Parse();
-
-            if (property.HasValue)
-            {
-                var list = property.Value as CSSValueList ?? new CSSValueList(property.Value);
-                var temp = new CSSValueList();
-
-                foreach (var entry in list)
-                {
-                    if (entry == CSSValue.Separator)
-                    {
-                        if (temp.Length > 0)
-                            result.Add(temp);
-
-                        temp = new CSSValueList();
-                    }
-                    else
-                        temp.Add(entry);
-                }
-
-                if (temp.Length > 0)
-                    result.Add(temp);
-
-                temp = null;
-            }
-
-            return result;
+            return ParseValueList(source, configuration).ToList();
         }
 
         /// <summary>
@@ -1489,12 +1309,13 @@
         internal static CSSKeyframeRule ParseKeyframeRule(String rule, IConfiguration configuration = null)
         {
             var parser = new CssParser(rule, configuration);
-			var keyframe = new CSSKeyframeRule();
-			parser.AddRule(keyframe);
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
             parser.skipExceptions = false;
-			parser.state = CssState.InKeyframeText;
-			parser.Parse();
-            return keyframe;
+
+            if (!tokens.MoveNext())
+                return new CSSKeyframeRule();
+
+            return parser.CreateKeyframeRule(tokens);
         }
 
 		/// <summary>
@@ -1506,143 +1327,10 @@
 		internal static void AppendDeclarations(CSSStyleDeclaration list, String declarations, IConfiguration configuration = null)
 		{
 			var parser = new CssParser(declarations, configuration ?? Configuration.Default);
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
 			parser.skipExceptions = false;
-
-			if (list.ParentRule != null)
-				parser.AddRule(list.ParentRule);
-			else
-				parser.AddRule(new CSSStyleRule(list));
-
-			parser.state = CssState.InDeclaration;
-			parser.Parse();
+            parser.FillDeclarations(list, tokens);
 		}
-
-        #endregion
-
-		#region State Enumeration
-
-		/// <summary>
-		/// The enumeration with possible state values.
-		/// </summary>
-		enum CssState
-		{
-            /// <summary>
-            /// The initial state.
-            /// </summary>
-			Data,
-            /// <summary>
-            /// In some selector.
-            /// </summary>
-			InSelector,
-            /// <summary>
-            /// In a declaration.
-            /// </summary>
-			InDeclaration,
-            /// <summary>
-            /// After a property.
-            /// </summary>
-			AfterProperty,
-            /// <summary>
-            /// Before the value of a property.
-            /// </summary>
-			BeforeValue,
-            /// <summary>
-            /// In a value pool.
-            /// </summary>
-			InValuePool,
-            /// <summary>
-            /// In a value list.
-            /// </summary>
-			InValueList,
-            /// <summary>
-            /// In a single value.
-            /// </summary>
-			InSingleValue,
-            /// <summary>
-            /// In the listing of media.
-            /// </summary>
-			InMediaList,
-            /// <summary>
-            /// In a specific media value.
-            /// </summary>
-			InMediaValue,
-            /// <summary>
-            /// Before the value of the import.
-            /// </summary>
-			BeforeImport,
-            /// <summary>
-            /// Before the charset.
-            /// </summary>
-			BeforeCharset,
-            /// <summary>
-            /// Before the prefix of a namespace has been declared.
-            /// </summary>
-            BeforeNamespacePrefix,
-            /// <summary>
-            /// After the prefix of a namespace has been declared.
-            /// </summary>
-            AfterNamespacePrefix,
-            /// <summary>
-            /// After an instruction command.
-            /// </summary>
-			AfterInstruction,
-            /// <summary>
-            /// In a CSS3 condition.
-            /// </summary>
-			InCondition,
-            /// <summary>
-            /// Keyframes rule - before the name.
-            /// </summary>
-            BeforeKeyframesName,
-            /// <summary>
-            /// Keyframes rule - after the name.
-            /// </summary>
-            BeforeKeyframesData,
-            /// <summary>
-            /// Keyframes rule - in the keyframes data.
-            /// </summary>
-            KeyframesData,
-            /// <summary>
-            /// Keyframes rule - in the keyframes text.
-            /// </summary>
-            InKeyframeText,
-            /// <summary>
-            /// Before a CSS3 document function.
-            /// </summary>
-            BeforeDocumentFunction,
-            /// <summary>
-            /// In a CSS3 document function.
-            /// </summary>
-            InDocumentFunction,
-            /// <summary>
-            /// After a CSS3 document function.
-            /// </summary>
-            AfterDocumentFunction,
-            /// <summary>
-            /// Between CSS3 document functions.
-            /// </summary>
-            BetweenDocumentFunctions,
-            /// <summary>
-            /// In an unknown rule.
-            /// </summary>
-			InUnknown,
-            /// <summary>
-            /// Triggered by the ! in a CSS value.
-            /// </summary>
-			ValueImportant,
-            /// <summary>
-            /// After a value (before important or ending).
-            /// </summary>
-			AfterValue,
-            /// <summary>
-            /// In a hex value - e.g. the hash has been found.
-            /// </summary>
-			InHexValue,
-            /// <summary>
-            /// In a CSS value function.
-            /// </summary>
-			InFunction
-        }
 
         #endregion
 
@@ -1654,8 +1342,6 @@
         /// <param name="code">The associated error code.</param>
         void RaiseErrorOccurred(ErrorCode code)
         {
-            value.IsFaulted = true;
-
             if (ParseError != null)
             {
                 var pck = new ParseErrorEventArgs((Int32)code, Errors.GetError(code));

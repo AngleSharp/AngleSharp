@@ -224,11 +224,8 @@
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
     <Compile Include="DocumentBuilder.cs" />
-    <Compile Include="DOM\Annotations\ICssMedia.cs" />
     <Compile Include="DOM\Annotations\ICssPrimitive.cs" />
     <Compile Include="DOM\Annotations\ICssRules.cs" />
-    <Compile Include="DOM\Annotations\ICssSelector.cs" />
-    <Compile Include="DOM\Annotations\IStyleDeclaration.cs" />
     <Compile Include="DOM\Css\Rules\CSSDocumentRule.cs" />
     <Compile Include="DOM\Constants\AdjacentPosition.cs" />
     <Compile Include="DOM\Html\HTMLFactory.cs" />

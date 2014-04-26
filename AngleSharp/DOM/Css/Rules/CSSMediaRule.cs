@@ -1,15 +1,15 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+
     /// <summary>
     /// Represents a CSS @media rule.
     /// </summary>
     [DOM("CSSMediaRule")]
-    public sealed class CSSMediaRule : CSSConditionRule, ICssMedia
+    public sealed class CSSMediaRule : CSSConditionRule
     {
-        #region Members
+        #region Fields
 
         MediaList _media;
 
@@ -22,7 +22,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         internal CSSMediaRule()
         {
-            _media = new MediaList();
+            _media = MediaList.Empty;
             _type = CssRuleType.Media;
         }
 
@@ -47,6 +47,7 @@ namespace AngleSharp.DOM.Css
         public MediaList Media
         {
             get { return _media; }
+            internal set { _media = value; }
         }
 
         #endregion

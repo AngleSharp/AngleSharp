@@ -1,15 +1,15 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+
     /// <summary>
     /// Represents a CSS import rule.
     /// </summary>
     [DOM("CSSImportRule")]
-    public sealed class CSSImportRule : CSSRule, ICssMedia
+    public sealed class CSSImportRule : CSSRule
     {
-        #region Members
+        #region Fields
 
         String _href;
         MediaList _media;
@@ -24,7 +24,7 @@ namespace AngleSharp.DOM.Css
         /// </summary>
         internal CSSImportRule()
         {
-            _media = new MediaList();
+            _media = MediaList.Empty;
             _type = CssRuleType.Import;
         }
 
@@ -49,6 +49,7 @@ namespace AngleSharp.DOM.Css
         public MediaList Media
         {
             get { return _media; }
+            internal set { _media = value; }
         }
 
         /// <summary>

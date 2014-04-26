@@ -37,6 +37,11 @@
 
         #region Fields
 
+        /// <summary>
+        /// Represents an empty media list.
+        /// </summary>
+        public static readonly MediaList Empty = new MediaList();
+
         List<String> _media;
         String _buffer;
 

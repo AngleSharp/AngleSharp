@@ -37,6 +37,16 @@
 			_items.Add(item);
         }
 
+        /// <summary>
+        /// Creates a new CSS value list.
+        /// </summary>
+        /// <param name="items">The items to use.</param>
+        internal CSSValueList(List<CSSValue> items)
+        {
+            _items = items;
+            _type = CssValueType.ValueList;
+        }
+
 		#endregion
 
         #region Properties

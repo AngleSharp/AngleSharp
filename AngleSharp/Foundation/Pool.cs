@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.DOM.Css;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
@@ -80,15 +81,21 @@
         }
 
 		/// <summary>
-		/// Returns the given selector constructor to the pool.
+		/// Returns the given selector constructor to the pool and gets the
+        /// constructed selector.
 		/// </summary>
-		/// <param name="ctor">The constructor to recycle.</param>
-		public static void ToPool(this CssSelectorConstructor ctor)
-		{
+        /// <param name="ctor">The constructor to recycle.</param>
+        /// <returns>The Selector that is contained in the constructor.</returns>
+		public static Selector ToPool(this CssSelectorConstructor ctor)
+        {
+            var result = ctor.Result;
+
 			lock (_lock)
 			{
 				_selector.Push(ctor);
-			}
+            }
+
+            return result;
 		}
 
         #endregion

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+
     /// <summary>
     /// Contains all CSS rule names.
     /// </summary>
@@ -10,46 +10,46 @@ namespace AngleSharp
         /// <summary>
         /// The @supports rule.
         /// </summary>
-        public const String SUPPORTS = "supports";
+        public const String Supports = "supports";
 
         /// <summary>
         /// The @charset rule.
         /// </summary>
-        public const String CHARSET = "charset";
+        public const String Charset = "charset";
 
         /// <summary>
         /// The @document rule.
         /// </summary>
-        public const String DOCUMENT = "document";
+        public const String Document = "document";
 
         /// <summary>
         /// The @font-face rule.
         /// </summary>
-        public const String FONT_FACE = "font-face";
+        public const String FontFace = "font-face";
 
         /// <summary>
         /// The @import rule.
         /// </summary>
-        public const String IMPORT = "import";
+        public const String Import = "import";
 
         /// <summary>
         /// The @keyframes rule.
         /// </summary>
-        public const String KEYFRAMES = "keyframes";
+        public const String Keyframes = "keyframes";
 
         /// <summary>
         /// The @media rule.
         /// </summary>
-        public const String MEDIA = "media";
+        public const String Media = "media";
 
         /// <summary>
         /// The @namespace rule.
         /// </summary>
-        public const String NAMESPACE = "namespace";
+        public const String Namespace = "namespace";
 
         /// <summary>
         /// The @page rule.
         /// </summary>
-        public const String PAGE = "page";
+        public const String Page = "page";
     }
 }

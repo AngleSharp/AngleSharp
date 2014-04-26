@@ -1,14 +1,14 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+
     /// <summary>
     /// Represents an @supports rule.
     /// </summary>
     [DOM("CSSSupportsRule")]
     public sealed class CSSSupportsRule : CSSConditionRule
     {
-        #region Members
+        #region Fields
 
         String _condition;
         Boolean _used;

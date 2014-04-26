@@ -116,7 +116,7 @@
         internal void ReevaluateFromUrl(String url)
         {
             TryCancelCurrent();
-            _cssRules.List.Clear();
+            _cssRules.Clear();
             _current = ParseAsync(url, _cts.Token);
         }
 
@@ -144,7 +144,7 @@
         internal void ReevaluateFromSource(String source)
         {
             TryCancelCurrent();
-            _cssRules.List.Clear();
+            _cssRules.Clear();
 
             if (Options.IsStyling)
             {

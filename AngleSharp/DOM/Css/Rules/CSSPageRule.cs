@@ -8,7 +8,7 @@
     /// Represents the @page rule.
     /// </summary>
     [DOM("CSSPageRule")]
-	public sealed class CSSPageRule : CSSRule, ICssSelector, IStyleDeclaration
+	public sealed class CSSPageRule : CSSRule
     {
         #region Fields
 
@@ -46,27 +46,20 @@
 
         #endregion
 
-        #region Internal Properties
+        #region Properties
 
         /// <summary>
-        /// Gets or sets the selector.
-		/// </summary>
-		Selector ICssSelector.Selector
-		{
-			get
-			{
-				return _selector;
-			}
-			set
-			{
-				_selector = value;
-				_selectorText = value.ToCss();
-			}
-		}
-
-        #endregion
-
-        #region Properties
+        /// Gets the selector for matching pages.
+        /// </summary>
+        public Selector Selector
+        {
+            get { return _selector; }
+            internal set
+            {
+                _selector = value;
+                _selectorText = value.ToCss();
+            }
+        }
 
         /// <summary>
         /// Gets the parsable textual representation of the page selector for the rule.

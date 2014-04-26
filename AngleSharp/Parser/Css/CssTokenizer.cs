@@ -68,7 +68,7 @@
             {
                 CssToken token;
 
-                while(true)
+                while (true)
                 {
                     token = Data(_src.Current);
 

@@ -8,7 +8,7 @@
     /// Represents a CSS style rule.
     /// </summary>
     [DOM("CSSStyleRule")]
-	public sealed class CSSStyleRule : CSSRule, ICssSelector, IStyleDeclaration
+	public sealed class CSSStyleRule : CSSRule
     {
         #region Fields
 
@@ -41,24 +41,20 @@
 
         #endregion
 
-        #region Internal Properties
+        #region Properties
 
         /// <summary>
-        /// Gets or sets the selector.
-		/// </summary>
-		Selector ICssSelector.Selector
-		{
-			get { return _selector; }
-			set
-			{
-				_selector = value;
-				_selectorText = value.ToCss();
-			}
-		}
-
-        #endregion
-
-        #region Properties
+        /// Gets the selector for matching elements.
+        /// </summary>
+        public Selector Selector
+        {
+            get { return _selector; }
+            internal set
+            {
+                _selector = value;
+                _selectorText = value.ToCss();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the textual representation of the selector for this rule, e.g. "h1,h2".

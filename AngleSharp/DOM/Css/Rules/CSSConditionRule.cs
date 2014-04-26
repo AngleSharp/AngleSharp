@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+
     /// <summary>
     /// Represents the abstract base class for
     /// CSS media and CSS supports rules.
