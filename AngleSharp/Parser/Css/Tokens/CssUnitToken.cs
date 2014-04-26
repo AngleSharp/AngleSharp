@@ -8,7 +8,7 @@
     /// </summary>
     sealed class CssUnitToken : CssToken
     {
-        #region Members
+        #region Fields
 
         String _data;
         String _unit;

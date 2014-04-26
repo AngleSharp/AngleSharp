@@ -1111,43 +1111,41 @@
         {
             if (token.Type == CssTokenType.Percentage)
                 return new CSSPrimitiveValue<Percent>(new Percent(token.Data));
-            else
+
+            switch (token.Unit.ToLower())
             {
-                switch (token.Unit.ToLower())
-                {
-                    case "em":   return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Em));
-                    case "cm":   return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Cm));
-                    case "ex":   return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Ex));
-                    case "in":   return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.In));
-                    case "mm":   return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Mm));
-                    case "pc":   return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Pc));
-                    case "pt":   return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Pt));
-                    case "px":   return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Px));
-                    case "rem":  return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Rem));
-                    case "ch":   return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Ch));
-                    case "vw":   return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Vw));
-                    case "vh":   return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Vh));
-                    case "vmin": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Vmin));
-                    case "vmax": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Vmax));
+                case "em": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Em));
+                case "cm": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Cm));
+                case "ex": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Ex));
+                case "in": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.In));
+                case "mm": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Mm));
+                case "pc": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Pc));
+                case "pt": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Pt));
+                case "px": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Px));
+                case "rem": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Rem));
+                case "ch": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Ch));
+                case "vw": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Vw));
+                case "vh": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Vh));
+                case "vmin": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Vmin));
+                case "vmax": return new CSSPrimitiveValue<Length>(new Length(token.Data, Length.Unit.Vmax));
 
-                    case "ms":   return new CSSPrimitiveValue<Time>(new Time(token.Data, Time.Unit.Ms));
-                    case "s":    return new CSSPrimitiveValue<Time>(new Time(token.Data, Time.Unit.S));
+                case "ms": return new CSSPrimitiveValue<Time>(new Time(token.Data, Time.Unit.Ms));
+                case "s": return new CSSPrimitiveValue<Time>(new Time(token.Data, Time.Unit.S));
 
-                    case "dpi":  return new CSSPrimitiveValue<Resolution>(new Resolution(token.Data, Resolution.Unit.Dpi));
-                    case "dpcm": return new CSSPrimitiveValue<Resolution>(new Resolution(token.Data, Resolution.Unit.Dpcm));
-                    case "dppx": return new CSSPrimitiveValue<Resolution>(new Resolution(token.Data, Resolution.Unit.Dppx));
+                case "dpi": return new CSSPrimitiveValue<Resolution>(new Resolution(token.Data, Resolution.Unit.Dpi));
+                case "dpcm": return new CSSPrimitiveValue<Resolution>(new Resolution(token.Data, Resolution.Unit.Dpcm));
+                case "dppx": return new CSSPrimitiveValue<Resolution>(new Resolution(token.Data, Resolution.Unit.Dppx));
 
-                    case "deg":  return new CSSPrimitiveValue<Angle>(new Angle(token.Data, Angle.Unit.Deg));
-                    case "grad": return new CSSPrimitiveValue<Angle>(new Angle(token.Data, Angle.Unit.Grad));
-                    case "rad":  return new CSSPrimitiveValue<Angle>(new Angle(token.Data, Angle.Unit.Rad));
-                    case "turn": return new CSSPrimitiveValue<Angle>(new Angle(token.Data, Angle.Unit.Turn));
+                case "deg": return new CSSPrimitiveValue<Angle>(new Angle(token.Data, Angle.Unit.Deg));
+                case "grad": return new CSSPrimitiveValue<Angle>(new Angle(token.Data, Angle.Unit.Grad));
+                case "rad": return new CSSPrimitiveValue<Angle>(new Angle(token.Data, Angle.Unit.Rad));
+                case "turn": return new CSSPrimitiveValue<Angle>(new Angle(token.Data, Angle.Unit.Turn));
 
-                    case "hz":   return new CSSPrimitiveValue<Frequency>(new Frequency(token.Data, Frequency.Unit.Hz));
-                    case "khz":  return new CSSPrimitiveValue<Frequency>(new Frequency(token.Data, Frequency.Unit.Khz));
-                }
+                case "hz": return new CSSPrimitiveValue<Frequency>(new Frequency(token.Data, Frequency.Unit.Hz));
+                case "khz": return new CSSPrimitiveValue<Frequency>(new Frequency(token.Data, Frequency.Unit.Khz));
             }
 
-            return new CSSPrimitiveValue<Number>(Number.Zero);
+            return new CSSStringValue(token.ToValue());
         }
 
         /// <summary>
