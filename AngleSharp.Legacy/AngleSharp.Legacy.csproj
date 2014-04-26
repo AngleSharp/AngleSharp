@@ -70,9 +70,6 @@
     <Compile Include="..\AngleSharp\DocumentBuilder.cs">
       <Link>DocumentBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\ICssMedia.cs">
-      <Link>DOM\Annotations\ICssMedia.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\ICssObject.cs">
       <Link>DOM\Annotations\ICssObject.cs</Link>
     </Compile>
@@ -81,9 +78,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\ICssRules.cs">
       <Link>DOM\Annotations\ICssRules.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\ICssSelector.cs">
-      <Link>DOM\Annotations\ICssSelector.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\IFormatting.cs">
       <Link>DOM\Annotations\IFormatting.cs</Link>
@@ -105,9 +99,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\ISelectScopeElement.cs">
       <Link>DOM\Annotations\ISelectScopeElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\IStyleDeclaration.cs">
-      <Link>DOM\Annotations\IStyleDeclaration.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\ITableScopeElement.cs">
       <Link>DOM\Annotations\ITableScopeElement.cs</Link>
