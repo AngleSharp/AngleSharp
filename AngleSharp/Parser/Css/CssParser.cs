@@ -93,6 +93,8 @@
             sync = new Object();
             skipExceptions = true;
             tokenizer = new CssTokenizer(source);
+            tokenizer.IgnoreComments = true;
+            tokenizer.IgnoreWhitespace = true;
 
             tokenizer.ErrorOccurred += (s, ev) =>
             {
@@ -1170,6 +1172,7 @@
         public static Selector ParseSelector(String selector, IConfiguration configuration = null)
         {
             var tokenizer = new CssTokenizer(new SourceManager(selector, configuration.DefaultEncoding()));
+            tokenizer.IgnoreComments = true;
 			var tokens = tokenizer.Tokens;
 			var creator = Pool.NewSelectorConstructor();
             
