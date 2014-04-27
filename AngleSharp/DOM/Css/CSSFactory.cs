@@ -171,11 +171,12 @@
         /// Creates a new property.
         /// </summary>
         /// <param name="name">The name of the property.</param>
+        /// <param name="style">The given style set.</param>
         /// <returns>The created property</returns>
         public static CSSProperty Create(String name, CSSStyleDeclaration style)
         {
             Func<CSSProperty> propertyCreator;
-            var property = style.Get(name);
+            var property = style != null ? style.Get(name) : null;
             
             if (property == null && properties.TryGetValue(name, out propertyCreator))
             {

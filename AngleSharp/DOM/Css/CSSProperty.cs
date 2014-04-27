@@ -14,6 +14,7 @@
 
         protected Boolean _inherited;
         readonly String _name;
+
         CSSValue _value;
         Boolean _important;
         CSSStyleDeclaration _rule;
@@ -74,16 +75,6 @@
         }
 
         /// <summary>
-        /// Gets if the property has a valid value, otherwise the property
-        /// is ignored.
-        /// </summary>
-        public Boolean IsLegal
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
         /// Gets or sets the value of the property.
         /// </summary>
         [DOM("value")]
@@ -92,7 +83,7 @@
             get { return _value ?? CSSValue.Inherit; }
             set 
             {
-                if (IsLegal = IsValid(value)) 
+                if (IsValid(value)) 
                     _value = value; 
             }
         }
@@ -114,10 +105,24 @@
         /// <summary>
         /// Creates a shallow copy of the current object.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A copy of the current property.</returns>
         internal CSSProperty Clone()
         {
             return (CSSProperty)this.MemberwiseClone();
+        }
+
+        /// <summary>
+        /// Tries to set the given value and returns the status.
+        /// </summary>
+        /// <param name="value">The value that should be set.</param>
+        /// <returns>True if the value is valid, otherwise false.</returns>
+        internal Boolean TrySetValue(CSSValue value)
+        {
+            if (!IsValid(value))
+                return false;
+
+            _value = value;
+            return true;
         }
 
         #endregion
@@ -143,8 +148,7 @@
             if (index < arguments.Length)
             {
                 var argument = arguments[index];
-                property.Value = argument;
-                return property.Value == argument;
+                return property.TrySetValue(argument);
             }
 
             return false;
@@ -159,8 +163,7 @@
                 while (index < arguments.Length)
                     newList.Add(arguments[index++]);
 
-                property.Value = newList;
-                return property.Value == newList;
+                return property.TrySetValue(newList);
             }
 
             return CheckSingleProperty(property, index, arguments);
@@ -176,12 +179,7 @@
         /// <returns>A string that contains the code.</returns>
         public String ToCss()
         {
-            var value = _name + ":" + _value.ToCss();
-
-            if (_important)
-                value += " !important";
-
-            return value;
+            return String.Concat(_name, ":", _value.ToCss(), _important ? "!important" : String.Empty);
         }
 
         #endregion

@@ -2621,10 +2621,7 @@
             var sb = Pool.NewStringBuilder();
 
             foreach (var rule in _rules)
-            {
-                if (rule.Value.IsLegal)
-                    sb.Append(rule.Value.ToCss()).Append(Specification.Semicolon);
-            }
+                sb.Append(rule.Value.ToCss()).Append(Specification.Semicolon);
 
             return sb.ToPool();
         }

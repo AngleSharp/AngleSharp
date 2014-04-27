@@ -7,7 +7,6 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.Text;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -519,8 +518,10 @@
 
                     if (property != null)
                     {
-                        property.Value = InValue(tokens);
-                        property.Important = IsImportant(tokens);
+                        if (property.TrySetValue(InValue(tokens)))
+                            property.Important = IsImportant(tokens);
+                        else if (style != null)
+                            property = null;
                     }
 
                     JumpToEndOfDeclaration(tokens);
@@ -1241,20 +1242,19 @@
         /// <summary>
         /// Takes a string and transforms it into a CSS declaration (CSS property).
         /// </summary>
-        /// <param name="declarations">The string to parse.</param>
+        /// <param name="declaration">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSProperty object.</returns>
-        public static CSSProperty ParseDeclaration(String declarations, IConfiguration configuration = null)
+        public static CSSProperty ParseDeclaration(String declaration, IConfiguration configuration = null)
         {
-            var parser = new CssParser(declarations, configuration ?? Configuration.Default);
+            var parser = new CssParser(declaration, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            var style = new CSSStyleDeclaration();
             parser.skipExceptions = false;
 
             if (!tokens.MoveNext())
                 return null;
 
-            return parser.Declaration(style, tokens);
+            return parser.Declaration(null, tokens);
         }
 
         /// <summary>
@@ -1344,7 +1344,6 @@
         /// Takes a string and transforms it into a CSS keyframe rule.
         /// </summary>
         /// <param name="rule">The string to parse.</param>
-        /// <param name="quirksMode">Optional: The status of the quirks mode flag (usually not set).</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSKeyframeRule object.</returns>
         internal static CSSKeyframeRule ParseKeyframeRule(String rule, IConfiguration configuration = null)
