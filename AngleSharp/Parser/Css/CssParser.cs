@@ -23,7 +23,6 @@
 
         CssSelectorConstructor selector;
         CssValueBuilder value;
-        Boolean skipExceptions;
         CssTokenizer tokenizer;
         Boolean started;
         Boolean quirks;
@@ -93,9 +92,9 @@
         internal CssParser(CSSStyleSheet stylesheet, SourceManager source)
         {
             selector = Pool.NewSelectorConstructor();
+            selector.IgnoreErrors = true;
             value = new CssValueBuilder();
             sync = new Object();
-            skipExceptions = true;
             tokenizer = new CssTokenizer(source);
             tokenizer.IgnoreComments = true;
             tokenizer.IgnoreWhitespace = true;
@@ -420,15 +419,45 @@
             }
             else
             {
-                var rule = new CSSStyleRule
-                {
-                    Selector = InSelector(tokens)
-                };
+                var selector = InSelector(tokens);
 
+                if (selector == null)
+                    return null;
+
+                var rule = new CSSStyleRule { Selector = selector };
                 FillDeclarations(rule.Style, tokens);
                 return rule;
             }
         }
+
+        /// <summary>
+        /// In the condition text of a supports rule.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The condition text.</returns>
+        String Condition(IEnumerator<CssToken> tokens)
+        {
+            var buffer = Pool.NewStringBuilder();
+            tokenizer.IgnoreWhitespace = false;
+
+            do
+            {
+                var token = tokens.Current;
+
+                if (token.Type == CssTokenType.CurlyBracketOpen)
+                    break;
+
+                buffer.Append(token.ToValue());
+            }
+            while (tokens.MoveNext());
+
+            tokenizer.IgnoreWhitespace = true;
+            return buffer.ToPool();
+        }
+
+        #endregion
+
+        #region Style
 
         /// <summary>
         /// State that is called once we are in a CSS selector.
@@ -439,11 +468,17 @@
         {
             tokenizer.IgnoreWhitespace = false;
             selector.Reset();
-            selector.IgnoreErrors = skipExceptions;
 
             do
             {
                 var token = tokens.Current;
+
+                //if (token.Type == CssTokenType.AtKeyword)
+                //{
+                //    tokenizer.IgnoreWhitespace = true;
+                //    SkipUnknownRule(tokens);
+                //    return null;
+                //}
 
                 if (token.Type == CssTokenType.CurlyBracketOpen || token.Type == CssTokenType.CurlyBracketClose)
                     break;
@@ -510,31 +545,6 @@
         {
             var token = tokens.Current;
             return token.Type == CssTokenType.Ident && ((CssKeywordToken)token).Data == important;
-        }
-
-        /// <summary>
-        /// In the condition text of a supports rule.
-        /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The condition text.</returns>
-        String Condition(IEnumerator<CssToken> tokens)
-        {
-            var buffer = Pool.NewStringBuilder();
-            tokenizer.IgnoreWhitespace = false;
-
-            do
-            {
-                var token = tokens.Current;
-
-                if (token.Type == CssTokenType.CurlyBracketOpen)
-                    break;
-
-                buffer.Append(token.ToValue());
-            }
-            while (tokens.MoveNext());
-
-            tokenizer.IgnoreWhitespace = true;
-            return buffer.ToPool();
         }
 
         #endregion
@@ -1230,7 +1240,7 @@
         public static CSSRule ParseRule(String rule, IConfiguration configuration = null)
         {
             var parser = new CssParser(rule, configuration ?? Configuration.Default);
-            parser.skipExceptions = false;
+            parser.selector.IgnoreErrors = false;
             parser.Parse();
 
             if (parser.sheet.CssRules.Length == 0)
@@ -1262,7 +1272,7 @@
         {
             var parser = new CssParser(declaration, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.skipExceptions = false;
+            parser.selector.IgnoreErrors = false;
 
             if (!tokens.MoveNext())
                 return null;
@@ -1280,7 +1290,7 @@
         {
             var parser = new CssParser(source, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.skipExceptions = false;
+            parser.selector.IgnoreErrors = false;
 
             if (!tokens.MoveNext())
                 return null;
@@ -1302,7 +1312,7 @@
         {
             var parser = new CssParser(source, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.skipExceptions = false;
+            parser.selector.IgnoreErrors = false;
             var value = tokens.MoveNext() ? parser.InValue(tokens) : null;
             var values = value as CSSValueList;
 
@@ -1338,7 +1348,7 @@
         {
             var parser = new CssParser(source, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.skipExceptions = false;
+            parser.selector.IgnoreErrors = false;
             var value = tokens.MoveNext() ? parser.InValue(tokens) : new CSSValueList();
             var values = value as CSSValueList;
 
@@ -1363,7 +1373,7 @@
         {
             var parser = new CssParser(rule, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.skipExceptions = false;
+            parser.selector.IgnoreErrors = false;
 
             if (!tokens.MoveNext())
                 return new CSSKeyframeRule();
@@ -1381,7 +1391,7 @@
         {
             var parser = new CssParser(declarations, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.skipExceptions = false;
+            parser.selector.IgnoreErrors = false;
             parser.FillDeclarations(list, tokens);
         }
 
