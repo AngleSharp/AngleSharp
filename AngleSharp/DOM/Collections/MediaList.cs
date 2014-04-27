@@ -97,10 +97,10 @@
             get { return _buffer; }
             set
             {
-                _buffer = string.Empty;
+                _buffer = String.Empty;
                 _media.Clear();
 
-                if (!string.IsNullOrEmpty(value))
+                if (!String.IsNullOrEmpty(value))
                 {
                     var entries = value.SplitCommas();
 

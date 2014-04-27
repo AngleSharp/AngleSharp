@@ -701,7 +701,7 @@
 
             do
             {
-                var medium = InMediaValue(tokens);
+                var medium = InMediaValue(tokens).Trim();
 
                 if (!String.IsNullOrEmpty(medium))
                     list.AppendMedium(medium);
