@@ -14,7 +14,7 @@
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
         #region Fields
@@ -507,19 +507,25 @@
 
                 token = tokens.Current;
 
-                if (token.Type != CssTokenType.Colon || !tokens.MoveNext())
-                    return null;
-
-                var property = CSSFactory.Create(propertyName, style);
-
-                if (property != null)
+                if (token.Type != CssTokenType.Colon)
                 {
-                    property.Value = InValue(tokens);
-                    property.Important = IsImportant(tokens);
+                    JumpToEndOfDeclaration(tokens);
+                    return null;
                 }
 
-                JumpToEndOfDeclaration(tokens);
-                return property;
+                if (tokens.MoveNext())
+                {
+                    var property = CSSFactory.Create(propertyName, style);
+
+                    if (property != null)
+                    {
+                        property.Value = InValue(tokens);
+                        property.Important = IsImportant(tokens);
+                    }
+
+                    JumpToEndOfDeclaration(tokens);
+                    return property;
+                }
             }
 
             return null;
@@ -762,48 +768,42 @@
 
         Boolean GetSingleValue(IEnumerator<CssToken> tokens)
         {
-            do
+            var token = tokens.Current;
+
+            switch (token.Type)
             {
-                var token = tokens.Current;
-
-                switch (token.Type)
-                {
-                    case CssTokenType.Dimension: // e.g. "3px"
-                    case CssTokenType.Percentage: // e.g. "5%"
-                        return TakeValue(ToUnit((CssUnitToken)token), tokens);
-                    case CssTokenType.Hash:// e.g. "#ABCDEF"
-                        return TakeValue(GetColorFromHexValue(((CssKeywordToken)token).Data), tokens);
-                    case CssTokenType.Delim:// e.g. "#"
-                        return GetValueFromDelim(((CssDelimToken)token).Data, tokens);
-                    case CssTokenType.Ident: // e.g. "auto"
-                        value.AddValue(ToIdentifier(((CssKeywordToken)token).Data));
-                        return tokens.MoveNext();
-                    case CssTokenType.String:// e.g. "'i am a string'"
-                        value.AddValue(new CSSStringValue(((CssStringToken)token).Data));
-                        return tokens.MoveNext();
-                    case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                        value.AddValue(new CSSPrimitiveValue<Location>(new Location(((CssStringToken)token).Data)));
-                        return tokens.MoveNext();
-                    case CssTokenType.Number: // e.g. "173"
-                        value.AddValue(ToNumber((CssNumberToken)token));
-                        return tokens.MoveNext();
-                    case CssTokenType.Function: //e.g. rgba(...)
-                        return GetValueFunction(tokens);
-                    case CssTokenType.Comma:
-                        value.NextArgument();
-                        break;
-                    case CssTokenType.Whitespace:
-                        break;
-                    case CssTokenType.Semicolon:
-                    case CssTokenType.RoundBracketClose:
-                        return false;
-                    default:
-                        value.IsFaulted = true;
-                        return false;
-                }
+                case CssTokenType.Dimension: // e.g. "3px"
+                case CssTokenType.Percentage: // e.g. "5%"
+                    return TakeValue(ToUnit((CssUnitToken)token), tokens);
+                case CssTokenType.Hash:// e.g. "#ABCDEF"
+                    return TakeValue(GetColorFromHexValue(((CssKeywordToken)token).Data), tokens);
+                case CssTokenType.Delim:// e.g. "#"
+                    return GetValueFromDelim(((CssDelimToken)token).Data, tokens);
+                case CssTokenType.Ident: // e.g. "auto"
+                    value.AddValue(ToIdentifier(((CssKeywordToken)token).Data));
+                    return tokens.MoveNext();
+                case CssTokenType.String:// e.g. "'i am a string'"
+                    value.AddValue(new CSSStringValue(((CssStringToken)token).Data));
+                    return tokens.MoveNext();
+                case CssTokenType.Url:// e.g. "url('this is a valid URL')"
+                    value.AddValue(new CSSPrimitiveValue<Location>(new Location(((CssStringToken)token).Data)));
+                    return tokens.MoveNext();
+                case CssTokenType.Number: // e.g. "173"
+                    value.AddValue(ToNumber((CssNumberToken)token));
+                    return tokens.MoveNext();
+                case CssTokenType.Function: //e.g. rgba(...)
+                    return GetValueFunction(tokens);
+                case CssTokenType.Comma:
+                    value.NextArgument();
+                    return tokens.MoveNext();
+                case CssTokenType.Whitespace:
+                    return tokens.MoveNext();
+                case CssTokenType.Semicolon:
+                case CssTokenType.CurlyBracketClose:
+                    return false;
             }
-            while (tokens.MoveNext());
 
+            value.IsFaulted = true;
             return false;
         }
 
@@ -851,14 +851,14 @@
             if (!tokens.MoveNext())
                 return false;
 
-            while (GetSingleValue(tokens)) ;
+            while (GetSingleValue(tokens))
+            {
+                if (tokens.Current.Type == CssTokenType.RoundBracketClose)
+                    break;
+            }
 
             value.CloseFunction();
-
-            if (tokens.Current.Type == CssTokenType.RoundBracketClose)
-                return tokens.MoveNext();
-
-            return false;
+            return tokens.MoveNext();
         }
 
         /// <summary>
