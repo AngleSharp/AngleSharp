@@ -276,7 +276,6 @@
     <Compile Include="DOM\Css\Rules\CSSPageRule.cs" />
     <Compile Include="DOM\Css\Rules\CSSStyleRule.cs" />
     <Compile Include="DOM\Css\Rules\CSSSupportsRule.cs" />
-    <Compile Include="DOM\Css\Rules\CSSUnknownRule.cs" />
     <Compile Include="DOM\Css\Selector\Selectors.cs" />
     <Compile Include="DOM\Css\Values\CSSCounter.cs" />
     <Compile Include="DOM\Css\CSSFunctions.cs" />

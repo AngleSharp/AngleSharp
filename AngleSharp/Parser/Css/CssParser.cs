@@ -378,38 +378,6 @@
             return import;
         }
 
-        /// <summary>
-        /// State that is called once in the head of an unknown @ rule.
-        /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The constructed rule.</returns>
-        CSSUnknownRule CreateUnknownRule(IEnumerator<CssToken> tokens)
-        {
-            var rule = new CSSUnknownRule();
-            var buffer = Pool.NewStringBuilder();
-            tokenizer.IgnoreWhitespace = false;
-            var open = 1;
-
-            do
-            {
-                var token = tokens.Current;
-                buffer.Append(token.ToValue());
-
-                if (token.Type == CssTokenType.CurlyBracketOpen)
-                    open++;
-                else if (token.Type == CssTokenType.CurlyBracketClose)
-                    open--;
-
-                if (open == 0)
-                    break;
-            }
-            while (tokens.MoveNext());
-
-            rule.SetText(buffer.ToPool());
-            tokenizer.IgnoreWhitespace = true;
-            return rule;
-        }
-
         #endregion
 
         #region States
@@ -447,7 +415,8 @@
                         return CreateDocumentRule(tokens);
                 }
 
-                return CreateUnknownRule(tokens);
+                SkipUnknownRule(tokens);
+                return null;
             }
             else
             {
@@ -826,7 +795,7 @@
         {
             if (delimiter == Specification.Num && tokens.MoveNext())
                 return GetColorFromHexValue(tokens);
-            
+
             if (delimiter == Specification.Solidus)
             {
                 value.AddValue(CSSValue.Delimiter);
@@ -1099,6 +1068,50 @@
                 }
             }
             while (tokens.MoveNext());
+        }
+
+        /// <summary>
+        /// State that is called once in the head of an unknown @ rule.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        static void SkipUnknownRule(IEnumerator<CssToken> tokens)
+        {
+            var curly = 0;
+            var round = 0;
+            var square = 0;
+            var cont = true;
+
+            do
+            {
+                var token = tokens.Current;
+
+                switch (token.Type)
+                {
+                    case CssTokenType.Semicolon:
+                        cont = curly != 0 || round != 0 || square != 0;
+                        break;
+                    case CssTokenType.CurlyBracketClose:
+                        curly--;
+                        cont = curly != 0 || round != 0 || square != 0;
+                        break;
+                    case CssTokenType.RoundBracketOpen:
+                        round++;
+                        break;
+                    case CssTokenType.RoundBracketClose:
+                        round--;
+                        break;
+                    case CssTokenType.SquareBracketClose:
+                        square--;
+                        break;
+                    case CssTokenType.SquareBracketOpen:
+                        square++;
+                        break;
+                    case CssTokenType.CurlyBracketOpen:
+                        curly++;
+                        break;
+                }
+            }
+            while (cont && tokens.MoveNext());
         }
 
         /// <summary>
