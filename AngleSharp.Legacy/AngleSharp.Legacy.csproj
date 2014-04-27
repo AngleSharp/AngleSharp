@@ -730,9 +730,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSSupportsRule.cs">
       <Link>DOM\Css\Rules\CSSSupportsRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSUnknownRule.cs">
-      <Link>DOM\Css\Rules\CSSUnknownRule.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Selector\ComplexSelector.cs">
       <Link>DOM\Css\Selector\ComplexSelector.cs</Link>
     </Compile>
