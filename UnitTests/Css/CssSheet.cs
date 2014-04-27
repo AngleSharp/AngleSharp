@@ -24,6 +24,24 @@ h1 {
         }
 
         [TestMethod]
+        public void CssSheetCloseStringsEndOfLine()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"p {
+        color: green;
+        font-family: 'Courier New Times
+        color: red;
+        color: green;
+      }");
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
+            var p = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, p.Style.Length);
+            Assert.AreEqual("p", p.SelectorText);
+            Assert.AreEqual("color", p.Style[0]);
+            Assert.AreEqual("green", p.Style.Color);
+        }
+
+        [TestMethod]
         public void CssSheetOnEofDuringRuleWithinString()
         {
             var sheet = CssParser.ParseStyleSheet(@"
@@ -37,6 +55,22 @@ h1 {
         }
 
         [TestMethod]
+        public void CssSheetOnEofDuringAtMediaRuleWithinString()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"  @media screen {
+    p:before { content: 'Hello");
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
+            var media = sheet.CssRules[0] as CSSMediaRule;
+            Assert.AreEqual("screen", media.ConditionText);
+            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.IsInstanceOfType(media.CssRules[0], typeof(CSSStyleRule));
+            var p = media.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual("p:before", p.SelectorText);
+            Assert.AreEqual("'Hello'", p.Style.Content);
+        }
+
+        [TestMethod]
         public void CssSheetIgnoreUnknownProperty()
         {
             var sheet = CssParser.ParseStyleSheet(@"h1 { color: red; rotation: 70minutes }");
@@ -47,6 +81,100 @@ h1 {
             Assert.AreEqual(1, h1.Style.Length);
             Assert.AreEqual("color", h1.Style[0]);
             Assert.AreEqual("red", h1.Style.Color);
+        }
+
+        [TestMethod]
+        public void CssSheetInvalidStatementRulesetUnexpectedAtKeyword()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"p @here {color: red}");
+            Assert.AreEqual(0, sheet.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void CssSheetInvalidStatementAtRuleUnexpectedAtKeyword()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"@foo @bar;");
+            Assert.AreEqual(0, sheet.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void CssSheetInvalidStatementRulesetUnexpectedRightBrace()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"}} {{ - }}");
+            Assert.AreEqual(0, sheet.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void CssSheetInvalidStatementRulesetUnexpectedRightParenthesis()
+        {
+            var sheet = CssParser.ParseStyleSheet(@") ( {} ) p {color: red }");
+            Assert.AreEqual(0, sheet.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void CssSheetIgnoreUnknownAtRule()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"@three-dee {
+  @background-lighting {
+    azimuth: 30deg;
+    elevation: 190deg;
+  }
+  h1 { color: red }
+}
+h1 { color: blue }");
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
+            var h1 = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual("h1", h1.SelectorText);
+            Assert.AreEqual(1, h1.Style.Length);
+            Assert.AreEqual("color", h1.Style[0]);
+            Assert.AreEqual("blue", h1.Style.Color);
+        }
+
+        [TestMethod]
+        public void CssSheetKeepValidValueFloat()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"img { float: left }");
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
+            var img = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual("img", img.SelectorText);
+            Assert.AreEqual(1, img.Style.Length);
+            Assert.AreEqual("float", img.Style[0]);
+            Assert.AreEqual("left", img.Style.Float);
+        }
+
+        [TestMethod]
+        public void CssSheetIgnoreInvalidValueFloat()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"img { float: left here }");
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
+            var img = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual("img", img.SelectorText);
+            Assert.AreEqual(0, img.Style.Length);
+        }
+
+        [TestMethod]
+        public void CssSheetIgnoreInvalidValueBackground()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"img { background: ""red"" }");
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
+            var img = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual("img", img.SelectorText);
+            Assert.AreEqual(0, img.Style.Length);
+        }
+
+        [TestMethod]
+        public void CssSheetIgnoreInvalidValueBorderWidth()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"img { border-width: 3 }");
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
+            var img = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual("img", img.SelectorText);
+            Assert.AreEqual(0, img.Style.Length);
         }
 
         [TestMethod]
@@ -361,11 +489,8 @@ h1 {
         [TestMethod]
         public void CssBackgroundWebkitGradient()
         {
-            var decl = CssParser.ParseDeclarations("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var background = decl.Get(0);
+            var background = CssParser.ParseDeclaration("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))");
+            Assert.IsNotNull(background);
             Assert.AreEqual("background", background.Name);
             Assert.IsFalse(background.Important);
             Assert.AreEqual(CssValueType.Inherit, background.Value.CssValueType);
