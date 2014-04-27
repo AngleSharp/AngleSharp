@@ -1290,12 +1290,29 @@
             var parser = new CssParser(source, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
             parser.skipExceptions = false;
-            var value = tokens.MoveNext() ? parser.InValue(tokens) : new CSSValueList();
+            var value = tokens.MoveNext() ? parser.InValue(tokens) : null;
+            var values = value as CSSValueList;
 
-            if (value is CSSValueList)
-                return (CSSValueList)value;
+            if (values == null)
+            {
+                values = new CSSValueList();
 
-            return new CSSValueList(value);
+                if (value != null)
+                    values.Add(value);
+            }
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                if (values[i] == CSSValue.Separator)
+                {
+                    for (var j = values.Length - 1; j >= i; j--)
+                        values.Remove(values[j]);
+
+                    break;
+                }
+            }
+
+            return values;
         }
 
         /// <summary>
@@ -1306,7 +1323,21 @@
         /// <returns>The CSSValueList object.</returns>
         internal static List<CSSValueList> ParseMultipleValues(String source, IConfiguration configuration = null)
         {
-            return ParseValueList(source, configuration).ToList();
+            var parser = new CssParser(source, configuration);
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+            parser.skipExceptions = false;
+            var value = tokens.MoveNext() ? parser.InValue(tokens) : new CSSValueList();
+            var values = value as CSSValueList;
+
+            if (values == null)
+            {
+                values = new CSSValueList();
+
+                if (value != null)
+                    values.Add(value);
+            }
+
+            return values.ToList();
         }
 
         /// <summary>

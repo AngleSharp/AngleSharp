@@ -100,6 +100,8 @@
                 function.Arguments.Add(value);
                 function.StartIndex = _values.Count;
             }
+            else if (_values.Count == 0 || _values[_values.Count - 1] == CSSValue.Separator)
+                IsFaulted = true;
             else
                 _values.Add(CSSValue.Separator);
         }
