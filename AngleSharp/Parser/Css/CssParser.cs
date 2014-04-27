@@ -416,11 +416,11 @@
         #region States
 
         /// <summary>
-        /// The general state.
+        /// Creates a rule with the enumeration of tokens.
         /// </summary>
-        /// <param name="token">The current token.</param>
-        /// <returns>The status.</returns>
-        CSSRule Data(IEnumerator<CssToken> tokens)
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The generated CSS rule.</returns>
+        CSSRule CreateRule(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
 
@@ -491,6 +491,7 @@
         /// <summary>
         /// Called before the property name has been detected.
         /// </summary>
+        /// <param name="style">The style to populate.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created property.</returns>
         CSSProperty Declaration(CSSStyleDeclaration style, IEnumerator<CssToken> tokens)
@@ -524,14 +525,15 @@
             return null;
         }
 
+        /// <summary>
+        /// In the important part of a declaration.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>True if the declaration is important, otherwise false.</returns>
         Boolean IsImportant(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
-
-            if (token.Type == CssTokenType.Delim && ((CssDelimToken)token).Data == Specification.ExclamationMark)
-                return tokens.MoveNext() && tokens.Current.Type == CssTokenType.Ident && ((CssKeywordToken)tokens.Current).Data == important;
-
-            return false;
+            return token.Type == CssTokenType.Ident && ((CssKeywordToken)token).Data == important;
         }
 
         /// <summary>
@@ -792,7 +794,11 @@
                         break;
                     case CssTokenType.Whitespace:
                         break;
+                    case CssTokenType.Semicolon:
+                    case CssTokenType.RoundBracketClose:
+                        return false;
                     default:
+                        value.IsFaulted = true;
                         return false;
                 }
             }
@@ -825,6 +831,9 @@
                 value.AddValue(CSSValue.Delimiter);
                 return tokens.MoveNext();
             }
+
+            if (delimiter != Specification.ExclamationMark || !tokens.MoveNext() || !IsImportant(tokens))
+                value.IsFaulted = true;
 
             return false;
         }
@@ -913,7 +922,7 @@
 
             while (tokens.MoveNext())
             {
-                var rule = Data(tokens);
+                var rule = CreateRule(tokens);
 
                 if (rule == null)
                     continue;
@@ -935,7 +944,7 @@
                 if (tokens.Current.Type == CssTokenType.CurlyBracketClose)
                     break;
 
-                var rule = Data(tokens);
+                var rule = CreateRule(tokens);
 
                 if (rule == null)
                     continue;
