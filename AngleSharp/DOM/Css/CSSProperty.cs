@@ -90,7 +90,11 @@
         public CSSValue Value
         {
             get { return _value ?? CSSValue.Inherit; }
-            set { if (IsLegal = IsValid(value)) _value = value; }
+            set 
+            {
+                if (IsLegal = IsValid(value)) 
+                    _value = value; 
+            }
         }
 
         /// <summary>

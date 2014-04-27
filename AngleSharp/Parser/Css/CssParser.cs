@@ -17,16 +17,20 @@
     //[DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
-		#region Fields
-		
-		CssSelectorConstructor selector;
-		Boolean skipExceptions;
+        #region Fields
+
+        static readonly String important = "important";
+        static readonly String inherit = "inherit";
+
+        CssSelectorConstructor selector;
+        CssValueBuilder value;
+        Boolean skipExceptions;
         CssTokenizer tokenizer;
         Boolean started;
         Boolean quirks;
         CSSStyleSheet sheet;
-		Object sync;
-		Task task;
+        Object sync;
+        Task task;
 
         #endregion
 
@@ -89,7 +93,8 @@
         /// <param name="source">The source to use.</param>
         internal CssParser(CSSStyleSheet stylesheet, SourceManager source)
         {
-			selector = Pool.NewSelectorConstructor();
+            selector = Pool.NewSelectorConstructor();
+            value = new CssValueBuilder();
             sync = new Object();
             skipExceptions = true;
             tokenizer = new CssTokenizer(source);
@@ -124,10 +129,10 @@
         /// </summary>
         public CSSStyleSheet Result
         {
-            get 
+            get
             {
                 Parse();
-                return sheet; 
+                return sheet;
             }
         }
 
@@ -168,19 +173,19 @@
         /// </summary>
         public void Parse()
         {
-			var run = false;
+            var run = false;
 
             lock (sync)
             {
                 if (!started)
                 {
-					started = true;
-					run = true;
+                    started = true;
+                    run = true;
                 }
             }
 
-			if (run)
-				Kernel();
+            if (run)
+                Kernel();
         }
 
         #endregion
@@ -374,11 +379,11 @@
             return import;
         }
 
-		/// <summary>
-		/// State that is called once in the head of an unknown @ rule.
+        /// <summary>
+        /// State that is called once in the head of an unknown @ rule.
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
-		/// <returns>The constructed rule.</returns>
+        /// <returns>The constructed rule.</returns>
         CSSUnknownRule CreateUnknownRule(IEnumerator<CssToken> tokens)
         {
             var rule = new CSSUnknownRule();
@@ -404,7 +409,7 @@
             rule.SetText(buffer.ToPool());
             tokenizer.IgnoreWhitespace = true;
             return rule;
-		}
+        }
 
         #endregion
 
@@ -457,12 +462,12 @@
             }
         }
 
-		/// <summary>
-		/// State that is called once we are in a CSS selector.
-		/// </summary>
-		/// <param name="tokens">The stream of tokens.</param>
-		/// <returns>The generated selector.</returns>
-		Selector InSelector(IEnumerator<CssToken> tokens)
+        /// <summary>
+        /// State that is called once we are in a CSS selector.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The generated selector.</returns>
+        Selector InSelector(IEnumerator<CssToken> tokens)
         {
             tokenizer.IgnoreWhitespace = false;
             selector.Reset();
@@ -474,21 +479,21 @@
 
                 if (token.Type == CssTokenType.CurlyBracketOpen || token.Type == CssTokenType.CurlyBracketClose)
                     break;
-                
+
                 selector.Apply(token);
             }
             while (tokens.MoveNext());
 
             tokenizer.IgnoreWhitespace = true;
             return selector.Result;
-		}
+        }
 
-		/// <summary>
-		/// Called before the property name has been detected.
-		/// </summary>
-		/// <param name="tokens">The stream of tokens.</param>
-		/// <returns>The created property.</returns>
-		CSSProperty Declaration(CSSStyleDeclaration style, IEnumerator<CssToken> tokens)
+        /// <summary>
+        /// Called before the property name has been detected.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The created property.</returns>
+        CSSProperty Declaration(CSSStyleDeclaration style, IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
 
@@ -505,31 +510,36 @@
                     return null;
 
                 var property = CSSFactory.Create(propertyName, style);
-                property.Value = InValue(tokens);
-                property.Important = IsImportant(tokens);
+
+                if (property != null)
+                {
+                    property.Value = InValue(tokens);
+                    property.Important = IsImportant(tokens);
+                }
+
                 JumpToEndOfDeclaration(tokens);
                 return property;
             }
 
-			return null;
-		}
+            return null;
+        }
 
         Boolean IsImportant(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
 
             if (token.Type == CssTokenType.Delim && ((CssDelimToken)token).Data == Specification.ExclamationMark)
-                return tokens.MoveNext() && tokens.Current.Type == CssTokenType.Ident && ((CssKeywordToken)tokens.Current).Data == "important";
+                return tokens.MoveNext() && tokens.Current.Type == CssTokenType.Ident && ((CssKeywordToken)tokens.Current).Data == important;
 
             return false;
         }
 
-		/// <summary>
-		/// In the condition text of a supports rule.
-		/// </summary>
-		/// <param name="tokens">The stream of tokens.</param>
-		/// <returns>The condition text.</returns>
-		String Condition(IEnumerator<CssToken> tokens)
+        /// <summary>
+        /// In the condition text of a supports rule.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The condition text.</returns>
+        String Condition(IEnumerator<CssToken> tokens)
         {
             var buffer = Pool.NewStringBuilder();
             tokenizer.IgnoreWhitespace = false;
@@ -546,18 +556,18 @@
             while (tokens.MoveNext());
 
             tokenizer.IgnoreWhitespace = true;
-			return buffer.ToPool();
-		}
+            return buffer.ToPool();
+        }
 
         #endregion
 
         #region Document Functions
 
         /// <summary>
-		/// Called when the document functions have to been found.
-		/// </summary>
-		/// <param name="tokens">The stream of tokens.</param>
-		/// <returns>The iteration over all found document functions.</returns>
+        /// Called when the document functions have to been found.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The iteration over all found document functions.</returns>
         IEnumerable<Tuple<CSSDocumentRule.DocumentFunction, String>> InDocumentFunctions(IEnumerator<CssToken> tokens)
         {
             do
@@ -571,10 +581,10 @@
         }
 
         /// <summary>
-		/// Called before a document function has been found.
-		/// </summary>
-		/// <param name="tokens">The stream of tokens.</param>
-		/// <returns>A single document function or null if none has been found.</returns>
+        /// Called before a document function has been found.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>A single document function or null if none has been found.</returns>
         Tuple<CSSDocumentRule.DocumentFunction, String> InDocumentFunction(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
@@ -591,7 +601,7 @@
                     return Tuple.Create(CSSDocumentRule.DocumentFunction.Domain, ((CssStringToken)token).Data);
 
                 case CssTokenType.Function:
-                    if (String.Compare(((CssKeywordToken)token).Data, "regexp", StringComparison.OrdinalIgnoreCase) == 0)
+                    if (String.Compare(((CssKeywordToken)token).Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
                     {
                         if (!tokens.MoveNext())
                             break;
@@ -607,7 +617,7 @@
             }
 
             return null;
-		}
+        }
 
         #endregion
 
@@ -671,17 +681,17 @@
         #region Media List
 
         /// <summary>
-		/// Before any medium has been found for the @media or @import rule.
-		/// </summary>
-		/// <param name="tokens">The stream of tokens.</param>
-		/// <returns>The generated medialist.</returns>
-		MediaList InMediaList(IEnumerator<CssToken> tokens)
-		{
+        /// Before any medium has been found for the @media or @import rule.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The generated medialist.</returns>
+        MediaList InMediaList(IEnumerator<CssToken> tokens)
+        {
             var list = new MediaList();
             tokenizer.IgnoreWhitespace = false;
 
             do
-            {              
+            {
                 var medium = InMediaValue(tokens);
 
                 if (!String.IsNullOrEmpty(medium))
@@ -691,18 +701,18 @@
                     break;
             }
             while (tokens.MoveNext());
-            
-            tokenizer.IgnoreWhitespace = true;
-			return list;
-		}
 
-		/// <summary>
-		/// Scans the current medium for the @media or @import rule.
+            tokenizer.IgnoreWhitespace = true;
+            return list;
+        }
+
+        /// <summary>
+        /// Scans the current medium for the @media or @import rule.
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
-		/// <returns>The medium.</returns>
-		String InMediaValue(IEnumerator<CssToken> tokens)
-		{
+        /// <returns>The medium.</returns>
+        String InMediaValue(IEnumerator<CssToken> tokens)
+        {
             var buffer = Pool.NewStringBuilder();
 
             do
@@ -717,9 +727,9 @@
             while (tokens.MoveNext());
 
             return buffer.ToPool();
-		}
+        }
 
-		#endregion
+        #endregion
 
         #region Value
 
@@ -740,115 +750,83 @@
         CSSValue InValue(IEnumerator<CssToken> tokens)
         {
             tokenizer.IgnoreWhitespace = false;
-            var values = new List<CSSValue>();
+            value.Reset();
 
-            do
-            {
-                var value = GetSingleValue(tokens);
-
-                if (value == null)
-                    break;
-
-                values.Add(value);
-            }
-            while (tokens.MoveNext());
-
+            while (GetSingleValue(tokens)) ;
 
             tokenizer.IgnoreWhitespace = true;
-
-            if (values.Count == 1)
-                return values[0];
-
-            return new CSSValueList(values);
+            return value.ToValue();
         }
 
-        static CSSValue GetSingleValue(IEnumerator<CssToken> tokens)
+        Boolean GetSingleValue(IEnumerator<CssToken> tokens)
         {
-            var token = tokens.Current;
-
-            switch (token.Type)
-            {
-                case CssTokenType.Dimension: // e.g. "3px"
-                case CssTokenType.Percentage: // e.g. "5%"
-                    return ToUnit((CssUnitToken)token);
-                case CssTokenType.Hash:// e.g. "#ABCDEF"
-                    return GetColorFromHexValue(((CssKeywordToken)token).Data);
-                case CssTokenType.Delim:// e.g. "#"
-                    return GetValueFromDelim(((CssDelimToken)token).Data, tokens);
-                case CssTokenType.Ident: // e.g. "auto"
-                    return GetIdentValue(((CssKeywordToken)token).Data);
-                case CssTokenType.String:// e.g. "'i am a string'"
-                    return new CSSStringValue(((CssStringToken)token).Data);
-                case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                    return new CSSPrimitiveValue<Location>(new Location(((CssStringToken)token).Data));
-                case CssTokenType.Number: // e.g. "173"
-                    return ToNumber((CssNumberToken)token);
-                case CssTokenType.Function: //e.g. rgba(...)
-                    return GetValueFunction(tokens);
-            }
-
-            return null;
-        }
-
-        static CSSValue GetValueFromDelim(Char delimiter, IEnumerator<CssToken> tokens)
-        {
-            if (delimiter == Specification.Num)
-                return GetColorFromHexValue(tokens);
-            else if (delimiter == Specification.Solidus)
-                return CSSValue.Delimiter;
-
-            return null;
-        }
-
-        static CSSValue GetIdentValue(String identifier)
-        {
-            if (identifier == "inherit")
-                return CSSValue.Inherit;
-
-            return new CSSIdentifierValue(identifier);
-        }
-
-        static CSSValue GetPoolOfValues(IEnumerator<CssToken> tokens)
-        {
-            var value = GetSingleValue(tokens);
-
-            if (value != null && tokens.MoveNext() && tokens.Current.Type == CssTokenType.Whitespace)
-            {
-                var list = new CSSValueList(value);
-
-                while (tokens.MoveNext())
-                {
-                    value = GetSingleValue(tokens);
-
-                    if (value == null)
-                        break;
-
-                    list.Add(value);
-
-                    if (!tokens.MoveNext() || tokens.Current.Type != CssTokenType.Whitespace)
-                        break;
-                }
-
-                return list;
-            }
-
-            return value;
-        }
-
-        static List<CSSValue> GetListOfValues(IEnumerator<CssToken> tokens)
-        {
-            var list = new List<CSSValue>();
-
             do
             {
-                var value = GetPoolOfValues(tokens);
+                var token = tokens.Current;
 
-                if (tokens.Current.Type != CssTokenType.Comma)
-                    break;
+                switch (token.Type)
+                {
+                    case CssTokenType.Dimension: // e.g. "3px"
+                    case CssTokenType.Percentage: // e.g. "5%"
+                        return TakeValue(ToUnit((CssUnitToken)token), tokens);
+                    case CssTokenType.Hash:// e.g. "#ABCDEF"
+                        return TakeValue(GetColorFromHexValue(((CssKeywordToken)token).Data), tokens);
+                    case CssTokenType.Delim:// e.g. "#"
+                        return GetValueFromDelim(((CssDelimToken)token).Data, tokens);
+                    case CssTokenType.Ident: // e.g. "auto"
+                        value.AddValue(ToIdentifier(((CssKeywordToken)token).Data));
+                        return tokens.MoveNext();
+                    case CssTokenType.String:// e.g. "'i am a string'"
+                        value.AddValue(new CSSStringValue(((CssStringToken)token).Data));
+                        return tokens.MoveNext();
+                    case CssTokenType.Url:// e.g. "url('this is a valid URL')"
+                        value.AddValue(new CSSPrimitiveValue<Location>(new Location(((CssStringToken)token).Data)));
+                        return tokens.MoveNext();
+                    case CssTokenType.Number: // e.g. "173"
+                        value.AddValue(ToNumber((CssNumberToken)token));
+                        return tokens.MoveNext();
+                    case CssTokenType.Function: //e.g. rgba(...)
+                        return GetValueFunction(tokens);
+                    case CssTokenType.Comma:
+                        value.NextArgument();
+                        break;
+                    case CssTokenType.Whitespace:
+                        break;
+                    default:
+                        return false;
+                }
             }
             while (tokens.MoveNext());
 
-            return list;
+            return false;
+        }
+
+        Boolean TakeValue(CSSValue val, IEnumerator<CssToken> tokens)
+        {
+            var nxt = tokens.MoveNext();
+
+            if (val == null)
+            {
+                value.IsFaulted = true;
+                return false;
+            }
+
+            value.AddValue(val);
+            return nxt;
+        }
+
+        Boolean GetValueFromDelim(Char delimiter, IEnumerator<CssToken> tokens)
+        {
+            if (delimiter == Specification.Num && tokens.MoveNext())
+                return GetColorFromHexValue(tokens);
+            
+            if (delimiter == Specification.Solidus)
+            {
+                value.AddValue(CSSValue.Delimiter);
+                return tokens.MoveNext();
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -856,15 +834,22 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The computed function.</returns>
-        static CSSValue GetValueFunction(IEnumerator<CssToken> tokens)
+        Boolean GetValueFunction(IEnumerator<CssToken> tokens)
         {
             var name = ((CssKeywordToken)tokens.Current).Data;
-            var args = tokens.MoveNext() ? GetListOfValues(tokens) : new List<CSSValue>();
+            value.AddFunction(name);
+
+            if (!tokens.MoveNext())
+                return false;
+
+            while (GetSingleValue(tokens)) ;
+
+            value.CloseFunction();
 
             if (tokens.Current.Type == CssTokenType.RoundBracketClose)
-                tokens.MoveNext();
+                return tokens.MoveNext();
 
-            return CSSFunctions.Create(name, args);
+            return false;
         }
 
         /// <summary>
@@ -872,9 +857,10 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated value.</returns>
-        static CSSPrimitiveValue<Color> GetColorFromHexValue(IEnumerator<CssToken> tokens)
+        Boolean GetColorFromHexValue(IEnumerator<CssToken> tokens)
         {
             var buffer = Pool.NewStringBuilder();
+            var alive = true;
 
             do
             {
@@ -889,27 +875,32 @@
                     break;
 
                 buffer.Append(rest);
-            } while (tokens.MoveNext());
+            } while (alive = tokens.MoveNext());
 
-            return GetColorFromHexValue(buffer.ToPool());
+            var color = GetColorFromHexValue(buffer.ToPool());
+
+            if (color != null)
+                value.AddValue(color);
+
+            return alive;
         }
 
-		/// <summary>
-		/// Called in a value - a hash (probably hex) value has been found.
-		/// </summary>
+        /// <summary>
+        /// Called in a value - a hash (probably hex) value has been found.
+        /// </summary>
         /// <param name="hexColor">The value of the token.</param>
-		/// <returns>The generated value.</returns>
+        /// <returns>The generated value.</returns>
         static CSSPrimitiveValue<Color> GetColorFromHexValue(String hexColor)
-		{
-			Color colorValue;
+        {
+            Color colorValue;
 
             if (Color.TryFromHex(hexColor, out colorValue))
                 return new CSSPrimitiveValue<Color>(colorValue);
 
-			return null;
-		}
+            return null;
+        }
 
-		#endregion
+        #endregion
 
         #region Helpers
 
@@ -1143,7 +1134,20 @@
                 case "khz": return new CSSPrimitiveValue<Frequency>(new Frequency(token.Data, Frequency.Unit.Khz));
             }
 
-            return new CSSStringValue(token.ToValue());
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the given identifier to a value. Uses inherit for inherit.
+        /// </summary>
+        /// <param name="identifier">The identifier to consider.</param>
+        /// <returns>The created value.</returns>
+        static CSSValue ToIdentifier(String identifier)
+        {
+            if (identifier == inherit)
+                return CSSValue.Inherit;
+
+            return new CSSIdentifierValue(identifier);
         }
 
         /// <summary>
@@ -1159,7 +1163,7 @@
             return new CSSPrimitiveValue<Number>(new Number(token.Data));
         }
 
-		#endregion
+        #endregion
 
         #region Public static methods
 
@@ -1173,13 +1177,13 @@
         {
             var tokenizer = new CssTokenizer(new SourceManager(selector, configuration.DefaultEncoding()));
             tokenizer.IgnoreComments = true;
-			var tokens = tokenizer.Tokens;
-			var creator = Pool.NewSelectorConstructor();
-            
-			foreach (var token in tokens)
-				creator.Apply(token);
+            var tokens = tokenizer.Tokens;
+            var creator = Pool.NewSelectorConstructor();
 
-			return creator.ToPool();
+            foreach (var token in tokens)
+                creator.Apply(token);
+
+            return creator.ToPool();
         }
 
         /// <summary>
@@ -1204,7 +1208,7 @@
         {
             var parser = new CssParser(rule, configuration ?? Configuration.Default);
             parser.skipExceptions = false;
-			parser.Parse();
+            parser.Parse();
 
             if (parser.sheet.CssRules.Length == 0)
                 return null;
@@ -1262,11 +1266,11 @@
             return parser.InValue(tokens);
         }
 
-		#endregion
+        #endregion
 
-		#region Internal static methods
+        #region Internal static methods
 
-		/// <summary>
+        /// <summary>
         /// Takes a string and transforms it into a list of CSS values.
         /// </summary>
         /// <param name="source">The string to parse.</param>
@@ -1277,15 +1281,9 @@
             var parser = new CssParser(source, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
             parser.skipExceptions = false;
+            var value = tokens.MoveNext() ? parser.InValue(tokens) : new CSSValueList();
 
-            if (!tokens.MoveNext())
-                return null;
-
-            var value = parser.InValue(tokens);
-
-            if (value == null)
-                return new CSSValueList();
-            else if (value is CSSValueList)
+            if (value is CSSValueList)
                 return (CSSValueList)value;
 
             return new CSSValueList(value);
@@ -1321,25 +1319,25 @@
             return parser.CreateKeyframeRule(tokens);
         }
 
-		/// <summary>
-		/// Takes a string and appends all rules to the given list of properties.
-		/// </summary>
-		/// <param name="list">The list of css properties to append to.</param>
+        /// <summary>
+        /// Takes a string and appends all rules to the given list of properties.
+        /// </summary>
+        /// <param name="list">The list of css properties to append to.</param>
         /// <param name="declarations">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
-		internal static void AppendDeclarations(CSSStyleDeclaration list, String declarations, IConfiguration configuration = null)
-		{
-			var parser = new CssParser(declarations, configuration ?? Configuration.Default);
+        internal static void AppendDeclarations(CSSStyleDeclaration list, String declarations, IConfiguration configuration = null)
+        {
+            var parser = new CssParser(declarations, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-			parser.skipExceptions = false;
+            parser.skipExceptions = false;
             parser.FillDeclarations(list, tokens);
-		}
+        }
 
         #endregion
 
-		#region Event-Helpers
+        #region Event-Helpers
 
-		/// <summary>
+        /// <summary>
         /// Fires an error occurred event.
         /// </summary>
         /// <param name="code">The associated error code.</param>

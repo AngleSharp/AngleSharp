@@ -73,12 +73,10 @@
         /// <summary>
         /// Closes the current function.
         /// </summary>
-        /// <returns>True if there are no more functions on the stack, otherwise false.</returns>
-        public Boolean CloseFunction()
+        public void CloseFunction()
         {
             NextArgument();
             AddValue(_functions.Pop().ToValue());
-            return _functions.Count == 0;
         }
 
         /// <summary>
