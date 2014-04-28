@@ -278,5 +278,35 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssDelayMillisecondsLegal()
+        {
+            var snippet = "transition-delay : 60ms";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-delay", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionDelayProperty));
+            var concrete = (CSSTransitionDelayProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("60ms", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssDelayMillisecondsSecondsSecondsLegal()
+        {
+            var snippet = "transition-delay : 60ms, 1s, 2s";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-delay", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionDelayProperty));
+            var concrete = (CSSTransitionDelayProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
+        }
     }
 }
