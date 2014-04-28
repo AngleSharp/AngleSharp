@@ -250,6 +250,33 @@
     <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
       <Link>DOM\Css\CssValueType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationDelayProperty.cs">
+      <Link>DOM\Css\Properties\Animation\CSSAnimationDelayProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationDirectionProperty.cs">
+      <Link>DOM\Css\Properties\Animation\CSSAnimationDirectionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationDurationProperty.cs">
+      <Link>DOM\Css\Properties\Animation\CSSAnimationDurationProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationFillModeProperty.cs">
+      <Link>DOM\Css\Properties\Animation\CSSAnimationFillModeProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationIterationCountProperty.cs">
+      <Link>DOM\Css\Properties\Animation\CSSAnimationIterationCountProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationNameProperty.cs">
+      <Link>DOM\Css\Properties\Animation\CSSAnimationNameProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationPlayStateProperty.cs">
+      <Link>DOM\Css\Properties\Animation\CSSAnimationPlayStateProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationProperty.cs">
+      <Link>DOM\Css\Properties\Animation\CSSAnimationProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationTimingFunctionProperty.cs">
+      <Link>DOM\Css\Properties\Animation\CSSAnimationTimingFunctionProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundAttachmentProperty.cs">
       <Link>DOM\Css\Properties\Background\CSSBackgroundAttachmentProperty.cs</Link>
     </Compile>
@@ -675,6 +702,21 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSTransformStyleProperty.cs">
       <Link>DOM\Css\Properties\Transform\CSSTransformStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transition\CSSTransitionDelayProperty.cs">
+      <Link>DOM\Css\Properties\Transition\CSSTransitionDelayProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transition\CSSTransitionDurationProperty.cs">
+      <Link>DOM\Css\Properties\Transition\CSSTransitionDurationProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transition\CSSTransitionProperty.cs">
+      <Link>DOM\Css\Properties\Transition\CSSTransitionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transition\CSSTransitionPropertyProperty.cs">
+      <Link>DOM\Css\Properties\Transition\CSSTransitionPropertyProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transition\CSSTransitionTimingFunctionProperty.cs">
+      <Link>DOM\Css\Properties\Transition\CSSTransitionTimingFunctionProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Visibility\CSSBackfaceVisibilityProperty.cs">
       <Link>DOM\Css\Properties\Visibility\CSSBackfaceVisibilityProperty.cs</Link>
