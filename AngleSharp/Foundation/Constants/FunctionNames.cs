@@ -203,6 +203,16 @@
         public static readonly String ScaleZ = "scaleZ";
 
         /// <summary>
+        /// The steps function.
+        /// </summary>
+        public static readonly String Steps = "steps";
+
+        /// <summary>
+        /// The cubic-bezier function.
+        /// </summary>
+        public static readonly String CubicBezier = "cubic-bezier";
+
+        /// <summary>
         /// Creates a function call expression from the given strings.
         /// </summary>
         /// <param name="function">The name of the function.</param>

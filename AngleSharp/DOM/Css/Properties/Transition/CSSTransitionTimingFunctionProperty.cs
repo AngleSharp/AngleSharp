@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
@@ -8,12 +9,31 @@
     /// </summary>
     public sealed class CSSTransitionTimingFunctionProperty : CSSProperty
     {
+        #region Fields
+
+        List<CSSTimingValue> _functions;
+
+        #endregion
+
         #region ctor
 
         internal CSSTransitionTimingFunctionProperty()
             : base(PropertyNames.TransitionTimingFunction)
         {
             _inherited = false;
+            _functions = new List<CSSTimingValue>();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the enumeration over all timing functions.
+        /// </summary>
+        public IEnumerable<CSSTimingValue> TimingFunctions
+        {
+            get { return _functions; }
         }
 
         #endregion
@@ -22,7 +42,14 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            return base.IsValid(value);
+            var values = value.AsList(ValueExtensions.ToTimingFunction);
+
+            if (values != null)
+                _functions = values;
+            else if (value != CSSValue.Inherit)
+                return false;
+
+            return true;
         }
 
         #endregion

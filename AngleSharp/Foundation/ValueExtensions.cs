@@ -10,6 +10,7 @@
     {
         static readonly Dictionary<String, LineStyle> lineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BoxModel> boxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, CSSTimingValue> timingFunctions = new Dictionary<String, CSSTimingValue>(StringComparer.OrdinalIgnoreCase);
 
         static ValueExtensions()
         {
@@ -27,6 +28,14 @@
             boxModels.Add("border-box", BoxModel.BorderBox);
             boxModels.Add("padding-box", BoxModel.PaddingBox);
             boxModels.Add("content-box", BoxModel.ContentBox);
+
+            timingFunctions.Add("ease", CSSTimingValue.Ease);
+            timingFunctions.Add("ease-in", CSSTimingValue.EaseIn);
+            timingFunctions.Add("ease-out", CSSTimingValue.EaseOut);
+            timingFunctions.Add("ease-in-out", CSSTimingValue.EaseInOut);
+            timingFunctions.Add("linear", CSSTimingValue.Linear);
+            timingFunctions.Add("step-start", CSSTimingValue.StepStart);
+            timingFunctions.Add("step-end", CSSTimingValue.StepEnd);
         }
 
         public static LineStyle? ToLineStyle(this CSSValue value)
@@ -35,6 +44,18 @@
 
             if (value is CSSIdentifierValue && lineStyles.TryGetValue(((CSSIdentifierValue)value).Value, out style))
                 return style;
+
+            return null;
+        }
+
+        public static CSSTimingValue ToTimingFunction(this CSSValue value)
+        {
+            CSSTimingValue function;
+
+            if (value is CSSTimingValue)
+                return (CSSTimingValue)value;
+            else if (value is CSSIdentifierValue && timingFunctions.TryGetValue(((CSSIdentifierValue)value).Value, out function))
+                return function;
 
             return null;
         }
@@ -115,11 +136,10 @@
             return null;
         }
 
-        public static List<T> AsList<T>(this CSSValue value)
+        public static List<T> AsList<T>(this CSSValue value, Func<CSSValue, T> transformer = null)
             where T : CSSValue
         {
-            if (value is T)
-                return new List<T>(new[] { (T)value });
+            transformer = transformer ?? (v => v as T);
 
             if (value is CSSValueList)
             {
@@ -128,7 +148,7 @@
 
                 for (int i = 0; i < values.Length; i++)
                 {
-                    var item = values[i++] as T;
+                    var item = transformer(values[i++]);
 
                     if (item == null)
                         return null;
@@ -140,6 +160,17 @@
                 }
 
                 return list;
+            }
+            else
+            {
+                var item = transformer(value);
+
+                if (item != null)
+                {
+                    var list = new List<T>();
+                    list.Add(item);
+                    return list;
+                }
             }
 
             return null;

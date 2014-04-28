@@ -46,6 +46,8 @@
             _functions.Add(FunctionNames.SkewY, SkewY);
             _functions.Add(FunctionNames.Counter, Counter);
             _functions.Add(FunctionNames.Counters, Counters);
+            _functions.Add(FunctionNames.Steps, Steps);
+            _functions.Add(FunctionNames.CubicBezier, CubicBezier);
         }
 
         #endregion
@@ -222,6 +224,55 @@
             }
 
             return CSSImageValue.FromUrls(imageList);
+        }
+
+        #endregion
+
+        #region Timing
+
+        static CSSValue Steps(List<CSSValue> arguments)
+        {
+            if (arguments.Count > 0 && arguments.Count < 3)
+            {
+                var intervals = arguments[0].ToInteger();
+                
+                if (intervals.HasValue)
+                {
+                    if (arguments.Count > 1)
+                    {
+                        if (arguments[1].Is("start"))
+                            return new CSSTimingValue.Steps(intervals.Value, true);
+                        else if (arguments[1].Is("end"))
+                            return new CSSTimingValue.Steps(intervals.Value, false);
+                    }
+                    else
+                        return new CSSTimingValue.Steps(intervals.Value);
+                }
+            }
+
+            return null;
+        }
+
+        static CSSValue CubicBezier(List<CSSValue> arguments)
+        {
+            if (arguments.Count == 4)
+            {
+                var args = new Single[4];
+
+                for (int i = 0; i < arguments.Count; i++)
+                {
+                    var arg = arguments[i].ToNumber();
+
+                    if (!arg.HasValue)
+                        return null;
+
+                    args[i] = arg.Value;
+                }
+
+                return new CSSTimingValue.CubicBezier(args[0], args[1], args[2], args[3]);
+            }
+
+            return null;
         }
 
         #endregion

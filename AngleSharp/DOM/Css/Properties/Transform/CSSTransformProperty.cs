@@ -22,7 +22,6 @@
         {
             _inherited = false;
             _transforms = new List<CSSTransformValue>();
-
         }
 
         #endregion
