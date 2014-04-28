@@ -11,15 +11,15 @@
 
         static CSSFactory()
         {
-            //properties.Add(PropertyNames.ANIMATION, () => new CSSProperty());
-            //properties.Add(PropertyNames.ANIMATION_DELAY, () => new CSSProperty());
-            //properties.Add(PropertyNames.ANIMATION_DIRECTION, () => new CSSProperty());
-            //properties.Add(PropertyNames.ANIMATION_DURATION, () => new CSSProperty());
-            //properties.Add(PropertyNames.ANIMATION_FILL_MODE, () => new CSSProperty());
-            //properties.Add(PropertyNames.ANIMATION_ITERATION_COUNT, () => new CSSProperty());
-            //properties.Add(PropertyNames.ANIMATION_NAME, () => new CSSProperty());
-            //properties.Add(PropertyNames.ANIMATION_PLAY_STATE, () => new CSSProperty());
-            //properties.Add(PropertyNames.ANIMATION_TIMING_FUNCTION, () => new CSSProperty());
+            properties.Add(PropertyNames.Animation, () => new CSSAnimationProperty());
+            properties.Add(PropertyNames.AnimationDelay, () => new CSSAnimationDelayProperty());
+            properties.Add(PropertyNames.AnimationDirection, () => new CSSAnimationDirectionProperty());
+            properties.Add(PropertyNames.AnimationDuration, () => new CSSAnimationDurationProperty());
+            properties.Add(PropertyNames.AnimationFillMode, () => new CSSAnimationFillModeProperty());
+            properties.Add(PropertyNames.AnimationIterationCount, () => new CSSAnimationIterationCountProperty());
+            properties.Add(PropertyNames.AnimationName, () => new CSSAnimationNameProperty());
+            properties.Add(PropertyNames.AnimationPlayState, () => new CSSAnimationPlayStateProperty());
+            properties.Add(PropertyNames.AnimationTimingFunction, () => new CSSAnimationTimingFunctionProperty());
             properties.Add(PropertyNames.BackgroundAttachment, () => new CSSBackgroundAttachmentProperty());
             properties.Add(PropertyNames.BackgroundColor, () => new CSSBackgroundColorProperty());
             properties.Add(PropertyNames.BackgroundClip, () => new CSSBackgroundClipProperty());
@@ -106,10 +106,6 @@
             properties.Add(PropertyNames.ListStylePosition, () => new CSSListStylePositionProperty());
             properties.Add(PropertyNames.ListStyleType, () => new CSSListStyleTypeProperty());
             properties.Add(PropertyNames.ListStyle, () => new CSSListStyleProperty());
-            //properties.Add(PropertyNames.MARQUEE_DIRECTION, () => new CSSProperty());
-            //properties.Add(PropertyNames.MARQUEE_PLAY_COUNT, () => new CSSProperty());
-            //properties.Add(PropertyNames.MARQUEE_SPEED, () => new CSSProperty());
-            //properties.Add(PropertyNames.MARQUEE_STYLE, () => new CSSProperty());
             properties.Add(PropertyNames.MarginRight, () => new CSSMarginRightProperty());
             properties.Add(PropertyNames.MarginLeft, () => new CSSMarginLeftProperty());
             properties.Add(PropertyNames.MarginTop, () => new CSSMarginTopProperty());
@@ -151,11 +147,11 @@
             properties.Add(PropertyNames.Transform, () => new CSSTransformProperty());
             properties.Add(PropertyNames.TransformOrigin, () => new CSSTransformOriginProperty());
             properties.Add(PropertyNames.TransformStyle, () => new CSSTransformStyleProperty());
-            //properties.Add(PropertyNames.TRANSITION, () => new CSSProperty());
-            //properties.Add(PropertyNames.TRANSITION_DELAY, () => new CSSProperty());
-            //properties.Add(PropertyNames.TRANSITION_DURATION, () => new CSSProperty());
-            //properties.Add(PropertyNames.TRANSITION_TIMING_FUNCTION, () => new CSSProperty());
-            //properties.Add(PropertyNames.TRANSITION_PROPERTY, () => new CSSProperty());
+            properties.Add(PropertyNames.Transition, () => new CSSTransitionProperty());
+            properties.Add(PropertyNames.TransitionDelay, () => new CSSTransitionDelayProperty());
+            properties.Add(PropertyNames.TransitionDuration, () => new CSSTransitionDurationProperty());
+            properties.Add(PropertyNames.TransitionTimingFunction, () => new CSSTransitionTimingFunctionProperty());
+            properties.Add(PropertyNames.TransitionProperty, () => new CSSTransitionPropertyProperty());
             properties.Add(PropertyNames.Top, () => new CSSTopProperty());
             properties.Add(PropertyNames.UnicodeBidi, () => new CSSUnicodeBidiProperty());
             properties.Add(PropertyNames.VerticalAlign, () => new CSSVerticalAlignProperty());

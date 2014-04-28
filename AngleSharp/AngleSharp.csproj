@@ -55,6 +55,15 @@
     <Compile Include="DOM\Css\Constants\UnicodeMode.cs" />
     <Compile Include="DOM\Css\Constants\Whitespace.cs" />
     <Compile Include="DOM\Css\CSSFactory.cs" />
+    <Compile Include="DOM\Css\Properties\Animation\CSSAnimationDelayProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Animation\CSSAnimationDirectionProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Animation\CSSAnimationDurationProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Animation\CSSAnimationFillModeProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Animation\CSSAnimationIterationCountProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Animation\CSSAnimationNameProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Animation\CSSAnimationPlayStateProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Animation\CSSAnimationProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Animation\CSSAnimationTimingFunctionProperty.cs" />
     <Compile Include="DOM\Css\Properties\Background\CSSBackgroundAttachmentProperty.cs" />
     <Compile Include="DOM\Css\Properties\Background\CSSBackgroundClipProperty.cs" />
     <Compile Include="DOM\Css\Properties\Background\CSSBackgroundColorProperty.cs" />
@@ -163,6 +172,11 @@
     <Compile Include="DOM\Css\Properties\Transform\CSSTransformStyleProperty.cs" />
     <Compile Include="DOM\Css\Properties\Transform\CSSPerspectiveOriginProperty.cs" />
     <Compile Include="DOM\Css\Properties\Transform\CSSPerspectiveProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Transition\CSSTransitionDelayProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Transition\CSSTransitionDurationProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Transition\CSSTransitionProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Transition\CSSTransitionPropertyProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Transition\CSSTransitionTimingFunctionProperty.cs" />
     <Compile Include="DOM\Css\Properties\Visibility\CSSBackfaceVisibilityProperty.cs" />
     <Compile Include="DOM\Css\Properties\Border\CSSBorderCollapseProperty.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs" />

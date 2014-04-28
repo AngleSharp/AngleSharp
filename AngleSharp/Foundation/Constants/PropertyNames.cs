@@ -688,26 +688,6 @@ namespace AngleSharp
         public static readonly String ListStyle = "list-style";
 
         /// <summary>
-        /// The marquee-direction style.
-        /// </summary>
-        public static readonly String MarqueeDirection = "marquee-direction";
-
-        /// <summary>
-        /// The marquee-play-count style.
-        /// </summary>
-        public static readonly String MarqueePlayCount = "marquee-play-count";
-
-        /// <summary>
-        /// The marquee-speed style.
-        /// </summary>
-        public static readonly String MarqueeSpeed = "marquee-speed";
-
-        /// <summary>
-        /// The marquee-style style.
-        /// </summary>
-        public static readonly String MarqueeStyle = "marquee-style";
-
-        /// <summary>
         /// The margin-right style.
         /// </summary>
         public static readonly String MarginRight = "margin-right";
