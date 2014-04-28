@@ -70,7 +70,6 @@
 		ListSelector group;
 		ComplexSelector complex;
         Boolean hasCombinator;
-        Boolean ignoreErrors;
 		CssCombinator combinator;
 		CssSelectorConstructor nested;
 		String attrName;
@@ -92,15 +91,6 @@
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets if errors should be ignored.
-        /// </summary>
-        public Boolean IgnoreErrors
-        {
-            get { return ignoreErrors; }
-            set { ignoreErrors = value; }
-        }
 
         /// <summary>
         /// Gets the currently formed selector.
@@ -138,40 +128,33 @@
         /// Picks a simple selector from the stream of tokens.
         /// </summary>
         /// <param name="token">The stream of tokens to consider.</param>
-        public void Apply(CssToken token)
+        /// <returns>True if no error occurred, otherwise false.</returns>
+        public Boolean Apply(CssToken token)
         {
 			switch (state)
 			{
 				case State.Data:
-					OnData(token);
-					break;
+					return OnData(token);
 				case State.Class:
-					OnClass(token);
-					break;
+					return OnClass(token);
 				case State.Attribute:
-					OnAttribute(token);
-					break;
+					return OnAttribute(token);
 				case State.AttributeOperator:
-					OnAttributeOperator(token);
-					break;
+					return OnAttributeOperator(token);
 				case State.AttributeValue:
-					OnAttributeValue(token);
-					break;
+					return OnAttributeValue(token);
 				case State.AttributeEnd:
-					OnAttributeEnd(token);
-					break;
+					return OnAttributeEnd(token);
 				case State.PseudoClass:
-					OnPseudoClass(token);
-					break;
+					return OnPseudoClass(token);
 				case State.PseudoClassFunction:
-					OnPseudoClassFunction(token);
-					break;
+					return OnPseudoClassFunction(token);
 				case State.PseudoClassFunctionEnd:
-					OnPseudoClassFunctionEnd(token);
-					break;
+					return OnPseudoClassFunctionEnd(token);
 				case State.PseudoElement:
-					OnPseudoElement(token);
-					break;
+					return OnPseudoElement(token);
+                default:
+                    return false;
 			}
         }
 
@@ -187,7 +170,6 @@
 			state = State.Data;
 			combinator = CssCombinator.Descendent;
 			hasCombinator = false;
-			ignoreErrors = false;
 			temp = null;
 			group = null;
 			complex = null;
@@ -201,8 +183,9 @@
 		/// <summary>
 		/// General state.
 		/// </summary>
-		/// <param name="token">The token to examine.</param>
-		void OnData(CssToken token)
+        /// <param name="token">The token to examine.</param>
+        /// <returns>True if no error occurred, otherwise false.</returns>
+		Boolean OnData(CssToken token)
 		{
 			switch (token.Type)
 			{
@@ -212,92 +195,99 @@
 					attrValue = null;
 					attrOp = String.Empty;
 					state = State.Attribute;
-					return;
+					return true;
 
 				//Begin of Pseudo :P
 				case CssTokenType.Colon:
 					state = State.PseudoClass;
-					return;
+					return true;
 
 				//Begin of ID #I
 				case CssTokenType.Hash:
 					Insert(SimpleSelector.Id(((CssKeywordToken)token).Data));
-					return;
+					return true;
 
 				//Begin of Type E
 				case CssTokenType.Ident:
 					Insert(SimpleSelector.Type(((CssKeywordToken)token).Data));
-					return;
+					return true;
 
 				//Whitespace could be significant
 				case CssTokenType.Whitespace:
 					Insert(CssCombinator.Descendent);
-					return;
+					return true;
 
 				//Various
 				case CssTokenType.Delim:
-					OnDelim(token);
-					return;
+					return OnDelim(token);
 
 				case CssTokenType.Comma:
 					InsertOr();
-					return;
+					return true;
 			}
 
-			if (!ignoreErrors)
-				throw new DOMException(ErrorCode.SyntaxError);
+            return false;
 		}
 
 		/// <summary>
 		/// Invoked once a square bracket has been found in the token enumerator.
 		/// </summary>
-		/// <param name="token">The token.</param>
-		void OnAttribute(CssToken token)
+        /// <param name="token">The token.</param>
+        /// <returns>True if no error occurred, otherwise false.</returns>
+		Boolean OnAttribute(CssToken token)
 		{
 			if (token.Type == CssTokenType.Whitespace)
-				return;
+				return true;
 
 			state = State.AttributeOperator;
 
 			if (token.Type == CssTokenType.Ident)
 				attrName = ((CssKeywordToken)token).Data;
-			else if (token.Type == CssTokenType.String)
-				attrName = ((CssStringToken)token).Data;
-			else if (!ignoreErrors)
-				throw new DOMException(ErrorCode.SyntaxError);
-			else
-				state = State.Data;
+            else if (token.Type == CssTokenType.String)
+                attrName = ((CssStringToken)token).Data;
+            else
+            {
+                state = State.Data;
+                return false;
+            }
+
+            return true;
 		}
 
 		/// <summary>
 		/// Invoked once a square bracket has been found in the token enumerator.
 		/// </summary>
-		/// <param name="token">The token.</param>
-		void OnAttributeOperator(CssToken token)
+        /// <param name="token">The token.</param>
+        /// <returns>True if no error occurred, otherwise false.</returns>
+		Boolean OnAttributeOperator(CssToken token)
 		{
 			if (token.Type == CssTokenType.Whitespace)
-				return;
+				return true;
 
 			state = State.AttributeValue;
 
 			if (token.Type == CssTokenType.SquareBracketClose)
-				OnAttributeEnd(token);
-			else if (token is CssMatchToken || token.Type == CssTokenType.Delim)
-				attrOp = token.ToValue();
-			else if (!ignoreErrors)
-				throw new DOMException(ErrorCode.SyntaxError);
-			else
-				state = State.AttributeEnd;
+				return OnAttributeEnd(token);
+            else if (token is CssMatchToken || token.Type == CssTokenType.Delim)
+                attrOp = token.ToValue();
+            else
+            {
+                state = State.AttributeEnd;
+                return false;
+            }
+
+            return true;
 		}
 
 		/// <summary>
 		/// Invoked once a square bracket has been found in the token enumerator.
 		/// </summary>
-		/// <param name="token">The token.</param>
-		void OnAttributeValue(CssToken token)
+        /// <param name="token">The token.</param>
+        /// <returns>True if no error occurred, otherwise false.</returns>
+		Boolean OnAttributeValue(CssToken token)
 		{
 			if (token.Type == CssTokenType.Whitespace)
-				return;
+				return true;
 
 			state = State.AttributeEnd;
 
@@ -305,152 +295,168 @@
 				attrValue = ((CssKeywordToken)token).Data;
 			else if (token.Type == CssTokenType.String)
 				attrValue = ((CssStringToken)token).Data;
-			else if (token.Type == CssTokenType.Number)
-				attrValue = ((CssNumberToken)token).Data.ToString();
-			else if (!ignoreErrors)
-				throw new DOMException(ErrorCode.SyntaxError);
-			else
-				state = State.Data;
+            else if (token.Type == CssTokenType.Number)
+                attrValue = ((CssNumberToken)token).Data.ToString();
+            else
+            {
+                state = State.Data;
+                return false;
+            }
+
+            return true;
 		}
 
 		/// <summary>
 		/// Invoked once a square bracket has been found in the token enumerator.
 		/// </summary>
-		/// <param name="token">The token.</param>
-		void OnAttributeEnd(CssToken token)
+        /// <param name="token">The token.</param>
+        /// <returns>True if no error occurred, otherwise false.</returns>
+		Boolean OnAttributeEnd(CssToken token)
 		{
 			if (token.Type == CssTokenType.Whitespace)
-				return;
+				return true;
 
 			state = State.Data;
 
-			if (token.Type == CssTokenType.SquareBracketClose)
-			{
-				switch (attrOp)
-				{
-					case "=":
-						Insert(SimpleSelector.AttrMatch(attrName, attrValue));
-						break;
-					case "~=":
-						Insert(SimpleSelector.AttrList(attrName, attrValue));
-						break;
-					case "|=":
-						Insert(SimpleSelector.AttrHyphen(attrName, attrValue));
-						break;
-					case "^=":
-						Insert(SimpleSelector.AttrBegins(attrName, attrValue));
-						break;
-					case "$=":
-						Insert(SimpleSelector.AttrEnds(attrName, attrValue));
-						break;
-					case "*=":
-						Insert(SimpleSelector.AttrContains(attrName, attrValue));
-						break;
-					case "!=":
-						Insert(SimpleSelector.AttrNotMatch(attrName, attrValue));
-						break;
-					default:
-						Insert(SimpleSelector.AttrAvailable(attrName));
-						break;
-				}
-			}
-			else if (!ignoreErrors)
-				throw new DOMException(ErrorCode.SyntaxError);
+            if (token.Type == CssTokenType.SquareBracketClose)
+            {
+                switch (attrOp)
+                {
+                    case "=":
+                        Insert(SimpleSelector.AttrMatch(attrName, attrValue));
+                        break;
+                    case "~=":
+                        Insert(SimpleSelector.AttrList(attrName, attrValue));
+                        break;
+                    case "|=":
+                        Insert(SimpleSelector.AttrHyphen(attrName, attrValue));
+                        break;
+                    case "^=":
+                        Insert(SimpleSelector.AttrBegins(attrName, attrValue));
+                        break;
+                    case "$=":
+                        Insert(SimpleSelector.AttrEnds(attrName, attrValue));
+                        break;
+                    case "*=":
+                        Insert(SimpleSelector.AttrContains(attrName, attrValue));
+                        break;
+                    case "!=":
+                        Insert(SimpleSelector.AttrNotMatch(attrName, attrValue));
+                        break;
+                    default:
+                        Insert(SimpleSelector.AttrAvailable(attrName));
+                        break;
+                }
+
+                return true;
+            }
+            
+            return false;
 		}
 
 		/// <summary>
 		/// Invoked once a colon has been found in the token enumerator.
 		/// </summary>
-		/// <param name="token">The token.</param>
-		void OnPseudoClass(CssToken token)
+        /// <param name="token">The token.</param>
+        /// <returns>True if no error occurred, otherwise false.</returns>
+		Boolean OnPseudoClass(CssToken token)
 		{
 			state = State.Data;
 
-			if (token.Type == CssTokenType.Colon)
-				state = State.PseudoElement;
-			else if (token.Type == CssTokenType.Function)
-			{
-				attrName = ((CssKeywordToken)token).Data;
-				attrValue = String.Empty;
-				state = State.PseudoClassFunction;
+            if (token.Type == CssTokenType.Colon)
+            {
+                state = State.PseudoElement;
+                return true;
+            }
+            else if (token.Type == CssTokenType.Function)
+            {
+                attrName = ((CssKeywordToken)token).Data;
+                attrValue = String.Empty;
+                state = State.PseudoClassFunction;
 
-				if (nested != null)
-					nested.Reset();
-			}
-			else if (token.Type == CssTokenType.Ident)
-			{
-				var sel = GetPseudoSelector(token);
+                if (nested != null)
+                    nested.Reset();
 
-				if (sel != null)
-					Insert(sel); 
-				else if (!ignoreErrors)
-					throw new DOMException(ErrorCode.SyntaxError);
-			}
-			else if (!ignoreErrors)
-				throw new DOMException(ErrorCode.SyntaxError);
+                return true;
+            }
+            else if (token.Type == CssTokenType.Ident)
+            {
+                var sel = GetPseudoSelector(token);
+
+                if (sel == null)
+                    return false;
+
+                Insert(sel);
+                return true;
+            }
+            
+            return false;
 		}
 
 		/// <summary>
 		/// Invoked once a colon has been found in the token enumerator.
 		/// </summary>
-		/// <param name="token">The token.</param>
-		void OnPseudoElement(CssToken token)
+        /// <param name="token">The token.</param>
+        /// <returns>True if no error occurred, otherwise false.</returns>
+		Boolean OnPseudoElement(CssToken token)
 		{
-			if (token.Type == CssTokenType.Ident)
-			{
-				var data = ((CssKeywordToken)token).Data;
+            if (token.Type == CssTokenType.Ident)
+            {
+                var data = ((CssKeywordToken)token).Data;
 
-				switch (data)
-				{
-					case pseudoelementBefore:
-						Insert(SimpleSelector.PseudoElement(MatchBefore, pseudoelementBefore));
-						break;
-					case pseudoelementAfter:
-						Insert(SimpleSelector.PseudoElement(MatchAfter, pseudoelementAfter));
-						break;
-					case pseudoelementSelection:
-						Insert(SimpleSelector.PseudoElement(el => true, pseudoelementSelection));
-						break;
-					case pseudoelementFirstLine:
-						Insert(SimpleSelector.PseudoElement(MatchFirstLine, pseudoelementFirstLine));
-						break;
-					case pseudoelementFirstLetter:
-						Insert(SimpleSelector.PseudoElement(MatchFirstLetter, pseudoelementFirstLetter));
-						break;
-					default: 
-						if (!ignoreErrors)
-							throw new DOMException(ErrorCode.SyntaxError);
-
-						Insert(SimpleSelector.PseudoElement(el => false, data));
-						break;
-				}
-			}
-			else if (!ignoreErrors)
-				throw new DOMException(ErrorCode.SyntaxError);
+                switch (data)
+                {
+                    case pseudoelementBefore:
+                        Insert(SimpleSelector.PseudoElement(MatchBefore, pseudoelementBefore));
+                        return true;
+                    case pseudoelementAfter:
+                        Insert(SimpleSelector.PseudoElement(MatchAfter, pseudoelementAfter));
+                        return true;
+                    case pseudoelementSelection:
+                        Insert(SimpleSelector.PseudoElement(el => true, pseudoelementSelection));
+                        return true;
+                    case pseudoelementFirstLine:
+                        Insert(SimpleSelector.PseudoElement(MatchFirstLine, pseudoelementFirstLine));
+                        return true;
+                    case pseudoelementFirstLetter:
+                        Insert(SimpleSelector.PseudoElement(MatchFirstLetter, pseudoelementFirstLetter));
+                        return true;
+                    default:
+                        Insert(SimpleSelector.PseudoElement(el => false, data));
+                        return false;
+                }
+            }
+            
+            return false;
 		}
 
 		/// <summary>
 		/// Invoked once a colon has been found in the token enumerator.
 		/// </summary>
-		/// <param name="token">The token.</param>
-		void OnClass(CssToken token)
+        /// <param name="token">The token.</param>
+        /// <returns>True if no error occurred, otherwise false.</returns>
+		Boolean OnClass(CssToken token)
 		{
 			state = State.Data;
 
-			if (token.Type == CssTokenType.Ident)
-				Insert(SimpleSelector.Class(((CssKeywordToken)token).Data));
-			else if (!ignoreErrors)
-				throw new DOMException(ErrorCode.SyntaxError);
+            if (token.Type == CssTokenType.Ident)
+            {
+                Insert(SimpleSelector.Class(((CssKeywordToken)token).Data));
+                return true;
+            }
+            
+            return false;
 		}
 
 		/// <summary>
 		/// Invoked once a pseudo class has been found in the token enumerator.
 		/// </summary>
-		/// <param name="token">The token.</param>
-		void OnPseudoClassFunction(CssToken token)
+        /// <param name="token">The token.</param>
+        /// <returns>True if no error occurred, otherwise false.</returns>
+		Boolean OnPseudoClassFunction(CssToken token)
 		{
 			if (token.Type == CssTokenType.Whitespace)
-				return;
+				return true;
 
 			switch (attrName)
 			{
@@ -463,7 +469,7 @@
 						case CssTokenType.Number:
 						case CssTokenType.Dimension:
 							attrValue += token.ToValue();
-							return;
+							return true;
 
 						case CssTokenType.Delim:
 							var chr = ((CssDelimToken)token).Data;
@@ -471,7 +477,7 @@
 							if (chr == Specification.Plus || chr == Specification.Minus)
 							{
 								attrValue += chr;
-								return;
+								return true;
 							}
 
 							break;
@@ -487,7 +493,7 @@
 					if (token.Type != CssTokenType.RoundBracketClose || nested.state != State.Data)
 					{
 						nested.Apply(token);
-						return;
+						return true;
 					}
 
 					break;
@@ -498,7 +504,7 @@
 						attrValue = ((CssKeywordToken)token).Data;
 
 					state = State.PseudoClassFunctionEnd;
-					return;
+					return true;
 				}
 				case pseudoclassfunctionLang:
 				{
@@ -506,7 +512,7 @@
 						attrValue = ((CssKeywordToken)token).Data;
 
 					state = State.PseudoClassFunctionEnd;
-					return;
+					return true;
 				}
 				case pseudoclassfunctionContains:
 				{
@@ -516,18 +522,19 @@
 						attrValue = ((CssKeywordToken)token).Data;
 
 					state = State.PseudoClassFunctionEnd;
-					return;
+					return true;
 				}
 			}
 
-			OnPseudoClassFunctionEnd(token);
+			return OnPseudoClassFunctionEnd(token);
 		}
 
 		/// <summary>
 		/// Invoked once a pseudo class has been found in the token enumerator.
 		/// </summary>
-		/// <param name="token">The token.</param>
-		void OnPseudoClassFunctionEnd(CssToken token)
+        /// <param name="token">The token.</param>
+        /// <returns>True if no error occurred, otherwise false.</returns>
+		Boolean OnPseudoClassFunctionEnd(CssToken token)
 		{
 			state = State.Data;
 
@@ -537,44 +544,56 @@
 				{
 					case pseudoclassfunctionNthChild:
 					{
-						Insert(GetChildSelector<NthFirstChildSelector>());
-						break;
+                        var sel = GetChildSelector<NthFirstChildSelector>();
+
+                        if (sel == null)
+                            return false;
+
+						Insert(sel);
+                        return true;
 					}
 					case pseudoclassfunctionNthLastChild:
 					{
-						Insert(GetChildSelector<NthLastChildSelector>());
-						break;
+                        var sel = GetChildSelector<NthLastChildSelector>();
+
+                        if (sel == null)
+                            return false;
+
+						Insert(sel);
+                        return true;
 					}
 					case pseudoclassfunctionNot:
 					{
 						var sel = nested.Result;
-						var code = String.Format("{0}({1})", pseudoclassfunctionNot, sel.ToCss());
+                        var code = String.Concat(pseudoclassfunctionNot, "(", sel.ToCss(), ")");
 						Insert(SimpleSelector.PseudoClass(el => !sel.Match(el), code));
-						break;
+                        return true;
 					}
 					case pseudoclassfunctionDir:
-					{
-						var code = String.Format("{0}({1})", pseudoclassfunctionDir, attrValue);
+                    {
+                        var code = String.Concat(pseudoclassfunctionDir, "(", attrValue, ")");
 						var dirCode = attrValue == "ltr" ? DirectionMode.Ltr : DirectionMode.Rtl;
 						Insert(SimpleSelector.PseudoClass(el => el.Dir == dirCode, code));
-						break;
+                        return true;
 					}
 					case pseudoclassfunctionLang:
-					{
-						var code = String.Format("{0}({1})", pseudoclassfunctionLang, attrValue);
+                    {
+                        var code = String.Concat(pseudoclassfunctionLang, "(", attrValue, ")");
 						Insert(SimpleSelector.PseudoClass(el => el.Lang.StartsWith(attrValue, StringComparison.OrdinalIgnoreCase), code));
-						break;
+                        return true;
 					}
 					case pseudoclassfunctionContains:
-					{
-						var code = String.Format("{0}({1})", pseudoclassfunctionContains, attrValue);
+                    {
+                        var code = String.Concat(pseudoclassfunctionContains, "(", attrValue, ")");
 						Insert(SimpleSelector.PseudoClass(el => el.TextContent.Contains(attrValue), code));
-						break;
+                        return true;
 					}
+                    default:
+                        return true;
 				}
 			}
-			else if (!ignoreErrors)
-				throw new DOMException(ErrorCode.SyntaxError);
+            
+            return false;
 		}
 
 		#endregion
@@ -663,38 +682,38 @@
 		/// <summary>
 		/// Invoked once a delimiter has been found in the token enumerator.
 		/// </summary>
-		/// <param name="token">The token.</param>
-		void OnDelim(CssToken token)
+        /// <param name="token">The token.</param>
+        /// <returns>True if no error occurred, otherwise false.</returns>
+		Boolean OnDelim(CssToken token)
 		{
 			switch (((CssDelimToken)token).Data)
 			{
 				case Specification.Comma:
 					InsertOr();
-					return;
+					return true;
 
 				case Specification.GreaterThan:
 					Insert(CssCombinator.Child);
-					return;
+					return true;
 
 				case Specification.Plus:
 					Insert(CssCombinator.AdjacentSibling);
-					return;
+					return true;
 
 				case Specification.Tilde:
 					Insert(CssCombinator.Sibling);
-					return;
+					return true;
 
 				case Specification.Asterisk:
 					Insert(SimpleSelector.All);
-					return;
+					return true;
 
 				case Specification.Dot:
 					state = State.Class;
-					return;
+					return true;
 			}
 
-			if (!ignoreErrors)
-				throw new DOMException(ErrorCode.SyntaxError);
+            return false;
 		}
 
         /// <summary>
@@ -720,10 +739,10 @@
             {
 				var index = attrValue.IndexOf(nthChildN, StringComparison.OrdinalIgnoreCase);
 
-				if (attrValue.Length > 0 && index != -1)
+                if (attrValue.Length > 0 && index != -1)
                 {
-					var first = attrValue.Substring(0, index).Replace(" ", "");
-					var second = attrValue.Substring(index + 1).Replace(" ", "");
+                    var first = attrValue.Substring(0, index).Replace(" ", "");
+                    var second = attrValue.Substring(index + 1).Replace(" ", "");
 
                     if (first == String.Empty || (first.Length == 1 && first[0] == Specification.Plus))
                         selector.step = 1;
@@ -734,11 +753,11 @@
 
                     if (second == String.Empty)
                         selector.offset = 0;
-					else if (!Int32.TryParse(second, out selector.offset) && !ignoreErrors) 
-                        throw new DOMException(ErrorCode.SyntaxError);
+                    else if (!Int32.TryParse(second, out selector.offset))
+                        return null;
                 }
-                else if (!ignoreErrors) 
-                    throw new DOMException(ErrorCode.SyntaxError);
+                else
+                    return null;
             }
 
             return selector;
@@ -821,11 +840,11 @@
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLAnchorElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && !((HTMLAnchorElement)el).IsVisited;
+							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && !((HTMLAnchorElement)el).IsVisited;
 						else if (el is HTMLAreaElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && !((HTMLAreaElement)el).IsVisited;
+							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && !((HTMLAreaElement)el).IsVisited;
 						else if (el is HTMLLinkElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && !((HTMLLinkElement)el).IsVisited;
+							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && !((HTMLLinkElement)el).IsVisited;
 
 						return false;
 					}, pseudoclassLink);
@@ -834,11 +853,11 @@
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLAnchorElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAnchorElement)el).IsVisited;
+							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAnchorElement)el).IsVisited;
 						else if (el is HTMLAreaElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAreaElement)el).IsVisited;
+							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAreaElement)el).IsVisited;
 						else if (el is HTMLLinkElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)el).IsVisited;
+							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)el).IsVisited;
 
 						return false;
 					}, pseudoclassVisited);
@@ -847,11 +866,11 @@
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLAnchorElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAnchorElement)el).IsActive;
+							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAnchorElement)el).IsActive;
 						else if (el is HTMLAreaElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAreaElement)el).IsActive;
+							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAreaElement)el).IsActive;
 						else if (el is HTMLLinkElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)el).IsActive;
+							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)el).IsActive;
 						else if (el is HTMLButtonElement)
 							return !((HTMLButtonElement)el).Disabled && ((HTMLButtonElement)el).IsActive;
 						else if (el is HTMLInputElement)
@@ -880,7 +899,7 @@
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLAnchorElement || el is HTMLAreaElement || el is HTMLLinkElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href));
+							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href));
 						else if (el is HTMLButtonElement)
 							return !((HTMLButtonElement)el).Disabled;
 						else if (el is HTMLInputElement)
@@ -892,7 +911,7 @@
 						else if (el is HTMLOptionElement)
 							return !((HTMLOptionElement)el).Disabled;
 						else if (el is HTMLOptGroupElement || el is HTMLMenuItemElement || el is HTMLFieldSetElement)
-							return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled));
+							return String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled));
 
 						return false;
 					}, pseudoclassEnabled);
@@ -911,7 +930,7 @@
 						else if (el is HTMLOptionElement)
 							return ((HTMLOptionElement)el).Disabled;
 						else if (el is HTMLOptGroupElement || el is HTMLMenuItemElement || el is HTMLFieldSetElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled));
+							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled));
 
 						return false;
 					}, pseudoclassDisabled);
@@ -944,7 +963,7 @@
 							}
 						}
 						else if (el is HTMLOptionElement)
-							return !string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Selected));
+							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Selected));
 
 						return false;
 					}, pseudoclassDefault);
@@ -979,7 +998,7 @@
 							return inp.Type == HTMLInputElement.InputType.Checkbox && inp.Indeterminate;
 						}
 						else if (el is HTMLProgressElement)
-							return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Value));
+							return String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Value));
 
 						return false;
 					}, pseudoclassIndeterminate);

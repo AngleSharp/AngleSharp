@@ -92,7 +92,6 @@
         internal CssParser(CSSStyleSheet stylesheet, SourceManager source)
         {
             selector = Pool.NewSelectorConstructor();
-            selector.IgnoreErrors = true;
             value = new CssValueBuilder();
             sync = new Object();
             tokenizer = new CssTokenizer(source);
@@ -417,12 +416,20 @@
                 SkipUnknownRule(tokens);
                 return null;
             }
+            else if (token.Type == CssTokenType.CurlyBracketClose || token.Type == CssTokenType.RoundBracketClose || token.Type == CssTokenType.SquareBracketClose)
+            {
+                while (tokens.MoveNext()) ;
+                return null;
+            }
             else
             {
                 var selector = InSelector(tokens);
 
                 if (selector == null)
+                {
+                    SkipUnknownRule(tokens);
                     return null;
+                }
 
                 var rule = new CSSStyleRule { Selector = selector };
                 FillDeclarations(rule.Style, tokens);
@@ -473,21 +480,17 @@
             {
                 var token = tokens.Current;
 
-                //if (token.Type == CssTokenType.AtKeyword)
-                //{
-                //    tokenizer.IgnoreWhitespace = true;
-                //    SkipUnknownRule(tokens);
-                //    return null;
-                //}
-
                 if (token.Type == CssTokenType.CurlyBracketOpen || token.Type == CssTokenType.CurlyBracketClose)
                     break;
 
-                selector.Apply(token);
+                if (selector.Apply(token) == false)
+                {
+                    tokenizer.IgnoreWhitespace = true;
+                    return null;
+                }
             }
             while (tokens.MoveNext());
 
-            tokenizer.IgnoreWhitespace = true;
             return selector.Result;
         }
 
@@ -1214,7 +1217,10 @@
             var creator = Pool.NewSelectorConstructor();
 
             foreach (var token in tokens)
-                creator.Apply(token);
+            {
+                if (creator.Apply(token) == false)
+                    throw new DOMException(ErrorCode.SyntaxError);
+            }
 
             return creator.ToPool();
         }
@@ -1240,7 +1246,6 @@
         public static CSSRule ParseRule(String rule, IConfiguration configuration = null)
         {
             var parser = new CssParser(rule, configuration ?? Configuration.Default);
-            parser.selector.IgnoreErrors = false;
             parser.Parse();
 
             if (parser.sheet.CssRules.Length == 0)
@@ -1272,7 +1277,6 @@
         {
             var parser = new CssParser(declaration, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.selector.IgnoreErrors = false;
 
             if (!tokens.MoveNext())
                 return null;
@@ -1290,7 +1294,6 @@
         {
             var parser = new CssParser(source, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.selector.IgnoreErrors = false;
 
             if (!tokens.MoveNext())
                 return null;
@@ -1312,7 +1315,6 @@
         {
             var parser = new CssParser(source, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.selector.IgnoreErrors = false;
             var value = tokens.MoveNext() ? parser.InValue(tokens) : null;
             var values = value as CSSValueList;
 
@@ -1348,7 +1350,6 @@
         {
             var parser = new CssParser(source, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.selector.IgnoreErrors = false;
             var value = tokens.MoveNext() ? parser.InValue(tokens) : new CSSValueList();
             var values = value as CSSValueList;
 
@@ -1373,7 +1374,6 @@
         {
             var parser = new CssParser(rule, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.selector.IgnoreErrors = false;
 
             if (!tokens.MoveNext())
                 return new CSSKeyframeRule();
@@ -1391,7 +1391,6 @@
         {
             var parser = new CssParser(declarations, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.selector.IgnoreErrors = false;
             parser.FillDeclarations(list, tokens);
         }
 
