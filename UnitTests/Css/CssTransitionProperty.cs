@@ -233,5 +233,50 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("steps(25, end), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssDurationSecondsLegal()
+        {
+            var snippet = "transition-duration : 6s";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-duration", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionDurationProperty));
+            var concrete = (CSSTransitionDurationProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("6s", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssDurationMillisecondsLegal()
+        {
+            var snippet = "transition-duration : 60ms";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-duration", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionDurationProperty));
+            var concrete = (CSSTransitionDurationProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("60ms", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssDurationMillisecondsSecondsSecondsLegal()
+        {
+            var snippet = "transition-duration : 60ms, 1s, 2s";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-duration", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionDurationProperty));
+            var concrete = (CSSTransitionDurationProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
+        }
     }
 }
