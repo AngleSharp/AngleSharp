@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a time value.
     /// </summary>
-    struct Time : IEquatable<Time>, ICssObject
+    public struct Time : IEquatable<Time>, ICssObject
     {
         #region Fields
 
