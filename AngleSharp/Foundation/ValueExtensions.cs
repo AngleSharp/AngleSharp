@@ -115,6 +115,36 @@
             return null;
         }
 
+        public static List<T> AsList<T>(this CSSValue value)
+            where T : CSSValue
+        {
+            if (value is T)
+                return new List<T>(new[] { (T)value });
+
+            if (value is CSSValueList)
+            {
+                var values = (CSSValueList)value;
+                var list = new List<T>();
+
+                for (int i = 0; i < values.Length; i++)
+                {
+                    var item = values[i++] as T;
+
+                    if (item == null)
+                        return null;
+
+                    list.Add(item);
+
+                    if (i < values.Length && values[i] != CSSValue.Separator)
+                        return null;
+                }
+
+                return list;
+            }
+
+            return null;
+        }
+
         public static CSSImageValue AsImage(this CSSValue value)
         {
             if (value is CSSImageValue)
