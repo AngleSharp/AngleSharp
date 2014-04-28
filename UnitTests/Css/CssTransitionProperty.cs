@@ -235,7 +235,7 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
-        public void CssDurationSecondsLegal()
+        public void CssTransitionDurationSecondsLegal()
         {
             var snippet = "transition-duration : 6s";
             var property = CssParser.ParseDeclaration(snippet);
@@ -250,7 +250,7 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
-        public void CssDurationMillisecondsLegal()
+        public void CssTransitionDurationMillisecondsLegal()
         {
             var snippet = "transition-duration : 60ms";
             var property = CssParser.ParseDeclaration(snippet);
@@ -265,7 +265,7 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
-        public void CssDurationMillisecondsSecondsSecondsLegal()
+        public void CssTransitionDurationMillisecondsSecondsSecondsLegal()
         {
             var snippet = "transition-duration : 60ms, 1s, 2s";
             var property = CssParser.ParseDeclaration(snippet);
@@ -280,7 +280,7 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
-        public void CssDelayMillisecondsLegal()
+        public void CssTransitionDelayMillisecondsLegal()
         {
             var snippet = "transition-delay : 60ms";
             var property = CssParser.ParseDeclaration(snippet);
@@ -295,7 +295,7 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
-        public void CssDelayMillisecondsSecondsSecondsLegal()
+        public void CssTransitionDelayMillisecondsSecondsSecondsLegal()
         {
             var snippet = "transition-delay : 60ms, 1s, 2s";
             var property = CssParser.ParseDeclaration(snippet);
@@ -307,6 +307,111 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionMillisecondsSecondsSecondsLegal()
+        {
+            var snippet = "transition : 60ms, 1s, 2s";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
+            var concrete = (CSSTransitionProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionStepsLinearCubicBezierLegal()
+        {
+            var snippet = "transition : steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
+            var concrete = (CSSTransitionProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("steps(25, end), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionWidthHeightLegal()
+        {
+            var snippet = "transition : width   , height";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
+            var concrete = (CSSTransitionProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("width, height", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionEaseLegal()
+        {
+            var snippet = "transition : ease";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
+            var concrete = (CSSTransitionProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("ease", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionSecondsEaseAllLegal()
+        {
+            var snippet = "transition : all 1s ease";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
+            var concrete = (CSSTransitionProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("ease 1s ease", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionSecondsEaseAllHeightMsStepsLegal()
+        {
+            var snippet = "transition : all 1s ease, height steps 50ms";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
+            var concrete = (CSSTransitionProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("ease 1s ease, height steps 50ms", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionSecondsEaseAllHeightMsStepsWidthCubicBezierLegal()
+        {
+            var snippet = "transition : all 1s ease, height steps 50ms,width,cubic-bezier(0.2,0.5 , 1  ,  1)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
+            var concrete = (CSSTransitionProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("ease 1s ease, height steps 50ms, width, cubic-bezier(0.2, 0.5, 1, 1)", concrete.Value.CssText);
         }
     }
 }
