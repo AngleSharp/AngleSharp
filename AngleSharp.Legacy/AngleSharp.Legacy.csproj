@@ -817,6 +817,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSStringValue.cs">
       <Link>DOM\Css\Values\CSSStringValue.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSTimingValue.cs">
+      <Link>DOM\Css\Values\CSSTimingValue.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSTransformValue.cs">
       <Link>DOM\Css\Values\CSSTransformValue.cs</Link>
     </Compile>
