@@ -98,5 +98,140 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("test_05", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssTransitionTimingFunctionEaseLegal()
+        {
+            var snippet = "transition-timing-function : ease";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
+            var concrete = (CSSTransitionTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("ease", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionTimingFunctionEaseInLegal()
+        {
+            var snippet = "transition-timing-function : ease-IN";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
+            var concrete = (CSSTransitionTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("ease-IN", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionTimingFunctionStepStartLegal()
+        {
+            var snippet = "transition-timing-function : step-start";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
+            var concrete = (CSSTransitionTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("step-start", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionTimingFunctionStepStartStepEndLegal()
+        {
+            var snippet = "transition-timing-function : step-start  , step-end";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
+            var concrete = (CSSTransitionTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("step-start, step-end", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionTimingFunctionStepStartStepEndLinearEaseInOutLegal()
+        {
+            var snippet = "transition-timing-function : step-start  , step-end,linear,ease-IN-OUT";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
+            var concrete = (CSSTransitionTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("step-start, step-end, linear, ease-IN-OUT", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionTimingFunctionCubicBezierLegal()
+        {
+            var snippet = "transition-timing-function : cubic-bezier(0, 1, 0.5, 1)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
+            var concrete = (CSSTransitionTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.Custom, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("cubic-bezier(0, 1, 0.5, 1)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionTimingFunctionStepsStartLegal()
+        {
+            var snippet = "transition-timing-function : steps(10, start)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
+            var concrete = (CSSTransitionTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.Custom, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("steps(10, start)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionTimingFunctionStepsEndLegal()
+        {
+            var snippet = "transition-timing-function : steps(25, end)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
+            var concrete = (CSSTransitionTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.Custom, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("steps(25, end)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTransitionTimingFunctionStepsLinearCubicBezierLegal()
+        {
+            var snippet = "transition-timing-function : steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("transition-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
+            var concrete = (CSSTransitionTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("steps(25, end), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value.CssText);
+        }
     }
 }
