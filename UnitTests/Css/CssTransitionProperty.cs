@@ -381,13 +381,13 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ease 1s ease", concrete.Value.CssText);
+            Assert.AreEqual("all 1s ease", concrete.Value.CssText);
         }
 
         [TestMethod]
         public void CssTransitionSecondsEaseAllHeightMsStepsLegal()
         {
-            var snippet = "transition : all 1s ease, height steps 50ms";
+            var snippet = "transition : all 1s ease, height steps(5) 50ms";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.Important);
@@ -396,13 +396,13 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ease 1s ease, height steps 50ms", concrete.Value.CssText);
+            Assert.AreEqual("all 1s ease, height steps(5, end) 50ms", concrete.Value.CssText);
         }
 
         [TestMethod]
         public void CssTransitionSecondsEaseAllHeightMsStepsWidthCubicBezierLegal()
         {
-            var snippet = "transition : all 1s ease, height steps 50ms,width,cubic-bezier(0.2,0.5 , 1  ,  1)";
+            var snippet = "transition : all 1s ease, height step-start 50ms,width,cubic-bezier(0.2,0.5 , 1  ,  1)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.Important);
@@ -411,7 +411,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ease 1s ease, height steps 50ms, width, cubic-bezier(0.2, 0.5, 1, 1)", concrete.Value.CssText);
+            Assert.AreEqual("all 1s ease, height step-start 50ms, width, cubic-bezier(0.2, 0.5, 1, 1)", concrete.Value.CssText);
         }
     }
 }
