@@ -254,6 +254,14 @@
             return null;
         }
 
+        public static Time? ToTime(this CSSValue value)
+        {
+            if (value is CSSPrimitiveValue<Time>)
+                return ((CSSPrimitiveValue<Time>)value).Value;
+
+            return null;
+        }
+
         public static Length? ToBorderWidth(this CSSValue value)
         {
             if (value is CSSPrimitiveValue<Length>)

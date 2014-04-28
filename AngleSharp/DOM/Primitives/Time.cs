@@ -10,6 +10,11 @@
     {
         #region Fields
 
+        /// <summary>
+        /// Gets the zero time.
+        /// </summary>
+        public static readonly Time Zero = new Time(0f, Unit.Ms);
+
         Single _value;
         Unit _unit;
 
