@@ -25,6 +25,20 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets if borders and backgrounds should be drawn like
+        /// in a normal cells. Otherwise no border or backgrounds
+        /// should be drawn.
+        /// </summary>
+        public Boolean IsVisible
+        {
+            get { return _visible; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)
@@ -37,20 +51,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets if borders and backgrounds should be drawn like
-        /// in a normal cells. Otherwise no border or backgrounds
-        /// should be drawn.
-        /// </summary>
-        public Boolean IsVisible
-        {
-            get { return _visible; }
         }
 
         #endregion

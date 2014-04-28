@@ -25,6 +25,19 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets if the caption box will be above the table.
+        /// Otherwise the caption box will be below the table.
+        /// </summary>
+        public Boolean IsOnTop
+        {
+            get { return _top; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CSSValue value)
@@ -37,19 +50,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets if the caption box will be above the table.
-        /// Otherwise the caption box will be below the table.
-        /// </summary>
-        public Boolean IsOnTop
-        {
-            get { return _top; }
         }
 
         #endregion
