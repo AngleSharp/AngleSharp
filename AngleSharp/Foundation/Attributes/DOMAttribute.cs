@@ -6,7 +6,7 @@ namespace AngleSharp
     /// This attribute decorates official DOM objects as specified by the W3C. You could
     /// use it to detect all DOM types or get the correct spelling (PascalCase to camelCase).
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Property | AttributeTargets.Event | AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Event | AttributeTargets.Method)]
     public sealed class DOMAttribute : Attribute
     {
         internal DOMAttribute(String officialName)

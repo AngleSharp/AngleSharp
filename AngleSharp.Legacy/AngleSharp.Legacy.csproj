@@ -214,6 +214,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\ListStyle.cs">
       <Link>DOM\Css\Constants\ListStyle.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\SystemCursor.cs">
+      <Link>DOM\Css\Constants\SystemCursor.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\TextDecorationLine.cs">
       <Link>DOM\Css\Constants\TextDecorationLine.cs</Link>
     </Compile>
