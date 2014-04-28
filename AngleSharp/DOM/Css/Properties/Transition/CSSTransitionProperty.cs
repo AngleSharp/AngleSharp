@@ -168,12 +168,12 @@
                 {
                     var time = (CSSPrimitiveValue<Time>)values[i];
 
-                    if (duration != null)
+                    if (duration == null)
                     {
                         duration = time;
                         continue;
                     }
-                    else if (delay != null)
+                    else if (delay == null)
                     {
                         delay = time;
                         continue;
