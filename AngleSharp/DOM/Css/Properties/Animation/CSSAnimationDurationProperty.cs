@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
@@ -8,12 +9,32 @@
     /// </summary>
     public sealed class CSSAnimationDurationProperty : CSSProperty
     {
+        #region Fields
+
+        List<Time> _times;
+
+        #endregion
+
         #region ctor
 
         internal CSSAnimationDurationProperty()
             : base(PropertyNames.AnimationDuration)
         {
             _inherited = false;
+            _times = new List<Time>();
+            _times.Add(Time.Zero);
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the durations for the animations.
+        /// </summary>
+        public IEnumerable<Time> Durations
+        {
+            get { return _times; }
         }
 
         #endregion
@@ -22,7 +43,19 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            return base.IsValid(value);
+            var values = value.AsList<CSSPrimitiveValue<Time>>();
+
+            if (values != null)
+            {
+                _times.Clear();
+
+                foreach (var v in values)
+                    _times.Add(v.Value);
+            }
+            else if (value != CSSValue.Inherit)
+                return false;
+
+            return true;
         }
 
         #endregion

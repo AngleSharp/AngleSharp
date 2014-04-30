@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<CSSPrimitiveValue<Time>> _times;
+        List<Time> _times;
 
         #endregion
 
@@ -21,7 +21,8 @@
             : base(PropertyNames.TransitionDuration)
         {
             _inherited = false;
-            _times = new List<CSSPrimitiveValue<Time>>();
+            _times = new List<Time>();
+            _times.Add(Time.Zero);
         }
 
         #endregion
@@ -33,11 +34,7 @@
         /// </summary>
         public IEnumerable<Time> Durations
         {
-            get
-            {
-                foreach (var time in _times)
-                    yield return time.Value;
-            }
+            get { return _times; }
         }
 
         #endregion
@@ -49,7 +46,12 @@
             var values = value.AsList<CSSPrimitiveValue<Time>>();
 
             if (values != null)
-                _times = values;
+            {
+                _times.Clear();
+
+                foreach (var v in values)
+                    _times.Add(v.Value);
+            }
             else if (value != CSSValue.Inherit)
                 return false;
 

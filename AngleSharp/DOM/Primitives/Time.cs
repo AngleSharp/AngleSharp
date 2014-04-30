@@ -13,7 +13,7 @@
         /// <summary>
         /// Gets the zero time.
         /// </summary>
-        public static readonly Time Zero = new Time(0f, Unit.Ms);
+        public static readonly Time Zero = new Time(0f, Unit.S);
 
         Single _value;
         Unit _unit;
