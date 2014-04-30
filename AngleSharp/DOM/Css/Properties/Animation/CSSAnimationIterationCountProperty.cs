@@ -61,7 +61,12 @@
         static CSSPrimitiveValue<Number> ToNumber(CSSValue value)
         {
             if (value is CSSPrimitiveValue<Number>)
-                return (CSSPrimitiveValue<Number>)value;
+            {
+                var n = (CSSPrimitiveValue<Number>)value;
+
+                if (n.Value >= Number.Zero)
+                    return n;
+            }
             else if (value.Is("infinite"))
                 return new CSSPrimitiveValue<Number>(Number.Infinite);
 

@@ -69,6 +69,26 @@
             return a._value != b._value;
         }
 
+        public static Boolean operator >=(Number a, Number b)
+        {
+            return a._value >= b._value;
+        }
+
+        public static Boolean operator >(Number a, Number b)
+        {
+            return a._value > b._value;
+        }
+
+        public static Boolean operator <=(Number a, Number b)
+        {
+            return a._value <= b._value;
+        }
+
+        public static Boolean operator <(Number a, Number b)
+        {
+            return a._value < b._value;
+        }
+
         public static explicit operator Single(Number number)
         {
             return number._value;
