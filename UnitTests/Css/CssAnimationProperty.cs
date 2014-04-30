@@ -128,5 +128,94 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("my-animation, other-animation", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssAnimationIterationCountZeroLegal()
+        {
+            var snippet = "animation-iteration-count : 0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-iteration-count", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationIterationCountProperty));
+            var concrete = (CSSAnimationIterationCountProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("0", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationIterationCountInfiniteLegal()
+        {
+            var snippet = "animation-iteration-count : infinite";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-iteration-count", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationIterationCountProperty));
+            var concrete = (CSSAnimationIterationCountProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("infinite", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationIterationCountInfiniteUppercaseLegal()
+        {
+            var snippet = "animation-iteration-count : INFINITE";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-iteration-count", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationIterationCountProperty));
+            var concrete = (CSSAnimationIterationCountProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("INFINITE", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationIterationCountFloatLegal()
+        {
+            var snippet = "animation-iteration-count : 2.3";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-iteration-count", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationIterationCountProperty));
+            var concrete = (CSSAnimationIterationCountProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("2.3", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationIterationCountTwoZeroInfiniteLegal()
+        {
+            var snippet = "animation-iteration-count : 2, 0, infinite";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-iteration-count", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationIterationCountProperty));
+            var concrete = (CSSAnimationIterationCountProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("2, 0, infinite", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationIterationCountNegativeIllegal()
+        {
+            var snippet = "animation-iteration-count : -1";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-iteration-count", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationIterationCountProperty));
+            var concrete = (CSSAnimationIterationCountProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
     }
 }
