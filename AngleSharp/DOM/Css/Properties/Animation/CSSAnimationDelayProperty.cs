@@ -21,6 +21,8 @@
             : base(PropertyNames.AnimationDelay)
         {
             _inherited = false;
+            _times = new List<Time>();
+            _times.Add(Time.Zero);
         }
 
         #endregion
