@@ -68,5 +68,65 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0s, 0s, 1s, 20ms", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssAnimationNameDashSpecificLegal()
+        {
+            var snippet = "animation-name : -specific";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-name", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationNameProperty));
+            var concrete = (CSSAnimationNameProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("-specific", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationNameSlidingVerticallyLegal()
+        {
+            var snippet = "animation-name : sliding-vertically";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-name", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationNameProperty));
+            var concrete = (CSSAnimationNameProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("sliding-vertically", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationNameTest05Legal()
+        {
+            var snippet = "animation-name : test_05";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-name", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationNameProperty));
+            var concrete = (CSSAnimationNameProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("test_05", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationNameMyAnimationOtherAnimationLegal()
+        {
+            var snippet = "animation-name : my-animation, other-animation";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-name", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationNameProperty));
+            var concrete = (CSSAnimationNameProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("my-animation, other-animation", concrete.Value.CssText);
+        }
     }
 }
