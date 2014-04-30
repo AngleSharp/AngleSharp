@@ -15,6 +15,11 @@
         /// </summary>
         public static readonly Number Zero = new Number();
 
+        /// <summary>
+        /// Gets the positive infinite value.
+        /// </summary>
+        public static readonly Number Infinite = new Number(Single.PositiveInfinity);
+
         Single _value;
 
         #endregion
