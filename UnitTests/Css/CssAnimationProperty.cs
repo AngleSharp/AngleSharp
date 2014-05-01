@@ -356,10 +356,10 @@ namespace UnitTests.Css
         [TestMethod]
         public void CssAnimationFillModeBackwardsLegal()
         {
-            var snippet = "animation-fill-mode: backwards";
+            var snippet = "animation-fill-mode: backwards !important";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("animation-fill-mode", property.Name);
-            Assert.IsFalse(property.Important);
+            Assert.IsTrue(property.Important);
             Assert.IsInstanceOfType(property, typeof(CSSAnimationFillModeProperty));
             var concrete = (CSSAnimationFillModeProperty)property;
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
@@ -395,7 +395,67 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("both, backwards, fowards, NONE", concrete.Value.CssText);
+            Assert.AreEqual("both, backwards, forwards, NONE", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationDirectionNormalLegal()
+        {
+            var snippet = "animation-direction: normal";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-direction", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationDirectionProperty));
+            var concrete = (CSSAnimationDirectionProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("normal", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationDirectionReverseLegal()
+        {
+            var snippet = "animation-direction  : reverse";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-direction", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationDirectionProperty));
+            var concrete = (CSSAnimationDirectionProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("reverse", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationDirectionAlternateReverseUppercaseLegal()
+        {
+            var snippet = "animation-direction : alternate-REVERSE";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-direction", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationDirectionProperty));
+            var concrete = (CSSAnimationDirectionProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("alternate-REVERSE", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationDirectionNormalAlternateReverseAlternateReverseLegal()
+        {
+            var snippet = "animation-direction: normal,alternate  , reverse   ,ALTERNATE-reverse !important";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-direction", property.Name);
+            Assert.IsTrue(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationDirectionProperty));
+            var concrete = (CSSAnimationDirectionProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("normal, alternate, reverse, ALTERNATE-reverse", concrete.Value.CssText);
         }
     }
 }
