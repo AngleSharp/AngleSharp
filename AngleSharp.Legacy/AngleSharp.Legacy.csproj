@@ -187,6 +187,9 @@
     <Compile Include="..\AngleSharp\DOM\Constants\Visibility.cs">
       <Link>DOM\Constants\Visibility.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\AnimationFillMode.cs">
+      <Link>DOM\Css\Constants\AnimationFillMode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\BackgroundAttachment.cs">
       <Link>DOM\Css\Constants\BackgroundAttachment.cs</Link>
     </Compile>
@@ -213,6 +216,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\ListStyle.cs">
       <Link>DOM\Css\Constants\ListStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\PlayState.cs">
+      <Link>DOM\Css\Constants\PlayState.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\SystemCursor.cs">
       <Link>DOM\Css\Constants\SystemCursor.cs</Link>
