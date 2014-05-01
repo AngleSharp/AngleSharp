@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="DOM\Constants\Visibility.cs" />
+    <Compile Include="DOM\Css\Constants\AnimationDirection.cs" />
     <Compile Include="DOM\Css\Constants\AnimationFillMode.cs" />
     <Compile Include="DOM\Css\Constants\BackgroundAttachment.cs" />
     <Compile Include="DOM\Css\Constants\BreakMode.cs" />
