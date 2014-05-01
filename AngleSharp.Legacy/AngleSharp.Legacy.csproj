@@ -187,6 +187,9 @@
     <Compile Include="..\AngleSharp\DOM\Constants\Visibility.cs">
       <Link>DOM\Constants\Visibility.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\AnimationDirection.cs">
+      <Link>DOM\Css\Constants\AnimationDirection.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\AnimationFillMode.cs">
       <Link>DOM\Css\Constants\AnimationFillMode.cs</Link>
     </Compile>
