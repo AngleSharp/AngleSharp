@@ -292,5 +292,110 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("step-start, cubic-bezier(0, 1, 1, 1)", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssAnimationPlayStateRunningLegal()
+        {
+            var snippet = "animation-play-state: running";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-play-state", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationPlayStateProperty));
+            var concrete = (CSSAnimationPlayStateProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("running", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationPlayStatePausedUppercaseLegal()
+        {
+            var snippet = "animation-play-state: PAUSED";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-play-state", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationPlayStateProperty));
+            var concrete = (CSSAnimationPlayStateProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("PAUSED", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationPlayStatePausedRunningPausedLegal()
+        {
+            var snippet = "animation-play-state: paused, Running, paused";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-play-state", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationPlayStateProperty));
+            var concrete = (CSSAnimationPlayStateProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("paused, Running, paused", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationFillModeNoneLegal()
+        {
+            var snippet = "animation-fill-mode: none";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-fill-mode", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationFillModeProperty));
+            var concrete = (CSSAnimationFillModeProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("none", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationFillModeBackwardsLegal()
+        {
+            var snippet = "animation-fill-mode: backwards";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-fill-mode", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationFillModeProperty));
+            var concrete = (CSSAnimationFillModeProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("backwards", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationFillModeForwardsUppercaseLegal()
+        {
+            var snippet = "animation-fill-mode: FORWARDS";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-fill-mode", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationFillModeProperty));
+            var concrete = (CSSAnimationFillModeProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("FORWARDS", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationFillModeBothBackwardsForwardsNoneLegal()
+        {
+            var snippet = "animation-fill-mode: both , backwards ,  forwards  ,NONE";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-fill-mode", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationFillModeProperty));
+            var concrete = (CSSAnimationFillModeProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("both, backwards, fowards, NONE", concrete.Value.CssText);
+        }
     }
 }
