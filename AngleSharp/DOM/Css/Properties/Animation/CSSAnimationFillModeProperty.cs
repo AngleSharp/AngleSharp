@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
@@ -8,12 +9,32 @@
     /// </summary>
     public sealed class CSSAnimationFillModeProperty : CSSProperty
     {
+        #region Fields
+
+        static readonly Dictionary<String, AnimationFillMode> modes = new Dictionary<String, AnimationFillMode>(StringComparer.OrdinalIgnoreCase);
+        List<AnimationFillMode> _fillModes;
+
+        #endregion
+
         #region ctor
 
         internal CSSAnimationFillModeProperty()
             : base(PropertyNames.AnimationFillMode)
         {
             _inherited = false;
+            _fillModes.Add(AnimationFillMode.None);
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets an iteration over all defined fill modes.
+        /// </summary>
+        public IEnumerable<AnimationFillMode> FillModes
+        {
+            get { return _fillModes; }
         }
 
         #endregion
@@ -22,7 +43,28 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            return base.IsValid(value);
+            var values = value.AsList<CSSIdentifierValue>();
+
+            if (values != null)
+            {
+                var fillModes = new List<AnimationFillMode>();
+
+                foreach (var item in values)
+                {
+                    AnimationFillMode mode;
+
+                    if (!modes.TryGetValue(item.Value, out mode))
+                        return false;
+
+                    fillModes.Add(mode);
+                }
+
+                _fillModes = fillModes;
+            }
+            else if (value != CSSValue.Inherit)
+                return false;
+
+            return true;
         }
 
         #endregion
