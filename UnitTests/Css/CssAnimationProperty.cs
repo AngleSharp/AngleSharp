@@ -457,5 +457,50 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("normal, alternate, reverse, ALTERNATE-reverse", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssAnimationIterationCountLegal()
+        {
+            var snippet = "animation : 5";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationProperty));
+            var concrete = (CSSAnimationProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("5", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationNameLegal()
+        {
+            var snippet = "animation : my-animation";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationProperty));
+            var concrete = (CSSAnimationProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("my-animation", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationNameDurationDelayLegal()
+        {
+            var snippet = "animation : my-animation 2s 0.5s";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationProperty));
+            var concrete = (CSSAnimationProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("my-animation 2s 0.5s", concrete.Value.CssText);
+        }
     }
 }
