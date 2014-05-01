@@ -217,5 +217,80 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
+
+        [TestMethod]
+        public void CssAnimationTimingFunctionEaseUppercaseLegal()
+        {
+            var snippet = "animation-timing-function : EASE";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationTimingFunctionProperty));
+            var concrete = (CSSAnimationTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("EASE", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationTimingFunctionEaseInOutLegal()
+        {
+            var snippet = "animation-timing-function : ease-IN-out";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationTimingFunctionProperty));
+            var concrete = (CSSAnimationTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("ease-IN-out", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationTimingFunctionStepEndLegal()
+        {
+            var snippet = "animation-timing-function : step-END";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationTimingFunctionProperty));
+            var concrete = (CSSAnimationTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("step-END", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationTimingFunctionStepStartLinearLegal()
+        {
+            var snippet = "animation-timing-function : step-start  , LINeAr";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationTimingFunctionProperty));
+            var concrete = (CSSAnimationTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("step-start, LINeAr", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationTimingFunctionStepStartCubicBezierLegal()
+        {
+            var snippet = "animation-timing-function : step-start  , cubic-bezier(0,1,1,1)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationTimingFunctionProperty));
+            var concrete = (CSSAnimationTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("step-start, cubic-bezier(0, 1, 1, 1)", concrete.Value.CssText);
+        }
     }
 }
