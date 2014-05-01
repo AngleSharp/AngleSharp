@@ -18,10 +18,19 @@
 
         #region ctor
 
+        static CSSAnimationFillModeProperty()
+        {
+            modes.Add("none", AnimationFillMode.None);
+            modes.Add("forwards", AnimationFillMode.Forwards);
+            modes.Add("backwards", AnimationFillMode.Backwards);
+            modes.Add("both", AnimationFillMode.Both);
+        }
+
         internal CSSAnimationFillModeProperty()
             : base(PropertyNames.AnimationFillMode)
         {
             _inherited = false;
+            _fillModes = new List<AnimationFillMode>();
             _fillModes.Add(AnimationFillMode.None);
         }
 
