@@ -11,6 +11,8 @@
         static readonly Dictionary<String, LineStyle> lineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BoxModel> boxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, CSSTimingValue> timingFunctions = new Dictionary<String, CSSTimingValue>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, AnimationFillMode> fillModes = new Dictionary<String, AnimationFillMode>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, AnimationDirection> directions = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase);
 
         static ValueExtensions()
         {
@@ -36,6 +38,36 @@
             timingFunctions.Add("linear", CSSTimingValue.Linear);
             timingFunctions.Add("step-start", CSSTimingValue.StepStart);
             timingFunctions.Add("step-end", CSSTimingValue.StepEnd);
+
+            fillModes.Add("none", AnimationFillMode.None);
+            fillModes.Add("forwards", AnimationFillMode.Forwards);
+            fillModes.Add("backwards", AnimationFillMode.Backwards);
+            fillModes.Add("both", AnimationFillMode.Both);
+
+            directions.Add("normal", AnimationDirection.Normal);
+            directions.Add("reverse", AnimationDirection.Reverse);
+            directions.Add("alternate", AnimationDirection.Alternate);
+            directions.Add("alternate-reverse", AnimationDirection.AlternateReverse);
+        }
+
+        public static AnimationDirection? ToDirection(this CSSValue value)
+        {
+            AnimationDirection direction;
+
+            if (value is CSSIdentifierValue && directions.TryGetValue(((CSSIdentifierValue)value).Value, out direction))
+                return direction;
+
+            return null;
+        }
+
+        public static AnimationFillMode? ToFillMode(this CSSValue value)
+        {
+            AnimationFillMode fillMode;
+
+            if (value is CSSIdentifierValue && fillModes.TryGetValue(((CSSIdentifierValue)value).Value, out fillMode))
+                return fillMode;
+
+            return null;
         }
 
         public static LineStyle? ToLineStyle(this CSSValue value)

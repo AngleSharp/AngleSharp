@@ -11,20 +11,11 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, AnimationDirection> modes = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase);
         List<AnimationDirection> _directions;
 
         #endregion
 
         #region ctor
-
-        static CSSAnimationDirectionProperty()
-        {
-            modes.Add("normal", AnimationDirection.Normal);
-            modes.Add("reverse", AnimationDirection.Reverse);
-            modes.Add("alternate", AnimationDirection.Alternate);
-            modes.Add("alternate-reverse", AnimationDirection.AlternateReverse);
-        }
 
         internal CSSAnimationDirectionProperty()
             : base(PropertyNames.AnimationDirection)
@@ -60,12 +51,12 @@
 
                 foreach (var item in values)
                 {
-                    AnimationDirection mode;
+                    var direction = item.ToDirection();
 
-                    if (!modes.TryGetValue(item.Value, out mode))
+                    if (!direction.HasValue)
                         return false;
 
-                    fillModes.Add(mode);
+                    fillModes.Add(direction.Value);
                 }
 
                 _directions = fillModes;
