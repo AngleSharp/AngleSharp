@@ -502,5 +502,64 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("my-animation 2s 0.5s", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssAnimationNameDurationDelayEaseLegal()
+        {
+            var snippet = "animation : my-animation  200ms 0.5s    ease";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationProperty));
+            var concrete = (CSSAnimationProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("my-animation 200ms 0.5s ease", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationCountDoubleIllegal()
+        {
+            var snippet = "animation : 10 20";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationProperty));
+            var concrete = (CSSAnimationProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssAnimationNameDurationCountEaseInOutLegal()
+        {
+            var snippet = "animation : my-animation  200ms 2.5   ease-in-out";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationProperty));
+            var concrete = (CSSAnimationProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("my-animation 200ms 2.5 ease-in-out", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationMultipleLegal()
+        {
+            var snippet = "animation : my-animation 0s 10 ease,   other-animation  5 linear,yet-another 0s 1s  10 step-start !important";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation", property.Name);
+            Assert.IsTrue(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationProperty));
+            var concrete = (CSSAnimationProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("my-animation 0s 10 ease, other-animation 5 linear, yet-another 0s 1s 10 step-start", concrete.Value.CssText);
+        }
     }
 }
