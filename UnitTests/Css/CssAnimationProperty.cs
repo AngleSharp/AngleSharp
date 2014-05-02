@@ -55,6 +55,20 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssAnimationDelayZeroIllegal()
+        {
+            var snippet = "animation-delay : 0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-delay", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationDelayProperty));
+            var concrete = (CSSAnimationDelayProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
         public void CssAnimationDelayZeroZeroSecondMillisecondsLegal()
         {
             var snippet = "animation-delay : 0s  , 0s  , 1s  , 20ms";
@@ -112,6 +126,20 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("test_05", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationNameNumberIllegal()
+        {
+            var snippet = "animation-name : 42";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-name", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationNameProperty));
+            var concrete = (CSSAnimationNameProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
         }
 
         [TestMethod]
@@ -231,6 +259,20 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("EASE", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationTimingFunctionNoneIllegal()
+        {
+            var snippet = "animation-timing-function : none";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-timing-function", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationTimingFunctionProperty));
+            var concrete = (CSSAnimationTimingFunctionProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
         }
 
         [TestMethod]
@@ -354,6 +396,20 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssAnimationFillModeZeroIllegal()
+        {
+            var snippet = "animation-fill-mode: 0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-fill-mode", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationFillModeProperty));
+            var concrete = (CSSAnimationFillModeProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
         public void CssAnimationFillModeBackwardsLegal()
         {
             var snippet = "animation-fill-mode: backwards !important";
@@ -426,6 +482,20 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("reverse", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssAnimationDirectionNoneIllegal()
+        {
+            var snippet = "animation-direction  : none";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("animation-direction", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSAnimationDirectionProperty));
+            var concrete = (CSSAnimationDirectionProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
         }
 
         [TestMethod]
