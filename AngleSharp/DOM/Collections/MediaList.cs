@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Collections
 {
+    using AngleSharp.DOM.Css;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -12,7 +14,7 @@
     {
         #region Static
 
-        readonly static String[] ALLOWED = {
+        readonly static String[] Allowed = {
             // Intended for television-type devices (low resolution, color, limited scrollability).
             "tv",
             // Intended for non-paged computer screens.
@@ -27,8 +29,6 @@
             "print",
             // Intended for braille tactile feedback devices.
             "braille",
-            // Intended for speech synthesizers.
-            "aural",
             // Suitable for all devices.
             "all"
         };
@@ -42,8 +42,7 @@
         /// </summary>
         public static readonly MediaList Empty = new MediaList();
 
-        List<String> _media;
-        String _buffer;
+        List<CSSMedium> _media;
 
         #endregion
 
@@ -54,8 +53,7 @@
         /// </summary>
         internal MediaList()
         {
-            _buffer = String.Empty;
-            _media = new List<String>();
+            _media = new List<CSSMedium>();
         }
 
         #endregion
@@ -75,7 +73,7 @@
                 if (index < 0 || index >= _media.Count)
                     return null;
 
-                return _media[index];
+                return _media[index].ToCss();
             }
         }
 
@@ -94,24 +92,25 @@
         [DOM("mediaText")]
         public String MediaText
         {
-            get { return _buffer; }
+            get 
+            {
+                var parts = new String[_media.Count];
+
+                for (int i = 0; i < _media.Count; i++)
+                    parts[i] = _media[i].ToCss();
+
+                return String.Join(", ", parts); 
+            }
             set
             {
-                _buffer = String.Empty;
                 _media.Clear();
 
-                if (!String.IsNullOrEmpty(value))
+                foreach (var medium in CssParser.ParseMediaList(value))
                 {
-                    var entries = value.SplitCommas();
+                    if (medium == null)
+                        throw new DOMException(ErrorCode.SyntaxError);
 
-                    for (int i = 0; i < entries.Length; i++)
-                    {
-                        if (!CheckSyntax(entries[i]))
-                            throw new DOMException(ErrorCode.SyntaxError);   
-                    }
-                    
-                    for (int i = 0; i < entries.Length; i++)
-                        AppendMedium(entries[i]);
+                    _media.Add(medium);
                 }
             }
         }
@@ -125,58 +124,52 @@
         /// If the newMedium is already used, it is first removed.
         /// </summary>
         /// <param name="newMedium">The new medium to add.</param>
-        /// <returns>The current list of media.</returns>
         [DOM("appendMedium")]
-        public MediaList AppendMedium(String newMedium)
+        public void AppendMedium(String newMedium)
         {
-            if (!CheckSyntax(newMedium))
+            var medium = CssParser.ParseMedium(newMedium);
+
+            if (medium == null)
                 throw new DOMException(ErrorCode.SyntaxError);
 
-            if (!_media.Contains(newMedium))
-            {
-                _media.Add(newMedium);
-                _buffer += (String.IsNullOrEmpty(_buffer) ? String.Empty : ",") + newMedium;
-            }
-
-            return this;
+            _media.Add(medium);
         }
 
         /// <summary>
         /// Deletes the medium indicated by oldMedium from the list.
         /// </summary>
         /// <param name="oldMedium">The medium to delete in the media list.</param>
-        /// <returns>The current list of media.</returns>
         [DOM("deleteMedium")]
-        public MediaList DeleteMedium(String oldMedium)
+        public void DeleteMedium(String oldMedium)
         {
-            if (!_media.Contains(oldMedium))
-                throw new DOMException(ErrorCode.ItemNotFound);
+            var medium = CssParser.ParseMedium(oldMedium);
 
-            _media.Remove(oldMedium);
+            if (medium == null)
+                throw new DOMException(ErrorCode.SyntaxError);
 
-            if (_buffer.StartsWith(oldMedium))
-                _buffer.Remove(0, oldMedium.Length + 1);
-            else
-                _buffer.Replace("," + oldMedium, String.Empty);
+            foreach (var item in _media)
+            {
+                if (item.Equals(medium))
+                {
+                    _media.Remove(item);
+                    return;
+                }
+            }
 
-            return this;
+            throw new DOMException(ErrorCode.ItemNotFound);
         }
 
         #endregion
 
-        #region Helpers
+        #region Internal Methods
 
         /// <summary>
-        /// Checks the syntax of the medium in the given language.
+        /// Adds the given medium to the list of media.
         /// </summary>
-        /// <param name="medium">The medium string to check.</param>
-        /// <returns>True if the syntax is OK, otherwise false.</returns>
-        Boolean CheckSyntax(String medium)
+        /// <param name="medium">The medium to add.</param>
+        internal void Add(CSSMedium medium)
         {
-            if (string.IsNullOrEmpty(medium))
-                return false;
-
-            return true;
+            _media.Add(medium);
         }
 
         #endregion
@@ -190,7 +183,7 @@
         public IEnumerator<String> GetEnumerator()
         {
             foreach (var medium in _media)
-                yield return medium;
+                yield return medium.ToCss();
         }
 
         /// <summary>

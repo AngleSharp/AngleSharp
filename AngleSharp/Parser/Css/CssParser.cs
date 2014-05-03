@@ -679,21 +679,19 @@
         MediaList InMediaList(IEnumerator<CssToken> tokens)
         {
             var list = new MediaList();
-            tokenizer.IgnoreWhitespace = false;
 
             do
             {
-                var medium = InMediaValue(tokens).Trim();
+                var medium = InMediaValue(tokens);
 
-                if (!String.IsNullOrEmpty(medium))
-                    list.AppendMedium(medium);
-
-                if (tokens.Current.Type == CssTokenType.Semicolon || tokens.Current.Type == CssTokenType.CurlyBracketOpen)
+                if (medium == null)
                     break;
+
+                list.Add(medium);
             }
             while (tokens.MoveNext());
 
-            tokenizer.IgnoreWhitespace = true;
+            JumpToEndOfDeclaration(tokens);
             return list;
         }
 
@@ -702,22 +700,18 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The medium.</returns>
-        String InMediaValue(IEnumerator<CssToken> tokens)
+        CSSMedium InMediaValue(IEnumerator<CssToken> tokens)
         {
-            var buffer = Pool.NewStringBuilder();
-
             do
             {
                 var token = tokens.Current;
 
                 if (token.Type == CssTokenType.CurlyBracketOpen || token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.Comma)
                     break;
-
-                buffer.Append(token.ToValue());
             }
             while (tokens.MoveNext());
 
-            return buffer.ToPool();
+            return null;
         }
 
         #endregion
@@ -1338,6 +1332,47 @@
             }
 
             return values;
+        }
+
+        internal static CSSMedium ParseMedium(String source, IConfiguration configuration = null)
+        {
+            var parser = new CssParser(source, configuration);
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+
+            if (tokens.MoveNext())
+            {
+                var medium = parser.InMediaValue(tokens);
+
+                if (tokens.MoveNext())
+                    throw new DOMException(ErrorCode.SyntaxError);
+
+                return medium;
+            }
+
+            return null;
+        }
+
+        internal static IEnumerable<CSSMedium> ParseMediaList(String source, IConfiguration configuration = null)
+        {
+            var parser = new CssParser(source, configuration);
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+
+            if (tokens.MoveNext())
+            {
+                do
+                {
+                    var medium = parser.InMediaValue(tokens);
+
+                    if (medium == null)
+                        break;
+
+                    yield return medium;
+                }
+                while (tokens.MoveNext());
+            }
+
+            if (tokens.MoveNext())
+                throw new DOMException(ErrorCode.SyntaxError);
         }
 
         /// <summary>
