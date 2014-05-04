@@ -711,32 +711,38 @@
             {
                 medium.Type = ((CssKeywordToken)token).Data;
 
-                if (tokens.MoveNext())
-                    token = tokens.Current;
+                if (!tokens.MoveNext())
+                    return medium;
+                
+                token = tokens.Current;
+
+                if (token.Type != CssTokenType.Ident || String.Compare(((CssKeywordToken)token).Data, "and", StringComparison.OrdinalIgnoreCase) != 0)
+                    return medium;
+                else if (!tokens.MoveNext())
+                    return medium;
             }
 
-            while (token.Type == CssTokenType.RoundBracketOpen)
+            do
             {
-                tokens.MoveNext();
+                if (tokens.Current.Type != CssTokenType.RoundBracketOpen)
+                    return null;
+                else if (!tokens.MoveNext())
+                    return medium;
+
                 var pair = GetConstraint(tokens);
+                medium.AddConstraint(pair.Item1, pair.Item2);
 
                 if (pair == null || tokens.Current.Type != CssTokenType.RoundBracketClose)
                     return null;
+                else if (!tokens.MoveNext())
+                    return medium;
 
-                medium.AddConstraint(pair.Item1, pair.Item2);
-
-                tokens.MoveNext();
                 token = tokens.Current;
 
                 if (token.Type != CssTokenType.Ident || String.Compare(((CssKeywordToken)token).Data, "and", StringComparison.OrdinalIgnoreCase) != 0)
                     break;
-
-                tokens.MoveNext();
-                token = tokens.Current;
-
-                if (token.Type != CssTokenType.RoundBracketOpen)
-                    return null;
             }
+            while (tokens.MoveNext()) ;
 
             return medium;
         }

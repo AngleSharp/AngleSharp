@@ -18,7 +18,7 @@
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
         public override Boolean Validate()
         {
-            return !base.Validate();
+            return !Invalid && !base.Validate();
         }
 
         /// <summary>
