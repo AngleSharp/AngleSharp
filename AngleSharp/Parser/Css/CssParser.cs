@@ -689,7 +689,7 @@
 
                 list.Add(medium);
             }
-            while (tokens.MoveNext());
+            while (tokens.Current.Type == CssTokenType.Comma && tokens.MoveNext());
 
             JumpToEndOfDeclaration(tokens);
             return list;
@@ -702,33 +702,15 @@
         /// <returns>The medium.</returns>
         CSSMedium InMediaValue(IEnumerator<CssToken> tokens)
         {
-            CSSMedium medium = GetMedium(tokens);
+            var medium = GetMedium(tokens);
             var token = tokens.Current;
 
             if (token.Type == CssTokenType.Ident)
             {
-                var ident = ((CssKeywordToken)token).Data;
+                medium.Type = ((CssKeywordToken)token).Data;
 
-                if (String.Compare(ident, "not", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    medium = new InvertMedium();
-                    tokens.MoveNext();
+                if (tokens.MoveNext())
                     token = tokens.Current;
-                }
-                else if (String.Compare(ident, "only", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    medium = new OnlyMedium();
-                    tokens.MoveNext();
-                    token = tokens.Current;
-                }
-                else
-                    medium = new NormalMedium();
-            }
-
-            if (token.Type == CssTokenType.Ident)
-            {
-                var ident = ((CssKeywordToken)token).Data;
-                medium.Type = ident;
             }
 
             while (token.Type == CssTokenType.RoundBracketOpen)
@@ -754,10 +736,7 @@
                     return null;
             }
 
-            if (token.Type == CssTokenType.CurlyBracketOpen || token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.Comma)
-                return medium;
-
-            return null;
+            return medium;
         }
 
         Tuple<String, CSSValue> GetConstraint(IEnumerator<CssToken> tokens)
@@ -796,16 +775,16 @@
                 if (String.Compare(ident, "not", StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     tokens.MoveNext();
-                    return new InvertMedium();
+                    return new CSSInvertMedium();
                 }
                 else if (String.Compare(ident, "only", StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     tokens.MoveNext();
-                    return new OnlyMedium();
+                    return new CSSOnlyMedium();
                 }
             }
 
-            return new NormalMedium();
+            return new CSSMedium();
         }
 
         #endregion

@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a medium rule.
     /// </summary>
-    abstract class CSSMedium : ICssObject
+    class CSSMedium : ICssObject
     {
         #region Media Types
 
@@ -31,6 +31,22 @@
 
         #endregion
 
+        #region Fields
+
+
+
+        #endregion
+
+        #region ctor
+
+        internal CSSMedium()
+        {
+        }
+
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets the type of medium that is represented.
         /// </summary>
@@ -40,12 +56,26 @@
             internal set;
         }
 
+        #endregion
+
+        #region Methods
+
         public virtual Boolean Validate()
         {
             return true;
         }
 
-        public abstract String ToCss();
+        public virtual String ToCss()
+        {
+            var constraints = String.Empty;
+
+            if (String.IsNullOrEmpty(constraints))
+                return Type ?? String.Empty;
+            else if (String.IsNullOrEmpty(Type))
+                return constraints;
+
+            return String.Concat(Type, " ", constraints);
+        }
 
         internal void AddConstraint(String feature, CSSValue value)
         {
@@ -54,25 +84,19 @@
             //max-width
             //..
         }
+
+        #endregion
     }
 
-    sealed class OnlyMedium : CSSMedium
+    sealed class CSSOnlyMedium : CSSMedium
     {
         public override String ToCss()
         {
-            throw new NotImplementedException();
+            return String.Concat("only ", base.ToCss());
         }
     }
 
-    sealed class NormalMedium : CSSMedium
-    {
-        public override String ToCss()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    sealed class InvertMedium : CSSMedium
+    sealed class CSSInvertMedium : CSSMedium
     {
         public override Boolean Validate()
         {
@@ -81,7 +105,7 @@
 
         public override String ToCss()
         {
-            throw new NotImplementedException();
+            return String.Concat("not ", base.ToCss());
         }
     }
 }
