@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a medium rule.
@@ -29,6 +30,8 @@
             "all"
         };
 
+        readonly static Dictionary<String, Object> features = new Dictionary<String, Object>(StringComparer.OrdinalIgnoreCase);
+
         #endregion
 
         #region Fields
@@ -38,6 +41,37 @@
         #endregion
 
         #region ctor
+
+        static CSSMedium()
+        {
+            features.Add("min-width", null);
+            features.Add("max-width", null);
+            features.Add("width", null);
+            features.Add("min-height", null);
+            features.Add("max-height", null);
+            features.Add("height", null);
+            features.Add("min-device-width", null);
+            features.Add("max-device-width", null);
+            features.Add("device-width", null);
+            features.Add("min-device-height", null);
+            features.Add("max-device-height", null);
+            features.Add("device-height", null);
+            features.Add("orientation", null);
+            features.Add("min-aspect-ratio", null);
+            features.Add("max-aspect-ratio", null);
+            features.Add("aspect-ratio", null);
+            features.Add("min-color", null);
+            features.Add("max-color", null);
+            features.Add("color", null);
+            features.Add("min-color-index", null);
+            features.Add("max-color-index", null);
+            features.Add("color-index", null);
+            features.Add("min-monochrome", null);
+            features.Add("max-monochrome", null);
+            features.Add("monochrome", null);
+            features.Add("grid", null);
+            features.Add("scan", null);
+        }
 
         internal CSSMedium()
         {
