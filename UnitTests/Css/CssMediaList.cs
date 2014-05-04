@@ -73,16 +73,26 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
-        public void AllFeatureMinWidthMediaList()
+        public void AllFeatureMaxWidthMediaListMissingAnd()
         {
             var source = @"@media all (max-width:30px) {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(0, sheet.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void AllFeatureMaxWidthMediaListWithAndKeyword()
+        {
+            var source = @"@media all and (max-width:30px) {
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.CssRules.Length);
             Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
             var media = (CSSMediaRule)sheet.CssRules[0];
-            Assert.AreEqual("all", media.ConditionText);
+            Assert.AreEqual("all and (max-width: 30px)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
             Assert.AreEqual(1, media.CssRules.Length);
