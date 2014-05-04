@@ -691,7 +691,9 @@
             }
             while (tokens.Current.Type == CssTokenType.Comma && tokens.MoveNext());
 
-            JumpToEndOfDeclaration(tokens);
+            if (tokens.Current.Type != CssTokenType.CurlyBracketOpen)
+                JumpToEndOfDeclaration(tokens);
+
             return list;
         }
 
