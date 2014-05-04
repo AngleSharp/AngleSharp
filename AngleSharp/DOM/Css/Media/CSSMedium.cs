@@ -94,11 +94,19 @@
 
         #region Methods
 
+        /// <summary>
+        /// Validates the given medium.
+        /// </summary>
+        /// <returns>True if the constraints are satisfied, otherwise false.</returns>
         public virtual Boolean Validate()
         {
             return true;
         }
 
+        /// <summary>
+        /// Returns a CSS code representation of the medium.
+        /// </summary>
+        /// <returns>A string that contains the code.</returns>
         public virtual String ToCss()
         {
             var constraints = String.Empty;
@@ -147,26 +155,5 @@
         }
 
         #endregion
-    }
-
-    sealed class CSSOnlyMedium : CSSMedium
-    {
-        public override String ToCss()
-        {
-            return String.Concat("only ", base.ToCss());
-        }
-    }
-
-    sealed class CSSInvertMedium : CSSMedium
-    {
-        public override Boolean Validate()
-        {
-            return !base.Validate();
-        }
-
-        public override String ToCss()
-        {
-            return String.Concat("not ", base.ToCss());
-        }
     }
 }
