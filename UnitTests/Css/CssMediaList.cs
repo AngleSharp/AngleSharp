@@ -41,6 +41,22 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void OnlyScreenTvMediaList()
+        {
+            var source = @"@media only screen,tv {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual("only screen, tv", media.ConditionText);
+            var list = media.Media;
+            Assert.AreEqual(2, list.Length);
+            Assert.AreEqual(1, media.CssRules.Length);
+        }
+
+        [TestMethod]
         public void NotScreenTvMediaList()
         {
             var source = @"@media not screen,tv {
@@ -73,6 +89,38 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void OnlyFeatureWidthMediaList()
+        {
+            var source = @"@media only (width: 640px) {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual("only (width: 640px)", media.ConditionText);
+            var list = media.Media;
+            Assert.AreEqual(1, list.Length);
+            Assert.AreEqual(1, media.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void NotFeatureDeviceWidthMediaList()
+        {
+            var source = @"@media not (device-width: 640px) {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual("not (device-width: 640px)", media.ConditionText);
+            var list = media.Media;
+            Assert.AreEqual(1, list.Length);
+            Assert.AreEqual(1, media.CssRules.Length);
+        }
+
+        [TestMethod]
         public void AllFeatureMaxWidthMediaListMissingAnd()
         {
             var source = @"@media all (max-width:30px) {
@@ -95,6 +143,38 @@ namespace UnitTests.Css
             Assert.AreEqual("all and (max-width: 30px)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
+            Assert.AreEqual(1, media.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void PrintFeatureMaxWidthAndMinDeviceWidthMediaList()
+        {
+            var source = @"@media print and (max-width:30px) and (min-device-width:100px) {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual("print and (max-width: 30px) and (min-device-width: 100px)", media.ConditionText);
+            var list = media.Media;
+            Assert.AreEqual(1, list.Length);
+            Assert.AreEqual(1, media.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void AllFeatureMinWidthAndMinDeviceWidthScreenMediaList()
+        {
+            var source = @"@media all and (min-width:0) and (min-device-width:100px), screen {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual("all and (min-width: 0) and (min-device-width: 100px), screen", media.ConditionText);
+            var list = media.Media;
+            Assert.AreEqual(2, list.Length);
             Assert.AreEqual(1, media.CssRules.Length);
         }
     }
