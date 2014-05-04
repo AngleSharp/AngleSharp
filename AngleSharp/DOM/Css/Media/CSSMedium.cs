@@ -79,9 +79,36 @@
 
         internal void AddConstraint(String feature, CSSValue value)
         {
-            //min-width
-            //width
-            //max-width
+            //min-width : Length
+            //    width : Length
+            //max-width : Length
+            //min-height : Length
+            //    height : Length
+            //max-height : Length
+            //min-device-width : Length
+            //    device-width : Length
+            //max-device-width : Length
+            //min-device-height : Length
+            //    device-height : Length
+            //max-device-height : Length
+            //orientation : portrait | landscape
+            //min-aspect-ratio : Ratio e.g. 3/4
+            //    aspect-ratio : Ratio
+            //max-aspect-ratio : Ratio
+            //min-color : Integer
+            //    color : Integer
+            //max-color : Integer
+            //min-color-index : Integer
+            //    color-index : Integer
+            //max-color-index : Integer
+            //min-monochrome : Integer
+            //    monochrome : Integer
+            //max-monochrome : Integer
+            //min-resolution : Resolution
+            //    resolution : Resolution
+            //max-resolution : Resolution
+            //scan : progressive | interlace
+            //grid : Integer
             //..
         }
 
