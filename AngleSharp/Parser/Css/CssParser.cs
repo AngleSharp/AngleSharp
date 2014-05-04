@@ -702,16 +702,110 @@
         /// <returns>The medium.</returns>
         CSSMedium InMediaValue(IEnumerator<CssToken> tokens)
         {
-            do
-            {
-                var token = tokens.Current;
+            CSSMedium medium = GetMedium(tokens);
+            var token = tokens.Current;
 
-                if (token.Type == CssTokenType.CurlyBracketOpen || token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.Comma)
-                    break;
+            if (token.Type == CssTokenType.Ident)
+            {
+                var ident = ((CssKeywordToken)token).Data;
+
+                if (String.Compare(ident, "not", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    medium = new InvertMedium();
+                    tokens.MoveNext();
+                    token = tokens.Current;
+                }
+                else if (String.Compare(ident, "only", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    medium = new OnlyMedium();
+                    tokens.MoveNext();
+                    token = tokens.Current;
+                }
+                else
+                    medium = new NormalMedium();
             }
-            while (tokens.MoveNext());
+
+            if (token.Type == CssTokenType.Ident)
+            {
+                var ident = ((CssKeywordToken)token).Data;
+                medium.Type = ident;
+            }
+
+            while (token.Type == CssTokenType.RoundBracketOpen)
+            {
+                tokens.MoveNext();
+                var pair = GetConstraint(tokens);
+
+                if (pair == null || tokens.Current.Type != CssTokenType.RoundBracketClose)
+                    return null;
+
+                medium.AddConstraint(pair.Item1, pair.Item2);
+
+                tokens.MoveNext();
+                token = tokens.Current;
+
+                if (token.Type != CssTokenType.Ident || String.Compare(((CssKeywordToken)token).Data, "and", StringComparison.OrdinalIgnoreCase) != 0)
+                    break;
+
+                tokens.MoveNext();
+                token = tokens.Current;
+
+                if (token.Type != CssTokenType.RoundBracketOpen)
+                    return null;
+            }
+
+            if (token.Type == CssTokenType.CurlyBracketOpen || token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.Comma)
+                return medium;
 
             return null;
+        }
+
+        Tuple<String, CSSValue> GetConstraint(IEnumerator<CssToken> tokens)
+        {
+            var token = tokens.Current;
+
+            if (token.Type != CssTokenType.Ident)
+                return null;
+
+            value.Reset();
+            var feature = ((CssKeywordToken)token).Data;
+            tokens.MoveNext();
+            token = tokens.Current;
+
+            if (token.Type == CssTokenType.Colon)
+            {
+                tokenizer.IgnoreWhitespace = false;
+                tokens.MoveNext();
+
+                while (GetSingleValue(tokens) && tokens.Current.Type != CssTokenType.RoundBracketClose) ;
+
+                tokenizer.IgnoreWhitespace = true;
+            }
+
+            return Tuple.Create(feature, value.ToValue());
+        }
+
+        static CSSMedium GetMedium(IEnumerator<CssToken> tokens)
+        {
+            var token = tokens.Current;
+
+            if (token.Type == CssTokenType.Ident)
+            {
+                var ident = ((CssKeywordToken)token).Data;
+
+                if (String.Compare(ident, "not", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    tokens.MoveNext();
+                    return new InvertMedium();
+                }
+                else if (String.Compare(ident, "only", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    tokens.MoveNext();
+                    return new OnlyMedium();
+                }
+            }
+
+            return new NormalMedium();
         }
 
         #endregion
