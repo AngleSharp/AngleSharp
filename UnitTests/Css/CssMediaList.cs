@@ -177,5 +177,37 @@ namespace UnitTests.Css
             Assert.AreEqual(2, list.Length);
             Assert.AreEqual(1, media.CssRules.Length);
         }
+
+        [TestMethod]
+        public void ImplicitAllFeatureResolutionMediaList()
+        {
+            var source = @"@media (resolution:72dpi) {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual("(resolution: 72dpi)", media.ConditionText);
+            var list = media.Media;
+            Assert.AreEqual(1, list.Length);
+            Assert.AreEqual(1, media.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void ImplicitAllFeatureMinResolutionAndMaxResolutionMediaList()
+        {
+            var source = @"@media (min-resolution:72dpi) and (max-resolution:140dpi) {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual("(min-resolution: 72dpi) and (max-resolution: 140dpi)", media.ConditionText);
+            var list = media.Media;
+            Assert.AreEqual(1, list.Length);
+            Assert.AreEqual(1, media.CssRules.Length);
+        }
     }
 }
