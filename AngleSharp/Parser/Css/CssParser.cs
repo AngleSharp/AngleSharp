@@ -729,9 +729,8 @@
                     return medium;
 
                 var pair = GetConstraint(tokens);
-                medium.AddConstraint(pair.Item1, pair.Item2);
 
-                if (pair == null || tokens.Current.Type != CssTokenType.RoundBracketClose)
+                if (pair == null || tokens.Current.Type != CssTokenType.RoundBracketClose || !medium.AddConstraint(pair.Item1, pair.Item2))
                     return null;
                 else if (!tokens.MoveNext())
                     return medium;

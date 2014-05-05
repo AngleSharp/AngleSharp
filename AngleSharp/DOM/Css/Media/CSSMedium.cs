@@ -69,7 +69,6 @@
         #region Fields
 
         List<MediaFeature> _features;
-        Boolean _invalid;
 
         #endregion
 
@@ -119,15 +118,6 @@
         #region Properties
 
         /// <summary>
-        /// Gets if the given medium is invalid and should always
-        /// evaluated to false.
-        /// </summary>
-        public Boolean Invalid
-        {
-            get { return _invalid; }
-        }
-
-        /// <summary>
         /// Gets the type of medium that is represented.
         /// </summary>
         public String Type
@@ -162,13 +152,16 @@
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
         public virtual Boolean Validate()
         {
+            if (!String.IsNullOrEmpty(Type) && !Types.Contains(Type))
+                return false;
+
             foreach (var feature in _features)
             {
                 if (!feature.Validate())
                     return false;
             }
 
-            return !Invalid;
+            return true;
         }
 
         /// <summary>
@@ -192,14 +185,15 @@
         /// </summary>
         /// <param name="feature">The name of the feature.</param>
         /// <param name="value">The value of the feature, if any.</param>
-        internal void AddConstraint(String feature, CSSValue value = null)
+        internal Boolean AddConstraint(String feature, CSSValue value = null)
         {
             Func<CSSValue, MediaFeature> constructor;
 
-            if (featureConstructors.TryGetValue(feature, out constructor))
-                _features.Add(constructor(value));
-            else
-                _invalid = true;
+            if (!featureConstructors.TryGetValue(feature, out constructor))
+                return false;
+
+            _features.Add(constructor(value));
+            return true;
         }
 
         #endregion
