@@ -201,9 +201,10 @@
             if (tokens.MoveNext())
                 rule.Media = InMediaList(tokens);
 
-            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
-                FillRules(rule, tokens);
+            if (tokens.Current.Type != CssTokenType.CurlyBracketOpen)
+                return null;
 
+            FillRules(rule, tokens);
             return rule;
         }
 
