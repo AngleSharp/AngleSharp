@@ -131,6 +131,26 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void FeatureMaxWidthMediaListMissingConnectedAnd()
+        {
+            var source = @"@media (max-width:30px) (min-width:10px) {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(0, sheet.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void TvScreenMediaListMissingComma()
+        {
+            var source = @"@media tv screen {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(0, sheet.CssRules.Length);
+        }
+
+        [TestMethod]
         public void AllFeatureMaxWidthMediaListWithAndKeyword()
         {
             var source = @"@media all and (max-width:30px) {
