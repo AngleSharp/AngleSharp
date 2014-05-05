@@ -89,10 +89,10 @@
             featureConstructors.Add(MinDeviceHeight, value => new MinDeviceHeightMediaFeature(value));
             featureConstructors.Add(MaxDeviceHeight, value => new MaxDeviceHeightMediaFeature(value));
             featureConstructors.Add(DeviceHeight, value => new DeviceHeightMediaFeature(value));
-            //featureConstructors.Add(Orientation, null);
-            //featureConstructors.Add(MinAspectRatio, null);
-            //featureConstructors.Add(MaxAspectRatio, null);
-            //featureConstructors.Add(AspectRatio, null);
+            featureConstructors.Add(Orientation, value => new OrientationMediaFeature(value));
+            featureConstructors.Add(MinAspectRatio, value => new MinAspectRatioMediaFeature(value));
+            featureConstructors.Add(MaxAspectRatio, value => new MaxAspectRatioMediaFeature(value));
+            featureConstructors.Add(AspectRatio, value => new AspectRatioMediaFeature(value));
             featureConstructors.Add(MinColor, value => new MinColorMediaFeature(value));
             featureConstructors.Add(MaxColor, value => new MaxColorMediaFeature(value));
             featureConstructors.Add(Color, value => new ColorMediaFeature(value));
@@ -105,8 +105,8 @@
             featureConstructors.Add(MinResolution, value => new MinResolutionMediaFeature(value));
             featureConstructors.Add(MaxResolution, value => new MaxResolutionMediaFeature(value));
             featureConstructors.Add(Resolution, value => new ResolutionMediaFeature(value));
-            //featureConstructors.Add(Grid, null);
-            //featureConstructors.Add(Scan, null);
+            featureConstructors.Add(Grid, value => new GridMediaFeature(value));
+            featureConstructors.Add(Scan, value => new ScanMediaFeature(value));
         }
 
         internal CSSMedium()
@@ -588,13 +588,97 @@
             }
         }
 
-        //orientation : portrait | landscape
-        //min-aspect-ratio : Ratio e.g. 3/4
-        //    aspect-ratio : Ratio
-        //max-aspect-ratio : Ratio
-        //scan : progressive | interlace
-        //grid : Integer
-        //..
+        sealed class MinAspectRatioMediaFeature : MediaFeature
+        {
+            public MinAspectRatioMediaFeature(CSSValue value)
+                : base(MinAspectRatio, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToAspectRatio();
+                return length.HasValue;
+            }
+        }
+
+        sealed class MaxAspectRatioMediaFeature : MediaFeature
+        {
+            public MaxAspectRatioMediaFeature(CSSValue value)
+                : base(MaxAspectRatio, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToAspectRatio();
+                return length.HasValue;
+            }
+        }
+
+        sealed class AspectRatioMediaFeature : MediaFeature
+        {
+            public AspectRatioMediaFeature(CSSValue value)
+                : base(AspectRatio, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToAspectRatio();
+                return length.HasValue;
+            }
+        }
+
+        sealed class OrientationMediaFeature : MediaFeature
+        {
+            public OrientationMediaFeature(CSSValue value)
+                : base(Orientation, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                if (Value.Is("portrait"))
+                    return true;
+                else if (Value.Is("landscape"))
+                    return true;
+
+                return false;
+            }
+        }
+
+        sealed class ScanMediaFeature : MediaFeature
+        {
+            public ScanMediaFeature(CSSValue value)
+                : base(Scan, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                if (Value.Is("progressive"))
+                    return true;
+                else if (Value.Is("interlace"))
+                    return true;
+
+                return false;
+            }
+        }
+
+        sealed class GridMediaFeature : MediaFeature
+        {
+            public GridMediaFeature(CSSValue value)
+                : base(Grid, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToInteger();
+                return length.HasValue;
+            }
+        }
 
         #endregion
     }

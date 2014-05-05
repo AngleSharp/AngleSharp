@@ -302,6 +302,12 @@
             return null;
         }
 
+        public static Single? ToAspectRatio(this CSSValue value)
+        {
+            //TODO e.g. 4/3
+            return null;
+        }
+
         public static Length? ToBorderWidth(this CSSValue value)
         {
             if (value is CSSPrimitiveValue<Length>)
