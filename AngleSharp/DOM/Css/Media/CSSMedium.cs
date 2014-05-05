@@ -209,6 +209,11 @@
             {
                 _name = name;
                 _value = value;
+
+                if (value == null)
+                    TakeDefault();
+                else
+                    Consider(value);
             }
 
             /// <summary>
@@ -225,6 +230,16 @@
             public CSSValue Value
             {
                 get { return _value; }
+            }
+
+            protected virtual void TakeDefault()
+            {
+                //TODO
+            }
+
+            protected virtual void Consider(CSSValue value)
+            {
+                //TODO
             }
 
             /// <summary>
