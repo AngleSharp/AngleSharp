@@ -716,9 +716,7 @@
                 
                 token = tokens.Current;
 
-                if (token.Type != CssTokenType.Ident || String.Compare(((CssKeywordToken)token).Data, "and", StringComparison.OrdinalIgnoreCase) != 0)
-                    return medium;
-                else if (!tokens.MoveNext())
+                if (token.Type != CssTokenType.Ident || String.Compare(((CssKeywordToken)token).Data, "and", StringComparison.OrdinalIgnoreCase) != 0 || !tokens.MoveNext())
                     return medium;
             }
 

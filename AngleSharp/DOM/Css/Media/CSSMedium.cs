@@ -36,6 +36,7 @@
         readonly static String MinDeviceWidth = "min-device-width";
         readonly static String MinDeviceHeight = "min-device-height";
         readonly static String MinAspectRatio = "min-aspect-ratio";
+        readonly static String MinResolution = "min-resolution";
         readonly static String MinColor = "min-color";
         readonly static String MinColorIndex = "min-color-index";
         readonly static String MinMonochrome = "min-monochrome";
@@ -44,6 +45,7 @@
         readonly static String MaxDeviceWidth = "max-device-width";
         readonly static String MaxDeviceHeight = "max-device-height";
         readonly static String MaxAspectRatio = "max-aspect-ratio";
+        readonly static String MaxResolution = "max-resolution";
         readonly static String MaxColor = "max-color";
         readonly static String MaxColorIndex = "max-color-index";
         readonly static String MaxMonochrome = "max-monochrome";
@@ -52,6 +54,7 @@
         readonly static String DeviceWidth = "device-width";
         readonly static String DeviceHeight = "device-height";
         readonly static String AspectRatio = "aspect-ratio";
+        readonly static String Resolution = "resolution";
         readonly static String Color = "color";
         readonly static String ColorIndex = "color-index";
         readonly static String Monochrome = "monochrome";
@@ -86,21 +89,24 @@
             featureConstructors.Add(MinDeviceHeight, value => new MinDeviceHeightMediaFeature(value));
             featureConstructors.Add(MaxDeviceHeight, value => new MaxDeviceHeightMediaFeature(value));
             featureConstructors.Add(DeviceHeight, value => new DeviceHeightMediaFeature(value));
-            //features.Add(Orientation, null);
-            //features.Add(MinAspectRatio, null);
-            //features.Add(MaxAspectRatio, null);
-            //features.Add(AspectRatio, null);
-            //features.Add(MinColor, null);
-            //features.Add(MaxColor, null);
-            //features.Add(Color, null);
-            //features.Add(MinColorIndex, null);
-            //features.Add(MaxColorIndex, null);
-            //features.Add(ColorIndex, null);
-            //features.Add(MinMonochrome, null);
-            //features.Add(MaxMonochrome, null);
-            //features.Add(Monochrome, null);
-            //features.Add(Grid, null);
-            //features.Add(Scan, null);
+            //featureConstructors.Add(Orientation, null);
+            //featureConstructors.Add(MinAspectRatio, null);
+            //featureConstructors.Add(MaxAspectRatio, null);
+            //featureConstructors.Add(AspectRatio, null);
+            featureConstructors.Add(MinColor, value => new MinColorMediaFeature(value));
+            featureConstructors.Add(MaxColor, value => new MaxColorMediaFeature(value));
+            featureConstructors.Add(Color, value => new ColorMediaFeature(value));
+            featureConstructors.Add(MinColorIndex, value => new MinColorIndexMediaFeature(value));
+            featureConstructors.Add(MaxColorIndex, value => new MaxColorIndexMediaFeature(value));
+            featureConstructors.Add(ColorIndex, value => new ColorIndexMediaFeature(value));
+            featureConstructors.Add(MinMonochrome, value => new MinMonochromeMediaFeature(value));
+            featureConstructors.Add(MaxMonochrome, value => new MaxMonochromeMediaFeature(value));
+            featureConstructors.Add(Monochrome, value => new MonochromeMediaFeature(value));
+            featureConstructors.Add(MinResolution, value => new MinResolutionMediaFeature(value));
+            featureConstructors.Add(MaxResolution, value => new MaxResolutionMediaFeature(value));
+            featureConstructors.Add(Resolution, value => new ResolutionMediaFeature(value));
+            //featureConstructors.Add(Grid, null);
+            //featureConstructors.Add(Scan, null);
         }
 
         internal CSSMedium()
@@ -414,22 +420,178 @@
             }
         }
 
+        sealed class MinColorIndexMediaFeature : MediaFeature
+        {
+            public MinColorIndexMediaFeature(CSSValue value)
+                : base(MinColorIndex, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToInteger();
+                return length.HasValue;
+            }
+        }
+
+        sealed class MaxColorIndexMediaFeature : MediaFeature
+        {
+            public MaxColorIndexMediaFeature(CSSValue value)
+                : base(MaxColorIndex, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToInteger();
+                return length.HasValue;
+            }
+        }
+
+        sealed class ColorIndexMediaFeature : MediaFeature
+        {
+            public ColorIndexMediaFeature(CSSValue value)
+                : base(ColorIndex, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToInteger();
+                return length.HasValue;
+            }
+        }
+
+        sealed class MinColorMediaFeature : MediaFeature
+        {
+            public MinColorMediaFeature(CSSValue value)
+                : base(MinColor, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToInteger();
+                return length.HasValue;
+            }
+        }
+
+        sealed class MaxColorMediaFeature : MediaFeature
+        {
+            public MaxColorMediaFeature(CSSValue value)
+                : base(MaxColor, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToInteger();
+                return length.HasValue;
+            }
+        }
+
+        sealed class ColorMediaFeature : MediaFeature
+        {
+            public ColorMediaFeature(CSSValue value)
+                : base(Color, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToInteger();
+                return length.HasValue;
+            }
+        }
+
+        sealed class MinMonochromeMediaFeature : MediaFeature
+        {
+            public MinMonochromeMediaFeature(CSSValue value)
+                : base(MinMonochrome, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToInteger();
+                return length.HasValue;
+            }
+        }
+
+        sealed class MaxMonochromeMediaFeature : MediaFeature
+        {
+            public MaxMonochromeMediaFeature(CSSValue value)
+                : base(MaxMonochrome, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToInteger();
+                return length.HasValue;
+            }
+        }
+
+        sealed class MonochromeMediaFeature : MediaFeature
+        {
+            public MonochromeMediaFeature(CSSValue value)
+                : base(Monochrome, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToInteger();
+                return length.HasValue;
+            }
+        }
+
+        sealed class MinResolutionMediaFeature : MediaFeature
+        {
+            public MinResolutionMediaFeature(CSSValue value)
+                : base(MinResolution, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToResolution();
+                return length.HasValue;
+            }
+        }
+
+        sealed class MaxResolutionMediaFeature : MediaFeature
+        {
+            public MaxResolutionMediaFeature(CSSValue value)
+                : base(MaxResolution, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToResolution();
+                return length.HasValue;
+            }
+        }
+
+        sealed class ResolutionMediaFeature : MediaFeature
+        {
+            public ResolutionMediaFeature(CSSValue value)
+                : base(Resolution, value)
+            {
+            }
+
+            public override Boolean Validate()
+            {
+                var length = Value.ToResolution();
+                return length.HasValue;
+            }
+        }
+
         //orientation : portrait | landscape
         //min-aspect-ratio : Ratio e.g. 3/4
         //    aspect-ratio : Ratio
         //max-aspect-ratio : Ratio
-        //min-color : Integer
-        //    color : Integer
-        //max-color : Integer
-        //min-color-index : Integer
-        //    color-index : Integer
-        //max-color-index : Integer
-        //min-monochrome : Integer
-        //    monochrome : Integer
-        //max-monochrome : Integer
-        //min-resolution : Resolution
-        //    resolution : Resolution
-        //max-resolution : Resolution
         //scan : progressive | interlace
         //grid : Integer
         //..

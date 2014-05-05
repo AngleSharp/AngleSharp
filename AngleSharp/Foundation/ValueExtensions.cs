@@ -286,6 +286,14 @@
             return null;
         }
 
+        public static Resolution? ToResolution(this CSSValue value)
+        {
+            if (value is CSSPrimitiveValue<Resolution>)
+                return ((CSSPrimitiveValue<Resolution>)value).Value;
+
+            return null;
+        }
+
         public static Time? ToTime(this CSSValue value)
         {
             if (value is CSSPrimitiveValue<Time>)
