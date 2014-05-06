@@ -259,6 +259,8 @@
 
         sealed class MinWidthMediaFeature : MediaFeature
         {
+            Length _length;
+
             public MinWidthMediaFeature()
                 : base(MinWidth)
             {
@@ -271,19 +273,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var length = value.ToLength();
+
+                if (length.HasValue)
+                {
+                    _length = length.Value;
+                    Value = value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToLength();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MaxWidthMediaFeature : MediaFeature
         {
+            Length _length;
+
             public MaxWidthMediaFeature()
                 : base(MaxWidth)
             {
@@ -296,19 +307,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var length = value.ToLength();
+
+                if (length.HasValue)
+                {
+                    Value = value;
+                    _length = length.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToLength();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class WidthMediaFeature : MediaFeature
         {
+            Length _length;
+
             public WidthMediaFeature()
                 : base(Width)
             {
@@ -316,24 +336,33 @@
 
             public override Boolean SetDefaultValue()
             {
-                return false;
+                return true;
             }
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var length = value.ToLength();
+
+                if (length.HasValue)
+                {
+                    Value = value;
+                    _length = length.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToLength();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MinDeviceWidthMediaFeature : MediaFeature
         {
+            Length _length;
+
             public MinDeviceWidthMediaFeature()
                 : base(MinDeviceWidth)
             {
@@ -346,19 +375,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var length = value.ToLength();
+
+                if (length.HasValue)
+                {
+                    Value = value;
+                    _length = length.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToLength();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MaxDeviceWidthMediaFeature : MediaFeature
         {
+            Length _length;
+
             public MaxDeviceWidthMediaFeature()
                 : base(MaxDeviceWidth)
             {
@@ -371,19 +409,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var length = value.ToLength();
+
+                if (length.HasValue)
+                {
+                    Value = value;
+                    _length = length.Value;
+                    return true;
+                }
+
+                return false; 
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToLength();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class DeviceWidthMediaFeature : MediaFeature
         {
+            Length _length;
+
             public DeviceWidthMediaFeature()
                 : base(DeviceWidth)
             {
@@ -391,24 +438,33 @@
 
             public override Boolean SetDefaultValue()
             {
-                return false;
+                return true;
             }
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var length = value.ToLength();
+
+                if (length.HasValue)
+                {
+                    Value = value;
+                    _length = length.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToLength();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MinHeightMediaFeature : MediaFeature
         {
+            Length _length;
+
             public MinHeightMediaFeature()
                 : base(MinHeight)
             {
@@ -421,19 +477,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var length = value.ToLength();
+
+                if (length.HasValue)
+                {
+                    Value = value;
+                    _length = length.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToLength();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MaxHeightMediaFeature : MediaFeature
         {
+            Length _length;
+
             public MaxHeightMediaFeature()
                 : base(MaxHeight)
             {
@@ -446,19 +511,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var length = value.ToLength();
+
+                if (length.HasValue)
+                {
+                    Value = value;
+                    _length = length.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToLength();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class HeightMediaFeature : MediaFeature
         {
+            Length _length;
+
             public HeightMediaFeature()
                 : base(Height)
             {
@@ -466,24 +540,33 @@
 
             public override Boolean SetDefaultValue()
             {
-                return false;
+                return true;
             }
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var length = value.ToLength();
+
+                if (length.HasValue)
+                {
+                    Value = value;
+                    _length = length.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToLength();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MinDeviceHeightMediaFeature : MediaFeature
         {
+            Length _length;
+
             public MinDeviceHeightMediaFeature()
                 : base(MinDeviceHeight)
             {
@@ -496,19 +579,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var length = value.ToLength();
+
+                if (length.HasValue)
+                {
+                    Value = value;
+                    _length = length.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToLength();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MaxDeviceHeightMediaFeature : MediaFeature
         {
+            Length _length;
+
             public MaxDeviceHeightMediaFeature()
                 : base(MaxDeviceHeight)
             {
@@ -521,19 +613,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var length = value.ToLength();
+
+                if (length.HasValue)
+                {
+                    Value = value;
+                    _length = length.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToLength();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class DeviceHeightMediaFeature : MediaFeature
         {
+            Length _length;
+
             public DeviceHeightMediaFeature()
                 : base(DeviceHeight)
             {
@@ -541,24 +642,33 @@
 
             public override Boolean SetDefaultValue()
             {
-                return false;
+                return true;
             }
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var length = value.ToLength();
+
+                if (length.HasValue)
+                {
+                    Value = value;
+                    _length = length.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToLength();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MinColorIndexMediaFeature : MediaFeature
         {
+            Int32 _index;
+
             public MinColorIndexMediaFeature()
                 : base(MinColorIndex)
             {
@@ -571,19 +681,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var index = value.ToInteger();
+
+                if (index.HasValue && index.Value >= 0)
+                {
+                    Value = value;
+                    _index = index.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToInteger();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MaxColorIndexMediaFeature : MediaFeature
         {
+            Int32 _index;
+
             public MaxColorIndexMediaFeature()
                 : base(MaxColorIndex)
             {
@@ -596,19 +715,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var index = value.ToInteger();
+
+                if (index.HasValue && index.Value >= 0)
+                {
+                    Value = value;
+                    _index = index.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToInteger();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class ColorIndexMediaFeature : MediaFeature
         {
+            Int32 _index;
+
             public ColorIndexMediaFeature()
                 : base(ColorIndex)
             {
@@ -616,24 +744,34 @@
 
             public override Boolean SetDefaultValue()
             {
-                return false;
+                _index = 0;
+                return true;
             }
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var index = value.ToInteger();
+
+                if (index.HasValue && index.Value >= 0)
+                {
+                    Value = value;
+                    _index = index.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToInteger();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MinColorMediaFeature : MediaFeature
         {
+            Int32 _color;
+
             public MinColorMediaFeature()
                 : base(MinColor)
             {
@@ -646,19 +784,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var color = value.ToInteger();
+
+                if (color.HasValue && color.Value > 0)
+                {
+                    Value = value;
+                    _color = color.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToInteger();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MaxColorMediaFeature : MediaFeature
         {
+            Int32 _color;
+
             public MaxColorMediaFeature()
                 : base(MaxColor)
             {
@@ -671,19 +818,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var color = value.ToInteger();
+
+                if (color.HasValue && color.Value > 0)
+                {
+                    Value = value;
+                    _color = color.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToInteger();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class ColorMediaFeature : MediaFeature
         {
+            Int32 _color;
+
             public ColorMediaFeature()
                 : base(Color)
             {
@@ -691,24 +847,34 @@
 
             public override Boolean SetDefaultValue()
             {
-                return false;
+                _color = 1;
+                return true;
             }
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var color = value.ToInteger();
+
+                if (color.HasValue && color.Value > 0)
+                {
+                    Value = value;
+                    _color = color.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToInteger();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MinMonochromeMediaFeature : MediaFeature
         {
+            Int32 _index;
+
             public MinMonochromeMediaFeature()
                 : base(MinMonochrome)
             {
@@ -721,19 +887,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var index = value.ToInteger();
+
+                if (index.HasValue && index.Value >= 0)
+                {
+                    Value = value;
+                    _index = index.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToInteger();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MaxMonochromeMediaFeature : MediaFeature
         {
+            Int32 _index;
+
             public MaxMonochromeMediaFeature()
                 : base(MaxMonochrome)
             {
@@ -746,19 +921,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var index = value.ToInteger();
+
+                if (index.HasValue && index.Value >= 0)
+                {
+                    Value = value;
+                    _index = index.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToInteger();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MonochromeMediaFeature : MediaFeature
         {
+            Int32 _index;
+
             public MonochromeMediaFeature()
                 : base(Monochrome)
             {
@@ -766,24 +950,34 @@
 
             public override Boolean SetDefaultValue()
             {
-                return false;
+                _index = 0;
+                return true;
             }
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var index = value.ToInteger();
+
+                if (index.HasValue && index.Value >= 0)
+                {
+                    Value = value;
+                    _index = index.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToInteger();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MinResolutionMediaFeature : MediaFeature
         {
+            Resolution _res;
+
             public MinResolutionMediaFeature()
                 : base(MinResolution)
             {
@@ -796,19 +990,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var res = value.ToResolution();
+
+                if (res.HasValue)
+                {
+                    Value = value;
+                    _res = res.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToResolution();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MaxResolutionMediaFeature : MediaFeature
         {
+            Resolution _res;
+
             public MaxResolutionMediaFeature()
                 : base(MaxResolution)
             {
@@ -821,19 +1024,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var res = value.ToResolution();
+
+                if (res.HasValue)
+                {
+                    Value = value;
+                    _res = res.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToResolution();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class ResolutionMediaFeature : MediaFeature
         {
+            Resolution _res;
+
             public ResolutionMediaFeature()
                 : base(Resolution)
             {
@@ -841,24 +1053,34 @@
 
             public override Boolean SetDefaultValue()
             {
-                return false;
+                _res = new Resolution(72f, DOM.Resolution.Unit.Dpi);
+                return true;
             }
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var res = value.ToResolution();
+
+                if (res.HasValue)
+                {
+                    Value = value;
+                    _res = res.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToResolution();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MinAspectRatioMediaFeature : MediaFeature
         {
+            Single _ratio;
+
             public MinAspectRatioMediaFeature()
                 : base(MinAspectRatio)
             {
@@ -871,19 +1093,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var ratio = value.ToAspectRatio();
+
+                if (ratio.HasValue)
+                {
+                    Value = value;
+                    _ratio = ratio.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToAspectRatio();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class MaxAspectRatioMediaFeature : MediaFeature
         {
+            Single _ratio;
+
             public MaxAspectRatioMediaFeature()
                 : base(MaxAspectRatio)
             {
@@ -896,19 +1127,28 @@
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var ratio = value.ToAspectRatio();
+
+                if (ratio.HasValue)
+                {
+                    Value = value;
+                    _ratio = ratio.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToAspectRatio();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class AspectRatioMediaFeature : MediaFeature
         {
+            Single _ratio;
+
             public AspectRatioMediaFeature()
                 : base(AspectRatio)
             {
@@ -916,24 +1156,35 @@
 
             public override Boolean SetDefaultValue()
             {
-                return false;
+                _ratio = 1f;
+                return true;
             }
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var ratio = value.ToAspectRatio();
+
+                if (ratio.HasValue)
+                {
+                    Value = value;
+                    _ratio = ratio.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToAspectRatio();
-                return length.HasValue;
+                return true;
             }
         }
 
         sealed class OrientationMediaFeature : MediaFeature
         {
+            Boolean _portrait;
+            Boolean _landscape;
+
             public OrientationMediaFeature()
                 : base(Orientation)
             {
@@ -941,28 +1192,42 @@
 
             public override Boolean SetDefaultValue()
             {
-                return false;
+                _portrait = true;
+                _landscape = true;
+                return true;
             }
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                if (Value.Is("portrait"))
+                {
+                    Value = value;
+                    _portrait = true;
+                    _landscape = false;
+                    return true;
+                }
+                else if (Value.Is("landscape"))
+                {
+                    Value = value;
+                    _portrait = false;
+                    _landscape = true;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                if (Value.Is("portrait"))
-                    return true;
-                else if (Value.Is("landscape"))
-                    return true;
-
-                return false;
+                return true;
             }
         }
 
         sealed class ScanMediaFeature : MediaFeature
         {
+            Boolean _progressive;
+            Boolean _interlace;
+
             public ScanMediaFeature()
                 : base(Scan)
             {
@@ -970,28 +1235,41 @@
 
             public override Boolean SetDefaultValue()
             {
-                return false;
+                _progressive = true;
+                _interlace = true;
+                return true;
             }
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                if (Value.Is("progressive"))
+                {
+                    Value = value;
+                    _progressive = true;
+                    _interlace = false;
+                    return true;
+                }
+                else if (Value.Is("interlace"))
+                {
+                    Value = value;
+                    _progressive = false;
+                    _interlace = true;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                if (Value.Is("progressive"))
-                    return true;
-                else if (Value.Is("interlace"))
-                    return true;
-
-                return false;
+                return true;
             }
         }
 
         sealed class GridMediaFeature : MediaFeature
         {
+            Int32 _grid;
+
             public GridMediaFeature()
                 : base(Grid)
             {
@@ -999,19 +1277,27 @@
 
             public override Boolean SetDefaultValue()
             {
-                return false;
+                _grid = 0;
+                return true;
             }
 
             public override Boolean SetValue(CSSValue value)
             {
-                Value = value;
-                return true;
+                var grid = value.ToInteger();
+
+                if (grid.HasValue && grid.Value >= 0)
+                {
+                    Value = value;
+                    _grid = grid.Value;
+                    return true;
+                }
+
+                return false;
             }
 
             public override Boolean Validate()
             {
-                var length = Value.ToInteger();
-                return length.HasValue;
+                return true;
             }
         }
 
