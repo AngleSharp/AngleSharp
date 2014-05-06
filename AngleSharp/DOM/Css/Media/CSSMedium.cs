@@ -62,7 +62,7 @@
         readonly static String Grid = "grid";
         readonly static String Scan = "scan";
 
-        readonly static Dictionary<String, Func<CSSValue, MediaFeature>> featureConstructors = new Dictionary<String, Func<CSSValue, MediaFeature>>(StringComparer.OrdinalIgnoreCase);
+        readonly static Dictionary<String, Func<MediaFeature>> featureConstructors = new Dictionary<String, Func<MediaFeature>>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -76,36 +76,36 @@
 
         static CSSMedium()
         {
-            featureConstructors.Add(MinWidth, value => new MinWidthMediaFeature(value));
-            featureConstructors.Add(MaxWidth, value => new MaxWidthMediaFeature(value));
-            featureConstructors.Add(Width, value => new WidthMediaFeature(value));
-            featureConstructors.Add(MinHeight, value => new MinHeightMediaFeature(value));
-            featureConstructors.Add(MaxHeight, value => new MaxHeightMediaFeature(value));
-            featureConstructors.Add(Height, value => new HeightMediaFeature(value));
-            featureConstructors.Add(MinDeviceWidth, value => new MinDeviceWidthMediaFeature(value));
-            featureConstructors.Add(MaxDeviceWidth, value => new MaxDeviceWidthMediaFeature(value));
-            featureConstructors.Add(DeviceWidth, value => new DeviceWidthMediaFeature(value));
-            featureConstructors.Add(MinDeviceHeight, value => new MinDeviceHeightMediaFeature(value));
-            featureConstructors.Add(MaxDeviceHeight, value => new MaxDeviceHeightMediaFeature(value));
-            featureConstructors.Add(DeviceHeight, value => new DeviceHeightMediaFeature(value));
-            featureConstructors.Add(Orientation, value => new OrientationMediaFeature(value));
-            featureConstructors.Add(MinAspectRatio, value => new MinAspectRatioMediaFeature(value));
-            featureConstructors.Add(MaxAspectRatio, value => new MaxAspectRatioMediaFeature(value));
-            featureConstructors.Add(AspectRatio, value => new AspectRatioMediaFeature(value));
-            featureConstructors.Add(MinColor, value => new MinColorMediaFeature(value));
-            featureConstructors.Add(MaxColor, value => new MaxColorMediaFeature(value));
-            featureConstructors.Add(Color, value => new ColorMediaFeature(value));
-            featureConstructors.Add(MinColorIndex, value => new MinColorIndexMediaFeature(value));
-            featureConstructors.Add(MaxColorIndex, value => new MaxColorIndexMediaFeature(value));
-            featureConstructors.Add(ColorIndex, value => new ColorIndexMediaFeature(value));
-            featureConstructors.Add(MinMonochrome, value => new MinMonochromeMediaFeature(value));
-            featureConstructors.Add(MaxMonochrome, value => new MaxMonochromeMediaFeature(value));
-            featureConstructors.Add(Monochrome, value => new MonochromeMediaFeature(value));
-            featureConstructors.Add(MinResolution, value => new MinResolutionMediaFeature(value));
-            featureConstructors.Add(MaxResolution, value => new MaxResolutionMediaFeature(value));
-            featureConstructors.Add(Resolution, value => new ResolutionMediaFeature(value));
-            featureConstructors.Add(Grid, value => new GridMediaFeature(value));
-            featureConstructors.Add(Scan, value => new ScanMediaFeature(value));
+            featureConstructors.Add(MinWidth, () => new MinWidthMediaFeature());
+            featureConstructors.Add(MaxWidth, () => new MaxWidthMediaFeature());
+            featureConstructors.Add(Width, () => new WidthMediaFeature());
+            featureConstructors.Add(MinHeight, () => new MinHeightMediaFeature());
+            featureConstructors.Add(MaxHeight, () => new MaxHeightMediaFeature());
+            featureConstructors.Add(Height, () => new HeightMediaFeature());
+            featureConstructors.Add(MinDeviceWidth, () => new MinDeviceWidthMediaFeature());
+            featureConstructors.Add(MaxDeviceWidth, () => new MaxDeviceWidthMediaFeature());
+            featureConstructors.Add(DeviceWidth, () => new DeviceWidthMediaFeature());
+            featureConstructors.Add(MinDeviceHeight, () => new MinDeviceHeightMediaFeature());
+            featureConstructors.Add(MaxDeviceHeight, () => new MaxDeviceHeightMediaFeature());
+            featureConstructors.Add(DeviceHeight, () => new DeviceHeightMediaFeature());
+            featureConstructors.Add(Orientation, () => new OrientationMediaFeature());
+            featureConstructors.Add(MinAspectRatio, () => new MinAspectRatioMediaFeature());
+            featureConstructors.Add(MaxAspectRatio, () => new MaxAspectRatioMediaFeature());
+            featureConstructors.Add(AspectRatio, () => new AspectRatioMediaFeature());
+            featureConstructors.Add(MinColor, () => new MinColorMediaFeature());
+            featureConstructors.Add(MaxColor, () => new MaxColorMediaFeature());
+            featureConstructors.Add(Color, () => new ColorMediaFeature());
+            featureConstructors.Add(MinColorIndex, () => new MinColorIndexMediaFeature());
+            featureConstructors.Add(MaxColorIndex, () => new MaxColorIndexMediaFeature());
+            featureConstructors.Add(ColorIndex, () => new ColorIndexMediaFeature());
+            featureConstructors.Add(MinMonochrome, () => new MinMonochromeMediaFeature());
+            featureConstructors.Add(MaxMonochrome, () => new MaxMonochromeMediaFeature());
+            featureConstructors.Add(Monochrome, () => new MonochromeMediaFeature());
+            featureConstructors.Add(MinResolution, () => new MinResolutionMediaFeature());
+            featureConstructors.Add(MaxResolution, () => new MaxResolutionMediaFeature());
+            featureConstructors.Add(Resolution, () => new ResolutionMediaFeature());
+            featureConstructors.Add(Grid, () => new GridMediaFeature());
+            featureConstructors.Add(Scan, () => new ScanMediaFeature());
         }
 
         internal CSSMedium()
@@ -183,16 +183,23 @@
         /// <summary>
         /// Adds a constraint to the list of constraints.
         /// </summary>
-        /// <param name="feature">The name of the feature.</param>
+        /// <param name="name">The name of the feature.</param>
         /// <param name="value">The value of the feature, if any.</param>
-        internal Boolean AddConstraint(String feature, CSSValue value = null)
+        internal Boolean AddConstraint(String name, CSSValue value = null)
         {
-            Func<CSSValue, MediaFeature> constructor;
+            Func<MediaFeature> constructor;
 
-            if (!featureConstructors.TryGetValue(feature, out constructor))
+            if (!featureConstructors.TryGetValue(name, out constructor))
                 return false;
 
-            _features.Add(constructor(value));
+            var feature = constructor();
+
+            if (value == null && !feature.SetDefaultValue())
+                return false;
+            else if (value != null && !feature.SetValue(value))
+                return false;
+
+            _features.Add(feature);
             return true;
         }
 
@@ -205,15 +212,9 @@
             String _name;
             CSSValue _value;
 
-            public MediaFeature(String name, CSSValue value)
+            public MediaFeature(String name)
             {
                 _name = name;
-                _value = value;
-
-                if (value == null)
-                    TakeDefault();
-                else
-                    Consider(value);
             }
 
             /// <summary>
@@ -230,17 +231,12 @@
             public CSSValue Value
             {
                 get { return _value; }
+                protected set { _value = value; }
             }
 
-            protected virtual void TakeDefault()
-            {
-                //TODO
-            }
+            public abstract Boolean SetDefaultValue();
 
-            protected virtual void Consider(CSSValue value)
-            {
-                //TODO
-            }
+            public abstract Boolean SetValue(CSSValue value);
 
             /// <summary>
             /// Validates the given feature.
@@ -263,9 +259,20 @@
 
         sealed class MinWidthMediaFeature : MediaFeature
         {
-            public MinWidthMediaFeature(CSSValue value)
-                : base(MinWidth, value)
+            public MinWidthMediaFeature()
+                : base(MinWidth)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -277,9 +284,20 @@
 
         sealed class MaxWidthMediaFeature : MediaFeature
         {
-            public MaxWidthMediaFeature(CSSValue value)
-                : base(MaxWidth, value)
+            public MaxWidthMediaFeature()
+                : base(MaxWidth)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -291,9 +309,20 @@
 
         sealed class WidthMediaFeature : MediaFeature
         {
-            public WidthMediaFeature(CSSValue value)
-                : base(Width, value)
+            public WidthMediaFeature()
+                : base(Width)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -305,9 +334,20 @@
 
         sealed class MinDeviceWidthMediaFeature : MediaFeature
         {
-            public MinDeviceWidthMediaFeature(CSSValue value)
-                : base(MinDeviceWidth, value)
+            public MinDeviceWidthMediaFeature()
+                : base(MinDeviceWidth)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -319,9 +359,20 @@
 
         sealed class MaxDeviceWidthMediaFeature : MediaFeature
         {
-            public MaxDeviceWidthMediaFeature(CSSValue value)
-                : base(MaxDeviceWidth, value)
+            public MaxDeviceWidthMediaFeature()
+                : base(MaxDeviceWidth)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -333,9 +384,20 @@
 
         sealed class DeviceWidthMediaFeature : MediaFeature
         {
-            public DeviceWidthMediaFeature(CSSValue value)
-                : base(DeviceWidth, value)
+            public DeviceWidthMediaFeature()
+                : base(DeviceWidth)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -347,9 +409,20 @@
 
         sealed class MinHeightMediaFeature : MediaFeature
         {
-            public MinHeightMediaFeature(CSSValue value)
-                : base(MinHeight, value)
+            public MinHeightMediaFeature()
+                : base(MinHeight)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -361,9 +434,20 @@
 
         sealed class MaxHeightMediaFeature : MediaFeature
         {
-            public MaxHeightMediaFeature(CSSValue value)
-                : base(MaxHeight, value)
+            public MaxHeightMediaFeature()
+                : base(MaxHeight)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -375,9 +459,20 @@
 
         sealed class HeightMediaFeature : MediaFeature
         {
-            public HeightMediaFeature(CSSValue value)
-                : base(Height, value)
+            public HeightMediaFeature()
+                : base(Height)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -389,9 +484,20 @@
 
         sealed class MinDeviceHeightMediaFeature : MediaFeature
         {
-            public MinDeviceHeightMediaFeature(CSSValue value)
-                : base(MinDeviceHeight, value)
+            public MinDeviceHeightMediaFeature()
+                : base(MinDeviceHeight)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -403,9 +509,20 @@
 
         sealed class MaxDeviceHeightMediaFeature : MediaFeature
         {
-            public MaxDeviceHeightMediaFeature(CSSValue value)
-                : base(MaxDeviceHeight, value)
+            public MaxDeviceHeightMediaFeature()
+                : base(MaxDeviceHeight)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -417,9 +534,20 @@
 
         sealed class DeviceHeightMediaFeature : MediaFeature
         {
-            public DeviceHeightMediaFeature(CSSValue value)
-                : base(DeviceHeight, value)
+            public DeviceHeightMediaFeature()
+                : base(DeviceHeight)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -431,9 +559,20 @@
 
         sealed class MinColorIndexMediaFeature : MediaFeature
         {
-            public MinColorIndexMediaFeature(CSSValue value)
-                : base(MinColorIndex, value)
+            public MinColorIndexMediaFeature()
+                : base(MinColorIndex)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -445,9 +584,20 @@
 
         sealed class MaxColorIndexMediaFeature : MediaFeature
         {
-            public MaxColorIndexMediaFeature(CSSValue value)
-                : base(MaxColorIndex, value)
+            public MaxColorIndexMediaFeature()
+                : base(MaxColorIndex)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -459,9 +609,20 @@
 
         sealed class ColorIndexMediaFeature : MediaFeature
         {
-            public ColorIndexMediaFeature(CSSValue value)
-                : base(ColorIndex, value)
+            public ColorIndexMediaFeature()
+                : base(ColorIndex)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -473,9 +634,20 @@
 
         sealed class MinColorMediaFeature : MediaFeature
         {
-            public MinColorMediaFeature(CSSValue value)
-                : base(MinColor, value)
+            public MinColorMediaFeature()
+                : base(MinColor)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -487,9 +659,20 @@
 
         sealed class MaxColorMediaFeature : MediaFeature
         {
-            public MaxColorMediaFeature(CSSValue value)
-                : base(MaxColor, value)
+            public MaxColorMediaFeature()
+                : base(MaxColor)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -501,9 +684,20 @@
 
         sealed class ColorMediaFeature : MediaFeature
         {
-            public ColorMediaFeature(CSSValue value)
-                : base(Color, value)
+            public ColorMediaFeature()
+                : base(Color)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -515,9 +709,20 @@
 
         sealed class MinMonochromeMediaFeature : MediaFeature
         {
-            public MinMonochromeMediaFeature(CSSValue value)
-                : base(MinMonochrome, value)
+            public MinMonochromeMediaFeature()
+                : base(MinMonochrome)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -529,9 +734,20 @@
 
         sealed class MaxMonochromeMediaFeature : MediaFeature
         {
-            public MaxMonochromeMediaFeature(CSSValue value)
-                : base(MaxMonochrome, value)
+            public MaxMonochromeMediaFeature()
+                : base(MaxMonochrome)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -543,9 +759,20 @@
 
         sealed class MonochromeMediaFeature : MediaFeature
         {
-            public MonochromeMediaFeature(CSSValue value)
-                : base(Monochrome, value)
+            public MonochromeMediaFeature()
+                : base(Monochrome)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -557,9 +784,20 @@
 
         sealed class MinResolutionMediaFeature : MediaFeature
         {
-            public MinResolutionMediaFeature(CSSValue value)
-                : base(MinResolution, value)
+            public MinResolutionMediaFeature()
+                : base(MinResolution)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -571,9 +809,20 @@
 
         sealed class MaxResolutionMediaFeature : MediaFeature
         {
-            public MaxResolutionMediaFeature(CSSValue value)
-                : base(MaxResolution, value)
+            public MaxResolutionMediaFeature()
+                : base(MaxResolution)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -585,9 +834,20 @@
 
         sealed class ResolutionMediaFeature : MediaFeature
         {
-            public ResolutionMediaFeature(CSSValue value)
-                : base(Resolution, value)
+            public ResolutionMediaFeature()
+                : base(Resolution)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -599,9 +859,20 @@
 
         sealed class MinAspectRatioMediaFeature : MediaFeature
         {
-            public MinAspectRatioMediaFeature(CSSValue value)
-                : base(MinAspectRatio, value)
+            public MinAspectRatioMediaFeature()
+                : base(MinAspectRatio)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -613,9 +884,20 @@
 
         sealed class MaxAspectRatioMediaFeature : MediaFeature
         {
-            public MaxAspectRatioMediaFeature(CSSValue value)
-                : base(MaxAspectRatio, value)
+            public MaxAspectRatioMediaFeature()
+                : base(MaxAspectRatio)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -627,9 +909,20 @@
 
         sealed class AspectRatioMediaFeature : MediaFeature
         {
-            public AspectRatioMediaFeature(CSSValue value)
-                : base(AspectRatio, value)
+            public AspectRatioMediaFeature()
+                : base(AspectRatio)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -641,9 +934,20 @@
 
         sealed class OrientationMediaFeature : MediaFeature
         {
-            public OrientationMediaFeature(CSSValue value)
-                : base(Orientation, value)
+            public OrientationMediaFeature()
+                : base(Orientation)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -659,9 +963,20 @@
 
         sealed class ScanMediaFeature : MediaFeature
         {
-            public ScanMediaFeature(CSSValue value)
-                : base(Scan, value)
+            public ScanMediaFeature()
+                : base(Scan)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
@@ -677,9 +992,20 @@
 
         sealed class GridMediaFeature : MediaFeature
         {
-            public GridMediaFeature(CSSValue value)
-                : base(Grid, value)
+            public GridMediaFeature()
+                : base(Grid)
             {
+            }
+
+            public override Boolean SetDefaultValue()
+            {
+                return false;
+            }
+
+            public override Boolean SetValue(CSSValue value)
+            {
+                Value = value;
+                return true;
             }
 
             public override Boolean Validate()
