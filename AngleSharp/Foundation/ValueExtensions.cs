@@ -304,7 +304,17 @@
 
         public static Single? ToAspectRatio(this CSSValue value)
         {
-            //TODO e.g. 4/3
+            var values = value as CSSValueList;
+
+            if (values != null && values.Length == 3 && values[1] == CSSValueList.Delimiter)
+            {
+                var w = values[0].ToNumber();
+                var h = values[2].ToNumber();
+
+                if (w.HasValue && h.HasValue)
+                    return w.Value / h.Value;
+            }
+
             return null;
         }
 
