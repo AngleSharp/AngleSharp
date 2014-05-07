@@ -699,6 +699,8 @@
 
                 JumpToEndOfDeclaration(tokens);
             }
+            else if (list.Length == 0 && tokens.MoveNext())
+                JumpToEndOfDeclaration(tokens);
 
             return list;
         }
