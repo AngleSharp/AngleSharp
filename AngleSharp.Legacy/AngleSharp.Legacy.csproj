@@ -259,14 +259,8 @@
     <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
       <Link>DOM\Css\CssValueType.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Media\CSSInvertMedium.cs">
-      <Link>DOM\Css\Media\CSSInvertMedium.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Media\CSSMedium.cs">
       <Link>DOM\Css\Media\CSSMedium.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Media\CSSOnlyMedium.cs">
-      <Link>DOM\Css\Media\CSSOnlyMedium.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationDelayProperty.cs">
       <Link>DOM\Css\Properties\Animation\CSSAnimationDelayProperty.cs</Link>
