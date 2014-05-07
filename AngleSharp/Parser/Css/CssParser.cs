@@ -693,7 +693,12 @@
             while (tokens.Current.Type == CssTokenType.Comma && tokens.MoveNext());
 
             if (tokens.Current.Type != CssTokenType.CurlyBracketOpen)
+            {
+                if (tokens.Current.Type == CssTokenType.RoundBracketClose)
+                    tokens.MoveNext();
+
                 JumpToEndOfDeclaration(tokens);
+            }
 
             return list;
         }
@@ -750,7 +755,10 @@
             var token = tokens.Current;
 
             if (token.Type != CssTokenType.Ident)
+            {
+                JumpToClosedArguments(tokens);
                 return null;
+            }
 
             value.Reset();
             var feature = ((CssKeywordToken)token).Data;
@@ -1057,99 +1065,109 @@
 
         static void JumpToEndOfDeclaration(IEnumerator<CssToken> tokens)
         {
-            JumpTo(tokens, CssTokenType.Semicolon, CssTokenType.CurlyBracketClose);
-        }
-
-        static void JumpToNextSemicolon(IEnumerator<CssToken> tokens)
-        {
-            JumpTo(tokens, CssTokenType.Semicolon);
-        }
-
-        static void JumpToClosedArguments(IEnumerator<CssToken> tokens)
-        {
-            JumpTo(tokens, CssTokenType.RoundBracketClose);
-        }
-
-        static void JumpTo(IEnumerator<CssToken> tokens, CssTokenType target)
-        {
             var round = 0;
             var curly = 0;
             var square = 0;
-            var canBeFound = true;
 
             do
             {
-                if (canBeFound && tokens.Current.Type == target)
-                    break;
-
                 switch (tokens.Current.Type)
                 {
                     case CssTokenType.CurlyBracketClose:
                         curly--;
-                        canBeFound = round == 0 && curly == 0 && square == 0;
-                        break;
+                        goto case CssTokenType.Semicolon;
                     case CssTokenType.CurlyBracketOpen:
                         curly++;
-                        canBeFound = round == 0 && curly == 0 && square == 0;
                         break;
                     case CssTokenType.RoundBracketClose:
                         round--;
-                        canBeFound = round == 0 && curly == 0 && square == 0;
                         break;
                     case CssTokenType.RoundBracketOpen:
                         round++;
-                        canBeFound = round == 0 && curly == 0 && square == 0;
                         break;
                     case CssTokenType.SquareBracketClose:
                         square--;
-                        canBeFound = round == 0 && curly == 0 && square == 0;
                         break;
                     case CssTokenType.SquareBracketOpen:
                         square++;
-                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                    case CssTokenType.Semicolon:
+                        if (round == 0 && curly == 0 && square == 0)
+                            return;
                         break;
                 }
             }
             while (tokens.MoveNext());
         }
 
-        static void JumpTo(IEnumerator<CssToken> tokens, CssTokenType target1, CssTokenType target2)
+        static void JumpToNextSemicolon(IEnumerator<CssToken> tokens)
         {
             var round = 0;
             var curly = 0;
             var square = 0;
-            var canBeFound = true;
 
             do
             {
-                if (canBeFound && (tokens.Current.Type == target1 || tokens.Current.Type == target2))
-                    break;
-
                 switch (tokens.Current.Type)
                 {
                     case CssTokenType.CurlyBracketClose:
                         curly--;
-                        canBeFound = round == 0 && curly == 0 && square == 0;
                         break;
                     case CssTokenType.CurlyBracketOpen:
                         curly++;
-                        canBeFound = round == 0 && curly == 0 && square == 0;
                         break;
                     case CssTokenType.RoundBracketClose:
                         round--;
-                        canBeFound = round == 0 && curly == 0 && square == 0;
                         break;
                     case CssTokenType.RoundBracketOpen:
                         round++;
-                        canBeFound = round == 0 && curly == 0 && square == 0;
                         break;
                     case CssTokenType.SquareBracketClose:
                         square--;
-                        canBeFound = round == 0 && curly == 0 && square == 0;
                         break;
                     case CssTokenType.SquareBracketOpen:
                         square++;
-                        canBeFound = round == 0 && curly == 0 && square == 0;
+                        break;
+                    case CssTokenType.Semicolon:
+                        if (round == 0 && curly == 0 && square == 0)
+                            return;
+
+                        break;
+                }
+            }
+            while (tokens.MoveNext());
+        }
+
+        static void JumpToClosedArguments(IEnumerator<CssToken> tokens)
+        {
+            var round = 0;
+            var curly = 0;
+            var square = 0;
+
+            do
+            {
+                switch (tokens.Current.Type)
+                {
+                    case CssTokenType.CurlyBracketClose:
+                        curly--;
+                        break;
+                    case CssTokenType.CurlyBracketOpen:
+                        curly++;
+                        break;
+                    case CssTokenType.RoundBracketClose:
+                        if (round == 0 && curly == 0 && square == 0)
+                            return;
+
+                        round--;
+                        break;
+                    case CssTokenType.RoundBracketOpen:
+                        round++;
+                        break;
+                    case CssTokenType.SquareBracketClose:
+                        square--;
+                        break;
+                    case CssTokenType.SquareBracketOpen:
+                        square++;
                         break;
                 }
             }
