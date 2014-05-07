@@ -230,6 +230,7 @@
     <Compile Include="DOM\Objects\Shadow.cs" />
     <Compile Include="Foundation\ConcurrentDictionary.cs" />
     <Compile Include="DOM\Primitives\Angle.cs" />
+    <Compile Include="Foundation\Constants\FeatureNames.cs" />
     <Compile Include="Network\Constants\DefaultPorts.cs" />
     <Compile Include="Network\Constants\KnownProtocols.cs" />
     <Compile Include="DOM\Primitives\Frequency.cs" />

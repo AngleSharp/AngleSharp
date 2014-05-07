@@ -31,37 +31,6 @@
             "all"
         };
 
-        readonly static String MinWidth = "min-width";
-        readonly static String MinHeight = "min-height";
-        readonly static String MinDeviceWidth = "min-device-width";
-        readonly static String MinDeviceHeight = "min-device-height";
-        readonly static String MinAspectRatio = "min-aspect-ratio";
-        readonly static String MinResolution = "min-resolution";
-        readonly static String MinColor = "min-color";
-        readonly static String MinColorIndex = "min-color-index";
-        readonly static String MinMonochrome = "min-monochrome";
-        readonly static String MaxWidth = "max-width";
-        readonly static String MaxHeight = "max-height";
-        readonly static String MaxDeviceWidth = "max-device-width";
-        readonly static String MaxDeviceHeight = "max-device-height";
-        readonly static String MaxAspectRatio = "max-aspect-ratio";
-        readonly static String MaxResolution = "max-resolution";
-        readonly static String MaxColor = "max-color";
-        readonly static String MaxColorIndex = "max-color-index";
-        readonly static String MaxMonochrome = "max-monochrome";
-        readonly static String Width = "width";
-        readonly static String Height = "height";
-        readonly static String DeviceWidth = "device-width";
-        readonly static String DeviceHeight = "device-height";
-        readonly static String AspectRatio = "aspect-ratio";
-        readonly static String Resolution = "resolution";
-        readonly static String Color = "color";
-        readonly static String ColorIndex = "color-index";
-        readonly static String Monochrome = "monochrome";
-        readonly static String Orientation = "orientation";
-        readonly static String Grid = "grid";
-        readonly static String Scan = "scan";
-
         readonly static Dictionary<String, Func<MediaFeature>> featureConstructors = new Dictionary<String, Func<MediaFeature>>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
@@ -76,36 +45,36 @@
 
         static CSSMedium()
         {
-            featureConstructors.Add(MinWidth, () => new MinWidthMediaFeature());
-            featureConstructors.Add(MaxWidth, () => new MaxWidthMediaFeature());
-            featureConstructors.Add(Width, () => new WidthMediaFeature());
-            featureConstructors.Add(MinHeight, () => new MinHeightMediaFeature());
-            featureConstructors.Add(MaxHeight, () => new MaxHeightMediaFeature());
-            featureConstructors.Add(Height, () => new HeightMediaFeature());
-            featureConstructors.Add(MinDeviceWidth, () => new MinDeviceWidthMediaFeature());
-            featureConstructors.Add(MaxDeviceWidth, () => new MaxDeviceWidthMediaFeature());
-            featureConstructors.Add(DeviceWidth, () => new DeviceWidthMediaFeature());
-            featureConstructors.Add(MinDeviceHeight, () => new MinDeviceHeightMediaFeature());
-            featureConstructors.Add(MaxDeviceHeight, () => new MaxDeviceHeightMediaFeature());
-            featureConstructors.Add(DeviceHeight, () => new DeviceHeightMediaFeature());
-            featureConstructors.Add(Orientation, () => new OrientationMediaFeature());
-            featureConstructors.Add(MinAspectRatio, () => new MinAspectRatioMediaFeature());
-            featureConstructors.Add(MaxAspectRatio, () => new MaxAspectRatioMediaFeature());
-            featureConstructors.Add(AspectRatio, () => new AspectRatioMediaFeature());
-            featureConstructors.Add(MinColor, () => new MinColorMediaFeature());
-            featureConstructors.Add(MaxColor, () => new MaxColorMediaFeature());
-            featureConstructors.Add(Color, () => new ColorMediaFeature());
-            featureConstructors.Add(MinColorIndex, () => new MinColorIndexMediaFeature());
-            featureConstructors.Add(MaxColorIndex, () => new MaxColorIndexMediaFeature());
-            featureConstructors.Add(ColorIndex, () => new ColorIndexMediaFeature());
-            featureConstructors.Add(MinMonochrome, () => new MinMonochromeMediaFeature());
-            featureConstructors.Add(MaxMonochrome, () => new MaxMonochromeMediaFeature());
-            featureConstructors.Add(Monochrome, () => new MonochromeMediaFeature());
-            featureConstructors.Add(MinResolution, () => new MinResolutionMediaFeature());
-            featureConstructors.Add(MaxResolution, () => new MaxResolutionMediaFeature());
-            featureConstructors.Add(Resolution, () => new ResolutionMediaFeature());
-            featureConstructors.Add(Grid, () => new GridMediaFeature());
-            featureConstructors.Add(Scan, () => new ScanMediaFeature());
+            featureConstructors.Add(FeatureNames.MinWidth, () => new MinWidthMediaFeature());
+            featureConstructors.Add(FeatureNames.MaxWidth, () => new MaxWidthMediaFeature());
+            featureConstructors.Add(FeatureNames.Width, () => new WidthMediaFeature());
+            featureConstructors.Add(FeatureNames.MinHeight, () => new MinHeightMediaFeature());
+            featureConstructors.Add(FeatureNames.MaxHeight, () => new MaxHeightMediaFeature());
+            featureConstructors.Add(FeatureNames.Height, () => new HeightMediaFeature());
+            featureConstructors.Add(FeatureNames.MinDeviceWidth, () => new MinDeviceWidthMediaFeature());
+            featureConstructors.Add(FeatureNames.MaxDeviceWidth, () => new MaxDeviceWidthMediaFeature());
+            featureConstructors.Add(FeatureNames.DeviceWidth, () => new DeviceWidthMediaFeature());
+            featureConstructors.Add(FeatureNames.MinDeviceHeight, () => new MinDeviceHeightMediaFeature());
+            featureConstructors.Add(FeatureNames.MaxDeviceHeight, () => new MaxDeviceHeightMediaFeature());
+            featureConstructors.Add(FeatureNames.DeviceHeight, () => new DeviceHeightMediaFeature());
+            featureConstructors.Add(FeatureNames.Orientation, () => new OrientationMediaFeature());
+            featureConstructors.Add(FeatureNames.MinAspectRatio, () => new MinAspectRatioMediaFeature());
+            featureConstructors.Add(FeatureNames.MaxAspectRatio, () => new MaxAspectRatioMediaFeature());
+            featureConstructors.Add(FeatureNames.AspectRatio, () => new AspectRatioMediaFeature());
+            featureConstructors.Add(FeatureNames.MinColor, () => new MinColorMediaFeature());
+            featureConstructors.Add(FeatureNames.MaxColor, () => new MaxColorMediaFeature());
+            featureConstructors.Add(FeatureNames.Color, () => new ColorMediaFeature());
+            featureConstructors.Add(FeatureNames.MinColorIndex, () => new MinColorIndexMediaFeature());
+            featureConstructors.Add(FeatureNames.MaxColorIndex, () => new MaxColorIndexMediaFeature());
+            featureConstructors.Add(FeatureNames.ColorIndex, () => new ColorIndexMediaFeature());
+            featureConstructors.Add(FeatureNames.MinMonochrome, () => new MinMonochromeMediaFeature());
+            featureConstructors.Add(FeatureNames.MaxMonochrome, () => new MaxMonochromeMediaFeature());
+            featureConstructors.Add(FeatureNames.Monochrome, () => new MonochromeMediaFeature());
+            featureConstructors.Add(FeatureNames.MinResolution, () => new MinResolutionMediaFeature());
+            featureConstructors.Add(FeatureNames.MaxResolution, () => new MaxResolutionMediaFeature());
+            featureConstructors.Add(FeatureNames.Resolution, () => new ResolutionMediaFeature());
+            featureConstructors.Add(FeatureNames.Grid, () => new GridMediaFeature());
+            featureConstructors.Add(FeatureNames.Scan, () => new ScanMediaFeature());
         }
 
         internal CSSMedium()
@@ -283,7 +252,7 @@
             Length _length;
 
             public MinWidthMediaFeature()
-                : base(MinWidth)
+                : base(FeatureNames.MinWidth)
             {
             }
 
@@ -317,7 +286,7 @@
             Length _length;
 
             public MaxWidthMediaFeature()
-                : base(MaxWidth)
+                : base(FeatureNames.MaxWidth)
             {
             }
 
@@ -351,7 +320,7 @@
             Length _length;
 
             public WidthMediaFeature()
-                : base(Width)
+                : base(FeatureNames.Width)
             {
             }
 
@@ -385,7 +354,7 @@
             Length _length;
 
             public MinDeviceWidthMediaFeature()
-                : base(MinDeviceWidth)
+                : base(FeatureNames.MinDeviceWidth)
             {
             }
 
@@ -419,7 +388,7 @@
             Length _length;
 
             public MaxDeviceWidthMediaFeature()
-                : base(MaxDeviceWidth)
+                : base(FeatureNames.MaxDeviceWidth)
             {
             }
 
@@ -453,7 +422,7 @@
             Length _length;
 
             public DeviceWidthMediaFeature()
-                : base(DeviceWidth)
+                : base(FeatureNames.DeviceWidth)
             {
             }
 
@@ -487,7 +456,7 @@
             Length _length;
 
             public MinHeightMediaFeature()
-                : base(MinHeight)
+                : base(FeatureNames.MinHeight)
             {
             }
 
@@ -521,7 +490,7 @@
             Length _length;
 
             public MaxHeightMediaFeature()
-                : base(MaxHeight)
+                : base(FeatureNames.MaxHeight)
             {
             }
 
@@ -555,7 +524,7 @@
             Length _length;
 
             public HeightMediaFeature()
-                : base(Height)
+                : base(FeatureNames.Height)
             {
             }
 
@@ -589,7 +558,7 @@
             Length _length;
 
             public MinDeviceHeightMediaFeature()
-                : base(MinDeviceHeight)
+                : base(FeatureNames.MinDeviceHeight)
             {
             }
 
@@ -623,7 +592,7 @@
             Length _length;
 
             public MaxDeviceHeightMediaFeature()
-                : base(MaxDeviceHeight)
+                : base(FeatureNames.MaxDeviceHeight)
             {
             }
 
@@ -657,7 +626,7 @@
             Length _length;
 
             public DeviceHeightMediaFeature()
-                : base(DeviceHeight)
+                : base(FeatureNames.DeviceHeight)
             {
             }
 
@@ -691,7 +660,7 @@
             Int32 _index;
 
             public MinColorIndexMediaFeature()
-                : base(MinColorIndex)
+                : base(FeatureNames.MinColorIndex)
             {
             }
 
@@ -725,7 +694,7 @@
             Int32 _index;
 
             public MaxColorIndexMediaFeature()
-                : base(MaxColorIndex)
+                : base(FeatureNames.MaxColorIndex)
             {
             }
 
@@ -759,7 +728,7 @@
             Int32 _index;
 
             public ColorIndexMediaFeature()
-                : base(ColorIndex)
+                : base(FeatureNames.ColorIndex)
             {
             }
 
@@ -794,7 +763,7 @@
             Int32 _color;
 
             public MinColorMediaFeature()
-                : base(MinColor)
+                : base(FeatureNames.MinColor)
             {
             }
 
@@ -828,7 +797,7 @@
             Int32 _color;
 
             public MaxColorMediaFeature()
-                : base(MaxColor)
+                : base(FeatureNames.MaxColor)
             {
             }
 
@@ -862,7 +831,7 @@
             Int32 _color;
 
             public ColorMediaFeature()
-                : base(Color)
+                : base(FeatureNames.Color)
             {
             }
 
@@ -897,7 +866,7 @@
             Int32 _index;
 
             public MinMonochromeMediaFeature()
-                : base(MinMonochrome)
+                : base(FeatureNames.MinMonochrome)
             {
             }
 
@@ -931,7 +900,7 @@
             Int32 _index;
 
             public MaxMonochromeMediaFeature()
-                : base(MaxMonochrome)
+                : base(FeatureNames.MaxMonochrome)
             {
             }
 
@@ -965,7 +934,7 @@
             Int32 _index;
 
             public MonochromeMediaFeature()
-                : base(Monochrome)
+                : base(FeatureNames.Monochrome)
             {
             }
 
@@ -1000,7 +969,7 @@
             Resolution _res;
 
             public MinResolutionMediaFeature()
-                : base(MinResolution)
+                : base(FeatureNames.MinResolution)
             {
             }
 
@@ -1034,7 +1003,7 @@
             Resolution _res;
 
             public MaxResolutionMediaFeature()
-                : base(MaxResolution)
+                : base(FeatureNames.MaxResolution)
             {
             }
 
@@ -1068,7 +1037,7 @@
             Resolution _res;
 
             public ResolutionMediaFeature()
-                : base(Resolution)
+                : base(FeatureNames.Resolution)
             {
             }
 
@@ -1103,7 +1072,7 @@
             Single _ratio;
 
             public MinAspectRatioMediaFeature()
-                : base(MinAspectRatio)
+                : base(FeatureNames.MinAspectRatio)
             {
             }
 
@@ -1137,7 +1106,7 @@
             Single _ratio;
 
             public MaxAspectRatioMediaFeature()
-                : base(MaxAspectRatio)
+                : base(FeatureNames.MaxAspectRatio)
             {
             }
 
@@ -1171,7 +1140,7 @@
             Single _ratio;
 
             public AspectRatioMediaFeature()
-                : base(AspectRatio)
+                : base(FeatureNames.AspectRatio)
             {
             }
 
@@ -1207,7 +1176,7 @@
             Boolean _landscape;
 
             public OrientationMediaFeature()
-                : base(Orientation)
+                : base(FeatureNames.Orientation)
             {
             }
 
@@ -1250,7 +1219,7 @@
             Boolean _interlace;
 
             public ScanMediaFeature()
-                : base(Scan)
+                : base(FeatureNames.Scan)
             {
             }
 
@@ -1292,7 +1261,7 @@
             Int32 _grid;
 
             public GridMediaFeature()
-                : base(Grid)
+                : base(FeatureNames.Grid)
             {
             }
 
