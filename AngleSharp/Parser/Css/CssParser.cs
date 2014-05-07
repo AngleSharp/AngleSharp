@@ -783,6 +783,7 @@
         static CSSMedium GetMedium(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
+            var medium = new CSSMedium();
 
             if (token.Type == CssTokenType.Ident)
             {
@@ -791,16 +792,16 @@
                 if (String.Compare(ident, "not", StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     tokens.MoveNext();
-                    return new CSSInvertMedium();
+                    medium.IsInverse = true;
                 }
                 else if (String.Compare(ident, "only", StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     tokens.MoveNext();
-                    return new CSSOnlyMedium();
+                    medium.IsExclusive = true;
                 }
             }
 
-            return new CSSMedium();
+            return medium;
         }
 
         #endregion

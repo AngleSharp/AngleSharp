@@ -58,9 +58,7 @@
     <Compile Include="DOM\Css\Constants\UnicodeMode.cs" />
     <Compile Include="DOM\Css\Constants\Whitespace.cs" />
     <Compile Include="DOM\Css\CSSFactory.cs" />
-    <Compile Include="DOM\Css\Media\CSSInvertMedium.cs" />
     <Compile Include="DOM\Css\Media\CSSMedium.cs" />
-    <Compile Include="DOM\Css\Media\CSSOnlyMedium.cs" />
     <Compile Include="DOM\Css\Properties\Animation\CSSAnimationDelayProperty.cs" />
     <Compile Include="DOM\Css\Properties\Animation\CSSAnimationDirectionProperty.cs" />
     <Compile Include="DOM\Css\Properties\Animation\CSSAnimationDurationProperty.cs" />

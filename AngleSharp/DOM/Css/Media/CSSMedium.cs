@@ -7,7 +7,7 @@
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    class CSSMedium : ICssObject
+    public sealed class CSSMedium : ICssObject
     {
         #region Media Types and Features
 
@@ -127,6 +127,24 @@
         }
 
         /// <summary>
+        /// Gets if the medium has been created using the only keyword.
+        /// </summary>
+        public Boolean IsExclusive
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
+        /// Gets if the medium has been created using the not keyword.
+        /// </summary>
+        public Boolean IsInverse
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
         /// Gets a string describing the covered constraints.
         /// </summary>
         public String Constraints
@@ -150,14 +168,16 @@
         /// Validates the given medium.
         /// </summary>
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
-        public virtual Boolean Validate()
+        public Boolean Validate()
         {
-            if (!String.IsNullOrEmpty(Type) && !Types.Contains(Type))
+            var condition = IsInverse;
+
+            if (!String.IsNullOrEmpty(Type) && Types.Contains(Type) == condition)
                 return false;
 
             foreach (var feature in _features)
             {
-                if (!feature.Validate())
+                if (feature.Validate() == condition)
                     return false;
             }
 
@@ -168,16 +188,17 @@
         /// Returns a CSS code representation of the medium.
         /// </summary>
         /// <returns>A string that contains the code.</returns>
-        public virtual String ToCss()
+        public String ToCss()
         {
             var constraints = Constraints;
+            var prefix = IsExclusive ? "only " : (IsInverse ? "not " : String.Empty);
 
             if (String.IsNullOrEmpty(constraints))
-                return Type ?? String.Empty;
+                return String.Concat(prefix, Type ?? String.Empty);
             else if (String.IsNullOrEmpty(Type))
-                return constraints;
+                return String.Concat(prefix, constraints);
 
-            return String.Concat(Type, " and ", constraints);
+            return String.Concat(prefix, Type, " and ", constraints);
         }
 
         /// <summary>
