@@ -124,17 +124,73 @@ namespace UnitTests.Css
         public void AllFeatureMaxWidthMediaListMissingAnd()
         {
             var source = @"@media all (max-width:30px) {
-    h1 { color: green }
+    h1 { color: red }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
             Assert.AreEqual(0, sheet.CssRules.Length);
         }
 
         [TestMethod]
+        public void NoMediaQueryGivenSkip()
+        {
+            var source = @"@media {
+    h1 { color: red }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(0, sheet.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void NotNoMediaTypeOrExpressionSkip()
+        {
+            var source = @"@media not {
+    h1 { color: red }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(0, sheet.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void OnlyNoMediaTypeOrExpressionSkip()
+        {
+            var source = @"@media only {
+    h1 { color: red }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(0, sheet.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void MediaFeatureMissingSkip()
+        {
+            var source = @"@media () {
+    h1 { color: red }
+}";
+
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(0, sheet.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void MediaFeatureMissingSkipReadNext()
+        {
+            var source = @"@media () {
+    h1 { color: red }
+}
+h1 { color: green }";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
+            var style = (CSSStyleRule)sheet.CssRules[0];
+            Assert.AreEqual("green", style.Style.Color);
+            Assert.AreEqual("h1", style.SelectorText);
+        }
+
+        [TestMethod]
         public void FeatureMaxWidthMediaListMissingConnectedAnd()
         {
             var source = @"@media (max-width:30px) (min-width:10px) {
-    h1 { color: green }
+    h1 { color: red }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
             Assert.AreEqual(0, sheet.CssRules.Length);
@@ -144,7 +200,7 @@ namespace UnitTests.Css
         public void TvScreenMediaListMissingComma()
         {
             var source = @"@media tv screen {
-    h1 { color: green }
+    h1 { color: red }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
             Assert.AreEqual(0, sheet.CssRules.Length);
@@ -161,6 +217,22 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
             var media = (CSSMediaRule)sheet.CssRules[0];
             Assert.AreEqual("all and (max-width: 30px)", media.ConditionText);
+            var list = media.Media;
+            Assert.AreEqual(1, list.Length);
+            Assert.AreEqual(1, media.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void FeatureAspectRatioMediaList()
+        {
+            var source = @"@media (aspect-ratio: 16/9) {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual("(aspect-ratio: 16 / 9)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
             Assert.AreEqual(1, media.CssRules.Length);
