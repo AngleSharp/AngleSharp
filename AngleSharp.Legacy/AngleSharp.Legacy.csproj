@@ -259,8 +259,47 @@
     <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
       <Link>DOM\Css\CssValueType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\AspectRatioMediaFeature.cs">
+      <Link>DOM\Css\Media\AspectRatioMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\ColorIndexMediaFeature.cs">
+      <Link>DOM\Css\Media\ColorIndexMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\ColorMediaFeature.cs">
+      <Link>DOM\Css\Media\ColorMediaFeature.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Media\CSSMedium.cs">
       <Link>DOM\Css\Media\CSSMedium.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\DeviceHeightMediaFeature.cs">
+      <Link>DOM\Css\Media\DeviceHeightMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\DeviceWidthMediaFeature.cs">
+      <Link>DOM\Css\Media\DeviceWidthMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\GridMediaFeature.cs">
+      <Link>DOM\Css\Media\GridMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\HeightMediaFeature.cs">
+      <Link>DOM\Css\Media\HeightMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\MediaFeature.cs">
+      <Link>DOM\Css\Media\MediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\MonochromeMediaFeature.cs">
+      <Link>DOM\Css\Media\MonochromeMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\OrientationMediaFeature.cs">
+      <Link>DOM\Css\Media\OrientationMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\ResolutionMediaFeature.cs">
+      <Link>DOM\Css\Media\ResolutionMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\ScanMediaFeature.cs">
+      <Link>DOM\Css\Media\ScanMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Media\WidthMediaFeature.cs">
+      <Link>DOM\Css\Media\WidthMediaFeature.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationDelayProperty.cs">
       <Link>DOM\Css\Properties\Animation\CSSAnimationDelayProperty.cs</Link>
