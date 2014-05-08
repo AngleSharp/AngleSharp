@@ -31,7 +31,6 @@
         Node fragmentContext;
         Boolean foster;
         Int32 nesting;
-        Boolean pause;
         Boolean started;
         HTMLScriptElement pendingParsingBlock;
         Stack<HtmlTreeMode> templateMode;
@@ -503,12 +502,7 @@
         /// <param name="token">The passed token.</param>
         void Initial(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.Comment)
-            {
-                AddComment(doc, token);
-                return;
-            }
-            else if (token.Type == HtmlTokenType.DOCTYPE)
+            if (token.Type == HtmlTokenType.DOCTYPE)
             {
                 var doctype = (HtmlDoctypeToken)token;
 
@@ -533,6 +527,11 @@
                 if (chars.IsEmpty)
                     return;
             }
+            else if (token.Type == HtmlTokenType.Comment)
+            {
+                AddComment(doc, token);
+                return;
+            }
 
             if (!doc.Options.IsEmbedded)
             {
@@ -550,34 +549,15 @@
         /// <param name="token">The passed token.</param>
         void BeforeHtml(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.DOCTYPE)
-            {
-                RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
-                return;
-            }
-            else if (token.Type == HtmlTokenType.Comment)
-            {
-                AddComment(doc, token);
-                return;
-            }
-            else if (token.IsStartTag(Tags.Html))
+            if (token.IsStartTag(Tags.Html))
             {
                 AddRoot(token.AsTag());
-
-                //TODO
-                //If the Document is being loaded as part of navigation of a browsing context, then:
-                //  if the newly created element has a manifest attribute whose value is not the empty string,
-                //    then resolve the value of that attribute to an absolute URL, relative to the newly created element,
-                //    and if that is successful, run the application cache selection algorithm with the result of applying
-                //    the URL serializer algorithm to the resulting parsed URL with the exclude fragment flag set;
-                //  otherwise, if there is no such attribute, or its value is the empty string, or resolving its value fails,
-                //    run the application cache selection algorithm with no manifest. The algorithm must be passed the Document object.
                 insert = HtmlTreeMode.BeforeHead;
                 return;
             }
-            else if(token.IsEndTagInv(Tags.Html, Tags.Body, Tags.Br, Tags.Head))
+            else if (token.Type == HtmlTokenType.DOCTYPE)
             {
-                RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+                RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
                 return;
             }
             else if(token.Type == HtmlTokenType.Character)
@@ -588,11 +568,18 @@
                 if (chars.IsEmpty)
                     return;
             }
+            else if (token.Type == HtmlTokenType.Comment)
+            {
+                AddComment(doc, token);
+                return;
+            }
+            else if (token.IsEndTagInv(Tags.Html, Tags.Body, Tags.Br, Tags.Head))
+            {
+                RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+                return;
+            }
 
             BeforeHtml(HtmlToken.OpenTag(Tags.Html));
-            //TODO
-            //If the Document is being loaded as part of navigation of a browsing context, then:
-            //  run the application cache selection algorithm with no manifest, passing it the Document object.
             BeforeHead(token);
         }
 
@@ -602,7 +589,26 @@
         /// <param name="token">The passed token.</param>
         void BeforeHead(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.Comment)
+            if (token.Type == HtmlTokenType.Character)
+            {
+                var chars = (HtmlCharacterToken)token;
+                chars.TrimStart();
+
+                if (chars.IsEmpty)
+                    return;
+            }
+            else if (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name == Tags.Html)
+            {
+                InBody(token);
+                return;
+            }
+            else if (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name == Tags.Head)
+            {
+                AddElement(new HTMLHeadElement(), token.AsTag());
+                insert = HtmlTreeMode.InHead;
+                return;
+            }
+            else if (token.Type == HtmlTokenType.Comment)
             {
                 AddComment(token);
                 return;
@@ -612,30 +618,10 @@
                 RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
                 return;
             }
-            else if (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name == Tags.Html)
-            {
-                InBody(token);
-                return;
-            }
-            else if (token.Type == HtmlTokenType.StartTag && ((HtmlTagToken)token).Name == Tags.Head)
-            {
-                var element = new HTMLHeadElement();
-                AddElement(element, token.AsTag());
-                insert = HtmlTreeMode.InHead;
-                return;
-            }
             else if (token.IsEndTagInv(Tags.Html, Tags.Body, Tags.Br, Tags.Head))
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
                 return;
-            }
-            else if(token.Type == HtmlTokenType.Character)
-            {
-                var chars = (HtmlCharacterToken)token;
-                chars.TrimStart();
-
-                if (chars.IsEmpty)
-                    return;
             }
 
             BeforeHead(HtmlToken.OpenTag(Tags.Head));
@@ -672,12 +658,6 @@
                 InBody(token);
                 return;
             }
-            else if (token.IsStartTag(Tags.Base, Tags.BaseFont, Tags.Bgsound, Tags.Link))
-            {
-                AddElement(token.AsTag(), true);
-                CloseCurrentNode();
-                return;
-            }
             else if (token.IsStartTag(Tags.Meta))
             {
                 var element = new HTMLMetaElement();
@@ -705,12 +685,18 @@
 
                 return;
             }
+            else if (token.IsStartTag(Tags.Link, Tags.Base, Tags.BaseFont, Tags.Bgsound))
+            {
+                AddElement(token.AsTag(), true);
+                CloseCurrentNode();
+                return;
+            }
             else if (token.IsStartTag(Tags.Title))
             {
                 RCDataAlgorithm(token.AsTag());
                 return;
             }
-            else if (token.IsStartTag(Tags.NoFrames, Tags.Style) || (doc.Options.IsScripting && token.IsStartTag(Tags.NoScript)))
+            else if (token.IsStartTag(Tags.Style, Tags.NoFrames) || (doc.Options.IsScripting && token.IsStartTag(Tags.NoScript)))
             {
                 RawtextAlgorithm(token.AsTag());
                 return;
@@ -784,23 +770,7 @@
         /// <param name="token">The passed token.</param>
         void InHeadNoScript(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.DOCTYPE)
-            {
-                RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
-                return;
-            }
-            else if (token.IsStartTag(Tags.Html))
-            {
-                InBody(token);
-                return;
-            }
-            else if (token.IsEndTag(Tags.NoScript))
-            {
-                CloseCurrentNode();
-                insert = HtmlTreeMode.InHead;
-                return;
-            }
-            else if (token.Type == HtmlTokenType.Character)
+            if (token.Type == HtmlTokenType.Character)
             {
                 var chars = (HtmlCharacterToken)token;
                 var str = chars.TrimStart();
@@ -814,9 +784,20 @@
                 InHead(token);
                 return;
             }
-            else if (token.IsStartTag(Tags.BaseFont, Tags.Bgsound, Tags.Link, Tags.Meta, Tags.NoFrames, Tags.Style))
+            else if (token.IsEndTag(Tags.NoScript))
+            {
+                CloseCurrentNode();
+                insert = HtmlTreeMode.InHead;
+                return;
+            }
+            else if (token.IsStartTag(Tags.Style, Tags.Link, Tags.BaseFont, Tags.Meta, Tags.NoFrames, Tags.Bgsound))
             {
                 InHead(token);
+                return;
+            }
+            else if (token.IsStartTag(Tags.Html))
+            {
+                InBody(token);
                 return;
             }
             else if (token.IsStartTag(Tags.Head, Tags.NoScript))
@@ -827,6 +808,11 @@
             else if (token.IsEndTagInv(Tags.Br))
             {
                 RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+                return;
+            }
+            else if (token.Type == HtmlTokenType.DOCTYPE)
+            {
+                RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
                 return;
             }
 
@@ -1623,7 +1609,9 @@
         void Text(HtmlToken token)
         {
             if (token.Type == HtmlTokenType.Character)
+            {
                 AddCharacters(((HtmlCharacterToken)token).Data);
+            }
             else if (token.Type == HtmlTokenType.EOF)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
@@ -1631,63 +1619,14 @@
                 insert = originalInsert;
                 Consume(token);
             }
+            else if (token.Type == HtmlTokenType.EndTag && ((HtmlTagToken)token).Name != Tags.Script)
+            {
+                CloseCurrentNode();
+                insert = originalInsert;
+            }
             else if (token.Type == HtmlTokenType.EndTag)
             {
-                var tag = (HtmlTagToken)token;
-
-                if (tag.Name == Tags.Script)
-                {
-                    PerformMicrotaskCheckpoint();
-                    ProvideStableState();
-                    var script = (HTMLScriptElement)CurrentNode;
-                    CloseCurrentNode();
-                    insert = originalInsert;
-                    var oldInsertion = tokenizer.Stream.InsertionPoint;
-                    nesting++;
-                    //script.Prepare();
-                    nesting--;
-
-                    if (nesting == 0)
-                        pause = false;
-
-                    tokenizer.Stream.InsertionPoint = oldInsertion;
-
-                    if (pendingParsingBlock != null)
-                    {
-                        if (nesting != 0)
-                        {
-                            pause = true;
-                            return;
-                        }
-
-                        do
-                        {
-                            script = pendingParsingBlock;
-                            pendingParsingBlock = null;
-                            //TODO Do not call Tokenizer HERE
-                            //TODO
-                            //    3. If the parser's Document has a style sheet that is blocking scripts or the script's "ready to be parser-executed"
-                            //       flag is not set: spin the event loop until the parser's Document has no style sheet that is blocking scripts and
-                            //       the script's "ready to be parser-executed" flag is set.
-                            //TODO From here on Tokenizer can be called again
-                            oldInsertion = tokenizer.Stream.InsertionPoint;
-                            nesting++;
-                            //script.Execute();
-                            nesting--;
-
-                            if (nesting == 0)
-                                pause = false;
-
-                            tokenizer.Stream.ResetInsertionPoint();
-                        }
-                        while (pendingParsingBlock != null);
-                    }
-                }
-                else
-                {
-                    CloseCurrentNode();
-                    insert = originalInsert;
-                }
+                RunScript();
             }
         }
 
@@ -2831,9 +2770,7 @@
                     break;
                 }
 
-                if (node is HTMLAddressElement || node is HTMLDivElement || node is HTMLParagraphElement)
-                { }
-                else if (node.IsSpecial)
+                if (node is HTMLAddressElement == false && node is HTMLDivElement == false && node is HTMLParagraphElement == false && node.IsSpecial)
                     break;
                 
                 node = open[--index];
@@ -2864,9 +2801,7 @@
                     break;
                 }
 
-                if (node is HTMLAddressElement || node is HTMLDivElement || node is HTMLParagraphElement)
-                { }
-                else if (node.IsSpecial)
+                if (node is HTMLAddressElement == false && node is HTMLDivElement == false && node is HTMLParagraphElement == false && node.IsSpecial)
                     break;
 
                 node = open[--index];
@@ -2921,7 +2856,7 @@
             Element node;
             Element lastNode;
 
-            while(outer < 8)
+            while (outer < 8)
             {
                 outer++;
                 index = 0;
@@ -3014,7 +2949,6 @@
 
                     var newElement = CopyElement(node);
                     commonAncestor.AppendChild(newElement);
-
                     open[index] = newElement;
                     
                     for(var l = 0; l != formatting.Count; l++)
@@ -3031,7 +2965,7 @@
                     if (lastNode == furthestBlock)
                         bookmark++;
 
-                    if(lastNode.ParentNode != null)
+                    if (lastNode.ParentNode != null)
                         lastNode.ParentNode.RemoveChild(lastNode);
 
                     node.AppendChild(lastNode);
@@ -3167,7 +3101,7 @@
             {
                 GenerateImpliedEndTagsExceptFor(Tags.P);
 
-                if (!(CurrentNode is HTMLParagraphElement))
+                if (CurrentNode is HTMLParagraphElement == false)
                     RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
 
                 ClearStackBackTo<HTMLParagraphElement>();
@@ -3244,7 +3178,7 @@
             {
                 GenerateImpliedEndTags();
 
-                if (!(CurrentNode is HTMLTableCaptionElement))
+                if (CurrentNode is HTMLTableCaptionElement == false)
                     RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
 
                 ClearStackBackTo<HTMLTableCaptionElement>();
@@ -3270,7 +3204,7 @@
             {
                 GenerateImpliedEndTags();
 
-                if (!(CurrentNode is HTMLTableCellElement))
+                if (CurrentNode is HTMLTableCellElement == false)
                     RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
 
                 ClearStackBackTo<HTMLTableCellElement>();
@@ -3388,19 +3322,9 @@
             {
                 var tag = (HtmlTagToken)token;
 
-                if (CurrentNode != null && CurrentNode is HTMLScriptElement && tag.Name == Tags.Script)
+                if (CurrentNode is HTMLScriptElement && tag.Name == Tags.Script)
                 {
-                    CloseCurrentNode();
-                    var oldInsert = tokenizer.Stream.InsertionPoint;
-                    nesting++;
-                    pause = true;
-                    InSvg(tag);
-                    nesting--;
-
-                    if (nesting == 0)
-                        pause = false;
-
-                    tokenizer.Stream.InsertionPoint = oldInsert;
+                    RunScript();
                 }
                 else
                 {
@@ -3504,16 +3428,6 @@
             while (!CurrentNode.IsHtmlTIP && !CurrentNode.IsMathMLTIP && !CurrentNode.IsInHtml);
 
             Consume(token);
-        }
-
-        /// <summary>
-        /// Processes the element according to the SVG rules.
-        /// </summary>
-        /// <param name="tag">The tag to process.</param>
-        void InSvg(HtmlTagToken tag)
-        {
-            //TODO
-            //Process the script element according to the SVG rules, if the user agent supports SVG. [SVG]
         }
 
         #endregion
@@ -3685,6 +3599,45 @@
         }
 
         /// <summary>
+        /// Runs a script given by the current node.
+        /// </summary>
+        void RunScript()
+        {
+            doc.PerformMicrotaskCheckpoint();
+            doc.ProvideStableState();
+            var script = (HTMLScriptElement)CurrentNode;
+            CloseCurrentNode();
+            insert = originalInsert;
+            var oldInsertion = tokenizer.Stream.InsertionPoint;
+            nesting++;
+            script.Prepare();
+            nesting--;
+            tokenizer.Stream.InsertionPoint = oldInsertion;
+
+            if (pendingParsingBlock != null)
+            {
+                if (nesting != 0)
+                {
+                    //Wait here ?
+                    return;
+                }
+
+                do
+                {
+                    script = pendingParsingBlock;
+                    pendingParsingBlock = null;
+                    doc.WaitForReady();
+                    oldInsertion = tokenizer.Stream.InsertionPoint;
+                    nesting++;
+                    script.Run();
+                    nesting--;
+                    tokenizer.Stream.ResetInsertionPoint();
+                }
+                while (pendingParsingBlock != null);
+            }
+        }
+
+        /// <summary>
         /// If there is a node in the stack of open elements that is not either a dd element, a dt element, an
         /// li element, a p element, a tbody element, a td element, a tfoot element, a th element, a thead
         /// element, a tr element, the body element, or the html element, then this is a parse error.
@@ -3693,7 +3646,7 @@
         {
             for (var i = 0; i < open.Count; i++)
             {
-                if (!(open[i] is IImplClosed))
+                if (open[i] is IImplClosed == false)
                 {
                     RaiseErrorOccurred(ErrorCode.BodyClosedWrong);
                     break;
@@ -3745,24 +3698,6 @@
             }
         }
 
-        void PerformMicrotaskCheckpoint()
-        {
-            //TODO
-            //IF RUNNING MUTATION OBSERVERS == false
-            //1. Let the running mutation observers flag be true.
-            //2. Sort the tables with pending sorts.
-            //3. Invoke MutationObserver objects for the unit of related similar-origin browsing contexts to which the script's browsing context belongs.
-            //   ( Note: This will typically invoke scripted callbacks, which calls the jump to a code entry-point algorithm, which calls this perform a )
-            //   ( microtask checkpoint algorithm again, which is why we use the running mutation observers flag to avoid reentrancy.                    )
-            //4. Let the running mutation observers flag be false.
-        }
-
-        void ProvideStableState()
-        {
-            //When the user agent is to provide a stable state, if any asynchronously-running algorithms are awaiting a stable state, then
-            //the user agent must run their synchronous section and then resume running their asynchronous algorithm (if appropriate).
-        }
-
         /// <summary>
         /// 8.2.6 The end.
         /// </summary>
@@ -3773,44 +3708,21 @@
             while (open.Count != 0)
                 CloseCurrentNode();
 
-            if (doc.ScriptsWaiting != 0)
-            {
-                //3.1 Spin the event loop until the first script in the list of scripts that will execute when the document has finished parsing
-                //    has its "ready to be parser-executed" flag set and the parser's Document has no style sheet that is blocking scripts.
-                //3.2 Execute the first script in the list of scripts that will execute when the document has finished parsing.
-                //3.3 Remove the first script element from the list of scripts that will execute when the document has finished parsing (i.e. shift out the first entry in the list).
-                //3.4 If the list of scripts that will execute when the document has finished parsing is still not empty, repeat these substeps again from substep 1.
-            }
+            while (doc.ScriptsWaiting != 0)
+                doc.RunNextScript();
 
             doc.QueueTask(doc.RaiseDomContentLoaded);
-
-            doc.QueueTask(() =>
-            {
-                doc.ReadyState = Readiness.Complete;
-                doc.QueueTask(doc.RaiseLoadedEvent);
-            });
+            doc.QueueTask(doc.RaiseLoadedEvent);
 
             if (doc.IsInBrowsingContext)
-            {
-                doc.QueueTask(() =>
-                {
-                    //8.1 If the Document's page showing flag is true, then abort this task (i.e. don't fire the event below).
-                    //8.2 Set the Document's page showing flag to true.
-                    //8.3 Fire a trusted event with the name pageshow at the Window object of the Document, but with its target set to the Document object (and the currentTarget set
-                    //    to the Window object), using the PageTransitionEvent interface, with the persisted attribute initialized to false. This event must not bubble, must not be
-                    //    cancelable, and has no default action.
-                });
-            }
+                doc.QueueTask(doc.ShowPage);
 
-            //9. If the Document has any pending application cache download process tasks, then queue each such task in the order they were added to the list of pending
-            //   application cache download process tasks, and then empty the list of pending application cache download process tasks. The task source for these tasks is
-            //   the networking task source.
+            doc.QueueTask(doc.EmptyAppCache);
 
             if (doc.IsToBePrinted)
                 doc.Print();
 
-            //11. The Document is now ready for post-load tasks.
-            //12. Queue a task to mark the Document as completely loaded.
+            doc.QueueTask(doc.Finalize);
         }
 
         #endregion
@@ -3840,7 +3752,8 @@
             doc.AppendChild(element);
             SetupElement(element, tag, false);
             open.Add(element);
-            tokenizer.AcceptsCharacterData = !element.IsInHtml;
+            tokenizer.AcceptsCharacterData = false;
+            element.ApplyManifest();
         }
 
         /// <summary>

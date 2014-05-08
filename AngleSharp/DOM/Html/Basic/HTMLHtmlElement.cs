@@ -20,7 +20,7 @@
 
         #endregion
 
-        #region Internal properties
+        #region Internal Properties
 
         /// <summary>
         /// Gets if the node is in the special category.
@@ -28,6 +28,22 @@
         protected internal override Boolean IsSpecial
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal void ApplyManifest()
+        {
+            //TODO
+            //If the Document is being loaded as part of navigation of a browsing context, then:
+            //  if the newly created element has a manifest attribute whose value is not the empty string,
+            //    then resolve the value of that attribute to an absolute URL, relative to the newly created element,
+            //    and if that is successful, run the application cache selection algorithm with the result of applying
+            //    the URL serializer algorithm to the resulting parsed URL with the exclude fragment flag set;
+            //  otherwise, if there is no such attribute, or its value is the empty string, or resolving its value fails,
+            //    run the application cache selection algorithm with no manifest. The algorithm must be passed the Document object.
         }
 
         #endregion

@@ -107,6 +107,28 @@
 
         #endregion
 
+        #region Internal Methods
+
+        /// <summary>
+        /// More information available at:
+        /// http://www.w3.org/TR/html5/scripting-1.html#execute-the-script-block
+        /// </summary>
+        internal void Run()
+        {
+            //TODO Try to find implementation of language and execute script
+        }
+
+        /// <summary>
+        /// More information available at:
+        /// http://www.w3.org/TR/html5/scripting-1.html#prepare-a-script
+        /// </summary>
+        internal void Prepare()
+        {
+            //TODO
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
