@@ -189,7 +189,7 @@
             if (String.IsNullOrEmpty(check))
                 return String.Empty;
 
-            return (prefix ?? String.Empty) + check + (postfix ?? String.Empty);
+            return String.Concat(prefix ?? String.Empty, check, postfix ?? String.Empty);
         }
 
         static String Tolerate(String value, String prefix = null, String postfix = null)
@@ -204,21 +204,23 @@
 
         static String Get(GroupCollection groups, Int32 index)
         {
-            if (groups.Count > index)
-                return groups[index].Value;
-
-            return null;
+            return groups.Count > index ? groups[index].Value : null;
         }
 
         void TryRebuild()
         {
-            var url = Protocol + _slash + Host + PathName + Search + Hash;
+            var url = String.Concat(Protocol, _slash, Host, PathName, Search, Hash);
             ChangeTo(url);
         }
 
-        void ChangeTo(String value)
+        /// <summary>
+        /// This tries to match the specification of RFC 3986
+        /// http://tools.ietf.org/html/rfc3986
+        /// </summary>
+        /// <param name="url">The url to parse.</param>
+        void ChangeTo(String url)
         {
-            var m = parser.Match(value);
+            var m = parser.Match(url);
 
             if (m.Success)
             {
