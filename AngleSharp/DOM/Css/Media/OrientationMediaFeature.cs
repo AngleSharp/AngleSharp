@@ -12,14 +12,14 @@
         {
         }
 
-        public override Boolean SetDefaultValue()
+        internal override Boolean TrySetDefaultValue()
         {
             _portrait = true;
             _landscape = true;
             return true;
         }
 
-        public override Boolean SetValue(CSSValue value)
+        internal override Boolean TrySetValue(CSSValue value)
         {
             if (Value.Is("portrait"))
             {
@@ -39,7 +39,7 @@
             return false;
         }
 
-        public override Boolean Validate()
+        public override Boolean Validate(IWindow window)
         {
             return true;
         }

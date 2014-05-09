@@ -2,13 +2,14 @@
 {
     using AngleSharp.DOM.Css.Media;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
 
     /// <summary>
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    public sealed class CSSMedium : ICssObject
+    public sealed class CSSMedium : ICssObject, IEnumerable<MediaFeature>
     {
         #region Media Types and Features
 
@@ -137,8 +138,9 @@
         /// <summary>
         /// Validates the given medium.
         /// </summary>
+        /// <param name="window">The current browsing window.</param>
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
-        public Boolean Validate()
+        public Boolean Validate(IWindow window)
         {
             var condition = IsInverse;
 
@@ -147,7 +149,7 @@
 
             foreach (var feature in _features)
             {
-                if (feature.Validate() == condition)
+                if (feature.Validate(window) == condition)
                     return false;
             }
 
@@ -172,6 +174,25 @@
         }
 
         /// <summary>
+        /// Gets an enumerator over all included media features.
+        /// </summary>
+        /// <returns>The specialized enumerator.</returns>
+        public IEnumerator<MediaFeature> GetEnumerator()
+        {
+            foreach (var feature in _features)
+                yield return feature;
+        }
+
+        /// <summary>
+        /// Gets a general enumerator over the included media features.
+        /// </summary>
+        /// <returns>The general enumerator.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        /// <summary>
         /// Adds a constraint to the list of constraints.
         /// </summary>
         /// <param name="name">The name of the feature.</param>
@@ -185,9 +206,9 @@
 
             var feature = constructor();
 
-            if (value == null && !feature.SetDefaultValue())
+            if (value == null && !feature.TrySetDefaultValue())
                 return false;
-            else if (value != null && !feature.SetValue(value))
+            else if (value != null && !feature.TrySetValue(value))
                 return false;
 
             _features.Add(feature);

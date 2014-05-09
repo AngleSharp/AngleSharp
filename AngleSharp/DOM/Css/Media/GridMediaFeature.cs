@@ -11,13 +11,13 @@
         {
         }
 
-        public override Boolean SetDefaultValue()
+        internal override Boolean TrySetDefaultValue()
         {
             _grid = 0;
             return true;
         }
 
-        public override Boolean SetValue(CSSValue value)
+        internal override Boolean TrySetValue(CSSValue value)
         {
             var grid = value.ToInteger();
 
@@ -31,7 +31,7 @@
             return false;
         }
 
-        public override Boolean Validate()
+        public override Boolean Validate(IWindow window)
         {
             return true;
         }

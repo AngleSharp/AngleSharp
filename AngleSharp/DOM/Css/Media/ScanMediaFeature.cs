@@ -12,14 +12,14 @@
         {
         }
 
-        public override Boolean SetDefaultValue()
+        internal override Boolean TrySetDefaultValue()
         {
             _progressive = true;
             _interlace = true;
             return true;
         }
 
-        public override Boolean SetValue(CSSValue value)
+        internal override Boolean TrySetValue(CSSValue value)
         {
             if (Value.Is("progressive"))
             {
@@ -39,7 +39,7 @@
             return false;
         }
 
-        public override Boolean Validate()
+        public override Boolean Validate(IWindow window)
         {
             return true;
         }

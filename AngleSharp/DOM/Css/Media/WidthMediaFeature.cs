@@ -11,12 +11,12 @@
         {
         }
 
-        public override Boolean SetDefaultValue()
+        internal override Boolean TrySetDefaultValue()
         {
             return false;
         }
 
-        public override Boolean SetValue(CSSValue value)
+        internal override Boolean TrySetValue(CSSValue value)
         {
             var length = value.ToLength();
 
@@ -30,7 +30,7 @@
             return false;
         }
 
-        public override Boolean Validate()
+        public override Boolean Validate(IWindow window)
         {
             return true;
         }
@@ -45,12 +45,12 @@
         {
         }
 
-        public override Boolean SetDefaultValue()
+        internal override Boolean TrySetDefaultValue()
         {
             return false;
         }
 
-        public override Boolean SetValue(CSSValue value)
+        internal override Boolean TrySetValue(CSSValue value)
         {
             var length = value.ToLength();
 
@@ -64,7 +64,7 @@
             return false;
         }
 
-        public override Boolean Validate()
+        public override Boolean Validate(IWindow window)
         {
             return true;
         }
@@ -79,12 +79,12 @@
         {
         }
 
-        public override Boolean SetDefaultValue()
+        internal override Boolean TrySetDefaultValue()
         {
             return true;
         }
 
-        public override Boolean SetValue(CSSValue value)
+        internal override Boolean TrySetValue(CSSValue value)
         {
             var length = value.ToLength();
 
@@ -98,7 +98,7 @@
             return false;
         }
 
-        public override Boolean Validate()
+        public override Boolean Validate(IWindow window)
         {
             return true;
         }
