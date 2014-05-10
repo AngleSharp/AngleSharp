@@ -202,5 +202,26 @@
         {
             return c >= 0x30 && c <= 0x39;
         }
+
+        /// <summary>
+        /// Determines if the given character is a valid url code point as specified here:
+        /// http://url.spec.whatwg.org/#url-code-points
+        /// </summary>
+        /// <param name="c">The character to examine.</param>
+        /// <returns>The result of the test.</returns>
+        [DebuggerStepThrough]
+        public static Boolean IsUrlCodePoint(this Char c)
+        {
+            return c.IsAlphanumericAscii() || c == Specification.ExclamationMark || c == Specification.Dollar || c == Specification.Ampersand ||
+                   c == Specification.SingleQuote || c == Specification.RoundBracketOpen || c == Specification.RoundBracketClose ||
+                   c == Specification.Asterisk || c == Specification.Plus || c == Specification.Minus || c == Specification.Comma ||
+                   c == Specification.Dot || c == Specification.Solidus || c == Specification.Colon || c == Specification.Semicolon ||
+                   c == Specification.Equality || c == Specification.QuestionMark || c == Specification.At || c == Specification.Underscore ||
+                   c == Specification.Tilde || c.IsInRange(0xa0, 0xd7ff) || c.IsInRange(0xe000, 0xfdcf) || c.IsInRange(0xfdf0, 0xfffd) ||
+                   c.IsInRange(0x10000, 0x1FFFD) || c.IsInRange(0x20000, 0x2fffd) || c.IsInRange(0x30000, 0x3fffd) || c.IsInRange(0x40000, 0x4fffd) ||
+                   c.IsInRange(0x50000, 0x5fffd) || c.IsInRange(0x60000, 0x6fffd) || c.IsInRange(0x70000, 0x7fffd) || c.IsInRange(0x80000, 0x8fffd) ||
+                   c.IsInRange(0x90000, 0x9fffd) || c.IsInRange(0xa0000, 0xafffd) || c.IsInRange(0xb0000, 0xbfffd) || c.IsInRange(0xc0000, 0xcfffd) ||
+                   c.IsInRange(0xd0000, 0xdfffd) || c.IsInRange(0xe0000, 0xefffd) || c.IsInRange(0xf0000, 0xffffd) || c.IsInRange(0x100000, 0x10fffd);
+        }
     }
 }
