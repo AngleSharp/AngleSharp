@@ -261,40 +261,33 @@
             //submit() method is set, then let replace be true. Otherwise, let it be false
 
             var location = new Location(action);
+            var scheme = location.Protocol.TrimEnd(new [] { ':' });
 
-            switch (location.Protocol)
+            if (scheme == KnownProtocols.Http || scheme == KnownProtocols.Https)
             {
-                case KnownProtocols.Http:
-                case KnownProtocols.Https:
-                    if (Method == HttpMethod.GET)
-                        MutateActionUrl(location);
-                    else if (Method == HttpMethod.POST)
-                        SubmitAsEntityBody(location);
-                    break;
-
-                case KnownProtocols.Ftp:
-                case KnownProtocols.JavaScript:
-                    GetActionUrl(location);
-                    break;
-
-                case KnownProtocols.Data:
-                    if (Method == HttpMethod.GET)
-                        GetActionUrl(location);
-                    else if (Method == HttpMethod.POST)
-                        PostToData(location);
-                    break;
-
-                case KnownProtocols.Mailto:
-                    if (Method == HttpMethod.GET)
-                        MailWithHeaders(location);
-                    else if (Method == HttpMethod.POST)
-                        MailAsBody(location);
-                    break;
-
-                default:
+                if (Method == HttpMethod.GET)
                     MutateActionUrl(location);
-                    break;
+                else if (Method == HttpMethod.POST)
+                    SubmitAsEntityBody(location);
             }
+            else if (scheme == KnownProtocols.Data)
+            {
+                if (Method == HttpMethod.GET)
+                    GetActionUrl(location);
+                else if (Method == HttpMethod.POST)
+                    PostToData(location);
+            }
+            else if (scheme == KnownProtocols.Mailto)
+            {
+                if (Method == HttpMethod.GET)
+                    MailWithHeaders(location);
+                else if (Method == HttpMethod.POST)
+                    MailAsBody(location);
+            }
+            else if (scheme == KnownProtocols.Ftp || scheme == KnownProtocols.JavaScript)
+                GetActionUrl(location);
+            else
+                MutateActionUrl(location);
         }
 
         /// <summary>
