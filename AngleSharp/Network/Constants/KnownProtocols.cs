@@ -10,32 +10,37 @@
         /// <summary>
         /// The Hypertext Transfer Protocol.
         /// </summary>
-        public const String Http = "http:";
+        public static readonly String Http = "http";
 
         /// <summary>
         /// The Hypertext Transfer Protocol Secure.
         /// </summary>
-        public const String Https = "https:";
+        public static readonly String Https = "https";
 
         /// <summary>
         /// The File Transfer Protocol.
         /// </summary>
-        public const String Ftp = "ftp:";
+        public static readonly String Ftp = "ftp";
 
         /// <summary>
-        /// The pseudo JavaScript Protocol.
+        /// The pseudo JavaScript protocol.
         /// </summary>
-        public const String JavaScript = "javascript:";
+        public static readonly String JavaScript = "javascript";
 
         /// <summary>
-        /// The pseudo Data Protocol.
+        /// The pseudo Data protocol.
         /// </summary>
-        public const String Data = "data:";
+        public static readonly String Data = "data";
 
         /// <summary>
-        /// The pseudo Mailto Protocol.
+        /// The pseudo Mailto protocol.
         /// </summary>
-        public const String Mailto = "mailto:";
+        public static readonly String Mailto = "mailto";
+
+        /// <summary>
+        /// The pseudo File protocol.
+        /// </summary>
+        public static readonly String File = "file";
 
         /// <summary>
         /// Checks if the given protocol (without a colon in the end) is
