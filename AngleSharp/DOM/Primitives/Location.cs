@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
-    using System.Text.RegularExpressions;
 
     /// <summary>
     /// A location object with information about a URL.
@@ -42,7 +40,7 @@
         /// Creates a new location based on the given URL.
         /// </summary>
         /// <param name="url">The URL to represent.</param>
-        public Location(String url)
+        internal Location(String url)
         {
             _relative = false;
             _username = null;
@@ -175,27 +173,34 @@
         public override String ToString()
         {
             var output = Pool.NewStringBuilder();
-            output.Append(_scheme).Append(Specification.Colon);
+
+            if (!String.IsNullOrEmpty(_scheme))
+                output.Append(_scheme).Append(Specification.Colon);
 
             if (_relative)
             {
-                output.Append(Specification.Solidus).Append(Specification.Solidus);
+                if (!String.IsNullOrEmpty(_host))
+                {
+                    output.Append(Specification.Solidus).Append(Specification.Solidus);
 
-                if (!String.IsNullOrEmpty(_username))
-                    output.Append(_username);
+                    if (!String.IsNullOrEmpty(_username))
+                        output.Append(_username);
 
-                if (!String.IsNullOrEmpty(_password))
-                    output.Append(Specification.Colon).Append(_password);
+                    if (!String.IsNullOrEmpty(_password))
+                        output.Append(Specification.Colon).Append(_password);
 
-                if (!String.IsNullOrEmpty(_username) || !String.IsNullOrEmpty(_password))
-                    output.Append(Specification.At);
+                    if (!String.IsNullOrEmpty(_username) || !String.IsNullOrEmpty(_password))
+                        output.Append(Specification.At);
 
-                output.Append(_host);
+                    output.Append(_host);
 
-                if (!String.IsNullOrEmpty(_port))
-                    output.Append(Specification.Colon).Append(_port);
+                    if (!String.IsNullOrEmpty(_port))
+                        output.Append(Specification.Colon).Append(_port);
 
-                output.Append(Specification.Solidus).Append(_path);
+                    output.Append(Specification.Solidus);
+                }
+
+                output.Append(_path);
             }
             else
                 output.Append(_schemeData);
