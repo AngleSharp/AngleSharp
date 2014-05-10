@@ -1441,6 +1441,9 @@
     <Compile Include="..\AngleSharp\Foundation\HttpMethod.cs">
       <Link>Foundation\HttpMethod.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\LocationExtensions.cs">
+      <Link>Foundation\LocationExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Mutations\MutationCallback.cs">
       <Link>Foundation\Mutations\MutationCallback.cs</Link>
     </Compile>
