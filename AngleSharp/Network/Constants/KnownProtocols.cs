@@ -36,5 +36,16 @@
         /// The pseudo Mailto Protocol.
         /// </summary>
         public const String Mailto = "mailto:";
+
+        /// <summary>
+        /// Checks if the given protocol (without a colon in the end) is
+        /// what is called a relative scheme.
+        /// </summary>
+        /// <param name="protocol">The protocol to examine.</param>
+        /// <returns>True if the protocol is a relative scheme, otherwise false.</returns>
+        public static Boolean IsRelative(String protocol)
+        {
+            return protocol.IsOneOf("http", "https", "ftp", "file", "ws", "wss", "gopher");
+        }
     }
 }
