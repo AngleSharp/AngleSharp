@@ -269,51 +269,52 @@
 
         Boolean ParseScheme(String input, Boolean onlyScheme = false)
         {
-            if (input.Length == 0 || !input[0].IsLetter())
-                return false;
-
-            var index = 1;
-
-            while (index < input.Length)
+            if (input.Length > 0 && input[0].IsLetter())
             {
-                var c = input[index];
+                var index = 1;
 
-                if (c.IsAlphanumericAscii() || c == Specification.Plus || c == Specification.Minus || c == Specification.Dot)
-                    index++;
-                else if (c == Specification.Colon)
+                while (index < input.Length)
                 {
-                    var originalScheme = _scheme;
-                    _scheme = input.Substring(0, index);
+                    var c = input[index];
 
-                    if (onlyScheme)
-                        return true;
-
-                    _relative = KnownProtocols.IsRelative(_scheme);
-
-                    if (_scheme == KnownProtocols.File)
-                        return RelativeState(input, index + 1);
-                    else if (!_relative)
-                        return ParseSchemeData(input, index + 1);
-                    else if (originalScheme == _scheme)
+                    if (c.IsAlphanumericAscii() || c == Specification.Plus || c == Specification.Minus || c == Specification.Dot)
+                        index++;
+                    else if (c == Specification.Colon)
                     {
-                        c = input[++index];
+                        var originalScheme = _scheme;
+                        _scheme = input.Substring(0, index);
 
-                        if (c == Specification.Solidus && index + 2 < input.Length && input[index + 1] == Specification.Solidus)
-                            return IgnoreSlashesState(input, index + 2);
+                        if (onlyScheme)
+                            return true;
 
-                        return RelativeState(input, index);
+                        _relative = KnownProtocols.IsRelative(_scheme);
+
+                        if (_scheme == KnownProtocols.File)
+                            return RelativeState(input, index + 1);
+                        else if (!_relative)
+                            return ParseSchemeData(input, index + 1);
+                        else if (originalScheme == _scheme)
+                        {
+                            c = input[++index];
+
+                            if (c == Specification.Solidus && index + 2 < input.Length && input[index + 1] == Specification.Solidus)
+                                return IgnoreSlashesState(input, index + 2);
+
+                            return RelativeState(input, index);
+                        }
+
+                        if (input[++index] == Specification.Solidus && ++index < input.Length && input[index] == Specification.Solidus)
+                            return IgnoreSlashesState(input, index + 1);
+
+                        return IgnoreSlashesState(input, index);
                     }
-
-                    if (input[++index] == Specification.Solidus && ++index < input.Length && input[index] == Specification.Solidus)
-                        return IgnoreSlashesState(input, index + 1);
-
-                    return IgnoreSlashesState(input, index);
+                    else
+                        break;
                 }
-                else if (onlyScheme || !KnownProtocols.IsRelative(_scheme))
-                    return false;
-                else
-                    break;
             }
+
+            if (onlyScheme)
+                return false;
 
             return RelativeState(input, 0);
         }
