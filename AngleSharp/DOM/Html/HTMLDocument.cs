@@ -629,7 +629,7 @@
             //the networking task source.
         }
 
-        internal void Finalize()
+        internal void FinishLoading()
         {
             //TODO
             //The Document is now ready for post-load tasks.

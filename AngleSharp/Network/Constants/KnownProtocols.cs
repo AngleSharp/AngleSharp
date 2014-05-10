@@ -43,6 +43,21 @@
         public static readonly String File = "file";
 
         /// <summary>
+        /// The WebSocket protocol.
+        /// </summary>
+        public static readonly String Ws = "ws";
+
+        /// <summary>
+        /// The WebSocket Secure protocol.
+        /// </summary>
+        public static readonly String Wss = "wss";
+
+        /// <summary>
+        /// The legacy gopher protocol.
+        /// </summary>
+        public static readonly String Gopher = "gopher";
+
+        /// <summary>
         /// Checks if the given protocol (without a colon in the end) is
         /// what is called a relative scheme.
         /// </summary>

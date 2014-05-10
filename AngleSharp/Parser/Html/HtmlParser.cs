@@ -3722,7 +3722,7 @@
             if (doc.IsToBePrinted)
                 doc.Print();
 
-            doc.QueueTask(doc.Finalize);
+            doc.QueueTask(doc.FinishLoading);
         }
 
         #endregion
