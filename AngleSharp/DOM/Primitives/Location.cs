@@ -60,6 +60,15 @@
         #region Properties
 
         /// <summary>
+        /// Gets if the stored location is relative and requires
+        /// a base URL.
+        /// </summary>
+        public Boolean IsRelative
+        {
+            get { return String.IsNullOrEmpty(_scheme) || String.IsNullOrEmpty(_host); }
+        }
+
+        /// <summary>
         /// Gets or sets the hash, e.g.  "#myhash".
         /// </summary>
         [DOM("hash")]
@@ -226,16 +235,6 @@
             return String.Concat(prefix ?? String.Empty, check, postfix ?? String.Empty);
         }
 
-        static String Tolerate(String value, String prefix = null, String postfix = null)
-        {
-            if (prefix != null && value.StartsWith(prefix))
-                return value.Substring(prefix.Length);
-            else if (postfix != null && value.EndsWith(postfix))
-                return value.Substring(0, value.Length - postfix.Length);
-
-            return value;
-        }
-
         /// <summary>
         /// This tries to match the specification of RFC 3986
         /// http://tools.ietf.org/html/rfc3986
@@ -321,18 +320,21 @@
 
         Boolean ParseSchemeData(String input, Int32 index)
         {
-            var c = input[index];
+            if (index < input.Length)
+            {
+                var c = input[index];
 
-            if (c == Specification.QuestionMark)
-                return ParseQuery(input, index + 1);
-            else if (c == Specification.Num)
-                return ParseFragment(input, index + 1);
+                if (c == Specification.QuestionMark)
+                    return ParseQuery(input, index + 1);
+                else if (c == Specification.Num)
+                    return ParseFragment(input, index + 1);
+            }
 
             var buffer = Pool.NewStringBuilder();
 
             while (++index < input.Length)
             {
-                c = input[index];
+                var c = input[index];
 
                 if (c == Specification.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
                 {
