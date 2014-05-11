@@ -293,7 +293,7 @@
                     else if (c == Specification.Colon)
                     {
                         var originalScheme = _scheme;
-                        _scheme = input.Substring(0, index);
+                        _scheme = input.Substring(0, index).ToLower();
 
                         if (onlyScheme)
                             return true;
@@ -354,13 +354,10 @@
                     buffer.Append(input[index++]);
                     buffer.Append(input[index]);
                 }
-                else if (c.IsUrlCodePoint())
-                {
-                    if (c.IsInRange(0x20, 0x7e))
-                        buffer.Append(c);
-                    else
-                        buffer.Append(Specification.Percent).Append(((Byte)input[index]).ToString("X2"));
-                }
+                else if (c.IsInRange(0x20, 0x7e))
+                    buffer.Append(c);
+                else
+                    buffer.Append(Specification.Percent).Append(((Byte)input[index]).ToString("X2"));
 
                 index++;
             }
