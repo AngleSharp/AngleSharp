@@ -65,7 +65,7 @@
         /// </summary>
         public Boolean IsRelative
         {
-            get { return String.IsNullOrEmpty(_scheme) || String.IsNullOrEmpty(_host); }
+            get { return _relative && (String.IsNullOrEmpty(_scheme) || String.IsNullOrEmpty(_host)); }
         }
 
         /// <summary>
@@ -84,6 +84,15 @@
         {
             get { return _password; }
             set { _password = value; }
+        }
+
+        /// <summary>
+        /// Gets the additional stored data of the URL.
+        /// This is data that could not be assigned.
+        /// </summary>
+        public String Data
+        {
+            get { return _schemeData; }
         }
 
         /// <summary>
@@ -323,23 +332,23 @@
 
         Boolean ParseSchemeData(String input, Int32 index)
         {
-            if (index < input.Length)
+            var buffer = Pool.NewStringBuilder();
+
+            while (index < input.Length)
             {
                 var c = input[index];
 
                 if (c == Specification.QuestionMark)
+                {
+                    _schemeData = buffer.ToPool();
                     return ParseQuery(input, index + 1);
+                }
                 else if (c == Specification.Num)
+                {
+                    _schemeData = buffer.ToPool();
                     return ParseFragment(input, index + 1);
-            }
-
-            var buffer = Pool.NewStringBuilder();
-
-            while (++index < input.Length)
-            {
-                var c = input[index];
-
-                if (c == Specification.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
+                }
+                else if (c == Specification.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
                 {
                     buffer.Append(input[index++]);
                     buffer.Append(input[index++]);
@@ -352,6 +361,8 @@
                     else
                         buffer.Append(Specification.Percent).Append(((Byte)input[index]).ToString("X2"));
                 }
+
+                index++;
             }
 
             _schemeData = buffer.ToPool();
@@ -707,8 +718,7 @@
         /// <returns>True if the url is absolute otherwise false.</returns>
         internal static Boolean IsAbsolute(String url)
         {
-            Uri result;
-            return Uri.TryCreate(url, UriKind.Absolute, out result);
+            return new Location(url).IsRelative == false;
         }
 
         /// <summary>

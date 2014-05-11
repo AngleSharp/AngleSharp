@@ -43,7 +43,18 @@
         public static readonly String WssPort = "443";
 
         /// <summary>
-        /// Gets the default port for the given protocol, if known.
+        /// Gets the default port for the secure websocket protocol.
+        /// </summary>
+        public static readonly String TelnetPort = "23";
+
+        /// <summary>
+        /// Gets the default port for the secure websocket protocol.
+        /// </summary>
+        public static readonly String SshPort = "22";
+
+        /// <summary>
+        /// Gets the default port for the given protocol, if the protocol
+        /// is a relative scheme protocol.
         /// </summary>
         /// <param name="protocol">The protocol to get the port for.</param>
         /// <returns>The string representing the default port, or null, if the protocol is not known.</returns>

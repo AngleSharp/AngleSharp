@@ -53,6 +53,16 @@
         public static readonly String Wss = "wss";
 
         /// <summary>
+        /// The Telnet protocol.
+        /// </summary>
+        public static readonly String Telnet = "telnet";
+
+        /// <summary>
+        /// The Secure Shell protocol.
+        /// </summary>
+        public static readonly String Ssh = "ssh";
+
+        /// <summary>
         /// The legacy gopher protocol.
         /// </summary>
         public static readonly String Gopher = "gopher";
