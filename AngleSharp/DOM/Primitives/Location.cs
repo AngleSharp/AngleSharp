@@ -50,8 +50,8 @@
             _host = String.Empty;
             _port = String.Empty;
             _path = String.Empty;
-            _query = String.Empty;
-            _fragment = String.Empty;
+            _query = null;
+            _fragment = null;
             ChangeTo(url ?? String.Empty);
         }
 
@@ -69,13 +69,31 @@
         }
 
         /// <summary>
+        /// Gets or sets the username for authorization.
+        /// </summary>
+        public String UserName
+        {
+            get { return _username; }
+            set { _username = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the password for authorization.
+        /// </summary>
+        public String Password
+        {
+            get { return _password; }
+            set { _password = value; }
+        }
+
+        /// <summary>
         /// Gets or sets the hash, e.g.  "#myhash".
         /// </summary>
         [DOM("hash")]
         public String Hash
         {
             get { return NonEmpty(_fragment, "#"); }
-            set { ParseFragment(value, 0); }
+            set { ParseFragment(value ?? String.Empty, 0); }
         }
 
         /// <summary>
@@ -85,21 +103,7 @@
         public String Host
         {
             get { return HostName + NonEmpty(_port, ":"); }
-            set 
-            {
-                var index = value.IndexOf(':');
-
-                if (index != -1)
-                {
-                    Port = value.Substring(index);
-                    HostName = value.Substring(0, index);
-                }
-                else
-                {
-                    Port = String.Empty;
-                    HostName = value;
-                }
-            }
+            set { ParseHostName(value ?? String.Empty, 0, false, true); }
         }
 
         /// <summary>
@@ -109,7 +113,7 @@
         public String HostName
         {
             get { return _host; }
-            set { _host = value; }
+            set { ParseHostName(value ?? String.Empty, 0, true); }
         }
 
         /// <summary>
@@ -129,7 +133,7 @@
         public String PathName
         {
             get { return "/" + _path; }
-            set { ParsePath(value, 0, true); }
+            set { ParsePath(value ?? String.Empty, 0, true); }
         }
 
         /// <summary>
@@ -139,7 +143,7 @@
         public String Port
         {
             get { return _port; }
-            set { _port = value; }
+            set { ParsePort(value ?? String.Empty, 0, true); }
         }
 
         /// <summary>
@@ -149,7 +153,7 @@
         public String Protocol
         {
             get { return NonEmpty(_scheme, postfix : ":"); }
-            set { ParseScheme(value, true); }
+            set { ParseScheme(value ?? String.Empty, true); }
         }
 
         /// <summary>
@@ -159,7 +163,7 @@
         public String Search
         {
             get { return NonEmpty(_query, "?"); }
-            set { ParseQuery(value, 0, true); }
+            set { ParseQuery(value ?? String.Empty, 0, true); }
         }
 
         #endregion
@@ -260,7 +264,6 @@
                 _host = baseUrl._host;
                 _path = baseUrl._path;
                 _port = baseUrl._port;
-                _query = baseUrl._query;
             }
 
             ParseScheme(input.Trim());
@@ -485,7 +488,7 @@
             return ParsePath(input, index);
         }
 
-        Boolean ParseHostName(String input, Int32 index, Boolean onlyHost = false)
+        Boolean ParseHostName(String input, Int32 index, Boolean onlyHost = false, Boolean onlyPort = false)
         {
             var inBracket = false;
             var start = index;
@@ -513,7 +516,7 @@
                         if (onlyHost)
                             return true;
 
-                        return ParsePort(input, index + 1);
+                        return ParsePort(input, index + 1, onlyPort);
 
                     case Specification.Solidus:
                     case Specification.ReverseSolidus:
@@ -683,7 +686,7 @@
                     if (c.IsInRange(0x20, 0x7e))
                         buffer.Append(c);
                     else
-                        buffer.Append(Specification.Percent).Append(((Byte)input[index]).ToString("X2"));
+                        buffer.Append(Specification.Percent).Append(((Byte)c).ToString("X2"));
                 }
 
                 index++;
