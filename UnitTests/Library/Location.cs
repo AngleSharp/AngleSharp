@@ -85,7 +85,7 @@ namespace UnitTests
             Assert.AreEqual("", location.Host);
             Assert.AreEqual("", location.HostName);
             Assert.AreEqual(url, location.Href);
-            Assert.IsTrue(location.IsRelative);
+            Assert.IsFalse(location.IsRelative);
         }
 
         [TestMethod]
@@ -214,17 +214,178 @@ namespace UnitTests
             Assert.IsTrue(location.IsRelative);
         }
 
-        // /absolute/resource.jpg
-        // index.html
-        // index.php?id=5
-        // default.aspx?word#first
-        // HTTP://example.com.:%38%30/%70a%74%68?a=%31#1%323
-        // ldap://[2001:db8::7]/c=GB?objectClass?one
-        // mailto:John.Doe@example.com
-        // mailto:?to=addr1@an.example,addr2@an.example
-        // news:comp.infosystems.www.servers.unix
-        // tel:+1-816-555-1212
-        // telnet://192.0.2.16:80/
+        [TestMethod]
+        public void PathRelativeLocationAbsoluteDirectoryFile()
+        {
+            var url = "/absolute/resource.jpg";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/absolute/resource.jpg", location.PathName);
+            Assert.AreEqual("", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual(url.Substring(1), location.Href);
+            Assert.IsTrue(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void PathRelativeLocationRelativeHtml()
+        {
+            var url = "index.html";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/index.html", location.PathName);
+            Assert.AreEqual("", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsTrue(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void PathRelativeLocationRelativeHtmlWithQuery()
+        {
+            var url = "index.html?id=5";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("?id=5", location.Search);
+            Assert.AreEqual("/index.html", location.PathName);
+            Assert.AreEqual("", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsTrue(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void PathRelativeLocationRelativeWithQueryAndFragment()
+        {
+            var url = "default.aspx?word#first";
+            var location = new Location(url);
+            Assert.AreEqual("#first", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("?word", location.Search);
+            Assert.AreEqual("/default.aspx", location.PathName);
+            Assert.AreEqual("", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsTrue(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationIpAddressWithPortAndTelnetScheme()
+        {
+            var url = "telnet://192.0.2.16:80/";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("telnet:", location.Protocol);
+            Assert.AreEqual("//192.0.2.16:80/", location.Data);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("", location.HostName);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationTelephonePseudo()
+        {
+            var url = "tel:+1-816-555-1212";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("tel:", location.Protocol);
+            Assert.AreEqual("+1-816-555-1212", location.Data);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationNewProtocol()
+        {
+            var url = "news:comp.infosystems.www.servers.unix";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("news:", location.Protocol);
+            Assert.AreEqual("comp.infosystems.www.servers.unix", location.Data);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationMailProtocolQueryMultiple()
+        {
+            var url = "mailto:?to=addr1@an.example,addr2@an.example";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("?to=addr1@an.example,addr2@an.example", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("mailto:", location.Protocol);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationMailProtocolSimple()
+        {
+            var url = "mailto:John.Doe@example.com";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("mailto:", location.Protocol);
+            Assert.AreEqual("John.Doe@example.com", location.Data);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationLdapWithIpV6Address()
+        {
+            var url = "ldap://[2001:db8::7]/c=GB?objectClass?one";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("?objectClass?one", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("ldap:", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("//[2001:db8::7]/c=GB", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationWithPercentEncodedAndUppercase()
+        {
+            var url = "HTTP://example.com.:80/%70a%74%68?a=%31#1%323";
+            var location = new Location(url);
+            Assert.AreEqual("#1%323", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("?a=%31", location.Search);
+            Assert.AreEqual("/%70a%74%68", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com.", location.Host);
+            Assert.AreEqual("http://example.com./%70a%74%68?a=%31#1%323", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
         // urn:oasis:names:specification:docbook:dtd:xml:4.1.2
         // http://example.com
         // http://www.w3.org/pub/WWW/TheProject.html
