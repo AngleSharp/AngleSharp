@@ -466,22 +466,173 @@ namespace UnitTests
             Assert.IsFalse(location.IsRelative);
         }
 
-        // http://example.com/?
-        // http://example.com/#
-        // http://example.com/?#
-        // http://example.com?
-        // http://example.com#
-        // http://example.com?#
-        // http://example.com/~smith/
+        [TestMethod]
+        public void AbsoluteLocationExampleQueryEmpty()
+        {
+            var url = "http://example.com/?";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("http://example.com/", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationExampleFragmentEmpty()
+        {
+            var url = "http://example.com/#";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("http://example.com/", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationExampleQueryAndFragmentEmpty()
+        {
+            var url = "http://example.com/?#";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("http://example.com/", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationExampleNoPathFragmentEmpty()
+        {
+            var url = "http://example.com#";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("http://example.com/", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationExampleNoPathQueryEmpty()
+        {
+            var url = "http://example.com?";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("http://example.com/", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationExampleNoPathQueryAndFragmentEmpty()
+        {
+            var url = "http://example.com?#";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("http://example.com/", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationExampleTildeDirectory()
+        {
+            var url = "http://example.com/~smith/";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/~smith/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationGoingUpToRoot()
+        {
+            var url = "http://example.com/../..";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("http://example.com/", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void RelativeLocationGoingUpAndDown()
+        {
+            var url = "/a/b/c/./../../g";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/a/g", location.PathName);
+            Assert.AreEqual("", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("a/g", location.Href);
+            Assert.IsTrue(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationOnWindows()
+        {
+            var url = "file:c:\\windows\\My Documents 100%20\\foo.txt";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/c:/windows/My%20Documents%20100%20/foo.txt", location.PathName);
+            Assert.AreEqual("file:", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("file:///c:/windows/My%20Documents%20100%20/foo.txt", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
         // http://example.com/%E8
         // http://example.com/%25C3%2587
         // http://example.com/?q=string
         // http://example.com:80/
         // http://user:pass@example.com/path/to/
-        // http://example.com:%38%30/
+        // http://example.com:80/
         // http://example.com/%2E/
-        // http://example.com/../..
-        // /a/b/c/./../../g
         // mid/content=5/../6
         // http://www.example.com///../
         // http://example.com/file.txt;parameter
@@ -497,7 +648,6 @@ namespace UnitTests
         // http://www.詹姆斯.com/atomtests/iri/詹.html
         // http://a/b/c/d;p?q
         // file:///c:/windows/My%20Documents%20100%20/foo.txt
-        // c:\\windows\\My Documents 100%20\\foo.txt
         // file:c:\\windows\\My Documents 100%20\\foo.txt
         // file:///c|/windows/My%20Documents%20100%20/foo.txt
     }
