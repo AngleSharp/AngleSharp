@@ -386,11 +386,86 @@ namespace UnitTests
             Assert.IsFalse(location.IsRelative);
         }
 
-        // urn:oasis:names:specification:docbook:dtd:xml:4.1.2
-        // http://example.com
-        // http://www.w3.org/pub/WWW/TheProject.html
-        // http://[3ffe:1900:4545:3:200:f8ff:fe21:67cf]/
-        // http://[::1]/
+        [TestMethod]
+        public void AbsoluteLocationUrn()
+        {
+            var url = "urn:oasis:names:specification:docbook:dtd:xml:4.1.2";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("urn:", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("oasis:names:specification:docbook:dtd:xml:4.1.2", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationSimpleExample()
+        {
+            var url = "http://example.com";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url + "/", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationW3Project()
+        {
+            var url = "http://www.w3.org/pub/WWW/TheProject.html";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/pub/WWW/TheProject.html", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("www.w3.org", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationIpV6LongAddress()
+        {
+            var url = "http://[3ffe:1900:4545:3:200:f8ff:fe21:67cf]/";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("[3ffe:1900:4545:3:200:f8ff:fe21:67cf]", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationIpV6AbbrAddress()
+        {
+            var url = "http://[::1]/";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("[::1]", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
         // http://example.com/?
         // http://example.com/#
         // http://example.com/?#
