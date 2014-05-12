@@ -65,7 +65,7 @@
         /// </summary>
         public Boolean IsRelative
         {
-            get { return _relative && (String.IsNullOrEmpty(_scheme) || String.IsNullOrEmpty(_host)); }
+            get { return _relative && String.IsNullOrEmpty(_scheme); }
         }
 
         /// <summary>
@@ -201,7 +201,7 @@
 
             if (_relative)
             {
-                if (!String.IsNullOrEmpty(_host))
+                if (!String.IsNullOrEmpty(_host) || !String.IsNullOrEmpty(_scheme))
                 {
                     output.Append(Specification.Solidus).Append(Specification.Solidus);
 
