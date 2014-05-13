@@ -870,13 +870,91 @@ namespace UnitTests
             Assert.IsFalse(location.IsRelative);
         }
 
-        // http://:@example.com
-        // //example.com/
+        [TestMethod]
+        public void AbsoluteLocationFileWithBackslashes()
+        {
+            var url = "file:c:\\windows\\My Documents 100%20\\foo.txt";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/c:/windows/My%20Documents%20100%20/foo.txt", location.PathName);
+            Assert.AreEqual("file:", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("file:///c:/windows/My%20Documents%20100%20/foo.txt", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationFileEverythingFine()
+        {
+            var url = "file:///c:/windows/My%20Documents%20100%20/foo.txt";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/c:/windows/My%20Documents%20100%20/foo.txt", location.PathName);
+            Assert.AreEqual("file:", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationFileWithPipe()
+        {
+            var url = "file:///c|/windows/My%20Documents%20100%20/foo.txt";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/c:/windows/My%20Documents%20100%20/foo.txt", location.PathName);
+            Assert.AreEqual("file:", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("file:///c:/windows/My%20Documents%20100%20/foo.txt", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationAuthorityNothing()
+        {
+            var url = "http://:@example.com";
+            var location = new Location(url);
+            Assert.AreEqual("", location.UserName);
+            Assert.AreEqual("", location.Password);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("http://example.com/", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void RelativeLocationWithoutProtocol()
+        {
+            var url = "//example.com/";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsTrue(location.IsRelative);
+        }
+
+        // 
         // ?one=1&two=2&three=3
         // http://www.詹姆斯.com/atomtests/iri/詹.html
         // http://a/b/c/d;p?q
-        // file:///c:/windows/My%20Documents%20100%20/foo.txt
-        // file:c:\\windows\\My Documents 100%20\\foo.txt
-        // file:///c|/windows/My%20Documents%20100%20/foo.txt
     }
 }
