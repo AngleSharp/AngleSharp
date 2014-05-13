@@ -952,9 +952,52 @@ namespace UnitTests
             Assert.IsTrue(location.IsRelative);
         }
 
-        // 
-        // ?one=1&two=2&three=3
-        // http://www.詹姆斯.com/atomtests/iri/詹.html
-        // http://a/b/c/d;p?q
+        [TestMethod]
+        public void RelativeLocationOnlyQuery()
+        {
+            var url = "?one=1&two=2&three=3";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("?one=1&two=2&three=3", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsTrue(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationUnicodeLetters()
+        {
+            var url = "http://www.詹姆斯.com/atomtests/iri/詹.html";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/atomtests/iri/%79.html", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("www.詹姆斯.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("http://www.詹姆斯.com/atomtests/iri/%79.html", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationFtpShortPath()
+        {
+            var url = "ftp://a/b/c/d;p?q";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("?q", location.Search);
+            Assert.AreEqual("/b/c/d;p", location.PathName);
+            Assert.AreEqual("ftp:", location.Protocol);
+            Assert.AreEqual("a", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
     }
 }
