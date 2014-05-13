@@ -788,11 +788,88 @@ namespace UnitTests
             Assert.IsFalse(location.IsRelative);
         }
 
-        // view-source:http://example.com/
-        // http://user:pass@example.com/path/to/resource?query=x#fragment
-        // http://example.com/search?q=Q%26A
-        // http://example.com/?&&x=b
-        // http://example.com/?q=a&&x=b
+        [TestMethod]
+        public void AbsoluteLocationViewSourceProtocol()
+        {
+            var url = "view-source:http://example.com/";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("view-source:", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("http://example.com/", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationAuthorityAndPathWithQueryAndFragment()
+        {
+            var url = "http://user:pass@example.com/path/to/resource?query=x#fragment";
+            var location = new Location(url);
+            Assert.AreEqual("user", location.UserName);
+            Assert.AreEqual("pass", location.Password);
+            Assert.AreEqual("#fragment", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("?query=x", location.Search);
+            Assert.AreEqual("/path/to/resource", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationWithQueryAndPercent()
+        {
+            var url = "http://example.com/search?q=Q%26A";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("?q=Q%26A", location.Search);
+            Assert.AreEqual("/search", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationWithAmpersandQuerySingleValue()
+        {
+            var url = "http://example.com/?&&x=b";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("?&&x=b", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationWithAmpersandQueryTwoValues()
+        {
+            var url = "http://example.com/?q=a&&x=b";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("?q=a&&x=b", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
         // http://:@example.com
         // //example.com/
         // ?one=1&two=2&three=3
