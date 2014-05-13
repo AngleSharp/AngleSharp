@@ -706,11 +706,88 @@ namespace UnitTests
             Assert.IsFalse(location.IsRelative);
         }
 
-        // http://user:pass@example.com/path/to/
-        // mid/content=5/../6
-        // http://www.example.com///../
-        // http://example.com/file.txt;parameter
-        // tag:example.com,2006-08-18:/path/to/something
+        [TestMethod]
+        public void RelativeLocationOneUp()
+        {
+            var url = "mid/content=5/../6";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/mid/6", location.PathName);
+            Assert.AreEqual("", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("mid/6", location.Href);
+            Assert.IsTrue(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationOneUp()
+        {
+            var url = "http://www.example.com///../";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("www.example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("http://www.example.com/", location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationFilenameWithSemicolon()
+        {
+            var url = "http://example.com/file.txt;parameter";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/file.txt;parameter", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationUnknownTagScheme()
+        {
+            var url = "tag:example.com,2006-08-18:/path/to/something";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("tag:", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("example.com,2006-08-18:/path/to/something", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationAuthorityAndPath()
+        {
+            var url = "http://user:pass@example.com/path/to/";
+            var location = new Location(url);
+            Assert.AreEqual("user", location.UserName);
+            Assert.AreEqual("pass", location.Password);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/path/to/", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
         // view-source:http://example.com/
         // http://user:pass@example.com/path/to/resource?query=x#fragment
         // http://example.com/search?q=Q%26A
