@@ -54,57 +54,57 @@
         /// <summary>
         /// Gets the value of the font style property.
         /// </summary>
-        public CSSFontStyleProperty Style
+        public FontStyle Style
         {
-            get { return _style; }
+            get { return _style.Style; }
         }
 
         /// <summary>
         /// Gets the value of the font variant property.
         /// </summary>
-        public CSSFontVariantProperty Variant
+        public FontVariant Variant
         {
-            get { return _variant; }
+            get { return _variant.Variant; }
         }
 
-        /// <summary>
-        /// Gets the value of the font weight property.
-        /// </summary>
-        public CSSFontWeightProperty Weight
-        {
-            get { return _weight; }
-        }
+        ///// <summary>
+        ///// Gets the value of the font weight property.
+        ///// </summary>
+        //public CSSFontWeightProperty Weight
+        //{
+        //    get { return _weight; }
+        //}
 
         /// <summary>
         /// Gets the value of the font stretch property.
         /// </summary>
-        public CSSFontStretchProperty Stretch
+        public FontStretch Stretch
         {
-            get { return _stretch; }
+            get { return _stretch.Stretch; }
         }
 
-        /// <summary>
-        /// Gets the value of the font size property.
-        /// </summary>
-        public CSSFontSizeProperty Size
-        {
-            get { return _size; }
-        }
+        ///// <summary>
+        ///// Gets the value of the font size property.
+        ///// </summary>
+        //public CSSFontSizeProperty Size
+        //{
+        //    get { return _size; }
+        //}
 
-        /// <summary>
-        /// Gets the value of the line height property.
-        /// </summary>
-        public CSSLineHeightProperty Height
-        {
-            get { return _height; }
-        }
+        ///// <summary>
+        ///// Gets the value of the line height property.
+        ///// </summary>
+        //public CSSLineHeightProperty Height
+        //{
+        //    get { return _height; }
+        //}
 
         /// <summary>
         /// Gets the value of the font family property.
         /// </summary>
-        public CSSFontFamilyProperty Family
+        public IEnumerable<String> Family
         {
-            get { return _family; }
+            get { return _family.Families; }
         }
 
         #endregion
