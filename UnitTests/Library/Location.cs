@@ -999,5 +999,37 @@ namespace UnitTests
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
+
+        [TestMethod]
+        public void RelativeLocationEmpty()
+        {
+            var url = "";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsTrue(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void RelativeLocationSlash()
+        {
+            var url = "/";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual("", location.Href);
+            Assert.IsTrue(location.IsRelative);
+        }
     }
 }
