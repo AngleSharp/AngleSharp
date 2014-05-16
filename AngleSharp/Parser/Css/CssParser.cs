@@ -1395,6 +1395,29 @@
             return parser.InValue(tokens);
         }
 
+        public static IEnumerable<CSSMedium> ParseMediaList(String source, IConfiguration configuration = null)
+        {
+            var parser = new CssParser(source, configuration);
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+
+            if (tokens.MoveNext())
+            {
+                do
+                {
+                    var medium = parser.InMediaValue(tokens);
+
+                    if (medium == null)
+                        break;
+
+                    yield return medium;
+                }
+                while (tokens.MoveNext());
+            }
+
+            if (tokens.MoveNext())
+                throw new DOMException(ErrorCode.SyntaxError);
+        }
+
         #endregion
 
         #region Internal static methods
@@ -1450,29 +1473,6 @@
             }
 
             return null;
-        }
-
-        internal static IEnumerable<CSSMedium> ParseMediaList(String source, IConfiguration configuration = null)
-        {
-            var parser = new CssParser(source, configuration);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
-
-            if (tokens.MoveNext())
-            {
-                do
-                {
-                    var medium = parser.InMediaValue(tokens);
-
-                    if (medium == null)
-                        break;
-
-                    yield return medium;
-                }
-                while (tokens.MoveNext());
-            }
-
-            if (tokens.MoveNext())
-                throw new DOMException(ErrorCode.SyntaxError);
         }
 
         /// <summary>
