@@ -49,6 +49,11 @@
 
         #region Casts
 
+        /// <summary>
+        /// Converts the time to the number of milliseconds.
+        /// </summary>
+        /// <param name="time">The time to convert.</param>
+        /// <returns>The number of milliseconds.</returns>
         public static explicit operator Single(Time time)
         {
             return time.Value;
@@ -58,16 +63,24 @@
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current time is equal to the other time.
+        /// </summary>
+        /// <param name="other">The time to compare to.</param>
+        /// <returns>True if both represent the same value.</returns>
         public Boolean Equals(Time other)
         {
-            return _value == other._value && _unit == other._unit;
+            return Value == other.Value;
         }
 
         #endregion
 
         #region Units
 
-        public enum Unit
+        /// <summary>
+        /// An enumeration of time units.
+        /// </summary>
+        public enum Unit : ushort
         {
             /// <summary>
             /// The value is a time (ms).

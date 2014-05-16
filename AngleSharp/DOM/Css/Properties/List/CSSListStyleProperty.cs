@@ -35,25 +35,25 @@
         /// <summary>
         /// Gets the selected list-style type.
         /// </summary>
-        public CSSListStyleTypeProperty Type
+        public ListStyle Type
         {
-            get { return _type; }
+            get { return _type.Style; }
         }
 
         /// <summary>
         /// Gets the selected image for the list.
         /// </summary>
-        public CSSListStyleImageProperty Image
+        public CSSImageValue Image
         {
-            get { return _image; }
+            get { return _image.Image; }
         }
 
         /// <summary>
         /// Gets the selected position for the list-style.
         /// </summary>
-        public CSSListStylePositionProperty Position
+        public ListPosition Position
         {
-            get { return _position; }
+            get { return _position.Position; }
         }
 
         #endregion

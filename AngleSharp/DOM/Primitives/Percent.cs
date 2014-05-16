@@ -56,11 +56,21 @@
 
         #region Casts
 
+        /// <summary>
+        /// Converts the percent value to its probability representation.
+        /// </summary>
+        /// <param name="number">The percent number to convert.</param>
+        /// <returns>The number between 0 and 1.</returns>
         public static explicit operator Single(Percent number)
         {
             return number.Value;
         }
 
+        /// <summary>
+        /// Converts the percent value to its common representation.
+        /// </summary>
+        /// <param name="number">The percent number to convert.</param>
+        /// <returns>The integer between 0 and 100.</returns>
         public static explicit operator Int32(Percent number)
         {
             return (Int32)number._value;
@@ -70,6 +80,11 @@
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the given percent value is equal to the current one.
+        /// </summary>
+        /// <param name="other">The other percent value.</param>
+        /// <returns>True if both have the same value.</returns>
         public Boolean Equals(Percent other)
         {
             return _value == other._value;

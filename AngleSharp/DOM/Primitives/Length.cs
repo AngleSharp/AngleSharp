@@ -90,7 +90,10 @@
 
         #region Units
 
-        public enum Unit
+        /// <summary>
+        /// An enumeration of length units.
+        /// </summary>
+        public enum Unit : ushort
         {
             /// <summary>
             /// The value is a length (px).

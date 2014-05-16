@@ -62,26 +62,48 @@
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Adds another file entry to the list.
+        /// </summary>
+        /// <param name="item">The item to add.</param>
         public void Add(FileEntry item)
         {
             _entries.Add(item);
         }
 
+        /// <summary>
+        /// Resets the list of file entries.
+        /// </summary>
         public void Clear()
         {
             _entries.Clear();
         }
 
+        /// <summary>
+        /// Checks if the given item has already been added.
+        /// </summary>
+        /// <param name="item">The item to look for.</param>
+        /// <returns>True if the item is already in the list of files.</returns>
         public Boolean Contains(FileEntry item)
         {
             return _entries.Contains(item);
         }
 
+        /// <summary>
+        /// Copies the list of files to the given array.
+        /// </summary>
+        /// <param name="array">The array to copy to.</param>
+        /// <param name="arrayIndex">The start index in the array.</param>
         public void CopyTo(FileEntry[] array, Int32 arrayIndex)
         {
             _entries.CopyTo(array, arrayIndex);
         }
 
+        /// <summary>
+        /// Removes the given file entry from the list.
+        /// </summary>
+        /// <param name="item">The item to remove.</param>
+        /// <returns>True if the item could be removed, otherwise false.</returns>
         public Boolean Remove(FileEntry item)
         {
             return _entries.Remove(item);

@@ -73,61 +73,97 @@
 
         #region Properties
 
+        /// <summary>
+        /// Gets the element of the 1st row, 1st column.
+        /// </summary>
         public Single M11
         {
             get { return _m11; }
         }
 
+        /// <summary>
+        /// Gets the element of the 1st row, 2nd column.
+        /// </summary>
         public Single M12
         {
             get { return _m12; }
         }
 
+        /// <summary>
+        /// Gets the element of the 1st row, 3rd column.
+        /// </summary>
         public Single M13
         {
             get { return _m13; }
         }
 
+        /// <summary>
+        /// Gets the element of the 2nd row, 1st column.
+        /// </summary>
         public Single M21
         {
             get { return _m21; }
         }
 
+        /// <summary>
+        /// Gets the element of the 2nd row, 2nd column.
+        /// </summary>
         public Single M22
         {
             get { return _m22; }
         }
 
+        /// <summary>
+        /// Gets the element of the 2nd row, 3rd column.
+        /// </summary>
         public Single M23
         {
             get { return _m23; }
         }
 
+        /// <summary>
+        /// Gets the element of the 3rd row, 1st column.
+        /// </summary>
         public Single M31
         {
             get { return _m31; }
         }
 
+        /// <summary>
+        /// Gets the element of the 3rd row, 2nd column.
+        /// </summary>
         public Single M32
         {
             get { return _m32; }
         }
 
+        /// <summary>
+        /// Gets the element of the 3rd row, 3rd column.
+        /// </summary>
         public Single M33
         {
             get { return _m33; }
         }
 
+        /// <summary>
+        /// Gets the x-element of the translation vector.
+        /// </summary>
         public Single Tx
         {
             get { return _tx; }
         }
 
+        /// <summary>
+        /// Gets the y-element of the translation vector.
+        /// </summary>
         public Single Ty
         {
             get { return _ty; }
         }
 
+        /// <summary>
+        /// Gets the z-element of the translation vector.
+        /// </summary>
         public Single Tz
         {
             get { return _tz; }
@@ -137,6 +173,11 @@
 
         #region Methods
 
+        /// <summary>
+        /// Checks for equality with the given other transformation matrix.
+        /// </summary>
+        /// <param name="other">The other transformation matrix.</param>
+        /// <returns>True if all elements are equal, otherwise false.</returns>
         public Boolean Equals(TransformMatrix other)
         {
             return _m11 == other._m11 && _m12 == other._m12 && _m13 == other._m13 &&
@@ -203,6 +244,10 @@
 
         #region String Representation
 
+        /// <summary>
+        /// Returns the CSS representation of the transformation matrix.
+        /// </summary>
+        /// <returns>The string containing the CSS function.</returns>
         public String ToCss()
         {
             return FunctionNames.Build(FunctionNames.Matrix3d, _m11.ToString(CultureInfo.InvariantCulture), _m12.ToString(CultureInfo.InvariantCulture), _m13.ToString(CultureInfo.InvariantCulture), _m21.ToString(CultureInfo.InvariantCulture), _m22.ToString(CultureInfo.InvariantCulture), _m23.ToString(CultureInfo.InvariantCulture), _m31.ToString(CultureInfo.InvariantCulture), _m32.ToString(CultureInfo.InvariantCulture), _m33.ToString(CultureInfo.InvariantCulture), _tx.ToString(CultureInfo.InvariantCulture), _ty.ToString(CultureInfo.InvariantCulture), _tz.ToString(CultureInfo.InvariantCulture));
