@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// Represents a range of DOM nodes.
+    /// </summary>
     [DOM("Range")]
     public sealed class Range : IRange
     {
@@ -11,6 +14,7 @@
 
         //TODO
 
+        /*
         public Node StartContainer
         {
             get { throw new NotImplementedException(); }
@@ -139,6 +143,6 @@
         public Boolean IntersectsNode(Node node)
         {
             throw new NotImplementedException();
-        }
+        }*/
     }
 }
