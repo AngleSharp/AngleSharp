@@ -1395,6 +1395,12 @@
             return parser.InValue(tokens);
         }
 
+        /// <summary>
+        /// Takes a string and transforms it into a stream of CSS mediums.
+        /// </summary>
+        /// <param name="source">The string to parse.</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <returns>The stream of medias.</returns>
         public static IEnumerable<CSSMedium> ParseMediaList(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
