@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
@@ -44,9 +45,9 @@
         /// <summary>
         /// Gets the value of the background image property.
         /// </summary>
-        public CSSBackgroundImageProperty Image
+        public IEnumerable<CSSImageValue> Images
         {
-            get { return _image; }
+            get { return _image.Images; }
         }
 
         /// <summary>
@@ -66,43 +67,51 @@
         }
 
         /// <summary>
-        /// Gets the value of the background repeat property.
+        /// Gets the value of the horizontal repeat property.
         /// </summary>
-        public CSSBackgroundRepeatProperty Repeat
+        public IEnumerable<RepeatMode> HorizontalRepeats
         {
-            get { return _repeat; }
+            get { return _repeat.HorizontalRepeats; }
+        }
+
+        /// <summary>
+        /// Gets the value of the vertical repeat property.
+        /// </summary>
+        public IEnumerable<RepeatMode> VerticalRepeats
+        {
+            get { return _repeat.VerticalRepeats; }
         }
 
         /// <summary>
         /// Gets the value of the background attachment property.
         /// </summary>
-        public CSSBackgroundAttachmentProperty Attachment
+        public IEnumerable<BackgroundAttachment> Attachments
         {
-            get { return _attachment; }
+            get { return _attachment.Attachments; }
         }
 
         /// <summary>
         /// Gets the value of the background origin property.
         /// </summary>
-        public CSSBackgroundOriginProperty Origin
+        public IEnumerable<BoxModel> Origins
         {
-            get { return _origin; }
+            get { return _origin.Origins; }
         }
 
         /// <summary>
         /// Gets the value of the background clip property.
         /// </summary>
-        public CSSBackgroundClipProperty Clip
+        public IEnumerable<BoxModel> Clips
         {
-            get { return _clip; }
+            get { return _clip.Clips; }
         }
 
         /// <summary>
         /// Gets the value of the background color property.
         /// </summary>
-        public CSSBackgroundColorProperty Color
+        public Color Color
         {
-            get { return _color; }
+            get { return _color.Color; }
         }
 
         #endregion

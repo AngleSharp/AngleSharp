@@ -14,7 +14,6 @@
 
         //TODO
 
-        /*
         public Node StartContainer
         {
             get { throw new NotImplementedException(); }
@@ -143,6 +142,6 @@
         public Boolean IntersectsNode(Node node)
         {
             throw new NotImplementedException();
-        }*/
+        }
     }
 }
