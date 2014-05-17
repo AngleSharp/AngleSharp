@@ -16,7 +16,7 @@
 
         #region ctor
 
-        protected CSSCoordinateProperty(String name)
+        internal CSSCoordinateProperty(String name)
             : base(name)
         {
             _inherited = false;

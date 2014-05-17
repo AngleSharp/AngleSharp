@@ -21,6 +21,15 @@
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new CSS shadow.
+        /// </summary>
+        /// <param name="inset">If the shadow is an inset.</param>
+        /// <param name="offsetX">The x-coordinate offset.</param>
+        /// <param name="offsetY">The y-coordinate offset.</param>
+        /// <param name="blurRadius">The blur radius of the shadow.</param>
+        /// <param name="spreadRadius">The spread radius of the shadow.</param>
+        /// <param name="color">The color of the shadow.</param>
         public Shadow(Boolean inset, Length offsetX, Length offsetY, Length blurRadius, Length spreadRadius, Color color)
         {
             _inset = inset;

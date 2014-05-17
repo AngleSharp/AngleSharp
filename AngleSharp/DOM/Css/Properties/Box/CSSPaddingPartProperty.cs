@@ -15,7 +15,7 @@
 
         #region ctor
 
-        protected CSSPaddingPartProperty(String name)
+        internal CSSPaddingPartProperty(String name)
             : base(name)
         {
             _inherited = false;

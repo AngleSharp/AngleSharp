@@ -15,7 +15,7 @@
 
         #region ctor
 
-        protected CSSMarginPartProperty(String name)
+        internal CSSMarginPartProperty(String name)
             : base(name)
         {
             _inherited = false;

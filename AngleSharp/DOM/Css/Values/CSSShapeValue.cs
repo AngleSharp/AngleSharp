@@ -19,6 +19,13 @@
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new shape value.
+        /// </summary>
+        /// <param name="top">The top position.</param>
+        /// <param name="right">The right position.</param>
+        /// <param name="bottom">The bottom position.</param>
+        /// <param name="left">The left position.</param>
         public CSSShapeValue(Length top, Length right, Length bottom, Length left)
         {
             _top = top;

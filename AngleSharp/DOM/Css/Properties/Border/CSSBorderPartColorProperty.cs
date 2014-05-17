@@ -15,7 +15,7 @@
 
         #region ctor
 
-        protected CSSBorderPartColorProperty(String name)
+        internal CSSBorderPartColorProperty(String name)
             : base(name)
         {
             _color = Color.Transparent;

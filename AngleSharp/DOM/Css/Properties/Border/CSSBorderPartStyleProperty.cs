@@ -15,7 +15,7 @@
 
         #region ctor
 
-        protected CSSBorderPartStyleProperty(String name)
+        internal CSSBorderPartStyleProperty(String name)
             : base(name)
         {
             _style = LineStyle.None;

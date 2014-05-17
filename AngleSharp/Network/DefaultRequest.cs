@@ -23,24 +23,36 @@
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the method that should be used.
+        /// </summary>
         public HttpMethod Method
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the address should be requested.
+        /// </summary>
         public Uri Address
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets a list of headers (key-values) that should be used.
+        /// </summary>
         public Dictionary<String, String> Headers
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets a stream to the content (positioned at the origin).
+        /// </summary>
         public Stream Content
         {
             get;

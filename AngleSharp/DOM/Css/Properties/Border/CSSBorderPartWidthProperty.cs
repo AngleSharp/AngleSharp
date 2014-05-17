@@ -15,7 +15,7 @@
 
         #region ctor
 
-        protected CSSBorderPartWidthProperty(String name)
+        internal CSSBorderPartWidthProperty(String name)
             : base(name)
         {
             _inherited = false;
