@@ -12,6 +12,9 @@
     {
         #region ctor
 
+        /// <summary>
+        /// Creates a new default response object.
+        /// </summary>
         public DefaultResponse()
         {
             Headers = new Dictionary<String, String>();

@@ -11,6 +11,9 @@
     {
         #region ctor
 
+        /// <summary>
+        /// Creates a new default requests.
+        /// </summary>
         public DefaultRequest()
         {
             Headers = new Dictionary<String, String>();
