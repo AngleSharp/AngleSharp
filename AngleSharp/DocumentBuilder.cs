@@ -230,6 +230,7 @@
         /// Builds a new CSSStyleSheet asynchronously by requesting the given URL.
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
         public static async Task<CSSStyleSheet> CssAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)

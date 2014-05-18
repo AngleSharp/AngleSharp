@@ -304,24 +304,39 @@
             }
 
             /// <summary>
-            /// Computes the matrix for the given transformation.
+            /// Constructs a rotate 3D transformation around the x-axis.
             /// </summary>
-            /// <returns>The transformation matrix representation.</returns>
+            /// <param name="angle">The angle to rotate.</param>
+            /// <returns>The rotate 3D transformation.</returns>
             public static Rotate3D RotateX(Angle angle)
             {
                 return new Rotate3D(1f, 0f, 0f, angle);
             }
 
+            /// <summary>
+            /// Constructs a rotate 3D transformation around the y-axis.
+            /// </summary>
+            /// <param name="angle">The angle to rotate.</param>
+            /// <returns>The rotate 3D transformation.</returns>
             public static Rotate3D RotateY(Angle angle)
             {
                 return new Rotate3D(0f, 1f, 0f, angle);
             }
 
+            /// <summary>
+            /// Constructs a rotate 3D transformation around the z-axis.
+            /// </summary>
+            /// <param name="angle">The angle to rotate.</param>
+            /// <returns>The rotate 3D transformation.</returns>
             public static Rotate3D RotateZ(Angle angle)
             {
                 return new Rotate3D(0f, 0f, 1f, angle);
             }
 
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
             public override TransformMatrix ComputeMatrix()
             {
                 var norm = 1f / (Single)Math.Sqrt(_x * _x + _y * _y + _z * _z);

@@ -109,6 +109,10 @@
 
         #region Methods
 
+        /// <summary>
+        /// Sets the inner resolver to an dependency resolver.
+        /// </summary>
+        /// <param name="resolver">The resolver object to use.</param>
         public void InnerSetResolver(IDependencyResolver resolver)
         {
             if (resolver == null)
@@ -118,6 +122,10 @@
             _currentCache = new CacheDependencyResolver(_current);
         }
 
+        /// <summary>
+        /// Sets the inner resolver to a common service locator object.
+        /// </summary>
+        /// <param name="commonServiceLocator">An object that offers methods such as GetInstance or GetAllInstances.</param>
         public void InnerSetResolver(Object commonServiceLocator)
         {
             if (commonServiceLocator == null)
@@ -136,6 +144,11 @@
             InnerSetResolver(new DelegateBasedDependencyResolver(getService, getServices));
         }
 
+        /// <summary>
+        /// Sets the inner resolver to a delegate based resolver.
+        /// </summary>
+        /// <param name="getService">The function for getting a single service.</param>
+        /// <param name="getServices">The function for getting an ienumerable of services.</param>
         public void InnerSetResolver(Func<Type, Object> getService, Func<Type, IEnumerable<Object>> getServices)
         {
             if (getService == null)

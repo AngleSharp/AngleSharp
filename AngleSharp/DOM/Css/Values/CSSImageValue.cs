@@ -306,6 +306,11 @@
 
             #region ctor
 
+            /// <summary>
+            /// Creates a new gradient stop.
+            /// </summary>
+            /// <param name="color">The color of the stop.</param>
+            /// <param name="location">The location of the stop.</param>
             public GradientStop(Color color, CSSCalcValue location)
             {
                 _color = color;
@@ -336,6 +341,10 @@
 
             #region String Representation
 
+            /// <summary>
+            /// Returns the CSS standard represenation, which is just color and location.
+            /// </summary>
+            /// <returns>A string that contains the color and location of the stop.</returns>
             public override String ToString()
             {
                 return String.Concat(_color.ToCss(), " ", _location.ToCss());

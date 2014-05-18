@@ -144,6 +144,10 @@
                 private set;
             }
 
+            /// <summary>
+            /// Returns the CSS representation of the timing function.
+            /// </summary>
+            /// <returns>A string that resembles CSS code.</returns>
             public override String ToCss()
             {
                 return FunctionNames.Build(FunctionNames.CubicBezier, X1.ToString(CultureInfo.InvariantCulture), Y1.ToString(CultureInfo.InvariantCulture), X2.ToString(CultureInfo.InvariantCulture), Y2.ToString(CultureInfo.InvariantCulture));
