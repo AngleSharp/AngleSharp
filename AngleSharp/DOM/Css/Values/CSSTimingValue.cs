@@ -80,6 +80,10 @@
                 private set;
             }
 
+            /// <summary>
+            /// Returns the CSS representation of the steps timing function.
+            /// </summary>
+            /// <returns>A string that resembles CSS code.</returns>
             public override String ToCss()
             {
                 return FunctionNames.Build(FunctionNames.Steps, Intervals.ToString(CultureInfo.InvariantCulture), IsStart ? "start" : "end");
@@ -145,7 +149,7 @@
             }
 
             /// <summary>
-            /// Returns the CSS representation of the timing function.
+            /// Returns the CSS representation of the cubic bezier timing function.
             /// </summary>
             /// <returns>A string that resembles CSS code.</returns>
             public override String ToCss()

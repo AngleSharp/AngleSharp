@@ -74,6 +74,10 @@
 
         #region String Representation
 
+        /// <summary>
+        /// Returns the string representation of the function in CSS code.
+        /// </summary>
+        /// <returns>The CSS code to construct this value.</returns>
         public override String ToCss()
         {
             return FunctionNames.Build(FunctionNames.Rect, _top.ToCss(), _right.ToCss(), _bottom.ToCss(), _left.ToCss());
