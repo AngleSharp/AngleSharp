@@ -29,22 +29,41 @@
 
         #region Methods
 
+        /// <summary>
+        /// Creates a new computed length value based on the current value.
+        /// </summary>
+        /// <param name="shift">The calculated value to add.</param>
+        /// <returns>A new calc value that performs the addition.</returns>
         public CSSCalcValue Add(CSSCalcValue shift)
         {
             return new ComputeAdd(this, shift);
         }
 
+        /// <summary>
+        /// Transforms the given calculated value to pixels.
+        /// </summary>
+        /// <returns>A number indicating the number of pixels.</returns>
         public abstract Single ToPixel();
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Creates a new calculated value from the given length.
+        /// </summary>
+        /// <param name="length">The absolute length to use.</param>
+        /// <returns>The new calculated value.</returns>
         public static CSSCalcValue FromLength(Length length)
         {
             return new Absolute(length);
         }
 
+        /// <summary>
+        /// Creates a new calculated value from the given percentage.
+        /// </summary>
+        /// <param name="percent">The relative length to use.</param>
+        /// <returns>The new calculated value.</returns>
         public static CSSCalcValue FromPercent(Percent percent)
         {
             return new Relative(percent);
