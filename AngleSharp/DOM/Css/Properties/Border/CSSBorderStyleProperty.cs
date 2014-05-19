@@ -36,33 +36,33 @@
         /// <summary>
         /// Gets the value for the style of the top border.
         /// </summary>
-        public CSSBorderTopStyleProperty Top
+        public LineStyle Top
         {
-            get { return _top; }
+            get { return _top.Style; }
         }
 
         /// <summary>
         /// Gets the value for the style of the right border.
         /// </summary>
-        public CSSBorderRightStyleProperty Right
+        public LineStyle Right
         {
-            get { return _right; }
+            get { return _right.Style; }
         }
 
         /// <summary>
         /// Gets the value for the style of the bottom border.
         /// </summary>
-        public CSSBorderBottomStyleProperty Bottom
+        public LineStyle Bottom
         {
-            get { return _bottom; }
+            get { return _bottom.Style; }
         }
 
         /// <summary>
         /// Gets the value for the style of the left border.
         /// </summary>
-        public CSSBorderLeftStyleProperty Left
+        public LineStyle Left
         {
-            get { return _left; }
+            get { return _left.Style; }
         }
 
         #endregion
