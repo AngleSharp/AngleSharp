@@ -40,8 +40,9 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="DOM\Constants\Visibility.cs" />
     <Compile Include="DOM\Css\Constants\AnimationDirection.cs" />
-    <Compile Include="DOM\Css\Constants\AnimationFillMode.cs" />
+    <Compile Include="DOM\Css\Constants\AnimationFillStyle.cs" />
     <Compile Include="DOM\Css\Constants\BackgroundAttachment.cs" />
+    <Compile Include="DOM\Css\Constants\BorderRepeat.cs" />
     <Compile Include="DOM\Css\Constants\BreakMode.cs" />
     <Compile Include="DOM\Css\Constants\BoxModel.cs" />
     <Compile Include="DOM\Css\Constants\FontStretch.cs" />
@@ -51,7 +52,7 @@
     <Compile Include="DOM\Css\Constants\ListStyle.cs" />
     <Compile Include="DOM\Css\Constants\LineStyle.cs" />
     <Compile Include="DOM\Css\Constants\PlayState.cs" />
-    <Compile Include="DOM\Css\Constants\RepeatMode.cs" />
+    <Compile Include="DOM\Css\Constants\BackgroundRepeat.cs" />
     <Compile Include="DOM\Css\Constants\SystemCursor.cs" />
     <Compile Include="DOM\Css\Constants\TextDecorationLine.cs" />
     <Compile Include="DOM\Css\Constants\TextDecorationStyle.cs" />

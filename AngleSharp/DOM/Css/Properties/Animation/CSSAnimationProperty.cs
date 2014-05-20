@@ -27,7 +27,7 @@
                 Delay = Time.Zero,
                 Timing = CSSTimingValue.Ease,
                 Duration = Time.Zero,
-                FillMode = AnimationFillMode.None,
+                FillMode = AnimationFillStyle.None,
                 IterationCount = 1f,
                 Direction = AnimationDirection.Normal,
                 Name = "none"
@@ -89,7 +89,7 @@
         /// <summary>
         /// Gets the fill modes of the animations.
         /// </summary>
-        public IEnumerable<AnimationFillMode> FillModes
+        public IEnumerable<AnimationFillStyle> FillModes
         {
             get
             {
@@ -192,7 +192,7 @@
                 Timing = function,
                 Name = name,
                 IterationCount = iterationCount,
-                FillMode = AnimationFillMode.None,
+                FillMode = AnimationFillStyle.None,
                 Direction = AnimationDirection.Normal
             };
         }
@@ -203,7 +203,7 @@
             CSSPrimitiveValue<Time> duration = null;
             CSSPrimitiveValue<Number> iterationCount = null;
             CSSTimingValue function = null;
-            AnimationFillMode? fillMode = null;
+            AnimationFillStyle? fillMode = null;
             AnimationDirection? direction = null;
             String name = null;
 
@@ -259,7 +259,7 @@
                 Timing = function ?? CSSTimingValue.Ease,
                 Name = name ?? "none",
                 IterationCount = iterationCount != null ? iterationCount.Value.Value : 1f,
-                FillMode = fillMode.HasValue ? fillMode.Value : AnimationFillMode.None,
+                FillMode = fillMode.HasValue ? fillMode.Value : AnimationFillStyle.None,
                 Direction = direction.HasValue ? direction.Value : AnimationDirection.Normal
             };
         }
@@ -275,7 +275,7 @@
             public CSSTimingValue Timing;
             public Single IterationCount;
             public AnimationDirection Direction;
-            public AnimationFillMode FillMode;
+            public AnimationFillStyle FillMode;
             public String Name;
         }
 

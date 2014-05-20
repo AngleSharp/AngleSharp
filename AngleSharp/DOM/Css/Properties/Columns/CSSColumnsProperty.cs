@@ -31,19 +31,35 @@
         #region Properties
 
         /// <summary>
+        /// Gets if width should be used.
+        /// </summary>
+        public Boolean UseWidth
+        {
+            get { return _width.IsUsed; }
+        }
+
+        /// <summary>
+        /// Gets if count should be used.
+        /// </summary>
+        public Boolean UseCount
+        {
+            get { return _count.IsUsed; }
+        }
+
+        /// <summary>
         /// Gets the width for the columns, if set.
         /// </summary>
-        public CSSColumnWidthProperty Width
+        public Length Width
         {
-            get { return _width; }
+            get { return _width.Width; }
         }
 
         /// <summary>
         /// Gets the count for the columns, if set.
         /// </summary>
-        public CSSColumnCountProperty Count
+        public Int32 Count
         {
-            get { return _count; }
+            get { return _count.Count; }
         }
 
         #endregion

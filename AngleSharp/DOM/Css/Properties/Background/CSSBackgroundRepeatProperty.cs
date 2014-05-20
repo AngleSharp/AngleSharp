@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, RepeatMode> _modes = new Dictionary<String, RepeatMode>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, BackgroundRepeat> _modes = new Dictionary<String, BackgroundRepeat>(StringComparer.OrdinalIgnoreCase);
         List<Repeat> _repeats;
 
         #endregion
@@ -21,10 +21,10 @@
 
         static CSSBackgroundRepeatProperty()
         {
-            _modes.Add("no-repeat", RepeatMode.NoRepeat);
-            _modes.Add("repeat", RepeatMode.Repeat);
-            _modes.Add("round", RepeatMode.Round);
-            _modes.Add("space", RepeatMode.Space);
+            _modes.Add("no-repeat", BackgroundRepeat.NoRepeat);
+            _modes.Add("repeat", BackgroundRepeat.Repeat);
+            _modes.Add("round", BackgroundRepeat.Round);
+            _modes.Add("space", BackgroundRepeat.Space);
         }
 
         internal CSSBackgroundRepeatProperty()
@@ -32,7 +32,7 @@
         {
             _inherited = false;
             _repeats = new List<Repeat>();
-            _repeats.Add(new Repeat { Horizontal = RepeatMode.Repeat, Vertical = RepeatMode.Repeat });
+            _repeats.Add(new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat });
         }
 
         #endregion
@@ -42,7 +42,7 @@
         /// <summary>
         /// Gets an enumeration with the horizontal repeat modes.
         /// </summary>
-        public IEnumerable<RepeatMode> HorizontalRepeats
+        public IEnumerable<BackgroundRepeat> HorizontalRepeats
         {
             get { return _repeats.Select(m => m.Horizontal); }
         }
@@ -50,7 +50,7 @@
         /// <summary>
         /// Gets an enumeration with the vertical repeat modes.
         /// </summary>
-        public IEnumerable<RepeatMode> VerticalRepeats
+        public IEnumerable<BackgroundRepeat> VerticalRepeats
         {
             get { return _repeats.Select(m => m.Vertical); }
         }
@@ -82,13 +82,13 @@
 
                 if (ident.Equals("repeat-x", StringComparison.OrdinalIgnoreCase))
                 {
-                    repeat.Horizontal = RepeatMode.Repeat;
-                    repeat.Vertical = RepeatMode.NoRepeat;
+                    repeat.Horizontal = BackgroundRepeat.Repeat;
+                    repeat.Vertical = BackgroundRepeat.NoRepeat;
                 }
                 else if (ident.Equals("repeat-y", StringComparison.OrdinalIgnoreCase))
                 {
-                    repeat.Horizontal = RepeatMode.NoRepeat;
-                    repeat.Vertical = RepeatMode.Repeat;
+                    repeat.Horizontal = BackgroundRepeat.NoRepeat;
+                    repeat.Vertical = BackgroundRepeat.Repeat;
                 }
                 else if (_modes.TryGetValue(ident, out repeat.Horizontal))
                 {
@@ -116,8 +116,8 @@
 
         struct Repeat
         {
-            public RepeatMode Horizontal;
-            public RepeatMode Vertical;
+            public BackgroundRepeat Horizontal;
+            public BackgroundRepeat Vertical;
         }
 
         #endregion

@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     /// <summary>
-    /// The enumeration over all possible reepeat values.
+    /// The enumeration over all possible repeat values.
     /// </summary>
-    public enum RepeatMode : ushort
+    public enum BackgroundRepeat : ushort
     {
         /// <summary>
         /// The image is repeated in the given direction as much as needed to cover the whole

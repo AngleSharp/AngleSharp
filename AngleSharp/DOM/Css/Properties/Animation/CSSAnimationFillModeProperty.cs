@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<AnimationFillMode> _fillModes;
+        List<AnimationFillStyle> _fillModes;
 
         #endregion
 
@@ -21,8 +21,8 @@
             : base(PropertyNames.AnimationFillMode)
         {
             _inherited = false;
-            _fillModes = new List<AnimationFillMode>();
-            _fillModes.Add(AnimationFillMode.None);
+            _fillModes = new List<AnimationFillStyle>();
+            _fillModes.Add(AnimationFillStyle.None);
         }
 
         #endregion
@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets an iteration over all defined fill modes.
         /// </summary>
-        public IEnumerable<AnimationFillMode> FillModes
+        public IEnumerable<AnimationFillStyle> FillModes
         {
             get { return _fillModes; }
         }
@@ -52,7 +52,7 @@
 
             if (values != null)
             {
-                var fillModes = new List<AnimationFillMode>();
+                var fillModes = new List<AnimationFillStyle>();
 
                 foreach (var item in values)
                 {

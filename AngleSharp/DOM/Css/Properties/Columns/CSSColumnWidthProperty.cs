@@ -41,7 +41,7 @@
         /// <summary>
         /// Gets the width of a single columns.
         /// </summary>
-        public Length Count
+        public Length Width
         {
             get { return _width.HasValue ? _width.Value : Length.Zero; }
         }

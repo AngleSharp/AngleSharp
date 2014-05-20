@@ -36,19 +36,51 @@
         #region Properties
 
         /// <summary>
-        /// Gets the outset property of the border-image.
+        /// Gets the outset bottom width of the border-image.
         /// </summary>
-        public CSSBorderImageOutsetProperty Outset
+        public CSSCalcValue OutsetBottom
         {
-            get { return _outset; }
+            get { return _outset.Bottom; }
         }
 
         /// <summary>
-        /// Gets the repeat property of the border-image.
+        /// Gets the outset left width of the border-image.
         /// </summary>
-        public CSSBorderImageRepeatProperty Repeat
+        public CSSCalcValue OutsetLeft
         {
-            get { return _repeat; }
+            get { return _outset.Left; }
+        }
+
+        /// <summary>
+        /// Gets the outset right width of the border-image.
+        /// </summary>
+        public CSSCalcValue OutsetRight
+        {
+            get { return _outset.Right; }
+        }
+
+        /// <summary>
+        /// Gets the outset top width of the border-image.
+        /// </summary>
+        public CSSCalcValue OutsetTop
+        {
+            get { return _outset.Top; }
+        }
+
+        /// <summary>
+        /// Gets the horizontal repeat value of the border-image.
+        /// </summary>
+        public BorderRepeat HorizontalRepeat
+        {
+            get { return _repeat.Horizontal; }
+        }
+
+        /// <summary>
+        /// Gets the vertical repeat value of the border-image.
+        /// </summary>
+        public BorderRepeat VerticalRepeat
+        {
+            get { return _repeat.Vertical; }
         }
 
         /// <summary>
@@ -60,11 +92,11 @@
         }
 
         /// <summary>
-        /// Gets the source property of the border-image.
+        /// Gets the image source of the border-image.
         /// </summary>
-        public CSSBorderImageSourceProperty Source
+        public CSSImageValue Source
         {
-            get { return _source; }
+            get { return _source.Image; }
         }
 
         /// <summary>

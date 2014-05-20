@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration over all possible fill-mode values.
     /// </summary>
-    public enum AnimationFillMode : ushort
+    public enum AnimationFillStyle : ushort
     {
         /// <summary>
         /// The animation will not apply any styles to the

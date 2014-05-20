@@ -11,7 +11,7 @@
         static readonly Dictionary<String, LineStyle> lineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BoxModel> boxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, CSSTimingValue> timingFunctions = new Dictionary<String, CSSTimingValue>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, AnimationFillMode> fillModes = new Dictionary<String, AnimationFillMode>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, AnimationFillStyle> fillModes = new Dictionary<String, AnimationFillStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, AnimationDirection> directions = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase);
 
         static ValueExtensions()
@@ -39,10 +39,10 @@
             timingFunctions.Add("step-start", CSSTimingValue.StepStart);
             timingFunctions.Add("step-end", CSSTimingValue.StepEnd);
 
-            fillModes.Add("none", AnimationFillMode.None);
-            fillModes.Add("forwards", AnimationFillMode.Forwards);
-            fillModes.Add("backwards", AnimationFillMode.Backwards);
-            fillModes.Add("both", AnimationFillMode.Both);
+            fillModes.Add("none", AnimationFillStyle.None);
+            fillModes.Add("forwards", AnimationFillStyle.Forwards);
+            fillModes.Add("backwards", AnimationFillStyle.Backwards);
+            fillModes.Add("both", AnimationFillStyle.Both);
 
             directions.Add("normal", AnimationDirection.Normal);
             directions.Add("reverse", AnimationDirection.Reverse);
@@ -60,9 +60,9 @@
             return null;
         }
 
-        public static AnimationFillMode? ToFillMode(this CSSValue value)
+        public static AnimationFillStyle? ToFillMode(this CSSValue value)
         {
-            AnimationFillMode fillMode;
+            AnimationFillStyle fillMode;
 
             if (value is CSSIdentifierValue && fillModes.TryGetValue(((CSSIdentifierValue)value).Value, out fillMode))
                 return fillMode;

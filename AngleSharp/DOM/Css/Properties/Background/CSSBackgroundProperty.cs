@@ -69,7 +69,7 @@
         /// <summary>
         /// Gets the value of the horizontal repeat property.
         /// </summary>
-        public IEnumerable<RepeatMode> HorizontalRepeats
+        public IEnumerable<BackgroundRepeat> HorizontalRepeats
         {
             get { return _repeat.HorizontalRepeats; }
         }
@@ -77,7 +77,7 @@
         /// <summary>
         /// Gets the value of the vertical repeat property.
         /// </summary>
-        public IEnumerable<RepeatMode> VerticalRepeats
+        public IEnumerable<BackgroundRepeat> VerticalRepeats
         {
             get { return _repeat.VerticalRepeats; }
         }
