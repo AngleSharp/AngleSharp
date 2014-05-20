@@ -34,35 +34,67 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of the bottom-left radius.
+        /// Gets the value of the horizontal bottom-left radius.
         /// </summary>
-        public CSSBorderBottomLeftRadiusProperty BottomLeft
+        public CSSCalcValue HorizontalBottomLeft
         {
-            get { return _bottomLeft; }
+            get { return _bottomLeft.HorizontalRadius; }
         }
 
         /// <summary>
-        /// Gets the value of the bottom-right radius.
+        /// Gets the value of the vertical bottom-left radius.
         /// </summary>
-        public CSSBorderBottomRightRadiusProperty BottomRight
+        public CSSCalcValue VerticalBottomLeft
         {
-            get { return _bottomRight; }
+            get { return _bottomLeft.VerticalRadius; }
         }
 
         /// <summary>
-        /// Gets the value of the top-left radius.
+        /// Gets the value of the horizontal bottom-right radius.
         /// </summary>
-        public CSSBorderTopLeftRadiusProperty TopLeft
+        public CSSCalcValue HorizontalBottomRight
         {
-            get { return _topLeft; }
+            get { return _bottomRight.HorizontalRadius; }
         }
 
         /// <summary>
-        /// Gets the value of the top-right radius.
+        /// Gets the value of the vertical bottom-right radius.
         /// </summary>
-        public CSSBorderTopRightRadiusProperty TopRight
+        public CSSCalcValue VerticalBottomRight
         {
-            get { return _topRight; }
+            get { return _bottomRight.VerticalRadius; }
+        }
+
+        /// <summary>
+        /// Gets the value of the horizontal top-left radius.
+        /// </summary>
+        public CSSCalcValue HorizontalTopLeft
+        {
+            get { return _topLeft.HorizontalRadius; }
+        }
+
+        /// <summary>
+        /// Gets the value of the vertical top-left radius.
+        /// </summary>
+        public CSSCalcValue VerticalTopLeft
+        {
+            get { return _topLeft.VerticalRadius; }
+        }
+
+        /// <summary>
+        /// Gets the value of the horizontal top-right radius.
+        /// </summary>
+        public CSSCalcValue HorizontalTopRight
+        {
+            get { return _topRight.HorizontalRadius; }
+        }
+
+        /// <summary>
+        /// Gets the value of the vertical top-right radius.
+        /// </summary>
+        public CSSCalcValue VerticalTopRight
+        {
+            get { return _topRight.VerticalRadius; }
         }
 
         #endregion
