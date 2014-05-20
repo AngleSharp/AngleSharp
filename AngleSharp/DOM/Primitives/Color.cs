@@ -338,11 +338,23 @@
 
         #region Equality
 
+        /// <summary>
+        /// Compares two colors and returns a boolean indicating if the two do match.
+        /// </summary>
+        /// <param name="a">The first color to use.</param>
+        /// <param name="b">The second color to use.</param>
+        /// <returns>True if both colors are equal, otherwise false.</returns>
         public static Boolean operator ==(Color a, Color b)
         {
             return a.hashcode == b.hashcode;
         }
 
+        /// <summary>
+        /// Compares two colors and returns a boolean indicating if the two do not match.
+        /// </summary>
+        /// <param name="a">The first color to use.</param>
+        /// <param name="b">The second color to use.</param>
+        /// <returns>True if both colors are not equal, otherwise false.</returns>
         public static Boolean operator !=(Color a, Color b)
         {
             return a.hashcode != b.hashcode;

@@ -65,6 +65,11 @@
 
         #region Casts
 
+        /// <summary>
+        /// Converts the angle to a number representing radians.
+        /// </summary>
+        /// <param name="angle">The angle to convert.</param>
+        /// <returns>The number of radians.</returns>
         public static explicit operator Single(Angle angle)
         {
             return angle.Value;
@@ -101,16 +106,24 @@
             return (Single)Math.Sin(Value);
         }
 
+        /// <summary>
+        /// Checks for equality with the other angle.
+        /// </summary>
+        /// <param name="other">The angle to compare with.</param>
+        /// <returns>True if both represent the same angle in rad.</returns>
         public Boolean Equals(Angle other)
         {
-            return _value == other._value && _unit == other._unit;
+            return Value == other.Value;
         }
 
         #endregion
 
         #region Units
 
-        public enum Unit
+        /// <summary>
+        /// An enumeration of angle representations.
+        /// </summary>
+        public enum Unit : ushort
         {
             /// <summary>
             /// The value is an angle (deg). There are 360 degrees in a full circle.

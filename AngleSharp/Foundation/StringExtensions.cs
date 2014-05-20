@@ -405,7 +405,7 @@
 
         /// <summary>
         /// Replaces characters in names and values that cannot be expressed by using the given
-        /// encoding with &#...; base-10 unicode point.
+        /// encoding with &amp;#...; base-10 unicode point.
         /// </summary>
         /// <param name="value">The value to sanatize.</param>
         /// <param name="encoding">The encoding to consider.</param>

@@ -12,7 +12,11 @@
     {
         #region Fields
 
+        /// <summary>
+        /// Determines if the property is inherited.
+        /// </summary>
         protected Boolean _inherited;
+
         readonly String _name;
 
         CSSValue _value;

@@ -1,5 +1,8 @@
 ﻿namespace AngleSharp.DOM
 {
+    /// <summary>
+    /// An enumeration with the various visibility states.
+    /// </summary>
     public enum Visibility : ushort
     {
         /// <summary>

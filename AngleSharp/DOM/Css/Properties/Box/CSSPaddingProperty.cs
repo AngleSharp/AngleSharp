@@ -34,41 +34,46 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of the property for the top padding.
+        /// Gets the value for the top padding.
         /// </summary>
-        public CSSPaddingTopProperty Top
+        public CSSCalcValue Top
         {
-            get { return _top; }
+            get { return _top.Padding; }
         }
 
         /// <summary>
-        /// Gets the value of the property for the right padding.
+        /// Gets the value for the right padding.
         /// </summary>
-        public CSSPaddingRightProperty Right
+        public CSSCalcValue Right
         {
-            get { return _right; }
+            get { return _right.Padding; }
         }
 
         /// <summary>
-        /// Gets the value of the property for the bottom padding.
+        /// Gets the value for the bottom padding.
         /// </summary>
-        public CSSPaddingBottomProperty Bottom
+        public CSSCalcValue Bottom
         {
-            get { return _bottom; }
+            get { return _bottom.Padding; }
         }
 
         /// <summary>
-        /// Gets the value of the property for the left padding.
+        /// Gets the value for the left padding.
         /// </summary>
-        public CSSPaddingLeftProperty Left
+        public CSSCalcValue Left
         {
-            get { return _left; }
+            get { return _left.Padding; }
         }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Determines if the given value represents a valid state of this property.
+        /// </summary>
+        /// <param name="value">The state that should be used.</param>
+        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
             if (value == CSSValue.Inherit)

@@ -36,39 +36,44 @@
         /// <summary>
         /// Gets the value for the color of the top border.
         /// </summary>
-        public CSSBorderTopColorProperty Top
+        public Color Top
         {
-            get { return _top; }
+            get { return _top.Color; }
         }
 
         /// <summary>
         /// Gets the value for the color of the right border.
         /// </summary>
-        public CSSBorderRightColorProperty Right
+        public Color Right
         {
-            get { return _right; }
+            get { return _right.Color; }
         }
 
         /// <summary>
         /// Gets the value for the color of the bottom border.
         /// </summary>
-        public CSSBorderBottomColorProperty Bottom
+        public Color Bottom
         {
-            get { return _bottom; }
+            get { return _bottom.Color; }
         }
 
         /// <summary>
         /// Gets the value for the color of the left border.
         /// </summary>
-        public CSSBorderLeftColorProperty Left
+        public Color Left
         {
-            get { return _left; }
+            get { return _left.Color; }
         }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Determines if the given value represents a valid state of this property.
+        /// </summary>
+        /// <param name="value">The state that should be used.</param>
+        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
             if (value == CSSValue.Inherit)

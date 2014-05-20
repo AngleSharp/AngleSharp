@@ -6,6 +6,10 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// A specialized collection containing elements of type T.
+    /// </summary>
+    /// <typeparam name="T">The type of elements that can be contained.</typeparam>
     public class HTMLCollection<T> : IEnumerable<T>
         where T : Element
     {

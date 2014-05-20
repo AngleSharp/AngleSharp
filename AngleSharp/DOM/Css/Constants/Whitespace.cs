@@ -13,7 +13,7 @@
         Normal,
         /// <summary>
         /// Sequences of whitespace are preserved, lines are only broken at newline
-        /// characters in the source and at <br> elements.
+        /// characters in the source and at br elements.
         /// </summary>
         Pre,
         /// <summary>

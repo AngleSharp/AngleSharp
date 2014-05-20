@@ -383,6 +383,9 @@
 
                 case Specification.Solidus:
                 case Specification.ReverseSolidus:
+                    if (index == input.Length - 1)
+                        return ParsePath(input, index);
+
                     var c = input[++index];
 
                     if (c == Specification.Solidus || c == Specification.ReverseSolidus)

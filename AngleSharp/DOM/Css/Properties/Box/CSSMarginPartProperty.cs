@@ -15,7 +15,7 @@
 
         #region ctor
 
-        protected CSSMarginPartProperty(String name)
+        internal CSSMarginPartProperty(String name)
             : base(name)
         {
             _inherited = false;
@@ -47,6 +47,11 @@
 
         #region Methods
 
+        /// <summary>
+        /// Determines if the given value represents a valid state of this property.
+        /// </summary>
+        /// <param name="value">The state that should be used.</param>
+        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
             //TODO

@@ -10,18 +10,17 @@
     {
         #region Fields
 
-        static readonly AutoCoordinateMode _auto = new AutoCoordinateMode();
-        CoordinateMode _mode;
+        CSSCalcValue _value;
 
         #endregion
 
         #region ctor
 
-        protected CSSCoordinateProperty(String name)
+        internal CSSCoordinateProperty(String name)
             : base(name)
         {
             _inherited = false;
-            _mode = _auto;
+            _value = null;
         }
 
         #endregion
@@ -33,13 +32,26 @@
         /// </summary>
         public Boolean IsAuto
         {
-            get { return _mode is AutoCoordinateMode; }
+            get { return _value == null; }
+        }
+
+        /// <summary>
+        /// Gets the position if a fixed position has been set.
+        /// </summary>
+        public CSSCalcValue Position
+        {
+            get { return _value; }
         }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Determines if the given value represents a valid state of this property.
+        /// </summary>
+        /// <param name="value">The state that should be used.</param>
+        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
             //TODO
@@ -47,36 +59,13 @@
             var calc = value.AsCalc();
 
             if (calc != null)
-                _mode = new CalcCoordinateMode(calc);
+                _value = calc;
             else if (value.Is("auto"))
-                _mode = _auto;
+                _value = null;
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-
-        abstract class CoordinateMode
-        {
-            //TODO Add members that make sense
-        }
-
-        sealed class AutoCoordinateMode : CoordinateMode
-        {
-        }
-
-        sealed class CalcCoordinateMode : CoordinateMode
-        {
-            CSSCalcValue _calc;
-
-            public CalcCoordinateMode(CSSCalcValue calc)
-            {
-                _calc = calc;
-            }
         }
 
         #endregion

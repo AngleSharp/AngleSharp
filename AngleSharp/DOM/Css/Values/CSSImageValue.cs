@@ -12,27 +12,57 @@
     {
         #region Fields
 
+        /// <summary>
+        /// Gets an image that is only a colored with a transparent color.
+        /// </summary>
         public static readonly CSSImageValue None = new ColorImage(Color.Transparent);
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Creates a new image value from the given url.
+        /// </summary>
+        /// <param name="uri">The url pointing to an image resource.</param>
+        /// <returns>A new image value.</returns>
         public static CSSImageValue FromUrl(Location uri)
         {
             return new ImageSource(uri);
         }
 
+        /// <summary>
+        /// Creates a new image value from a list of urls.
+        /// </summary>
+        /// <param name="uris">The list with alternative urls.</param>
+        /// <returns>A new image value.</returns>
         public static CSSImageValue FromUrls(IEnumerable<Location> uris)
         {
             return new ImageSources(uris);
         }
 
+        /// <summary>
+        /// Creates a new image value from a linear gradient.
+        /// </summary>
+        /// <param name="angle">The angle to use.</param>
+        /// <param name="repeating">The repeating setting.</param>
+        /// <param name="stops">A collection of stops to use.</param>
+        /// <returns>A new image value using a linear gradient.</returns>
         public static CSSImageValue FromLinearGradient(Angle angle, Boolean repeating, params GradientStop[] stops)
         {
             return new LinearGradient(angle, stops, repeating);
         }
 
+        /// <summary>
+        /// Creates a new image value from a radial gradient.
+        /// </summary>
+        /// <param name="x">The x-coordinate.</param>
+        /// <param name="y">The y-coordinate.</param>
+        /// <param name="width">The width of the ellipse.</param>
+        /// <param name="height">The height of the ellipse.</param>
+        /// <param name="repeating">The repeating setting.</param>
+        /// <param name="stops">A collection of stops to use.</param>
+        /// <returns>A new image value using a radial gradient.</returns>
         public static CSSImageValue FromRadialGradient(CSSCalcValue x, CSSCalcValue y, CSSCalcValue width, CSSCalcValue height, Boolean repeating, params GradientStop[] stops)
         {
             return new RadialLinearGradient(x, y, width, height, stops, repeating);
@@ -276,6 +306,11 @@
 
             #region ctor
 
+            /// <summary>
+            /// Creates a new gradient stop.
+            /// </summary>
+            /// <param name="color">The color of the stop.</param>
+            /// <param name="location">The location of the stop.</param>
             public GradientStop(Color color, CSSCalcValue location)
             {
                 _color = color;
@@ -306,6 +341,10 @@
 
             #region String Representation
 
+            /// <summary>
+            /// Returns the CSS standard represenation, which is just color and location.
+            /// </summary>
+            /// <returns>A string that contains the color and location of the stop.</returns>
             public override String ToString()
             {
                 return String.Concat(_color.ToCss(), " ", _location.ToCss());

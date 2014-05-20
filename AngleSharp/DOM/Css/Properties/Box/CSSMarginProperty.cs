@@ -34,41 +34,78 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of the property for the top margin.
+        /// Gets the value for the top margin.
         /// </summary>
-        public CSSMarginTopProperty Top
+        public CSSCalcValue Top
         {
-            get { return _top; }
+            get { return _top.Margin; }
         }
 
         /// <summary>
-        /// Gets the value of the property for the right margin.
+        /// Gets the value for the right margin.
         /// </summary>
-        public CSSMarginRightProperty Right
+        public CSSCalcValue Right
         {
-            get { return _right; }
+            get { return _right.Margin; }
         }
 
         /// <summary>
-        /// Gets the value of the property for the bottom margin.
+        /// Gets the value for the bottom margin.
         /// </summary>
-        public CSSMarginBottomProperty Bottom
+        public CSSCalcValue Bottom
         {
-            get { return _bottom; }
+            get { return _bottom.Margin; }
         }
 
         /// <summary>
-        /// Gets the value of the property for the left margin.
+        /// Gets the value for the left margin.
         /// </summary>
-        public CSSMarginLeftProperty Left
+        public CSSCalcValue Left
         {
-            get { return _left; }
+            get { return _left.Margin; }
+        }
+
+        /// <summary>
+        /// Gets if the top margin is automatic.
+        /// </summary>
+        public Boolean IsTopAuto
+        {
+            get { return _top.IsAuto; }
+        }
+
+        /// <summary>
+        /// Gets if the right margin is automatic.
+        /// </summary>
+        public Boolean IsRightAuto
+        {
+            get { return _right.IsAuto; }
+        }
+
+        /// <summary>
+        /// Gets if the bottom margin is automatic.
+        /// </summary>
+        public Boolean IsBottomAuto
+        {
+            get { return _bottom.IsAuto; }
+        }
+
+        /// <summary>
+        /// Gets if the left margin is automatic.
+        /// </summary>
+        public Boolean IsLeftAuto
+        {
+            get { return _left.IsAuto; }
         }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Determines if the given value represents a valid state of this property.
+        /// </summary>
+        /// <param name="value">The state that should be used.</param>
+        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
             if (value == CSSValue.Inherit)
