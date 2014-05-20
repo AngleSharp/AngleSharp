@@ -190,11 +190,17 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\AnimationDirection.cs">
       <Link>DOM\Css\Constants\AnimationDirection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\AnimationFillMode.cs">
-      <Link>DOM\Css\Constants\AnimationFillMode.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\AnimationFillStyle.cs">
+      <Link>DOM\Css\Constants\AnimationFillStyle.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\BackgroundAttachment.cs">
       <Link>DOM\Css\Constants\BackgroundAttachment.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\BackgroundRepeat.cs">
+      <Link>DOM\Css\Constants\BackgroundRepeat.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\BorderRepeat.cs">
+      <Link>DOM\Css\Constants\BorderRepeat.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\BoxModel.cs">
       <Link>DOM\Css\Constants\BoxModel.cs</Link>
