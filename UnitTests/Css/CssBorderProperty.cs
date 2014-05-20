@@ -529,10 +529,10 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0.3em 0", concrete.Value.CssText);
-            Assert.AreEqual(new Length(0.3f, Length.Unit.Em), concrete.Top.Width);
-            Assert.AreEqual(Length.Zero, concrete.Right.Width);
-            Assert.AreEqual(new Length(0.3f, Length.Unit.Em), concrete.Bottom.Width);
-            Assert.AreEqual(Length.Zero, concrete.Left.Width);
+            Assert.AreEqual(new Length(0.3f, Length.Unit.Em), concrete.Top);
+            Assert.AreEqual(Length.Zero, concrete.Right);
+            Assert.AreEqual(new Length(0.3f, Length.Unit.Em), concrete.Bottom);
+            Assert.AreEqual(Length.Zero, concrete.Left);
         }
 
         [TestMethod]
@@ -548,10 +548,10 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("medium 0 1px thick", concrete.Value.CssText);
-            Assert.AreEqual(Length.Medium, concrete.Top.Width);
-            Assert.AreEqual(Length.Zero, concrete.Right.Width);
-            Assert.AreEqual(new Length(1f, Length.Unit.Px), concrete.Bottom.Width);
-            Assert.AreEqual(Length.Thick, concrete.Left.Width);
+            Assert.AreEqual(Length.Medium, concrete.Top);
+            Assert.AreEqual(Length.Zero, concrete.Right);
+            Assert.AreEqual(new Length(1f, Length.Unit.Px), concrete.Bottom);
+            Assert.AreEqual(Length.Thick, concrete.Left);
         }
 
         [TestMethod]
