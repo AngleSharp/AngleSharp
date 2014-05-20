@@ -419,6 +419,23 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void AbsoluteLocationIpExample()
+        {
+            var url = "http://127.0.0.1:8080/mypath";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("8080", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/mypath", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("127.0.0.1:8080", location.Host);
+            Assert.AreEqual("127.0.0.1", location.HostName);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
         public void AbsoluteLocationW3Project()
         {
             var url = "http://www.w3.org/pub/WWW/TheProject.html";
