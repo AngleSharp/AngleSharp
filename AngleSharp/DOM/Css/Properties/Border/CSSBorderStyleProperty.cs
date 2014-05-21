@@ -10,10 +10,10 @@
     {
         #region Fields
 
-        CSSBorderTopStyleProperty _top;
-        CSSBorderRightStyleProperty _right;
-        CSSBorderBottomStyleProperty _bottom;
-        CSSBorderLeftStyleProperty _left;
+        LineStyle _top;
+        LineStyle _right;
+        LineStyle _bottom;
+        LineStyle _left;
 
         #endregion
 
@@ -23,10 +23,10 @@
             : base(PropertyNames.BorderStyle)
         {
             _inherited = false;
-            _left = new CSSBorderLeftStyleProperty();
-            _right = new CSSBorderRightStyleProperty();
-            _bottom = new CSSBorderBottomStyleProperty();
-            _top = new CSSBorderTopStyleProperty();
+            _left = LineStyle.None;
+            _right = LineStyle.None;
+            _bottom = LineStyle.None;
+            _top = LineStyle.None;
         }
 
         #endregion
@@ -38,7 +38,7 @@
         /// </summary>
         public LineStyle Top
         {
-            get { return _top.Style; }
+            get { return _top; }
         }
 
         /// <summary>
@@ -46,7 +46,7 @@
         /// </summary>
         public LineStyle Right
         {
-            get { return _right.Style; }
+            get { return _right; }
         }
 
         /// <summary>
@@ -54,7 +54,7 @@
         /// </summary>
         public LineStyle Bottom
         {
-            get { return _bottom.Style; }
+            get { return _bottom; }
         }
 
         /// <summary>
@@ -62,7 +62,7 @@
         /// </summary>
         public LineStyle Left
         {
-            get { return _left.Style; }
+            get { return _left; }
         }
 
         #endregion
@@ -80,45 +80,43 @@
                 return true;
 
             var values = value as CSSValueList ?? new CSSValueList(value);
-            var top = new CSSBorderTopStyleProperty();
-            var bottom = new CSSBorderBottomStyleProperty();
-            var right = new CSSBorderRightStyleProperty();
-            var left = new CSSBorderLeftStyleProperty();
+            LineStyle? top;
+            LineStyle? bottom;
+            LineStyle? right;
+            LineStyle? left;
 
             if (values.Length == 1)
             {
-                if (!CheckSingleProperty(top, 0, values))
-                    return false;
-
-                right.Value = left.Value = bottom.Value = top.Value;
+                right = left = bottom = top = values[0].ToLineStyle();
             }
             else if (values.Length == 2)
             {
-                if (!CheckSingleProperty(top, 0, values) || !CheckSingleProperty(right, 1, values))
-                    return false;
-
-                bottom.Value = top.Value;
-                left.Value = right.Value;
+                bottom = top = values[0].ToLineStyle();
+                left = right = values[1].ToLineStyle();
             }
             else if (values.Length == 3)
             {
-                if (!CheckSingleProperty(top, 0, values) || !CheckSingleProperty(right, 1, values) || !CheckSingleProperty(bottom, 2, values))
-                    return false;
-
-                left.Value = right.Value;
+                top = values[0].ToLineStyle();
+                left = right = values[1].ToLineStyle();
+                bottom = values[2].ToLineStyle();
             }
             else if (values.Length == 4)
             {
-                if (!CheckSingleProperty(top, 0, values) || !CheckSingleProperty(right, 1, values) || !CheckSingleProperty(bottom, 2, values) || !CheckSingleProperty(left, 3, values))
-                    return false;
+                top = values[0].ToLineStyle();
+                right = values[1].ToLineStyle();
+                bottom = values[2].ToLineStyle();
+                left = values[3].ToLineStyle();
             }
             else
                 return false;
 
-            _top = top;
-            _bottom = bottom;
-            _right = right;
-            _left = left;
+            if (!top.HasValue || !right.HasValue || !bottom.HasValue || !left.HasValue)
+                return false;
+
+            _top = top.Value;
+            _bottom = bottom.Value;
+            _right = right.Value;
+            _left = left.Value;
             return true;
         }
 
