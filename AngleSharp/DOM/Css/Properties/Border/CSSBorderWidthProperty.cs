@@ -10,10 +10,10 @@
     {
         #region Fields
 
-        CSSBorderTopWidthProperty _top;
-        CSSBorderRightWidthProperty _right;
-        CSSBorderBottomWidthProperty _bottom;
-        CSSBorderLeftWidthProperty _left;
+        Length _top;
+        Length _right;
+        Length _bottom;
+        Length _left;
 
         #endregion
 
@@ -23,10 +23,10 @@
             : base(PropertyNames.BorderWidth)
         {
             _inherited = false;
-            _top = new CSSBorderTopWidthProperty();
-            _right = new CSSBorderRightWidthProperty();
-            _bottom = new CSSBorderBottomWidthProperty();
-            _left = new CSSBorderLeftWidthProperty();
+            _top = Length.Medium;
+            _right = Length.Medium;
+            _bottom = Length.Medium;
+            _left = Length.Medium;
         }
 
         #endregion
@@ -38,7 +38,7 @@
         /// </summary>
         public Length Top
         {
-            get { return _top.Width; }
+            get { return _top; }
         }
 
         /// <summary>
@@ -46,7 +46,7 @@
         /// </summary>
         public Length Right
         {
-            get { return _right.Width; }
+            get { return _right; }
         }
 
         /// <summary>
@@ -54,7 +54,7 @@
         /// </summary>
         public Length Bottom
         {
-            get { return _bottom.Width; }
+            get { return _bottom; }
         }
 
         /// <summary>
@@ -62,7 +62,7 @@
         /// </summary>
         public Length Left
         {
-            get { return _left.Width; }
+            get { return _left; }
         }
 
         #endregion
@@ -80,45 +80,43 @@
                 return true;
 
             var values = value as CSSValueList ?? new CSSValueList(value);
-            var top = new CSSBorderTopWidthProperty();
-            var bottom = new CSSBorderBottomWidthProperty();
-            var right = new CSSBorderRightWidthProperty();
-            var left = new CSSBorderLeftWidthProperty();
+            Length? top;
+            Length? bottom;
+            Length? right;
+            Length? left;
 
             if (values.Length == 1)
             {
-                if (!CheckSingleProperty(top, 0, values))
-                    return false;
-
-                right.Value = left.Value = bottom.Value = top.Value;
+                right = left = bottom = top = values[0].ToLength();
             }
             else if (values.Length == 2)
             {
-                if (!CheckSingleProperty(top, 0, values) || !CheckSingleProperty(right, 1, values))
-                    return false;
-
-                bottom.Value = top.Value;
-                left.Value = right.Value;
+                bottom = top = values[0].ToLength();
+                left = right = values[1].ToLength();
             }
             else if (values.Length == 3)
             {
-                if (!CheckSingleProperty(top, 0, values) || !CheckSingleProperty(right, 1, values) || !CheckSingleProperty(bottom, 2, values))
-                    return false;
-
-                left.Value = right.Value;
+                top = values[0].ToLength();
+                left = right = values[1].ToLength();
+                bottom = values[2].ToLength();
             }
             else if (values.Length == 4)
             {
-                if (!CheckSingleProperty(top, 0, values) || !CheckSingleProperty(right, 1, values) || !CheckSingleProperty(bottom, 2, values) || !CheckSingleProperty(left, 3, values))
-                    return false;
+                top = values[0].ToLength();
+                right = values[1].ToLength();
+                bottom = values[2].ToLength();
+                left = values[3].ToLength();
             }
             else
                 return false;
 
-            _top = top;
-            _bottom = bottom;
-            _right = right;
-            _left = left;
+            if (!top.HasValue || !right.HasValue || !bottom.HasValue || !left.HasValue)
+                return false;
+
+            _top = top.Value;
+            _bottom = bottom.Value;
+            _right = right.Value;
+            _left = left.Value;
             return true;
         }
 
