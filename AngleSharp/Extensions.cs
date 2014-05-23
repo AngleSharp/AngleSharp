@@ -1,15 +1,20 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.DOM;
+    using AngleSharp.DOM.Html;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// A set of useful extension methods when dealing with the DOM.
     /// </summary>
     public static class Extensions
     {
+        #region jQuery like
+
         /// <summary>
         /// Sets the specified attribute name to the specified value for all
         /// elements in the given collection.
@@ -84,5 +89,60 @@
 
             return elements;
         }
+
+        #endregion
+
+        #region Construction Helpers
+
+        /// <summary>
+        /// Interprets the string as HTML source code and returns new HTMLDocument
+        /// with the DOM representation.
+        /// </summary>
+        /// <param name="content">The string to use as source code.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <returns>The HTML document.</returns>
+        public static HTMLDocument ParseHtml(this String content, IConfiguration configuration = null)
+        {
+            return DocumentBuilder.Html(content, configuration);
+        }
+
+        /// <summary>
+        /// Uses the URL to download the content, parse it as HTML and returning
+        /// a new HTMLDocument with the DOM representation.
+        /// </summary>
+        /// <param name="uri">The source of the HTML content.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <returns>The HTML document.</returns>
+        public static HTMLDocument GetHtml(this Uri uri, IConfiguration configuration = null)
+        {
+            return DocumentBuilder.Html(uri, configuration);
+        }
+
+        /// <summary>
+        /// Uses the URL to download the content asynchronously, parse it as HTML and returning
+        /// a new HTMLDocument with the DOM representation.
+        /// </summary>
+        /// <param name="uri">The source of the HTML content.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <returns>The HTML document.</returns>
+        public static Task<HTMLDocument> GetHtmlAsync(this Uri uri, IConfiguration configuration = null)
+        {
+            return DocumentBuilder.HtmlAsync(uri, configuration);
+        }
+
+        /// <summary>
+        /// Uses the URL to download the content asynchronously, parse it as HTML and returning
+        /// a new HTMLDocument with the DOM representation.
+        /// </summary>
+        /// <param name="uri">The source of the HTML content.</param>
+        /// <param name="cancel">The cancellation token for aborting the download.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <returns>The HTML document.</returns>
+        public static Task<HTMLDocument> GetHtmlAsync(this Uri uri, CancellationToken cancel, IConfiguration configuration = null)
+        {
+            return DocumentBuilder.HtmlAsync(uri, cancel, configuration);
+        }
+
+        #endregion
     }
 }
