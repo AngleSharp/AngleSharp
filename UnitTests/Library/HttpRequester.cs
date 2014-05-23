@@ -26,7 +26,7 @@ namespace UnitTests
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
                 request.Address = new Uri("http://httpbin.org/robots.txt");
-                request.Method = HttpMethod.GET;
+                request.Method = HttpMethod.Get;
 
                 var response = http.Request(request);
                 Assert.IsNotNull(response);
@@ -47,7 +47,7 @@ namespace UnitTests
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
                 request.Address = new Uri("http://httpbin.org/status/500");
-                request.Method = HttpMethod.GET;
+                request.Method = HttpMethod.Get;
 
                 var response = http.Request(request);
                 Assert.IsNotNull(response);
@@ -65,7 +65,7 @@ namespace UnitTests
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
                 request.Address = new Uri("http://httpbin.org/status/400");
-                request.Method = HttpMethod.GET;
+                request.Method = HttpMethod.Get;
 
                 var response = http.Request(request);
                 Assert.IsNotNull(response);
@@ -83,7 +83,7 @@ namespace UnitTests
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
                 request.Address = new Uri("http://httpbin.org/status/403");
-                request.Method = HttpMethod.GET;
+                request.Method = HttpMethod.Get;
 
                 var response = http.Request(request);
                 Assert.IsNotNull(response);
@@ -101,7 +101,7 @@ namespace UnitTests
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
                 request.Address = new Uri("http://httpbin.org/status/404");
-                request.Method = HttpMethod.GET;
+                request.Method = HttpMethod.Get;
 
                 var response = http.Request(request);
                 Assert.IsNotNull(response);
@@ -119,7 +119,7 @@ namespace UnitTests
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
                 request.Address = new Uri("http://httpbin.org/post");
-                request.Method = HttpMethod.POST;
+                request.Method = HttpMethod.Post;
                 request.Content = Helper.StreamFromString("Hello world");
 
                 var response = http.Request(request);
@@ -145,7 +145,7 @@ namespace UnitTests
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
                 request.Address = new Uri("http://httpbin.org/put");
-                request.Method = HttpMethod.PUT;
+                request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("PUT THIS THING BACK");
 
                 var response = http.Request(request);
@@ -171,7 +171,7 @@ namespace UnitTests
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
                 request.Address = new Uri("http://httpbin.org/delete");
-                request.Method = HttpMethod.DELETE;
+                request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
                 var response = http.Request(request);
@@ -190,7 +190,7 @@ namespace UnitTests
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
                 request.Address = new Uri("http://httpbin.org/get");
-                request.Method = HttpMethod.DELETE;
+                request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
                 var response = http.Request(request);
@@ -209,7 +209,7 @@ namespace UnitTests
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
                 request.Address = new Uri("http://httpbin.org/get");
-                request.Method = HttpMethod.PUT;
+                request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
                 var response = http.Request(request);
@@ -229,7 +229,7 @@ namespace UnitTests
                 var http = new DefaultRequester(info);
                 var request = new DefaultRequest();
                 request.Address = new Uri("http://httpbin.org/user-agent");
-                request.Method = HttpMethod.GET;
+                request.Method = HttpMethod.Get;
 
                 var response = http.Request(request);
                 Assert.IsNotNull(response);
@@ -254,7 +254,7 @@ namespace UnitTests
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
                 request.Address = new Uri("http://httpbin.org/robots.txt");
-                request.Method = HttpMethod.GET;
+                request.Method = HttpMethod.Get;
 
                 var response = http.RequestAsync(request);
                 Assert.IsNotNull(response);
