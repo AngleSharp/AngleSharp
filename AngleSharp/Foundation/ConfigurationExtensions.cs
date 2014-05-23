@@ -60,7 +60,7 @@
                 throw new NullReferenceException("Unable to create instance of IRequest. Configure one by adding an entry to the current DependencyResolver.");
 
             request.Address = url;
-            request.Method = HttpMethod.GET;
+            request.Method = HttpMethod.Get;
             var response = await requester.RequestAsync(request, cancel);
             return response.Content;
         }
@@ -74,7 +74,7 @@
         /// <param name="mimeType">The mime-type of the request.</param>
         /// <param name="method">The method that is used for sending the request asynchronously.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<Stream> SendAsync(this IConfiguration configuration, Uri url, Stream content = null, String mimeType = null, HttpMethod method = HttpMethod.POST)
+        public static Task<Stream> SendAsync(this IConfiguration configuration, Uri url, Stream content = null, String mimeType = null, HttpMethod method = HttpMethod.Post)
         {
             return configuration.SendAsync(url, content, mimeType, method, CancellationToken.None);
         }

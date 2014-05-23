@@ -144,7 +144,7 @@
         [DOM("method")]
         public HttpMethod Method
         {
-            get { return ToEnum(GetAttribute("method"), HttpMethod.GET); }
+            get { return ToEnum(GetAttribute("method"), HttpMethod.Get); }
             set { SetAttribute("method", value.ToString()); }
         }
 
@@ -265,23 +265,23 @@
 
             if (scheme == KnownProtocols.Http || scheme == KnownProtocols.Https)
             {
-                if (Method == HttpMethod.GET)
+                if (Method == HttpMethod.Get)
                     MutateActionUrl(location);
-                else if (Method == HttpMethod.POST)
+                else if (Method == HttpMethod.Post)
                     SubmitAsEntityBody(location);
             }
             else if (scheme == KnownProtocols.Data)
             {
-                if (Method == HttpMethod.GET)
+                if (Method == HttpMethod.Get)
                     GetActionUrl(location);
-                else if (Method == HttpMethod.POST)
+                else if (Method == HttpMethod.Post)
                     PostToData(location);
             }
             else if (scheme == KnownProtocols.Mailto)
             {
-                if (Method == HttpMethod.GET)
+                if (Method == HttpMethod.Get)
                     MailWithHeaders(location);
-                else if (Method == HttpMethod.POST)
+                else if (Method == HttpMethod.Post)
                     MailAsBody(location);
             }
             else if (scheme == KnownProtocols.Ftp || scheme == KnownProtocols.JavaScript)
@@ -328,7 +328,7 @@
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
-            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.GET);
+            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.Get);
         }
 
         /// <summary>
@@ -385,7 +385,7 @@
         /// </summary>
         void GetActionUrl(Location action)
         {
-            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.GET);
+            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.Get);
         }
 
         /// <summary>
@@ -416,7 +416,7 @@
                 mimeType = MimeTypes.Plain;
             }
 
-            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.POST, result, mimeType);
+            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.Post, result, mimeType);
         }
 
         /// <summary>

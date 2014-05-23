@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
     /// <summary>
     /// Represents the usable methods for transmitting HTTP forms.
@@ -10,18 +8,18 @@ namespace AngleSharp
         /// <summary>
         /// The GET method.
         /// </summary>
-        GET,
+        Get,
         /// <summary>
         /// The POST method.
         /// </summary>
-        POST,
+        Post,
         /// <summary>
         /// The PUT method.
         /// </summary>
-        PUT,
+        Put,
         /// <summary>
         /// The DELETE method.
         /// </summary>
-        DELETE
+        Delete
     }
 }

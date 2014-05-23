@@ -165,7 +165,7 @@
         [DOM("formMethod")]
         public HttpMethod FormMethod
         {
-            get { if (Form == null) return HttpMethod.POST; return Form.Method; }
+            get { if (Form == null) return HttpMethod.Post; return Form.Method; }
             set { if (Form != null) Form.Method = value; }
         }
 
