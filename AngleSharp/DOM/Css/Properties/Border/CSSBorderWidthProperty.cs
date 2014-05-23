@@ -87,25 +87,25 @@
 
             if (values.Length == 1)
             {
-                right = left = bottom = top = values[0].ToLength();
+                right = left = bottom = top = values[0].ToBorderWidth();
             }
             else if (values.Length == 2)
             {
-                bottom = top = values[0].ToLength();
-                left = right = values[1].ToLength();
+                bottom = top = values[0].ToBorderWidth();
+                left = right = values[1].ToBorderWidth();
             }
             else if (values.Length == 3)
             {
-                top = values[0].ToLength();
-                left = right = values[1].ToLength();
-                bottom = values[2].ToLength();
+                top = values[0].ToBorderWidth();
+                left = right = values[1].ToBorderWidth();
+                bottom = values[2].ToBorderWidth();
             }
             else if (values.Length == 4)
             {
-                top = values[0].ToLength();
-                right = values[1].ToLength();
-                bottom = values[2].ToLength();
-                left = values[3].ToLength();
+                top = values[0].ToBorderWidth();
+                right = values[1].ToBorderWidth();
+                bottom = values[2].ToBorderWidth();
+                left = values[3].ToBorderWidth();
             }
             else
                 return false;
