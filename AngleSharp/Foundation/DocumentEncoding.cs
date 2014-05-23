@@ -1,8 +1,8 @@
-﻿using System;
-using System.Text;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+    using System.Text;
+
     /// <summary>
     /// Various HTML encoding helpers.
     /// </summary>
@@ -130,27 +130,27 @@ namespace AngleSharp
                 case "iso885911":
                 case "tis-620":
                 case "windows-874":
-                    return Encoding.GetEncoding("windows-874");
+                    return GetEncoding("windows-874");
 
                 case "cp1250":
                 case "windows-1250":
                 case "x-cp1250":
-                    return Encoding.GetEncoding("windows-1250");
+                    return GetEncoding("windows-1250");
 
                 case "cp1251":
                 case "windows-1251":
                 case "x-cp1251":
-                    return Encoding.GetEncoding("windows-1251");
+                    return GetEncoding("windows-1251");
 
                 case "ansi_x3.4-1968":
                 case "ascii":
-                case "cp1252": 
+                case "cp1252":
                 case "cp819":
                 case "csisolatin1":
                 case "ibm819":
                 case "iso-8859-1":
-                case "iso-ir-100": 
-                case "iso8859-1": 
+                case "iso-ir-100":
+                case "iso8859-1":
                 case "iso88591":
                 case "iso_8859-1":
                 case "iso_8859-1:1987":
@@ -159,12 +159,12 @@ namespace AngleSharp
                 case "us-ascii":
                 case "windows-1252":
                 case "x-cp1252":
-                    return Encoding.GetEncoding("windows-1252");
+                    return GetEncoding("windows-1252");
 
                 case "cp1253":
                 case "windows-1253":
                 case "x-cp1253":
-                    return Encoding.GetEncoding("windows-1253");
+                    return GetEncoding("windows-1253");
 
                 case "cp1254":
                 case "csisolatin5":
@@ -178,43 +178,43 @@ namespace AngleSharp
                 case "latin5":
                 case "windows-1254":
                 case "x-cp1254":
-                    return Encoding.GetEncoding("windows-1254");
+                    return GetEncoding("windows-1254");
 
                 case "cp1255":
                 case "windows-1255":
                 case "x-cp1255":
-                    return Encoding.GetEncoding("windows-1255");
+                    return GetEncoding("windows-1255");
 
                 case "cp1256":
                 case "windows-1256":
                 case "x-cp1256":
-                    return Encoding.GetEncoding("windows-1256");
+                    return GetEncoding("windows-1256");
 
                 case "cp1257":
                 case "windows-1257":
                 case "x-cp1257":
-                    return Encoding.GetEncoding("windows-1257");
+                    return GetEncoding("windows-1257");
 
                 case "cp1258":
                 case "windows-1258":
                 case "x-cp1258":
-                    return Encoding.GetEncoding("windows-1258");
+                    return GetEncoding("windows-1258");
 
                 case "csmacintosh":
                 case "mac":
                 case "macintosh":
                 case "x-mac-roman":
-                    return Encoding.GetEncoding("macintosh");
+                    return GetEncoding("macintosh");
 
                 case "x-mac-cyrillic":
                 case "x-mac-ukrainian":
-                    return Encoding.GetEncoding("x-mac-cyrillic");
+                    return GetEncoding("x-mac-cyrillic");
 
                 case "866":
                 case "cp866":
                 case "csibm866":
                 case "ibm866":
-                    return Encoding.GetEncoding("cp866");
+                    return GetEncoding("cp866");
 
                 case "csisolatin2":
                 case "iso-8859-2":
@@ -225,7 +225,7 @@ namespace AngleSharp
                 case "iso_8859-2:1987":
                 case "l2":
                 case "latin2":
-                    return Encoding.GetEncoding("iso-8859-2");
+                    return GetEncoding("iso-8859-2");
 
                 case "csisolatin3":
                 case "iso-8859-3":
@@ -236,7 +236,7 @@ namespace AngleSharp
                 case "iso_8859-3:1988":
                 case "l3":
                 case "latin3":
-                    return Encoding.GetEncoding("iso-8859-3");
+                    return GetEncoding("iso-8859-3");
 
                 case "csisolatin4":
                 case "iso-8859-4":
@@ -247,7 +247,7 @@ namespace AngleSharp
                 case "iso_8859-4:1988":
                 case "l4":
                 case "latin4":
-                    return Encoding.GetEncoding("iso-8859-4");
+                    return GetEncoding("iso-8859-4");
 
                 case "csisolatincyrillic":
                 case "cyrillic":
@@ -257,7 +257,7 @@ namespace AngleSharp
                 case "iso88595":
                 case "iso_8859-5":
                 case "iso_8859-5:1988":
-                    return Encoding.GetEncoding("iso-8859-5");
+                    return GetEncoding("iso-8859-5");
 
                 case "arabic":
                 case "asmo-708":
@@ -273,7 +273,7 @@ namespace AngleSharp
                 case "iso88596":
                 case "iso_8859-6":
                 case "iso_8859-6:1987":
-                    return Encoding.GetEncoding("iso-8859-6");
+                    return GetEncoding("iso-8859-6");
 
                 case "csisolatingreek":
                 case "ecma-118":
@@ -287,7 +287,7 @@ namespace AngleSharp
                 case "iso_8859-7":
                 case "iso_8859-7:1987":
                 case "sun_eu_greek":
-                    return Encoding.GetEncoding("iso-8859-7");
+                    return GetEncoding("iso-8859-7");
 
                 case "csiso88598e":
                 case "csisolatinhebrew":
@@ -300,17 +300,17 @@ namespace AngleSharp
                 case "iso_8859-8":
                 case "iso_8859-8:1988":
                 case "visual":
-                    return Encoding.GetEncoding("iso-8859-8");
+                    return GetEncoding("iso-8859-8");
 
                 case "csiso88598i":
                 case "iso-8859-8-i":
                 case "logical":
-                    return Encoding.GetEncoding("iso-8859-8-i");
+                    return GetEncoding("iso-8859-8-i");
 
                 case "iso-8859-13":
                 case "iso8859-13":
                 case "iso885913":
-                    return Encoding.GetEncoding("iso-8859-13");
+                    return GetEncoding("iso-8859-13");
 
                 case "csisolatin9":
                 case "iso-8859-15":
@@ -318,17 +318,17 @@ namespace AngleSharp
                 case "iso885915":
                 case "iso_8859-15":
                 case "l9":
-                    return Encoding.GetEncoding("iso-8859-15");
+                    return GetEncoding("iso-8859-15");
 
                 case "cskoi8r":
                 case "koi":
                 case "koi8":
                 case "koi8-r":
                 case "koi8_r":
-                    return Encoding.GetEncoding("koi8-r");
+                    return GetEncoding("koi8-r");
 
                 case "koi8-u":
-                    return Encoding.GetEncoding("koi8-u");
+                    return GetEncoding("koi8-u");
 
                 case "chinese":
                 case "csgb2312":
@@ -339,32 +339,32 @@ namespace AngleSharp
                 case "gbk":
                 case "iso-ir-58":
                 case "x-gbk":
-                    return Encoding.GetEncoding("x-cp20936");
+                    return GetEncoding("x-cp20936");
 
                 case "hz-gb-2312":
-                    return Encoding.GetEncoding("hz-gb-2312");
+                    return GetEncoding("hz-gb-2312");
 
                 case "gb18030":
-                    return Encoding.GetEncoding("GB18030");
+                    return GetEncoding("GB18030");
 
                 case "big5":
                 case "big5-hkscs":
                 case "cn-big5":
                 case "csbig5":
                 case "x-x-big5":
-                    return Encoding.GetEncoding("big5");
+                    return GetEncoding("big5");
 
                 case "csiso2022jp":
                 case "iso-2022-jp":
-                    return Encoding.GetEncoding("iso-2022-jp");
+                    return GetEncoding("iso-2022-jp");
 
                 case "csiso2022kr":
                 case "iso-2022-kr":
-                    return Encoding.GetEncoding("iso-2022-kr");
+                    return GetEncoding("iso-2022-kr");
 
                 case "iso-2022-cn":
                 case "iso-2022-cn-ext":
-                    return Encoding.GetEncoding("iso-2022-jp");
+                    return GetEncoding("iso-2022-jp");
 
                 default:
                     return null;
@@ -397,52 +397,73 @@ namespace AngleSharp
                         return Encoding.UTF8;
 
                     case "be":
-                        return Encoding.GetEncoding("iso-8859-5");
+                        return GetEncoding("iso-8859-5");
 
                     case "bg":
                     case "ru":
                     case "uk":
-                        return Encoding.GetEncoding("windows-1251");
+                        return GetEncoding("windows-1251");
 
                     case "cs":
                     case "hu":
                     case "pl":
                     case "sl":
-                        return Encoding.GetEncoding("iso-8859-2");
+                        return GetEncoding("iso-8859-2");
 
                     case "tr":
                     case "ku":
-                        return Encoding.GetEncoding("windows-1254");
+                        return GetEncoding("windows-1254");
 
                     case "he":
-                        return Encoding.GetEncoding("windows-1255");
+                        return GetEncoding("windows-1255");
 
                     case "lv":
-                        return Encoding.GetEncoding("iso-8859-13");
+                        return GetEncoding("iso-8859-13");
 
                     case "ja"://  Windows-31J ???? Replaced by something better anyway
                         return Encoding.UTF8;
 
                     case "ko":
-                        return Encoding.GetEncoding("ks_c_5601-1987");
+                        return GetEncoding("ks_c_5601-1987");
 
                     case "lt":
-                        return Encoding.GetEncoding("windows-1257");
+                        return GetEncoding("windows-1257");
 
                     case "sk":
-                        return Encoding.GetEncoding("windows-1250");
+                        return GetEncoding("windows-1250");
 
                     case "th":
-                        return Encoding.GetEncoding("windows-874");
+                        return GetEncoding("windows-874");
                 }
 
-                if (local.Equals("zh-CN", StringComparison.OrdinalIgnoreCase))
-                    return Encoding.GetEncoding("GB18030");
-                else if (local.Equals("zh-TW", StringComparison.OrdinalIgnoreCase))
-                    return Encoding.GetEncoding("big5");
+                if (local.Equals("zh-cn", StringComparison.OrdinalIgnoreCase))
+                    return GetEncoding("GB18030");
+                else if (local.Equals("zh-tw", StringComparison.OrdinalIgnoreCase))
+                    return GetEncoding("big5");
             }
 
-            return Encoding.GetEncoding("windows-1252");
+            return GetEncoding("windows-1252");
+        }
+
+        /// <summary>
+        /// Gets the encoding for lesser used charsets. This might result in an
+        /// exception depending on the platform (mostly Windows Phone *).
+        /// Exceptions are handled by returning UTF8. That should work well in
+        /// most scenarios.
+        /// </summary>
+        /// <param name="name">The name of the charset.</param>
+        /// <returns>The encoding for the given charset.</returns>
+        static Encoding GetEncoding(String name)
+        {
+            try
+            {
+                return Encoding.GetEncoding(name);
+            }
+            catch
+            {
+                // We use a catch em all since WP8 does throw a different exception than W*.
+                return Encoding.UTF8;
+            }
         }
     }
 }
