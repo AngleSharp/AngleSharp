@@ -10,10 +10,10 @@
     {
         #region Fields
 
-        Length _top;
-        Length _right;
-        Length _bottom;
-        Length _left;
+        readonly Length _top;
+        readonly Length _right;
+        readonly Length _bottom;
+        readonly Length _left;
 
         #endregion
 

@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        T _value;
+        readonly T _value;
 
         #endregion
 

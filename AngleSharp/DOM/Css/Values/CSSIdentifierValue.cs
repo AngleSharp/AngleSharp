@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        String _token;
+        readonly String _token;
 
         #endregion
 

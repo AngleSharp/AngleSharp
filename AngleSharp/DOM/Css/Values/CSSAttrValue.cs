@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        String _name;
+        readonly String _name;
 
         #endregion
 

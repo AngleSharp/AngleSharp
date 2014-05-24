@@ -12,7 +12,7 @@
         /// <summary>
         /// The CSS text representation of the value.
         /// </summary>
-        String _text;
+        readonly String _text;
 
         #endregion
 

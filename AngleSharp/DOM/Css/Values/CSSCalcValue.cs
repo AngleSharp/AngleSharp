@@ -75,7 +75,7 @@
 
         sealed class Absolute : CSSCalcValue
         {
-            Length _length;
+            readonly Length _length;
 
             public Absolute(Length length)
             {
@@ -95,7 +95,7 @@
 
         sealed class Relative : CSSCalcValue
         {
-            Percent _scale;
+            readonly Percent _scale;
 
             public Relative(Percent scale)
             {
@@ -116,8 +116,8 @@
 
         sealed class ComputeAdd : CSSCalcValue
         {
-            CSSCalcValue _origin;
-            CSSCalcValue _shift;
+            readonly CSSCalcValue _origin;
+            readonly CSSCalcValue _shift;
 
             public ComputeAdd(CSSCalcValue origin, CSSCalcValue shift)
             {

@@ -6,9 +6,9 @@
     {
         #region Fields
 
-        String _identifier;
-        String _listStyle;
-        String _separator;
+        readonly String _identifier;
+        readonly String _listStyle;
+        readonly String _separator;
 
         #endregion
 
