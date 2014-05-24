@@ -53,9 +53,9 @@
         /// <summary>
         /// Gets the value of the background position property.
         /// </summary>
-        public CSSBackgroundPositionProperty Position
+        public IEnumerable<CSSPointValue> Position
         {
-            get { return _position; }
+            get { return _position.Positions; }
         }
 
         /// <summary>

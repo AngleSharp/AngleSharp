@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<Position> _positions;
+        List<CSSPointValue> _positions;
 
         #endregion
 
@@ -21,8 +21,20 @@
             : base(PropertyNames.BackgroundPosition)
         {
             _inherited = false;
-            _positions = new List<Position>();
-            _positions.Add(new Position());
+            _positions = new List<CSSPointValue>();
+            _positions.Add(CSSPointValue.Centered);
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the list of all given positions.
+        /// </summary>
+        public IEnumerable<CSSPointValue> Positions
+        {
+            get { return _positions; }
         }
 
         #endregion
@@ -40,21 +52,24 @@
                 return true;
 
             var values = value as CSSValueList ?? new CSSValueList(value);
-            var positions = new List<Position>();
+            var positions = new List<CSSPointValue>();
             var list = values.ToList();
 
             foreach (var entry in list)
             {
-                var position = new Position();
-
                 if (entry.Length == 0 || entry.Length > 4)
                     return false;
 
-                if (entry.Length == 1 && !Check(entry[0], ref position))
-                    return false;
-                else if (entry.Length == 2 && !Check(entry[0], entry[1], ref position))
-                    return false;
-                else if (entry.Length > 2 && !Check(entry, ref position))
+                CSSPointValue position = null;
+
+                if (entry.Length == 1)
+                    position = Check(entry[0]);
+                else if (entry.Length == 2)
+                    position = Check(entry[0], entry[1]);
+                else if (entry.Length > 2)
+                    position = Check(entry);
+
+                if (position == null)
                     return false;
 
                 positions.Add(position);
@@ -64,7 +79,7 @@
             return true;
         }
 
-        static Boolean Check(CSSValueList values, ref Position position)
+        static CSSPointValue Check(CSSValueList values)
         {
             var index = 0;
             var shift = CSSCalcValue.Zero;
@@ -83,7 +98,7 @@
                 shift = values[index + 1].AsCalc();
             }
             else if (!value.Is("center"))
-                return false;
+                return null;
 
             if (shift != null && shift != CSSCalcValue.Zero)
             {
@@ -109,19 +124,17 @@
                     shift = values[index + 1].AsCalc();
             }
             else if (!value.Is("center"))
-                return false;
+                return null;
 
             if (shift == null)
-                return false;
+                return null;
             else if (shift != CSSCalcValue.Zero)
                 vertical = vertical.Add(shift);
 
-            position.X = horizontal;
-            position.Y = vertical;
-            return true;
+            return new CSSPointValue(horizontal, vertical);
         }
 
-        static Boolean Check(CSSValue left, CSSValue right, ref Position position)
+        static CSSPointValue Check(CSSValue left, CSSValue right)
         {
             var horizontal = left.AsCalc();
             var vertical = right.AsCalc();
@@ -167,53 +180,29 @@
             }
 
             if (horizontal == null || vertical == null)
-                return false;
+                return null;
 
-            position.X = horizontal;
-            position.Y = vertical;
-            return true;
+            return new CSSPointValue(horizontal, vertical);
         }
 
-        static Boolean Check(CSSValue value, ref Position position)
+        static CSSPointValue Check(CSSValue value)
         {
             var calc = value.AsCalc();
 
             if (calc != null)
-                position.X = calc;
+                return new CSSPointValue(calc);
             else if (value.Is("left"))
-                position.X = CSSCalcValue.Zero;
+                return new CSSPointValue(x: CSSCalcValue.Zero);
             else if (value.Is("right"))
-                position.X = CSSCalcValue.Full;
+                return new CSSPointValue(x: CSSCalcValue.Full);
             else if (value.Is("top"))
-                position.Y = CSSCalcValue.Zero;
+                return new CSSPointValue(y: CSSCalcValue.Zero);
             else if (value.Is("bottom"))
-                position.Y = CSSCalcValue.Full;
+                return new CSSPointValue(y: CSSCalcValue.Full);
             else if (!value.Is("center"))
-                return false;
+                return null;
 
-            return true;
-        }
-
-        #endregion
-
-        #region Position
-
-        struct Position
-        {
-            CSSCalcValue _x;
-            CSSCalcValue _y;
-
-            public CSSCalcValue X
-            {
-                get { return _x ?? CSSCalcValue.Center; }
-                set { _x = value; }
-            }
-
-            public CSSCalcValue Y
-            {
-                get { return _y ?? CSSCalcValue.Center; }
-                set { _y = value; }
-            }
+            return CSSPointValue.Centered;
         }
 
         #endregion

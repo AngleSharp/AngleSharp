@@ -238,6 +238,7 @@
     <Compile Include="DOM\Css\Values\CSSImageValue.cs" />
     <Compile Include="DOM\Css\Values\CSSAttrValue.cs" />
     <Compile Include="DOM\Css\Values\CSSIdentifierValue.cs" />
+    <Compile Include="DOM\Css\Values\CSSPointValue.cs" />
     <Compile Include="DOM\Css\Values\CSSStringValue.cs" />
     <Compile Include="DOM\Css\Values\CSSTimingValue.cs" />
     <Compile Include="DOM\Css\Values\CSSTransformValue.cs" />
