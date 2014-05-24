@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.DOM;
+    using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
     using AngleSharp.Parser.Css;
     using System;
@@ -107,6 +108,18 @@
         }
 
         /// <summary>
+        /// Interprets the string as CSS source code and returns new CSSStyleSheet
+        /// with the CSS-OM representation.
+        /// </summary>
+        /// <param name="content">The string to use as source code.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <returns>The CSS stylesheet.</returns>
+        public static CSSStyleSheet ParseCss(this String content, IConfiguration configuration = null)
+        {
+            return DocumentBuilder.Css(content, configuration);
+        }
+
+        /// <summary>
         /// Uses the URL to download the content, parse it as HTML and returning
         /// a new HTMLDocument with the DOM representation.
         /// </summary>
@@ -116,6 +129,18 @@
         public static HTMLDocument GetHtml(this Uri uri, IConfiguration configuration = null)
         {
             return DocumentBuilder.Html(uri, configuration);
+        }
+
+        /// <summary>
+        /// Uses the URL to download the content, parse it as CSS and returning
+        /// a new CSSStyleSheet with the CSS-OM representation.
+        /// </summary>
+        /// <param name="uri">The source of the CSS content.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <returns>The CSS stylesheet.</returns>
+        public static CSSStyleSheet GetCss(this Uri uri, IConfiguration configuration = null)
+        {
+            return DocumentBuilder.Css(uri, configuration);
         }
 
         /// <summary>
@@ -141,6 +166,31 @@
         public static Task<HTMLDocument> GetHtmlAsync(this Uri uri, CancellationToken cancel, IConfiguration configuration = null)
         {
             return DocumentBuilder.HtmlAsync(uri, cancel, configuration);
+        }
+
+        /// <summary>
+        /// Uses the URL to download the content asynchronously, parse it as CSS and returning
+        /// a new CSSStyleSheet with the CSS-OM representation.
+        /// </summary>
+        /// <param name="uri">The source of the CSS content.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <returns>The CSS stylesheet.</returns>
+        public static Task<CSSStyleSheet> GetCssAsync(this Uri uri, IConfiguration configuration = null)
+        {
+            return DocumentBuilder.CssAsync(uri, configuration);
+        }
+
+        /// <summary>
+        /// Uses the URL to download the content asynchronously, parse it as CSS and returning
+        /// a new CSSStyleSheet with the CSS-OM representation.
+        /// </summary>
+        /// <param name="uri">The source of the CSS content.</param>
+        /// <param name="cancel">The cancellation token for aborting the download.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <returns>The CSS stylesheet.</returns>
+        public static Task<CSSStyleSheet> GetCssAsync(this Uri uri, CancellationToken cancel, IConfiguration configuration = null)
+        {
+            return DocumentBuilder.CssAsync(uri, cancel, configuration);
         }
 
         #endregion
