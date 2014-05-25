@@ -8,12 +8,18 @@
     /// </summary>
     static class ValueExtensions
     {
+        #region Dictionaries
+
         static readonly Dictionary<String, LineStyle> lineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BoxModel> boxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, CSSTimingValue> timingFunctions = new Dictionary<String, CSSTimingValue>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, AnimationFillStyle> fillModes = new Dictionary<String, AnimationFillStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, AnimationDirection> directions = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, Visibility> visibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase);
+
+        #endregion
+
+        #region Initial Population
 
         static ValueExtensions()
         {
@@ -54,6 +60,10 @@
             visibilities.Add("hidden", Visibility.Hidden);
             visibilities.Add("collapse", Visibility.Collapse);
         }
+
+        #endregion
+
+        #region Dictionary Lookups
 
         public static AnimationDirection? ToDirection(this CSSValue value)
         {
@@ -116,6 +126,10 @@
 
             return null;
         }
+
+        #endregion
+
+        #region Transformers
 
         public static Boolean Is(this CSSValue value, String identifier)
         {
@@ -382,6 +396,135 @@
             return list;
         }
 
+        public static CSSPointValue ToPoint(this CSSValueList values)
+        {
+            if (values.Length == 1)
+            {
+                var value = values[0];
+                var calc = value.AsCalc();
+
+                if (calc != null)
+                    return new CSSPointValue(calc);
+                else if (value.Is("left"))
+                    return new CSSPointValue(x: CSSCalcValue.Zero);
+                else if (value.Is("right"))
+                    return new CSSPointValue(x: CSSCalcValue.Full);
+                else if (value.Is("top"))
+                    return new CSSPointValue(y: CSSCalcValue.Zero);
+                else if (value.Is("bottom"))
+                    return new CSSPointValue(y: CSSCalcValue.Full);
+                else if (value.Is("center"))
+                    return CSSPointValue.Centered;
+            }
+            else if (values.Length == 2)
+            {
+                var left = values[0];
+                var right = values[1];
+                var horizontal = left.AsCalc();
+                var vertical = right.AsCalc();
+
+                if (horizontal == null)
+                {
+                    if (left.Is("left"))
+                        horizontal = CSSCalcValue.Zero;
+                    else if (left.Is("right"))
+                        horizontal = CSSCalcValue.Full;
+                    else if (left.Is("center"))
+                        horizontal = CSSCalcValue.Center;
+                    else if (left.Is("top"))
+                    {
+                        horizontal = vertical;
+                        vertical = CSSCalcValue.Zero;
+                    }
+                    else if (left.Is("bottom"))
+                    {
+                        horizontal = vertical;
+                        vertical = CSSCalcValue.Full;
+                    }
+                }
+
+                if (vertical == null)
+                {
+                    if (right.Is("top"))
+                        vertical = CSSCalcValue.Zero;
+                    else if (right.Is("bottom"))
+                        vertical = CSSCalcValue.Full;
+                    else if (right.Is("center"))
+                        vertical = CSSCalcValue.Center;
+                    else if (right.Is("left"))
+                    {
+                        vertical = horizontal;
+                        horizontal = CSSCalcValue.Zero;
+                    }
+                    else if (right.Is("right"))
+                    {
+                        vertical = horizontal;
+                        horizontal = CSSCalcValue.Full;
+                    }
+                }
+
+                if (horizontal != null && vertical != null)
+                    return new CSSPointValue(horizontal, vertical);
+            }
+            else if (values.Length > 2)
+            {
+                var index = 0;
+                var shift = CSSCalcValue.Zero;
+                var horizontal = CSSCalcValue.Center;
+                var vertical = CSSCalcValue.Center;
+                var value = values[index];
+
+                if (value.Is("left"))
+                {
+                    horizontal = CSSCalcValue.Zero;
+                    shift = values[index + 1].AsCalc();
+                }
+                else if (value.Is("right"))
+                {
+                    horizontal = CSSCalcValue.Full;
+                    shift = values[index + 1].AsCalc();
+                }
+                else if (!value.Is("center"))
+                    return null;
+
+                if (shift != null && shift != CSSCalcValue.Zero)
+                {
+                    index++;
+                    horizontal = horizontal.Add(shift);
+                    shift = CSSCalcValue.Zero;
+                }
+
+                value = values[++index];
+
+                if (value.Is("top"))
+                {
+                    vertical = CSSCalcValue.Zero;
+
+                    if (index + 1 < values.Length)
+                        shift = values[index + 1].AsCalc();
+                }
+                else if (value.Is("bottom"))
+                {
+                    vertical = CSSCalcValue.Full;
+
+                    if (index + 1 < values.Length)
+                        shift = values[index + 1].AsCalc();
+                }
+                else if (!value.Is("center"))
+                    return null;
+
+                if (shift != null)
+                {
+                    if (shift != CSSCalcValue.Zero)
+                        vertical = vertical.Add(shift);
+
+                    return new CSSPointValue(horizontal, vertical);
+                }
+            }
+
+            return null;
+        }
+
         public static Shadow ToShadow(this CSSValueList item)
         {
             if (item.Length < 2)
@@ -441,5 +584,7 @@
 
             return new Shadow(inset, offsetX.Value, offsetY.Value, blurRadius, spreadRadius, color);
         }
+
+        #endregion
     }
 }
