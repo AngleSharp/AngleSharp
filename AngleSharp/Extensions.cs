@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.DOM;
+    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
     using AngleSharp.Parser.Css;
@@ -89,6 +90,45 @@
                 element.TextContent = text;
 
             return elements;
+        }
+
+        #endregion
+
+        #region XPath
+
+        /// <summary>
+        /// Returns a list of the elements within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that match the specified XPath.
+        /// </summary>
+        /// <param name="document">The document to use as starting point.</param>
+        /// <param name="xpath">A string containing a valid XPath query.</param>
+        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
+        public static HTMLCollection QueryXpath(this Document document, String xpath)
+        {
+            return document.ChildNodes.QueryXpath(xpath);
+        }
+
+        /// <summary>
+        /// Returns a list of the elements within the element (using depth-first pre-order traversal
+        /// of the element's nodes) that match the specified XPath.
+        /// </summary>
+        /// <param name="element">The element to use as starting point.</param>
+        /// <param name="xpath">A string containing a valid XPath query.</param>
+        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
+        public static HTMLCollection QueryXpath(this Element element, String xpath)
+        {
+            return element.ChildNodes.QueryXpath(xpath);
+        }
+
+        /// <summary>
+        /// Returns a list of the elements for the given list of elements that match the specified XPath.
+        /// </summary>
+        /// <param name="nodes">The nodes to search in (first order children).</param>
+        /// <param name="xpath">A string containing a valid XPath query.</param>
+        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
+        public static HTMLCollection QueryXpath(this NodeList nodes, String xpath)
+        {
+            throw new NotImplementedException("XPath queries will be supported in the future. Stay tuned!");
         }
 
         #endregion
