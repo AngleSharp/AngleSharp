@@ -13,6 +13,7 @@
         static readonly Dictionary<String, CSSTimingValue> timingFunctions = new Dictionary<String, CSSTimingValue>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, AnimationFillStyle> fillModes = new Dictionary<String, AnimationFillStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, AnimationDirection> directions = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, Visibility> visibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase);
 
         static ValueExtensions()
         {
@@ -48,6 +49,10 @@
             directions.Add("reverse", AnimationDirection.Reverse);
             directions.Add("alternate", AnimationDirection.Alternate);
             directions.Add("alternate-reverse", AnimationDirection.AlternateReverse);
+
+            visibilities.Add("visible", Visibility.Visible);
+            visibilities.Add("hidden", Visibility.Hidden);
+            visibilities.Add("collapse", Visibility.Collapse);
         }
 
         public static AnimationDirection? ToDirection(this CSSValue value)
@@ -76,6 +81,16 @@
 
             if (value is CSSIdentifierValue && lineStyles.TryGetValue(((CSSIdentifierValue)value).Value, out style))
                 return style;
+
+            return null;
+        }
+
+        public static Visibility? ToVisibility(this CSSValue value)
+        {
+            Visibility visibility;
+
+            if (value is CSSIdentifierValue && visibilities.TryGetValue(((CSSIdentifierValue)value).Value, out visibility))
+                return visibility;
 
             return null;
         }

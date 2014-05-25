@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -11,19 +10,11 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, Visibility> modes = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase);
         Visibility _mode;
 
         #endregion
 
         #region ctor
-
-        static CSSVisibilityProperty()
-        {
-            modes.Add("visible", Visibility.Visible);
-            modes.Add("hidden", Visibility.Hidden);
-            modes.Add("collapse", Visibility.Collapse);
-        }
 
         internal CSSVisibilityProperty()
             : base(PropertyNames.Visibility)
@@ -55,10 +46,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            Visibility mode;
+            var mode = value.ToVisibility();
 
-            if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
-                _mode = mode;
+            if (mode.HasValue)
+                _mode = mode.Value;
             else if (value != CSSValue.Inherit)
                 return false;
 
