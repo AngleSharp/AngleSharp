@@ -163,7 +163,7 @@
             foreach (var header in request.Headers)
                 AddHeader(header.Key, header.Value);
 
-            return request.Method == HttpMethod.POST || request.Method == HttpMethod.PUT;
+            return request.Method == HttpMethod.Post || request.Method == HttpMethod.Put;
         }
 
         void SendRequest(IAsyncResult ar)

@@ -865,6 +865,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSImageValue.cs">
       <Link>DOM\Css\Values\CSSImageValue.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPointValue.cs">
+      <Link>DOM\Css\Values\CSSPointValue.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPrimitiveValue.cs">
       <Link>DOM\Css\Values\CSSPrimitiveValue.cs</Link>
     </Compile>
