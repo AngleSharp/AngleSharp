@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp.Parser.Css;
 using AngleSharp.DOM.Css.Properties;
 using AngleSharp.DOM.Css;
+using AngleSharp.DOM;
 
 namespace UnitTests.Css
 {
@@ -156,6 +157,14 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual(CSSCalcValue.Zero, concrete.HorizontalBottomLeft);
+            Assert.AreEqual(CSSCalcValue.Zero, concrete.HorizontalTopLeft);
+            Assert.AreEqual(CSSCalcValue.Zero, concrete.HorizontalBottomRight);
+            Assert.AreEqual(CSSCalcValue.Zero, concrete.HorizontalTopRight);
+            Assert.AreEqual(CSSCalcValue.Zero, concrete.VerticalBottomLeft);
+            Assert.AreEqual(CSSCalcValue.Zero, concrete.VerticalBottomRight);
+            Assert.AreEqual(CSSCalcValue.Zero, concrete.VerticalTopLeft);
+            Assert.AreEqual(CSSCalcValue.Zero, concrete.VerticalTopRight);
             Assert.AreEqual("0", concrete.Value.CssText);
         }
 
@@ -171,6 +180,14 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(2f, Length.Unit.Px)), concrete.HorizontalTopLeft);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(2f, Length.Unit.Px)), concrete.VerticalTopLeft);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(4f, Length.Unit.Px)), concrete.HorizontalTopRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(4f, Length.Unit.Px)), concrete.VerticalTopRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(3f, Length.Unit.Px)), concrete.HorizontalBottomRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(3f, Length.Unit.Px)), concrete.VerticalBottomRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(4f, Length.Unit.Px)), concrete.HorizontalBottomLeft);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(4f, Length.Unit.Px)), concrete.VerticalBottomLeft);
             Assert.AreEqual("2px 4px 3px", concrete.Value.CssText);
         }
 
@@ -186,6 +203,14 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(2f, Length.Unit.Px)), concrete.HorizontalTopLeft);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(2f, Length.Unit.Px)), concrete.VerticalTopLeft);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(4f, Length.Unit.Px)), concrete.HorizontalTopRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(4f, Length.Unit.Px)), concrete.VerticalTopRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(3f, Length.Unit.Px)), concrete.HorizontalBottomRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(3f, Length.Unit.Px)), concrete.VerticalBottomRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(0f, Length.Unit.Px)), concrete.HorizontalBottomLeft);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(0f, Length.Unit.Px)), concrete.VerticalBottomLeft);
             Assert.AreEqual("2px 4px 3px 0", concrete.Value.CssText);
         }
 
@@ -215,6 +240,14 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(1f, Length.Unit.Em)), concrete.HorizontalTopLeft);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(5f, Length.Unit.Em)), concrete.VerticalTopLeft);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(1f, Length.Unit.Em)), concrete.HorizontalTopRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(5f, Length.Unit.Em)), concrete.VerticalTopRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(1f, Length.Unit.Em)), concrete.HorizontalBottomRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(5f, Length.Unit.Em)), concrete.VerticalBottomRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(1f, Length.Unit.Em)), concrete.HorizontalBottomLeft);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(5f, Length.Unit.Em)), concrete.VerticalBottomLeft);
             Assert.AreEqual("1em / 5em", concrete.Value.CssText);
         }
 
@@ -230,6 +263,14 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(4f, Length.Unit.Px)), concrete.HorizontalTopLeft);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(2f, Length.Unit.Px)), concrete.VerticalTopLeft);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(3f, Length.Unit.Px)), concrete.HorizontalTopRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(4f, Length.Unit.Px)), concrete.VerticalTopRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(6f, Length.Unit.Px)), concrete.HorizontalBottomRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(2f, Length.Unit.Px)), concrete.VerticalBottomRight);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(3f, Length.Unit.Px)), concrete.HorizontalBottomLeft);
+            Assert.AreEqual(CSSCalcValue.FromLength(new Length(4f, Length.Unit.Px)), concrete.VerticalBottomLeft);
             Assert.AreEqual("4px 3px 6px / 2px 4px", concrete.Value.CssText);
         }
 
