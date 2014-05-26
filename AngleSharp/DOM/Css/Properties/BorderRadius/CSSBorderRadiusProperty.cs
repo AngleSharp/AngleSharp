@@ -157,8 +157,8 @@
 
             _topLeftHorizontal = values[0];
             _topRightHorizontal = values[1];
-            _bottomLeftHorizontal = values[2];
-            _bottomRightHorizontal = values[3];
+            _bottomRightHorizontal = values[2];
+            _bottomLeftHorizontal = values[3];
 
             if (splitIndex != count)
             {
@@ -179,8 +179,8 @@
 
             _topLeftVertical = values[0];
             _topRightVertical = values[1];
-            _bottomLeftVertical = values[2];
-            _bottomRightVertical = values[3];
+            _bottomRightVertical = values[2];
+            _bottomLeftVertical = values[3];
 
             return true;
         }
