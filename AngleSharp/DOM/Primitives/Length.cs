@@ -50,6 +50,32 @@
 
         #endregion
 
+        #region Operators
+
+        /// <summary>
+        /// Checks the equality of the two given lengths.
+        /// </summary>
+        /// <param name="a">The left length.</param>
+        /// <param name="b">The right length.</param>
+        /// <returns>True if both lengths are equal, otherwise false.</returns>
+        public static Boolean operator ==(Length a, Length b)
+        {
+            return a.Equals(b);
+        }
+
+        /// <summary>
+        /// Checks the inequality of the two given lengths.
+        /// </summary>
+        /// <param name="a">The left length.</param>
+        /// <param name="b">The right length.</param>
+        /// <returns>True if both lengths are not equal, otherwise false.</returns>
+        public static Boolean operator !=(Length a, Length b)
+        {
+            return !a.Equals(b);
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>

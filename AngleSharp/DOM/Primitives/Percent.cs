@@ -78,6 +78,32 @@
 
         #endregion
 
+        #region Operators
+
+        /// <summary>
+        /// Checks the equality of the two given percentages.
+        /// </summary>
+        /// <param name="a">The left percentage.</param>
+        /// <param name="b">The right percentage.</param>
+        /// <returns>True if both percentages are equal, otherwise false.</returns>
+        public static Boolean operator ==(Percent a, Percent b)
+        {
+            return a.Equals(b);
+        }
+
+        /// <summary>
+        /// Checks the inequality of the two given percentages.
+        /// </summary>
+        /// <param name="a">The left percentage.</param>
+        /// <param name="b">The right percentage.</param>
+        /// <returns>True if both percentages are not equal, otherwise false.</returns>
+        public static Boolean operator !=(Percent a, Percent b)
+        {
+            return !a.Equals(b);
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>

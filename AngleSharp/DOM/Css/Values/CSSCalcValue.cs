@@ -82,6 +82,21 @@
                 _length = length;
             }
 
+            public override Boolean Equals(Object obj)
+            {
+                var abs = obj as Absolute;
+
+                if (abs != null)
+                    return abs._length == _length;
+
+                return false;
+            }
+
+            public override Int32 GetHashCode()
+            {
+                return _length.GetHashCode();
+            }
+
             public override Single ToPixel()
             {
                 return _length.ToPixel();
@@ -100,6 +115,21 @@
             public Relative(Percent scale)
             {
                 _scale = scale;
+            }
+
+            public override Boolean Equals(Object obj)
+            {
+                var rel = obj as Relative;
+
+                if (rel != null)
+                    return rel._scale == _scale;
+
+                return false;
+            }
+
+            public override Int32 GetHashCode()
+            {
+                return _scale.GetHashCode();
             }
 
             public override Single ToPixel()
