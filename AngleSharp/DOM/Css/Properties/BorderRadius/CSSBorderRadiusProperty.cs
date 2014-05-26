@@ -10,10 +10,14 @@
     {
         #region Fields
 
-        CSSBorderBottomLeftRadiusProperty _bottomLeft;
-        CSSBorderBottomRightRadiusProperty _bottomRight;
-        CSSBorderTopLeftRadiusProperty _topLeft;
-        CSSBorderTopRightRadiusProperty _topRight;
+        CSSCalcValue _bottomLeftHorizontal;
+        CSSCalcValue _bottomRightHorizontal;
+        CSSCalcValue _topLeftHorizontal;
+        CSSCalcValue _topRightHorizontal;
+        CSSCalcValue _bottomLeftVertical;
+        CSSCalcValue _bottomRightVertical;
+        CSSCalcValue _topLeftVertical;
+        CSSCalcValue _topRightVertical;
 
         #endregion
 
@@ -23,10 +27,14 @@
             : base(PropertyNames.BorderRadius)
         {
             _inherited = false;
-            _topRight = new CSSBorderTopRightRadiusProperty();
-            _bottomRight = new CSSBorderBottomRightRadiusProperty();
-            _bottomLeft = new CSSBorderBottomLeftRadiusProperty();
-            _topLeft = new CSSBorderTopLeftRadiusProperty();
+            _topRightHorizontal = CSSCalcValue.Zero;
+            _bottomRightHorizontal = CSSCalcValue.Zero;
+            _bottomLeftHorizontal = CSSCalcValue.Zero;
+            _topLeftHorizontal = CSSCalcValue.Zero;
+            _topRightVertical = CSSCalcValue.Zero;
+            _bottomRightVertical = CSSCalcValue.Zero;
+            _bottomLeftVertical = CSSCalcValue.Zero;
+            _topLeftVertical = CSSCalcValue.Zero;
         }
 
         #endregion
@@ -38,7 +46,7 @@
         /// </summary>
         public CSSCalcValue HorizontalBottomLeft
         {
-            get { return _bottomLeft.HorizontalRadius; }
+            get { return _bottomLeftHorizontal; }
         }
 
         /// <summary>
@@ -46,7 +54,7 @@
         /// </summary>
         public CSSCalcValue VerticalBottomLeft
         {
-            get { return _bottomLeft.VerticalRadius; }
+            get { return _bottomLeftVertical; }
         }
 
         /// <summary>
@@ -54,7 +62,7 @@
         /// </summary>
         public CSSCalcValue HorizontalBottomRight
         {
-            get { return _bottomRight.HorizontalRadius; }
+            get { return _bottomRightHorizontal; }
         }
 
         /// <summary>
@@ -62,7 +70,7 @@
         /// </summary>
         public CSSCalcValue VerticalBottomRight
         {
-            get { return _bottomRight.VerticalRadius; }
+            get { return _bottomRightVertical; }
         }
 
         /// <summary>
@@ -70,7 +78,7 @@
         /// </summary>
         public CSSCalcValue HorizontalTopLeft
         {
-            get { return _topLeft.HorizontalRadius; }
+            get { return _topLeftHorizontal; }
         }
 
         /// <summary>
@@ -78,7 +86,7 @@
         /// </summary>
         public CSSCalcValue VerticalTopLeft
         {
-            get { return _topLeft.VerticalRadius; }
+            get { return _topLeftVertical; }
         }
 
         /// <summary>
@@ -86,7 +94,7 @@
         /// </summary>
         public CSSCalcValue HorizontalTopRight
         {
-            get { return _topRight.HorizontalRadius; }
+            get { return _topRightHorizontal; }
         }
 
         /// <summary>
@@ -94,7 +102,7 @@
         /// </summary>
         public CSSCalcValue VerticalTopRight
         {
-            get { return _topRight.VerticalRadius; }
+            get { return _topRightVertical; }
         }
 
         #endregion
@@ -113,7 +121,13 @@
             else if (value is CSSValueList)
                 return Check((CSSValueList)value);
 
-            return Check(new CSSValue[] { value, value, value, value });
+            var calc = value.AsCalc();
+
+            if (calc == null)
+                return false;
+
+            _bottomLeftHorizontal = _bottomLeftVertical = _bottomRightHorizontal = _bottomRightVertical = _topLeftHorizontal = _topLeftVertical = _topRightHorizontal = _topRightVertical = calc;
+            return true;
         }
 
         Boolean Check(CSSValueList arguments)
@@ -128,49 +142,46 @@
             if (count - 1 > splitIndex + 4 || splitIndex > 4 || splitIndex == count - 1 || splitIndex == 0)
                 return false;
 
-            var values = new CSSValue[4];
+            var values = new CSSCalcValue[4];
 
             for (int i = 0; i < splitIndex; i++)
-                for (int j = i; j < 4; j += i + 1)
-                    values[j] = arguments[i];
+            {
+                values[i] = arguments[i].AsCalc();
+
+                for (int j = 2 * i + 1; j < 4; j += i + 1)
+                    values[j] = values[i];
+
+                if (values[i] == null)
+                    return false;
+            }
+
+            _topLeftHorizontal = values[0];
+            _topRightHorizontal = values[1];
+            _bottomLeftHorizontal = values[2];
+            _bottomRightHorizontal = values[3];
 
             if (splitIndex != count)
             {
-                var opt = new CSSValue[4];
                 splitIndex++;
                 count -= splitIndex;
 
                 for (int i = 0; i < count; i++)
-                    for (int j = i; j < 4; j += i + 1)
-                        opt[j] = arguments[i + splitIndex];
-
-                for (int i = 0; i < 4; i++)
                 {
-                    var list = new CSSValueList(values[i]);
-                    list.Add(opt[i]);
-                    values[i] = list;
+                    values[i] = arguments[i + splitIndex].AsCalc();
+
+                    for (int j = 2 * i + 1; j < 4; j += i + 1)
+                        values[j] = values[i];
+
+                    if (values[i] == null)
+                        return false;
                 }
             }
 
-            return Check(values);
-        }
+            _topLeftVertical = values[0];
+            _topRightVertical = values[1];
+            _bottomLeftVertical = values[2];
+            _bottomRightVertical = values[3];
 
-        Boolean Check(CSSValue[] values)
-        {
-            var target = new CSSProperty[] { new CSSBorderBottomLeftRadiusProperty(), new CSSBorderBottomRightRadiusProperty(), new CSSBorderTopLeftRadiusProperty(), new CSSBorderTopRightRadiusProperty() };
-
-            for (int i = 0; i < 4; i++)
-            {
-                target[i].Value = values[i];
-
-                if (target[i].Value != values[i])
-                    return false;
-            }
-
-            _bottomLeft = (CSSBorderBottomLeftRadiusProperty)target[0];
-            _bottomRight = (CSSBorderBottomRightRadiusProperty)target[1];
-            _topLeft = (CSSBorderTopLeftRadiusProperty)target[2];
-            _topRight = (CSSBorderTopRightRadiusProperty)target[3];
             return true;
         }
 
