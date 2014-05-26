@@ -53,7 +53,7 @@
         /// <summary>
         /// Gets the value of the background position property.
         /// </summary>
-        public IEnumerable<CSSPointValue> Position
+        public IEnumerable<Point2d> Position
         {
             get { return _position.Positions; }
         }

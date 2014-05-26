@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// Represents a CSS counter.
+    /// </summary>
     sealed class CSSCounter : CSSValue
     {
         #region Fields
@@ -44,6 +47,10 @@
 
         #region String Representation
 
+        /// <summary>
+        /// Returns the CSS representation of the specified counter.
+        /// </summary>
+        /// <returns>The CSS counter or counters function code.</returns>
         public override String ToCss()
         {
             if (_separator != null)

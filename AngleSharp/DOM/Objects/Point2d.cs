@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     /// <summary>
-    /// Represents a CSS point value consisting of two lengths.
+    /// Represents a point value consisting of two lengths.
     /// </summary>
-    public sealed class CSSPointValue : CSSValue
+    public sealed class Point2d 
     {
         #region Fields
 
@@ -13,13 +13,13 @@
         /// <summary>
         /// Gets the center, center point.
         /// </summary>
-        public static readonly CSSPointValue Centered = new CSSPointValue();
+        public static readonly Point2d Centered = new Point2d();
 
         #endregion
 
         #region ctor
 
-        internal CSSPointValue(CSSCalcValue x = null, CSSCalcValue y = null)
+        internal Point2d(CSSCalcValue x = null, CSSCalcValue y = null)
         {
             _x = x ?? CSSCalcValue.Center;
             _y = y ?? CSSCalcValue.Center;

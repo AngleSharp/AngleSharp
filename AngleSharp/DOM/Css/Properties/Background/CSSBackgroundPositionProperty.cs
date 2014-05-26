@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<CSSPointValue> _positions;
+        List<Point2d> _positions;
 
         #endregion
 
@@ -21,8 +21,8 @@
             : base(PropertyNames.BackgroundPosition)
         {
             _inherited = false;
-            _positions = new List<CSSPointValue>();
-            _positions.Add(CSSPointValue.Centered);
+            _positions = new List<Point2d>();
+            _positions.Add(Point2d.Centered);
         }
 
         #endregion
@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets the list of all given positions.
         /// </summary>
-        public IEnumerable<CSSPointValue> Positions
+        public IEnumerable<Point2d> Positions
         {
             get { return _positions; }
         }
@@ -53,7 +53,7 @@
 
             var values = value as CSSValueList ?? new CSSValueList(value);
             var list = values.ToList();
-            var positions = new List<CSSPointValue>();
+            var positions = new List<Point2d>();
 
             foreach (var entry in list)
             {

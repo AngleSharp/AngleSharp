@@ -396,7 +396,7 @@
             return list;
         }
 
-        public static CSSPointValue ToPoint(this CSSValueList values)
+        public static Point2d ToPoint(this CSSValueList values)
         {
             if (values.Length == 1)
             {
@@ -404,17 +404,17 @@
                 var calc = value.AsCalc();
 
                 if (calc != null)
-                    return new CSSPointValue(calc);
+                    return new Point2d(calc);
                 else if (value.Is("left"))
-                    return new CSSPointValue(x: CSSCalcValue.Zero);
+                    return new Point2d(x: CSSCalcValue.Zero);
                 else if (value.Is("right"))
-                    return new CSSPointValue(x: CSSCalcValue.Full);
+                    return new Point2d(x: CSSCalcValue.Full);
                 else if (value.Is("top"))
-                    return new CSSPointValue(y: CSSCalcValue.Zero);
+                    return new Point2d(y: CSSCalcValue.Zero);
                 else if (value.Is("bottom"))
-                    return new CSSPointValue(y: CSSCalcValue.Full);
+                    return new Point2d(y: CSSCalcValue.Full);
                 else if (value.Is("center"))
-                    return CSSPointValue.Centered;
+                    return Point2d.Centered;
             }
             else if (values.Length == 2)
             {
@@ -464,7 +464,7 @@
                 }
 
                 if (horizontal != null && vertical != null)
-                    return new CSSPointValue(horizontal, vertical);
+                    return new Point2d(horizontal, vertical);
             }
             else if (values.Length > 2)
             {
@@ -518,7 +518,7 @@
                     if (shift != CSSCalcValue.Zero)
                         vertical = vertical.Add(shift);
 
-                    return new CSSPointValue(horizontal, vertical);
+                    return new Point2d(horizontal, vertical);
                 }
             }
 
