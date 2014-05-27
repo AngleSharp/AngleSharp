@@ -208,6 +208,15 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\BreakMode.cs">
       <Link>DOM\Css\Constants\BreakMode.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\ClearMode.cs">
+      <Link>DOM\Css\Constants\ClearMode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\DisplayMode.cs">
+      <Link>DOM\Css\Constants\DisplayMode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\Floating.cs">
+      <Link>DOM\Css\Constants\Floating.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\FontStretch.cs">
       <Link>DOM\Css\Constants\FontStretch.cs</Link>
     </Compile>
