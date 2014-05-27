@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AngleSharp</id>
-    <version>0.5.0</version>
+    <version>0.5.1</version>
     <authors>Florian Rappl</authors>
     <owners>Florian Rappl</owners>
     <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -10,7 +10,7 @@
     <iconUrl>https://raw.github.com/FlorianRappl/AngleSharp/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>AngleSharp is the ultimate angle brackets parser library. It currently parses HTML5 and CSS3 to construct a DOM based on the official W3C specification.</description>
-    <releaseNotes>API changed, Form submit working, nearly full CSS model.</releaseNotes>
+    <releaseNotes>Some parts of CSS finished. Fixed some bugs, most importantly about missing encodings on Windows Phone.</releaseNotes>
     <copyright>Copyright 2014, Florian Rappl.</copyright>
     <tags>html html5 css css3 dom parser query selector attributes linq</tags>
   </metadata>
