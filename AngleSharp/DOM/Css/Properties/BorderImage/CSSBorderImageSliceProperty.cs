@@ -13,11 +13,10 @@
     {
         #region Fields
 
-        static readonly PercentSliceMode _default = new PercentSliceMode(Percent.Hundred);
-        SliceMode _top;
-        SliceMode _right;
-        SliceMode _bottom;
-        SliceMode _left;
+        CSSCalcValue _top;
+        CSSCalcValue _right;
+        CSSCalcValue _bottom;
+        CSSCalcValue _left;
         Boolean _fill;
 
         #endregion
@@ -28,10 +27,10 @@
             : base(PropertyNames.BorderImageSlice)
         {
             _inherited = false;
-            _top = _default;
-            _right = _default;
-            _bottom = _default;
-            _left = _default;
+            _top = CSSCalcValue.Full;
+            _right = CSSCalcValue.Full;
+            _bottom = CSSCalcValue.Full;
+            _left = CSSCalcValue.Full;
             _fill = false;
         }
 
@@ -42,7 +41,7 @@
         /// <summary>
         /// Gets the position of the top slicing line.
         /// </summary>
-        SliceMode Top
+        public CSSCalcValue Top
         {
             get { return _top; }
         }
@@ -50,7 +49,7 @@
         /// <summary>
         /// Gets the position of the right slicing line.
         /// </summary>
-        SliceMode Right
+        public CSSCalcValue Right
         {
             get { return _right; }
         }
@@ -58,7 +57,7 @@
         /// <summary>
         /// Gets the position of the bottom slicing line.
         /// </summary>
-        SliceMode Bottom
+        public CSSCalcValue Bottom
         {
             get { return _bottom; }
         }
@@ -66,7 +65,7 @@
         /// <summary>
         /// Gets the position of the left slicing line.
         /// </summary>
-        SliceMode Left
+        public CSSCalcValue Left
         {
             get { return _left; }
         }
@@ -102,17 +101,17 @@
             return true;
         }
 
-        static SliceMode ToMode(CSSValue value)
+        static CSSCalcValue ToMode(CSSValue value)
         {
             var percent = value.ToPercent();
 
             if (percent.HasValue)
-                return new PercentSliceMode(percent.Value);
+                return CSSCalcValue.FromPercent(percent.Value);
 
             var number = value.ToNumber();
 
             if (number.HasValue)
-                return new PixelSliceMode(number.Value);
+                return CSSCalcValue.FromLength(new Length(number.Value, Length.Unit.Px));
 
             return null;
         }
@@ -123,7 +122,7 @@
                 return false;
 
             var fill = false;
-            var modes = new List<SliceMode>(values.Length);
+            var modes = new List<CSSCalcValue>(values.Length);
 
             foreach (var value in values)
             {
@@ -139,15 +138,11 @@
                 return false;
 
             _fill = fill;
-            _top = modes[0];
-            _right = modes[0];
-            _left = modes[0];
-            _bottom = modes[0];
+            _bottom = _left = _right = _top = modes[0];
 
             if (modes.Count > 1)
             {
-                _right = modes[1];
-                _left = modes[1];
+                _left = _right = modes[1];
 
                 if (modes.Count > 2)
                 {
@@ -159,34 +154,6 @@
             }
 
             return true;
-        }
-
-        #endregion
-
-        #region Mode
-
-        abstract class SliceMode
-        {
-        }
-
-        sealed class PixelSliceMode : SliceMode
-        {
-            Single _pixels;
-
-            public PixelSliceMode(Single pixels)
-            {
-                _pixels = pixels;
-            }
-        }
-
-        sealed class PercentSliceMode : SliceMode
-        {
-            Percent _percent;
-
-            public PercentSliceMode(Percent percent)
-            {
-                _percent = percent;
-            }
         }
 
         #endregion

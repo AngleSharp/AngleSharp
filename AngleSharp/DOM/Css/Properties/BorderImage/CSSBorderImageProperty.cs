@@ -84,11 +84,43 @@
         }
 
         /// <summary>
-        /// Gets the slice property of the border-image.
+        /// Gets if the slice should be filled.
         /// </summary>
-        public CSSBorderImageSliceProperty Slice
+        public Boolean IsFilled
         {
-            get { return _slice; }
+            get { return _slice.IsFilled; }
+        }
+
+        /// <summary>
+        /// Gets the position of the bottom slicing line.
+        /// </summary>
+        public CSSCalcValue SliceBottom
+        {
+            get { return _slice.Bottom; }
+        }
+
+        /// <summary>
+        /// Gets the position of the right slicing line.
+        /// </summary>
+        public CSSCalcValue SliceRight
+        {
+            get { return _slice.Right; }
+        }
+
+        /// <summary>
+        /// Gets the position of the top slicing line.
+        /// </summary>
+        public CSSCalcValue SliceTop
+        {
+            get { return _slice.Top; }
+        }
+
+        /// <summary>
+        /// Gets the position of the left slicing line.
+        /// </summary>
+        public CSSCalcValue SliceLeft
+        {
+            get { return _slice.Left; }
         }
 
         /// <summary>
