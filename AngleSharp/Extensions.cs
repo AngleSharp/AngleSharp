@@ -128,7 +128,7 @@
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
         public static HTMLCollection QueryXpath(this NodeList nodes, String xpath)
         {
-            throw new NotImplementedException("XPath queries will be supported in the future. Stay tuned!");
+            throw new NotImplementedException("XPath queries will be supported in the future (maybe in v0.7!). Stay tuned!");
         }
 
         #endregion
