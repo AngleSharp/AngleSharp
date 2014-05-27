@@ -20,17 +20,29 @@
 
         static CSSClearProperty()
         {
-            modes.Add("none", new NoneClearMode());
-            modes.Add("left", new LeftClearMode());
-            modes.Add("right", new RightClearMode());
-            modes.Add("both", new BothClearMode());
+            modes.Add("none", ClearMode.None);
+            modes.Add("left", ClearMode.Left);
+            modes.Add("right", ClearMode.Right);
+            modes.Add("both", ClearMode.Both);
         }
 
         internal CSSClearProperty()
             : base(PropertyNames.Clear)
         {
-            _mode = modes["none"];
+            _mode = ClearMode.None;
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the value of the clear mode.
+        /// </summary>
+        public ClearMode State
+        {
+            get { return _mode; }
         }
 
         #endregion
@@ -52,31 +64,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-        
-        abstract class ClearMode
-        {
-            //TODO Add members that make sense
-        }
-
-        class NoneClearMode : ClearMode
-        {
-        }
-
-        class LeftClearMode : ClearMode
-        {
-        }
-
-        class RightClearMode : ClearMode
-        {
-        }
-
-        class BothClearMode : ClearMode
-        {
         }
 
         #endregion
