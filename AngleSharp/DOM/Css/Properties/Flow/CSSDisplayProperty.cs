@@ -20,32 +20,44 @@
 
         static CSSDisplayProperty()
         {
-            modes.Add("none", new NoneDisplayMode());
-            modes.Add("inline", new InlineDisplayMode());
-            modes.Add("block", new BlockDisplayMode());
-            modes.Add("inline-block", new InlineBlockDisplayMode());
-            modes.Add("list-item", new ListItemDisplayMode());
-            modes.Add("inline-table", new InlineTableDisplayMode());
-            modes.Add("table", new TableDisplayMode());
-            modes.Add("table-cell", new TableCellDisplayMode());
-            modes.Add("table-column", new TableColumnDisplayMode());
-            modes.Add("table-column-group", new TableColumnGroupDisplayMode());
-            modes.Add("table-footer-group", new TableFooterGroupDisplayMode());
-            modes.Add("table-header-group", new TableHeaderGroupDisplayMode());
-            modes.Add("table-row", new TableRowDisplayMode());
-            modes.Add("table-row-group", new TableRowGroupDisplayMode());
-            modes.Add("flex", new FlexDisplayMode());
-            modes.Add("inline-flex", new InlineFlexDisplayMode());
-            modes.Add("grid", new GridDisplayMode());
-            modes.Add("inline-grid", new InlineGridDisplayMode());
-            modes.Add("run-in", new RunInDisplayMode());
+            modes.Add("none", DisplayMode.None);
+            modes.Add("inline", DisplayMode.Inline);
+            modes.Add("block", DisplayMode.Block);
+            modes.Add("inline-block", DisplayMode.InlineBlock);
+            modes.Add("list-item", DisplayMode.ListItem);
+            modes.Add("inline-table", DisplayMode.InlineTable);
+            modes.Add("table", DisplayMode.Table);
+            modes.Add("table-caption", DisplayMode.TableCaption);
+            modes.Add("table-cell", DisplayMode.TableCell);
+            modes.Add("table-column", DisplayMode.TableColumn);
+            modes.Add("table-column-group", DisplayMode.TableColumnGroup);
+            modes.Add("table-footer-group", DisplayMode.TableFooterGroup);
+            modes.Add("table-header-group", DisplayMode.TableHeaderGroup);
+            modes.Add("table-row", DisplayMode.TableRow);
+            modes.Add("table-row-group", DisplayMode.TableRowGroup);
+            modes.Add("flex", DisplayMode.Flex);
+            modes.Add("inline-flex", DisplayMode.InlineFlex);
+            modes.Add("grid", DisplayMode.Grid);
+            modes.Add("inline-grid", DisplayMode.InlineGrid);
         }
 
         internal CSSDisplayProperty()
             : base(PropertyNames.Display)
         {
-            _mode = modes["inline"];
+            _mode = DisplayMode.Inline;
             _inherited = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the value of the display mode.
+        /// </summary>
+        public DisplayMode State
+        {
+            get { return _mode; }
         }
 
         #endregion
@@ -67,91 +79,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-
-        abstract class DisplayMode
-        {
-            //TODO Add members that make sense
-        }
-
-        class NoneDisplayMode : DisplayMode
-        {
-        }
-
-        class InlineDisplayMode : DisplayMode
-        {
-        }
-
-        class BlockDisplayMode : DisplayMode
-        {
-        }
-
-        class ListItemDisplayMode : DisplayMode
-        {
-        }
-
-        class InlineBlockDisplayMode : DisplayMode
-        {
-        }
-
-        class InlineTableDisplayMode : DisplayMode
-        {
-        }
-
-        class TableDisplayMode : DisplayMode
-        {
-        }
-
-        class TableCellDisplayMode : DisplayMode
-        {
-        }
-
-        class TableColumnDisplayMode : DisplayMode
-        {
-        }
-
-        class TableColumnGroupDisplayMode : DisplayMode
-        {
-        }
-
-        class TableFooterGroupDisplayMode : DisplayMode
-        {
-        }
-
-        class TableHeaderGroupDisplayMode : DisplayMode
-        {
-        }
-
-        class TableRowDisplayMode : DisplayMode
-        {
-        }
-
-        class TableRowGroupDisplayMode : DisplayMode
-        {
-        }
-
-        class FlexDisplayMode : DisplayMode
-        {
-        }
-
-        class InlineFlexDisplayMode : DisplayMode
-        {
-        }
-
-        class GridDisplayMode : DisplayMode
-        {
-        }
-
-        class InlineGridDisplayMode : DisplayMode
-        {
-        }
-
-        class RunInDisplayMode : DisplayMode
-        {
         }
 
         #endregion

@@ -45,6 +45,9 @@
     <Compile Include="DOM\Css\Constants\BorderRepeat.cs" />
     <Compile Include="DOM\Css\Constants\BreakMode.cs" />
     <Compile Include="DOM\Css\Constants\BoxModel.cs" />
+    <Compile Include="DOM\Css\Constants\ClearMode.cs" />
+    <Compile Include="DOM\Css\Constants\DisplayMode.cs" />
+    <Compile Include="DOM\Css\Constants\Floating.cs" />
     <Compile Include="DOM\Css\Constants\FontStretch.cs" />
     <Compile Include="DOM\Css\Constants\FontStyle.cs" />
     <Compile Include="DOM\Css\Constants\FontVariant.cs" />
