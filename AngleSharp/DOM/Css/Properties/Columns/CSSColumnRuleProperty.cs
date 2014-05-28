@@ -35,25 +35,25 @@
         /// <summary>
         /// Gets the value of the column-rule color.
         /// </summary>
-        public CSSColumnRuleColorProperty Color
+        public Color Color
         {
-            get { return _color; }
+            get { return _color.Color; }
         }
 
         /// <summary>
         /// Gets the value of the column-rule style.
         /// </summary>
-        public CSSColumnRuleStyleProperty Style
+        public LineStyle Style
         {
-            get { return _style; }
+            get { return _style.Style; }
         }
 
         /// <summary>
         /// Gets the value of the column-rule width.
         /// </summary>
-        public CSSColumnRuleWidthProperty Width
+        public Length Width
         {
-            get { return _width; }
+            get { return _width.Width; }
         }
 
         #endregion
