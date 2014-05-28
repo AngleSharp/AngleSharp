@@ -80,43 +80,35 @@
                 return true;
 
             var values = value as CSSValueList ?? new CSSValueList(value);
-            Length? top;
-            Length? bottom;
-            Length? right;
-            Length? left;
 
-            if (values.Length == 1)
-            {
-                right = left = bottom = top = values[0].ToBorderWidth();
-            }
-            else if (values.Length == 2)
-            {
-                bottom = top = values[0].ToBorderWidth();
-                left = right = values[1].ToBorderWidth();
-            }
-            else if (values.Length == 3)
-            {
-                top = values[0].ToBorderWidth();
-                left = right = values[1].ToBorderWidth();
-                bottom = values[2].ToBorderWidth();
-            }
-            else if (values.Length == 4)
-            {
-                top = values[0].ToBorderWidth();
-                right = values[1].ToBorderWidth();
-                bottom = values[2].ToBorderWidth();
-                left = values[3].ToBorderWidth();
-            }
-            else
+            if (values.Length > 4)
                 return false;
 
-            if (!top.HasValue || !right.HasValue || !bottom.HasValue || !left.HasValue)
-                return false;
+            var widths = new Length?[4];
 
-            _top = top.Value;
-            _bottom = bottom.Value;
-            _right = right.Value;
-            _left = left.Value;
+            for (int i = 0; i < values.Length; i++)
+            {
+                var width = values[i].ToBorderWidth();
+
+                if (!width.HasValue)
+                    return false;
+
+                widths[i] = width;
+            }
+
+            if (!widths[1].HasValue)
+                widths[1] = widths[0];
+
+            if (!widths[2].HasValue)
+                widths[2] = widths[0];
+
+            if (!widths[3].HasValue)
+                widths[3] = widths[1];
+
+            _top = widths[0].Value;
+            _right = widths[1].Value;
+            _bottom = widths[2].Value;
+            _left = widths[3].Value;
             return true;
         }
 
