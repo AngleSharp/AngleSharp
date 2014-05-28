@@ -90,9 +90,9 @@
                 return false;
             }
 
-            _type = type.Value;
+            _type = type.HasValue ? type.Value : ListStyle.Disc;
             _image = image;
-            _position = position.Value;
+            _position = position.HasValue ? position.Value : ListPosition.Outside;
             return true;
         }
 
