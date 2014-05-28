@@ -82,7 +82,7 @@
             {
                 if (!color.HasValue && (color = list[i].ToColor()).HasValue)
                     continue;
-                else if (!width.HasValue && (width = list[i].ToLength()).HasValue)
+                else if (!width.HasValue && (width = list[i].ToBorderWidth()).HasValue)
                     continue;
                 else if (!style.HasValue && (style = list[i].ToLineStyle()).HasValue)
                     continue;
