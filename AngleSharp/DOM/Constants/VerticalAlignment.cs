@@ -31,7 +31,7 @@
         /// <summary>
         /// The list of possible vertical alignments (extended by CSS).
         /// </summary>
-        public enum VerticallAlignment : ushort
+        public enum VerticalAlignment : ushort
         {
             /// <summary>
             /// Aligns the baseline of the element with the baseline of its parent.

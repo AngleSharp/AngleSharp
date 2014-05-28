@@ -11,8 +11,9 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, VerticalAlignMode> modes = new Dictionary<String, VerticalAlignMode>(StringComparer.OrdinalIgnoreCase);
-        VerticalAlignMode _mode;
+        static readonly Dictionary<String, VerticalAlignment> modes = new Dictionary<String, VerticalAlignment>(StringComparer.OrdinalIgnoreCase);
+        VerticalAlignment _mode;
+        CSSCalcValue _shift;
 
         #endregion
 
@@ -20,21 +21,44 @@
 
         static CSSVerticalAlignProperty()
         {
-            modes.Add("baseline", new BaselineCoordinateMode());
-            modes.Add("sub", new SubCoordinateMode());
-            modes.Add("super", new SuperCoordinateMode());
-            modes.Add("text-top", new TextTopCoordinateMode());
-            modes.Add("text-bottom", new TextBottomCoordinateMode());
-            modes.Add("middle", new MiddleCoordinateMode());
-            modes.Add("top", new TopCoordinateMode());
-            modes.Add("bottom", new BottomCoordinateMode());
+            modes.Add("baseline", VerticalAlignment.Baseline);
+            modes.Add("sub", VerticalAlignment.Sub);
+            modes.Add("super", VerticalAlignment.Super);
+            modes.Add("text-top", VerticalAlignment.TextTop);
+            modes.Add("text-bottom", VerticalAlignment.TextBottom);
+            modes.Add("middle", VerticalAlignment.Middle);
+            modes.Add("top", VerticalAlignment.Top);
+            modes.Add("bottom", VerticalAlignment.Bottom);
         }
 
         internal CSSVerticalAlignProperty()
             : base(PropertyNames.VerticalAlign)
         {
             _inherited = false;
-            _mode = modes["baseline"];
+            _mode = VerticalAlignment.Baseline;
+            _shift = CSSCalcValue.Zero;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the alignment of of the element's baseline at the given length above
+        /// the baseline of its parent or like absolute values, with the percentage
+        /// being a percent of the line-height property.
+        /// </summary>
+        public CSSCalcValue Shift
+        {
+            get { return _shift; }
+        }
+
+        /// <summary>
+        /// Gets the selected vertical alignment mode.
+        /// </summary>
+        public VerticalAlignment Align
+        {
+            get { return _mode; }
         }
 
         #endregion
@@ -48,109 +72,23 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            VerticalAlignMode mode;
+            VerticalAlignment mode;
             var calc = value.AsCalc();
 
             if (calc != null)
-                _mode = new CalcVerticalAlignMode(calc);
+            {
+                _shift = calc;
+                _mode = VerticalAlignment.Baseline;
+            }
             else if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+            {
+                _shift = CSSCalcValue.Zero;
                 _mode = mode;
+            }
             else if (value != CSSValue.Inherit)
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-        
-        abstract class VerticalAlignMode
-        {
-            //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// Aligns the baseline of the element with the baseline of its parent.
-        /// The baseline of some replaced elements, like textarea is not specified
-        /// by the HTML specification, meaning that their behavior with this keyword
-        /// may change from one browser to the other.
-        /// </summary>
-        sealed class BaselineCoordinateMode : VerticalAlignMode
-        {
-        }
-
-        /// <summary>
-        /// Aligns the baseline of the element with the subscript-baseline
-        /// of its parent.
-        /// </summary>
-        sealed class SubCoordinateMode : VerticalAlignMode
-        {
-        }
-
-        /// <summary>
-        /// Aligns the baseline of the element with the superscript-baseline
-        /// of its parent.
-        /// </summary>
-        sealed class SuperCoordinateMode : VerticalAlignMode
-        {
-        }
-
-        /// <summary>
-        /// Aligns the top of the element with the top of the parent
-        /// element's font.
-        /// </summary>
-        sealed class TextTopCoordinateMode : VerticalAlignMode
-        {
-        }
-
-        /// <summary>
-        /// Aligns the bottom of the element with the bottom of the parent
-        /// element's font.
-        /// </summary>
-        sealed class TextBottomCoordinateMode : VerticalAlignMode
-        {
-        }
-
-        /// <summary>
-        /// Aligns the middle of the element with the middle of lowercase
-        /// letters in the parent.
-        /// </summary>
-        sealed class MiddleCoordinateMode : VerticalAlignMode
-        {
-        }
-
-        /// <summary>
-        /// Align the top of the element and its descendants with the top
-        /// of the entire line.
-        /// </summary>
-        sealed class TopCoordinateMode : VerticalAlignMode
-        {
-        }
-
-        /// <summary>
-        /// Align the bottom of the element and its descendants with the
-        /// bottom of the entire line.
-        /// </summary>
-        sealed class BottomCoordinateMode : VerticalAlignMode
-        {
-        }
-
-        /// <summary>
-        /// Aligns the baseline of the element at the given length above
-        /// the baseline of its parent.
-        /// OR:
-        /// Like absolute values, with the percentage being a percent of the
-        /// line-height property.
-        /// </summary>
-        sealed class CalcVerticalAlignMode : VerticalAlignMode
-        {
-            CSSCalcValue _calc;
-
-            public CalcVerticalAlignMode(CSSCalcValue calc)
-            {
-                _calc = calc;
-            }
         }
 
         #endregion
