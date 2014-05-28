@@ -11,9 +11,9 @@
     {
         #region Fields
 
-        CSSListStyleTypeProperty _type;
-        CSSListStyleImageProperty _image;
-        CSSListStylePositionProperty _position;
+        ListStyle _type;
+        CSSImageValue _image;
+        ListPosition _position;
 
         #endregion
 
@@ -23,9 +23,9 @@
             : base(PropertyNames.ListStyle)
         {
             _inherited = true;
-            _type = new CSSListStyleTypeProperty();
-            _image = new CSSListStyleImageProperty();
-            _position = new CSSListStylePositionProperty();
+            _type = ListStyle.Disc;
+            _image = null;
+            _position = ListPosition.Outside;
         }
 
         #endregion
@@ -37,7 +37,7 @@
         /// </summary>
         public ListStyle Type
         {
-            get { return _type.Style; }
+            get { return _type; }
         }
 
         /// <summary>
@@ -45,7 +45,7 @@
         /// </summary>
         public CSSImageValue Image
         {
-            get { return _image.Image; }
+            get { return _image; }
         }
 
         /// <summary>
@@ -53,7 +53,7 @@
         /// </summary>
         public ListPosition Position
         {
-            get { return _position.Position; }
+            get { return _position; }
         }
 
         #endregion
@@ -71,42 +71,29 @@
                 return true;
 
             var list = value as CSSValueList ?? new CSSValueList(value);
-            var index = 0;
-            var startGroup = new List<CSSProperty>(3);
-            var type = new CSSListStyleTypeProperty();
-            var image = new CSSListStyleImageProperty();
-            var position = new CSSListStylePositionProperty();
-            startGroup.Add(type);
-            startGroup.Add(image);
-            startGroup.Add(position);
+            ListStyle? type = null;
+            CSSImageValue image = null;
+            ListPosition? position = null;
 
-            while (true)
+            if (list.Length > 3)
+                return false;
+
+            for (int i = 0; i < list.Length; i++)
             {
-                var length = startGroup.Count;
+                if (!type.HasValue && (type = list[i].ToListStyle()).HasValue)
+                    continue;
+                else if (image == null && (image = list[i].AsImage()) != null)
+                    continue;
+                else if (!position.HasValue && (position = list[i].ToListPosition()).HasValue)
+                    continue;
 
-                for (int i = 0; i < length; i++)
-                {
-                    if (CheckSingleProperty(startGroup[i], index, list))
-                    {
-                        startGroup.RemoveAt(i);
-                        index++;
-                        break;
-                    }
-                }
-
-                if (length == startGroup.Count)
-                    break;
+                return false;
             }
 
-            if (index == list.Length)
-            {
-                _type = type;
-                _image = image;
-                _position = position;
-                return true;
-            }
-
-            return false;
+            _type = type.Value;
+            _image = image;
+            _position = position.Value;
+            return true;
         }
 
         #endregion

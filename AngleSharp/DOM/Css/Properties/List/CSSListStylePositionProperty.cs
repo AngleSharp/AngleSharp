@@ -46,10 +46,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("inside"))
-                _position = ListPosition.Inside;
-            else if (value.Is("outside"))
-                _position = ListPosition.Outside;
+            var position = value.ToListPosition();
+
+            if (position.HasValue)
+                _position = position.Value;
             else if (value != CSSValue.Inherit)
                 return false;
 

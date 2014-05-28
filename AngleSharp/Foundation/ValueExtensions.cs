@@ -16,6 +16,8 @@
         static readonly Dictionary<String, AnimationFillStyle> fillModes = new Dictionary<String, AnimationFillStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, AnimationDirection> directions = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, Visibility> visibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, ListStyle> listStyles = new Dictionary<String, ListStyle>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, ListPosition> listPositions = new Dictionary<String, ListPosition>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -59,6 +61,25 @@
             visibilities.Add("visible", Visibility.Visible);
             visibilities.Add("hidden", Visibility.Hidden);
             visibilities.Add("collapse", Visibility.Collapse);
+
+            listStyles.Add("disc", ListStyle.Disc);
+            listStyles.Add("circle", ListStyle.Circle);
+            listStyles.Add("square", ListStyle.Square);
+            listStyles.Add("decimal", ListStyle.Decimal);
+            listStyles.Add("decimal-leading-zero", ListStyle.DecimalLeadingZero);
+            listStyles.Add("lower-roman", ListStyle.LowerRoman);
+            listStyles.Add("upper-roman", ListStyle.UpperRoman);
+            listStyles.Add("lower-greek", ListStyle.LowerGreek);
+            listStyles.Add("lower-latin", ListStyle.LowerLatin);
+            listStyles.Add("upper-latin", ListStyle.UpperLatin);
+            listStyles.Add("armenian", ListStyle.Armenian);
+            listStyles.Add("georgian", ListStyle.Georgian);
+            listStyles.Add("lower-alpha", ListStyle.LowerLatin);
+            listStyles.Add("upper-alpha", ListStyle.UpperLatin);
+            listStyles.Add("none", ListStyle.None);
+
+            listPositions.Add("inside", ListPosition.Inside);
+            listPositions.Add("outside", ListPosition.Outside);
         }
 
         #endregion
@@ -123,6 +144,26 @@
 
             if (value is CSSIdentifierValue && boxModels.TryGetValue(((CSSIdentifierValue)value).Value, out model))
                 return model;
+
+            return null;
+        }
+
+        public static ListStyle? ToListStyle(this CSSValue value)
+        {
+            ListStyle style;
+
+            if (value is CSSIdentifierValue && listStyles.TryGetValue(((CSSIdentifierValue)value).Value, out style))
+                return style;
+
+            return null;
+        }
+
+        public static ListPosition? ToListPosition(this CSSValue value)
+        {
+            ListPosition position;
+
+            if (value is CSSIdentifierValue && listPositions.TryGetValue(((CSSIdentifierValue)value).Value, out position))
+                return position;
 
             return null;
         }
