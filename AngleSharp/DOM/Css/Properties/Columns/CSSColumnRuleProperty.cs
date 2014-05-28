@@ -11,9 +11,9 @@
     {
         #region Fields
 
-        CSSColumnRuleWidthProperty _width;
-        CSSColumnRuleStyleProperty _style;
-        CSSColumnRuleColorProperty _color;
+        Length _width;
+        LineStyle _style;
+        Color _color;
 
         #endregion
 
@@ -23,9 +23,9 @@
             : base(PropertyNames.ColumnRule)
         {
             _inherited = false;
-            _style = new CSSColumnRuleStyleProperty();
-            _width = new CSSColumnRuleWidthProperty();
-            _color = new CSSColumnRuleColorProperty();
+            _style = LineStyle.None;
+            _width = Length.Medium;
+            _color = Color.Transparent;
         }
 
         #endregion
@@ -37,7 +37,7 @@
         /// </summary>
         public Color Color
         {
-            get { return _color.Color; }
+            get { return _color; }
         }
 
         /// <summary>
@@ -45,7 +45,7 @@
         /// </summary>
         public LineStyle Style
         {
-            get { return _style.Style; }
+            get { return _style; }
         }
 
         /// <summary>
@@ -53,7 +53,7 @@
         /// </summary>
         public Length Width
         {
-            get { return _width.Width; }
+            get { return _width; }
         }
 
         #endregion
@@ -70,43 +70,30 @@
             if (value == CSSValue.Inherit)
                 return true;
 
-            var index = 0;
             var list = value as CSSValueList ?? new CSSValueList(value);
-            var startGroup = new List<CSSProperty>(3);
-            var width = new CSSColumnRuleWidthProperty();
-            var style = new CSSColumnRuleStyleProperty();
-            var color = new CSSColumnRuleColorProperty();
-            startGroup.Add(width);
-            startGroup.Add(style);
-            startGroup.Add(color);
+            Color? color = null;
+            Length? width = null;
+            LineStyle? style = null;
 
-            while (true)
+            if (list.Length > 3)
+                return false;
+
+            for (int i = 0; i < list.Length; i++)
             {
-                var length = startGroup.Count;
+                if (!color.HasValue && (color = list[i].ToColor()).HasValue)
+                    continue;
+                else if (!width.HasValue && (width = list[i].ToLength()).HasValue)
+                    continue;
+                else if (!style.HasValue && (style = list[i].ToLineStyle()).HasValue)
+                    continue;
 
-                for (int i = 0; i < length; i++)
-                {
-                    if (CheckSingleProperty(startGroup[i], index, list))
-                    {
-                        startGroup.RemoveAt(i);
-                        index++;
-                        break;
-                    }
-                }
-
-                if (length == startGroup.Count)
-                    break;
+                return false;
             }
 
-            if (index == list.Length)
-            {
-                _width = width;
-                _style = style;
-                _color = color;
-                return true;
-            }
-
-            return false;
+            _color = color.HasValue ? color.Value : Color.Transparent;
+            _width = width.HasValue ? width.Value : Length.Medium;
+            _style = style.HasValue ? style.Value : LineStyle.None;
+            return true;
         }
 
         #endregion
