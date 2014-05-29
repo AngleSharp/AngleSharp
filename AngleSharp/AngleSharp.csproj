@@ -48,6 +48,7 @@
     <Compile Include="DOM\Css\Constants\ClearMode.cs" />
     <Compile Include="DOM\Css\Constants\DisplayMode.cs" />
     <Compile Include="DOM\Css\Constants\Floating.cs" />
+    <Compile Include="DOM\Css\Constants\FontSize.cs" />
     <Compile Include="DOM\Css\Constants\FontStretch.cs" />
     <Compile Include="DOM\Css\Constants\FontStyle.cs" />
     <Compile Include="DOM\Css\Constants\FontVariant.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="DOM\Css\Constants\PlayState.cs" />
     <Compile Include="DOM\Css\Constants\BackgroundRepeat.cs" />
     <Compile Include="DOM\Css\Constants\SystemCursor.cs" />
+    <Compile Include="DOM\Css\Constants\SystemFont.cs" />
     <Compile Include="DOM\Css\Constants\TextDecorationLine.cs" />
     <Compile Include="DOM\Css\Constants\TextDecorationStyle.cs" />
     <Compile Include="DOM\Css\Constants\TextTransform.cs" />

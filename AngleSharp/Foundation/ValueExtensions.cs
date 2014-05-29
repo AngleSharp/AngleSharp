@@ -18,6 +18,7 @@
         static readonly Dictionary<String, Visibility> visibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, ListStyle> listStyles = new Dictionary<String, ListStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, ListPosition> listPositions = new Dictionary<String, ListPosition>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, FontSize> fontSizes = new Dictionary<String, FontSize>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -80,6 +81,16 @@
 
             listPositions.Add("inside", ListPosition.Inside);
             listPositions.Add("outside", ListPosition.Outside);
+
+            fontSizes.Add("xx-small", FontSize.Tiny);
+            fontSizes.Add("x-small", FontSize.Little);
+            fontSizes.Add("small", FontSize.Small);
+            fontSizes.Add("medium", FontSize.Medium);
+            fontSizes.Add("large", FontSize.Large);
+            fontSizes.Add("x-large", FontSize.Big);
+            fontSizes.Add("xx-large", FontSize.Huge);
+            fontSizes.Add("larger", FontSize.Smaller);
+            fontSizes.Add("smaller", FontSize.Larger);
         }
 
         #endregion
@@ -164,6 +175,16 @@
 
             if (value is CSSIdentifierValue && listPositions.TryGetValue(((CSSIdentifierValue)value).Value, out position))
                 return position;
+
+            return null;
+        }
+
+        public static FontSize? ToFontSize(this CSSValue value)
+        {
+            FontSize size;
+
+            if (value is CSSIdentifierValue && fontSizes.TryGetValue(((CSSIdentifierValue)value).Value, out size))
+                return size;
 
             return null;
         }

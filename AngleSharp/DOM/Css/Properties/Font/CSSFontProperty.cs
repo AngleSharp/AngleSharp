@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, SystemSetting> _parts = new Dictionary<String, SystemSetting>();
+        static readonly Dictionary<String, SystemFont> _parts = new Dictionary<String, SystemFont>();
         CSSFontStyleProperty _style;
         CSSFontVariantProperty _variant;
         CSSFontWeightProperty _weight;
@@ -26,12 +26,12 @@
 
         static CSSFontProperty()
         {
-            _parts.Add("caption", SystemSetting.Caption);
-            _parts.Add("icon", SystemSetting.Icon);
-            _parts.Add("menu", SystemSetting.Menu);
-            _parts.Add("message-box", SystemSetting.MessageBox);
-            _parts.Add("small-caption", SystemSetting.SmallCaption);
-            _parts.Add("status-bar", SystemSetting.StatusBar);
+            _parts.Add("caption", SystemFont.Caption);
+            _parts.Add("icon", SystemFont.Icon);
+            _parts.Add("menu", SystemFont.Menu);
+            _parts.Add("message-box", SystemFont.MessageBox);
+            _parts.Add("small-caption", SystemFont.SmallCaption);
+            _parts.Add("status-bar", SystemFont.StatusBar);
         }
 
         internal CSSFontProperty()
@@ -83,13 +83,21 @@
             get { return _stretch.Stretch; }
         }
 
-        ///// <summary>
-        ///// Gets the value of the font size property.
-        ///// </summary>
-        //public CSSFontSizeProperty Size
-        //{
-        //    get { return _size; }
-        //}
+        /// <summary>
+        /// Gets the mode of the font-size property.
+        /// </summary>
+        public FontSize SizeMode
+        {
+            get { return _size.Mode; }
+        }
+
+        /// <summary>
+        /// Gets the custom set size of the font, if any.
+        /// </summary>
+        public CSSCalcValue Size
+        {
+            get { return _size.Size; }
+        }
 
         ///// <summary>
         ///// Gets the value of the line height property.
@@ -118,7 +126,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            SystemSetting setting;
+            SystemFont setting;
 
             if (value is CSSIdentifierValue && _parts.TryGetValue(((CSSIdentifierValue)value).Value, out setting))
                 SetTo(setting);
@@ -187,41 +195,9 @@
         /// keyword can be used to represent a specific system font.
         /// </summary>
         /// <param name="setting">The setting to apply.</param>
-        void SetTo(SystemSetting setting)
+        void SetTo(SystemFont setting)
         {
             //TODO set properties to the setting given by the enumeration value
-        }
-
-        #endregion
-
-        #region Predefined settings
-
-        enum SystemSetting
-        {
-            /// <summary>
-            /// The font used for captioned controls (e.g., buttons, drop-downs, etc.).
-            /// </summary>
-            Caption,
-            /// <summary>
-            /// The font used to label icons.
-            /// </summary>
-            Icon,
-            /// <summary>
-            /// The font used in menus (e.g., dropdown menus and menu lists).
-            /// </summary>
-            Menu,
-            /// <summary>
-            /// The font used in dialog boxes.
-            /// </summary>
-            MessageBox,
-            /// <summary>
-            /// The font used for labeling small controls.
-            /// </summary>
-            SmallCaption,
-            /// <summary>
-            /// The font used in window status bars.
-            /// </summary>
-            StatusBar
         }
 
         #endregion
