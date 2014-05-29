@@ -217,6 +217,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\Floating.cs">
       <Link>DOM\Css\Constants\Floating.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\FontSize.cs">
+      <Link>DOM\Css\Constants\FontSize.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\FontStretch.cs">
       <Link>DOM\Css\Constants\FontStretch.cs</Link>
     </Compile>
@@ -240,6 +243,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\SystemCursor.cs">
       <Link>DOM\Css\Constants\SystemCursor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\SystemFont.cs">
+      <Link>DOM\Css\Constants\SystemFont.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\TextDecorationLine.cs">
       <Link>DOM\Css\Constants\TextDecorationLine.cs</Link>
