@@ -1048,5 +1048,37 @@ namespace UnitTests
             Assert.AreEqual("", location.Href);
             Assert.IsTrue(location.IsRelative);
         }
+
+        [TestMethod]
+        public void AbsoluteLocationNutsUrl()
+        {
+            var url = "http://example.com/:@-._~!$&'()*+,=;:@-._~!$&'()*+,=:@-._~!$&'()*+,==?/?:@-._~!$'()*+,;=/?:@-._~!$'()*+,;==#/?:@-._~!$&'()*+,;=";
+            var location = new Location(url);
+            Assert.AreEqual("#/?:@-._~!$&'()*+,;=", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("?/?:@-._~!$'()*+,;=/?:@-._~!$'()*+,;==", location.Search);
+            Assert.AreEqual("/:@-._~!$&'()*+,=;:@-._~!$&'()*+,=:@-._~!$&'()*+,==", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
+        public void AbsoluteLocationDecodedPath()
+        {
+            var url = "http://example.com/blue%2Fred%3Fand+green";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/blue%2Fred%3Fand+green", location.PathName);
+            Assert.AreEqual("http:", location.Protocol);
+            Assert.AreEqual("example.com", location.Host);
+            Assert.AreEqual("", location.Data);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
     }
 }
