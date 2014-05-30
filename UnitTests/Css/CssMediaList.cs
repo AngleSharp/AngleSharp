@@ -25,6 +25,29 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void MediaListAtIllegal()
+        {
+            var source = @"@media @screen {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(0, sheet.CssRules.Length);
+        }
+
+        [TestMethod]
+        public void MediaListInterrupted()
+        {
+            var source = @"@media screen; h1 { color: green }";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
+            var h1 = (CSSStyleRule)sheet.CssRules[0];
+            Assert.AreEqual("h1", h1.SelectorText);
+            var style = h1.Style;
+            Assert.AreEqual("green", style.Color);
+        }
+
+        [TestMethod]
         public void SimpleScreenTvMediaList()
         {
             var source = @"@media screen,tv {
