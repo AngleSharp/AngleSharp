@@ -348,7 +348,7 @@
     <Compile Include="DOM\Html\Semantic\HTMLRPElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLRTElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLRubyElement.cs" />
-    <Compile Include="DOM\Interfaces\IWindow.cs" />
+    <Compile Include="Interfaces\IWindow.cs" />
     <Compile Include="DOM\Mathml\MathAnnotationXmlElement.cs" />
     <Compile Include="DOM\Mathml\MathIdentifierElement.cs" />
     <Compile Include="DOM\Mathml\MathNumberElement.cs" />
@@ -374,12 +374,12 @@
     <Compile Include="DOM\Html\Forms\HTMLProgressElement.cs" />
     <Compile Include="DOM\Html\HTMLWbrElement.cs" />
     <Compile Include="DOM\Annotations\ICssObject.cs" />
-    <Compile Include="DOM\Interfaces\IDocumentFragment.cs" />
+    <Compile Include="Interfaces\IDocumentFragment.cs" />
     <Compile Include="DOM\Annotations\IHtmlObject.cs" />
-    <Compile Include="DOM\Interfaces\ILabelabelElement.cs" />
-    <Compile Include="DOM\Interfaces\IQueryElements.cs" />
-    <Compile Include="DOM\Interfaces\IValidation.cs" />
-    <Compile Include="DOM\Interfaces\IValidityState.cs" />
+    <Compile Include="Interfaces\ILabelabelElement.cs" />
+    <Compile Include="Interfaces\IQueryElements.cs" />
+    <Compile Include="Interfaces\IValidation.cs" />
+    <Compile Include="Interfaces\IValidityState.cs" />
     <Compile Include="DOM\Objects\RenderingContext.cs" />
     <Compile Include="DOM\Objects\ValidityState.cs" />
     <Compile Include="DOM\Objects\Event.cs" />
@@ -406,20 +406,20 @@
     <Compile Include="Foundation\Mutations\MutationObserverInit.cs" />
     <Compile Include="Foundation\Mutations\MutationRecord.cs" />
     <Compile Include="Foundation\Constants\Namespaces.cs" />
-    <Compile Include="DOM\Interfaces\IDocumentStyle.cs" />
-    <Compile Include="DOM\Interfaces\IDOMImplementation.cs" />
-    <Compile Include="DOM\Interfaces\IDocument.cs" />
-    <Compile Include="DOM\Interfaces\IEvent.cs" />
-    <Compile Include="DOM\Interfaces\IEventListener.cs" />
-    <Compile Include="DOM\Interfaces\IEventTarget.cs" />
-    <Compile Include="DOM\Interfaces\IHTMLDocument.cs" />
-    <Compile Include="DOM\Interfaces\IAttr.cs" />
-    <Compile Include="DOM\Interfaces\IElement.cs" />
-    <Compile Include="DOM\Interfaces\IStyleSheet.cs" />
-    <Compile Include="DOM\Interfaces\INode.cs" />
+    <Compile Include="Interfaces\IDocumentStyle.cs" />
+    <Compile Include="Interfaces\IDOMImplementation.cs" />
+    <Compile Include="Interfaces\IDocument.cs" />
+    <Compile Include="Interfaces\IEvent.cs" />
+    <Compile Include="Interfaces\IEventListener.cs" />
+    <Compile Include="Interfaces\IEventTarget.cs" />
+    <Compile Include="Interfaces\IHTMLDocument.cs" />
+    <Compile Include="Interfaces\IAttr.cs" />
+    <Compile Include="Interfaces\IElement.cs" />
+    <Compile Include="Interfaces\IStyleSheet.cs" />
+    <Compile Include="Interfaces\INode.cs" />
     <Compile Include="DOM\Css\Selector\ComplexSelector.cs" />
     <Compile Include="DOM\Css\Selector\CompoundSelector.cs" />
-    <Compile Include="DOM\Interfaces\IRange.cs" />
+    <Compile Include="Interfaces\IRange.cs" />
     <Compile Include="Parser\Css\CssParser.cs" />
     <Compile Include="DOM\Css\Rules\CSSRuleList.cs" />
     <Compile Include="DOM\Css\Rules\CSSImportRule.cs" />
@@ -572,6 +572,7 @@
     <Compile Include="Parser\Html\Tokens\HtmlDoctypeToken.cs" />
     <Compile Include="Parser\Html\Tokens\HtmlEndOfFileToken.cs" />
     <Compile Include="Parser\Html\Tokens\HtmlTagToken.cs" />
+    <Compile Include="Tools\AnalysisWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
