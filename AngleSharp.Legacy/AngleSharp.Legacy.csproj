@@ -1231,60 +1231,6 @@
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableSectionElement.cs">
       <Link>DOM\Html\Tables\HTMLTableSectionElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IAttr.cs">
-      <Link>DOM\Interfaces\IAttr.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IDocument.cs">
-      <Link>DOM\Interfaces\IDocument.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IDocumentFragment.cs">
-      <Link>DOM\Interfaces\IDocumentFragment.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IDocumentStyle.cs">
-      <Link>DOM\Interfaces\IDocumentStyle.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IDOMImplementation.cs">
-      <Link>DOM\Interfaces\IDOMImplementation.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IElement.cs">
-      <Link>DOM\Interfaces\IElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IEvent.cs">
-      <Link>DOM\Interfaces\IEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IEventListener.cs">
-      <Link>DOM\Interfaces\IEventListener.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IEventTarget.cs">
-      <Link>DOM\Interfaces\IEventTarget.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IHTMLDocument.cs">
-      <Link>DOM\Interfaces\IHTMLDocument.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\ILabelabelElement.cs">
-      <Link>DOM\Interfaces\ILabelabelElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\INode.cs">
-      <Link>DOM\Interfaces\INode.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IQueryElements.cs">
-      <Link>DOM\Interfaces\IQueryElements.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IRange.cs">
-      <Link>DOM\Interfaces\IRange.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IStyleSheet.cs">
-      <Link>DOM\Interfaces\IStyleSheet.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IValidation.cs">
-      <Link>DOM\Interfaces\IValidation.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IValidityState.cs">
-      <Link>DOM\Interfaces\IValidityState.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Interfaces\IWindow.cs">
-      <Link>DOM\Interfaces\IWindow.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Mathml\MathAnnotationXmlElement.cs">
       <Link>DOM\Mathml\MathAnnotationXmlElement.cs</Link>
     </Compile>
@@ -1510,6 +1456,60 @@
     <Compile Include="..\AngleSharp\IInfo.cs">
       <Link>IInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IAttr.cs">
+      <Link>Interfaces\IAttr.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IDocument.cs">
+      <Link>Interfaces\IDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IDocumentFragment.cs">
+      <Link>Interfaces\IDocumentFragment.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IDocumentStyle.cs">
+      <Link>Interfaces\IDocumentStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IDOMImplementation.cs">
+      <Link>Interfaces\IDOMImplementation.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IElement.cs">
+      <Link>Interfaces\IElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IEvent.cs">
+      <Link>Interfaces\IEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IEventListener.cs">
+      <Link>Interfaces\IEventListener.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IEventTarget.cs">
+      <Link>Interfaces\IEventTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IHTMLDocument.cs">
+      <Link>Interfaces\IHTMLDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\ILabelabelElement.cs">
+      <Link>Interfaces\ILabelabelElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\INode.cs">
+      <Link>Interfaces\INode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IQueryElements.cs">
+      <Link>Interfaces\IQueryElements.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IRange.cs">
+      <Link>Interfaces\IRange.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IStyleSheet.cs">
+      <Link>Interfaces\IStyleSheet.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IValidation.cs">
+      <Link>Interfaces\IValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IValidityState.cs">
+      <Link>Interfaces\IValidityState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IWindow.cs">
+      <Link>Interfaces\IWindow.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\Constants\DefaultPorts.cs">
       <Link>Network\Constants\DefaultPorts.cs</Link>
     </Compile>
@@ -1653,6 +1653,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Tools\AnalysisWindow.cs">
+      <Link>Tools\AnalysisWindow.cs</Link>
     </Compile>
     <Compile Include="LegacyExtensions.cs" />
     <Compile Include="Network\DefaultRequester.cs" />
