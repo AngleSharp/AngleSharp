@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Css;
     using System;
 
     /// <summary>
@@ -103,7 +104,28 @@
         /// <returns>The style declaration describing the element.</returns>
         public CSSStyleDeclaration GetComputedStyle(Element element, String pseudo = null)
         {
-            throw new NotImplementedException();
+            if (Document == null)
+                throw new ArgumentException("A valid document is required for computing the style of an element.");
+
+            var obj = element;
+
+            // if pseudo is :before OR ::before then use the corresponding pseudo-element
+            // else if pseudo is :after OR ::after then use the corresponding pseudo-element
+
+            var style = new CSSStyleDeclaration { IsReadOnly = true };
+
+            foreach (var stylesheet in Document.StyleSheets)
+            {
+                if (!stylesheet.Disabled && stylesheet.Media.Validate(this) && stylesheet is CSSStyleSheet)
+                {
+                    foreach (var rule in ((CSSStyleSheet)stylesheet).CssRules)
+                    {
+                        //TODO
+                    }
+                }
+            }
+
+            return style;
         }
 
         #endregion
