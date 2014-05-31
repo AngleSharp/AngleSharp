@@ -149,6 +149,22 @@
             _media.Add(medium);
         }
 
+        /// <summary>
+        /// Validates the list of contained media.
+        /// </summary>
+        /// <param name="window">The current browsing window.</param>
+        /// <returns>True if the constraints are satisfied, otherwise false.</returns>
+        internal Boolean Validate(IWindow window)
+        {
+            foreach (var media in _media)
+            {
+                if (media.Validate(window) == false)
+                    return false;
+            }
+
+            return true;
+        }
+
         #endregion
 
         #region IEnumerable implementation

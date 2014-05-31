@@ -19,6 +19,7 @@
         Func<String> _getter;
         Action<String> _setter;
         Boolean _blocking;
+        Boolean _readonly;
 
         #endregion
 
@@ -61,9 +62,21 @@
             get { return _getter(); }
             set
             {
+                if (_readonly)
+                    throw new DOMException(ErrorCode.NoModificationAllowed);
+
                 Update(value);
                 _setter(value);
             }
+        }
+
+        /// <summary>
+        /// Gets if the style declaration is read-only and must not be modified.
+        /// </summary>
+        public Boolean IsReadOnly
+        {
+            get { return _readonly; }
+            internal set { _readonly = value; }
         }
 
         /// <summary>
@@ -2473,6 +2486,9 @@
         [DOM("removeProperty")]
         public String RemoveProperty(String propertyName)
         {
+            if (_readonly)
+                throw new DOMException(ErrorCode.NoModificationAllowed);
+
             CSSProperty property;
 
             if (_rules.TryGetValue(propertyName, out property))
@@ -2526,6 +2542,9 @@
         [DOM("setProperty")]
         public CSSStyleDeclaration SetProperty(String propertyName, String propertyValue)
         {
+            if (_readonly)
+                throw new DOMException(ErrorCode.NoModificationAllowed);
+
             var decl = CssParser.ParseDeclaration(propertyName + ":" + propertyValue);
 
             if (decl != null)
