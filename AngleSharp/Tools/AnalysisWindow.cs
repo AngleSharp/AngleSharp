@@ -123,6 +123,7 @@
                 }
             }
 
+            //style.Inherit(element, this);
             return style;
         }
 

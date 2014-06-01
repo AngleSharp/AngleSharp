@@ -86,9 +86,7 @@
         internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, Element element)
         {
             if (_selector.Match(element))
-            {
-                //TODO
-            }
+                style.Extend(_style, window);
         }
 
         #endregion

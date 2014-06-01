@@ -253,6 +253,7 @@
     <Compile Include="DOM\Primitives\Angle.cs" />
     <Compile Include="Foundation\Constants\FeatureNames.cs" />
     <Compile Include="Foundation\LocationExtensions.cs" />
+    <Compile Include="Foundation\StyleExtensions.cs" />
     <Compile Include="Interfaces\IAttr.cs" />
     <Compile Include="Interfaces\IDocument.cs" />
     <Compile Include="Interfaces\IDocumentFragment.cs" />
