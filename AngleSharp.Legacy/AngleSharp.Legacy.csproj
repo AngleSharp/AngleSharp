@@ -1438,6 +1438,9 @@
     <Compile Include="..\AngleSharp\Foundation\StringExtensions.cs">
       <Link>Foundation\StringExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\StyleExtensions.cs">
+      <Link>Foundation\StyleExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\TransformMatrix.cs">
       <Link>Foundation\TransformMatrix.cs</Link>
     </Compile>
