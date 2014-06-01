@@ -52,6 +52,16 @@
 
         #endregion
 
+        #region Internal Methods
+
+        internal override Boolean IsValid(IWindow window)
+        {
+            //TODO
+            return true;
+        }
+
+        #endregion
+
         #region String representation
 
         /// <summary>

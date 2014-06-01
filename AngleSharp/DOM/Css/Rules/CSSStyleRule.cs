@@ -12,9 +12,9 @@
     {
         #region Fields
 
+        readonly CSSStyleDeclaration _style;
         String _selectorText;
         Selector _selector;
-        CSSStyleDeclaration _style;
 
         #endregion
 
@@ -77,6 +77,18 @@
         public CSSStyleDeclaration Style
         {
             get { return _style; }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, Element element)
+        {
+            if (_selector.Match(element))
+            {
+                //TODO
+            }
         }
 
         #endregion

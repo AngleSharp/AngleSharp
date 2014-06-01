@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.DOM.Collections;
     using AngleSharp.Parser.Css;
     using System;
 
@@ -77,6 +78,22 @@
         public CssRuleType Type
         {
             get { return _type; }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        /// <summary>
+        /// Computes the style for the given element within the specified window
+        /// context. Writes the properties into the specified style declaration.
+        /// </summary>
+        /// <param name="style">The declaration that is used.</param>
+        /// <param name="window">The given window context.</param>
+        /// <param name="element">The element that is computed.</param>
+        internal virtual void ComputeStyle(CSSStyleDeclaration style, IWindow window, Element element)
+        {
+            //By default nothing gets computed.
         }
 
         #endregion

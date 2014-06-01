@@ -119,9 +119,7 @@
                 if (!stylesheet.Disabled && stylesheet.Media.Validate(this) && stylesheet is CSSStyleSheet)
                 {
                     foreach (var rule in ((CSSStyleSheet)stylesheet).CssRules)
-                    {
-                        //TODO
-                    }
+                        rule.ComputeStyle(style, this, element);
                 }
             }
 

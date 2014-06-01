@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.DOM.Collections;
     using System;
 
     /// <summary>
@@ -29,6 +30,18 @@
             get { return String.Empty; }
             set { }
         }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, Element element)
+        {
+            if (IsValid(window))
+                base.ComputeStyle(style, window, element);
+        }
+
+        internal abstract Boolean IsValid(IWindow window);
 
         #endregion
     }

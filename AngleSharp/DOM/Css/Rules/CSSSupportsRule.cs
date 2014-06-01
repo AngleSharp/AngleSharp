@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.DOM.Collections;
     using System;
 
     /// <summary>
@@ -46,6 +47,16 @@
         {
             get { return _used; }
             internal set { _used = value; }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override Boolean IsValid(IWindow window)
+        {
+            //TODO
+            return true;
         }
 
         #endregion

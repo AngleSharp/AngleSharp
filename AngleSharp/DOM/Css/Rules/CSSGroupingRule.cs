@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.DOM.Collections;
     using AngleSharp.Parser.Css;
     using System;
 
@@ -10,7 +11,7 @@
     {
         #region Fields
 
-        CSSRuleList _cssRules;
+        readonly CSSRuleList _cssRules;
 
         #endregion
 
@@ -29,12 +30,22 @@
         #region Properties
 
         /// <summary>
-        /// Gets a list of all CSS rules contained within the media block.
+        /// Gets a list of all CSS rules contained within the grouping block.
         /// </summary>
         [DOM("cssRules")]
         public CSSRuleList CssRules
         {
             get { return _cssRules; }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, Element element)
+        {
+            foreach (var rule in _cssRules)
+                rule.ComputeStyle(style, window, element);
         }
 
         #endregion
