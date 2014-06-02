@@ -1,8 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
+    [DOM("DocumentFragment")]
     interface IDocumentFragment : INode, IQueryElements
     {
-        DocumentFragment Append(params Node[] nodes);
-        DocumentFragment Prepend(params Node[] nodes);
     }
 }
