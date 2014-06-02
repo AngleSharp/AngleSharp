@@ -2801,8 +2801,8 @@ namespace UnitTests
             var attr = dochtml1body1svg0.Attributes["href"];
             Assert.IsNotNull(attr);
             Assert.AreEqual("foo", attr.Value);
-            Assert.AreEqual("xlink", attr.Prefix);
-            Assert.AreEqual("http://www.w3.org/1999/xlink", attr.NamespaceURI);
+            Assert.AreEqual("", attr.Prefix);
+            Assert.AreEqual("http://www.w3.org/1999/xlink", attr.NamespaceUri);
         }
 
         [TestMethod]
@@ -2854,14 +2854,14 @@ namespace UnitTests
             var attr1 = dochtml1body1svg0g0.Attributes["href"];
             Assert.IsNotNull(attr1);
             Assert.AreEqual("foo", attr1.Value);
-            Assert.AreEqual("xlink", attr1.Prefix);
-            Assert.AreEqual("http://www.w3.org/1999/xlink", attr1.NamespaceURI);
+            Assert.AreEqual("", attr1.Prefix);
+            Assert.AreEqual("http://www.w3.org/1999/xlink", attr1.NamespaceUri);
 
-            var attr2 = dochtml1body1svg0g0.Attributes["lang"];
+            var attr2 = dochtml1body1svg0g0.Attributes["xml:lang"];
             Assert.IsNotNull(attr2);
             Assert.AreEqual("en", attr2.Value);
             Assert.AreEqual("xml", attr2.Prefix);
-            Assert.AreEqual("http://www.w3.org/XML/1998/namespace", attr2.NamespaceURI);
+            Assert.AreEqual("http://www.w3.org/XML/1998/namespace", attr2.NamespaceUri);
         }
 
         [TestMethod]
@@ -2913,14 +2913,14 @@ namespace UnitTests
             var attr1 = dochtml1body1svg0g0.Attributes["href"];
             Assert.IsNotNull(attr1);
             Assert.AreEqual("foo", attr1.Value);
-            Assert.AreEqual("xlink", attr1.Prefix);
-            Assert.AreEqual("http://www.w3.org/1999/xlink", attr1.NamespaceURI);
+            Assert.AreEqual("", attr1.Prefix);
+            Assert.AreEqual("http://www.w3.org/1999/xlink", attr1.NamespaceUri);
 
-            var attr2 = dochtml1body1svg0g0.Attributes["lang"];
+            var attr2 = dochtml1body1svg0g0.Attributes["xml:lang"];
             Assert.IsNotNull(attr2);
             Assert.AreEqual("en", attr2.Value);
             Assert.AreEqual("xml", attr2.Prefix);
-            Assert.AreEqual("http://www.w3.org/XML/1998/namespace", attr2.NamespaceURI);
+            Assert.AreEqual("http://www.w3.org/XML/1998/namespace", attr2.NamespaceUri);
         }
 
         [TestMethod]
@@ -2972,14 +2972,14 @@ namespace UnitTests
             var attr1 = dochtml1body1svg0g0.Attributes["href"];
             Assert.IsNotNull(attr1);
             Assert.AreEqual("foo", attr1.Value);
-            Assert.AreEqual("xlink", attr1.Prefix);
-            Assert.AreEqual("http://www.w3.org/1999/xlink", attr1.NamespaceURI);
+            Assert.AreEqual("", attr1.Prefix);
+            Assert.AreEqual("http://www.w3.org/1999/xlink", attr1.NamespaceUri);
 
-            var attr2 = dochtml1body1svg0g0.Attributes["lang"];
+            var attr2 = dochtml1body1svg0g0.Attributes["xml:lang"];
             Assert.IsNotNull(attr2);
             Assert.AreEqual("en", attr2.Value);
             Assert.AreEqual("xml", attr2.Prefix);
-            Assert.AreEqual("http://www.w3.org/XML/1998/namespace", attr2.NamespaceURI);
+            Assert.AreEqual("http://www.w3.org/XML/1998/namespace", attr2.NamespaceUri);
 
             var dochtml1body1svg0Text1 = dochtml1body1svg0.ChildNodes[1];
             Assert.AreEqual(NodeType.Text, dochtml1body1svg0Text1.NodeType);
