@@ -1462,6 +1462,12 @@
     <Compile Include="..\AngleSharp\Interfaces\IAttr.cs">
       <Link>Interfaces\IAttr.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\ICharacterData.cs">
+      <Link>Interfaces\ICharacterData.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IComment.cs">
+      <Link>Interfaces\IComment.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IDocument.cs">
       <Link>Interfaces\IDocument.cs</Link>
     </Compile>
@@ -1470,6 +1476,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IDocumentStyle.cs">
       <Link>Interfaces\IDocumentStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IDocumentType.cs">
+      <Link>Interfaces\IDocumentType.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IDOMImplementation.cs">
       <Link>Interfaces\IDOMImplementation.cs</Link>
@@ -1503,6 +1512,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IStyleSheet.cs">
       <Link>Interfaces\IStyleSheet.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IText.cs">
+      <Link>Interfaces\IText.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IValidation.cs">
       <Link>Interfaces\IValidation.cs</Link>
