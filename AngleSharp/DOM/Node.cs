@@ -382,7 +382,10 @@
             var lastChild = LastChild as TextNode;
 
             if (lastChild != null)
-                return lastChild.AppendData(c);
+            {
+                lastChild.Append(c);
+                return lastChild;
+            }
 
             var element = new TextNode(c);
             return AppendChild(element);
@@ -398,7 +401,10 @@
             var lastChild = LastChild as TextNode;
 
             if (lastChild != null)
-                return lastChild.AppendData(s);
+            {
+                lastChild.Append(s);
+                return lastChild;
+            }
 
             var element = new TextNode(s);
             return AppendChild(element);
@@ -413,9 +419,17 @@
         internal Node InsertText(Int32 index, String s)
         {
             if (index > 0 && index <= _children.Length && _children[index - 1] is TextNode)
-                return ((TextNode)_children[index - 1]).AppendData(s);
+            {
+                var node = (TextNode)_children[index - 1];
+                node.Append(s);
+                return node;
+            }
             else if (index >= 0 && index < _children.Length && _children[index] is TextNode)
-                return ((TextNode)_children[index]).InsertData(0, s);
+            {
+                var node = (TextNode)_children[index];
+                node.Insert(0, s);
+                return node;
+            }
             
             return InsertChild(index, new TextNode(s));
         }
@@ -666,7 +680,7 @@
                         while (text.NextSibling is TextNode)
                         {
                             var t = (TextNode)text.NextSibling;
-                            text.AppendData(t.Data);
+                            text.Append(t.Data);
                             RemoveChild(t);
                         }
                     }

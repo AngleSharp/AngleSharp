@@ -3,10 +3,10 @@
     using System;
 
     [DOM("CharacterData")]
-    interface ICharacterData : INode
+    public interface ICharacterData : INode
     {
         [DOM("data")]
-        String Value { get; set; }
+        String Data { get; set; }
 
         [DOM("length")]
         Int32 Length { get; }

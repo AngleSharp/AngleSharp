@@ -3763,8 +3763,7 @@
         void AddComment(HtmlToken commentToken)
         {
             var tag = (HtmlCommentToken)commentToken;
-            var comment = new Comment();
-            comment.Data = tag.Data;
+            var comment = new Comment { Data = tag.Data };
             CurrentNode.AppendChild(comment);
         }
 
@@ -3776,8 +3775,7 @@
         void AddComment(Node parent, HtmlToken commentToken)
         {
             var tag = (HtmlCommentToken)commentToken;
-            var comment = new Comment();
-            comment.Data = tag.Data;
+            var comment = new Comment { Data = tag.Data };
             parent.AppendChild(comment);
         }
 

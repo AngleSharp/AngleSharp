@@ -3,7 +3,7 @@
     using System;
     using AngleSharp.DOM.Collections;
 
-    interface INode
+    public interface INode
     {
         Node AppendChild(Node child);
         NamedNodeMap Attributes { get; }

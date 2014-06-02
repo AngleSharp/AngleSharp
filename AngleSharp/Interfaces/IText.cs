@@ -3,7 +3,7 @@
 	using System;
 
 	[DOM("Text")]
-	interface IText : ICharacterData
+	public interface IText : ICharacterData
 	{
 		[DOM("splitText")]
 		IText Split(Int32 offset);

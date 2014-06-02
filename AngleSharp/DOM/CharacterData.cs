@@ -6,7 +6,7 @@
     /// The base class for all characterdata implementations.
     /// </summary>
     [DOM("CharacterData")]
-    public abstract class CharacterData : Node
+    public abstract class CharacterData : Node, ICharacterData
     {
         #region Fields
 
@@ -161,9 +161,8 @@
         /// </summary>
         /// <param name="offset">The start index.</param>
         /// <param name="count">The number of characters.</param>
-        /// <returns>The current instance.</returns>
         [DOM("substringData")]
-        public String SubstringData(Int32 offset, Int32 count)
+        public String Substring(Int32 offset, Int32 count)
         {
             return _content.Substring(offset, count);
         }
@@ -172,23 +171,19 @@
         /// Appends some data to the character data.
         /// </summary>
         /// <param name="data">The data to append.</param>
-        /// <returns>The current instance.</returns>
         [DOM("appendData")]
-        public CharacterData AppendData(String data)
+        public void Append(String value)
         {
-            _content += data;
-            return this;
+            _content += value;
         }
 
         /// <summary>
         /// Appends some data to the character data.
         /// </summary>
         /// <param name="data">The data to append.</param>
-        /// <returns>The current instance.</returns>
-        public CharacterData AppendData(Char data)
+        public void Append(Char data)
         {
             _content += data.ToString();
-            return this;
         }
 
         /// <summary>
@@ -196,12 +191,10 @@
         /// </summary>
         /// <param name="offset">The start index.</param>
         /// <param name="data">The data to insert.</param>
-        /// <returns>The current instance.</returns>
         [DOM("insertData")]
-        public CharacterData InsertData(Int32 offset, String data)
+        public void Insert(Int32 offset, String data)
         {
             _content.Insert(offset, data);
-            return this;
         }
 
         /// <summary>
@@ -209,11 +202,9 @@
         /// </summary>
         /// <param name="offset">The start index.</param>
         /// <param name="data">The data to insert.</param>
-        /// <returns>The current instance.</returns>
-        public CharacterData InsertData(Int32 offset, Char data)
+        public void InsertData(Int32 offset, Char data)
         {
             _content.Insert(offset, data.ToString());
-            return this;
         }
 
         /// <summary>
@@ -221,12 +212,10 @@
         /// </summary>
         /// <param name="offset">The start index.</param>
         /// <param name="count">The length of the deletion.</param>
-        /// <returns>The current instance.</returns>
         [DOM("deleteData")]
-        public CharacterData DeleteData(Int32 offset, Int32 count)
+        public void Delete(Int32 offset, Int32 count)
         {
             _content.Remove(offset, count);
-            return this;
         }
 
         /// <summary>
@@ -235,12 +224,10 @@
         /// <param name="offset">The start index.</param>
         /// <param name="count">The length of the replacement.</param>
         /// <param name="data">The data to insert at the replacement.</param>
-        /// <returns>The current instance.</returns>
         [DOM("replaceData")]
-        public CharacterData ReplaceData(Int32 offset, Int32 count, String data)
+        public void Replace(Int32 offset, Int32 count, String data)
         {
             _content.Remove(offset, count).Insert(offset, data);
-            return this;
         }
 
         /// <summary>

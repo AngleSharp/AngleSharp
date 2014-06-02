@@ -33,7 +33,7 @@
         {
             var node = new CDATASection();
             CopyProperties(this, node, deep);
-            node.Data = this.Data;
+            node.Data = Data;
             return node;
         }
 

@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents a node that contains a comment.
     /// </summary>
-    [DOM("Comment")]
-    public sealed class Comment : CharacterData
+    public sealed class Comment : CharacterData, IComment
     {
         #region ctor
 
@@ -23,10 +22,10 @@
         /// Creates a new comment node with the given data.
         /// </summary>
         /// <param name="data">The data to be initially set.</param>
-        internal Comment(string data)
+        internal Comment(String data)
             : this()
         {
-            AppendData(data);
+            Append(data);
         }
 
         #endregion
@@ -38,7 +37,6 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DOM("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
             var node = new Comment(Data);

@@ -6,8 +6,7 @@
     /// <summary>
     /// Represents a text node.
     /// </summary>
-    [DOM("Text")]
-    public sealed class TextNode : CharacterData
+    public sealed class TextNode : CharacterData, IText
     {
         #region ctor
 
@@ -27,7 +26,7 @@
         internal TextNode(String text)
             : this()
         {
-            AppendData(text);
+            Append(text);
         }
 
         /// <summary>
@@ -37,7 +36,7 @@
         internal TextNode(Char c)
             : this()
         {
-            AppendData(c);
+            Append(c);
         }
 
         #endregion
@@ -61,6 +60,14 @@
             }
         }
 
+        /// <summary>
+        /// Gets the stored text content.
+        /// </summary>
+        public String Text
+        {
+            get { return Data; }
+        }
+
         #endregion
 
         #region Methods
@@ -70,12 +77,25 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DOM("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
             var node = new TextNode(Data);
             CopyProperties(this, node, deep);
             return node;
+        }
+
+        /// <summary>
+        /// Creates a new text node with the content starting at the specified offset.
+        /// Adds the new node to the DOM as a sibling. Truncates the current node.
+        /// </summary>
+        /// <param name="offset">The position where the split should occur.</param>
+        /// <returns>The freshly created text node.</returns>
+        public IText Split(Int32 offset)
+        {
+            var element = new TextNode(Data.Substring(offset));
+            Data = Data.Substring(0, offset);
+            _parent.InsertBefore(element, NextSibling);
+            return element;
         }
 
         #endregion
