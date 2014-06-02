@@ -14,10 +14,10 @@
     {
         #region Fields
 
-        Dictionary<String, CSSProperty> _rules;
+        readonly Dictionary<String, CSSProperty> _rules;
+        readonly Func<String> _getter;
+        readonly Action<String> _setter;
         CSSRule _parent;
-        Func<String> _getter;
-        Action<String> _setter;
         Boolean _blocking;
         Boolean _readonly;
 
