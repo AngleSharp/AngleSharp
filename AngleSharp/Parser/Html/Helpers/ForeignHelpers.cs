@@ -25,13 +25,13 @@
                 case "xlink:show":
                 case "xlink:title":
                 case "xlink:type":
-                    element.SetAttributeNode(new Attr(GetName(name), value) { Prefix = "xlink", NamespaceURI = Namespaces.XLink });
+                    element.SetAttributeNode(new Attr(GetName(name), value,  Namespaces.XLink));
                     break;
 
                 case "xml:base":
                 case "xml:lang":
                 case "xml:space":
-                    element.SetAttributeNode(new Attr(GetName(name), value) { Prefix = "xml", NamespaceURI = Namespaces.Xml });
+                    element.SetAttributeNode(new Attr(name, value, Namespaces.Xml));
                     break;
 
                 case "xmlns":
@@ -39,7 +39,7 @@
                     break;
 
                 case "xmlns:xlink":
-                    element.SetAttributeNode(new Attr(GetName(name), value) { Prefix = "xmlns", NamespaceURI = Namespaces.XmlNS });
+                    element.SetAttributeNode(new Attr(name, value, Namespaces.XmlNS));
                     break;
 
                 default:

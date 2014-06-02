@@ -3008,7 +3008,7 @@
             for (int i = 0; i < element.Attributes.Length; i++)
             {
                 var attr = element.Attributes[i];
-                newElement.SetAttribute(attr.NodeName, attr.NodeValue);
+                newElement.SetAttribute(attr.Name, attr.Value);
             }
 
             return newElement;

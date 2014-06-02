@@ -55,8 +55,9 @@
         internal Node()
         {
             _name = String.Empty;
-            _attributes = new NamedNodeMap(this);
+            _attributes = new NamedNodeMap();
             _children = new NodeList();
+            _attributes.PropertyChanged += (s, e) => OnAttributeChanged(e.PropertyName);
         }
 
         #endregion
@@ -456,7 +457,7 @@
                 for (int i = 0; i < childs.Length; i++)
                     AppendChild(childs[i]);
             }
-            else if (child is Attr || child is Document || child.Contains(this))
+            else if (child is Document || child.Contains(this))
             {
                 throw new DOMException(ErrorCode.HierarchyRequestError);
             }
@@ -489,7 +490,7 @@
                 for (int i = 0; i < childs.Length; i++)
                     InsertChild(index + i, childs[i]);
             }
-            else if (child is Attr || child is Document || child.Contains(this))
+            else if (child is Document || child.Contains(this))
             {
                 throw new DOMException(ErrorCode.HierarchyRequestError);
             }
@@ -516,7 +517,7 @@
         [DOM("insertBefore")]
         public virtual Node InsertBefore(Node newElement, Node referenceElement)
         {
-            if (newElement is Attr || newElement is Document || newElement.Contains(this))
+            if (newElement is Document || newElement.Contains(this))
                 throw new DOMException(ErrorCode.HierarchyRequestError);
 
             var n = _children.Length;
@@ -539,7 +540,7 @@
         [DOM("replaceChild")]
         public virtual Node ReplaceChild(Node newChild, Node oldChild)
         {
-            if (newChild is Attr || newChild is Document || newChild.Contains(this))
+            if (newChild is Document || newChild.Contains(this))
                 throw new DOMException(ErrorCode.HierarchyRequestError);
             else if (newChild == oldChild)
                 return oldChild;
@@ -723,7 +724,7 @@
             {
                 for (int i = 0; i < _attributes.Length; i++)
                 {
-                    if (_attributes[i].Prefix == "xmlns" && _attributes[i].NodeValue == namespaceURI && originalElement.LookupNamespaceURI(_attributes[i].LocalName) == namespaceURI)
+                    if (_attributes[i].Prefix == "xmlns" && _attributes[i].Value == namespaceURI && originalElement.LookupNamespaceURI(_attributes[i].LocalName) == namespaceURI)
                         return _attributes[i].LocalName;
                 }
             }
@@ -773,7 +774,7 @@
 
             for (int i = 0; i < this._attributes.Length; i++)
             {
-                if(!this._attributes[i].IsEqualNode(otherNode._attributes[i]))
+                if(!this._attributes[i].Equals(otherNode._attributes[i]))
                     return false;
             }
 
@@ -861,7 +862,10 @@
                     target._children.Add(source._children[i].CloneNode(true));
 
                 for (int i = 0; i < source._attributes.Length; i++)
-                    target._attributes.SetNamedItem(source._attributes[i].CloneNode(true) as Attr);
+                {
+                    var attr = source._attributes[i];
+                    target._attributes.SetNamedItem(new Attr(attr.Name, attr.Value, attr.NamespaceUri));
+                }
             }
         }
 

@@ -8,50 +8,46 @@
         /// <summary>
         /// A standard node element.
         /// </summary>
-        Element = 1,
-        /// <summary>
-        /// An attribute node of a node.
-        /// </summary>
-        Attribute = 2,
+        Element,
         /// <summary>
         /// A text node.
         /// </summary>
-        Text = 3,
+        Text,
         /// <summary>
         /// A CData text node.
         /// </summary>
-        CData = 4,
+        CData,
         /// <summary>
         /// An entity reference node.
         /// </summary>
-        EntityReference = 5,
+        EntityReference,
         /// <summary>
         /// An entity node.
         /// </summary>
-        Entity = 6,
+        Entity,
         /// <summary>
         /// A processing instruction node.
         /// </summary>
-        ProcessingInstruction = 7,
+        ProcessingInstruction,
         /// <summary>
         /// A comment node.
         /// </summary>
-        Comment = 8,
+        Comment,
         /// <summary>
         /// A document node.
         /// </summary>
-        Document = 9,
+        Document,
         /// <summary>
         /// A document type node.
         /// </summary>
-        DocumentType = 10,
+        DocumentType,
         /// <summary>
         /// A document (fragment mode) node.
         /// </summary>
-        DocumentFragment = 11,
+        DocumentFragment,
         /// <summary>
         /// A notation node.
         /// </summary>
-        Notation = 12
+        Notation
     }
 }

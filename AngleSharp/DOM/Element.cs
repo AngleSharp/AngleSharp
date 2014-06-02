@@ -541,8 +541,8 @@
             {
                 var attr = _attributes[i];
 
-                if (attr.Prefix == Namespaces.Declaration && IsValidNamespaceDeclaration(attr.LocalName, attr.NodeValue))
-                    declarations.Add(attr.NodeValue);
+                if (attr.Prefix == Namespaces.Declaration && IsValidNamespaceDeclaration(attr.LocalName, attr.Value))
+                    declarations.Add(attr.Value);
             }
 
             if (_ns != null)
@@ -662,8 +662,8 @@
 
                 if ((attr.Prefix == Namespaces.Declaration && attr.LocalName == prefix) || (attr.LocalName == Namespaces.Declaration && prefix == null))
                 {
-                    if (!String.IsNullOrEmpty(attr.NodeValue))
-                        return attr.NodeValue;
+                    if (!String.IsNullOrEmpty(attr.Value))
+                        return attr.Value;
 
                     return null;
                 }
@@ -709,10 +709,6 @@
         public Element SetAttribute(String name, String value)
         {
             var oldAttr = value == null ? _attributes.RemoveNamedItem(name) : _attributes.SetNamedItem(new Attr(name, value));
-
-            if (oldAttr != null)
-                oldAttr.ParentNode = null;
-
             return this;
         }
 
@@ -729,7 +725,7 @@
             if (attr == null)
                 return null;
 
-            return attr.NodeValue;
+            return attr.Value;
         }
 
         /// <summary>
@@ -752,7 +748,6 @@
         public Element RemoveAttribute(String attrName)
         {
             var node = _attributes.RemoveNamedItem(attrName);
-            node.ParentNode = null;
             return this;
         }
 
@@ -767,10 +762,6 @@
         public Element SetAttributeNS(String namespaceURI, String name, String value)
         {
             var oldAttr = value == null ? _attributes.RemoveNamedItem(name) : _attributes.SetNamedItem(new Attr(name, value, namespaceURI));
-
-            if (oldAttr != null)
-                oldAttr.ParentNode = null;
-
             return this;
         }
 
@@ -788,7 +779,7 @@
             if (attr == null)
                 return null;
 
-            return attr.NodeValue;
+            return attr.Value;
         }
 
         /// <summary>
@@ -813,7 +804,6 @@
         public Element RemoveAttributeNS(String namespaceURI, String localAttrName)
         {
             var node = _attributes.RemoveNamedItemNS(namespaceURI, localAttrName);
-            node.ParentNode = null;
             return this;
         }
 
@@ -825,15 +815,7 @@
         [DOM("setAttributeNode")]
         public Attr SetAttributeNode(Attr attr)
         {
-            if (attr.ParentNode != null)
-                throw new DOMException(ErrorCode.InUse);
-
-            attr.ParentNode = this;
             var oldAttr = _attributes.SetNamedItem(attr);
-
-            if (oldAttr != null)
-                oldAttr.ParentNode = null;
-
             return oldAttr;
         }
 
@@ -856,22 +838,20 @@
         [DOM("removeAttributeNode")]
         public Attr RemoveAttributeNode(Attr attr)
         {
-            var node = _attributes.RemoveNamedItem(attr.NodeName);
-            node.ParentNode = null;
+            var node = _attributes.RemoveNamedItem(attr.Name);
             return node;
         }
 
         /// <summary>
         /// Adds a new namespaced Attr node.
         /// </summary>
-        /// <param name="namespaceURI">A string specifying the namespace of the attribute.</param>
+        /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="attr">Is the Attr node to set on the element.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute.</returns>
         [DOM("setAttributeNodeNS")]
-        public Attr SetAttributeNodeNS(String namespaceURI, Attr attr)
+        public Attr SetAttributeNodeNS(String namespaceUri, Attr attr)
         {
-            attr.NamespaceURI = namespaceURI;
-            return SetAttributeNode(attr);
+            return SetAttributeNode(new Attr(attr.Name, attr.Value, namespaceUri));
         }
 
         /// <summary>

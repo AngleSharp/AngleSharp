@@ -351,7 +351,7 @@
         [DOM("createAttribute")]
         public Attr CreateAttribute(String name)
         {
-            return new Attr(name) { OwnerDocument = this };
+            return new Attr(name);
         }
 
         /// <summary>
@@ -363,7 +363,7 @@
         [DOM("createAttributeNS")]
         public Attr CreateAttributeNS(String namespaceURI, String name)
         {
-            return new Attr(name, string.Empty, namespaceURI) { OwnerDocument = this };
+            return new Attr(name, String.Empty, namespaceURI);
         }
 
         /// <summary>

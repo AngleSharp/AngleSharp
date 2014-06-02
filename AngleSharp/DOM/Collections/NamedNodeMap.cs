@@ -3,18 +3,23 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics;
 
     /// <summary>
     /// Represents a named collection of nodes.
     /// </summary>
     [DOM("NamedNodeMap")]
-    public sealed class NamedNodeMap : IHtmlObject, IEnumerable<Attr>
+    public sealed class NamedNodeMap : IHtmlObject, IEnumerable<Attr>, INotifyPropertyChanged
     {
         #region Fields
 
         List<Attr> _entries;
-        Node _parent;
+
+        /// <summary>
+        /// Raised if an attribute changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
 
@@ -23,10 +28,8 @@
         /// <summary>
         /// Creates a new collection of nodes.
         /// </summary>
-        /// <param name="parent">The parent of the NamedNodeMap.</param>
-        internal NamedNodeMap(Node parent)
+        internal NamedNodeMap()
         {
-            _parent = parent;
             _entries = new List<Attr>();
         }
 
@@ -63,7 +66,7 @@
                 {
                     for (var i = 0; i < _entries.Count; i++)
                     {
-                        if (_entries[i].NodeName.Equals(name, StringComparison.OrdinalIgnoreCase))
+                        if (_entries[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                             return _entries[i];
                     }
                 }
@@ -110,17 +113,14 @@
         {
             if (node != null)
             {
-                if (node.OwnerDocument != _parent.OwnerDocument)
-                    node.OwnerDocument = _parent.OwnerDocument;
+                if (node.Parent != null)
+                    throw new DOMException(ErrorCode.AttributeDuplicateOmitted);
 
-                if (node.ParentNode != null && node.ParentNode != _parent)
-                    throw new DOMException(ErrorCode.InUse);
-
-                node.ParentNode = _parent;
+                node.Parent = this;
 
                 for (var i = 0; i < _entries.Count; i++)
                 {
-                    if (_entries[i].NodeName.Equals(node.NodeName, StringComparison.OrdinalIgnoreCase))
+                    if (_entries[i].Name.Equals(node.Name, StringComparison.OrdinalIgnoreCase))
                     {
                         var entry = _entries[i];
                         _entries[i] = node;
@@ -148,7 +148,7 @@
             {
                 for (int i = 0; i < _entries.Count; i++)
                 {
-                    if (_entries[i].NodeName.Equals(nodeName, StringComparison.OrdinalIgnoreCase))
+                    if (_entries[i].Name.Equals(nodeName, StringComparison.OrdinalIgnoreCase))
                     {
                         var entry = _entries[i];
                         _entries.RemoveAt(i);
@@ -173,7 +173,7 @@
             if (namespaceURI != null && localName != null)
             {
                 for (var i = 0; i < _entries.Count; i++)
-                    if (_entries[i].NamespaceURI.Equals(namespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase))
+                    if (_entries[i].NamespaceUri.Equals(namespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase))
                         return _entries[i];
             }
 
@@ -190,17 +190,14 @@
         {
             if (node != null)
             {
-                if (node.OwnerDocument != _parent.OwnerDocument)
-                    node.OwnerDocument = _parent.OwnerDocument;
+                if (node.Parent != null)
+                    throw new DOMException(ErrorCode.AttributeDuplicateOmitted);
 
-                if (node.ParentNode != null && node.ParentNode != _parent)
-                    throw new DOMException(ErrorCode.InUse);
-
-                node.ParentNode = _parent;
+                node.Parent = this;
 
                 for (var i = 0; i < _entries.Count; i++)
                 {
-                    if (_entries[i].NamespaceURI.Equals(node.NamespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(node.LocalName, StringComparison.OrdinalIgnoreCase))
+                    if (_entries[i].NamespaceUri.Equals(node.NamespaceUri, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(node.LocalName, StringComparison.OrdinalIgnoreCase))
                     {
                         _entries[i] = node;
                         RaiseChanged(node.Name);
@@ -228,7 +225,7 @@
             {
                 for (var i = 0; i < _entries.Count; i++)
                 {
-                    if (_entries[i].NamespaceURI.Equals(namespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase))
+                    if (_entries[i].NamespaceUri.Equals(namespaceURI, StringComparison.OrdinalIgnoreCase) && _entries[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase))
                     {
                         var entry = _entries[i];
                         _entries.RemoveAt(i);
@@ -262,12 +259,12 @@
                     for (int i = 0; i < a.Length; i++)
                     {
                         var elA = a[i];
-                        var elB = b[elA.NodeName];
+                        var elB = b[elA.Name];
 
                         if (elB == null)
                             return false;
 
-                        if (!elA.IsEqualNode(elB))
+                        if (!elA.Equals(elB))
                             return false;
                     }
 
@@ -313,10 +310,10 @@
 
         #region Helpers
 
-        void RaiseChanged(String name)
+        internal void RaiseChanged(String name)
         {
-            if (_parent != null)
-                _parent.OnAttributeChanged(name);
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
         #endregion
@@ -334,7 +331,7 @@
             for (int i = 0; i < _entries.Count; i++)
             {
                 sb.Append(Specification.Space);
-                sb.Append(_entries[i].ToHtml());
+                sb.Append(_entries[i].ToString());
             }
 
             return sb.ToPool();
@@ -350,5 +347,6 @@
         }
 
         #endregion
+    
     }
 }
