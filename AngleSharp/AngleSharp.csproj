@@ -278,6 +278,7 @@
     <Compile Include="Interfaces\IStringMap.cs" />
     <Compile Include="Interfaces\IStyleSheet.cs" />
     <Compile Include="Interfaces\IText.cs" />
+    <Compile Include="Interfaces\ITokenList.cs" />
     <Compile Include="Interfaces\IValidation.cs" />
     <Compile Include="Interfaces\IValidityState.cs" />
     <Compile Include="Interfaces\IWindow.cs" />
