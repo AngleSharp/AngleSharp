@@ -5,7 +5,6 @@
     /// <summary>
     /// The base class for all characterdata implementations.
     /// </summary>
-    [DOM("CharacterData")]
     public abstract class CharacterData : Node, ICharacterData
     {
         #region Fields
@@ -56,7 +55,6 @@
         /// <summary>
         /// Gets the number of characters.
         /// </summary>
-        [DOM("length")]
         public Int32 Length 
         { 
             get { return _content.Length; } 
@@ -65,7 +63,6 @@
         /// <summary>
         /// Gets or sets the character value.
         /// </summary>
-        [DOM("nodeValue")]
         public override String NodeValue
         {
             get { return _content; }
@@ -76,7 +73,6 @@
         /// <summary>
         /// Gets or sets the character value.
         /// </summary>
-        [DOM("textContent")]
         public override String TextContent
         {
             get { return _content; }
@@ -86,7 +82,6 @@
         /// <summary>
         /// Gets the string data in this character node.
         /// </summary>
-        [DOM("data")]
         public String Data
         {
             get { return _content; }
@@ -102,7 +97,6 @@
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
-        [DOM("appendChild")]
         public override Node AppendChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -115,7 +109,6 @@
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
-        [DOM("insertBefore")]
         public override Node InsertBefore(Node newElement, Node referenceElement)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -127,7 +120,6 @@
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
-        [DOM("insertChild")]
         public override Node InsertChild(int index, Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -138,7 +130,6 @@
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
-        [DOM("removeChild")]
         public override Node RemoveChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -150,7 +141,6 @@
         /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
         /// <param name="oldChild">The existing child to be replaced.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
-        [DOM("replaceChild")]
         public override Node ReplaceChild(Node newChild, Node oldChild)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -161,7 +151,6 @@
         /// </summary>
         /// <param name="offset">The start index.</param>
         /// <param name="count">The number of characters.</param>
-        [DOM("substringData")]
         public String Substring(Int32 offset, Int32 count)
         {
             return _content.Substring(offset, count);
@@ -171,7 +160,6 @@
         /// Appends some data to the character data.
         /// </summary>
         /// <param name="data">The data to append.</param>
-        [DOM("appendData")]
         public void Append(String value)
         {
             _content += value;
@@ -191,7 +179,6 @@
         /// </summary>
         /// <param name="offset">The start index.</param>
         /// <param name="data">The data to insert.</param>
-        [DOM("insertData")]
         public void Insert(Int32 offset, String data)
         {
             _content.Insert(offset, data);
@@ -212,7 +199,6 @@
         /// </summary>
         /// <param name="offset">The start index.</param>
         /// <param name="count">The length of the deletion.</param>
-        [DOM("deleteData")]
         public void Delete(Int32 offset, Int32 count)
         {
             _content.Remove(offset, count);
@@ -224,7 +210,6 @@
         /// <param name="offset">The start index.</param>
         /// <param name="count">The length of the replacement.</param>
         /// <param name="data">The data to insert at the replacement.</param>
-        [DOM("replaceData")]
         public void Replace(Int32 offset, Int32 count, String data)
         {
             _content.Remove(offset, count).Insert(offset, data);

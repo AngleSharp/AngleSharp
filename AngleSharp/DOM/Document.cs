@@ -444,7 +444,7 @@
         [DOM("createProcessingInstruction")]
         public ProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
-            return new ProcessingInstruction { Target = target, Data = data, OwnerDocument = this };
+            return new ProcessingInstruction(target) { Data = data, OwnerDocument = this };
         }
 
         /// <summary>

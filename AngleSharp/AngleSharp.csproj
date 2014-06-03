@@ -269,6 +269,7 @@
     <Compile Include="Interfaces\IHTMLDocument.cs" />
     <Compile Include="Interfaces\ILabelabelElement.cs" />
     <Compile Include="Interfaces\INode.cs" />
+    <Compile Include="Interfaces\IProcessingInstruction.cs" />
     <Compile Include="Interfaces\IQueryElements.cs" />
     <Compile Include="Interfaces\IRange.cs" />
     <Compile Include="Interfaces\IStyleSheet.cs" />
