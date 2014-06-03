@@ -1285,9 +1285,6 @@
     <Compile Include="..\AngleSharp\DOM\Objects\Point2d.cs">
       <Link>DOM\Objects\Point2d.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\Range.cs">
-      <Link>DOM\Objects\Range.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Objects\RenderingContext.cs">
       <Link>DOM\Objects\RenderingContext.cs</Link>
     </Compile>
@@ -1495,14 +1492,23 @@
     <Compile Include="..\AngleSharp\Interfaces\IEventTarget.cs">
       <Link>Interfaces\IEventTarget.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IHtmlCollection.cs">
+      <Link>Interfaces\IHtmlCollection.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IHTMLDocument.cs">
       <Link>Interfaces\IHTMLDocument.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ILabelabelElement.cs">
       <Link>Interfaces\ILabelabelElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\INamedNodeMap.cs">
+      <Link>Interfaces\INamedNodeMap.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\INode.cs">
       <Link>Interfaces\INode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\INodeList.cs">
+      <Link>Interfaces\INodeList.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IProcessingInstruction.cs">
       <Link>Interfaces\IProcessingInstruction.cs</Link>
@@ -1512,6 +1518,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IRange.cs">
       <Link>Interfaces\IRange.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IStringMap.cs">
+      <Link>Interfaces\IStringMap.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IStyleSheet.cs">
       <Link>Interfaces\IStyleSheet.cs</Link>
