@@ -266,12 +266,16 @@
     <Compile Include="Interfaces\IEvent.cs" />
     <Compile Include="Interfaces\IEventListener.cs" />
     <Compile Include="Interfaces\IEventTarget.cs" />
+    <Compile Include="Interfaces\IHtmlCollection.cs" />
     <Compile Include="Interfaces\IHTMLDocument.cs" />
     <Compile Include="Interfaces\ILabelabelElement.cs" />
+    <Compile Include="Interfaces\INamedNodeMap.cs" />
     <Compile Include="Interfaces\INode.cs" />
+    <Compile Include="Interfaces\INodeList.cs" />
     <Compile Include="Interfaces\IProcessingInstruction.cs" />
     <Compile Include="Interfaces\IQueryElements.cs" />
     <Compile Include="Interfaces\IRange.cs" />
+    <Compile Include="Interfaces\IStringMap.cs" />
     <Compile Include="Interfaces\IStyleSheet.cs" />
     <Compile Include="Interfaces\IText.cs" />
     <Compile Include="Interfaces\IValidation.cs" />
@@ -403,7 +407,6 @@
     <Compile Include="DOM\Objects\Event.cs" />
     <Compile Include="DOM\Objects\EventListener.cs" />
     <Compile Include="DOM\Objects\EventTarget.cs" />
-    <Compile Include="DOM\Objects\Range.cs" />
     <Compile Include="DOM\FormControlState.cs" />
     <Compile Include="Foundation\Attributes\DOMAttribute.cs" />
     <Compile Include="Parser\BaseTokenizer.cs" />

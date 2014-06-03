@@ -1,12 +1,12 @@
-﻿using System;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+
     /// <summary>
     /// This attribute decorates official DOM objects as specified by the W3C. You could
     /// use it to detect all DOM types or get the correct spelling (PascalCase to camelCase).
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Event | AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Event | AttributeTargets.Method | AttributeTargets.Field)]
     public sealed class DOMAttribute : Attribute
     {
         internal DOMAttribute(String officialName)

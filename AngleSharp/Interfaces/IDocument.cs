@@ -19,7 +19,7 @@
         EntityReference CreateEntityReference(String name);
         ProcessingInstruction CreateProcessingInstruction(String target, String data);
         TextNode CreateTextNode(String data);
-        Range CreateRange();
+        IRange CreateRange();
         IWindow DefaultView { get; }
         IWindow ParentWindow { get; }
         DocumentType Doctype { get; }

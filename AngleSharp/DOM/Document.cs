@@ -287,7 +287,7 @@
         /// </summary>
         /// <returns>The created range object.</returns>
         [DOM("createRange")]
-        public Range CreateRange()
+        public IRange CreateRange()
         {
             //TODO
             throw new NotImplementedException();
