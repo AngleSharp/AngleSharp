@@ -6,7 +6,7 @@
     /// This type represents a set of space-separated tokens. 
     /// </summary>
 	[DOM("DOMTokenList")]
-	interface ITokenList
+	public interface ITokenList
 	{
         /// <summary>
         /// Gets the number of contained tokens.

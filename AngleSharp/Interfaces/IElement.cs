@@ -7,7 +7,7 @@
     {
         Int32 ChildElementCount { get; }
         HTMLCollection Children { get; }
-        DOMTokenList ClassList { get; }
+        ITokenList ClassList { get; }
         String ClassName { get; set; }
         ContentEditableMode ContentEditable { get; set; }
         IStringMap Dataset { get; }

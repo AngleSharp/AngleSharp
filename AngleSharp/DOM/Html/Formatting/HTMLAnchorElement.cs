@@ -11,7 +11,7 @@ namespace AngleSharp.DOM.Html
     {
         #region Members
 
-        DOMTokenList _relList;
+        TokenList _relList;
 
         #endregion
 
@@ -227,9 +227,9 @@ namespace AngleSharp.DOM.Html
         /// Gets the rel HTML attribute, as a list of tokens.
         /// </summary>
         [DOM("relList")]
-        public DOMTokenList RelList
+        public ITokenList RelList
         {
-            get { return _relList ?? (_relList = new DOMTokenList(this, AttributeNames.Rel)); }
+            get { return _relList ?? (_relList = new TokenList(this, AttributeNames.Rel)); }
         }
 
         /// <summary>
@@ -295,9 +295,12 @@ namespace AngleSharp.DOM.Html
         internal override void OnAttributeChanged(String name)
         {
             if (name.Equals(AttributeNames.Rel, StringComparison.Ordinal))
-                RelList.Update(Rel);
-            else
-                base.OnAttributeChanged(name);
+            {
+                if (_relList != null)
+                    _relList.Update(Rel);
+            }
+            
+            base.OnAttributeChanged(name);
         }
 
         #endregion

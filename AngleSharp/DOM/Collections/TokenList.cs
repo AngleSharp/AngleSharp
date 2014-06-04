@@ -8,15 +8,14 @@
     /// <summary>
     /// Represents a list of DOMTokens.
     /// </summary>
-    [DOM("DOMTokenList")]
-    public sealed class DOMTokenList : IHtmlObject, IEnumerable<String>
+    sealed class TokenList : IHtmlObject, IEnumerable<String>, ITokenList
     {
         #region Fields
 
-        List<String> _tokens;
-        Element _parent;
+        readonly List<String> _tokens;
+        readonly Element _parent;
+        readonly String _attribute;
         Boolean _blocking;
-        String _attribute;
 
         #endregion
 
@@ -25,7 +24,7 @@
         /// <summary>
         /// Creates a new list of tokens.
         /// </summary>
-        internal DOMTokenList(Element parent, String attribute)
+        internal TokenList(Element parent, String attribute)
         {
             _attribute = attribute;
             _parent = parent;
@@ -40,7 +39,6 @@
         /// <summary>
         /// Gets the number of tokens.
         /// </summary>
-        [DOM("length")]
         public Int32 Length
         {
             get { return _tokens.Count; }
@@ -51,7 +49,6 @@
         /// </summary>
         /// <param name="index">The index of the token.</param>
         /// <returns>The token at the specified index.</returns>
-        [DOM("item")]
         public String this[Int32 index]
         {
             get
@@ -71,7 +68,6 @@
         /// </summary>
         /// <param name="token">The token to consider.</param>
         /// <returns>True if the string contained the token, otherwise false.</returns>
-        [DOM("contains")]
         public Boolean Contains(String token)
         {
             if(_tokens.Contains(token))
@@ -81,34 +77,42 @@
         }
 
         /// <summary>
-        /// Remove token from the underlying string.
+        /// Removes tokens from the underlying string.
         /// </summary>
-        /// <param name="token">The token to remove.</param>
-        /// <returns>The current token list.</returns>
-        [DOM("remove")]
-        public DOMTokenList Remove(String token)
+        /// <param name="tokens">The tokens to remove.</param>
+        public void Remove(params String[] tokens)
         {
-            if(_tokens.Remove(token))
-                Propagate();
+            var changed = false;
 
-            return this;
+            foreach (var token in tokens)
+            {
+                if (_tokens.Remove(token))
+                    changed = true;
+            }
+
+            if (changed)
+                Propagate();
         }
 
         /// <summary>
-        /// Adds token to the underlying string.
+        /// Adds tokens to the underlying string.
         /// </summary>
-        /// <param name="token">The token to add.</param>
-        /// <returns>The current token list.</returns>
-        [DOM("add")]
-        public DOMTokenList Add(String token)
+        /// <param name="tokens">The tokens to add.</param>
+        public void Add(params String[] tokens)
         {
-            if (!_tokens.Contains(token))
+            var changed = false;
+
+            foreach (var token in tokens)
             {
-                _tokens.Add(token);
-                Propagate();
+                if (!_tokens.Contains(token))
+                {
+                    _tokens.Add(token);
+                    changed = true;
+                }
             }
 
-            return this;
+            if (changed)
+                Propagate();
         }
 
         /// <summary>
@@ -116,12 +120,13 @@
         /// </summary>
         /// <param name="token">The token to consider.</param>
         /// <returns>True if the string contained the token, otherwise false.</returns>
-        [DOM("toggle")]
-        public Boolean Toggle(String token)
+        public Boolean Toggle(String token, Boolean force = false)
         {
             var contains = _tokens.Contains(token);
 
-            if (contains)
+            if (contains && force)
+                return true;
+            else if (contains)
                 _tokens.Remove(token);
             else
                 _tokens.Add(token);
@@ -151,22 +156,6 @@
                         _tokens.Add(elements[i]);
                 }
             }
-        }
-
-        /// <summary>
-        /// Returns true if the underlying string contains all of the tokens, otherwise false.
-        /// </summary>
-        /// <param name="tokens">The tokens to consider.</param>
-        /// <returns>True if the string contained all tokens, otherwise false.</returns>
-        internal Boolean Contains(String[] tokens)
-        {
-            for (int i = 0; i < tokens.Length; i++)
-            {
-                if (!this._tokens.Contains(tokens[i]))
-                    return false;
-            }
-
-            return true;
         }
 
         #endregion

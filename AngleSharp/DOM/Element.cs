@@ -13,7 +13,7 @@
         #region Fields
 
         String _prefix;
-        DOMTokenList _classList;
+        TokenList _classList;
         StringMap _dataset;
         CSSStyleDeclaration _style;
         HTMLCollection _elements;
@@ -116,9 +116,9 @@
         /// Gets the list of class names.
         /// </summary>
         [DOM("classList")]
-        public DOMTokenList ClassList
+        public ITokenList ClassList
         {
-            get { return _classList ?? (_classList = new DOMTokenList(this, "class")); }
+            get { return _classList ?? (_classList = new TokenList(this, "class")); }
         }
 
         /// <summary>
@@ -1070,7 +1070,10 @@
         internal override void OnAttributeChanged(String name)
         {
             if (name.Equals(AttributeNames.Class, StringComparison.Ordinal))
-                ClassList.Update(ClassName);
+            {
+                if (_classList != null)
+                    _classList.Update(ClassName);
+            }
             else if (name.Equals(AttributeNames.Style, StringComparison.Ordinal))
                 Style.Update(GetAttribute(AttributeNames.Style));
             else

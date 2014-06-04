@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        DOMTokenList rellist;
+        TokenList rellist;
 
         #endregion
 
@@ -75,9 +75,9 @@
         /// document to the linked resource, as a list of tokens.
         /// </summary>
         [DOM("relList")]
-        public DOMTokenList RelList
+        public ITokenList RelList
         {
-            get { return rellist ?? (rellist = new DOMTokenList(this, AttributeNames.Rel)); }
+            get { return rellist ?? (rellist = new TokenList(this, AttributeNames.Rel)); }
         }
 
         /// <summary>
@@ -185,9 +185,14 @@
         internal override void OnAttributeChanged(String name)
         {
             if (name.Equals(AttributeNames.Rel, StringComparison.Ordinal))
-                RelList.Update(Rel);
-            else
-                base.OnAttributeChanged(name);
+            {
+                if (rellist != null)
+                    rellist.Update(Rel);
+
+                return;
+            }
+            
+            base.OnAttributeChanged(name);
         }
 
         #endregion
