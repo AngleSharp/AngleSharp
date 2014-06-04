@@ -124,9 +124,6 @@
     <Compile Include="..\AngleSharp\DOM\Collections\DOMStringList.cs">
       <Link>DOM\Collections\DOMStringList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\DOMStringMap.cs">
-      <Link>DOM\Collections\DOMStringMap.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\DOMTokenList.cs">
       <Link>DOM\Collections\DOMTokenList.cs</Link>
     </Compile>
@@ -144,6 +141,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\NodeList.cs">
       <Link>DOM\Collections\NodeList.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\StringMap.cs">
+      <Link>DOM\Collections\StringMap.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\StyleSheetList.cs">
       <Link>DOM\Collections\StyleSheetList.cs</Link>
