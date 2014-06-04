@@ -80,7 +80,7 @@ namespace Samples.ViewModels
                 switch (child.NodeType)
                 {
                     case NodeType.Text:
-                        FillBuffer((TextNode)child);
+                        FillBuffer((IText)child);
                         break;
 
                     case NodeType.Element:
@@ -252,7 +252,7 @@ namespace Samples.ViewModels
             buffer.Inlines.Add(inline);
         }
 
-        void FillBuffer(TextNode element)
+        void FillBuffer(IText element)
         {
             var s = Normalize(element.Data);
 

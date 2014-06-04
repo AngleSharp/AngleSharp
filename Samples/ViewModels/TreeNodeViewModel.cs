@@ -88,10 +88,10 @@ namespace Samples.ViewModels
 
         public static TreeNodeViewModel Create(Node node)
         {
-            if (node is TextNode)
-                return Create((TextNode)node);
-            else if (node is Comment)
-                return new TreeNodeViewModel { Value = Comment(((Comment)node).Data), Foreground = Brushes.Gray };
+            if (node is IText)
+                return Create((IText)node);
+            else if (node is IComment)
+                return new TreeNodeViewModel { Value = Comment(((IComment)node).Data), Foreground = Brushes.Gray };
             else if (node is DocumentType)
                 return new TreeNodeViewModel { Value = node.ToHtml(), Foreground = Brushes.DarkGray };
             else if(node is Element)
@@ -100,7 +100,7 @@ namespace Samples.ViewModels
             return null;
         }
 
-        static TreeNodeViewModel Create(TextNode text)
+        static TreeNodeViewModel Create(IText text)
         {
             if(String.IsNullOrEmpty(text.Data))
                 return null;
