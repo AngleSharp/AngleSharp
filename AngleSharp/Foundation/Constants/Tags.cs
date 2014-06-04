@@ -630,32 +630,32 @@
         /// <summary>
         /// The mi tag.
         /// </summary>
-        public const String Mi = "mi";
+        public static readonly String Mi = "mi";
 
         /// <summary>
         /// The mo tag.
         /// </summary>
-        public const String Mo = "mo";
+        public static readonly String Mo = "mo";
 
         /// <summary>
         /// The mn tag.
         /// </summary>
-        public const String Mn = "mn";
+        public static readonly String Mn = "mn";
 
         /// <summary>
         /// The ms tag.
         /// </summary>
-        public const String Ms = "ms";
+        public static readonly String Ms = "ms";
 
         /// <summary>
         /// The mtext tag.
         /// </summary>
-        public const String Mtext = "mtext";
+        public static readonly String Mtext = "mtext";
 
         /// <summary>
         /// The annotation-xml tag.
         /// </summary>
-        public const String AnnotationXml = "annotation-xml";
+        public static readonly String AnnotationXml = "annotation-xml";
 
         #endregion
 
@@ -669,17 +669,17 @@
         /// <summary>
         /// The foreignObject tag.
         /// </summary>
-        public const String ForeignObject = "foreignObject";
+        public static readonly String ForeignObject = "foreignObject";
 
         /// <summary>
         /// The desc tag.
         /// </summary>
-        public const String Desc = "desc";
+        public static readonly String Desc = "desc";
 
         /// <summary>
         /// The circle tag.
         /// </summary>
-        public const String Circle = "circle";
+        public static readonly String Circle = "circle";
 
         #endregion
 
