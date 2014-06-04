@@ -118,7 +118,7 @@
         [DOM("classList")]
         public ITokenList ClassList
         {
-            get { return _classList ?? (_classList = new TokenList(this, "class")); }
+            get { return _classList ?? (_classList = new TokenList(this, AttributeNames.Class, ClassName)); }
         }
 
         /// <summary>

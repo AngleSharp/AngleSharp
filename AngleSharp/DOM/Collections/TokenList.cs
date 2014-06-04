@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents a list of DOMTokens.
     /// </summary>
-    sealed class TokenList : IHtmlObject, IEnumerable<String>, ITokenList
+    sealed class TokenList : IHtmlObject, ITokenList
     {
         #region Fields
 
@@ -24,12 +24,13 @@
         /// <summary>
         /// Creates a new list of tokens.
         /// </summary>
-        internal TokenList(Element parent, String attribute)
+        internal TokenList(Element parent, String attribute, String value = null)
         {
             _attribute = attribute;
             _parent = parent;
             _tokens = new List<String>();
             _blocking = false;
+            Update(value);
         }
 
         #endregion
@@ -119,6 +120,7 @@
         /// Removes token from string and returns false. If token doesn't exist it's added and the function returns true.
         /// </summary>
         /// <param name="token">The token to consider.</param>
+        /// <param name="force">Forces the element to stay, if it is already added.</param>
         /// <returns>True if the string contained the token, otherwise false.</returns>
         public Boolean Toggle(String token, Boolean force = false)
         {
@@ -137,7 +139,7 @@
 
         #endregion
 
-        #region Internal methods
+        #region Internal Methods
 
         /// <summary>
         /// Updates the DOMTokenList with the given value.
@@ -148,6 +150,10 @@
             if (!_blocking)
             {
                 _tokens.Clear();
+
+                if (String.IsNullOrEmpty(value))
+                    return;
+
                 var elements = value.SplitSpaces();
 
                 for (int i = 0; i < elements.Length; i++)
@@ -174,7 +180,7 @@
 
         #endregion
 
-        #region IEnumerable implementation
+        #region IEnumerable Implementation
 
         /// <summary>
         /// Returns an enumerator that iterates through the strings in the collection.

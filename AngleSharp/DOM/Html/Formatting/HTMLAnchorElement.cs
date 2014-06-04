@@ -229,7 +229,7 @@ namespace AngleSharp.DOM.Html
         [DOM("relList")]
         public ITokenList RelList
         {
-            get { return _relList ?? (_relList = new TokenList(this, AttributeNames.Rel)); }
+            get { return _relList ?? (_relList = new TokenList(this, AttributeNames.Rel, Rel)); }
         }
 
         /// <summary>

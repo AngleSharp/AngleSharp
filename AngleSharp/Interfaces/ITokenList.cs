@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.DOM
 {
 	using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// This type represents a set of space-separated tokens. 
     /// </summary>
 	[DOM("DOMTokenList")]
-	public interface ITokenList
+	public interface ITokenList : IEnumerable<String>
 	{
         /// <summary>
         /// Gets the number of contained tokens.

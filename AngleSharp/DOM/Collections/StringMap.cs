@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a list of DOMTokens.
     /// </summary>
-    sealed class StringMap : IEnumerable<KeyValuePair<String, String>>, IStringMap
+    sealed class StringMap : IStringMap
     {
         #region Fields
 
