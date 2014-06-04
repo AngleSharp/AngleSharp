@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Mathml
     {
         internal MathOperatorElement()
 	    {
-            _name = Tags.MO;
+            _name = Tags.Mo;
 	    }
 
         /// <summary>

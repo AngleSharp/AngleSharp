@@ -1,9 +1,22 @@
 ﻿namespace AngleSharp.DOM.Mathml
 {
     using System;
+    using System.Collections.Generic;
 
     internal class MathFactory
     {
+        static readonly Dictionary<String, Func<Document, MathElement>> creators = new Dictionary<String, Func<Document, MathElement>>(StringComparer.OrdinalIgnoreCase);
+
+        static MathFactory()
+        {
+            creators.Add(Tags.Mn, doc => new MathNumberElement { OwnerDocument = doc });
+            creators.Add(Tags.Mo, doc => new MathOperatorElement { OwnerDocument = doc });
+            creators.Add(Tags.Mi, doc => new MathIdentifierElement { OwnerDocument = doc });
+            creators.Add(Tags.Ms, doc => new MathStringElement { OwnerDocument = doc });
+            creators.Add(Tags.Mtext, doc => new MathTextElement { OwnerDocument = doc });
+            creators.Add(Tags.AnnotationXml, doc => new MathAnnotationXmlElement { OwnerDocument = doc });
+        }
+
         /// <summary>
         /// Returns a specialized MathMLElement instance for the given tag name.
         /// </summary>
@@ -12,16 +25,12 @@
         /// <returns>The specialized MathMLElement instance.</returns>
         public static MathElement Create(String tagName, Document document)
         {
-            switch (tagName)
-            {
-                case Tags.MN:              return new MathNumberElement { OwnerDocument = document };
-                case Tags.MO:              return new MathOperatorElement { OwnerDocument = document };
-                case Tags.MI:              return new MathIdentifierElement { OwnerDocument = document };
-                case Tags.MS:              return new MathStringElement { OwnerDocument = document };
-                case Tags.MTEXT:           return new MathTextElement { OwnerDocument = document };
-                case Tags.ANNOTATION_XML:  return new MathAnnotationXmlElement { OwnerDocument = document };
-                default:                   return new MathElement { NodeName = tagName, OwnerDocument = document };
-            }
+            Func<Document, MathElement> creator;
+
+            if (creators.TryGetValue(tagName, out creator))
+                return creator(document);
+
+            return new MathElement { NodeName = tagName, OwnerDocument = document };
         }
     }
 }

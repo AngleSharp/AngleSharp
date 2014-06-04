@@ -14,10 +14,10 @@
         {
             switch (tagName)
             {
-                case Tags.SVG:            return new SVGSVGElement { OwnerDocument = document };
-                case Tags.CIRCLE:         return new SVGCircleElement { OwnerDocument = document };
-                case Tags.DESC:           return new SVGDescElement { OwnerDocument = document };
-                case Tags.FOREIGNOBJECT:  return new SVGForeignObjectElement { OwnerDocument = document };
+                case Tags.Svg:            return new SVGSVGElement { OwnerDocument = document };
+                case Tags.Circle:         return new SVGCircleElement { OwnerDocument = document };
+                case Tags.Desc:           return new SVGDescElement { OwnerDocument = document };
+                case Tags.ForeignObject:  return new SVGForeignObjectElement { OwnerDocument = document };
                 case Tags.Title:          return new SVGTitleElement { OwnerDocument = document };
                 default:                  return new SVGElement { NodeName = tagName, OwnerDocument = document };
             }

@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Svg
     {
         internal SVGForeignObjectElement()
         {
-            _name = Tags.FOREIGNOBJECT;
+            _name = Tags.ForeignObject;
         }
 
         /// <summary>

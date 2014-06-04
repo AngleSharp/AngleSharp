@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Svg
     {
         internal SVGSVGElement()
         {
-            _name = Tags.SVG;
+            _name = Tags.Svg;
         }
     }
 }

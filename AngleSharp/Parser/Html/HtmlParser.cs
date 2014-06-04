@@ -1343,7 +1343,7 @@
                         AddElement(tag);
                         break;
                     }
-                    case Tags.MATH:
+                    case Tags.Math:
                     {
                         var element = new MathElement();
                         element.NodeName = tag.Name;
@@ -1363,7 +1363,7 @@
 
                         break;
                     }
-                    case Tags.SVG:
+                    case Tags.Svg:
                     {
                         var element = new SVGElement();
                         element.NodeName = tag.Name;

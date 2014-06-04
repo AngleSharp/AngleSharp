@@ -12,7 +12,7 @@
         /// <summary>
         /// Gets the DOCTYPE constant.
         /// </summary>
-        public const String Doctype = "DOCTYPE";
+        public static readonly String Doctype = "DOCTYPE";
 
         #endregion
 
@@ -625,37 +625,37 @@
         /// <summary>
         /// The math tag.
         /// </summary>
-        public const String MATH = "math";
+        public const String Math = "math";
 
         /// <summary>
         /// The mi tag.
         /// </summary>
-        public const String MI = "mi";
+        public const String Mi = "mi";
 
         /// <summary>
         /// The mo tag.
         /// </summary>
-        public const String MO = "mo";
+        public const String Mo = "mo";
 
         /// <summary>
         /// The mn tag.
         /// </summary>
-        public const String MN = "mn";
+        public const String Mn = "mn";
 
         /// <summary>
         /// The ms tag.
         /// </summary>
-        public const String MS = "ms";
+        public const String Ms = "ms";
 
         /// <summary>
         /// The mtext tag.
         /// </summary>
-        public const String MTEXT = "mtext";
+        public const String Mtext = "mtext";
 
         /// <summary>
         /// The annotation-xml tag.
         /// </summary>
-        public const String ANNOTATION_XML = "annotation-xml";
+        public const String AnnotationXml = "annotation-xml";
 
         #endregion
 
@@ -664,22 +664,22 @@
         /// <summary>
         /// The svg tag.
         /// </summary>
-        public const String SVG = "svg";
+        public const String Svg = "svg";
 
         /// <summary>
         /// The foreignObject tag.
         /// </summary>
-        public const String FOREIGNOBJECT = "foreignObject";
+        public const String ForeignObject = "foreignObject";
 
         /// <summary>
         /// The desc tag.
         /// </summary>
-        public const String DESC = "desc";
+        public const String Desc = "desc";
 
         /// <summary>
         /// The circle tag.
         /// </summary>
-        public const String CIRCLE = "circle";
+        public const String Circle = "circle";
 
         #endregion
 
@@ -688,7 +688,7 @@
         /// <summary>
         /// The xml tag.
         /// </summary>
-        public const String Xml = "xml";
+        public static readonly String Xml = "xml";
 
         #endregion
     }

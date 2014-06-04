@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Mathml
     {
         internal MathTextElement()
 	    {
-            _name = Tags.MTEXT;
+            _name = Tags.Mtext;
 	    }
 
         /// <summary>

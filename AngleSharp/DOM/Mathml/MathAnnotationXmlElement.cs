@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Mathml
     {
         internal MathAnnotationXmlElement()
 	    {
-            _name = Tags.ANNOTATION_XML;
+            _name = Tags.AnnotationXml;
 	    }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace AngleSharp.DOM.Mathml
         /// </summary>
         internal MathElement()
         {
-            _name = Tags.MATH;
+            _name = Tags.Math;
             _ns = Namespaces.MathML;
         }
 

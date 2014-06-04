@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Svg
     {
         internal SVGDescElement()
         {
-            _name = Tags.DESC;
+            _name = Tags.Desc;
         }
 
         /// <summary>

@@ -10,7 +10,7 @@ namespace AngleSharp.DOM.Svg
     {
         internal SVGCircleElement()
         {
-            _name = Tags.CIRCLE;
+            _name = Tags.Circle;
         }
     }
 }

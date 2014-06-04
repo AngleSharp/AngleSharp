@@ -333,7 +333,7 @@
         /// </summary>
         internal Boolean IsInMathMLSVGReady
         {
-            get { return IsInMathML && NodeName == Tags.ANNOTATION_XML; }
+            get { return IsInMathML && NodeName == Tags.AnnotationXml; }
         }
 
         /// <summary>

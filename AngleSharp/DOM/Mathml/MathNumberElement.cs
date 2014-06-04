@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Mathml
     {
         internal MathNumberElement()
 	    {
-            _name = Tags.MN;
+            _name = Tags.Mn;
 	    }
 
         /// <summary>
