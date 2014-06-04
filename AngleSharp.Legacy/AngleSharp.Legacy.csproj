@@ -124,9 +124,6 @@
     <Compile Include="..\AngleSharp\DOM\Collections\DOMStringList.cs">
       <Link>DOM\Collections\DOMStringList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\DOMTokenList.cs">
-      <Link>DOM\Collections\DOMTokenList.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\FileList.cs">
       <Link>DOM\Collections\FileList.cs</Link>
     </Compile>
@@ -147,6 +144,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\StyleSheetList.cs">
       <Link>DOM\Collections\StyleSheetList.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\TokenList.cs">
+      <Link>DOM\Collections\TokenList.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Comment.cs">
       <Link>DOM\Comment.cs</Link>
@@ -1407,6 +1407,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\HttpMethod.cs">
       <Link>Foundation\HttpMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\IdlExtensions.cs">
+      <Link>Foundation\IdlExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\LocationExtensions.cs">
       <Link>Foundation\LocationExtensions.cs</Link>
