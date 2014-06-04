@@ -109,9 +109,6 @@
     <Compile Include="..\AngleSharp\DOM\Attr.cs">
       <Link>DOM\Attr.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\CDATASection.cs">
-      <Link>DOM\CDATASection.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\CharacterData.cs">
       <Link>DOM\CharacterData.cs</Link>
     </Compile>
