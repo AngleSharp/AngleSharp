@@ -216,7 +216,7 @@
         [DOM("dataset")]
         public IStringMap Dataset
         {
-            get { return _dataset ?? (_dataset = new StringMap(this)); }
+            get { return _dataset ?? (_dataset = new StringMap("data-", this)); }
         }
 
         /// <summary>

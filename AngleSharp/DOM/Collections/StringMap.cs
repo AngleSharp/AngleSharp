@@ -9,15 +9,10 @@
     /// </summary>
     sealed class StringMap : IEnumerable<KeyValuePair<String, String>>, IStringMap
     {
-        #region Constant
-
-        const String Prefix = "data-";
-
-        #endregion
-
         #region Fields
 
-        Element _parent;
+        readonly String _prefix;
+        readonly Element _parent;
 
         #endregion
 
@@ -26,8 +21,9 @@
         /// <summary>
         /// Creates a new map of tokens.
         /// </summary>
-        internal StringMap(Element parent)
+        internal StringMap(String prefix, Element parent)
         {
+            _prefix = prefix;
             _parent = parent;
         }
 
@@ -42,8 +38,8 @@
         /// <returns>The value of the custom attribute property.</returns>
         public String this[String name]
         {
-            get { return _parent.GetAttribute(Prefix + Check(name)); }
-            set { _parent.SetAttribute(Prefix + Check(name), value); }
+            get { return _parent.GetAttribute(_prefix + Check(name)); }
+            set { _parent.SetAttribute(_prefix + Check(name), value); }
         }
 
         #endregion
@@ -57,7 +53,7 @@
         /// <returns>The value for the specified property name.</returns>
         public String GetDataAttr(String prop)
         {
-            return _parent.GetAttribute(Prefix + Check(prop));
+            return _parent.GetAttribute(_prefix + Check(prop));
         }
 
         /// <summary>
@@ -67,7 +63,7 @@
         /// <returns>True if the property is set, otherwise false.</returns>
         public Boolean HasDataAttr(String prop)
         {
-            return _parent.HasAttribute(Prefix + Check(prop));
+            return _parent.HasAttribute(_prefix + Check(prop));
         }
 
         /// <summary>
@@ -87,7 +83,7 @@
         /// <param name="value">The value of the property.</param>
         public void SetDataAttr(String prop, String value)
         {
-            _parent.SetAttribute(Prefix + Check(prop), value);
+            _parent.SetAttribute(_prefix + Check(prop), value);
         }
 
         #endregion
@@ -128,8 +124,8 @@
         {
             foreach (var attr in _parent.Attributes)
             {
-                if (attr.Name.StartsWith(Prefix, StringComparison.OrdinalIgnoreCase))
-                    yield return new KeyValuePair<String, String>(attr.Name.Remove(0, Prefix.Length), attr.Value);
+                if (attr.Name.StartsWith(_prefix, StringComparison.OrdinalIgnoreCase))
+                    yield return new KeyValuePair<String, String>(attr.Name.Remove(0, _prefix.Length), attr.Value);
             }
         }
 
