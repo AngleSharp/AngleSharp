@@ -333,7 +333,7 @@
     <Compile Include="DOM\Annotations\ITableScopeElement.cs" />
     <Compile Include="DOM\Annotations\ITableSectionScopeElement.cs" />
     <Compile Include="DOM\Collections\CSSStyleDeclaration.cs" />
-    <Compile Include="DOM\Collections\DOMStringMap.cs" />
+    <Compile Include="DOM\Collections\StringMap.cs" />
     <Compile Include="DOM\Collections\FileList.cs" />
     <Compile Include="DOM\Constants\ContentEditableMode.cs" />
     <Compile Include="DOM\Css\CSSProperty.cs" />

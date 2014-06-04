@@ -6,7 +6,7 @@
     /// The DOMStringMap interface represents a set of name-value pairs.
     /// </summary>
     [DOM("DOMStringMap")]
-    interface IStringMap
+    public interface IStringMap
     {
         /// <summary>
         /// Gets or sets an item in the dictionary.

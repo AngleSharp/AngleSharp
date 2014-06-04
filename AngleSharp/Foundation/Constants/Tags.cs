@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+
     /// <summary>
     /// The collection of (known / used) tags.
     /// </summary>
@@ -688,7 +688,7 @@ namespace AngleSharp
         /// <summary>
         /// The xml tag.
         /// </summary>
-        public const String XML = "xml";
+        public const String Xml = "xml";
 
         #endregion
     }

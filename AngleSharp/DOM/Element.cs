@@ -14,7 +14,7 @@
 
         String _prefix;
         DOMTokenList _classList;
-        DOMStringMap _dataset;
+        StringMap _dataset;
         CSSStyleDeclaration _style;
         HTMLCollection _elements;
 
@@ -214,9 +214,9 @@
         /// one entry for each custom data attribute.
         /// </summary>
         [DOM("dataset")]
-        public DOMStringMap Dataset
+        public IStringMap Dataset
         {
-            get { return _dataset ?? (_dataset = new DOMStringMap(this)); }
+            get { return _dataset ?? (_dataset = new StringMap(this)); }
         }
 
         /// <summary>

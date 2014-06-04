@@ -10,7 +10,7 @@
         DOMTokenList ClassList { get; }
         String ClassName { get; set; }
         ContentEditableMode ContentEditable { get; set; }
-        DOMStringMap Dataset { get; }
+        IStringMap Dataset { get; }
         DirectionMode Dir { get; set; }
         Element FirstElementChild { get; }
         String GetAttribute(String attrName);
