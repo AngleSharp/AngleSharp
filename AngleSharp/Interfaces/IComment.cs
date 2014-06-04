@@ -1,7 +1,12 @@
 ﻿namespace AngleSharp.DOM
 {
+    /// <summary>
+    /// The Comment interface represents textual notations within markup;
+    /// although it is generally not visually shown, such comments are
+    /// available to be read in the source view.
+    /// </summary>
     [DOM("Comment")]
-    interface IComment : ICharacterData
+    public interface IComment : ICharacterData
     {
     }
 }

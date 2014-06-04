@@ -5,7 +5,7 @@
     /// <summary>
     /// The base class for all characterdata implementations.
     /// </summary>
-    public abstract class CharacterData : Node, ICharacterData
+    abstract class CharacterData : Node, ICharacterData
     {
         #region Fields
 

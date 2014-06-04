@@ -503,17 +503,6 @@
         }
 
         /// <summary>
-        /// Creates a new CDATA section node, and returns it.
-        /// </summary>
-        /// <param name="data">A string containing the data to be added to the CDATA Section.</param>
-        /// <returns></returns>
-        [DOM("createCDATASection")]
-        public override CDATASection CreateCDATASection(String data)
-        {
-            throw new DOMException(ErrorCode.NotSupported);
-        }
-
-        /// <summary>
         /// Returns a list of elements with a given name in the HTML document.
         /// </summary>
         /// <param name="name">The value of the name attribute of the element.</param>

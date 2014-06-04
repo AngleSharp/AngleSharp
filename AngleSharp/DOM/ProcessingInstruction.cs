@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a processing instruction node.
     /// </summary>
-    public sealed class ProcessingInstruction : CharacterData, IProcessingInstruction
+    sealed class ProcessingInstruction : CharacterData, IProcessingInstruction
     {
         #region ctor
 

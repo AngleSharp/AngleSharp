@@ -491,7 +491,6 @@
     <Compile Include="DOM\Collections\StyleSheetList.cs" />
     <Compile Include="DOM\Element.cs" />
     <Compile Include="DOM\Entity.cs" />
-    <Compile Include="DOM\CDATASection.cs" />
     <Compile Include="DOM\CharacterData.cs" />
     <Compile Include="DOM\Comment.cs" />
     <Compile Include="DOM\DocumentType.cs" />

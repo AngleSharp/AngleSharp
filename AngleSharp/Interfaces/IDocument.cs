@@ -10,15 +10,14 @@
         String CharacterSet { get; set; }
         Attr CreateAttribute(String name);
         Attr CreateAttributeNS(String namespaceURI, String name);
-        CDATASection CreateCDATASection(String data);
-        Comment CreateComment(String data);
-        DocumentFragment CreateDocumentFragment();
+        IComment CreateComment(String data);
+        IDocumentFragment CreateDocumentFragment();
         Element CreateElement(String tagName);
         Element CreateElementNS(String namespaceURI, String tagName);
         Event CreateEvent(String type);
         EntityReference CreateEntityReference(String name);
-        ProcessingInstruction CreateProcessingInstruction(String target, String data);
-        TextNode CreateTextNode(String data);
+        IProcessingInstruction CreateProcessingInstruction(String target, String data);
+        IText CreateTextNode(String data);
         IRange CreateRange();
         IWindow DefaultView { get; }
         IWindow ParentWindow { get; }

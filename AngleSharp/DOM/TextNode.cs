@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a text node.
     /// </summary>
-    public sealed class TextNode : CharacterData, IText
+    sealed class TextNode : CharacterData, IText
     {
         #region ctor
 
@@ -61,11 +61,31 @@
         }
 
         /// <summary>
-        /// Gets the stored text content.
+        /// Gets the whole text content of adjacent nodes.
         /// </summary>
         public String Text
         {
-            get { return Data; }
+            get
+            {
+                var previous = PreviousSibling;
+                var start = this;
+                var sb = Pool.NewStringBuilder();
+
+                while (previous is TextNode)
+                {
+                    start = (TextNode)previous;
+                    previous = start.PreviousSibling;
+                }
+
+                do
+                {
+                    sb.Append(start.Text);
+                    start = start.NextSibling as TextNode;
+                }
+                while (start != null);
+
+                return sb.ToPool();
+            }
         }
 
         #endregion

@@ -401,23 +401,12 @@
         }
 
         /// <summary>
-        /// Creates a new CDATA section node, and returns it.
-        /// </summary>
-        /// <param name="data">A string containing the data to be added to the CDATA Section.</param>
-        /// <returns></returns>
-        [DOM("createCDATASection")]
-        public virtual CDATASection CreateCDATASection(String data)
-        {
-            return new CDATASection { Data = data, OwnerDocument = this };
-        }
-
-        /// <summary>
         /// Creates a new comment node, and returns it.
         /// </summary>
         /// <param name="data">A string containing the data to be added to the Comment.</param>
         /// <returns></returns>
         [DOM("createComment")]
-        public Comment CreateComment(String data)
+        public IComment CreateComment(String data)
         {
             if (data.Contains("--"))
                 throw new DOMException(ErrorCode.InvalidCharacter);
@@ -430,7 +419,7 @@
         /// </summary>
         /// <returns>A new document fragment.</returns>
         [DOM("createDocumentFragment")]
-        public DocumentFragment CreateDocumentFragment()
+        public IDocumentFragment CreateDocumentFragment()
         {
             return new DocumentFragment() { OwnerDocument = this };
         }
@@ -442,7 +431,7 @@
         /// <param name="data">The data for the node.</param>
         /// <returns>A new processing instruction.</returns>
         [DOM("createProcessingInstruction")]
-        public ProcessingInstruction CreateProcessingInstruction(String target, String data)
+        public IProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
             return new ProcessingInstruction(target) { Data = data, OwnerDocument = this };
         }
@@ -466,7 +455,7 @@
         /// <param name="data">A string containing the data to be put in the text node.</param>
         /// <returns>The created Text node.</returns>
         [DOM("createTextNode")]
-        public TextNode CreateTextNode(String data)
+        public IText CreateTextNode(String data)
         {
             return new TextNode(data) { OwnerDocument = this };
         }

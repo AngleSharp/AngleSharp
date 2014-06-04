@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a node that contains a comment.
     /// </summary>
-    public sealed class Comment : CharacterData, IComment
+    sealed class Comment : CharacterData, IComment
     {
         #region ctor
 
