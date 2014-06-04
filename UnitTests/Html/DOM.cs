@@ -83,7 +83,7 @@ namespace UnitTests
         public void DOMStringMapHasNoAttribute()
         {
             var div = new HTMLDivElement();
-            Assert.IsFalse(div.Dataset.HasDataAttr("user"));
+            Assert.IsTrue(div.Dataset["user"] == null);
         }
 
         [TestMethod]
@@ -93,7 +93,7 @@ namespace UnitTests
             div.SetAttribute("data-some", "test");
             div.SetAttribute("data-another", "");
             div.SetAttribute("data-test", "third attribute");
-            Assert.IsFalse(div.Dataset.HasDataAttr("user"));
+            Assert.IsTrue(div.Dataset["user"] == null);
         }
 
         [TestMethod]
