@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp.DOM.Html;
 using AngleSharp;
+using AngleSharp.DOM;
 
 namespace UnitTests
 {
@@ -39,7 +40,7 @@ namespace UnitTests
                 testEl.RemoveChild(testEl.ChildNodes[i]);
 
             Assert.AreEqual(0, testEl.Children.Length);
-            testEl.AppendChild(test);
+            testEl.AppendChild(test as TextNode);
             Assert.AreEqual(text, testEl.InnerHTML);
             Assert.AreEqual(document, test.OwnerDocument);
         }
