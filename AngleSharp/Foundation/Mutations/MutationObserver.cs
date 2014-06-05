@@ -1,33 +1,43 @@
-﻿using AngleSharp.DOM;
-using System;
-using System.Collections.Generic;
-
-namespace AngleSharp
+﻿namespace AngleSharp.DOM
 {
-    class MutationObserver
+    using System.Collections.Generic;
+
+    sealed class MutationObserver : IMutationObserver
     {
-        List<MutationRecord> records;
+        #region Fields
+
+        List<IMutationRecord> records;
+
+        #endregion
+
+        #region ctor
 
         public MutationObserver()
         {
-            records = new List<MutationRecord>();
+            records = new List<IMutationRecord>();
         }
+
+        #endregion
+
+        #region Methods
 
         public void Disconnect()
         {
             //TODO
         }
 
-        public void Observe(Node target, MutationObserverInit options)
+        public void Connect(INode target, IMutationObserverInit options)
         {
             //TODO
         }
 
-        public MutationRecord[] TakeRecords()
+        public IMutationRecord[] Flush()
         {
             var r = records.ToArray();
             records.Clear();
             return r;
         }
+
+        #endregion
     }
 }

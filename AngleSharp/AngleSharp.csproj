@@ -265,12 +265,14 @@
     <Compile Include="Interfaces\IDOMImplementation.cs" />
     <Compile Include="Interfaces\IElement.cs" />
     <Compile Include="Interfaces\IEvent.cs" />
-    <Compile Include="Interfaces\IEventListener.cs" />
+    <Compile Include="Delegates\EventListener.cs" />
     <Compile Include="Interfaces\IEventTarget.cs" />
     <Compile Include="Interfaces\IHtmlCollection.cs" />
     <Compile Include="Interfaces\IHTMLDocument.cs" />
     <Compile Include="Interfaces\ILabelabelElement.cs" />
     <Compile Include="Interfaces\IMutationObserver.cs" />
+    <Compile Include="Interfaces\IMutationObserverInit.cs" />
+    <Compile Include="Interfaces\IMutationRecord.cs" />
     <Compile Include="Interfaces\INamedNodeMap.cs" />
     <Compile Include="Interfaces\INode.cs" />
     <Compile Include="Interfaces\INodeIterator.cs" />
@@ -410,7 +412,6 @@
     <Compile Include="DOM\Objects\RenderingContext.cs" />
     <Compile Include="DOM\Objects\ValidityState.cs" />
     <Compile Include="DOM\Objects\Event.cs" />
-    <Compile Include="DOM\Objects\EventListener.cs" />
     <Compile Include="DOM\Objects\EventTarget.cs" />
     <Compile Include="DOM\FormControlState.cs" />
     <Compile Include="Foundation\Attributes\DOMAttribute.cs" />
@@ -427,7 +428,7 @@
     <Compile Include="IDependencyResolver.cs" />
     <Compile Include="Parser\IParser.cs" />
     <Compile Include="Network\Constants\MimeTypes.cs" />
-    <Compile Include="Foundation\Mutations\MutationCallback.cs" />
+    <Compile Include="Delegates\MutationCallback.cs" />
     <Compile Include="Foundation\Mutations\MutationObserver.cs" />
     <Compile Include="Foundation\Mutations\MutationObserverInit.cs" />
     <Compile Include="Foundation\Mutations\MutationRecord.cs" />

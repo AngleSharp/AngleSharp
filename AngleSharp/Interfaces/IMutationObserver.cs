@@ -1,10 +1,34 @@
-﻿namespace AngleSharp.DOM.Idl
+﻿namespace AngleSharp.DOM
 {
-    using System;
-
+    /// <summary>
+    /// MutationObserver provides developers a way to react to changes in a DOM.
+    /// </summary>
     [DOM("MutationObserver")]
     interface IMutationObserver
     {
+        /// <summary>
+        /// Registers the MutationObserver instance to receive
+        /// notifications of DOM mutations on the specified node.
+        /// </summary>
+        /// <param name="target">The Node on which to observe DOM mutations.</param>
+        /// <param name="options">Specifies which DOM mutations should be reported.</param>
+        [DOM("observe")]
+        void Connect(INode target, IMutationObserverInit options);
 
+        /// <summary>
+        /// Stops the MutationObserver instance from receiving
+        /// notifications of DOM mutations. Until the observe()
+        /// method is used again, observer's callback will not be invoked.
+        /// </summary>
+        [DOM("disconnect")]
+        void Disconnect();
+
+        /// <summary>
+        /// Empties the MutationObserver instance's record queue and
+        /// returns what was in there.
+        /// </summary>
+        /// <returns>Returns an Array of MutationRecords.</returns>
+        [DOM("takeRecords")]
+        IMutationRecord[] Flush();
     }
 }

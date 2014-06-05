@@ -1,10 +1,8 @@
-﻿using System;
-using AngleSharp.DOM;
-using AngleSharp.DOM.Collections;
-
-namespace AngleSharp
+﻿namespace AngleSharp.DOM
 {
-    class MutationRecord
+    using System;
+
+    sealed class MutationRecord : IMutationRecord
     {
         public String Type
         {
@@ -12,31 +10,31 @@ namespace AngleSharp
             set;
         }
 
-        public Node Target
+        public INode Target
         {
             get;
             set;
         }
 
-        public NodeList AddedNodes
+        public INodeList AddedNodes
         {
             get;
             set;
         }
 
-        public NodeList RemovedNodes
+        public INodeList RemovedNodes
         {
             get;
             set;
         }
 
-        public Node PreviousSibling
+        public INode PreviousSibling
         {
             get;
             set;
         }
 
-        public Node NextSibling
+        public INode NextSibling
         {
             get;
             set;
