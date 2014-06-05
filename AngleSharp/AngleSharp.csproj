@@ -270,12 +270,15 @@
     <Compile Include="Interfaces\IHtmlCollection.cs" />
     <Compile Include="Interfaces\IHTMLDocument.cs" />
     <Compile Include="Interfaces\ILabelabelElement.cs" />
+    <Compile Include="Interfaces\IMutationObserver.cs" />
     <Compile Include="Interfaces\INamedNodeMap.cs" />
     <Compile Include="Interfaces\INode.cs" />
+    <Compile Include="Interfaces\INodeIterator.cs" />
     <Compile Include="Interfaces\INodeList.cs" />
     <Compile Include="Interfaces\IProcessingInstruction.cs" />
     <Compile Include="Interfaces\IQueryElements.cs" />
     <Compile Include="Interfaces\IRange.cs" />
+    <Compile Include="Interfaces\ISettableTokenList.cs" />
     <Compile Include="Interfaces\IStringMap.cs" />
     <Compile Include="Interfaces\IStyleSheet.cs" />
     <Compile Include="Interfaces\IText.cs" />
