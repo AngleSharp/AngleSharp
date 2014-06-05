@@ -1501,11 +1501,17 @@
     <Compile Include="..\AngleSharp\Interfaces\ILabelabelElement.cs">
       <Link>Interfaces\ILabelabelElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IMutationObserver.cs">
+      <Link>Interfaces\IMutationObserver.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\INamedNodeMap.cs">
       <Link>Interfaces\INamedNodeMap.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\INode.cs">
       <Link>Interfaces\INode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\INodeIterator.cs">
+      <Link>Interfaces\INodeIterator.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\INodeList.cs">
       <Link>Interfaces\INodeList.cs</Link>
@@ -1518,6 +1524,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IRange.cs">
       <Link>Interfaces\IRange.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\ISettableTokenList.cs">
+      <Link>Interfaces\ISettableTokenList.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IStringMap.cs">
       <Link>Interfaces\IStringMap.cs</Link>
