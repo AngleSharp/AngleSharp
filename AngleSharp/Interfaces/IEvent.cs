@@ -19,13 +19,13 @@
         /// Gets the original target of the event.
         /// </summary>
         [DOM("target")]
-        EventTarget OriginalTarget { get; }
+        IEventTarget OriginalTarget { get; }
 
         /// <summary>
         /// Gets the current target (if bubbled).
         /// </summary>
         [DOM("currentTarget")]
-        EventTarget CurrentTarget { get; }
+        IEventTarget CurrentTarget { get; }
 
         /// <summary>
         /// Gets the phase of the event.

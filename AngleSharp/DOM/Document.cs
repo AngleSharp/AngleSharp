@@ -276,7 +276,7 @@
         /// <param name="type">A string that represents the type of event to be created.</param>
         /// <returns>The created Event object.</returns>
         [DOM("createEvent")]
-        public Event CreateEvent(String type)
+        public IEvent CreateEvent(String type)
         {
             //TODO
             throw new NotImplementedException();

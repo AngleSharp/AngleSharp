@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents an event argument.
     /// </summary>
-    public abstract class Event : IEvent
+    sealed class Event : IEvent
     {
         #region Properties
 
@@ -20,7 +20,7 @@
         /// <summary>
         /// Gets the original target of the event.
         /// </summary>
-        public EventTarget OriginalTarget
+        public IEventTarget OriginalTarget
         {
             get { throw new NotImplementedException(); }
         }
@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets the current target (if bubbled).
         /// </summary>
-        public EventTarget CurrentTarget
+        public IEventTarget CurrentTarget
         {
             get { throw new NotImplementedException(); }
         }

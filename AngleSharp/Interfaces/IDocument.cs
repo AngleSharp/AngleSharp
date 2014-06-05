@@ -14,7 +14,7 @@
         IDocumentFragment CreateDocumentFragment();
         Element CreateElement(String tagName);
         Element CreateElementNS(String namespaceURI, String tagName);
-        Event CreateEvent(String type);
+        IEvent CreateEvent(String type);
         EntityReference CreateEntityReference(String name);
         IProcessingInstruction CreateProcessingInstruction(String target, String data);
         IText CreateTextNode(String data);
