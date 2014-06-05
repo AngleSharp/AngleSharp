@@ -64,6 +64,12 @@
     <Compile Include="..\AngleSharp\DefaultInfo.cs">
       <Link>DefaultInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Delegates\EventListener.cs">
+      <Link>Delegates\EventListener.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Delegates\MutationCallback.cs">
+      <Link>Delegates\MutationCallback.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DependencyResolver.cs">
       <Link>DependencyResolver.cs</Link>
     </Compile>
@@ -1267,9 +1273,6 @@
     <Compile Include="..\AngleSharp\DOM\Objects\Event.cs">
       <Link>DOM\Objects\Event.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\EventListener.cs">
-      <Link>DOM\Objects\EventListener.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Objects\EventTarget.cs">
       <Link>DOM\Objects\EventTarget.cs</Link>
     </Compile>
@@ -1411,9 +1414,6 @@
     <Compile Include="..\AngleSharp\Foundation\LocationExtensions.cs">
       <Link>Foundation\LocationExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Mutations\MutationCallback.cs">
-      <Link>Foundation\Mutations\MutationCallback.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Mutations\MutationObserver.cs">
       <Link>Foundation\Mutations\MutationObserver.cs</Link>
     </Compile>
@@ -1486,9 +1486,6 @@
     <Compile Include="..\AngleSharp\Interfaces\IEvent.cs">
       <Link>Interfaces\IEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IEventListener.cs">
-      <Link>Interfaces\IEventListener.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IEventTarget.cs">
       <Link>Interfaces\IEventTarget.cs</Link>
     </Compile>
@@ -1503,6 +1500,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IMutationObserver.cs">
       <Link>Interfaces\IMutationObserver.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IMutationObserverInit.cs">
+      <Link>Interfaces\IMutationObserverInit.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IMutationRecord.cs">
+      <Link>Interfaces\IMutationRecord.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\INamedNodeMap.cs">
       <Link>Interfaces\INamedNodeMap.cs</Link>
