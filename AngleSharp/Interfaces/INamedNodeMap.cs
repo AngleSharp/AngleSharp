@@ -3,7 +3,7 @@
     using System;
 
     [DOM("NamedNodeMap")]
-    interface INamedNodeMap
+    public interface INamedNodeMap
     {
         [DOM("getNamedItem")]
         INode this[String name] { get; }

@@ -9,7 +9,7 @@
     /// from the list.
     /// </summary>
     [DOM("HTMLCollection")]
-    public interface IHtmlCollection : IEnumerable<IElement>
+    public interface IHtmlCollection : IEnumerable<Element>
     {
         /// <summary>
         /// Gets the number of items in the collection.
@@ -23,7 +23,7 @@
         /// <param name="index">The zero-based index.</param>
         /// <returns>Returns null if the index is out of range.</returns>
         [DOM("item")]
-        IElement this[Int32 index] { get; }
+        Element this[Int32 index] { get; }
   
         /// <summary>
         /// Gets the specific node whose ID or, as a fallback, name matches the
@@ -33,6 +33,6 @@
         /// <param name="name">The id or name to match.</param>
         /// <returns>Returns null if no node exists by the given name.</returns>
         [DOM("namedItem")]
-        IElement this[String name] { get; }
+        Element this[String name] { get; }
     }
 }
