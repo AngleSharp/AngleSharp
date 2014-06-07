@@ -85,6 +85,21 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssMarginBottomNegativeLegal()
+        {
+            var snippet = "margin-bottom: -3px ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("margin-bottom", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSMarginBottomProperty));
+            var concrete = (CSSMarginBottomProperty)property;
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("-3px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
         public void CssMarginBottomAutoLegal()
         {
             var snippet = "margin-bottom: auto ";

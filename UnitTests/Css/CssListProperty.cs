@@ -25,6 +25,20 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssListStylePositionOutsideIllegal()
+        {
+            var snippet = "list-style-position: out-side ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("list-style-position", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSListStylePositionProperty));
+            var concrete = (CSSListStylePositionProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
         public void CssListStylePositionNoneIllegal()
         {
             var snippet = "list-style-position: none ";

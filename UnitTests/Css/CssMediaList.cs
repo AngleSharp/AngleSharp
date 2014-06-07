@@ -64,6 +64,22 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void SimpleScreenTvSpacesMediaList()
+        {
+            var source = @"@media              screen ,          tv {
+    h1 { color: green }
+}";
+            var sheet = CssParser.ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.CssRules.Length);
+            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual("screen, tv", media.ConditionText);
+            var list = media.Media;
+            Assert.AreEqual(2, list.Length);
+            Assert.AreEqual(1, media.CssRules.Length);
+        }
+
+        [TestMethod]
         public void OnlyScreenTvMediaList()
         {
             var source = @"@media only screen,tv {
