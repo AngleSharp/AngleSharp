@@ -741,6 +741,21 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssBackgroundWhiteImageLegal()
+        {
+            var snippet = "background: white url(\"pendant.png\");";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background", property.Name);
+            Assert.IsFalse(property.Important);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundProperty));
+            var concrete = (CSSBackgroundProperty)property;
+            Assert.AreEqual(CssValueType.ValueList, concrete.Value.CssValueType);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("white url('pendant.png')", concrete.Value.CssText);
+        }
+
+        [TestMethod]
         public void CssBackgroundImageLegal()
         {
             var snippet = "background: url(\"topbanner.png\") #00d repeat-y fixed";
