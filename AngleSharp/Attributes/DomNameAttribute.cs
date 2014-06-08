@@ -7,9 +7,9 @@
     /// use it to detect all DOM types or get the correct spelling (PascalCase to camelCase).
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Event | AttributeTargets.Method | AttributeTargets.Field | AttributeTargets.Delegate)]
-    public sealed class DOMAttribute : Attribute
+    public sealed class DomNameAttribute : Attribute
     {
-        internal DOMAttribute(String officialName)
+        internal DomNameAttribute(String officialName)
         {
             OfficialName = officialName;
         }
