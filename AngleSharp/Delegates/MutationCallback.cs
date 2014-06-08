@@ -5,6 +5,6 @@
     /// </summary>
     /// <param name="mutations">The sequence of mutations.</param>
     /// <param name="observer">The observer.</param>
-    [DOM("EventListener")]
+    [DomName("EventListener")]
     delegate void MutationCallback(IMutationRecord[] mutations, IMutationObserver observer);
 }

@@ -4,6 +4,6 @@
     /// Defines the callback signature for an event.
     /// </summary>
     /// <param name="ev">The event arguments.</param>
-    [DOM("EventListener")]
+    [DomName("EventListener")]
     public delegate void EventListener(IEvent ev);
 }
