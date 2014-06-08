@@ -3899,7 +3899,7 @@
         /// <param name="element">The node which will be added to the list.</param>
         void AddForeignElement(Element element)
         {
-            element.NamespaceURI = AdjustedCurrentNode.NamespaceURI;
+            element.NamespaceUri = ((Element)AdjustedCurrentNode).NamespaceUri;
             CurrentNode.AppendChild(element);
         }
 
@@ -4029,7 +4029,7 @@
                 if (format == null)
                     break;
 
-                if (format.NodeName == element.NodeName && format.Attributes.IsEqualTo(element.Attributes) && format.NamespaceURI == element.NamespaceURI && ++count == 3)
+                if (format.NodeName == element.NodeName && format.Attributes.IsEqualTo(element.Attributes) && format.NamespaceUri == element.NamespaceUri && ++count == 3)
                 {
                     formatting.RemoveAt(i);
                     break;

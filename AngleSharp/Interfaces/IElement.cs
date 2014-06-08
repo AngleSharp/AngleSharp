@@ -4,10 +4,29 @@
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// The Element interface represents an object within a DOM document. 
+    /// </summary>
     [DomName("Element")]
     interface IElement : INode, IQueryElements
-    {
-        Int32 ChildElementCount { get; }
+    {        
+        /// <summary>
+        /// Gets the namespace prefix of this element.
+        /// </summary>
+        [DomName("prefix")]
+        String Prefix { get; }
+
+        /// <summary>
+        /// Gets the local part of the qualified name of this element.
+        /// </summary>
+        [DomName("localName")]
+        String LocalName { get; }
+
+        /// <summary>
+        /// Gets the namespace URI of this element.
+        /// </summary>
+        [DomName("namespaceURI")]
+        String NamespaceUri { get; }
 
         /// <summary>
         /// Gets the sequence of associated attributes.
@@ -15,19 +34,23 @@
         [DomName("attributes")]
         AttrContainer Attributes { get; }
 
-        HTMLCollection Children { get; }
-
+        /// <summary>
+        /// Gets the list of class names.
+        /// </summary>
+        [DomName("classList")]
         ITokenList ClassList { get; }
 
+        /// <summary>
+        /// Gets or sets the value of the class attribute.
+        /// </summary>
+        [DomName("className")]
         String ClassName { get; set; }
 
-        ContentEditableMode ContentEditable { get; set; }
-
-        IStringMap Dataset { get; }
-
-        DirectionMode Dir { get; set; }
-
-        Element FirstElementChild { get; }
+        /// <summary>
+        /// Gets or sets the id value of the element.
+        /// </summary>
+        [DomName("id")]
+        String Id { get; set; }
 
         /// <summary>
         /// Returns a boolean value indicating whether the specified element has the specified attribute or not.
@@ -93,12 +116,22 @@
         /// Removes an attribute from the specified element.
         /// </summary>
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
-        /// <param name="localAttrName">Is a string that names the attribute to be removed.</param>
+        /// <param name="localName">Is a string that names the attribute to be removed.</param>
         /// <returns>The current element.</returns>
         [DomName("removeAttributeNS")]
         void RemoveAttribute(String namespaceUri, String localName);
 
-        String Id { get; set; }
+        Int32 ChildElementCount { get; }
+
+        HTMLCollection Children { get; }
+
+        ContentEditableMode ContentEditable { get; set; }
+
+        IStringMap Dataset { get; }
+
+        DirectionMode Dir { get; set; }
+
+        Element FirstElementChild { get; }
 
         String InnerHTML { get; set; }
 

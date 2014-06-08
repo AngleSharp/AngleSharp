@@ -5,6 +5,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// The container for the attributes.
+    /// </summary>
     public sealed class AttrContainer : IEnumerable<IAttr>
     {
         #region Fields
@@ -15,7 +18,7 @@
 
         #region ctor
 
-        public AttrContainer()
+        internal AttrContainer()
         {
             _attributes = new List<IAttr>();
         }
@@ -32,11 +35,21 @@
             get { return _attributes.Count; }
         }
 
+        /// <summary>
+        /// Gets the attribute with the specified index.
+        /// </summary>
+        /// <param name="index">The index of the attribute to get.</param>
+        /// <returns>The attribute at the index.</returns>
         public IAttr this[Int32 index]
         {
             get { return _attributes[index]; }
         }
 
+        /// <summary>
+        /// Gets the attribute with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the attribute to get.</param>
+        /// <returns>The attribute with the given name.</returns>
         public IAttr this[String name]
         {
             get { return _attributes.Where(m => m.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault(); }
@@ -56,6 +69,10 @@
             _attributes.RemoveAt(index);
         }
 
+        /// <summary>
+        /// Gets the iterator over the attributes.
+        /// </summary>
+        /// <returns>The IEnumerator.</returns>
         public IEnumerator<IAttr> GetEnumerator()
         {
             return _attributes.GetEnumerator();

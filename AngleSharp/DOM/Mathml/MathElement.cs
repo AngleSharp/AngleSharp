@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Mathml
+﻿namespace AngleSharp.DOM.Mathml
 {
+    using System;
+
     /// <summary>
     /// Represents an element of the MathML DOM.
     /// </summary>
@@ -15,7 +15,7 @@ namespace AngleSharp.DOM.Mathml
         internal MathElement()
         {
             _name = Tags.Math;
-            _ns = Namespaces.MathML;
+            NamespaceUri = Namespaces.MathML;
         }
 
         #endregion

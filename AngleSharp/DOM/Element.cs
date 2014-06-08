@@ -13,11 +13,12 @@
         #region Fields
 
         String _prefix;
+        String _namespace;
         TokenList _classList;
         StringMap _dataset;
         CSSStyleDeclaration _style;
-        HTMLCollection _elements;
-        AttrContainer _attributes;
+        readonly HTMLCollection _elements;
+        readonly AttrContainer _attributes;
 
         #endregion
 
@@ -40,17 +41,32 @@
         /// <summary>
         /// Gets or sets the namespace prefix of the specified node, or null if no prefix is specified.
         /// </summary>
-        [DomName("prefix")]
-        public override String Prefix
+        public String Prefix
         {
             get { return _prefix; }
-            set { _prefix = value; }
+            internal set { _prefix = value; }
+        }
+
+        /// <summary>
+        /// Gets the local part of the qualified name of this node.
+        /// </summary>
+        public String LocalName
+        {
+            get { return _name; }
+        }
+
+        /// <summary>
+        /// Gets the namespace URI of this node.
+        /// </summary>
+        public String NamespaceUri
+        {
+            get { return _namespace; }
+            internal set { _namespace = value; }
         }
 
         /// <summary>
         /// Gets the number of child elements.
         /// </summary>
-        [DomName("childElementCount")]
         public Int32 ChildElementCount
         {
             get { return _elements.Length; }
@@ -556,10 +572,10 @@
                     declarations.Add(attr.Value);
             }
 
-            if (_ns != null)
+            if (_namespace != null)
             {
-                if ((_prefix != null || !IsDefaultNamespace(_ns)) && (_prefix == null || LookupNamespaceURI(_prefix) != _ns))
-                    SetAttribute(Namespaces.XmlNS, Namespaces.DeclarationFor(_prefix), _ns);
+                if ((_prefix != null || !IsDefaultNamespace(_namespace)) && (_prefix == null || LookupNamespaceURI(_prefix) != _namespace))
+                    SetAttribute(Namespaces.XmlNS, Namespaces.DeclarationFor(_prefix), _namespace);
             }
             else if (LocalName != null)
             {
@@ -665,8 +681,8 @@
         [DomName("lookupNamespaceURI")]
         public override String LookupNamespaceURI(String prefix)
         {
-            if (!String.IsNullOrEmpty(_ns) && Prefix == prefix)
-                return _ns;
+            if (!String.IsNullOrEmpty(_namespace) && Prefix == prefix)
+                return _namespace;
 
             for (int i = 0; i < _attributes.Count; i++)
             {
@@ -698,7 +714,7 @@
         public override Boolean IsDefaultNamespace(String namespaceURI)
         { 
             if (String.IsNullOrEmpty(Prefix))
-                return _ns == namespaceURI;
+                return _namespace == namespaceURI;
 
             var ns = GetAttribute(Namespaces.Declaration);
 
@@ -886,7 +902,16 @@
         [DomName("lookupPrefix")]
         public override String LookupPrefix(String namespaceURI)
         {
-            return LookupNamespacePrefix(namespaceURI, this);
+            if (String.IsNullOrEmpty(namespaceURI))
+                return null;
+
+            if (!String.IsNullOrEmpty(_namespace) && !String.IsNullOrEmpty(_prefix) && _namespace == namespaceURI && LookupNamespaceURI(Prefix) == namespaceURI)
+                return Prefix;
+
+            if (_parent != null)
+                return _parent.LookupPrefix(namespaceURI);
+
+            return null;
         }
 
         /// <summary>
@@ -993,6 +1018,9 @@
 
             if (otherElement != null)
             {
+                if (this._namespace != otherElement._namespace)
+                    return false;
+
                 if (_attributes.Count != otherElement._attributes.Count)
                     return false;
 
@@ -1080,6 +1108,9 @@
         /// <param name="target">The target where to create the attributes.</param>
         protected static void CopyAttributes(Element source, Element target)
         {
+            target._namespace = source._namespace;
+            target._prefix = source._prefix;
+
             for (int i = 0; i < source._attributes.Count; i++)
                 target.SetAttribute(source._attributes[i].Name, source._attributes[i].Value);
         }

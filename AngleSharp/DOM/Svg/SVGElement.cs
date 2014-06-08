@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Svg
+﻿namespace AngleSharp.DOM.Svg
 {
+    using System;
+
     /// <summary>
     /// Represents an element of the SVG DOM.
     /// </summary>
@@ -15,7 +15,7 @@ namespace AngleSharp.DOM.Svg
         /// </summary>
         internal SVGElement()
         {
-            _ns = Namespaces.Svg;
+            NamespaceUri = Namespaces.Svg;
         }
 
         #endregion

@@ -218,7 +218,7 @@
 
                 if (element != null)
                 {
-                    if (element.NamespaceURI == namespaceURI && (takeAll || element.LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase)))
+                    if (element.NamespaceUri == namespaceURI && (takeAll || element.LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase)))
                         result.Add(element);
 
                     if (element.ChildElementCount != 0)

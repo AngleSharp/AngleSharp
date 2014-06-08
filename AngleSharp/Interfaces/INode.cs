@@ -19,10 +19,8 @@
         Boolean IsDefaultNamespace(String namespaceURI);
         Boolean IsEqualNode(Node otherNode);
         Node LastChild { get; }
-        String LocalName { get; }
         String LookupNamespaceURI(String prefix);
         String LookupPrefix(String namespaceURI);
-        String NamespaceURI { get; set; }
         Node NextSibling { get; }
         String NodeName { get; }
         NodeType NodeType { get; }
@@ -31,7 +29,6 @@
         Document OwnerDocument { get; }
         Element ParentElement { get; }
         Node ParentNode { get; }
-        String Prefix { get; }
         Node PreviousSibling { get; }
         Node RemoveChild(Node child);
         Node ReplaceChild(Node newChild, Node oldChild);

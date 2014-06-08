@@ -395,7 +395,7 @@
             else if (namespaceURI == Namespaces.MathML)
                 element = MathFactory.Create(tagName, this);
             else
-                element = new Element { NamespaceURI = namespaceURI, NodeName = tagName, OwnerDocument = this };
+                element = new Element { NamespaceUri = namespaceURI, NodeName = tagName, OwnerDocument = this };
 
             return element;
         }

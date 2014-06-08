@@ -4,9 +4,9 @@
     using AngleSharp.Parser;
     using AngleSharp.Parser.Html;
     using System;
-    using System.Linq;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
 
@@ -173,7 +173,6 @@
         internal HTMLDocument()
         {
             _contentType = MimeTypes.Xml;
-            _ns = Namespaces.Html;
             _all = new HTMLCollection(this);
             _queue = new Task(() => { });
         }

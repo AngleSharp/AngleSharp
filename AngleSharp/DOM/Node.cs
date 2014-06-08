@@ -29,10 +29,6 @@
         /// </summary>
         protected String _name;
         /// <summary>
-        /// The node's namespace.
-        /// </summary>
-        protected String _ns;
-        /// <summary>
         /// The node's baseURI.
         /// </summary>
         protected String _baseURI;
@@ -85,25 +81,6 @@
                 return String.Empty;
             }
             set { _baseURI = value; }
-        }
-
-        /// <summary>
-        /// Gets the local part of the qualified name of this node.
-        /// </summary>
-        [DomName("localName")]
-        public String LocalName
-        {
-            get { return _name; }
-        }
-
-        /// <summary>
-        /// Gets or sets the namespace URI of this node.
-        /// </summary>
-        [DomName("namespaceURI")]
-        public String NamespaceURI
-        {
-            get { return _ns; }
-            set { _ns = value; }
         }
 
         /// <summary>
@@ -186,16 +163,6 @@
         /// </summary>
         [DomName("nodeValue")]
         public virtual String NodeValue 
-        {
-            get { return null; }
-            set { }
-        }
-
-        /// <summary>
-        /// Gets or sets the namespace prefix of the specified node, or null if no prefix is specified.
-        /// </summary>
-        [DomName("prefix")]
-        public virtual String Prefix
         {
             get { return null; }
             set { }
@@ -698,25 +665,6 @@
         }
 
         /// <summary>
-        /// Returns the prefix for a given namespaceURI if present, and null if not. When multiple prefixes are possible,
-        /// the result is implementation-dependent.
-        /// </summary>
-        /// <param name="namespaceURI">The namespaceURI to look for.</param>
-        /// <param name="originalElement">The element that originated the request.</param>
-        /// <returns>The namespace prefix.</returns>
-        [DomName("lookupNamespacePrefix")]
-        protected String LookupNamespacePrefix(String namespaceURI, Element originalElement)
-        {
-            if (!String.IsNullOrEmpty(_ns) && !String.IsNullOrEmpty(Prefix) && _ns == namespaceURI && originalElement.LookupNamespaceURI(Prefix) == namespaceURI)
-                return Prefix;
-
-            if (_parent != null)
-                return _parent.LookupNamespacePrefix(namespaceURI, originalElement); 
-
-            return null; 
-        }
-
-        /// <summary>
         /// Accepts a namespace URI as an argument and returns true if the namespace is the default namespace on the given node or false if not.
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
@@ -742,9 +690,6 @@
                 return false;
 
             if (this._name != otherNode._name)
-                return false;
-
-            if (this._ns != otherNode._ns)
                 return false;
 
             if (this._children.Length != otherNode._children.Length)
@@ -826,7 +771,6 @@
             target._baseURI = source._baseURI;
             target._name = source._name;
             target._type = source.NodeType;
-            target._ns = source._ns;
 
             if (deep)
             {

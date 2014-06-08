@@ -15,7 +15,7 @@
         /// </summary>
         internal HTMLElement()
         {
-            _ns = Namespaces.Html; 
+            NamespaceUri = Namespaces.Html; 
         }
 
         #endregion
