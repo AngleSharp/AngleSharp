@@ -19,37 +19,37 @@ Also not bold.");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml.Attributes.Length);
+            Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual("html", dochtml.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
             var dochtmlhead = dochtml.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlhead.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlhead.Attributes.Length);
+            Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual("head", dochtmlhead.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
             var dochtmlbody = dochtml.ChildNodes[1] as Element;
             Assert.AreEqual(3, dochtmlbody.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbody.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual("body", dochtmlbody.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
 
             var dochtmlbodyb = dochtmlbody.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlbodyb.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyb.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyb.Attributes.Count);
             Assert.AreEqual("b", dochtmlbodyb.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyb.NodeType);
 
             var dochtmlbodyp = dochtmlbody.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtmlbodyp.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyp.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyp.Attributes.Count);
             Assert.AreEqual("p", dochtmlbodyp.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyp.NodeType);
 
             var dochtmlbodypb = dochtmlbodyp.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodypb.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodypb.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodypb.Attributes.Count);
             Assert.AreEqual("b", dochtmlbodypb.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodypb.NodeType);
 
@@ -77,32 +77,32 @@ Also not bold.");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml.Attributes.Length);
+            Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual("html", dochtml.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
             var dochtmlhead = dochtml.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlhead.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlhead.Attributes.Length);
+            Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual("head", dochtmlhead.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
             var dochtmlbody = dochtml.ChildNodes[1] as Element;
             Assert.AreEqual(10, dochtmlbody.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbody.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual("body", dochtmlbody.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
 
             var dochtmlbodyfont1 = dochtmlbody.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodyfont1.ChildNodes.Length);
-            Assert.AreEqual(1, dochtmlbodyfont1.Attributes.Length);
+            Assert.AreEqual(1, dochtmlbodyfont1.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyfont1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfont1.NodeType);
             Assert.AreEqual("red", dochtmlbodyfont1.Attributes["color"].Value);
 
             var dochtmlbodyfonti1 = dochtmlbodyfont1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodyfonti1.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyfonti1.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyfonti1.Attributes.Count);
             Assert.AreEqual("i", dochtmlbodyfonti1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfonti1.NodeType);
 
@@ -112,19 +112,19 @@ Also not bold.");
 
             var dochtmlbodyi1 = dochtmlbody.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtmlbodyi1.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyi1.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyi1.Attributes.Count);
             Assert.AreEqual("i", dochtmlbodyi1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyi1.NodeType);
 
             var dochtmlbodyip = dochtmlbodyi1.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtmlbodyip.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyip.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyip.Attributes.Count);
             Assert.AreEqual("p", dochtmlbodyip.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyip.NodeType);
 
             var dochtmlbodyipfont = dochtmlbodyip.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodyipfont.ChildNodes.Length);
-            Assert.AreEqual(1, dochtmlbodyipfont.Attributes.Length);
+            Assert.AreEqual(1, dochtmlbodyipfont.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyipfont.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyipfont.NodeType);
             Assert.AreEqual("red", dochtmlbodyipfont.Attributes["color"].Value);
@@ -135,14 +135,14 @@ Also not bold.");
 
             var dochtmlbodyfont2 = dochtmlbody.ChildNodes[4] as Element;
             Assert.AreEqual(1, dochtmlbodyfont2.ChildNodes.Length);
-            Assert.AreEqual(1, dochtmlbodyfont2.Attributes.Length);
+            Assert.AreEqual(1, dochtmlbodyfont2.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyfont2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfont2.NodeType);
             Assert.AreEqual("red", dochtmlbodyfont2.Attributes["color"].Value);
 
             var dochtmlbodyfonti2 = dochtmlbodyfont2.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodyfonti2.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyfonti2.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyfonti2.Attributes.Count);
             Assert.AreEqual("i", dochtmlbodyfonti2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfonti2.NodeType);
 
@@ -152,20 +152,20 @@ Also not bold.");
 
             var dochtmlbodyp = dochtmlbody.ChildNodes[5] as Element;
             Assert.AreEqual(2, dochtmlbodyp.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyp.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyp.Attributes.Count);
             Assert.AreEqual("p", dochtmlbodyp.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyp.NodeType);
 
             var dochtmlbodypfont = dochtmlbodyp.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtmlbodypfont.ChildNodes.Length);
-            Assert.AreEqual(1, dochtmlbodypfont.Attributes.Length);
+            Assert.AreEqual(1, dochtmlbodypfont.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodypfont.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodypfont.NodeType);
             Assert.AreEqual("red", dochtmlbodypfont.Attributes["color"].Value);
 
             var dochtmlbodypfonti = dochtmlbodypfont.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodypfonti.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodypfonti.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodypfonti.Attributes.Count);
             Assert.AreEqual("i", dochtmlbodypfonti.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodypfonti.NodeType);
 
@@ -187,7 +187,7 @@ Also not bold.");
 
             var dochtmlbodyb = dochtmlbody.ChildNodes[7] as Element;
             Assert.AreEqual(2, dochtmlbodyb.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyb.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyb.Attributes.Count);
             Assert.AreEqual("b", dochtmlbodyb.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyb.NodeType);
 
@@ -197,7 +197,7 @@ Also not bold.");
 
             var dochtmlbodybi = dochtmlbodyb.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodybi.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodybi.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodybi.Attributes.Count);
             Assert.AreEqual("i", dochtmlbodybi.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodybi.NodeType);
 
@@ -207,7 +207,7 @@ Also not bold.");
 
             var dochtmlbodyi3 = dochtmlbody.ChildNodes[8] as Element;
             Assert.AreEqual(1, dochtmlbodyi3.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyi3.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyi3.Attributes.Count);
             Assert.AreEqual("i", dochtmlbodyi3.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyi3.NodeType);
 
@@ -230,19 +230,19 @@ Also not bold.");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml.Attributes.Length);
+            Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual("html", dochtml.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
             var dochtmlhead = dochtml.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlhead.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlhead.Attributes.Length);
+            Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual("head", dochtmlhead.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
             var dochtmlbody = dochtml.ChildNodes[1] as Element;
             Assert.AreEqual(6, dochtmlbody.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbody.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual("body", dochtmlbody.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
 
@@ -252,13 +252,13 @@ Also not bold.");
 
             var dochtmlbodyp1 = dochtmlbody.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodyp1.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyp1.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyp1.Attributes.Count);
             Assert.AreEqual("p", dochtmlbodyp1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyp1.NodeType);
 
             var dochtmlbodypfont = dochtmlbodyp1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodypfont.ChildNodes.Length);
-            Assert.AreEqual(1, dochtmlbodypfont.Attributes.Length);
+            Assert.AreEqual(1, dochtmlbodypfont.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodypfont.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodypfont.NodeType);
             Assert.AreEqual("7", dochtmlbodypfont.Attributes["size"].Value);
@@ -269,7 +269,7 @@ Also not bold.");
 
             var dochtmlbodyfont = dochtmlbody.ChildNodes[2] as Element;
             Assert.AreEqual(2, dochtmlbodyfont.ChildNodes.Length);
-            Assert.AreEqual(1, dochtmlbodyfont.Attributes.Length);
+            Assert.AreEqual(1, dochtmlbodyfont.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyfont.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfont.NodeType);
             Assert.AreEqual("7", dochtmlbodyfont.Attributes["size"].Value);
@@ -280,7 +280,7 @@ Also not bold.");
 
             var dochtmlbodyfontp = dochtmlbodyfont.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodyfontp.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyfontp.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyfontp.Attributes.Count);
             Assert.AreEqual("p", dochtmlbodyfontp.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfontp.NodeType);
 
@@ -294,25 +294,25 @@ Also not bold.");
 
             var dochtmlbodyb = dochtmlbody.ChildNodes[4] as Element;
             Assert.AreEqual(0, dochtmlbodyb.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyb.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyb.Attributes.Count);
             Assert.AreEqual("b", dochtmlbodyb.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyb.NodeType);
 
             var dochtmlbodyp2 = dochtmlbody.ChildNodes[5] as Element;
             Assert.AreEqual(2, dochtmlbodyp2.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyp2.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyp2.Attributes.Count);
             Assert.AreEqual("p", dochtmlbodyp2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyp2.NodeType);
 
             var dochtmlbodypb = dochtmlbodyp2.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodypb.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodypb.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodypb.Attributes.Count);
             Assert.AreEqual("b", dochtmlbodypb.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodypb.NodeType);
 
             var dochtmlbodypbi = dochtmlbodypb.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodypbi.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodypbi.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodypbi.Attributes.Count);
             Assert.AreEqual("i", dochtmlbodypbi.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodypbi.NodeType);
 
@@ -322,7 +322,7 @@ Also not bold.");
 
             var dochtmlbodypi = dochtmlbodyp2.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodypi.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodypi.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodypi.Attributes.Count);
             Assert.AreEqual("i", dochtmlbodypi.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodypi.NodeType);
 
@@ -343,25 +343,25 @@ Also not bold.");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml.Attributes.Length);
+            Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual("html", dochtml.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
             var dochtmlhead = dochtml.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlhead.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlhead.Attributes.Length);
+            Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual("head", dochtmlhead.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
             var dochtmlbody = dochtml.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtmlbody.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbody.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual("body", dochtmlbody.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
 
             var dochtmlbodydl = dochtmlbody.ChildNodes[0] as Element;
             Assert.AreEqual(3, dochtmlbodydl.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodydl.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodydl.Attributes.Count);
             Assert.AreEqual("dl", dochtmlbodydl.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodydl.NodeType);
 
@@ -371,13 +371,13 @@ Also not bold.");
 
             var dochtmlbodydldt = dochtmlbodydl.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodydldt.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodydldt.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodydldt.Attributes.Count);
             Assert.AreEqual("dt", dochtmlbodydldt.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodydldt.NodeType);
 
             var dochtmlbodydldtb = dochtmlbodydldt.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodydldtb.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodydldtb.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodydldtb.Attributes.Count);
             Assert.AreEqual("b", dochtmlbodydldtb.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodydldtb.NodeType);
 
@@ -387,13 +387,13 @@ Also not bold.");
 
             var dochtmlbodydldd = dochtmlbodydl.ChildNodes[2] as Element;
             Assert.AreEqual(1, dochtmlbodydldd.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodydldd.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodydldd.Attributes.Count);
             Assert.AreEqual("dd", dochtmlbodydldd.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodydldd.NodeType);
 
             var dochtmlbodydlddb = dochtmlbodydldd.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodydlddb.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodydlddb.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodydlddb.Attributes.Count);
             Assert.AreEqual("b", dochtmlbodydlddb.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodydlddb.NodeType);
 
@@ -403,7 +403,7 @@ Also not bold.");
 
             var dochtmlbodyb = dochtmlbody.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodyb.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyb.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyb.Attributes.Count);
             Assert.AreEqual("b", dochtmlbodyb.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyb.NodeType);
 
@@ -421,19 +421,19 @@ Also not bold.");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml.Attributes.Length);
+            Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual("html", dochtml.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
             var dochtmlhead = dochtml.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlhead.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlhead.Attributes.Length);
+            Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual("head", dochtmlhead.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
             var dochtmlbody = dochtml.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtmlbody.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbody.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual("body", dochtmlbody.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
 
@@ -443,25 +443,25 @@ Also not bold.");
 
             var dochtmlbodylabel = dochtmlbody.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtmlbodylabel.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodylabel.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodylabel.Attributes.Count);
             Assert.AreEqual("label", dochtmlbodylabel.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodylabel.NodeType);
 
             var dochtmlbodylabela = dochtmlbodylabel.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlbodylabela.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodylabela.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodylabela.Attributes.Count);
             Assert.AreEqual("a", dochtmlbodylabela.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodylabela.NodeType);
 
             var dochtmlbodylabeldiv = dochtmlbodylabel.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtmlbodylabeldiv.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodylabeldiv.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodylabeldiv.Attributes.Count);
             Assert.AreEqual("div", dochtmlbodylabeldiv.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodylabeldiv.NodeType);
 
             var dochtmlbodylabeldiva = dochtmlbodylabeldiv.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtmlbodylabeldiva.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodylabeldiva.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodylabeldiva.Attributes.Count);
             Assert.AreEqual("a", dochtmlbodylabeldiva.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodylabeldiva.NodeType);
 
@@ -471,7 +471,7 @@ Also not bold.");
 
             var dochtmlbodylabeldivadiv = dochtmlbodylabeldiva.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodylabeldivadiv.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodylabeldivadiv.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodylabeldivadiv.Attributes.Count);
             Assert.AreEqual("div", dochtmlbodylabeldivadiv.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodylabeldivadiv.NodeType);
 
@@ -491,25 +491,25 @@ Also not bold.");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml.Attributes.Length);
+            Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual("html", dochtml.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
             var dochtmlhead = dochtml.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlhead.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlhead.Attributes.Length);
+            Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual("head", dochtmlhead.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
             var dochtmlbody = dochtml.ChildNodes[1] as Element;
             Assert.AreEqual(3, dochtmlbody.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbody.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual("body", dochtmlbody.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
 
             var dochtmlbodycenter = dochtmlbody.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtmlbodycenter.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodycenter.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodycenter.Attributes.Count);
             Assert.AreEqual("center", dochtmlbodycenter.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodycenter.NodeType);
 
@@ -519,7 +519,7 @@ Also not bold.");
 
             var dochtmlbodycenterfont = dochtmlbodycenter.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodycenterfont.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodycenterfont.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodycenterfont.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodycenterfont.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodycenterfont.NodeType);
 
@@ -529,13 +529,13 @@ Also not bold.");
 
             var dochtmlbodyfont = dochtmlbody.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtmlbodyfont.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyfont.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyfont.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyfont.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfont.NodeType);
 
             var dochtmlbodyfontimg = dochtmlbodyfont.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlbodyfontimg.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyfontimg.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyfontimg.Attributes.Count);
             Assert.AreEqual("img", dochtmlbodyfontimg.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfontimg.NodeType);
 
@@ -545,7 +545,7 @@ Also not bold.");
 
             var dochtmlbodytable = dochtmlbody.ChildNodes[2] as Element;
             Assert.AreEqual(2, dochtmlbodytable.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytable.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytable.Attributes.Count);
             Assert.AreEqual("table", dochtmlbodytable.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytable.NodeType);
 
@@ -555,19 +555,19 @@ Also not bold.");
 
             var dochtmlbodytabletbody = dochtmlbodytable.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtmlbodytabletbody.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytabletbody.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytabletbody.Attributes.Count);
             Assert.AreEqual("tbody", dochtmlbodytabletbody.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytabletbody.NodeType);
 
             var dochtmlbodytabletbodytr = dochtmlbodytabletbody.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtmlbodytabletbodytr.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytabletbodytr.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytabletbodytr.Attributes.Count);
             Assert.AreEqual("tr", dochtmlbodytabletbodytr.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytabletbodytr.NodeType);
 
             var dochtmlbodytabletbodytrtd = dochtmlbodytabletbodytr.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodytabletbodytrtd.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytabletbodytrtd.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytabletbodytrtd.Attributes.Count);
             Assert.AreEqual("td", dochtmlbodytabletbodytrtd.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytabletbodytrtd.NodeType);
 
@@ -591,43 +591,43 @@ Also not bold.");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml.Attributes.Length);
+            Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual("html", dochtml.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
             var dochtmlhead = dochtml.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlhead.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlhead.Attributes.Length);
+            Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual("head", dochtmlhead.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
             var dochtmlbody = dochtml.ChildNodes[1] as Element;
             Assert.AreEqual(3, dochtmlbody.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbody.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual("body", dochtmlbody.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
 
             var dochtmlbodyp1 = dochtmlbody.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodyp1.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyp1.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyp1.Attributes.Count);
             Assert.AreEqual("p", dochtmlbodyp1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyp1.NodeType);
 
             var dochtmlbodypa1 = dochtmlbodyp1.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlbodypa1.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodypa1.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodypa1.Attributes.Count);
             Assert.AreEqual("a", dochtmlbodypa1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodypa1.NodeType);
 
             var dochtmlbodyp2 = dochtmlbody.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodyp2.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyp2.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyp2.Attributes.Count);
             Assert.AreEqual("p", dochtmlbodyp2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyp2.NodeType);
 
             var dochtmlbodypa2 = dochtmlbodyp2.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodypa2.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodypa2.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodypa2.Attributes.Count);
             Assert.AreEqual("a", dochtmlbodypa2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodypa2.NodeType);
 
@@ -637,19 +637,19 @@ Also not bold.");
 
             var dochtmlbodytable = dochtmlbody.ChildNodes[2] as Element;
             Assert.AreEqual(1, dochtmlbodytable.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytable.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytable.Attributes.Count);
             Assert.AreEqual("table", dochtmlbodytable.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytable.NodeType);
 
             var dochtmlbodytabletbody = dochtmlbodytable.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodytabletbody.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytabletbody.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytabletbody.Attributes.Count);
             Assert.AreEqual("tbody", dochtmlbodytabletbody.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytabletbody.NodeType);
 
             var dochtmlbodytabletbodytr = dochtmlbodytabletbody.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlbodytabletbodytr.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytabletbodytr.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytabletbodytr.Attributes.Count);
             Assert.AreEqual("tr", dochtmlbodytabletbodytr.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytabletbodytr.NodeType);
 
@@ -669,37 +669,37 @@ This page contains an insanely badly-nested tag sequence.");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml.Attributes.Length);
+            Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual("html", dochtml.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
             var dochtmlhead = dochtml.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlhead.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlhead.Attributes.Length);
+            Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual("head", dochtmlhead.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
             var dochtmlbody = dochtml.ChildNodes[1] as Element;
             Assert.AreEqual(7, dochtmlbody.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbody.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual("body", dochtmlbody.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
 
             var dochtmlbodycenter = dochtmlbody.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodycenter.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodycenter.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodycenter.Attributes.Count);
             Assert.AreEqual("center", dochtmlbodycenter.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodycenter.NodeType);
 
             var dochtmlbodycentercenter = dochtmlbodycenter.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlbodycentercenter.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodycentercenter.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodycentercenter.Attributes.Count);
             Assert.AreEqual("center", dochtmlbodycentercenter.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodycentercenter.NodeType);
 
             var dochtmlbodyfont = dochtmlbody.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodyfont.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyfont.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyfont.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyfont.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfont.NodeType);
 
@@ -709,7 +709,7 @@ This page contains an insanely badly-nested tag sequence.");
 
             var dochtmlbodytable = dochtmlbody.ChildNodes[2] as Element;
             Assert.AreEqual(2, dochtmlbodytable.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytable.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytable.Attributes.Count);
             Assert.AreEqual("table", dochtmlbodytable.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytable.NodeType);
 
@@ -719,13 +719,13 @@ This page contains an insanely badly-nested tag sequence.");
 
             var dochtmlbodytabletbody1 = dochtmlbodytable.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtmlbodytabletbody1.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytabletbody1.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytabletbody1.Attributes.Count);
             Assert.AreEqual("tbody", dochtmlbodytabletbody1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytabletbody1.NodeType);
 
             var dochtmlbodytabletbodytr1 = dochtmlbodytabletbody1.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtmlbodytabletbodytr1.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytabletbodytr1.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytabletbodytr1.Attributes.Count);
             Assert.AreEqual("tr", dochtmlbodytabletbodytr1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytabletbodytr1.NodeType);
 
@@ -735,13 +735,13 @@ This page contains an insanely badly-nested tag sequence.");
 
             var dochtmlbodytabletbodytrtd = dochtmlbodytabletbodytr1.ChildNodes[1] as Element;
             Assert.AreEqual(0, dochtmlbodytabletbodytrtd.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytabletbodytrtd.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytabletbodytrtd.Attributes.Count);
             Assert.AreEqual("td", dochtmlbodytabletbodytrtd.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytabletbodytrtd.NodeType);
 
             var dochtmlbodytabletbodytr2 = dochtmlbodytabletbody1.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodytabletbodytr2.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytabletbodytr2.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytabletbodytr2.Attributes.Count);
             Assert.AreEqual("tr", dochtmlbodytabletbodytr2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytabletbodytr2.NodeType);
 
@@ -751,25 +751,25 @@ This page contains an insanely badly-nested tag sequence.");
 
             var dochtmlbodytable2 = dochtmlbody.ChildNodes[3] as Element;
             Assert.AreEqual(1, dochtmlbodytable2.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytable2.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytable2.Attributes.Count);
             Assert.AreEqual("table", dochtmlbodytable2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytable2.NodeType);
 
             var dochtmlbodytabletbody = dochtmlbodytable2.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodytabletbody.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytabletbody.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytabletbody.Attributes.Count);
             Assert.AreEqual("tbody", dochtmlbodytabletbody.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytabletbody.NodeType);
 
             var dochtmlbodytabletbodytr = dochtmlbodytabletbody.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlbodytabletbodytr.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodytabletbodytr.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodytabletbodytr.Attributes.Count);
             Assert.AreEqual("tr", dochtmlbodytabletbodytr.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytabletbodytr.NodeType);
 
             var dochtmlbodyfont1 = dochtmlbody.ChildNodes[4] as Element;
             Assert.AreEqual(4, dochtmlbodyfont1.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyfont1.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyfont1.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyfont1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfont1.NodeType);
 
@@ -779,7 +779,7 @@ This page contains an insanely badly-nested tag sequence.");
 
             var dochtmlbodyfontp = dochtmlbodyfont1.ChildNodes[1] as Element;
             Assert.AreEqual(0, dochtmlbodyfontp.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyfontp.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyfontp.Attributes.Count);
             Assert.AreEqual("p", dochtmlbodyfontp.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfontp.NodeType);
 
@@ -789,25 +789,25 @@ This page contains an insanely badly-nested tag sequence.");
 
             var dochtmlbodyfonta = dochtmlbodyfont1.ChildNodes[3] as Element;
             Assert.AreEqual(0, dochtmlbodyfonta.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyfonta.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyfonta.Attributes.Count);
             Assert.AreEqual("a", dochtmlbodyfonta.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfonta.NodeType);
 
             var dochtmlbodya = dochtmlbody.ChildNodes[5] as Element;
             Assert.AreEqual(1, dochtmlbodya.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodya.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodya.Attributes.Count);
             Assert.AreEqual("a", dochtmlbodya.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodya.NodeType);
 
             var dochtmlbodyafont = dochtmlbodya.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlbodyafont.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyafont.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyafont.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyafont.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyafont.NodeType);
 
             var dochtmlbodyfont2 = dochtmlbody.ChildNodes[6] as Element;
             Assert.AreEqual(1, dochtmlbodyfont2.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyfont2.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyfont2.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyfont2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfont2.NodeType);
 
@@ -828,19 +828,19 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml.Attributes.Length);
+            Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual("html", dochtml.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
             var dochtmlhead = dochtml.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlhead.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlhead.Attributes.Length);
+            Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual("head", dochtmlhead.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
             var dochtmlbody = dochtml.ChildNodes[1] as Element;
             Assert.AreEqual(3, dochtmlbody.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbody.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual("body", dochtmlbody.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
 
@@ -850,31 +850,31 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
 
             var dochtmlbodyb = dochtmlbody.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodyb.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodyb.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodyb.Attributes.Count);
             Assert.AreEqual("b", dochtmlbodyb.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyb.NodeType);
 
             var dochtmlbodybnobr = dochtmlbodyb.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtmlbodybnobr.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodybnobr.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodybnobr.Attributes.Count);
             Assert.AreEqual("nobr", dochtmlbodybnobr.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodybnobr.NodeType);
 
             var dochtmlbodydiv = dochtmlbody.ChildNodes[2] as Element;
             Assert.AreEqual(3, dochtmlbodydiv.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodydiv.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodydiv.Attributes.Count);
             Assert.AreEqual("div", dochtmlbodydiv.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodydiv.NodeType);
 
             var dochtmlbodydivb = dochtmlbodydiv.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtmlbodydivb.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodydivb.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodydivb.Attributes.Count);
             Assert.AreEqual("b", dochtmlbodydivb.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodydivb.NodeType);
 
             var dochtmlbodydivbnobr = dochtmlbodydivb.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodydivbnobr.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodydivbnobr.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodydivbnobr.Attributes.Count);
             Assert.AreEqual("nobr", dochtmlbodydivbnobr.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodydivbnobr.NodeType);
 
@@ -888,7 +888,7 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
 
             var dochtmlbodydivpre = dochtmlbodydiv.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtmlbodydivpre.ChildNodes.Length);
-            Assert.AreEqual(0, dochtmlbodydivpre.Attributes.Length);
+            Assert.AreEqual(0, dochtmlbodydivpre.Attributes.Count);
             Assert.AreEqual("pre", dochtmlbodydivpre.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodydivpre.NodeType);
 
