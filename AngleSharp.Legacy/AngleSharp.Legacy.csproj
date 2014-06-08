@@ -118,6 +118,9 @@
     <Compile Include="..\AngleSharp\DOM\CharacterData.cs">
       <Link>DOM\CharacterData.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\AttrContainer.cs">
+      <Link>DOM\Collections\AttrContainer.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\BaseCollection.cs">
       <Link>DOM\Collections\BaseCollection.cs</Link>
     </Compile>
@@ -135,9 +138,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\MediaList.cs">
       <Link>DOM\Collections\MediaList.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\NamedNodeMap.cs">
-      <Link>DOM\Collections\NamedNodeMap.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\NodeList.cs">
       <Link>DOM\Collections\NodeList.cs</Link>
@@ -1656,6 +1656,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\HtmlParser.cs">
       <Link>Parser\Html\HtmlParser.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\HtmlParserExtensions.cs">
+      <Link>Parser\Html\HtmlParserExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\HtmlTokenizer.cs">
       <Link>Parser\Html\HtmlTokenizer.cs</Link>
