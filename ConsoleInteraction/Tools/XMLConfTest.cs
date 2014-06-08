@@ -122,10 +122,11 @@ namespace ConsoleInteraction
             for (int i = 0; i < body.ChildNodes.Length; i++)
             {
                 var child = body.ChildNodes[i];
+                var element = child as HTMLAnchorElement;
 
-                if (child is HTMLAnchorElement && child.Attributes["name"] != null)
+                if (element != null && element.HasAttribute("name"))
                 {
-                    switch (child.Attributes["name"].Value)
+                    switch (element.GetAttribute("name"))
                     {
                         case "valid":
                             mode = Mode.Valid;

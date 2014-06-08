@@ -140,7 +140,7 @@ namespace ConsoleInteraction
 
             foreach (var result in results)
             {
-                Console.WriteLine("\t<{0}{1}>", result.NodeName, result.Attributes.ToHtml());
+                Console.WriteLine("\t<{0}{1}>", result.NodeName, String.Join(" ", result.Attributes.Select(m => m.ToString())));
             }
 
             return this;
