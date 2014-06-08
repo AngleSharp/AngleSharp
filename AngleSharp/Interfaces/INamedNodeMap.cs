@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a named collection of nodes.
     /// </summary>
-    [DOM("NamedNodeMap")]
+    [DomName("NamedNodeMap")]
     public interface INamedNodeMap : IEnumerable<INode>
     {
         /// <summary>
@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="name">The case-insensitive name.</param>
         /// <returns>The value of the Node or null if it does not exist.</returns>
-        [DOM("getNamedItem")]
+        [DomName("getNamedItem")]
         INode this[String name] { get; }
 
         /// <summary>
@@ -23,7 +23,7 @@
         /// <param name="item">The node to be added or inserted.</param>
         /// <returns>The added node.</returns>
         /// <exception cref="DOMException"></exception>
-        [DOM("setNamedItem")]
+        [DomName("setNamedItem")]
         INode Add(INode item);
 
         /// <summary>
@@ -32,7 +32,7 @@
         /// <param name="name">The name of the node.</param>
         /// <returns>The removed node or null if nothing has been found.</returns>
         /// <exception cref="DOMException"></exception>
-        [DOM("removeNamedItem")]
+        [DomName("removeNamedItem")]
         INode Remove(String name);
 
         /// <summary>
@@ -40,13 +40,13 @@
         /// </summary>
         /// <param name="index">The index of the item to get.</param>
         /// <returns>The item or null if the index is higher or equal to the number of nodes.</returns>
-        [DOM("item")]
+        [DomName("item")]
         INode this[Int32 index] { get; }
 
         /// <summary>
         /// Gets the number of elements.
         /// </summary>
-        [DOM("length")]
+        [DomName("length")]
         Int32 Length { get; }
 
         /// <summary>
@@ -56,7 +56,7 @@
         /// <param name="localName">The name of the node.</param>
         /// <returns>The node or null if nothing found.</returns>
         /// <exception cref="DOMException"></exception>
-        [DOM("getNamedItemNS")]
+        [DomName("getNamedItemNS")]
         INode this[String namespaceUri, String localName] { get; }
 
         /// <summary>
@@ -65,7 +65,7 @@
         /// <param name="item">The node to be added or inserted.</param>
         /// <returns>The added node.</returns>
         /// <exception cref="DOMException"></exception>
-        [DOM("setNamedItemNS")]
+        [DomName("setNamedItemNS")]
         INode AddWithNamespace(INode item);
 
         /// <summary>
@@ -75,7 +75,7 @@
         /// <param name="localName">The name of the node.</param>
         /// <returns>The removed node or null if nothing found.</returns>
         /// <exception cref="DOMException"></exception>
-        [DOM("removeNamedItemNS")]
+        [DomName("removeNamedItemNS")]
         INode RemoveWithNamespace(String namespaceUri, String localName);
     }
 }

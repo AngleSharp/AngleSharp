@@ -6,7 +6,7 @@
     /// <summary>
     /// NodeList objects are collections of nodes.
     /// </summary>
-    [DOM("NodeList")]
+    [DomName("NodeList")]
     public interface INodeList : IEnumerable<INode>
     {
         /// <summary>
@@ -14,13 +14,13 @@
         /// </summary>
         /// <param name="index">The 0-based index.</param>
         /// <returns>The element if it exists, otherwise false.</returns>
-        [DOM("item")]
+        [DomName("item")]
         INode this[Int32 index] { get; }
 
         /// <summary>
         /// Gets the number of nodes in the NodeList.
         /// </summary>
-        [DOM("length")]
+        [DomName("length")]
         Int32 Length { get; }
     }
 }

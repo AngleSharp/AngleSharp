@@ -5,7 +5,7 @@
     /// although it is generally not visually shown, such comments are
     /// available to be read in the source view.
     /// </summary>
-    [DOM("Comment")]
+    [DomName("Comment")]
     public interface IComment : ICharacterData
     {
     }

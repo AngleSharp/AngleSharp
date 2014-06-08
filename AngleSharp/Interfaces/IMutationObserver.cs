@@ -3,7 +3,7 @@
     /// <summary>
     /// MutationObserver provides developers a way to react to changes in a DOM.
     /// </summary>
-    [DOM("MutationObserver")]
+    [DomName("MutationObserver")]
     interface IMutationObserver
     {
         /// <summary>
@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="target">The Node on which to observe DOM mutations.</param>
         /// <param name="options">Specifies which DOM mutations should be reported.</param>
-        [DOM("observe")]
+        [DomName("observe")]
         void Connect(INode target, IMutationObserverInit options);
 
         /// <summary>
@@ -20,7 +20,7 @@
         /// notifications of DOM mutations. Until the observe()
         /// method is used again, observer's callback will not be invoked.
         /// </summary>
-        [DOM("disconnect")]
+        [DomName("disconnect")]
         void Disconnect();
 
         /// <summary>
@@ -28,7 +28,7 @@
         /// returns what was in there.
         /// </summary>
         /// <returns>Returns an Array of MutationRecords.</returns>
-        [DOM("takeRecords")]
+        [DomName("takeRecords")]
         IMutationRecord[] Flush();
     }
 }

@@ -5,37 +5,37 @@
     /// <summary>
     /// This type represents a DOM element's attribute as an object. 
     /// </summary>
-    [DOM("Attr")]
+    [DomName("Attr")]
     public interface IAttr
     {
         /// <summary>
         /// Gets the local name of the attribute.
         /// </summary>
-        [DOM("localName")]
+        [DomName("localName")]
         String LocalName { get; }
 
         /// <summary>
         /// Gets the attribute's name.
         /// </summary>
-        [DOM("name")]
+        [DomName("name")]
         String Name { get; }
 
         /// <summary>
         /// Gets the attribute's value.
         /// </summary>
-        [DOM("value")]
+        [DomName("value")]
         String Value { get; set; }
 
         /// <summary>
         /// Gets the namespace URL of the attribute.
         /// </summary>
-        [DOM("namespaceURI")]
+        [DomName("namespaceURI")]
         String NamespaceUri { get; }
 
         /// <summary>
         /// Gets the prefix used by the namespace.
         /// </summary>
-        [DOM("prefix")]
+        [DomName("prefix")]
         String Prefix { get; }
     }
 }

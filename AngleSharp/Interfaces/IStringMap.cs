@@ -6,7 +6,7 @@
     /// <summary>
     /// The DOMStringMap interface represents a set of name-value pairs.
     /// </summary>
-    [DOM("DOMStringMap")]
+    [DomName("DOMStringMap")]
     public interface IStringMap : IEnumerable<KeyValuePair<String, String>>
     {
         /// <summary>
@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="name">The name of the item to get or set.</param>
         /// <returns>The item with the associated name.</returns>
-        [DOM("item")]
+        [DomName("item")]
         String this [String name] { get; set; }
     }
 }

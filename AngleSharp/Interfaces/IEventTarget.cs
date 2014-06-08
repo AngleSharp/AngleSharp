@@ -6,7 +6,7 @@
     /// EventTarget is a DOM interface implemented by objects that
     /// can receive DOM events and have listeners for them.
     /// </summary>
-    [DOM("EventTarget")]
+    [DomName("EventTarget")]
     public interface IEventTarget
     {
         /// <summary>
@@ -18,7 +18,7 @@
         /// capture, all events of the specified type will be dispatched to the registered listener before being
         /// dispatched to any EventTarget beneath it in the DOM tree. Events which are bubbling upward through
         /// the tree will not trigger a listener designated to use capture.</param>
-        [DOM("addEventListener")]
+        [DomName("addEventListener")]
         void AddEventListener(String type, EventListener callback = null, Boolean capture = false);
 
         /// <summary>
@@ -27,7 +27,7 @@
         /// <param name="type">A string representing the event type being removed.</param>
         /// <param name="callback">The listener parameter indicates the EventListener function to be removed.</param>
         /// <param name="capture">Specifies whether the EventListener being removed was registered as a capturing listener or not.</param>
-        [DOM("removeEventListener")]
+        [DomName("removeEventListener")]
         void RemoveEventListener(String type, EventListener callback = null, Boolean capture = false);
 
         /// <summary>
@@ -35,7 +35,7 @@
         /// </summary>
         /// <param name="ev">The event to dispatch.</param>
         /// <returns>False if at least one of the event handlers, which handled this event called preventDefault(). Otherwise true.</returns>
-        [DOM("dispatchEvent")]
+        [DomName("dispatchEvent")]
         Boolean Dispatch(IEvent ev);
     }
 }

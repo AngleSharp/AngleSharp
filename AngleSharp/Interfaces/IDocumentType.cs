@@ -2,16 +2,16 @@
 {
     using System;
 
-    [DOM("DocumentType")]
+    [DomName("DocumentType")]
     interface IDocumentType : INode
     {
-        [DOM("name")]
+        [DomName("name")]
         String Name { get; }
         
-        [DOM("publicId")]
+        [DomName("publicId")]
         String PublicIdentifier { get; }
 
-        [DOM("systemId")]
+        [DomName("systemId")]
         String SystemIdentifier { get; }
     }
 }

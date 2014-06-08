@@ -9,7 +9,7 @@
     /// element contains markup, it is parsed into information items and Text
     /// nodes that form its children.
     /// </summary>
-	[DOM("Text")]
+	[DomName("Text")]
 	public interface IText : ICharacterData
 	{
         /// <summary>
@@ -17,14 +17,14 @@
         /// </summary>
         /// <param name="offset">The point where the Node should be split.</param>
         /// <returns>The freshly created Text element with the rest of the content.</returns>
-		[DOM("splitText")]
+		[DomName("splitText")]
 		IText Split(Int32 offset);
 
         /// <summary>
         /// Gets a string containing the text of all Text nodes logically adjacent
         /// to this Node, concatenated in document order.
         /// </summary>
-		[DOM("wholeText")]
+		[DomName("wholeText")]
 		String Text { get; }
 	}
 }

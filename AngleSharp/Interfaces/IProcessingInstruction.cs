@@ -8,13 +8,13 @@
     /// processors which do not support processing their instructions (outside
     /// of their having a place in the DOM).
     /// </summary>
-    [DOM("ProcessingInstruction")]
+    [DomName("ProcessingInstruction")]
     public interface IProcessingInstruction : ICharacterData
     {
         /// <summary>
         /// Gets the target of the processing instruction.
         /// </summary>
-        [DOM("target")]
+        [DomName("target")]
         String Target { get; }
     }
 }

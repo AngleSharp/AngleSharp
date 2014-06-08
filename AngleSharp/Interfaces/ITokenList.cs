@@ -6,13 +6,13 @@
     /// <summary>
     /// This type represents a set of space-separated tokens. 
     /// </summary>
-	[DOM("DOMTokenList")]
+	[DomName("DOMTokenList")]
 	public interface ITokenList : IEnumerable<String>
 	{
         /// <summary>
         /// Gets the number of contained tokens.
         /// </summary>
-		[DOM("length")]
+		[DomName("length")]
 		Int32 Length { get; }
 
         /// <summary>
@@ -20,7 +20,7 @@
         /// </summary>
         /// <param name="index">The index of the item.</param>
         /// <returns>The item at the specified index.</returns>
-		[DOM("item")]
+		[DomName("item")]
 		String this[Int32 index] { get; }
 
         /// <summary>
@@ -28,21 +28,21 @@
         /// </summary>
         /// <param name="token">The token to search for.</param>
         /// <returns>The result of the search.</returns>
-		[DOM("contains")]
+		[DomName("contains")]
 		Boolean Contains(String token);
 
         /// <summary>
         /// Adds some tokens to the underlying string.
         /// </summary>
         /// <param name="tokens">A list of tokens to add.</param>
-		[DOM("add")]
+		[DomName("add")]
 		void Add(params String[] tokens);
 
         /// <summary>
         /// Remove some tokens from the underlying string.
         /// </summary>
         /// <param name="tokens">A list of tokens to remove.</param>
-		[DOM("remove")]
+		[DomName("remove")]
 		void Remove(params String[] tokens);
 
         /// <summary>
@@ -52,7 +52,7 @@
         /// <param name="token">The token to toggle.</param>
         /// <param name="force"></param>
         /// <returns>True if the token has been added, otherwise false.</returns>
-		[DOM("toggle")]
+		[DomName("toggle")]
 		Boolean Toggle(String token, Boolean force = false);
 	}
 }

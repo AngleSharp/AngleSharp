@@ -8,13 +8,13 @@
     /// of elements (in document order) and offers methods and properties for selecting
     /// from the list.
     /// </summary>
-    [DOM("HTMLCollection")]
+    [DomName("HTMLCollection")]
     public interface IHtmlCollection : IEnumerable<Element>
     {
         /// <summary>
         /// Gets the number of items in the collection.
         /// </summary>
-        [DOM("length")]
+        [DomName("length")]
         Int32 Length { get; }
   
         /// <summary>
@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="index">The zero-based index.</param>
         /// <returns>Returns null if the index is out of range.</returns>
-        [DOM("item")]
+        [DomName("item")]
         Element this[Int32 index] { get; }
   
         /// <summary>
@@ -32,7 +32,7 @@
         /// </summary>
         /// <param name="name">The id or name to match.</param>
         /// <returns>Returns null if no node exists by the given name.</returns>
-        [DOM("namedItem")]
+        [DomName("namedItem")]
         Element this[String name] { get; }
     }
 }

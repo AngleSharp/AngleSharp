@@ -4,7 +4,7 @@
     using System;
     using System.Collections.Generic;
 
-    [DOM("Element")]
+    [DomName("Element")]
     interface IElement : INode, IQueryElements
     {
         Int32 ChildElementCount { get; }
@@ -12,7 +12,7 @@
         /// <summary>
         /// Gets the sequence of associated attributes.
         /// </summary>
-        [DOM("attributes")]
+        [DomName("attributes")]
         AttrContainer Attributes { get; }
 
         HTMLCollection Children { get; }
@@ -34,7 +34,7 @@
         /// </summary>
         /// <param name="name">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
-        [DOM("hasAttribute")]
+        [DomName("hasAttribute")]
         Boolean HasAttribute(String name);
 
         /// <summary>
@@ -43,7 +43,7 @@
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="localName">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
-        [DOM("hasAttributeNS")]
+        [DomName("hasAttributeNS")]
         Boolean HasAttribute(String namespaceUri, String localName);
 
         /// <summary>
@@ -51,7 +51,7 @@
         /// </summary>
         /// <param name="name">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
-        [DOM("getAttribute")]
+        [DomName("getAttribute")]
         String GetAttribute(String name);
 
         /// <summary>
@@ -60,7 +60,7 @@
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="localName">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
-        [DOM("getAttributeNS")]
+        [DomName("getAttributeNS")]
         String GetAttribute(String namespaceUri, String localName);
 
         /// <summary>
@@ -69,7 +69,7 @@
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
         /// <returns>The current element.</returns>
-        [DOM("setAttribute")]
+        [DomName("setAttribute")]
         void SetAttribute(String name, String value);
 
         /// <summary>
@@ -78,7 +78,7 @@
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
-        [DOM("setAttributeNS")]
+        [DomName("setAttributeNS")]
         void SetAttribute(String namespaceUri, String name, String value);
 
         /// <summary>
@@ -86,7 +86,7 @@
         /// </summary>
         /// <param name="name">Is a string that names the attribute to be removed.</param>
         /// <returns>The current element.</returns>
-        [DOM("removeAttribute")]
+        [DomName("removeAttribute")]
         void RemoveAttribute(String name);
 
         /// <summary>
@@ -95,7 +95,7 @@
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="localAttrName">Is a string that names the attribute to be removed.</param>
         /// <returns>The current element.</returns>
-        [DOM("removeAttributeNS")]
+        [DomName("removeAttributeNS")]
         void RemoveAttribute(String namespaceUri, String localName);
 
         String Id { get; set; }

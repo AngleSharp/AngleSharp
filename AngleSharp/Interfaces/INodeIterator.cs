@@ -2,7 +2,7 @@
 {
     using System;
 
-    [DOM("NodeIterator")]
+    [DomName("NodeIterator")]
     interface INodeIterator
     {
 

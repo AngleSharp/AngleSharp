@@ -6,7 +6,7 @@
     /// MutationRecord defines an interface that will be passed
     /// to the observer's callback.
     /// </summary>
-    [DOM("MutationRecord")]
+    [DomName("MutationRecord")]
     interface IMutationRecord
     {
         /// <summary>
@@ -14,7 +14,7 @@
         /// characterData if it was a mutation to a CharacterData node,
         /// and childList if it was a mutation to the tree of nodes.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         String Type { get; }
 
         /// <summary>
@@ -23,43 +23,43 @@
         /// it is the CharacterData node. For childList, it is the node whose
         /// children changed.
         /// </summary>
-        [DOM("target")]
+        [DomName("target")]
         INode Target { get; }
 
         /// <summary>
         /// Gets the nodes added, or null.
         /// </summary>
-        [DOM("addedNodes")]
+        [DomName("addedNodes")]
         INodeList AddedNodes { get; }
 
         /// <summary>
         /// Gets the nodes removed, or null.
         /// </summary>
-        [DOM("removedNodes")]
+        [DomName("removedNodes")]
         INodeList RemovedNodes { get; }
 
         /// <summary>
         /// Gets the previous sibling of the added or removed nodes, or null.
         /// </summary>
-        [DOM("previousSibling")]
+        [DomName("previousSibling")]
         INode PreviousSibling { get; }
 
         /// <summary>
         /// Gets the next sibling of the added or removed nodes, or null.
         /// </summary>
-        [DOM("nextSibling")]
+        [DomName("nextSibling")]
         INode NextSibling { get; }
 
         /// <summary>
         /// Gets the local name of the changed attribute, or null.
         /// </summary>
-        [DOM("attributeName")]
+        [DomName("attributeName")]
         String AttributeName { get; }
 
         /// <summary>
         /// Gets the namespace of the changed attribute, or null.
         /// </summary>
-        [DOM("attributeNamespace")]
+        [DomName("attributeNamespace")]
         String AttributeNamespace { get; }
 
         /// <summary>
@@ -68,7 +68,7 @@
         /// the data of the changed node before the change. For childList, it is
         /// null.
         /// </summary>
-        [DOM("oldValue")]
+        [DomName("oldValue")]
         String OldValue { get; }
     }
 }

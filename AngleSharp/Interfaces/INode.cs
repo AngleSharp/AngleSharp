@@ -3,7 +3,7 @@
     using System;
     using AngleSharp.DOM.Collections;
 
-    [DOM("Node")]
+    [DomName("Node")]
     public interface INode
     {
         Node AppendChild(Node child);
