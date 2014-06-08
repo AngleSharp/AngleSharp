@@ -918,8 +918,8 @@
                     {
                         RaiseErrorOccurred(ErrorCode.HtmlTagMisplaced);
 
-                        if(templateMode.Count == 0)
-                            AppendAttributes(tag, open[0]);
+                        if (templateMode.Count == 0)
+                            open[0].AppendAttributes(tag);
 
                         break;
                     }
@@ -945,7 +945,7 @@
                         if (templateMode.Count == 0 && open.Count > 1 && open[1] is HTMLBodyElement)
                         {
                             frameset = false;
-                            AppendAttributes(tag, open[1]);
+                            open[1].AppendAttributes(tag);
                         }
 
                         break;
@@ -2984,7 +2984,7 @@
 
                 var element = CopyElement(formattingElement);
 
-                while(furthestBlock.ChildNodes.Length > 0)
+                while (furthestBlock.ChildNodes.Length > 0)
                     element.AppendChild(furthestBlock.RemoveChild(furthestBlock.ChildNodes[0]));
 
                 furthestBlock.AppendChild(element);
@@ -3003,13 +3003,9 @@
         Element CopyElement(Element element)
         {
             var newElement = HTMLFactory.Create(element.NodeName, doc);
-            newElement.NodeName = element.NodeName;
-            
-            for (int i = 0; i < element.Attributes.Length; i++)
-            {
-                var attr = element.Attributes[i];
+
+            foreach (var attr in element.Attributes)
                 newElement.SetAttribute(attr.Name, attr.Value);
-            }
 
             return newElement;
         }
@@ -3963,21 +3959,6 @@
                 foster.AppendText(text);
         }
 
-        /// <summary>
-        /// Checks for each attribute on the token if the attribute is already present on the node.
-        /// If it is not, the attribute and its corresponding value is added to the node.
-        /// </summary>
-        /// <param name="tag">The token with the source attributes.</param>
-        /// <param name="element">The node with the target attributes.</param>
-        void AppendAttributes(HtmlTagToken tag, Element element)
-        {
-            foreach (var attr in tag.Attributes)
-            {
-                if (!element.HasAttribute(attr.Key))
-                    element.SetAttribute(attr.Key, attr.Value);
-            }
-        }
-
         #endregion
 
         #region Closing Nodes
@@ -4008,13 +3989,8 @@
         /// <param name="tagName">The tag that will be excluded.</param>
         void GenerateImpliedEndTagsExceptFor(String tagName)
         {
-            while (CurrentNode is IImpliedEnd)
-            {
-                if (CurrentNode.NodeName == tagName)
-                    break;
-
+            while (CurrentNode is IImpliedEnd && CurrentNode.NodeName != tagName)
                 CloseCurrentNode();
-            }
         }
 
         /// <summary>
@@ -4023,9 +3999,7 @@
         void GenerateImpliedEndTags()
         {
             while (CurrentNode is IImpliedEnd)
-            {
                 CloseCurrentNode();
-            }
         }
 
         #endregion
@@ -4055,15 +4029,10 @@
                 if (format == null)
                     break;
 
-                if (format.NodeName == element.NodeName && format.Attributes.Equals(element.Attributes) && format.NamespaceURI == element.NamespaceURI)
+                if (format.NodeName == element.NodeName && format.Attributes.IsEqualTo(element.Attributes) && format.NamespaceURI == element.NamespaceURI && ++count == 3)
                 {
-                    count++;
-
-                    if (count == 3)
-                    {
-                        formatting.RemoveAt(i);
-                        break;
-                    }
+                    formatting.RemoveAt(i);
+                    break;
                 }
             }
 

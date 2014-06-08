@@ -11,9 +11,9 @@
         /// <summary>
         /// Adds the attribute with the adjusted prefix, namespace and name.
         /// </summary>
-        /// <param name="element"></param>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="element">The element to host the attribute.</param>
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="value">The value of the attribute.</param>
         public static void SetAdjustedAttribute(this Element element, String name, String value)
         {
             switch (name)
@@ -25,32 +25,24 @@
                 case "xlink:show":
                 case "xlink:title":
                 case "xlink:type":
-                    element.SetAttributeNode(new Attr(GetName(name), value,  Namespaces.XLink));
+                    element.SetAttribute(Namespaces.XLink, name.Substring(name.IndexOf(':') + 1), value);
                     break;
 
                 case "xml:base":
                 case "xml:lang":
                 case "xml:space":
-                    element.SetAttributeNode(new Attr(name, value, Namespaces.Xml));
+                    element.SetAttribute(Namespaces.Xml, name, value);
                     break;
 
                 case "xmlns":
-                    element.SetAttributeNS(Namespaces.XmlNS, name, value);
-                    break;
-
                 case "xmlns:xlink":
-                    element.SetAttributeNode(new Attr(name, value, Namespaces.XmlNS));
+                    element.SetAttribute(Namespaces.XmlNS, name, value);
                     break;
 
                 default:
                     element.SetAttribute(name, value);
                     break;
             }
-        }
-
-        static String GetName(String name)
-        {
-            return name.Substring(name.IndexOf(':') + 1);
         }
     }
 }
