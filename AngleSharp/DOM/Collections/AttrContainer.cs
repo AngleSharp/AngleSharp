@@ -27,14 +27,6 @@
         /// <summary>
         /// Gets the number of elements.
         /// </summary>
-        public Int32 Length
-        {
-            get { return _attributes.Count; }
-        }
-
-        /// <summary>
-        /// Gets the number of elements.
-        /// </summary>
         public Int32 Count
         {
             get { return _attributes.Count; }
