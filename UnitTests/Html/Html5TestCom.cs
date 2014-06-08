@@ -442,7 +442,7 @@ namespace UnitTests
 
             var dochtmlbodymath = dochtmlbody.ChildNodes[0] as Element;
             Assert.IsTrue(dochtmlbodymath.IsInMathML);
-            Assert.AreEqual(Namespaces.MathML, dochtmlbodymath.NamespaceURI);
+            Assert.AreEqual(Namespaces.MathML, dochtmlbodymath.NamespaceUri);
             Assert.AreEqual(0, dochtmlbodymath.ChildNodes.Length);
             Assert.AreEqual(0, dochtmlbodymath.Attributes.Count);
             Assert.AreEqual("math", dochtmlbodymath.NodeName);
