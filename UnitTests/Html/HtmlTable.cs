@@ -16,43 +16,43 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><th>");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0];
+            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
 
-            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0.NodeType);
 
-            var dochtml0body1table0tbody0tr0th0 = dochtml0body1table0tbody0tr0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0th0 = dochtml0body1table0tbody0tr0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0th0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0th0.Attributes.Length);
             Assert.AreEqual("th", dochtml0body1table0tbody0tr0th0.NodeName);
@@ -64,43 +64,43 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><td>");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0];
+            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
 
-            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0.Attributes.Length);
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td0.NodeName);
@@ -112,37 +112,37 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><col foo='bar'>");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1table0colgroup0 = dochtml0body1table0.ChildNodes[0];
+            var dochtml0body1table0colgroup0 = dochtml0body1table0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0colgroup0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0colgroup0.Attributes.Length);
             Assert.AreEqual("colgroup", dochtml0body1table0colgroup0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0colgroup0.NodeType);
 
-            var dochtml0body1table0colgroup0col0 = dochtml0body1table0colgroup0.ChildNodes[0];
+            var dochtml0body1table0colgroup0col0 = dochtml0body1table0colgroup0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1table0colgroup0col0.ChildNodes.Length);
             Assert.AreEqual(1, dochtml0body1table0colgroup0col0.Attributes.Length);
             Assert.AreEqual("col", dochtml0body1table0colgroup0col0.NodeName);
@@ -155,19 +155,19 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><colgroup></html>foo");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
@@ -177,13 +177,13 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Text, dochtml0body1Text0.NodeType);
             Assert.AreEqual("foo", dochtml0body1Text0.TextContent);
 
-            var dochtml0body1table1 = dochtml0body1.ChildNodes[1];
+            var dochtml0body1table1 = dochtml0body1.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1table1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table1.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table1.NodeType);
 
-            var dochtml0body1table1colgroup0 = dochtml0body1table1.ChildNodes[0];
+            var dochtml0body1table1colgroup0 = dochtml0body1table1.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1table1colgroup0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table1colgroup0.Attributes.Length);
             Assert.AreEqual("colgroup", dochtml0body1table1colgroup0.NodeName);
@@ -195,31 +195,31 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table></table><p>foo");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1p1 = dochtml0body1.ChildNodes[1];
+            var dochtml0body1p1 = dochtml0body1.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1p1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1p1.Attributes.Length);
             Assert.AreEqual("p", dochtml0body1p1.NodeName);
@@ -235,43 +235,43 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr><td>");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0];
+            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
 
-            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0.Attributes.Length);
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td0.NodeName);
@@ -283,31 +283,31 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><select><option>3</select></table>");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1select0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1select0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1select0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1select0.Attributes.Length);
             Assert.AreEqual("select", dochtml0body1select0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1select0.NodeType);
 
-            var dochtml0body1select0option0 = dochtml0body1select0.ChildNodes[0];
+            var dochtml0body1select0option0 = dochtml0body1select0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1select0option0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1select0option0.Attributes.Length);
             Assert.AreEqual("option", dochtml0body1select0option0.NodeName);
@@ -317,7 +317,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Text, dochtml0body1select0option0Text0.NodeType);
             Assert.AreEqual("3", dochtml0body1select0option0Text0.TextContent);
 
-            var dochtml0body1table1 = dochtml0body1.ChildNodes[1];
+            var dochtml0body1table1 = dochtml0body1.ChildNodes[1] as Element;
             Assert.AreEqual(0, dochtml0body1table1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table1.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table1.NodeName);
@@ -329,37 +329,37 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><select><table></table></select></table>");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(3, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1select0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1select0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1select0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1select0.Attributes.Length);
             Assert.AreEqual("select", dochtml0body1select0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1select0.NodeType);
 
-            var dochtml0body1table1 = dochtml0body1.ChildNodes[1];
+            var dochtml0body1table1 = dochtml0body1.ChildNodes[1] as Element;
             Assert.AreEqual(0, dochtml0body1table1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table1.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table1.NodeType);
 
-            var dochtml0body1table2 = dochtml0body1.ChildNodes[2];
+            var dochtml0body1table2 = dochtml0body1.ChildNodes[2] as Element;
             Assert.AreEqual(0, dochtml0body1table2.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table2.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table2.NodeName);
@@ -371,31 +371,31 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><select></table>");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1select0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1select0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1select0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1select0.Attributes.Length);
             Assert.AreEqual("select", dochtml0body1select0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1select0.NodeType);
 
-            var dochtml0body1table1 = dochtml0body1.ChildNodes[1];
+            var dochtml0body1table1 = dochtml0body1.ChildNodes[1] as Element;
             Assert.AreEqual(0, dochtml0body1table1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table1.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table1.NodeName);
@@ -403,35 +403,35 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TabkleWithSelectOptionAndContent()
+        public void TableWithSelectOptionAndContent()
         {
             var doc = DocumentBuilder.Html(@"<table><select><option>A<tr><td>B</td></tr></table>");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1select0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1select0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1select0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1select0.Attributes.Length);
             Assert.AreEqual("select", dochtml0body1select0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1select0.NodeType);
 
-            var dochtml0body1select0option0 = dochtml0body1select0.ChildNodes[0];
+            var dochtml0body1select0option0 = dochtml0body1select0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1select0option0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1select0option0.Attributes.Length);
             Assert.AreEqual("option", dochtml0body1select0option0.NodeName);
@@ -441,25 +441,25 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Text, dochtml0body1select0option0Text0.NodeType);
             Assert.AreEqual("A", dochtml0body1select0option0Text0.TextContent);
 
-            var dochtml0body1table1 = dochtml0body1.ChildNodes[1];
+            var dochtml0body1table1 = dochtml0body1.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1table1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table1.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table1.NodeType);
 
-            var dochtml0body1table1tbody0 = dochtml0body1table1.ChildNodes[0];
+            var dochtml0body1table1tbody0 = dochtml0body1table1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table1tbody0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table1tbody0.Attributes.Length);
             Assert.AreEqual("tbody", dochtml0body1table1tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table1tbody0.NodeType);
 
-            var dochtml0body1table1tbody0tr0 = dochtml0body1table1tbody0.ChildNodes[0];
+            var dochtml0body1table1tbody0tr0 = dochtml0body1table1tbody0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table1tbody0tr0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table1tbody0tr0.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table1tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table1tbody0tr0.NodeType);
 
-            var dochtml0body1table1tbody0tr0td0 = dochtml0body1table1tbody0tr0.ChildNodes[0];
+            var dochtml0body1table1tbody0tr0td0 = dochtml0body1table1tbody0tr0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table1tbody0tr0td0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table1tbody0tr0td0.Attributes.Length);
             Assert.AreEqual("td", dochtml0body1table1tbody0tr0td0.NodeName);
@@ -475,43 +475,43 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><td></body></caption></col></colgroup></html>foo");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0];
+            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
 
-            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0td0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0.Attributes.Length);
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td0.NodeName);
@@ -527,43 +527,43 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><td>A</table>B");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(2, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0];
+            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
 
-            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0td0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0.Attributes.Length);
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td0.NodeName);
@@ -583,43 +583,43 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><tr><caption>");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0];
+            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
 
-            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0.NodeType);
 
-            var dochtml0body1table0caption1 = dochtml0body1table0.ChildNodes[1];
+            var dochtml0body1table0caption1 = dochtml0body1table0.ChildNodes[1] as Element;
             Assert.AreEqual(0, dochtml0body1table0caption1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0caption1.Attributes.Length);
             Assert.AreEqual("caption", dochtml0body1table0caption1.NodeName);
@@ -631,43 +631,43 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><tr></body></caption></col></colgroup></html></td></th><td>foo");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0];
+            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
 
-            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0td0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0.Attributes.Length);
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td0.NodeName);
@@ -683,49 +683,49 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><td><tr>");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0];
+            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0body1table0tbody0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
 
-            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0.Attributes.Length);
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td0.NodeType);
 
-            var dochtml0body1table0tbody0tr1 = dochtml0body1table0tbody0.ChildNodes[1];
+            var dochtml0body1table0tbody0tr1 = dochtml0body1table0tbody0.ChildNodes[1] as Element;
             Assert.AreEqual(0, dochtml0body1table0tbody0tr1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr1.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table0tbody0tr1.NodeName);
@@ -737,55 +737,55 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><td><button><td>");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0];
+            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
 
-            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0body1table0tbody0tr0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0td0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0.Attributes.Length);
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td0button0 = dochtml0body1table0tbody0tr0td0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0td0button0 = dochtml0body1table0tbody0tr0td0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0button0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0button0.Attributes.Length);
             Assert.AreEqual("button", dochtml0body1table0tbody0tr0td0button0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td0button0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td1 = dochtml0body1table0tbody0tr0.ChildNodes[1];
+            var dochtml0body1table0tbody0tr0td1 = dochtml0body1table0tbody0tr0.ChildNodes[1] as Element;
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td1.Attributes.Length);
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td1.NodeName);
@@ -797,61 +797,61 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><tr><td><svg><desc><td>");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0];
+            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
 
-            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0body1table0tbody0tr0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0td0 = dochtml0body1table0tbody0tr0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0td0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0.Attributes.Length);
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td0svg0 = dochtml0body1table0tbody0tr0td0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0td0svg0 = dochtml0body1table0tbody0tr0td0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0td0svg0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0svg0.Attributes.Length);
             Assert.AreEqual("svg", dochtml0body1table0tbody0tr0td0svg0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td0svg0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td0svg0desc0 = dochtml0body1table0tbody0tr0td0svg0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0td0svg0desc0 = dochtml0body1table0tbody0tr0td0svg0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0svg0desc0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td0svg0desc0.Attributes.Length);
             Assert.AreEqual("desc", dochtml0body1table0tbody0tr0td0svg0desc0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td0svg0desc0.NodeType);
 
-            var dochtml0body1table0tbody0tr0td1 = dochtml0body1table0tbody0tr0.ChildNodes[1];
+            var dochtml0body1table0tbody0tr0td1 = dochtml0body1table0tbody0tr0.ChildNodes[1] as Element;
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0td1.Attributes.Length);
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td1.NodeName);
@@ -863,37 +863,37 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><tr style=""display: none;"">");
 
-            var dochtml0 = doc.ChildNodes[0];
+            var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
-            var dochtml0head0 = dochtml0.ChildNodes[0];
+            var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0head0.Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
-            var dochtml0body1 = dochtml0.ChildNodes[1];
+            var dochtml0body1 = dochtml0.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
-            var dochtml0body1table0 = dochtml0body1.ChildNodes[0];
+            var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
 
-            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0];
+            var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1table0tbody0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
 
-            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0];
+            var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1table0tbody0tr0.ChildNodes.Length);
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0.Attributes.Length);
             Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.NodeName);
@@ -912,31 +912,31 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><tr style=""display: none;"">");
 
-            var html = doc.ChildNodes[0];
+            var html = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, html.ChildNodes.Length);
             Assert.AreEqual(0, html.Attributes.Length);
             Assert.AreEqual("html", html.NodeName);
             Assert.AreEqual(NodeType.Element, html.NodeType);
 
-            var body = html.ChildNodes[1];
+            var body = html.ChildNodes[1] as Element;
             Assert.AreEqual(1, body.ChildNodes.Length);
             Assert.AreEqual(0, body.Attributes.Length);
             Assert.AreEqual("body", body.NodeName);
             Assert.AreEqual(NodeType.Element, body.NodeType);
 
-            var table = body.ChildNodes[0];
+            var table = body.ChildNodes[0] as Element;
             Assert.AreEqual(1, table.ChildNodes.Length);
             Assert.AreEqual(0, table.Attributes.Length);
             Assert.AreEqual("table", table.NodeName);
             Assert.AreEqual(NodeType.Element, table.NodeType);
 
-            var tableBody = table.ChildNodes[0];
+            var tableBody = table.ChildNodes[0] as Element;
             Assert.AreEqual(1, tableBody.ChildNodes.Length);
             Assert.AreEqual(0, tableBody.Attributes.Length);
             Assert.AreEqual("tbody", tableBody.NodeName);
             Assert.AreEqual(NodeType.Element, tableBody.NodeType);
 
-            var tableRow = tableBody.ChildNodes[0];
+            var tableRow = tableBody.ChildNodes[0] as Element;
             Assert.AreEqual(0, tableRow.ChildNodes.Length);
             Assert.AreEqual(1, tableRow.Attributes.Length);
             Assert.AreEqual("tr", tableRow.NodeName);
@@ -955,31 +955,31 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<table><tr>");
 
-            var html = doc.ChildNodes[0];
+            var html = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, html.ChildNodes.Length);
             Assert.AreEqual(0, html.Attributes.Length);
             Assert.AreEqual("html", html.NodeName);
             Assert.AreEqual(NodeType.Element, html.NodeType);
 
-            var body = html.ChildNodes[1];
+            var body = html.ChildNodes[1] as Element;
             Assert.AreEqual(1, body.ChildNodes.Length);
             Assert.AreEqual(0, body.Attributes.Length);
             Assert.AreEqual("body", body.NodeName);
             Assert.AreEqual(NodeType.Element, body.NodeType);
 
-            var table = body.ChildNodes[0];
+            var table = body.ChildNodes[0] as Element;
             Assert.AreEqual(1, table.ChildNodes.Length);
             Assert.AreEqual(0, table.Attributes.Length);
             Assert.AreEqual("table", table.NodeName);
             Assert.AreEqual(NodeType.Element, table.NodeType);
 
-            var tableBody = table.ChildNodes[0];
+            var tableBody = table.ChildNodes[0] as Element;
             Assert.AreEqual(1, tableBody.ChildNodes.Length);
             Assert.AreEqual(0, tableBody.Attributes.Length);
             Assert.AreEqual("tbody", tableBody.NodeName);
             Assert.AreEqual(NodeType.Element, tableBody.NodeType);
 
-            var tableRow = tableBody.ChildNodes[0];
+            var tableRow = tableBody.ChildNodes[0] as Element;
             Assert.AreEqual(0, tableRow.ChildNodes.Length);
             Assert.AreEqual(0, tableRow.Attributes.Length);
             Assert.AreEqual("tr", tableRow.NodeName);

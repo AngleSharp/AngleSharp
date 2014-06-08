@@ -2,6 +2,7 @@
 using AngleSharp.DOM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 
 namespace UnitTests
 {
@@ -18,7 +19,7 @@ namespace UnitTests
             var html = DocumentBuilder.Html("<body class=first><body class=second id=merged>Text</body></body>");
             var root = html.Body;
             Assert.AreEqual(1, root.ChildNodes.Length);
-            Assert.AreEqual(2, root.Attributes.Length);
+            Assert.AreEqual(2, root.Attributes.Count());
 
             var cls = root.ClassName;
             Assert.AreEqual("first", cls);
@@ -296,12 +297,12 @@ namespace UnitTests
             Assert.AreEqual(1, p1.ChildNodes.Length);
 
             var size1 = p1.ChildNodes[0];
-            var red1 = size1.ChildNodes[0];
+            var red1 = size1.ChildNodes[0] as Element;
             Assert.AreEqual(NodeType.Element, red1.NodeType);
             Assert.AreEqual("font", red1.NodeName);
-            Assert.AreEqual(1, red1.Attributes.Length);
-            Assert.IsNotNull(red1.Attributes["color"]);
-            Assert.AreEqual("red", red1.Attributes["color"].Value);
+            Assert.AreEqual(1, red1.Attributes.Count());
+            Assert.IsNotNull(red1.GetAttribute("color"));
+            Assert.AreEqual("red", red1.GetAttribute("color"));
             Assert.AreEqual(1, red1.ChildNodes.Length);
 
             var p2 = root.ChildNodes[1];
@@ -309,12 +310,12 @@ namespace UnitTests
             Assert.AreEqual("p", p2.NodeName);
             Assert.AreEqual(1, p2.ChildNodes.Length);
 
-            var red2 = p2.ChildNodes[0];
+            var red2 = p2.ChildNodes[0] as Element;
             Assert.AreEqual(NodeType.Element, red2.NodeType);
             Assert.AreEqual("font", red2.NodeName);
-            Assert.AreEqual(1, red2.Attributes.Length);
-            Assert.IsNotNull(red2.Attributes["color"]);
-            Assert.AreEqual("red", red2.Attributes["color"].Value);
+            Assert.AreEqual(1, red2.Attributes.Count());
+            Assert.IsNotNull(red2.GetAttribute("color"));
+            Assert.AreEqual("red", red2.GetAttribute("color"));
             Assert.AreEqual(1, red2.ChildNodes.Length);
         }
 
@@ -326,10 +327,10 @@ namespace UnitTests
             var root = html.Body;
             Assert.AreEqual(1, root.ChildNodes.Length);
 
-            var noembed = root.ChildNodes[0];
+            var noembed = root.ChildNodes[0] as Element;
             Assert.AreEqual(NodeType.Element, noembed.NodeType);
             Assert.AreEqual("noembed", noembed.NodeName);
-            Assert.AreEqual(1, noembed.Attributes.Length);
+            Assert.AreEqual(1, noembed.Attributes.Count());
         }
 
         [TestMethod]
@@ -365,14 +366,14 @@ namespace UnitTests
             var body = html.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
 
-            var form = body.ChildNodes[0];
+            var form = body.ChildNodes[0] as Element;
             Assert.AreEqual(NodeType.Element, form.NodeType);
             Assert.AreEqual("form", form.NodeName);
             Assert.AreEqual(3, form.ChildNodes.Length);
 
-            var action = form.Attributes["action"];
+            var action = form.GetAttribute("action");
             Assert.IsNotNull(action);
-            Assert.AreEqual("/action", action.Value);
+            Assert.AreEqual("/action", action);
 
             var hr1 = form.ChildNodes[0];
             Assert.AreEqual(NodeType.Element, hr1.NodeType);
@@ -388,19 +389,19 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Text, text.NodeType);
             Assert.AreEqual("Secret Message", text.TextContent);
 
-            var input = label.ChildNodes[1];
+            var input = label.ChildNodes[1] as Element;
             Assert.AreEqual(NodeType.Element, input.NodeType);
             Assert.AreEqual("input", input.NodeName);
             Assert.AreEqual(0, input.ChildNodes.Length);
-            Assert.AreEqual(2, input.Attributes.Length);
+            Assert.AreEqual(2, input.Attributes.Count());
 
-            var id = input.Attributes["id"];
+            var id = input.GetAttribute("id");
             Assert.IsNotNull(id);
-            Assert.AreEqual("form1", id.Value);
+            Assert.AreEqual("form1", id);
 
-            var name = input.Attributes["name"];
+            var name = input.GetAttribute("name");
             Assert.IsNotNull(name);
-            Assert.AreEqual("isindex", name.Value);
+            Assert.AreEqual("isindex", name);
 
             var hr2 = form.ChildNodes[2];
             Assert.AreEqual(NodeType.Element, hr2.NodeType);
@@ -738,19 +739,35 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void GumboCaseSensitiveAttributes()
+        public void GumboCaseSensitiveAttributesCamelCase()
         {
-            var html = DocumentBuilder.Html(@"<div class=CamelCase>");
+            var html = DocumentBuilder.Html(@"<div class=camelCase>");
 
             var body = html.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
 
-            var div = body.ChildNodes[0];
+            var div = body.ChildNodes[0] as Element;
             Assert.AreEqual("div", div.NodeName);
             Assert.AreEqual(NodeType.Element, div.NodeType);
             Assert.AreEqual(0, div.ChildNodes.Length);
-            Assert.AreEqual(1, div.Attributes.Length);
-            Assert.AreEqual("CamelCase", div.Attributes["class"].Value);
+            Assert.AreEqual(1, div.Attributes.Count());
+            Assert.AreEqual("camelCase", div.GetAttribute("class"));
+        }
+
+        [TestMethod]
+        public void GumboCaseSensitiveAttributesPascalCase()
+        {
+            var html = DocumentBuilder.Html(@"<div class=PascalCase>");
+
+            var body = html.Body;
+            Assert.AreEqual(1, body.ChildNodes.Length);
+
+            var div = body.ChildNodes[0] as Element;
+            Assert.AreEqual("div", div.NodeName);
+            Assert.AreEqual(NodeType.Element, div.NodeType);
+            Assert.AreEqual(0, div.ChildNodes.Length);
+            Assert.AreEqual(1, div.Attributes.Count());
+            Assert.AreEqual("PascalCase", div.GetAttribute("class"));
         }
 
         [TestMethod]
@@ -779,14 +796,14 @@ namespace UnitTests
             Assert.AreEqual(root, body.ParentElement);
             Assert.AreEqual(1, body.ChildNodes.Length);
 
-            var div = body.ChildNodes[0];
+            var div = body.ChildNodes[0] as Element;
             Assert.AreEqual(NodeType.Element, div.NodeType);
             Assert.AreEqual("div", div.NodeName);
             Assert.AreEqual(body, div.ParentElement);
             Assert.AreEqual(1, div.ChildNodes.Length);
-            Assert.AreEqual(1, div.Attributes.Length);
+            Assert.AreEqual(1, div.Attributes.Count());
 
-            var clas = div.Attributes[0];
+            var clas = div.Attributes.First();
             Assert.AreEqual("class", clas.Name);
             Assert.AreEqual("bar", clas.Value);
 
@@ -805,19 +822,17 @@ namespace UnitTests
             Assert.AreEqual("body", body.NodeName);
             Assert.AreEqual(1, body.ChildNodes.Length);
 
-            var input = body.ChildNodes[0];
+            var input = body.ChildNodes[0] as Element;
             Assert.AreEqual(NodeType.Element, input.NodeType);
             Assert.AreEqual("input", input.NodeName);
             Assert.AreEqual(0, input.ChildNodes.Length);
-            Assert.AreEqual(2, input.Attributes.Length);
+            Assert.AreEqual(2, input.Attributes.Count());
 
-            var chked = input.Attributes["checked"];
-            Assert.AreEqual("checked", chked.Name);
-            Assert.AreEqual("false", chked.Value);
+            var chked = input.GetAttribute("checked");
+            Assert.AreEqual("false", chked);
 
-            var id = input.Attributes["id"];
-            Assert.AreEqual("id", id.Name);
-            Assert.AreEqual("foo", id.Value);
+            var id = input.GetAttribute("id");
+            Assert.AreEqual("foo", id);
         }
 
         [TestMethod]
