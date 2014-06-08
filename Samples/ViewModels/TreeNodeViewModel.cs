@@ -1,11 +1,9 @@
 ﻿using AngleSharp.DOM;
-using AngleSharp.DOM.Collections;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace Samples.ViewModels
@@ -170,7 +168,7 @@ namespace Samples.ViewModels
 
         static String OpenTag(Element element)
         {
-            StartString('<').Append(element.TagName).Append(element.Attributes.ToHtml()).Append('>');
+            StartString('<').Append(element.TagName).Append(String.Join(" ", element.Attributes.Select(m => m.ToString()))).Append('>');
             return ReleaseString();
         }
 
