@@ -4,6 +4,7 @@
     using AngleSharp.Parser;
     using AngleSharp.Parser.Html;
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.IO;
     using System.Net;
@@ -196,7 +197,7 @@
         [DOM("anchors")]
         public HTMLCollection<HTMLAnchorElement> Anchors
         {
-            get { return _anchors ?? (_anchors = new HTMLCollection<HTMLAnchorElement>(this, predicate: element => element.Attributes[AttributeNames.Name] != null)); }
+            get { return _anchors ?? (_anchors = new HTMLCollection<HTMLAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name))); }
         }
 
         /// <summary>
@@ -261,7 +262,7 @@
         [DOM("links")]
         public HTMLCollection Links
         {
-            get { return _links ?? (_links = new HTMLCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes[AttributeNames.Href] != null)); }
+            get { return _links ?? (_links = new HTMLCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href))); }
         }
 
         /// <summary>

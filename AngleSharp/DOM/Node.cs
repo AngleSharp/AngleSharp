@@ -25,10 +25,6 @@
         /// </summary>
         protected NodeList _children;
         /// <summary>
-        /// The attributes of the node.
-        /// </summary>
-        protected NamedNodeMap _attributes;
-        /// <summary>
         /// The node's name.
         /// </summary>
         protected String _name;
@@ -55,23 +51,12 @@
         internal Node()
         {
             _name = String.Empty;
-            _attributes = new NamedNodeMap();
             _children = new NodeList();
-            _attributes.PropertyChanged += (s, e) => OnAttributeChanged(e.PropertyName);
         }
 
         #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets a boolean value indicating whether the current Node has attribute nodes or not.
-        /// </summary>
-        [DOM("hasAttributes")]
-        public Boolean HasAttributes
-        {
-            get { return _attributes.Length != 0; }
-        }
 
         /// <summary>
         /// Gets a boolean value indicating whether the current Node has child nodes or not.
@@ -289,15 +274,6 @@
         {
             get { return _name; }
             internal set {  _name = value; }
-        }
-
-        /// <summary>
-        /// Gets the attributes for this node.
-        /// </summary>
-        [DOM("attributes")]
-        public NamedNodeMap Attributes
-        {
-            get { return _attributes; }
         }
 
         #endregion
@@ -733,15 +709,6 @@
         {
             if (!String.IsNullOrEmpty(_ns) && !String.IsNullOrEmpty(Prefix) && _ns == namespaceURI && originalElement.LookupNamespaceURI(Prefix) == namespaceURI)
                 return Prefix;
-            
-            if(_attributes.Length > 0)
-            {
-                for (int i = 0; i < _attributes.Length; i++)
-                {
-                    if (_attributes[i].Prefix == "xmlns" && _attributes[i].Value == namespaceURI && originalElement.LookupNamespaceURI(_attributes[i].LocalName) == namespaceURI)
-                        return _attributes[i].LocalName;
-                }
-            }
 
             if (_parent != null)
                 return _parent.LookupNamespacePrefix(namespaceURI, originalElement); 
@@ -780,17 +747,8 @@
             if (this._ns != otherNode._ns)
                 return false;
 
-            if (this._attributes.Length != otherNode._attributes.Length)
-                return false;
-
             if (this._children.Length != otherNode._children.Length)
                 return false;
-
-            for (int i = 0; i < this._attributes.Length; i++)
-            {
-                if(!this._attributes[i].Equals(otherNode._attributes[i]))
-                    return false;
-            }
 
             for (int i = 0; i < this._children.Length; i++)
             {
@@ -874,12 +832,6 @@
             {
                 for (int i = 0; i < source._children.Length; i++)
                     target._children.Add(source._children[i].CloneNode(true));
-
-                for (int i = 0; i < source._attributes.Length; i++)
-                {
-                    var attr = source._attributes[i];
-                    target._attributes.SetNamedItem(new Attr(attr.Name, attr.Value, attr.NamespaceUri));
-                }
             }
         }
 

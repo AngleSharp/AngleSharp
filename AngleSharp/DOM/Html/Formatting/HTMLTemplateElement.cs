@@ -1,14 +1,15 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+    using System.Linq;
+
     /// <summary>
     /// Represents the template element.
     /// </summary>
     [DOM("HTMLTemplateElement")]
     public sealed class HTMLTemplateElement : HTMLElement, IScopeElement, ITableScopeElement
     {
-        #region Members
+        #region Fields
 
         DocumentFragment _content;
 
@@ -96,13 +97,18 @@ namespace AngleSharp.DOM.Html
             var sb = Pool.NewStringBuilder();
 
             sb.Append(Specification.LessThan).Append(_name);
-            sb.Append(_attributes.ToHtml());
+
+            foreach (var attribute in Attributes)
+                sb.Append(Specification.Space).Append(attribute.ToString());
+
             sb.Append(Specification.GreaterThan);
 
             foreach (var child in Content.ChildNodes)
                 sb.Append(child.ToHtml());
 
-            sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(_name).Append(Specification.GreaterThan);
+            sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(_name);
+            sb.Append(Specification.GreaterThan);
+
             return sb.ToPool();
         }
 

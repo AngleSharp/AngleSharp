@@ -1,13 +1,13 @@
 ﻿namespace AngleSharp.DOM
 {
-    using System;
     using AngleSharp.DOM.Collections;
+    using System;
+    using System.Linq;
     using System.Collections.Generic;
 
     /// <summary>
     /// Represents an element node.
     /// </summary>
-    [DOM("Element")]
     public class Element : Node, IElement
     {
         #region Fields
@@ -17,6 +17,7 @@
         StringMap _dataset;
         CSSStyleDeclaration _style;
         HTMLCollection _elements;
+        AttrContainer _attributes;
 
         #endregion
 
@@ -29,6 +30,7 @@
         {
             _type = NodeType.Element;
             _elements = new HTMLCollection(this, deep: false);
+            _attributes = new AttrContainer();
         }
 
         #endregion
@@ -368,6 +370,15 @@
                     throw new DOMException(ErrorCode.NotSupported);
             }
         }
+        
+        /// <summary>
+        /// Gets the sequence of associated attributes.
+        /// </summary>
+        [DOM("attributes")]
+        public AttrContainer Attributes
+        {
+            get { return _attributes; }
+        }
 
         #endregion
 
@@ -537,7 +548,7 @@
         {
             var declarations = new List<String>();
 
-            for (int i = 0; i < _attributes.Length; i++)
+            for (int i = 0; i < _attributes.Count; i++)
             {
                 var attr = _attributes[i];
 
@@ -548,14 +559,14 @@
             if (_ns != null)
             {
                 if ((_prefix != null || !IsDefaultNamespace(_ns)) && (_prefix == null || LookupNamespaceURI(_prefix) != _ns))
-                    SetAttributeNS(Namespaces.XmlNS, Namespaces.DeclarationFor(_prefix), _ns);
+                    SetAttribute(Namespaces.XmlNS, Namespaces.DeclarationFor(_prefix), _ns);
             }
             else if (LocalName != null)
             {
                 //TODO
             }
 
-            for (int i = 0; i < _attributes.Length; i++)
+            for (int i = 0; i < _attributes.Count; i++)
             {
                 //TODO
                 //http://www.w3.org/TR/DOM-Level-3-Core/namespaces-algorithms.html#isDefaultNamespaceAlgo
@@ -641,6 +652,7 @@
         {
             var node = new Element();
             CopyProperties(this, node, deep);
+            CopyAttributes(this, node);
             return node;
         }
 
@@ -656,7 +668,7 @@
             if (!String.IsNullOrEmpty(_ns) && Prefix == prefix)
                 return _ns;
 
-            for (int i = 0; i < _attributes.Length; i++)
+            for (int i = 0; i < _attributes.Count; i++)
             {
                 var attr = _attributes[i];
 
@@ -700,170 +712,169 @@
         }
 
         /// <summary>
+        /// Returns a boolean value indicating whether the specified element has the specified attribute or not.
+        /// </summary>
+        /// <param name="name">The attributes name.</param>
+        /// <returns>The return value of true or false.</returns>
+        [DOM("hasAttribute")]
+        public Boolean HasAttribute(String name)
+        {
+            for (int i = 0; i < _attributes.Count; i++)
+            {
+                if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Returns a boolean value indicating whether the specified element has the specified attribute or not.
+        /// </summary>
+        /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
+        /// <param name="localName">The attributes name.</param>
+        /// <returns>The return value of true or false.</returns>
+        [DOM("hasAttributeNS")]
+        public Boolean HasAttribute(String namespaceUri, String localName)
+        {
+            for (int i = 0; i < _attributes.Count; i++)
+            {
+                if (_attributes[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase) && _attributes[i].NamespaceUri == namespaceUri)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Returns the value of the named attribute on the specified element.
+        /// </summary>
+        /// <param name="name">The name of the attribute whose value you want to get.</param>
+        /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
+        [DOM("getAttribute")]
+        public String GetAttribute(String name)
+        {
+            for (int i = 0; i < _attributes.Count; i++)
+            {
+                if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    return _attributes[i].Value;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the value of the named attribute on the specified element.
+        /// </summary>
+        /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
+        /// <param name="localName">The name of the attribute whose value you want to get.</param>
+        /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
+        [DOM("getAttributeNS")]
+        public String GetAttribute(String namespaceUri, String localName)
+        {
+            for (int i = 0; i < _attributes.Count; i++)
+            {
+                if (_attributes[i].LocalName == localName && _attributes[i].NamespaceUri == namespaceUri)
+                    return _attributes[i].Value;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Adds a new attribute or changes the value of an existing attribute on the specified element.
         /// </summary>
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
         /// <returns>The current element.</returns>
         [DOM("setAttribute")]
-        public Element SetAttribute(String name, String value)
+        public void SetAttribute(String name, String value)
         {
-            var oldAttr = value == null ? _attributes.RemoveNamedItem(name) : _attributes.SetNamedItem(new Attr(name, value));
-            return this;
-        }
+            if (value == null)
+            {
+                RemoveAttribute(name);
+                return;
+            }
 
-        /// <summary>
-        /// Returns the value of the named attribute on the specified element.
-        /// </summary>
-        /// <param name="attrName">The name of the attribute whose value you want to get.</param>
-        /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
-        [DOM("getAttribute")]
-        public String GetAttribute(String attrName)
-        {
-            var attr = _attributes[attrName];
+            for (int i = 0; i < _attributes.Count; i++)
+            {
+                if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                {
+                    _attributes[i].Value = value;
+                    return;
+                }
+            }
 
-            if (attr == null)
-                return null;
-
-            return attr.Value;
-        }
-
-        /// <summary>
-        /// Returns a boolean value indicating whether the specified element has the specified attribute or not.
-        /// </summary>
-        /// <param name="attrName">The attributes name.</param>
-        /// <returns>The return value of true or false.</returns>
-        [DOM("hasAttribute")]
-        public Boolean HasAttribute(String attrName)
-        {
-            return _attributes[attrName] != null;
-        }
-
-        /// <summary>
-        /// Removes an attribute from the specified element.
-        /// </summary>
-        /// <param name="attrName">Is a string that names the attribute to be removed.</param>
-        /// <returns>The current element.</returns>
-        [DOM("removeAttribute")]
-        public Element RemoveAttribute(String attrName)
-        {
-            var node = _attributes.RemoveNamedItem(attrName);
-            return this;
+            _attributes.Add(new Attr(name, value) { Parent = this });
+            OnAttributeChanged(name);
         }
 
         /// <summary>
         /// Adds a new attribute or changes the value of an existing attribute on the specified element.
         /// </summary>
-        /// <param name="namespaceURI">A string specifying the namespace of the attribute.</param>
+        /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
-        /// <returns>The current element.</returns>
         [DOM("setAttributeNS")]
-        public Element SetAttributeNS(String namespaceURI, String name, String value)
+        public void SetAttribute(String namespaceUri, String name, String value)
         {
-            var oldAttr = value == null ? _attributes.RemoveNamedItem(name) : _attributes.SetNamedItem(new Attr(name, value, namespaceURI));
-            return this;
-        }
+            if (value == null)
+            {
+                RemoveAttribute(namespaceUri, name);
+                return;
+            }
 
-        /// <summary>
-        /// Returns the value of the named attribute on the specified element.
-        /// </summary>
-        /// <param name="namespaceURI">A string specifying the namespace of the attribute.</param>
-        /// <param name="localAttrName">The name of the attribute whose value you want to get.</param>
-        /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
-        [DOM("getAttributeNS")]
-        public String GetAttributeNS(String namespaceURI, String localAttrName)
-        {
-            var attr = _attributes.GetNamedItemNS(namespaceURI, localAttrName);
+            for (int i = 0; i < _attributes.Count; i++)
+            {
+                if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                {
+                    _attributes[i].Value = value;
+                    return;
+                }
+            }
 
-            if (attr == null)
-                return null;
-
-            return attr.Value;
-        }
-
-        /// <summary>
-        /// Returns a boolean value indicating whether the specified element has the specified attribute or not.
-        /// </summary>
-        /// <param name="namespaceURI">A string specifying the namespace of the attribute.</param>
-        /// <param name="attrName">The attributes name.</param>
-        /// <returns>The return value of true or false.</returns>
-        [DOM("hasAttributeNS")]
-        public Boolean HasAttributeNS(String namespaceURI, String attrName)
-        {
-            return _attributes.GetNamedItemNS(namespaceURI, attrName) != null;
+            _attributes.Add(new Attr(name, value, namespaceUri) { Parent = this });
+            OnAttributeChanged(name);
         }
 
         /// <summary>
         /// Removes an attribute from the specified element.
         /// </summary>
-        /// <param name="namespaceURI">A string specifying the namespace of the attribute.</param>
-        /// <param name="localAttrName">Is a string that names the attribute to be removed.</param>
+        /// <param name="name">Is a string that names the attribute to be removed.</param>
         /// <returns>The current element.</returns>
-        [DOM("removeAttributeNS")]
-        public Element RemoveAttributeNS(String namespaceURI, String localAttrName)
+        [DOM("removeAttribute")]
+        public void RemoveAttribute(String name)
         {
-            var node = _attributes.RemoveNamedItemNS(namespaceURI, localAttrName);
-            return this;
+            for (int i = 0; i < _attributes.Count; i++)
+            {
+                if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                {
+                    _attributes.RemoveAt(i);
+                    OnAttributeChanged(name);
+                    break;
+                }
+            }
         }
 
         /// <summary>
-        /// Adds a new Attr node.
-        /// </summary>
-        /// <param name="attr">Is the Attr node to set on the element.</param>
-        /// <returns>The replaced attribute node, if any, returned by this function.</returns>
-        [DOM("setAttributeNode")]
-        public Attr SetAttributeNode(Attr attr)
-        {
-            var oldAttr = _attributes.SetNamedItem(attr);
-            return oldAttr;
-        }
-
-        /// <summary>
-        /// Returns the value of the named attribute.
-        /// </summary>
-        /// <param name="attrName">The name of the attribute whose value you want to get.</param>
-        /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute.</returns>
-        [DOM("getAttributeNode")]
-        public Attr GetAttributeNode(String attrName)
-        {
-            return _attributes[attrName];
-        }
-
-        /// <summary>
-        /// Removes an attribute.
-        /// </summary>
-        /// <param name="attr">The Attr node that needs to be removed..</param>
-        /// <returns>The removed Attr node..</returns>
-        [DOM("removeAttributeNode")]
-        public Attr RemoveAttributeNode(Attr attr)
-        {
-            var node = _attributes.RemoveNamedItem(attr.Name);
-            return node;
-        }
-
-        /// <summary>
-        /// Adds a new namespaced Attr node.
+        /// Removes an attribute from the specified element.
         /// </summary>
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
-        /// <param name="attr">Is the Attr node to set on the element.</param>
-        /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute.</returns>
-        [DOM("setAttributeNodeNS")]
-        public Attr SetAttributeNodeNS(String namespaceUri, Attr attr)
+        /// <param name="localName">Is a string that names the attribute to be removed.</param>
+        /// <returns>The current element.</returns>
+        [DOM("removeAttributeNS")]
+        public void RemoveAttribute(String namespaceUri, String localName)
         {
-            return SetAttributeNode(new Attr(attr.Name, attr.Value, namespaceUri));
-        }
-
-        /// <summary>
-        /// Returns the value of the named attribute.
-        /// </summary>
-        /// <param name="namespaceURI">A string specifying the namespace of the attribute.</param>
-        /// <param name="attrName">The name of the attribute whose value you want to get.</param>
-        /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute.</returns>
-        [DOM("getAttributeNodeNS")]
-        public Attr GetAttributeNodeNS(String namespaceURI, String attrName)
-        {
-            return _attributes.GetNamedItemNS(namespaceURI, attrName);
+            for (int i = 0; i < _attributes.Count; i++)
+            {
+                if (_attributes[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase) && _attributes[i].NamespaceUri == namespaceUri)
+                {
+                    var name = _attributes[i].Name;
+                    _attributes.RemoveAt(i);
+                    OnAttributeChanged(name);
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -976,6 +987,27 @@
             return this;
         }
 
+        public override Boolean IsEqualNode(Node otherNode)
+        {
+            var otherElement = otherNode as Element;
+
+            if (otherElement != null)
+            {
+                if (_attributes.Count != otherElement._attributes.Count)
+                    return false;
+
+                for (int i = 0; i < _attributes.Count; i++)
+                {
+                    if (!otherElement._attributes.Any(m => m.Name == _attributes[i].Name && m.Value == _attributes[i].Value))
+                        return false;
+                }
+
+                return base.IsEqualNode(otherNode);
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Inserts new HTML elements specified by the given HTML string at
         /// a position relative to the current element specified by the position.
@@ -1021,19 +1053,36 @@
             var sb = Pool.NewStringBuilder();
 
             sb.Append(Specification.LessThan).Append(_name);
-            sb.Append(_attributes.ToHtml());
+
+            foreach (var attribute in _attributes)
+                sb.Append(Specification.Space).Append(attribute.ToString());
+
             sb.Append(Specification.GreaterThan);
 
             foreach (var child in _children)
                 sb.Append(child.ToHtml());
 
-            sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(_name).Append(Specification.GreaterThan);
+            sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(_name);
+            sb.Append(Specification.GreaterThan);
+
             return sb.ToPool();
         }
 
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Copies the attributes from the source element to the target element.
+        /// Each attribute will be recreated on the target.
+        /// </summary>
+        /// <param name="source">The source of the attributes.</param>
+        /// <param name="target">The target where to create the attributes.</param>
+        protected static void CopyAttributes(Element source, Element target)
+        {
+            for (int i = 0; i < source._attributes.Count; i++)
+                target.SetAttribute(source._attributes[i].Name, source._attributes[i].Value);
+        }
 
         /// <summary>
         /// Firing a simple event named e means that a trusted event with the name e,

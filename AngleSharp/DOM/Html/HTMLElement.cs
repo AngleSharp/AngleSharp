@@ -52,6 +52,7 @@
         {
             var node = HTMLFactory.Create(_name, _owner);
             CopyProperties(this, node, deep);
+            CopyAttributes(this, node);
             return node;
         }
 

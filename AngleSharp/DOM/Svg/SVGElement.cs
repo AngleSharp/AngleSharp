@@ -44,6 +44,7 @@ namespace AngleSharp.DOM.Svg
         {
             var node = SVGFactory.Create(_name, _owner);
             CopyProperties(this, node, deep);
+            CopyAttributes(this, node);
             return node;
         }
 

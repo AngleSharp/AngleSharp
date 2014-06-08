@@ -193,7 +193,7 @@
         internal override void OnAttributeChanged(String name)
         {
             if (name.Equals("value", StringComparison.Ordinal))
-                Value = _attributes["value"].Value;
+                Value = GetAttribute("value");
             else
                 base.OnAttributeChanged(name);
         }

@@ -1,31 +1,23 @@
 ﻿namespace AngleSharp.DOM
 {
     using AngleSharp.DOM.Collections;
-using System;
+    using System;
 
     /// <summary>
     /// Represents a generic node attribute.
     /// </summary>
-    public sealed class Attr : IAttr, IEquatable<Attr>
+    public sealed class Attr : IAttr, IEquatable<IAttr>
     {
         #region Fields
 
         readonly String _name;
         readonly String _ns;
         String _value;
-        NamedNodeMap _parent;
+        Element _parent;
 
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Creates a new NodeAttribute with empty name and value.
-        /// </summary>
-        internal Attr(NamedNodeMap parent)
-            : this(String.Empty, String.Empty, null)
-        {
-        }
 
         /// <summary>
         /// Creates a new NodeAttribute with empty value.
@@ -56,7 +48,7 @@ using System;
         {
             _name = name;
             _value = value;
-            _ns = ns;
+            _ns = ns ?? String.Empty;
         }
 
         #endregion
@@ -64,9 +56,9 @@ using System;
         #region Properties
 
         /// <summary>
-        /// Gets or sets the parent list.
+        /// Gets or sets the parent element.
         /// </summary>
-        internal NamedNodeMap Parent
+        internal Element Parent
         {
             get { return _parent; }
             set { _parent = value; }
@@ -152,7 +144,7 @@ using System;
         void RaiseChanged()
         {
             if (_parent != null)
-                _parent.RaiseChanged(_name);
+                _parent.OnAttributeChanged(_name);
         }
 
         #endregion
@@ -164,12 +156,12 @@ using System;
         /// </summary>
         /// <param name="other">The attibute to compare to.</param>
         /// <returns>True if both attributes are equal, otherwise false.</returns>
-        public Boolean Equals(Attr other)
+        public Boolean Equals(IAttr other)
         {
             if (other == this)
                 return true;
 
-            return this._value == other._value && this._name == other._name && this._ns == other._ns;
+            return _value == other.Value && _name == other.Name;
         }
 
         #endregion

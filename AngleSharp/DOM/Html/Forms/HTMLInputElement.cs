@@ -591,9 +591,9 @@
                 {
                     dataSet.Append(Name, Value, Type.ToString());
 
-                    if (_attributes[AttributeNames.DirName] != null)
+                    if (HasAttribute(AttributeNames.DirName))
                     {
-                        var dirname = _attributes[AttributeNames.DirName].Value;
+                        var dirname = GetAttribute(AttributeNames.DirName);
 
                         if (String.IsNullOrEmpty(dirname))
                             break;

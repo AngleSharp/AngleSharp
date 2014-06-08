@@ -5,6 +5,7 @@
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Linq;
 
     /// <summary>
     /// Represents the form element.
@@ -229,7 +230,7 @@
             //TODO
             //var browsingContext = new object();
 
-            if (!submittedFromSubmitMethod && from.Attributes[AttributeNames.FormNoValidate] == null && NoValidate)
+            if (!submittedFromSubmitMethod && !from.Attributes.Any(m => m.Name == AttributeNames.FormNoValidate) && NoValidate)
             {
                 if (!CheckValidity())
                 {
