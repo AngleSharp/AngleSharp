@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML br element.
     /// </summary>
-    [DOM("HTMLBRElement")]
+    [DomName("HTMLBRElement")]
     public sealed class HTMLBRElement : HTMLElement
     {
         #region ctor

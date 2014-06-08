@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML html element.
     /// </summary>
-    [DOM("HTMLHtmlElement")]
+    [DomName("HTMLHtmlElement")]
     public sealed class HTMLHtmlElement : HTMLElement, IScopeElement, ITableScopeElement, IImplClosed
     {
         #region ctor

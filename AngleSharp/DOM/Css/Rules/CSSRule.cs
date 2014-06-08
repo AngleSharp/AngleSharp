@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a CSS rule.
     /// </summary>
-    [DOM("CSSRule")]
+    [DomName("CSSRule")]
     public abstract class CSSRule : ICssObject
     {
         #region Fields
@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets the textual representation of the rule.
         /// </summary>
-        [DOM("cssText")]
+        [DomName("cssText")]
         public String CssText
         {
             get { return ToCss(); }
@@ -53,7 +53,7 @@
         /// <summary>
         /// Gets the containing rule, otherwise null.
         /// </summary>
-        [DOM("parentRule")]
+        [DomName("parentRule")]
         public CSSRule ParentRule
         {
             get { return _parentRule; }
@@ -63,7 +63,7 @@
         /// <summary>
         /// Gets the CSSStyleSheet object for the style sheet that contains this rule.
         /// </summary>
-        [DOM("parentStyleSheet")]
+        [DomName("parentStyleSheet")]
         public CSSStyleSheet ParentStyleSheet
         {
             get { return _parent; }
@@ -74,7 +74,7 @@
         /// <summary>
         /// Gets the type constant indicating the type of CSS rule.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public CssRuleType Type
         {
             get { return _type; }

@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an anchor element.
     /// </summary>
-    [DOM("HTMLAnchorElement")]
+    [DomName("HTMLAnchorElement")]
     public sealed class HTMLAnchorElement : HTMLElement, IFormatting
     {
         #region Members
@@ -32,7 +32,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the accesskey HTML attribute.
         /// </summary>
-        [DOM("accessKey")]
+        [DomName("accessKey")]
         public String AccessKey
         {
             get { return GetAttribute(AttributeNames.AccessKey); }
@@ -42,7 +42,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the character encoding for the target resource.
         /// </summary>
-        [DOM("charset")]
+        [DomName("charset")]
         public String Charset
         {
             get { return GetAttribute(AttributeNames.Charset); }
@@ -54,7 +54,7 @@ namespace AngleSharp.DOM.Html
         /// The value represent the proposed name of the file. If the name is not a valid filename of the
         /// underlying OS, the navigator will adapt it.
         /// </summary>
-        [DOM("download")]
+        [DomName("download")]
         public String Download
         {
             get { return GetAttribute(AttributeNames.Download); }
@@ -64,7 +64,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value of the href attribute.
         /// </summary>
-        [DOM("href")]
+        [DomName("href")]
         public String Href
         {
             get { return HyperRef(GetAttribute(AttributeNames.Href)); }
@@ -74,7 +74,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the language code for the linked resource.
         /// </summary>
-        [DOM("hreflang")]
+        [DomName("hreflang")]
         public String Hreflang
         {
             get { return GetAttribute(AttributeNames.HrefLang); }
@@ -85,7 +85,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the media HTML attribute, indicating the intended
         /// media for the linked resource.
         /// </summary>
-        [DOM("media")]
+        [DomName("media")]
         public String Media
         {
             get { return GetAttribute(AttributeNames.Media); }
@@ -95,7 +95,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the anchor name.
         /// </summary>
-        [DOM("name")]
+        [DomName("name")]
         public String Name
         {
             get { return GetAttribute(AttributeNames.Name); }
@@ -106,7 +106,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the rel HTML attribute, specifying the relationship
         /// of the target object to the link object.
         /// </summary>
-        [DOM("rel")]
+        [DomName("rel")]
         public String Rel
         {
             get { return GetAttribute(AttributeNames.Rel); }
@@ -117,7 +117,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the fragment identifier, including the leading hash
         /// mark ('#'), if any, in the referenced URL.
         /// </summary>
-        [DOM("hash")]
+        [DomName("hash")]
         public String Hash
         {
             get { return new Location(Href).Hash; }
@@ -133,7 +133,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the hostname and port (if it's not the default port)
         /// in the referenced URL.
         /// </summary>
-        [DOM("host")]
+        [DomName("host")]
         public String Host
         {
             get { return new Location(Href).Host; }
@@ -148,7 +148,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the hostname in the referenced URL.
         /// </summary>
-        [DOM("hostname")]
+        [DomName("hostname")]
         public String HostName
         {
             get { return new Location(Href).HostName; }
@@ -164,7 +164,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the path name component, if any, of the
         /// referenced URL.
         /// </summary>
-        [DOM("pathname")]
+        [DomName("pathname")]
         public String PathName
         {
             get { return new Location(Href).PathName; }
@@ -179,7 +179,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the port component, if any, of the referenced URL.
         /// </summary>
-        [DOM("port")]
+        [DomName("port")]
         public String Port
         {
             get { return new Location(Href).Port; }
@@ -195,7 +195,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the protocol component, including trailing
         /// colon (':'), of the referenced URL.
         /// </summary>
-        [DOM("protocol")]
+        [DomName("protocol")]
         public String Protocol
         {
             get { return new Location(Href).Protocol; }
@@ -211,7 +211,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the search element, including leading question
         /// mark ('?'), if any, of the referenced URL.
         /// </summary>
-        [DOM("search")]
+        [DomName("search")]
         public String Search
         {
             get { return new Location(Href).Search; }
@@ -226,7 +226,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the rel HTML attribute, as a list of tokens.
         /// </summary>
-        [DOM("relList")]
+        [DomName("relList")]
         public ITokenList RelList
         {
             get { return _relList ?? (_relList = new TokenList(this, AttributeNames.Rel, Rel)); }
@@ -235,7 +235,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the name of the target frame to which the resource applies.
         /// </summary>
-        [DOM("target")]
+        [DomName("target")]
         public String Target
         {
             get { return GetAttribute(AttributeNames.Target); }
@@ -245,7 +245,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the text of the anchor tag (same as TextContent).
         /// </summary>
-        [DOM("text")]
+        [DomName("text")]
         public String Text
         {
             get { return TextContent; }
@@ -255,7 +255,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the type of the resource. If present, the attribute must be a valid MIME type.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public String Type
         {
             get { return GetAttribute(AttributeNames.Type); }

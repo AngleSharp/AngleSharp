@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents a document node.
     /// </summary>
-    [DOM("Document")]
+    [DomName("Document")]
     public class Document : Node, IDocument, IDocumentStyle
     {
         #region Fields
@@ -41,7 +41,7 @@
         /// <summary>
         /// This event is fired when the ready state of the document changes.
         /// </summary>
-        [DOM("onreadystatechange")]
+        [DomName("onreadystatechange")]
         public event EventHandler OnReadyStateChange;
 
         #endregion
@@ -72,7 +72,7 @@
         /// <summary>
         /// Gets an indicator if loading the document should be asynchronous or synchronous.
         /// </summary>
-        [DOM("async")]
+        [DomName("async")]
         public Boolean Async
         {
             get;
@@ -82,7 +82,7 @@
         /// <summary>
         /// Gets the DOMImplementation object that handles this document.
         /// </summary>
-        [DOM("implementation")]
+        [DomName("implementation")]
         public DOMImplementation Implementation
         {
             get { return _implementation ?? (_implementation = new DOMImplementation()); }
@@ -91,7 +91,7 @@
         /// <summary>
         /// Gets a string containing the date and time on which the current document was last modified.
         /// </summary>
-        [DOM("lastModified")]
+        [DomName("lastModified")]
         public DateTime LastModified
         {
             get;
@@ -101,7 +101,7 @@
         /// <summary>
         /// Gets the document type.
         /// </summary>
-        [DOM("doctype")]
+        [DomName("doctype")]
         public DocumentType Doctype
         {
             get { return FindChild<DocumentType>(this); }
@@ -110,7 +110,7 @@
         /// <summary>
         /// Gets the Content-Type from the MIME Header of the current document.
         /// </summary>
-        [DOM("contentType")]
+        [DomName("contentType")]
         public String ContentType
         {
             get { return _contentType; }
@@ -119,7 +119,7 @@
         /// <summary>
         /// Gets or sets the ready state of the document.
         /// </summary>
-        [DOM("readyState")]
+        [DomName("readyState")]
         public Readiness ReadyState
         {
             get { return _ready; }
@@ -135,7 +135,7 @@
         /// <summary>
         /// Gets a list of stylesheet objects for stylesheets explicitly linked into or embedded in a document.
         /// </summary>
-        [DOM("styleSheets")]
+        [DomName("styleSheets")]
         public StyleSheetList StyleSheets
         {
             get { return _styleSheets; }
@@ -144,7 +144,7 @@
         /// <summary>
         /// Gets a live list of all of the currently-available style sheet sets.
         /// </summary>
-        [DOM("styleSheetSets")]
+        [DomName("styleSheetSets")]
         public DOMStringList StyleSheetSets
         {
             get { return _styles ?? (_styles = new DOMStringList(_styleSheets.Select(m => m.Title))); }
@@ -153,7 +153,7 @@
         /// <summary>
         /// Gets the URI of the page that linked to this page.
         /// </summary>
-        [DOM("referrer")]
+        [DomName("referrer")]
         public String Referrer
         {
             get { return _referrer; }
@@ -163,7 +163,7 @@
         /// <summary>
         /// Gets or sets the URI of the current document.
         /// </summary>
-        [DOM("location")]
+        [DomName("location")]
         public Location Location
         {
             get { return _location; }
@@ -173,7 +173,7 @@
         /// <summary>
         /// Gets the URI of the current document.
         /// </summary>
-        [DOM("documentURI")]
+        [DomName("documentURI")]
         public String DocumentUri
         {
             get { return _location.Href; }
@@ -183,7 +183,7 @@
         /// <summary>
         /// Gets the window object associated with the document or null if none available.
         /// </summary>
-        [DOM("defaultView")]
+        [DomName("defaultView")]
         public IWindow DefaultView 
         {
             get; //TODO
@@ -193,7 +193,7 @@
         /// <summary>
         /// Gets the parent window object if any.
         /// </summary>
-        [DOM("parentWindow")]
+        [DomName("parentWindow")]
         public IWindow ParentWindow
         {
             get { return DefaultView; }
@@ -202,7 +202,7 @@
         /// <summary>
         /// Gets or sets the character encoding of the current document.
         /// </summary>
-        [DOM("characterSet")]
+        [DomName("characterSet")]
         public String CharacterSet
         {
             get { return _encoding ?? _originalEncoding; }
@@ -212,7 +212,7 @@
         /// <summary>
         /// Gets the encoding that was used when the document was parsed.
         /// </summary>
-        [DOM("inputEncoding")]
+        [DomName("inputEncoding")]
         public String InputEncoding
         {
             get { return _originalEncoding; }
@@ -228,7 +228,7 @@
         /// <summary>
         /// Gets the root element of the document.
         /// </summary>
-        [DOM("documentElement")]
+        [DomName("documentElement")]
         public Element DocumentElement
         {
             get { return FindChild<Element>(this); }
@@ -237,7 +237,7 @@
         /// <summary>
         /// Gets the currently focused element, that is, the element that will get keystroke events if the user types any.
         /// </summary>
-        [DOM("activeElement")]
+        [DomName("activeElement")]
         public Element ActiveElement 
         {
             get;
@@ -275,7 +275,7 @@
         /// </summary>
         /// <param name="type">A string that represents the type of event to be created.</param>
         /// <returns>The created Event object.</returns>
-        [DOM("createEvent")]
+        [DomName("createEvent")]
         public IEvent CreateEvent(String type)
         {
             //TODO
@@ -286,7 +286,7 @@
         /// Returns a new Range object. (NOT IMPLEMENTED YET)
         /// </summary>
         /// <returns>The created range object.</returns>
-        [DOM("createRange")]
+        [DomName("createRange")]
         public IRange CreateRange()
         {
             //TODO
@@ -298,7 +298,7 @@
         /// </summary>
         /// <param name="nodes">The nodes to prepend.</param>
         /// <returns>The current document.</returns>
-        [DOM("prepend")]
+        [DomName("prepend")]
         public Document Prepend(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -315,7 +315,7 @@
         /// </summary>
         /// <param name="nodes">The nodes to append.</param>
         /// <returns>The current document.</returns>
-        [DOM("append")]
+        [DomName("append")]
         public Document Append(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -335,7 +335,7 @@
         /// node need to be imported.</param>
         /// <returns>The new node that is imported into the document. The new node's parentNode is null,
         /// since it has not yet been inserted into the document tree.</returns>
-        [DOM("importNode")]
+        [DomName("importNode")]
         public Node ImportNode(Node externalNode, Boolean deep = true)
         {
             var clone = externalNode.CloneNode(deep);
@@ -348,7 +348,7 @@
         /// </summary>
         /// <param name="name">A string containing the name of the attribute.</param>
         /// <returns>The attribute node.</returns>
-        [DOM("createAttribute")]
+        [DomName("createAttribute")]
         public Attr CreateAttribute(String name)
         {
             return new Attr(name);
@@ -360,7 +360,7 @@
         /// <param name="namespaceURI">Specifies the namespace URI to associate with the attribute.</param>
         /// <param name="name">A string containing the name of the attribute.</param>
         /// <returns>The attribute node.</returns>
-        [DOM("createAttributeNS")]
+        [DomName("createAttributeNS")]
         public Attr CreateAttributeNS(String namespaceURI, String name)
         {
             return new Attr(name, String.Empty, namespaceURI);
@@ -371,7 +371,7 @@
         /// </summary>
         /// <param name="tagName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element object.</returns>
-        [DOM("createElement")]
+        [DomName("createElement")]
         public virtual Element CreateElement(String tagName)
         {
             return new Element { NodeName = tagName, OwnerDocument = this };
@@ -383,7 +383,7 @@
         /// <param name="namespaceURI">Specifies the namespace URI to associate with the element.</param>
         /// <param name="tagName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element.</returns>
-        [DOM("createElementNS")]
+        [DomName("createElementNS")]
         public Element CreateElementNS(String namespaceURI, String tagName)
         {
             Element element = null;
@@ -405,7 +405,7 @@
         /// </summary>
         /// <param name="data">A string containing the data to be added to the Comment.</param>
         /// <returns></returns>
-        [DOM("createComment")]
+        [DomName("createComment")]
         public IComment CreateComment(String data)
         {
             if (data.Contains("--"))
@@ -418,7 +418,7 @@
         /// Creates an empty DocumentFragment object.
         /// </summary>
         /// <returns>A new document fragment.</returns>
-        [DOM("createDocumentFragment")]
+        [DomName("createDocumentFragment")]
         public IDocumentFragment CreateDocumentFragment()
         {
             return new DocumentFragment() { OwnerDocument = this };
@@ -430,7 +430,7 @@
         /// <param name="target">The target part of the processing instruction.</param>
         /// <param name="data">The data for the node.</param>
         /// <returns>A new processing instruction.</returns>
-        [DOM("createProcessingInstruction")]
+        [DomName("createProcessingInstruction")]
         public IProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
             return new ProcessingInstruction(target) { Data = data, OwnerDocument = this };
@@ -443,7 +443,7 @@
         /// </summary>
         /// <param name="name">The name of the entity to reference.</param>
         /// <returns>The new EntityReference object.</returns>
-        [DOM("createEntityReference")]
+        [DomName("createEntityReference")]
         public EntityReference CreateEntityReference(String name)
         {
             return new EntityReference(name) { OwnerDocument = this };
@@ -454,7 +454,7 @@
         /// </summary>
         /// <param name="data">A string containing the data to be put in the text node.</param>
         /// <returns>The created Text node.</returns>
-        [DOM("createTextNode")]
+        [DomName("createTextNode")]
         public IText CreateTextNode(String data)
         {
             return new TextNode(data) { OwnerDocument = this };
@@ -466,7 +466,7 @@
         /// </summary>
         /// <param name="elementId">A case-sensitive string representing the unique ID of the element being sought.</param>
         /// <returns>The matching element.</returns>
-        [DOM("getElementById")]
+        [DomName("getElementById")]
         public Element GetElementById(String elementId)
         {
             return GetElementById(_children, elementId);
@@ -478,7 +478,7 @@
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
-        [DOM("querySelector")]
+        [DomName("querySelector")]
         public Element QuerySelector(String selectors)
         {
             return _children.QuerySelector(selectors);
@@ -490,7 +490,7 @@
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>A list of nodes.</returns>
-        [DOM("querySelectorAll")]
+        [DomName("querySelectorAll")]
         public HTMLCollection QuerySelectorAll(String selectors)
         {
             return _children.QuerySelectorAll(selectors);
@@ -501,7 +501,7 @@
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of elements.</returns>
-        [DOM("getElementsByClassName")]
+        [DomName("getElementsByClassName")]
         public HTMLCollection GetElementsByClassName(String classNames)
         {
             return _children.GetElementsByClassName(classNames);
@@ -512,7 +512,7 @@
         /// </summary>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
-        [DOM("getElementsByTagName")]
+        [DomName("getElementsByTagName")]
         public HTMLCollection GetElementsByTagName(String tagName)
         {
             return _children.GetElementsByTagName(tagName);
@@ -525,7 +525,7 @@
         /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
-        [DOM("getElementsByTagNameNS")]
+        [DomName("getElementsByTagNameNS")]
         public HTMLCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return _children.GetElementsByTagNameNS(namespaceURI, tagName);
@@ -536,7 +536,7 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DOM("cloneNode")]
+        [DomName("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
             var node = new Document();
@@ -551,7 +551,7 @@
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        [DOM("lookupNamespaceURI")]
+        [DomName("lookupNamespaceURI")]
         public override String LookupNamespaceURI(String prefix)
         {
             var root = DocumentElement;
@@ -568,7 +568,7 @@
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        [DOM("lookupPrefix")]
+        [DomName("lookupPrefix")]
         public override String LookupPrefix(String namespaceURI)
         {
             var root = DocumentElement;
@@ -584,7 +584,7 @@
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        [DOM("isDefaultNamespace")]
+        [DomName("isDefaultNamespace")]
         public override Boolean IsDefaultNamespace(String namespaceURI)
         {
             var root = DocumentElement;
@@ -600,7 +600,7 @@
         /// form. Normalizes all text nodes and fixes namespaces.
         /// </summary>
         /// <returns>The current document.</returns>
-        [DOM("normalize")]
+        [DomName("normalize")]
         public override Node Normalize()
         {
             for (int i = 0; i < _children.Length; i++)

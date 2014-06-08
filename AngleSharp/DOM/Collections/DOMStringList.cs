@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents a string list.
     /// </summary>
-    [DOM("StringList")]
+    [DomName("StringList")]
     public sealed class DOMStringList : IEnumerable<String>
     {
         #region Fields
@@ -33,7 +33,7 @@
         /// </summary>
         /// <param name="index">The 0-based index of the element.</param>
         /// <returns>The element or null.</returns>
-        [DOM("item")]
+        [DomName("item")]
         public String this[Int32 index]
         {
             get
@@ -57,7 +57,7 @@
         /// <summary>
         /// Gets the number of entries.
         /// </summary>
-        [DOM("length")]
+        [DomName("length")]
         public Int32 Length
         {
             get 
@@ -80,7 +80,7 @@
         /// </summary>
         /// <param name="entry">The entry that will be looked for.</param>
         /// <returns>True if the element is available, otherwise false.</returns>
-        [DOM("contains")]
+        [DomName("contains")]
         public Boolean Contains(String entry)
         {
             foreach (var _entry in _list)

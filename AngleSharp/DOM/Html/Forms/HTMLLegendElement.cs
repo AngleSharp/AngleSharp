@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML legend element.
     /// </summary>
-    [DOM("HTMLLegendElement")]
+    [DomName("HTMLLegendElement")]
     public sealed class HTMLLegendElement : HTMLElement
     {
         internal HTMLLegendElement()

@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents the form element.
     /// </summary>
-    [DOM("HTMLFormElement")]
+    [DomName("HTMLFormElement")]
     public sealed class HTMLFormElement : HTMLElement
     {
         #region Fields
@@ -64,7 +64,7 @@
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        [DOM("name")]
+        [DomName("name")]
         public String Name
         {
             get { return GetAttribute("name"); }
@@ -74,7 +74,7 @@
         /// <summary>
         /// Gets the number of elements in the Elements collection.
         /// </summary>
-        [DOM("length")]
+        [DomName("length")]
         public Int32 Length
         {
             get { return _elements.Length; }
@@ -83,7 +83,7 @@
         /// <summary>
         /// Gets all the form controls belonging to this form element.
         /// </summary>
-        [DOM("elements")]
+        [DomName("elements")]
         public HTMLFormControlsCollection Elements
         {
             get { return _elements; }
@@ -92,7 +92,7 @@
         /// <summary>
         /// Gets or sets the character encodings that are to be used for the submission.
         /// </summary>
-        [DOM("acceptCharset")]
+        [DomName("acceptCharset")]
         public String AcceptCharset
         {
             get { return GetAttribute("acceptCharset"); }
@@ -102,7 +102,7 @@
         /// <summary>
         /// Gets or sets the form's name within the forms collection.
         /// </summary>
-        [DOM("action")]
+        [DomName("action")]
         public String Action
         {
             get { return GetAttribute("action"); }
@@ -112,7 +112,7 @@
         /// <summary>
         /// Gets or sets if autocomplete is turned on or off.
         /// </summary>
-        [DOM("autocomplete")]
+        [DomName("autocomplete")]
         public PowerState Autocomplete
         {
             get { return ToEnum(GetAttribute("autocomplete"), PowerState.On); }
@@ -122,7 +122,7 @@
         /// <summary>
         /// Gets or sets the encoding to use for sending the form.
         /// </summary>
-        [DOM("enctype")]
+        [DomName("enctype")]
         public String Enctype
         {
             get { return CheckEncType(GetAttribute("enctype")); }
@@ -132,7 +132,7 @@
         /// <summary>
         /// Gets or sets the encoding to use for sending the form.
         /// </summary>
-        [DOM("encoding")]
+        [DomName("encoding")]
         public String Encoding
         {
             get { return Enctype; }
@@ -142,7 +142,7 @@
         /// <summary>
         /// Gets or sets the method to use for transmitting the form.
         /// </summary>
-        [DOM("method")]
+        [DomName("method")]
         public HttpMethod Method
         {
             get { return ToEnum(GetAttribute("method"), HttpMethod.Get); }
@@ -152,7 +152,7 @@
         /// <summary>
         /// Gets or sets the indicator that the form is not to be validated during submission.
         /// </summary>
-        [DOM("noValidate")]
+        [DomName("noValidate")]
         public Boolean NoValidate
         {
             get { return GetAttribute("novalidate") != null; }
@@ -162,7 +162,7 @@
         /// <summary>
         /// Gets or sets the target name of the response to the request.
         /// </summary>
-        [DOM("target")]
+        [DomName("target")]
         public String Target
         {
             get { return GetAttribute("target"); }
@@ -184,7 +184,7 @@
         /// <summary>
         /// Submits the form element from the form element itself.
         /// </summary>
-        [DOM("submit")]
+        [DomName("submit")]
         public void Submit()
         {
             SubmitForm(this, true);
@@ -193,7 +193,7 @@
         /// <summary>
         /// Resets the form to the previous (default) state.
         /// </summary>
-        [DOM("reset")]
+        [DomName("reset")]
         public void Reset()
         {
             foreach (var element in _elements)
@@ -204,7 +204,7 @@
         /// Checks if the form is valid, i.e. if all fields fulfill their requirements.
         /// </summary>
         /// <returns>True if the form is valid, otherwise false.</returns>
-        [DOM("checkValidity")]
+        [DomName("checkValidity")]
         public Boolean CheckValidity()
         {
             foreach (var element in _elements)

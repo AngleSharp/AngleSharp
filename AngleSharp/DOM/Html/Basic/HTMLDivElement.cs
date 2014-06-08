@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML div element.
     /// </summary>
-    [DOM("HTMLDivElement")]
+    [DomName("HTMLDivElement")]
     public sealed class HTMLDivElement : HTMLElement
     {
         #region ctor

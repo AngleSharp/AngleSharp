@@ -13,7 +13,7 @@
     /// <summary>
     /// Represents an HTML document.
     /// </summary>
-    [DOM("HTMLDocument")]
+    [DomName("HTMLDocument")]
     public sealed class HTMLDocument : Document, IHTMLDocument
     {
         #region Fields
@@ -185,7 +185,7 @@
         /// <summary>
         /// Gets a list of all elements in the document.
         /// </summary>
-        [DOM("all")]
+        [DomName("all")]
         public HTMLCollection All
         {
             get { return _all; }
@@ -194,7 +194,7 @@
         /// <summary>
         /// Gets a list of all of the anchors in the document.
         /// </summary>
-        [DOM("anchors")]
+        [DomName("anchors")]
         public HTMLCollection<HTMLAnchorElement> Anchors
         {
             get { return _anchors ?? (_anchors = new HTMLCollection<HTMLAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name))); }
@@ -203,7 +203,7 @@
         /// <summary>
         /// Gets or sets the direction of the document.
         /// </summary>
-        [DOM("dir")]
+        [DomName("dir")]
         public DirectionMode Dir
         {
             get 
@@ -223,7 +223,7 @@
         /// <summary>
         /// Gets the forms in the document.
         /// </summary>
-        [DOM("forms")]
+        [DomName("forms")]
         public HTMLCollection<HTMLFormElement> Forms
         {
             get { return _forms ?? (_forms = new HTMLCollection<HTMLFormElement>(this)); }
@@ -232,7 +232,7 @@
         /// <summary>
         /// Gets the images in the document.
         /// </summary>
-        [DOM("images")]
+        [DomName("images")]
         public HTMLCollection<HTMLImageElement> Images
         {
             get { return _images ?? (_images = new HTMLCollection<HTMLImageElement>(this)); }
@@ -241,7 +241,7 @@
         /// <summary>
         /// Gets the scripts in the document.
         /// </summary>
-        [DOM("scripts")]
+        [DomName("scripts")]
         public HTMLCollection<HTMLScriptElement> Scripts
         {
             get { return _scripts ?? (_scripts = new HTMLCollection<HTMLScriptElement>(this)); }
@@ -250,7 +250,7 @@
         /// <summary>
         /// Gets a list of the embedded OBJECTS within the current document.
         /// </summary>
-        [DOM("embeds")]
+        [DomName("embeds")]
         public HTMLCollection Embeds
         {
             get { return _embeds ?? (_embeds = new HTMLCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement)); }
@@ -259,7 +259,7 @@
         /// <summary>
         /// Gets a collection of all AREA elements and anchor elements in a document with a value for the href attribute.
         /// </summary>
-        [DOM("links")]
+        [DomName("links")]
         public HTMLCollection Links
         {
             get { return _links ?? (_links = new HTMLCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href))); }
@@ -268,7 +268,7 @@
         /// <summary>
         /// Gets or sets the title of the document.
         /// </summary>
-        [DOM("title")]
+        [DomName("title")]
         public String Title
         {
             get
@@ -313,7 +313,7 @@
         /// <summary>
         /// Gets or sets the head element.
         /// </summary>
-        [DOM("head")]
+        [DomName("head")]
         public HTMLHeadElement Head
         {
             get { return FindChild<HTMLHeadElement>(DocumentElement); }
@@ -322,7 +322,7 @@
         /// <summary>
         /// Gets the body element.
         /// </summary>
-        [DOM("body")]
+        [DomName("body")]
         public HTMLBodyElement Body
         {
             get { return FindChild<HTMLBodyElement>(DocumentElement); }
@@ -332,7 +332,7 @@
         /// Gets a value to indicate whether the document is rendered in Quirks mode (BackComp) 
         /// or Strict mode (CSS1Compat).
         /// </summary>
-        [DOM("compatMode")]
+        [DomName("compatMode")]
         public String CompatMode
         {
             get { return QuirksMode == QuirksMode.On ? "BackCompat" : "CSS1Compat"; }
@@ -341,7 +341,7 @@
         /// <summary>
         /// Gets or sets the document cookie.
         /// </summary>
-        [DOM("cookie")]
+        [DomName("cookie")]
         public Cookie Cookie
         { 
             get { return _cookie; }
@@ -351,7 +351,7 @@
         /// <summary>
         /// Gets the domain portion of the origin of the current document.
         /// </summary>
-        [DOM("domain")]
+        [DomName("domain")]
         public String Domain
         {
             get { return String.IsNullOrEmpty(DocumentUri) ? String.Empty : new Uri(DocumentUri).Host; }
@@ -360,7 +360,7 @@
         /// <summary>
         /// Gets a string containing the URL of the current document.
         /// </summary>
-        [DOM("URL")]
+        [DomName("URL")]
         public String Url
         {
             get { return DocumentUri; }
@@ -402,7 +402,7 @@
         /// Loads the document content from the given URL.
         /// </summary>
         /// <param name="url">The URL that hosts the HTML content.</param>
-        [DOM("load")]
+        [DomName("load")]
         public void Load(String url)
         {
             Uri uri;
@@ -426,7 +426,7 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DOM("cloneNode")]
+        [DomName("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
             var node = new HTMLDocument();
@@ -441,7 +441,7 @@
         /// </summary>
         /// <param name="externalNode">The node from another document to be adopted.</param>
         /// <returns>The adopted node that can be used in the current document. </returns>
-        [DOM("adoptNode")]
+        [DomName("adoptNode")]
         public Node AdoptNode(Node externalNode)
         {
             if (externalNode.OwnerDocument != null)
@@ -457,7 +457,7 @@
         /// <summary>
         /// Opens a document stream for writing.
         /// </summary>
-        [DOM("open")]
+        [DomName("open")]
         public void Open()
         {
             //TODO
@@ -466,7 +466,7 @@
         /// <summary>
         /// Finishes writing to a document.
         /// </summary>
-        [DOM("close")]
+        [DomName("close")]
         public void Close()
         {
             //TODO
@@ -476,7 +476,7 @@
         /// Writes text to a document.
         /// </summary>
         /// <param name="content">The text to be written on the document.</param>
-        [DOM("write")]
+        [DomName("write")]
         public void Write(String content)
         {
             //TODO
@@ -486,7 +486,7 @@
         /// Writes a line of text to a document.
         /// </summary>
         /// <param name="content">The text to be written on the document.</param>
-        [DOM("writeln")]
+        [DomName("writeln")]
         public void WriteLn(String content)
         {
             Write(content + Specification.LineFeed);
@@ -497,7 +497,7 @@
         /// </summary>
         /// <param name="tagName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element object.</returns>
-        [DOM("createElement")]
+        [DomName("createElement")]
         public override Element CreateElement(String tagName)
         {
             return HTMLFactory.Create(tagName, this);
@@ -508,7 +508,7 @@
         /// </summary>
         /// <param name="name">The value of the name attribute of the element.</param>
         /// <returns>A collection of HTML elements.</returns>
-        [DOM("getElementsByName")]
+        [DomName("getElementsByName")]
         public HTMLCollection GetElementsByName(String name)
         {
             var result = new List<Element>();

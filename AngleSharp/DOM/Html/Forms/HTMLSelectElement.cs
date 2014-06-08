@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the select element.
     /// </summary>
-    [DOM("HTMLSelectElement")]
+    [DomName("HTMLSelectElement")]
     public sealed class HTMLSelectElement : HTMLFormControlElementWithState
     {
         #region Fields
@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets or sets if the field is required.
         /// </summary>
-        [DOM("required")]
+        [DomName("required")]
         public Boolean Required
         {
             get { return GetAttribute("required") != null; }
@@ -45,7 +45,7 @@
         /// <summary>
         /// Gets the set of options that are selected.
         /// </summary>
-        [DOM("selectedOptions")]
+        [DomName("selectedOptions")]
         public HTMLCollection<HTMLOptionElement> SelectedOptions
         {
             get 
@@ -63,7 +63,7 @@
         /// <summary>
         /// Gets the index of the first selected option element.
         /// </summary>
-        [DOM("selectedIndex")]
+        [DomName("selectedIndex")]
         public Int32 SelectedIndex
         {
             get 
@@ -85,7 +85,7 @@
         /// <summary>
         /// Gets or sets the value of this form control, that is, of the first selected option.
         /// </summary>
-        [DOM("value")]
+        [DomName("value")]
         public String Value
         {
             get
@@ -108,7 +108,7 @@
         /// <summary>
         /// Gets the number of option elements in this select element.
         /// </summary>
-        [DOM("length")]
+        [DomName("length")]
         public Int32 Length
         {
             get { return Options.Length; }
@@ -117,7 +117,7 @@
         /// <summary>
         /// Gets the multiple HTML attribute, whichindicates whether multiple items can be selected.
         /// </summary>
-        [DOM("multiple")]
+        [DomName("multiple")]
         public Boolean Multiple
         {
             get { return GetAttribute("multiple") != null; }
@@ -127,7 +127,7 @@
         /// <summary>
         /// Gets the set of option elements contained by this element. 
         /// </summary>
-        [DOM("options")]
+        [DomName("options")]
         public HTMLCollection<HTMLOptionElement> Options
         {
             get { return _options; }
@@ -136,7 +136,7 @@
         /// <summary>
         /// Gets the form control's type.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public SelectType Type
         {
             get { return Multiple ? SelectType.SelectMultiple : SelectType.SelectOne; }

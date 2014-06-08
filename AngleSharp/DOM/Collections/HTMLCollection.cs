@@ -52,7 +52,7 @@
         /// </summary>
         /// <param name="index">The 0-based index of the element.</param>
         /// <returns>The element at the specified index.</returns>
-        [DOM("item")]
+        [DomName("item")]
         public T this[Int32 index]
         {
             get { return _elements.Skip(index).FirstOrDefault(); }
@@ -65,7 +65,7 @@
         /// </summary>
         /// <param name="id">The id of the element.</param>
         /// <returns>The element with the specified identifier.</returns>
-        [DOM("namedItem")]
+        [DomName("namedItem")]
         public T this[String id]
         {
             get { return _elements.FirstOrDefault(m => m.Id == id) ?? _elements.FirstOrDefault(m => m.GetAttribute("name") == id); }
@@ -78,7 +78,7 @@
         /// <summary>
         /// Gets the number of nodes in the list.
         /// </summary>
-        [DOM("length")]
+        [DomName("length")]
         public Int32 Length
         {
             get { return _elements.Count(); }
@@ -162,7 +162,7 @@
     /// <summary>
     /// A collection of HTML nodes.
     /// </summary>
-    [DOM("HTMLCollection")]
+    [DomName("HTMLCollection")]
     public sealed class HTMLCollection : HTMLCollection<Element>
     {
         #region ctor
@@ -193,7 +193,7 @@
     /// <summary>
     /// A collection of HTML form controls.
     /// </summary>
-    [DOM("HTMLFormControlsCollection")]
+    [DomName("HTMLFormControlsCollection")]
     public sealed class HTMLFormControlsCollection : HTMLCollection<HTMLFormControlElement>
     {
         #region ctor

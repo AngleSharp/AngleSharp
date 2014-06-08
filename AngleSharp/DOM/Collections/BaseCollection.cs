@@ -46,7 +46,7 @@
         /// </summary>
         /// <param name="index">The 0-based index of the node.</param>
         /// <returns>The node at the specified index.</returns>
-        [DOM("item")]
+        [DomName("item")]
         public T this[Int32 index]
         {
             get 
@@ -65,7 +65,7 @@
         /// <summary>
         /// Gets the number of nodes in the list.
         /// </summary>
-        [DOM("length")]
+        [DomName("length")]
         public Int32 Length
         {
             get { return _entries.Count; }
@@ -217,7 +217,7 @@
         /// <returns>A string describing the collection.</returns>
         public override String ToString()
         {
-            var attr = GetType().GetTypeInfo().GetCustomAttribute<DOMAttribute>(true);
+            var attr = GetType().GetTypeInfo().GetCustomAttribute<DomNameAttribute>(true);
 
             if (attr != null)
                 return attr.OfficialName;

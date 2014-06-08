@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a HTML textarea element.
     /// </summary>
-    [DOM("HTMLTextAreaElement")]
+    [DomName("HTMLTextAreaElement")]
     public sealed class HTMLTextAreaElement : HTMLTextFormControlElement
     {
         #region ctor
@@ -26,7 +26,7 @@
         /// <summary>
         /// Gets or sets the wrap HTML attribute, indicating how the control wraps text.
         /// </summary>
-        [DOM("wrap")]
+        [DomName("wrap")]
         public WrapType Wrap
         {
             get { return ToEnum(GetAttribute("wrap"), WrapType.Soft); }
@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets or sets the default value of the input field.
         /// </summary>
-        [DOM("defaultValue")]
+        [DomName("defaultValue")]
         public override String DefaultValue
         {
             get { return TextContent; }
@@ -46,7 +46,7 @@
         /// <summary>
         /// Gets the codepoint length of the control's value.
         /// </summary>
-        [DOM("textLength")]
+        [DomName("textLength")]
         public Int32 TextLength
         {
             get { return Value.Length; }
@@ -56,7 +56,7 @@
         /// Gets or sets the rows HTML attribute, indicating
         /// the number of visible text lines for the control.
         /// </summary>
-        [DOM("rows")]
+        [DomName("rows")]
         public UInt32 Rows
         {
             get { return ToInteger(GetAttribute("rows"), 2u); }
@@ -67,7 +67,7 @@
         /// Gets or sets the cols HTML attribute, indicating
         /// the visible width of the text area.
         /// </summary>
-        [DOM("cols")]
+        [DomName("cols")]
         public UInt32 Cols
         {
             get { return ToInteger(GetAttribute("cols"), 20u); }
@@ -77,7 +77,7 @@
         /// <summary>
         /// Gets the type of input control (texarea).
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public String Type
         {
             get { return _name; }

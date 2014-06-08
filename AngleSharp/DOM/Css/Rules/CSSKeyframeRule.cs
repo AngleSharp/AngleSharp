@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a CSS @keyframe rule.
     /// </summary>
-    [DOM("CSSKeyframeRule")]
+    [DomName("CSSKeyframeRule")]
     public sealed class CSSKeyframeRule : CSSRule
     {
         #region Fields
@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets or sets the key of the keyframe, like '10%', '75%'. The from keyword maps to '0%' and the to keyword maps to '100%'.
         /// </summary>
-        [DOM("keyText")]
+        [DomName("keyText")]
         public String KeyText
         {
             get { return _keyText; }
@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets a CSSStyleDeclaration of the CSS style associated with the key from.
         /// </summary>
-        [DOM("style")]
+        [DomName("style")]
         public CSSStyleDeclaration Style
         {
             get { return _style; }

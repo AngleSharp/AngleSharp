@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML option element.
     /// </summary>
-    [DOM("HTMLOptionElement")]
+    [DomName("HTMLOptionElement")]
     public sealed class HTMLOptionElement : HTMLElement, ISelectScopeElement, IImpliedEnd
     {
         #region Members
@@ -31,7 +31,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the option is enabled or disabled.
         /// </summary>
-        [DOM("disabled")]
+        [DomName("disabled")]
         public Boolean Disabled
         {
             get { return GetAttribute("disabled") != null; }
@@ -41,7 +41,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the associated HTML form element.
         /// </summary>
-        [DOM("form")]
+        [DomName("form")]
         public HTMLFormElement Form
         {
             get { return GetAssignedForm(); }
@@ -50,7 +50,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the label.
         /// </summary>
-        [DOM("label")]
+        [DomName("label")]
         public String Label
         {
             get { return GetAttribute("label"); }
@@ -60,7 +60,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        [DOM("value")]
+        [DomName("value")]
         public String Value
         {
             get { return GetAttribute("value") ?? String.Empty; }
@@ -70,7 +70,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the index of the option element.
         /// </summary>
-        [DOM("index")]
+        [DomName("index")]
         public Int32 Index
         {
             get
@@ -97,7 +97,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the text of the option.
         /// </summary>
-        [DOM("text")]
+        [DomName("text")]
         public String Text
         {
             get { return TextContent.CollapseAndStrip(); }
@@ -107,7 +107,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the option is selected by default.
         /// </summary>
-        [DOM("defaultSelected")]
+        [DomName("defaultSelected")]
         public Boolean DefaultSelected
         {
             get { return GetAttribute("selected") != null; }
@@ -117,7 +117,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the option is currently selected.
         /// </summary>
-        [DOM("selected")]
+        [DomName("selected")]
         public Boolean Selected
         {
             get { return _selected.HasValue ? _selected.Value : DefaultSelected; }

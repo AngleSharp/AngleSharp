@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents a list of media elements.
     /// </summary>
-    [DOM("MediaList")]
+    [DomName("MediaList")]
     public sealed class MediaList : IEnumerable<String>
     {
         #region Fields
@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="index">Index into the collection.</param>
         /// <returns>The medium at the index-th position in the MediaList, or null if that is not a valid index.</returns>
-        [DOM("item")]
+        [DomName("item")]
         public String this[Int32 index]
         {
             get
@@ -57,7 +57,7 @@
         /// <summary>
         /// Gets the number of media in the list. 
         /// </summary>
-        [DOM("length")]
+        [DomName("length")]
         public Int32 Length
         {
             get { return _media.Count; }
@@ -66,7 +66,7 @@
         /// <summary>
         /// Gets or sets the parsable textual representation of the media list. This is a comma-separated list of media.
         /// </summary>
-        [DOM("mediaText")]
+        [DomName("mediaText")]
         public String MediaText
         {
             get 
@@ -101,7 +101,7 @@
         /// If the newMedium is already used, it is first removed.
         /// </summary>
         /// <param name="newMedium">The new medium to add.</param>
-        [DOM("appendMedium")]
+        [DomName("appendMedium")]
         public void AppendMedium(String newMedium)
         {
             var medium = CssParser.ParseMedium(newMedium);
@@ -116,7 +116,7 @@
         /// Deletes the medium indicated by oldMedium from the list.
         /// </summary>
         /// <param name="oldMedium">The medium to delete in the media list.</param>
-        [DOM("deleteMedium")]
+        [DomName("deleteMedium")]
         public void DeleteMedium(String oldMedium)
         {
             var medium = CssParser.ParseMedium(oldMedium);

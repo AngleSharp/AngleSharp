@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML label element.
     /// </summary>
-    [DOM("HTMLLabelElement")]
+    [DomName("HTMLLabelElement")]
     public sealed class HTMLLabelElement : HTMLElement
     {
         #region ctor
@@ -34,7 +34,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the accesskey HTML attribute.
         /// </summary>
-        [DOM("accessKey")]
+        [DomName("accessKey")]
         public String AccessKey
         {
             get { return GetAttribute("accesskey"); }
@@ -44,7 +44,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the control that the label is assigned for if any.
         /// </summary>
-        [DOM("control")]
+        [DomName("control")]
         public ILabelabelElement Control
         {
             get
@@ -66,7 +66,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the ID of the labeled control. Reflects the for attribute.
         /// </summary>
-        [DOM("htmlFor")]
+        [DomName("htmlFor")]
         public String HtmlFor
         {
             get { return GetAttribute("for"); }
@@ -77,7 +77,7 @@ namespace AngleSharp.DOM.Html
         /// Gets the form element that the label is assigned for if
         /// any.
         /// </summary>
-        [DOM("form")]
+        [DomName("form")]
         public HTMLFormElement Form
         {
             get { return GetAssignedForm(); }

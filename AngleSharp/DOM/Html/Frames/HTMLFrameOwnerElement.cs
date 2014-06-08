@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets the width of the frame.
         /// </summary>
-        [DOM("width")]
+        [DomName("width")]
         public Int32 Width
         {
             get { return ToInteger(GetAttribute(AttributeNames.Width), 0); }
@@ -39,7 +39,7 @@
         /// <summary>
         /// Gets the height of the frame.
         /// </summary>
-        [DOM("height")]
+        [DomName("height")]
         public Int32 Height
         {
             get { return ToInteger(GetAttribute(AttributeNames.Height), 0); }
@@ -49,7 +49,7 @@
         /// <summary>
         /// Gets or sets the frame margin width, in pixels.
         /// </summary>
-        [DOM("marginWidth")]
+        [DomName("marginWidth")]
         public Int32 MarginWidth
         {
             get { return ToInteger(GetAttribute(AttributeNames.MarginWidth), 0); }
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets or sets the frame margin height, in pixels.
         /// </summary>
-        [DOM("marginHeight")]
+        [DomName("marginHeight")]
         public Int32 MarginHeight
         {
             get { return ToInteger(GetAttribute(AttributeNames.MarginHeight), 0); }

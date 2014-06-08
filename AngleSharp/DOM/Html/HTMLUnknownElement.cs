@@ -5,7 +5,7 @@
     /// <summary>
     /// The class for an unknown HTML element.
     /// </summary>
-    [DOM("HTMLUnknownElement")]
+    [DomName("HTMLUnknownElement")]
     public sealed class HTMLUnknownElement : HTMLElement
     {
         internal HTMLUnknownElement()

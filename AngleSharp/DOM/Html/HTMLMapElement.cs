@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML map element.
     /// </summary>
-    [DOM("HTMLMapElement")]
+    [DomName("HTMLMapElement")]
     public sealed class HTMLMapElement : HTMLElement
     {
         #region Constant
@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets or sets the value of the href attribute.
         /// </summary>
-        [DOM("name")]
+        [DomName("name")]
         public String Name
         {
             get { return GetAttribute("name"); }
@@ -55,7 +55,7 @@
         /// Gets a collection representing the area elements
         /// associated to this map.
         /// </summary>
-        [DOM("areas")]
+        [DomName("areas")]
         public HTMLCollection Areas
         {
             get;
@@ -66,7 +66,7 @@
         /// Gets a collection representing the img and object
         /// elements associated to this element.
         /// </summary>
-        [DOM("images")]
+        [DomName("images")]
         public HTMLCollection Images
         {
             get;

@@ -39,7 +39,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the default value of the element, initially the empty string.
         /// </summary>
-        [DOM("defaultValue")]
+        [DomName("defaultValue")]
         public String DefaultValue
         {
             get { return defValue; }
@@ -48,7 +48,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the value of the contents of the elements.
         /// </summary>
-        [DOM("value")]
+        [DomName("value")]
         public String Value
         {
             get { return TextContent; }
@@ -67,7 +67,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the ID of the labeled control. Reflects the for attribute.
         /// </summary>
-        [DOM("htmlFor")]
+        [DomName("htmlFor")]
         public String HtmlFor
         {
             get { return GetAttribute("for"); }
@@ -77,7 +77,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the type of input control (output).
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public String Type
         {
             get { return Tag; }

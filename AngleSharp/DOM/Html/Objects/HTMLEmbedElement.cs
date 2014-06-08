@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the embed element.
     /// </summary>
-    [DOM("HTMLEmbedElement")]
+    [DomName("HTMLEmbedElement")]
     public sealed class HTMLEmbedElement : HTMLElement
     {
         #region ctor

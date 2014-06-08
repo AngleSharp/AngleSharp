@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents a CSS Stylesheet.
     /// </summary>
-    [DOM("CSSStyleSheet")]
+    [DomName("CSSStyleSheet")]
     public sealed class CSSStyleSheet : StyleSheet, ICssObject
     {
         #region Fields
@@ -39,7 +39,7 @@
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the style sheet.
         /// </summary>
-        [DOM("cssRules")]
+        [DomName("cssRules")]
         public CSSRuleList CssRules
         {
             get { return _cssRules; }
@@ -48,7 +48,7 @@
         /// <summary>
         /// Gets the @import rule if the stylesheet was importated otherwise it returns null.
         /// </summary>
-        [DOM("ownerRule")]
+        [DomName("ownerRule")]
         public CSSRule OwnerRule
         {
             get { return _ownerRule; }
@@ -64,7 +64,7 @@
         /// </summary>
         /// <param name="index">The index representing the position to be removed.</param>
         /// <returns>The current stylesheet.</returns>
-        [DOM("deleteRule")]
+        [DomName("deleteRule")]
         public CSSStyleSheet DeleteRule(Int32 index)
         {
             if (index >= 0 && index < _cssRules.Length)
@@ -79,7 +79,7 @@
         /// <param name="rule">A string containing the rule to be inserted (selector and declaration).</param>
         /// <param name="index">The index representing the position to be inserted.</param>
         /// <returns>The current stylesheet.</returns>
-        [DOM("insertRule")]
+        [DomName("insertRule")]
         public CSSStyleSheet InsertRule(String rule, Int32 index)
         {
             if (index >= 0 && index <= _cssRules.Length)

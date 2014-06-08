@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the @font-face rule.
     /// </summary>
-    [DOM("CSSFontFaceRule")]
+    [DomName("CSSFontFaceRule")]
 	public sealed class CSSFontFaceRule : CSSRule
     {
         #region Fields
@@ -48,7 +48,7 @@
         /// <summary>
         /// Gets the declared CSS rules.
         /// </summary>
-        [DOM("cssRules")]
+        [DomName("cssRules")]
         public CSSStyleDeclaration CssRules
         {
             get { return _cssRules; }
@@ -57,7 +57,7 @@
         /// <summary>
         /// Gets or sets the font-family.
         /// </summary>
-        [DOM("family")]
+        [DomName("family")]
         public String Family
         {
             get { return _cssRules.GetPropertyValue("font-family"); }
@@ -67,7 +67,7 @@
         /// <summary>
         /// Gets or sets the source of the font.
         /// </summary>
-        [DOM("src")]
+        [DomName("src")]
         public String Src
         {
             get { return _cssRules.GetPropertyValue("src"); }
@@ -77,7 +77,7 @@
         /// <summary>
         /// Gets or sets the style of the font.
         /// </summary>
-        [DOM("style")]
+        [DomName("style")]
         public String Style
         {
             get { return _cssRules.GetPropertyValue("font-style"); }
@@ -87,7 +87,7 @@
         /// <summary>
         /// Gets or sets the weight of the font.
         /// </summary>
-        [DOM("weight")]
+        [DomName("weight")]
         public String Weight
         {
             get { return _cssRules.GetPropertyValue("font-weight"); }
@@ -97,7 +97,7 @@
         /// <summary>
         /// Gets or sets the stretch value of the font.
         /// </summary>
-        [DOM("stretch")]
+        [DomName("stretch")]
         public String Stretch
         {
             get { return _cssRules.GetPropertyValue("stretch"); }
@@ -107,7 +107,7 @@
         /// <summary>
         /// Gets or sets the unicode range of the font.
         /// </summary>
-        [DOM("unicodeRange")]
+        [DomName("unicodeRange")]
         public String UnicodeRange
         {
             get { return _cssRules.GetPropertyValue("unicode-range"); }
@@ -117,7 +117,7 @@
         /// <summary>
         /// Gets or sets the variant of the font.
         /// </summary>
-        [DOM("variant")]
+        [DomName("variant")]
         public String Variant
         {
             get { return _cssRules.GetPropertyValue("font-variant"); }
@@ -127,7 +127,7 @@
         /// <summary>
         /// Gets or sets the feature settings of the font.
         /// </summary>
-        [DOM("featureSettings")]
+        [DomName("featureSettings")]
         public String FeatureSettings
         {
             get { return _cssRules.GetPropertyValue("font-feature-settings"); }

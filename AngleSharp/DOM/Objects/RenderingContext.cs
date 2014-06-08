@@ -3,7 +3,7 @@
     /// <summary>
     /// The base class for any canvas context.
     /// </summary>
-    [DOM("RenderingContext")]
+    [DomName("RenderingContext")]
     public abstract class RenderingContext
     {
     }

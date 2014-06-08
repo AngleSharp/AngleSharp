@@ -5,7 +5,7 @@
     /// <summary>
     /// A class for representing the current validity state.
     /// </summary>
-    [DOM("ValidityState")]
+    [DomName("ValidityState")]
     public sealed class ValidityState : IValidityState
     {
         /// <summary>
@@ -18,7 +18,7 @@
         /// <summary>
         /// Gets if a required value is missing.
         /// </summary>
-        [DOM("valueMissing")]
+        [DomName("valueMissing")]
         public Boolean ValueMissing
         {
             get;
@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets if the given type is wrong.
         /// </summary>
-        [DOM("typeMismatch")]
+        [DomName("typeMismatch")]
         public Boolean TypeMismatch
         {
             get;
@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets if the input does not match a given pattern.
         /// </summary>
-        [DOM("patternMismatch")]
+        [DomName("patternMismatch")]
         public Boolean PatternMismatch
         {
             get;
@@ -48,7 +48,7 @@
         /// <summary>
         /// Gets if the input is too long.
         /// </summary>
-        [DOM("tooLong")]
+        [DomName("tooLong")]
         public Boolean TooLong
         {
             get;
@@ -58,7 +58,7 @@
         /// <summary>
         /// Gets if the range is too small.
         /// </summary>
-        [DOM("rangeUnderflow")]
+        [DomName("rangeUnderflow")]
         public Boolean RangeUnderflow
         {
             get;
@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets if the range is too big.
         /// </summary>
-        [DOM("rangeOverflow")]
+        [DomName("rangeOverflow")]
         public Boolean RangeOverflow
         {
             get;
@@ -78,7 +78,7 @@
         /// <summary>
         /// Gets if the new value is invalid.
         /// </summary>
-        [DOM("stepMismatch")]
+        [DomName("stepMismatch")]
         public Boolean StepMismatch
         {
             get;
@@ -88,7 +88,7 @@
         /// <summary>
         /// Gets if the input is bad.
         /// </summary>
-        [DOM("badInput")]
+        [DomName("badInput")]
         public Boolean BadInput
         {
             get;
@@ -98,7 +98,7 @@
         /// <summary>
         /// Gets if validation failed due to a custom error.
         /// </summary>
-        [DOM("customError")]
+        [DomName("customError")]
         public Boolean CustomError
         {
             get;
@@ -108,7 +108,7 @@
         /// <summary>
         /// Gets if the value is valid.
         /// </summary>
-        [DOM("valid")]
+        [DomName("valid")]
         public Boolean Valid
         {
             get;

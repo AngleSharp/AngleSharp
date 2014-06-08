@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the HTML link element.
     /// </summary>
-    [DOM("HTMLLinkElement")]
+    [DomName("HTMLLinkElement")]
     public sealed class HTMLLinkElement : HTMLElement, IStyleSheet
     {
         #region Fields
@@ -69,7 +69,7 @@
         /// <summary>
         /// Gets or sets the URI for the target resource.
         /// </summary>
-        [DOM("href")]
+        [DomName("href")]
         public String Href
         {
             get { return HyperRef(GetAttribute(AttributeNames.Href)); }
@@ -79,7 +79,7 @@
         /// <summary>
         /// Gets or sets the language code for the linked resource.
         /// </summary>
-        [DOM("hreflang")]
+        [DomName("hreflang")]
         public String Hreflang
         {
             get { return GetAttribute(AttributeNames.HrefLang); }
@@ -89,7 +89,7 @@
         /// <summary>
         /// Gets or sets the character encoding for the target resource.
         /// </summary>
-        [DOM("charset")]
+        [DomName("charset")]
         public String Charset
         {
             get { return GetAttribute(AttributeNames.Charset); }
@@ -99,7 +99,7 @@
         /// <summary>
         /// Gets or sets the forward relationship of the linked resource from the document to the resource.
         /// </summary>
-        [DOM("rel")]
+        [DomName("rel")]
         public RelType Rel
         {
             get { return ToEnum(GetAttribute(AttributeNames.Rel), RelType.None); }
@@ -109,7 +109,7 @@
         /// <summary>
         /// Gets or sets the reverse relationship of the linked resource from the document to the resource.
         /// </summary>
-        [DOM("rev")]
+        [DomName("rev")]
         public String Rev
         {
             get { return GetAttribute(AttributeNames.Rev); }
@@ -119,7 +119,7 @@
         /// <summary>
         /// Gets or sets if the stylesheet is enabled or disabled.
         /// </summary>
-        [DOM("disabled")]
+        [DomName("disabled")]
         public Boolean Disabled
         {
             get { return Sheet.Disabled; }
@@ -129,7 +129,7 @@
         /// <summary>
         /// Gets or sets the name of the target frame to which the resource applies.
         /// </summary>
-        [DOM("target")]
+        [DomName("target")]
         public String Target
         {
             get { return GetAttribute(AttributeNames.Target); }
@@ -139,7 +139,7 @@
         /// <summary>
         /// Gets or sets the use with one or more target media.
         /// </summary>
-        [DOM("media")]
+        [DomName("media")]
         public String Media
         {
             get { return GetAttribute(AttributeNames.Media); }
@@ -149,7 +149,7 @@
         /// <summary>
         /// Gets or sets the content type of the style sheet language.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public String Type
         {
             get { return GetAttribute(AttributeNames.Type); }
@@ -159,7 +159,7 @@
         /// <summary>
         /// Gets the associated stylesheet.
         /// </summary>
-        [DOM("sheet")]
+        [DomName("sheet")]
         public StyleSheet Sheet
         {
             get { return Rel == RelType.Stylesheet ? _sheet : null; }

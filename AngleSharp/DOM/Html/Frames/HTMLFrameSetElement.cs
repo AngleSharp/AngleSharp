@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML frameset element.
     /// </summary>
-    [DOM("HTMLFrameSetElement")]
+    [DomName("HTMLFrameSetElement")]
     public sealed class HTMLFrameSetElement : HTMLElement
     {
         #region ctor
@@ -22,7 +22,7 @@
         /// <summary>
         /// Gets or sets the number of columns of frames in the frameset. .
         /// </summary>
-        [DOM("cols")]
+        [DomName("cols")]
         public UInt32 Cols
         {
             get { return ToInteger(GetAttribute(AttributeNames.Cols), 1u); }
@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets or sets the number of rows of frames in the frameset.
         /// </summary>
-        [DOM("rows")]
+        [DomName("rows")]
         public UInt32 Rows
         {
             get { return ToInteger(GetAttribute(AttributeNames.Rows), 1u); }

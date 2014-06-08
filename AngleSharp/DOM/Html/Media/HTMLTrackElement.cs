@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML track element.
     /// </summary>
-    [DOM("HTMLTrackElement")]
+    [DomName("HTMLTrackElement")]
     public sealed class HTMLTrackElement : HTMLElement
     {
         #region Fields
@@ -34,7 +34,7 @@
         /// <summary>
         /// Gets or sets the kind of the track.
         /// </summary>
-        [DOM("kind")]
+        [DomName("kind")]
         public TrackKind Kind
         {
             get { return ToEnum(GetAttribute("kind"), TrackKind.Subtitles); }
@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets or sets the media source.
         /// </summary>
-        [DOM("src")]
+        [DomName("src")]
         public String Src
         {
             get { return GetAttribute("src"); }
@@ -54,7 +54,7 @@
         /// <summary>
         /// Gets or sets the language of the source.
         /// </summary>
-        [DOM("srclang")]
+        [DomName("srclang")]
         public String Srclang
         {
             get { return GetAttribute("srclang"); }
@@ -64,7 +64,7 @@
         /// <summary>
         /// Gets or sets the label text.
         /// </summary>
-        [DOM("label")]
+        [DomName("label")]
         public String Label
         {
             get { return GetAttribute("label"); }
@@ -74,7 +74,7 @@
         /// <summary>
         /// Gets or sets if given track is the default track.
         /// </summary>
-        [DOM("default")]
+        [DomName("default")]
         public Boolean Default
         {
             get { return GetAttribute("default") != null; }
@@ -84,7 +84,7 @@
         /// <summary>
         /// Gets the ready state of the given track.
         /// </summary>
-        [DOM("readyState")]
+        [DomName("readyState")]
         public TrackReadyState ReadyState
         {
             get { return _ready; }
@@ -93,7 +93,7 @@
         /// <summary>
         /// Gets the text of the given track.
         /// </summary>
-        [DOM("track")]
+        [DomName("track")]
         public String Track
         {
             //TODO should return TextTrack

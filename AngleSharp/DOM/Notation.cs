@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a notation node.
     /// </summary>
-    [DOM("Notation")]
+    [DomName("Notation")]
     public sealed class Notation : Node
     {
         #region ctor
@@ -25,7 +25,7 @@
         /// <summary>
         /// Gets or sets the value of the public identifier.
         /// </summary>
-        [DOM("publicId")]
+        [DomName("publicId")]
         public String PublicId
         {
             get;
@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets or sets the value of the system identifier.
         /// </summary>
-        [DOM("systemId")]
+        [DomName("systemId")]
         public String SystemId
         {
             get;
@@ -51,7 +51,7 @@
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
-        [DOM("appendChild")]
+        [DomName("appendChild")]
         public override Node AppendChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -64,7 +64,7 @@
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
-        [DOM("insertBefore")]
+        [DomName("insertBefore")]
         public override Node InsertBefore(Node newElement, Node referenceElement)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -76,7 +76,7 @@
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
-        [DOM("insertChild")]
+        [DomName("insertChild")]
         public override Node InsertChild(Int32 index, Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -87,7 +87,7 @@
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
-        [DOM("removeChild")]
+        [DomName("removeChild")]
         public override Node RemoveChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -99,7 +99,7 @@
         /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
         /// <param name="oldChild">The existing child to be replaced.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
-        [DOM("replaceChild")]
+        [DomName("replaceChild")]
         public override Node ReplaceChild(Node newChild, Node oldChild)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -110,7 +110,7 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DOM("cloneNode")]
+        [DomName("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
             var node = new Notation();
@@ -124,7 +124,7 @@
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        [DOM("lookupPrefix")]
+        [DomName("lookupPrefix")]
         public override String LookupPrefix(String namespaceURI)
         {
             return null;
@@ -135,7 +135,7 @@
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        [DOM("isDefaultNamespace")]
+        [DomName("isDefaultNamespace")]
         public override Boolean IsDefaultNamespace(String namespaceURI)
         {
             return false;
@@ -147,7 +147,7 @@
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        [DOM("lookupNamespaceURI")]
+        [DomName("lookupNamespaceURI")]
         public override String LookupNamespaceURI(String prefix)
         {
             return null;

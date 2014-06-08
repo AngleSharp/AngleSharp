@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Svg
     /// <summary>
     /// Represents the foreign object element of the SVG DOM.
     /// </summary>
-    [DOM("SVGForeignObjectElement")]
+    [DomName("SVGForeignObjectElement")]
     public sealed class SVGForeignObjectElement : SVGElement, IScopeElement
     {
         internal SVGForeignObjectElement()

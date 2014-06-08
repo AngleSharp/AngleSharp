@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Svg
     /// <summary>
     /// Represents the desc element of the SVG DOM.
     /// </summary>
-    [DOM("SVGDescElement")]
+    [DomName("SVGDescElement")]
     public sealed class SVGDescElement : SVGElement, IScopeElement
     {
         internal SVGDescElement()

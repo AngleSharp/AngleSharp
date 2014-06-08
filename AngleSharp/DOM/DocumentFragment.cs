@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a document fragment.
     /// </summary>
-    [DOM("DocumentFragment")]
+    [DomName("DocumentFragment")]
     public sealed class DocumentFragment : Node, IDocumentFragment
     {
         #region ctor
@@ -40,7 +40,7 @@
         /// </summary>
         /// <param name="nodes">The nodes to prepend.</param>
         /// <returns>The current fragment.</returns>
-        [DOM("prepend")]
+        [DomName("prepend")]
         public DocumentFragment Prepend(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -57,7 +57,7 @@
         /// </summary>
         /// <param name="nodes">The nodes to append.</param>
         /// <returns>The current fragment.</returns>
-        [DOM("append")]
+        [DomName("append")]
         public DocumentFragment Append(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -75,7 +75,7 @@
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
-        [DOM("querySelector")]
+        [DomName("querySelector")]
         public Element QuerySelector(String selectors)
         {
             return _children.QuerySelector(selectors);
@@ -87,7 +87,7 @@
         /// </summary>
         /// <param name="selectors"></param>
         /// <returns></returns>
-        [DOM("querySelectorAll")]
+        [DomName("querySelectorAll")]
         public HTMLCollection QuerySelectorAll(String selectors)
         {
             return _children.QuerySelectorAll(selectors);
@@ -98,7 +98,7 @@
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of HTML elements.</returns>
-        [DOM("getElementsByClassName")]
+        [DomName("getElementsByClassName")]
         public HTMLCollection GetElementsByClassName(String classNames)
         {
             return _children.GetElementsByClassName(classNames);
@@ -109,7 +109,7 @@
         /// </summary>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        [DOM("getElementsByTagName")]
+        [DomName("getElementsByTagName")]
         public HTMLCollection GetElementsByTagName(String tagName)
         {
             return _children.GetElementsByTagName(tagName);
@@ -122,7 +122,7 @@
         /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        [DOM("getElementsByTagNameNS")]
+        [DomName("getElementsByTagNameNS")]
         public HTMLCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return _children.GetElementsByTagNameNS(namespaceURI, tagName);

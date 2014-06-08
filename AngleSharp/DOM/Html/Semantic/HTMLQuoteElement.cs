@@ -5,7 +5,7 @@
     /// <summary>
     /// Rperesents the HTML quote element.
     /// </summary>
-    [DOM("HTMLQuoteElement")]
+    [DomName("HTMLQuoteElement")]
     public sealed class HTMLQuoteElement : HTMLElement
     {
         internal HTMLQuoteElement()

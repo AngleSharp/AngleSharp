@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML audio element.
     /// </summary>
-    [DOM("HTMLAudioElement")]
+    [DomName("HTMLAudioElement")]
     public sealed class HTMLAudioElement : HTMLMediaElement
     {
         #region ctor

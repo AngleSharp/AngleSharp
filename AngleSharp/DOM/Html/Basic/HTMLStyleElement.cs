@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the HTML style element.
     /// </summary>
-    [DOM("HTMLStyleElement")]
+    [DomName("HTMLStyleElement")]
     public sealed class HTMLStyleElement : HTMLElement, IStyleSheet
     {
         #region Fields
@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets the associated style sheet.
         /// </summary>
-        [DOM("sheet")]
+        [DomName("sheet")]
         public StyleSheet Sheet
         {
             get { return _sheet; }
@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets or sets if the style is enabled or disabled.
         /// </summary>
-        [DOM("disabled")]
+        [DomName("disabled")]
         public Boolean Disabled
         {
             get { return Sheet.Disabled; }
@@ -54,7 +54,7 @@
         /// <summary>
         /// Gets or sets the use with one or more target media.
         /// </summary>
-        [DOM("media")]
+        [DomName("media")]
         public String Media
         {
             get { return GetAttribute(AttributeNames.Media); }
@@ -64,7 +64,7 @@
         /// <summary>
         /// Gets or sets the content type of the style sheet language.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public String Type
         {
             get { return GetAttribute(AttributeNames.Type); }

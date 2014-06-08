@@ -8,7 +8,7 @@
     /// Represents a container for file entries captured by the file
     /// upload field.
     /// </summary>
-    [DOM("FileList")]
+    [DomName("FileList")]
     public class FileList : IEnumerable<FileEntry>, ICollection<FileEntry>
     {
         #region Fields

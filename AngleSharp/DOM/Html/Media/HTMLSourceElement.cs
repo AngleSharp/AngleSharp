@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML source element.
     /// </summary>
-    [DOM("HTMLSourceElement")]
+    [DomName("HTMLSourceElement")]
     public sealed class HTMLSourceElement : HTMLElement
     {
         #region ctor

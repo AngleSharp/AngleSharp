@@ -31,7 +31,7 @@
         /// the maximum number of characters the user can enter.
         /// This constraint is evaluated only when the value changes.
         /// </summary>
-        [DOM("maxLength")]
+        [DomName("maxLength")]
         public Int32 MaxLength
         {
             get { return ToInteger(GetAttribute("maxlength"), -1); }
@@ -41,7 +41,7 @@
         /// <summary>
         /// Gets or sets the default value of the input field.
         /// </summary>
-        [DOM("defaultValue")]
+        [DomName("defaultValue")]
         public abstract String DefaultValue
         {
             get;
@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets or sets the current value in the control.
         /// </summary>
-        [DOM("value")]
+        [DomName("value")]
         public String Value
         {
             get { return _value ?? DefaultValue; }
@@ -62,7 +62,7 @@
         /// Gets or sets the placeholder HTML attribute, containing a hint to
         /// the user about what to enter in the control.
         /// </summary>
-        [DOM("placeholder")]
+        [DomName("placeholder")]
         public String Placeholder
         {
             get { return GetAttribute("placeholder"); }
@@ -72,7 +72,7 @@
         /// <summary>
         /// Gets or sets the accesskey HTML attribute.
         /// </summary>
-        [DOM("accessKey")]
+        [DomName("accessKey")]
         public String AccessKey
         {
             get { return GetAttribute("accesskey"); }
@@ -82,7 +82,7 @@
         /// <summary>
         /// Gets or sets if the field is required.
         /// </summary>
-        [DOM("required")]
+        [DomName("required")]
         public Boolean Required
         {
             get { return GetAttribute("required") != null; }
@@ -92,7 +92,7 @@
         /// <summary>
         /// Gets or sets if the textarea field is read-only.
         /// </summary>
-        [DOM("readOnly")]
+        [DomName("readOnly")]
         public Boolean Readonly
         {
             get { return GetAttribute("readonly") != null; }
@@ -106,7 +106,7 @@
         /// as if setSelectionRange() had been called with this as the first
         /// argument, and selectionEnd as the second argument.
         /// </summary>
-        [DOM("selectionStart")]
+        [DomName("selectionStart")]
         public UInt32 SelectionStart
         {
             get { return _start; }
@@ -120,7 +120,7 @@
         /// setSelectionRange() had been called with this as the second
         /// argument, and selectionStart as the first argument.
         /// </summary>
-        [DOM("selectionEnd")]
+        [DomName("selectionEnd")]
         public UInt32 SelectionEnd
         {
             get { return _end; }
@@ -133,7 +133,7 @@
         /// direction of the current locale, or "backward" for the opposite
         /// direction.
         /// </summary>
-        [DOM("selectionDirection")]
+        [DomName("selectionDirection")]
         public SelectionType SelectionDirection
         {
             get { return _direction; }
@@ -152,7 +152,7 @@
         /// <param name="selectionStart">The start of the selection.</param>
         /// <param name="selectionEnd">The end of the selection.</param>
         /// <param name="selectionDirection">Optional: The direction of the selection.</param>
-        [DOM("setSelectionRange")]
+        [DomName("setSelectionRange")]
         public void SetSelectionRange(UInt32 selectionStart, UInt32 selectionEnd, SelectionType selectionDirection = SelectionType.None)
         {
             if (selectionEnd > (UInt32)Value.Length)
@@ -169,7 +169,7 @@
         /// <summary>
         /// Selects the contents of the control.
         /// </summary>
-        [DOM("select")]
+        [DomName("select")]
         public void Select()
         {
             SetSelectionRange(0u, (UInt32)Value.Length, SelectionType.Forward);

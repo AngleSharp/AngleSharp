@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents a font element.
     /// </summary>
-    [DOM("HTMLFontElement")]
+    [DomName("HTMLFontElement")]
     public sealed class HTMLFontElement : HTMLElement, IFormatting
     {
         internal const String AttrColor = "color";

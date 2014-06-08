@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents an @keyframes rule.
     /// </summary>
-    [DOM("CSSKeyframesRule")]
+    [DomName("CSSKeyframesRule")]
     public sealed class CSSKeyframesRule : CSSRule, ICssRules
     {
         #region Fields
@@ -34,7 +34,7 @@
         /// <summary>
         /// Gets or sets the name of the animation, used by the animation-name property.
         /// </summary>
-        [DOM("name")]
+        [DomName("name")]
         public String Name
         {
             get { return _name; }
@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the media rule.
         /// </summary>
-        [DOM("cssRules")]
+        [DomName("cssRules")]
         public CSSRuleList CssRules
         {
             get { return _cssRules; }
@@ -59,7 +59,7 @@
         /// </summary>
         /// <param name="rule">A string containing a keyframe in the same format as an entry of a @keyframes at-rule.</param>
         /// <returns>The current @keyframes rule.</returns>
-        [DOM("appendRule")]
+        [DomName("appendRule")]
         public CSSKeyframesRule AppendRule(String rule)
         {
             var obj = CssParser.ParseKeyframeRule(rule);
@@ -74,7 +74,7 @@
         /// </summary>
         /// <param name="key">The index of the keyframe to be deleted, expressed as a string resolving as a number between 0 and 1.</param>
         /// <returns>The current @keyframes rule.</returns>
-        [DOM("deleteRule")]
+        [DomName("deleteRule")]
         public CSSKeyframesRule DeleteRule(String key)
         {
             for (int i = 0; i < _cssRules.Length; i++)
@@ -94,7 +94,7 @@
         /// </summary>
         /// <param name="key">A string containing an index of the keyframe to be returned, resolving to a number between 0 and 1.</param>
         /// <returns>The keyframe or null.</returns>
-        [DOM("findRule")]
+        [DomName("findRule")]
         public CSSKeyframeRule FindRule(String key)
         {
             for (int i = 0; i < _cssRules.Length; i++)

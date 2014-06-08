@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML body element.
     /// </summary>
-    [DOM("HTMLBodyElement")]
+    [DomName("HTMLBodyElement")]
     public sealed class HTMLBodyElement : HTMLElement, IImplClosed
     {
         #region ctor
@@ -25,7 +25,7 @@
         /// <summary>
         /// Gets or sets the color of active links (after mouse-button down, but before mouse-button up). 
         /// </summary>
-        [DOM("aLink")]
+        [DomName("aLink")]
         public String ALink
         {
             get { return GetAttribute("alink"); }
@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets or sets the URI of the background texture tile image.
         /// </summary>
-        [DOM("background")]
+        [DomName("background")]
         public String Background
         {
             get { return GetAttribute("background"); }
@@ -45,7 +45,7 @@
         /// <summary>
         /// Gets or sets the document background color.
         /// </summary>
-        [DOM("bgColor")]
+        [DomName("bgColor")]
         public String BgColor
         {
             get { return GetAttribute("bgcolor"); }
@@ -55,7 +55,7 @@
         /// <summary>
         /// Gets or sets color of links that are not active and unvisited.
         /// </summary>
-        [DOM("link")]
+        [DomName("link")]
         public String Link
         {
             get { return GetAttribute("link"); }
@@ -65,7 +65,7 @@
         /// <summary>
         /// Gets or sets document text color.
         /// </summary>
-        [DOM("text")]
+        [DomName("text")]
         public String Text
         {
             get { return GetAttribute("text"); }
@@ -75,7 +75,7 @@
         /// <summary>
         /// Gets or sets color of links that have been visited by the user.
         /// </summary>
-        [DOM("vLink")]
+        [DomName("vLink")]
         public String VLink
         {
             get { return GetAttribute("vlink"); }

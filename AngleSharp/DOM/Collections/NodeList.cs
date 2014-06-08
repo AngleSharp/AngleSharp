@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents a list of Node instances or nodes.
     /// </summary>
-    [DOM("NodeList")]
+    [DomName("NodeList")]
     public sealed class NodeList : BaseCollection<Node>
     {
         #region ctor

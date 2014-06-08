@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML ordered list (ol) element.
     /// </summary>
-    [DOM("HTMLOListElement")]
+    [DomName("HTMLOListElement")]
     public sealed class HTMLOListElement : HTMLElement, IListScopeElement
     {
         #region ctor

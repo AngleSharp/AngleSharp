@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Svg
     /// <summary>
     /// Represents an element of the SVG DOM.
     /// </summary>
-    [DOM("SVGElement")]
+    [DomName("SVGElement")]
     public class SVGElement : Element
     {
         #region ctor
@@ -39,7 +39,7 @@ namespace AngleSharp.DOM.Svg
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DOM("cloneNode")]
+        [DomName("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
             var node = SVGFactory.Create(_name, _owner);

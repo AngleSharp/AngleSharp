@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML iframe element.
     /// </summary>
-    [DOM("HTMLIFrameElement")]
+    [DomName("HTMLIFrameElement")]
     public sealed class HTMLIFrameElement : HTMLFrameElementBase
     {
         #region ctor
@@ -22,7 +22,7 @@
         /// <summary>
         /// Gets or sets the value of the alignment attribute.
         /// </summary>
-        [DOM("align")]
+        [DomName("align")]
         public Alignment Align
         {
             get { return ToEnum(GetAttribute(AttributeNames.Align), Alignment.Bottom); }

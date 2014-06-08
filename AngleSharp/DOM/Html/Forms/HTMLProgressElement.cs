@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML progress element.
     /// </summary>
-    [DOM("HTMLProgressElement")]
+    [DomName("HTMLProgressElement")]
     public sealed class HTMLProgressElement : HTMLElement, ILabelabelElement
     {
         #region Constant
@@ -42,7 +42,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if labels are supported.
         /// </summary>
-        [DOM("supportsLabels")]
+        [DomName("supportsLabels")]
         public Boolean SupportsLabels
         {
             get;
@@ -52,7 +52,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the list of assigned labels.
         /// </summary>
-        [DOM("labels")]
+        [DomName("labels")]
         public NodeList Labels
         {
             get { return labels; }
@@ -64,7 +64,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the current value.
         /// </summary>
-        [DOM("value")]
+        [DomName("value")]
         public Double Value
         {
             get;
@@ -74,7 +74,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the maximum value.
         /// </summary>
-        [DOM("max")]
+        [DomName("max")]
         public Double Max
         {
             get;
@@ -84,7 +84,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the position.
         /// </summary>
-        [DOM("position")]
+        [DomName("position")]
         public Double Position
         {
             get;

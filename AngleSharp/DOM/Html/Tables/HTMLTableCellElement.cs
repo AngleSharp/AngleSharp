@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the object for HTML table cell (td / th) elements.
     /// </summary>
-    [DOM("HTMLTableCellElement")]
+    [DomName("HTMLTableCellElement")]
     public sealed class HTMLTableCellElement : HTMLElement, IScopeElement, IImplClosed
     {
         #region ctor
@@ -23,7 +23,7 @@
         /// Gets the index of this cell in the row, starting from 0.
         /// This index is in document tree order and not display order.
         /// </summary>
-        [DOM("cellIndex")]
+        [DomName("cellIndex")]
         public Int32 CellIndex
         {
             get
@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets or sets the value of the alignment attribute.
         /// </summary>
-        [DOM("align")]
+        [DomName("align")]
         public HorizontalAlignment Align
         {
             get { return ToEnum(GetAttribute("align"), HorizontalAlignment.Left); }
@@ -53,7 +53,7 @@
         /// <summary>
         /// Gets or sets the value of the vertical alignment attribute.
         /// </summary>
-        [DOM("vAlign")]
+        [DomName("vAlign")]
         public VerticalAlignment VAlign
         {
             get { return ToEnum(GetAttribute("valign"), VerticalAlignment.Middle); }
@@ -63,7 +63,7 @@
         /// <summary>
         /// Gets or sets the value of the background color attribute.
         /// </summary>
-        [DOM("bgColor")]
+        [DomName("bgColor")]
         public String BgColor
         {
             get { return GetAttribute("bgcolor"); }
@@ -73,7 +73,7 @@
         /// <summary>
         /// Gets or sets the value of the width attribute.
         /// </summary>
-        [DOM("width")]
+        [DomName("width")]
         public String Width
         {
             get { return GetAttribute("width"); }
@@ -83,7 +83,7 @@
         /// <summary>
         /// Gets or sets the value of the height attribute.
         /// </summary>
-        [DOM("height")]
+        [DomName("height")]
         public String Height
         {
             get { return GetAttribute("height"); }
@@ -93,7 +93,7 @@
         /// <summary>
         /// Gets or sets the number of columns spanned by cell. 
         /// </summary>
-        [DOM("colSpan")]
+        [DomName("colSpan")]
         public UInt32 ColSpan
         {
             get { return ToInteger(GetAttribute("colspan"), 0u); }
@@ -103,7 +103,7 @@
         /// <summary>
         /// Gets or sets the number of rows spanned by cell. 
         /// </summary>
-        [DOM("rowSpan")]
+        [DomName("rowSpan")]
         public UInt32 RowSpan
         {
             get { return ToInteger(GetAttribute("rowspan"), 0u); }
@@ -113,7 +113,7 @@
         /// <summary>
         /// Gets or sets if word wrapping is suppressed.
         /// </summary>
-        [DOM("noWrap")]
+        [DomName("noWrap")]
         public Boolean NoWrap
         {
             get { return ToBoolean(GetAttribute("nowrap"), false); }
@@ -123,7 +123,7 @@
         /// <summary>
         /// Gets or sets the abbreviation for header cells.
         /// </summary>
-        [DOM("abbr")]
+        [DomName("abbr")]
         public String Abbr
         {
             get { return GetAttribute("abbr"); }
@@ -133,7 +133,7 @@
         /// <summary>
         /// Gets or sets the scope covered by header cells.
         /// </summary>
-        [DOM("scope")]
+        [DomName("scope")]
         public String Scope
         {
             get { return GetAttribute("scope"); }
@@ -143,7 +143,7 @@
         /// <summary>
         /// Gets or sets the list of id attribute values for header cells. 
         /// </summary>
-        [DOM("headers")]
+        [DomName("headers")]
         public String Headers
         {
             get { return GetAttribute("headers"); }
@@ -153,7 +153,7 @@
         /// <summary>
         /// Gets or sets the names group of related headers. 
         /// </summary>
-        [DOM("axis")]
+        [DomName("axis")]
         public String Axis
         {
             get { return GetAttribute("axis"); }

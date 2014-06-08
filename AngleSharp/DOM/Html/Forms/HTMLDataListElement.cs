@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML datalist element.
     /// </summary>
-    [DOM("HTMLDataListElement")]
+    [DomName("HTMLDataListElement")]
     public sealed class HTMLDataListElement : HTMLElement
     {
         #region Fields
@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets a collection whose filter matches option elements.
         /// </summary>
-        [DOM("options")]
+        [DomName("options")]
         public HTMLCollection<HTMLOptionElement> Options
         {
             get { return _options; }

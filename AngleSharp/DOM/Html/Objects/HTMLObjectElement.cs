@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML object element.
     /// </summary>
-    [DOM("HTMLObjectElement")]
+    [DomName("HTMLObjectElement")]
     public sealed class HTMLObjectElement : HTMLFormControlElement, IScopeElement
     {
         #region Fields
@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets or sets the address of the resource.
         /// </summary>
-        [DOM("data")]
+        [DomName("data")]
         public String Data
         {
             get { return GetAttribute("data"); }
@@ -45,7 +45,7 @@
         /// <summary>
         /// Gets or sets the type of the resource. If present, the attribute must be a valid MIME type.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public String Type
         {
             get { return GetAttribute("type"); }
@@ -57,7 +57,7 @@
         /// attribute is only to be used if the value of the type attribute and the Content-Type of the
         /// aforementioned resource match.
         /// </summary>
-        [DOM("typeMustMatch")]
+        [DomName("typeMustMatch")]
         public Boolean TypeMustMatch
         {
             get { return GetAttribute("typemustmatch") != null; }
@@ -67,7 +67,7 @@
         /// <summary>
         /// Gets or sets the associated image map of the object if the object element represents an image.
         /// </summary>
-        [DOM("useMap")]
+        [DomName("useMap")]
         public String UseMap
         {
             get { return GetAttribute("usemap"); }
@@ -77,7 +77,7 @@
         /// <summary>
         /// Gets or sets the width of the object element.
         /// </summary>
-        [DOM("width")]
+        [DomName("width")]
         public UInt32 Width
         {
             get { return ToInteger(GetAttribute("width"), _objWidth); }
@@ -87,7 +87,7 @@
         /// <summary>
         /// Gets or sets the height of the object element.
         /// </summary>
-        [DOM("height")]
+        [DomName("height")]
         public UInt32 Height
         {
             get { return ToInteger(GetAttribute("height"), _objHeight); }
@@ -98,7 +98,7 @@
         /// Gets the active document of the object element's nested browsing context, if it has one;
         /// otherwise returns null.
         /// </summary>
-        [DOM("contentDocument")]
+        [DomName("contentDocument")]
         public Document ContentDocument
         {
             get { return _contentDocument; }
@@ -107,7 +107,7 @@
         /// <summary>
         /// Gets the object element's nested browsing context, if it has one; otherwise returns null.
         /// </summary>
-        [DOM("contentWindow")]
+        [DomName("contentWindow")]
         public Object ContentWindow //TODO Object is WindowProxy (or IWindow to be more specific)
         {
             get { return _contentWindow; }

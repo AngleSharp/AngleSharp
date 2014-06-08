@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Svg
     /// <summary>
     /// Represents the title element of the SVG DOM.
     /// </summary>
-    [DOM("SVGTitleElement")]
+    [DomName("SVGTitleElement")]
     public sealed class SVGTitleElement : SVGElement, IScopeElement
     {
         internal SVGTitleElement()

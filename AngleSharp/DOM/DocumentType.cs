@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the document type node.
     /// </summary>
-    [DOM("DocumentType")]
+    [DomName("DocumentType")]
     public sealed class DocumentType : Node
     {
         #region ctor
@@ -27,7 +27,7 @@
         /// <summary>
         /// Gets a list of defined entities.
         /// </summary>
-        [DOM("entities")]
+        [DomName("entities")]
         public IEnumerable<Entity> Entities
         {
             get { return Enumerable.Empty<Entity>(); }
@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets a list of defined notations.
         /// </summary>
-        [DOM("notations")]
+        [DomName("notations")]
         public IEnumerable<Notation> Notations
         {
             get { return Enumerable.Empty<Notation>(); }
@@ -45,7 +45,7 @@
         /// <summary>
         /// Gets or sets the name of the document type.
         /// </summary>
-        [DOM("name")]
+        [DomName("name")]
         public String Name 
         {
             get { return _name; }
@@ -55,7 +55,7 @@
         /// <summary>
         /// Gets or sets the public ID of the document type.
         /// </summary>
-        [DOM("publicId")]
+        [DomName("publicId")]
         public String PublicId 
         { 
             get; 
@@ -65,7 +65,7 @@
         /// <summary>
         /// Gets or sets the system ID of the document type.
         /// </summary>
-        [DOM("systemId")]
+        [DomName("systemId")]
         public String SystemId 
         { 
             get; 
@@ -75,7 +75,7 @@
         /// <summary>
         /// Gets or sets the internal subset of the document type.
         /// </summary>
-        [DOM("internalSubset")]
+        [DomName("internalSubset")]
         public String InternalSubset 
         { 
             get; 
@@ -91,7 +91,7 @@
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
-        [DOM("appendChild")]
+        [DomName("appendChild")]
         public override Node AppendChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -104,7 +104,7 @@
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
-        [DOM("insertBefore")]
+        [DomName("insertBefore")]
         public override Node InsertBefore(Node newElement, Node referenceElement)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -116,7 +116,7 @@
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
-        [DOM("insertChild")]
+        [DomName("insertChild")]
         public override Node InsertChild(int index, Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -127,7 +127,7 @@
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
-        [DOM("removeChild")]
+        [DomName("removeChild")]
         public override Node RemoveChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -139,7 +139,7 @@
         /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
         /// <param name="oldChild">The existing child to be replaced.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
-        [DOM("replaceChild")]
+        [DomName("replaceChild")]
         public override Node ReplaceChild(Node newChild, Node oldChild)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -150,7 +150,7 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DOM("cloneNode")]
+        [DomName("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
             var node = new DocumentType();
@@ -168,7 +168,7 @@
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        [DOM("lookupNamespaceURI")]
+        [DomName("lookupNamespaceURI")]
         public override String LookupNamespaceURI(String prefix)
         {
             return null;
@@ -180,7 +180,7 @@
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        [DOM("lookupPrefix")]
+        [DomName("lookupPrefix")]
         public override String LookupPrefix(String namespaceURI)
         {
             return null;
@@ -191,7 +191,7 @@
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        [DOM("isDefaultNamespace")]
+        [DomName("isDefaultNamespace")]
         public override Boolean IsDefaultNamespace(String namespaceURI)
         {
             return false;
@@ -202,7 +202,7 @@
         /// </summary>
         /// <param name="nodes">The nodes to insert before.</param>
         /// <returns>The current doctype.</returns>
-        [DOM("before")]
+        [DomName("before")]
         public DocumentType Before(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -219,7 +219,7 @@
         /// </summary>
         /// <param name="nodes">The nodes to insert after.</param>
         /// <returns>The current doctype.</returns>
-        [DOM("after")]
+        [DomName("after")]
         public DocumentType After(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -236,7 +236,7 @@
         /// </summary>
         /// <param name="nodes">The nodes to replace.</param>
         /// <returns>The current doctype.</returns>
-        [DOM("replace")]
+        [DomName("replace")]
         public DocumentType Replace(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -252,7 +252,7 @@
         /// Removes the current doctype from the parent.
         /// </summary>
         /// <returns>The current doctype.</returns>
-        [DOM("remove")]
+        [DomName("remove")]
         public DocumentType Remove()
         {
             if (_parent != null)

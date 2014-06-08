@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the area element.
     /// </summary>
-    [DOM("HTMLAreaElement")]
+    [DomName("HTMLAreaElement")]
     public sealed class HTMLAreaElement : HTMLElement
     {
         #region Fields
@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets or sets the value of the href attribute.
         /// </summary>
-        [DOM("href")]
+        [DomName("href")]
         public String Href
         {
             get { return GetAttribute(AttributeNames.Href); }
@@ -42,7 +42,7 @@
         /// <summary>
         /// Gets or sets the language of the linked resource.
         /// </summary>
-        [DOM("hreflang")]
+        [DomName("hreflang")]
         public String HrefLang
         {
             get { return GetAttribute(AttributeNames.HrefLang); }
@@ -52,7 +52,7 @@
         /// <summary>
         /// Gets or sets the target media of the linked resource.
         /// </summary>
-        [DOM("media")]
+        [DomName("media")]
         public String Media
         {
             get { return GetAttribute(AttributeNames.Media); }
@@ -63,7 +63,7 @@
         /// Gets or sets the value indicating relationships of the
         /// current document to the linked resource.
         /// </summary>
-        [DOM("rel")]
+        [DomName("rel")]
         public String Rel
         {
             get { return GetAttribute(AttributeNames.Rel); }
@@ -74,7 +74,7 @@
         /// Gets or sets the value indicating relationships of the current
         /// document to the linked resource, as a list of tokens.
         /// </summary>
-        [DOM("relList")]
+        [DomName("relList")]
         public ITokenList RelList
         {
             get { return rellist ?? (rellist = new TokenList(this, AttributeNames.Rel, Rel)); }
@@ -83,7 +83,7 @@
         /// <summary>
         /// Gets or sets the alternative text for the element.
         /// </summary>
-        [DOM("alt")]
+        [DomName("alt")]
         public String Alt
         {
             get { return GetAttribute(AttributeNames.Alt); }
@@ -93,7 +93,7 @@
         /// <summary>
         /// Gets or sets a single character that switches input focus to the control.
         /// </summary>
-        [DOM("accessKey")]
+        [DomName("accessKey")]
         public String AccessKey
         {
             get { return GetAttribute(AttributeNames.AccessKey); }
@@ -103,7 +103,7 @@
         /// <summary>
         /// Gets or sets the coordinates to define the hot-spot region.
         /// </summary>
-        [DOM("coords")]
+        [DomName("coords")]
         public String Coords
         {
             get { return GetAttribute(AttributeNames.Coords); }
@@ -113,7 +113,7 @@
         /// <summary>
         /// Gets or sets the shape of the hot-spot, limited to known values.
         /// </summary>
-        [DOM("shape")]
+        [DomName("shape")]
         public String Shape
         {
             get { return GetAttribute(AttributeNames.Shape); }
@@ -123,7 +123,7 @@
         /// <summary>
         /// Gets or sets the browsing context in which to open the linked resource.
         /// </summary>
-        [DOM("target")]
+        [DomName("target")]
         public String Target
         {
             get { return GetAttribute(AttributeNames.Target); }
@@ -133,7 +133,7 @@
         /// <summary>
         /// Gets or sets the MIME type of the linked resource.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public String Type
         {
             get { return GetAttribute(AttributeNames.Type); }

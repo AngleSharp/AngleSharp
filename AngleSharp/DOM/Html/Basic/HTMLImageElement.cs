@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the image element.
     /// </summary>
-    [DOM("HTMLImageElement")]
+    [DomName("HTMLImageElement")]
     public sealed class HTMLImageElement : HTMLElement
     {
         #region Fields
@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets or sets the image source.
         /// </summary>
-        [DOM("src")]
+        [DomName("src")]
         public String Src
         {
             get { return GetAttribute("src"); }
@@ -48,7 +48,7 @@
         /// <summary>
         /// Gets or sets the alternative text.
         /// </summary>
-        [DOM("alt")]
+        [DomName("alt")]
         public String Alt
         {
             get { return GetAttribute("alt"); }
@@ -58,7 +58,7 @@
         /// <summary>
         /// Gets or sets the cross-origin attribute.
         /// </summary>
-        [DOM("crossOrigin")]
+        [DomName("crossOrigin")]
         public String CrossOrigin
         {
             get { return GetAttribute("crossorigin"); }
@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets or sets the usemap attribute, which indicates that the image has an associated image map.
         /// </summary>
-        [DOM("useMap")]
+        [DomName("useMap")]
         public String UseMap
         {
             get { return GetAttribute("usemap"); }
@@ -78,7 +78,7 @@
         /// <summary>
         /// Gets or sets the displayed width of the image element.
         /// </summary>
-        [DOM("width")]
+        [DomName("width")]
         public UInt32 Width
         {
             get { return ToInteger(GetAttribute("width"), _imageWidth); }
@@ -88,7 +88,7 @@
         /// <summary>
         /// Gets or sets the displayed height of the image element.
         /// </summary>
-        [DOM("height")]
+        [DomName("height")]
         public UInt32 Height
         {
             get { return ToInteger(GetAttribute("height"), _imageHeight); }
@@ -98,7 +98,7 @@
         /// <summary>
         /// Gets the width of the image.
         /// </summary>
-        [DOM("naturalWidth")]
+        [DomName("naturalWidth")]
         public UInt32 NaturalWidth
         {
             get { return _imageWidth; }
@@ -107,7 +107,7 @@
         /// <summary>
         /// Gets the height of the image.
         /// </summary>
-        [DOM("naturalHeight")]
+        [DomName("naturalHeight")]
         public UInt32 NaturalHeight
         {
             get { return _imageHeight; }
@@ -116,7 +116,7 @@
         /// <summary>
         /// Gets if the image is completely available.
         /// </summary>
-        [DOM("complete")]
+        [DomName("complete")]
         public Boolean Complete
         {
             get { return _loaded; }
@@ -127,7 +127,7 @@
         /// The attribute must not be specified on an element that does not
         /// have an ancestor a element with an href attribute.
         /// </summary>
-        [DOM("isMap")]
+        [DomName("isMap")]
         public Boolean IsMap
         {
             get { return GetAttribute("ismap") != null; }

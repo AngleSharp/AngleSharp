@@ -8,7 +8,7 @@
     /// More information is available at:
     /// http://url.spec.whatwg.org/
     /// </summary>
-    [DOM("Location")]
+    [DomName("Location")]
     public sealed class Location : ICssObject
     {
         #region Fields
@@ -98,7 +98,7 @@
         /// <summary>
         /// Gets or sets the hash, e.g.  "#myhash".
         /// </summary>
-        [DOM("hash")]
+        [DomName("hash")]
         public String Hash
         {
             get { return NonEmpty(_fragment, "#"); }
@@ -108,7 +108,7 @@
         /// <summary>
         /// Gets or sets the host, e.g. "localhost:8800" or "www.w3.org".
         /// </summary>
-        [DOM("host")]
+        [DomName("host")]
         public String Host
         {
             get { return HostName + NonEmpty(_port, ":"); }
@@ -118,7 +118,7 @@
         /// <summary>
         /// Gets or sets the host name, e.g. "localhost" or "www.w3.org".
         /// </summary>
-        [DOM("hostname")]
+        [DomName("hostname")]
         public String HostName
         {
             get { return _host; }
@@ -128,7 +128,7 @@
         /// <summary>
         /// Gets or sets the hyper reference, i.e. the full path.
         /// </summary>
-        [DOM("href")]
+        [DomName("href")]
         public String Href
         {
             get { return ToString(); }
@@ -138,7 +138,7 @@
         /// <summary>
         /// Gets or sets the pathname, e.g. "/mypath".
         /// </summary>
-        [DOM("pathname")]
+        [DomName("pathname")]
         public String PathName
         {
             get { return "/" + _path; }
@@ -148,7 +148,7 @@
         /// <summary>
         /// Gets or sets the port, e.g. "8800"
         /// </summary>
-        [DOM("port")]
+        [DomName("port")]
         public String Port
         {
             get { return _port; }
@@ -158,7 +158,7 @@
         /// <summary>
         /// Gets or sets the protocol, e.g. "http:".
         /// </summary>
-        [DOM("protocol")]
+        [DomName("protocol")]
         public String Protocol
         {
             get { return NonEmpty(_scheme, postfix : ":"); }
@@ -168,7 +168,7 @@
         /// <summary>
         /// Gets or sets the query, e.g. "?id=...".
         /// </summary>
-        [DOM("search")]
+        [DomName("search")]
         public String Search
         {
             get { return NonEmpty(_query, "?"); }

@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML menu element.
     /// </summary>
-    [DOM("HTMLMenuElement")]
+    [DomName("HTMLMenuElement")]
     public sealed class HTMLMenuElement : HTMLElement
     {
         #region ctor
@@ -25,7 +25,7 @@
         /// <summary>
         /// Gets or sets the type of the menu element.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public MenuType Type
         {
             get { return ToEnum(GetAttribute(AttributeNames.Type), MenuType.Popup); }
@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets or sets the text label of the menu element.
         /// </summary>
-        [DOM("label")]
+        [DomName("label")]
         public String Label
         {
             get { return GetAttribute(AttributeNames.Label); }

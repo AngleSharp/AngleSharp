@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents an HTML script element.
     /// </summary>
-    [DOM("HTMLScriptElement")]
+    [DomName("HTMLScriptElement")]
     public sealed class HTMLScriptElement : HTMLElement
     {
         #region ctor
@@ -26,7 +26,7 @@
         /// <summary>
         /// Gets or sets athe address of the resource.
         /// </summary>
-        [DOM("src")]
+        [DomName("src")]
         public String Src
         {
             get;
@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets or sets the type of an embedded resource.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public String Type
         {
             get;
@@ -46,7 +46,7 @@
         /// <summary>
         /// Gets or sets the character encoding of the external script resource.
         /// </summary>
-        [DOM("charset")]
+        [DomName("charset")]
         public String Charset
         {
             get;
@@ -56,7 +56,7 @@
         /// <summary>
         /// Gets or sets if script should execute asynchronously.
         /// </summary>
-        [DOM("async")]
+        [DomName("async")]
         public Boolean Async
         {
             get;
@@ -66,7 +66,7 @@
         /// <summary>
         /// Gets or sets if the script should be deferred.
         /// </summary>
-        [DOM("defer")]
+        [DomName("defer")]
         public Boolean Defer
         {
             get;
@@ -76,7 +76,7 @@
         /// <summary>
         /// Gets or sets how the element handles crossorigin requests.
         /// </summary>
-        [DOM("crossOrigin")]
+        [DomName("crossOrigin")]
         public CORSSettings CrossOrigin
         {
             get;
@@ -86,7 +86,7 @@
         /// <summary>
         /// Gets or sets the text in the script element.
         /// </summary>
-        [DOM("text")]
+        [DomName("text")]
         public String Text
         {
             get { return TextContent; }

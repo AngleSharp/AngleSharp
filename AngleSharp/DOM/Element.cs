@@ -40,7 +40,7 @@
         /// <summary>
         /// Gets or sets the namespace prefix of the specified node, or null if no prefix is specified.
         /// </summary>
-        [DOM("prefix")]
+        [DomName("prefix")]
         public override String Prefix
         {
             get { return _prefix; }
@@ -50,7 +50,7 @@
         /// <summary>
         /// Gets the number of child elements.
         /// </summary>
-        [DOM("childElementCount")]
+        [DomName("childElementCount")]
         public Int32 ChildElementCount
         {
             get { return _elements.Length; }
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets the child elements.
         /// </summary>
-        [DOM("children")]
+        [DomName("children")]
         public HTMLCollection Children
         {
             get { return _elements; }
@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets or sets the text content of a node and its descendants.
         /// </summary>
-        [DOM("textContent")]
+        [DomName("textContent")]
         public override String TextContent
         {
             get
@@ -88,7 +88,7 @@
         /// Gets or sets whether or not the element is editable. This enumerated
         /// attribute can have the values true, false and inherited.
         /// </summary>
-        [DOM("contentEditable")]
+        [DomName("contentEditable")]
         public ContentEditableMode ContentEditable
         {
             get { return ToEnum(GetAttribute("contenteditable"), ContentEditableMode.Inherited); }
@@ -98,7 +98,7 @@
         /// <summary>
         /// Gets if the element is currently contenteditable.
         /// </summary>
-        [DOM("isContentEditable")]
+        [DomName("isContentEditable")]
         public Boolean IsContentEditable
         {
             get
@@ -117,7 +117,7 @@
         /// <summary>
         /// Gets the list of class names.
         /// </summary>
-        [DOM("classList")]
+        [DomName("classList")]
         public ITokenList ClassList
         {
             get { return _classList ?? (_classList = new TokenList(this, AttributeNames.Class, ClassName)); }
@@ -126,7 +126,7 @@
         /// <summary>
         /// Gets or sets the value of the class attribute.
         /// </summary>
-        [DOM("className")]
+        [DomName("className")]
         public String ClassName
         {
             get { return GetAttribute("class"); }
@@ -136,7 +136,7 @@
         /// <summary>
         /// Gets an object representing the declarations of an element's style attributes.
         /// </summary>
-        [DOM("style")]
+        [DomName("style")]
         public CSSStyleDeclaration Style
         {
             get { return _style ?? (_style = new CSSStyleDeclaration(this)); }
@@ -145,7 +145,7 @@
         /// <summary>
         /// Gets or sets the value of the id attribute.
         /// </summary>
-        [DOM("id")]
+        [DomName("id")]
         public String Id
         {
             get { return GetAttribute("id"); }
@@ -155,7 +155,7 @@
         /// <summary>
         /// Gets or sets the value of the lang attribute.
         /// </summary>
-        [DOM("lang")]
+        [DomName("lang")]
         public String Lang
         {
             get { return GetAttribute("lang") ?? (ParentElement != null ? ParentElement.Lang : _owner.Options.Language); }
@@ -165,7 +165,7 @@
         /// <summary>
         /// Gets or sets the value of the title attribute.
         /// </summary>
-        [DOM("title")]
+        [DomName("title")]
         public String Title
         {
             get { return GetAttribute("title"); }
@@ -175,7 +175,7 @@
         /// <summary>
         /// Gets or sets the value of the dir attribute.
         /// </summary>
-        [DOM("dir")]
+        [DomName("dir")]
         public DirectionMode Dir
         {
             get { return ToEnum(GetAttribute("dir"), DirectionMode.Ltr); }
@@ -185,7 +185,7 @@
         /// <summary>
         /// Gets the tagname of the element.
         /// </summary>
-        [DOM("tagName")]
+        [DomName("tagName")]
         public String TagName
         {
             get { return _name; }
@@ -194,7 +194,7 @@
         /// <summary>
         /// Gets or sets if spell-checking is activated.
         /// </summary>
-        [DOM("spellcheck")]
+        [DomName("spellcheck")]
         public Boolean Spellcheck
         {
             get { return ToBoolean(GetAttribute("spellcheck"), false); }
@@ -204,7 +204,7 @@
         /// <summary>
         /// Gets or sets the position of the element in the tabbing order.
         /// </summary>
-        [DOM("tabIndex")]
+        [DomName("tabIndex")]
         public Int32 TabIndex
         {
             get { return ToInteger(GetAttribute("tabindex"), 0); }
@@ -215,7 +215,7 @@
         /// Gets access to all the custom data attributes (data-*) set on the element. It is a map of DOMString,
         /// one entry for each custom data attribute.
         /// </summary>
-        [DOM("dataset")]
+        [DomName("dataset")]
         public IStringMap Dataset
         {
             get { return _dataset ?? (_dataset = new StringMap("data-", this)); }
@@ -225,7 +225,7 @@
         /// Gets the element immediately preceding in this node's parent's list of nodes, 
         /// null if the current element is the first element in that list.
         /// </summary>
-        [DOM("previousElementSibling")]
+        [DomName("previousElementSibling")]
         public Element PreviousElementSibling
         {
             get
@@ -251,7 +251,7 @@
         /// Gets the element immediately following in this node's parent's list of nodes,
         /// or null if the current element is the last element in that list.
         /// </summary>
-        [DOM("nextElementSibling")]
+        [DomName("nextElementSibling")]
         public Element NextElementSibling
         {
             get
@@ -277,7 +277,7 @@
         /// <summary>
         /// Gets the first child element of this element.
         /// </summary>
-        [DOM("firstElementChild")]
+        [DomName("firstElementChild")]
         public Element FirstElementChild
         {
             get 
@@ -297,7 +297,7 @@
         /// <summary>
         /// Gets the last child element of this element.
         /// </summary>
-        [DOM("lastElementChild")]
+        [DomName("lastElementChild")]
         public Element LastElementChild
         {
             get
@@ -315,7 +315,7 @@
         /// <summary>
         /// Gets or sets the HTML syntax describing the element's descendants.
         /// </summary>
-        [DOM("innerHTML")]
+        [DomName("innerHTML")]
         public String InnerHTML
         {
             get { return _children.ToHtml(); }
@@ -341,7 +341,7 @@
         /// <summary>
         /// Gets or sets the HTML syntax describing the element including its descendants. 
         /// </summary>
-        [DOM("outerHTML")]
+        [DomName("outerHTML")]
         public String OuterHTML
         {
             get { return this.ToHtml(); }
@@ -374,7 +374,7 @@
         /// <summary>
         /// Gets the sequence of associated attributes.
         /// </summary>
-        [DOM("attributes")]
+        [DomName("attributes")]
         public AttrContainer Attributes
         {
             get { return _attributes; }
@@ -387,7 +387,7 @@
         /// <summary>
         /// Gets if the element is being hovered.
         /// </summary>
-        [DOM("isHovered")]
+        [DomName("isHovered")]
         public Boolean IsHovered
         {
             get;
@@ -397,7 +397,7 @@
         /// <summary>
         /// Gets if the element has currently focus.
         /// </summary>
-        [DOM("isFocused")]
+        [DomName("isFocused")]
         public Boolean IsFocused
         {
             get;
@@ -407,7 +407,7 @@
         /// <summary>
         /// Gets the width of the left border of this element.
         /// </summary>
-        [DOM("clientLeft")]
+        [DomName("clientLeft")]
         public Int32 ClientLeft
         {
             get;
@@ -417,7 +417,7 @@
         /// <summary>
         /// Gets the height of the top border of this element.
         /// </summary>
-        [DOM("clientTop")]
+        [DomName("clientTop")]
         public Int32 ClientTop
         {
             get;
@@ -427,7 +427,7 @@
         /// <summary>
         /// Gets the inner width of this element.
         /// </summary>
-        [DOM("clientWidth")]
+        [DomName("clientWidth")]
         public Int32 ClientWidth
         {
             get;
@@ -437,7 +437,7 @@
         /// <summary>
         /// Gets the inner height of this element.
         /// </summary>
-        [DOM("clientHeight")]
+        [DomName("clientHeight")]
         public Int32 ClientHeight
         {
             get;
@@ -447,7 +447,7 @@
         /// <summary>
         /// Gets the element from which all offset calculations are currently computed.
         /// </summary>
-        [DOM("offsetParent")]
+        [DomName("offsetParent")]
         public Element OffsetParent
         {
             get;
@@ -457,7 +457,7 @@
         /// <summary>
         /// Gets the distance from this element's left border to its offsetParent's left border.
         /// </summary>
-        [DOM("offsetLeft")]
+        [DomName("offsetLeft")]
         public Int32 OffsetLeft
         {
             get;
@@ -467,7 +467,7 @@
         /// <summary>
         /// Gets the distance from this element's top border to its offsetParent's top border.
         /// </summary>
-        [DOM("offsetTop")]
+        [DomName("offsetTop")]
         public Int32 OffsetTop
         {
             get;
@@ -477,7 +477,7 @@
         /// <summary>
         /// Gets the width of this element, relative to the layout.
         /// </summary>
-        [DOM("offsetWidth")]
+        [DomName("offsetWidth")]
         public Int32 OffsetWidth
         {
             get;
@@ -487,7 +487,7 @@
         /// <summary>
         /// Gets the height of this element, relative to the layout.
         /// </summary>
-        [DOM("offsetHeight")]
+        [DomName("offsetHeight")]
         public Int32 OffsetHeight
         {
             get;
@@ -497,7 +497,7 @@
         /// <summary>
         /// Gets or sets the left scroll offset of an element.
         /// </summary>
-        [DOM("scrollLeft")]
+        [DomName("scrollLeft")]
         public Int32 ScrollLeft
         {
             get;
@@ -507,7 +507,7 @@
         /// <summary>
         /// Gets or sets the top scroll offset of an element.
         /// </summary>
-        [DOM("scrollTop")]
+        [DomName("scrollTop")]
         public Int32 ScrollTop
         {
             get;
@@ -517,7 +517,7 @@
         /// <summary>
         /// Gets the scroll view width of an element.
         /// </summary>
-        [DOM("scrollWidth")]
+        [DomName("scrollWidth")]
         public Int32 ScrollWidth
         {
             get;
@@ -527,7 +527,7 @@
         /// <summary>
         /// Gets the scroll view height of an element.
         /// </summary>
-        [DOM("scrollHeight")]
+        [DomName("scrollHeight")]
         public Int32 ScrollHeight
         {
             get;
@@ -543,7 +543,7 @@
         /// method of the document node.
         /// </summary>
         /// <returns>The current element.</returns>
-        [DOM("normalizeNamespaces")]
+        [DomName("normalizeNamespaces")]
         public Element NormalizeNamespaces()
         {
             var declarations = new List<String>();
@@ -589,7 +589,7 @@
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
-        [DOM("querySelector")]
+        [DomName("querySelector")]
         public Element QuerySelector(String selectors)
         {
             return _children.QuerySelector(selectors);
@@ -601,7 +601,7 @@
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>A collection of HTML elements.</returns>
-        [DOM("querySelectorAll")]
+        [DomName("querySelectorAll")]
         public HTMLCollection QuerySelectorAll(String selectors)
         {
             return _children.QuerySelectorAll(selectors);
@@ -612,7 +612,7 @@
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of HTML elements.</returns>
-        [DOM("getElementsByClassName")]
+        [DomName("getElementsByClassName")]
         public HTMLCollection GetElementsByClassName(String classNames)
         {
             return _children.GetElementsByClassName(classNames);
@@ -623,7 +623,7 @@
         /// </summary>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        [DOM("getElementsByTagName")]
+        [DomName("getElementsByTagName")]
         public HTMLCollection GetElementsByTagName(String tagName)
         {
             return _children.GetElementsByTagName(tagName);
@@ -636,7 +636,7 @@
         /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        [DOM("getElementsByTagNameNS")]
+        [DomName("getElementsByTagNameNS")]
         public HTMLCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return _children.GetElementsByTagNameNS(namespaceURI, tagName);
@@ -647,7 +647,7 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DOM("cloneNode")]
+        [DomName("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
             var node = new Element();
@@ -662,7 +662,7 @@
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        [DOM("lookupNamespaceURI")]
+        [DomName("lookupNamespaceURI")]
         public override String LookupNamespaceURI(String prefix)
         {
             if (!String.IsNullOrEmpty(_ns) && Prefix == prefix)
@@ -694,7 +694,7 @@
         /// <param name="namespaceURI">A string representing the namespace against which the element
         /// will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        [DOM("isDefaultNamespace")]
+        [DomName("isDefaultNamespace")]
         public override Boolean IsDefaultNamespace(String namespaceURI)
         { 
             if (String.IsNullOrEmpty(Prefix))
@@ -716,7 +716,7 @@
         /// </summary>
         /// <param name="name">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
-        [DOM("hasAttribute")]
+        [DomName("hasAttribute")]
         public Boolean HasAttribute(String name)
         {
             for (int i = 0; i < _attributes.Count; i++)
@@ -734,7 +734,7 @@
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="localName">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
-        [DOM("hasAttributeNS")]
+        [DomName("hasAttributeNS")]
         public Boolean HasAttribute(String namespaceUri, String localName)
         {
             for (int i = 0; i < _attributes.Count; i++)
@@ -751,7 +751,7 @@
         /// </summary>
         /// <param name="name">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
-        [DOM("getAttribute")]
+        [DomName("getAttribute")]
         public String GetAttribute(String name)
         {
             for (int i = 0; i < _attributes.Count; i++)
@@ -769,7 +769,7 @@
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="localName">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
-        [DOM("getAttributeNS")]
+        [DomName("getAttributeNS")]
         public String GetAttribute(String namespaceUri, String localName)
         {
             for (int i = 0; i < _attributes.Count; i++)
@@ -787,7 +787,7 @@
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
         /// <returns>The current element.</returns>
-        [DOM("setAttribute")]
+        [DomName("setAttribute")]
         public void SetAttribute(String name, String value)
         {
             if (value == null)
@@ -815,7 +815,7 @@
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
-        [DOM("setAttributeNS")]
+        [DomName("setAttributeNS")]
         public void SetAttribute(String namespaceUri, String name, String value)
         {
             if (value == null)
@@ -842,7 +842,7 @@
         /// </summary>
         /// <param name="name">Is a string that names the attribute to be removed.</param>
         /// <returns>The current element.</returns>
-        [DOM("removeAttribute")]
+        [DomName("removeAttribute")]
         public void RemoveAttribute(String name)
         {
             for (int i = 0; i < _attributes.Count; i++)
@@ -862,7 +862,7 @@
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="localName">Is a string that names the attribute to be removed.</param>
         /// <returns>The current element.</returns>
-        [DOM("removeAttributeNS")]
+        [DomName("removeAttributeNS")]
         public void RemoveAttribute(String namespaceUri, String localName)
         {
             for (int i = 0; i < _attributes.Count; i++)
@@ -883,7 +883,7 @@
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        [DOM("lookupPrefix")]
+        [DomName("lookupPrefix")]
         public override String LookupPrefix(String namespaceURI)
         {
             return LookupNamespacePrefix(namespaceURI, this);
@@ -894,7 +894,7 @@
         /// </summary>
         /// <param name="nodes">The nodes to prepend.</param>
         /// <returns>The current element.</returns>
-        [DOM("prepend")]
+        [DomName("prepend")]
         public Element Prepend(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -911,7 +911,7 @@
         /// </summary>
         /// <param name="nodes">The nodes to append.</param>
         /// <returns>The current element.</returns>
-        [DOM("append")]
+        [DomName("append")]
         public Element Append(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -928,7 +928,7 @@
         /// </summary>
         /// <param name="nodes">The nodes to insert before.</param>
         /// <returns>The current element.</returns>
-        [DOM("before")]
+        [DomName("before")]
         public Element Before(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -945,7 +945,7 @@
         /// </summary>
         /// <param name="nodes">The nodes to insert after.</param>
         /// <returns>The current element.</returns>
-        [DOM("after")]
+        [DomName("after")]
         public Element After(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -962,7 +962,7 @@
         /// </summary>
         /// <param name="nodes">The nodes to replace.</param>
         /// <returns>The current element.</returns>
-        [DOM("replace")]
+        [DomName("replace")]
         public Element Replace(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
@@ -978,7 +978,7 @@
         /// Removes the current element from the parent.
         /// </summary>
         /// <returns>The current element.</returns>
-        [DOM("remove")]
+        [DomName("remove")]
         public Element Remove()
         {
             if (_parent != null)
@@ -1014,7 +1014,7 @@
         /// </summary>
         /// <param name="position">The relation to the current element.</param>
         /// <param name="html">The HTML code to generate elements for.</param>
-        [DOM("insertAdjacentHTML")]
+        [DomName("insertAdjacentHTML")]
         public void insertAdjacentHTML(AdjacentPosition position, String html)
         {
             var nodeParent = position == AdjacentPosition.BeforeBegin || position == AdjacentPosition.AfterEnd ? this : _parent;

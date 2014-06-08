@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a CSS @media rule.
     /// </summary>
-    [DOM("CSSMediaRule")]
+    [DomName("CSSMediaRule")]
     public sealed class CSSMediaRule : CSSConditionRule
     {
         #region Fields
@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets or sets the text of the media condition.
         /// </summary>
-        [DOM("conditionText")]
+        [DomName("conditionText")]
         public override String ConditionText
         {
             get { return _media.MediaText; }
@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets a list of media types for this rule.
         /// </summary>
-        [DOM("media")]
+        [DomName("media")]
         public MediaList Media
         {
             get { return _media; }

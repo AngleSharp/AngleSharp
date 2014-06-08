@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML paragraph element.
     /// </summary>
-    [DOM("HTMLParagraphElement")]
+    [DomName("HTMLParagraphElement")]
     public sealed class HTMLParagraphElement : HTMLElement, IImpliedEnd
     {
         #region ctor
@@ -25,7 +25,7 @@
         /// <summary>
         /// Gets or sets the value of the alignment attribute.
         /// </summary>
-        [DOM("align")]
+        [DomName("align")]
         public HorizontalAlignment Align
         {
             get { return ToEnum(GetAttribute("align"), HorizontalAlignment.Left); }

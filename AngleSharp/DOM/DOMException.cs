@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a DOM exception.
     /// </summary>
-    [DOM("DOMException")]
+    [DomName("DOMException")]
     public sealed class DOMException : Exception
     {
         #region ctor
@@ -48,7 +48,7 @@
         /// <summary>
         /// Gets the error code for this exception.
         /// </summary>
-        [DOM("code")]
+        [DomName("code")]
         public Int32 Code
         {
             get;

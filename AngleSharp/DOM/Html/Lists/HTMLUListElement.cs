@@ -5,7 +5,7 @@
     /// <summary>
     /// The DOM Object representing the unordered list.
     /// </summary>
-    [DOM("HTMLUListElement")]
+    [DomName("HTMLUListElement")]
     public sealed class HTMLUListElement : HTMLElement, IListScopeElement
     {
         #region ctor

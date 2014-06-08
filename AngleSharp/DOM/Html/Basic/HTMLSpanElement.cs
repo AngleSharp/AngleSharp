@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML span element.
     /// </summary>
-    [DOM("HTMLSpanElement")]
+    [DomName("HTMLSpanElement")]
     public sealed class HTMLSpanElement : HTMLElement
     {
         #region ctor

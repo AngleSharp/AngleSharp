@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a CSS value.
 	/// </summary>
-	[DOM("CSSValue")]
+	[DomName("CSSValue")]
     public class CSSValue : ICssObject
     {
         #region Fields
@@ -49,7 +49,7 @@
         /// <summary>
         /// Gets a code defining the type of the value as defined above.
 		/// </summary>
-		[DOM("cssValueType")]
+		[DomName("cssValueType")]
         public CssValueType CssValueType
         {
             get { return _type; }
@@ -58,7 +58,7 @@
         /// <summary>
         /// Gets or sets a string representation of the current value.
         /// </summary>
-		[DOM("cssText")]
+		[DomName("cssText")]
         public String CssText
         {
             get { return ToCss(); }

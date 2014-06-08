@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML menuitem element.
     /// </summary>
-    [DOM("HTMLMenuItemElement")]
+    [DomName("HTMLMenuItemElement")]
     public sealed class HTMLMenuItemElement : HTMLElement
     {
         #region ctor
@@ -47,7 +47,7 @@
         /// <summary>
         /// Gets the assigned master command, if any.
         /// </summary>
-        [DOM("command")]
+        [DomName("command")]
         public Element Command
         {
             get
@@ -64,7 +64,7 @@
         /// <summary>
         /// Gets or sets the type of command.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public ItemType Type
         {
             get { return ToEnum(GetAttribute("type"), ItemType.Command); }
@@ -74,7 +74,7 @@
         /// <summary>
         /// Gets or sets the user-visible label.
         /// </summary>
-        [DOM("label")]
+        [DomName("label")]
         public String Label
         {
             get { return GetAttribute("label"); }
@@ -84,7 +84,7 @@
         /// <summary>
         /// Gets or sets the icon for the command.
         /// </summary>
-        [DOM("icon")]
+        [DomName("icon")]
         public String Icon
         {
             get { return GetAttribute("icon"); }
@@ -94,7 +94,7 @@
         /// <summary>
         /// Gets or sets if the menuitem element is enabled or disabled.
         /// </summary>
-        [DOM("disabled")]
+        [DomName("disabled")]
         public Boolean Disabled
         {
             get { return GetAttribute("disabled") != null; }
@@ -104,7 +104,7 @@
         /// <summary>
         /// Gets or sets if the menuitem element is checked or not.
         /// </summary>
-        [DOM("checked")]
+        [DomName("checked")]
         public Boolean Checked
         {
             get { return GetAttribute("checked") != null; }
@@ -114,7 +114,7 @@
         /// <summary>
         /// Gets or sets if the menuitem element is the default command.
         /// </summary>
-        [DOM("default")]
+        [DomName("default")]
         public Boolean Default
         {
             get { return GetAttribute("default") != null; }
@@ -125,7 +125,7 @@
         /// Gets or sets the name of group of commands to
         /// treat as a radio button group.
         /// </summary>
-        [DOM("radiogroup")]
+        [DomName("radiogroup")]
         public String Radiogroup
         {
             get { return GetAttribute("radiogroup"); }

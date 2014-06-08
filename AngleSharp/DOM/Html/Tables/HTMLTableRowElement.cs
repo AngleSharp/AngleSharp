@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML tr element.
     /// </summary>
-    [DOM("HTMLTableRowElement")]
+    [DomName("HTMLTableRowElement")]
     public sealed class HTMLTableRowElement : HTMLElement, IImplClosed
     {
         #region Fields
@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets or sets the value of the alignment attribute.
         /// </summary>
-        [DOM("align")]
+        [DomName("align")]
         public HorizontalAlignment Align
         {
             get { return ToEnum(GetAttribute("align"), HorizontalAlignment.Left); }
@@ -41,7 +41,7 @@
         /// <summary>
         /// Gets or sets the value of the vertical alignment attribute.
         /// </summary>
-        [DOM("vAlign")]
+        [DomName("vAlign")]
         public VerticalAlignment VAlign
         {
             get { return ToEnum(GetAttribute("valign"), VerticalAlignment.Middle); }
@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets or sets the value of the background color attribute.
         /// </summary>
-        [DOM("bgColor")]
+        [DomName("bgColor")]
         public String BgColor
         {
             get { return GetAttribute("bgcolor"); }
@@ -61,7 +61,7 @@
         /// <summary>
         /// Gets the assigned table cells.
         /// </summary>
-        [DOM("cells")]
+        [DomName("cells")]
         public HTMLCollection<HTMLTableCellElement> Cells
         {
             get { return _cells; }
@@ -70,7 +70,7 @@
         /// <summary>
         /// Gets the index in the logical order and not in document order. 
         /// </summary>
-        [DOM("rowIndex")]
+        [DomName("rowIndex")]
         public Int32 RowIndex
         {
             get
@@ -90,7 +90,7 @@
         /// <summary>
         /// Gets the index of this row, relative to the current section starting from 0.
         /// </summary>
-        [DOM("sectionRowIndex")]
+        [DomName("sectionRowIndex")]
         public Int32 SectionRowIndex
         {
             get
@@ -129,7 +129,7 @@
         /// </summary>
         /// <param name="index">The place to insert the cell, starting from 0.</param>
         /// <returns>The inserted table cell.</returns>
-        [DOM("insertCell")]
+        [DomName("insertCell")]
         public HTMLTableCellElement InsertCell(Int32 index)
         {
             var cell = _cells[index];
@@ -149,7 +149,7 @@
         /// <param name="index">The index of the cell to delete, starting from 0. If the index is
         /// -1 the last cell in the row is deleted.</param>
         /// <returns>The current row.</returns>
-        [DOM("deleteCell")]
+        [DomName("deleteCell")]
         public HTMLTableRowElement DeleteCell(Int32 index)
         {
             if (index == -1)

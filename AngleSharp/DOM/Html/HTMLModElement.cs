@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML modifier (ins / del) element.
     /// </summary>
-    [DOM("HTMLModElement")]
+    [DomName("HTMLModElement")]
     public sealed class HTMLModElement : HTMLElement
     {
         #region ctor
@@ -23,7 +23,7 @@
         /// Gets or sets the value that contains a URI of a resource
         /// explaining the change.
         /// </summary>
-        [DOM("cite")]
+        [DomName("cite")]
         public String Cite
         {
             get { return GetAttribute("cite"); }
@@ -34,7 +34,7 @@
         /// Gets or sets the value that contains date-and-time string
         /// representing a timestamp for the change.
         /// </summary>
-        [DOM("datetime")]
+        [DomName("datetime")]
         public String Datetime
         {
             get { return GetAttribute("datetime"); }

@@ -49,7 +49,7 @@
         /// <summary>
         /// Gets or sets the media source.
         /// </summary>
-        [DOM("src")]
+        [DomName("src")]
         public String Src
         {
             get { return GetAttribute("src"); }
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets or sets the cross-origin attribute.
         /// </summary>
-        [DOM("crossOrigin")]
+        [DomName("crossOrigin")]
         public String CrossOrigin
         {
             get { return GetAttribute("crossorigin"); }
@@ -69,7 +69,7 @@
         /// <summary>
         /// Gets or sets the preload attribute.
         /// </summary>
-        [DOM("preload")]
+        [DomName("preload")]
         public String Preload
         {
             get { return GetAttribute("preload"); }
@@ -79,7 +79,7 @@
         /// <summary>
         /// Gets the current network state.
         /// </summary>
-        [DOM("networkState")]
+        [DomName("networkState")]
         public MediaNetworkState NetworkState
         {
             get { return _network; }
@@ -88,7 +88,7 @@
         /// <summary>
         /// Gets the current ready state.
         /// </summary>
-        [DOM("readyState")]
+        [DomName("readyState")]
         public MediaReadyState ReadyState
         {
             get { return _ready; }
@@ -97,7 +97,7 @@
         /// <summary>
         /// Gets if seeking is currently active.
         /// </summary>
-        [DOM("seeking")]
+        [DomName("seeking")]
         public Boolean Seeking
         {
             get { return _seeking; }
@@ -106,7 +106,7 @@
         /// <summary>
         /// Gets the current media source.
         /// </summary>
-        [DOM("currentSrc")]
+        [DomName("currentSrc")]
         public String CurrentSrc
         {
             get { return _source; }
@@ -115,7 +115,7 @@
         /// <summary>
         /// Gets the time in seconds.
         /// </summary>
-        [DOM("duration")]
+        [DomName("duration")]
         public Double Duration
         {
             get { return _duration; }
@@ -124,7 +124,7 @@
         /// <summary>
         /// Gets or sets the current time in seconds.
         /// </summary>
-        [DOM("currentTime")]
+        [DomName("currentTime")]
         public Double CurrentTime
         {
             get { return _currentTime; }
@@ -151,7 +151,7 @@
         /// <summary>
         /// Loads the media specified for this element.
         /// </summary>
-        [DOM("load")]
+        [DomName("load")]
         public void Load()
         {
             //TODO
@@ -160,7 +160,7 @@
         /// <summary>
         /// Tries to play the media for this element.
         /// </summary>
-        [DOM("play")]
+        [DomName("play")]
         public void Play()
         {
             //TODO
@@ -169,7 +169,7 @@
         /// <summary>
         /// Pauses the playback of the media for this element.
         /// </summary>
-        [DOM("pause")]
+        [DomName("pause")]
         public void Pause()
         {
             //TODO

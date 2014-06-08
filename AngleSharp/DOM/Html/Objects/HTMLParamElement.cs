@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a param element.
     /// </summary>
-    [DOM("HTMLParamElement")]
+    [DomName("HTMLParamElement")]
     public sealed class HTMLParamElement : HTMLElement
     {
         #region ctor
@@ -25,7 +25,7 @@
         /// <summary>
         /// Gets or sets the value of the value attribute.
         /// </summary>
-        [DOM("value")]
+        [DomName("value")]
         public String Value
         {
             get { return GetAttribute("value"); }
@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        [DOM("name")]
+        [DomName("name")]
         public String Name
         {
             get { return GetAttribute("name"); }

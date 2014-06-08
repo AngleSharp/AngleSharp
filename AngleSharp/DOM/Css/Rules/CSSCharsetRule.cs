@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents the CSS @charset rule.
     /// </summary>
-    [DOM("CSSCharsetRule")]
+    [DomName("CSSCharsetRule")]
     public sealed class CSSCharsetRule : CSSRule
     {
         #region ctor
@@ -23,7 +23,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the encoding information set by this rule.
         /// </summary>
-        [DOM("encoding")]
+        [DomName("encoding")]
         public String Encoding
         {
             get;

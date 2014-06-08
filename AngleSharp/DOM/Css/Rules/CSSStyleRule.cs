@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a CSS style rule.
     /// </summary>
-    [DOM("CSSStyleRule")]
+    [DomName("CSSStyleRule")]
 	public sealed class CSSStyleRule : CSSRule
     {
         #region Fields
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets or sets the textual representation of the selector for this rule, e.g. "h1,h2".
         /// </summary>
-        [DOM("selectorText")]
+        [DomName("selectorText")]
         public String SelectorText
         {
             get { return _selectorText; }
@@ -73,7 +73,7 @@
         /// <summary>
         /// Gets the CSSStyleDeclaration object for the rule.
         /// </summary>
-        [DOM("style")]
+        [DomName("style")]
         public CSSStyleDeclaration Style
         {
             get { return _style; }

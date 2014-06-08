@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML table element.
     /// </summary>
-    [DOM("HTMLTableElement")]
+    [DomName("HTMLTableElement")]
     public sealed class HTMLTableElement : HTMLElement, IScopeElement, ITableScopeElement
     {
         #region Fields
@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets the assigned caption element.
         /// </summary>
-        [DOM("caption")]
+        [DomName("caption")]
         public HTMLTableCaptionElement Caption
         {
             get { return _children.QuerySelector<HTMLTableCaptionElement>(SimpleSelector.Type(Tags.Caption)); }
@@ -42,7 +42,7 @@
         /// <summary>
         /// Gets the assigned head section.
         /// </summary>
-        [DOM("tHead")]
+        [DomName("tHead")]
         public HTMLTableSectionElement THead
         {
             get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Thead)); }
@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets the assigned body sections.
         /// </summary>
-        [DOM("tBodies")]
+        [DomName("tBodies")]
         public HTMLCollection<HTMLTableCaptionElement> TBodies
         {
             get { return _bodies; }
@@ -60,7 +60,7 @@
         /// <summary>
         /// Gets the assigned foot section.
         /// </summary>
-        [DOM("tFoot")]
+        [DomName("tFoot")]
         public HTMLTableSectionElement TFoot
         {
             get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Tfoot)); }
@@ -69,7 +69,7 @@
         /// <summary>
         /// Gets the assigned table rows.
         /// </summary>
-        [DOM("rows")]
+        [DomName("rows")]
         public HTMLCollection<HTMLTableRowElement> Rows
         {
             get { return _rows; }
@@ -78,7 +78,7 @@
         /// <summary>
         /// Gets or sets the value of the alignment attribute.
         /// </summary>
-        [DOM("align")]
+        [DomName("align")]
         public HorizontalAlignment Align
         {
             get { return ToEnum(GetAttribute("align"), HorizontalAlignment.Left); }
@@ -88,7 +88,7 @@
         /// <summary>
         /// Gets or sets the value of the background color attribute.
         /// </summary>
-        [DOM("bgColor")]
+        [DomName("bgColor")]
         public String BgColor
         {
             get { return GetAttribute("bgcolor"); }
@@ -98,7 +98,7 @@
         /// <summary>
         /// Gets or sets the value of the border attribute.
         /// </summary>
-        [DOM("border")]
+        [DomName("border")]
         public UInt32 Border
         {
             get { return ToInteger(GetAttribute("border"), 0u); }
@@ -108,7 +108,7 @@
         /// <summary>
         /// Gets or sets the value of the cellpadding (padding within a cell) attribute.
         /// </summary>
-        [DOM("cellPadding")]
+        [DomName("cellPadding")]
         public Int32 CellPadding
         {
             get { return ToInteger(GetAttribute("cellpadding"), 0); }
@@ -118,7 +118,7 @@
         /// <summary>
         /// Gets or sets the value of the cellspacing (spacing between the cells) attribute.
         /// </summary>
-        [DOM("cellSpacing")]
+        [DomName("cellSpacing")]
         public Int32 CellSpacing
         {
             get { return ToInteger(GetAttribute("cellspacing"), 0); }
@@ -128,7 +128,7 @@
         /// <summary>
         /// Gets or sets the value of the frame attribute.
         /// </summary>
-        [DOM("frame")]
+        [DomName("frame")]
         public TableFrames Frame
         {
             get { return ToEnum(GetAttribute("frame"), TableFrames.Void); }
@@ -138,7 +138,7 @@
         /// <summary>
         /// Gets or sets the value of the rules attribute.
         /// </summary>
-        [DOM("rules")]
+        [DomName("rules")]
         public TableRules Rules
         {
             get { return ToEnum(GetAttribute("rules"), TableRules.All); }
@@ -148,7 +148,7 @@
         /// <summary>
         /// Gets or sets the value of the summary attribute.
         /// </summary>
-        [DOM("summary")]
+        [DomName("summary")]
         public String Summary
         {
             get { return GetAttribute("summary"); }
@@ -158,7 +158,7 @@
         /// <summary>
         /// Gets or sets the value of the width attribute.
         /// </summary>
-        [DOM("width")]
+        [DomName("width")]
         public String Width
         {
             get { return GetAttribute("width"); }
@@ -192,7 +192,7 @@
         /// from 0 and is relative to the logical order (not document order) of all the rows
         /// contained inside the table.</param>
         /// <returns>The inserted table row.</returns>
-        [DOM("insertRow")]
+        [DomName("insertRow")]
         public HTMLTableRowElement InsertRow(Int32 index)
         {
             var rows = Rows;
@@ -231,7 +231,7 @@
         /// contained inside the table. If the index is -1 the last row in the table is
         /// deleted.</param>
         /// <returns>The current table.</returns>
-        [DOM("deleteRow")]
+        [DomName("deleteRow")]
         public HTMLTableElement DeleteRow(Int32 index)
         {
             var rows = Rows;
@@ -246,7 +246,7 @@
         /// Create a table header row or return an existing one.
         /// </summary>
         /// <returns>A new table header element.</returns>
-        [DOM("createTHead")]
+        [DomName("createTHead")]
         public HTMLTableSectionElement CreateTHead()
         {
             var head = THead;
@@ -264,7 +264,7 @@
         /// Delete the header from the table, if one exists. 
         /// </summary>
         /// <returns>The current table.</returns>
-        [DOM("deleteTHead")]
+        [DomName("deleteTHead")]
         public HTMLTableElement DeleteTHead()
         {
             var head = THead;
@@ -279,7 +279,7 @@
         /// Create a table footer row or return an existing one.
         /// </summary>
         /// <returns>A footer element.</returns>
-        [DOM("createTFoot")]
+        [DomName("createTFoot")]
         public HTMLTableSectionElement CreateTFoot()
         {
             var foot = TFoot;
@@ -297,7 +297,7 @@
         /// Delete the footer from the table, if one exists.
         /// </summary>
         /// <returns>The current table.</returns>
-        [DOM("deleteTFoot")]
+        [DomName("deleteTFoot")]
         public HTMLTableElement DeleteTFoot()
         {
             var foot = TFoot;
@@ -312,7 +312,7 @@
         /// Create a new table caption object or return an existing one.
         /// </summary>
         /// <returns>A CAPTION element.</returns>
-        [DOM("createCaption")]
+        [DomName("createCaption")]
         public HTMLTableCaptionElement CreateCaption()
         {
             var caption = Caption;
@@ -330,7 +330,7 @@
         /// Delete the table caption, if one exists.
         /// </summary>
         /// <returns>The current table.</returns>
-        [DOM("deleteCaption")]
+        [DomName("deleteCaption")]
         public HTMLTableElement DeleteCaption()
         {
             var caption = Caption;

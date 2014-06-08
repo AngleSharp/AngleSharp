@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents an HTML li, dd or dt tag.
     /// </summary>
-    [DOM("HTMLLIElement")]
+    [DomName("HTMLLIElement")]
     public sealed class HTMLLIElement : HTMLElement, IImpliedEnd
     {
         #region ctor

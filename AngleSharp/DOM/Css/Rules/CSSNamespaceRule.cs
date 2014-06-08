@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Css
     /// <summary>
     /// Represents an @namespace rule.
     /// </summary>
-    [DOM("CSSNamespaceRule")]
+    [DomName("CSSNamespaceRule")]
     public sealed class CSSNamespaceRule : CSSRule
     {
         #region Members
@@ -32,7 +32,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets a string containing the text of the URI of the given namespace.
         /// </summary>
-        [DOM("namespaceURI")]
+        [DomName("namespaceURI")]
         public String NamespaceURI
         {
             get { return _namespaceURI; }
@@ -42,7 +42,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets a string with the name of the prefix associated to this namespace. If there is no such prefix, returns null.
         /// </summary>
-        [DOM("prefix")]
+        [DomName("prefix")]
         public String Prefix
         {
             get { return _prefix; }

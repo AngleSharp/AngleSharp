@@ -6,7 +6,7 @@
     /// <summary>
     /// Represent a stylesheet object.
     /// </summary>
-    [DOM("StyleSheet")]
+    [DomName("StyleSheet")]
     public class StyleSheet
     {
         #region Fields
@@ -47,7 +47,7 @@
         /// <summary>
         /// Gets the style sheet language for this style sheet.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public String Type
         {
             get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Type) ?? String.Empty) : String.Empty; }
@@ -57,7 +57,7 @@
         /// Gets or sets if the stylesheet is applied to the document. Modifying this attribute may cause a new resolution
         /// of style for the document. If the media doesn't apply to the current user agent, the disabled attribute is ignored.
         /// </summary>
-        [DOM("disabled")]
+        [DomName("disabled")]
         public Boolean Disabled
         {
             get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Disabled) != null) : false; }
@@ -67,7 +67,7 @@
         /// <summary>
         /// Gets the element that associates this style sheet with the document.
         /// </summary>
-        [DOM("ownerNode")]
+        [DomName("ownerNode")]
         public Element OwnerNode
         {
             get { return _owner; }
@@ -77,7 +77,7 @@
         /// <summary>
         /// Gets the parent stylesheet for style sheet languages that support the concept of style sheet inclusion.
         /// </summary>
-        [DOM("parentStyleSheet")]
+        [DomName("parentStyleSheet")]
         public StyleSheet ParentStyleSheet
         {
             get { return _parent; }
@@ -86,7 +86,7 @@
         /// <summary>
         /// Gets the value of the attribute, which is its location. For inline style sheets, the value of this attribute is null.
         /// </summary>
-        [DOM("href")]
+        [DomName("href")]
         public String Href
         {
             get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Href) ?? String.Empty) : (_url ?? String.Empty); }
@@ -96,7 +96,7 @@
         /// <summary>
         /// Gets the advisory title. The title is often specified in the ownerNode.
         /// </summary>
-        [DOM("title")]
+        [DomName("title")]
         public String Title
         {
             get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Title) ?? String.Empty) : String.Empty; }
@@ -106,7 +106,7 @@
         /// Gets the intended destination media for style information. The media is often specified in the ownerNode. If no
         /// media has been specified, the MediaList is empty.
         /// </summary>
-        [DOM("media")]
+        [DomName("media")]
         public MediaList Media
         {
             get { return _media; }

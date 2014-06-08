@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the object for HTML dialog elements.
     /// </summary>
-    [DOM("HTMLDialogElement")]
+    [DomName("HTMLDialogElement")]
     public sealed class HTMLDialogElement : HTMLElement
     {
         internal HTMLDialogElement()

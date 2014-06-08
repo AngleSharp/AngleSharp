@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the title element.
     /// </summary>
-    [DOM("HTMLTitleElement")]
+    [DomName("HTMLTitleElement")]
     public sealed class HTMLTitleElement : HTMLElement
     {
         /// <summary>
@@ -19,7 +19,7 @@
         /// <summary>
         /// Gets or sets the text of the title.
         /// </summary>
-        [DOM("text")]
+        [DomName("text")]
         public String Text
         {
             get { return TextContent; }

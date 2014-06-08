@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML isindex element.
     /// </summary>
-    [DOM("HTMLIsIndexElement")]
+    [DomName("HTMLIsIndexElement")]
     public sealed class HTMLIsIndexElement : HTMLElement
     {
         #region ctor
@@ -25,7 +25,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the form element containing this control or null if this control is not within the context of a form.
         /// </summary>
-        [DOM("form")]
+        [DomName("form")]
         public HTMLFormElement Form
         {
             get;
@@ -35,7 +35,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the prompt message.
         /// </summary>
-        [DOM("prompt")]
+        [DomName("prompt")]
         public String Prompt
         {
             get { return GetAttribute("prompt"); }

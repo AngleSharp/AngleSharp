@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a CSS import rule.
     /// </summary>
-    [DOM("CSSImportRule")]
+    [DomName("CSSImportRule")]
     public sealed class CSSImportRule : CSSRule
     {
         #region Fields
@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets the location of the style sheet to be imported. 
         /// </summary>
-        [DOM("href")]
+        [DomName("href")]
         public String Href
         {
             get { return _href; }
@@ -45,7 +45,7 @@
         /// <summary>
         /// Gets a list of media types for which this style sheet may be used.
         /// </summary>
-        [DOM("media")]
+        [DomName("media")]
         public MediaList Media
         {
             get { return _media; }
@@ -55,7 +55,7 @@
         /// <summary>
         /// Gets the style sheet referred to by this rule, if it has been loaded. 
         /// </summary>
-        [DOM("styleSheet")]
+        [DomName("styleSheet")]
         public CSSStyleSheet StyleSheet
         {
             get { return _styleSheet; }

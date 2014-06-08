@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a standard HTML element in the node tree.
     /// </summary>
-    [DOM("HTMLElement")]
+    [DomName("HTMLElement")]
     public class HTMLElement : Element
     {
         #region ctor
@@ -47,7 +47,7 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DOM("cloneNode")]
+        [DomName("cloneNode")]
         public override Node CloneNode(Boolean deep = true)
         {
             var node = HTMLFactory.Create(_name, _owner);

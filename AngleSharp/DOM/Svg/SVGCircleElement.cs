@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Svg
     /// <summary>
     /// Represents the circle element of the SVG DOM.
     /// </summary>
-    [DOM("SVGCircleElement")]
+    [DomName("SVGCircleElement")]
     public class SVGCircleElement : SVGElement
     {
         internal SVGCircleElement()

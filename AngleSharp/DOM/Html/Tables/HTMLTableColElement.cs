@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML column (col / colgroup) element.
     /// </summary>
-    [DOM("HTMLTableColElement")]
+    [DomName("HTMLTableColElement")]
     public sealed class HTMLTableColElement : HTMLElement
     {
         #region ctor
@@ -22,7 +22,7 @@
         /// <summary>
         /// Gets or sets the value of the horizontal alignment attribute.
         /// </summary>
-        [DOM("align")]
+        [DomName("align")]
         public HorizontalAlignment Align
         {
             get { return ToEnum(GetAttribute("align"), HorizontalAlignment.Center); }
@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets or sets the number of columns in a group or affected by a grouping.
         /// </summary>
-        [DOM("span")]
+        [DomName("span")]
         public UInt32 Span
         {
             get { return ToInteger(GetAttribute("span"), 0u); }
@@ -42,7 +42,7 @@
         /// <summary>
         /// Gets or sets the value of the vertical alignment attribute.
         /// </summary>
-        [DOM("vAlign")]
+        [DomName("vAlign")]
         public VerticalAlignment VAlign
         {
             get { return ToEnum(GetAttribute("valign"), VerticalAlignment.Middle); }
@@ -52,7 +52,7 @@
         /// <summary>
         /// Gets or sets the value of the width attribute.
         /// </summary>
-        [DOM("width")]
+        [DomName("width")]
         public String Width
         {
             get { return GetAttribute("width"); }

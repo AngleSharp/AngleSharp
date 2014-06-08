@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the @page rule.
     /// </summary>
-    [DOM("CSSPageRule")]
+    [DomName("CSSPageRule")]
 	public sealed class CSSPageRule : CSSRule
     {
         #region Fields
@@ -64,7 +64,7 @@
         /// <summary>
         /// Gets the parsable textual representation of the page selector for the rule.
         /// </summary>
-        [DOM("selectorText")]
+        [DomName("selectorText")]
         public String SelectorText
         {
             get { return _selectorText; }
@@ -78,7 +78,7 @@
         /// <summary>
         /// Gets the  declaration-block of this rule.
         /// </summary>
-        [DOM("style")]
+        [DomName("style")]
         public CSSStyleDeclaration Style
         {
             get { return _style; }

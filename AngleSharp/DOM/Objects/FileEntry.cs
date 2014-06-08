@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a file captured in the FileList.
     /// </summary>
-    [DOM("FileEntry")]
+    [DomName("FileEntry")]
     public sealed class FileEntry
     {
         #region ctor

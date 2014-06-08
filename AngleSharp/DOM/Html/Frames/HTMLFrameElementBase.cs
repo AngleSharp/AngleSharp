@@ -20,7 +20,7 @@
         /// <summary>
         /// Gets or sets the name of the frame.
         /// </summary>
-        [DOM("name")]
+        [DomName("name")]
         public String Name
         {
             get { return GetAttribute(AttributeNames.Name); }
@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets or sets the frame source.
         /// </summary>
-        [DOM("src")]
+        [DomName("src")]
         public String Src
         {
             get { return GetAttribute(AttributeNames.Src); }
@@ -40,7 +40,7 @@
         /// <summary>
         /// Gets or sets whether or not the frame should have scrollbars.
         /// </summary>
-        [DOM("scrolling")]
+        [DomName("scrolling")]
         public String Scrolling
         {
             get { return GetAttribute(AttributeNames.Scrolling); }
@@ -50,7 +50,7 @@
         /// <summary>
         /// Gets the document this frame contains, if there is any and it is available, or null otherwise.
         /// </summary>
-        [DOM("contentDocument")]
+        [DomName("contentDocument")]
         public Document ContentDocument
         {
             get;
@@ -60,7 +60,7 @@
         /// <summary>
         /// Gets or sets the URL designating a long description of this image or frame.
         /// </summary>
-        [DOM("longDesc")]
+        [DomName("longDesc")]
         public String LongDesc
         {
             get { return GetAttribute(AttributeNames.LongDesc); }
@@ -70,7 +70,7 @@
         /// <summary>
         /// Gets or sets the request frame borders.
         /// </summary>
-        [DOM("frameBorder")]
+        [DomName("frameBorder")]
         public String FrameBorder
         {
             get { return GetAttribute(AttributeNames.FrameBorder); }

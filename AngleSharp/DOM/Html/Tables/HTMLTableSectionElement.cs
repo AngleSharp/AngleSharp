@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the object for HTML table section (thead / tbody / tfoot) elements.
     /// </summary>
-    [DOM("HTMLTableSectionElement")]
+    [DomName("HTMLTableSectionElement")]
     public sealed class HTMLTableSectionElement : HTMLElement, IImplClosed, ITableSectionScopeElement
     {
         #region Fields
@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets or sets the value of the horizontal alignment attribute.
         /// </summary>
-        [DOM("align")]
+        [DomName("align")]
         public HorizontalAlignment Align
         {
             get { return ToEnum(GetAttribute("align"), HorizontalAlignment.Center); }
@@ -40,7 +40,7 @@
         /// <summary>
         /// Gets the assigned table rows.
         /// </summary>
-        [DOM("rows")]
+        [DomName("rows")]
         public HTMLCollection<HTMLTableRowElement> Rows
         {
             get { return _rows; }
@@ -49,7 +49,7 @@
         /// <summary>
         /// Gets or sets the value of the vertical alignment attribute.
         /// </summary>
-        [DOM("vAlign")]
+        [DomName("vAlign")]
         public VerticalAlignment VAlign
         {
             get { return ToEnum(GetAttribute("valign"), VerticalAlignment.Middle); }
@@ -81,7 +81,7 @@
         /// starts from 0 and is relative only to the rows contained inside this section,
         /// not all the rows in the table.</param>
         /// <returns>The inserted table row.</returns>
-        [DOM("insertRow")]
+        [DomName("insertRow")]
         public HTMLTableRowElement InsertRow(Int32 index)
         {
             var row = Rows[index];
@@ -102,7 +102,7 @@
         /// row. This index starts from 0 and is relative only to the rows contained inside
         /// this section, not all the rows in the table.</param>
         /// <returns>The current table.</returns>
-        [DOM("deleteRow")]
+        [DomName("deleteRow")]
         public HTMLTableSectionElement DeleteRow(Int32 index)
         {
             var row = Rows[index];

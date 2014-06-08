@@ -7,7 +7,7 @@
     /// <summary>
     /// Provides a number of methods for performing operations that are independent of any particular instance of the DOM.
     /// </summary>
-    [DOM("DOMImplementation")]
+    [DomName("DOMImplementation")]
     public sealed class DOMImplementation : IDOMImplementation
     {
         #region Features
@@ -58,7 +58,7 @@
         /// <param name="publicId">The external subset public identifier.</param>
         /// <param name="systemId">The external subset system identifier.</param>
         /// <returns>A new DocumentType node with Node.ownerDocument set to null.</returns>
-        [DOM("createDocumentType")]
+        [DomName("createDocumentType")]
         public DocumentType CreateDocumentType(String qualifiedName, String publicId, String systemId)
         {
             return new DocumentType { PublicId = publicId, SystemId = systemId, NodeName = qualifiedName };
@@ -71,7 +71,7 @@
         /// <param name="qualifiedName">Optional: The qualified name of the document element to be created.</param>
         /// <param name="doctype">Optional: The type of document to be created.</param>
         /// <returns>A new Document object with its document element.</returns>
-        [DOM("createDocument")]
+        [DomName("createDocument")]
         public Document CreateDocument(String namespaceURI = null, String qualifiedName = null, DocumentType doctype = null)
         {
             Document doc = null;
@@ -94,7 +94,7 @@
         /// <param name="feature">The name of the feature requested. Note that any plus sign "+" prepended to the name of the feature will be ignored since it is not significant in the context of this method.</param>
         /// <param name="version">This is the version number of the feature to test.</param>
         /// <returns>Returns an object which implements the specialized APIs of the specified feature and version, if any, or null if there is no object which implements interfaces associated with that feature.</returns>
-        [DOM("getFeature")]
+        [DomName("getFeature")]
         public Object GetFeature(String feature, String version)
         {
             //TODO
@@ -107,7 +107,7 @@
         /// <param name="feature">The name of the feature requested. Note that any plus sign "+" prepended to the name of the feature will be ignored since it is not significant in the context of this method.</param>
         /// <param name="version">This is the version number of the feature to test.</param>
         /// <returns>True if the feature is implemented in the specified version, false otherwise.</returns>
-        [DOM("hasFeature")]
+        [DomName("hasFeature")]
         public Boolean HasFeature(String feature, String version)
         {
             foreach (var _feature in _features)

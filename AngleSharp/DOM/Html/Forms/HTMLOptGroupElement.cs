@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML optgroup element.
     /// </summary>
-    [DOM("HTMLOptGroupElement")]
+    [DomName("HTMLOptGroupElement")]
     public sealed class HTMLOptGroupElement : HTMLElement, ISelectScopeElement, IImpliedEnd
     {
         #region ctor
@@ -25,7 +25,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the label.
         /// </summary>
-        [DOM("label")]
+        [DomName("label")]
         public String Label
         {
             get { return GetAttribute("label"); }
@@ -35,7 +35,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets if the optgroup is enabled or disabled.
         /// </summary>
-        [DOM("disabled")]
+        [DomName("disabled")]
         public Boolean Disabled
         {
             get { return GetAttribute("disabled") != null; }

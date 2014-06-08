@@ -8,7 +8,7 @@
     /// <summary>
     /// A collection of CSS elements.
     /// </summary>
-    [DOM("StyleSheetList")]
+    [DomName("StyleSheetList")]
     public sealed class StyleSheetList : IEnumerable<StyleSheet>
     {
         #region Fields
@@ -39,7 +39,7 @@
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The stylesheet.</returns>
-        [DOM("item")]
+        [DomName("item")]
         public StyleSheet this[Int32 index]
         {
             get
@@ -66,7 +66,7 @@
         /// <summary>
         /// Gets the number of elements in the list of stylesheets.
         /// </summary>
-        [DOM("length")]
+        [DomName("length")]
         public Int32 Length
         {
             get

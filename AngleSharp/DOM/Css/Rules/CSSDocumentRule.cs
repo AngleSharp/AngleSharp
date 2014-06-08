@@ -8,7 +8,7 @@ namespace AngleSharp.DOM.Css
     /// Contains the rules specified by a
     /// @document { /* ... */ } rule.
     /// </summary>
-    [DOM("CSSDocumentRule")]
+    [DomName("CSSDocumentRule")]
     public sealed class CSSDocumentRule : CSSGroupingRule
     {
         #region Members
@@ -32,7 +32,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the condition text.
         /// </summary>
-        [DOM("conditionText")]
+        [DomName("conditionText")]
         public String ConditionText
         {
             get 

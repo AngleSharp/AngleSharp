@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents an HTML input element.
     /// </summary>
-    [DOM("HTMLInputElement")]
+    [DomName("HTMLInputElement")]
     public sealed class HTMLInputElement : HTMLTextFormControlElement
     {
         #region Fields
@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets or sets the default value of the input field.
         /// </summary>
-        [DOM("defaultValue")]
+        [DomName("defaultValue")]
         public override String DefaultValue
         {
             get { return GetAttribute("value"); }
@@ -48,7 +48,7 @@
         /// <summary>
         /// Gets or sets
         /// </summary>
-        [DOM("defaultChecked")]
+        [DomName("defaultChecked")]
         public Boolean DefaultChecked
         {
             get { return GetAttribute("checked") != null; }
@@ -58,7 +58,7 @@
         /// <summary>
         /// Gets or sets if the input element is checked or not.
         /// </summary>
-        [DOM("checked")]
+        [DomName("checked")]
         public Boolean Checked
         {
             get { return _checked.HasValue ? _checked.Value : DefaultChecked; }
@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets or sets the type of the input field.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public InputType Type
         {
             get { return ToEnum(GetAttribute("type"), InputType.Text); }
@@ -78,7 +78,7 @@
         /// <summary>
         /// Gets or sets if the state if indeterminate.
         /// </summary>
-        [DOM("indeterminate")]
+        [DomName("indeterminate")]
         public Boolean Indeterminate 
         { 
             get; 
@@ -88,7 +88,7 @@
         /// <summary>
         /// Gets the multiple HTML attribute, whichindicates whether multiple items can be selected.
         /// </summary>
-        [DOM("multiple")]
+        [DomName("multiple")]
         public Boolean Multiple
         {
             get { return GetAttribute("multiple") != null; }
@@ -99,7 +99,7 @@
         /// Gets or sets the value of the element, interpreted as a date, or null
         /// if conversion is not possible.
         /// </summary>
-        [DOM("valueAsDate")]
+        [DomName("valueAsDate")]
         public DateTime? ValueAsDate
         {
             get 
@@ -118,7 +118,7 @@
         /// Gets or sets the value of the element, interpreted as one of the following in order:
         /// 1.) Time value 2.) Number 3.) otherwise NaN.
         /// </summary>
-        [DOM("valueAsNumber")]
+        [DomName("valueAsNumber")]
         public Double ValueAsNumber
         {
             get 
@@ -140,7 +140,7 @@
         /// Gets or sets the URI of a resource that processes information submitted by the button.
         /// If specified, this attribute overrides the action attribute of the form element that owns this element.
         /// </summary>
-        [DOM("formAction")]
+        [DomName("formAction")]
         public String FormAction
         {
             get { if (Form == null) return String.Empty; return Form.Action; }
@@ -151,7 +151,7 @@
         /// Gets or sets the type of content that is used to submit the form to the server. If specified, this
         /// attribute overrides the enctype attribute of the form element that owns this element.
         /// </summary>
-        [DOM("formEncType")]
+        [DomName("formEncType")]
         public String FormEncType
         {
             get { if (Form == null) return String.Empty; return Form.Enctype; }
@@ -162,7 +162,7 @@
         /// Gets or sets the HTTP method that the browser uses to submit the form. If specified, this attribute
         /// overrides the method attribute of the form element that owns this element.
         /// </summary>
-        [DOM("formMethod")]
+        [DomName("formMethod")]
         public HttpMethod FormMethod
         {
             get { if (Form == null) return HttpMethod.Post; return Form.Method; }
@@ -173,7 +173,7 @@
         /// Gets or sets that the form is not to be validated when it is submitted. If specified, this attribute
         /// overrides the enctype attribute of the form element that owns this element.
         /// </summary>
-        [DOM("formNoValidate")]
+        [DomName("formNoValidate")]
         public Boolean FormNoValidate
         {
             get { if (Form == null) return false; return Form.NoValidate; }
@@ -184,7 +184,7 @@
         /// Gets or sets A name or keyword indicating where to display the response that is received after submitting
         /// the form. If specified, this attribute overrides the target attribute of the form element that owns this element.
         /// </summary>
-        [DOM("formTarget")]
+        [DomName("formTarget")]
         public String FormTarget
         {
             get { if (Form == null) return String.Empty; return Form.Target; }
@@ -195,7 +195,7 @@
         /// Gets or sets the accept HTML attribute, containing comma-separated list of
         /// file types accepted by the server when type is file.
         /// </summary>
-        [DOM("accept")]
+        [DomName("accept")]
         public String Accept
         {
             get { return GetAttribute("accept"); }
@@ -205,7 +205,7 @@
         /// <summary>
         /// Gets or sets the alignment of the element.
         /// </summary>
-        [DOM("align")]
+        [DomName("align")]
         public Alignment Align
         {
             get { return ToEnum(GetAttribute("align"), Alignment.Left); }
@@ -216,7 +216,7 @@
         /// Gets or sets the alt HTML attribute, containing alternative
         /// text to use when type is image.
         /// </summary>
-        [DOM("alt")]
+        [DomName("alt")]
         public String Alt
         {
             get { return GetAttribute("alt"); }
@@ -230,7 +230,7 @@
         /// checkbox, radio, file, or a button type (button, submit, reset,
         /// image).
         /// </summary>
-        [DOM("autocomplete")]
+        [DomName("autocomplete")]
         public PowerState Autocomplete
         {
             get { return ToEnum(GetAttribute("autocomplete"), PowerState.Off); }
@@ -240,7 +240,7 @@
         /// <summary>
         /// Gets a list of selected files.
         /// </summary>
-        [DOM("files")]
+        [DomName("files")]
         public FileList Files
         {
             get { return _files; }
@@ -251,7 +251,7 @@
         /// height of the image displayed for the button, if the value
         /// of type is image.
         /// </summary>
-        [DOM("height")]
+        [DomName("height")]
         public UInt32 Height
         {
             get { return ToInteger(GetAttribute("height"), _imageHeight); }
@@ -264,7 +264,7 @@
         /// be displayed. /// This attribute is ignored when the type
         /// attribute's value is hidden, checkbox, radio, file, or a button type.
         /// </summary>
-        [DOM("list")]
+        [DomName("list")]
         public String List
         {
             get { return GetAttribute("list"); }
@@ -276,7 +276,7 @@
         /// or date-time) value for this item, which must not be less than its
         /// minimum (min attribute) value.
         /// </summary>
-        [DOM("max")]
+        [DomName("max")]
         public String Max
         {
             get { return GetAttribute("max"); }
@@ -288,7 +288,7 @@
         /// or date-time) value for this item, which must not be greater than its
         /// maximum (max attribute) value.
         /// </summary>
-        [DOM("min")]
+        [DomName("min")]
         public String Min
         {
             get { return GetAttribute("min"); }
@@ -301,7 +301,7 @@
         /// entire value, not just some subset. This attribute applies when the value
         /// of the type attribute is text, search, tel, url or email; otherwise it is ignored.
         /// </summary>
-        [DOM("pattern")]
+        [DomName("pattern")]
         public String Pattern
         {
             get { return GetAttribute("pattern"); }
@@ -314,7 +314,7 @@
         /// an integer number of characters. Applies only when type is set to text, search, tel,
         /// url, email, or password; otherwise it is ignored.
         /// </summary>
-        [DOM("size")]
+        [DomName("size")]
         public UInt32 Size
         {
             get { return ToInteger(GetAttribute("size"), 20u); }
@@ -326,7 +326,7 @@
         /// image to display on the graphical submit button, if the value of type is image;
         /// otherwise it is ignored.
         /// </summary>
-        [DOM("src")]
+        [DomName("src")]
         public String Src
         {
             get { return GetAttribute("src"); }
@@ -339,7 +339,7 @@
         /// any or a positive floating point number. If this is not set to any, the control
         /// accepts only values at multiples of the step value greater than the minimum.
         /// </summary>
-        [DOM("step")]
+        [DomName("step")]
         public String Step
         {
             get { return GetAttribute("step"); }
@@ -349,7 +349,7 @@
         /// <summary>
         /// Gets or sets a client-side image map.
         /// </summary>
-        [DOM("useMap")]
+        [DomName("useMap")]
         public String UseMap
         {
             get { return GetAttribute("useMap"); }
@@ -360,7 +360,7 @@
         /// Gets or sets the width HTML attribute, which defines the width of the image
         /// displayed for the button, if the value of type is image.
         /// </summary>
-        [DOM("width")]
+        [DomName("width")]
         public UInt32 Width
         {
             get { return ToInteger(GetAttribute("width"), _imageWidth); }
@@ -397,7 +397,7 @@
         /// Increments the value by (step * n), where n defaults to 1 if not specified.
         /// </summary>
         /// <param name="n">Optional: The number of steps to take.</param>
-        [DOM("stepUp")]
+        [DomName("stepUp")]
         public void StepUp(Int32 n = 1)
         {
             DoStep(n);
@@ -407,7 +407,7 @@
         /// Decrements the value by (step * n), where n defaults to 1 if not specified. 
         /// </summary>
         /// <param name="n">Optional: The number of steps to take.</param>
-        [DOM("stepDown")]
+        [DomName("stepDown")]
         public void StepDown(Int32 n = 1)
         {
             DoStep(-n);

@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a node in the generated tree.
     /// </summary>
-    [DOM("Node")]
+    [DomName("Node")]
     public class Node : INode, IHtmlObject
     {
         #region Fields
@@ -61,7 +61,7 @@
         /// <summary>
         /// Gets a boolean value indicating whether the current Node has child nodes or not.
         /// </summary>
-        [DOM("hasChildNodes")]
+        [DomName("hasChildNodes")]
         public Boolean HasChildNodes
         {
             get { return _children.Length != 0; }
@@ -70,7 +70,7 @@
         /// <summary>
         /// Gets or sets the absolute base URI of a node or null if unable to obtain an absolute URI.
         /// </summary>
-        [DOM("baseURI")]
+        [DomName("baseURI")]
         public String BaseURI
         {
             get 
@@ -90,7 +90,7 @@
         /// <summary>
         /// Gets the local part of the qualified name of this node.
         /// </summary>
-        [DOM("localName")]
+        [DomName("localName")]
         public String LocalName
         {
             get { return _name; }
@@ -99,7 +99,7 @@
         /// <summary>
         /// Gets or sets the namespace URI of this node.
         /// </summary>
-        [DOM("namespaceURI")]
+        [DomName("namespaceURI")]
         public String NamespaceURI
         {
             get { return _ns; }
@@ -110,7 +110,7 @@
         /// Gets the node immediately preceding this node's parent's list of nodes, 
         /// null if the specified node is the first in that list.
         /// </summary>
-        [DOM("previousSibling")]
+        [DomName("previousSibling")]
         public Node PreviousSibling
         {
             get
@@ -134,7 +134,7 @@
         /// Gets the node immediately following this node's parent's list of nodes,
         /// or null if the current node is the last node in that list.
         /// </summary>
-        [DOM("nextSibling")]
+        [DomName("nextSibling")]
         public Node NextSibling
         {
             get
@@ -157,7 +157,7 @@
         /// <summary>
         /// Gets the first child node of this node.
         /// </summary>
-        [DOM("firstChild")]
+        [DomName("firstChild")]
         public Node FirstChild
         {
             get { return _children.Length > 0 ? _children[0] : null; }
@@ -166,7 +166,7 @@
         /// <summary>
         /// Gets the last child node of this node.
         /// </summary>
-        [DOM("lastChild")]
+        [DomName("lastChild")]
         public Node LastChild
         {
             get { return _children.Length > 0 ? _children[_children.Length - 1] : null; }
@@ -175,7 +175,7 @@
         /// <summary>
         /// Gets the type of this node.
         /// </summary>
-        [DOM("nodeType")]
+        [DomName("nodeType")]
         public NodeType NodeType 
         {
             get { return _type; }
@@ -184,7 +184,7 @@
         /// <summary>
         /// Gets or sets the value of the current node.
         /// </summary>
-        [DOM("nodeValue")]
+        [DomName("nodeValue")]
         public virtual String NodeValue 
         {
             get { return null; }
@@ -194,7 +194,7 @@
         /// <summary>
         /// Gets or sets the namespace prefix of the specified node, or null if no prefix is specified.
         /// </summary>
-        [DOM("prefix")]
+        [DomName("prefix")]
         public virtual String Prefix
         {
             get { return null; }
@@ -204,7 +204,7 @@
         /// <summary>
         /// Gets or sets the text content of a node and its descendants.
         /// </summary>
-        [DOM("textContent")]
+        [DomName("textContent")]
         public virtual String TextContent
         {
             get { return null; }
@@ -220,7 +220,7 @@
         /// <summary>
         /// Gets the owner document of the node.
         /// </summary>
-        [DOM("ownerDocument")]
+        [DomName("ownerDocument")]
         public Document OwnerDocument 
         {
             get { return _owner; }
@@ -241,7 +241,7 @@
         /// <summary>
         /// Gets the parent node of this node, which is either an Element node, a Document node, or a DocumentFragment node.
         /// </summary>
-        [DOM("parentNode")]
+        [DomName("parentNode")]
         public Node ParentNode
         {
             get { return _parent; }
@@ -251,7 +251,7 @@
         /// <summary>
         /// Gets or sets the parent element of this node.
         /// </summary>
-        [DOM("parentElement")]
+        [DomName("parentElement")]
         public Element ParentElement
         {
             get { return _parent as Element; }
@@ -260,7 +260,7 @@
         /// <summary>
         /// Gets the children of this node.
         /// </summary>
-        [DOM("childNodes")]
+        [DomName("childNodes")]
         public NodeList ChildNodes
         {
             get { return _children; }
@@ -269,7 +269,7 @@
         /// <summary>
         /// Gets the tag name for this node.
         /// </summary>
-        [DOM("nodeName")]
+        [DomName("nodeName")]
         public String NodeName
         {
             get { return _name; }
@@ -437,7 +437,7 @@
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
-        [DOM("appendChild")]
+        [DomName("appendChild")]
         public virtual Node AppendChild(Node child)
         {
             if (child is DocumentFragment)
@@ -470,7 +470,7 @@
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
-        [DOM("insertChild")]
+        [DomName("insertChild")]
         public virtual Node InsertChild(Int32 index, Node child)
         {
             if (child is DocumentFragment)
@@ -504,7 +504,7 @@
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
-        [DOM("insertBefore")]
+        [DomName("insertBefore")]
         public virtual Node InsertBefore(Node newElement, Node referenceElement)
         {
             if (newElement is Document || newElement.Contains(this))
@@ -527,7 +527,7 @@
         /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
         /// <param name="oldChild">The existing child to be replaced.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
-        [DOM("replaceChild")]
+        [DomName("replaceChild")]
         public virtual Node ReplaceChild(Node newChild, Node oldChild)
         {
             if (newChild is Document || newChild.Contains(this))
@@ -557,7 +557,7 @@
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
-        [DOM("removeChild")]
+        [DomName("removeChild")]
         public virtual Node RemoveChild(Node child)
         {
             if (_children.Contains(child))
@@ -574,7 +574,7 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DOM("cloneNode")]
+        [DomName("cloneNode")]
         public virtual Node CloneNode(Boolean deep = true)
         {
             var node = new Node();
@@ -587,7 +587,7 @@
         /// </summary>
         /// <param name="otherNode">The node that's being compared against.</param>
         /// <returns>The relationship that otherNode has with node, given in a bitmask.</returns>
-        [DOM("compareDocumentPosition")]
+        [DomName("compareDocumentPosition")]
         public virtual DocumentPosition CompareDocumentPosition(Node otherNode)
         {
             if (this == otherNode)
@@ -615,7 +615,7 @@
         /// </summary>
         /// <param name="otherNode">The node that's being compared against.</param>
         /// <returns>The return value is true if otherNode is a descendent of node, or node itself. Otherwise the return value is false.</returns>
-        [DOM("contains")]
+        [DomName("contains")]
         public virtual Boolean Contains(Node otherNode)
         {
             if (otherNode == this)
@@ -637,7 +637,7 @@
         /// subtree are empty and there are no adjacent text nodes.
         /// </summary>
         /// <returns>The current node.</returns>
-        [DOM("normalize")]
+        [DomName("normalize")]
         public virtual Node Normalize()
         {
             for (int i = 0; i < _children.Length; i++)
@@ -673,7 +673,7 @@
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        [DOM("lookupNamespaceURI")]
+        [DomName("lookupNamespaceURI")]
         public virtual String LookupNamespaceURI(String prefix)
         {
             if (_parent != null)
@@ -688,7 +688,7 @@
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        [DOM("lookupPrefix")]
+        [DomName("lookupPrefix")]
         public virtual String LookupPrefix(String namespaceURI)
         {
             if(_parent != null)
@@ -704,7 +704,7 @@
         /// <param name="namespaceURI">The namespaceURI to look for.</param>
         /// <param name="originalElement">The element that originated the request.</param>
         /// <returns>The namespace prefix.</returns>
-        [DOM("lookupNamespacePrefix")]
+        [DomName("lookupNamespacePrefix")]
         protected String LookupNamespacePrefix(String namespaceURI, Element originalElement)
         {
             if (!String.IsNullOrEmpty(_ns) && !String.IsNullOrEmpty(Prefix) && _ns == namespaceURI && originalElement.LookupNamespaceURI(Prefix) == namespaceURI)
@@ -721,7 +721,7 @@
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        [DOM("isDefaultNamespace")]
+        [DomName("isDefaultNamespace")]
         public virtual Boolean IsDefaultNamespace(String namespaceURI)
         {
             if (_parent != null)
@@ -735,7 +735,7 @@
         /// </summary>
         /// <param name="otherNode">The node to compare equality with.</param>
         /// <returns>True if they are equal, otherwise false.</returns>
-        [DOM("isEqualNode")]
+        [DomName("isEqualNode")]
         public virtual Boolean IsEqualNode(Node otherNode)
         {
             if (this._baseURI != otherNode._baseURI)
@@ -859,7 +859,7 @@
         /// <returns>A string containing some information about the node.</returns>
         public override String ToString()
         {
-            var attr = GetType().GetTypeInfo().GetCustomAttribute<DOMAttribute>(true);
+            var attr = GetType().GetTypeInfo().GetCustomAttribute<DomNameAttribute>(true);
 
             if (attr != null)
                 return attr.OfficialName;

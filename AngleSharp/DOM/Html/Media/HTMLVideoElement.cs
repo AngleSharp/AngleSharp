@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML video element.
     /// </summary>
-    [DOM("HTMLVideoElement")]
+    [DomName("HTMLVideoElement")]
     public sealed class HTMLVideoElement : HTMLMediaElement
     {
         #region Fields
@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets or sets the displayed width of the video element.
         /// </summary>
-        [DOM("width")]
+        [DomName("width")]
         public UInt32 Width
         {
             get { return ToInteger(GetAttribute("width"), _videoWidth); }
@@ -46,7 +46,7 @@
         /// <summary>
         /// Gets or sets the displayed height of the video element.
         /// </summary>
-        [DOM("height")]
+        [DomName("height")]
         public UInt32 Height
         {
             get { return ToInteger(GetAttribute("height"), _videoHeight); }
@@ -56,7 +56,7 @@
         /// <summary>
         /// Gets the width of the video.
         /// </summary>
-        [DOM("videoWidth")]
+        [DomName("videoWidth")]
         public UInt32 VideoWidth
         {
             get { return _videoWidth; }
@@ -65,7 +65,7 @@
         /// <summary>
         /// Gets the height of the video.
         /// </summary>
-        [DOM("videoHeight")]
+        [DomName("videoHeight")]
         public UInt32 VideoHeight
         {
             get { return _videoHeight; }
@@ -74,7 +74,7 @@
         /// <summary>
         /// Gets or sets the URL to a preview image.
         /// </summary>
-        [DOM("poster")]
+        [DomName("poster")]
         public String Poster
         {
             get { return GetAttribute("poster"); }

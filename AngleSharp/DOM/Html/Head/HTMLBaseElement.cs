@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML base element.
     /// </summary>
-    [DOM("HTMLBaseElement")]
+    [DomName("HTMLBaseElement")]
     public sealed class HTMLBaseElement : HTMLElement
     {
         #region ctor
@@ -25,7 +25,7 @@
         /// <summary>
         /// Gets or sets the base URI.
         /// </summary>
-        [DOM("href")]
+        [DomName("href")]
         public String Href
         {
             get { return GetAttribute(AttributeNames.Href); }
@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets or sets the default target frame.
         /// </summary>
-        [DOM("target")]
+        [DomName("target")]
         public String Target
         {
             get { return GetAttribute(AttributeNames.Target); }

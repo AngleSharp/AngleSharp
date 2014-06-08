@@ -7,7 +7,7 @@
     /// Fore more information about CSS properties
     /// see http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    [DOM("CSSProperty")]
+    [DomName("CSSProperty")]
     public class CSSProperty : ICssObject
     {
         #region Fields
@@ -72,7 +72,7 @@
         /// <summary>
         /// Gets the name of the property.
         /// </summary>
-        [DOM("name")]
+        [DomName("name")]
         public String Name
         {
             get { return _name; }
@@ -81,7 +81,7 @@
         /// <summary>
         /// Gets or sets the value of the property.
         /// </summary>
-        [DOM("value")]
+        [DomName("value")]
         public CSSValue Value
         {
             get { return _value ?? CSSValue.Inherit; }
@@ -95,7 +95,7 @@
         /// <summary>
         /// Gets or sets if the !important flag has been set.
         /// </summary>
-        [DOM("important")]
+        [DomName("important")]
         public Boolean Important
         {
             get { return _important; }

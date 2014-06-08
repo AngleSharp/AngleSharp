@@ -6,7 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents an HTML button element.
     /// </summary>
-    [DOM("HTMLButtonElement")]
+    [DomName("HTMLButtonElement")]
     public sealed class HTMLButtonElement : HTMLFormControlElement
     {
         #region Members
@@ -32,7 +32,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the accesskey HTML attribute.
         /// </summary>
-        [DOM("accessKey")]
+        [DomName("accessKey")]
         public String AccessKey
         {
             get { return GetAttribute("accesskey"); }
@@ -42,7 +42,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the behavior of the button.
         /// </summary>
-        [DOM("type")]
+        [DomName("type")]
         public ButtonType Type
         {
             get { return ToEnum(GetAttribute("type"), ButtonType.Submit); }
@@ -53,7 +53,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the URI of a resource that processes information submitted by the button.
         /// If specified, this attribute overrides the action attribute of the form element that owns this element.
         /// </summary>
-        [DOM("formAction")]
+        [DomName("formAction")]
         public String FormAction
         {
             get { if (Form == null) return String.Empty; return Form.Action; }
@@ -64,7 +64,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the type of content that is used to submit the form to the server. If specified, this
         /// attribute overrides the enctype attribute of the form element that owns this element.
         /// </summary>
-        [DOM("formEncType")]
+        [DomName("formEncType")]
         public String FormEncType
         {
             get { if (Form == null) return String.Empty; return Form.Enctype; }
@@ -75,7 +75,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the HTTP method that the browser uses to submit the form. If specified, this attribute
         /// overrides the method attribute of the form element that owns this element.
         /// </summary>
-        [DOM("formMethod")]
+        [DomName("formMethod")]
         public HttpMethod FormMethod
         {
             get { if (Form == null) return HttpMethod.Post; return Form.Method; }
@@ -86,7 +86,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets that the form is not to be validated when it is submitted. If specified, this attribute
         /// overrides the enctype attribute of the form element that owns this element.
         /// </summary>
-        [DOM("formNoValidate")]
+        [DomName("formNoValidate")]
         public Boolean FormNoValidate
         {
             get { if (Form == null) return false; return Form.NoValidate; }
@@ -97,7 +97,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets A name or keyword indicating where to display the response that is received after submitting
         /// the form. If specified, this attribute overrides the target attribute of the form element that owns this element.
         /// </summary>
-        [DOM("formTarget")]
+        [DomName("formTarget")]
         public String FormTarget
         {
             get { if (Form == null) return String.Empty; return Form.Target; }
@@ -107,7 +107,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the current value of the control.
         /// </summary>
-        [DOM("value")]
+        [DomName("value")]
         public String Value
         {
             get { return _value ?? String.Empty; }
