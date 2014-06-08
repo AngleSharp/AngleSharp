@@ -58,6 +58,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AngleSharp\Attributes\DomHistoricalAttribute.cs">
+      <Link>Attributes\DomHistoricalAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Attributes\DomNameAttribute.cs">
+      <Link>Attributes\DomNameAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Configuration.cs">
       <Link>Configuration.cs</Link>
     </Compile>
@@ -1353,9 +1359,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Extensions.cs">
       <Link>Extensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Attributes\DOMAttribute.cs">
-      <Link>Foundation\Attributes\DOMAttribute.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\CharExtensions.cs">
       <Link>Foundation\CharExtensions.cs</Link>
