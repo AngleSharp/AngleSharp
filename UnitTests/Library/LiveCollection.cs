@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp;
 using AngleSharp.DOM;
@@ -119,9 +120,9 @@ namespace UnitTests.Library
             foreach (var child in live)
             {
                 Assert.AreEqual("a", child.NodeName);
-                Assert.AreEqual(1, child.Attributes.Length);
+                Assert.AreEqual(1, child.Attributes.Count());
                 Assert.AreEqual(NodeType.Element, child.NodeType);
-                Assert.IsNotNull(child.Attributes["name"]);
+                Assert.IsNotNull(child.GetAttribute("name"));
             }
 
             var a = document.QuerySelector("#change");
@@ -177,7 +178,7 @@ namespace UnitTests.Library
 
             foreach (var element in live)
             {
-                Assert.IsNotNull(element.Attributes["href"]);
+                Assert.IsNotNull(element.GetAttribute("href"));
                 Assert.IsTrue(element.NodeName == "a" || element.NodeName == "area");
             }
         }
