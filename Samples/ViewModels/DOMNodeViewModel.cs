@@ -107,7 +107,7 @@ namespace Samples.ViewModels
                 typeName = FindName(type);
 
                 var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
-                    .Where(m => m.GetCustomAttributes(typeof(DOMAttribute), false).Length > 0)
+                    .Where(m => m.GetCustomAttributes(typeof(DomNameAttribute), false).Length > 0)
                     .OrderBy(m => m.Name);
 
                 foreach (var property in properties)
@@ -145,12 +145,12 @@ namespace Samples.ViewModels
 
         String FindName(MemberInfo member)
         {
-            var objs = member.GetCustomAttributes(typeof(DOMAttribute), true);
+            var objs = member.GetCustomAttributes(typeof(DomNameAttribute), true);
 
             if (objs.Length == 0)
                 return member.Name;
 
-            return ((DOMAttribute)objs[0]).OfficialName;
+            return ((DomNameAttribute)objs[0]).OfficialName;
         }
     }
 }
