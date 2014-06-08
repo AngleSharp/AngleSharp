@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="DOM\Collections\AttrContainer.cs" />
     <Compile Include="DOM\Constants\Visibility.cs" />
     <Compile Include="DOM\Css\Constants\AnimationDirection.cs" />
     <Compile Include="DOM\Css\Constants\AnimationFillStyle.cs" />
@@ -310,6 +311,7 @@
     <Compile Include="DOM\Mathml\MathFactory.cs" />
     <Compile Include="DOM\Objects\FileEntry.cs" />
     <Compile Include="DOM\Svg\SVGFactory.cs" />
+    <Compile Include="Parser\Html\HtmlParserExtensions.cs" />
     <Compile Include="Parser\ParseErrorEventArgs.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Foundation\Constants\AttributeNames.cs" />
@@ -450,7 +452,6 @@
     <Compile Include="DOM\StyleSheet.cs" />
     <Compile Include="DOM\Collections\TokenList.cs" />
     <Compile Include="DOM\Collections\MediaList.cs" />
-    <Compile Include="DOM\Collections\NamedNodeMap.cs" />
     <Compile Include="DOM\Collections\DOMStringList.cs" />
     <Compile Include="DOM\DOMException.cs" />
     <Compile Include="DOM\Attr.cs" />

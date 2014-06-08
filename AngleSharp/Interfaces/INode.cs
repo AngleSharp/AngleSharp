@@ -3,17 +3,16 @@
     using System;
     using AngleSharp.DOM.Collections;
 
+    [DOM("Node")]
     public interface INode
     {
         Node AppendChild(Node child);
-        NamedNodeMap Attributes { get; }
         String BaseURI { get; }
         NodeList ChildNodes { get; }
         Node CloneNode(Boolean deep = true);
         DocumentPosition CompareDocumentPosition(Node otherNode);
         Boolean Contains(Node otherNode);
         Node FirstChild { get; }
-        Boolean HasAttributes { get; }
         Boolean HasChildNodes { get; }
         Node InsertBefore(Node newElement, Node referenceElement);
         Node InsertChild(Int32 index, Node child);
