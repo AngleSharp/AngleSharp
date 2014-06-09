@@ -125,8 +125,8 @@
             {
                 if (_options != null)
                     return _options;
-                else if (_owner != null && _owner.OwnerDocument != null)
-                    return _owner.OwnerDocument.Options;
+                else if (_owner != null && _owner.Owner != null)
+                    return _owner.Owner.Options;
                 else if (_parent != null)
                     return _parent.Options;
 

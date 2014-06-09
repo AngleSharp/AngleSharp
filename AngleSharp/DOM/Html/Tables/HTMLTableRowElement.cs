@@ -133,7 +133,7 @@
         public HTMLTableCellElement InsertCell(Int32 index)
         {
             var cell = _cells[index];
-            var newCell = OwnerDocument.CreateElement(Tags.Td) as HTMLTableCellElement;
+            var newCell = Owner.CreateElement(Tags.Td) as HTMLTableCellElement;
 
             if (cell != null)
                 InsertBefore(newCell, cell);

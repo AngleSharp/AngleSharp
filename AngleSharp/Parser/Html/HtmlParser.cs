@@ -287,7 +287,7 @@
                     break;
                 }
 
-                context = context.ParentNode;
+                context = context.Parent;
             }
             while (context != null);
         }
@@ -956,7 +956,7 @@
 
                         if (open.Count != 1 && open[1] is HTMLBodyElement && frameset)
                         {
-                            open[1].ParentNode.RemoveChild(open[1]);
+                            open[1].Parent.RemoveChild(open[1]);
 
                             while (open.Count > 1)
                                 CloseCurrentNode();
@@ -2965,8 +2965,8 @@
                     if (lastNode == furthestBlock)
                         bookmark++;
 
-                    if (lastNode.ParentNode != null)
-                        lastNode.ParentNode.RemoveChild(lastNode);
+                    if (lastNode.Parent != null)
+                        lastNode.Parent.RemoveChild(lastNode);
 
                     node.AppendChild(lastNode);
                     lastNode = node;
@@ -2976,8 +2976,8 @@
                     AddElementWithFoster(lastNode);
                 else
                 {
-                    if (lastNode.ParentNode != null)
-                        lastNode.ParentNode.RemoveChild(lastNode);
+                    if (lastNode.Parent != null)
+                        lastNode.Parent.RemoveChild(lastNode);
 
                     commonAncestor.AppendChild(lastNode);
                 }
@@ -3876,9 +3876,9 @@
                 }
             }
 
-            var foster = open[index].ParentNode ?? open[index + 1];
+            var foster = open[index].Parent ?? open[index + 1];
 
-            if (table && open[index].ParentNode != null)
+            if (table && open[index].Parent != null)
             {
                 for (int i = 0; i < foster.ChildNodes.Length; i++)
 			    {
@@ -3942,9 +3942,9 @@
                 }
             }
 
-            var foster = open[index].ParentNode ?? open[index + 1];
+            var foster = open[index].Parent ?? open[index + 1];
 
-            if (table && open[index].ParentNode != null)
+            if (table && open[index].Parent != null)
             {
                 for (int i = 0; i < foster.ChildNodes.Length; i++)
                 {

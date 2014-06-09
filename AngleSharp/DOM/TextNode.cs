@@ -97,7 +97,7 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public override Node CloneNode(Boolean deep = true)
+        public override Node Clone(Boolean deep = true)
         {
             var node = new TextNode(Data);
             CopyProperties(this, node, deep);

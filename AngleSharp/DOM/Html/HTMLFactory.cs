@@ -137,11 +137,11 @@
             if (elements.TryGetValue(tag, out elementCreator))
             {
                 var element = elementCreator();
-                element.OwnerDocument = document;
+                element.Owner = document;
                 return element;
             }
 
-            return new HTMLUnknownElement { NodeName = tag, OwnerDocument = document };
+            return new HTMLUnknownElement { NodeName = tag, Owner = document };
         }
     }
 }

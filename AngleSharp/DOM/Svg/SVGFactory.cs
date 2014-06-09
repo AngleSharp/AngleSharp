@@ -9,11 +9,11 @@
 
         static SVGFactory()
         {
-            creators.Add(Tags.Svg, doc => new SVGSVGElement { OwnerDocument = doc });
-            creators.Add(Tags.Circle, doc => new SVGCircleElement { OwnerDocument = doc });
-            creators.Add(Tags.Desc, doc => new SVGDescElement { OwnerDocument = doc });
-            creators.Add(Tags.ForeignObject, doc => new SVGForeignObjectElement { OwnerDocument = doc });
-            creators.Add(Tags.Title, doc => new SVGTitleElement { OwnerDocument = doc });
+            creators.Add(Tags.Svg, doc => new SVGSVGElement { Owner = doc });
+            creators.Add(Tags.Circle, doc => new SVGCircleElement { Owner = doc });
+            creators.Add(Tags.Desc, doc => new SVGDescElement { Owner = doc });
+            creators.Add(Tags.ForeignObject, doc => new SVGForeignObjectElement { Owner = doc });
+            creators.Add(Tags.Title, doc => new SVGTitleElement { Owner = doc });
         }
 
         /// <summary>
@@ -29,7 +29,7 @@
             if (creators.TryGetValue(tagName, out creator))
                 return creator(document);
 
-            return new SVGElement { NodeName = tagName, OwnerDocument = document };
+            return new SVGElement { NodeName = tagName, Owner = document };
         }
     }
 }

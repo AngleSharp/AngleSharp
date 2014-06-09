@@ -9,12 +9,12 @@
 
         static MathFactory()
         {
-            creators.Add(Tags.Mn, doc => new MathNumberElement { OwnerDocument = doc });
-            creators.Add(Tags.Mo, doc => new MathOperatorElement { OwnerDocument = doc });
-            creators.Add(Tags.Mi, doc => new MathIdentifierElement { OwnerDocument = doc });
-            creators.Add(Tags.Ms, doc => new MathStringElement { OwnerDocument = doc });
-            creators.Add(Tags.Mtext, doc => new MathTextElement { OwnerDocument = doc });
-            creators.Add(Tags.AnnotationXml, doc => new MathAnnotationXmlElement { OwnerDocument = doc });
+            creators.Add(Tags.Mn, doc => new MathNumberElement { Owner = doc });
+            creators.Add(Tags.Mo, doc => new MathOperatorElement { Owner = doc });
+            creators.Add(Tags.Mi, doc => new MathIdentifierElement { Owner = doc });
+            creators.Add(Tags.Ms, doc => new MathStringElement { Owner = doc });
+            creators.Add(Tags.Mtext, doc => new MathTextElement { Owner = doc });
+            creators.Add(Tags.AnnotationXml, doc => new MathAnnotationXmlElement { Owner = doc });
         }
 
         /// <summary>
@@ -30,7 +30,7 @@
             if (creators.TryGetValue(tagName, out creator))
                 return creator(document);
 
-            return new MathElement { NodeName = tagName, OwnerDocument = document };
+            return new MathElement { NodeName = tagName, Owner = document };
         }
     }
 }

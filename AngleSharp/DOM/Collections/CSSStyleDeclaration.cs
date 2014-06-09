@@ -44,7 +44,7 @@
         /// <param name="host">The element to host this representation.</param>
         internal CSSStyleDeclaration(Element host)
         {
-            _getter = () => (host.OwnerDocument == null || host.OwnerDocument.Options.IsStyling) ? host.GetAttribute(AttributeNames.Style) : String.Empty;
+            _getter = () => (host.Owner == null || host.Owner.Options.IsStyling) ? host.GetAttribute(AttributeNames.Style) : String.Empty;
             _setter = value => host.SetAttribute(AttributeNames.Style, value);
             _rules = new Dictionary<String, CSSProperty>(StringComparer.OrdinalIgnoreCase);
         }

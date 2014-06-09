@@ -426,7 +426,7 @@
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
         [DomName("cloneNode")]
-        public override Node CloneNode(Boolean deep = true)
+        public override Node Clone(Boolean deep = true)
         {
             var node = new HTMLDocument();
             CopyProperties(this, node, deep);
@@ -443,13 +443,13 @@
         [DomName("adoptNode")]
         public Node AdoptNode(Node externalNode)
         {
-            if (externalNode.OwnerDocument != null)
+            if (externalNode.Owner != null)
             {
-                if (externalNode.ParentNode != null)
-                    externalNode.ParentNode.RemoveChild(externalNode);
+                if (externalNode.Parent != null)
+                    externalNode.Parent.RemoveChild(externalNode);
             }
 
-            externalNode.OwnerDocument = this;
+            externalNode.Owner = this;
             return externalNode;
         }
 

@@ -220,7 +220,7 @@
 
         void SubmitForm(HTMLElement from, Boolean submittedFromSubmitMethod)
         {
-            var formDocument = OwnerDocument;
+            var formDocument = Owner;
 
             //TODO
             //If form document has no associated browsing context or its active
@@ -245,7 +245,7 @@
                 action = formDocument.DocumentUri;
 
             if (!Location.IsAbsolute(action))
-                action = Location.MakeAbsolute(from.BaseURI, action);
+                action = Location.MakeAbsolute(from.BaseUri, action);
 
             //TODO
             //If the user indicated a specific browsing context to use when submitting
@@ -297,7 +297,7 @@
         /// </summary>
         void PostToData(Location action)
         {
-            var encoding = String.IsNullOrEmpty(AcceptCharset) ? OwnerDocument.CharacterSet : AcceptCharset;
+            var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
             var result = String.Empty;
@@ -395,7 +395,7 @@
         /// </summary>
         void SubmitAsEntityBody(Location action)
         {
-            var encoding = String.IsNullOrEmpty(AcceptCharset) ? OwnerDocument.CharacterSet : AcceptCharset;
+            var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
             var mimeType = String.Empty;
@@ -451,7 +451,7 @@
         /// </summary>
         void MutateActionUrl(Location action)
         {
-            var encoding = String.IsNullOrEmpty(AcceptCharset) ? OwnerDocument.CharacterSet : AcceptCharset;
+            var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
             var result = formDataSet.AsUrlEncoded(DocumentEncoding.Resolve(encoding));
 

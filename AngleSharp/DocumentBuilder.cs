@@ -281,8 +281,8 @@
 
             if (context != null)
             {
-                if (context.OwnerDocument != null && context.OwnerDocument.QuirksMode != QuirksMode.Off)
-                    doc.QuirksMode = context.OwnerDocument.QuirksMode;
+                if (context.Owner != null && context.Owner.QuirksMode != QuirksMode.Off)
+                    doc.QuirksMode = context.Owner.QuirksMode;
 
                 parser.SwitchToFragment(context);
                 return parser.Result.DocumentElement.ChildNodes;

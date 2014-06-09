@@ -772,7 +772,7 @@
 			switch (((CssKeywordToken)token).Data)
 			{
 				case pseudoClassRoot:
-					return SimpleSelector.PseudoClass(el => el.OwnerDocument.DocumentElement == el, pseudoClassRoot);
+					return SimpleSelector.PseudoClass(el => el.Owner.DocumentElement == el, pseudoClassRoot);
 
 				case pseudoClassFirstOfType:
 					return SimpleSelector.PseudoClass(el =>
@@ -893,7 +893,7 @@
 					return SimpleSelector.PseudoClass(el => el.IsFocused, pseudoClassFocus);
 
 				case pseudoClassTarget:
-					return SimpleSelector.PseudoClass(el => el.OwnerDocument != null && el.Id == el.OwnerDocument.Location.Hash, pseudoClassTarget);
+					return SimpleSelector.PseudoClass(el => el.Owner != null && el.Id == el.Owner.Location.Hash, pseudoClassTarget);
 
 				case pseudoClassEnabled:
 					return SimpleSelector.PseudoClass(el =>
@@ -1229,7 +1229,7 @@
         {
 			public override Boolean Match(Element element)
             {
-                var parent = element.ParentNode;
+                var parent = element.Parent;
 
                 if (parent == null)
                     return false;
@@ -1306,7 +1306,7 @@
 
 			public override Boolean Match(Element element)
             {
-                var parent = element.ParentNode;
+                var parent = element.Parent;
 
                 if (parent == null)
                     return false;

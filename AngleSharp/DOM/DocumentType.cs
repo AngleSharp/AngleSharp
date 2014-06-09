@@ -151,7 +151,7 @@
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
         [DomName("cloneNode")]
-        public override Node CloneNode(Boolean deep = true)
+        public override Node Clone(Boolean deep = true)
         {
             var node = new DocumentType();
             CopyProperties(this, node, deep);
@@ -169,7 +169,7 @@
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
         [DomName("lookupNamespaceURI")]
-        public override String LookupNamespaceURI(String prefix)
+        public override String LookupNamespaceUri(String prefix)
         {
             return null;
         }

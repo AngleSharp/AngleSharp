@@ -58,7 +58,7 @@
         /// Gets a boolean value indicating whether the current Node has child nodes or not.
         /// </summary>
         [DomName("hasChildNodes")]
-        public Boolean HasChildNodes
+        public Boolean HasChilds
         {
             get { return _children.Length != 0; }
         }
@@ -67,16 +67,16 @@
         /// Gets or sets the absolute base URI of a node or null if unable to obtain an absolute URI.
         /// </summary>
         [DomName("baseURI")]
-        public String BaseURI
+        public String BaseUri
         {
             get 
             {
                 if (_baseURI != null)
                     return _baseURI;
                 else if (_parent != null)
-                    return _parent.BaseURI;
-                else if (OwnerDocument != null)
-                    return OwnerDocument.DocumentUri;
+                    return _parent.BaseUri;
+                else if (Owner != null)
+                    return Owner.DocumentUri;
 
                 return String.Empty;
             }
@@ -188,7 +188,7 @@
         /// Gets the owner document of the node.
         /// </summary>
         [DomName("ownerDocument")]
-        public Document OwnerDocument 
+        public Document Owner 
         {
             get { return _owner; }
             internal set 
@@ -201,7 +201,7 @@
                 _owner = value;
 
                 for (int i = 0; i < _children.Length; i++)
-                    _children[i].OwnerDocument = value;
+                    _children[i].Owner = value;
             }
         }
 
@@ -209,7 +209,7 @@
         /// Gets the parent node of this node, which is either an Element node, a Document node, or a DocumentFragment node.
         /// </summary>
         [DomName("parentNode")]
-        public Node ParentNode
+        public Node Parent
         {
             get { return _parent; }
             internal set { _parent = value; } 
@@ -420,11 +420,11 @@
             }
             else
             {
-                if (child.ParentNode != null)
+                if (child.Parent != null)
                     throw new DOMException(ErrorCode.InUse);
 
                 child._parent = this;
-                child.OwnerDocument = _owner ?? (this as Document);
+                child.Owner = _owner ?? (this as Document);
                 _children.Add(child);
             }
 
@@ -453,11 +453,11 @@
             }
             else
             {
-                if (child.ParentNode != null)
+                if (child.Parent != null)
                     throw new DOMException(ErrorCode.InUse);
 
                 child._parent = this;
-                child.OwnerDocument = _owner ?? (this as Document);
+                child.Owner = _owner ?? (this as Document);
                 _children.Insert(index, child);
             }
 
@@ -501,7 +501,7 @@
                 throw new DOMException(ErrorCode.HierarchyRequestError);
             else if (newChild == oldChild)
                 return oldChild;
-            else if (newChild.ParentNode != null)
+            else if (newChild.Parent != null)
                 throw new DOMException(ErrorCode.InUse);
 
             var n = _children.Length;
@@ -542,7 +542,7 @@
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
         [DomName("cloneNode")]
-        public virtual Node CloneNode(Boolean deep = true)
+        public virtual Node Clone(Boolean deep = true)
         {
             var node = new Node();
             CopyProperties(this, node, deep);
@@ -560,7 +560,7 @@
             if (this == otherNode)
                 return DocumentPosition.Same;
 
-            if(this.OwnerDocument != otherNode.OwnerDocument)
+            if(this.Owner != otherNode.Owner)
             {
                 return DocumentPosition.Disconnected | DocumentPosition.ImplementationSpecific |
                     (otherNode.GetHashCode() > this.GetHashCode() ? DocumentPosition.Following : DocumentPosition.Preceding);
@@ -641,10 +641,10 @@
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
         [DomName("lookupNamespaceURI")]
-        public virtual String LookupNamespaceURI(String prefix)
+        public virtual String LookupNamespaceUri(String prefix)
         {
             if (_parent != null)
-                _parent.LookupNamespaceURI(prefix);
+                _parent.LookupNamespaceUri(prefix);
 
             return null;
         }
@@ -775,7 +775,7 @@
             if (deep)
             {
                 for (int i = 0; i < source._children.Length; i++)
-                    target._children.Add(source._children[i].CloneNode(true));
+                    target._children.Add(source._children[i].Clone(true));
             }
         }
 

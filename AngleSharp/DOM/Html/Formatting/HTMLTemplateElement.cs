@@ -32,7 +32,7 @@
         [DomName("content")]
         public DocumentFragment Content
         {
-            get { return _content ?? (_content = new DocumentFragment { OwnerDocument = OwnerDocument }); }
+            get { return _content ?? (_content = new DocumentFragment { Owner = Owner }); }
         }
 
         #endregion
@@ -70,15 +70,15 @@
         /// cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
         [DomName("cloneNode")]
-        public override Node CloneNode(Boolean deep = true)
+        public override Node Clone(Boolean deep = true)
         {
             var clone = new HTMLTemplateElement();
             CopyProperties(this, clone, deep);
 
             if (deep && _content != null)
             {
-                clone._content = (DocumentFragment)_content.CloneNode(true);
-                clone._content.OwnerDocument = OwnerDocument;
+                clone._content = (DocumentFragment)_content.Clone(true);
+                clone._content.Owner = Owner;
             }
 
             return clone;

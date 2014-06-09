@@ -85,7 +85,7 @@
         public HTMLTableRowElement InsertRow(Int32 index)
         {
             var row = Rows[index];
-            var newRow = OwnerDocument.CreateElement(Tags.Tr) as HTMLTableRowElement;
+            var newRow = Owner.CreateElement(Tags.Tr) as HTMLTableRowElement;
 
             if (row != null)
                 InsertBefore(newRow, row);

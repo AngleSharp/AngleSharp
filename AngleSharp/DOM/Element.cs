@@ -347,8 +347,8 @@
 
                 for (int i = 0; i < n; i++)
                 {
-                    nodes[i].OwnerDocument = null;
-                    nodes[i].ParentNode = null;
+                    nodes[i].Owner = null;
+                    nodes[i].Parent = null;
                     AppendChild(nodes[i]);
                 }
             }
@@ -375,8 +375,8 @@
 
                     for (int i = 0; i < n; i++)
                     {
-                        nodes[i].OwnerDocument = null;
-                        nodes[i].ParentNode = null;
+                        nodes[i].Owner = null;
+                        nodes[i].Parent = null;
                         _parent.InsertChild(pos++, nodes[i]);
                     }
 
@@ -574,7 +574,7 @@
 
             if (_namespace != null)
             {
-                if ((_prefix != null || !IsDefaultNamespace(_namespace)) && (_prefix == null || LookupNamespaceURI(_prefix) != _namespace))
+                if ((_prefix != null || !IsDefaultNamespace(_namespace)) && (_prefix == null || LookupNamespaceUri(_prefix) != _namespace))
                     SetAttribute(Namespaces.XmlNS, Namespaces.DeclarationFor(_prefix), _namespace);
             }
             else if (LocalName != null)
@@ -664,7 +664,7 @@
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
         [DomName("cloneNode")]
-        public override Node CloneNode(Boolean deep = true)
+        public override Node Clone(Boolean deep = true)
         {
             var node = new Element();
             CopyProperties(this, node, deep);
@@ -679,7 +679,7 @@
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
         [DomName("lookupNamespaceURI")]
-        public override String LookupNamespaceURI(String prefix)
+        public override String LookupNamespaceUri(String prefix)
         {
             if (!String.IsNullOrEmpty(_namespace) && Prefix == prefix)
                 return _namespace;
@@ -698,7 +698,7 @@
             }
 
             if (_parent != null)
-                _parent.LookupNamespaceURI(prefix);
+                _parent.LookupNamespaceUri(prefix);
 
             return null;
         }
@@ -905,7 +905,7 @@
             if (String.IsNullOrEmpty(namespaceURI))
                 return null;
 
-            if (!String.IsNullOrEmpty(_namespace) && !String.IsNullOrEmpty(_prefix) && _namespace == namespaceURI && LookupNamespaceURI(Prefix) == namespaceURI)
+            if (!String.IsNullOrEmpty(_namespace) && !String.IsNullOrEmpty(_prefix) && _namespace == namespaceURI && LookupNamespaceUri(Prefix) == namespaceURI)
                 return Prefix;
 
             if (_parent != null)
@@ -1051,11 +1051,11 @@
             switch (position)
             {
                 case AdjacentPosition.BeforeBegin:
-                    ParentNode.InsertBefore(nodes, this);
+                    Parent.InsertBefore(nodes, this);
                     break;
 
                 case AdjacentPosition.AfterEnd:
-                    ParentNode.InsertChild(ParentNode.IndexOf(this) + 1, nodes);
+                    Parent.InsertChild(Parent.IndexOf(this) + 1, nodes);
                     break;
 
                 case AdjacentPosition.AfterBegin:
@@ -1140,7 +1140,7 @@
             if (url == null || Location.IsAbsolute(url))
                 return url;
 
-            return Location.MakeAbsolute(BaseURI, url);
+            return Location.MakeAbsolute(BaseUri, url);
         }
 
         /// <summary>

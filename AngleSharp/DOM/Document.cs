@@ -338,8 +338,8 @@
         [DomName("importNode")]
         public Node ImportNode(Node externalNode, Boolean deep = true)
         {
-            var clone = externalNode.CloneNode(deep);
-            externalNode.OwnerDocument = this;
+            var clone = externalNode.Clone(deep);
+            externalNode.Owner = this;
             return externalNode;
         }
 
@@ -374,7 +374,7 @@
         [DomName("createElement")]
         public virtual Element CreateElement(String tagName)
         {
-            return new Element { NodeName = tagName, OwnerDocument = this };
+            return new Element { NodeName = tagName, Owner = this };
         }
 
         /// <summary>
@@ -395,7 +395,7 @@
             else if (namespaceURI == Namespaces.MathML)
                 element = MathFactory.Create(tagName, this);
             else
-                element = new Element { NamespaceUri = namespaceURI, NodeName = tagName, OwnerDocument = this };
+                element = new Element { NamespaceUri = namespaceURI, NodeName = tagName, Owner = this };
 
             return element;
         }
@@ -411,7 +411,7 @@
             if (data.Contains("--"))
                 throw new DOMException(ErrorCode.InvalidCharacter);
 
-            return new Comment(data) { OwnerDocument = this };
+            return new Comment(data) { Owner = this };
         }
 
         /// <summary>
@@ -421,7 +421,7 @@
         [DomName("createDocumentFragment")]
         public IDocumentFragment CreateDocumentFragment()
         {
-            return new DocumentFragment() { OwnerDocument = this };
+            return new DocumentFragment() { Owner = this };
         }
 
         /// <summary>
@@ -433,7 +433,7 @@
         [DomName("createProcessingInstruction")]
         public IProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
-            return new ProcessingInstruction(target) { Data = data, OwnerDocument = this };
+            return new ProcessingInstruction(target) { Data = data, Owner = this };
         }
 
         /// <summary>
@@ -446,7 +446,7 @@
         [DomName("createEntityReference")]
         public EntityReference CreateEntityReference(String name)
         {
-            return new EntityReference(name) { OwnerDocument = this };
+            return new EntityReference(name) { Owner = this };
         }
 
         /// <summary>
@@ -457,7 +457,7 @@
         [DomName("createTextNode")]
         public IText CreateTextNode(String data)
         {
-            return new TextNode(data) { OwnerDocument = this };
+            return new TextNode(data) { Owner = this };
         }
 
         /// <summary>
@@ -537,7 +537,7 @@
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
         [DomName("cloneNode")]
-        public override Node CloneNode(Boolean deep = true)
+        public override Node Clone(Boolean deep = true)
         {
             var node = new Document();
             CopyProperties(this, node, deep);
@@ -552,12 +552,12 @@
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
         [DomName("lookupNamespaceURI")]
-        public override String LookupNamespaceURI(String prefix)
+        public override String LookupNamespaceUri(String prefix)
         {
             var root = DocumentElement;
 
             if (root != null)
-                return root.LookupNamespaceURI(prefix);
+                return root.LookupNamespaceUri(prefix);
 
             return null;
         }

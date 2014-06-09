@@ -196,7 +196,7 @@
         public HTMLTableRowElement InsertRow(Int32 index)
         {
             var rows = Rows;
-            var newRow = OwnerDocument.CreateElement(Tags.Tr) as HTMLTableRowElement;
+            var newRow = Owner.CreateElement(Tags.Tr) as HTMLTableRowElement;
 
             if (index >= 0 && index < rows.Length)
             {
@@ -209,7 +209,7 @@
 
                 if (bodies.Length == 0)
                 {
-                    var tbody = OwnerDocument.CreateElement(Tags.Tbody);
+                    var tbody = Owner.CreateElement(Tags.Tbody);
                     AppendChild(tbody);
                 }
 
@@ -253,7 +253,7 @@
 
             if (head == null)
             {
-                head = OwnerDocument.CreateElement(Tags.Thead) as HTMLTableSectionElement;
+                head = Owner.CreateElement(Tags.Thead) as HTMLTableSectionElement;
                 AppendChild(head);
             }
 
@@ -286,7 +286,7 @@
 
             if (foot == null)
             {
-                foot = OwnerDocument.CreateElement(Tags.Tfoot) as HTMLTableSectionElement;
+                foot = Owner.CreateElement(Tags.Tfoot) as HTMLTableSectionElement;
                 AppendChild(foot);
             }
 
@@ -319,7 +319,7 @@
 
             if (caption == null)
             {
-                caption = OwnerDocument.CreateElement(Tags.Caption) as HTMLTableCaptionElement;
+                caption = Owner.CreateElement(Tags.Caption) as HTMLTableCaptionElement;
                 AppendChild(caption);
             }
 

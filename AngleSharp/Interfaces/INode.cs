@@ -11,7 +11,7 @@
     public interface INode
     {
         [DomName("baseURI")]
-        String BaseURI { get; }
+        String BaseUri { get; }
 
         [DomName("nodeName")]
         String NodeName { get; }
@@ -20,7 +20,7 @@
         NodeList ChildNodes { get; }
 
         [DomName("cloneNode")]
-        Node CloneNode(Boolean deep = true);
+        Node Clone(Boolean deep = true);
 
         [DomName("isEqualNode")]
         Boolean IsEqualNode(Node otherNode);
@@ -32,13 +32,13 @@
         Node Normalize();
 
         [DomName("ownerDocument")]
-        Document OwnerDocument { get; }
+        Document Owner { get; }
 
         [DomName("parentElement")]
         Element ParentElement { get; }
 
         [DomName("parentNode")]
-        Node ParentNode { get; }
+        Node Parent { get; }
 
         [DomName("contains")]
         Boolean Contains(Node otherNode);
@@ -56,13 +56,13 @@
         Node PreviousSibling { get; }
 
         [DomName("isDefaultNamespace")]
-        Boolean IsDefaultNamespace(String namespaceURI);
+        Boolean IsDefaultNamespace(String namespaceUri);
 
         [DomName("lookupNamespaceURI")]
-        String LookupNamespaceURI(String prefix);
+        String LookupNamespaceUri(String prefix);
 
         [DomName("lookupPrefix")]
-        String LookupPrefix(String namespaceURI);
+        String LookupPrefix(String namespaceUri);
 
         [DomName("nodeType")]
         NodeType NodeType { get; }
@@ -74,7 +74,7 @@
         String TextContent { get; set; }
 
         [DomName("hasChildNodes")]
-        Boolean HasChildNodes { get; }
+        Boolean HasChilds { get; }
 
         [DomName("appendChild")]
         Node AppendChild(Node child);
