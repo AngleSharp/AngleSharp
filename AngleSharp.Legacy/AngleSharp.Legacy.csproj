@@ -178,6 +178,9 @@
     <Compile Include="..\AngleSharp\DOM\Constants\HorizontalAlignment.cs">
       <Link>DOM\Constants\HorizontalAlignment.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\NodeType.cs">
+      <Link>DOM\Constants\NodeType.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\QuirksMode.cs">
       <Link>DOM\Constants\QuirksMode.cs</Link>
     </Compile>
@@ -1266,9 +1269,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Node.cs">
       <Link>DOM\Node.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\NodeType.cs">
-      <Link>DOM\NodeType.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Notation.cs">
       <Link>DOM\Notation.cs</Link>
