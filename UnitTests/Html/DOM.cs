@@ -151,7 +151,7 @@ namespace UnitTests
             div.AppendChild(new TextNode("Hi there!"));
             div.AppendChild(new HTMLImageElement());
             div.Normalize();
-            Assert.AreEqual(div.ChildNodes.Length, 4);
+            Assert.AreEqual(div.Childs.Length, 4);
         }
 
         [TestMethod]
@@ -167,7 +167,7 @@ namespace UnitTests
             div.AppendChild(new TextNode("Certainly not empty!"));
             div.AppendChild(new HTMLImageElement());
             div.Normalize();
-            Assert.AreEqual(a.ChildNodes.Length, 1);
+            Assert.AreEqual(a.Childs.Length, 1);
         }
 
         [TestMethod]
@@ -186,7 +186,7 @@ namespace UnitTests
             div.AppendChild(new TextNode("Certainly not empty!"));
             div.AppendChild(new HTMLImageElement());
             div.Normalize();
-            Assert.AreEqual(div.ChildNodes.Length, 4);
+            Assert.AreEqual(div.Childs.Length, 4);
         }
 
         [TestMethod]
@@ -401,19 +401,19 @@ namespace UnitTests
 
             var doc = DocumentBuilder.Html(content);
 
-            var docType = doc.ChildNodes[0] as DocumentType;
+            var docType = doc.Childs[0] as DocumentType;
             Assert.IsNotNull(docType);
             Assert.AreEqual(NodeType.DocumentType, docType.NodeType);
             Assert.AreEqual(@"html", docType.Name);
             
             var html = doc.DocumentElement;
-            Assert.AreEqual(2, html.ChildNodes.Length);
+            Assert.AreEqual(2, html.Childs.Length);
             Assert.AreEqual(2, html.Attributes.Count());
             Assert.AreEqual(NodeType.Element, html.NodeType);
             Assert.AreEqual(@"html", html.NodeName);
 
             var head = doc.Head;
-            Assert.AreEqual(19, head.ChildNodes.Length);
+            Assert.AreEqual(19, head.Childs.Length);
             Assert.AreEqual(0, head.Attributes.Count());
             Assert.AreEqual("head", head.NodeName);
             Assert.AreEqual(NodeType.Element, head.NodeType);

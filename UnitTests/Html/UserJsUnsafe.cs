@@ -16,29 +16,29 @@ namespace UnitTests
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[foo
 bar]]>");
-            var html = doc.ChildNodes[0] as Element;
-            Assert.AreEqual(2, html.ChildNodes.Length);
+            var html = doc.Childs[0] as Element;
+            Assert.AreEqual(2, html.Childs.Length);
             Assert.AreEqual(0, html.Attributes.Count);
             Assert.AreEqual(NodeType.Element, html.NodeType);
 
-            var htmlhead = html.ChildNodes[0] as Element;
-            Assert.AreEqual(0, htmlhead.ChildNodes.Length);
+            var htmlhead = html.Childs[0] as Element;
+            Assert.AreEqual(0, htmlhead.Childs.Length);
             Assert.AreEqual(0, htmlhead.Attributes.Count);
             Assert.AreEqual(NodeType.Element, htmlhead.NodeType);
 
-            var htmlbody = html.ChildNodes[1] as Element;
-            Assert.AreEqual(1, htmlbody.ChildNodes.Length);
+            var htmlbody = html.Childs[1] as Element;
+            Assert.AreEqual(1, htmlbody.Childs.Length);
             Assert.AreEqual(0, htmlbody.Attributes.Count);
             Assert.AreEqual(NodeType.Element, htmlbody.NodeType);
 
-            var htmlbodysvg = htmlbody.ChildNodes[0] as Element;
+            var htmlbodysvg = htmlbody.Childs[0] as Element;
             Assert.IsTrue(htmlbodysvg.IsInSvg);
             Assert.AreEqual(Namespaces.Svg, htmlbodysvg.NamespaceUri);
-            Assert.AreEqual(1, htmlbodysvg.ChildNodes.Length);
+            Assert.AreEqual(1, htmlbodysvg.Childs.Length);
             Assert.AreEqual(0, htmlbodysvg.Attributes.Count);
             Assert.AreEqual(NodeType.Element, htmlbodysvg.NodeType);
 
-            var text = htmlbodysvg.ChildNodes[0];
+            var text = htmlbodysvg.Childs[0];
             Assert.AreEqual(NodeType.Text, text.NodeType);
             Assert.AreEqual("foo\nbar", text.TextContent);
         }
@@ -48,28 +48,28 @@ bar]]>");
         {
             var doc = DocumentBuilder.Html(@"<script type=""data""><!--foo" + Specification.Null.ToString() + "</script>");
 
-            var dochtml = doc.ChildNodes[0] as Element;
-            Assert.AreEqual(2, dochtml.ChildNodes.Length);
+            var dochtml = doc.Childs[0] as Element;
+            Assert.AreEqual(2, dochtml.Childs.Length);
             Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
-            var dochtmlhead = dochtml.ChildNodes[0] as Element;
-            Assert.AreEqual(1, dochtmlhead.ChildNodes.Length);
+            var dochtmlhead = dochtml.Childs[0] as Element;
+            Assert.AreEqual(1, dochtmlhead.Childs.Length);
             Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
-            var dochtmlheadscript = dochtmlhead.ChildNodes[0] as Element;
-            Assert.AreEqual(1, dochtmlheadscript.ChildNodes.Length);
+            var dochtmlheadscript = dochtmlhead.Childs[0] as Element;
+            Assert.AreEqual(1, dochtmlheadscript.Childs.Length);
             Assert.AreEqual(1, dochtmlheadscript.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlheadscript.NodeType);
             Assert.AreEqual("data", dochtmlheadscript.Attributes["type"].Value);
 
-            var text = dochtmlheadscript.ChildNodes[0];
+            var text = dochtmlheadscript.Childs[0];
             Assert.AreEqual(NodeType.Text, text.NodeType);
             Assert.AreEqual(@"<!--foo" + Specification.Replacement.ToString(), text.TextContent);
 
-            var dochtmlbody = dochtml.ChildNodes[1] as Element;
-            Assert.AreEqual(0, dochtmlbody.ChildNodes.Length);
+            var dochtmlbody = dochtml.Childs[1] as Element;
+            Assert.AreEqual(0, dochtmlbody.Childs.Length);
             Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
         }
@@ -79,28 +79,28 @@ bar]]>");
         {
             var doc = DocumentBuilder.Html(@"<script type=""data""><!-- foo--" + Specification.Null.ToString() + "</script>");
 
-            var dochtml = doc.ChildNodes[0] as Element;
-            Assert.AreEqual(2, dochtml.ChildNodes.Length);
+            var dochtml = doc.Childs[0] as Element;
+            Assert.AreEqual(2, dochtml.Childs.Length);
             Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
-            var dochtmlhead = dochtml.ChildNodes[0] as Element;
-            Assert.AreEqual(1, dochtmlhead.ChildNodes.Length);
+            var dochtmlhead = dochtml.Childs[0] as Element;
+            Assert.AreEqual(1, dochtmlhead.Childs.Length);
             Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
-            var dochtmlheadscript = dochtmlhead.ChildNodes[0] as Element;
-            Assert.AreEqual(1, dochtmlheadscript.ChildNodes.Length);
+            var dochtmlheadscript = dochtmlhead.Childs[0] as Element;
+            Assert.AreEqual(1, dochtmlheadscript.Childs.Length);
             Assert.AreEqual(1, dochtmlheadscript.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlheadscript.NodeType);
             Assert.AreEqual("data", dochtmlheadscript.Attributes["type"].Value);
 
-            var text = dochtmlheadscript.ChildNodes[0];
+            var text = dochtmlheadscript.Childs[0];
             Assert.AreEqual(NodeType.Text, text.NodeType);
             Assert.AreEqual(@"<!-- foo--" + Specification.Replacement.ToString(), text.TextContent);
 
-            var dochtmlbody = dochtml.ChildNodes[1] as Element;
-            Assert.AreEqual(0, dochtmlbody.ChildNodes.Length);
+            var dochtmlbody = dochtml.Childs[1] as Element;
+            Assert.AreEqual(0, dochtmlbody.Childs.Length);
             Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
         }
@@ -110,28 +110,28 @@ bar]]>");
         {
             var doc = DocumentBuilder.Html(@"<script type=""data""><!-- foo-<</script>");
 
-            var dochtml = doc.ChildNodes[0] as Element;
-            Assert.AreEqual(2, dochtml.ChildNodes.Length);
+            var dochtml = doc.Childs[0] as Element;
+            Assert.AreEqual(2, dochtml.Childs.Length);
             Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
-            var dochtmlhead = dochtml.ChildNodes[0] as Element;
-            Assert.AreEqual(1, dochtmlhead.ChildNodes.Length);
+            var dochtmlhead = dochtml.Childs[0] as Element;
+            Assert.AreEqual(1, dochtmlhead.Childs.Length);
             Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
-            var dochtmlheadscript = dochtmlhead.ChildNodes[0] as Element;
-            Assert.AreEqual(1, dochtmlheadscript.ChildNodes.Length);
+            var dochtmlheadscript = dochtmlhead.Childs[0] as Element;
+            Assert.AreEqual(1, dochtmlheadscript.Childs.Length);
             Assert.AreEqual(1, dochtmlheadscript.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlheadscript.NodeType);
             Assert.AreEqual("data", dochtmlheadscript.Attributes["type"].Value);
 
-            var text = dochtmlheadscript.ChildNodes[0];
+            var text = dochtmlheadscript.Childs[0];
             Assert.AreEqual(NodeType.Text, text.NodeType);
             Assert.AreEqual(@"<!-- foo-<", text.TextContent);
 
-            var dochtmlbody = dochtml.ChildNodes[1] as Element;
-            Assert.AreEqual(0, dochtmlbody.ChildNodes.Length);
+            var dochtmlbody = dochtml.Childs[1] as Element;
+            Assert.AreEqual(0, dochtmlbody.Childs.Length);
             Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
         }
@@ -141,28 +141,28 @@ bar]]>");
         {
             var doc = DocumentBuilder.Html(@"<script type=""data""><!--<p></script>");
 
-            var dochtml = doc.ChildNodes[0] as Element;
-            Assert.AreEqual(2, dochtml.ChildNodes.Length);
+            var dochtml = doc.Childs[0] as Element;
+            Assert.AreEqual(2, dochtml.Childs.Length);
             Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
-            var dochtmlhead = dochtml.ChildNodes[0] as Element;
-            Assert.AreEqual(1, dochtmlhead.ChildNodes.Length);
+            var dochtmlhead = dochtml.Childs[0] as Element;
+            Assert.AreEqual(1, dochtmlhead.Childs.Length);
             Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
-            var dochtmlheadscript = dochtmlhead.ChildNodes[0] as Element;
-            Assert.AreEqual(1, dochtmlheadscript.ChildNodes.Length);
+            var dochtmlheadscript = dochtmlhead.Childs[0] as Element;
+            Assert.AreEqual(1, dochtmlheadscript.Childs.Length);
             Assert.AreEqual(1, dochtmlheadscript.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlheadscript.NodeType);
             Assert.AreEqual("data", dochtmlheadscript.Attributes["type"].Value);
 
-            var text = dochtmlheadscript.ChildNodes[0];
+            var text = dochtmlheadscript.Childs[0];
             Assert.AreEqual(NodeType.Text, text.NodeType);
             Assert.AreEqual(@"<!--<p>", text.TextContent);
                         
-            var dochtmlbody = dochtml.ChildNodes[1] as Element;
-            Assert.AreEqual(0, dochtmlbody.ChildNodes.Length);
+            var dochtmlbody = dochtml.Childs[1] as Element;
+            Assert.AreEqual(0, dochtmlbody.Childs.Length);
             Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
         }
@@ -172,18 +172,18 @@ bar]]>");
         {
             var doc = DocumentBuilder.Html(@"<html><!DOCTYPE html>");
 
-            var dochtml = doc.ChildNodes[0] as Element;
-            Assert.AreEqual(2, dochtml.ChildNodes.Length);
+            var dochtml = doc.Childs[0] as Element;
+            Assert.AreEqual(2, dochtml.Childs.Length);
             Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
-            var dochtmlhead = dochtml.ChildNodes[0] as Element;
-            Assert.AreEqual(0, dochtmlhead.ChildNodes.Length);
+            var dochtmlhead = dochtml.Childs[0] as Element;
+            Assert.AreEqual(0, dochtmlhead.Childs.Length);
             Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
-            var dochtmlbody = dochtml.ChildNodes[1] as Element;
-            Assert.AreEqual(0, dochtmlbody.ChildNodes.Length);
+            var dochtmlbody = dochtml.Childs[1] as Element;
+            Assert.AreEqual(0, dochtmlbody.Childs.Length);
             Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
         }
@@ -193,18 +193,18 @@ bar]]>");
         {
             var doc = DocumentBuilder.Html(@"<html><head></head><!DOCTYPE html>");
 
-            var dochtml = doc.ChildNodes[0] as Element;
-            Assert.AreEqual(2, dochtml.ChildNodes.Length);
+            var dochtml = doc.Childs[0] as Element;
+            Assert.AreEqual(2, dochtml.Childs.Length);
             Assert.AreEqual(0, dochtml.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtml.NodeType);
 
-            var dochtmlhead = dochtml.ChildNodes[0] as Element;
-            Assert.AreEqual(0, dochtmlhead.ChildNodes.Length);
+            var dochtmlhead = dochtml.Childs[0] as Element;
+            Assert.AreEqual(0, dochtmlhead.Childs.Length);
             Assert.AreEqual(0, dochtmlhead.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlhead.NodeType);
 
-            var dochtmlbody = dochtml.ChildNodes[1] as Element;
-            Assert.AreEqual(0, dochtmlbody.ChildNodes.Length);
+            var dochtmlbody = dochtml.Childs[1] as Element;
+            Assert.AreEqual(0, dochtmlbody.Childs.Length);
             Assert.AreEqual(0, dochtmlbody.Attributes.Count);
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
 

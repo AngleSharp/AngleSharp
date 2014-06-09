@@ -159,7 +159,7 @@ namespace UnitTests
             Assert.AreEqual(1, elements.Count());
 
             var text = elements[0].TextContent;
-            Assert.AreEqual(1, elements[0].ChildNodes.Count());
+            Assert.AreEqual(1, elements[0].Childs.Count());
             Assert.AreEqual("test", text);
         }
 
@@ -170,25 +170,25 @@ namespace UnitTests
             var elements = document.QuerySelectorAll("li").Text("test");
             Assert.AreEqual(4, elements.Count());
 
-            var text1 = elements[0].ChildNodes;
+            var text1 = elements[0].Childs;
             Assert.AreEqual(1, text1.Count());
 
             var test1 = text1[0];
             Assert.AreEqual("test", test1.TextContent);
 
-            var text2 = elements[1].ChildNodes;
+            var text2 = elements[1].Childs;
             Assert.AreEqual(1, text2.Count());
 
             var test2 = text2[0];
             Assert.AreEqual("test", test2.TextContent);
 
-            var text3 = elements[2].ChildNodes;
+            var text3 = elements[2].Childs;
             Assert.AreEqual(1, text3.Count());
 
             var test3 = text3[0];
             Assert.AreEqual("test", test3.TextContent);
 
-            var text4 = elements[3].ChildNodes;
+            var text4 = elements[3].Childs;
             Assert.AreEqual(1, text4.Count());
 
             var test4 = text4[0];
@@ -210,20 +210,20 @@ namespace UnitTests
             var elements = document.QuerySelectorAll("li").Html("<b><i>Text</i></b>");
             Assert.AreEqual(1, elements.Count());
 
-            var childs = elements[0].ChildNodes;
+            var childs = elements[0].Childs;
             Assert.AreEqual(1, childs.Count());
 
             var bold = childs[0];
             Assert.AreEqual(NodeType.Element, bold.NodeType);
             Assert.AreEqual("b", bold.NodeName);
-            Assert.AreEqual(1, bold.ChildNodes.Count());
+            Assert.AreEqual(1, bold.Childs.Count());
 
-            var italic = bold.ChildNodes[0];
+            var italic = bold.Childs[0];
             Assert.AreEqual(NodeType.Element, italic.NodeType);
             Assert.AreEqual("i", italic.NodeName);
-            Assert.AreEqual(1, italic.ChildNodes.Count());
+            Assert.AreEqual(1, italic.Childs.Count());
 
-            var text = italic.ChildNodes[0];
+            var text = italic.Childs[0];
             Assert.AreEqual(NodeType.Text, text.NodeType);
             Assert.AreEqual("Text", text.TextContent);
         }
@@ -237,19 +237,19 @@ namespace UnitTests
 
             for (int i = 0; i < 4; i++)
             {
-                Assert.AreEqual(1, elements[i].ChildNodes.Count());
+                Assert.AreEqual(1, elements[i].Childs.Count());
 
-                var bold = elements[i].ChildNodes[0];
+                var bold = elements[i].Childs[0];
                 Assert.AreEqual(NodeType.Element, bold.NodeType);
                 Assert.AreEqual("b", bold.NodeName);
-                Assert.AreEqual(1, bold.ChildNodes.Count());
+                Assert.AreEqual(1, bold.Childs.Count());
 
-                var italic = bold.ChildNodes[0];
+                var italic = bold.Childs[0];
                 Assert.AreEqual(NodeType.Element, italic.NodeType);
                 Assert.AreEqual("i", italic.NodeName);
-                Assert.AreEqual(1, italic.ChildNodes.Count());
+                Assert.AreEqual(1, italic.Childs.Count());
 
-                var text = italic.ChildNodes[0];
+                var text = italic.Childs[0];
                 Assert.AreEqual(NodeType.Text, text.NodeType);
                 Assert.AreEqual("Text", text.TextContent);
             }
@@ -264,19 +264,19 @@ namespace UnitTests
 
             for (int i = 0; i < elements.Count(); i++)
             {
-                Assert.AreEqual(1, elements[i].ChildNodes.Count());
+                Assert.AreEqual(1, elements[i].Childs.Count());
 
-                var bold = elements[i].ChildNodes[0];
+                var bold = elements[i].Childs[0];
                 Assert.AreEqual(NodeType.Element, bold.NodeType);
                 Assert.AreEqual("b", bold.NodeName);
-                Assert.AreEqual(1, bold.ChildNodes.Count());
+                Assert.AreEqual(1, bold.Childs.Count());
 
-                var italic = bold.ChildNodes[0];
+                var italic = bold.Childs[0];
                 Assert.AreEqual(NodeType.Element, italic.NodeType);
                 Assert.AreEqual("i", italic.NodeName);
-                Assert.AreEqual(1, italic.ChildNodes.Count());
+                Assert.AreEqual(1, italic.Childs.Count());
 
-                var text = italic.ChildNodes[0];
+                var text = italic.Childs[0];
                 Assert.AreEqual(NodeType.Text, text.NodeType);
                 Assert.AreEqual("Text", text.TextContent);
             }
@@ -286,19 +286,19 @@ namespace UnitTests
 
             for (int i = 0; i < elements.Count(); i++)
             {
-                Assert.AreEqual(1, elements[i].ChildNodes.Count());
+                Assert.AreEqual(1, elements[i].Childs.Count());
 
-                var bold = elements[i].ChildNodes[0];
+                var bold = elements[i].Childs[0];
                 Assert.AreEqual(NodeType.Element, bold.NodeType);
                 Assert.AreEqual("b", bold.NodeName);
-                Assert.AreEqual(1, bold.ChildNodes.Count());
+                Assert.AreEqual(1, bold.Childs.Count());
 
-                var italic = bold.ChildNodes[0];
+                var italic = bold.Childs[0];
                 Assert.AreEqual(NodeType.Element, italic.NodeType);
                 Assert.AreEqual("i", italic.NodeName);
-                Assert.AreEqual(1, italic.ChildNodes.Count());
+                Assert.AreEqual(1, italic.Childs.Count());
 
-                var text = italic.ChildNodes[0];
+                var text = italic.Childs[0];
                 Assert.AreEqual(NodeType.Text, text.NodeType);
                 Assert.AreEqual("Text", text.TextContent);
             }

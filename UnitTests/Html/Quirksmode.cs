@@ -26,7 +26,7 @@ namespace UnitTests
             var x = document.CreateElement("P");
             Assert.IsNotNull(x);
             Assert.IsTrue(x is HTMLParagraphElement);
-            Assert.AreEqual(document, x.OwnerDocument);
+            Assert.AreEqual(document, x.Owner);
         }
 
         [TestMethod]
@@ -36,13 +36,13 @@ namespace UnitTests
             var test = document.CreateTextNode(text);
             var testEl = document.GetElementById("test");
 
-            for (var i = testEl.ChildNodes.Length - 1; i >= 0; i--)
-                testEl.RemoveChild(testEl.ChildNodes[i]);
+            for (var i = testEl.Childs.Length - 1; i >= 0; i--)
+                testEl.RemoveChild(testEl.Childs[i]);
 
             Assert.AreEqual(0, testEl.Children.Length);
             testEl.AppendChild(test as TextNode);
             Assert.AreEqual(text, testEl.InnerHTML);
-            Assert.AreEqual(document, test.OwnerDocument);
+            Assert.AreEqual(document, test.Owner);
         }
 
         [TestMethod]
@@ -50,7 +50,7 @@ namespace UnitTests
         {
             var x = document.GetElementById("test");
             Assert.AreEqual("p", x.TagName);
-            Assert.AreEqual(document, x.OwnerDocument);
+            Assert.AreEqual(document, x.Owner);
         }
 
         [TestMethod]
