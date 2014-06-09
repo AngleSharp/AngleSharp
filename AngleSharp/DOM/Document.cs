@@ -599,9 +599,8 @@
         /// Acts as if the document was going through a save and load cycle, putting the document in a "normal"
         /// form. Normalizes all text nodes and fixes namespaces.
         /// </summary>
-        /// <returns>The current document.</returns>
         [DomName("normalize")]
-        public override Node Normalize()
+        public override void Normalize()
         {
             for (int i = 0; i < _children.Length; i++)
             {
@@ -610,8 +609,6 @@
                 if (_children[i] is Element)
                     ((Element)_children[i]).NormalizeNamespaces();
             }
-
-            return this;
         }
 
         #endregion

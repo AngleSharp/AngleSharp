@@ -603,9 +603,8 @@
         /// Puts the specified node and all of its subtree into a "normalized" form. In a normalized subtree, no text nodes in the
         /// subtree are empty and there are no adjacent text nodes.
         /// </summary>
-        /// <returns>The current node.</returns>
         [DomName("normalize")]
-        public virtual Node Normalize()
+        public virtual void Normalize()
         {
             for (int i = 0; i < _children.Length; i++)
             {
@@ -631,7 +630,6 @@
                 else if(_children[i].ChildNodes.Length != 0)
                     _children[i].Normalize();
             }
-            return this;
         }
 
         /// <summary>
