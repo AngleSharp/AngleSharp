@@ -119,9 +119,9 @@ namespace ConsoleInteraction
             var mode = Mode.None;
             var test = new XMLConfTest();
 
-            for (int i = 0; i < body.Childs.Length; i++)
+            for (int i = 0; i < body.ChildNodes.Length; i++)
             {
-                var child = body.Childs[i];
+                var child = body.ChildNodes[i];
                 var element = child as HTMLAnchorElement;
 
                 if (element != null && element.HasAttribute("name"))
