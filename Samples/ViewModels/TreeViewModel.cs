@@ -23,7 +23,7 @@ namespace Samples.ViewModels
         {
             nodes.Clear();
             Status = "Constructing tree ...";
-            var elements = TreeNodeViewModel.SelectFrom(document.Childs);
+            var elements = TreeNodeViewModel.SelectFrom(document.ChildNodes);
 
             foreach (var element in elements)
             {

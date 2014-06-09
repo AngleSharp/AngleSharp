@@ -75,7 +75,7 @@ namespace Samples.ViewModels
 
         void Render(Element element, Section box)
         {
-            foreach (var child in element.Childs)
+            foreach (var child in element.ChildNodes)
             {
                 switch (child.NodeType)
                 {
