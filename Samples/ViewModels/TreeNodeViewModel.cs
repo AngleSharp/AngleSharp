@@ -115,7 +115,7 @@ namespace Samples.ViewModels
         {
             var vm = new TreeNodeViewModel { Value = OpenTag(node) };
 
-            foreach (var element in SelectFrom(node.ChildNodes))
+            foreach (var element in SelectFrom(node.Childs))
             {
                 element.parent = vm.children;
                 vm.children.Add(element);
