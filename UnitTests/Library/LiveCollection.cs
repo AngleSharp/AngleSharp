@@ -16,9 +16,9 @@ namespace UnitTests.Library
 
             var body = document.Body;
             Assert.IsNotNull(body);
-            Assert.AreEqual(1, body.Childs.Length);
+            Assert.AreEqual(1, body.ChildNodes.Length);
 
-            var ul = body.Childs[0];
+            var ul = body.ChildNodes[0];
             Assert.AreEqual("ul", ul.NodeName);
             Assert.AreEqual(NodeType.Element, ul.NodeType);
 
@@ -44,7 +44,7 @@ namespace UnitTests.Library
 
             var body = document.Body;
             Assert.IsNotNull(body);
-            Assert.AreEqual(5, body.Childs.Length);
+            Assert.AreEqual(5, body.ChildNodes.Length);
 
             var live = body.Children;
             Assert.AreEqual(5, live.Length);
@@ -52,14 +52,14 @@ namespace UnitTests.Library
             foreach (var child in live)
             {
                 Assert.AreEqual("p", child.NodeName);
-                Assert.AreEqual(0, child.Childs.Length);
+                Assert.AreEqual(0, child.ChildNodes.Length);
                 Assert.AreEqual(0, child.Attributes.Count);
                 Assert.AreEqual(NodeType.Element, child.NodeType);
                 Assert.AreEqual("", child.TextContent);
             }
 
             body.InnerHTML = "<p>First<p>Second<p>Third";
-            Assert.AreEqual(3, body.Childs.Length);
+            Assert.AreEqual(3, body.ChildNodes.Length);
             Assert.AreEqual(3, live.Length);
 
             var i = 0;
@@ -68,7 +68,7 @@ namespace UnitTests.Library
             foreach (var child in live)
             {
                 Assert.AreEqual("p", child.NodeName);
-                Assert.AreEqual(1, child.Childs.Length);
+                Assert.AreEqual(1, child.ChildNodes.Length);
                 Assert.AreEqual(0, child.Attributes.Count);
                 Assert.AreEqual(NodeType.Element, child.NodeType);
                 Assert.AreEqual(str[i++], child.TextContent);
@@ -82,7 +82,7 @@ namespace UnitTests.Library
 
             var body = document.Body;
             Assert.IsNotNull(body);
-            Assert.AreEqual(5, body.Childs.Length);
+            Assert.AreEqual(5, body.ChildNodes.Length);
 
             var live = body.Children;
             Assert.AreEqual(5, live.Length);
@@ -90,18 +90,18 @@ namespace UnitTests.Library
             foreach (var child in live)
             {
                 Assert.AreEqual("p", child.NodeName);
-                Assert.AreEqual(0, child.Childs.Length);
+                Assert.AreEqual(0, child.ChildNodes.Length);
                 Assert.AreEqual(0, child.Attributes.Count);
                 Assert.AreEqual(NodeType.Element, child.NodeType);
                 Assert.AreEqual("", child.TextContent);
             }
 
             body.InnerHTML = "This is pure text!";
-            Assert.AreEqual(1, body.Childs.Length);
+            Assert.AreEqual(1, body.ChildNodes.Length);
             Assert.AreEqual(0, live.Length);
 
             body.InnerHTML = "<b>Proof that we still have live view</b>";
-            Assert.AreEqual(1, body.Childs.Length);
+            Assert.AreEqual(1, body.ChildNodes.Length);
             Assert.AreEqual(1, live.Length);
         }
 
@@ -112,7 +112,7 @@ namespace UnitTests.Library
 
             var body = document.Body;
             Assert.IsNotNull(body);
-            Assert.AreEqual(3, body.Childs.Length);
+            Assert.AreEqual(3, body.ChildNodes.Length);
 
             var live = document.Anchors;
             Assert.AreEqual(3, live.Length);
@@ -139,7 +139,7 @@ namespace UnitTests.Library
 
             var body = document.Body;
             Assert.IsNotNull(body);
-            Assert.AreEqual(2, body.Childs.Length);
+            Assert.AreEqual(2, body.ChildNodes.Length);
 
             var live = document.Embeds;
             Assert.AreEqual(3, live.Length);
@@ -160,7 +160,7 @@ namespace UnitTests.Library
 
             var body = document.Body;
             Assert.IsNotNull(body);
-            Assert.AreEqual(2, body.Childs.Length);
+            Assert.AreEqual(2, body.ChildNodes.Length);
 
             var live = document.Links;
             Assert.AreEqual(2, live.Length);
