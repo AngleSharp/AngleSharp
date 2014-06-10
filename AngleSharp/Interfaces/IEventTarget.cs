@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="type">A string representing the event type to listen for.</param>
         /// <param name="callback">The listener parameter indicates the EventListener function to be added.</param>
-        /// <param name="capture">If true indicates that the user wishes to initiate capture. After initiating
+        /// <param name="capture">True indicates that the user wishes to initiate capture. After initiating
         /// capture, all events of the specified type will be dispatched to the registered listener before being
         /// dispatched to any EventTarget beneath it in the DOM tree. Events which are bubbling upward through
         /// the tree will not trigger a listener designated to use capture.</param>

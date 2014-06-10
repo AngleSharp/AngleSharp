@@ -1147,7 +1147,7 @@
         /// Entry point for attributes to notify about a change (modified, added, removed).
         /// </summary>
         /// <param name="name">The name of the attribute that has been changed.</param>
-        internal override void OnAttributeChanged(String name)
+        internal virtual void OnAttributeChanged(String name)
         {
             if (name.Equals(AttributeNames.Class, StringComparison.Ordinal))
             {
@@ -1156,8 +1156,6 @@
             }
             else if (name.Equals(AttributeNames.Style, StringComparison.Ordinal))
                 Style.Update(GetAttribute(AttributeNames.Style));
-            else
-                base.OnAttributeChanged(name);
         }
 
         /// <summary>

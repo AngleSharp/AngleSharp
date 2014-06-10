@@ -8,7 +8,7 @@
     /// and allows these various types to be treated similarly.
     /// </summary>
     [DomName("Node")]
-    public interface INode
+    public interface INode : IEventTarget
     {
         /// <summary>
         /// Gets a string representing the base URL. 
