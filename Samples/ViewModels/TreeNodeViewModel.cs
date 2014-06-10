@@ -90,7 +90,7 @@ namespace Samples.ViewModels
                 return Create((IText)node);
             else if (node is IComment)
                 return new TreeNodeViewModel { Value = Comment(((IComment)node).Data), Foreground = Brushes.Gray };
-            else if (node is DocumentType)
+            else if (node is IDocumentType)
                 return new TreeNodeViewModel { Value = node.ToHtml(), Foreground = Brushes.DarkGray };
             else if(node is Element)
                 return Create((Element)node);
