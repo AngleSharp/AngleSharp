@@ -7,8 +7,7 @@
     /// <summary>
     /// Represents the document type node.
     /// </summary>
-    [DomName("DocumentType")]
-    public sealed class DocumentType : Node
+    sealed class DocumentType : Node, IDocumentType
     {
         #region ctor
 
@@ -27,7 +26,6 @@
         /// <summary>
         /// Gets a list of defined entities.
         /// </summary>
-        [DomName("entities")]
         public IEnumerable<Entity> Entities
         {
             get { return Enumerable.Empty<Entity>(); }
@@ -36,7 +34,6 @@
         /// <summary>
         /// Gets a list of defined notations.
         /// </summary>
-        [DomName("notations")]
         public IEnumerable<Notation> Notations
         {
             get { return Enumerable.Empty<Notation>(); }
@@ -45,7 +42,6 @@
         /// <summary>
         /// Gets or sets the name of the document type.
         /// </summary>
-        [DomName("name")]
         public String Name 
         {
             get { return _name; }
@@ -55,8 +51,7 @@
         /// <summary>
         /// Gets or sets the public ID of the document type.
         /// </summary>
-        [DomName("publicId")]
-        public String PublicId 
+        public String PublicIdentifier 
         { 
             get; 
             set; 
@@ -65,8 +60,7 @@
         /// <summary>
         /// Gets or sets the system ID of the document type.
         /// </summary>
-        [DomName("systemId")]
-        public String SystemId 
+        public String SystemIdentifier 
         { 
             get; 
             set; 
@@ -75,7 +69,6 @@
         /// <summary>
         /// Gets or sets the internal subset of the document type.
         /// </summary>
-        [DomName("internalSubset")]
         public String InternalSubset 
         { 
             get; 
@@ -91,7 +84,6 @@
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
-        [DomName("appendChild")]
         public override Node AppendChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -104,7 +96,6 @@
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
-        [DomName("insertBefore")]
         public override Node InsertBefore(Node newElement, Node referenceElement)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -116,7 +107,6 @@
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
-        [DomName("insertChild")]
         public override Node InsertChild(int index, Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -127,7 +117,6 @@
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
-        [DomName("removeChild")]
         public override Node RemoveChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -139,7 +128,6 @@
         /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
         /// <param name="oldChild">The existing child to be replaced.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
-        [DomName("replaceChild")]
         public override Node ReplaceChild(Node newChild, Node oldChild)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -150,14 +138,13 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DomName("cloneNode")]
         public override Node Clone(Boolean deep = true)
         {
             var node = new DocumentType();
             CopyProperties(this, node, deep);
             node.Name = this.Name;
-            node.PublicId = this.PublicId;
-            node.SystemId = this.SystemId;
+            node.PublicIdentifier = this.PublicIdentifier;
+            node.SystemIdentifier = this.SystemIdentifier;
             node.InternalSubset = this.InternalSubset;
             return node;
         }
@@ -168,7 +155,6 @@
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        [DomName("lookupNamespaceURI")]
         public override String LookupNamespaceUri(String prefix)
         {
             return null;
@@ -180,7 +166,6 @@
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        [DomName("lookupPrefix")]
         public override String LookupPrefix(String namespaceURI)
         {
             return null;
@@ -191,7 +176,6 @@
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        [DomName("isDefaultNamespace")]
         public override Boolean IsDefaultNamespace(String namespaceURI)
         {
             return false;
@@ -201,64 +185,48 @@
         /// Inserts nodes before the current doctype.
         /// </summary>
         /// <param name="nodes">The nodes to insert before.</param>
-        /// <returns>The current doctype.</returns>
-        [DomName("before")]
-        public DocumentType Before(params Node[] nodes)
+        public void Before(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 _parent.InsertBefore(node, this);
             }
-
-            return this;
         }
 
         /// <summary>
         /// Inserts nodes after the current doctype.
         /// </summary>
         /// <param name="nodes">The nodes to insert after.</param>
-        /// <returns>The current doctype.</returns>
-        [DomName("after")]
-        public DocumentType After(params Node[] nodes)
+        public void After(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 _parent.InsertBefore(node, NextSibling);
             }
-
-            return this;
         }
 
         /// <summary>
         /// Replaces the current doctype with the nodes.
         /// </summary>
         /// <param name="nodes">The nodes to replace.</param>
-        /// <returns>The current doctype.</returns>
-        [DomName("replace")]
-        public DocumentType Replace(params Node[] nodes)
+        public void Replace(params Node[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 _parent.ReplaceChild(node, this);
             }
-
-            return this;
         }
 
         /// <summary>
         /// Removes the current doctype from the parent.
         /// </summary>
-        /// <returns>The current doctype.</returns>
-        [DomName("remove")]
-        public DocumentType Remove()
+        public void Remove()
         {
             if (_parent != null)
                 _parent.RemoveChild(this);
-
-            return this;
         }
 
         #endregion
@@ -273,8 +241,8 @@
         {
             return String.Format("<!DOCTYPE {0}{1}{2}>",
                 Name,
-                String.IsNullOrEmpty(PublicId) ? "" : " PUBLIC \"" + PublicId + "\"", 
-                String.IsNullOrEmpty(SystemId) ? "" : (String.IsNullOrEmpty(PublicId) ? " SYSTEM" : "") + " \"" + SystemId + "\"");
+                String.IsNullOrEmpty(PublicIdentifier) ? "" : " PUBLIC \"" + PublicIdentifier + "\"", 
+                String.IsNullOrEmpty(SystemIdentifier) ? "" : (String.IsNullOrEmpty(PublicIdentifier) ? " SYSTEM" : "") + " \"" + SystemIdentifier + "\"");
         }
 
         #endregion

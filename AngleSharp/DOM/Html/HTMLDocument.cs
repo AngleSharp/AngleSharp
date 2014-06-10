@@ -14,7 +14,7 @@
     /// Represents an HTML document.
     /// </summary>
     [DomName("HTMLDocument")]
-    public sealed class HTMLDocument : Document, IHTMLDocument
+    public sealed class HTMLDocument : Document, IHtmlDocument
     {
         #region Fields
 

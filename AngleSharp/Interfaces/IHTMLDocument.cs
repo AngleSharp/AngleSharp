@@ -5,7 +5,8 @@
     using System;
     using System.Net;
 
-    interface IHTMLDocument : IDocument
+    [DomName("HTMLDocument")]
+    public interface IHtmlDocument : IDocument
     {
         HTMLCollection<HTMLAnchorElement> Anchors { get; }
         HTMLBodyElement Body { get; }

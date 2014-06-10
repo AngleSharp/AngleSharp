@@ -83,7 +83,7 @@
         /// Gets the DOMImplementation object that handles this document.
         /// </summary>
         [DomName("implementation")]
-        public DOMImplementation Implementation
+        public IImplementation Implementation
         {
             get { return _implementation ?? (_implementation = new DOMImplementation()); }
         }
@@ -102,7 +102,7 @@
         /// Gets the document type.
         /// </summary>
         [DomName("doctype")]
-        public DocumentType Doctype
+        public IDocumentType Doctype
         {
             get { return FindChild<DocumentType>(this); }
         }
@@ -704,11 +704,14 @@
             target._ready = source._ready;
             target._referrer = source._referrer;
             target._location.Href = source._location.Href;
-            target._implementation = source.Implementation;
+            target._implementation = source._implementation;
             target._quirksMode = source._quirksMode;
             target._options = source._options;
         }
 
         #endregion
     }
+
+    class XmlDocument : Document, IXmlDocument
+    { }
 }

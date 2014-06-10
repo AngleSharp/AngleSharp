@@ -3,8 +3,12 @@
     using AngleSharp.DOM.Collections;
     using System;
 
-    interface IDocument : INode, IQueryElements
+    [DomName("Document")]
+    public interface IDocument : INode, IQueryElements
     {
+        [DomName("implementation")]
+        IImplementation Implementation { get; }
+
         Element ActiveElement { get; }
         Document Append(params Node[] nodes);
         String CharacterSet { get; set; }
@@ -21,11 +25,10 @@
         IRange CreateRange();
         IWindow DefaultView { get; }
         IWindow ParentWindow { get; }
-        DocumentType Doctype { get; }
+        IDocumentType Doctype { get; }
         Element DocumentElement { get; }
         String DocumentUri { get; }
         Element GetElementById(String elementId);
-        DOMImplementation Implementation { get; }
         String InputEncoding { get; }
         DateTime LastModified { get; }
         Location Location { get; set; }

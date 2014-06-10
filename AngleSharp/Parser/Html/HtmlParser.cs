@@ -3732,8 +3732,8 @@
         void AddDoctype(HtmlDoctypeToken doctypeToken)
         {
             var node = new DocumentType();
-            node.SystemId = doctypeToken.SystemIdentifier;
-            node.PublicId = doctypeToken.PublicIdentifier;
+            node.SystemIdentifier = doctypeToken.SystemIdentifier;
+            node.PublicIdentifier = doctypeToken.PublicIdentifier;
             node.Name = doctypeToken.Name;
             doc.AppendChild(node);
         }
