@@ -1480,9 +1480,6 @@
     <Compile Include="..\AngleSharp\Interfaces\IDocumentType.cs">
       <Link>Interfaces\IDocumentType.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IDOMImplementation.cs">
-      <Link>Interfaces\IDOMImplementation.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IElement.cs">
       <Link>Interfaces\IElement.cs</Link>
     </Compile>
@@ -1495,8 +1492,11 @@
     <Compile Include="..\AngleSharp\Interfaces\IHtmlCollection.cs">
       <Link>Interfaces\IHtmlCollection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IHTMLDocument.cs">
-      <Link>Interfaces\IHTMLDocument.cs</Link>
+    <Compile Include="..\AngleSharp\Interfaces\IHtmlDocument.cs">
+      <Link>Interfaces\IHtmlDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IImplementation.cs">
+      <Link>Interfaces\IImplementation.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ILabelabelElement.cs">
       <Link>Interfaces\ILabelabelElement.cs</Link>
@@ -1554,6 +1554,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IWindow.cs">
       <Link>Interfaces\IWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IXmlDocument.cs">
+      <Link>Interfaces\IXmlDocument.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Constants\DefaultPorts.cs">
       <Link>Network\Constants\DefaultPorts.cs</Link>
