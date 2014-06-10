@@ -5,6 +5,9 @@
     using System;
     using System.Net;
 
+    /// <summary>
+    /// The HTMLDocument interface represent an HTML document.
+    /// </summary>
     [DomName("HTMLDocument")]
     public interface IHtmlDocument : IDocument
     {

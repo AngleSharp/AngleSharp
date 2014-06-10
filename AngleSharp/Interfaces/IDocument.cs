@@ -3,9 +3,15 @@
     using AngleSharp.DOM.Collections;
     using System;
 
+    /// <summary>
+    /// The Document interface serves as an entry point to the web page's content.
+    /// </summary>
     [DomName("Document")]
     public interface IDocument : INode, IQueryElements
     {
+        /// <summary>
+        /// Gets the DOM implementation associated with the current document.
+        /// </summary>
         [DomName("implementation")]
         IImplementation Implementation { get; }
 
