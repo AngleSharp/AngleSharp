@@ -234,5 +234,19 @@
         }
 
         #endregion
+
+        #region String Representation
+
+        /// <summary>
+        /// Returns the HTML code representation of the given DOM element.
+        /// </summary>
+        /// <param name="element">The element to stringify.</param>
+        /// <returns>The HTML code of of the element and its children.</returns>
+        public static String ToHtml(this IElement element)
+        {
+            return element.OuterHTML;
+        }
+
+        #endregion
     }
 }
