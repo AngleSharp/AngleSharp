@@ -924,8 +924,8 @@ namespace UnitTests
 
             var doctype = html.Doctype;
             Assert.AreEqual("html", doctype.Name);
-            Assert.AreEqual(String.Empty, doctype.PublicId);
-            Assert.AreEqual(String.Empty, doctype.SystemId);
+            Assert.AreEqual(String.Empty, doctype.PublicIdentifier);
+            Assert.AreEqual(String.Empty, doctype.SystemIdentifier);
         }
 
         [TestMethod]
