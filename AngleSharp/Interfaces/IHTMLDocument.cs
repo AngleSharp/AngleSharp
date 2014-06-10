@@ -24,7 +24,6 @@
         void Load(String url);
         HTMLCollection<HTMLScriptElement> Scripts { get; }
         String Title { get; set; }
-        String Url { get; }
         void Open();
         void Close();
         void Write(String content);

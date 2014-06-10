@@ -8,7 +8,7 @@
     /// The Element interface represents an object within a DOM document. 
     /// </summary>
     [DomName("Element")]
-    interface IElement : INode, IQueryElements
+    public interface IElement : INode, IQueryElements
     {        
         /// <summary>
         /// Gets the namespace prefix of this element.

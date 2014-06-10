@@ -667,19 +667,19 @@
         /// </summary>
         /// <param name="nodes">The nodes array to add.</param>
         /// <returns>A (single) node.</returns>
-        protected Node MutationMacro(Node[] nodes)
+        protected Node MutationMacro(INode[] nodes)
         {
             if (nodes.Length > 1)
             {
                 var node = new DocumentFragment();
 
                 for (int i = 0; i < nodes.Length; i++)
-                    node.AppendChild(nodes[i]);
+                    node.AppendChild(nodes[i] as Node);//TODO Remove cast ASAP
 
                 return node;
             }
 
-            return nodes[0];
+            return nodes[0] as Node;
         }
 
         /// <summary>

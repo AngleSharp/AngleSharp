@@ -290,7 +290,7 @@
                     if (_documentElement == null)
                     {
                         _documentElement = new HTMLHtmlElement();
-                        AppendChild(_documentElement);
+                        AppendChild(_documentElement as Node);//TODO Remove cast ASAP
                     }
 
                     var _head = Head;
@@ -315,7 +315,7 @@
         [DomName("head")]
         public HTMLHeadElement Head
         {
-            get { return FindChild<HTMLHeadElement>(DocumentElement); }
+            get { return FindChild<HTMLHeadElement>(DocumentElement as Element); }//TODO Remove cast ASAP
         }
 
         /// <summary>
@@ -324,17 +324,7 @@
         [DomName("body")]
         public HTMLBodyElement Body
         {
-            get { return FindChild<HTMLBodyElement>(DocumentElement); }
-        }
-
-        /// <summary>
-        /// Gets a value to indicate whether the document is rendered in Quirks mode (BackComp) 
-        /// or Strict mode (CSS1Compat).
-        /// </summary>
-        [DomName("compatMode")]
-        public String CompatMode
-        {
-            get { return QuirksMode == QuirksMode.On ? "BackCompat" : "CSS1Compat"; }
+            get { return FindChild<HTMLBodyElement>(DocumentElement as Element); }//TODO Remove cast ASAP
         }
 
         /// <summary>
@@ -354,15 +344,6 @@
         public String Domain
         {
             get { return String.IsNullOrEmpty(DocumentUri) ? String.Empty : new Uri(DocumentUri).Host; }
-        }
-
-        /// <summary>
-        /// Gets a string containing the URL of the current document.
-        /// </summary>
-        [DomName("URL")]
-        public String Url
-        {
-            get { return DocumentUri; }
         }
 
         #endregion

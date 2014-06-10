@@ -10,7 +10,6 @@
     /// <summary>
     /// Represents a document node.
     /// </summary>
-    [DomName("Document")]
     public class Document : Node, IDocument, IDocumentStyle
     {
         #region Fields
@@ -41,7 +40,6 @@
         /// <summary>
         /// This event is fired when the ready state of the document changes.
         /// </summary>
-        [DomName("onreadystatechange")]
         public event EventHandler OnReadyStateChange;
 
         #endregion
@@ -82,7 +80,6 @@
         /// <summary>
         /// Gets the DOMImplementation object that handles this document.
         /// </summary>
-        [DomName("implementation")]
         public IImplementation Implementation
         {
             get { return _implementation ?? (_implementation = new DOMImplementation()); }
@@ -101,7 +98,6 @@
         /// <summary>
         /// Gets the document type.
         /// </summary>
-        [DomName("doctype")]
         public IDocumentType Doctype
         {
             get { return FindChild<DocumentType>(this); }
@@ -110,7 +106,6 @@
         /// <summary>
         /// Gets the Content-Type from the MIME Header of the current document.
         /// </summary>
-        [DomName("contentType")]
         public String ContentType
         {
             get { return _contentType; }
@@ -173,7 +168,6 @@
         /// <summary>
         /// Gets the URI of the current document.
         /// </summary>
-        [DomName("documentURI")]
         public String DocumentUri
         {
             get { return _location.Href; }
@@ -200,13 +194,12 @@
         }
 
         /// <summary>
-        /// Gets or sets the character encoding of the current document.
+        /// Gets the character encoding of the current document.
         /// </summary>
-        [DomName("characterSet")]
         public String CharacterSet
         {
             get { return _encoding ?? _originalEncoding; }
-            set { _encoding = value; }
+            internal set { _encoding = value; }
         }
 
         /// <summary>
@@ -228,8 +221,7 @@
         /// <summary>
         /// Gets the root element of the document.
         /// </summary>
-        [DomName("documentElement")]
-        public Element DocumentElement
+        public IElement DocumentElement
         {
             get { return FindChild<Element>(this); }
         }
@@ -238,10 +230,27 @@
         /// Gets the currently focused element, that is, the element that will get keystroke events if the user types any.
         /// </summary>
         [DomName("activeElement")]
-        public Element ActiveElement 
+        public IElement ActiveElement 
         {
             get;
-            protected set; 
+            protected set;
+        }
+
+        /// <summary>
+        /// Gets a value to indicate whether the document is rendered in Quirks mode (BackComp) 
+        /// or Strict mode (CSS1Compat).
+        /// </summary>
+        public String CompatMode
+        {
+            get { return QuirksMode == QuirksMode.On ? "BackCompat" : "CSS1Compat"; }
+        }
+
+        /// <summary>
+        /// Gets a string containing the URL of the current document.
+        /// </summary>
+        public String Url
+        {
+            get { return DocumentUri; }
         }
 
         #endregion
@@ -297,34 +306,26 @@
         /// Prepends nodes to the current document.
         /// </summary>
         /// <param name="nodes">The nodes to prepend.</param>
-        /// <returns>The current document.</returns>
-        [DomName("prepend")]
-        public Document Prepend(params Node[] nodes)
+        public void Prepend(params INode[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 InsertChild(0, node);
             }
-
-            return this;
         }
 
         /// <summary>
         /// Appends nodes to current document.
         /// </summary>
         /// <param name="nodes">The nodes to append.</param>
-        /// <returns>The current document.</returns>
-        [DomName("append")]
-        public Document Append(params Node[] nodes)
+        public void Append(params INode[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 AppendChild(node);
             }
-
-            return this;
         }
 
         /// <summary>
