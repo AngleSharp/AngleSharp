@@ -42,7 +42,7 @@
 
         #region Internal Methods
 
-        internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, Element element)
+        internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, IElement element)
         {
             foreach (var rule in _cssRules)
                 rule.ComputeStyle(style, window, element);

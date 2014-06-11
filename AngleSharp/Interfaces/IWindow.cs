@@ -19,13 +19,13 @@
         /// <param name="pseudo">The optional pseudo selector to use.</param>
         /// <returns>The style declaration describing the element.</returns>
         [DomName("getComputedStyle")]
-        CSSStyleDeclaration GetComputedStyle(Element element, String pseudo = null);
+        CSSStyleDeclaration GetComputedStyle(IElement element, String pseudo = null);
 
         /// <summary>
         /// Gets a reference to the document that the window contains.
         /// </summary>
         [DomName("document")]
-        Document Document { get; }
+        IDocument Document { get; }
 
         /// <summary>
         /// Gets or sets the name of the window.

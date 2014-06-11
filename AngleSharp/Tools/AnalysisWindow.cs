@@ -3,6 +3,7 @@
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
+    using AngleSharp.DOM.Html;
     using System;
 
     /// <summary>
@@ -37,7 +38,7 @@
         /// <summary>
         /// Gets a reference to the document that the window contains.
         /// </summary>
-        public Document Document
+        public IDocument Document
         {
             get;
             set;
@@ -102,10 +103,12 @@
         /// <param name="element">The element to compute the styles for.</param>
         /// <param name="pseudo">The optional pseudo selector to use.</param>
         /// <returns>The style declaration describing the element.</returns>
-        public CSSStyleDeclaration GetComputedStyle(Element element, String pseudo = null)
+        public CSSStyleDeclaration GetComputedStyle(IElement element, String pseudo = null)
         {
-            if (Document == null)
-                throw new ArgumentException("A valid document is required for computing the style of an element.");
+            var document = Document as HTMLDocument;
+
+            if (document == null)
+                throw new ArgumentException("A valid HTML document is required for computing the style of an element.");
 
             var obj = element;
 
@@ -114,7 +117,7 @@
 
             var style = new CSSStyleDeclaration { IsReadOnly = true };
 
-            foreach (var stylesheet in Document.StyleSheets)
+            foreach (var stylesheet in document.StyleSheets)
             {
                 if (!stylesheet.Disabled && stylesheet.Media.Validate(this) && stylesheet is CSSStyleSheet)
                 {

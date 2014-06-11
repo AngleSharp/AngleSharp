@@ -91,7 +91,7 @@
         /// <param name="style">The declaration that is used.</param>
         /// <param name="window">The given window context.</param>
         /// <param name="element">The element that is computed.</param>
-        internal virtual void ComputeStyle(CSSStyleDeclaration style, IWindow window, Element element)
+        internal virtual void ComputeStyle(CSSStyleDeclaration style, IWindow window, IElement element)
         {
             //By default nothing gets computed.
         }
