@@ -25,7 +25,7 @@ namespace ConsoleInteraction
             p.TextContent = "This is another paragraph.";
 
             Console.WriteLine("Inserting another element in the body ...");
-            document.Body.AppendChild(p);
+            document.Body.AppendChild(p as AngleSharp.DOM.Element);//TODO remove cast ASAP
 
             Console.WriteLine("Serializing the document again:");
             Console.WriteLine(document.ToHtml());

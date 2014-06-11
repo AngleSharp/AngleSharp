@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AngleSharp;
+﻿using AngleSharp;
 using AngleSharp.DOM;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace UnitTests.Library
 {
@@ -29,7 +28,7 @@ namespace UnitTests.Library
             Assert.AreEqual("C", live[2].TextContent);
             Assert.AreEqual("D", live[3].TextContent);
 
-            var newElement = document.CreateElement("li");
+            var newElement = document.CreateElement("li") as Element;//TODO remove cast ASAP
             newElement.TextContent = "E";
             ul.AppendChild(newElement);
 
@@ -147,7 +146,7 @@ namespace UnitTests.Library
             var div = document.QuerySelector("div");
             Assert.IsNotNull(div);
 
-            var embed = document.CreateElement("embed");
+            var embed = document.CreateElement("embed") as Element;//TODO remove cast ASAP
             div.AppendChild(embed);
 
             Assert.AreEqual(4, live.Length);
@@ -168,7 +167,7 @@ namespace UnitTests.Library
             var div = document.QuerySelector("body > div.container");
             Assert.IsNotNull(div);
 
-            var a = document.CreateElement("a");
+            var a = document.CreateElement("a") as Element;//TODO remove cast ASAP
             div.AppendChild(a);
 
             Assert.AreEqual(2, live.Length);
