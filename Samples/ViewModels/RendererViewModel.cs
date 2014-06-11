@@ -219,7 +219,7 @@ namespace Samples.ViewModels
             return list;
         }
 
-        void RenderList(HTMLCollection children, List list)
+        void RenderList(IHtmlCollection children, List list)
         {
             foreach (var child in children)
             {
