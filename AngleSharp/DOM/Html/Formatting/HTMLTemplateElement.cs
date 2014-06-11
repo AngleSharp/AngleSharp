@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using System;
-    using System.Linq;
 
     /// <summary>
     /// Represents the template element.
@@ -30,9 +29,9 @@
         /// Gets the contents of this HTML template.
         /// </summary>
         [DomName("content")]
-        public DocumentFragment Content
+        public IDocumentFragment Content
         {
-            get { return _content ?? (_content = new DocumentFragment { Owner = Owner }); }
+            get { return Container; }
         }
 
         #endregion
@@ -45,6 +44,11 @@
         protected internal override Boolean IsSpecial
         {
             get { return true; }
+        }
+
+        internal DocumentFragment Container
+        {
+            get { return _content ?? (_content = new DocumentFragment { Owner = Owner }); }
         }
 
         #endregion

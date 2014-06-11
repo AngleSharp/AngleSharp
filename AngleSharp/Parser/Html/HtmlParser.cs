@@ -3932,7 +3932,7 @@
                 if (open[index] is HTMLTemplateElement)
                 {
                     var template = (HTMLTemplateElement)open[index];
-                    template.Content.AppendText(text);
+                    template.Container.AppendText(text);
                     return;
                 }
                 else if (open[index] is HTMLTableElement)

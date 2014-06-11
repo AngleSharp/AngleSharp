@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a document fragment.
     /// </summary>
-    public sealed class DocumentFragment : Node, IDocumentFragment
+    sealed class DocumentFragment : Node, IDocumentFragment
     {
         #region ctor
 
