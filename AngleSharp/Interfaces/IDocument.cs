@@ -72,6 +72,19 @@
         [DomName("prepend")]
         void Prepend(params INode[] nodes);
 
+        /// <summary>
+        /// Creates an event of the type specified. 
+        /// </summary>
+        /// <param name="type">Represents the type of event to be created.</param>
+        [DomName("createEvent")]
+        IEvent CreateEvent(String type);
+
+        /// <summary>
+        /// Creates a new Range object.
+        /// </summary>
+        [DomName("createRange")]
+        IRange CreateRange();
+
         IElement ActiveElement { get; }
         Attr CreateAttribute(String name);
         Attr CreateAttributeNS(String namespaceURI, String name);
@@ -79,11 +92,9 @@
         IDocumentFragment CreateDocumentFragment();
         Element CreateElement(String tagName);
         Element CreateElementNS(String namespaceURI, String tagName);
-        IEvent CreateEvent(String type);
         EntityReference CreateEntityReference(String name);
         IProcessingInstruction CreateProcessingInstruction(String target, String data);
         IText CreateTextNode(String data);
-        IRange CreateRange();
         IWindow DefaultView { get; }
         IWindow ParentWindow { get; }
         Element GetElementById(String elementId);

@@ -279,6 +279,7 @@
     <Compile Include="Interfaces\INode.cs" />
     <Compile Include="Interfaces\INodeIterator.cs" />
     <Compile Include="Interfaces\INodeList.cs" />
+    <Compile Include="Interfaces\IParentNode.cs" />
     <Compile Include="Interfaces\IProcessingInstruction.cs" />
     <Compile Include="Interfaces\IQueryElements.cs" />
     <Compile Include="Interfaces\IRange.cs" />
