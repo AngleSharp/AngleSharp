@@ -134,7 +134,7 @@
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
-        public HTMLCollection QuerySelectorAll(String selectors)
+        public IHtmlCollection QuerySelectorAll(String selectors)
         {
             return _children.QuerySelectorAll(selectors);
         }
@@ -144,7 +144,7 @@
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of HTML elements.</returns>
-        public HTMLCollection GetElementsByClassName(String classNames)
+        public IHtmlCollection GetElementsByClassName(String classNames)
         {
             return _children.GetElementsByClassName(classNames);
         }
@@ -154,7 +154,7 @@
         /// </summary>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public HTMLCollection GetElementsByTagName(String tagName)
+        public IHtmlCollection GetElementsByTagName(String tagName)
         {
             return _children.GetElementsByTagName(tagName);
         }
@@ -166,7 +166,7 @@
         /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public HTMLCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
+        public IHtmlCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return _children.GetElementsByTagNameNS(namespaceURI, tagName);
         }

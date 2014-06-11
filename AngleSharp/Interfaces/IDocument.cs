@@ -77,7 +77,7 @@
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of elements.</returns>
         [DomName("getElementsByClassName")]
-        HTMLCollection GetElementsByClassName(String classNames);
+        IHtmlCollection GetElementsByClassName(String classNames);
 
         /// <summary>
         /// Returns a NodeList of elements with the given tag name. The complete document is searched, including the root node.
@@ -85,7 +85,7 @@
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
         [DomName("getElementsByTagName")]
-        HTMLCollection GetElementsByTagName(String tagName);
+        IHtmlCollection GetElementsByTagName(String tagName);
 
         /// <summary>
         /// Returns a list of elements with the given tag name belonging to the given namespace.
@@ -95,7 +95,7 @@
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
         [DomName("getElementsByTagNameNS")]
-        HTMLCollection GetElementsByTagNameNS(String namespaceUri, String tagName);
+        IHtmlCollection GetElementsByTagNameNS(String namespaceUri, String tagName);
 
         /// <summary>
         /// Returns the Element whose ID is given by elementId. If no such element exists, returns null.

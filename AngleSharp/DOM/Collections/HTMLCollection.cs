@@ -10,7 +10,7 @@
     /// A specialized collection containing elements of type T.
     /// </summary>
     /// <typeparam name="T">The type of elements that can be contained.</typeparam>
-    public class HTMLCollection<T> : IEnumerable<T>
+    public class HTMLCollection<T> : IHtmlCollection
         where T : Element
     {
         #region Fields
@@ -157,6 +157,22 @@
         }
 
         #endregion
+
+
+        Element IHtmlCollection.this[int index]
+        {
+            get { return this[index]; }
+        }
+
+        Element IHtmlCollection.this[String name]
+        {
+            get { return this[name]; }
+        }
+
+        IEnumerator<Element> IEnumerable<Element>.GetEnumerator()
+        {
+            return _elements.OfType<Element>().GetEnumerator();
+        }
     }
 
     /// <summary>

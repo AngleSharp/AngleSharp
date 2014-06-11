@@ -4,9 +4,7 @@
     using System;
 
     /// <summary>
-    /// Document implements ParentNode;
-    /// DocumentFragment implements ParentNode;
-    /// Element implements ParentNode;
+    /// Defines the ParentNode interface that is implemented by possible parents.
     /// </summary>
     [DomName("ParentNode")]
     public interface IParentNode
@@ -67,6 +65,6 @@
         /// <param name="selectors">The group of selectors to use.</param>
         /// <returns>A non-live NodeList of element objects.</returns>
         [DomName("querySelectorAll")]
-        HTMLCollection QuerySelectorAll(String selectors);
+        IHtmlCollection QuerySelectorAll(String selectors);
     }
 }
