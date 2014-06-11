@@ -8,7 +8,7 @@
     /// The Element interface represents an object within a DOM document. 
     /// </summary>
     [DomName("Element")]
-    public interface IElement : INode, IQueryElements
+    public interface IElement : INode, IParentNode
     {        
         /// <summary>
         /// Gets the namespace prefix of this element.
@@ -121,13 +121,31 @@
         [DomName("removeAttributeNS")]
         void RemoveAttribute(String namespaceUri, String localName);
 
-        Int32 ChildElementCount { get; }
+        /// <summary>
+        /// Returns a set of elements which have all the given class names.
+        /// </summary>
+        /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
+        /// <returns>A collection of elements.</returns>
+        [DomName("getElementsByClassName")]
+        HTMLCollection GetElementsByClassName(String classNames);
 
-        HTMLCollection Children { get; }
+        /// <summary>
+        /// Returns a NodeList of elements with the given tag name. The complete document is searched, including the root node.
+        /// </summary>
+        /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
+        /// <returns>A collection of elements in the order they appear in the tree.</returns>
+        [DomName("getElementsByTagName")]
+        HTMLCollection GetElementsByTagName(String tagName);
 
-        IElement FirstElementChild { get; }
-
-        IElement LastElementChild { get; }
+        /// <summary>
+        /// Returns a list of elements with the given tag name belonging to the given namespace.
+        /// The complete document is searched, including the root node.
+        /// </summary>
+        /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
+        /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
+        /// <returns>A collection of elements in the order they appear in the tree.</returns>
+        [DomName("getElementsByTagNameNS")]
+        HTMLCollection GetElementsByTagNameNS(String namespaceUri, String tagName);
 
         ContentEditableMode ContentEditable { get; set; }
 

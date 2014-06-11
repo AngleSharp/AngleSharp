@@ -68,6 +68,58 @@
         #region Properties
 
         /// <summary>
+        /// Gets the number of child elements.
+        /// </summary>
+        public Int32 ChildElementCount
+        {
+            get { return _children.OfType<Element>().Count(); }
+        }
+
+        /// <summary>
+        /// Gets the child elements.
+        /// </summary>
+        public HTMLCollection Children
+        {
+            get { return new HTMLCollection(_children.OfType<Element>()); }
+        }
+
+        /// <summary>
+        /// Gets the first child element of this element.
+        /// </summary>
+        public IElement FirstElementChild
+        {
+            get
+            {
+                var n = _children.Length;
+
+                for (int i = 0; i < n; i++)
+                {
+                    if (_children[i] is Element)
+                        return (Element)_children[i];
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the last child element of this element.
+        /// </summary>
+        public IElement LastElementChild
+        {
+            get
+            {
+                for (int i = _children.Length - 1; i >= 0; i--)
+                {
+                    if (_children[i] is Element)
+                        return (Element)_children[i];
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Gets an indicator if loading the document should be asynchronous or synchronous.
         /// </summary>
         [DomName("async")]
@@ -480,7 +532,7 @@
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
         [DomName("querySelector")]
-        public Element QuerySelector(String selectors)
+        public IElement QuerySelector(String selectors)
         {
             return _children.QuerySelector(selectors);
         }

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.DOM.Collections;
     using System;
 
     /// <summary>
@@ -8,13 +9,13 @@
     /// Element implements ParentNode;
     /// </summary>
     [DomName("ParentNode")]
-    interface IParentNode
+    public interface IParentNode
     {
         /// <summary>
         /// Gets the child elements.
         /// </summary>
         [DomName("children")]
-        IHtmlCollection Children { get; }
+        HTMLCollection Children { get; }
 
         /// <summary>
         /// Gets the first child element of this element.
@@ -66,6 +67,6 @@
         /// <param name="selectors">The group of selectors to use.</param>
         /// <returns>A non-live NodeList of element objects.</returns>
         [DomName("querySelectorAll")]
-        INodeList QuerySelectorAll(String selectors);
+        HTMLCollection QuerySelectorAll(String selectors);
     }
 }

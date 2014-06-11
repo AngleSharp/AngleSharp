@@ -281,7 +281,6 @@
     <Compile Include="Interfaces\INodeList.cs" />
     <Compile Include="Interfaces\IParentNode.cs" />
     <Compile Include="Interfaces\IProcessingInstruction.cs" />
-    <Compile Include="Interfaces\IQueryElements.cs" />
     <Compile Include="Interfaces\IRange.cs" />
     <Compile Include="Interfaces\ISettableTokenList.cs" />
     <Compile Include="Interfaces\IStringMap.cs" />

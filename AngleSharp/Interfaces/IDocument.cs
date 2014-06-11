@@ -7,7 +7,7 @@
     /// The Document interface serves as an entry point to the web page's content.
     /// </summary>
     [DomName("Document")]
-    public interface IDocument : INode, IQueryElements
+    public interface IDocument : INode, IParentNode
     {
         /// <summary>
         /// Gets the DOM implementation associated with the current document.
@@ -59,20 +59,6 @@
         IElement DocumentElement { get; }
 
         /// <summary>
-        /// Appends nodes to current document.
-        /// </summary>
-        /// <param name="nodes">The nodes to append.</param>
-        [DomName("append")]
-        void Append(params INode[] nodes);
-
-        /// <summary>
-        /// Prepends nodes to the current document.
-        /// </summary>
-        /// <param name="nodes">The nodes to prepend.</param>
-        [DomName("prepend")]
-        void Prepend(params INode[] nodes);
-
-        /// <summary>
         /// Creates an event of the type specified. 
         /// </summary>
         /// <param name="type">Represents the type of event to be created.</param>
@@ -84,6 +70,41 @@
         /// </summary>
         [DomName("createRange")]
         IRange CreateRange();
+
+        /// <summary>
+        /// Returns a set of elements which have all the given class names.
+        /// </summary>
+        /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
+        /// <returns>A collection of elements.</returns>
+        [DomName("getElementsByClassName")]
+        HTMLCollection GetElementsByClassName(String classNames);
+
+        /// <summary>
+        /// Returns a NodeList of elements with the given tag name. The complete document is searched, including the root node.
+        /// </summary>
+        /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
+        /// <returns>A collection of elements in the order they appear in the tree.</returns>
+        [DomName("getElementsByTagName")]
+        HTMLCollection GetElementsByTagName(String tagName);
+
+        /// <summary>
+        /// Returns a list of elements with the given tag name belonging to the given namespace.
+        /// The complete document is searched, including the root node.
+        /// </summary>
+        /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
+        /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
+        /// <returns>A collection of elements in the order they appear in the tree.</returns>
+        [DomName("getElementsByTagNameNS")]
+        HTMLCollection GetElementsByTagNameNS(String namespaceUri, String tagName);
+
+        /// <summary>
+        /// Returns the Element whose ID is given by elementId. If no such element exists, returns null.
+        /// The behavior is not defined if more than one element have this ID.
+        /// </summary>
+        /// <param name="elementId">A case-sensitive string representing the unique ID of the element being sought.</param>
+        /// <returns>The matching element.</returns>
+        [DomName("getElementById")]
+        Element GetElementById(String elementId);
 
         IElement ActiveElement { get; }
         Attr CreateAttribute(String name);
@@ -97,7 +118,6 @@
         IText CreateTextNode(String data);
         IWindow DefaultView { get; }
         IWindow ParentWindow { get; }
-        Element GetElementById(String elementId);
         String InputEncoding { get; }
         DateTime LastModified { get; }
         Location Location { get; set; }

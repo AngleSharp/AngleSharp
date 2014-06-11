@@ -2,11 +2,11 @@
 {
     using AngleSharp.DOM.Collections;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents a document fragment.
     /// </summary>
-    [DomName("DocumentFragment")]
     public sealed class DocumentFragment : Node, IDocumentFragment
     {
         #region ctor
@@ -33,40 +33,88 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the number of child elements.
+        /// </summary>
+        public Int32 ChildElementCount
+        {
+            get { return _children.OfType<Element>().Count(); }
+        }
+
+        /// <summary>
+        /// Gets the child elements.
+        /// </summary>
+        public HTMLCollection Children
+        {
+            get { return new HTMLCollection(_children.OfType<Element>()); }
+        }
+
+        /// <summary>
+        /// Gets the first child element of this element.
+        /// </summary>
+        public IElement FirstElementChild
+        {
+            get
+            {
+                var n = _children.Length;
+
+                for (int i = 0; i < n; i++)
+                {
+                    if (_children[i] is Element)
+                        return (Element)_children[i];
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the last child element of this element.
+        /// </summary>
+        public IElement LastElementChild
+        {
+            get
+            {
+                for (int i = _children.Length - 1; i >= 0; i--)
+                {
+                    if (_children[i] is Element)
+                        return (Element)_children[i];
+                }
+
+                return null;
+            }
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
         /// Prepends nodes to the current document fragment.
         /// </summary>
         /// <param name="nodes">The nodes to prepend.</param>
-        /// <returns>The current fragment.</returns>
-        [DomName("prepend")]
-        public DocumentFragment Prepend(params Node[] nodes)
+        public void Prepend(params INode[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 InsertChild(0, node);
             }
-
-            return this;
         }
 
         /// <summary>
         /// Appends nodes to current document fragment.
         /// </summary>
         /// <param name="nodes">The nodes to append.</param>
-        /// <returns>The current fragment.</returns>
-        [DomName("append")]
-        public DocumentFragment Append(params Node[] nodes)
+        public void Append(params INode[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 AppendChild(node);
             }
-
-            return this;
         }
 
         /// <summary>
@@ -75,8 +123,7 @@
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
-        [DomName("querySelector")]
-        public Element QuerySelector(String selectors)
+        public IElement QuerySelector(String selectors)
         {
             return _children.QuerySelector(selectors);
         }
@@ -85,9 +132,8 @@
         /// Returns a list of the elements within the document (using depth-first pre-order traversal
         /// of the document's nodes) that match the specified group of selectors.
         /// </summary>
-        /// <param name="selectors"></param>
-        /// <returns></returns>
-        [DomName("querySelectorAll")]
+        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <returns>An element object.</returns>
         public HTMLCollection QuerySelectorAll(String selectors)
         {
             return _children.QuerySelectorAll(selectors);
@@ -98,7 +144,6 @@
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of HTML elements.</returns>
-        [DomName("getElementsByClassName")]
         public HTMLCollection GetElementsByClassName(String classNames)
         {
             return _children.GetElementsByClassName(classNames);
@@ -109,7 +154,6 @@
         /// </summary>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        [DomName("getElementsByTagName")]
         public HTMLCollection GetElementsByTagName(String tagName)
         {
             return _children.GetElementsByTagName(tagName);
@@ -122,7 +166,6 @@
         /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        [DomName("getElementsByTagNameNS")]
         public HTMLCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return _children.GetElementsByTagNameNS(namespaceURI, tagName);
