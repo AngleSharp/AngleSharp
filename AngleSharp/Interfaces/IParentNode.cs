@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM
 {
-    using AngleSharp.DOM.Collections;
     using System;
 
     /// <summary>
@@ -13,7 +12,7 @@
         /// Gets the child elements.
         /// </summary>
         [DomName("children")]
-        HTMLCollection Children { get; }
+        IHtmlCollection Children { get; }
 
         /// <summary>
         /// Gets the first child element of this element.

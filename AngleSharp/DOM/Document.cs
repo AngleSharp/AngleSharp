@@ -78,7 +78,7 @@
         /// <summary>
         /// Gets the child elements.
         /// </summary>
-        public HTMLCollection Children
+        public IHtmlCollection Children
         {
             get { return new HTMLCollection(_children.OfType<Element>()); }
         }

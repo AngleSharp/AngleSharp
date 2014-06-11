@@ -284,7 +284,7 @@
         /// <summary>
         /// Gets the child elements.
         /// </summary>
-        public HTMLCollection Children
+        public IHtmlCollection Children
         {
             get { return _elements; }
         }
