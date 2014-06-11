@@ -1522,11 +1522,11 @@
     <Compile Include="..\AngleSharp\Interfaces\INodeList.cs">
       <Link>Interfaces\INodeList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IParentNode.cs">
+      <Link>Interfaces\IParentNode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IProcessingInstruction.cs">
       <Link>Interfaces\IProcessingInstruction.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IQueryElements.cs">
-      <Link>Interfaces\IQueryElements.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IRange.cs">
       <Link>Interfaces\IRange.cs</Link>
