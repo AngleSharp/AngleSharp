@@ -1,6 +1,5 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
-using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Html;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -27,7 +26,7 @@ namespace UnitTests
             return null;
         }
 
-        HTMLCollection RunQuery(string query)
+        IHtmlCollection RunQuery(string query)
         {
             return document.QuerySelectorAll(query);
         }
