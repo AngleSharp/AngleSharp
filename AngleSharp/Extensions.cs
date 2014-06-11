@@ -241,10 +241,20 @@
         /// Returns the HTML code representation of the given DOM element.
         /// </summary>
         /// <param name="element">The element to stringify.</param>
-        /// <returns>The HTML code of of the element and its children.</returns>
+        /// <returns>The HTML code of the element and its children.</returns>
         public static String ToHtml(this IElement element)
         {
             return element.OuterHTML;
+        }
+
+        /// <summary>
+        /// Returns the content text of the given DOM element.
+        /// </summary>
+        /// <param name="element">The element to stringify.</param>
+        /// <returns>The text of the element and its children.</returns>
+        public static String ToText(this IElement element)
+        {
+            return element.TextContent;
         }
 
         #endregion
