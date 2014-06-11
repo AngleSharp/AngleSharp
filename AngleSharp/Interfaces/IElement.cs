@@ -2,7 +2,6 @@
 {
     using AngleSharp.DOM.Collections;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// The Element interface represents an object within a DOM document. 

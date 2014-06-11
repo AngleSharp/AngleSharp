@@ -406,7 +406,6 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DomName("cloneNode")]
         public override Node Clone(Boolean deep = true)
         {
             var node = new HTMLDocument();
@@ -477,8 +476,7 @@
         /// </summary>
         /// <param name="tagName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element object.</returns>
-        [DomName("createElement")]
-        public override Element CreateElement(String tagName)
+        public override IElement CreateElement(String tagName)
         {
             return HTMLFactory.Create(tagName, this);
         }
@@ -488,8 +486,7 @@
         /// </summary>
         /// <param name="name">The value of the name attribute of the element.</param>
         /// <returns>A collection of HTML elements.</returns>
-        [DomName("getElementsByName")]
-        public HTMLCollection GetElementsByName(String name)
+        public IHtmlCollection GetElementsByName(String name)
         {
             var result = new List<Element>();
             GetElementsByName(_children, name, result);

@@ -59,19 +59,6 @@
         IElement DocumentElement { get; }
 
         /// <summary>
-        /// Creates an event of the type specified. 
-        /// </summary>
-        /// <param name="type">Represents the type of event to be created.</param>
-        [DomName("createEvent")]
-        IEvent CreateEvent(String type);
-
-        /// <summary>
-        /// Creates a new Range object.
-        /// </summary>
-        [DomName("createRange")]
-        IRange CreateRange();
-
-        /// <summary>
         /// Returns a set of elements which have all the given class names.
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
@@ -104,18 +91,70 @@
         /// <param name="elementId">A case-sensitive string representing the unique ID of the element being sought.</param>
         /// <returns>The matching element.</returns>
         [DomName("getElementById")]
-        Element GetElementById(String elementId);
+        IElement GetElementById(String elementId);
 
-        IElement ActiveElement { get; }
-        Attr CreateAttribute(String name);
-        Attr CreateAttributeNS(String namespaceURI, String name);
+        /// <summary>
+        /// Creates an event of the type specified. 
+        /// </summary>
+        /// <param name="type">Represents the type of event to be created.</param>
+        [DomName("createEvent")]
+        IEvent CreateEvent(String type);
+
+        /// <summary>
+        /// Creates a new Range object.
+        /// </summary>
+        [DomName("createRange")]
+        IRange CreateRange();
+
+        /// <summary>
+        /// Creates a new comment node, and returns it.
+        /// </summary>
+        /// <param name="data">A string containing the data to be added to the Comment.</param>
+        /// <returns>The new comment.</returns>
+        [DomName("createComment")]
         IComment CreateComment(String data);
+
+        /// <summary>
+        /// Creates an empty DocumentFragment object.
+        /// </summary>
+        /// <returns>The new document fragment.</returns>
+        [DomName("createDocumentFragment")]
         IDocumentFragment CreateDocumentFragment();
-        Element CreateElement(String tagName);
-        Element CreateElementNS(String namespaceURI, String tagName);
-        EntityReference CreateEntityReference(String name);
+
+        /// <summary>
+        /// Creates a new element with the given tag name.
+        /// </summary>
+        /// <param name="tagName">A string that specifies the type of element to be created.</param>
+        /// <returns>The created element object.</returns>
+        [DomName("createElement")]
+        IElement CreateElement(String tagName);
+
+        /// <summary>
+        /// Creates a new element with the given tag name and namespace URI.
+        /// </summary>
+        /// <param name="namespaceUri">Specifies the namespace URI to associate with the element.</param>
+        /// <param name="tagName">A string that specifies the type of element to be created.</param>
+        /// <returns>The created element.</returns>
+        [DomName("createElementNS")]
+        IElement CreateElementNS(String namespaceUri, String tagName);
+
+        /// <summary>
+        /// Creates a ProcessingInstruction node given the specified name and data strings.
+        /// </summary>
+        /// <param name="target">The target part of the processing instruction.</param>
+        /// <param name="data">The data for the node.</param>
+        /// <returns>The new processing instruction.</returns>
+        [DomName("createProcessingInstruction")]
         IProcessingInstruction CreateProcessingInstruction(String target, String data);
+
+        /// <summary>
+        /// Creates a new text node and returns it..
+        /// </summary>
+        /// <param name="data">A string containing the data to be put in the text node.</param>
+        /// <returns>The created text node.</returns>
+        [DomName("createTextNode")]
         IText CreateTextNode(String data);
+
         IWindow DefaultView { get; }
         IWindow ParentWindow { get; }
         String InputEncoding { get; }
@@ -125,5 +164,6 @@
         event EventHandler OnReadyStateChange;
         String Referrer { get; }
         DOMStringList StyleSheetSets { get; }
+        IElement ActiveElement { get; }
     }
 }

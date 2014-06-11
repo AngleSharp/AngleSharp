@@ -17,7 +17,6 @@
         String Domain { get; }
         HTMLCollection Embeds { get; }
         HTMLCollection<HTMLFormElement> Forms { get; }
-        HTMLCollection GetElementsByName(String name);
         HTMLHeadElement Head { get; }
         HTMLCollection<HTMLImageElement> Images { get; }
         HTMLCollection Links { get; }

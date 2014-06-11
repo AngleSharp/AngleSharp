@@ -48,13 +48,13 @@
         /// Gets the assigned master command, if any.
         /// </summary>
         [DomName("command")]
-        public Element Command
+        public IElement Command
         {
             get
             {
                 var id = GetAttribute("command");
 
-                if (!string.IsNullOrEmpty(id) && _owner != null)
+                if (!String.IsNullOrEmpty(id) && _owner != null)
                     return _owner.GetElementById(id);
 
                 return null;

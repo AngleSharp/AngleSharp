@@ -332,11 +332,26 @@
         #region Methods
 
         /// <summary>
+        /// Creates a copy of a node from an external document that can be inserted into the current document.
+        /// </summary>
+        /// <param name="externalNode">The node from another document to be imported.</param>
+        /// <param name="deep">Optional argument, indicating whether the descendants of the imported
+        /// node need to be imported.</param>
+        /// <returns>The new node that is imported into the document. The new node's parentNode is null,
+        /// since it has not yet been inserted into the document tree.</returns>
+        [DomName("importNode")]
+        public Node ImportNode(Node externalNode, Boolean deep = true)
+        {
+            var clone = externalNode.Clone(deep);
+            externalNode.Owner = this;
+            return externalNode;
+        }
+
+        /// <summary>
         /// Creates an event of the type specified. (NOT IMPLEMENTED YET)
         /// </summary>
         /// <param name="type">A string that represents the type of event to be created.</param>
         /// <returns>The created Event object.</returns>
-        [DomName("createEvent")]
         public IEvent CreateEvent(String type)
         {
             //TODO
@@ -347,7 +362,6 @@
         /// Returns a new Range object. (NOT IMPLEMENTED YET)
         /// </summary>
         /// <returns>The created range object.</returns>
-        [DomName("createRange")]
         public IRange CreateRange()
         {
             //TODO
@@ -381,51 +395,11 @@
         }
 
         /// <summary>
-        /// Creates a copy of a node from an external document that can be inserted into the current document.
-        /// </summary>
-        /// <param name="externalNode">The node from another document to be imported.</param>
-        /// <param name="deep">Optional argument, indicating whether the descendants of the imported
-        /// node need to be imported.</param>
-        /// <returns>The new node that is imported into the document. The new node's parentNode is null,
-        /// since it has not yet been inserted into the document tree.</returns>
-        [DomName("importNode")]
-        public Node ImportNode(Node externalNode, Boolean deep = true)
-        {
-            var clone = externalNode.Clone(deep);
-            externalNode.Owner = this;
-            return externalNode;
-        }
-
-        /// <summary>
-        /// Creates a new attribute node, and returns it.
-        /// </summary>
-        /// <param name="name">A string containing the name of the attribute.</param>
-        /// <returns>The attribute node.</returns>
-        [DomName("createAttribute")]
-        public Attr CreateAttribute(String name)
-        {
-            return new Attr(name);
-        }
-
-        /// <summary>
-        /// Creates a new attribute node with a namespace, and returns it.
-        /// </summary>
-        /// <param name="namespaceURI">Specifies the namespace URI to associate with the attribute.</param>
-        /// <param name="name">A string containing the name of the attribute.</param>
-        /// <returns>The attribute node.</returns>
-        [DomName("createAttributeNS")]
-        public Attr CreateAttributeNS(String namespaceURI, String name)
-        {
-            return new Attr(name, String.Empty, namespaceURI);
-        }
-
-        /// <summary>
         /// Creates a new element with the given tag name.
         /// </summary>
         /// <param name="tagName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element object.</returns>
-        [DomName("createElement")]
-        public virtual Element CreateElement(String tagName)
+        public virtual IElement CreateElement(String tagName)
         {
             return new Element { NodeName = tagName, Owner = this };
         }
@@ -433,22 +407,21 @@
         /// <summary>
         /// Creates a new element with the given tag name and namespace URI.
         /// </summary>
-        /// <param name="namespaceURI">Specifies the namespace URI to associate with the element.</param>
+        /// <param name="namespaceUri">Specifies the namespace URI to associate with the element.</param>
         /// <param name="tagName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element.</returns>
-        [DomName("createElementNS")]
-        public Element CreateElementNS(String namespaceURI, String tagName)
+        public IElement CreateElementNS(String namespaceUri, String tagName)
         {
             Element element = null;
 
-            if (namespaceURI == Namespaces.Html)
+            if (namespaceUri == Namespaces.Html)
                 element = HTMLFactory.Create(tagName, this);
-            else if (namespaceURI == Namespaces.Svg)
+            else if (namespaceUri == Namespaces.Svg)
                 element = SVGFactory.Create(tagName, this);
-            else if (namespaceURI == Namespaces.MathML)
+            else if (namespaceUri == Namespaces.MathML)
                 element = MathFactory.Create(tagName, this);
             else
-                element = new Element { NamespaceUri = namespaceURI, NodeName = tagName, Owner = this };
+                element = new Element { NamespaceUri = namespaceUri, NodeName = tagName, Owner = this };
 
             return element;
         }
@@ -457,8 +430,7 @@
         /// Creates a new comment node, and returns it.
         /// </summary>
         /// <param name="data">A string containing the data to be added to the Comment.</param>
-        /// <returns></returns>
-        [DomName("createComment")]
+        /// <returns>The new comment.</returns>
         public IComment CreateComment(String data)
         {
             if (data.Contains("--"))
@@ -471,7 +443,6 @@
         /// Creates an empty DocumentFragment object.
         /// </summary>
         /// <returns>A new document fragment.</returns>
-        [DomName("createDocumentFragment")]
         public IDocumentFragment CreateDocumentFragment()
         {
             return new DocumentFragment() { Owner = this };
@@ -483,23 +454,9 @@
         /// <param name="target">The target part of the processing instruction.</param>
         /// <param name="data">The data for the node.</param>
         /// <returns>A new processing instruction.</returns>
-        [DomName("createProcessingInstruction")]
         public IProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
             return new ProcessingInstruction(target) { Data = data, Owner = this };
-        }
-
-        /// <summary>
-        /// Creates an EntityReference object. In addition, if the referenced entity is known,
-        /// the child list of the EntityReference node is made the same as that of the corresponding
-        /// Entity node.
-        /// </summary>
-        /// <param name="name">The name of the entity to reference.</param>
-        /// <returns>The new EntityReference object.</returns>
-        [DomName("createEntityReference")]
-        public EntityReference CreateEntityReference(String name)
-        {
-            return new EntityReference(name) { Owner = this };
         }
 
         /// <summary>
@@ -507,7 +464,6 @@
         /// </summary>
         /// <param name="data">A string containing the data to be put in the text node.</param>
         /// <returns>The created Text node.</returns>
-        [DomName("createTextNode")]
         public IText CreateTextNode(String data)
         {
             return new TextNode(data) { Owner = this };
@@ -519,8 +475,7 @@
         /// </summary>
         /// <param name="elementId">A case-sensitive string representing the unique ID of the element being sought.</param>
         /// <returns>The matching element.</returns>
-        [DomName("getElementById")]
-        public Element GetElementById(String elementId)
+        public IElement GetElementById(String elementId)
         {
             return GetElementById(_children, elementId);
         }
@@ -531,7 +486,6 @@
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
-        [DomName("querySelector")]
         public IElement QuerySelector(String selectors)
         {
             return _children.QuerySelector(selectors);
@@ -543,7 +497,6 @@
         /// </summary>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>A list of nodes.</returns>
-        [DomName("querySelectorAll")]
         public IHtmlCollection QuerySelectorAll(String selectors)
         {
             return _children.QuerySelectorAll(selectors);
@@ -554,7 +507,6 @@
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of elements.</returns>
-        [DomName("getElementsByClassName")]
         public IHtmlCollection GetElementsByClassName(String classNames)
         {
             return _children.GetElementsByClassName(classNames);
@@ -565,7 +517,6 @@
         /// </summary>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
-        [DomName("getElementsByTagName")]
         public IHtmlCollection GetElementsByTagName(String tagName)
         {
             return _children.GetElementsByTagName(tagName);
@@ -578,7 +529,6 @@
         /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
-        [DomName("getElementsByTagNameNS")]
         public IHtmlCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return _children.GetElementsByTagNameNS(namespaceURI, tagName);
@@ -589,7 +539,6 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DomName("cloneNode")]
         public override Node Clone(Boolean deep = true)
         {
             var node = new Document();
@@ -604,7 +553,6 @@
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        [DomName("lookupNamespaceURI")]
         public override String LookupNamespaceUri(String prefix)
         {
             var root = DocumentElement;
@@ -621,7 +569,6 @@
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        [DomName("lookupPrefix")]
         public override String LookupPrefix(String namespaceURI)
         {
             var root = DocumentElement;
@@ -637,7 +584,6 @@
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        [DomName("isDefaultNamespace")]
         public override Boolean IsDefaultNamespace(String namespaceURI)
         {
             var root = DocumentElement;
@@ -652,7 +598,6 @@
         /// Acts as if the document was going through a save and load cycle, putting the document in a "normal"
         /// form. Normalizes all text nodes and fixes namespaces.
         /// </summary>
-        [DomName("normalize")]
         public override void Normalize()
         {
             for (int i = 0; i < _children.Length; i++)

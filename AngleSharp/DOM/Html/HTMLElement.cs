@@ -78,12 +78,13 @@
 
             if (par == null && _owner == null)
                 return null;
-            else if (par == null)
+            
+            if (par == null)
             {
                 var formid = GetAttribute("form");
 
                 if (par == null && !String.IsNullOrEmpty(formid))
-                    par = _owner.GetElementById(formid);
+                    par = _owner.GetElementById(formid) as HTMLFormElement;
                 else
                     return null;
             }
