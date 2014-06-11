@@ -125,21 +125,21 @@
 
         HTMLCollection Children { get; }
 
+        IElement FirstElementChild { get; }
+
+        IElement LastElementChild { get; }
+
         ContentEditableMode ContentEditable { get; set; }
 
         IStringMap Dataset { get; }
 
         DirectionMode Dir { get; set; }
 
-        Element FirstElementChild { get; }
-
         String InnerHTML { get; set; }
 
         Boolean IsContentEditable { get; }
 
         String Lang { get; set; }
-
-        Element LastElementChild { get; }
 
         Element NextElementSibling { get; }
 

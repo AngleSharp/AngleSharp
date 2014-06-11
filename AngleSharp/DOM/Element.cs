@@ -75,7 +75,6 @@
         /// <summary>
         /// Gets the child elements.
         /// </summary>
-        [DomName("children")]
         public HTMLCollection Children
         {
             get { return _elements; }
@@ -293,8 +292,7 @@
         /// <summary>
         /// Gets the first child element of this element.
         /// </summary>
-        [DomName("firstElementChild")]
-        public Element FirstElementChild
+        public IElement FirstElementChild
         {
             get 
             {
@@ -313,8 +311,7 @@
         /// <summary>
         /// Gets the last child element of this element.
         /// </summary>
-        [DomName("lastElementChild")]
-        public Element LastElementChild
+        public IElement LastElementChild
         {
             get
             {

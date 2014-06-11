@@ -10,15 +10,27 @@
     [DomName("ParentNode")]
     interface IParentNode
     {
+        /// <summary>
+        /// Gets the child elements.
+        /// </summary>
         [DomName("children")]
         IHtmlCollection Children { get; }
 
+        /// <summary>
+        /// Gets the first child element of this element.
+        /// </summary>
         [DomName("firstElementChild")]
         IElement FirstElementChild { get; }
 
+        /// <summary>
+        /// Gets the last child element of this element.
+        /// </summary>
         [DomName("lastElementChild")]
         IElement LastElementChild { get; }
 
+        /// <summary>
+        /// Gets the number of child elements.
+        /// </summary>
         [DomName("childElementCount")]
         Int32 ChildElementCount { get; }
 
