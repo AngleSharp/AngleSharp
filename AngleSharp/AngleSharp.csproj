@@ -38,7 +38,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="Delegates\NodeFilter.cs" />
     <Compile Include="DOM\Collections\AttrContainer.cs" />
+    <Compile Include="DOM\Constants\FilterResult.cs" />
+    <Compile Include="DOM\Constants\FilterSetting.cs" />
     <Compile Include="DOM\Constants\Visibility.cs" />
     <Compile Include="DOM\Css\Constants\AnimationDirection.cs" />
     <Compile Include="DOM\Css\Constants\AnimationFillStyle.cs" />
