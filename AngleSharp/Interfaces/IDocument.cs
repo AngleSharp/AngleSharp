@@ -165,6 +165,38 @@
         [DomName("createNodeIterator")]
         INodeIterator CreateNodeIterator(INode root, FilterSetting settings = FilterSetting.All, NodeFilter filter = null);
 
+        /// <summary>
+        /// Creates a new TreeWalker object.
+        /// </summary>
+        /// <param name="root">Is the root Node of this TreeWalker traversal.</param>
+        /// <param name="settings">Indicates which nodes to iterate over.</param>
+        /// <param name="filter">An optional callback function for filtering.</param>
+        /// <returns>The created node TreeWalker.</returns>
+        [DomName("createTreeWalker")]
+        ITreeWalker CreateTreeWalker(INode root, FilterSetting settings = FilterSetting.All, NodeFilter filter = null);
+
+        /// <summary>
+        /// Creates a copy of a node from an external document that can be inserted into the current document.
+        /// </summary>
+        /// <param name="externalNode">The node from another document to be imported.</param>
+        /// <param name="deep">Optional argument, indicating whether the descendants of the imported
+        /// node need to be imported.</param>
+        /// <returns>The new node that is imported into the document. The new node's parentNode is null,
+        /// since it has not yet been inserted into the document tree.</returns>
+        [DomName("importNode")]
+        INode Import(INode externalNode, Boolean deep = true);
+
+        /// <summary>
+        /// Adopts a node from an external document. The node and its subtree is removed from the document it's
+        /// in (if any), and its ownerDocument is changed to the current document. The node can then be inserted
+        /// into the current document. The new node's parentNode is null, since it has not yet been inserted into
+        /// the document tree.
+        /// </summary>
+        /// <param name="externalNode">The node from another document to be adopted.</param>
+        /// <returns>The adopted node that can be used in the current document.</returns>
+        [DomName("adoptNode")]
+        INode Adopt(INode externalNode);
+
         IWindow DefaultView { get; }
         IWindow ParentWindow { get; }
         String InputEncoding { get; }

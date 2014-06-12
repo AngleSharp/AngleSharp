@@ -339,12 +339,27 @@
         /// node need to be imported.</param>
         /// <returns>The new node that is imported into the document. The new node's parentNode is null,
         /// since it has not yet been inserted into the document tree.</returns>
-        [DomName("importNode")]
-        public Node ImportNode(Node externalNode, Boolean deep = true)
+        public INode Import(INode externalNode, Boolean deep = true)
         {
+            //TODO
             var clone = externalNode.Clone(deep);
-            externalNode.Owner = this;
+            //externalNode.Owner = this;
             return externalNode;
+        }
+
+        /// <summary>
+        /// Creates a copy of a node from an external document that can be inserted into the current document.
+        /// </summary>
+        /// <param name="externalNode">The node from another document to be imported.</param>
+        /// <param name="deep">Optional argument, indicating whether the descendants of the imported
+        /// node need to be imported.</param>
+        /// <returns>The new node that is imported into the document. The new node's parentNode is null,
+        /// since it has not yet been inserted into the document tree.</returns>
+        public INode Adopt(INode node)
+        {
+            //TODO
+            //node.Owner = this;
+            return node;
         }
 
         /// <summary>
@@ -366,6 +381,19 @@
         /// <param name="filter">An optional callback function for filtering.</param>
         /// <returns>The created node NodeIterator.</returns>
         public INodeIterator CreateNodeIterator(INode root, FilterSetting settings = FilterSetting.All, NodeFilter filter = null)
+        {
+            //TODO
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Creates a new TreeWalker object.
+        /// </summary>
+        /// <param name="root">Is the root Node of this TreeWalker traversal.</param>
+        /// <param name="settings">Indicates which nodes to iterate over.</param>
+        /// <param name="filter">An optional callback function for filtering.</param>
+        /// <returns>The created node TreeWalker.</returns>
+        public ITreeWalker CreateTreeWalker(INode root, FilterSetting settings = FilterSetting.All, NodeFilter filter = null)
         {
             //TODO
             throw new NotImplementedException();
