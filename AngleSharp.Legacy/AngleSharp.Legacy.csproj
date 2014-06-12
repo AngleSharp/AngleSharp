@@ -1555,6 +1555,9 @@
     <Compile Include="..\AngleSharp\Interfaces\ITokenList.cs">
       <Link>Interfaces\ITokenList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\ITreeWalker.cs">
+      <Link>Interfaces\ITreeWalker.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IValidation.cs">
       <Link>Interfaces\IValidation.cs</Link>
     </Compile>
