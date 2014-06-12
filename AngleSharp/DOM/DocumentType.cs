@@ -181,54 +181,6 @@
             return false;
         }
 
-        /// <summary>
-        /// Inserts nodes before the current doctype.
-        /// </summary>
-        /// <param name="nodes">The nodes to insert before.</param>
-        public void Before(params Node[] nodes)
-        {
-            if (_parent != null && nodes.Length > 0)
-            {
-                var node = MutationMacro(nodes);
-                _parent.InsertBefore(node, this);
-            }
-        }
-
-        /// <summary>
-        /// Inserts nodes after the current doctype.
-        /// </summary>
-        /// <param name="nodes">The nodes to insert after.</param>
-        public void After(params Node[] nodes)
-        {
-            if (_parent != null && nodes.Length > 0)
-            {
-                var node = MutationMacro(nodes);
-                _parent.InsertBefore(node, NextSibling);
-            }
-        }
-
-        /// <summary>
-        /// Replaces the current doctype with the nodes.
-        /// </summary>
-        /// <param name="nodes">The nodes to replace.</param>
-        public void Replace(params Node[] nodes)
-        {
-            if (_parent != null && nodes.Length > 0)
-            {
-                var node = MutationMacro(nodes);
-                _parent.ReplaceChild(node, this);
-            }
-        }
-
-        /// <summary>
-        /// Removes the current doctype from the parent.
-        /// </summary>
-        public void Remove()
-        {
-            if (_parent != null)
-                _parent.RemoveChild(this);
-        }
-
         #endregion
 
         #region String representation
