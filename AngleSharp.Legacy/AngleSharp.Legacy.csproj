@@ -76,6 +76,9 @@
     <Compile Include="..\AngleSharp\Delegates\MutationCallback.cs">
       <Link>Delegates\MutationCallback.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Delegates\NodeFilter.cs">
+      <Link>Delegates\NodeFilter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DependencyResolver.cs">
       <Link>DependencyResolver.cs</Link>
     </Compile>
@@ -174,6 +177,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\EventPhase.cs">
       <Link>DOM\Constants\EventPhase.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\FilterResult.cs">
+      <Link>DOM\Constants\FilterResult.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\FilterSetting.cs">
+      <Link>DOM\Constants\FilterSetting.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\HorizontalAlignment.cs">
       <Link>DOM\Constants\HorizontalAlignment.cs</Link>
