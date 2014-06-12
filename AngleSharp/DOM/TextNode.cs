@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM
 {
     using System;
-    using System.Text;
 
     /// <summary>
     /// Represents a text node.

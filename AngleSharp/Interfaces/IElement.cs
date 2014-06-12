@@ -146,6 +146,14 @@
         [DomName("getElementsByTagNameNS")]
         IHtmlCollection GetElementsByTagNameNS(String namespaceUri, String tagName);
 
+        /// <summary>
+        /// Checks if the element is matched by the given selector.
+        /// </summary>
+        /// <param name="selectors">Represents the selector to test.</param>
+        /// <returns>True if the element would be selected by the specified selector, otherwise false.</returns>
+        [DomName("matches")]
+        Boolean Matches(String selectors);
+
         ContentEditableMode ContentEditable { get; set; }
 
         IStringMap Dataset { get; }

@@ -552,51 +552,6 @@
         #region Methods
 
         /// <summary>
-        /// Normalizes namespace declaration attributes and prefixes as part of the normalize document
-        /// method of the document node.
-        /// </summary>
-        /// <returns>The current element.</returns>
-        [DomName("normalizeNamespaces")]
-        public Element NormalizeNamespaces()
-        {
-            var declarations = new List<String>();
-
-            for (int i = 0; i < _attributes.Count; i++)
-            {
-                var attr = _attributes[i];
-
-                if (attr.Prefix == Namespaces.Declaration && IsValidNamespaceDeclaration(attr.LocalName, attr.Value))
-                    declarations.Add(attr.Value);
-            }
-
-            if (_namespace != null)
-            {
-                if ((_prefix != null || !IsDefaultNamespace(_namespace)) && (_prefix == null || LookupNamespaceUri(_prefix) != _namespace))
-                    SetAttribute(Namespaces.XmlNS, Namespaces.DeclarationFor(_prefix), _namespace);
-            }
-            else if (LocalName != null)
-            {
-                //TODO
-            }
-
-            for (int i = 0; i < _attributes.Count; i++)
-            {
-                //TODO
-                //http://www.w3.org/TR/DOM-Level-3-Core/namespaces-algorithms.html#isDefaultNamespaceAlgo
-            }
-
-            for (int i = 0; i < _children.Length; i++)
-            {
-                var child = _children[i] as Element;
-
-                if (child != null)
-                    child.NormalizeNamespaces();
-            }
-
-            return this;
-        }
-
-        /// <summary>
         /// Returns the first element within the document (using depth-first pre-order traversal
         /// of the document's nodes) that matches the specified group of selectors.
         /// </summary>
@@ -650,12 +605,16 @@
             return _children.GetElementsByTagNameNS(namespaceURI, tagName);
         }
 
+        public Boolean Matches(String selectors)
+        {
+            return AngleSharp.Parser.Css.CssParser.ParseSelector(selectors).Match(this);
+        }
+
         /// <summary>
         /// Returns a duplicate of the node on which this method was called.
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DomName("cloneNode")]
         public override Node Clone(Boolean deep = true)
         {
             var node = new Element();
@@ -670,7 +629,6 @@
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        [DomName("lookupNamespaceURI")]
         public override String LookupNamespaceUri(String prefix)
         {
             if (!String.IsNullOrEmpty(_namespace) && Prefix == prefix)
@@ -702,7 +660,6 @@
         /// <param name="namespaceURI">A string representing the namespace against which the element
         /// will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        [DomName("isDefaultNamespace")]
         public override Boolean IsDefaultNamespace(String namespaceURI)
         { 
             if (String.IsNullOrEmpty(Prefix))
@@ -724,7 +681,6 @@
         /// </summary>
         /// <param name="name">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
-        [DomName("hasAttribute")]
         public Boolean HasAttribute(String name)
         {
             for (int i = 0; i < _attributes.Count; i++)
@@ -742,7 +698,6 @@
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="localName">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
-        [DomName("hasAttributeNS")]
         public Boolean HasAttribute(String namespaceUri, String localName)
         {
             for (int i = 0; i < _attributes.Count; i++)
@@ -759,7 +714,6 @@
         /// </summary>
         /// <param name="name">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
-        [DomName("getAttribute")]
         public String GetAttribute(String name)
         {
             for (int i = 0; i < _attributes.Count; i++)
@@ -777,7 +731,6 @@
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="localName">The name of the attribute whose value you want to get.</param>
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
-        [DomName("getAttributeNS")]
         public String GetAttribute(String namespaceUri, String localName)
         {
             for (int i = 0; i < _attributes.Count; i++)
@@ -795,7 +748,6 @@
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
         /// <returns>The current element.</returns>
-        [DomName("setAttribute")]
         public void SetAttribute(String name, String value)
         {
             if (value == null)
@@ -823,7 +775,6 @@
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
-        [DomName("setAttributeNS")]
         public void SetAttribute(String namespaceUri, String name, String value)
         {
             if (value == null)
@@ -850,7 +801,6 @@
         /// </summary>
         /// <param name="name">Is a string that names the attribute to be removed.</param>
         /// <returns>The current element.</returns>
-        [DomName("removeAttribute")]
         public void RemoveAttribute(String name)
         {
             for (int i = 0; i < _attributes.Count; i++)
@@ -870,7 +820,6 @@
         /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
         /// <param name="localName">Is a string that names the attribute to be removed.</param>
         /// <returns>The current element.</returns>
-        [DomName("removeAttributeNS")]
         public void RemoveAttribute(String namespaceUri, String localName)
         {
             for (int i = 0; i < _attributes.Count; i++)
@@ -891,7 +840,6 @@
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        [DomName("lookupPrefix")]
         public override String LookupPrefix(String namespaceURI)
         {
             if (String.IsNullOrEmpty(namespaceURI))
@@ -930,6 +878,30 @@
                 var node = MutationMacro(nodes);
                 AppendChild(node);
             }
+        }
+
+        public override Boolean IsEqualNode(Node otherNode)
+        {
+            var otherElement = otherNode as Element;
+
+            if (otherElement != null)
+            {
+                if (this._namespace != otherElement._namespace)
+                    return false;
+
+                if (_attributes.Count != otherElement._attributes.Count)
+                    return false;
+
+                for (int i = 0; i < _attributes.Count; i++)
+                {
+                    if (!otherElement._attributes.Any(m => m.Name == _attributes[i].Name && m.Value == _attributes[i].Value))
+                        return false;
+                }
+
+                return base.IsEqualNode(otherNode);
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -994,30 +966,6 @@
                 _parent.RemoveChild(this);
 
             return this;
-        }
-
-        public override Boolean IsEqualNode(Node otherNode)
-        {
-            var otherElement = otherNode as Element;
-
-            if (otherElement != null)
-            {
-                if (this._namespace != otherElement._namespace)
-                    return false;
-
-                if (_attributes.Count != otherElement._attributes.Count)
-                    return false;
-
-                for (int i = 0; i < _attributes.Count; i++)
-                {
-                    if (!otherElement._attributes.Any(m => m.Name == _attributes[i].Name && m.Value == _attributes[i].Value))
-                        return false;
-                }
-
-                return base.IsEqualNode(otherNode);
-            }
-
-            return false;
         }
 
         /// <summary>

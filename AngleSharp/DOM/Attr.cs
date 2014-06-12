@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a generic node attribute.
     /// </summary>
-    public sealed class Attr : IAttr, IEquatable<IAttr>
+    sealed class Attr : IAttr, IEquatable<IAttr>
     {
         #region Fields
 

@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents a notation node.
     /// </summary>
-    [DomName("Notation")]
-    public sealed class Notation : Node
+    sealed class Notation : Node
     {
         #region ctor
 
@@ -25,7 +24,6 @@
         /// <summary>
         /// Gets or sets the value of the public identifier.
         /// </summary>
-        [DomName("publicId")]
         public String PublicId
         {
             get;
@@ -35,7 +33,6 @@
         /// <summary>
         /// Gets or sets the value of the system identifier.
         /// </summary>
-        [DomName("systemId")]
         public String SystemId
         {
             get;
@@ -51,7 +48,6 @@
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
-        [DomName("appendChild")]
         public override Node AppendChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -64,7 +60,6 @@
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
-        [DomName("insertBefore")]
         public override Node InsertBefore(Node newElement, Node referenceElement)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -76,7 +71,6 @@
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
-        [DomName("insertChild")]
         public override Node InsertChild(Int32 index, Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -87,7 +81,6 @@
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
-        [DomName("removeChild")]
         public override Node RemoveChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -99,7 +92,6 @@
         /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
         /// <param name="oldChild">The existing child to be replaced.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
-        [DomName("replaceChild")]
         public override Node ReplaceChild(Node newChild, Node oldChild)
         {
             throw new DOMException(ErrorCode.NotSupported);
@@ -110,7 +102,6 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DomName("cloneNode")]
         public override Node Clone(Boolean deep = true)
         {
             var node = new Notation();
@@ -124,7 +115,6 @@
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        [DomName("lookupPrefix")]
         public override String LookupPrefix(String namespaceURI)
         {
             return null;
@@ -135,7 +125,6 @@
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        [DomName("isDefaultNamespace")]
         public override Boolean IsDefaultNamespace(String namespaceURI)
         {
             return false;
@@ -147,7 +136,6 @@
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        [DomName("lookupNamespaceURI")]
         public override String LookupNamespaceUri(String prefix)
         {
             return null;

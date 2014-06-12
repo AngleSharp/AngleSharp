@@ -601,12 +601,7 @@
         public override void Normalize()
         {
             for (int i = 0; i < _children.Length; i++)
-            {
                 _children[i].Normalize();
-
-                if (_children[i] is Element)
-                    ((Element)_children[i]).NormalizeNamespaces();
-            }
         }
 
         #endregion

@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents an entity node.
     /// </summary>
-    [DomName("Entity")]
-    public sealed class Entity : Node
+    sealed class Entity : Node
     {
         #region Fields
 
@@ -47,7 +46,6 @@
         /// <summary>
         /// Gets the public identiifer.
         /// </summary>
-        [DomName("publicId")]
         public String PublicId
         {
             get { return _publicId; }
@@ -56,7 +54,6 @@
         /// <summary>
         /// Gets the system identifier.
         /// </summary>
-        [DomName("systemId")]
         public String SystemId
         {
             get { return _systemId; }
@@ -65,7 +62,6 @@
         /// <summary>
         /// Gets the notation name.
         /// </summary>
-        [DomName("notationName")]
         public String NotationName
         {
             get { return _notationName; }
@@ -75,7 +71,6 @@
         /// <summary>
         /// Gets the used input encoding.
         /// </summary>
-        [DomName("inputEncoding")]
         public String InputEncoding
         {
             get { return _inputEncoding; }
@@ -84,7 +79,6 @@
         /// <summary>
         /// Gets the used XML encoding.
         /// </summary>
-        [DomName("xmlEncoding")]
         public String XmlEncoding
         {
             get { return _xmlEncoding; }
@@ -93,7 +87,6 @@
         /// <summary>
         /// Gets the used XML version.
         /// </summary>
-        [DomName("xmlVersion")]
         public String XmlVersion
         {
             get { return _xmlVersion; }
@@ -102,7 +95,6 @@
         /// <summary>
         /// Gets or sets the entity's value.
         /// </summary>
-        [DomName("textContent")]
         public override String TextContent
         {
             get { return NodeValue; }
@@ -112,7 +104,6 @@
         /// <summary>
         /// Gets or sets the value of the entity.
         /// </summary>
-        [DomName("nodeValue")]
         public override String NodeValue
         {
             get { return _value; }
@@ -128,7 +119,6 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DomName("cloneNode")]
         public override Node Clone(Boolean deep = true)
         {
             var node = new Entity();
@@ -148,7 +138,6 @@
         /// </summary>
         /// <param name="namespaceURI">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        [DomName("lookupPrefix")]
         public override String LookupPrefix(String namespaceURI)
         {
             return null;
@@ -159,7 +148,6 @@
         /// </summary>
         /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        [DomName("isDefaultNamespace")]
         public override Boolean IsDefaultNamespace(String namespaceURI)
         {
             return false;
@@ -171,7 +159,6 @@
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        [DomName("lookupNamespaceURI")]
         public override String LookupNamespaceUri(String prefix)
         {
             return null;

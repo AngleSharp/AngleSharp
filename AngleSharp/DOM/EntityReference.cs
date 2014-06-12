@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents a reference to an entity.
     /// </summary>
-    [DomName("EntityReference")]
-    public sealed class EntityReference : Node
+    sealed class EntityReference : Node
     {
         #region ctor
 
