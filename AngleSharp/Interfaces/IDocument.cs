@@ -148,7 +148,7 @@
         IProcessingInstruction CreateProcessingInstruction(String target, String data);
 
         /// <summary>
-        /// Creates a new text node and returns it..
+        /// Creates a new text node and returns it.
         /// </summary>
         /// <param name="data">A string containing the data to be put in the text node.</param>
         /// <returns>The created text node.</returns>
