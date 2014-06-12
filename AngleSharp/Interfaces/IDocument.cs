@@ -155,6 +155,16 @@
         [DomName("createTextNode")]
         IText CreateTextNode(String data);
 
+        /// <summary>
+        /// Creates a new NodeIterator object.
+        /// </summary>
+        /// <param name="root">The root node at which to begin the NodeIterator's traversal.</param>
+        /// <param name="settings">Indicates which nodes to iterate over.</param>
+        /// <param name="filter">An optional callback function for filtering.</param>
+        /// <returns>The created node NodeIterator.</returns>
+        [DomName("createNodeIterator")]
+        INodeIterator CreateNodeIterator(INode root, FilterSetting settings = FilterSetting.All, NodeFilter filter = null);
+
         IWindow DefaultView { get; }
         IWindow ParentWindow { get; }
         String InputEncoding { get; }

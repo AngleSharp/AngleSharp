@@ -359,6 +359,19 @@
         }
 
         /// <summary>
+        /// Creates a new NodeIterator object.
+        /// </summary>
+        /// <param name="root">The root node at which to begin the NodeIterator's traversal.</param>
+        /// <param name="settings">Indicates which nodes to iterate over.</param>
+        /// <param name="filter">An optional callback function for filtering.</param>
+        /// <returns>The created node NodeIterator.</returns>
+        public INodeIterator CreateNodeIterator(INode root, FilterSetting settings = FilterSetting.All, NodeFilter filter = null)
+        {
+            //TODO
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Returns a new Range object. (NOT IMPLEMENTED YET)
         /// </summary>
         /// <returns>The created range object.</returns>
