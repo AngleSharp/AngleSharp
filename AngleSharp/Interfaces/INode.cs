@@ -182,7 +182,7 @@
         /// <param name="child">The Node to be appended.</param>
         /// <returns>The current Node.</returns>
         [DomName("appendChild")]
-        INode AppendChild(Node child);
+        INode AppendChild(INode child);
 
         /// <summary>
         /// Inserts the first Node given in a parameter immediately

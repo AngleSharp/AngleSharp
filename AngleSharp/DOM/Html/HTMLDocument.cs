@@ -290,7 +290,7 @@
                     if (_documentElement == null)
                     {
                         _documentElement = new HTMLHtmlElement();
-                        AppendChild(_documentElement as Node);//TODO Remove cast ASAP
+                        AppendChild(_documentElement);
                     }
 
                     var _head = Head;

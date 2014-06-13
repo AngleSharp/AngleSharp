@@ -209,7 +209,7 @@
 
                 if (bodies.Length == 0)
                 {
-                    var tbody = Owner.CreateElement(Tags.Tbody) as Element;//TODO remove cast ASAP
+                    var tbody = Owner.CreateElement(Tags.Tbody);
                     AppendChild(tbody);
                 }
 

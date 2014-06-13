@@ -84,7 +84,7 @@
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
-        public override INode AppendChild(Node child)
+        public override INode AppendChild(INode child)
         {
             throw new DOMException(ErrorCode.NotSupported);
         }

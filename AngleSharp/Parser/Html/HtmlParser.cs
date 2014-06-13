@@ -2985,7 +2985,7 @@
                 var element = CopyElement(formattingElement);
 
                 while (furthestBlock.ChildNodes.Length > 0)
-                    element.AppendChild(furthestBlock.RemoveChild(furthestBlock.ChildNodes[0]) as Node);//TODO remove cast ASAP
+                    element.AppendChild(furthestBlock.RemoveChild(furthestBlock.ChildNodes[0]));
 
                 furthestBlock.AppendChild(element);
                 formatting.Remove(formattingElement);

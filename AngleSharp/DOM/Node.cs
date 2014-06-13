@@ -369,7 +369,7 @@
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
-        public virtual INode AppendChild(Node child)
+        public virtual INode AppendChild(INode child)
         {
             if (child is DocumentFragment)
             {
@@ -387,9 +387,11 @@
                 if (child.Parent != null)
                     throw new DOMException(ErrorCode.InUse);
 
-                child._parent = this;
-                child.Owner = _owner ?? (this as Document);
-                _children.Add(child);
+                var childNode = child as Node;//TODO remove cast ASAP
+
+                childNode._parent = this;
+                childNode.Owner = _owner ?? (this as Document);
+                _children.Add(childNode);
             }
 
             return child;
@@ -449,7 +451,7 @@
                     return InsertChild(i, newElement);
             }
 
-            return AppendChild(newElement as Node);//TODO remove cast ASAP
+            return AppendChild(newElement);
         }
 
         /// <summary>
@@ -666,7 +668,7 @@
                 var node = new DocumentFragment();
 
                 for (int i = 0; i < nodes.Length; i++)
-                    node.AppendChild(nodes[i] as Node);//TODO Remove cast ASAP
+                    node.AppendChild(nodes[i]);
 
                 return node;
             }
