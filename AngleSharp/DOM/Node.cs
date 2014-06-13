@@ -297,37 +297,28 @@
         /// </summary>
         /// <param name="c">The character to append.</param>
         /// <returns>The node which contains the text.</returns>
-        internal Node AppendText(Char c)
+        internal void AppendText(Char c)
         {
             var lastChild = LastChild as TextNode;
 
-            if (lastChild != null)
-            {
+            if (lastChild == null)
+                AppendChild(new TextNode(c));
+            else
                 lastChild.Append(c);
-                return lastChild;
-            }
-
-            var element = new TextNode(c);
-            return AppendChild(element);
         }
 
         /// <summary>
         /// Appends the given characters to the node.
         /// </summary>
         /// <param name="s">The characters to append.</param>
-        /// <returns>The node which contains the text.</returns>
-        internal Node AppendText(String s)
+        internal void AppendText(String s)
         {
             var lastChild = LastChild as TextNode;
 
-            if (lastChild != null)
-            {
+            if (lastChild == null)
+                AppendChild(new TextNode(s));
+            else
                 lastChild.Append(s);
-                return lastChild;
-            }
-
-            var element = new TextNode(s);
-            return AppendChild(element);
         }
 
         /// <summary>
@@ -335,23 +326,20 @@
         /// </summary>
         /// <param name="index">The index where to insert.</param>
         /// <param name="s">The characters to append.</param>
-        /// <returns>The node which contains the text.</returns>
-        internal Node InsertText(Int32 index, String s)
+        internal void InsertText(Int32 index, String s)
         {
             if (index > 0 && index <= _children.Length && _children[index - 1] is TextNode)
             {
                 var node = (TextNode)_children[index - 1];
                 node.Append(s);
-                return node;
             }
             else if (index >= 0 && index < _children.Length && _children[index] is TextNode)
             {
                 var node = (TextNode)_children[index];
                 node.Insert(0, s);
-                return node;
             }
-            
-            return InsertChild(index, new TextNode(s));
+            else
+                InsertChild(index, new TextNode(s));
         }
 
         /// <summary>
@@ -381,7 +369,7 @@
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
-        public virtual Node AppendChild(Node child)
+        public virtual INode AppendChild(Node child)
         {
             if (child is DocumentFragment)
             {
@@ -446,7 +434,7 @@
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
-        public virtual Node InsertBefore(Node newElement, INode referenceElement)
+        public virtual INode InsertBefore(Node newElement, INode referenceElement)
         {
             if (newElement is Document || newElement.Contains(this))
                 throw new DOMException(ErrorCode.HierarchyRequestError);

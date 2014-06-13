@@ -61,7 +61,7 @@
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
         [DomName("appendChild")]
-        public override Node AppendChild(Node child)
+        public override INode AppendChild(Node child)
         {
             Content.AppendChild(child);
             return child;

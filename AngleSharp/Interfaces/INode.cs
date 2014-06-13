@@ -182,7 +182,7 @@
         /// <param name="child">The Node to be appended.</param>
         /// <returns>The current Node.</returns>
         [DomName("appendChild")]
-        Node AppendChild(Node child);
+        INode AppendChild(Node child);
 
         /// <summary>
         /// Inserts the first Node given in a parameter immediately
@@ -192,7 +192,7 @@
         /// <param name="referenceElement">The element that will succeed the new element.</param>
         /// <returns>The current Node.</returns>
         [DomName("insertBefore")]
-        Node InsertBefore(Node newElement, INode referenceElement);
+        INode InsertBefore(Node newElement, INode referenceElement);
 
         /// <summary>
         /// Removes a child node from the current element, which must
