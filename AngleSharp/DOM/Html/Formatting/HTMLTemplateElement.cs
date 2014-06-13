@@ -74,10 +74,11 @@
         /// cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
         [DomName("cloneNode")]
-        public override Node Clone(Boolean deep = true)
+        public override INode Clone(Boolean deep = true)
         {
             var clone = new HTMLTemplateElement();
             CopyProperties(this, clone, deep);
+            CopyAttributes(this, clone);
 
             if (deep && _content != null)
             {

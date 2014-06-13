@@ -501,7 +501,7 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        public virtual Node Clone(Boolean deep = true)
+        public virtual INode Clone(Boolean deep = true)
         {
             var node = new Node();
             CopyProperties(this, node, deep);
@@ -716,7 +716,7 @@
             if (deep)
             {
                 for (int i = 0; i < source._children.Length; i++)
-                    target._children.Add(source._children[i].Clone(true));
+                    target._children.Add(source._children[i].Clone(true) as Node);//TODO remove cast ASAP
             }
         }
 

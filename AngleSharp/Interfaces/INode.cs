@@ -38,7 +38,7 @@
         /// <param name="deep">Optionally: Sets if all of the content should be cloned as well.</param>
         /// <returns>The cloned Node.</returns>
         [DomName("cloneNode")]
-        Node Clone(Boolean deep = true);
+        INode Clone(Boolean deep = true);
 
         /// <summary>
         /// Determines if two nodes are equal.

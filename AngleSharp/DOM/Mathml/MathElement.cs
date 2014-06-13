@@ -40,7 +40,7 @@
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
         [DomName("cloneNode")]
-        public override Node Clone(Boolean deep = true)
+        public override INode Clone(Boolean deep = true)
         {
             var node = MathFactory.Create(_name, _owner);
             CopyProperties(this, node, deep);
