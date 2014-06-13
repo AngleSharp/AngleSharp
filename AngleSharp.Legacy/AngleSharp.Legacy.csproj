@@ -1474,6 +1474,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlElement.cs">
       <Link>Interfaces\Html\IHtmlElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IRadioNodeList.cs">
+      <Link>Interfaces\Html\IRadioNodeList.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IAttr.cs">
       <Link>Interfaces\IAttr.cs</Link>
     </Compile>
