@@ -513,7 +513,7 @@
         /// </summary>
         /// <param name="otherNode">The node that's being compared against.</param>
         /// <returns>The relationship that otherNode has with node, given in a bitmask.</returns>
-        public virtual DocumentPosition CompareDocumentPosition(Node otherNode)
+        public virtual DocumentPosition CompareDocumentPosition(INode otherNode)
         {
             if (this == otherNode)
                 return DocumentPosition.Same;
@@ -533,7 +533,7 @@
         /// </summary>
         /// <param name="otherNode">The node that's being compared against.</param>
         /// <returns>The return value is true if otherNode is a descendent of node, or node itself. Otherwise the return value is false.</returns>
-        public virtual Boolean Contains(Node otherNode)
+        public virtual Boolean Contains(INode otherNode)
         {
             if (otherNode == this)
                 return true;
@@ -677,7 +677,7 @@
         /// <param name="nodeA">The first node.</param>
         /// <param name="nodeB">The other node.</param>
         /// <returns>The position.</returns>
-        static DocumentPosition CompareRelativePositionInNodeList(NodeList list, Node nodeA, Node nodeB)
+        static DocumentPosition CompareRelativePositionInNodeList(NodeList list, INode nodeA, INode nodeB)
         {
             var aPos = -1;
             var bPos = -1;

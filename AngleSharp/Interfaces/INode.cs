@@ -54,7 +54,7 @@
         /// <param name="otherNode">The node to be compared to the reference node, which is the node executing the method.</param>
         /// <returns>The relation between the two nodes.</returns>
         [DomName("compareDocumentPosition")]
-        DocumentPosition CompareDocumentPosition(Node otherNode);
+        DocumentPosition CompareDocumentPosition(INode otherNode);
 
         /// <summary>
         /// Cleans up all the text nodes under this element, i.e. merges
@@ -93,7 +93,7 @@
         /// <param name="otherNode">The Node to check the childs for.</param>
         /// <returns>True if the given node is contained within this Node, otherwise false.</returns>
         [DomName("contains")]
-        Boolean Contains(Node otherNode);
+        Boolean Contains(INode otherNode);
 
         /// <summary>
         /// Gets a Node representing the first direct child node
