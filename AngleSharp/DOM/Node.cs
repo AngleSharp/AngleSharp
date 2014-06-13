@@ -401,7 +401,7 @@
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
-        public virtual Node InsertChild(Int32 index, Node child)
+        public virtual INode InsertChild(Int32 index, Node child)
         {
             if (child is DocumentFragment)
             {
@@ -456,7 +456,7 @@
         /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
         /// <param name="oldChild">The existing child to be replaced.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
-        public virtual Node ReplaceChild(Node newChild, Node oldChild)
+        public virtual INode ReplaceChild(Node newChild, Node oldChild)
         {
             if (newChild is Document || newChild.Contains(this))
                 throw new DOMException(ErrorCode.HierarchyRequestError);
@@ -485,7 +485,7 @@
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
-        public virtual Node RemoveChild(Node child)
+        public virtual INode RemoveChild(Node child)
         {
             if (_children.Contains(child))
             {

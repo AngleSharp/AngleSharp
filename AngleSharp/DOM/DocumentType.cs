@@ -107,7 +107,7 @@
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
-        public override Node InsertChild(int index, Node child)
+        public override INode InsertChild(int index, Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
         }
@@ -117,7 +117,7 @@
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
-        public override Node RemoveChild(Node child)
+        public override INode RemoveChild(Node child)
         {
             throw new DOMException(ErrorCode.NotSupported);
         }
@@ -128,7 +128,7 @@
         /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
         /// <param name="oldChild">The existing child to be replaced.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
-        public override Node ReplaceChild(Node newChild, Node oldChild)
+        public override INode ReplaceChild(Node newChild, Node oldChild)
         {
             throw new DOMException(ErrorCode.NotSupported);
         }
