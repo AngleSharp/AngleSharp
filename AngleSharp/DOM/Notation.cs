@@ -81,7 +81,7 @@
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
-        public override INode RemoveChild(Node child)
+        public override INode RemoveChild(INode child)
         {
             throw new DOMException(ErrorCode.NotSupported);
         }

@@ -485,12 +485,14 @@
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
-        public virtual INode RemoveChild(Node child)
+        public virtual INode RemoveChild(INode child)
         {
-            if (_children.Contains(child))
+            var childNode = child as Node; //TODO remove cast ASAP
+
+            if (childNode != null && _children.Contains(childNode))
             {
-                child._parent = null;
-                _children.Remove(child);
+                childNode._parent = null;
+                _children.Remove(childNode);
             }
 
             return child;
