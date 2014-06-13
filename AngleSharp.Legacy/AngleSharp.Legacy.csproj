@@ -1468,6 +1468,12 @@
     <Compile Include="..\AngleSharp\IInfo.cs">
       <Link>IInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDocument.cs">
+      <Link>Interfaces\Html\IHtmlDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlElement.cs">
+      <Link>Interfaces\Html\IHtmlElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IAttr.cs">
       <Link>Interfaces\IAttr.cs</Link>
     </Compile>
@@ -1507,14 +1513,14 @@
     <Compile Include="..\AngleSharp\Interfaces\IHtmlCollection.cs">
       <Link>Interfaces\IHtmlCollection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IHtmlDocument.cs">
-      <Link>Interfaces\IHtmlDocument.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IImplementation.cs">
       <Link>Interfaces\IImplementation.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ILabelabelElement.cs">
       <Link>Interfaces\ILabelabelElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\ILocation.cs">
+      <Link>Interfaces\ILocation.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IMutationObserver.cs">
       <Link>Interfaces\IMutationObserver.cs</Link>
@@ -1564,6 +1570,9 @@
     <Compile Include="..\AngleSharp\Interfaces\ITreeWalker.cs">
       <Link>Interfaces\ITreeWalker.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IUrlUtilities.cs">
+      <Link>Interfaces\IUrlUtilities.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IValidation.cs">
       <Link>Interfaces\IValidation.cs</Link>
     </Compile>
@@ -1573,8 +1582,8 @@
     <Compile Include="..\AngleSharp\Interfaces\IWindow.cs">
       <Link>Interfaces\IWindow.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IXmlDocument.cs">
-      <Link>Interfaces\IXmlDocument.cs</Link>
+    <Compile Include="..\AngleSharp\Interfaces\Xml\IXmlDocument.cs">
+      <Link>Interfaces\Xml\IXmlDocument.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Constants\DefaultPorts.cs">
       <Link>Network\Constants\DefaultPorts.cs</Link>
