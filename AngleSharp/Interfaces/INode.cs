@@ -211,6 +211,6 @@
         /// <param name="oldChild">The child to be removed.</param>
         /// <returns>The current Node.</returns>
         [DomName("replaceChild")]
-        INode ReplaceChild(Node newChild, Node oldChild);
+        INode ReplaceChild(INode newChild, INode oldChild);
     }
 }
