@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM.Xml
 {
     /// <summary>
     /// The XMLDocument interface represent an XML document. It inherits from

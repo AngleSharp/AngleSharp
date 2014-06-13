@@ -260,6 +260,7 @@
     <Compile Include="Foundation\IdlExtensions.cs" />
     <Compile Include="Foundation\LocationExtensions.cs" />
     <Compile Include="Foundation\StyleExtensions.cs" />
+    <Compile Include="Interfaces\Html\IHtmlElement.cs" />
     <Compile Include="Interfaces\IAttr.cs" />
     <Compile Include="Interfaces\ICharacterData.cs" />
     <Compile Include="Interfaces\IComment.cs" />
@@ -275,8 +276,9 @@
     <Compile Include="Delegates\EventListener.cs" />
     <Compile Include="Interfaces\IEventTarget.cs" />
     <Compile Include="Interfaces\IHtmlCollection.cs" />
-    <Compile Include="Interfaces\IHtmlDocument.cs" />
+    <Compile Include="Interfaces\Html\IHtmlDocument.cs" />
     <Compile Include="Interfaces\ILabelabelElement.cs" />
+    <Compile Include="Interfaces\ILocation.cs" />
     <Compile Include="Interfaces\IMutationObserver.cs" />
     <Compile Include="Interfaces\IMutationObserverInit.cs" />
     <Compile Include="Interfaces\IMutationRecord.cs" />
@@ -293,10 +295,11 @@
     <Compile Include="Interfaces\IText.cs" />
     <Compile Include="Interfaces\ITokenList.cs" />
     <Compile Include="Interfaces\ITreeWalker.cs" />
+    <Compile Include="Interfaces\IUrlUtilities.cs" />
     <Compile Include="Interfaces\IValidation.cs" />
     <Compile Include="Interfaces\IValidityState.cs" />
     <Compile Include="Interfaces\IWindow.cs" />
-    <Compile Include="Interfaces\IXmlDocument.cs" />
+    <Compile Include="Interfaces\Xml\IXmlDocument.cs" />
     <Compile Include="Network\Constants\DefaultPorts.cs" />
     <Compile Include="Network\Constants\KnownProtocols.cs" />
     <Compile Include="DOM\Primitives\Frequency.cs" />
