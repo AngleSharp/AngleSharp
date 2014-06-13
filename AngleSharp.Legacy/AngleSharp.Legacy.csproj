@@ -1477,6 +1477,9 @@
     <Compile Include="..\AngleSharp\Interfaces\IComment.cs">
       <Link>Interfaces\IComment.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\ICustomEvent.cs">
+      <Link>Interfaces\ICustomEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IDocument.cs">
       <Link>Interfaces\IDocument.cs</Link>
     </Compile>
