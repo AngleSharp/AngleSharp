@@ -625,20 +625,20 @@
         /// </summary>
         /// <param name="otherNode">The node to compare equality with.</param>
         /// <returns>True if they are equal, otherwise false.</returns>
-        public virtual Boolean IsEqualNode(Node otherNode)
+        public virtual Boolean IsEqualNode(INode otherNode)
         {
-            if (_baseURI != otherNode._baseURI)
+            if (BaseUri != otherNode.BaseUri)
                 return false;
 
-            if (_name != otherNode._name)
+            if (NodeName != otherNode.NodeName)
                 return false;
 
-            if (_children.Length != otherNode._children.Length)
+            if (ChildNodes.Length != otherNode.ChildNodes.Length)
                 return false;
 
             for (int i = 0; i < _children.Length; i++)
             {
-                if(!_children[i].IsEqualNode(otherNode._children[i]))
+                if (!_children[i].IsEqualNode(otherNode.ChildNodes[i]))
                     return false;
             }
 

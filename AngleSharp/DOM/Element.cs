@@ -880,21 +880,21 @@
             }
         }
 
-        public override Boolean IsEqualNode(Node otherNode)
+        public override Boolean IsEqualNode(INode otherNode)
         {
-            var otherElement = otherNode as Element;
+            var otherElement = otherNode as IElement;
 
             if (otherElement != null)
             {
-                if (this._namespace != otherElement._namespace)
+                if (this.NamespaceUri != otherElement.NamespaceUri)
                     return false;
 
-                if (_attributes.Count != otherElement._attributes.Count)
+                if (Attributes.Count != otherElement.Attributes.Count)
                     return false;
 
                 for (int i = 0; i < _attributes.Count; i++)
                 {
-                    if (!otherElement._attributes.Any(m => m.Name == _attributes[i].Name && m.Value == _attributes[i].Value))
+                    if (!otherElement.Attributes.Any(m => m.Name == _attributes[i].Name && m.Value == _attributes[i].Value))
                         return false;
                 }
 
