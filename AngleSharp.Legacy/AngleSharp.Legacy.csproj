@@ -1501,6 +1501,9 @@
     <Compile Include="..\AngleSharp\Interfaces\IEventTarget.cs">
       <Link>Interfaces\IEventTarget.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IHistory.cs">
+      <Link>Interfaces\IHistory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IHtmlCollection.cs">
       <Link>Interfaces\IHtmlCollection.cs</Link>
     </Compile>
