@@ -6,7 +6,7 @@
     /// Represents a standard HTML element in the node tree.
     /// </summary>
     [DomName("HTMLElement")]
-    public class HTMLElement : Element
+    public class HTMLElement : Element, IHtmlElement
     {
         #region ctor
 

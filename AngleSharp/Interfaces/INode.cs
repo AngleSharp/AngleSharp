@@ -100,28 +100,28 @@
         /// of the node, or null if the node has no child.
         /// </summary>
         [DomName("firstChild")]
-        Node FirstChild { get; }
+        INode FirstChild { get; }
 
         /// <summary>
         /// Gets a Node representing the last direct child node
         /// of the node, or null if the node has no child.
         /// </summary>
         [DomName("lastChild")]
-        Node LastChild { get; }
+        INode LastChild { get; }
 
         /// <summary>
         /// Gets a Node representing the next node in the tree,
         /// or null if there isn't such node.
         /// </summary>
         [DomName("nextSibling")]
-        Node NextSibling { get; }
+        INode NextSibling { get; }
 
         /// <summary>
         /// Gets a Node representing the previous node in the tree,
         /// or null if there isn't such node.
         /// </summary>
         [DomName("previousSibling")]
-        Node PreviousSibling { get; }
+        INode PreviousSibling { get; }
 
         /// <summary>
         /// Indicates whether or not a namespace is the default
@@ -192,7 +192,7 @@
         /// <param name="referenceElement">The element that will succeed the new element.</param>
         /// <returns>The current Node.</returns>
         [DomName("insertBefore")]
-        Node InsertBefore(Node newElement, Node referenceElement);
+        Node InsertBefore(Node newElement, INode referenceElement);
 
         /// <summary>
         /// Removes a child node from the current element, which must

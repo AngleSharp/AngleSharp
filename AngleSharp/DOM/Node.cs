@@ -84,7 +84,7 @@
         /// Gets the node immediately preceding this node's parent's list of nodes, 
         /// null if the specified node is the first in that list.
         /// </summary>
-        public Node PreviousSibling
+        public INode PreviousSibling
         {
             get
             {
@@ -107,7 +107,7 @@
         /// Gets the node immediately following this node's parent's list of nodes,
         /// or null if the current node is the last node in that list.
         /// </summary>
-        public Node NextSibling
+        public INode NextSibling
         {
             get
             {
@@ -129,7 +129,7 @@
         /// <summary>
         /// Gets the first child node of this node.
         /// </summary>
-        public Node FirstChild
+        public INode FirstChild
         {
             get { return _children.Length > 0 ? _children[0] : null; }
         }
@@ -137,7 +137,7 @@
         /// <summary>
         /// Gets the last child node of this node.
         /// </summary>
-        public Node LastChild
+        public INode LastChild
         {
             get { return _children.Length > 0 ? _children[_children.Length - 1] : null; }
         }
@@ -446,7 +446,7 @@
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
-        public virtual Node InsertBefore(Node newElement, Node referenceElement)
+        public virtual Node InsertBefore(Node newElement, INode referenceElement)
         {
             if (newElement is Document || newElement.Contains(this))
                 throw new DOMException(ErrorCode.HierarchyRequestError);

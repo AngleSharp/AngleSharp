@@ -261,6 +261,7 @@
     <Compile Include="Foundation\LocationExtensions.cs" />
     <Compile Include="Foundation\StyleExtensions.cs" />
     <Compile Include="Interfaces\Html\IHtmlElement.cs" />
+    <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
     <Compile Include="Interfaces\IAttr.cs" />
     <Compile Include="Interfaces\ICharacterData.cs" />
     <Compile Include="Interfaces\IComment.cs" />
