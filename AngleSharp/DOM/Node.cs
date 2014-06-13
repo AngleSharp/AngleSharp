@@ -436,7 +436,7 @@
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
-        public virtual INode InsertBefore(Node newElement, INode referenceElement)
+        public virtual INode InsertBefore(INode newElement, INode referenceElement)
         {
             if (newElement is Document || newElement.Contains(this))
                 throw new DOMException(ErrorCode.HierarchyRequestError);
@@ -449,7 +449,7 @@
                     return InsertChild(i, newElement);
             }
 
-            return AppendChild(newElement);
+            return AppendChild(newElement as Node);//TODO remove cast ASAP
         }
 
         /// <summary>

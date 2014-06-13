@@ -60,7 +60,7 @@
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
-        public override INode InsertBefore(Node newElement, INode referenceElement)
+        public override INode InsertBefore(INode newElement, INode referenceElement)
         {
             throw new DOMException(ErrorCode.NotSupported);
         }

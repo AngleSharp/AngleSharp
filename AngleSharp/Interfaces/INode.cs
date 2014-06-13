@@ -192,7 +192,7 @@
         /// <param name="referenceElement">The element that will succeed the new element.</param>
         /// <returns>The current Node.</returns>
         [DomName("insertBefore")]
-        INode InsertBefore(Node newElement, INode referenceElement);
+        INode InsertBefore(INode newElement, INode referenceElement);
 
         /// <summary>
         /// Removes a child node from the current element, which must
