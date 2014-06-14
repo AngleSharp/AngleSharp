@@ -105,7 +105,7 @@ namespace Samples.ViewModels
                 Time = sw.ElapsedMilliseconds;
                 Result = elements.Length;
             }
-            catch(DOMException)
+            catch(DomException)
             {
                 State = Brushes.LightPink;
             }
