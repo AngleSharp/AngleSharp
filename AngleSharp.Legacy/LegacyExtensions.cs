@@ -21,6 +21,11 @@
             return type.GetConstructors().First();
         }
 
+        public static FieldInfo GetDeclaredField(this Type type, String name)
+        {
+            return type.GetField(name);
+        }
+
         public static MethodInfo GetRuntimeMethod(this Type type, String name, Type[] parameters)
         {
             return type.GetMethod(name, parameters);

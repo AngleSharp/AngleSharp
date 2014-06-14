@@ -58,6 +58,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AngleSharp\Attributes\DomDescriptionAttribute.cs">
+      <Link>Attributes\DomDescriptionAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Attributes\DomHistoricalAttribute.cs">
       <Link>Attributes\DomHistoricalAttribute.cs</Link>
     </Compile>
@@ -1396,6 +1399,9 @@
     <Compile Include="..\AngleSharp\Foundation\Constants\FunctionNames.cs">
       <Link>Foundation\Constants\FunctionNames.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Constants\HttpMethod.cs">
+      <Link>Foundation\Constants\HttpMethod.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\Namespaces.cs">
       <Link>Foundation\Constants\Namespaces.cs</Link>
     </Compile>
@@ -1414,11 +1420,8 @@
     <Compile Include="..\AngleSharp\Foundation\DocumentEncoding.cs">
       <Link>Foundation\DocumentEncoding.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Errors.cs">
-      <Link>Foundation\Errors.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\HttpMethod.cs">
-      <Link>Foundation\HttpMethod.cs</Link>
+    <Compile Include="..\AngleSharp\Foundation\ErrorExtensions.cs">
+      <Link>Foundation\ErrorExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\IdlExtensions.cs">
       <Link>Foundation\IdlExtensions.cs</Link>
@@ -1483,6 +1486,9 @@
     <Compile Include="..\AngleSharp\Interfaces\ICharacterData.cs">
       <Link>Interfaces\ICharacterData.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IChildNode.cs">
+      <Link>Interfaces\IChildNode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IComment.cs">
       <Link>Interfaces\IComment.cs</Link>
     </Compile>
@@ -1500,6 +1506,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IDocumentType.cs">
       <Link>Interfaces\IDocumentType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IDomException.cs">
+      <Link>Interfaces\IDomException.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IElement.cs">
       <Link>Interfaces\IElement.cs</Link>
