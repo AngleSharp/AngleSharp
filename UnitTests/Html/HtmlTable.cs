@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp;
 using AngleSharp.DOM;
+using AngleSharp.DOM.Html;
 
 namespace UnitTests
 {
@@ -903,7 +904,7 @@ namespace UnitTests
             Assert.AreEqual("style", styleAttribute.Name);
             Assert.AreEqual("display: none;", styleAttribute.Value);
 
-            var style = ((Element)dochtml0body1table0tbody0tr0).Style;
+            var style = ((IHtmlElement)dochtml0body1table0tbody0tr0).Style;
             Assert.AreEqual("none", style.Display);
         }
 
@@ -941,8 +942,8 @@ namespace UnitTests
             Assert.AreEqual(1, tableRow.Attributes.Count);
             Assert.AreEqual("tr", tableRow.NodeName);
             Assert.AreEqual(NodeType.Element, tableRow.NodeType);
-            
-            var tr = (Element)tableRow;
+
+            var tr = (IHtmlElement)tableRow;
             var style = tr.Style;
             Assert.AreEqual("none", style.Display);
 
@@ -985,7 +986,7 @@ namespace UnitTests
             Assert.AreEqual("tr", tableRow.NodeName);
             Assert.AreEqual(NodeType.Element, tableRow.NodeType);
 
-            var tr = (Element)tableRow;
+            var tr = (IHtmlElement)tableRow;
 
             tr.Style.Display = "none";
             Assert.AreEqual("none", tr.Style.Display);
