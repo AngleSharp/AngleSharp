@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM
 {
-    using System;
-
     /// <summary>
     /// The ChildNode interface contains methods that are
     /// particular to Node objects that can have a parent.
@@ -42,7 +40,7 @@
         /// list following this ChildNode.
         /// </summary>
         [DomName("nextElementSibling")]
-        Element NextElementSibling { get; }
+        IElement NextElementSibling { get; }
 
         /// <summary>
         /// Gets the Element immediately prior to this ChildNode in its
@@ -50,6 +48,6 @@
         /// list prior to this ChildNode.
         /// </summary>
         [DomName("previousElementSibling")]
-        Element PreviousElementSibling { get; }
+        IElement PreviousElementSibling { get; }
     }
 }

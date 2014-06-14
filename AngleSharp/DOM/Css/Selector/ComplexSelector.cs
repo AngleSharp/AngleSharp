@@ -128,7 +128,7 @@
                 case CssCombinator.AdjacentSibling:
                 {
                     delim = Specification.Plus;
-                    transform = el => Single(el.PreviousElementSibling);
+                    transform = el => Single(el.PreviousElementSibling as Element);//TODO remove cast ASAP
                     break;
                 }
                 case CssCombinator.Descendent:
