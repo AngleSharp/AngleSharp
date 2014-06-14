@@ -522,7 +522,7 @@ should be green.</div>";
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-177a.xml
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(DOMException))]
+        [ExpectedException(typeof(DomException))]
         public void ParsingColonVsColonColonA()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">When you select this text, it shouldn't go red.</p>";
@@ -536,7 +536,7 @@ should be green.</div>";
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-177b.xml
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(DOMException))]
+        [ExpectedException(typeof(DomException))]
         public void ParsingColonVsColonColonB()
         {
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -573,7 +573,7 @@ should be green.</div>";
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-182.xml
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(DOMException))]
+        [ExpectedException(typeof(DomException))]
         public void NamespacesAndInSelectors()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
