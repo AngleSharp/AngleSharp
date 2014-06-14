@@ -119,7 +119,6 @@
         /// Gets the element immediately preceding in this node's parent's list of nodes, 
         /// null if the current element is the first element in that list.
         /// </summary>
-        [DomName("previousElementSibling")]
         public Element PreviousElementSibling
         {
             get
@@ -145,7 +144,6 @@
         /// Gets the element immediately following in this node's parent's list of nodes,
         /// or null if the current element is the last element in that list.
         /// </summary>
-        [DomName("nextElementSibling")]
         public Element NextElementSibling
         {
             get

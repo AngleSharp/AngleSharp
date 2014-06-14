@@ -156,11 +156,7 @@
 
         String InnerHTML { get; set; }
 
-        Element NextElementSibling { get; }
-
         String OuterHTML { get; set; }
-
-        Element PreviousElementSibling { get; }
 
         String TagName { get; }
     }

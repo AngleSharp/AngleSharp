@@ -28,6 +28,57 @@
         #region Properties
 
         /// <summary>
+        /// Gets the element immediately preceding in this node's parent's list of nodes, 
+        /// null if the current element is the first element in that list.
+        /// </summary>
+        public Element PreviousElementSibling
+        {
+            get
+            {
+                if (_parent == null)
+                    return null;
+
+                var found = false;
+
+                for (int i = _parent.ChildNodes.Length - 1; i >= 0; i--)
+                {
+                    if (_parent.ChildNodes[i] == this)
+                        found = true;
+                    else if (found && _parent.ChildNodes[i] is Element)
+                        return (Element)_parent.ChildNodes[i];
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the element immediately following in this node's parent's list of nodes,
+        /// or null if the current element is the last element in that list.
+        /// </summary>
+        public Element NextElementSibling
+        {
+            get
+            {
+                if (_parent == null)
+                    return null;
+
+                var n = _parent.ChildNodes.Length;
+                var found = false;
+
+                for (int i = 0; i < n; i++)
+                {
+                    if (_parent.ChildNodes[i] == this)
+                        found = true;
+                    else if (found && _parent.ChildNodes[i] is Element)
+                        return (Element)_parent.ChildNodes[i];
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the characters at the given position.
         /// </summary>
         /// <param name="index">The position of the character.</param>
