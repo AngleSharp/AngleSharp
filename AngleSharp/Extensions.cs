@@ -6,6 +6,7 @@
     using AngleSharp.DOM.Html;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
@@ -27,7 +28,7 @@
         /// <param name="attributeValue">The value of the attribute.</param>
         /// <returns>The collection itself.</returns>
         public static T Attr<T>(this T elements, String attributeName, String attributeValue)
-            where T : IEnumerable<Element>
+            where T : IEnumerable<IElement>
         {
             foreach (var element in elements)
                 element.SetAttribute(attributeName, attributeValue);
@@ -43,11 +44,11 @@
         /// <param name="declarations">The declarations to apply in the inline CSS.</param>
         /// <returns>The collection itself.</returns>
         public static T Css<T>(this T elements, String declarations)
-            where T : IEnumerable<Element>
+            where T : IEnumerable<IElement>
         {
             var decls = CssParser.ParseDeclarations(declarations);
 
-            foreach (var element in elements)
+            foreach (var element in elements.OfType<IHtmlElement>())
             {
                 for (int i = 0; i < decls.Length; i++)
 			    {

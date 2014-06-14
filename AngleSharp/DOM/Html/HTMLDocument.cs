@@ -13,7 +13,6 @@
     /// <summary>
     /// Represents an HTML document.
     /// </summary>
-    [DomName("HTMLDocument")]
     public sealed class HTMLDocument : Document, IHtmlDocument
     {
         #region Fields
@@ -197,26 +196,6 @@
         public HTMLCollection<HTMLAnchorElement> Anchors
         {
             get { return _anchors ?? (_anchors = new HTMLCollection<HTMLAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name))); }
-        }
-
-        /// <summary>
-        /// Gets or sets the direction of the document.
-        /// </summary>
-        [DomName("dir")]
-        public DirectionMode Dir
-        {
-            get 
-            {
-                var _documentElement = DocumentElement;
-                return _documentElement != null ? _documentElement.Dir : DirectionMode.Ltr; 
-            }
-            set
-            {
-                var _documentElement = DocumentElement;
-
-                if (_documentElement != null)
-                    _documentElement.Dir = value;
-            }
         }
 
         /// <summary>

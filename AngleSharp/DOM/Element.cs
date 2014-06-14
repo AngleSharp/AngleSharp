@@ -15,8 +15,6 @@
         String _prefix;
         String _namespace;
         TokenList _classList;
-        StringMap _dataset;
-        CSSStyleDeclaration _style;
         readonly HTMLCollection _elements;
         readonly AttrContainer _attributes;
 
@@ -67,7 +65,6 @@
         /// <summary>
         /// Gets or sets the text content of a node and its descendants.
         /// </summary>
-        [DomName("textContent")]
         public override String TextContent
         {
             get
@@ -84,39 +81,8 @@
         }
 
         /// <summary>
-        /// Gets or sets whether or not the element is editable. This enumerated
-        /// attribute can have the values true, false and inherited.
-        /// </summary>
-        [DomName("contentEditable")]
-        public ContentEditableMode ContentEditable
-        {
-            get { return ToEnum(GetAttribute("contenteditable"), ContentEditableMode.Inherited); }
-            set { SetAttribute("contenteditable", value.ToString()); }
-        }
-
-        /// <summary>
-        /// Gets if the element is currently contenteditable.
-        /// </summary>
-        [DomName("isContentEditable")]
-        public Boolean IsContentEditable
-        {
-            get
-            {
-                var value = ContentEditable;
-
-                if (value == ContentEditableMode.True)
-                    return true;
-                else if (value == ContentEditableMode.Inherited && ParentElement != null)
-                    return ParentElement.IsContentEditable;
-
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Gets the list of class names.
         /// </summary>
-        [DomName("classList")]
         public ITokenList ClassList
         {
             get { return _classList ?? (_classList = new TokenList(this, AttributeNames.Class, ClassName)); }
@@ -125,7 +91,6 @@
         /// <summary>
         /// Gets or sets the value of the class attribute.
         /// </summary>
-        [DomName("className")]
         public String ClassName
         {
             get { return GetAttribute("class"); }
@@ -133,52 +98,12 @@
         }
 
         /// <summary>
-        /// Gets an object representing the declarations of an element's style attributes.
-        /// </summary>
-        [DomName("style")]
-        public CSSStyleDeclaration Style
-        {
-            get { return _style ?? (_style = new CSSStyleDeclaration(this)); }
-        }
-
-        /// <summary>
         /// Gets or sets the value of the id attribute.
         /// </summary>
-        [DomName("id")]
         public String Id
         {
             get { return GetAttribute("id"); }
             set { SetAttribute("id", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the value of the lang attribute.
-        /// </summary>
-        [DomName("lang")]
-        public String Lang
-        {
-            get { return GetAttribute("lang") ?? (ParentElement != null ? ParentElement.Lang : _owner.Options.Language); }
-            set { SetAttribute("lang", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the value of the title attribute.
-        /// </summary>
-        [DomName("title")]
-        public String Title
-        {
-            get { return GetAttribute("title"); }
-            set { SetAttribute("title", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the value of the dir attribute.
-        /// </summary>
-        [DomName("dir")]
-        public DirectionMode Dir
-        {
-            get { return ToEnum(GetAttribute("dir"), DirectionMode.Ltr); }
-            set { SetAttribute("dir", value.ToString()); }
         }
 
         /// <summary>
@@ -188,36 +113,6 @@
         public String TagName
         {
             get { return _name; }
-        }
-
-        /// <summary>
-        /// Gets or sets if spell-checking is activated.
-        /// </summary>
-        [DomName("spellcheck")]
-        public Boolean Spellcheck
-        {
-            get { return ToBoolean(GetAttribute("spellcheck"), false); }
-            set { SetAttribute("spellcheck", value.ToString()); }
-        }
-
-        /// <summary>
-        /// Gets or sets the position of the element in the tabbing order.
-        /// </summary>
-        [DomName("tabIndex")]
-        public Int32 TabIndex
-        {
-            get { return ToInteger(GetAttribute("tabindex"), 0); }
-            set { SetAttribute("tabindex", value.ToString()); }
-        }
-
-        /// <summary>
-        /// Gets access to all the custom data attributes (data-*) set on the element. It is a map of DOMString,
-        /// one entry for each custom data attribute.
-        /// </summary>
-        [DomName("dataset")]
-        public IStringMap Dataset
-        {
-            get { return _dataset ?? (_dataset = new StringMap("data-", this)); }
         }
 
         /// <summary>
@@ -387,7 +282,6 @@
         /// <summary>
         /// Gets the sequence of associated attributes.
         /// </summary>
-        [DomName("attributes")]
         public AttrContainer Attributes
         {
             get { return _attributes; }
@@ -1086,8 +980,6 @@
                 if (_classList != null)
                     _classList.Update(ClassName);
             }
-            else if (name.Equals(AttributeNames.Style, StringComparison.Ordinal))
-                Style.Update(GetAttribute(AttributeNames.Style));
         }
 
         /// <summary>

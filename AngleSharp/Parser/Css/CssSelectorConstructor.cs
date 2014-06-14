@@ -573,13 +573,13 @@
                     {
                         var code = String.Concat(pseudoClassFunctionDir, "(", attrValue, ")");
 						var dirCode = attrValue == "ltr" ? DirectionMode.Ltr : DirectionMode.Rtl;
-						Insert(SimpleSelector.PseudoClass(el => el.Dir == dirCode, code));
+						Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Dir == dirCode, code));
                         return true;
 					}
 					case pseudoClassFunctionLang:
                     {
                         var code = String.Concat(pseudoClassFunctionLang, "(", attrValue, ")");
-						Insert(SimpleSelector.PseudoClass(el => el.Lang.StartsWith(attrValue, StringComparison.OrdinalIgnoreCase), code));
+                        Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Lang.StartsWith(attrValue, StringComparison.OrdinalIgnoreCase), code));
                         return true;
 					}
 					case pseudoClassFunctionContains:
@@ -1066,8 +1066,10 @@
 							return !((HTMLInputElement)el).IsMutable;
 						else if (el is HTMLTextAreaElement)
 							return !((HTMLTextAreaElement)el).IsMutable;
+                        else if (el is IHtmlElement)
+						    return !((IHtmlElement)el).IsContentEditable;
 
-						return !el.IsContentEditable;
+                        return true;
 					}, pseudoClassReadOnly);
 
 				case pseudoClassReadWrite:
@@ -1076,9 +1078,11 @@
 						if (el is HTMLInputElement)
 							return ((HTMLInputElement)el).IsMutable;
 						else if (el is HTMLTextAreaElement)
-							return ((HTMLTextAreaElement)el).IsMutable;
+                            return ((HTMLTextAreaElement)el).IsMutable;
+                        else if (el is IHtmlElement)
+                            return ((IHtmlElement)el).IsContentEditable;
 
-						return el.IsContentEditable;
+						return false;
 					}, pseudoClassReadWrite);
 
 				case pseudoClassInRange:

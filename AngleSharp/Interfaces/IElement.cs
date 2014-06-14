@@ -154,17 +154,7 @@
         [DomName("matches")]
         Boolean Matches(String selectors);
 
-        ContentEditableMode ContentEditable { get; set; }
-
-        IStringMap Dataset { get; }
-
-        DirectionMode Dir { get; set; }
-
         String InnerHTML { get; set; }
-
-        Boolean IsContentEditable { get; }
-
-        String Lang { get; set; }
 
         Element NextElementSibling { get; }
 
@@ -172,14 +162,6 @@
 
         Element PreviousElementSibling { get; }
 
-        Boolean Spellcheck { get; set; }
-
-        CSSStyleDeclaration Style { get; }
-
-        Int32 TabIndex { get; set; }
-
         String TagName { get; }
-
-        String Title { get; set; }
     }
 }
