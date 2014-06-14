@@ -6,7 +6,7 @@
     /// The CharacterData abstract interface represents a Node object that contains characters. 
     /// </summary>
     [DomName("CharacterData")]
-    public interface ICharacterData : INode
+    public interface ICharacterData : INode, IChildNode
     {
         /// <summary>
         /// Gets or sets the contained text.

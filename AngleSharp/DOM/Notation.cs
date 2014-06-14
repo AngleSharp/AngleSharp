@@ -50,7 +50,7 @@
         /// <returns>The added child.</returns>
         public override INode AppendChild(INode child)
         {
-            throw new DOMException(ErrorCode.NotSupported);
+            throw new DomException(ErrorCode.NotSupported);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@
         /// <returns>The inserted node.</returns>
         public override INode InsertBefore(INode newElement, INode referenceElement)
         {
-            throw new DOMException(ErrorCode.NotSupported);
+            throw new DomException(ErrorCode.NotSupported);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@
         /// <returns>The inserted child.</returns>
         public override INode InsertChild(Int32 index, INode child)
         {
-            throw new DOMException(ErrorCode.NotSupported);
+            throw new DomException(ErrorCode.NotSupported);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@
         /// <returns>The removed child.</returns>
         public override INode RemoveChild(INode child)
         {
-            throw new DOMException(ErrorCode.NotSupported);
+            throw new DomException(ErrorCode.NotSupported);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
         public override INode ReplaceChild(INode newChild, INode oldChild)
         {
-            throw new DOMException(ErrorCode.NotSupported);
+            throw new DomException(ErrorCode.NotSupported);
         }
 
         /// <summary>

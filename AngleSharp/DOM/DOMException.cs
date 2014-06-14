@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents a DOM exception.
     /// </summary>
-    [DomName("DOMException")]
-    public sealed class DOMException : Exception
+    public sealed class DomException : Exception, IDomException
     {
         #region ctor
 
@@ -14,8 +13,8 @@
         /// Creates a new DOMException.
         /// </summary>
         /// <param name="code">The error code.</param>
-        internal DOMException(ErrorCode code)
-            : base(Errors.GetError(code))
+        internal DomException(ErrorCode code)
+            : base(code.GetErrorMessage())
         {
             Code = (Int32)code;
             Name = code.ToString();
@@ -25,11 +24,9 @@
         /// Creates a new DOMException.
         /// </summary>
         /// <param name="code">The error code.</param>
-        internal DOMException(Int32 code)
-            : base(Errors.GetError((ErrorCode)code))
+        internal DomException(Int32 code)
+            : this((ErrorCode)code)
         {
-            Code = code;
-            Name = ((ErrorCode)code).ToString();
         }
 
         #endregion
@@ -48,7 +45,6 @@
         /// <summary>
         /// Gets the error code for this exception.
         /// </summary>
-        [DomName("code")]
         public Int32 Code
         {
             get;

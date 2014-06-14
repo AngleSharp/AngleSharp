@@ -185,7 +185,7 @@
                 if (_owner == value)
                     return;
                 else if (_owner != null && value != null)
-                    throw new DOMException(ErrorCode.InUse);
+                    throw new DomException(ErrorCode.InUse);
 
                 _owner = value;
 
@@ -380,12 +380,12 @@
             }
             else if (child is Document || child.Contains(this))
             {
-                throw new DOMException(ErrorCode.HierarchyRequestError);
+                throw new DomException(ErrorCode.HierarchyRequest);
             }
             else
             {
                 if (child.Parent != null)
-                    throw new DOMException(ErrorCode.InUse);
+                    throw new DomException(ErrorCode.InUse);
 
                 var childNode = child as Node;//TODO remove cast ASAP
 
@@ -414,12 +414,12 @@
             }
             else if (child is Document || child.Contains(this))
             {
-                throw new DOMException(ErrorCode.HierarchyRequestError);
+                throw new DomException(ErrorCode.HierarchyRequest);
             }
             else
             {
                 if (child.Parent != null)
-                    throw new DOMException(ErrorCode.InUse);
+                    throw new DomException(ErrorCode.InUse);
 
                 var childNode = child as Node;//TODO remove cast ASAP
 
@@ -441,7 +441,7 @@
         public virtual INode InsertBefore(INode newElement, INode referenceElement)
         {
             if (newElement is Document || newElement.Contains(this))
-                throw new DOMException(ErrorCode.HierarchyRequestError);
+                throw new DomException(ErrorCode.HierarchyRequest);
 
             var n = _children.Length;
 
@@ -463,11 +463,11 @@
         public virtual INode ReplaceChild(INode newChild, INode oldChild)
         {
             if (newChild is Document || newChild.Contains(this))
-                throw new DOMException(ErrorCode.HierarchyRequestError);
+                throw new DomException(ErrorCode.HierarchyRequest);
             else if (newChild == oldChild)
                 return oldChild;
             else if (newChild.Parent != null)
-                throw new DOMException(ErrorCode.InUse);
+                throw new DomException(ErrorCode.InUse);
 
             var n = _children.Length;
 

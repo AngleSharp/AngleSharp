@@ -1313,7 +1313,7 @@
             foreach (var token in tokens)
             {
                 if (creator.Apply(token) == false)
-                    throw new DOMException(ErrorCode.SyntaxError);
+                    throw new DomException(ErrorCode.Syntax);
             }
 
             return creator.ToPool();
@@ -1421,7 +1421,7 @@
             }
 
             if (tokens.MoveNext())
-                throw new DOMException(ErrorCode.SyntaxError);
+                throw new DomException(ErrorCode.Syntax);
         }
 
         #endregion
@@ -1473,7 +1473,7 @@
                 var medium = parser.InMediaValue(tokens);
 
                 if (tokens.MoveNext())
-                    throw new DOMException(ErrorCode.SyntaxError);
+                    throw new DomException(ErrorCode.Syntax);
 
                 return medium;
             }
@@ -1547,7 +1547,7 @@
         {
             if (ParseError != null)
             {
-                var pck = new ParseErrorEventArgs((Int32)code, Errors.GetError(code));
+                var pck = new ParseErrorEventArgs((Int32)code, code.GetErrorMessage());
                 pck.Line = tokenizer.Stream.Line;
                 pck.Column = tokenizer.Stream.Column;
                 ParseError(this, pck);

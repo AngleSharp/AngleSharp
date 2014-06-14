@@ -46,7 +46,7 @@
         {
             if (ErrorOccurred != null)
             {
-                var pck = new ParseErrorEventArgs((int)code, Errors.GetError(code));
+                var pck = new ParseErrorEventArgs((Int32)code, code.GetErrorMessage());
                 pck.Line = _src.Line;
                 pck.Column = _src.Column;
                 ErrorOccurred(this, pck);

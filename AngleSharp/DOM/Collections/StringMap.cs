@@ -98,15 +98,15 @@
         String Check(String name)
         {
             if (name.StartsWith(Tags.Xml, StringComparison.OrdinalIgnoreCase))
-                throw new DOMException(ErrorCode.SyntaxError);
+                throw new DomException(ErrorCode.Syntax);
 
             if (name.IndexOf(Specification.Semicolon) >= 0)
-                throw new DOMException(ErrorCode.SyntaxError);
+                throw new DomException(ErrorCode.Syntax);
 
             for (int i = 0; i < name.Length; i++)
             {
                 if (name[i].IsUppercaseAscii())
-                    throw new DOMException(ErrorCode.SyntaxError);
+                    throw new DomException(ErrorCode.Syntax);
             }
 
             return name;

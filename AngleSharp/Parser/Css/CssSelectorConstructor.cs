@@ -749,7 +749,7 @@
                     else if (first.Length == 1 && first[0] == Specification.Minus)
                         selector.step = -1;
                     else if (!Int32.TryParse(first, out selector.step))
-                        throw new DOMException(ErrorCode.SyntaxError);
+                        throw new DomException(ErrorCode.Syntax);
 
                     if (second == String.Empty)
                         selector.offset = 0;

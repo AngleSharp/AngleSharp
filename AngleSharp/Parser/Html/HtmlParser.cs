@@ -4101,7 +4101,7 @@
         {
             if (ParseError != null)
             {
-                var pck = new ParseErrorEventArgs((int)code, Errors.GetError(code));
+                var pck = new ParseErrorEventArgs((int)code, code.GetErrorMessage());
                 pck.Line = tokenizer.Stream.Line;
                 pck.Column = tokenizer.Stream.Column;
                 ParseError(this, pck);

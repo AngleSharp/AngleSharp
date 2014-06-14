@@ -63,7 +63,7 @@
             set
             {
                 if (_readonly)
-                    throw new DOMException(ErrorCode.NoModificationAllowed);
+                    throw new DomException(ErrorCode.NoModificationAllowed);
 
                 Update(value);
                 _setter(value);
@@ -2487,7 +2487,7 @@
         public String RemoveProperty(String propertyName)
         {
             if (_readonly)
-                throw new DOMException(ErrorCode.NoModificationAllowed);
+                throw new DomException(ErrorCode.NoModificationAllowed);
 
             CSSProperty property;
 
@@ -2543,7 +2543,7 @@
         public CSSStyleDeclaration SetProperty(String propertyName, String propertyValue)
         {
             if (_readonly)
-                throw new DOMException(ErrorCode.NoModificationAllowed);
+                throw new DomException(ErrorCode.NoModificationAllowed);
 
             var decl = CssParser.ParseDeclaration(propertyName + ":" + propertyValue);
 

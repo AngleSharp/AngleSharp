@@ -137,7 +137,7 @@
                 switch (c)
                 {
                     case Specification.Null:
-                        RaiseErrorOccurred(ErrorCode.NULL);
+                        RaiseErrorOccurred(ErrorCode.Null);
                         _buffer.Append(Specification.Replacement);
                         break;
 
@@ -176,7 +176,7 @@
                         return TagOpen(_src.Next);
 
                     case Specification.Null:
-                        RaiseErrorOccurred(ErrorCode.NULL);
+                        RaiseErrorOccurred(ErrorCode.Null);
                         return Data(_src.Next);
 
                     case Specification.EndOfFile:
@@ -218,7 +218,7 @@
                         return RCDataLT(_src.Next);
 
                     case Specification.Null:
-                        RaiseErrorOccurred(ErrorCode.NULL);
+                        RaiseErrorOccurred(ErrorCode.Null);
                         _buffer.Append(Specification.Replacement);
                         break;
 
@@ -334,7 +334,7 @@
                         return RawtextLT(_src.Next);
 
                     case Specification.Null:
-                        RaiseErrorOccurred(ErrorCode.NULL);
+                        RaiseErrorOccurred(ErrorCode.Null);
                         _buffer.Append(Specification.Replacement);
                         break;
 
@@ -697,7 +697,7 @@
                 }
                 else if (c == Specification.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.NULL);
+                    RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Specification.Replacement);
                 }
                 else if (c == Specification.EndOfFile)
@@ -811,7 +811,7 @@
                 return CommentDashStart(_src.Next);
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Append(Specification.Replacement);
                 return Comment(_src.Next);
             }
@@ -844,7 +844,7 @@
                 return CommentEnd(_src.Next);
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Append(Specification.Minus);
                 _stringBuffer.Append(Specification.Replacement);
                 return Comment(_src.Next);
@@ -890,7 +890,7 @@
                 }
                 else if (c == Specification.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.NULL);
+                    RaiseErrorOccurred(ErrorCode.Null);
                     c = Specification.Replacement;
                     _stringBuffer.Append(c);
                 }
@@ -917,7 +917,7 @@
             }
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 c = Specification.Replacement;
             }
 
@@ -941,7 +941,7 @@
                 }
                 else if (c == Specification.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.NULL);
+                    RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Specification.Minus);
                     _stringBuffer.Append(Specification.Replacement);
                     return null;
@@ -993,7 +993,7 @@
             }
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Append(Specification.Minus);
                 _stringBuffer.Append(Specification.Minus);
                 _stringBuffer.Append(Specification.ExclamationMark);
@@ -1054,7 +1054,7 @@
             }
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Specification.Replacement);
                 return DoctypeName(_src.Next, HtmlToken.Doctype(false));
@@ -1103,7 +1103,7 @@
                     _stringBuffer.Append(Char.ToLower(c));
                 else if (c == Specification.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.NULL);
+                    RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Specification.Replacement);
                 }
                 else if (c == Specification.EndOfFile)
@@ -1265,7 +1265,7 @@
                 }
                 else if (c == Specification.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.NULL);
+                    RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Specification.Replacement);
                 }
                 else if (c == Specification.GreaterThan)
@@ -1309,7 +1309,7 @@
                 }
                 else if (c == Specification.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.NULL);
+                    RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Specification.Replacement);
                 }
                 else if (c == Specification.GreaterThan)
@@ -1523,7 +1523,7 @@
                 }
                 else if (c == Specification.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.NULL);
+                    RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Specification.Replacement);
                 }
                 else if (c == Specification.GreaterThan)
@@ -1567,7 +1567,7 @@
                 }
                 else if (c == Specification.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.NULL);
+                    RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Specification.Replacement);
                 }
                 else if (c == Specification.GreaterThan)
@@ -1677,7 +1677,7 @@
             }
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Specification.Replacement);
                 return AttributeName(_src.Next, tag);
@@ -1735,7 +1735,7 @@
                     return HtmlToken.EOF;
                 else if (c == Specification.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.NULL);
+                    RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Specification.Replacement);
                 }
                 else if (c.IsUppercaseAscii())
@@ -1783,7 +1783,7 @@
             }
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Specification.Replacement);
                 return AttributeName(_src.Next, tag);
@@ -1835,7 +1835,7 @@
             }
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Append(Specification.Replacement);
                 return AttributeUnquotedValue(_src.Next, tag);
             }
@@ -1887,7 +1887,7 @@
                 }
                 else if (c == Specification.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.NULL);
+                    RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Specification.Replacement);
                 }
                 else if (c == Specification.EndOfFile)
@@ -1925,7 +1925,7 @@
                 }
                 else if (c == Specification.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.NULL);
+                    RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Specification.Replacement);
                 }
                 else if (c == Specification.EndOfFile)
@@ -1968,7 +1968,7 @@
                 }
                 else if (c == Specification.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.NULL);
+                    RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Specification.Replacement);
                 }
                 else if (c == Specification.DoubleQuote || c == Specification.SingleQuote || c == Specification.LessThan || c == Specification.Equality || c == Specification.CurvedQuote)
@@ -2024,7 +2024,7 @@
                         return ScriptDataLT(_src.Next);
 
                     case Specification.Null:
-                        RaiseErrorOccurred(ErrorCode.NULL);
+                        RaiseErrorOccurred(ErrorCode.Null);
                         _buffer.Append(Specification.Replacement);
                         break;
 
@@ -2146,7 +2146,7 @@
             }
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _buffer.Append(Specification.Replacement);
                 return ScriptDataEscaped(_src.Next);
             }
@@ -2190,7 +2190,7 @@
             }
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _buffer.Append(Specification.Replacement);
                 return ScriptDataEscaped(_src.Next);
             }
@@ -2225,7 +2225,7 @@
             }
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _buffer.Append(Specification.Replacement);
                 return ScriptDataEscaped(_src.Next);
             }
@@ -2360,7 +2360,7 @@
             }
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _buffer.Append(Specification.Replacement);
             }
             else if (c == Specification.EndOfFile)
@@ -2391,7 +2391,7 @@
             }
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _buffer.Append(Specification.Replacement);
                 return ScriptDataEscapedDouble(_src.Next);
             }
@@ -2428,7 +2428,7 @@
             }
             else if (c == Specification.Null)
             {
-                RaiseErrorOccurred(ErrorCode.NULL);
+                RaiseErrorOccurred(ErrorCode.Null);
                 _buffer.Append(Specification.Replacement);
                 return ScriptDataEscapedDouble(_src.Next);
             }

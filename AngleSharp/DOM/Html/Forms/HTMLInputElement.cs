@@ -671,7 +671,7 @@
                 }
             }
 
-            throw new DOMException(ErrorCode.InvalidStateError);
+            throw new DomException(ErrorCode.InvalidState);
         }
 
         /// <summary>

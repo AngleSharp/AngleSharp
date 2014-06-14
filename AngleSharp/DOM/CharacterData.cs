@@ -99,7 +99,7 @@
         /// <returns>The added child.</returns>
         public override INode AppendChild(INode child)
         {
-            throw new DOMException(ErrorCode.NotSupported);
+            throw new DomException(ErrorCode.NotSupported);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@
         /// <returns>The inserted node.</returns>
         public override INode InsertBefore(INode newElement, INode referenceElement)
         {
-            throw new DOMException(ErrorCode.NotSupported);
+            throw new DomException(ErrorCode.NotSupported);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@
         /// <returns>The inserted child.</returns>
         public override INode InsertChild(int index, INode child)
         {
-            throw new DOMException(ErrorCode.NotSupported);
+            throw new DomException(ErrorCode.NotSupported);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@
         /// <returns>The removed child.</returns>
         public override INode RemoveChild(INode child)
         {
-            throw new DOMException(ErrorCode.NotSupported);
+            throw new DomException(ErrorCode.NotSupported);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
         public override INode ReplaceChild(INode newChild, INode oldChild)
         {
-            throw new DOMException(ErrorCode.NotSupported);
+            throw new DomException(ErrorCode.NotSupported);
         }
 
         /// <summary>
@@ -235,6 +235,56 @@
             }
             
             return temp.ToPool();
+        }
+
+        /// <summary>
+        /// Inserts nodes before the current node.
+        /// </summary>
+        /// <param name="nodes">The nodes to insert before.</param>
+        /// <returns>The current element.</returns>
+        public void Before(params INode[] nodes)
+        {
+            if (_parent != null && nodes.Length > 0)
+            {
+                var node = MutationMacro(nodes);
+                _parent.InsertBefore(node, this);
+            }
+        }
+
+        /// <summary>
+        /// Inserts nodes after the current node.
+        /// </summary>
+        /// <param name="nodes">The nodes to insert after.</param>
+        /// <returns>The current element.</returns>
+        public void After(params INode[] nodes)
+        {
+            if (_parent != null && nodes.Length > 0)
+            {
+                var node = MutationMacro(nodes);
+                _parent.InsertBefore(node, NextSibling);
+            }
+        }
+
+        /// <summary>
+        /// Replaces the current node with the nodes.
+        /// </summary>
+        /// <param name="nodes">The nodes to replace.</param>
+        public void Replace(params INode[] nodes)
+        {
+            if (_parent != null && nodes.Length > 0)
+            {
+                var node = MutationMacro(nodes);
+                _parent.ReplaceChild(node, this);
+            }
+        }
+
+        /// <summary>
+        /// Removes the current element from the parent.
+        /// </summary>
+        public void Remove()
+        {
+            if (_parent != null)
+                _parent.RemoveChild(this);
         }
 
         #endregion

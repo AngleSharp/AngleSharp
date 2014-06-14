@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="item">The node to be added or inserted.</param>
         /// <returns>The added node.</returns>
-        /// <exception cref="DOMException"></exception>
+        /// <exception cref="DomException"></exception>
         [DomName("setNamedItem")]
         INode Add(INode item);
 
@@ -31,7 +31,7 @@
         /// </summary>
         /// <param name="name">The name of the node.</param>
         /// <returns>The removed node or null if nothing has been found.</returns>
-        /// <exception cref="DOMException"></exception>
+        /// <exception cref="DomException"></exception>
         [DomName("removeNamedItem")]
         INode Remove(String name);
 
@@ -55,7 +55,7 @@
         /// <param name="namespaceUri">The namespace of the node.</param>
         /// <param name="localName">The name of the node.</param>
         /// <returns>The node or null if nothing found.</returns>
-        /// <exception cref="DOMException"></exception>
+        /// <exception cref="DomException"></exception>
         [DomName("getNamedItemNS")]
         INode this[String namespaceUri, String localName] { get; }
 
@@ -64,7 +64,7 @@
         /// </summary>
         /// <param name="item">The node to be added or inserted.</param>
         /// <returns>The added node.</returns>
-        /// <exception cref="DOMException"></exception>
+        /// <exception cref="DomException"></exception>
         [DomName("setNamedItemNS")]
         INode AddWithNamespace(INode item);
 
@@ -74,7 +74,7 @@
         /// <param name="namespaceUri">The namespace of the node.</param>
         /// <param name="localName">The name of the node.</param>
         /// <returns>The removed node or null if nothing found.</returns>
-        /// <exception cref="DOMException"></exception>
+        /// <exception cref="DomException"></exception>
         [DomName("removeNamedItemNS")]
         INode RemoveWithNamespace(String namespaceUri, String localName);
     }

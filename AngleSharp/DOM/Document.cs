@@ -476,7 +476,7 @@
         public IComment CreateComment(String data)
         {
             if (data.Contains("--"))
-                throw new DOMException(ErrorCode.InvalidCharacter);
+                throw new DomException(ErrorCode.InvalidCharacter);
 
             return new Comment(data) { Owner = this };
         }

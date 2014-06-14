@@ -85,7 +85,7 @@
                 foreach (var medium in CssParser.ParseMediaList(value))
                 {
                     if (medium == null)
-                        throw new DOMException(ErrorCode.SyntaxError);
+                        throw new DomException(ErrorCode.Syntax);
 
                     _media.Add(medium);
                 }
@@ -107,7 +107,7 @@
             var medium = CssParser.ParseMedium(newMedium);
 
             if (medium == null)
-                throw new DOMException(ErrorCode.SyntaxError);
+                throw new DomException(ErrorCode.Syntax);
 
             _media.Add(medium);
         }
@@ -122,7 +122,7 @@
             var medium = CssParser.ParseMedium(oldMedium);
 
             if (medium == null)
-                throw new DOMException(ErrorCode.SyntaxError);
+                throw new DomException(ErrorCode.Syntax);
 
             foreach (var item in _media)
             {
@@ -133,7 +133,7 @@
                 }
             }
 
-            throw new DOMException(ErrorCode.ItemNotFound);
+            throw new DomException(ErrorCode.ItemNotFound);
         }
 
         #endregion

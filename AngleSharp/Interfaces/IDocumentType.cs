@@ -6,7 +6,7 @@
     /// The DocumentType interface represents a Node containing a doctype.
     /// </summary>
     [DomName("DocumentType")]
-    public interface IDocumentType : INode
+    public interface IDocumentType : INode, IChildNode
     {
         /// <summary>
         /// Gets or sets the name of the document type.

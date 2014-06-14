@@ -258,7 +258,7 @@
                 if (_parent != null)
                 {
                     if (_owner != null && _owner.DocumentElement == this)
-                        throw new DOMException(ErrorCode.NoModificationAllowed);
+                        throw new DomException(ErrorCode.NoModificationAllowed);
 
                     var pos = _parent.IndexOf(this);
 
@@ -275,7 +275,7 @@
                     _parent.RemoveChild(this);
                 }
                 else
-                    throw new DOMException(ErrorCode.NotSupported);
+                    throw new DomException(ErrorCode.NotSupported);
             }
         }
         
@@ -803,16 +803,13 @@
         /// </summary>
         /// <param name="nodes">The nodes to insert before.</param>
         /// <returns>The current element.</returns>
-        [DomName("before")]
-        public Element Before(params Node[] nodes)
+        public void Before(params INode[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 _parent.InsertBefore(node, this);
             }
-
-            return this;
         }
 
         /// <summary>
@@ -820,46 +817,35 @@
         /// </summary>
         /// <param name="nodes">The nodes to insert after.</param>
         /// <returns>The current element.</returns>
-        [DomName("after")]
-        public Element After(params Node[] nodes)
+        public void After(params INode[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 _parent.InsertBefore(node, NextSibling);
             }
-
-            return this;
         }
 
         /// <summary>
         /// Replaces the current node with the nodes.
         /// </summary>
         /// <param name="nodes">The nodes to replace.</param>
-        /// <returns>The current element.</returns>
-        [DomName("replace")]
-        public Element Replace(params Node[] nodes)
+        public void Replace(params INode[] nodes)
         {
             if (_parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 _parent.ReplaceChild(node, this);
             }
-
-            return this;
         }
 
         /// <summary>
         /// Removes the current element from the parent.
         /// </summary>
-        /// <returns>The current element.</returns>
-        [DomName("remove")]
-        public Element Remove()
+        public void Remove()
         {
             if (_parent != null)
                 _parent.RemoveChild(this);
-
-            return this;
         }
 
         /// <summary>

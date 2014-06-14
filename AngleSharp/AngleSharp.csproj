@@ -37,6 +37,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\DomDescriptionAttribute.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Delegates\NodeFilter.cs" />
     <Compile Include="DOM\Collections\AttrContainer.cs" />
@@ -264,12 +265,14 @@
     <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
     <Compile Include="Interfaces\IAttr.cs" />
     <Compile Include="Interfaces\ICharacterData.cs" />
+    <Compile Include="Interfaces\IChildNode.cs" />
     <Compile Include="Interfaces\IComment.cs" />
     <Compile Include="Interfaces\ICustomEvent.cs" />
     <Compile Include="Interfaces\IDocument.cs" />
     <Compile Include="Interfaces\IDocumentFragment.cs" />
     <Compile Include="Interfaces\IDocumentStyle.cs" />
     <Compile Include="Interfaces\IDocumentType.cs" />
+    <Compile Include="Interfaces\IDomException.cs" />
     <Compile Include="Interfaces\IHistory.cs" />
     <Compile Include="Interfaces\IImplementation.cs" />
     <Compile Include="Interfaces\IElement.cs" />
@@ -408,7 +411,7 @@
     <Compile Include="DOM\Svg\SVGForeignObjectElement.cs" />
     <Compile Include="DOM\Svg\SVGSVGElement.cs" />
     <Compile Include="DOM\Svg\SVGTitleElement.cs" />
-    <Compile Include="Foundation\HttpMethod.cs" />
+    <Compile Include="Foundation\Constants\HttpMethod.cs" />
     <Compile Include="DOM\Html\Forms\HTMLFormControlElement.cs" />
     <Compile Include="DOM\Html\Forms\HTMLFormControlElementWithState.cs" />
     <Compile Include="DOM\Html\Forms\HTMLOutputElement.cs" />
@@ -465,7 +468,7 @@
     <Compile Include="DOM\Collections\TokenList.cs" />
     <Compile Include="DOM\Collections\MediaList.cs" />
     <Compile Include="DOM\Collections\DOMStringList.cs" />
-    <Compile Include="DOM\DOMException.cs" />
+    <Compile Include="DOM\DomException.cs" />
     <Compile Include="DOM\Attr.cs" />
     <Compile Include="DOM\Css\CSSStyleSheet.cs" />
     <Compile Include="DOM\Document.cs" />
@@ -577,7 +580,7 @@
     <Compile Include="DOM\Html\Media\HTMLVideoElement.cs" />
     <Compile Include="DOM\Mathml\MathElement.cs" />
     <Compile Include="DOM\Node.cs" />
-    <Compile Include="Foundation\Errors.cs" />
+    <Compile Include="Foundation\ErrorExtensions.cs" />
     <Compile Include="DOM\Collections\NodeList.cs" />
     <Compile Include="DOM\Notation.cs" />
     <Compile Include="DOM\Svg\SVGElement.cs" />
