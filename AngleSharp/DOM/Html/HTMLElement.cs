@@ -50,6 +50,41 @@
         #region Properties
 
         /// <summary>
+        /// Gets or sets if the element is hidden.
+        /// </summary>
+        public Boolean IsHidden
+        {
+            get { return GetAttribute("hidden") != null; }
+            set { SetAttribute("hidden", value ? String.Empty : null); }
+        }
+
+        /// <summary>
+        /// Gets or sets if the element is draggable.
+        /// </summary>
+        public Boolean IsDraggable
+        {
+            get { return ToBoolean(GetAttribute("draggable"), false); }
+            set { SetAttribute("draggable", value.ToString()); }
+        }
+
+        /// <summary>
+        /// Gets or sets the access key assigned to the element.
+        /// </summary>
+        public String AccessKey
+        {
+            get { return GetAttribute("accesskey") ?? String.Empty; }
+            set { SetAttribute("accesskey", value); }
+        }
+
+        /// <summary>
+        /// Gets the element's assigned access key.
+        /// </summary>
+        public String AccessKeyLabel
+        {
+            get { return AccessKey; }
+        }
+
+        /// <summary>
         /// Gets or sets the value of the lang attribute.
         /// </summary>
         public String Lang

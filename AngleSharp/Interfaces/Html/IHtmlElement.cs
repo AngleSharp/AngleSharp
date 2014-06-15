@@ -68,5 +68,29 @@
         /// </summary>
         [DomName("isContentEditable")]
         Boolean IsContentEditable { get; }
+
+        /// <summary>
+        /// Gets or sets if the element is hidden.
+        /// </summary>
+        [DomName("hidden")]
+        Boolean IsHidden { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the element is draggable.
+        /// </summary>
+        [DomName("draggable")]
+        Boolean IsDraggable { get; set; }
+
+        /// <summary>
+        /// Gets or sets the access key assigned to the element.
+        /// </summary>
+        [DomName("accessKey")]
+        String AccessKey { get; set; }
+
+        /// <summary>
+        /// Gets the element's assigned access key.
+        /// </summary>
+        [DomName("accessKeyLabel")]
+        String AccessKeyLabel { get; }
     }
 }
