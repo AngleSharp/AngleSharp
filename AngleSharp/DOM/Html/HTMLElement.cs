@@ -12,6 +12,7 @@
 
         StringMap _dataset;
         CSSStyleDeclaration _style;
+        HTMLMenuElement _menu;
 
         #endregion
 
@@ -56,6 +57,34 @@
         {
             get { return GetAttribute("hidden") != null; }
             set { SetAttribute("hidden", value ? String.Empty : null); }
+        }
+
+        /// <summary>
+        /// Gets or sets the assigned context menu.
+        /// </summary>
+        public HTMLMenuElement ContextMenu
+        {
+            get
+            {
+                if (_menu != null)
+                {
+                    var id = GetAttribute("contextmenu");
+
+                    if (!String.IsNullOrEmpty(id))
+                        return _owner.GetElementById(id) as HTMLMenuElement;
+                }
+
+                return _menu;
+            }
+            set { _menu = value; }
+        }
+
+        /// <summary>
+        /// Gets the dropzone for this element.
+        /// </summary>
+        public ISettableTokenList DropZone
+        {
+            get { throw new NotImplementedException(); }
         }
 
         /// <summary>

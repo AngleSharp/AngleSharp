@@ -92,5 +92,17 @@
         /// </summary>
         [DomName("accessKeyLabel")]
         String AccessKeyLabel { get; }
+
+        /// <summary>
+        /// Gets or sets the assigned context menu.
+        /// </summary>
+        [DomName("contextMenu")]
+        HTMLMenuElement ContextMenu { get; set; }
+
+        /// <summary>
+        /// Gets the dropzone for this element.
+        /// </summary>
+        [DomName("dropzone")]
+        ISettableTokenList DropZone { get; }
     }
 }

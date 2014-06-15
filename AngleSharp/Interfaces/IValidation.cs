@@ -5,7 +5,7 @@
     interface IValidation
     {
         Boolean WillValidate { get; }
-        ValidityState Validity { get; }
+        IValidityState Validity { get; }
         String ValidationMessage { get; }
 
         Boolean CheckValidity();
