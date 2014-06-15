@@ -287,6 +287,7 @@
     <Compile Include="Interfaces\IMutationObserverInit.cs" />
     <Compile Include="Interfaces\IMutationRecord.cs" />
     <Compile Include="Interfaces\INamedNodeMap.cs" />
+    <Compile Include="Interfaces\Navigator\INavigator.cs" />
     <Compile Include="Interfaces\INode.cs" />
     <Compile Include="Interfaces\INodeIterator.cs" />
     <Compile Include="Interfaces\INodeList.cs" />
@@ -303,6 +304,10 @@
     <Compile Include="Interfaces\IValidation.cs" />
     <Compile Include="Interfaces\IValidityState.cs" />
     <Compile Include="Interfaces\IWindow.cs" />
+    <Compile Include="Interfaces\Navigator\INavigatorContentUtilities.cs" />
+    <Compile Include="Interfaces\Navigator\INavigatorId.cs" />
+    <Compile Include="Interfaces\Navigator\INavigatorOnline.cs" />
+    <Compile Include="Interfaces\Navigator\INavigatorStorageUtilities.cs" />
     <Compile Include="Interfaces\Xml\IXmlDocument.cs" />
     <Compile Include="Network\Constants\DefaultPorts.cs" />
     <Compile Include="Network\Constants\KnownProtocols.cs" />
