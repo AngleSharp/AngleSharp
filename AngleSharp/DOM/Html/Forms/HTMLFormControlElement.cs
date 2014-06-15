@@ -110,7 +110,7 @@
         /// Gets the current validation state of the current element.
         /// </summary>
         [DomName("validity")]
-        public ValidityState Validity
+        public IValidityState Validity
         {
             get { return _vstate; }
         }
@@ -164,7 +164,7 @@
         /// Checks the form control for validity.
         /// </summary>
         /// <param name="state">The element's validity state tracker.</param>
-        protected virtual void Check(ValidityState state)
+        protected virtual void Check(IValidityState state)
         { }
 
         #endregion
