@@ -1594,6 +1594,21 @@
     <Compile Include="..\AngleSharp\Interfaces\IWindow.cs">
       <Link>Interfaces\IWindow.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Navigator\INavigator.cs">
+      <Link>Interfaces\Navigator\INavigator.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Navigator\INavigatorContentUtilities.cs">
+      <Link>Interfaces\Navigator\INavigatorContentUtilities.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Navigator\INavigatorId.cs">
+      <Link>Interfaces\Navigator\INavigatorId.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Navigator\INavigatorOnline.cs">
+      <Link>Interfaces\Navigator\INavigatorOnline.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Navigator\INavigatorStorageUtilities.cs">
+      <Link>Interfaces\Navigator\INavigatorStorageUtilities.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Xml\IXmlDocument.cs">
       <Link>Interfaces\Xml\IXmlDocument.cs</Link>
     </Compile>
