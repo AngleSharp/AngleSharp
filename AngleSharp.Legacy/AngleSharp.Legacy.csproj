@@ -1369,6 +1369,12 @@
     <Compile Include="..\AngleSharp\DOM\TextNode.cs">
       <Link>DOM\TextNode.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Xml\XmlDocument.cs">
+      <Link>DOM\Xml\XmlDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Xml\XmlElement.cs">
+      <Link>DOM\Xml\XmlElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions.cs">
       <Link>Extensions.cs</Link>
     </Compile>
