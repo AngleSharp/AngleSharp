@@ -4,7 +4,6 @@
     using AngleSharp.DOM.Html;
     using AngleSharp.DOM.Mathml;
     using AngleSharp.DOM.Svg;
-    using AngleSharp.DOM.Xml;
     using System;
     using System.Linq;
 
@@ -746,7 +745,4 @@
 
         #endregion
     }
-
-    class XmlDocument : Document, IXmlDocument
-    { }
 }

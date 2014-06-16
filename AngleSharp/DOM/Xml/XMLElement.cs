@@ -1,21 +1,20 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Xml
+﻿namespace AngleSharp.DOM.Xml
 {
+    using System;
+
     /// <summary>
     /// The object representation of an XMLElement.
     /// </summary>
-    [DOM("XMLElement")]
-    public sealed class XMLElement : Element
+    sealed class XmlElement : Element
     {        
         #region ctor
 
         /// <summary>
         /// Creates a new XML element.
         /// </summary>
-        internal XMLElement()
+        internal XmlElement()
         {
-            _ns = Namespaces.Xml;
+            NamespaceUri = Namespaces.Xml;
         }
 
         /// <summary>
@@ -23,9 +22,9 @@ namespace AngleSharp.DOM.Xml
         /// </summary>
         /// <param name="tagName">The given tag name.</param>
         /// <returns>The specialized SVGElement instance.</returns>
-        internal static XMLElement Create(String tagName)
+        internal static XmlElement Create(String tagName)
         {
-            return new XMLElement { _name = tagName };
+            return new XmlElement { _name = tagName };
         }
 
         #endregion
@@ -50,11 +49,12 @@ namespace AngleSharp.DOM.Xml
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DOM("cloneNode")]
-        public override Node CloneNode(bool deep = true)
+        public override INode Clone(Boolean deep = true)
         {
             var node = Create(_name);
             CopyProperties(this, node, deep);
+            CopyAttributes(this, node);
+            node.IdAttribute = IdAttribute;
             return node;
         }
 

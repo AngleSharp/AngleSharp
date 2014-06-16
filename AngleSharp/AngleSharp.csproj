@@ -255,6 +255,8 @@
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
     <Compile Include="DOM\Objects\Shadow.cs" />
     <Compile Include="Attributes\DomHistoricalAttribute.cs" />
+    <Compile Include="DOM\Xml\XmlDocument.cs" />
+    <Compile Include="DOM\Xml\XmlElement.cs" />
     <Compile Include="Foundation\ConcurrentDictionary.cs" />
     <Compile Include="DOM\Primitives\Angle.cs" />
     <Compile Include="Foundation\Constants\FeatureNames.cs" />
