@@ -104,5 +104,23 @@
         /// </summary>
         [DomName("dropzone")]
         ISettableTokenList DropZone { get; }
+
+        /// <summary>
+        /// Simulates a mouse click on an element.
+        /// </summary>
+        [DomName("click")]
+        void DoClick();
+
+        /// <summary>
+        /// Puts the keyboard focus on the given element.
+        /// </summary>
+        [DomName("focus")]
+        void DoFocus();
+
+        /// <summary>
+        /// Removes the keyboard focus on the given element.
+        /// </summary>
+        [DomName("blur")]
+        void DoBlur();
     }
 }

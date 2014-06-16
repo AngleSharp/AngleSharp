@@ -216,6 +216,21 @@
 
         #region Methods
 
+        public void DoClick()
+        {
+            //TODO Perform click on the element.
+        }
+
+        public void DoFocus()
+        {
+            //TODO Focus the element.
+        }
+
+        public void DoBlur()
+        {
+            //TODO Remove focus.
+        }
+
         /// <summary>
         /// Returns a duplicate of the node on which this method was called.
         /// </summary>
