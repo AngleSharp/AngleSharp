@@ -572,8 +572,7 @@
 					case pseudoClassFunctionDir:
                     {
                         var code = String.Concat(pseudoClassFunctionDir, "(", attrValue, ")");
-						var dirCode = attrValue == "ltr" ? DirectionMode.Ltr : DirectionMode.Rtl;
-						Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Dir == dirCode, code));
+                        Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Dir.Equals(attrValue, StringComparison.OrdinalIgnoreCase), code));
                         return true;
 					}
 					case pseudoClassFunctionLang:

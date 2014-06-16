@@ -134,10 +134,10 @@
         /// <summary>
         /// Gets or sets the value of the dir attribute.
         /// </summary>
-        public DirectionMode Dir
+        public String Dir
         {
-            get { return ToEnum(GetAttribute("dir"), DirectionMode.Ltr); }
-            set { SetAttribute("dir", value.ToString()); }
+            get { return GetAttribute("dir"); }
+            set { SetAttribute("dir", value); }
         }
 
         /// <summary>
@@ -179,10 +179,10 @@
         /// Gets or sets whether or not the element is editable. This enumerated
         /// attribute can have the values true, false and inherited.
         /// </summary>
-        public ContentEditableMode ContentEditable
+        public String ContentEditable
         {
-            get { return ToEnum(GetAttribute("contenteditable"), ContentEditableMode.Inherited); }
-            set { SetAttribute("contenteditable", value.ToString()); }
+            get { return GetAttribute("contenteditable"); }
+            set { SetAttribute("contenteditable", value); }
         }
 
         /// <summary>
@@ -192,7 +192,7 @@
         {
             get
             {
-                var value = ContentEditable;
+                var value = ToEnum<ContentEditableMode>(ContentEditable, ContentEditableMode.Inherited);
 
                 if (value == ContentEditableMode.True)
                     return true;

@@ -26,7 +26,7 @@
         /// Gets or sets the value of the dir attribute.
         /// </summary>
         [DomName("dir")]
-        DirectionMode Dir { get; set; }
+        String Dir { get; set; }
 
         /// <summary>
         /// Gets access to all the custom data attributes (data-*) set on the element. It is a map of DOMString,
@@ -61,7 +61,7 @@
         /// attribute can have the values true, false and inherited.
         /// </summary>
         [DomName("contentEditable")]
-        ContentEditableMode ContentEditable { get; set; }
+        String ContentEditable { get; set; }
 
         /// <summary>
         /// Gets if the element is currently contenteditable.
