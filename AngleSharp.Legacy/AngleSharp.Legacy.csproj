@@ -169,8 +169,14 @@
     <Compile Include="..\AngleSharp\DOM\Constants\AdjacentPosition.cs">
       <Link>DOM\Constants\AdjacentPosition.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\Alignment.cs">
+      <Link>DOM\Constants\Alignment.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\ContentEditableMode.cs">
       <Link>DOM\Constants\ContentEditableMode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\CorsSettings.cs">
+      <Link>DOM\Constants\CorsSettings.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\DirectionMode.cs">
       <Link>DOM\Constants\DirectionMode.cs</Link>
@@ -192,6 +198,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\NodeType.cs">
       <Link>DOM\Constants\NodeType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\PowerState.cs">
+      <Link>DOM\Constants\PowerState.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\QuirksMode.cs">
       <Link>DOM\Constants\QuirksMode.cs</Link>
@@ -952,9 +961,6 @@
     <Compile Include="..\AngleSharp\DOM\FormControlState.cs">
       <Link>DOM\FormControlState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Alignment.cs">
-      <Link>DOM\Html\Alignment.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLBodyElement.cs">
       <Link>DOM\Html\Basic\HTMLBodyElement.cs</Link>
     </Compile>
@@ -984,9 +990,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLStyleElement.cs">
       <Link>DOM\Html\Basic\HTMLStyleElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\CorsSettings.cs">
-      <Link>DOM\Html\CorsSettings.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLAnchorElement.cs">
       <Link>DOM\Html\Formatting\HTMLAnchorElement.cs</Link>
@@ -1209,9 +1212,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLParamElement.cs">
       <Link>DOM\Html\Objects\HTMLParamElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\PowerState.cs">
-      <Link>DOM\Html\PowerState.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLAddressElement.cs">
       <Link>DOM\Html\Semantic\HTMLAddressElement.cs</Link>
