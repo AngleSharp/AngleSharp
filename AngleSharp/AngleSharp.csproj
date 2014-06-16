@@ -263,6 +263,7 @@
     <Compile Include="Foundation\IdlExtensions.cs" />
     <Compile Include="Foundation\LocationExtensions.cs" />
     <Compile Include="Foundation\StyleExtensions.cs" />
+    <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
     <Compile Include="Interfaces\Html\IHtmlElement.cs" />
     <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
     <Compile Include="Interfaces\IAttr.cs" />
@@ -386,7 +387,7 @@
     <Compile Include="DOM\Css\Values\CSSValueList.cs" />
     <Compile Include="DOM\Css\Values\CSSShapeValue.cs" />
     <Compile Include="DOM\Constants\DirectionMode.cs" />
-    <Compile Include="DOM\Html\Alignment.cs" />
+    <Compile Include="DOM\Constants\Alignment.cs" />
     <Compile Include="DOM\Constants\HorizontalAlignment.cs" />
     <Compile Include="DOM\Constants\VerticalAlignment.cs" />
     <Compile Include="DOM\Html\Formatting\HTMLBigElement.cs" />
@@ -443,7 +444,7 @@
     <Compile Include="Foundation\Constants\Colors.cs" />
     <Compile Include="Parser\Css\CssCombinator.cs" />
     <Compile Include="DOM\Constants\EventPhase.cs" />
-    <Compile Include="DOM\Html\PowerState.cs" />
+    <Compile Include="DOM\Constants\PowerState.cs" />
     <Compile Include="DOM\Constants\RangePosition.cs" />
     <Compile Include="DOM\Constants\RangeType.cs" />
     <Compile Include="Foundation\ConfigurationExtensions.cs" />
@@ -487,7 +488,7 @@
     <Compile Include="DOM\Css\CssRuleType.cs" />
     <Compile Include="DOM\Css\CssValueType.cs" />
     <Compile Include="Foundation\Constants\Entities.cs" />
-    <Compile Include="DOM\Html\CorsSettings.cs" />
+    <Compile Include="DOM\Constants\CorsSettings.cs" />
     <Compile Include="DOM\Constants\DocumentPosition.cs" />
     <Compile Include="Foundation\Constants\ErrorCode.cs" />
     <Compile Include="DOM\Constants\NodeType.cs" />

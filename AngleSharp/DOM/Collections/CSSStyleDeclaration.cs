@@ -2545,7 +2545,7 @@
             if (_readonly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
-            var decl = CssParser.ParseDeclaration(propertyName + ":" + propertyValue);
+            var decl = CssParser.ParseDeclaration(propertyName + ":" + (propertyValue ?? String.Empty));
 
             if (decl != null)
             {
