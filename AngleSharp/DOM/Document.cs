@@ -31,7 +31,7 @@
         /// <summary>
         /// The location of the document.
         /// </summary>
-        protected Location _location;
+        protected ILocation _location;
 
         #endregion
 
@@ -140,8 +140,7 @@
         /// <summary>
         /// Gets a string containing the date and time on which the current document was last modified.
         /// </summary>
-        [DomName("lastModified")]
-        public DateTime LastModified
+        public String LastModified
         {
             get;
             internal set;
@@ -166,11 +165,10 @@
         /// <summary>
         /// Gets or sets the ready state of the document.
         /// </summary>
-        [DomName("readyState")]
         public DocumentReadyState ReadyState
         {
             get { return _ready; }
-            set
+            internal set
             {
                 _ready = value;
 
@@ -210,8 +208,7 @@
         /// <summary>
         /// Gets or sets the URI of the current document.
         /// </summary>
-        [DomName("location")]
-        public Location Location
+        public ILocation Location
         {
             get { return _location; }
             set { ReLoad(value); }
@@ -675,7 +672,7 @@
         /// Reloads the document witht he given location.
         /// </summary>
         /// <param name="url">The value for reloading.</param>
-        protected virtual void ReLoad(Location url)
+        protected virtual void ReLoad(ILocation url)
         {
             _location = url;
         }

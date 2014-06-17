@@ -625,7 +625,7 @@
         /// Reloads the document witht he given location.
         /// </summary>
         /// <param name="url">The value for reloading.</param>
-        protected override void ReLoad(Location url)
+        protected override void ReLoad(ILocation url)
         {
             Load(url.Href);
         }

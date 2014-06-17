@@ -8,8 +8,7 @@
     /// More information is available at:
     /// http://url.spec.whatwg.org/
     /// </summary>
-    [DomName("Location")]
-    public sealed class Location : ICssObject
+    sealed class Location : ILocation, ICssObject
     {
         #region Fields
 
@@ -59,6 +58,11 @@
 
         #region Properties
 
+        public String Origin
+        {
+            get { return Href; }
+        }
+
         /// <summary>
         /// Gets if the stored location is relative and requires
         /// a base URL.
@@ -98,7 +102,6 @@
         /// <summary>
         /// Gets or sets the hash, e.g.  "#myhash".
         /// </summary>
-        [DomName("hash")]
         public String Hash
         {
             get { return NonEmpty(_fragment, "#"); }
@@ -108,7 +111,6 @@
         /// <summary>
         /// Gets or sets the host, e.g. "localhost:8800" or "www.w3.org".
         /// </summary>
-        [DomName("host")]
         public String Host
         {
             get { return HostName + NonEmpty(_port, ":"); }
@@ -118,7 +120,6 @@
         /// <summary>
         /// Gets or sets the host name, e.g. "localhost" or "www.w3.org".
         /// </summary>
-        [DomName("hostname")]
         public String HostName
         {
             get { return _host; }
@@ -128,7 +129,6 @@
         /// <summary>
         /// Gets or sets the hyper reference, i.e. the full path.
         /// </summary>
-        [DomName("href")]
         public String Href
         {
             get { return ToString(); }
@@ -138,7 +138,6 @@
         /// <summary>
         /// Gets or sets the pathname, e.g. "/mypath".
         /// </summary>
-        [DomName("pathname")]
         public String PathName
         {
             get { return "/" + _path; }
@@ -148,7 +147,6 @@
         /// <summary>
         /// Gets or sets the port, e.g. "8800"
         /// </summary>
-        [DomName("port")]
         public String Port
         {
             get { return _port; }
@@ -158,7 +156,6 @@
         /// <summary>
         /// Gets or sets the protocol, e.g. "http:".
         /// </summary>
-        [DomName("protocol")]
         public String Protocol
         {
             get { return NonEmpty(_scheme, postfix : ":"); }
@@ -168,11 +165,29 @@
         /// <summary>
         /// Gets or sets the query, e.g. "?id=...".
         /// </summary>
-        [DomName("search")]
         public String Search
         {
             get { return NonEmpty(_query, "?"); }
             set { ParseQuery(value ?? String.Empty, 0, true); }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void Assign(String url)
+        {
+            Href = url;
+        }
+
+        public void Replace(String url)
+        {
+            Href = url;
+        }
+
+        public void Reload()
+        {
+            Href = Href;
         }
 
         #endregion
@@ -185,7 +200,7 @@
         /// <returns>The CSS value string.</returns>
         public String ToCss()
         {
-            return FunctionNames.Build(FunctionNames.Url, String.Concat("'", ToString(), "'"));
+            return LocationExtensions.ToCss(this);
         }
 
         /// <summary>

@@ -197,12 +197,27 @@
         [DomName("adoptNode")]
         INode Adopt(INode externalNode);
 
+        /// <summary>
+        /// Gets the date of the last modification.
+        /// </summary>
+        [DomName("lastModified")]
+        String LastModified { get; }
+
+        /// <summary>
+        /// Gets the current ready state of the document.
+        /// </summary>
+        [DomName("readyState")]
+        DocumentReadyState ReadyState { get; }
+
+        /// <summary>
+        /// Gets the current location of the document.
+        /// </summary>
+        [DomName("location")]
+        ILocation Location { get; }
+
         IWindow DefaultView { get; }
         IWindow ParentWindow { get; }
         String InputEncoding { get; }
-        DateTime LastModified { get; }
-        Location Location { get; set; }
-        DocumentReadyState ReadyState { get; set; }
         event EventHandler OnReadyStateChange;
         String Referrer { get; }
         DOMStringList StyleSheetSets { get; }

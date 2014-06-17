@@ -26,7 +26,7 @@
         /// </summary>
         /// <param name="uri">The url pointing to an image resource.</param>
         /// <returns>A new image value.</returns>
-        public static CSSImageValue FromUrl(Location uri)
+        public static CSSImageValue FromUrl(ILocation uri)
         {
             return new ImageSource(uri);
         }
@@ -36,7 +36,7 @@
         /// </summary>
         /// <param name="uris">The list with alternative urls.</param>
         /// <returns>A new image value.</returns>
-        public static CSSImageValue FromUrls(IEnumerable<Location> uris)
+        public static CSSImageValue FromUrls(IEnumerable<ILocation> uris)
         {
             return new ImageSources(uris);
         }
@@ -109,13 +109,13 @@
         {
             #region Fields
 
-            Location _url;
+            ILocation _url;
 
             #endregion
 
             #region ctor
 
-            public ImageSource(Location url)
+            public ImageSource(ILocation url)
             {
                 _url = url;
             }
@@ -139,13 +139,13 @@
         {
             #region Fields
 
-            IEnumerable<Location> _urls;
+            IEnumerable<ILocation> _urls;
 
             #endregion
 
             #region ctor
 
-            public ImageSources(IEnumerable<Location> urls)
+            public ImageSources(IEnumerable<ILocation> urls)
             {
                 _urls = urls;
             }
