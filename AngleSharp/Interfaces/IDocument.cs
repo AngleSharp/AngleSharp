@@ -202,7 +202,7 @@
         String InputEncoding { get; }
         DateTime LastModified { get; }
         Location Location { get; set; }
-        Readiness ReadyState { get; set; }
+        DocumentReadyState ReadyState { get; set; }
         event EventHandler OnReadyStateChange;
         String Referrer { get; }
         DOMStringList StyleSheetSets { get; }

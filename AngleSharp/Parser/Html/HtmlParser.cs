@@ -3699,7 +3699,7 @@
         /// </summary>
         void End()
         {
-            doc.ReadyState = Readiness.Interactive;
+            doc.ReadyState = DocumentReadyState.Interactive;
 
             while (open.Count != 0)
                 CloseCurrentNode();

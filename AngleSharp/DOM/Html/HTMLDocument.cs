@@ -542,7 +542,7 @@
 
         internal void RaiseLoadedEvent()
         {
-            ReadyState = Readiness.Complete;
+            ReadyState = DocumentReadyState.Complete;
             FireSimpleEvent(EventNames.Load);
         }
 
@@ -601,7 +601,7 @@
         /// <param name="stream">The stream that contains the HTML content.</param>
         internal void Load(Stream stream)
         {
-            ReadyState = Readiness.Loading;
+            ReadyState = DocumentReadyState.Loading;
             var source = new SourceManager(stream, Options.DefaultEncoding());
             Destroy();
             var parser = new HtmlParser(this, source);

@@ -495,7 +495,7 @@
     <Compile Include="Foundation\Constants\ErrorCode.cs" />
     <Compile Include="DOM\Constants\NodeType.cs" />
     <Compile Include="DOM\Constants\QuirksMode.cs" />
-    <Compile Include="DOM\Constants\Readiness.cs" />
+    <Compile Include="DOM\Constants\DocumentReadyState.cs" />
     <Compile Include="Parser\Css\CssTokenType.cs" />
     <Compile Include="Parser\Css\CssSelectorConstructor.cs" />
     <Compile Include="Parser\Css\Tokens\CssBracketToken.cs" />

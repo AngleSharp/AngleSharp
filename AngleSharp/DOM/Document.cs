@@ -15,7 +15,7 @@
         #region Fields
 
         QuirksMode _quirksMode;
-        Readiness _ready;
+        DocumentReadyState _ready;
         DOMImplementation _implementation;
         IConfiguration _options;
         String _encoding;
@@ -55,7 +55,7 @@
             _type = NodeType.Document;
             Async = true;
             _referrer = string.Empty;
-            _ready = Readiness.Complete;
+            _ready = DocumentReadyState.Complete;
             _name = "#document";
             _styleSheets = new StyleSheetList(this);
             _quirksMode = QuirksMode.Off;
@@ -167,7 +167,7 @@
         /// Gets or sets the ready state of the document.
         /// </summary>
         [DomName("readyState")]
-        public Readiness ReadyState
+        public DocumentReadyState ReadyState
         {
             get { return _ready; }
             set

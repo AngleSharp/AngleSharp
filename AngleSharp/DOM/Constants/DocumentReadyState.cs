@@ -4,7 +4,7 @@
     /// Defines the document readiness.
     /// </summary>
     [DomName("DocumentReadyState")]
-    public enum Readiness : ushort
+    public enum DocumentReadyState : ushort
     {
         /// <summary>
         /// The document is still loading.
