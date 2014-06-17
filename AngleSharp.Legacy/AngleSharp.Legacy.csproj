@@ -184,6 +184,9 @@
     <Compile Include="..\AngleSharp\DOM\Constants\DocumentPosition.cs">
       <Link>DOM\Constants\DocumentPosition.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\DocumentReadyState.cs">
+      <Link>DOM\Constants\DocumentReadyState.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\EventPhase.cs">
       <Link>DOM\Constants\EventPhase.cs</Link>
     </Compile>
@@ -210,9 +213,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\RangeType.cs">
       <Link>DOM\Constants\RangeType.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\Readiness.cs">
-      <Link>DOM\Constants\Readiness.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\VerticalAlignment.cs">
       <Link>DOM\Constants\VerticalAlignment.cs</Link>
