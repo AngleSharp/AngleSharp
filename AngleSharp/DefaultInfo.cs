@@ -10,8 +10,8 @@
     {
         #region Fields
 
-        String version;
-        String agent;
+        readonly String _version;
+        readonly String _agent;
 
         #endregion
 
@@ -19,8 +19,8 @@
 
         public DefaultInfo()
         {
-            version = typeof(DefaultInfo).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
-            agent = "AngleSharp/" + version;
+            _version = typeof(DefaultInfo).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+            _agent = "AngleSharp/" + _version;
         }
 
         #endregion
@@ -32,7 +32,7 @@
         /// </summary>
         public String Version
         {
-            get { return version; }
+            get { return _version; }
         }
 
         /// <summary>
@@ -40,7 +40,7 @@
         /// </summary>
         public String Agent
         {
-            get { return agent; }
+            get { return _agent; }
         }
 
         #endregion
