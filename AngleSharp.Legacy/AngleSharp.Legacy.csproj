@@ -73,6 +73,9 @@
     <Compile Include="..\AngleSharp\DefaultInfo.cs">
       <Link>DefaultInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Delegates\ErrorEventListener.cs">
+      <Link>Delegates\ErrorEventListener.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Delegates\EventListener.cs">
       <Link>Delegates\EventListener.cs</Link>
     </Compile>
@@ -81,6 +84,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Delegates\NodeFilter.cs">
       <Link>Delegates\NodeFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Delegates\UnloadEventListener.cs">
+      <Link>Delegates\UnloadEventListener.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DependencyResolver.cs">
       <Link>DependencyResolver.cs</Link>
@@ -1477,6 +1483,9 @@
     <Compile Include="..\AngleSharp\IInfo.cs">
       <Link>IInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IGlobalEventHandlers.cs">
+      <Link>Interfaces\Html\IGlobalEventHandlers.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDocument.cs">
       <Link>Interfaces\Html\IHtmlDocument.cs</Link>
     </Compile>
@@ -1605,6 +1614,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IWindow.cs">
       <Link>Interfaces\IWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IWindowEventHandlers.cs">
+      <Link>Interfaces\IWindowEventHandlers.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Navigator\INavigator.cs">
       <Link>Interfaces\Navigator\INavigator.cs</Link>
