@@ -15,7 +15,7 @@
     {
         #region Constants
 
-        const Int32 CHUNK = 4096;
+        const Int32 BufferSize = 4096;
 
         static readonly Dictionary<String, PropertyInfo> _propCache;
 
@@ -56,7 +56,7 @@
         /// <param name="info">The information to use.</param>
         public DefaultRequester(IInfo info)
         {
-            _buffer = new Byte[CHUNK];
+            _buffer = new Byte[BufferSize];
             _timeOut = new TimeSpan(0, 0, 0, 45);
             _headers = new Dictionary<String, String>();
             _headers.Add("User-Agent", info.Agent);
@@ -176,7 +176,7 @@
             {
                 while (source != null)
                 {
-                    var length = source.Read(_buffer, 0, CHUNK);
+                    var length = source.Read(_buffer, 0, BufferSize);
 
                     if (length == 0)
                         break;
