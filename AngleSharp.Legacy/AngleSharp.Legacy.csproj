@@ -220,6 +220,9 @@
     <Compile Include="..\AngleSharp\DOM\Constants\RangeType.cs">
       <Link>DOM\Constants\RangeType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\SimpleChoice.cs">
+      <Link>DOM\Constants\SimpleChoice.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\VerticalAlignment.cs">
       <Link>DOM\Constants\VerticalAlignment.cs</Link>
     </Compile>
