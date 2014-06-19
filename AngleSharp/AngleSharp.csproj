@@ -272,6 +272,7 @@
     <Compile Include="Interfaces\Html\IHtmlElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlQuoteElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlScriptElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlUnknownElement.cs" />
     <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
     <Compile Include="Interfaces\IAttr.cs" />
     <Compile Include="Interfaces\ICharacterData.cs" />

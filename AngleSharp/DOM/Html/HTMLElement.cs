@@ -144,7 +144,7 @@
         /// <summary>
         /// Gets or sets if spell-checking is activated.
         /// </summary>
-        public Boolean Spellcheck
+        public Boolean IsSpellChecked
         {
             get { return ToBoolean(GetAttribute(AttributeNames.Spellcheck), false); }
             set { SetAttribute(AttributeNames.Spellcheck, value.ToString()); }
@@ -219,6 +219,11 @@
         #endregion
 
         #region Methods
+
+        public void DoSpellCheck()
+        {
+            //TODO Perform spellcheck on the element.
+        }
 
         public void DoClick()
         {

@@ -57,7 +57,7 @@
         /// Gets or sets if spell-checking is activated.
         /// </summary>
         [DomName("spellcheck")]
-        Boolean Spellcheck { get; set; }
+        Boolean IsSpellChecked { get; set; }
 
         /// <summary>
         /// Gets or sets whether or not the element is editable. This enumerated
@@ -125,5 +125,9 @@
         /// </summary>
         [DomName("blur")]
         void DoBlur();
+
+        [DomName("forceSpellCheck")]
+        void DoSpellCheck();
+
     }
 }
