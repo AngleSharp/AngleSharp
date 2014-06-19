@@ -1504,6 +1504,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlScriptElement.cs">
       <Link>Interfaces\Html\IHtmlScriptElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlUnknownElement.cs">
+      <Link>Interfaces\Html\IHtmlUnknownElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IRadioNodeList.cs">
       <Link>Interfaces\Html\IRadioNodeList.cs</Link>
     </Compile>
