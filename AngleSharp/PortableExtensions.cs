@@ -77,32 +77,32 @@
             return type.GetTypeInfo().GetDeclaredProperty(name);
         }
 
-        public static Boolean IsValueType(this Type type)
+        public static Boolean IsStructType(this Type type)
         {
             return type.GetTypeInfo().IsValueType;
         }
 
-        public static Boolean IsClass(this Type type)
+        public static Boolean IsClassType(this Type type)
         {
             return type.GetTypeInfo().IsClass;
         }
 
-        public static Boolean IsAbstract(this Type type)
+        public static Boolean IsAbstractClass(this Type type)
         {
             return type.GetTypeInfo().IsAbstract;
         }
 
-        public static Boolean IsNestedPrivate(this Type type)
+        public static Boolean IsNestedPrivateClass(this Type type)
         {
             return type.GetTypeInfo().IsNestedPrivate;
         }
 
-        public static Boolean IsGenericType(this Type type)
+        public static Boolean IsGenericClass(this Type type)
         {
             return type.GetTypeInfo().IsGenericType;
         }
 
-        public static Boolean ContainsGenericParameters(this Type type)
+        public static Boolean ContainsGenericClassParameters(this Type type)
         {
             return type.GetTypeInfo().ContainsGenericParameters;
         }
@@ -112,7 +112,7 @@
             return type.GetTypeInfo().BaseType;
         }
 
-        public static Boolean IsGenericTypeDefinition(this Type type)
+        public static Boolean IsGenericClassDefinition(this Type type)
         {
             return type.GetTypeInfo().IsGenericTypeDefinition;
         }
@@ -145,42 +145,42 @@
 
         public static Boolean IsEnumerableOfT(this Type serviceType)
         {
-            return serviceType.IsGenericType() && serviceType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
+            return serviceType.IsGenericClass() && serviceType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
         }
 
         public static Boolean IsListOfT(this Type serviceType)
         {
-            return serviceType.IsGenericType() && serviceType.GetGenericTypeDefinition() == typeof(IList<>);
+            return serviceType.IsGenericClass() && serviceType.GetGenericTypeDefinition() == typeof(IList<>);
         }
 
         public static Boolean IsCollectionOfT(this Type serviceType)
         {
-            return serviceType.IsGenericType() && serviceType.GetGenericTypeDefinition() == typeof(ICollection<>);
+            return serviceType.IsGenericClass() && serviceType.GetGenericTypeDefinition() == typeof(ICollection<>);
         }
 
         public static Boolean IsReadOnlyCollectionOfT(this Type serviceType)
         {
-            return serviceType.IsGenericType() && serviceType.GetGenericTypeDefinition() == typeof(IReadOnlyCollection<>);
+            return serviceType.IsGenericClass() && serviceType.GetGenericTypeDefinition() == typeof(IReadOnlyCollection<>);
         }
 
         public static Boolean IsReadOnlyListOfT(this Type serviceType)
         {
-            return serviceType.IsGenericType() && serviceType.GetGenericTypeDefinition() == typeof(IReadOnlyList<>);
+            return serviceType.IsGenericClass() && serviceType.GetGenericTypeDefinition() == typeof(IReadOnlyList<>);
         }
 
         public static Boolean IsLazy(this Type serviceType)
         {
-            return serviceType.IsGenericType() && serviceType.GetGenericTypeDefinition() == typeof(Lazy<>);
+            return serviceType.IsGenericClass() && serviceType.GetGenericTypeDefinition() == typeof(Lazy<>);
         }
 
         public static Boolean IsFunc(this Type serviceType)
         {
-            return serviceType.IsGenericType() && serviceType.GetGenericTypeDefinition() == typeof(Func<>);
+            return serviceType.IsGenericClass() && serviceType.GetGenericTypeDefinition() == typeof(Func<>);
         }
 
         public static Boolean IsFuncWithParameters(this Type serviceType)
         {
-            if (!serviceType.IsGenericType())
+            if (!serviceType.IsGenericClass())
                 return false;
 
             var genericTypeDefinition = serviceType.GetGenericTypeDefinition();
@@ -189,7 +189,7 @@
 
         public static Boolean IsClosedGeneric(this Type serviceType)
         {
-            return serviceType.IsGenericType() && !serviceType.IsGenericTypeDefinition();
+            return serviceType.IsGenericClass() && !serviceType.IsGenericClassDefinition();
         }
 
         public static Boolean IsGenericGetInstanceMethod(this MethodInfo m)
@@ -199,7 +199,7 @@
 
         public static Type GetElementType(this Type type)
         {
-            if (type.IsGenericType() && type.GetGenericTypeArguments().Count() == 1)
+            if (type.IsGenericClass() && type.GetGenericTypeArguments().Count() == 1)
             {
                 return type.GetGenericTypeArguments()[0];
             }
