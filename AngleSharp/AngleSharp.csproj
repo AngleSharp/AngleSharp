@@ -265,6 +265,7 @@
     <Compile Include="DOM\Primitives\Angle.cs" />
     <Compile Include="Foundation\Constants\FeatureNames.cs" />
     <Compile Include="Foundation\IdlExtensions.cs" />
+    <Compile Include="Foundation\LightInject.cs" />
     <Compile Include="Foundation\LocationExtensions.cs" />
     <Compile Include="Foundation\StyleExtensions.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
