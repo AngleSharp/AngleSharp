@@ -160,6 +160,9 @@
     <Compile Include="..\AngleSharp\DOM\Collections\NodeList.cs">
       <Link>DOM\Collections\NodeList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\SettableTokenList.cs">
+      <Link>DOM\Collections\SettableTokenList.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\StringMap.cs">
       <Link>DOM\Collections\StringMap.cs</Link>
     </Compile>
