@@ -63,6 +63,11 @@
         public static readonly String HrefLang = "hreflang";
 
         /// <summary>
+        /// The lang attribute.
+        /// </summary>
+        public static readonly String Lang = "lang";
+
+        /// <summary>
         /// The disabled attribute.
         /// </summary>
         public static readonly String Disabled = "disabled";
@@ -148,6 +153,11 @@
         public static readonly String DirName = "dirname";
 
         /// <summary>
+        /// The dir attribute.
+        /// </summary>
+        public static readonly String Dir = "dir";
+
+        /// <summary>
         /// The noresize attribute.
         /// </summary>
         public static readonly String NoResize = "noresize";
@@ -221,5 +231,50 @@
         /// The version attribute.
         /// </summary>
         public static readonly String Version = "version";
+
+        /// <summary>
+        /// The dropzone attribute.
+        /// </summary>
+        public static readonly String DropZone = "dropzone";
+
+        /// <summary>
+        /// The draggable attribute.
+        /// </summary>
+        public static readonly String Draggable = "draggable";
+
+        /// <summary>
+        /// The spellcheck attribute.
+        /// </summary>
+        public static readonly String Spellcheck = "spellcheck";
+
+        /// <summary>
+        /// The tabindex attribute.
+        /// </summary>
+        public static readonly String TabIndex = "tabindex";
+
+        /// <summary>
+        /// The contenteditable attribute.
+        /// </summary>
+        public static readonly String ContentEditable = "contenteditable";
+
+        /// <summary>
+        /// The translate attribute.
+        /// </summary>
+        public static readonly String Translate = "translate";
+
+        /// <summary>
+        /// The contextmenu attribute.
+        /// </summary>
+        public static readonly String ContextMenu = "contextmenu";
+
+        /// <summary>
+        /// The hidden attribute.
+        /// </summary>
+        public static readonly String Hidden = "hidden";
+
+        /// <summary>
+        /// The id attribute.
+        /// </summary>
+        public static readonly String Id = "id";
     }
 }

@@ -13,6 +13,7 @@
         StringMap _dataset;
         CSSStyleDeclaration _style;
         HTMLMenuElement _menu;
+        ISettableTokenList _dropZone;
 
         #endregion
 
@@ -55,8 +56,8 @@
         /// </summary>
         public Boolean IsHidden
         {
-            get { return GetAttribute("hidden") != null; }
-            set { SetAttribute("hidden", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.Hidden) != null; }
+            set { SetAttribute(AttributeNames.Hidden, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -68,7 +69,7 @@
             {
                 if (_menu != null)
                 {
-                    var id = GetAttribute("contextmenu");
+                    var id = GetAttribute(AttributeNames.ContextMenu);
 
                     if (!String.IsNullOrEmpty(id))
                         return _owner.GetElementById(id) as HTMLMenuElement;
@@ -84,7 +85,7 @@
         /// </summary>
         public ISettableTokenList DropZone
         {
-            get { throw new NotImplementedException(); }
+            get { return _dropZone ?? (_dropZone = new SettableTokenList(this, AttributeNames.DropZone)); }
         }
 
         /// <summary>
@@ -92,8 +93,8 @@
         /// </summary>
         public Boolean IsDraggable
         {
-            get { return ToBoolean(GetAttribute("draggable"), false); }
-            set { SetAttribute("draggable", value.ToString()); }
+            get { return ToBoolean(GetAttribute(AttributeNames.Draggable), false); }
+            set { SetAttribute(AttributeNames.Draggable, value.ToString()); }
         }
 
         /// <summary>
@@ -101,8 +102,8 @@
         /// </summary>
         public String AccessKey
         {
-            get { return GetAttribute("accesskey") ?? String.Empty; }
-            set { SetAttribute("accesskey", value); }
+            get { return GetAttribute(AttributeNames.AccessKey) ?? String.Empty; }
+            set { SetAttribute(AttributeNames.AccessKey, value); }
         }
 
         /// <summary>
@@ -118,8 +119,8 @@
         /// </summary>
         public String Lang
         {
-            get { return GetAttribute("lang") ?? (ParentElement as IHtmlElement != null ? (ParentElement as IHtmlElement).Lang : _owner.Options.Language); }
-            set { SetAttribute("lang", value); }
+            get { return GetAttribute(AttributeNames.Lang) ?? (ParentElement as IHtmlElement != null ? (ParentElement as IHtmlElement).Lang : _owner.Options.Language); }
+            set { SetAttribute(AttributeNames.Lang, value); }
         }
 
         /// <summary>
@@ -127,8 +128,8 @@
         /// </summary>
         public String Title
         {
-            get { return GetAttribute("title"); }
-            set { SetAttribute("title", value); }
+            get { return GetAttribute(AttributeNames.Title); }
+            set { SetAttribute(AttributeNames.Title, value); }
         }
 
         /// <summary>
@@ -136,8 +137,8 @@
         /// </summary>
         public String Dir
         {
-            get { return GetAttribute("dir"); }
-            set { SetAttribute("dir", value); }
+            get { return GetAttribute(AttributeNames.Dir); }
+            set { SetAttribute(AttributeNames.Dir, value); }
         }
 
         /// <summary>
@@ -145,8 +146,8 @@
         /// </summary>
         public Boolean Spellcheck
         {
-            get { return ToBoolean(GetAttribute("spellcheck"), false); }
-            set { SetAttribute("spellcheck", value.ToString()); }
+            get { return ToBoolean(GetAttribute(AttributeNames.Spellcheck), false); }
+            set { SetAttribute(AttributeNames.Spellcheck, value.ToString()); }
         }
 
         /// <summary>
@@ -154,8 +155,8 @@
         /// </summary>
         public Int32 TabIndex
         {
-            get { return ToInteger(GetAttribute("tabindex"), 0); }
-            set { SetAttribute("tabindex", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.TabIndex), 0); }
+            set { SetAttribute(AttributeNames.TabIndex, value.ToString()); }
         }
 
         /// <summary>
@@ -181,8 +182,8 @@
         /// </summary>
         public String ContentEditable
         {
-            get { return GetAttribute("contenteditable"); }
-            set { SetAttribute("contenteditable", value); }
+            get { return GetAttribute(AttributeNames.ContentEditable); }
+            set { SetAttribute(AttributeNames.ContentEditable, value); }
         }
 
         /// <summary>
@@ -211,8 +212,8 @@
         /// </summary>
         public Boolean IsTranslated
         {
-            get { return ToEnum(GetAttribute("translate"), SimpleChoice.Yes) == SimpleChoice.Yes; }
-            set { SetAttribute("translate", value ? "yes" : "no"); }
+            get { return ToEnum(GetAttribute(AttributeNames.Translate), SimpleChoice.Yes) == SimpleChoice.Yes; }
+            set { SetAttribute(AttributeNames.Translate, value ? "yes" : "no"); }
         }
 
         #endregion

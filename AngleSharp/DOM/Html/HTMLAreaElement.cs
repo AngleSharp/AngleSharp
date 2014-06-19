@@ -77,7 +77,7 @@
         [DomName("relList")]
         public ITokenList RelList
         {
-            get { return rellist ?? (rellist = new TokenList(this, AttributeNames.Rel, Rel)); }
+            get { return rellist ?? (rellist = new TokenList(this, AttributeNames.Rel)); }
         }
 
         /// <summary>

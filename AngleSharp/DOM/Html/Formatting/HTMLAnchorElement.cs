@@ -30,16 +30,6 @@ namespace AngleSharp.DOM.Html
         #region Properties
 
         /// <summary>
-        /// Gets or sets the accesskey HTML attribute.
-        /// </summary>
-        [DomName("accessKey")]
-        public String AccessKey
-        {
-            get { return GetAttribute(AttributeNames.AccessKey); }
-            set { SetAttribute(AttributeNames.AccessKey, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the character encoding for the target resource.
         /// </summary>
         [DomName("charset")]
@@ -229,7 +219,7 @@ namespace AngleSharp.DOM.Html
         [DomName("relList")]
         public ITokenList RelList
         {
-            get { return _relList ?? (_relList = new TokenList(this, AttributeNames.Rel, Rel)); }
+            get { return _relList ?? (_relList = new TokenList(this, AttributeNames.Rel)); }
         }
 
         /// <summary>
