@@ -5,10 +5,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
 
-    /// <summary>
-    /// Represents a list of DOMTokens.
-    /// </summary>
-    sealed class TokenList : IHtmlObject, ITokenList
+    class TokenList : ITokenList
     {
         #region Fields
 
@@ -24,13 +21,13 @@
         /// <summary>
         /// Creates a new list of tokens.
         /// </summary>
-        internal TokenList(Element parent, String attribute, String value = null)
+        internal TokenList(Element parent, String attribute)
         {
             _attribute = attribute;
             _parent = parent;
             _tokens = new List<String>();
             _blocking = false;
-            Update(value);
+            Update(parent.GetAttribute(attribute));
         }
 
         #endregion
@@ -174,7 +171,7 @@
         void Propagate()
         {
             _blocking = true;
-            _parent.SetAttribute(_attribute, ToHtml());
+            _parent.SetAttribute(_attribute, ToString());
             _blocking = false;
         }
 
@@ -208,18 +205,9 @@
         /// Returns an HTML-code representation of the token list.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
-        public String ToHtml()
+        public override String ToString()
         {
             return String.Join(" ", _tokens);
-        }
-
-        /// <summary>
-        /// Returns a special textual representation of the node.
-        /// </summary>
-        /// <returns>A string containing only (rendered) text.</returns>
-        public String ToText()
-        {
-            return String.Empty;
         }
 
         #endregion

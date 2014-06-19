@@ -85,7 +85,7 @@
         /// </summary>
         public ITokenList ClassList
         {
-            get { return _classList ?? (_classList = new TokenList(this, AttributeNames.Class, ClassName)); }
+            get { return _classList ?? (_classList = new TokenList(this, AttributeNames.Class)); }
         }
 
         /// <summary>
@@ -93,8 +93,8 @@
         /// </summary>
         public String ClassName
         {
-            get { return GetAttribute("class"); }
-            set { SetAttribute("class", value); }
+            get { return GetAttribute(AttributeNames.Class); }
+            set { SetAttribute(AttributeNames.Class, value); }
         }
 
         /// <summary>
@@ -102,8 +102,8 @@
         /// </summary>
         public String Id
         {
-            get { return GetAttribute("id"); }
-            set { SetAttribute("id", value); }
+            get { return GetAttribute(AttributeNames.Id); }
+            set { SetAttribute(AttributeNames.Id, value); }
         }
 
         /// <summary>
