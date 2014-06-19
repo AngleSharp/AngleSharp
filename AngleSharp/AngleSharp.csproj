@@ -45,6 +45,7 @@
     <Compile Include="DOM\Collections\AttrContainer.cs" />
     <Compile Include="DOM\Constants\FilterResult.cs" />
     <Compile Include="DOM\Constants\FilterSetting.cs" />
+    <Compile Include="DOM\Constants\SimpleChoice.cs" />
     <Compile Include="DOM\Constants\Visibility.cs" />
     <Compile Include="DOM\Css\Constants\AnimationDirection.cs" />
     <Compile Include="DOM\Css\Constants\AnimationFillStyle.cs" />

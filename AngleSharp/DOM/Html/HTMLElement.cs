@@ -206,10 +206,13 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets if the element should be translated.
+        /// </summary>
         public Boolean IsTranslated
         {
-            get;
-            set;
+            get { return ToEnum(GetAttribute("translate"), SimpleChoice.Yes) == SimpleChoice.Yes; }
+            set { SetAttribute("translate", value ? "yes" : "no"); }
         }
 
         #endregion

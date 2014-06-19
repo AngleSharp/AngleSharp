@@ -35,6 +35,9 @@
         [DomName("dataset")]
         IStringMap Dataset { get; }
 
+        /// <summary>
+        /// Gets or sets if the element should be translated.
+        /// </summary>
         [DomName("translate")]
         Boolean IsTranslated { get; set; }
 
