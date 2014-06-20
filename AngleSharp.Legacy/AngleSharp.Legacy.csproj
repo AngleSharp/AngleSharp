@@ -1501,6 +1501,12 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlElement.cs">
       <Link>Interfaces\Html\IHtmlElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlHeadElement.cs">
+      <Link>Interfaces\Html\IHtmlHeadElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlHtmlElement.cs">
+      <Link>Interfaces\Html\IHtmlHtmlElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlQuoteElement.cs">
       <Link>Interfaces\Html\IHtmlQuoteElement.cs</Link>
     </Compile>
