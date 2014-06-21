@@ -1495,6 +1495,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IGlobalEventHandlers.cs">
       <Link>Interfaces\Html\IGlobalEventHandlers.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlBaseElement.cs">
+      <Link>Interfaces\Html\IHtmlBaseElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDocument.cs">
       <Link>Interfaces\Html\IHtmlDocument.cs</Link>
     </Compile>
@@ -1507,11 +1510,17 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlHtmlElement.cs">
       <Link>Interfaces\Html\IHtmlHtmlElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMetaElement.cs">
+      <Link>Interfaces\Html\IHtmlMetaElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlQuoteElement.cs">
       <Link>Interfaces\Html\IHtmlQuoteElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlScriptElement.cs">
       <Link>Interfaces\Html\IHtmlScriptElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTitleElement.cs">
+      <Link>Interfaces\Html\IHtmlTitleElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlUnknownElement.cs">
       <Link>Interfaces\Html\IHtmlUnknownElement.cs</Link>
