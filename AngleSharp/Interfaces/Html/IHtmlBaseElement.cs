@@ -6,7 +6,7 @@
     /// Represents the base HTML element.
     /// </summary>
     [DomName("HTMLBaseElement")]
-    interface IHtmlBaseElement : IHtmlElement
+    public interface IHtmlBaseElement : IHtmlElement
     {
         /// <summary>
         /// Gets or sets the hyperreference to the base URL.

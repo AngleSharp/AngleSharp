@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the title element.
     /// </summary>
-    [DomName("HTMLTitleElement")]
-    public sealed class HTMLTitleElement : HTMLElement
+    sealed class HTMLTitleElement : HTMLElement, IHtmlTitleElement
     {
         /// <summary>
         /// Creates a new HTML title element.
@@ -19,7 +18,6 @@
         /// <summary>
         /// Gets or sets the text of the title.
         /// </summary>
-        [DomName("text")]
         public String Text
         {
             get { return TextContent; }

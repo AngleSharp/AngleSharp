@@ -6,7 +6,7 @@
     /// Represents the meta HTML element.
     /// </summary>
     [DomName("HTMLMetaElement")]
-    interface IHtmlMetaElement : IHtmlElement
+    public interface IHtmlMetaElement : IHtmlElement
     {
         /// <summary>
         /// Gets or sets the name of the meta element.

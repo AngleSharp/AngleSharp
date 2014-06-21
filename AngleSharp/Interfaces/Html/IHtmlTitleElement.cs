@@ -6,7 +6,7 @@
     /// Represents the title HTML element.
     /// </summary>
     [DomName("HTMLTitleElement")]
-    interface IHtmlTitleElement : IHtmlElement
+    public interface IHtmlTitleElement : IHtmlElement
     {
         /// <summary>
         /// Gets or sets the text of the title.

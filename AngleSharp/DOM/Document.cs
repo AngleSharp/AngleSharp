@@ -345,18 +345,16 @@
         }
 
         /// <summary>
-        /// Creates a copy of a node from an external document that can be inserted into the current document.
+        /// Removes the node from its original document and places it in this document.
         /// </summary>
-        /// <param name="externalNode">The node from another document to be imported.</param>
-        /// <param name="deep">Optional argument, indicating whether the descendants of the imported
-        /// node need to be imported.</param>
+        /// <param name="externalNode">The node from another document to be adopted.</param>
         /// <returns>The new node that is imported into the document. The new node's parentNode is null,
         /// since it has not yet been inserted into the document tree.</returns>
-        public INode Adopt(INode node)
+        public INode Adopt(INode externalNode)
         {
             //TODO
             //node.Owner = this;
-            return node;
+            return externalNode;
         }
 
         /// <summary>
@@ -683,15 +681,17 @@
         /// <param name="parent">The parent that contains the elements.</param>
         /// <typeparam name="T">The node type to find.</typeparam>
         /// <returns>The instance or null.</returns>
-        protected static T FindChild<T>(Node parent) where T : Node
+        protected static T FindChild<T>(INode parent) where T : class, INode
         {
             if (parent == null)
                 return null;
 
             for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
-                if (parent.ChildNodes[i] is T)
-                    return (T)parent.ChildNodes[i];
+                var child = parent.ChildNodes[i] as T;
+
+                if (child != null)
+                    return child;
             }
 
             return null;

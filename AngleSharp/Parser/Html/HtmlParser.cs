@@ -868,7 +868,7 @@
             {
                 RaiseErrorOccurred(ErrorCode.TagMustBeInHead);
                 var index = open.Count;
-                open.Add(doc.Head);
+                open.Add(doc.Head as Element);//TODO remove cast ASAP
                 InHead(token);
                 open.RemoveAt(index);
                 return;

@@ -4,7 +4,7 @@
     /// Represents an unknown HTML element.
     /// </summary>
     [DomName("HTMLUnknownElement")]
-    interface IHtmlUnknownElement : IHtmlElement
+    public interface IHtmlUnknownElement : IHtmlElement
     {
     }
 }

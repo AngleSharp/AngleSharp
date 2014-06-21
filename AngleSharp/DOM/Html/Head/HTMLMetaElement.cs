@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML meta element.
     /// </summary>
-    [DomName("HTMLMetaElement")]
-    public sealed class HTMLMetaElement : HTMLElement
+    sealed class HTMLMetaElement : HTMLElement, IHtmlMetaElement
     {
         #region ctor
 
@@ -25,7 +24,6 @@
         /// <summary>
         /// Gets or sets the content attribute, with associated information.
         /// </summary>
-        [DomName("content")]
         public String Content
         {
             get { return GetAttribute(AttributeNames.Content); }
@@ -35,7 +33,6 @@
         /// <summary>
         /// Gets or sets the HTTP response header name.
         /// </summary>
-        [DomName("httpEquiv")]
         public String HttpEquiv
         {
             get { return GetAttribute(AttributeNames.HttpEquiv); }
@@ -45,7 +42,6 @@
         /// <summary>
         /// Gets or sets the select form of content.
         /// </summary>
-        [DomName("scheme")]
         public String Scheme
         {
             get { return GetAttribute(AttributeNames.Scheme); }
@@ -55,7 +51,6 @@
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        [DomName("name")]
         public String Name
         {
             get { return GetAttribute(AttributeNames.Name); }

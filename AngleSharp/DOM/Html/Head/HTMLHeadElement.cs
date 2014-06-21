@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML head element.
     /// </summary>
-    [DomName("HTMLHeadElement")]
-    public sealed class HTMLHeadElement : HTMLElement
+    sealed class HTMLHeadElement : HTMLElement, IHtmlHeadElement
     {
         #region ctor
 

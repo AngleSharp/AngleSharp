@@ -8,7 +8,7 @@
     /// implement this interface, other implement it via an interface that inherit it.
     /// </summary>
     [DomName("HTMLElement")]
-    public interface IHtmlElement
+    public interface IHtmlElement : IElement
     {
         /// <summary>
         /// Gets or sets the value of the lang attribute.

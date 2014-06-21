@@ -16,7 +16,7 @@
         String Domain { get; }
         HTMLCollection Embeds { get; }
         HTMLCollection<HTMLFormElement> Forms { get; }
-        HTMLHeadElement Head { get; }
+        IHtmlHeadElement Head { get; }
         HTMLCollection<HTMLImageElement> Images { get; }
         HTMLCollection Links { get; }
         void Load(String url);

@@ -251,7 +251,7 @@
         {
             get
             {
-                var _title = FindChild<HTMLTitleElement>(Head);
+                var _title = FindChild<IHtmlTitleElement>(Head);
 
                 if (_title != null)
                     return _title.Text;
@@ -260,7 +260,7 @@
             }
             set
             {
-                var _title = FindChild<HTMLTitleElement>(Head);
+                var _title = FindChild<IHtmlTitleElement>(Head);
 
                 if (_title == null)
                 {
@@ -292,9 +292,9 @@
         /// Gets or sets the head element.
         /// </summary>
         [DomName("head")]
-        public HTMLHeadElement Head
+        public IHtmlHeadElement Head
         {
-            get { return FindChild<HTMLHeadElement>(DocumentElement as Element); }//TODO Remove cast ASAP
+            get { return FindChild<IHtmlHeadElement>(DocumentElement); }
         }
 
         /// <summary>
@@ -303,7 +303,7 @@
         [DomName("body")]
         public HTMLBodyElement Body
         {
-            get { return FindChild<HTMLBodyElement>(DocumentElement as Element); }//TODO Remove cast ASAP
+            get { return FindChild<HTMLBodyElement>(DocumentElement); }
         }
 
         /// <summary>
