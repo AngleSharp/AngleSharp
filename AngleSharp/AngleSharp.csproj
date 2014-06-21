@@ -270,6 +270,7 @@
     <Compile Include="Foundation\StyleExtensions.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
     <Compile Include="Interfaces\Html\IGlobalEventHandlers.cs" />
+    <Compile Include="Interfaces\Html\IHtmlBaseElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlHeadElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlHtmlElement.cs" />
