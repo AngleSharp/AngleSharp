@@ -1,18 +1,20 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using System;
 
     /// <summary>
     /// Represents the HTML link element.
     /// </summary>
-    [DomName("HTMLLinkElement")]
-    public sealed class HTMLLinkElement : HTMLElement, IStyleSheet
+    sealed class HTMLLinkElement : HTMLElement, IStyleSheet, IHtmlLinkElement
     {
         #region Fields
 
-        CSSStyleSheet _sheet;
+        readonly CSSStyleSheet _sheet;
         String _buffer;
+        ITokenList _relList;
+        ISettableTokenList _sizes;
 
         #endregion
 
@@ -69,7 +71,6 @@
         /// <summary>
         /// Gets or sets the URI for the target resource.
         /// </summary>
-        [DomName("href")]
         public String Href
         {
             get { return HyperRef(GetAttribute(AttributeNames.Href)); }
@@ -79,7 +80,6 @@
         /// <summary>
         /// Gets or sets the language code for the linked resource.
         /// </summary>
-        [DomName("hreflang")]
         public String Hreflang
         {
             get { return GetAttribute(AttributeNames.HrefLang); }
@@ -89,7 +89,6 @@
         /// <summary>
         /// Gets or sets the character encoding for the target resource.
         /// </summary>
-        [DomName("charset")]
         public String Charset
         {
             get { return GetAttribute(AttributeNames.Charset); }
@@ -99,17 +98,31 @@
         /// <summary>
         /// Gets or sets the forward relationship of the linked resource from the document to the resource.
         /// </summary>
-        [DomName("rel")]
-        public RelType Rel
+        public String Rel
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Rel), RelType.None); }
-            set { SetAttribute(AttributeNames.Rel, value.ToString()); }
+            get { return GetAttribute(AttributeNames.Rel); }
+            set { SetAttribute(AttributeNames.Rel, value); }
+        }
+
+        /// <summary>
+        /// Gets the list of relations contained in the rel attribute.
+        /// </summary>
+        public ITokenList RelList
+        {
+            get { return _relList ?? (_relList = new TokenList(this, AttributeNames.Rel)); }
+        }
+
+        /// <summary>
+        /// Gets the list of sizes defined in the sizes attribute.
+        /// </summary>
+        public ISettableTokenList Sizes
+        {
+            get { return _sizes ?? (_sizes = new SettableTokenList(this, AttributeNames.Sizes)); }
         }
 
         /// <summary>
         /// Gets or sets the reverse relationship of the linked resource from the document to the resource.
         /// </summary>
-        [DomName("rev")]
         public String Rev
         {
             get { return GetAttribute(AttributeNames.Rev); }
@@ -119,7 +132,6 @@
         /// <summary>
         /// Gets or sets if the stylesheet is enabled or disabled.
         /// </summary>
-        [DomName("disabled")]
         public Boolean Disabled
         {
             get { return Sheet.Disabled; }
@@ -129,7 +141,6 @@
         /// <summary>
         /// Gets or sets the name of the target frame to which the resource applies.
         /// </summary>
-        [DomName("target")]
         public String Target
         {
             get { return GetAttribute(AttributeNames.Target); }
@@ -139,7 +150,6 @@
         /// <summary>
         /// Gets or sets the use with one or more target media.
         /// </summary>
-        [DomName("media")]
         public String Media
         {
             get { return GetAttribute(AttributeNames.Media); }
@@ -149,7 +159,6 @@
         /// <summary>
         /// Gets or sets the content type of the style sheet language.
         /// </summary>
-        [DomName("type")]
         public String Type
         {
             get { return GetAttribute(AttributeNames.Type); }
@@ -159,10 +168,9 @@
         /// <summary>
         /// Gets the associated stylesheet.
         /// </summary>
-        [DomName("sheet")]
         public StyleSheet Sheet
         {
-            get { return Rel == RelType.Stylesheet ? _sheet : null; }
+            get { return RelList.Contains("stylesheet") ? _sheet : null; }
         }
 
         #endregion
@@ -181,13 +189,10 @@
             {
                 var href = Href;
 
-                if (href != null && Rel == RelType.Stylesheet)
+                if (href != null && Sheet != null && _buffer != href)
                 {
-                    if (_buffer != href)
-                    {
-                        _buffer = href;
-                        _sheet.ReevaluateFromUrl(href);
-                    }
+                    _buffer = href;
+                    _sheet.ReevaluateFromUrl(href);
                 }
             }
             else
@@ -201,7 +206,7 @@
         /// <summary>
         /// Specifies the possible values for the rel attribute.
         /// </summary>
-        public enum RelType : ushort
+        enum RelType : ushort
         {
             /// <summary>
             /// No particular relation.

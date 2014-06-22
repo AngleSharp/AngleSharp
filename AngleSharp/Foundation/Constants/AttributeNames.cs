@@ -276,5 +276,10 @@
         /// The id attribute.
         /// </summary>
         public static readonly String Id = "id";
+
+        /// <summary>
+        /// The sizes attribute.
+        /// </summary>
+        public static readonly String Sizes = "sizes";
     }
 }
