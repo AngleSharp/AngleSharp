@@ -1510,6 +1510,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlHtmlElement.cs">
       <Link>Interfaces\Html\IHtmlHtmlElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlLinkElement.cs">
+      <Link>Interfaces\Html\IHtmlLinkElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMetaElement.cs">
       <Link>Interfaces\Html\IHtmlMetaElement.cs</Link>
     </Compile>
