@@ -1507,6 +1507,12 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlHeadElement.cs">
       <Link>Interfaces\Html\IHtmlHeadElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlHeadingElement.cs">
+      <Link>Interfaces\Html\IHtmlHeadingElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlHrElement.cs">
+      <Link>Interfaces\Html\IHtmlHrElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlHtmlElement.cs">
       <Link>Interfaces\Html\IHtmlHtmlElement.cs</Link>
     </Compile>
@@ -1515,6 +1521,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMetaElement.cs">
       <Link>Interfaces\Html\IHtmlMetaElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlParagraphElement.cs">
+      <Link>Interfaces\Html\IHtmlParagraphElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlPreElement.cs">
+      <Link>Interfaces\Html\IHtmlPreElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlQuoteElement.cs">
       <Link>Interfaces\Html\IHtmlQuoteElement.cs</Link>
