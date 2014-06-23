@@ -273,9 +273,13 @@
     <Compile Include="Interfaces\Html\IHtmlBaseElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlHeadElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlHeadingElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlHrElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlHtmlElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlLinkElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlMetaElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlParagraphElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlPreElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlQuoteElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlScriptElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlStyleElement.cs" />
