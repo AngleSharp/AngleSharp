@@ -6,8 +6,7 @@
     /// <summary>
     /// Represents the HTML style element.
     /// </summary>
-    [DomName("HTMLStyleElement")]
-    public sealed class HTMLStyleElement : HTMLElement, IStyleSheet, IHtmlStyleElement
+    sealed class HTMLStyleElement : HTMLElement, IStyleSheet, IHtmlStyleElement
     {
         #region Fields
 
