@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML pre element.
     /// </summary>
-    [DomName("HTMLPreElement")]
-    public sealed class HTMLPreElement : HTMLElement
+    sealed class HTMLPreElement : HTMLElement, IHtmlPreElement
     {
         #region ctor
 
