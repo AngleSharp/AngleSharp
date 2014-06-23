@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets or sets if the style is scoped.
         /// </summary>
-        public Boolean Scoped
+        public Boolean IsScoped
         {
             get { return GetAttribute(AttributeNames.Scoped) != null; }
             set { SetAttribute(AttributeNames.Scoped, value ? String.Empty : null); }
@@ -52,7 +52,7 @@
         /// <summary>
         /// Gets or sets if the style is enabled or disabled.
         /// </summary>
-        public Boolean Disabled
+        public Boolean IsDisabled
         {
             get { return Sheet.Disabled; }
             set { Sheet.Disabled = value; }

@@ -12,7 +12,7 @@
         /// Gets or sets if the style is enabled or disabled.
         /// </summary>
         [DomName("disabled")]
-        Boolean Disabled { get; set; }
+        Boolean IsDisabled { get; set; }
 
         /// <summary>
         /// Gets or sets the use with one or more target media.
@@ -30,6 +30,6 @@
         /// Gets or sets if the style is scoped.
         /// </summary>
         [DomName("scoped")]
-        Boolean Scoped { get; set; }
+        Boolean IsScoped { get; set; }
     }
 }
