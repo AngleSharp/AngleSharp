@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the hr element.
     /// </summary>
-    [DomName("HTMLHRElement")]
-    public sealed class HTMLHRElement : HTMLElement
+    sealed class HTMLHRElement : HTMLElement, IHtmlHrElement
     {
         #region ctor
 
