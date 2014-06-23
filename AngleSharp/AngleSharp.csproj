@@ -278,6 +278,7 @@
     <Compile Include="Interfaces\Html\IHtmlMetaElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlQuoteElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlScriptElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlStyleElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTitleElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlUnknownElement.cs" />
     <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
