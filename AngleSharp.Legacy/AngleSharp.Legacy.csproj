@@ -1522,6 +1522,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlScriptElement.cs">
       <Link>Interfaces\Html\IHtmlScriptElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlStyleElement.cs">
+      <Link>Interfaces\Html\IHtmlStyleElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTitleElement.cs">
       <Link>Interfaces\Html\IHtmlTitleElement.cs</Link>
     </Compile>
