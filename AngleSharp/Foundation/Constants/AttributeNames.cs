@@ -281,5 +281,10 @@
         /// The sizes attribute.
         /// </summary>
         public static readonly String Sizes = "sizes";
+
+        /// <summary>
+        /// The scoped attribute.
+        /// </summary>
+        public static readonly String Scoped = "scoped";
     }
 }
