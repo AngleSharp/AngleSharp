@@ -285,6 +285,7 @@
     <Compile Include="Interfaces\Html\IHtmlStyleElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTitleElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlUnknownElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlUnorderedListElement.cs" />
     <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
     <Compile Include="Interfaces\IAttr.cs" />
     <Compile Include="Interfaces\ICharacterData.cs" />
