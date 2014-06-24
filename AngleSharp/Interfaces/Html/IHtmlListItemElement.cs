@@ -12,6 +12,6 @@
         /// Gets or sets the value in an ordered list.
         /// </summary>
         [DomName("value")]
-        Int32 Value { get; set; }
+        Int32? Value { get; set; }
     }
 }
