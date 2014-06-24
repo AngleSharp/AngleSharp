@@ -1522,6 +1522,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMetaElement.cs">
       <Link>Interfaces\Html\IHtmlMetaElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlOrderedListElement.cs">
+      <Link>Interfaces\Html\IHtmlOrderedListElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlParagraphElement.cs">
       <Link>Interfaces\Html\IHtmlParagraphElement.cs</Link>
     </Compile>
@@ -1542,6 +1545,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlUnknownElement.cs">
       <Link>Interfaces\Html\IHtmlUnknownElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlUnorderedListElement.cs">
+      <Link>Interfaces\Html\IHtmlUnorderedListElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IRadioNodeList.cs">
       <Link>Interfaces\Html\IRadioNodeList.cs</Link>
