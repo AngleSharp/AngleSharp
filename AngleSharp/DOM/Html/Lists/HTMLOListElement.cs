@@ -30,40 +30,31 @@
 
         #region Properties
 
-        public Boolean Reversed
+        /// <summary>
+        /// Gets or sets if the order is reversed.
+        /// </summary>
+        public Boolean IsReversed
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return GetAttribute(AttributeNames.Reversed) != null; }
+            set { SetAttribute(AttributeNames.Reversed, value ? String.Empty : null); }
         }
 
+        /// <summary>
+        /// Gets or sets the start of the numbering.
+        /// </summary>
         public Int32 Start
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return ToInteger(GetAttribute(AttributeNames.Start), 1); }
+            set { SetAttribute(AttributeNames.Start, value.ToString()); }
         }
 
+        /// <summary>
+        /// Gets or sets a value within [ 1, a, A, i, I ].
+        /// </summary>
         public String Type
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return GetAttribute(AttributeNames.Type); }
+            set { SetAttribute(AttributeNames.Type, value); }
         }
 
         #endregion

@@ -286,5 +286,15 @@
         /// The scoped attribute.
         /// </summary>
         public static readonly String Scoped = "scoped";
+
+        /// <summary>
+        /// The reversed attribute.
+        /// </summary>
+        public static readonly String Reversed = "reversed";
+
+        /// <summary>
+        /// The start attribute.
+        /// </summary>
+        public static readonly String Start = "start";
     }
 }

@@ -12,7 +12,7 @@
         /// Gets or sets if the order is reversed.
         /// </summary>
         [DomName("reversed")]
-        Boolean Reversed { get; set; }
+        Boolean IsReversed { get; set; }
 
         /// <summary>
         /// Gets or sets the lowest number.
