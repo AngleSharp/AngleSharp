@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML dl element.
     /// </summary>
-    [DomName("HTMLDListElement")]
-    public sealed class HTMLDListElement : HTMLElement
+    sealed class HTMLDListElement : HTMLElement
     {
         #region ctor
 

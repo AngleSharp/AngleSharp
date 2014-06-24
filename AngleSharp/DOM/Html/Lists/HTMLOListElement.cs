@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML ordered list (ol) element.
     /// </summary>
-    [DomName("HTMLOListElement")]
-    public sealed class HTMLOListElement : HTMLElement, IListScopeElement
+    sealed class HTMLOListElement : HTMLElement, IListScopeElement, IHtmlOrderedListElement
     {
         #region ctor
 
@@ -17,7 +16,7 @@
 
         #endregion
 
-        #region Properties
+        #region Internal Properties
 
         /// <summary>
         /// Gets if the node is in the special category.
@@ -25,6 +24,46 @@
         protected internal override Boolean IsSpecial
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region Properties
+
+        public Boolean Reversed
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Int32 Start
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public String Type
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
         #endregion
