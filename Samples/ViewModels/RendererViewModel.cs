@@ -148,18 +148,18 @@ namespace Samples.ViewModels
 
                             case "ul":
                                 FlushBuffer(box.Blocks);
-                                box.Blocks.Add(Render((HTMLUListElement)node));
+                                box.Blocks.Add(Render((IHtmlUnorderedListElement)node));
                                 break;
 
                             case "ol":
                                 FlushBuffer(box.Blocks);
-                                box.Blocks.Add(Render((HTMLOListElement)node));
+                                box.Blocks.Add(Render((IHtmlOrderedListElement)node));
                                 break;
 
-                            case "dl":
-                                FlushBuffer(box.Blocks);
-                                box.Blocks.Add(Render((HTMLDListElement)node));
-                                break;
+                            //case "dl":
+                            //    FlushBuffer(box.Blocks);
+                            //    box.Blocks.Add(Render((HTMLDListElement)node));
+                            //    break;
 
                             case "p":
                                 FlushBuffer(box.Blocks);
@@ -198,23 +198,16 @@ namespace Samples.ViewModels
             return f;
         }
 
-        List Render(HTMLOListElement element)
+        List Render(IHtmlOrderedListElement element)
         {
             var list = new List { MarkerStyle = TextMarkerStyle.Decimal };
             RenderList(element.Children, list);
             return list;
         }
 
-        List Render(HTMLUListElement element)
+        List Render(IHtmlUnorderedListElement element)
         {
             var list = new List { MarkerStyle = TextMarkerStyle.Circle };
-            RenderList(element.Children, list);
-            return list;
-        }
-
-        List Render(HTMLDListElement element)
-        {
-            var list = new List { MarkerStyle = TextMarkerStyle.None };
             RenderList(element.Children, list);
             return list;
         }
