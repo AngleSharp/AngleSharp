@@ -1492,11 +1492,17 @@
     <Compile Include="..\AngleSharp\IInfo.cs">
       <Link>IInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssStyleDeclaration.cs">
+      <Link>Interfaces\Css\ICssStyleDeclaration.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IGlobalEventHandlers.cs">
       <Link>Interfaces\Html\IGlobalEventHandlers.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlBaseElement.cs">
       <Link>Interfaces\Html\IHtmlBaseElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDivElement.cs">
+      <Link>Interfaces\Html\IHtmlDivElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDocument.cs">
       <Link>Interfaces\Html\IHtmlDocument.cs</Link>
