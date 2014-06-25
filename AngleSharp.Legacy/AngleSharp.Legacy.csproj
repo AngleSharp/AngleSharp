@@ -1501,6 +1501,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlBaseElement.cs">
       <Link>Interfaces\Html\IHtmlBaseElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlBodyElement.cs">
+      <Link>Interfaces\Html\IHtmlBodyElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDivElement.cs">
       <Link>Interfaces\Html\IHtmlDivElement.cs</Link>
     </Compile>
