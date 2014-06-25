@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML body element.
     /// </summary>
-    [DomName("HTMLBodyElement")]
-    public sealed class HTMLBodyElement : HTMLElement, IImplClosed
+    sealed class HTMLBodyElement : HTMLElement, IImplClosed, IHtmlBodyElement
     {
         #region ctor
 
@@ -25,7 +24,6 @@
         /// <summary>
         /// Gets or sets the color of active links (after mouse-button down, but before mouse-button up). 
         /// </summary>
-        [DomName("aLink")]
         public String ALink
         {
             get { return GetAttribute("alink"); }
@@ -35,7 +33,6 @@
         /// <summary>
         /// Gets or sets the URI of the background texture tile image.
         /// </summary>
-        [DomName("background")]
         public String Background
         {
             get { return GetAttribute("background"); }
@@ -45,7 +42,6 @@
         /// <summary>
         /// Gets or sets the document background color.
         /// </summary>
-        [DomName("bgColor")]
         public String BgColor
         {
             get { return GetAttribute("bgcolor"); }
@@ -55,7 +51,6 @@
         /// <summary>
         /// Gets or sets color of links that are not active and unvisited.
         /// </summary>
-        [DomName("link")]
         public String Link
         {
             get { return GetAttribute("link"); }
@@ -65,7 +60,6 @@
         /// <summary>
         /// Gets or sets document text color.
         /// </summary>
-        [DomName("text")]
         public String Text
         {
             get { return GetAttribute("text"); }
@@ -75,7 +69,6 @@
         /// <summary>
         /// Gets or sets color of links that have been visited by the user.
         /// </summary>
-        [DomName("vLink")]
         public String VLink
         {
             get { return GetAttribute("vlink"); }
@@ -93,6 +86,34 @@
         {
             get { return true; }
         }
+
+        #endregion
+
+        #region Events from IDL
+
+        public event EventListener Printed;
+
+        public event EventListener Printing;
+
+        public event UnloadEventListener Unloading;
+
+        public event EventListener HashChanged;
+
+        public event EventListener MessageReceived;
+
+        public event EventListener WentOffline;
+
+        public event EventListener WentOnline;
+
+        public event EventListener PageHidden;
+
+        public event EventListener PageShown;
+
+        public event EventListener PopState;
+
+        public event EventListener Storage;
+
+        public event EventListener Unloaded;
 
         #endregion
     }

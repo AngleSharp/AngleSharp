@@ -301,9 +301,9 @@
         /// Gets the body element.
         /// </summary>
         [DomName("body")]
-        public HTMLBodyElement Body
+        public IHtmlBodyElement Body
         {
-            get { return FindChild<HTMLBodyElement>(DocumentElement); }
+            get { return FindChild<IHtmlBodyElement>(DocumentElement); }
         }
 
         /// <summary>

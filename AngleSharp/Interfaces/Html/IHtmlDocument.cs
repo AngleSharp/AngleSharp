@@ -11,7 +11,7 @@
     public interface IHtmlDocument : IDocument
     {
         HTMLCollection<HTMLAnchorElement> Anchors { get; }
-        HTMLBodyElement Body { get; }
+        IHtmlBodyElement Body { get; }
         Cookie Cookie { get; set; }
         String Domain { get; }
         HTMLCollection Embeds { get; }
