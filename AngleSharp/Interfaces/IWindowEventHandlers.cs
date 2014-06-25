@@ -4,41 +4,77 @@
     /// Represents a set of event handlers for a Window.
     /// </summary>
     [DomName("WindowEventHandlers")]
-    interface IWindowEventHandlers
+    public interface IWindowEventHandlers
     {
+        /// <summary>
+        /// Event triggered after printing.
+        /// </summary>
         [DomName("onafterprint")]
         event EventListener Printed;
 
+        /// <summary>
+        /// Event triggered before printing.
+        /// </summary>
         [DomName("onbeforeprint")]
         event EventListener Printing;
 
+        /// <summary>
+        /// Event triggered before closing the document.
+        /// </summary>
         [DomName("onbeforeunload")]
         event UnloadEventListener Unloading;
 
+        /// <summary>
+        /// Event triggered when the hash has been changed.
+        /// </summary>
         [DomName("onhashchange")]
         event EventListener HashChanged;
 
+        /// <summary>
+        /// Event triggered after receiving a message.
+        /// </summary>
         [DomName("onmessage")]
         event EventListener MessageReceived;
 
+        /// <summary>
+        /// Event triggered after losing connection.
+        /// </summary>
         [DomName("onoffline")]
         event EventListener WentOffline;
 
+        /// <summary>
+        /// Event triggered after being connected.
+        /// </summary>
         [DomName("ononline")]
         event EventListener WentOnline;
 
+        /// <summary>
+        /// Event triggered after the page has been hidden.
+        /// </summary>
         [DomName("onpagehide")]
         event EventListener PageHidden;
 
+        /// <summary>
+        /// Event triggered after showing the page.
+        /// </summary>
         [DomName("onpageshow")]
         event EventListener PageShown;
 
+        /// <summary>
+        /// Event triggered after popping the state from the history.
+        /// </summary>
         [DomName("onpopstate")]
         event EventListener PopState;
 
+        /// <summary>
+        /// Event triggered after using the provided storage.
+        /// </summary>
         [DomName("onstorage")]
         event EventListener Storage;
 
+        /// <summary>
+        /// Event triggered after after closing the document.
+        /// </summary>
         [DomName("onunload")]
         event EventListener Unloaded;
     }
