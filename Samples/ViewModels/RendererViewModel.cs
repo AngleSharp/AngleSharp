@@ -1,10 +1,6 @@
 ﻿using AngleSharp.DOM;
-using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Html;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -65,7 +61,7 @@ namespace Samples.ViewModels
         // http://msdn.microsoft.com/en-us/library/aa970909.aspx
         //
 
-        Section RenderBox(Element element)
+        Section RenderBox(IElement element)
         {
             var box = new Section();
             Render(element, box);
@@ -73,7 +69,7 @@ namespace Samples.ViewModels
             return box;
         }
 
-        void Render(Element element, Section box)
+        void Render(IElement element, Section box)
         {
             foreach (var child in element.ChildNodes)
             {
