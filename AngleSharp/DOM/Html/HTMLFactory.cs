@@ -122,6 +122,7 @@
             elements.Add(Tags.Ruby, () => new HTMLRubyElement ());
             elements.Add(Tags.Rt, () => new HTMLRTElement ());
             elements.Add(Tags.Rp, () => new HTMLRPElement ());
+            elements.Add(Tags.Time, () => new HTMLTimeElement());
         }
 
         /// <summary>

@@ -618,6 +618,11 @@
         /// </summary>
         public const String Plaintext = "plaintext";
 
+        /// <summary>
+        /// The time tag.
+        /// </summary>
+        public static readonly String Time = "time";
+
         #endregion
 
         #region MathML Tags

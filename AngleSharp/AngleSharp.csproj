@@ -252,6 +252,7 @@
     <Compile Include="DOM\Css\Values\CSSImageValue.cs" />
     <Compile Include="DOM\Css\Values\CSSAttrValue.cs" />
     <Compile Include="DOM\Css\Values\CSSIdentifierValue.cs" />
+    <Compile Include="DOM\Html\Semantic\HTMLTimeElement.cs" />
     <Compile Include="DOM\Objects\Point2d.cs" />
     <Compile Include="DOM\Css\Values\CSSStringValue.cs" />
     <Compile Include="DOM\Css\Values\CSSTimingValue.cs" />
