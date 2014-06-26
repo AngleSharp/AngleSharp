@@ -17,7 +17,7 @@ namespace UnitTests
         HTMLElement Create(string tagName)
         {
             var doc = new HTMLDocument();
-            return HTMLFactory.Create(tagName, doc);
+            return HtmlElementFactory.Create(tagName, doc);
         }
 
         [TestMethod]
