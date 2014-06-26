@@ -1,13 +1,11 @@
-﻿
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
     using System;
 
     /// <summary>
     /// Represents the HTML br element.
     /// </summary>
-    [DomName("HTMLBRElement")]
-    public sealed class HTMLBRElement : HTMLElement
+    sealed class HTMLBRElement : HTMLElement, IHtmlBreakRowElement
     {
         #region ctor
 
