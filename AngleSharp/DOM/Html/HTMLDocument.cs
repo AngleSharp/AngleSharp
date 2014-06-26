@@ -457,7 +457,7 @@
         /// <returns>The created element object.</returns>
         public override IElement CreateElement(String tagName)
         {
-            return HTMLFactory.Create(tagName, this);
+            return HtmlElementFactory.Create(tagName, this);
         }
 
         /// <summary>

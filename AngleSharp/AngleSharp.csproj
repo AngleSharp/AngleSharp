@@ -73,7 +73,7 @@
     <Compile Include="DOM\Css\Constants\TextTransform.cs" />
     <Compile Include="DOM\Css\Constants\UnicodeMode.cs" />
     <Compile Include="DOM\Css\Constants\Whitespace.cs" />
-    <Compile Include="DOM\Css\CSSFactory.cs" />
+    <Compile Include="DOM\Factories\CssPropertyFactory.cs" />
     <Compile Include="DOM\Css\Media\AspectRatioMediaFeature.cs" />
     <Compile Include="DOM\Css\Media\ColorIndexMediaFeature.cs" />
     <Compile Include="DOM\Css\Media\ColorMediaFeature.cs" />
@@ -252,6 +252,7 @@
     <Compile Include="DOM\Css\Values\CSSImageValue.cs" />
     <Compile Include="DOM\Css\Values\CSSAttrValue.cs" />
     <Compile Include="DOM\Css\Values\CSSIdentifierValue.cs" />
+    <Compile Include="DOM\Factories\ElementFactory.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLTimeElement.cs" />
     <Compile Include="DOM\Objects\Point2d.cs" />
     <Compile Include="DOM\Css\Values\CSSStringValue.cs" />
@@ -360,10 +361,10 @@
     <Compile Include="DOM\Annotations\ICssRules.cs" />
     <Compile Include="DOM\Css\Rules\CSSDocumentRule.cs" />
     <Compile Include="DOM\Constants\AdjacentPosition.cs" />
-    <Compile Include="DOM\Html\HTMLFactory.cs" />
-    <Compile Include="DOM\Mathml\MathFactory.cs" />
+    <Compile Include="DOM\Factories\HtmlElementFactory.cs" />
+    <Compile Include="DOM\Factories\MathElementFactory.cs" />
     <Compile Include="DOM\Objects\FileEntry.cs" />
-    <Compile Include="DOM\Svg\SVGFactory.cs" />
+    <Compile Include="DOM\Factories\SvgElementFactory.cs" />
     <Compile Include="Parser\Html\HtmlParserExtensions.cs" />
     <Compile Include="Parser\ParseErrorEventArgs.cs" />
     <Compile Include="Extensions.cs" />

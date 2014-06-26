@@ -522,7 +522,7 @@
 
                 if (tokens.MoveNext())
                 {
-                    var property = CSSFactory.Create(propertyName, style);
+                    var property = CssPropertyFactory.Create(propertyName, style);
 
                     if (property != null)
                     {

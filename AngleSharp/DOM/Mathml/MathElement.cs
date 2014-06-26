@@ -42,7 +42,7 @@
         [DomName("cloneNode")]
         public override INode Clone(Boolean deep = true)
         {
-            var node = MathFactory.Create(_name, _owner);
+            var node = MathElementFactory.Create(_name, _owner);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;

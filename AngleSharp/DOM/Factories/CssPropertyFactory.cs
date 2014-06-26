@@ -5,11 +5,11 @@
     using System;
     using System.Collections.Generic;
 
-    internal class CSSFactory
+    sealed class CssPropertyFactory
     {
         static readonly Dictionary<String, Func<CSSProperty>> properties = new Dictionary<String, Func<CSSProperty>>(StringComparer.OrdinalIgnoreCase);
 
-        static CSSFactory()
+        static CssPropertyFactory()
         {
             properties.Add(PropertyNames.Animation, () => new CSSAnimationProperty());
             properties.Add(PropertyNames.AnimationDelay, () => new CSSAnimationDelayProperty());

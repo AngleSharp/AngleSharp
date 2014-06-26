@@ -1126,7 +1126,7 @@
                     case Tags.U:
                     {
                         ReconstructFormatting();
-                        var element = HTMLFactory.Create(tag.Name, doc);
+                        var element = HtmlElementFactory.Create(tag.Name, doc);
                         AddElement(element, tag);
                         AddFormattingElement(element);
                         break;
@@ -1142,7 +1142,7 @@
                             ReconstructFormatting();
                         }
 
-                        var element = HTMLFactory.Create(tag.Name, doc);
+                        var element = HtmlElementFactory.Create(tag.Name, doc);
                         AddElement(element, tag);
                         AddFormattingElement(element);
                         break;
@@ -2732,7 +2732,7 @@
         /// <param name="tag">The given tag token.</param>
         void RawtextAlgorithm(HtmlTagToken tag)
         {
-            var element = HTMLFactory.Create(tag.Name, doc);
+            var element = HtmlElementFactory.Create(tag.Name, doc);
             AddElement(element, tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
@@ -2745,7 +2745,7 @@
         /// <param name="tag">The given tag token.</param>
         void RCDataAlgorithm(HtmlTagToken tag)
         {
-            var element = HTMLFactory.Create(tag.Name, doc);
+            var element = HtmlElementFactory.Create(tag.Name, doc);
             AddElement(element, tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
@@ -2779,7 +2779,7 @@
             if (IsInButtonScope())
                 InBodyEndTagParagraph();
 
-            var element = HTMLFactory.Create(tag.Name, doc);
+            var element = HtmlElementFactory.Create(tag.Name, doc);
             AddElement(element, tag);
         }
 
@@ -2810,7 +2810,7 @@
             if (IsInButtonScope())
                 InBodyEndTagParagraph();
 
-            var element = HTMLFactory.Create(tag.Name, doc);
+            var element = HtmlElementFactory.Create(tag.Name, doc);
             AddElement(element, tag);
         }
 
@@ -3002,7 +3002,7 @@
         /// <returns>The new element (target).</returns>
         Element CopyElement(Element element)
         {
-            var newElement = HTMLFactory.Create(element.NodeName, doc);
+            var newElement = HtmlElementFactory.Create(element.NodeName, doc);
 
             foreach (var attr in element.Attributes)
                 newElement.SetAttribute(attr.Name, attr.Value);
@@ -3081,7 +3081,7 @@
         void InBodyStartTagBreakrow(HtmlTagToken tag)
         {
             ReconstructFormatting();
-            var element = HTMLFactory.Create(tag.Name, doc);
+            var element = HtmlElementFactory.Create(tag.Name, doc);
             AddElement(element, tag);
             CloseCurrentNode();
             frameset = false;
@@ -3381,7 +3381,7 @@
         {
             if (AdjustedCurrentNode.IsInMathML)
             {
-                var node = MathFactory.Create(tag.Name, doc);
+                var node = MathElementFactory.Create(tag.Name, doc);
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
                 {
@@ -3394,7 +3394,7 @@
             }
             else if (AdjustedCurrentNode.IsInSvg)
             {
-                var node = SVGFactory.Create(tag.Name.AdjustSvgTagName(), doc);
+                var node = SvgElementFactory.Create(tag.Name.AdjustSvgTagName(), doc);
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
                 {
@@ -3815,7 +3815,7 @@
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         void AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
-            var element = HTMLFactory.Create(tag.Name, doc);
+            var element = HtmlElementFactory.Create(tag.Name, doc);
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
         }

@@ -247,7 +247,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = HTMLFactory.Create(_name, _owner);
+            var node = HtmlElementFactory.Create(_name, _owner);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;

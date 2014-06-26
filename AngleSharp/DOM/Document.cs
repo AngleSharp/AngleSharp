@@ -451,11 +451,11 @@
             Element element = null;
 
             if (namespaceUri == Namespaces.Html)
-                element = HTMLFactory.Create(tagName, this);
+                element = HtmlElementFactory.Create(tagName, this);
             else if (namespaceUri == Namespaces.Svg)
-                element = SVGFactory.Create(tagName, this);
+                element = SvgElementFactory.Create(tagName, this);
             else if (namespaceUri == Namespaces.MathML)
-                element = MathFactory.Create(tagName, this);
+                element = MathElementFactory.Create(tagName, this);
             else
                 element = new Element { NamespaceUri = namespaceUri, NodeName = tagName, Owner = this };
 
