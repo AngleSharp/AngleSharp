@@ -289,6 +289,7 @@
     <Compile Include="Interfaces\Html\IHtmlScriptElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlSpanElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlStyleElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlTimeElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTitleElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlUnknownElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlUnorderedListElement.cs" />
