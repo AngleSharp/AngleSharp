@@ -307,9 +307,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\Whitespace.cs">
       <Link>DOM\Css\Constants\Whitespace.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\CSSFactory.cs">
-      <Link>DOM\Css\CSSFactory.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSFunctions.cs">
       <Link>DOM\Css\CSSFunctions.cs</Link>
     </Compile>
@@ -970,6 +967,21 @@
     <Compile Include="..\AngleSharp\DOM\EntityReference.cs">
       <Link>DOM\EntityReference.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Factories\CssPropertyFactory.cs">
+      <Link>DOM\Factories\CssPropertyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Factories\ElementFactory.cs">
+      <Link>DOM\Factories\ElementFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Factories\HtmlElementFactory.cs">
+      <Link>DOM\Factories\HtmlElementFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Factories\MathElementFactory.cs">
+      <Link>DOM\Factories\MathElementFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Factories\SvgElementFactory.cs">
+      <Link>DOM\Factories\SvgElementFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\FormControlState.cs">
       <Link>DOM\FormControlState.cs</Link>
     </Compile>
@@ -1156,9 +1168,6 @@
     <Compile Include="..\AngleSharp\DOM\Html\HTMLElement.cs">
       <Link>DOM\Html\HTMLElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLFactory.cs">
-      <Link>DOM\Html\HTMLFactory.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\HTMLMapElement.cs">
       <Link>DOM\Html\HTMLMapElement.cs</Link>
     </Compile>
@@ -1249,6 +1258,9 @@
     <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLSemanticElement.cs">
       <Link>DOM\Html\Semantic\HTMLSemanticElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLTimeElement.cs">
+      <Link>DOM\Html\Semantic\HTMLTimeElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableCaptionElement.cs">
       <Link>DOM\Html\Tables\HTMLTableCaptionElement.cs</Link>
     </Compile>
@@ -1272,9 +1284,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Mathml\MathElement.cs">
       <Link>DOM\Mathml\MathElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Mathml\MathFactory.cs">
-      <Link>DOM\Mathml\MathFactory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Mathml\MathIdentifierElement.cs">
       <Link>DOM\Mathml\MathIdentifierElement.cs</Link>
@@ -1365,9 +1374,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Svg\SVGElement.cs">
       <Link>DOM\Svg\SVGElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Svg\SVGFactory.cs">
-      <Link>DOM\Svg\SVGFactory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Svg\SVGForeignObjectElement.cs">
       <Link>DOM\Svg\SVGForeignObjectElement.cs</Link>
@@ -1504,6 +1510,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlBodyElement.cs">
       <Link>Interfaces\Html\IHtmlBodyElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlBreakRowElement.cs">
+      <Link>Interfaces\Html\IHtmlBreakRowElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDivElement.cs">
       <Link>Interfaces\Html\IHtmlDivElement.cs</Link>
     </Compile>
@@ -1549,8 +1558,14 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlScriptElement.cs">
       <Link>Interfaces\Html\IHtmlScriptElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlSpanElement.cs">
+      <Link>Interfaces\Html\IHtmlSpanElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlStyleElement.cs">
       <Link>Interfaces\Html\IHtmlStyleElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTimeElement.cs">
+      <Link>Interfaces\Html\IHtmlTimeElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTitleElement.cs">
       <Link>Interfaces\Html\IHtmlTitleElement.cs</Link>
