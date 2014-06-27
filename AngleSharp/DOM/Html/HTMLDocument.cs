@@ -23,7 +23,7 @@
         HTMLCollection<HTMLFormElement> _forms;
         HTMLCollection<HTMLScriptElement> _scripts;
         HTMLCollection<HTMLImageElement> _images;
-        HTMLCollection<HTMLAnchorElement> _anchors;
+        HTMLCollection<IHtmlAnchorElement> _anchors;
         HTMLCollection _embeds;
         HTMLCollection _links;
 
@@ -193,9 +193,9 @@
         /// Gets a list of all of the anchors in the document.
         /// </summary>
         [DomName("anchors")]
-        public HTMLCollection<HTMLAnchorElement> Anchors
+        public HTMLCollection<IHtmlAnchorElement> Anchors
         {
-            get { return _anchors ?? (_anchors = new HTMLCollection<HTMLAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name))); }
+            get { return _anchors ?? (_anchors = new HTMLCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name))); }
         }
 
         /// <summary>

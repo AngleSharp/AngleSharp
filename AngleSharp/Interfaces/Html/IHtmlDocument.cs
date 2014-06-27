@@ -10,7 +10,7 @@
     [DomName("HTMLDocument")]
     public interface IHtmlDocument : IDocument
     {
-        HTMLCollection<HTMLAnchorElement> Anchors { get; }
+        HTMLCollection<IHtmlAnchorElement> Anchors { get; }
         IHtmlBodyElement Body { get; }
         Cookie Cookie { get; set; }
         String Domain { get; }

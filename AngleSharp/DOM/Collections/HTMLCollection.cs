@@ -11,7 +11,7 @@
     /// </summary>
     /// <typeparam name="T">The type of elements that can be contained.</typeparam>
     public class HTMLCollection<T> : IHtmlCollection
-        where T : Element
+        where T : class, IElement
     {
         #region Fields
 
@@ -122,7 +122,7 @@
             for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
                 if (parent.ChildNodes[i] is T)
-                    yield return (T)parent.ChildNodes[i];
+                    yield return parent.ChildNodes[i] as T;
 
                 foreach (var element in GetElementsOf(parent.ChildNodes[i]))
                     yield return element;
@@ -134,7 +134,7 @@
             for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
                 if (parent.ChildNodes[i] is T)
-                    yield return (T)parent.ChildNodes[i];
+                    yield return parent.ChildNodes[i] as T;
             }
         }
 
@@ -161,12 +161,12 @@
 
         Element IHtmlCollection.this[int index]
         {
-            get { return this[index]; }
+            get { return this[index] as Element; }
         }
 
         Element IHtmlCollection.this[String name]
         {
-            get { return this[name]; }
+            get { return this[name] as Element; }
         }
 
         IEnumerator<Element> IEnumerable<Element>.GetEnumerator()

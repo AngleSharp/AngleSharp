@@ -296,5 +296,10 @@
         /// The start attribute.
         /// </summary>
         public static readonly String Start = "start";
+
+        /// <summary>
+        /// The ping attribute.
+        /// </summary>
+        public static readonly String Ping = "ping";
     }
 }
