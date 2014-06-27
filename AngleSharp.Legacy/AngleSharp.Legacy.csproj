@@ -1504,6 +1504,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IGlobalEventHandlers.cs">
       <Link>Interfaces\Html\IGlobalEventHandlers.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlAnchorElement.cs">
+      <Link>Interfaces\Html\IHtmlAnchorElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlBaseElement.cs">
       <Link>Interfaces\Html\IHtmlBaseElement.cs</Link>
     </Compile>
@@ -1542,6 +1545,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMetaElement.cs">
       <Link>Interfaces\Html\IHtmlMetaElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlModElement.cs">
+      <Link>Interfaces\Html\IHtmlModElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlOrderedListElement.cs">
       <Link>Interfaces\Html\IHtmlOrderedListElement.cs</Link>
