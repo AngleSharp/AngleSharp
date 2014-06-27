@@ -122,7 +122,7 @@ namespace ConsoleInteraction
             for (int i = 0; i < body.ChildNodes.Length; i++)
             {
                 var child = body.ChildNodes[i];
-                var element = child as HTMLAnchorElement;
+                var element = child as IHtmlAnchorElement;
 
                 if (element != null && element.HasAttribute("name"))
                 {

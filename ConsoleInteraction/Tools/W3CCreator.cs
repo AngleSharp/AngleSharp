@@ -35,7 +35,7 @@ namespace ConsoleInteraction
             var links = doc.QuerySelectorAll("body > ul > li > a");
             var methods = new List<String>();
 
-            foreach (HTMLAnchorElement link in links)
+            foreach (IHtmlAnchorElement link in links)
                 CreateCssSelectorTest(link.Href, methods);
         }
 
