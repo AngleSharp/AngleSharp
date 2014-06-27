@@ -284,6 +284,7 @@
     <Compile Include="Interfaces\Html\IHtmlLinkElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlListItemElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlMetaElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlModElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlOrderedListElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlParagraphElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlPreElement.cs" />
