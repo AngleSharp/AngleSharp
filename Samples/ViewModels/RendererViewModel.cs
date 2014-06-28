@@ -89,58 +89,58 @@ namespace Samples.ViewModels
                                 break;
 
                             case "img":
-                                FillBuffer(Render((HTMLImageElement)node));
+                                FillBuffer(Render((IHtmlImageElement)node));
                                 break;
 
                             case "b":
                             case "strong":
-                                {
-                                    var previous = currentFontWeight;
-                                    currentFontWeight = FontWeights.Bold;
-                                    Render(node, box);
-                                    currentFontWeight = previous;
-                                }
+                            {
+                                var previous = currentFontWeight;
+                                currentFontWeight = FontWeights.Bold;
+                                Render(node, box);
+                                currentFontWeight = previous;
                                 break;
+                            }
 
                             case "i":
-                                {
-                                    var previous = currentFontStyle;
-                                    currentFontStyle = FontStyles.Italic;
-                                    Render(node, box);
-                                    currentFontStyle = previous;
-                                }
+                            {
+                                var previous = currentFontStyle;
+                                currentFontStyle = FontStyles.Italic;
+                                Render(node, box);
+                                currentFontStyle = previous;
                                 break;
+                            }
 
                             case "u":
-                                {
-                                    var previous = currentUnderline;
-                                    currentUnderline = true;
-                                    Render(node, box);
-                                    currentUnderline = previous;
-                                }
+                            {
+                                var previous = currentUnderline;
+                                currentUnderline = true;
+                                Render(node, box);
+                                currentUnderline = previous;
                                 break;
+                            }
 
                             case "strike":
-                                {
-                                    var previous = currentStrike;
-                                    currentStrike = true;
-                                    Render(node, box);
-                                    currentStrike = previous;
-                                }
+                            {
+                                var previous = currentStrike;
+                                currentStrike = true;
+                                Render(node, box);
+                                currentStrike = previous;
                                 break;
+                            }
 
                             case "br":
                                 FillBuffer(new LineBreak());
                                 break;
 
                             case "a":
-                                {
-                                    var previous = isHyperlink;
-                                    isHyperlink = true;
-                                    Render(node, box);
-                                    isHyperlink = previous;
-                                }
+                            {
+                                var previous = isHyperlink;
+                                isHyperlink = true;
+                                Render(node, box);
+                                isHyperlink = previous;
                                 break;
+                            }
 
                             case "ul":
                                 FlushBuffer(box.Blocks);
@@ -177,7 +177,7 @@ namespace Samples.ViewModels
             }
         }
 
-        Inline Render(HTMLImageElement element)
+        Inline Render(IHtmlImageElement element)
         {
             var f = new Figure();
             f.FlowDirection = FlowDirection.LeftToRight;
@@ -186,7 +186,7 @@ namespace Samples.ViewModels
             img.Stretch = Stretch.None;
             var src = new BitmapImage();
             src.BeginInit();
-            src.UriSource = new Uri(url, Sanitize(element.Src));
+            src.UriSource = new Uri(url, Sanitize(element.Source));
             src.EndInit();
             f.Blocks.Add(container);
             container.Child = img;
