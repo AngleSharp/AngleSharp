@@ -33,7 +33,7 @@
 
         #region Properties
 
-        public String Src
+        public String Source
         {
             get { return GetAttribute(AttributeNames.Src); }
             set { SetAttribute(AttributeNames.Src, value); }
@@ -45,13 +45,13 @@
             set { SetAttribute(AttributeNames.Type, value); }
         }
 
-        public String Width
+        public String DisplayWidth
         {
             get { return GetAttribute(AttributeNames.Width); }
             set { SetAttribute(AttributeNames.Width, value); }
         }
 
-        public String Height
+        public String DisplayHeight
         {
             get { return GetAttribute(AttributeNames.Height); }
             set { SetAttribute(AttributeNames.Height, value); }

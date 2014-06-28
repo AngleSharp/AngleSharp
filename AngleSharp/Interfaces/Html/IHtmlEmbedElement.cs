@@ -12,7 +12,7 @@
         /// Gets or sets the source of the object to embed.
         /// </summary>
         [DomName("src")]
-        String Src { get; set; }
+        String Source { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the embedded object.
@@ -24,12 +24,12 @@
         /// Gets or sets the display width of the object.
         /// </summary>
         [DomName("width")]
-        String Width { get; set; }
+        String DisplayWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the display height of the object.
         /// </summary>
         [DomName("height")]
-        String Height { get; set; }
+        String DisplayHeight { get; set; }
     }
 }
