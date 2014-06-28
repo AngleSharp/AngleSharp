@@ -12,13 +12,13 @@
         /// Gets or sets the alternative text.
         /// </summary>
         [DomName("alt")]
-        String Alt { get; set; }
+        String AlternativeText { get; set; }
 
         /// <summary>
         /// Gets or sets the image source.
         /// </summary>
         [DomName("src")]
-        String Src { get; set; }
+        String Source { get; set; }
 
         /// <summary>
         /// Gets or sets the cross-origin attribute.
@@ -27,7 +27,8 @@
         String CrossOrigin { get; set; }
 
         /// <summary>
-        /// Gets or sets the usemap attribute, which indicates that the image has an associated image map.
+        /// Gets or sets the usemap attribute, which indicates that the
+        /// image has an associated image map.
         /// </summary>
         [DomName("useMap")]
         String UseMap { get; set; }
@@ -44,30 +45,30 @@
         /// Gets or sets the displayed width of the image element.
         /// </summary>
         [DomName("width")]
-        UInt32 Width { get; set; }
+        UInt32 DisplayWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the displayed width of the image element.
         /// </summary>
         [DomName("height")]
-        UInt32 Height { get; set; }
+        UInt32 DisplayHeight { get; set; }
 
         /// <summary>
         /// Gets the width of the image.
         /// </summary>
         [DomName("naturalWidth")]
-        UInt32 NaturalWidth { get; }
+        UInt32 OriginalWidth { get; }
 
         /// <summary>
         /// Gets the height of the image.
         /// </summary>
         [DomName("naturalHeight")]
-        UInt32 NaturalHeight { get; }
+        UInt32 OriginalHeight { get; }
 
         /// <summary>
         /// Gets if the image is completely available.
         /// </summary>
         [DomName("complete")]
-        Boolean Complete { get; }
+        Boolean IsCompleted { get; }
     }
 }

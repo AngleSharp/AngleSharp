@@ -17,7 +17,7 @@
         HTMLCollection Embeds { get; }
         HTMLCollection<HTMLFormElement> Forms { get; }
         IHtmlHeadElement Head { get; }
-        HTMLCollection<HTMLImageElement> Images { get; }
+        HTMLCollection<IHtmlImageElement> Images { get; }
         HTMLCollection Links { get; }
         void Load(String url);
         HTMLCollection<HTMLScriptElement> Scripts { get; }

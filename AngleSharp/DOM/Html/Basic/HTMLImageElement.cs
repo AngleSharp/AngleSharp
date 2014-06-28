@@ -37,7 +37,7 @@
         /// <summary>
         /// Gets or sets the image source.
         /// </summary>
-        public String Src
+        public String Source
         {
             get { return GetAttribute(AttributeNames.Src); }
             set { SetAttribute(AttributeNames.Src, value); }
@@ -46,7 +46,7 @@
         /// <summary>
         /// Gets or sets the alternative text.
         /// </summary>
-        public String Alt
+        public String AlternativeText
         {
             get { return GetAttribute(AttributeNames.Alt); }
             set { SetAttribute(AttributeNames.Alt, value); }
@@ -73,7 +73,7 @@
         /// <summary>
         /// Gets or sets the displayed width of the image element.
         /// </summary>
-        public UInt32 Width
+        public UInt32 DisplayWidth
         {
             get { return ToInteger(GetAttribute(AttributeNames.Width), _imageWidth); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
@@ -82,7 +82,7 @@
         /// <summary>
         /// Gets or sets the displayed height of the image element.
         /// </summary>
-        public UInt32 Height
+        public UInt32 DisplayHeight
         {
             get { return ToInteger(GetAttribute(AttributeNames.Height), _imageHeight); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
@@ -91,7 +91,7 @@
         /// <summary>
         /// Gets the width of the image.
         /// </summary>
-        public UInt32 NaturalWidth
+        public UInt32 OriginalWidth
         {
             get { return _imageWidth; }
         }
@@ -99,7 +99,7 @@
         /// <summary>
         /// Gets the height of the image.
         /// </summary>
-        public UInt32 NaturalHeight
+        public UInt32 OriginalHeight
         {
             get { return _imageHeight; }
         }
@@ -107,7 +107,7 @@
         /// <summary>
         /// Gets if the image is completely available.
         /// </summary>
-        public Boolean Complete
+        public Boolean IsCompleted
         {
             get { return _loaded; }
         }

@@ -22,7 +22,7 @@
         HTMLCollection _all;
         HTMLCollection<HTMLFormElement> _forms;
         HTMLCollection<HTMLScriptElement> _scripts;
-        HTMLCollection<HTMLImageElement> _images;
+        HTMLCollection<IHtmlImageElement> _images;
         HTMLCollection<IHtmlAnchorElement> _anchors;
         HTMLCollection _embeds;
         HTMLCollection _links;
@@ -211,9 +211,9 @@
         /// Gets the images in the document.
         /// </summary>
         [DomName("images")]
-        public HTMLCollection<HTMLImageElement> Images
+        public HTMLCollection<IHtmlImageElement> Images
         {
-            get { return _images ?? (_images = new HTMLCollection<HTMLImageElement>(this)); }
+            get { return _images ?? (_images = new HTMLCollection<IHtmlImageElement>(this)); }
         }
 
         /// <summary>
