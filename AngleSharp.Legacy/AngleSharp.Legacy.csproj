@@ -1525,6 +1525,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlElement.cs">
       <Link>Interfaces\Html\IHtmlElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlEmbedElement.cs">
+      <Link>Interfaces\Html\IHtmlEmbedElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlHeadElement.cs">
       <Link>Interfaces\Html\IHtmlHeadElement.cs</Link>
     </Compile>
