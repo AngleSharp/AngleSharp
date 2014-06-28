@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the embed element.
     /// </summary>
-    [DomName("HTMLEmbedElement")]
-    public sealed class HTMLEmbedElement : HTMLElement
+    sealed class HTMLEmbedElement : HTMLElement, IHtmlEmbedElement
     {
         #region ctor
 
@@ -28,6 +27,34 @@
         protected internal override Boolean IsSpecial
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region Properties
+
+        public String Src
+        {
+            get { return GetAttribute(AttributeNames.Src); }
+            set { SetAttribute(AttributeNames.Src, value); }
+        }
+
+        public String Type
+        {
+            get { return GetAttribute(AttributeNames.Type); }
+            set { SetAttribute(AttributeNames.Type, value); }
+        }
+
+        public String Width
+        {
+            get { return GetAttribute(AttributeNames.Width); }
+            set { SetAttribute(AttributeNames.Width, value); }
+        }
+
+        public String Height
+        {
+            get { return GetAttribute(AttributeNames.Height); }
+            set { SetAttribute(AttributeNames.Height, value); }
         }
 
         #endregion
