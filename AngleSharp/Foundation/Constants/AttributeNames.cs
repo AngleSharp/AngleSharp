@@ -301,5 +301,20 @@
         /// The ping attribute.
         /// </summary>
         public static readonly String Ping = "ping";
+
+        /// <summary>
+        /// The ismap attribute.
+        /// </summary>
+        public static readonly String IsMap = "ismap";
+
+        /// <summary>
+        /// The usemap attribute.
+        /// </summary>
+        public static readonly String UseMap = "usemap";
+
+        /// <summary>
+        /// The crossorigin attribute.
+        /// </summary>
+        public static readonly String CrossOrigin = "crossorigin";
     }
 }

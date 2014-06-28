@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the image element.
     /// </summary>
-    [DomName("HTMLImageElement")]
-    public sealed class HTMLImageElement : HTMLElement
+    sealed class HTMLImageElement : HTMLElement, IHtmlImageElement
     {
         #region Fields
 
@@ -38,67 +37,60 @@
         /// <summary>
         /// Gets or sets the image source.
         /// </summary>
-        [DomName("src")]
         public String Src
         {
-            get { return GetAttribute("src"); }
-            set { SetAttribute("src", value); }
+            get { return GetAttribute(AttributeNames.Src); }
+            set { SetAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
         /// Gets or sets the alternative text.
         /// </summary>
-        [DomName("alt")]
         public String Alt
         {
-            get { return GetAttribute("alt"); }
-            set { SetAttribute("alt", value); }
+            get { return GetAttribute(AttributeNames.Alt); }
+            set { SetAttribute(AttributeNames.Alt, value); }
         }
 
         /// <summary>
         /// Gets or sets the cross-origin attribute.
         /// </summary>
-        [DomName("crossOrigin")]
         public String CrossOrigin
         {
-            get { return GetAttribute("crossorigin"); }
-            set { SetAttribute("crossorigin", value); }
+            get { return GetAttribute(AttributeNames.CrossOrigin); }
+            set { SetAttribute(AttributeNames.CrossOrigin, value); }
         }
 
         /// <summary>
         /// Gets or sets the usemap attribute, which indicates that the image has an associated image map.
         /// </summary>
-        [DomName("useMap")]
         public String UseMap
         {
-            get { return GetAttribute("usemap"); }
-            set { SetAttribute("usemap", value); }
+            get { return GetAttribute(AttributeNames.UseMap); }
+            set { SetAttribute(AttributeNames.UseMap, value); }
         }
 
         /// <summary>
         /// Gets or sets the displayed width of the image element.
         /// </summary>
-        [DomName("width")]
         public UInt32 Width
         {
-            get { return ToInteger(GetAttribute("width"), _imageWidth); }
-            set { SetAttribute("width", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Width), _imageWidth); }
+            set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the displayed height of the image element.
         /// </summary>
-        [DomName("height")]
         public UInt32 Height
         {
-            get { return ToInteger(GetAttribute("height"), _imageHeight); }
-            set { SetAttribute("height", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Height), _imageHeight); }
+            set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 
         /// <summary>
         /// Gets the width of the image.
         /// </summary>
-        [DomName("naturalWidth")]
         public UInt32 NaturalWidth
         {
             get { return _imageWidth; }
@@ -107,7 +99,6 @@
         /// <summary>
         /// Gets the height of the image.
         /// </summary>
-        [DomName("naturalHeight")]
         public UInt32 NaturalHeight
         {
             get { return _imageHeight; }
@@ -116,7 +107,6 @@
         /// <summary>
         /// Gets if the image is completely available.
         /// </summary>
-        [DomName("complete")]
         public Boolean Complete
         {
             get { return _loaded; }
@@ -127,11 +117,10 @@
         /// The attribute must not be specified on an element that does not
         /// have an ancestor a element with an href attribute.
         /// </summary>
-        [DomName("isMap")]
         public Boolean IsMap
         {
-            get { return GetAttribute("ismap") != null; }
-            set { SetAttribute("ismap", value ? string.Empty : null); }
+            get { return GetAttribute(AttributeNames.IsMap) != null; }
+            set { SetAttribute(AttributeNames.IsMap, value ? String.Empty : null); }
         }
 
         #endregion
