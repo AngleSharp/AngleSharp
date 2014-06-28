@@ -282,6 +282,7 @@
     <Compile Include="Interfaces\Html\IHtmlHeadingElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlHrElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlHtmlElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlImageElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlLinkElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlListItemElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlMetaElement.cs" />
