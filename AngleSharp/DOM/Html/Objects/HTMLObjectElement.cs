@@ -5,13 +5,12 @@
     /// <summary>
     /// Represents the HTML object element.
     /// </summary>
-    [DomName("HTMLObjectElement")]
-    public sealed class HTMLObjectElement : HTMLFormControlElement, IScopeElement
+    sealed class HTMLObjectElement : HTMLFormControlElement, IScopeElement, IHtmlObjectElement
     {
         #region Fields
 
-        Document _contentDocument;
-        Object _contentWindow;
+        IDocument _contentDocument;
+        IWindowProxy _contentWindow;
         UInt32 _objWidth;
         UInt32 _objHeight;
 
@@ -22,6 +21,8 @@
         internal HTMLObjectElement()
         {
             _name = Tags.Object;
+            _contentDocument = null;
+            _contentWindow = null;
 
             //TODO
             _objHeight = 0;
@@ -35,21 +36,19 @@
         /// <summary>
         /// Gets or sets the address of the resource.
         /// </summary>
-        [DomName("data")]
-        public String Data
+        public String Source
         {
-            get { return GetAttribute("data"); }
-            set { SetAttribute("data", value); }
+            get { return GetAttribute(AttributeNames.Data); }
+            set { SetAttribute(AttributeNames.Data, value); }
         }
 
         /// <summary>
         /// Gets or sets the type of the resource. If present, the attribute must be a valid MIME type.
         /// </summary>
-        [DomName("type")]
         public String Type
         {
-            get { return GetAttribute("type"); }
-            set { SetAttribute("type", value); }
+            get { return GetAttribute(AttributeNames.Type); }
+            set { SetAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -57,49 +56,44 @@
         /// attribute is only to be used if the value of the type attribute and the Content-Type of the
         /// aforementioned resource match.
         /// </summary>
-        [DomName("typeMustMatch")]
         public Boolean TypeMustMatch
         {
-            get { return GetAttribute("typemustmatch") != null; }
-            set { SetAttribute("typemustmatch", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.TypeMustMatch) != null; }
+            set { SetAttribute(AttributeNames.TypeMustMatch, value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets or sets the associated image map of the object if the object element represents an image.
         /// </summary>
-        [DomName("useMap")]
         public String UseMap
         {
-            get { return GetAttribute("usemap"); }
-            set { SetAttribute("usemap", value); }
+            get { return GetAttribute(AttributeNames.UseMap); }
+            set { SetAttribute(AttributeNames.UseMap, value); }
         }
 
         /// <summary>
         /// Gets or sets the width of the object element.
         /// </summary>
-        [DomName("width")]
-        public UInt32 Width
+        public UInt32 DisplayWidth
         {
-            get { return ToInteger(GetAttribute("width"), _objWidth); }
-            set { SetAttribute("width", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Width), _objWidth); }
+            set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the height of the object element.
         /// </summary>
-        [DomName("height")]
-        public UInt32 Height
+        public UInt32 DisplayHeight
         {
-            get { return ToInteger(GetAttribute("height"), _objHeight); }
-            set { SetAttribute("height", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Height), _objHeight); }
+            set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 
         /// <summary>
         /// Gets the active document of the object element's nested browsing context, if it has one;
         /// otherwise returns null.
         /// </summary>
-        [DomName("contentDocument")]
-        public Document ContentDocument
+        public IDocument ContentDocument
         {
             get { return _contentDocument; }
         }
@@ -107,8 +101,7 @@
         /// <summary>
         /// Gets the object element's nested browsing context, if it has one; otherwise returns null.
         /// </summary>
-        [DomName("contentWindow")]
-        public Object ContentWindow //TODO Object is WindowProxy (or IWindow to be more specific)
+        public IWindowProxy ContentWindow //TODO Object is WindowProxy (or IWindow to be more specific)
         {
             get { return _contentWindow; }
         }

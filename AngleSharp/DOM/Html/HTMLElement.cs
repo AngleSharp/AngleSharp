@@ -261,11 +261,11 @@
         /// Gets the assigned form if any (use only on selected elements).
         /// </summary>
         /// <returns>The parent form OR assigned form if any.</returns>
-        protected HTMLFormElement GetAssignedForm()
+        protected IHtmlFormElement GetAssignedForm()
         {
-            var par = _parent;
+            var par = _parent as INode;
 
-            while (!(par is HTMLFormElement))
+            while (!(par is IHtmlFormElement))
             {
                 if (par == null)
                     break;
@@ -281,12 +281,12 @@
                 var formid = GetAttribute("form");
 
                 if (par == null && !String.IsNullOrEmpty(formid))
-                    par = _owner.GetElementById(formid) as HTMLFormElement;
+                    par = _owner.GetElementById(formid) as IHtmlFormElement;
                 else
                     return null;
             }
 
-            return par as HTMLFormElement;
+            return par as IHtmlFormElement;
         }
 
         internal override void OnAttributeChanged(String name)

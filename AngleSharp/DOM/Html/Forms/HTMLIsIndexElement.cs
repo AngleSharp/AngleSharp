@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the HTML isindex element.
     /// </summary>
@@ -26,7 +26,7 @@ namespace AngleSharp.DOM.Html
         /// Gets the form element containing this control or null if this control is not within the context of a form.
         /// </summary>
         [DomName("form")]
-        public HTMLFormElement Form
+        public IHtmlFormElement Form
         {
             get;
             internal set;
@@ -38,8 +38,8 @@ namespace AngleSharp.DOM.Html
         [DomName("prompt")]
         public String Prompt
         {
-            get { return GetAttribute("prompt"); }
-            set { SetAttribute("prompt", value); }
+            get { return GetAttribute(AttributeNames.Prompt); }
+            set { SetAttribute(AttributeNames.Prompt, value); }
         }
 
         #endregion

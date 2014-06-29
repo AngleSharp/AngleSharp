@@ -20,7 +20,7 @@
         Cookie _cookie;
         Task _queue;
         HTMLCollection _all;
-        HTMLCollection<HTMLFormElement> _forms;
+        HTMLCollection<IHtmlFormElement> _forms;
         HTMLCollection<HTMLScriptElement> _scripts;
         HTMLCollection<IHtmlImageElement> _images;
         HTMLCollection<IHtmlAnchorElement> _anchors;
@@ -202,9 +202,9 @@
         /// Gets the forms in the document.
         /// </summary>
         [DomName("forms")]
-        public HTMLCollection<HTMLFormElement> Forms
+        public HTMLCollection<IHtmlFormElement> Forms
         {
-            get { return _forms ?? (_forms = new HTMLCollection<HTMLFormElement>(this)); }
+            get { return _forms ?? (_forms = new HTMLCollection<IHtmlFormElement>(this)); }
         }
 
         /// <summary>

@@ -10,8 +10,7 @@
     /// <summary>
     /// Represents the form element.
     /// </summary>
-    [DomName("HTMLFormElement")]
-    public sealed class HTMLFormElement : HTMLElement
+    sealed class HTMLFormElement : HTMLElement, IHtmlFormElement
     {
         #region Fields
 
@@ -42,7 +41,7 @@
         /// </summary>
         /// <param name="index">The index in the elements collection.</param>
         /// <returns>The element or null.</returns>
-        public Element this[Int32 index]
+        public IElement this[Int32 index]
         {
             get { return _elements[index]; }
         }
@@ -64,17 +63,15 @@
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        [DomName("name")]
         public String Name
         {
-            get { return GetAttribute("name"); }
-            set { SetAttribute("name", value); }
+            get { return GetAttribute(AttributeNames.Name); }
+            set { SetAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
         /// Gets the number of elements in the Elements collection.
         /// </summary>
-        [DomName("length")]
         public Int32 Length
         {
             get { return _elements.Length; }
@@ -83,7 +80,6 @@
         /// <summary>
         /// Gets all the form controls belonging to this form element.
         /// </summary>
-        [DomName("elements")]
         public HTMLFormControlsCollection Elements
         {
             get { return _elements; }
@@ -92,47 +88,42 @@
         /// <summary>
         /// Gets or sets the character encodings that are to be used for the submission.
         /// </summary>
-        [DomName("acceptCharset")]
         public String AcceptCharset
         {
-            get { return GetAttribute("acceptCharset"); }
-            set { SetAttribute("acceptCharset", value); }
+            get { return GetAttribute(AttributeNames.AcceptCharset); }
+            set { SetAttribute(AttributeNames.AcceptCharset, value); }
         }
 
         /// <summary>
         /// Gets or sets the form's name within the forms collection.
         /// </summary>
-        [DomName("action")]
         public String Action
         {
-            get { return GetAttribute("action"); }
-            set { SetAttribute("action", value); }
+            get { return GetAttribute(AttributeNames.Action); }
+            set { SetAttribute(AttributeNames.Action, value); }
         }
 
         /// <summary>
         /// Gets or sets if autocomplete is turned on or off.
         /// </summary>
-        [DomName("autocomplete")]
-        public PowerState Autocomplete
+        public String Autocomplete
         {
-            get { return ToEnum(GetAttribute("autocomplete"), PowerState.On); }
-            set { SetAttribute("autocomplete", value.ToString()); }
+            get { return GetAttribute(AttributeNames.AutoComplete); }
+            set { SetAttribute(AttributeNames.AutoComplete, value); }
         }
 
         /// <summary>
         /// Gets or sets the encoding to use for sending the form.
         /// </summary>
-        [DomName("enctype")]
         public String Enctype
         {
-            get { return CheckEncType(GetAttribute("enctype")); }
-            set { SetAttribute("enctype", CheckEncType(value)); }
+            get { return CheckEncType(GetAttribute(AttributeNames.Enctype)); }
+            set { SetAttribute(AttributeNames.Enctype, CheckEncType(value)); }
         }
 
         /// <summary>
         /// Gets or sets the encoding to use for sending the form.
         /// </summary>
-        [DomName("encoding")]
         public String Encoding
         {
             get { return Enctype; }
@@ -142,31 +133,28 @@
         /// <summary>
         /// Gets or sets the method to use for transmitting the form.
         /// </summary>
-        [DomName("method")]
-        public HttpMethod Method
+        public String Method
         {
-            get { return ToEnum(GetAttribute("method"), HttpMethod.Get); }
-            set { SetAttribute("method", value.ToString()); }
+            get { return GetAttribute(AttributeNames.Method); }
+            set { SetAttribute(AttributeNames.Method, value); }
         }
 
         /// <summary>
         /// Gets or sets the indicator that the form is not to be validated during submission.
         /// </summary>
-        [DomName("noValidate")]
         public Boolean NoValidate
         {
-            get { return GetAttribute("novalidate") != null; }
-            set { SetAttribute("novalidate", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.NoValidate) != null; }
+            set { SetAttribute(AttributeNames.NoValidate, value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets or sets the target name of the response to the request.
         /// </summary>
-        [DomName("target")]
         public String Target
         {
-            get { return GetAttribute("target"); }
-            set { SetAttribute("target", value); }
+            get { return GetAttribute(AttributeNames.Target); }
+            set { SetAttribute(AttributeNames.Target, value); }
         }
 
         /// <summary>
@@ -184,7 +172,6 @@
         /// <summary>
         /// Submits the form element from the form element itself.
         /// </summary>
-        [DomName("submit")]
         public void Submit()
         {
             SubmitForm(this, true);
@@ -193,7 +180,6 @@
         /// <summary>
         /// Resets the form to the previous (default) state.
         /// </summary>
-        [DomName("reset")]
         public void Reset()
         {
             foreach (var element in _elements)
@@ -204,16 +190,33 @@
         /// Checks if the form is valid, i.e. if all fields fulfill their requirements.
         /// </summary>
         /// <returns>True if the form is valid, otherwise false.</returns>
-        [DomName("checkValidity")]
         public Boolean CheckValidity()
         {
             foreach (var element in _elements)
+            {
                 if (!element.CheckValidity())
                     return false;
+            }
 
             return true;
         }
-        
+
+        public Boolean ReportValidity()
+        {
+            //TODO see:
+            //http://www.whatwg.org/specs/web-apps/current-work/multipage/forms.html#dom-form-reportvalidity
+            return CheckValidity();
+        }
+
+        /// <summary>
+        /// Requests the input fields to be automatically filled with previous entries.
+        /// </summary>
+        public void RequestAutocomplete()
+        {
+            //TODO see:
+            //http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#dom-form-requestautocomplete
+        }
+
         #endregion
 
         #region Helpers
@@ -262,27 +265,28 @@
             //submit() method is set, then let replace be true. Otherwise, let it be false
 
             var location = new Location(action);
-            var scheme = location.Protocol.TrimEnd(new [] { ':' });
+            var scheme = location.Protocol.TrimEnd(new[] { ':' });
+            var method = ToEnum(Method, HttpMethod.Get);
 
             if (scheme == KnownProtocols.Http || scheme == KnownProtocols.Https)
             {
-                if (Method == HttpMethod.Get)
+                if (method == HttpMethod.Get)
                     MutateActionUrl(location);
-                else if (Method == HttpMethod.Post)
+                else if (method == HttpMethod.Post)
                     SubmitAsEntityBody(location);
             }
             else if (scheme == KnownProtocols.Data)
             {
-                if (Method == HttpMethod.Get)
+                if (method == HttpMethod.Get)
                     GetActionUrl(location);
-                else if (Method == HttpMethod.Post)
+                else if (method == HttpMethod.Post)
                     PostToData(location);
             }
             else if (scheme == KnownProtocols.Mailto)
             {
-                if (Method == HttpMethod.Get)
+                if (method == HttpMethod.Get)
                     MailWithHeaders(location);
-                else if (Method == HttpMethod.Post)
+                else if (method == HttpMethod.Post)
                     MailAsBody(location);
             }
             else if (scheme == KnownProtocols.Ftp || scheme == KnownProtocols.JavaScript)

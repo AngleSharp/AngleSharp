@@ -37,8 +37,8 @@
         /// </summary>
         public String ContentHtml
         {
-            get { return GetAttribute(AttributeNames.Srcdoc); }
-            set { SetAttribute(AttributeNames.Srcdoc, value); }
+            get { return GetAttribute(AttributeNames.SrcDoc); }
+            set { SetAttribute(AttributeNames.SrcDoc, value); }
         }
 
         public ISettableTokenList Sandbox
@@ -51,8 +51,8 @@
         /// </summary>
         public Boolean IsSeamless
         {
-            get { return GetAttribute(AttributeNames.Srcdoc) != null; }
-            set { SetAttribute(AttributeNames.Srcdoc, value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.SrcDoc) != null; }
+            set { SetAttribute(AttributeNames.SrcDoc, value ? String.Empty : null); }
         }
 
         /// <summary>

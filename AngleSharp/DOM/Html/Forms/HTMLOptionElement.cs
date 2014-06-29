@@ -1,14 +1,14 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the HTML option element.
     /// </summary>
     [DomName("HTMLOptionElement")]
     public sealed class HTMLOptionElement : HTMLElement, ISelectScopeElement, IImpliedEnd
     {
-        #region Members
+        #region Fields
 
         Boolean? _selected;
 
@@ -34,15 +34,15 @@ namespace AngleSharp.DOM.Html
         [DomName("disabled")]
         public Boolean Disabled
         {
-            get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.Disabled) != null; }
+            set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets the associated HTML form element.
         /// </summary>
         [DomName("form")]
-        public HTMLFormElement Form
+        public IHtmlFormElement Form
         {
             get { return GetAssignedForm(); }
         }
@@ -53,8 +53,8 @@ namespace AngleSharp.DOM.Html
         [DomName("label")]
         public String Label
         {
-            get { return GetAttribute("label"); }
-            set { SetAttribute("label", value); }
+            get { return GetAttribute(AttributeNames.Label); }
+            set { SetAttribute(AttributeNames.Label, value); }
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace AngleSharp.DOM.Html
         [DomName("value")]
         public String Value
         {
-            get { return GetAttribute("value") ?? String.Empty; }
-            set { SetAttribute("value", value); }
+            get { return GetAttribute(AttributeNames.Value) ?? String.Empty; }
+            set { SetAttribute(AttributeNames.Value, value); }
         }
 
         /// <summary>
@@ -110,8 +110,8 @@ namespace AngleSharp.DOM.Html
         [DomName("defaultSelected")]
         public Boolean DefaultSelected
         {
-            get { return GetAttribute("selected") != null; }
-            set { SetAttribute("selected", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.Selected) != null; }
+            set { SetAttribute(AttributeNames.Selected, value ? String.Empty : null); }
         }
 
         /// <summary>

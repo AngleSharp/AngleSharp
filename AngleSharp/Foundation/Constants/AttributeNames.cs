@@ -325,11 +325,61 @@
         /// <summary>
         /// The srcdoc attribute.
         /// </summary>
-        public static readonly String Srcdoc = "srcdoc";
+        public static readonly String SrcDoc = "srcdoc";
 
         /// <summary>
         /// The allowfullscreen attribute.
         /// </summary>
         public static readonly String AllowFullscreen = "allowfullscreen";
+
+        /// <summary>
+        /// The data attribute.
+        /// </summary>
+        public static readonly String Data = "data";
+
+        /// <summary>
+        /// The typemustmatch attribute.
+        /// </summary>
+        public static readonly String TypeMustMatch = "typemustmatch";
+
+        /// <summary>
+        /// The autofocus attribute.
+        /// </summary>
+        public static readonly String AutoFocus = "autofocus";
+
+        /// <summary>
+        /// The acceptcharset attribute.
+        /// </summary>
+        public static readonly String AcceptCharset = "acceptcharset";
+
+        /// <summary>
+        /// The enctype attribute.
+        /// </summary>
+        public static readonly String Enctype = "enctype";
+
+        /// <summary>
+        /// The autocomplete attribute.
+        /// </summary>
+        public static readonly String AutoComplete = "autocomplete";
+
+        /// <summary>
+        /// The method attribute.
+        /// </summary>
+        public static readonly String Method = "method";
+
+        /// <summary>
+        /// The novalidate attribute.
+        /// </summary>
+        public static readonly String NoValidate = "novalidate";
+
+        /// <summary>
+        /// The for attribute.
+        /// </summary>
+        public static readonly String For = "for";
+
+        /// <summary>
+        /// The seamless attribute.
+        /// </summary>
+        public static readonly String Seamless = "seamless";
     }
 }

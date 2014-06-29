@@ -34,15 +34,15 @@
         [DomName("name")]
         public String Name
         {
-            get { return GetAttribute("name"); }
-            set { SetAttribute("name", value); }
+            get { return GetAttribute(AttributeNames.Name); }
+            set { SetAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
         /// Gets the associated HTML form element.
         /// </summary>
         [DomName("form")]
-        public HTMLFormElement Form
+        public IHtmlFormElement Form
         {
             get { return GetAssignedForm(); }
         }
@@ -53,8 +53,8 @@
         [DomName("disabled")]
         public Boolean Disabled
         {
-            get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.Disabled) != null; }
+            set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -64,8 +64,8 @@
         [DomName("autofocus")]
         public Boolean Autofocus
         {
-            get { return GetAttribute("autofocus") != null; }
-            set { SetAttribute("autofocus", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.AutoFocus) != null; }
+            set { SetAttribute(AttributeNames.AutoFocus, value ? String.Empty : null); }
         }
 
         /// <summary>

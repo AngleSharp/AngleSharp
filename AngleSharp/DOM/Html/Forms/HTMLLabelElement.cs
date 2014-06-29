@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the HTML label element.
     /// </summary>
@@ -37,8 +37,8 @@ namespace AngleSharp.DOM.Html
         [DomName("accessKey")]
         public String AccessKey
         {
-            get { return GetAttribute("accesskey"); }
-            set { SetAttribute("accesskey", value); }
+            get { return GetAttribute(AttributeNames.AccessKey); }
+            set { SetAttribute(AttributeNames.AccessKey, value); }
         }
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace AngleSharp.DOM.Html
         [DomName("htmlFor")]
         public String HtmlFor
         {
-            get { return GetAttribute("for"); }
-            set { SetAttribute("for", value); }
+            get { return GetAttribute(AttributeNames.For); }
+            set { SetAttribute(AttributeNames.For, value); }
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace AngleSharp.DOM.Html
         /// any.
         /// </summary>
         [DomName("form")]
-        public HTMLFormElement Form
+        public IHtmlFormElement Form
         {
             get { return GetAssignedForm(); }
         }

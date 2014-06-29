@@ -76,9 +76,9 @@ namespace AngleSharp.DOM.Html
         /// overrides the method attribute of the form element that owns this element.
         /// </summary>
         [DomName("formMethod")]
-        public HttpMethod FormMethod
+        public String FormMethod
         {
-            get { if (Form == null) return HttpMethod.Post; return Form.Method; }
+            get { if (Form == null) return "post"; return Form.Method; }
             set { if (Form != null) Form.Method = value; }
         }
 
