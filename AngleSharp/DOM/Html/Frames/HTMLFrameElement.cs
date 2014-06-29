@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML frame element.
     /// </summary>
-    [DomName("HTMLFrameElement")]
-    public sealed class HTMLFrameElement : HTMLFrameElementBase
+    sealed class HTMLFrameElement : HTMLFrameElementBase
     {
         #region ctor
 
@@ -22,7 +21,6 @@
         /// <summary>
         /// Gets or sets if the frame cannot be resized.
         /// </summary>
-        [DomName("noResize")]
         public Boolean NoResize
         {
             get { return ToBoolean(GetAttribute(AttributeNames.NoResize), false); }

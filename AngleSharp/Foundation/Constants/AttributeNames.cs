@@ -316,5 +316,20 @@
         /// The crossorigin attribute.
         /// </summary>
         public static readonly String CrossOrigin = "crossorigin";
+
+        /// <summary>
+        /// The sandbox attribute.
+        /// </summary>
+        public static readonly String Sandbox = "sandbox";
+
+        /// <summary>
+        /// The srcdoc attribute.
+        /// </summary>
+        public static readonly String Srcdoc = "srcdoc";
+
+        /// <summary>
+        /// The allowfullscreen attribute.
+        /// </summary>
+        public static readonly String AllowFullscreen = "allowfullscreen";
     }
 }

@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the base class for frame owned elements.
     /// </summary>
-    public abstract class HTMLFrameOwnerElement : HTMLElement
+    abstract class HTMLFrameOwnerElement : HTMLElement
     {
         #region ctor
 
@@ -29,7 +29,6 @@
         /// <summary>
         /// Gets the width of the frame.
         /// </summary>
-        [DomName("width")]
         public Int32 Width
         {
             get { return ToInteger(GetAttribute(AttributeNames.Width), 0); }
@@ -39,7 +38,6 @@
         /// <summary>
         /// Gets the height of the frame.
         /// </summary>
-        [DomName("height")]
         public Int32 Height
         {
             get { return ToInteger(GetAttribute(AttributeNames.Height), 0); }
@@ -49,7 +47,6 @@
         /// <summary>
         /// Gets or sets the frame margin width, in pixels.
         /// </summary>
-        [DomName("marginWidth")]
         public Int32 MarginWidth
         {
             get { return ToInteger(GetAttribute(AttributeNames.MarginWidth), 0); }
@@ -59,7 +56,6 @@
         /// <summary>
         /// Gets or sets the frame margin height, in pixels.
         /// </summary>
-        [DomName("marginHeight")]
         public Int32 MarginHeight
         {
             get { return ToInteger(GetAttribute(AttributeNames.MarginHeight), 0); }
