@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets or sets the frame source.
         /// </summary>
-        public String Src
+        public String Source
         {
             get { return GetAttribute(AttributeNames.Src); }
             set { SetAttribute(AttributeNames.Src, value); }

@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets the width of the frame.
         /// </summary>
-        public Int32 Width
+        public Int32 DisplayWidth
         {
             get { return ToInteger(GetAttribute(AttributeNames.Width), 0); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets the height of the frame.
         /// </summary>
-        public Int32 Height
+        public Int32 DisplayHeight
         {
             get { return ToInteger(GetAttribute(AttributeNames.Height), 0); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }

@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets the content of the page that the nested browsing context is to contain.
         /// </summary>
-        public String SrcDoc
+        public String ContentHtml
         {
             get { return GetAttribute(AttributeNames.Srcdoc); }
             set { SetAttribute(AttributeNames.Srcdoc, value); }
@@ -49,7 +49,7 @@
         /// <summary>
         /// Gets or sets the value of the seamless attribute.
         /// </summary>
-        public Boolean Seamless
+        public Boolean IsSeamless
         {
             get { return GetAttribute(AttributeNames.Srcdoc) != null; }
             set { SetAttribute(AttributeNames.Srcdoc, value ? String.Empty : null); }
@@ -58,7 +58,7 @@
         /// <summary>
         /// Gets or sets if the frame's content can trigger the fullscreen mode.
         /// </summary>
-        public Boolean AllowFullscreen
+        public Boolean IsFullscreenAllowed
         {
             get { return GetAttribute(AttributeNames.AllowFullscreen) != null; }
             set { SetAttribute(AttributeNames.AllowFullscreen, value ? String.Empty : null); }
