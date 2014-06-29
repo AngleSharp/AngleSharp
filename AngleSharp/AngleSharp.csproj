@@ -279,6 +279,7 @@
     <Compile Include="Interfaces\Html\IHtmlDivElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlEmbedElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlFormElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlHeadElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlHeadingElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlHrElement.cs" />
@@ -289,6 +290,7 @@
     <Compile Include="Interfaces\Html\IHtmlListItemElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlMetaElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlModElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlObjectElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlOrderedListElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlParagraphElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlPreElement.cs" />

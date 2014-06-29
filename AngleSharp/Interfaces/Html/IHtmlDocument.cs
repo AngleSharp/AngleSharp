@@ -15,7 +15,7 @@
         Cookie Cookie { get; set; }
         String Domain { get; }
         HTMLCollection Embeds { get; }
-        HTMLCollection<HTMLFormElement> Forms { get; }
+        HTMLCollection<IHtmlFormElement> Forms { get; }
         IHtmlHeadElement Head { get; }
         HTMLCollection<IHtmlImageElement> Images { get; }
         HTMLCollection Links { get; }
