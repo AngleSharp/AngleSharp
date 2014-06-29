@@ -284,6 +284,7 @@
     <Compile Include="Interfaces\Html\IHtmlHrElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlHtmlElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlImageElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlInlineFrameElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlLinkElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlListItemElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlMetaElement.cs" />
@@ -325,6 +326,7 @@
     <Compile Include="Interfaces\IMutationRecord.cs" />
     <Compile Include="Interfaces\INamedNodeMap.cs" />
     <Compile Include="Interfaces\IWindowEventHandlers.cs" />
+    <Compile Include="Interfaces\IWindowProxy.cs" />
     <Compile Include="Interfaces\Navigator\INavigator.cs" />
     <Compile Include="Interfaces\INode.cs" />
     <Compile Include="Interfaces\INodeIterator.cs" />
