@@ -34,7 +34,7 @@ namespace UnitTests.Library
                 var url = BaseUrl + "PostUrlencodeNormal";
                 var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowRequests = true });
                 Assert.AreEqual(1, html.Forms.Length);
-                var form = html.Forms[0];
+                var form = html.Forms[0] as HTMLFormElement;
                 var name = form.Elements["Name"] as HTMLInputElement;
                 var number = form.Elements["Number"] as HTMLInputElement;
                 var isactive = form.Elements["IsActive"] as HTMLInputElement;
@@ -61,7 +61,7 @@ namespace UnitTests.Library
                 var url = BaseUrl + "PostUrlencodeFile";
                 var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowRequests = true });
                 Assert.AreEqual(1, html.Forms.Length);
-                var form = html.Forms[0];
+                var form = html.Forms[0] as HTMLFormElement;
                 var name = form.Elements["Name"] as HTMLInputElement;
                 var number = form.Elements["Number"] as HTMLInputElement;
                 var isactive = form.Elements["IsActive"] as HTMLInputElement;
@@ -92,7 +92,7 @@ namespace UnitTests.Library
                 var url = BaseUrl + "PostMultipartNormal";
                 var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowRequests = true });
                 Assert.AreEqual(1, html.Forms.Length);
-                var form = html.Forms[0];
+                var form = html.Forms[0] as HTMLFormElement;
                 var name = form.Elements["Name"] as HTMLInputElement;
                 var number = form.Elements["Number"] as HTMLInputElement;
                 var isactive = form.Elements["IsActive"] as HTMLInputElement;
@@ -119,7 +119,7 @@ namespace UnitTests.Library
                 var url = BaseUrl + "PostMultipartFile";
                 var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowRequests = true });
                 Assert.AreEqual(1, html.Forms.Length);
-                var form = html.Forms[0];
+                var form = html.Forms[0] as HTMLFormElement;
                 var name = form.Elements["Name"] as HTMLInputElement;
                 var number = form.Elements["Number"] as HTMLInputElement;
                 var isactive = form.Elements["IsActive"] as HTMLInputElement;
@@ -150,7 +150,7 @@ namespace UnitTests.Library
                 var url = BaseUrl + "PostMultipartFiles";
                 var html = DocumentBuilder.Html(new Uri(url), new Configuration { AllowRequests = true });
                 Assert.AreEqual(1, html.Forms.Length);
-                var form = html.Forms[0];
+                var form = html.Forms[0] as HTMLFormElement;
                 var name = form.Elements["Name"] as HTMLInputElement;
                 var number = form.Elements["Number"] as HTMLInputElement;
                 var isactive = form.Elements["IsActive"] as HTMLInputElement;
