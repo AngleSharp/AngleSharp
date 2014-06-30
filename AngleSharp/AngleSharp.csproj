@@ -300,6 +300,7 @@
     <Compile Include="Interfaces\Html\IHtmlSpanElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlStyleElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTableCaptionElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlTableCellElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTableColumnElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTableRowElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTimeElement.cs" />
