@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents a param element.
     /// </summary>
-    [DomName("HTMLParamElement")]
-    public sealed class HTMLParamElement : HTMLElement
+    sealed class HTMLParamElement : HTMLElement, IHtmlParamElement
     {
         #region ctor
 
@@ -25,21 +24,19 @@
         /// <summary>
         /// Gets or sets the value of the value attribute.
         /// </summary>
-        [DomName("value")]
         public String Value
         {
-            get { return GetAttribute("value"); }
-            set { SetAttribute("value", value); }
+            get { return GetAttribute(AttributeNames.Value); }
+            set { SetAttribute(AttributeNames.Value, value); }
         }
 
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        [DomName("name")]
         public String Name
         {
-            get { return GetAttribute("name"); }
-            set { SetAttribute("name", value); }
+            get { return GetAttribute(AttributeNames.Name); }
+            set { SetAttribute(AttributeNames.Name, value); }
         }
 
         #endregion
