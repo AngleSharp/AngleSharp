@@ -293,6 +293,7 @@
     <Compile Include="Interfaces\Html\IHtmlObjectElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlOrderedListElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlParagraphElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlParamElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlPreElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlQuoteElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlScriptElement.cs" />
