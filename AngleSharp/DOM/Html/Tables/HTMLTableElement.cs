@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        HTMLCollection<HTMLTableCaptionElement> _bodies;
+        HTMLCollection<HTMLTableSectionElement> _bodies;
         HTMLCollection<HTMLTableRowElement> _rows;
 
         #endregion
@@ -23,7 +23,7 @@
         {
             _name = Tags.Table;
             _rows = new HTMLCollection<HTMLTableRowElement>(this);
-            _bodies = new HTMLCollection<HTMLTableCaptionElement>(this);
+            _bodies = new HTMLCollection<HTMLTableSectionElement>(this);
         }
 
         #endregion
@@ -34,9 +34,9 @@
         /// Gets the assigned caption element.
         /// </summary>
         [DomName("caption")]
-        public HTMLTableCaptionElement Caption
+        public IHtmlTableCaptionElement Caption
         {
-            get { return _children.QuerySelector<HTMLTableCaptionElement>(SimpleSelector.Type(Tags.Caption)); }
+            get { return _children.QuerySelector<IHtmlTableCaptionElement>(SimpleSelector.Type(Tags.Caption)); }
         }
 
         /// <summary>
@@ -52,7 +52,7 @@
         /// Gets the assigned body sections.
         /// </summary>
         [DomName("tBodies")]
-        public HTMLCollection<HTMLTableCaptionElement> TBodies
+        public HTMLCollection<HTMLTableSectionElement> TBodies
         {
             get { return _bodies; }
         }
@@ -313,13 +313,13 @@
         /// </summary>
         /// <returns>A CAPTION element.</returns>
         [DomName("createCaption")]
-        public HTMLTableCaptionElement CreateCaption()
+        public IHtmlTableCaptionElement CreateCaption()
         {
             var caption = Caption;
 
             if (caption == null)
             {
-                caption = Owner.CreateElement(Tags.Caption) as HTMLTableCaptionElement;
+                caption = Owner.CreateElement(Tags.Caption) as IHtmlTableCaptionElement;
                 AppendChild(caption);
             }
 

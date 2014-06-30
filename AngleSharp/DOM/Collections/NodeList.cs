@@ -54,7 +54,8 @@
         /// </summary>
         /// <param name="selectors">A selector object.</param>
         /// <returns>An element object.</returns>
-        internal T QuerySelector<T>(Selector selectors) where T : Element
+        internal T QuerySelector<T>(Selector selectors) 
+            where T : class, IElement
         {
             return QuerySelector(this, selectors) as T;
         }

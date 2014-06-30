@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML caption element.
     /// </summary>
-    [DomName("HTMLTableCaptionElement")]
-    public sealed class HTMLTableCaptionElement : HTMLElement, IScopeElement
+    sealed class HTMLTableCaptionElement : HTMLElement, IScopeElement, IHtmlTableCaptionElement
     {
         #region ctor
 
@@ -22,7 +21,6 @@
         /// <summary>
         /// Gets or sets the value of the alignment attribute.
         /// </summary>
-        [DomName("align")]
         public CaptionAlignment Align
         {
             get { return ToEnum(GetAttribute("align"), CaptionAlignment.Top); }
