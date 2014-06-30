@@ -65,7 +65,7 @@
         /// <summary>
         /// Gets the index in the logical order and not in document order. 
         /// </summary>
-        public Int32 RowIndex
+        public Int32 Index
         {
             get
             {
@@ -84,7 +84,7 @@
         /// <summary>
         /// Gets the index of this row, relative to the current section starting from 0.
         /// </summary>
-        public Int32 SectionRowIndex
+        public Int32 IndexInSection
         {
             get
             {

@@ -29,7 +29,7 @@
         /// Gets the index of this cell in the row, starting from 0.
         /// This index is in document tree order and not display order.
         /// </summary>
-        public Int32 CellIndex
+        public Int32 Index
         {
             get
             {

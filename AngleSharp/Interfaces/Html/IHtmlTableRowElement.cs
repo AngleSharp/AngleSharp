@@ -12,13 +12,13 @@
         /// Gets the index in the logical order and not in document order. 
         /// </summary>
         [DomName("rowIndex")]
-        Int32 RowIndex { get; }
+        Int32 Index { get; }
 
         /// <summary>
         /// Gets the index of this row, relative to the current section starting from 0.
         /// </summary>
         [DomName("sectionRowIndex")]
-        Int32 SectionRowIndex { get; }
+        Int32 IndexInSection { get; }
 
         /// <summary>
         /// Gets the assigned table cells.
