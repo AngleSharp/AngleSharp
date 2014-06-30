@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Svg
+﻿namespace AngleSharp.DOM.Svg
 {
+    using System;
+
     /// <summary>
     /// Represents the foreign object element of the SVG DOM.
     /// </summary>
