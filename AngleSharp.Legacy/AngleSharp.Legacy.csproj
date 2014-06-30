@@ -1591,6 +1591,15 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableCaptionElement.cs">
       <Link>Interfaces\Html\IHtmlTableCaptionElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableCellElement.cs">
+      <Link>Interfaces\Html\IHtmlTableCellElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableColumnElement.cs">
+      <Link>Interfaces\Html\IHtmlTableColumnElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableRowElement.cs">
+      <Link>Interfaces\Html\IHtmlTableRowElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTimeElement.cs">
       <Link>Interfaces\Html\IHtmlTimeElement.cs</Link>
     </Compile>
