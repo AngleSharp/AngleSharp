@@ -1570,6 +1570,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlParagraphElement.cs">
       <Link>Interfaces\Html\IHtmlParagraphElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlParamElement.cs">
+      <Link>Interfaces\Html\IHtmlParamElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlPreElement.cs">
       <Link>Interfaces\Html\IHtmlPreElement.cs</Link>
     </Compile>
@@ -1584,6 +1587,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlStyleElement.cs">
       <Link>Interfaces\Html\IHtmlStyleElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableCaptionElement.cs">
+      <Link>Interfaces\Html\IHtmlTableCaptionElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTimeElement.cs">
       <Link>Interfaces\Html\IHtmlTimeElement.cs</Link>
