@@ -31,6 +31,6 @@
         /// This index is in document tree order and not display order.
         /// </summary>
         [DomName("cellIndex")]
-        Int32 CellIndex { get; }
+        Int32 Index { get; }
     }
 }
