@@ -381,5 +381,15 @@
         /// The seamless attribute.
         /// </summary>
         public static readonly String Seamless = "seamless";
+
+        /// <summary>
+        /// The valign attribute.
+        /// </summary>
+        public static readonly String Valign = "valign";
+
+        /// <summary>
+        /// The span attribute.
+        /// </summary>
+        public static readonly String Span;
     }
 }

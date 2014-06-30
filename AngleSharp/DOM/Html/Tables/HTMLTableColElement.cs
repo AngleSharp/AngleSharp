@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML column (col / colgroup) element.
     /// </summary>
-    [DomName("HTMLTableColElement")]
-    public sealed class HTMLTableColElement : HTMLElement
+    sealed class HTMLTableColElement : HTMLElement, IHtmlTableColumnElement
     {
         #region ctor
 
@@ -22,41 +21,37 @@
         /// <summary>
         /// Gets or sets the value of the horizontal alignment attribute.
         /// </summary>
-        [DomName("align")]
         public HorizontalAlignment Align
         {
-            get { return ToEnum(GetAttribute("align"), HorizontalAlignment.Center); }
-            set { SetAttribute("align", value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Align), HorizontalAlignment.Center); }
+            set { SetAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the number of columns in a group or affected by a grouping.
         /// </summary>
-        [DomName("span")]
         public UInt32 Span
         {
-            get { return ToInteger(GetAttribute("span"), 0u); }
-            set { SetAttribute("span", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Span), 0u); }
+            set { SetAttribute(AttributeNames.Span, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the value of the vertical alignment attribute.
         /// </summary>
-        [DomName("vAlign")]
         public VerticalAlignment VAlign
         {
-            get { return ToEnum(GetAttribute("valign"), VerticalAlignment.Middle); }
-            set { SetAttribute("valign", value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Valign), VerticalAlignment.Middle); }
+            set { SetAttribute(AttributeNames.Valign, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the value of the width attribute.
         /// </summary>
-        [DomName("width")]
         public String Width
         {
-            get { return GetAttribute("width"); }
-            set { SetAttribute("width", value); }
+            get { return GetAttribute(AttributeNames.Width); }
+            set { SetAttribute(AttributeNames.Width, value); }
         }
 
         #endregion
