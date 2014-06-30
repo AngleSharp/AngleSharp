@@ -20,6 +20,13 @@ namespace ConsoleInteraction
     {
         static void Main(string[] args)
         {
+            //var form = new ConsoleForm(DocumentBuilder.Html(new Uri("http://localhost:48609/PostNormal"), new Configuration { AllowRequests = true }));
+            //var form = new ConsoleForm("<form method=post action='http://requestb.in/1hc34c81'><input type=hidden name=q value=r><input type=text name=Name><input type=text name=Birthday><input type=text name=Remark></form>");
+            //var form = new ConsoleForm("<form method=post action='http://requestb.in/1hc34c81' enctype='multipart/form-data'><input type=hidden name=q value=r><input type=text name=Name><input type=text name=Birthday><input type=text name=Remark><input type=file name=myfile></form>");
+            //var form = new ConsoleForm("<form method=post action='http://requestb.in/1hc34c81' enctype='text/plain'><input type=hidden name=q value=r><input type=text name=Name><input type=text name=Birthday><input type=text name=Remark></form>");
+            //form.FillInteractive();
+            //form.Submit();
+
             TestAsync().Wait();
   
             CssSelectorTest.Slickspeed();
@@ -72,9 +79,9 @@ namespace ConsoleInteraction
 
             foreach (var item in c)
             {
-                var tr = item as HTMLTableRowElement;
+                var tr = item as IHtmlTableRowElement;
 
-                if (tr.RowIndex % 2 == 0)
+                if (tr.Index % 2 == 0)
                     tr.Style.Display = "none";
             }
         }
