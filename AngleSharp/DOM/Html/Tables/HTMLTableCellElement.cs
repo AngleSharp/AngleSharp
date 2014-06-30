@@ -30,11 +30,13 @@
             {
                 var parent = ParentElement;
 
-                while (parent != null && !(parent is HTMLTableRowElement))
+                while (parent != null && !(parent is IHtmlTableRowElement))
                     parent = parent.ParentElement;
 
-                if (parent is HTMLTableRowElement)
-                    return ((HTMLTableRowElement)parent).Cells.IndexOf(this);
+                var row = parent as HTMLTableRowElement;
+
+                if (row != null)
+                    return row.IndexOf(this);
 
                 return 0;
             }
@@ -46,8 +48,8 @@
         [DomName("align")]
         public HorizontalAlignment Align
         {
-            get { return ToEnum(GetAttribute("align"), HorizontalAlignment.Left); }
-            set { SetAttribute("align", value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Align), HorizontalAlignment.Left); }
+            set { SetAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
@@ -56,8 +58,8 @@
         [DomName("vAlign")]
         public VerticalAlignment VAlign
         {
-            get { return ToEnum(GetAttribute("valign"), VerticalAlignment.Middle); }
-            set { SetAttribute("valign", value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Valign), VerticalAlignment.Middle); }
+            set { SetAttribute(AttributeNames.Valign, value.ToString()); }
         }
 
         /// <summary>
@@ -66,8 +68,8 @@
         [DomName("bgColor")]
         public String BgColor
         {
-            get { return GetAttribute("bgcolor"); }
-            set { SetAttribute("bgcolor", value); }
+            get { return GetAttribute(AttributeNames.BgColor); }
+            set { SetAttribute(AttributeNames.BgColor, value); }
         }
 
         /// <summary>
@@ -76,8 +78,8 @@
         [DomName("width")]
         public String Width
         {
-            get { return GetAttribute("width"); }
-            set { SetAttribute("width", value); }
+            get { return GetAttribute(AttributeNames.Width); }
+            set { SetAttribute(AttributeNames.Width, value); }
         }
 
         /// <summary>
@@ -86,8 +88,8 @@
         [DomName("height")]
         public String Height
         {
-            get { return GetAttribute("height"); }
-            set { SetAttribute("height", value); }
+            get { return GetAttribute(AttributeNames.Height); }
+            set { SetAttribute(AttributeNames.Height, value); }
         }
 
         /// <summary>
@@ -96,8 +98,8 @@
         [DomName("colSpan")]
         public UInt32 ColSpan
         {
-            get { return ToInteger(GetAttribute("colspan"), 0u); }
-            set { SetAttribute("colspan", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.ColSpan), 0u); }
+            set { SetAttribute(AttributeNames.ColSpan, value.ToString()); }
         }
 
         /// <summary>
@@ -106,8 +108,8 @@
         [DomName("rowSpan")]
         public UInt32 RowSpan
         {
-            get { return ToInteger(GetAttribute("rowspan"), 0u); }
-            set { SetAttribute("rowspan", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.RowSpan), 0u); }
+            set { SetAttribute(AttributeNames.RowSpan, value.ToString()); }
         }
 
         /// <summary>
@@ -116,8 +118,8 @@
         [DomName("noWrap")]
         public Boolean NoWrap
         {
-            get { return ToBoolean(GetAttribute("nowrap"), false); }
-            set { SetAttribute("nowrap", value.ToString()); }
+            get { return ToBoolean(GetAttribute(AttributeNames.NoWrap), false); }
+            set { SetAttribute(AttributeNames.NoWrap, value.ToString()); }
         }
 
         /// <summary>
@@ -126,8 +128,8 @@
         [DomName("abbr")]
         public String Abbr
         {
-            get { return GetAttribute("abbr"); }
-            set { SetAttribute("abbr", value); }
+            get { return GetAttribute(AttributeNames.Abbr); }
+            set { SetAttribute(AttributeNames.Abbr, value); }
         }
 
         /// <summary>
@@ -136,8 +138,8 @@
         [DomName("scope")]
         public String Scope
         {
-            get { return GetAttribute("scope"); }
-            set { SetAttribute("scope", value); }
+            get { return GetAttribute(AttributeNames.Scope); }
+            set { SetAttribute(AttributeNames.Scope, value); }
         }
 
         /// <summary>
@@ -146,8 +148,8 @@
         [DomName("headers")]
         public String Headers
         {
-            get { return GetAttribute("headers"); }
-            set { SetAttribute("headers", value); }
+            get { return GetAttribute(AttributeNames.Headers); }
+            set { SetAttribute(AttributeNames.Headers, value); }
         }
 
         /// <summary>
@@ -156,8 +158,8 @@
         [DomName("axis")]
         public String Axis
         {
-            get { return GetAttribute("axis"); }
-            set { SetAttribute("axis", value); }
+            get { return GetAttribute(AttributeNames.Axis); }
+            set { SetAttribute(AttributeNames.Axis, value); }
         }
 
         #endregion

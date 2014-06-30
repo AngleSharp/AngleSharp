@@ -390,6 +390,76 @@
         /// <summary>
         /// The span attribute.
         /// </summary>
-        public static readonly String Span;
+        public static readonly String Span = "span";
+
+        /// <summary>
+        /// The bgcolor attribute.
+        /// </summary>
+        public static readonly String BgColor = "bgcolor";
+
+        /// <summary>
+        /// The colspan attribute.
+        /// </summary>
+        public static readonly String ColSpan = "colspan";
+
+        /// <summary>
+        /// The rowspan attribute.
+        /// </summary>
+        public static readonly String RowSpan = "rowspan";
+
+        /// <summary>
+        /// The nowrap attribute.
+        /// </summary>
+        public static readonly String NoWrap = "nowrap";
+
+        /// <summary>
+        /// The abbr attribute.
+        /// </summary>
+        public static readonly String Abbr = "abbr";
+
+        /// <summary>
+        /// The scope attribute.
+        /// </summary>
+        public static readonly String Scope = "scope";
+
+        /// <summary>
+        /// The headers attribute.
+        /// </summary>
+        public static readonly String Headers = "headers";
+
+        /// <summary>
+        /// The axis attribute.
+        /// </summary>
+        public static readonly String Axis = "axis";
+
+        /// <summary>
+        /// The border attribute.
+        /// </summary>
+        public static readonly String Border = "border";
+
+        /// <summary>
+        /// The cellpadding attribute.
+        /// </summary>
+        public static readonly String CellPadding = "cellpadding";
+
+        /// <summary>
+        /// The rules attribute.
+        /// </summary>
+        public static readonly String Rules = "rules";
+
+        /// <summary>
+        /// The summary attribute.
+        /// </summary>
+        public static readonly String Summary = "summary";
+
+        /// <summary>
+        /// The cellspacing attribute.
+        /// </summary>
+        public static readonly String CellSpacing = "cellspacing";
+
+        /// <summary>
+        /// The frame attribute.
+        /// </summary>
+        public static readonly String Frame = "frame";
     }
 }

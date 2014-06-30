@@ -12,8 +12,8 @@
     {
         #region Fields
 
-        HTMLCollection<HTMLTableSectionElement> _bodies;
-        HTMLCollection<HTMLTableRowElement> _rows;
+        readonly HTMLCollection<HTMLTableSectionElement> _bodies;
+        readonly HTMLCollection<IHtmlTableRowElement> _rows;
 
         #endregion
 
@@ -22,7 +22,7 @@
         internal HTMLTableElement()
         {
             _name = Tags.Table;
-            _rows = new HTMLCollection<HTMLTableRowElement>(this);
+            _rows = new HTMLCollection<IHtmlTableRowElement>(this);
             _bodies = new HTMLCollection<HTMLTableSectionElement>(this);
         }
 
@@ -70,7 +70,7 @@
         /// Gets the assigned table rows.
         /// </summary>
         [DomName("rows")]
-        public HTMLCollection<HTMLTableRowElement> Rows
+        public HTMLCollection<IHtmlTableRowElement> Rows
         {
             get { return _rows; }
         }
@@ -81,8 +81,8 @@
         [DomName("align")]
         public HorizontalAlignment Align
         {
-            get { return ToEnum(GetAttribute("align"), HorizontalAlignment.Left); }
-            set { SetAttribute("align", value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Align), HorizontalAlignment.Left); }
+            set { SetAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
@@ -91,8 +91,8 @@
         [DomName("bgColor")]
         public String BgColor
         {
-            get { return GetAttribute("bgcolor"); }
-            set { SetAttribute("bgcolor", value); }
+            get { return GetAttribute(AttributeNames.BgColor); }
+            set { SetAttribute(AttributeNames.BgColor, value); }
         }
 
         /// <summary>
@@ -101,8 +101,8 @@
         [DomName("border")]
         public UInt32 Border
         {
-            get { return ToInteger(GetAttribute("border"), 0u); }
-            set { SetAttribute("border", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Border), 0u); }
+            set { SetAttribute(AttributeNames.Border, value.ToString()); }
         }
 
         /// <summary>
@@ -111,8 +111,8 @@
         [DomName("cellPadding")]
         public Int32 CellPadding
         {
-            get { return ToInteger(GetAttribute("cellpadding"), 0); }
-            set { SetAttribute("cellpadding", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.CellPadding), 0); }
+            set { SetAttribute(AttributeNames.CellPadding, value.ToString()); }
         }
 
         /// <summary>
@@ -121,8 +121,8 @@
         [DomName("cellSpacing")]
         public Int32 CellSpacing
         {
-            get { return ToInteger(GetAttribute("cellspacing"), 0); }
-            set { SetAttribute("cellspacing", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.CellSpacing), 0); }
+            set { SetAttribute(AttributeNames.CellSpacing, value.ToString()); }
         }
 
         /// <summary>
@@ -131,8 +131,8 @@
         [DomName("frame")]
         public TableFrames Frame
         {
-            get { return ToEnum(GetAttribute("frame"), TableFrames.Void); }
-            set { SetAttribute("frame", value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Frame), TableFrames.Void); }
+            set { SetAttribute(AttributeNames.Frame, value.ToString()); }
         }
 
         /// <summary>
@@ -141,8 +141,8 @@
         [DomName("rules")]
         public TableRules Rules
         {
-            get { return ToEnum(GetAttribute("rules"), TableRules.All); }
-            set { SetAttribute("rules", value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Rules), TableRules.All); }
+            set { SetAttribute(AttributeNames.Rules, value.ToString()); }
         }
 
         /// <summary>
@@ -151,8 +151,8 @@
         [DomName("summary")]
         public String Summary
         {
-            get { return GetAttribute("summary"); }
-            set { SetAttribute("summary", value); }
+            get { return GetAttribute(AttributeNames.Summary); }
+            set { SetAttribute(AttributeNames.Summary, value); }
         }
 
         /// <summary>
@@ -161,8 +161,8 @@
         [DomName("width")]
         public String Width
         {
-            get { return GetAttribute("width"); }
-            set { SetAttribute("width", value); }
+            get { return GetAttribute(AttributeNames.Width); }
+            set { SetAttribute(AttributeNames.Width, value); }
         }
 
         #endregion
@@ -193,10 +193,10 @@
         /// contained inside the table.</param>
         /// <returns>The inserted table row.</returns>
         [DomName("insertRow")]
-        public HTMLTableRowElement InsertRow(Int32 index)
+        public IHtmlTableRowElement InsertRow(Int32 index)
         {
             var rows = Rows;
-            var newRow = Owner.CreateElement(Tags.Tr) as HTMLTableRowElement;
+            var newRow = Owner.CreateElement(Tags.Tr) as IHtmlTableRowElement;
 
             if (index >= 0 && index < rows.Length)
             {

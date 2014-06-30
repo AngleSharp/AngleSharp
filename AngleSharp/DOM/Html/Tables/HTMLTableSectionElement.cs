@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        HTMLCollection<HTMLTableRowElement> _rows;
+        HTMLCollection<IHtmlTableRowElement> _rows;
 
         #endregion
 
@@ -20,7 +20,7 @@
         internal HTMLTableSectionElement()
         {
             _name = Tags.Tbody;
-            _rows = new HTMLCollection<HTMLTableRowElement>(this);
+            _rows = new HTMLCollection<IHtmlTableRowElement>(this);
         }
 
         #endregion
@@ -41,7 +41,7 @@
         /// Gets the assigned table rows.
         /// </summary>
         [DomName("rows")]
-        public HTMLCollection<HTMLTableRowElement> Rows
+        public HTMLCollection<IHtmlTableRowElement> Rows
         {
             get { return _rows; }
         }
@@ -82,10 +82,10 @@
         /// not all the rows in the table.</param>
         /// <returns>The inserted table row.</returns>
         [DomName("insertRow")]
-        public HTMLTableRowElement InsertRow(Int32 index)
+        public IHtmlTableRowElement InsertRow(Int32 index)
         {
             var row = Rows[index];
-            var newRow = Owner.CreateElement(Tags.Tr) as HTMLTableRowElement;
+            var newRow = Owner.CreateElement(Tags.Tr) as IHtmlTableRowElement;
 
             if (row != null)
                 InsertBefore(newRow, row);

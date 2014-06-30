@@ -6,8 +6,8 @@
     using AngleSharp.DOM.Html;
     using AngleSharp.Parser.Css;
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -69,7 +69,7 @@
         /// <param name="html">The source code of the inner HTML to set.</param>
         /// <returns>The collection itself.</returns>
         public static T Html<T>(this T elements, String html)
-            where T : IEnumerable<Element>
+            where T : IEnumerable<IElement>
         {
             foreach (var element in elements)
                 element.InnerHTML = html;
@@ -85,12 +85,35 @@
         /// <param name="text">The text that should be set.</param>
         /// <returns>The collection itself.</returns>
         public static T Text<T>(this T elements, String text)
-            where T : IEnumerable<Element>
+            where T : IEnumerable<IElement>
         {
             foreach (var element in elements)
                 element.TextContent = text;
 
             return elements;
+        }
+
+        /// <summary>
+        /// Gets the index of the given item in the list of elements.
+        /// </summary>
+        /// <typeparam name="T">The element type of the list of elements.</typeparam>
+        /// <param name="elements">The source list of elements.</param>
+        /// <param name="item">The item to search for.</param>
+        /// <returns>The index of the item or -1 if not found.</returns>
+        public static Int32 Index<T>(this IEnumerable<T> elements, T item)
+            where T : IElement
+        {
+            int i = 0;
+
+            foreach (var element in elements)
+            {
+                if (Object.ReferenceEquals(element, item))
+                    return i;
+
+                i++;
+            }
+
+            return -1;
         }
 
         #endregion

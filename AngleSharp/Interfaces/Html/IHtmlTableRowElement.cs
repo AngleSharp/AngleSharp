@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using AngleSharp.DOM.Collections;
     using System;
 
     /// <summary>
@@ -25,7 +24,7 @@
         /// Gets the assigned table cells.
         /// </summary>
         [DomName("cells")]
-        HTMLCollection Cells { get; }
+        IHtmlCollection Cells { get; }
 
         /// <summary>
         /// Insert an empty TD cell into this row. If index is -1 or equal to the number
