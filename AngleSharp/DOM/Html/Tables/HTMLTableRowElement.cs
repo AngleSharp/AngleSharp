@@ -74,8 +74,10 @@
                 while (parent != null && !(parent is HTMLTableElement))
                     parent = parent.ParentElement;
 
-                if (parent is HTMLTableElement)
-                    return ((HTMLTableElement)parent).Rows.IndexOf(this);
+                var table = parent as IHtmlTableElement;
+
+                if (table != null)
+                    return table.Rows.Index(this);
 
                 return 0;
             }

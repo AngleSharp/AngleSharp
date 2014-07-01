@@ -7,8 +7,7 @@
     /// <summary>
     /// Represents the HTML table element.
     /// </summary>
-    [DomName("HTMLTableElement")]
-    public sealed class HTMLTableElement : HTMLElement, IScopeElement, ITableScopeElement
+    sealed class HTMLTableElement : HTMLElement, IScopeElement, ITableScopeElement, IHtmlTableElement
     {
         #region Fields
 
@@ -31,46 +30,44 @@
         #region Properties
 
         /// <summary>
-        /// Gets the assigned caption element.
+        /// Gets or sets the assigned caption element.
         /// </summary>
-        [DomName("caption")]
         public IHtmlTableCaptionElement Caption
         {
             get { return _children.QuerySelector<IHtmlTableCaptionElement>(SimpleSelector.Type(Tags.Caption)); }
+            set { DeleteCaption(); AppendChild(value); }
         }
 
         /// <summary>
-        /// Gets the assigned head section.
+        /// Gets or sets the assigned head section.
         /// </summary>
-        [DomName("tHead")]
         public IHtmlTableSectionElement THead
         {
             get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Thead)); }
+            set { DeleteTHead(); AppendChild(value); }
         }
 
         /// <summary>
         /// Gets the assigned body sections.
         /// </summary>
-        [DomName("tBodies")]
-        public HTMLCollection<IHtmlTableSectionElement> TBodies
+        public IHtmlCollection TBodies
         {
             get { return _bodies; }
         }
 
         /// <summary>
-        /// Gets the assigned foot section.
+        /// Gets or sets the assigned foot section.
         /// </summary>
-        [DomName("tFoot")]
         public IHtmlTableSectionElement TFoot
         {
             get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Tfoot)); }
+            set { DeleteTFoot(); AppendChild(value); }
         }
 
         /// <summary>
         /// Gets the assigned table rows.
         /// </summary>
-        [DomName("rows")]
-        public HTMLCollection<IHtmlTableRowElement> Rows
+        public IHtmlCollection Rows
         {
             get { return _rows; }
         }
@@ -78,7 +75,6 @@
         /// <summary>
         /// Gets or sets the value of the alignment attribute.
         /// </summary>
-        [DomName("align")]
         public HorizontalAlignment Align
         {
             get { return ToEnum(GetAttribute(AttributeNames.Align), HorizontalAlignment.Left); }
@@ -88,7 +84,6 @@
         /// <summary>
         /// Gets or sets the value of the background color attribute.
         /// </summary>
-        [DomName("bgColor")]
         public String BgColor
         {
             get { return GetAttribute(AttributeNames.BgColor); }
@@ -98,7 +93,6 @@
         /// <summary>
         /// Gets or sets the value of the border attribute.
         /// </summary>
-        [DomName("border")]
         public UInt32 Border
         {
             get { return ToInteger(GetAttribute(AttributeNames.Border), 0u); }
@@ -108,7 +102,6 @@
         /// <summary>
         /// Gets or sets the value of the cellpadding (padding within a cell) attribute.
         /// </summary>
-        [DomName("cellPadding")]
         public Int32 CellPadding
         {
             get { return ToInteger(GetAttribute(AttributeNames.CellPadding), 0); }
@@ -118,7 +111,6 @@
         /// <summary>
         /// Gets or sets the value of the cellspacing (spacing between the cells) attribute.
         /// </summary>
-        [DomName("cellSpacing")]
         public Int32 CellSpacing
         {
             get { return ToInteger(GetAttribute(AttributeNames.CellSpacing), 0); }
@@ -128,7 +120,6 @@
         /// <summary>
         /// Gets or sets the value of the frame attribute.
         /// </summary>
-        [DomName("frame")]
         public TableFrames Frame
         {
             get { return ToEnum(GetAttribute(AttributeNames.Frame), TableFrames.Void); }
@@ -138,7 +129,6 @@
         /// <summary>
         /// Gets or sets the value of the rules attribute.
         /// </summary>
-        [DomName("rules")]
         public TableRules Rules
         {
             get { return ToEnum(GetAttribute(AttributeNames.Rules), TableRules.All); }
@@ -148,7 +138,6 @@
         /// <summary>
         /// Gets or sets the value of the summary attribute.
         /// </summary>
-        [DomName("summary")]
         public String Summary
         {
             get { return GetAttribute(AttributeNames.Summary); }
@@ -158,7 +147,6 @@
         /// <summary>
         /// Gets or sets the value of the width attribute.
         /// </summary>
-        [DomName("width")]
         public String Width
         {
             get { return GetAttribute(AttributeNames.Width); }
@@ -192,8 +180,7 @@
         /// from 0 and is relative to the logical order (not document order) of all the rows
         /// contained inside the table.</param>
         /// <returns>The inserted table row.</returns>
-        [DomName("insertRow")]
-        public IHtmlTableRowElement InsertRow(Int32 index = -1)
+        public IHtmlElement InsertRow(Int32 index = -1)
         {
             var rows = Rows;
             var newRow = Owner.CreateElement(Tags.Tr) as IHtmlTableRowElement;
@@ -230,7 +217,6 @@
         /// 0 and is relative to the logical order (not document order) of all the rows
         /// contained inside the table. If the index is -1 the last row in the table is
         /// deleted.</param>
-        [DomName("deleteRow")]
         public void DeleteRow(Int32 index)
         {
             var rows = Rows;
@@ -243,8 +229,7 @@
         /// Create a table header row or return an existing one.
         /// </summary>
         /// <returns>A new table header element.</returns>
-        [DomName("createTHead")]
-        public IHtmlTableSectionElement CreateTHead()
+        public IHtmlElement CreateTHead()
         {
             var head = THead;
 
@@ -258,9 +243,19 @@
         }
 
         /// <summary>
+        /// Creates a new table body and appends it.
+        /// </summary>
+        /// <returns>The created table body.</returns>
+        public IHtmlElement CreateTBody()
+        {
+            var body = Owner.CreateElement(Tags.Tbody) as IHtmlTableSectionElement;
+            AppendChild(body);
+            return body;
+        }
+
+        /// <summary>
         /// Delete the header from the table, if one exists. 
         /// </summary>
-        [DomName("deleteTHead")]
         public void DeleteTHead()
         {
             var head = THead;
@@ -273,8 +268,7 @@
         /// Create a table footer row or return an existing one.
         /// </summary>
         /// <returns>A footer element.</returns>
-        [DomName("createTFoot")]
-        public IHtmlTableSectionElement CreateTFoot()
+        public IHtmlElement CreateTFoot()
         {
             var foot = TFoot;
 
@@ -290,7 +284,6 @@
         /// <summary>
         /// Delete the footer from the table, if one exists.
         /// </summary>
-        [DomName("deleteTFoot")]
         public void DeleteTFoot()
         {
             var foot = TFoot;
@@ -302,9 +295,8 @@
         /// <summary>
         /// Create a new table caption object or return an existing one.
         /// </summary>
-        /// <returns>A CAPTION element.</returns>
-        [DomName("createCaption")]
-        public IHtmlTableCaptionElement CreateCaption()
+        /// <returns>A caption element.</returns>
+        public IHtmlElement CreateCaption()
         {
             var caption = Caption;
 
@@ -320,7 +312,6 @@
         /// <summary>
         /// Delete the table caption, if one exists.
         /// </summary>
-        [DomName("deleteCaption")]
         public void DeleteCaption()
         {
             var caption = Caption;
