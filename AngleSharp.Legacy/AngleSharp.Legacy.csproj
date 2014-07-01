@@ -1270,8 +1270,14 @@
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableColElement.cs">
       <Link>DOM\Html\Tables\HTMLTableColElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableDataCellElement.cs">
+      <Link>DOM\Html\Tables\HTMLTableDataCellElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableElement.cs">
       <Link>DOM\Html\Tables\HTMLTableElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableHeaderCellElement.cs">
+      <Link>DOM\Html\Tables\HTMLTableHeaderCellElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableRowElement.cs">
       <Link>DOM\Html\Tables\HTMLTableRowElement.cs</Link>
@@ -1596,6 +1602,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableColumnElement.cs">
       <Link>Interfaces\Html\IHtmlTableColumnElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableDataCellElement.cs">
+      <Link>Interfaces\Html\IHtmlTableDataCellElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableHeaderCellElement.cs">
+      <Link>Interfaces\Html\IHtmlTableHeaderCellElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableRowElement.cs">
       <Link>Interfaces\Html\IHtmlTableRowElement.cs</Link>
