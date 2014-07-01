@@ -146,17 +146,17 @@ namespace ConsoleInteraction
 
                     test.tests.Add(mode, new List<Entry>());
                 }
-                else if (mode != Mode.None && child is HTMLTableElement)
+                else if (mode != Mode.None && child is IHtmlTableElement)
                 {
                     var list = test.tests[mode];
-                    Inspect((HTMLTableElement)child, list);
+                    Inspect((IHtmlTableElement)child, list);
                 }
             }
 
             return test;
         }
 
-        static void Inspect(HTMLTableElement table, List<Entry> list)
+        static void Inspect(IHtmlTableElement table, List<Entry> list)
         {
             var entry = new Entry();
             var cells = table.QuerySelectorAll("table td");
