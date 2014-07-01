@@ -41,16 +41,16 @@
         /// <summary>
         /// Gets or sets the assigned head section.
         /// </summary>
-        public IHtmlTableSectionElement THead
+        public IHtmlTableSectionElement Head
         {
             get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Thead)); }
-            set { DeleteTHead(); AppendChild(value); }
+            set { DeleteHead(); AppendChild(value); }
         }
 
         /// <summary>
         /// Gets the assigned body sections.
         /// </summary>
-        public IHtmlCollection TBodies
+        public IHtmlCollection Bodies
         {
             get { return _bodies; }
         }
@@ -58,10 +58,10 @@
         /// <summary>
         /// Gets or sets the assigned foot section.
         /// </summary>
-        public IHtmlTableSectionElement TFoot
+        public IHtmlTableSectionElement Foot
         {
             get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Tfoot)); }
-            set { DeleteTFoot(); AppendChild(value); }
+            set { DeleteFoot(); AppendChild(value); }
         }
 
         /// <summary>
@@ -180,7 +180,7 @@
         /// from 0 and is relative to the logical order (not document order) of all the rows
         /// contained inside the table.</param>
         /// <returns>The inserted table row.</returns>
-        public IHtmlElement InsertRow(Int32 index = -1)
+        public IHtmlElement InsertRowAt(Int32 index = -1)
         {
             var rows = Rows;
             var newRow = Owner.CreateElement(Tags.Tr) as IHtmlTableRowElement;
@@ -192,7 +192,7 @@
             }
             else if (rows.Length == 0)
             {
-                var bodies = TBodies;
+                var bodies = Bodies;
 
                 if (bodies.Length == 0)
                 {
@@ -217,7 +217,7 @@
         /// 0 and is relative to the logical order (not document order) of all the rows
         /// contained inside the table. If the index is -1 the last row in the table is
         /// deleted.</param>
-        public void DeleteRow(Int32 index)
+        public void RemoveRowAt(Int32 index)
         {
             var rows = Rows;
 
@@ -229,9 +229,9 @@
         /// Create a table header row or return an existing one.
         /// </summary>
         /// <returns>A new table header element.</returns>
-        public IHtmlElement CreateTHead()
+        public IHtmlElement CreateHead()
         {
-            var head = THead;
+            var head = Head;
 
             if (head == null)
             {
@@ -246,7 +246,7 @@
         /// Creates a new table body and appends it.
         /// </summary>
         /// <returns>The created table body.</returns>
-        public IHtmlElement CreateTBody()
+        public IHtmlElement CreateBody()
         {
             var body = Owner.CreateElement(Tags.Tbody) as IHtmlTableSectionElement;
             AppendChild(body);
@@ -256,9 +256,9 @@
         /// <summary>
         /// Delete the header from the table, if one exists. 
         /// </summary>
-        public void DeleteTHead()
+        public void DeleteHead()
         {
-            var head = THead;
+            var head = Head;
 
             if (head != null)
                 head.Remove();
@@ -268,9 +268,9 @@
         /// Create a table footer row or return an existing one.
         /// </summary>
         /// <returns>A footer element.</returns>
-        public IHtmlElement CreateTFoot()
+        public IHtmlElement CreateFoot()
         {
-            var foot = TFoot;
+            var foot = Foot;
 
             if (foot == null)
             {
@@ -284,9 +284,9 @@
         /// <summary>
         /// Delete the footer from the table, if one exists.
         /// </summary>
-        public void DeleteTFoot()
+        public void DeleteFoot()
         {
-            var foot = TFoot;
+            var foot = Foot;
 
             if (foot != null)
                 foot.Remove();

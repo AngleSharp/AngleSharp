@@ -77,7 +77,7 @@
         /// starts from 0 and is relative only to the rows contained inside this section,
         /// not all the rows in the table.</param>
         /// <returns>The inserted table row.</returns>
-        public IHtmlElement InsertRow(Int32 index = -1)
+        public IHtmlElement InsertRowAt(Int32 index = -1)
         {
             var row = Rows[index];
             var newRow = Owner.CreateElement(Tags.Tr) as IHtmlTableRowElement;
@@ -96,7 +96,7 @@
         /// <param name="index">The index of the row to be deleted, or -1 to delete the last
         /// row. This index starts from 0 and is relative only to the rows contained inside
         /// this section, not all the rows in the table.</param>
-        public void DeleteRow(Int32 index)
+        public void RemoveRowAt(Int32 index)
         {
             var row = Rows[index];
 

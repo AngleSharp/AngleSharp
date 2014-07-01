@@ -31,52 +31,52 @@
         /// Gets or sets the assigned head section.
         /// </summary>
         [DomName("tHead")]
-        IHtmlTableSectionElement THead { get; set; }
+        IHtmlTableSectionElement Head { get; set; }
 
         /// <summary>
         /// Creates a new table header section or returns the existing one.
         /// </summary>
         /// <returns>A table header element.</returns>
         [DomName("createTHead")]
-        IHtmlElement CreateTHead();
+        IHtmlElement CreateHead();
 
         /// <summary>
         /// Deletes the header from the table, if one exists. 
         /// </summary> 
         [DomName("deleteTHead")]
-        void DeleteTHead();
+        void DeleteHead();
 
         /// <summary>
         /// Gets or sets the assigned foot section.
         /// </summary>
         [DomName("tFoot")]
-        IHtmlTableSectionElement TFoot { get; set; }
+        IHtmlTableSectionElement Foot { get; set; }
 
         /// <summary>
         /// Creates a table footer section or returns an existing one.
         /// </summary>
         /// <returns>A footer element.</returns>
         [DomName("createTFoot")]
-        IHtmlElement CreateTFoot();
+        IHtmlElement CreateFoot();
 
         /// <summary>
         /// Deletes the footer from the table, if one exists.
         /// </summary>
         [DomName("deleteTFoot")]
-        void DeleteTFoot();
+        void DeleteFoot();
 
         /// <summary>
         /// Gets the assigned body sections.
         /// </summary>
         [DomName("tBodies")]
-        IHtmlCollection TBodies { get; }
+        IHtmlCollection Bodies { get; }
 
         /// <summary>
         /// Creates a new table body section.
         /// </summary>
         /// <returns>A body element.</returns>
         [DomName("createTBody")]
-        IHtmlElement CreateTBody();
+        IHtmlElement CreateBody();
 
         /// <summary>
         /// Gets the assigned table rows.
@@ -97,7 +97,7 @@
         /// </param>
         /// <returns>The inserted table row.</returns>
         [DomName("insertRow")]
-        IHtmlElement InsertRow(Int32 index = -1);
+        IHtmlElement InsertRowAt(Int32 index = -1);
 
         /// <summary>
         /// Deletes a table row.
@@ -108,7 +108,7 @@
         /// index is -1 the last row in the table is deleted.
         /// </param>
         [DomName("deleteRow")]
-        void DeleteRow(Int32 index);
+        void RemoveRowAt(Int32 index);
 
         /// <summary>
         /// Gets or sets the border attribute.

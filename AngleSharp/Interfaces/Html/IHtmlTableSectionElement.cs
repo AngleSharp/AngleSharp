@@ -25,7 +25,7 @@
         /// </param>
         /// <returns>The inserted table row.</returns>
         [DomName("insertRow")]
-        IHtmlElement InsertRow(Int32 index = -1);
+        IHtmlElement InsertRowAt(Int32 index = -1);
 
         /// <summary>
         /// Deletes a row from this section.
@@ -36,6 +36,6 @@
         /// inside this section, not all the rows in the table.
         /// </param>
         [DomName("deleteRow")]
-        void DeleteRow(Int32 index);
+        void RemoveRowAt(Int32 index);
     }
 }
