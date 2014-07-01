@@ -278,7 +278,7 @@ namespace UnitTests
                     .AppendChild(new HTMLTableElement())
                         .AppendChild(new HTMLTableSectionElement())
                             .AppendChild(new HTMLTableRowElement())
-                                .AppendChild(new HTMLTableCellElement())
+                                .AppendChild(new HTMLTableDataCellElement())
                                     .AppendChild(new TextNode("aaa")).Parent.Parent.Parent.Parent.Parent
                     .AppendChild(new HTMLElement() { NodeName = "b" })
                         .AppendChild(new TextNode("ccc")).Parent.Parent.Parent;
