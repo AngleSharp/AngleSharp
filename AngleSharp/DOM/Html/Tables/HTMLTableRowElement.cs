@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        HTMLCollection<HTMLTableCellElement> _cells;
+        readonly HTMLCollection<HTMLTableCellElement> _cells;
 
         #endregion
 
@@ -90,11 +90,13 @@
             {
                 var parent = ParentElement;
 
-                while (parent != null && !(parent is HTMLTableSectionElement))
+                while (parent != null && !(parent is IHtmlTableSectionElement))
                     parent = parent.ParentElement;
 
-                if (parent is HTMLTableSectionElement)
-                    return ((HTMLTableSectionElement)parent).Rows.IndexOf(this);
+                var section = parent as IHtmlTableSectionElement;
+
+                if (section != null)
+                    return section.Rows.Index(this);
 
                 return 0; 
             }

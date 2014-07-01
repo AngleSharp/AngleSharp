@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        readonly HTMLCollection<HTMLTableSectionElement> _bodies;
+        readonly HTMLCollection<IHtmlTableSectionElement> _bodies;
         readonly HTMLCollection<IHtmlTableRowElement> _rows;
 
         #endregion
@@ -23,7 +23,7 @@
         {
             _name = Tags.Table;
             _rows = new HTMLCollection<IHtmlTableRowElement>(this);
-            _bodies = new HTMLCollection<HTMLTableSectionElement>(this);
+            _bodies = new HTMLCollection<IHtmlTableSectionElement>(this);
         }
 
         #endregion
@@ -43,7 +43,7 @@
         /// Gets the assigned head section.
         /// </summary>
         [DomName("tHead")]
-        public HTMLTableSectionElement THead
+        public IHtmlTableSectionElement THead
         {
             get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Thead)); }
         }
@@ -52,7 +52,7 @@
         /// Gets the assigned body sections.
         /// </summary>
         [DomName("tBodies")]
-        public HTMLCollection<HTMLTableSectionElement> TBodies
+        public HTMLCollection<IHtmlTableSectionElement> TBodies
         {
             get { return _bodies; }
         }
@@ -61,7 +61,7 @@
         /// Gets the assigned foot section.
         /// </summary>
         [DomName("tFoot")]
-        public HTMLTableSectionElement TFoot
+        public IHtmlTableSectionElement TFoot
         {
             get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Tfoot)); }
         }
@@ -247,13 +247,13 @@
         /// </summary>
         /// <returns>A new table header element.</returns>
         [DomName("createTHead")]
-        public HTMLTableSectionElement CreateTHead()
+        public IHtmlTableSectionElement CreateTHead()
         {
             var head = THead;
 
             if (head == null)
             {
-                head = Owner.CreateElement(Tags.Thead) as HTMLTableSectionElement;
+                head = Owner.CreateElement(Tags.Thead) as IHtmlTableSectionElement;
                 AppendChild(head);
             }
 
@@ -280,13 +280,13 @@
         /// </summary>
         /// <returns>A footer element.</returns>
         [DomName("createTFoot")]
-        public HTMLTableSectionElement CreateTFoot()
+        public IHtmlTableSectionElement CreateTFoot()
         {
             var foot = TFoot;
 
             if (foot == null)
             {
-                foot = Owner.CreateElement(Tags.Tfoot) as HTMLTableSectionElement;
+                foot = Owner.CreateElement(Tags.Tfoot) as IHtmlTableSectionElement;
                 AppendChild(foot);
             }
 

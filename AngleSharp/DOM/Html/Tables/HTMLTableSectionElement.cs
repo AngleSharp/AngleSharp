@@ -6,12 +6,11 @@
     /// <summary>
     /// Represents the object for HTML table section (thead / tbody / tfoot) elements.
     /// </summary>
-    [DomName("HTMLTableSectionElement")]
-    public sealed class HTMLTableSectionElement : HTMLElement, IImplClosed, ITableSectionScopeElement
+    sealed class HTMLTableSectionElement : HTMLElement, IImplClosed, ITableSectionScopeElement, IHtmlTableSectionElement
     {
         #region Fields
 
-        HTMLCollection<IHtmlTableRowElement> _rows;
+        readonly HTMLCollection<IHtmlTableRowElement> _rows;
 
         #endregion
 
@@ -30,18 +29,16 @@
         /// <summary>
         /// Gets or sets the value of the horizontal alignment attribute.
         /// </summary>
-        [DomName("align")]
         public HorizontalAlignment Align
         {
-            get { return ToEnum(GetAttribute("align"), HorizontalAlignment.Center); }
-            set { SetAttribute("align", value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Align), HorizontalAlignment.Center); }
+            set { SetAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
         /// Gets the assigned table rows.
         /// </summary>
-        [DomName("rows")]
-        public HTMLCollection<IHtmlTableRowElement> Rows
+        public IHtmlCollection Rows
         {
             get { return _rows; }
         }
@@ -49,11 +46,10 @@
         /// <summary>
         /// Gets or sets the value of the vertical alignment attribute.
         /// </summary>
-        [DomName("vAlign")]
         public VerticalAlignment VAlign
         {
-            get { return ToEnum(GetAttribute("valign"), VerticalAlignment.Middle); }
-            set { SetAttribute("valign", value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Valign), VerticalAlignment.Middle); }
+            set { SetAttribute(AttributeNames.Valign, value.ToString()); }
         }
 
         #endregion
@@ -81,8 +77,7 @@
         /// starts from 0 and is relative only to the rows contained inside this section,
         /// not all the rows in the table.</param>
         /// <returns>The inserted table row.</returns>
-        [DomName("insertRow")]
-        public IHtmlTableRowElement InsertRow(Int32 index)
+        public IHtmlElement InsertRow(Int32 index = -1)
         {
             var row = Rows[index];
             var newRow = Owner.CreateElement(Tags.Tr) as IHtmlTableRowElement;
@@ -101,16 +96,12 @@
         /// <param name="index">The index of the row to be deleted, or -1 to delete the last
         /// row. This index starts from 0 and is relative only to the rows contained inside
         /// this section, not all the rows in the table.</param>
-        /// <returns>The current table.</returns>
-        [DomName("deleteRow")]
-        public HTMLTableSectionElement DeleteRow(Int32 index)
+        public void DeleteRow(Int32 index)
         {
             var row = Rows[index];
 
             if (row != null)
                 row.Remove();
-
-            return this;
         }
 
         #endregion
