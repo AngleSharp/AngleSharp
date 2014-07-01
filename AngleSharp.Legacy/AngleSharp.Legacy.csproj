@@ -1606,11 +1606,17 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableDataCellElement.cs">
       <Link>Interfaces\Html\IHtmlTableDataCellElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableElement.cs">
+      <Link>Interfaces\Html\IHtmlTableElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableHeaderCellElement.cs">
       <Link>Interfaces\Html\IHtmlTableHeaderCellElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableRowElement.cs">
       <Link>Interfaces\Html\IHtmlTableRowElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableSectionElement.cs">
+      <Link>Interfaces\Html\IHtmlTableSectionElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTimeElement.cs">
       <Link>Interfaces\Html\IHtmlTimeElement.cs</Link>
