@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Reprsents the td HTML element.
+    /// Reprsents the base for td / th HTML element.
     /// </summary>
     [DomName("HTMLTableCellElement")]
     public interface IHtmlTableCellElement : IHtmlElement
