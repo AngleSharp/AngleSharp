@@ -2011,7 +2011,7 @@
                 if (tag.Name.IsTableCellElement())
                 {
                     ClearStackBackTo<HTMLTableRowElement>();
-                    var element = new HTMLTableCellElement();
+                    var element = HtmlElementFactory.Create(tag.Name, doc);
                     AddElement(element, token.AsTag());
                     insert = HtmlTreeMode.InCell;
                     AddScopeMarker();

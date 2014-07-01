@@ -44,8 +44,8 @@
             creators.Add(Tags.Q, () => new HTMLQuoteElement { NodeName = Tags.Q });
             creators.Add(Tags.Canvas, () => new HTMLCanvasElement ());
             creators.Add(Tags.Caption, () => new HTMLTableCaptionElement ());
-            creators.Add(Tags.Th, () => new HTMLTableCellElement { NodeName = Tags.Th });
-            creators.Add(Tags.Td, () => new HTMLTableCellElement ());
+            creators.Add(Tags.Th, () => new HTMLTableHeaderCellElement());
+            creators.Add(Tags.Td, () => new HTMLTableDataCellElement ());
             creators.Add(Tags.Tr, () => new HTMLTableRowElement ());
             creators.Add(Tags.Tbody, () => new HTMLTableSectionElement ());
             creators.Add(Tags.Tfoot, () => new HTMLTableSectionElement { NodeName = Tags.Tfoot });

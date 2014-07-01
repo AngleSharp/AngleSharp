@@ -6,20 +6,11 @@
     /// <summary>
     /// Represents the object for HTML table cell elements.
     /// </summary>
-    class HTMLTableCellElement : HTMLElement, IScopeElement, IImplClosed, IHtmlTableCellElement
+    abstract class HTMLTableCellElement : HTMLElement, IScopeElement, IImplClosed, IHtmlTableCellElement
     {
         #region Fields
 
         SettableTokenList _headers;
-
-        #endregion
-
-        #region ctor
-
-        internal HTMLTableCellElement()
-        {
-            _name = Tags.Td;
-        }
 
         #endregion
 
