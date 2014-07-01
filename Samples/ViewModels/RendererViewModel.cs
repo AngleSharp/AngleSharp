@@ -167,6 +167,11 @@ namespace Samples.ViewModels
                                 box.Blocks.Add(RenderBox(node));
                                 break;
 
+                            case "table":
+                                FlushBuffer(box.Blocks);
+                                box.Blocks.Add(Render((IHtmlTableElement)node));
+                                break;
+
                             default:
                                 Render(node, box);
                                 break;
@@ -223,7 +228,7 @@ namespace Samples.ViewModels
             }
         }
 
-        Table Render(HTMLTableElement element)
+        Table Render(IHtmlTableElement element)
         {
             var table = new Table();
             return table;
