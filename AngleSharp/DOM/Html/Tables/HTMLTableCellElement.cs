@@ -4,9 +4,9 @@
     using System;
 
     /// <summary>
-    /// Represents the object for HTML table cell (td / th) elements.
+    /// Represents the object for HTML table cell elements.
     /// </summary>
-    sealed class HTMLTableCellElement : HTMLElement, IScopeElement, IImplClosed, IHtmlTableCellElement
+    class HTMLTableCellElement : HTMLElement, IScopeElement, IImplClosed, IHtmlTableCellElement
     {
         #region Fields
 
