@@ -193,7 +193,7 @@
         /// contained inside the table.</param>
         /// <returns>The inserted table row.</returns>
         [DomName("insertRow")]
-        public IHtmlTableRowElement InsertRow(Int32 index)
+        public IHtmlTableRowElement InsertRow(Int32 index = -1)
         {
             var rows = Rows;
             var newRow = Owner.CreateElement(Tags.Tr) as IHtmlTableRowElement;
@@ -230,16 +230,13 @@
         /// 0 and is relative to the logical order (not document order) of all the rows
         /// contained inside the table. If the index is -1 the last row in the table is
         /// deleted.</param>
-        /// <returns>The current table.</returns>
         [DomName("deleteRow")]
-        public HTMLTableElement DeleteRow(Int32 index)
+        public void DeleteRow(Int32 index)
         {
             var rows = Rows;
 
             if (index >= 0 && index < rows.Length)
                 rows[index].Remove();
-
-            return this;
         }
 
         /// <summary>
@@ -263,16 +260,13 @@
         /// <summary>
         /// Delete the header from the table, if one exists. 
         /// </summary>
-        /// <returns>The current table.</returns>
         [DomName("deleteTHead")]
-        public HTMLTableElement DeleteTHead()
+        public void DeleteTHead()
         {
             var head = THead;
 
             if (head != null)
                 head.Remove();
-
-            return this;
         }
 
         /// <summary>
@@ -296,16 +290,13 @@
         /// <summary>
         /// Delete the footer from the table, if one exists.
         /// </summary>
-        /// <returns>The current table.</returns>
         [DomName("deleteTFoot")]
-        public HTMLTableElement DeleteTFoot()
+        public void DeleteTFoot()
         {
             var foot = TFoot;
 
             if (foot != null)
                 foot.Remove();
-
-            return this;
         }
 
         /// <summary>
@@ -329,16 +320,13 @@
         /// <summary>
         /// Delete the table caption, if one exists.
         /// </summary>
-        /// <returns>The current table.</returns>
         [DomName("deleteCaption")]
-        public HTMLTableElement DeleteCaption()
+        public void DeleteCaption()
         {
             var caption = Caption;
 
             if (caption != null)
                 caption.Remove();
-
-            return this;
         }
 
 
