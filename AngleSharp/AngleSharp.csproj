@@ -304,6 +304,7 @@
     <Compile Include="Interfaces\Html\IHtmlTableCellElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTableColumnElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTableDataCellElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlTableHeaderCellElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTableRowElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTimeElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTitleElement.cs" />
