@@ -191,7 +191,7 @@
         /// <summary>
         /// Gets or sets the language of the linked resource.
         /// </summary>
-        public String HrefLang
+        public String TargetLanguage
         {
             get { return GetAttribute(AttributeNames.HrefLang); }
             set { SetAttribute(AttributeNames.HrefLang, value); }
@@ -210,7 +210,7 @@
         /// Gets or sets the value indicating relationships of the
         /// current document to the linked resource.
         /// </summary>
-        public String Rel
+        public String Relation
         {
             get { return GetAttribute(AttributeNames.Rel); }
             set { SetAttribute(AttributeNames.Rel, value); }
@@ -220,7 +220,7 @@
         /// Gets the value indicating relationships of the current
         /// document to the linked resource, as a list of tokens.
         /// </summary>
-        public ITokenList RelList
+        public ITokenList RelationList
         {
             get { return _rellist ?? (_rellist = new TokenList(this, AttributeNames.Rel)); }
         }
@@ -236,7 +236,7 @@
         /// <summary>
         /// Gets or sets the alternative text for the element.
         /// </summary>
-        public String Alt
+        public String AlternativeText
         {
             get { return GetAttribute(AttributeNames.Alt); }
             set { SetAttribute(AttributeNames.Alt, value); }
@@ -245,7 +245,7 @@
         /// <summary>
         /// Gets or sets the coordinates to define the hot-spot region.
         /// </summary>
-        public String Coords
+        public String Coordinates
         {
             get { return GetAttribute(AttributeNames.Coords); }
             set { SetAttribute(AttributeNames.Coords, value); }
@@ -325,7 +325,7 @@
             if (name.Equals(AttributeNames.Rel, StringComparison.Ordinal))
             {
                 if (_rellist != null)
-                    _rellist.Update(Rel);
+                    _rellist.Update(Relation);
 
                 return;
             }

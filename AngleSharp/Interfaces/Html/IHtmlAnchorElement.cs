@@ -33,19 +33,19 @@
         /// of the target object to the link object.
         /// </summary>
         [DomName("rel")]
-        String Rel { get; set; }
+        String Relation { get; set; }
 
         /// <summary>
         /// Gets the rel HTML attribute, as a list of tokens.
         /// </summary>
         [DomName("relList")]
-        ITokenList RelList { get; }
+        ITokenList RelationList { get; }
 
         /// <summary>
         /// Gets or sets the language code for the linked resource.
         /// </summary>
         [DomName("hreflang")]
-        String HrefLang { get; set; }
+        String TargetLanguage { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the resource. If present, the attribute must be a valid MIME type.

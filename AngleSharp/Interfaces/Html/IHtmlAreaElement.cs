@@ -12,13 +12,13 @@
         /// Gets or sets the alternative text for the element.
         /// </summary>
         [DomName("alt")]
-        String Alt { get; set; }
+        String AlternativeText { get; set; }
 
         /// <summary>
         /// Gets or sets the coordinates to define the hot-spot region.
         /// </summary>
         [DomName("coords")]
-        String Coords { get; set; }
+        String Coordinates { get; set; }
 
         /// <summary>
         /// Gets or sets the shape of the hot-spot, limited to known values.
@@ -51,20 +51,20 @@
         /// current document to the linked resource.
         /// </summary>
         [DomName("rel")]
-        String Rel { get; set; }
+        String Relation { get; set; }
 
         /// <summary>
         /// Gets the value indicating relationships of the current
         /// document to the linked resource, as a list of tokens.
         /// </summary>
         [DomName("relList")]
-        ITokenList RelList { get; }
+        ITokenList RelationList { get; }
 
         /// <summary>
         /// Gets or sets the language of the linked resource.
         /// </summary>
         [DomName("hreflang")]
-        String HrefLang { get; set; }
+        String TargetLanguage { get; set; }
 
         /// <summary>
         /// Gets or sets the MIME type of the linked resource.

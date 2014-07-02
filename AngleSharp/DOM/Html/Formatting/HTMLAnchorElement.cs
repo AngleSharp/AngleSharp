@@ -200,7 +200,7 @@
         /// <summary>
         /// Gets or sets the language code for the linked resource.
         /// </summary>
-        public String HrefLang
+        public String TargetLanguage
         {
             get { return GetAttribute(AttributeNames.HrefLang); }
             set { SetAttribute(AttributeNames.HrefLang, value); }
@@ -229,7 +229,7 @@
         /// Gets or sets the rel HTML attribute, specifying the relationship
         /// of the target object to the link object.
         /// </summary>
-        public String Rel
+        public String Relation
         {
             get { return GetAttribute(AttributeNames.Rel); }
             set { SetAttribute(AttributeNames.Rel, value); }
@@ -238,7 +238,7 @@
         /// <summary>
         /// Gets the rel HTML attribute, as a list of tokens.
         /// </summary>
-        public ITokenList RelList
+        public ITokenList RelationList
         {
             get { return _relList ?? (_relList = new TokenList(this, AttributeNames.Rel)); }
         }
@@ -313,7 +313,7 @@
             if (name.Equals(AttributeNames.Rel, StringComparison.Ordinal))
             {
                 if (_relList != null)
-                    _relList.Update(Rel);
+                    _relList.Update(Relation);
             }
             
             base.OnAttributeChanged(name);
