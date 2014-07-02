@@ -7,8 +7,7 @@
     /// <summary>
     /// Represents the HTML map element.
     /// </summary>
-    [DomName("HTMLMapElement")]
-    public sealed class HTMLMapElement : HTMLElement
+    sealed class HTMLMapElement : HTMLElement, IHtmlMapElement
     {
         #region Constant
 
@@ -44,19 +43,17 @@
         /// <summary>
         /// Gets or sets the value of the href attribute.
         /// </summary>
-        [DomName("name")]
         public String Name
         {
-            get { return GetAttribute("name"); }
-            set { SetAttribute("name", value); }
+            get { return GetAttribute(AttributeNames.Name); }
+            set { SetAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
         /// Gets a collection representing the area elements
         /// associated to this map.
         /// </summary>
-        [DomName("areas")]
-        public HTMLCollection Areas
+        public IHtmlCollection Areas
         {
             get;
             private set;
@@ -66,8 +63,7 @@
         /// Gets a collection representing the img and object
         /// elements associated to this element.
         /// </summary>
-        [DomName("images")]
-        public HTMLCollection Images
+        public IHtmlCollection Images
         {
             get;
             private set;
