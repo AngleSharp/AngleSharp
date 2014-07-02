@@ -59,44 +59,6 @@
         }
 
         /// <summary>
-        /// Gets or sets the language code for the linked resource.
-        /// </summary>
-        public String HrefLang
-        {
-            get { return GetAttribute(AttributeNames.HrefLang); }
-            set { SetAttribute(AttributeNames.HrefLang, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the media HTML attribute, indicating the intended
-        /// media for the linked resource.
-        /// </summary>
-        public String Media
-        {
-            get { return GetAttribute(AttributeNames.Media); }
-            set { SetAttribute(AttributeNames.Media, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the anchor name.
-        /// </summary>
-        public String Name
-        {
-            get { return GetAttribute(AttributeNames.Name); }
-            set { SetAttribute(AttributeNames.Name, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the rel HTML attribute, specifying the relationship
-        /// of the target object to the link object.
-        /// </summary>
-        public String Rel
-        {
-            get { return GetAttribute(AttributeNames.Rel); }
-            set { SetAttribute(AttributeNames.Rel, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the fragment identifier, including the leading hash
         /// mark ('#'), if any, in the referenced URL.
         /// </summary>
@@ -228,6 +190,52 @@
         }
 
         /// <summary>
+        /// Get's the URL's origin.
+        /// </summary>
+        public String Origin
+        {
+            get { return new Location(Href).Origin; }
+        }
+
+        /// <summary>
+        /// Gets or sets the language code for the linked resource.
+        /// </summary>
+        public String HrefLang
+        {
+            get { return GetAttribute(AttributeNames.HrefLang); }
+            set { SetAttribute(AttributeNames.HrefLang, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the media HTML attribute, indicating the intended
+        /// media for the linked resource.
+        /// </summary>
+        public String Media
+        {
+            get { return GetAttribute(AttributeNames.Media); }
+            set { SetAttribute(AttributeNames.Media, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the anchor name.
+        /// </summary>
+        public String Name
+        {
+            get { return GetAttribute(AttributeNames.Name); }
+            set { SetAttribute(AttributeNames.Name, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the rel HTML attribute, specifying the relationship
+        /// of the target object to the link object.
+        /// </summary>
+        public String Rel
+        {
+            get { return GetAttribute(AttributeNames.Rel); }
+            set { SetAttribute(AttributeNames.Rel, value); }
+        }
+
+        /// <summary>
         /// Gets the rel HTML attribute, as a list of tokens.
         /// </summary>
         public ITokenList RelList
@@ -268,14 +276,6 @@
         {
             get { return GetAttribute(AttributeNames.Type); }
             set { SetAttribute(AttributeNames.Type, value); }
-        }
-
-        /// <summary>
-        /// Get's the URL's origin.
-        /// </summary>
-        public String Origin
-        {
-            get { return new Location(Href).Origin; }
         }
 
         #endregion

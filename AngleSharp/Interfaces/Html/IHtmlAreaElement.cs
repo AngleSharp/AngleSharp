@@ -44,7 +44,7 @@
         /// Gets the ping HTML attribute, as a settable list of otkens.
         /// </summary>
         [DomName("ping")]
-        ISettableTokenList Ping { get; set; }
+        ISettableTokenList Ping { get; }
 
         /// <summary>
         /// Gets or sets the value indicating relationships of the
@@ -64,7 +64,7 @@
         /// Gets or sets the language of the linked resource.
         /// </summary>
         [DomName("hreflang")]
-        String Hreflang { get; set; }
+        String HrefLang { get; set; }
 
         /// <summary>
         /// Gets or sets the MIME type of the linked resource.

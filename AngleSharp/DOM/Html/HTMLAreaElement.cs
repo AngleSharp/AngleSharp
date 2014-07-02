@@ -6,12 +6,12 @@
     /// <summary>
     /// Represents the area element.
     /// </summary>
-    [DomName("HTMLAreaElement")]
-    public sealed class HTMLAreaElement : HTMLElement
+    sealed class HTMLAreaElement : HTMLElement, IHtmlAreaElement
     {
         #region Fields
 
-        TokenList rellist;
+        TokenList _rellist;
+        SettableTokenList _ping;
 
         #endregion
 
@@ -30,9 +30,19 @@
         #region Properties
 
         /// <summary>
+        /// Gets or sets the linked resource is intended to be downloaded rather than displayed.
+        /// The value represent the proposed name of the file. If the name is not a valid filename of the
+        /// underlying OS, the navigator will adapt it.
+        /// </summary>
+        public String Download
+        {
+            get { return GetAttribute(AttributeNames.Download); }
+            set { SetAttribute(AttributeNames.Download, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the value of the href attribute.
         /// </summary>
-        [DomName("href")]
         public String Href
         {
             get { return GetAttribute(AttributeNames.Href); }
@@ -40,9 +50,147 @@
         }
 
         /// <summary>
+        /// Gets or sets the fragment identifier, including the leading hash
+        /// mark ('#'), if any, in the referenced URL.
+        /// </summary>
+        public String Hash
+        {
+            get { return new Location(Href).Hash; }
+            set
+            {
+                var loc = new Location(Href);
+                loc.Hash = value;
+                Href = loc.Href;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the hostname and port (if it's not the default port)
+        /// in the referenced URL.
+        /// </summary>
+        public String Host
+        {
+            get { return new Location(Href).Host; }
+            set
+            {
+                var loc = new Location(Href);
+                loc.Host = value;
+                Href = loc.Href;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the hostname in the referenced URL.
+        /// </summary>
+        public String HostName
+        {
+            get { return new Location(Href).HostName; }
+            set
+            {
+                var loc = new Location(Href);
+                loc.HostName = value;
+                Href = loc.Href;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the path name component, if any, of the
+        /// referenced URL.
+        /// </summary>
+        public String PathName
+        {
+            get { return new Location(Href).PathName; }
+            set
+            {
+                var loc = new Location(Href);
+                loc.PathName = value;
+                Href = loc.Href;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the port component, if any, of the referenced URL.
+        /// </summary>
+        public String Port
+        {
+            get { return new Location(Href).Port; }
+            set
+            {
+                var loc = new Location(Href);
+                loc.Port = value;
+                Href = loc.Href;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the protocol component, including trailing
+        /// colon (':'), of the referenced URL.
+        /// </summary>
+        public String Protocol
+        {
+            get { return new Location(Href).Protocol; }
+            set
+            {
+                var loc = new Location(Href);
+                loc.Protocol = value;
+                Href = loc.Href;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the URL's username.
+        /// </summary>
+        public String UserName
+        {
+            get { return new Location(Href).UserName; }
+            set
+            {
+                var loc = new Location(Href);
+                loc.UserName = value;
+                Href = loc.Href;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the URL's password.
+        /// </summary>
+        public String Password
+        {
+            get { return new Location(Href).Password; }
+            set
+            {
+                var loc = new Location(Href);
+                loc.Password = value;
+                Href = loc.Href;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the search element, including leading question
+        /// mark ('?'), if any, of the referenced URL.
+        /// </summary>
+        public String Search
+        {
+            get { return new Location(Href).Search; }
+            set
+            {
+                var loc = new Location(Href);
+                loc.Search = value;
+                Href = loc.Href;
+            }
+        }
+
+        /// <summary>
+        /// Get's the URL's origin.
+        /// </summary>
+        public String Origin
+        {
+            get { return new Location(Href).Origin; }
+        }
+
+        /// <summary>
         /// Gets or sets the language of the linked resource.
         /// </summary>
-        [DomName("hreflang")]
         public String HrefLang
         {
             get { return GetAttribute(AttributeNames.HrefLang); }
@@ -52,7 +200,6 @@
         /// <summary>
         /// Gets or sets the target media of the linked resource.
         /// </summary>
-        [DomName("media")]
         public String Media
         {
             get { return GetAttribute(AttributeNames.Media); }
@@ -63,7 +210,6 @@
         /// Gets or sets the value indicating relationships of the
         /// current document to the linked resource.
         /// </summary>
-        [DomName("rel")]
         public String Rel
         {
             get { return GetAttribute(AttributeNames.Rel); }
@@ -74,16 +220,22 @@
         /// Gets the value indicating relationships of the current
         /// document to the linked resource, as a list of tokens.
         /// </summary>
-        [DomName("relList")]
         public ITokenList RelList
         {
-            get { return rellist ?? (rellist = new TokenList(this, AttributeNames.Rel)); }
+            get { return _rellist ?? (_rellist = new TokenList(this, AttributeNames.Rel)); }
+        }
+
+        /// <summary>
+        /// Gets the ping HTML attribute, as a settable list of otkens.
+        /// </summary>
+        public ISettableTokenList Ping
+        {
+            get { return _ping ?? (_ping = new SettableTokenList(this, AttributeNames.Ping)); }
         }
 
         /// <summary>
         /// Gets or sets the alternative text for the element.
         /// </summary>
-        [DomName("alt")]
         public String Alt
         {
             get { return GetAttribute(AttributeNames.Alt); }
@@ -91,19 +243,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a single character that switches input focus to the control.
-        /// </summary>
-        [DomName("accessKey")]
-        public String AccessKey
-        {
-            get { return GetAttribute(AttributeNames.AccessKey); }
-            set { SetAttribute(AttributeNames.AccessKey, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the coordinates to define the hot-spot region.
         /// </summary>
-        [DomName("coords")]
         public String Coords
         {
             get { return GetAttribute(AttributeNames.Coords); }
@@ -113,7 +254,6 @@
         /// <summary>
         /// Gets or sets the shape of the hot-spot, limited to known values.
         /// </summary>
-        [DomName("shape")]
         public String Shape
         {
             get { return GetAttribute(AttributeNames.Shape); }
@@ -123,7 +263,6 @@
         /// <summary>
         /// Gets or sets the browsing context in which to open the linked resource.
         /// </summary>
-        [DomName("target")]
         public String Target
         {
             get { return GetAttribute(AttributeNames.Target); }
@@ -133,7 +272,6 @@
         /// <summary>
         /// Gets or sets the MIME type of the linked resource.
         /// </summary>
-        [DomName("type")]
         public String Type
         {
             get { return GetAttribute(AttributeNames.Type); }
@@ -186,8 +324,8 @@
         {
             if (name.Equals(AttributeNames.Rel, StringComparison.Ordinal))
             {
-                if (rellist != null)
-                    rellist.Update(Rel);
+                if (_rellist != null)
+                    _rellist.Update(Rel);
 
                 return;
             }
