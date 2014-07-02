@@ -288,6 +288,7 @@
     <Compile Include="Interfaces\Html\IHtmlHtmlElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlImageElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlInlineFrameElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlLabelElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlLegendElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlLinkElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlListItemElement.cs" />

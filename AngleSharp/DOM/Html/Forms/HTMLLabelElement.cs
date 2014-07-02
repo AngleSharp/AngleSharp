@@ -74,8 +74,7 @@
         }
 
         /// <summary>
-        /// Gets the form element that the label is assigned for if
-        /// any.
+        /// Gets the form element that the label is assigned for if any.
         /// </summary>
         [DomName("form")]
         public IHtmlFormElement Form
