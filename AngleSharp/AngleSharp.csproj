@@ -275,6 +275,7 @@
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
     <Compile Include="Interfaces\Html\IGlobalEventHandlers.cs" />
     <Compile Include="Interfaces\Html\IHtmlAnchorElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlAreaElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlBaseElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlBodyElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlBreakRowElement.cs" />

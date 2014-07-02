@@ -71,7 +71,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the value indicating relationships of the current
+        /// Gets the value indicating relationships of the current
         /// document to the linked resource, as a list of tokens.
         /// </summary>
         [DomName("relList")]
