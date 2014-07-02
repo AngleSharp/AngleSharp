@@ -253,6 +253,8 @@
 
         /// <summary>
         /// Gets or sets the shape of the hot-spot, limited to known values.
+        /// The known values are: circle, default. poly, rect. The missing
+        /// value is rect.
         /// </summary>
         public String Shape
         {

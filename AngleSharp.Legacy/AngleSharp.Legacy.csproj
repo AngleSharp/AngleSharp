@@ -1513,6 +1513,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlAnchorElement.cs">
       <Link>Interfaces\Html\IHtmlAnchorElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlAreaElement.cs">
+      <Link>Interfaces\Html\IHtmlAreaElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlBaseElement.cs">
       <Link>Interfaces\Html\IHtmlBaseElement.cs</Link>
     </Compile>
@@ -1555,11 +1558,20 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlInlineFrameElement.cs">
       <Link>Interfaces\Html\IHtmlInlineFrameElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlLabelElement.cs">
+      <Link>Interfaces\Html\IHtmlLabelElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlLegendElement.cs">
+      <Link>Interfaces\Html\IHtmlLegendElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlLinkElement.cs">
       <Link>Interfaces\Html\IHtmlLinkElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlListItemElement.cs">
       <Link>Interfaces\Html\IHtmlListItemElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMapElement.cs">
+      <Link>Interfaces\Html\IHtmlMapElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMetaElement.cs">
       <Link>Interfaces\Html\IHtmlMetaElement.cs</Link>
