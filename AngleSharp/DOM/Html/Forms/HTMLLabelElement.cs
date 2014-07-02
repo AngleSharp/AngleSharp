@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML label element.
     /// </summary>
-    [DomName("HTMLLabelElement")]
-    public sealed class HTMLLabelElement : HTMLElement
+    sealed class HTMLLabelElement : HTMLElement, IHtmlLabelElement
     {
         #region ctor
 
@@ -32,20 +31,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the accesskey HTML attribute.
-        /// </summary>
-        [DomName("accessKey")]
-        public String AccessKey
-        {
-            get { return GetAttribute(AttributeNames.AccessKey); }
-            set { SetAttribute(AttributeNames.AccessKey, value); }
-        }
-
-        /// <summary>
         /// Gets the control that the label is assigned for if any.
         /// </summary>
-        [DomName("control")]
-        public ILabelabelElement Control
+        public IHtmlElement Control
         {
             get
             {
@@ -53,10 +41,10 @@
 
                 if (!String.IsNullOrEmpty(controlId))
                 {
-                    var control = _owner.GetElementById(controlId);
+                    var control = _owner.GetElementById(controlId) as IHtmlElement;
 
                     if (control is ILabelabelElement)
-                        return (ILabelabelElement)control;
+                        return control;
                 }
                 
                 return null;
@@ -66,7 +54,6 @@
         /// <summary>
         /// Gets or sets the ID of the labeled control. Reflects the for attribute.
         /// </summary>
-        [DomName("htmlFor")]
         public String HtmlFor
         {
             get { return GetAttribute(AttributeNames.For); }
@@ -76,7 +63,6 @@
         /// <summary>
         /// Gets the form element that the label is assigned for if any.
         /// </summary>
-        [DomName("form")]
         public IHtmlFormElement Form
         {
             get { return GetAssignedForm(); }

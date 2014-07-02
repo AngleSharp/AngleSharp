@@ -461,5 +461,10 @@
         /// The frame attribute.
         /// </summary>
         public static readonly String Frame = "frame";
+
+        /// <summary>
+        /// The form attribute.
+        /// </summary>
+        public static readonly String Form = "form";
     }
 }

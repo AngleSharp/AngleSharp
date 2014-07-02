@@ -278,7 +278,7 @@
             
             if (par == null)
             {
-                var formid = GetAttribute("form");
+                var formid = GetAttribute(AttributeNames.Form);
 
                 if (par == null && !String.IsNullOrEmpty(formid))
                     par = _owner.GetElementById(formid) as IHtmlFormElement;
