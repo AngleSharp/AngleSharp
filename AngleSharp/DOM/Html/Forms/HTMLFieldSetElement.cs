@@ -1,14 +1,14 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+
     /// <summary>
     /// Represents the HTML fieldset element.
     /// </summary>
     sealed class HTMLFieldSetElement : HTMLFormControlElement, IHtmlFieldSetElement
     {
-        #region Members
+        #region Fields
 
         HTMLFormControlsCollection _elements;
 
