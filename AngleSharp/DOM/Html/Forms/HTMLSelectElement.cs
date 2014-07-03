@@ -38,15 +38,15 @@
         [DomName("required")]
         public Boolean Required
         {
-            get { return GetAttribute("required") != null; }
-            set { SetAttribute("required", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.Required) != null; }
+            set { SetAttribute(AttributeNames.Required, value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets the set of options that are selected.
         /// </summary>
         [DomName("selectedOptions")]
-        public HTMLCollection<HTMLOptionElement> SelectedOptions
+        public IHtmlCollection SelectedOptions
         {
             get 
             {
@@ -120,15 +120,15 @@
         [DomName("multiple")]
         public Boolean Multiple
         {
-            get { return GetAttribute("multiple") != null; }
-            set { SetAttribute("multiple", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.Multiple) != null; }
+            set { SetAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets the set of option elements contained by this element. 
         /// </summary>
         [DomName("options")]
-        public HTMLCollection<HTMLOptionElement> Options
+        public IHtmlCollection Options
         {
             get { return _options; }
         }
@@ -192,8 +192,8 @@
         /// <param name="name">The name of the attribute that has been changed.</param>
         internal override void OnAttributeChanged(String name)
         {
-            if (name.Equals("value", StringComparison.Ordinal))
-                Value = GetAttribute("value");
+            if (name.Equals(AttributeNames.Value, StringComparison.Ordinal))
+                Value = GetAttribute(AttributeNames.Value);
             else
                 base.OnAttributeChanged(name);
         }

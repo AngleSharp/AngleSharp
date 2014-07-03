@@ -10,17 +10,17 @@
     [DomName("HTMLDocument")]
     public interface IHtmlDocument : IDocument
     {
-        HTMLCollection<IHtmlAnchorElement> Anchors { get; }
+        IHtmlCollection Anchors { get; }
         IHtmlBodyElement Body { get; }
         Cookie Cookie { get; set; }
         String Domain { get; }
         IHtmlCollection Embeds { get; }
-        HTMLCollection<IHtmlFormElement> Forms { get; }
+        IHtmlCollection Forms { get; }
         IHtmlHeadElement Head { get; }
-        HTMLCollection<IHtmlImageElement> Images { get; }
+        IHtmlCollection Images { get; }
         IHtmlCollection Links { get; }
         void Load(String url);
-        HTMLCollection<HTMLScriptElement> Scripts { get; }
+        IHtmlCollection Scripts { get; }
         String Title { get; set; }
         void Open();
         void Close();

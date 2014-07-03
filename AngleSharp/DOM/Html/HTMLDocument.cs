@@ -193,7 +193,7 @@
         /// Gets a list of all of the anchors in the document.
         /// </summary>
         [DomName("anchors")]
-        public HTMLCollection<IHtmlAnchorElement> Anchors
+        public IHtmlCollection Anchors
         {
             get { return _anchors ?? (_anchors = new HTMLCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name))); }
         }
@@ -202,7 +202,7 @@
         /// Gets the forms in the document.
         /// </summary>
         [DomName("forms")]
-        public HTMLCollection<IHtmlFormElement> Forms
+        public IHtmlCollection Forms
         {
             get { return _forms ?? (_forms = new HTMLCollection<IHtmlFormElement>(this)); }
         }
@@ -211,7 +211,7 @@
         /// Gets the images in the document.
         /// </summary>
         [DomName("images")]
-        public HTMLCollection<IHtmlImageElement> Images
+        public IHtmlCollection Images
         {
             get { return _images ?? (_images = new HTMLCollection<IHtmlImageElement>(this)); }
         }
@@ -220,7 +220,7 @@
         /// Gets the scripts in the document.
         /// </summary>
         [DomName("scripts")]
-        public HTMLCollection<HTMLScriptElement> Scripts
+        public IHtmlCollection Scripts
         {
             get { return _scripts ?? (_scripts = new HTMLCollection<HTMLScriptElement>(this)); }
         }

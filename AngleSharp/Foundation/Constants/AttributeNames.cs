@@ -466,5 +466,15 @@
         /// The form attribute.
         /// </summary>
         public static readonly String Form = "form";
+
+        /// <summary>
+        /// The required attribute.
+        /// </summary>
+        public static readonly String Required = "required";
+
+        /// <summary>
+        /// The multiple attribute.
+        /// </summary>
+        public static readonly String Multiple = "multiple";
     }
 }

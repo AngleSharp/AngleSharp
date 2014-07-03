@@ -10,7 +10,7 @@
     /// A specialized collection containing elements of type T.
     /// </summary>
     /// <typeparam name="T">The type of elements that can be contained.</typeparam>
-    public class HTMLCollection<T> : IHtmlCollection
+    class HTMLCollection<T> : IHtmlCollection
         where T : class, IElement
     {
         #region Fields
