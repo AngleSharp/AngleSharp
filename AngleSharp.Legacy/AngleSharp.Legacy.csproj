@@ -1543,6 +1543,12 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlEmbedElement.cs">
       <Link>Interfaces\Html\IHtmlEmbedElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlFieldSetElement.cs">
+      <Link>Interfaces\Html\IHtmlFieldSetElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlFormControlsCollection.cs">
+      <Link>Interfaces\Html\IHtmlFormControlsCollection.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlFormElement.cs">
       <Link>Interfaces\Html\IHtmlFormElement.cs</Link>
     </Compile>
@@ -1587,6 +1593,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlObjectElement.cs">
       <Link>Interfaces\Html\IHtmlObjectElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlOptionsCollection.cs">
+      <Link>Interfaces\Html\IHtmlOptionsCollection.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlOptionsGroupElement.cs">
       <Link>Interfaces\Html\IHtmlOptionsGroupElement.cs</Link>
