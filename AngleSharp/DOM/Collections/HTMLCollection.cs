@@ -181,7 +181,7 @@
     /// <summary>
     /// A collection of HTML nodes.
     /// </summary>
-    public sealed class HTMLCollection : HTMLCollection<Element>
+    sealed class HTMLCollection : HTMLCollection<Element>
     {
         #region ctor
 

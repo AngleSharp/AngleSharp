@@ -184,7 +184,7 @@
         /// Gets a list of all elements in the document.
         /// </summary>
         [DomName("all")]
-        public HTMLCollection All
+        public IHtmlCollection All
         {
             get { return _all; }
         }
@@ -229,7 +229,7 @@
         /// Gets a list of the embedded OBJECTS within the current document.
         /// </summary>
         [DomName("embeds")]
-        public HTMLCollection Embeds
+        public IHtmlCollection Embeds
         {
             get { return _embeds ?? (_embeds = new HTMLCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement)); }
         }
@@ -238,7 +238,7 @@
         /// Gets a collection of all AREA elements and anchor elements in a document with a value for the href attribute.
         /// </summary>
         [DomName("links")]
-        public HTMLCollection Links
+        public IHtmlCollection Links
         {
             get { return _links ?? (_links = new HTMLCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href))); }
         }

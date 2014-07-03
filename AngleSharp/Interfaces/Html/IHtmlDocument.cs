@@ -14,11 +14,11 @@
         IHtmlBodyElement Body { get; }
         Cookie Cookie { get; set; }
         String Domain { get; }
-        HTMLCollection Embeds { get; }
+        IHtmlCollection Embeds { get; }
         HTMLCollection<IHtmlFormElement> Forms { get; }
         IHtmlHeadElement Head { get; }
         HTMLCollection<IHtmlImageElement> Images { get; }
-        HTMLCollection Links { get; }
+        IHtmlCollection Links { get; }
         void Load(String url);
         HTMLCollection<HTMLScriptElement> Scripts { get; }
         String Title { get; set; }
