@@ -211,7 +211,7 @@
     /// <summary>
     /// A collection of HTML form controls.
     /// </summary>
-    public sealed class HTMLFormControlsCollection : HTMLCollection<HTMLFormControlElement>, IHtmlFormControlsCollection
+    sealed class HTMLFormControlsCollection : HTMLCollection<HTMLFormControlElement>, IHtmlFormControlsCollection
     {
         #region ctor
 

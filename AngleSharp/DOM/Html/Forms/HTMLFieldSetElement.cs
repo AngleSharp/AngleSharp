@@ -6,8 +6,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the HTML fieldset element.
     /// </summary>
-    [DomName("HTMLFieldSetElement")]
-    public sealed class HTMLFieldSetElement : HTMLFormControlElement
+    sealed class HTMLFieldSetElement : HTMLFormControlElement, IHtmlFieldSetElement
     {
         #region Members
 
@@ -32,7 +31,6 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the type of input control (fieldset).
         /// </summary>
-        [DomName("type")]
         public String Type
         {
             get { return _name; }
@@ -41,8 +39,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets the elements belonging to this field set.
         /// </summary>
-        [DomName("elements")]
-        public HTMLFormControlsCollection Elements
+        public IHtmlFormControlsCollection Elements
         {
             get { return _elements ?? (_elements = new HTMLFormControlsCollection(this)); }
         }

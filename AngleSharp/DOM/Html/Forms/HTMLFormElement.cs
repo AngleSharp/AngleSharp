@@ -3,9 +3,9 @@
     using AngleSharp.DOM.Collections;
     using System;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Linq;
 
     /// <summary>
     /// Represents the form element.
@@ -80,7 +80,7 @@
         /// <summary>
         /// Gets all the form controls belonging to this form element.
         /// </summary>
-        public HTMLFormControlsCollection Elements
+        public IHtmlFormControlsCollection Elements
         {
             get { return _elements; }
         }

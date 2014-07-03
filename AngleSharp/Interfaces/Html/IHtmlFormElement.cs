@@ -73,7 +73,7 @@
         /// Gets all the form controls belonging to this form element.
         /// </summary>
         [DomName("elements")]
-        HTMLFormControlsCollection Elements { get; }
+        IHtmlFormControlsCollection Elements { get; }
 
         /// <summary>
         /// Submits the form element from the form element itself.
