@@ -156,8 +156,14 @@
             return GetEnumerator();
         }
 
+        IEnumerator<Element> IEnumerable<Element>.GetEnumerator()
+        {
+            return _elements.OfType<Element>().GetEnumerator();
+        }
+
         #endregion
 
+        #region IHtmlCollection
 
         Element IHtmlCollection.this[int index]
         {
@@ -169,16 +175,12 @@
             get { return this[name] as Element; }
         }
 
-        IEnumerator<Element> IEnumerable<Element>.GetEnumerator()
-        {
-            return _elements.OfType<Element>().GetEnumerator();
-        }
+        #endregion
     }
 
     /// <summary>
     /// A collection of HTML nodes.
     /// </summary>
-    [DomName("HTMLCollection")]
     public sealed class HTMLCollection : HTMLCollection<Element>
     {
         #region ctor
@@ -209,8 +211,7 @@
     /// <summary>
     /// A collection of HTML form controls.
     /// </summary>
-    [DomName("HTMLFormControlsCollection")]
-    public sealed class HTMLFormControlsCollection : HTMLCollection<HTMLFormControlElement>
+    public sealed class HTMLFormControlsCollection : HTMLCollection<HTMLFormControlElement>, IHtmlFormControlsCollection
     {
         #region ctor
 
@@ -222,6 +223,38 @@
         internal HTMLFormControlsCollection(Element parent)
             : base(parent)
         {
+        }
+
+        #endregion
+
+        #region IHtmlFormControlsCollection
+
+        Int32 IHtmlCollection.Length
+        {
+            get { return Length; }
+        }
+
+        Element IHtmlCollection.this[Int32 index]
+        {
+            get { return this[index]; }
+        }
+
+        Element IHtmlCollection.this[String name]
+        {
+            get { return this[name]; }
+        }
+
+        IEnumerator<Element> IEnumerable<Element>.GetEnumerator()
+        {
+            var enumerator = base.GetEnumerator();
+
+            while (enumerator.MoveNext())
+                yield return enumerator.Current;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         #endregion
