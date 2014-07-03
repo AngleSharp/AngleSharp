@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the HTML optgroup element.
     /// </summary>
-    [DomName("HTMLOptGroupElement")]
-    public sealed class HTMLOptGroupElement : HTMLElement, ISelectScopeElement, IImpliedEnd
+    sealed class HTMLOptGroupElement : HTMLElement, ISelectScopeElement, IImpliedEnd, IHtmlOptionsGroupElement
     {
         #region ctor
 
@@ -25,21 +24,19 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the label.
         /// </summary>
-        [DomName("label")]
         public String Label
         {
-            get { return GetAttribute("label"); }
-            set { SetAttribute("label", value); }
+            get { return GetAttribute(AttributeNames.Label); }
+            set { SetAttribute(AttributeNames.Label, value); }
         }
 
         /// <summary>
         /// Gets or sets if the optgroup is enabled or disabled.
         /// </summary>
-        [DomName("disabled")]
         public Boolean Disabled
         {
-            get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.Disabled) != null; }
+            set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         #endregion
