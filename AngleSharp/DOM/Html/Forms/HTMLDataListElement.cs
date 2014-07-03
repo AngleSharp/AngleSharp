@@ -5,12 +5,11 @@
     /// <summary>
     /// Represents the HTML datalist element.
     /// </summary>
-    [DomName("HTMLDataListElement")]
-    public sealed class HTMLDataListElement : HTMLElement
+    sealed class HTMLDataListElement : HTMLElement, IHtmlDataListElement
     {
         #region Fields
 
-        HTMLCollection<HTMLOptionElement> _options;
+        readonly HTMLCollection<HTMLOptionElement> _options;
 
         #endregion
 
@@ -32,8 +31,7 @@
         /// <summary>
         /// Gets a collection whose filter matches option elements.
         /// </summary>
-        [DomName("options")]
-        public HTMLCollection<HTMLOptionElement> Options
+        public IHtmlCollection Options
         {
             get { return _options; }
         }
