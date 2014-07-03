@@ -298,6 +298,7 @@
     <Compile Include="Interfaces\Html\IHtmlMetaElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlModElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlObjectElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlOptionsGroupElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlOrderedListElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlParagraphElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlParamElement.cs" />
