@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets or sets if the optgroup is enabled or disabled.
         /// </summary>
-        public Boolean Disabled
+        public Boolean IsDisabled
         {
             get { return GetAttribute(AttributeNames.Disabled) != null; }
             set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
