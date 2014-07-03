@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML canvas element.
     /// </summary>
-    [DomName("HTMLCanvasElement")]
-    public sealed class HTMLCanvasElement : HTMLElement
+    sealed class HTMLCanvasElement : HTMLElement, IHtmlCanvasElement
     {
         #region ctor
 
@@ -32,7 +31,6 @@
         /// </summary>
         /// <param name="contextId">A context id like 2d.</param>
         /// <returns>An object that defines the drawing context.</returns>
-        [DomName("getContext")]
         public RenderingContext GetContext(String contextId)
         {
             //TODO
@@ -44,7 +42,6 @@
         /// </summary>
         /// <param name="contextId">A context id like 2d.</param>
         /// <returns>True if the context is supported, otherwise false.</returns>
-        [DomName("supportsContext")]
         public Boolean SupportsContext(String contextId)
         {
             //TODO
@@ -55,7 +52,6 @@
         /// Changes the context the element is related to the given one.
         /// </summary>
         /// <param name="context">The new context.</param>
-        [DomName("setContext")]
         public void SetContext(RenderingContext context)
         {
             //TODO
@@ -66,7 +62,6 @@
         /// </summary>
         /// <param name="type">The type of image e.g image/png.</param>
         /// <returns>A data URI with the data if any.</returns>
-        [DomName("toDataURL")]
         public String ToDataURL(String type = null)
         {
             //TODO
@@ -79,7 +74,6 @@
         /// </summary>
         /// <param name="callback">The callback function.</param>
         /// <param name="type">The type of object to create.</param>
-        [DomName("toBlob")]
         public void ToBlob(Action<Object> callback, String type = null)
         {
             //TODO
@@ -92,21 +86,19 @@
         /// <summary>
         /// Gets or sets the displayed width of the canvas element.
         /// </summary>
-        [DomName("width")]
         public UInt32 Width
         {
-            get { return ToInteger(GetAttribute("width"), 300u); }
-            set { SetAttribute("width", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Width), 300u); }
+            set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the displayed height of the canvas element.
         /// </summary>
-        [DomName("height")]
         public UInt32 Height
         {
-            get { return ToInteger(GetAttribute("height"), 150u); }
-            set { SetAttribute("height", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Height), 150u); }
+            set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 
         #endregion
