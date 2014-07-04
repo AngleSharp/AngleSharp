@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets or sets if the option is enabled or disabled.
         /// </summary>
-        public Boolean Disabled
+        public Boolean IsDisabled
         {
             get { return GetAttribute(AttributeNames.Disabled) != null; }
             set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
@@ -100,7 +100,7 @@
         /// <summary>
         /// Gets or sets if the option is selected by default.
         /// </summary>
-        public Boolean DefaultSelected
+        public Boolean IsDefaultSelected
         {
             get { return GetAttribute(AttributeNames.Selected) != null; }
             set { SetAttribute(AttributeNames.Selected, value ? String.Empty : null); }
@@ -109,9 +109,9 @@
         /// <summary>
         /// Gets or sets if the option is currently selected.
         /// </summary>
-        public Boolean Selected
+        public Boolean IsSelected
         {
-            get { return _selected.HasValue ? _selected.Value : DefaultSelected; }
+            get { return _selected.HasValue ? _selected.Value : IsDefaultSelected; }
             set { _selected = value; }
         }
 

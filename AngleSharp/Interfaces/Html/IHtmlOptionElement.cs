@@ -16,7 +16,7 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets if the option is enabled or disabled.
         /// </summary>
         [DomName("disabled")]
-        Boolean Disabled { get; set; }
+        Boolean IsDisabled { get; set; }
 
         /// <summary>
         /// Gets the associated HTML form element.
@@ -34,13 +34,13 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets if the option is selected by default.
         /// </summary>
         [DomName("defaultSelected")]
-        Boolean DefaultSelected { get; set; }
+        Boolean IsDefaultSelected { get; set; }
 
         /// <summary>
         /// Gets or sets if the option is currently selected.
         /// </summary>
         [DomName("selected")]
-        Boolean Selected { get; set; }
+        Boolean IsSelected { get; set; }
 
         /// <summary>
         /// Gets or sets the value.

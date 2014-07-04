@@ -53,7 +53,7 @@
                 var result = new List<HTMLOptionElement>();
 
                 foreach (var option in _options)
-                    if (option.Selected)
+                    if (option.IsSelected)
                         result.Add(option);
 
                 return new HTMLCollection<HTMLOptionElement>(result);
@@ -72,7 +72,7 @@
 
                 foreach (var option in _options)
                 {
-                    if (option.Selected)
+                    if (option.IsSelected)
                         return index;
 
                     index++;
@@ -92,7 +92,7 @@
             {
                 foreach (var option in _options)
                 {
-                    if (option.Selected)
+                    if (option.IsSelected)
                         return option.Value;
                 }
 
@@ -101,7 +101,7 @@
             set
             {
                 foreach (var option in _options)
-                    option.Selected = option.Value == value;
+                    option.IsSelected = option.Value == value;
             }
         }
 
@@ -181,7 +181,7 @@
         {
             foreach (var option in _options)
             {
-                if (option.Selected && !option.Disabled)
+                if (option.IsSelected && !option.IsDisabled)
                     dataSet.Append(Name, option.Value, Multiple ? "select-one" : "select-multiple");
             }
         }
@@ -204,7 +204,7 @@
         internal override void Reset()
         {
             foreach (var option in _options)
-                option.Selected = option.DefaultSelected;
+                option.IsSelected = option.IsDefaultSelected;
         }
 
         /// <summary>

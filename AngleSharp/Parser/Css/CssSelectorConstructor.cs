@@ -908,7 +908,7 @@
 						else if (el is HTMLTextAreaElement)
 							return !((HTMLTextAreaElement)el).Disabled;
 						else if (el is HTMLOptionElement)
-							return !((HTMLOptionElement)el).Disabled;
+							return !((HTMLOptionElement)el).IsDisabled;
 						else if (el is HTMLOptGroupElement || el is HTMLMenuItemElement || el is HTMLFieldSetElement)
 							return String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled));
 
@@ -927,7 +927,7 @@
 						else if (el is HTMLTextAreaElement)
 							return ((HTMLTextAreaElement)el).Disabled;
 						else if (el is HTMLOptionElement)
-							return ((HTMLOptionElement)el).Disabled;
+							return ((HTMLOptionElement)el).IsDisabled;
 						else if (el is HTMLOptGroupElement || el is HTMLMenuItemElement || el is HTMLFieldSetElement)
 							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled));
 
@@ -983,7 +983,7 @@
 								&& mi.Checked;
 						}
 						else if (el is HTMLOptionElement)
-							return ((HTMLOptionElement)el).Selected;
+							return ((HTMLOptionElement)el).IsSelected;
 
 						return false;
 					}, pseudoClassChecked);
@@ -1018,7 +1018,7 @@
 								&& !mi.Checked;
 						}
 						else if (el is HTMLOptionElement)
-							return !((HTMLOptionElement)el).Selected;
+							return !((HTMLOptionElement)el).IsSelected;
 
 						return false;
 					}, pseudoClassUnchecked);
