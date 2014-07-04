@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML option element.
     /// </summary>
-    [DomName("HTMLOptionElement")]
-    public sealed class HTMLOptionElement : HTMLElement, ISelectScopeElement, IImpliedEnd
+    sealed class HTMLOptionElement : HTMLElement, ISelectScopeElement, IImpliedEnd, IHtmlOptionElement
     {
         #region Fields
 
@@ -31,7 +30,6 @@
         /// <summary>
         /// Gets or sets if the option is enabled or disabled.
         /// </summary>
-        [DomName("disabled")]
         public Boolean Disabled
         {
             get { return GetAttribute(AttributeNames.Disabled) != null; }
@@ -41,7 +39,6 @@
         /// <summary>
         /// Gets the associated HTML form element.
         /// </summary>
-        [DomName("form")]
         public IHtmlFormElement Form
         {
             get { return GetAssignedForm(); }
@@ -50,7 +47,6 @@
         /// <summary>
         /// Gets or sets the label.
         /// </summary>
-        [DomName("label")]
         public String Label
         {
             get { return GetAttribute(AttributeNames.Label); }
@@ -60,7 +56,6 @@
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        [DomName("value")]
         public String Value
         {
             get { return GetAttribute(AttributeNames.Value) ?? String.Empty; }
@@ -70,7 +65,6 @@
         /// <summary>
         /// Gets the index of the option element.
         /// </summary>
-        [DomName("index")]
         public Int32 Index
         {
             get
@@ -97,7 +91,6 @@
         /// <summary>
         /// Gets or sets the text of the option.
         /// </summary>
-        [DomName("text")]
         public String Text
         {
             get { return TextContent.CollapseAndStrip(); }
@@ -107,7 +100,6 @@
         /// <summary>
         /// Gets or sets if the option is selected by default.
         /// </summary>
-        [DomName("defaultSelected")]
         public Boolean DefaultSelected
         {
             get { return GetAttribute(AttributeNames.Selected) != null; }
@@ -117,7 +109,6 @@
         /// <summary>
         /// Gets or sets if the option is currently selected.
         /// </summary>
-        [DomName("selected")]
         public Boolean Selected
         {
             get { return _selected.HasValue ? _selected.Value : DefaultSelected; }
