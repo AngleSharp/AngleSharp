@@ -21,7 +21,7 @@
         Double Max { get; set; }
 
         /// <summary>
-        /// Gets or sets the position.
+        /// Gets the position.
         /// </summary>
         [DomName("position")]
         Double Position { get; }

@@ -476,5 +476,10 @@
         /// The multiple attribute.
         /// </summary>
         public static readonly String Multiple = "multiple";
+
+        /// <summary>
+        /// The max attribute.
+        /// </summary>
+        public static readonly String Max = "max";
     }
 }

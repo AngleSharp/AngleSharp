@@ -967,6 +967,25 @@
         }
 
         /// <summary>
+        /// Converts the given value to a double (or not).
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="defaultValue">The default value to consider (optional).</param>
+        /// <returns>The converted double.</returns>
+        static protected Double ToDouble(String value, Double defaultValue = 0.0)
+        {
+            if (String.IsNullOrEmpty(value))
+                return defaultValue;
+
+            Double converted;
+
+            if (Double.TryParse(value, out converted))
+                return converted;
+
+            return defaultValue;
+        }
+
+        /// <summary>
         /// Converts the given value to an integer (or not).
         /// </summary>
         /// <param name="value">The value to convert.</param>

@@ -1,26 +1,16 @@
-﻿using AngleSharp.DOM.Collections;
-using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+
     /// <summary>
     /// Represents the HTML progress element.
     /// </summary>
-    [DomName("HTMLProgressElement")]
-    public sealed class HTMLProgressElement : HTMLElement, ILabelabelElement
+    sealed class HTMLProgressElement : HTMLElement, ILabelabelElement, IHtmlProgressElement
     {
-        #region Constant
+        #region Fields
 
-        /// <summary>
-        /// The progress tag.
-        /// </summary>
-        internal const String Tag = "progress";
-
-        #endregion
-
-        #region Members
-
-        NodeList labels;
+        readonly NodeList labels;
 
         #endregion
 
@@ -31,7 +21,7 @@ namespace AngleSharp.DOM.Html
         /// </summary>
         internal HTMLProgressElement()
         {
-            _name = Tag;
+            _name = Tags.Progress;
             labels = new NodeList();
         }
 
@@ -42,53 +32,52 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets if labels are supported.
         /// </summary>
-        [DomName("supportsLabels")]
         public Boolean SupportsLabels
         {
-            get;
-            private set;
+            get { return true; }
         }
 
         /// <summary>
         /// Gets the list of assigned labels.
         /// </summary>
-        [DomName("labels")]
-        public NodeList Labels
+        public INodeList Labels
         {
             get { return labels; }
         }
 
-        //TODO
-        //http://www.w3.org/html/wg/drafts/html/master/forms.html#the-progress-element
+        /// <summary>
+        /// Gets if the progress bar is determinate. Otherwise it is considered
+        /// to be an indeterminate progress bar.
+        /// </summary>
+        public Boolean IsDeterminate
+        {
+            get { return !String.IsNullOrEmpty(GetAttribute(AttributeNames.Value)); }
+        }
 
         /// <summary>
         /// Gets or sets the current value.
         /// </summary>
-        [DomName("value")]
         public Double Value
         {
-            get;
-            set;
+            get { return ToDouble(GetAttribute(AttributeNames.Value), 0.0); }
+            set { SetAttribute(AttributeNames.Value, value.ToString(System.Globalization.NumberFormatInfo.InvariantInfo)); }
         }
 
         /// <summary>
         /// Gets or sets the maximum value.
         /// </summary>
-        [DomName("max")]
         public Double Max
         {
-            get;
-            set;
+            get { return ToDouble(GetAttribute(AttributeNames.Max), 1.0); }
+            set { SetAttribute(AttributeNames.Max, value.ToString(System.Globalization.NumberFormatInfo.InvariantInfo)); }
         }
 
         /// <summary>
-        /// Gets or sets the position.
+        /// Gets the position.
         /// </summary>
-        [DomName("position")]
         public Double Position
         {
-            get;
-            private set;
+            get { return IsDeterminate ? Math.Max(Math.Min(Value / Max, 1.0), 0.0) : -1.0; }
         }
 
         #endregion

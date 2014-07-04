@@ -4,13 +4,14 @@
     using AngleSharp.DOM.Html;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
 
     /// <summary>
     /// Represents a list of Node instances or nodes.
     /// </summary>
     [DomName("NodeList")]
-    public sealed class NodeList : BaseCollection<Node>
+    public sealed class NodeList : BaseCollection<Node>, INodeList
     {
         #region ctor
 
@@ -226,6 +227,33 @@
                         GetElementsByTagNameNS(element.ChildNodes, namespaceURI, localName, result);
                 }
             }
+        }
+
+        #endregion
+
+        #region INodeList
+
+        INode INodeList.this[Int32 index]
+        {
+            get { return this[index]; }
+        }
+
+        Int32 INodeList.Length
+        {
+            get { return Length; }
+        }
+
+        IEnumerator<INode> IEnumerable<INode>.GetEnumerator()
+        {
+            var enumerator = GetEnumerator();
+
+            while (enumerator.MoveNext())
+                yield return enumerator.Current;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         #endregion

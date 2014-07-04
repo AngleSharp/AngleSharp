@@ -623,6 +623,11 @@
         /// </summary>
         public static readonly String Time = "time";
 
+        /// <summary>
+        /// The progress tag.
+        /// </summary>
+        public static readonly String Progress = "progress";
+
         #endregion
 
         #region MathML Tags

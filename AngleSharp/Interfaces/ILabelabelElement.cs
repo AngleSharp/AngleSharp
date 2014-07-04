@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using AngleSharp.DOM.Collections;
     using System;
 
     /// <summary>
@@ -17,6 +16,6 @@
         /// <summary>
         /// Gets the list of assigned labels.
         /// </summary>
-        NodeList Labels { get; }
+        INodeList Labels { get; }
     }
 }

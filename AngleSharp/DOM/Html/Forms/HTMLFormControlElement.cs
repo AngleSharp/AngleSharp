@@ -82,7 +82,7 @@
         /// Gets the list of assigned labels.
         /// </summary>
         [DomName("labels")]
-        public NodeList Labels
+        public INodeList Labels
         {
             get { return _labels; }
         }
