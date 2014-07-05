@@ -123,6 +123,7 @@
             creators.Add(Tags.Rt, () => new HTMLRTElement ());
             creators.Add(Tags.Rp, () => new HTMLRPElement ());
             creators.Add(Tags.Time, () => new HTMLTimeElement());
+            creators.Add(Tags.Progress, () => new HTMLProgressElement());
         }
 
         protected override HTMLElement CreateDefault(String name, Document document)
