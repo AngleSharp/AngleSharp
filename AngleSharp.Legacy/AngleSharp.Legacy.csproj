@@ -1531,6 +1531,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDataListElement.cs">
       <Link>Interfaces\Html\IHtmlDataListElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDetailsElement.cs">
+      <Link>Interfaces\Html\IHtmlDetailsElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDivElement.cs">
       <Link>Interfaces\Html\IHtmlDivElement.cs</Link>
     </Compile>
@@ -1584,6 +1587,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMapElement.cs">
       <Link>Interfaces\Html\IHtmlMapElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMenuElement.cs">
+      <Link>Interfaces\Html\IHtmlMenuElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMetaElement.cs">
       <Link>Interfaces\Html\IHtmlMetaElement.cs</Link>
