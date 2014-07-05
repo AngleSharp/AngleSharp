@@ -1534,6 +1534,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDetailsElement.cs">
       <Link>Interfaces\Html\IHtmlDetailsElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDialogElement.cs">
+      <Link>Interfaces\Html\IHtmlDialogElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDivElement.cs">
       <Link>Interfaces\Html\IHtmlDivElement.cs</Link>
     </Compile>
