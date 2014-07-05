@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML details element.
     /// </summary>
-    [DomName("HTMLDetailsElement")]
-    public sealed class HTMLDetailsElement : HTMLElement
+    sealed class HTMLDetailsElement : HTMLElement, IHtmlDetailsElement
     {
         #region ctor
 
@@ -25,11 +24,10 @@
         /// <summary>
         /// Gets or sets if the details element is open.
         /// </summary>
-        [DomName("open")]
-        public Boolean Open
+        public Boolean IsOpen
         {
-            get { return GetAttribute("open") != null; }
-            set { SetAttribute("open", value ? string.Empty : null); }
+            get { return GetAttribute(AttributeNames.Open) != null; }
+            set { SetAttribute(AttributeNames.Open, value ? String.Empty : null); }
         }
 
         #endregion

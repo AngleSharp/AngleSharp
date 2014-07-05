@@ -481,5 +481,10 @@
         /// The max attribute.
         /// </summary>
         public static readonly String Max = "max";
+
+        /// <summary>
+        /// The open attribute.
+        /// </summary>
+        public static readonly String Open = "open";
     }
 }
