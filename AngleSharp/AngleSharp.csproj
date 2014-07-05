@@ -282,6 +282,7 @@
     <Compile Include="Interfaces\Html\IHtmlCanvasElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlDataListElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlDetailsElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlDialogElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlDivElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlEmbedElement.cs" />
