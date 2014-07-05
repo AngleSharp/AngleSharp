@@ -100,7 +100,7 @@
         /// Gets or sets the assigned context menu.
         /// </summary>
         [DomName("contextMenu")]
-        HTMLMenuElement ContextMenu { get; set; }
+        IHtmlMenuElement ContextMenu { get; set; }
 
         /// <summary>
         /// Gets the dropzone for this element.
@@ -126,6 +126,9 @@
         [DomName("blur")]
         void DoBlur();
 
+        /// <summary>
+        /// Forces the invocation of a spell check on the content.
+        /// </summary>
         [DomName("forceSpellCheck")]
         void DoSpellCheck();
 

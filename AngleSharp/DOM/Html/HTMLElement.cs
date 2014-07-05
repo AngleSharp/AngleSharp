@@ -12,7 +12,7 @@
 
         StringMap _dataset;
         CSSStyleDeclaration _style;
-        HTMLMenuElement _menu;
+        IHtmlMenuElement _menu;
         ISettableTokenList _dropZone;
 
         #endregion
@@ -63,16 +63,16 @@
         /// <summary>
         /// Gets or sets the assigned context menu.
         /// </summary>
-        public HTMLMenuElement ContextMenu
+        public IHtmlMenuElement ContextMenu
         {
             get
             {
-                if (_menu != null)
+                if (_menu == null)
                 {
                     var id = GetAttribute(AttributeNames.ContextMenu);
 
                     if (!String.IsNullOrEmpty(id))
-                        return _owner.GetElementById(id) as HTMLMenuElement;
+                        return _owner.GetElementById(id) as IHtmlMenuElement;
                 }
 
                 return _menu;
