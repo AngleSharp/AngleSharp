@@ -309,6 +309,7 @@
     <Compile Include="Interfaces\Html\IHtmlOptionsCollection.cs" />
     <Compile Include="Interfaces\Html\IHtmlOptionsGroupElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlOrderedListElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlOutputElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlParagraphElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlParamElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlPreElement.cs" />
