@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents the keygen element.
     /// </summary>
@@ -33,7 +33,7 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the type of key used.
         /// </summary>
-        public String Keytype
+        public String KeyEncryption
         {
             get { return GetAttribute(AttributeNames.Keytype); }
             set { SetAttribute(AttributeNames.Keytype, value); }

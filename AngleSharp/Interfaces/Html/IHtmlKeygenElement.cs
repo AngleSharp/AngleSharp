@@ -46,10 +46,10 @@
         String Type { get; }
 
         /// <summary>
-        /// Gets or sets the type of key used.
+        /// Gets or sets the type of encryption used.
         /// </summary>
         [DomName("keytype")]
-        String Keytype { get; set; }
+        String KeyEncryption { get; set; }
 
         /// <summary>
         /// Gets or sets the challenge attribute.
