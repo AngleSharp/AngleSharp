@@ -476,9 +476,9 @@
 
             foreach (var field in _elements)
             {
-                if (field.ParentElement is HTMLDataListElement)
+                if (field.ParentElement is IHtmlDataListElement)
                     continue;
-                else if (field.Disabled)
+                else if (field.IsDisabled)
                     continue;
 
                 field.ConstructDataSet(formDataSet, submitter);

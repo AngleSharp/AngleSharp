@@ -10,8 +10,8 @@
     {
         #region Fields
 
-        NodeList _labels;
-        ValidityState _vstate;
+        readonly NodeList _labels;
+        readonly ValidityState _vstate;
         String _error;
 
         #endregion
@@ -31,7 +31,6 @@
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
-        [DomName("name")]
         public String Name
         {
             get { return GetAttribute(AttributeNames.Name); }
@@ -41,7 +40,6 @@
         /// <summary>
         /// Gets the associated HTML form element.
         /// </summary>
-        [DomName("form")]
         public IHtmlFormElement Form
         {
             get { return GetAssignedForm(); }
@@ -50,8 +48,7 @@
         /// <summary>
         /// Gets or sets if the element is enabled or disabled.
         /// </summary>
-        [DomName("disabled")]
-        public Boolean Disabled
+        public Boolean IsDisabled
         {
             get { return GetAttribute(AttributeNames.Disabled) != null; }
             set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
@@ -61,7 +58,6 @@
         /// Gets or sets the autofocus HTML attribute, which indicates whether the
         /// control should have input focus when the page loads.
         /// </summary>
-        [DomName("autofocus")]
         public Boolean Autofocus
         {
             get { return GetAttribute(AttributeNames.AutoFocus) != null; }
@@ -71,17 +67,14 @@
         /// <summary>
         /// Gets if labels are supported.
         /// </summary>
-        [DomName("supportsLabels")]
         public Boolean SupportsLabels
         {
-            get;
-            protected set;
+            get { return true; }
         }
 
         /// <summary>
         /// Gets the list of assigned labels.
         /// </summary>
-        [DomName("labels")]
         public INodeList Labels
         {
             get { return _labels; }
@@ -90,7 +83,6 @@
         /// <summary>
         /// Gets the current validation message.
         /// </summary>
-        [DomName("validationMessage")]
         public String ValidationMessage
         {
             get { return _vstate.CustomError ? _error : String.Empty; }
@@ -99,7 +91,6 @@
         /// <summary>
         /// Gets a value if the current element validates.
         /// </summary>
-        [DomName("willValidate")]
         public Boolean WillValidate
         {
             get;
@@ -109,7 +100,6 @@
         /// <summary>
         /// Gets the current validation state of the current element.
         /// </summary>
-        [DomName("validity")]
         public IValidityState Validity
         {
             get { return _vstate; }
@@ -123,7 +113,6 @@
         /// Checks the validity of the current element.
         /// </summary>
         /// <returns>True.</returns>
-        [DomName("checkValidity")]
         public Boolean CheckValidity()
         {
             Check(_vstate);
@@ -135,7 +124,6 @@
         /// then the element is suffering from a custom validation error.
         /// </summary>
         /// <param name="error"></param>
-        [DomName("setCustomValidity")]
         public void SetCustomValidity(String error)
         {
             _vstate.CustomError = !String.IsNullOrEmpty(error);

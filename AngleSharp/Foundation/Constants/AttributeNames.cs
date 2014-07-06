@@ -486,5 +486,15 @@
         /// The open attribute.
         /// </summary>
         public static readonly String Open = "open";
+
+        /// <summary>
+        /// The challenge attribute.
+        /// </summary>
+        public static readonly String Challenge = "challenge";
+
+        /// <summary>
+        /// The keytype attribute.
+        /// </summary>
+        public static readonly String Keytype = "keytype";
     }
 }

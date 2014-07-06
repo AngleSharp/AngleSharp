@@ -12,7 +12,7 @@
         /// Gets or sets if the element is enabled or disabled.
         /// </summary>
         [DomName("disabled")]
-        Boolean Disabled { get; set; }
+        Boolean IsDisabled { get; set; }
 
         /// <summary>
         /// Gets the associated HTML form element.

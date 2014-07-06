@@ -871,7 +871,7 @@
 						else if (el is HTMLLinkElement)
 							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)el).IsActive;
 						else if (el is HTMLButtonElement)
-							return !((HTMLButtonElement)el).Disabled && ((HTMLButtonElement)el).IsActive;
+							return !((HTMLButtonElement)el).IsDisabled && ((HTMLButtonElement)el).IsActive;
 						else if (el is HTMLInputElement)
 						{
 							var inp = (HTMLInputElement)el;
@@ -900,13 +900,13 @@
 						if (el is HTMLAnchorElement || el is HTMLAreaElement || el is HTMLLinkElement)
 							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href));
 						else if (el is HTMLButtonElement)
-							return !((HTMLButtonElement)el).Disabled;
+							return !((HTMLButtonElement)el).IsDisabled;
 						else if (el is HTMLInputElement)
-							return !((HTMLInputElement)el).Disabled;
+                            return !((HTMLInputElement)el).IsDisabled;
 						else if (el is HTMLSelectElement)
-							return !((HTMLSelectElement)el).Disabled;
+                            return !((HTMLSelectElement)el).IsDisabled;
 						else if (el is HTMLTextAreaElement)
-							return !((HTMLTextAreaElement)el).Disabled;
+                            return !((HTMLTextAreaElement)el).IsDisabled;
 						else if (el is HTMLOptionElement)
 							return !((HTMLOptionElement)el).IsDisabled;
 						else if (el is HTMLOptGroupElement || el is HTMLMenuItemElement || el is HTMLFieldSetElement)
@@ -919,13 +919,13 @@
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLButtonElement)
-							return ((HTMLButtonElement)el).Disabled;
+                            return ((HTMLButtonElement)el).IsDisabled;
 						else if (el is HTMLInputElement)
-							return ((HTMLInputElement)el).Disabled;
+                            return ((HTMLInputElement)el).IsDisabled;
 						else if (el is HTMLSelectElement)
-							return ((HTMLSelectElement)el).Disabled;
+                            return ((HTMLSelectElement)el).IsDisabled;
 						else if (el is HTMLTextAreaElement)
-							return ((HTMLTextAreaElement)el).Disabled;
+                            return ((HTMLTextAreaElement)el).IsDisabled;
 						else if (el is HTMLOptionElement)
 							return ((HTMLOptionElement)el).IsDisabled;
 						else if (el is HTMLOptGroupElement || el is HTMLMenuItemElement || el is HTMLFieldSetElement)

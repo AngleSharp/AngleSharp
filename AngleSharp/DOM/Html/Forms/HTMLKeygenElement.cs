@@ -5,8 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the keygen element.
     /// </summary>
-    [DomName("HTMLKeygenElement")]
-    public sealed class HTMLKeygenElement : HTMLFormControlElementWithState
+    sealed class HTMLKeygenElement : HTMLFormControlElementWithState, IHtmlKeygenElement
     {
         #region ctor
 
@@ -25,27 +24,24 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the challenge attribute.
         /// </summary>
-        [DomName("challenge")]
         public String Challenge
         {
-            get { return GetAttribute("challenge"); }
-            set { SetAttribute("challenge", value); }
+            get { return GetAttribute(AttributeNames.Challenge); }
+            set { SetAttribute(AttributeNames.Challenge, value); }
         }
 
         /// <summary>
         /// Gets or sets the type of key used.
         /// </summary>
-        [DomName("keytype")]
-        public Encryption Keytype
+        public String Keytype
         {
-            get { return ToEnum(GetAttribute("keytype"), Encryption.RSA); }
-            set { SetAttribute("keytype", value.ToString()); }
+            get { return GetAttribute(AttributeNames.Keytype); }
+            set { SetAttribute(AttributeNames.Keytype, value); }
         }
 
         /// <summary>
         /// Gets the type of input control (keygen).
         /// </summary>
-        [DomName("type")]
         public String Type
         {
             get { return _name; }
