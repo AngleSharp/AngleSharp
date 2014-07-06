@@ -1576,6 +1576,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlInlineFrameElement.cs">
       <Link>Interfaces\Html\IHtmlInlineFrameElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlKeygenElement.cs">
+      <Link>Interfaces\Html\IHtmlKeygenElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlLabelElement.cs">
       <Link>Interfaces\Html\IHtmlLabelElement.cs</Link>
     </Compile>
@@ -1614,6 +1617,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlOrderedListElement.cs">
       <Link>Interfaces\Html\IHtmlOrderedListElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlOutputElement.cs">
+      <Link>Interfaces\Html\IHtmlOutputElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlParagraphElement.cs">
       <Link>Interfaces\Html\IHtmlParagraphElement.cs</Link>
