@@ -1,25 +1,18 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Collections;
+    using System;
+
     /// <summary>
     /// Represents an HTML output element.
     /// </summary>
-    public sealed class HTMLOutputElement : HTMLFormControlElement
+    sealed class HTMLOutputElement : HTMLFormControlElement, IHtmlOutputElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The output tag.
-        /// </summary>
-        internal const String Tag = "output";
-
-        #endregion
-
-        #region Members
+        #region Fields
 
         Boolean isDefaultValue;
-        String defValue;
+        String _defaultValue;
+        ISettableTokenList _for;
 
         #endregion
 
@@ -27,8 +20,7 @@ namespace AngleSharp.DOM.Html
 
         internal HTMLOutputElement()
         {
-            _name = Tag;
-            defValue = String.Empty;
+            _name = Tags.Output;
             isDefaultValue = true;
         }
 
@@ -37,18 +29,17 @@ namespace AngleSharp.DOM.Html
         #region Properties
 
         /// <summary>
-        /// Gets the default value of the element, initially the empty string.
+        /// Gets or sets the default value of the element, initially the empty string.
         /// </summary>
-        [DomName("defaultValue")]
         public String DefaultValue
         {
-            get { return defValue; }
+            get { return _defaultValue ?? TextContent; }
+            set { _defaultValue = value; }
         }
 
         /// <summary>
         /// Gets or sets the value of the contents of the elements.
         /// </summary>
-        [DomName("value")]
         public String Value
         {
             get { return TextContent; }
@@ -56,7 +47,7 @@ namespace AngleSharp.DOM.Html
             {
                 if (isDefaultValue)
                 {
-                    defValue = Value;
+                    _defaultValue = Value;
                     isDefaultValue = false;
                 }
 
@@ -65,22 +56,19 @@ namespace AngleSharp.DOM.Html
         }
 
         /// <summary>
-        /// Gets or sets the ID of the labeled control. Reflects the for attribute.
+        /// Gets the IDs of the labeled control. Reflects the for attribute.
         /// </summary>
-        [DomName("htmlFor")]
-        public String HtmlFor
+        public ISettableTokenList HtmlFor
         {
-            get { return GetAttribute("for"); }
-            set { SetAttribute("for", value); }
+            get { return _for ?? (_for = new SettableTokenList(this, AttributeNames.For)); }
         }
 
         /// <summary>
         /// Gets the type of input control (output).
         /// </summary>
-        [DomName("type")]
         public String Type
         {
-            get { return Tag; }
+            get { return Tags.Output; }
         }
 
         #endregion
@@ -94,7 +82,7 @@ namespace AngleSharp.DOM.Html
         {
             if (!isDefaultValue)
             {
-                TextContent = defValue;
+                TextContent = _defaultValue;
                 isDefaultValue = true;
             }
         }

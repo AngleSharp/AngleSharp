@@ -628,6 +628,11 @@
         /// </summary>
         public static readonly String Progress = "progress";
 
+        /// <summary>
+        /// The output tag.
+        /// </summary>
+        public static readonly String Output = "output";
+
         #endregion
 
         #region MathML Tags
