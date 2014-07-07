@@ -496,5 +496,10 @@
         /// The keytype attribute.
         /// </summary>
         public static readonly String Keytype = "keytype";
+
+        /// <summary>
+        /// The size attribute.
+        /// </summary>
+        public static readonly String Size = "size";
     }
 }

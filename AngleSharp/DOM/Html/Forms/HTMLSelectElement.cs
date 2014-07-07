@@ -7,12 +7,11 @@
     /// <summary>
     /// Represents the select element.
     /// </summary>
-    [DomName("HTMLSelectElement")]
-    public sealed class HTMLSelectElement : HTMLFormControlElementWithState
+    sealed class HTMLSelectElement : HTMLFormControlElementWithState, IHtmlSelectElement
     {
         #region Fields
 
-        HTMLCollection<HTMLOptionElement> _options;
+        readonly OptionsCollection _options;
 
         #endregion
 
@@ -24,8 +23,23 @@
         internal HTMLSelectElement()
         {
             _name = Tags.Select;
-            _options = new HTMLCollection<HTMLOptionElement>(this);
+            _options = new OptionsCollection(this);
             WillValidate = true;
+        }
+
+        #endregion
+
+        #region Index
+
+        /// <summary>
+        /// Gets or sets an option element.
+        /// </summary>
+        /// <param name="index">The index of the element.</param>
+        /// <returns>The option at the given index.</returns>
+        public IHtmlOptionElement this[UInt32 index]
+        {
+            get { return _options[index]; }
+            set { _options[index] = value; }
         }
 
         #endregion
@@ -33,9 +47,17 @@
         #region Properties
 
         /// <summary>
+        /// Gets or sets the size of the element.
+        /// </summary>
+        public Int32 Size
+        {
+            get { return ToInteger(GetAttribute(AttributeNames.Size), 0); }
+            set { SetAttribute(AttributeNames.Size, value.ToString()); }
+        }
+
+        /// <summary>
         /// Gets or sets if the field is required.
         /// </summary>
-        [DomName("required")]
         public Boolean Required
         {
             get { return GetAttribute(AttributeNames.Required) != null; }
@@ -45,70 +67,60 @@
         /// <summary>
         /// Gets the set of options that are selected.
         /// </summary>
-        [DomName("selectedOptions")]
         public IHtmlCollection SelectedOptions
         {
             get 
             {
-                var result = new List<HTMLOptionElement>();
+                var result = new List<IHtmlOptionElement>();
 
-                foreach (var option in _options)
-                    if (option.IsSelected)
-                        result.Add(option);
+                for (uint i = 0; i < _options.Length; i++)
+                {
+                    if (_options[i].IsSelected)
+                        result.Add(_options[i]);
+                }
 
-                return new HTMLCollection<HTMLOptionElement>(result);
+                return new HTMLCollection<IHtmlOptionElement>(result);
             }
         }
 
         /// <summary>
         /// Gets the index of the first selected option element.
         /// </summary>
-        [DomName("selectedIndex")]
         public Int32 SelectedIndex
         {
-            get 
-            { 
-                var index = 0;
-
-                foreach (var option in _options)
-                {
-                    if (option.IsSelected)
-                        return index;
-
-                    index++;
-                }
-
-                return -1;
-            }
+            get { return _options.SelectedIndex; }
         }
 
         /// <summary>
         /// Gets or sets the value of this form control, that is, of the first selected option.
         /// </summary>
-        [DomName("value")]
         public String Value
         {
             get
             {
-                foreach (var option in _options)
+                for (uint i = 0; i < _options.Length; i++)
                 {
-                    if (option.IsSelected)
-                        return option.Value;
+                    if (_options[i].IsSelected)
+                        return _options[i].Value;
                 }
 
                 return null;
             }
             set
             {
-                foreach (var option in _options)
-                    option.IsSelected = option.Value == value;
+                for (uint i = 0; i < _options.Length; i++)
+                {
+                    var option = _options[i];
+
+                    if (option.IsSelected)
+                        option.IsSelected = option.Value == value;
+                }
             }
         }
 
         /// <summary>
         /// Gets the number of option elements in this select element.
         /// </summary>
-        [DomName("length")]
         public Int32 Length
         {
             get { return Options.Length; }
@@ -117,7 +129,6 @@
         /// <summary>
         /// Gets the multiple HTML attribute, whichindicates whether multiple items can be selected.
         /// </summary>
-        [DomName("multiple")]
         public Boolean Multiple
         {
             get { return GetAttribute(AttributeNames.Multiple) != null; }
@@ -127,8 +138,7 @@
         /// <summary>
         /// Gets the set of option elements contained by this element. 
         /// </summary>
-        [DomName("options")]
-        public IHtmlCollection Options
+        public IHtmlOptionsCollection Options
         {
             get { return _options; }
         }
@@ -136,10 +146,9 @@
         /// <summary>
         /// Gets the form control's type.
         /// </summary>
-        [DomName("type")]
-        public SelectType Type
+        public String Type
         {
-            get { return Multiple ? SelectType.SelectMultiple : SelectType.SelectOne; }
+            get { return Multiple ? "select-multiple" : "select-one"; }
         }
 
         #endregion
@@ -152,6 +161,39 @@
         protected internal override Boolean IsSpecial
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Adds the element to the options collection.
+        /// </summary>
+        /// <param name="element">The option element to add.</param>
+        /// <param name="before">The following element.</param>
+        public void Add(IHtmlOptionElement element, IHtmlElement before = null)
+        {
+            _options.Add(element, before);
+        }
+
+        /// <summary>
+        /// Adds the element to the options collection.
+        /// </summary>
+        /// <param name="element">The group element to add.</param>
+        /// <param name="before">The following element.</param>
+        public void Add(IHtmlOptionsGroupElement element, IHtmlElement before = null)
+        {
+            _options.Add(element, before);
+        }
+
+        /// <summary>
+        /// Removes the option with the given index from the collection.
+        /// </summary>
+        /// <param name="index">The index of the element to remove.</param>
+        public void Remove(Int32 index)
+        {
+            _options.Remove(index);
         }
 
         #endregion
@@ -179,10 +221,12 @@
 
         internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
         {
-            foreach (var option in _options)
+            for (uint i = 0; i < _options.Length; i++)
             {
+                var option = _options[i];
+
                 if (option.IsSelected && !option.IsDisabled)
-                    dataSet.Append(Name, option.Value, Multiple ? "select-one" : "select-multiple");
+                    dataSet.Append(Name, option.Value, Type);
             }
         }
 
@@ -203,8 +247,11 @@
         /// </summary>
         internal override void Reset()
         {
-            foreach (var option in _options)
+            for (uint i = 0; i < _options.Length; i++)
+            {
+                var option = _options[i];
                 option.IsSelected = option.IsDefaultSelected;
+            }
         }
 
         /// <summary>

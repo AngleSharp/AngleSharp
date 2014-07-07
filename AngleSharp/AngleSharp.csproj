@@ -43,6 +43,7 @@
     <Compile Include="Delegates\NodeFilter.cs" />
     <Compile Include="Delegates\UnloadEventListener.cs" />
     <Compile Include="DOM\Collections\AttrContainer.cs" />
+    <Compile Include="DOM\Collections\OptionsCollection.cs" />
     <Compile Include="DOM\Collections\SettableTokenList.cs" />
     <Compile Include="DOM\Constants\FilterResult.cs" />
     <Compile Include="DOM\Constants\FilterSetting.cs" />
