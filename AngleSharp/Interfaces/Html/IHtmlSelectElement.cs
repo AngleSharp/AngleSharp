@@ -55,7 +55,7 @@
         /// Gets or sets if the field is required.
         /// </summary>
         [DomName("required")]
-        Boolean Required { get; set; }
+        Boolean IsRequired { get; set; }
 
         /// <summary>
         /// Gets the set of options that are selected.
@@ -85,7 +85,7 @@
         /// Gets or sets the multiple HTML attribute, whichindicates whether multiple items can be selected.
         /// </summary>
         [DomName("multiple")]
-        Boolean Multiple { get; set; }
+        Boolean IsMultiple { get; set; }
 
         /// <summary>
         /// Gets the index of the first selected option element.
@@ -106,7 +106,7 @@
         /// <param name="element">The element to add.</param>
         /// <param name="before">The optional reference element for inserting.</param>
         [DomName("add")]
-        void Add(IHtmlOptionElement element, IHtmlElement before = null);
+        void AddOption(IHtmlOptionElement element, IHtmlElement before = null);
 
         /// <summary>
         /// Adds an options group element to the options collection.
@@ -114,14 +114,14 @@
         /// <param name="element">The element to add.</param>
         /// <param name="before">The optional reference element for inserting.</param>
         [DomName("add")]
-        void Add(IHtmlOptionsGroupElement element, IHtmlElement before = null);
+        void AddOption(IHtmlOptionsGroupElement element, IHtmlElement before = null);
 
         /// <summary>
         /// Removes an element from the options collection.
         /// </summary>
         /// <param name="index">The index of the element of remove.</param>
         [DomName("remove")]
-        void Remove(Int32 index);
+        void RemoveOptionAt(Int32 index);
 
         /// <summary>
         /// Gets a value if the current element validates.

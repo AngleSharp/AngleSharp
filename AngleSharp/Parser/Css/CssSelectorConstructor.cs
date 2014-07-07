@@ -1051,7 +1051,7 @@
 						if (el is HTMLInputElement)
 							return ((HTMLInputElement)el).Required;
 						else if (el is HTMLSelectElement)
-							return ((HTMLSelectElement)el).Required;
+							return ((HTMLSelectElement)el).IsRequired;
 						else if (el is HTMLTextAreaElement)
 							return ((HTMLTextAreaElement)el).Required;
 
@@ -1114,7 +1114,7 @@
 						if (el is HTMLInputElement)
 							return !((HTMLInputElement)el).Required;
 						else if (el is HTMLSelectElement)
-							return !((HTMLSelectElement)el).Required;
+							return !((HTMLSelectElement)el).IsRequired;
 						else if (el is HTMLTextAreaElement)
 							return !((HTMLTextAreaElement)el).Required;
 

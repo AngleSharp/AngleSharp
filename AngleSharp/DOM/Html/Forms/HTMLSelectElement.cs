@@ -58,7 +58,7 @@
         /// <summary>
         /// Gets or sets if the field is required.
         /// </summary>
-        public Boolean Required
+        public Boolean IsRequired
         {
             get { return GetAttribute(AttributeNames.Required) != null; }
             set { SetAttribute(AttributeNames.Required, value ? String.Empty : null); }
@@ -129,7 +129,7 @@
         /// <summary>
         /// Gets the multiple HTML attribute, whichindicates whether multiple items can be selected.
         /// </summary>
-        public Boolean Multiple
+        public Boolean IsMultiple
         {
             get { return GetAttribute(AttributeNames.Multiple) != null; }
             set { SetAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
@@ -148,7 +148,7 @@
         /// </summary>
         public String Type
         {
-            get { return Multiple ? "select-multiple" : "select-one"; }
+            get { return IsMultiple ? "select-multiple" : "select-one"; }
         }
 
         #endregion
@@ -172,7 +172,7 @@
         /// </summary>
         /// <param name="element">The option element to add.</param>
         /// <param name="before">The following element.</param>
-        public void Add(IHtmlOptionElement element, IHtmlElement before = null)
+        public void AddOption(IHtmlOptionElement element, IHtmlElement before = null)
         {
             _options.Add(element, before);
         }
@@ -182,7 +182,7 @@
         /// </summary>
         /// <param name="element">The group element to add.</param>
         /// <param name="before">The following element.</param>
-        public void Add(IHtmlOptionsGroupElement element, IHtmlElement before = null)
+        public void AddOption(IHtmlOptionsGroupElement element, IHtmlElement before = null)
         {
             _options.Add(element, before);
         }
@@ -191,7 +191,7 @@
         /// Removes the option with the given index from the collection.
         /// </summary>
         /// <param name="index">The index of the element to remove.</param>
-        public void Remove(Int32 index)
+        public void RemoveOptionAt(Int32 index)
         {
             _options.Remove(index);
         }
