@@ -11,7 +11,6 @@
         #region Fields
 
         readonly Node _parent;
-        readonly List<IHtmlElement> _elements;
 
         #endregion
 
@@ -20,7 +19,6 @@
         public OptionsCollection(Node parent)
         {
             _parent = parent;
-            _elements = new List<IHtmlElement>();
         }
 
         #endregion
@@ -29,25 +27,25 @@
 
         public IHtmlOptionElement this[UInt32 index]
         {
-            get { return _elements[(int)index] as IHtmlOptionElement; }
-            set { _elements[(int)index] = value; }
+            get { return _parent.ChildNodes.OfType<IHtmlOptionElement>().Skip((int)index).FirstOrDefault(); }
+            set { _parent.ReplaceChild(value, this[index]); }
         }
 
         public Element this[Int32 index]
         {
-            get { return _elements[index] as Element; }
+            get { return _parent.ChildNodes.OfType<Element>().Skip(index).FirstOrDefault(); }
         }
 
         public Element this[String name]
         {
             get 
             {
-                for (var i = 0; i < _elements.Count; i++)
+                foreach (var element in _parent.ChildNodes.OfType<Element>())
                 {
-                    if (_elements[i].Id == name)
-                        return _elements[i] as Element;
+                    if (element.Id == name)
+                        return element;
 
-                    var fce = _elements[i] as HTMLFormControlElement;
+                    var fce = element as HTMLFormControlElement;
 
                     if (fce != null && fce.Name == name)
                         return fce;
@@ -66,8 +64,8 @@
             get
             {
                 var index = 0;
-                
-                foreach (var element in _elements.OfType<IHtmlOptionElement>())
+
+                foreach (var element in _parent.ChildNodes.OfType<IHtmlOptionElement>())
                 {
                     if (element.IsSelected)
                         return index;
@@ -81,14 +79,14 @@
             {
                 var index = 0;
 
-                foreach (var element in _elements.OfType<IHtmlOptionElement>())
+                foreach (var element in _parent.ChildNodes.OfType<IHtmlOptionElement>())
                     element.IsSelected = index++ == value;
             }
         }
 
         public Int32 Length
         {
-            get { return _elements.Count; }
+            get { return _parent.ChildNodes.OfType<IHtmlOptionElement>().Count(); }
         }
 
         #endregion
@@ -97,27 +95,18 @@
 
         public void Add(IHtmlOptionElement element, IHtmlElement before = null)
         {
-            var index = _elements.IndexOf(before);
-
-            if (index >= 0)
-                _elements.Insert(index, element);
-            else
-                _elements.Add(element);
+            _parent.InsertBefore(element, before);
         }
 
         public void Add(IHtmlOptionsGroupElement element, IHtmlElement before = null)
         {
-            var index = _elements.IndexOf(before);
-
-            if (index >= 0)
-                _elements.Insert(index, element);
-            else
-                _elements.Add(element);
+            _parent.InsertBefore(element, before);
         }
 
         public void Remove(Int32 index)
         {
-            _elements.RemoveAt(index);
+            var child = this[(uint)index];
+            _parent.RemoveChild(child);
         }
 
         #endregion
@@ -126,7 +115,7 @@
 
         public IEnumerator<Element> GetEnumerator()
         {
-            return _elements.OfType<Element>().GetEnumerator();
+            return _parent.ChildNodes.OfType<Element>().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
