@@ -160,6 +160,9 @@
     <Compile Include="..\AngleSharp\DOM\Collections\NodeList.cs">
       <Link>DOM\Collections\NodeList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\OptionsCollection.cs">
+      <Link>DOM\Collections\OptionsCollection.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\SettableTokenList.cs">
       <Link>DOM\Collections\SettableTokenList.cs</Link>
     </Compile>
@@ -1525,6 +1528,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlBreakRowElement.cs">
       <Link>Interfaces\Html\IHtmlBreakRowElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlButtonElement.cs">
+      <Link>Interfaces\Html\IHtmlButtonElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlCanvasElement.cs">
       <Link>Interfaces\Html\IHtmlCanvasElement.cs</Link>
     </Compile>
@@ -1638,6 +1644,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlScriptElement.cs">
       <Link>Interfaces\Html\IHtmlScriptElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlSelectElement.cs">
+      <Link>Interfaces\Html\IHtmlSelectElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlSpanElement.cs">
       <Link>Interfaces\Html\IHtmlSpanElement.cs</Link>
