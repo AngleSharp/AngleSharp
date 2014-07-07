@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
+    using System;
+
     /// <summary>
     /// Represents an HTML button element.
     /// </summary>
-    [DomName("HTMLButtonElement")]
-    public sealed class HTMLButtonElement : HTMLFormControlElement
+    sealed class HTMLButtonElement : HTMLFormControlElement, IHtmlButtonElement
     {
-        #region Members
+        #region Fields
 
         String _value;
 
@@ -30,30 +28,18 @@ namespace AngleSharp.DOM.Html
         #region Properties
 
         /// <summary>
-        /// Gets or sets the accesskey HTML attribute.
-        /// </summary>
-        [DomName("accessKey")]
-        public String AccessKey
-        {
-            get { return GetAttribute("accesskey"); }
-            set { SetAttribute("accesskey", value); }
-        }
-
-        /// <summary>
         /// Gets or sets the behavior of the button.
         /// </summary>
-        [DomName("type")]
-        public ButtonType Type
+        public String Type
         {
-            get { return ToEnum(GetAttribute("type"), ButtonType.Submit); }
-            set { SetAttribute("type", value.ToString()); }
+            get { return GetAttribute(AttributeNames.Type); }
+            set { SetAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
         /// Gets or sets the URI of a resource that processes information submitted by the button.
         /// If specified, this attribute overrides the action attribute of the form element that owns this element.
         /// </summary>
-        [DomName("formAction")]
         public String FormAction
         {
             get { if (Form == null) return String.Empty; return Form.Action; }
@@ -64,7 +50,6 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the type of content that is used to submit the form to the server. If specified, this
         /// attribute overrides the enctype attribute of the form element that owns this element.
         /// </summary>
-        [DomName("formEncType")]
         public String FormEncType
         {
             get { if (Form == null) return String.Empty; return Form.Enctype; }
@@ -75,7 +60,6 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets the HTTP method that the browser uses to submit the form. If specified, this attribute
         /// overrides the method attribute of the form element that owns this element.
         /// </summary>
-        [DomName("formMethod")]
         public String FormMethod
         {
             get { if (Form == null) return "post"; return Form.Method; }
@@ -86,7 +70,6 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets that the form is not to be validated when it is submitted. If specified, this attribute
         /// overrides the enctype attribute of the form element that owns this element.
         /// </summary>
-        [DomName("formNoValidate")]
         public Boolean FormNoValidate
         {
             get { if (Form == null) return false; return Form.NoValidate; }
@@ -97,7 +80,6 @@ namespace AngleSharp.DOM.Html
         /// Gets or sets A name or keyword indicating where to display the response that is received after submitting
         /// the form. If specified, this attribute overrides the target attribute of the form element that owns this element.
         /// </summary>
-        [DomName("formTarget")]
         public String FormTarget
         {
             get { if (Form == null) return String.Empty; return Form.Target; }
@@ -107,7 +89,6 @@ namespace AngleSharp.DOM.Html
         /// <summary>
         /// Gets or sets the current value of the control.
         /// </summary>
-        [DomName("value")]
         public String Value
         {
             get { return _value ?? String.Empty; }
@@ -161,7 +142,10 @@ namespace AngleSharp.DOM.Html
         {
             if (this == submitter)
                 return;
-            else if (Type == ButtonType.Submit || Type == ButtonType.Reset)
+                
+            var type = ToEnum(Type, ButtonType.Submit);
+
+            if (type == ButtonType.Submit || type == ButtonType.Reset)
                 dataSet.Append(Name, Value, Type.ToString());
         }
 
