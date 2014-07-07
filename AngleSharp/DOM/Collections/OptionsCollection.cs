@@ -4,78 +4,136 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     sealed class OptionsCollection : IHtmlOptionsCollection
     {
-        Node _parent;
+        #region Fields
+
+        readonly Node _parent;
+        readonly List<IHtmlElement> _elements;
+
+        #endregion
+
+        #region ctor
 
         public OptionsCollection(Node parent)
         {
             _parent = parent;
+            _elements = new List<IHtmlElement>();
         }
+
+        #endregion
+
+        #region Index
 
         public IHtmlOptionElement this[UInt32 index]
         {
-            get
+            get { return _elements[(int)index] as IHtmlOptionElement; }
+            set { _elements[(int)index] = value; }
+        }
+
+        public Element this[Int32 index]
+        {
+            get { return _elements[index] as Element; }
+        }
+
+        public Element this[String name]
+        {
+            get 
             {
-                throw new NotImplementedException();
+                for (var i = 0; i < _elements.Count; i++)
+                {
+                    if (_elements[i].Id == name)
+                        return _elements[i] as Element;
+
+                    var fce = _elements[i] as HTMLFormControlElement;
+
+                    if (fce != null && fce.Name == name)
+                        return fce;
+                }
+
+                return null;
             }
-            set
-            {
-                throw new NotImplementedException();
-            }
         }
 
-        public void Add(IHtmlOptionElement element, IHtmlElement before = null)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
-        public void Add(IHtmlOptionsGroupElement element, IHtmlElement before = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(Int32 index)
-        {
-            throw new NotImplementedException();
-        }
+        #region Properties
 
         public Int32 SelectedIndex
         {
             get
             {
-                throw new NotImplementedException();
+                var index = 0;
+                
+                foreach (var element in _elements.OfType<IHtmlOptionElement>())
+                {
+                    if (element.IsSelected)
+                        return index;
+
+                    index++;
+                }
+
+                return -1;
             }
             set
             {
-                throw new NotImplementedException();
+                var index = 0;
+
+                foreach (var element in _elements.OfType<IHtmlOptionElement>())
+                    element.IsSelected = index++ == value;
             }
         }
 
         public Int32 Length
         {
-            get { throw new NotImplementedException(); }
+            get { return _elements.Count; }
         }
 
-        public Element this[Int32 index]
+        #endregion
+
+        #region Methods
+
+        public void Add(IHtmlOptionElement element, IHtmlElement before = null)
         {
-            get { throw new NotImplementedException(); }
+            var index = _elements.IndexOf(before);
+
+            if (index >= 0)
+                _elements.Insert(index, element);
+            else
+                _elements.Add(element);
         }
 
-        public Element this[String name]
+        public void Add(IHtmlOptionsGroupElement element, IHtmlElement before = null)
         {
-            get { throw new NotImplementedException(); }
+            var index = _elements.IndexOf(before);
+
+            if (index >= 0)
+                _elements.Insert(index, element);
+            else
+                _elements.Add(element);
         }
+
+        public void Remove(Int32 index)
+        {
+            _elements.RemoveAt(index);
+        }
+
+        #endregion
+
+        #region Enumerator
 
         public IEnumerator<Element> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return _elements.OfType<Element>().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
+
+        #endregion
     }
 }
