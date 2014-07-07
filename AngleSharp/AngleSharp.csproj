@@ -317,6 +317,7 @@
     <Compile Include="Interfaces\Html\IHtmlProgressElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlQuoteElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlScriptElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlSelectElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlSpanElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlStyleElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTableCaptionElement.cs" />
