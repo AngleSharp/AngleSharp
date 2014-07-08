@@ -1582,6 +1582,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlInlineFrameElement.cs">
       <Link>Interfaces\Html\IHtmlInlineFrameElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlInputElement.cs">
+      <Link>Interfaces\Html\IHtmlInputElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlKeygenElement.cs">
       <Link>Interfaces\Html\IHtmlKeygenElement.cs</Link>
     </Compile>
@@ -1677,6 +1680,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableSectionElement.cs">
       <Link>Interfaces\Html\IHtmlTableSectionElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTextAreaElement.cs">
+      <Link>Interfaces\Html\IHtmlTextAreaElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTimeElement.cs">
       <Link>Interfaces\Html\IHtmlTimeElement.cs</Link>
