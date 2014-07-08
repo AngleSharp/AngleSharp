@@ -133,7 +133,7 @@
         /// <param name="selectionStart">The start of the selection.</param>
         /// <param name="selectionEnd">The end of the selection.</param>
         /// <param name="selectionDirection">Optional: The direction of the selection.</param>
-        public void SetSelectionRange(Int32 selectionStart, Int32 selectionEnd, String selectionDirection = null)
+        public void Select(Int32 selectionStart, Int32 selectionEnd, String selectionDirection = null)
         {
             SetSelectionRange(selectionStart, selectionEnd, ToEnum(selectionDirection, SelectionType.Forward));
         }
@@ -141,7 +141,7 @@
         /// <summary>
         /// Selects the contents of the control.
         /// </summary>
-        public void Select()
+        public void SelectAll()
         {
             SetSelectionRange(0, Value.Length, SelectionType.Forward);
         }
@@ -192,7 +192,7 @@
         internal override void Reset()
         {
             _value = null;
-            SetSelectionRange(Int32.MaxValue, Int32.MaxValue);
+            Select(Int32.MaxValue, Int32.MaxValue);
         }
 
         #endregion

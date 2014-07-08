@@ -93,7 +93,7 @@
         /// the visible width of the text area.
         /// </summary>
         [DomName("cols")]
-        Int32 Cols { get; set; }
+        Int32 Columns { get; set; }
 
         /// <summary>
         /// Gets or sets the maxlength HTML attribute, indicating
@@ -122,7 +122,7 @@
         /// Gets or sets the directionality of the form element.
         /// </summary>
         [DomName("dirName")]
-        String DirName { get; set; }
+        String DirectionName { get; set; }
         
         /// <summary>
         /// Gets or sets the index of the beginning of selected text.
@@ -148,7 +148,7 @@
         /// Selects the contents of the textarea.
         /// </summary>
         [DomName("select")]
-        void Select();
+        void SelectAll();
         
         /// <summary>
         /// Selects a range of text, and sets selectionStart and selectionEnd.
@@ -160,7 +160,7 @@
         /// <param name="selectionEnd">The end of the selection.</param>
         /// <param name="selectionDirection">Optional: The direction of the selection.</param>
         [DomName("setSelectionRange")]
-        void SetSelectionRange(Int32 selectionStart, Int32 selectionEnd, String selectionDirection = null);
+        void Select(Int32 selectionStart, Int32 selectionEnd, String selectionDirection = null);
 
         /// <summary>
         /// Gets a value if the current element validates.

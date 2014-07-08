@@ -25,7 +25,7 @@
         /// <summary>
         /// Gets or sets the dirname HTML attribute.
         /// </summary>
-        public String DirName
+        public String DirectionName
         {
             get { return GetAttribute(AttributeNames.DirName); }
             set { SetAttribute(AttributeNames.DirName, value); }
@@ -71,7 +71,7 @@
         /// Gets or sets the cols HTML attribute, indicating
         /// the visible width of the text area.
         /// </summary>
-        public Int32 Cols
+        public Int32 Columns
         {
             get { return ToInteger(GetAttribute(AttributeNames.Cols), 20); }
             set { SetAttribute(AttributeNames.Cols, value.ToString()); }
