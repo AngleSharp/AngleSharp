@@ -46,20 +46,18 @@
         /// <summary>
         /// Gets or sets
         /// </summary>
-        [DomName("defaultChecked")]
-        public Boolean DefaultChecked
+        public Boolean IsDefaultChecked
         {
-            get { return GetAttribute("checked") != null; }
-            set { SetAttribute("checked", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.Checked) != null; }
+            set { SetAttribute(AttributeNames.Checked, value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets or sets if the input element is checked or not.
         /// </summary>
-        [DomName("checked")]
-        public Boolean Checked
+        public Boolean IsChecked
         {
-            get { return _checked.HasValue ? _checked.Value : DefaultChecked; }
+            get { return _checked.HasValue ? _checked.Value : IsDefaultChecked; }
             set { _checked = value; }
         }
 
@@ -75,8 +73,7 @@
         /// <summary>
         /// Gets or sets if the state if indeterminate.
         /// </summary>
-        [DomName("indeterminate")]
-        public Boolean Indeterminate 
+        public Boolean IsIndeterminate 
         { 
             get; 
             set; 
@@ -95,7 +92,6 @@
         /// Gets or sets the value of the element, interpreted as a date, or null
         /// if conversion is not possible.
         /// </summary>
-        [DomName("valueAsDate")]
         public DateTime? ValueAsDate
         {
             get 
@@ -114,7 +110,6 @@
         /// Gets or sets the value of the element, interpreted as one of the following in order:
         /// 1.) Time value 2.) Number 3.) otherwise NaN.
         /// </summary>
-        [DomName("valueAsNumber")]
         public Double ValueAsNumber
         {
             get 
@@ -186,11 +181,10 @@
         /// Gets or sets the accept HTML attribute, containing comma-separated list of
         /// file types accepted by the server when type is file.
         /// </summary>
-        [DomName("accept")]
         public String Accept
         {
-            get { return GetAttribute("accept"); }
-            set { SetAttribute("accept", value); }
+            get { return GetAttribute(AttributeNames.Accept); }
+            set { SetAttribute(AttributeNames.Accept, value); }
         }
 
         /// <summary>
@@ -219,17 +213,15 @@
         /// checkbox, radio, file, or a button type (button, submit, reset,
         /// image).
         /// </summary>
-        [DomName("autocomplete")]
-        public PowerState Autocomplete
+        public String Autocomplete
         {
-            get { return ToEnum(GetAttribute("autocomplete"), PowerState.Off); }
-            set { SetAttribute("autocomplete", value.ToString()); }
+            get { return GetAttribute(AttributeNames.AutoComplete); }
+            set { SetAttribute(AttributeNames.AutoComplete, value); }
         }
 
         /// <summary>
         /// Gets a list of selected files.
         /// </summary>
-        [DomName("files")]
         public FileList Files
         {
             get { return _files; }
@@ -247,16 +239,14 @@
         }
 
         /// <summary>
-        /// Gets or sets the id of a datalist element in the same document.
+        /// Gets the datalist element in the same document.
         /// Only options that are valid values for this input element will
-        /// be displayed. /// This attribute is ignored when the type
+        /// be displayed. This attribute is ignored when the type
         /// attribute's value is hidden, checkbox, radio, file, or a button type.
         /// </summary>
-        [DomName("list")]
-        public String List
+        public IHtmlElement List
         {
-            get { return GetAttribute("list"); }
-            set { SetAttribute("list", value); }
+            get { return _owner.GetElementById(GetAttribute(AttributeNames.List)) as IHtmlElement; }
         }
 
         /// <summary>
@@ -264,11 +254,10 @@
         /// or date-time) value for this item, which must not be less than its
         /// minimum (min attribute) value.
         /// </summary>
-        [DomName("max")]
-        public String Max
+        public String Maximum
         {
-            get { return GetAttribute("max"); }
-            set { SetAttribute("max", value); }
+            get { return GetAttribute(AttributeNames.Max); }
+            set { SetAttribute(AttributeNames.Max, value); }
         }
 
         /// <summary>
@@ -276,11 +265,10 @@
         /// or date-time) value for this item, which must not be greater than its
         /// maximum (max attribute) value.
         /// </summary>
-        [DomName("min")]
-        public String Min
+        public String Minimum
         {
-            get { return GetAttribute("min"); }
-            set { SetAttribute("min", value); }
+            get { return GetAttribute(AttributeNames.Min); }
+            set { SetAttribute(AttributeNames.Min, value); }
         }
 
         /// <summary>
@@ -289,11 +277,10 @@
         /// entire value, not just some subset. This attribute applies when the value
         /// of the type attribute is text, search, tel, url or email; otherwise it is ignored.
         /// </summary>
-        [DomName("pattern")]
         public String Pattern
         {
-            get { return GetAttribute("pattern"); }
-            set { SetAttribute("pattern", value); }
+            get { return GetAttribute(AttributeNames.Pattern); }
+            set { SetAttribute(AttributeNames.Pattern, value); }
         }
 
         /// <summary>
@@ -325,11 +312,10 @@
         /// any or a positive floating point number. If this is not set to any, the control
         /// accepts only values at multiples of the step value greater than the minimum.
         /// </summary>
-        [DomName("step")]
         public String Step
         {
-            get { return GetAttribute("step"); }
-            set { SetAttribute("step", value); }
+            get { return GetAttribute(AttributeNames.Step); }
+            set { SetAttribute(AttributeNames.Step, value); }
         }
 
         /// <summary>
@@ -381,7 +367,6 @@
         /// Increments the value by (step * n), where n defaults to 1 if not specified.
         /// </summary>
         /// <param name="n">Optional: The number of steps to take.</param>
-        [DomName("stepUp")]
         public void StepUp(Int32 n = 1)
         {
             DoStep(n);
@@ -391,7 +376,6 @@
         /// Decrements the value by (step * n), where n defaults to 1 if not specified. 
         /// </summary>
         /// <param name="n">Optional: The number of steps to take.</param>
-        [DomName("stepDown")]
         public void StepDown(Int32 n = 1)
         {
             DoStep(-n);
@@ -531,7 +515,7 @@
                 case InputType.Radio:
                 case InputType.Checkbox:
                 {
-                    if (Checked)
+                    if (IsChecked)
                     {
                         var value = "on";
 
@@ -670,9 +654,9 @@
         {
             var t = 0.0;
 
-            if (Min != null && Double.TryParse(Min, NumberStyles.Any, CultureInfo.InvariantCulture, out t) && t > value)
+            if (Minimum != null && Double.TryParse(Minimum, NumberStyles.Any, CultureInfo.InvariantCulture, out t) && t > value)
                 return false;
-            else if (Max != null && Double.TryParse(Max, NumberStyles.Any, CultureInfo.InvariantCulture, out t) && t < value)
+            else if (Maximum != null && Double.TryParse(Maximum, NumberStyles.Any, CultureInfo.InvariantCulture, out t) && t < value)
                 return false;
 
             return true;
@@ -687,9 +671,9 @@
         {
             var t = DateTime.Now;
 
-            if (Min != null && DateTime.TryParse(Min, CultureInfo.InvariantCulture, DateTimeStyles.None, out t) && t > value)
+            if (Minimum != null && DateTime.TryParse(Minimum, CultureInfo.InvariantCulture, DateTimeStyles.None, out t) && t > value)
                 return false;
-            else if (Max != null && DateTime.TryParse(Max, CultureInfo.InvariantCulture, DateTimeStyles.None, out t) && t < value)
+            else if (Maximum != null && DateTime.TryParse(Maximum, CultureInfo.InvariantCulture, DateTimeStyles.None, out t) && t < value)
                 return false;
 
             return true;

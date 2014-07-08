@@ -976,7 +976,7 @@
                             var inp = (HTMLInputElement)el;
                             var type = inp.Type.ToEnum(HTMLInputElement.InputType.Text);
 
-							return (type == HTMLInputElement.InputType.Checkbox || type == HTMLInputElement.InputType.Radio) && inp.Checked;
+							return (type == HTMLInputElement.InputType.Checkbox || type == HTMLInputElement.InputType.Radio) && inp.IsChecked;
 						}
 						else if (el is HTMLMenuItemElement)
 						{
@@ -997,7 +997,7 @@
 						{
                             var inp = (HTMLInputElement)el;
                             var type = inp.Type.ToEnum(HTMLInputElement.InputType.Text);
-							return type == HTMLInputElement.InputType.Checkbox && inp.Indeterminate;
+							return type == HTMLInputElement.InputType.Checkbox && inp.IsIndeterminate;
 						}
 						else if (el is HTMLProgressElement)
 							return String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Value));
@@ -1012,7 +1012,7 @@
 						{
                             var inp = (HTMLInputElement)el;
                             var type = inp.Type.ToEnum(HTMLInputElement.InputType.Text);
-							return (type == HTMLInputElement.InputType.Checkbox || type == HTMLInputElement.InputType.Radio) && !inp.Checked;
+							return (type == HTMLInputElement.InputType.Checkbox || type == HTMLInputElement.InputType.Radio) && !inp.IsChecked;
 						}
 						else if (el is HTMLMenuItemElement)
 						{

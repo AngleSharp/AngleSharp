@@ -478,6 +478,11 @@
         public static readonly String Multiple = "multiple";
 
         /// <summary>
+        /// The min attribute.
+        /// </summary>
+        public static readonly String Min = "min";
+
+        /// <summary>
         /// The max attribute.
         /// </summary>
         public static readonly String Max = "max";
@@ -521,5 +526,30 @@
         /// The readonly attribute.
         /// </summary>
         public static readonly String Readonly = "readonly";
+
+        /// <summary>
+        /// The accept attribute.
+        /// </summary>
+        public static readonly String Accept = "accept";
+
+        /// <summary>
+        /// The pattern attribute.
+        /// </summary>
+        public static readonly String Pattern = "pattern";
+
+        /// <summary>
+        /// The step attribute.
+        /// </summary>
+        public static readonly String Step = "step";
+
+        /// <summary>
+        /// The list attribute.
+        /// </summary>
+        public static readonly String List = "list";
+
+        /// <summary>
+        /// The checked attribute.
+        /// </summary>
+        public static readonly String Checked = "checked";
     }
 }
