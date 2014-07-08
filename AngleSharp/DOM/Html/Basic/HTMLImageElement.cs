@@ -75,7 +75,7 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Width), _imageWidth); }
+            get { return GetAttribute(AttributeNames.Width).ToInteger(_imageWidth); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
@@ -84,7 +84,7 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Height), _imageHeight); }
+            get { return GetAttribute(AttributeNames.Height).ToInteger(_imageHeight); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 

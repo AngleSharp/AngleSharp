@@ -23,7 +23,7 @@
         /// </summary>
         public HorizontalAlignment Align
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Align), HorizontalAlignment.Center); }
+            get { return GetAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Center); }
             set { SetAttribute(AttributeNames.Align, value.ToString()); }
         }
 
@@ -32,7 +32,7 @@
         /// </summary>
         public Int32 Span
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Span), 0); }
+            get { return GetAttribute(AttributeNames.Span).ToInteger(0); }
             set { SetAttribute(AttributeNames.Span, value.ToString()); }
         }
 
@@ -41,7 +41,7 @@
         /// </summary>
         public VerticalAlignment VAlign
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Valign), VerticalAlignment.Middle); }
+            get { return GetAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
             set { SetAttribute(AttributeNames.Valign, value.ToString()); }
         }
 

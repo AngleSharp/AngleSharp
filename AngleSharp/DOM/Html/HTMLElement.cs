@@ -93,7 +93,7 @@
         /// </summary>
         public Boolean IsDraggable
         {
-            get { return ToBoolean(GetAttribute(AttributeNames.Draggable), false); }
+            get { return GetAttribute(AttributeNames.Draggable).ToBoolean(false); }
             set { SetAttribute(AttributeNames.Draggable, value.ToString()); }
         }
 
@@ -146,7 +146,7 @@
         /// </summary>
         public Boolean IsSpellChecked
         {
-            get { return ToBoolean(GetAttribute(AttributeNames.Spellcheck), false); }
+            get { return GetAttribute(AttributeNames.Spellcheck).ToBoolean(false); }
             set { SetAttribute(AttributeNames.Spellcheck, value.ToString()); }
         }
 
@@ -155,7 +155,7 @@
         /// </summary>
         public Int32 TabIndex
         {
-            get { return ToInteger(GetAttribute(AttributeNames.TabIndex), 0); }
+            get { return GetAttribute(AttributeNames.TabIndex).ToInteger(0); }
             set { SetAttribute(AttributeNames.TabIndex, value.ToString()); }
         }
 
@@ -193,7 +193,7 @@
         {
             get
             {
-                var value = ToEnum<ContentEditableMode>(ContentEditable, ContentEditableMode.Inherited);
+                var value = ContentEditable.ToEnum(ContentEditableMode.Inherited);
 
                 if (value == ContentEditableMode.True)
                     return true;
@@ -212,7 +212,7 @@
         /// </summary>
         public Boolean IsTranslated
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Translate), SimpleChoice.Yes) == SimpleChoice.Yes; }
+            get { return GetAttribute(AttributeNames.Translate).ToEnum(SimpleChoice.Yes) == SimpleChoice.Yes; }
             set { SetAttribute(AttributeNames.Translate, value ? "yes" : "no"); }
         }
 

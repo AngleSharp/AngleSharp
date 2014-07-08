@@ -44,7 +44,7 @@
         /// </summary>
         public Int32 Start
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Start), 1); }
+            get { return GetAttribute(AttributeNames.Start).ToInteger(1); }
             set { SetAttribute(AttributeNames.Start, value.ToString()); }
         }
 

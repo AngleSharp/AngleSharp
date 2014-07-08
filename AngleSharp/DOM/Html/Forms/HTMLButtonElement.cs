@@ -142,8 +142,8 @@
         {
             if (this == submitter)
                 return;
-                
-            var type = ToEnum(Type, ButtonType.Submit);
+
+            var type = Type.ToEnum(ButtonType.Submit);
 
             if (type == ButtonType.Submit || type == ButtonType.Reset)
                 dataSet.Append(Name, Value, Type.ToString());

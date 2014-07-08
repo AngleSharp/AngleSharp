@@ -37,7 +37,7 @@
         [DomName("kind")]
         public TrackKind Kind
         {
-            get { return ToEnum(GetAttribute("kind"), TrackKind.Subtitles); }
+            get { return GetAttribute("kind").ToEnum(TrackKind.Subtitles); }
             set { SetAttribute("kind", value.ToString()); }
         }
 

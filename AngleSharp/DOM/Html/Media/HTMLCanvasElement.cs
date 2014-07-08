@@ -88,7 +88,7 @@
         /// </summary>
         public Int32 Width
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Width), 300); }
+            get { return GetAttribute(AttributeNames.Width).ToInteger(300); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
@@ -97,7 +97,7 @@
         /// </summary>
         public Int32 Height
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Height), 150); }
+            get { return GetAttribute(AttributeNames.Height).ToInteger(150); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 

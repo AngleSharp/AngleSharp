@@ -76,7 +76,7 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Width), _objWidth); }
+            get { return GetAttribute(AttributeNames.Width).ToInteger(_objWidth); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
@@ -85,7 +85,7 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Height), _objHeight); }
+            get { return GetAttribute(AttributeNames.Height).ToInteger(_objHeight); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 

@@ -51,7 +51,7 @@
         /// </summary>
         public Int32 Size
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Size), 0); }
+            get { return GetAttribute(AttributeNames.Size).ToInteger(0); }
             set { SetAttribute(AttributeNames.Size, value.ToString()); }
         }
 

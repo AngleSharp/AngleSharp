@@ -42,7 +42,7 @@
         /// </summary>
         public Int32 MaxLength
         {
-            get { return ToInteger(GetAttribute(AttributeNames.MaxLength), -1); }
+            get { return GetAttribute(AttributeNames.MaxLength).ToInteger(-1); }
             set { SetAttribute(AttributeNames.MaxLength, value.ToString()); }
         }
 
@@ -144,7 +144,7 @@
         /// <param name="selectionDirection">Optional: The direction of the selection.</param>
         public void Select(Int32 selectionStart, Int32 selectionEnd, String selectionDirection = null)
         {
-            SetSelectionRange(selectionStart, selectionEnd, ToEnum(selectionDirection, SelectionType.Forward));
+            SetSelectionRange(selectionStart, selectionEnd, selectionDirection.ToEnum(SelectionType.Forward));
         }
         
         /// <summary>

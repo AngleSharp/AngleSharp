@@ -43,7 +43,7 @@
         /// </summary>
         public HorizontalAlignment Align
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Align), HorizontalAlignment.Left); }
+            get { return GetAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
             set { SetAttribute(AttributeNames.Align, value.ToString()); }
         }
 
@@ -52,7 +52,7 @@
         /// </summary>
         public VerticalAlignment VAlign
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Valign), VerticalAlignment.Middle); }
+            get { return GetAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
             set { SetAttribute(AttributeNames.Valign, value.ToString()); }
         }
 
@@ -88,7 +88,7 @@
         /// </summary>
         public Int32 ColumnSpan
         {
-            get { return ToInteger(GetAttribute(AttributeNames.ColSpan), 0); }
+            get { return GetAttribute(AttributeNames.ColSpan).ToInteger(0); }
             set { SetAttribute(AttributeNames.ColSpan, value.ToString()); }
         }
 
@@ -97,7 +97,7 @@
         /// </summary>
         public Int32 RowSpan
         {
-            get { return ToInteger(GetAttribute(AttributeNames.RowSpan), 0); }
+            get { return GetAttribute(AttributeNames.RowSpan).ToInteger(0); }
             set { SetAttribute(AttributeNames.RowSpan, value.ToString()); }
         }
 
@@ -106,7 +106,7 @@
         /// </summary>
         public Boolean NoWrap
         {
-            get { return ToBoolean(GetAttribute(AttributeNames.NoWrap), false); }
+            get { return GetAttribute(AttributeNames.NoWrap).ToBoolean(false); }
             set { SetAttribute(AttributeNames.NoWrap, value.ToString()); }
         }
 

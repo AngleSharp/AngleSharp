@@ -25,7 +25,7 @@
         [DomName("cols")]
         public UInt32 Cols
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Cols), 1u); }
+            get { return GetAttribute(AttributeNames.Cols).ToInteger(1u); }
             set { SetAttribute(AttributeNames.Cols, value.ToString()); }
         }
 
@@ -35,7 +35,7 @@
         [DomName("rows")]
         public UInt32 Rows
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Rows), 1u); }
+            get { return GetAttribute(AttributeNames.Rows).ToInteger(1u); }
             set { SetAttribute(AttributeNames.Rows, value.ToString()); }
         }
 

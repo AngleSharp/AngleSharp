@@ -35,7 +35,7 @@
         /// <returns>The converted enum value.</returns>
         [DebuggerStepThrough]
         public static T ToEnum<T>(this String value, T defaultValue) 
-            where T : struct
+            where T : struct, IComparable
         {
             if (String.IsNullOrEmpty(value))
                 return defaultValue;
@@ -43,6 +43,86 @@
             T converted = default(T);
 
             if (Enum.TryParse(value, true, out converted))
+                return converted;
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Converts the given value to a double (or not).
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="defaultValue">The default value to consider (optional).</param>
+        /// <returns>The converted double.</returns>
+        [DebuggerStepThrough]
+        public static Double ToDouble(this String value, Double defaultValue = 0.0)
+        {
+            if (String.IsNullOrEmpty(value))
+                return defaultValue;
+
+            Double converted;
+
+            if (Double.TryParse(value, out converted))
+                return converted;
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Converts the given value to an integer (or not).
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="defaultValue">The default value to consider (optional).</param>
+        /// <returns>The converted integer.</returns>
+        [DebuggerStepThrough]
+        public static Int32 ToInteger(this String value, Int32 defaultValue = 0)
+        {
+            if (String.IsNullOrEmpty(value))
+                return defaultValue;
+
+            Int32 converted;
+
+            if (Int32.TryParse(value, out converted))
+                return converted;
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Converts the given value to an unsigned integer (or not).
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="defaultValue">The default value to consider (optional).</param>
+        /// <returns>The converted unsigned integer.</returns>
+        [DebuggerStepThrough]
+        public static UInt32 ToInteger(this String value, UInt32 defaultValue = 0)
+        {
+            if (String.IsNullOrEmpty(value))
+                return defaultValue;
+
+            UInt32 converted;
+
+            if (UInt32.TryParse(value, out converted))
+                return converted;
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Converts the given value to a boolean (or not).
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="defaultValue">The default value to consider (optional).</param>
+        /// <returns>The converted boolean.</returns>
+        [DebuggerStepThrough]
+        public static Boolean ToBoolean(this String value, Boolean defaultValue = false)
+        {
+            if (String.IsNullOrEmpty(value))
+                return defaultValue;
+
+            Boolean converted;
+
+            if (Boolean.TryParse(value, out converted))
                 return converted;
 
             return defaultValue;

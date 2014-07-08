@@ -77,7 +77,7 @@
         /// </summary>
         public HorizontalAlignment Align
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Align), HorizontalAlignment.Left); }
+            get { return GetAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
             set { SetAttribute(AttributeNames.Align, value.ToString()); }
         }
 
@@ -95,7 +95,7 @@
         /// </summary>
         public UInt32 Border
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Border), 0u); }
+            get { return GetAttribute(AttributeNames.Border).ToInteger(0u); }
             set { SetAttribute(AttributeNames.Border, value.ToString()); }
         }
 
@@ -104,7 +104,7 @@
         /// </summary>
         public Int32 CellPadding
         {
-            get { return ToInteger(GetAttribute(AttributeNames.CellPadding), 0); }
+            get { return GetAttribute(AttributeNames.CellPadding).ToInteger(0); }
             set { SetAttribute(AttributeNames.CellPadding, value.ToString()); }
         }
 
@@ -113,7 +113,7 @@
         /// </summary>
         public Int32 CellSpacing
         {
-            get { return ToInteger(GetAttribute(AttributeNames.CellSpacing), 0); }
+            get { return GetAttribute(AttributeNames.CellSpacing).ToInteger(0); }
             set { SetAttribute(AttributeNames.CellSpacing, value.ToString()); }
         }
 
@@ -122,7 +122,7 @@
         /// </summary>
         public TableFrames Frame
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Frame), TableFrames.Void); }
+            get { return GetAttribute(AttributeNames.Frame).ToEnum(TableFrames.Void); }
             set { SetAttribute(AttributeNames.Frame, value.ToString()); }
         }
 
@@ -131,7 +131,7 @@
         /// </summary>
         public TableRules Rules
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Rules), TableRules.All); }
+            get { return GetAttribute(AttributeNames.Rules).ToEnum(TableRules.All); }
             set { SetAttribute(AttributeNames.Rules, value.ToString()); }
         }
 

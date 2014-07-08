@@ -32,7 +32,7 @@
         /// </summary>
         public HorizontalAlignment Align
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Align), HorizontalAlignment.Left); }
+            get { return GetAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
             set { SetAttribute(AttributeNames.Align, value.ToString()); }
         }
 
@@ -41,7 +41,7 @@
         /// </summary>
         public VerticalAlignment VAlign
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Valign), VerticalAlignment.Middle); }
+            get { return GetAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
             set { SetAttribute(AttributeNames.Valign, value.ToString()); }
         }
 

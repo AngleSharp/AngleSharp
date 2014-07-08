@@ -28,7 +28,7 @@
         /// </summary>
         public Alignment Align
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Align), Alignment.Bottom); }
+            get { return GetAttribute(AttributeNames.Align).ToEnum(Alignment.Bottom); }
             set { SetAttribute(AttributeNames.Align, value.ToString()); }
         }
 

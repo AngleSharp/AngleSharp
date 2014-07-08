@@ -192,7 +192,7 @@
         /// </summary>
         public Alignment Align
         {
-            get { return ToEnum(GetAttribute(AttributeNames.Align), Alignment.Left); }
+            get { return GetAttribute(AttributeNames.Align).ToEnum(Alignment.Left); }
             set { SetAttribute(AttributeNames.Align, value.ToString()); }
         }
 
@@ -234,7 +234,7 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Height), _imageHeight); }
+            get { return GetAttribute(AttributeNames.Height).ToInteger(_imageHeight); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 
@@ -291,7 +291,7 @@
         /// </summary>
         public Int32 Size
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Size), 20); }
+            get { return GetAttribute(AttributeNames.Size).ToInteger(20); }
             set { SetAttribute(AttributeNames.Size, value.ToString()); }
         }
 
@@ -333,7 +333,7 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Width), _imageWidth); }
+            get { return GetAttribute(AttributeNames.Width).ToInteger(_imageWidth); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
@@ -508,7 +508,7 @@
         /// <param name="submitter">The given submitter.</param>
         internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
         {
-            var type = ToEnum(Type, InputType.Text);
+            var type = Type.ToEnum(InputType.Text);
 
             switch (type)
             {
@@ -587,7 +587,7 @@
         /// <param name="n">The number of steps (pos. or neg.) to take.</param>
         void DoStep(Int32 n)
         {
-            var type = ToEnum(Type, InputType.Text);
+            var type = Type.ToEnum(InputType.Text);
             var step = Step;
 
             if (step != null)

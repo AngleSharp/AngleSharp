@@ -59,7 +59,7 @@
         /// </summary>
         public Double Value
         {
-            get { return ToDouble(GetAttribute(AttributeNames.Value), 0.0); }
+            get { return GetAttribute(AttributeNames.Value).ToDouble(0.0); }
             set { SetAttribute(AttributeNames.Value, value.ToString(System.Globalization.NumberFormatInfo.InvariantInfo)); }
         }
 
@@ -68,7 +68,7 @@
         /// </summary>
         public Double Max
         {
-            get { return ToDouble(GetAttribute(AttributeNames.Max), 1.0); }
+            get { return GetAttribute(AttributeNames.Max).ToDouble(1.0); }
             set { SetAttribute(AttributeNames.Max, value.ToString(System.Globalization.NumberFormatInfo.InvariantInfo)); }
         }
 

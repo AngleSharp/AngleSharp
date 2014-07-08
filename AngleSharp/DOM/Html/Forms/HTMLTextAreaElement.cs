@@ -54,7 +54,7 @@
         /// </summary>
         public Int32 Rows
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Rows), 2); }
+            get { return GetAttribute(AttributeNames.Rows).ToInteger(2); }
             set { SetAttribute(AttributeNames.Rows, value.ToString()); }
         }
 
@@ -64,7 +64,7 @@
         /// </summary>
         public Int32 Columns
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Cols), 20); }
+            get { return GetAttribute(AttributeNames.Cols).ToInteger(20); }
             set { SetAttribute(AttributeNames.Cols, value.ToString()); }
         }
 

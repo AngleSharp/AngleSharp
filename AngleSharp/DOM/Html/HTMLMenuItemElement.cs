@@ -67,7 +67,7 @@
         [DomName("type")]
         public ItemType Type
         {
-            get { return ToEnum(GetAttribute("type"), ItemType.Command); }
+            get { return GetAttribute("type").ToEnum(ItemType.Command); }
             set { SetAttribute("type", value.ToString()); }
         }
 

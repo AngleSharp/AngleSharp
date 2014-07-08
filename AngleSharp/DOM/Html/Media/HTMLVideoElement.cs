@@ -39,7 +39,7 @@
         [DomName("width")]
         public UInt32 Width
         {
-            get { return ToInteger(GetAttribute("width"), _videoWidth); }
+            get { return GetAttribute("width").ToInteger(_videoWidth); }
             set { SetAttribute("width", value.ToString()); }
         }
 
@@ -49,7 +49,7 @@
         [DomName("height")]
         public UInt32 Height
         {
-            get { return ToInteger(GetAttribute("height"), _videoHeight); }
+            get { return GetAttribute("height").ToInteger(_videoHeight); }
             set { SetAttribute("height", value.ToString()); }
         }
 

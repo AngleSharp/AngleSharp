@@ -266,7 +266,7 @@
 
             var location = new Location(action);
             var scheme = location.Protocol.TrimEnd(new[] { ':' });
-            var method = ToEnum(Method, HttpMethod.Get);
+            var method = Method.ToEnum(HttpMethod.Get);
 
             if (scheme == KnownProtocols.Http || scheme == KnownProtocols.Https)
             {

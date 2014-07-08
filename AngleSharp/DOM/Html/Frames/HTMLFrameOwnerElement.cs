@@ -31,7 +31,7 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Width), 0); }
+            get { return GetAttribute(AttributeNames.Width).ToInteger(0); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
@@ -40,7 +40,7 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Height), 0); }
+            get { return GetAttribute(AttributeNames.Height).ToInteger(0); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 
@@ -49,7 +49,7 @@
         /// </summary>
         public Int32 MarginWidth
         {
-            get { return ToInteger(GetAttribute(AttributeNames.MarginWidth), 0); }
+            get { return GetAttribute(AttributeNames.MarginWidth).ToInteger(0); }
             set { SetAttribute(AttributeNames.MarginWidth, value.ToString()); }
         }
 
@@ -58,7 +58,7 @@
         /// </summary>
         public Int32 MarginHeight
         {
-            get { return ToInteger(GetAttribute(AttributeNames.MarginHeight), 0); }
+            get { return GetAttribute(AttributeNames.MarginHeight).ToInteger(0); }
             set { SetAttribute(AttributeNames.MarginHeight, value.ToString()); }
         }
 

@@ -23,7 +23,7 @@
         /// </summary>
         public Boolean NoResize
         {
-            get { return ToBoolean(GetAttribute(AttributeNames.NoResize), false); }
+            get { return GetAttribute(AttributeNames.NoResize).ToBoolean(false); }
             set { SetAttribute(AttributeNames.NoResize, value.ToString()); }
         }
 
