@@ -7,13 +7,12 @@
     /// <summary>
     /// Represents an HTML input element.
     /// </summary>
-    [DomName("HTMLInputElement")]
-    public sealed class HTMLInputElement : HTMLTextFormControlElement
+    sealed class HTMLInputElement : HTMLTextFormControlElement, IHtmlInputElement
     {
         #region Fields
 
-        UInt32 _imageWidth;
-        UInt32 _imageHeight;
+        Int32 _imageWidth;
+        Int32 _imageHeight;
         Boolean? _checked;
         FileList _files;
 
@@ -38,11 +37,10 @@
         /// <summary>
         /// Gets or sets the default value of the input field.
         /// </summary>
-        [DomName("defaultValue")]
         public override String DefaultValue
         {
-            get { return GetAttribute("value"); }
-            set { SetAttribute("value", value); }
+            get { return GetAttribute(AttributeNames.Value); }
+            set { SetAttribute(AttributeNames.Value, value); }
         }
 
         /// <summary>
@@ -68,11 +66,10 @@
         /// <summary>
         /// Gets or sets the type of the input field.
         /// </summary>
-        [DomName("type")]
-        public InputType Type
+        public String Type
         {
-            get { return ToEnum(GetAttribute("type"), InputType.Text); }
-            set { SetAttribute("type", value.ToString()); }
+            get { return GetAttribute(AttributeNames.Type); }
+            set { SetAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -88,11 +85,10 @@
         /// <summary>
         /// Gets the multiple HTML attribute, whichindicates whether multiple items can be selected.
         /// </summary>
-        [DomName("multiple")]
-        public Boolean Multiple
+        public Boolean IsMultiple
         {
-            get { return GetAttribute("multiple") != null; }
-            set { SetAttribute("multiple", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.Multiple) != null; }
+            set { SetAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -140,7 +136,6 @@
         /// Gets or sets the URI of a resource that processes information submitted by the button.
         /// If specified, this attribute overrides the action attribute of the form element that owns this element.
         /// </summary>
-        [DomName("formAction")]
         public String FormAction
         {
             get { if (Form == null) return String.Empty; return Form.Action; }
@@ -151,7 +146,6 @@
         /// Gets or sets the type of content that is used to submit the form to the server. If specified, this
         /// attribute overrides the enctype attribute of the form element that owns this element.
         /// </summary>
-        [DomName("formEncType")]
         public String FormEncType
         {
             get { if (Form == null) return String.Empty; return Form.Enctype; }
@@ -162,7 +156,6 @@
         /// Gets or sets the HTTP method that the browser uses to submit the form. If specified, this attribute
         /// overrides the method attribute of the form element that owns this element.
         /// </summary>
-        [DomName("formMethod")]
         public String FormMethod
         {
             get { if (Form == null) return "post"; return Form.Method; }
@@ -173,7 +166,6 @@
         /// Gets or sets that the form is not to be validated when it is submitted. If specified, this attribute
         /// overrides the enctype attribute of the form element that owns this element.
         /// </summary>
-        [DomName("formNoValidate")]
         public Boolean FormNoValidate
         {
             get { if (Form == null) return false; return Form.NoValidate; }
@@ -184,7 +176,6 @@
         /// Gets or sets A name or keyword indicating where to display the response that is received after submitting
         /// the form. If specified, this attribute overrides the target attribute of the form element that owns this element.
         /// </summary>
-        [DomName("formTarget")]
         public String FormTarget
         {
             get { if (Form == null) return String.Empty; return Form.Target; }
@@ -205,22 +196,20 @@
         /// <summary>
         /// Gets or sets the alignment of the element.
         /// </summary>
-        [DomName("align")]
         public Alignment Align
         {
-            get { return ToEnum(GetAttribute("align"), Alignment.Left); }
-            set { SetAttribute("align", value.ToString()); }
+            get { return ToEnum(GetAttribute(AttributeNames.Align), Alignment.Left); }
+            set { SetAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the alt HTML attribute, containing alternative
         /// text to use when type is image.
         /// </summary>
-        [DomName("alt")]
-        public String Alt
+        public String AlternativeText
         {
-            get { return GetAttribute("alt"); }
-            set { SetAttribute("alt", value); }
+            get { return GetAttribute(AttributeNames.Alt); }
+            set { SetAttribute(AttributeNames.Alt, value); }
         }
 
         /// <summary>
@@ -251,11 +240,10 @@
         /// height of the image displayed for the button, if the value
         /// of type is image.
         /// </summary>
-        [DomName("height")]
-        public UInt32 Height
+        public Int32 DisplayHeight
         {
-            get { return ToInteger(GetAttribute("height"), _imageHeight); }
-            set { SetAttribute("height", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Height), _imageHeight); }
+            set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 
         /// <summary>
@@ -314,11 +302,10 @@
         /// an integer number of characters. Applies only when type is set to text, search, tel,
         /// url, email, or password; otherwise it is ignored.
         /// </summary>
-        [DomName("size")]
-        public UInt32 Size
+        public Int32 Size
         {
-            get { return ToInteger(GetAttribute("size"), 20u); }
-            set { SetAttribute("size", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Size), 20); }
+            set { SetAttribute(AttributeNames.Size, value.ToString()); }
         }
 
         /// <summary>
@@ -326,11 +313,10 @@
         /// image to display on the graphical submit button, if the value of type is image;
         /// otherwise it is ignored.
         /// </summary>
-        [DomName("src")]
-        public String Src
+        public String Source
         {
-            get { return GetAttribute("src"); }
-            set { SetAttribute("src", value); }
+            get { return GetAttribute(AttributeNames.Src); }
+            set { SetAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -349,22 +335,20 @@
         /// <summary>
         /// Gets or sets a client-side image map.
         /// </summary>
-        [DomName("useMap")]
         public String UseMap
         {
-            get { return GetAttribute("useMap"); }
-            set { SetAttribute("useMap", value); }
+            get { return GetAttribute(AttributeNames.UseMap); }
+            set { SetAttribute(AttributeNames.UseMap, value); }
         }
 
         /// <summary>
         /// Gets or sets the width HTML attribute, which defines the width of the image
         /// displayed for the button, if the value of type is image.
         /// </summary>
-        [DomName("width")]
-        public UInt32 Width
+        public Int32 DisplayWidth
         {
-            get { return ToInteger(GetAttribute("width"), _imageWidth); }
-            set { SetAttribute("width", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Width), _imageWidth); }
+            set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         #endregion
@@ -540,7 +524,9 @@
         /// <param name="submitter">The given submitter.</param>
         internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
         {
-            switch (Type)
+            var type = ToEnum(Type, InputType.Text);
+
+            switch (type)
             {
                 case InputType.Radio:
                 case InputType.Checkbox:
@@ -617,11 +603,12 @@
         /// <param name="n">The number of steps (pos. or neg.) to take.</param>
         void DoStep(Int32 n)
         {
+            var type = ToEnum(Type, InputType.Text);
             var step = Step;
 
             if (step != null)
             {
-                switch (Type)
+                switch (type)
                 {
                     case InputType.Date:
                     case InputType.Datetime:

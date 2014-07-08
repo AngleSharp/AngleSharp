@@ -28,6 +28,27 @@
         }
 
         /// <summary>
+        /// Converts the given value to an enumeration value (or not).
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="defaultValue">The default value to consider (optional).</param>
+        /// <returns>The converted enum value.</returns>
+        [DebuggerStepThrough]
+        public static T ToEnum<T>(this String value, T defaultValue) 
+            where T : struct
+        {
+            if (String.IsNullOrEmpty(value))
+                return defaultValue;
+
+            T converted = default(T);
+
+            if (Enum.TryParse(value, true, out converted))
+                return converted;
+
+            return defaultValue;
+        }
+
+        /// <summary>
         /// Replaces the first occurance of the string search with replace.
         /// </summary>
         /// <param name="text">The text to use.</param>

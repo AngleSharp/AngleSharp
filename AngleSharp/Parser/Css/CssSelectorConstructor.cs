@@ -872,12 +872,12 @@
 							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)el).IsActive;
 						else if (el is HTMLButtonElement)
 							return !((HTMLButtonElement)el).IsDisabled && ((HTMLButtonElement)el).IsActive;
-						else if (el is HTMLInputElement)
+                        else if (el is HTMLInputElement)
 						{
-							var inp = (HTMLInputElement)el;
-							return (inp.Type == HTMLInputElement.InputType.Submit || inp.Type == HTMLInputElement.InputType.Image ||
-								inp.Type == HTMLInputElement.InputType.Reset || inp.Type == HTMLInputElement.InputType.Button) &&
-								inp.IsActive;
+                            var inp = (HTMLInputElement)el;
+                            var type = inp.Type.ToEnum(HTMLInputElement.InputType.Text);
+							return (type == HTMLInputElement.InputType.Submit || type == HTMLInputElement.InputType.Image ||
+								type == HTMLInputElement.InputType.Reset || type == HTMLInputElement.InputType.Button) && inp.IsActive;
 						}
 						else if (el is HTMLMenuItemElement)
 							return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled)) && ((HTMLMenuItemElement)el).IsActive;
@@ -947,9 +947,10 @@
 						}
 						else if (el is HTMLInputElement)
 						{
-							var input = (HTMLInputElement)el;
+                            var input = (HTMLInputElement)el;
+                            var type = input.Type.ToEnum(HTMLInputElement.InputType.Text);
 
-							if (input.Type == HTMLInputElement.InputType.Submit || input.Type == HTMLInputElement.InputType.Image)
+							if (type == HTMLInputElement.InputType.Submit || type == HTMLInputElement.InputType.Image)
 							{
 								var form = input.Form;
 
@@ -972,9 +973,10 @@
 					{
 						if (el is HTMLInputElement)
 						{
-							var inp = (HTMLInputElement)el;
-							return (inp.Type == HTMLInputElement.InputType.Checkbox || inp.Type == HTMLInputElement.InputType.Radio)
-								&& inp.Checked;
+                            var inp = (HTMLInputElement)el;
+                            var type = inp.Type.ToEnum(HTMLInputElement.InputType.Text);
+
+							return (type == HTMLInputElement.InputType.Checkbox || type == HTMLInputElement.InputType.Radio) && inp.Checked;
 						}
 						else if (el is HTMLMenuItemElement)
 						{
@@ -993,8 +995,9 @@
 					{
 						if (el is HTMLInputElement)
 						{
-							var inp = (HTMLInputElement)el;
-							return inp.Type == HTMLInputElement.InputType.Checkbox && inp.Indeterminate;
+                            var inp = (HTMLInputElement)el;
+                            var type = inp.Type.ToEnum(HTMLInputElement.InputType.Text);
+							return type == HTMLInputElement.InputType.Checkbox && inp.Indeterminate;
 						}
 						else if (el is HTMLProgressElement)
 							return String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Value));
@@ -1007,9 +1010,9 @@
 					{
 						if (el is HTMLInputElement)
 						{
-							var inp = (HTMLInputElement)el;
-							return (inp.Type == HTMLInputElement.InputType.Checkbox || inp.Type == HTMLInputElement.InputType.Radio)
-								&& !inp.Checked;
+                            var inp = (HTMLInputElement)el;
+                            var type = inp.Type.ToEnum(HTMLInputElement.InputType.Text);
+							return (type == HTMLInputElement.InputType.Checkbox || type == HTMLInputElement.InputType.Radio) && !inp.Checked;
 						}
 						else if (el is HTMLMenuItemElement)
 						{

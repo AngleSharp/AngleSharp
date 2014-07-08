@@ -27,6 +27,15 @@
         #region Properties
 
         /// <summary>
+        /// Gets or sets the dirname HTML attribute.
+        /// </summary>
+        public String DirectionName
+        {
+            get { return GetAttribute(AttributeNames.DirName); }
+            set { SetAttribute(AttributeNames.DirName, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the maxlength HTML attribute, indicating
         /// the maximum number of characters the user can enter.
         /// This constraint is evaluated only when the value changes.

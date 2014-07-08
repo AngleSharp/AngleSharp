@@ -1029,17 +1029,10 @@
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted enum value.</returns>
-        static protected T ToEnum<T>(String value, T defaultValue) where T : struct
+        static protected T ToEnum<T>(String value, T defaultValue) 
+            where T : struct
         {
-            if (String.IsNullOrEmpty(value))
-                return defaultValue;
-
-            T converted = default(T);
-
-            if (Enum.TryParse(value, true, out converted))
-                return converted;
-
-            return defaultValue;
+            return value.ToEnum(defaultValue);
         }
 
         /// <summary>

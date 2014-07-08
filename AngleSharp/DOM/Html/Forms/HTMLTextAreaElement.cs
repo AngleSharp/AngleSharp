@@ -23,15 +23,6 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the dirname HTML attribute.
-        /// </summary>
-        public String DirectionName
-        {
-            get { return GetAttribute(AttributeNames.DirName); }
-            set { SetAttribute(AttributeNames.DirName, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the wrap HTML attribute, indicating how the control wraps text.
         /// </summary>
         public String Wrap
