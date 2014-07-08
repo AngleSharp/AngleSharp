@@ -1049,11 +1049,11 @@
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLInputElement)
-							return ((HTMLInputElement)el).Required;
+							return ((HTMLInputElement)el).IsRequired;
 						else if (el is HTMLSelectElement)
 							return ((HTMLSelectElement)el).IsRequired;
 						else if (el is HTMLTextAreaElement)
-							return ((HTMLTextAreaElement)el).Required;
+                            return ((HTMLTextAreaElement)el).IsRequired;
 
 						return false;
 					}, pseudoClassRequired);
@@ -1112,11 +1112,11 @@
 					return SimpleSelector.PseudoClass(el =>
 					{
 						if (el is HTMLInputElement)
-							return !((HTMLInputElement)el).Required;
+                            return !((HTMLInputElement)el).IsRequired;
 						else if (el is HTMLSelectElement)
 							return !((HTMLSelectElement)el).IsRequired;
 						else if (el is HTMLTextAreaElement)
-							return !((HTMLTextAreaElement)el).Required;
+                            return !((HTMLTextAreaElement)el).IsRequired;
 
 						return false;
 					}, pseudoClassOptional);

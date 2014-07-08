@@ -111,13 +111,12 @@
         String Placeholder { get; set; }
         
         /// <summary>
-        /// Gets or sets the direction in which selection occurred. This
-        /// is "forward" if selection was performed in the start-to-end
-        /// direction of the current locale, or "backward" for the opposite
-        /// direction.
+        /// Gets the direction in which selection occurred. This is "forward" if
+        /// selection was performed in the start-to-end direction of the current
+        /// locale, or "backward" for the opposite direction.
         /// </summary>
         [DomName("selectionDirection")]
-        String SelectionDirection { get; set; }
+        String SelectionDirection { get; }
 
         /// <summary>
         /// Gets or sets the directionality of the form element.

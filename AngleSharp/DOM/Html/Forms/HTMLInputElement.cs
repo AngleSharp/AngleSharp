@@ -419,7 +419,7 @@
 
         internal Boolean IsMutable 
         {
-            get { return !IsDisabled && !Readonly; }
+            get { return !IsDisabled && !IsReadOnly; }
         }
 
         /// <summary>

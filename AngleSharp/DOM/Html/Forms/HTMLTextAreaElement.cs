@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents a HTML textarea element.
     /// </summary>
-    [DomName("HTMLTextAreaElement")]
-    public sealed class HTMLTextAreaElement : HTMLTextFormControlElement
+    sealed class HTMLTextAreaElement : HTMLTextFormControlElement, IHtmlTextAreaElement
     {
         #region ctor
 
@@ -24,19 +23,26 @@
         #region Properties
 
         /// <summary>
+        /// Gets or sets the dirname HTML attribute.
+        /// </summary>
+        public String DirName
+        {
+            get { return GetAttribute(AttributeNames.DirName); }
+            set { SetAttribute(AttributeNames.DirName, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the wrap HTML attribute, indicating how the control wraps text.
         /// </summary>
-        [DomName("wrap")]
-        public WrapType Wrap
+        public String Wrap
         {
-            get { return ToEnum(GetAttribute("wrap"), WrapType.Soft); }
-            set { SetAttribute("wrap", value.ToString()); }
+            get { return GetAttribute(AttributeNames.Wrap); }
+            set { SetAttribute(AttributeNames.Wrap, value); }
         }
 
         /// <summary>
         /// Gets or sets the default value of the input field.
         /// </summary>
-        [DomName("defaultValue")]
         public override String DefaultValue
         {
             get { return TextContent; }
@@ -46,7 +52,6 @@
         /// <summary>
         /// Gets the codepoint length of the control's value.
         /// </summary>
-        [DomName("textLength")]
         public Int32 TextLength
         {
             get { return Value.Length; }
@@ -56,28 +61,25 @@
         /// Gets or sets the rows HTML attribute, indicating
         /// the number of visible text lines for the control.
         /// </summary>
-        [DomName("rows")]
-        public UInt32 Rows
+        public Int32 Rows
         {
-            get { return ToInteger(GetAttribute("rows"), 2u); }
-            set { SetAttribute("rows", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Rows), 2); }
+            set { SetAttribute(AttributeNames.Rows, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the cols HTML attribute, indicating
         /// the visible width of the text area.
         /// </summary>
-        [DomName("cols")]
-        public UInt32 Cols
+        public Int32 Cols
         {
-            get { return ToInteger(GetAttribute("cols"), 20u); }
-            set { SetAttribute("cols", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.Cols), 20); }
+            set { SetAttribute(AttributeNames.Cols, value.ToString()); }
         }
 
         /// <summary>
         /// Gets the type of input control (texarea).
         /// </summary>
-        [DomName("type")]
         public String Type
         {
             get { return _name; }
@@ -97,7 +99,7 @@
 
         internal Boolean IsMutable
         {
-            get { return !IsDisabled && !Readonly; }
+            get { return !IsDisabled && !IsReadOnly; }
         }
 
         #endregion

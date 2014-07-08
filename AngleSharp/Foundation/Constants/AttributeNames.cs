@@ -501,5 +501,25 @@
         /// The size attribute.
         /// </summary>
         public static readonly String Size = "size";
+
+        /// <summary>
+        /// The wrap attribute.
+        /// </summary>
+        public static readonly String Wrap = "wrap";
+
+        /// <summary>
+        /// The maxlength attribute.
+        /// </summary>
+        public static readonly String MaxLength = "maxlength";
+
+        /// <summary>
+        /// The placeholder attribute.
+        /// </summary>
+        public static readonly String Placeholder = "placeholder";
+
+        /// <summary>
+        /// The readonly attribute.
+        /// </summary>
+        public static readonly String Readonly = "readonly";
     }
 }

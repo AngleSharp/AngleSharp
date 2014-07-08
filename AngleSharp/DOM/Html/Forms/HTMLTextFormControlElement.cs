@@ -11,8 +11,8 @@
 
         String _value;
         SelectionType _direction;
-        UInt32 _start;
-        UInt32 _end;
+        Int32 _start;
+        Int32 _end;
 
         #endregion
 
@@ -31,17 +31,15 @@
         /// the maximum number of characters the user can enter.
         /// This constraint is evaluated only when the value changes.
         /// </summary>
-        [DomName("maxLength")]
         public Int32 MaxLength
         {
-            get { return ToInteger(GetAttribute("maxlength"), -1); }
-            set { SetAttribute("maxlength", value.ToString()); }
+            get { return ToInteger(GetAttribute(AttributeNames.MaxLength), -1); }
+            set { SetAttribute(AttributeNames.MaxLength, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the default value of the input field.
         /// </summary>
-        [DomName("defaultValue")]
         public abstract String DefaultValue
         {
             get;
@@ -51,7 +49,6 @@
         /// <summary>
         /// Gets or sets the current value in the control.
         /// </summary>
-        [DomName("value")]
         public String Value
         {
             get { return _value ?? DefaultValue; }
@@ -62,41 +59,28 @@
         /// Gets or sets the placeholder HTML attribute, containing a hint to
         /// the user about what to enter in the control.
         /// </summary>
-        [DomName("placeholder")]
         public String Placeholder
         {
-            get { return GetAttribute("placeholder"); }
-            set { SetAttribute("placeholder", value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the accesskey HTML attribute.
-        /// </summary>
-        [DomName("accessKey")]
-        public String AccessKey
-        {
-            get { return GetAttribute("accesskey"); }
-            set { SetAttribute("accesskey", value); }
+            get { return GetAttribute(AttributeNames.Placeholder); }
+            set { SetAttribute(AttributeNames.Placeholder, value); }
         }
 
         /// <summary>
         /// Gets or sets if the field is required.
         /// </summary>
-        [DomName("required")]
-        public Boolean Required
+        public Boolean IsRequired
         {
-            get { return GetAttribute("required") != null; }
-            set { SetAttribute("required", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.Required) != null; }
+            set { SetAttribute(AttributeNames.Required, value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets or sets if the textarea field is read-only.
         /// </summary>
-        [DomName("readOnly")]
-        public Boolean Readonly
+        public Boolean IsReadOnly
         {
-            get { return GetAttribute("readonly") != null; }
-            set { SetAttribute("readonly", value ? String.Empty : null); }
+            get { return GetAttribute(AttributeNames.Readonly) != null; }
+            set { SetAttribute(AttributeNames.Readonly, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -106,8 +90,7 @@
         /// as if setSelectionRange() had been called with this as the first
         /// argument, and selectionEnd as the second argument.
         /// </summary>
-        [DomName("selectionStart")]
-        public UInt32 SelectionStart
+        public Int32 SelectionStart
         {
             get { return _start; }
             set { SetSelectionRange(value, _end, _direction); }
@@ -120,8 +103,7 @@
         /// setSelectionRange() had been called with this as the second
         /// argument, and selectionStart as the first argument.
         /// </summary>
-        [DomName("selectionEnd")]
-        public UInt32 SelectionEnd
+        public Int32 SelectionEnd
         {
             get { return _end; }
             set { SetSelectionRange(_start, value, _direction); }
@@ -133,10 +115,9 @@
         /// direction of the current locale, or "backward" for the opposite
         /// direction.
         /// </summary>
-        [DomName("selectionDirection")]
-        public SelectionType SelectionDirection
+        public String SelectionDirection
         {
-            get { return _direction; }
+            get { return _direction.ToString().ToLower(); }
         }
 
         #endregion
@@ -152,27 +133,17 @@
         /// <param name="selectionStart">The start of the selection.</param>
         /// <param name="selectionEnd">The end of the selection.</param>
         /// <param name="selectionDirection">Optional: The direction of the selection.</param>
-        [DomName("setSelectionRange")]
-        public void SetSelectionRange(UInt32 selectionStart, UInt32 selectionEnd, SelectionType selectionDirection = SelectionType.None)
+        public void SetSelectionRange(Int32 selectionStart, Int32 selectionEnd, String selectionDirection = null)
         {
-            if (selectionEnd > (UInt32)Value.Length)
-                selectionEnd = (UInt32)Value.Length;
-
-            if (selectionEnd < selectionStart)
-                selectionStart = selectionEnd;
-
-            _start = selectionStart;
-            _end = selectionEnd;
-            _direction = selectionDirection;
+            SetSelectionRange(selectionStart, selectionEnd, ToEnum(selectionDirection, SelectionType.Forward));
         }
         
         /// <summary>
         /// Selects the contents of the control.
         /// </summary>
-        [DomName("select")]
         public void Select()
         {
-            SetSelectionRange(0u, (UInt32)Value.Length, SelectionType.Forward);
+            SetSelectionRange(0, Value.Length, SelectionType.Forward);
         }
 
         #endregion
@@ -202,13 +173,26 @@
 
         #region Helpers
 
+        void SetSelectionRange(Int32 selectionStart, Int32 selectionEnd, SelectionType selectionType)
+        {
+            if (selectionEnd > Value.Length)
+                selectionEnd = Value.Length;
+
+            if (selectionEnd < selectionStart)
+                selectionStart = selectionEnd;
+
+            _start = selectionStart;
+            _end = selectionEnd;
+            _direction = selectionType;
+        }
+
         /// <summary>
         /// Resets the form control to its initial value.
         /// </summary>
         internal override void Reset()
         {
             _value = null;
-            SetSelectionRange(UInt32.MaxValue, UInt32.MaxValue);
+            SetSelectionRange(Int32.MaxValue, Int32.MaxValue);
         }
 
         #endregion
