@@ -15,7 +15,7 @@
         ISettableTokenList HtmlFor { get; }
 
         /// <summary>
-        /// Gets or sets the value.
+        /// Gets or sets the default value.
         /// </summary>
         [DomName("defaultValue")]
         String DefaultValue { get; set; }
