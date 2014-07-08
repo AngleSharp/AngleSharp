@@ -12,13 +12,13 @@
         /// Gets or sets the number of columns spanned by cell. 
         /// </summary>
         [DomName("colSpan")]
-        UInt32 ColSpan { get; set; }
+        Int32 ColumnSpan { get; set; }
 
         /// <summary>
         /// Gets or sets the number of rows spanned by cell. 
         /// </summary>
         [DomName("rowSpan")]
-        UInt32 RowSpan { get; set; }
+        Int32 RowSpan { get; set; }
 
         /// <summary>
         /// Gets or sets the list of id attribute values for header cells. 

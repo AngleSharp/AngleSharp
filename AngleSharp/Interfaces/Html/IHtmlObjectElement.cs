@@ -51,13 +51,13 @@
         /// Gets or sets the display width of the object element.
         /// </summary>
         [DomName("width")]
-        UInt32 DisplayWidth { get; set; }
+        Int32 DisplayWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the display height of the object element.
         /// </summary>
         [DomName("height")]
-        UInt32 DisplayHeight { get; set; }
+        Int32 DisplayHeight { get; set; }
 
         /// <summary>
         /// Gets the active document of the object element's nested browsing context, if it has one;

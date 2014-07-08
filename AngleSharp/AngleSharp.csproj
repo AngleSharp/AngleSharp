@@ -297,6 +297,7 @@
     <Compile Include="Interfaces\Html\IHtmlHtmlElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlImageElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlInlineFrameElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlInputElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlKeygenElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlLabelElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlLegendElement.cs" />

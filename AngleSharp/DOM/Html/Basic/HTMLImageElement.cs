@@ -9,8 +9,8 @@
     {
         #region Fields
 
-        UInt32 _imageWidth;
-        UInt32 _imageHeight;
+        Int32 _imageWidth;
+        Int32 _imageHeight;
         Boolean _loaded;
 
         #endregion
@@ -73,7 +73,7 @@
         /// <summary>
         /// Gets or sets the displayed width of the image element.
         /// </summary>
-        public UInt32 DisplayWidth
+        public Int32 DisplayWidth
         {
             get { return ToInteger(GetAttribute(AttributeNames.Width), _imageWidth); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
@@ -82,7 +82,7 @@
         /// <summary>
         /// Gets or sets the displayed height of the image element.
         /// </summary>
-        public UInt32 DisplayHeight
+        public Int32 DisplayHeight
         {
             get { return ToInteger(GetAttribute(AttributeNames.Height), _imageHeight); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
@@ -91,7 +91,7 @@
         /// <summary>
         /// Gets the width of the image.
         /// </summary>
-        public UInt32 OriginalWidth
+        public Int32 OriginalWidth
         {
             get { return _imageWidth; }
         }
@@ -99,7 +99,7 @@
         /// <summary>
         /// Gets the height of the image.
         /// </summary>
-        public UInt32 OriginalHeight
+        public Int32 OriginalHeight
         {
             get { return _imageHeight; }
         }

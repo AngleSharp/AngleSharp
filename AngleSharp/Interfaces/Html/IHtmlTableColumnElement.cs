@@ -12,6 +12,6 @@
         /// Gets or sets the number of columns in a group or affected by a grouping.
         /// </summary>
         [DomName("span")]
-        UInt32 Span { get; set; }
+        Int32 Span { get; set; }
     }
 }

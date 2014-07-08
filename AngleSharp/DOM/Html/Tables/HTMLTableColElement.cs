@@ -30,9 +30,9 @@
         /// <summary>
         /// Gets or sets the number of columns in a group or affected by a grouping.
         /// </summary>
-        public UInt32 Span
+        public Int32 Span
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Span), 0u); }
+            get { return ToInteger(GetAttribute(AttributeNames.Span), 0); }
             set { SetAttribute(AttributeNames.Span, value.ToString()); }
         }
 

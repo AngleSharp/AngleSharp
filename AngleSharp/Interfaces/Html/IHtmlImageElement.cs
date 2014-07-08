@@ -45,25 +45,25 @@
         /// Gets or sets the displayed width of the image element.
         /// </summary>
         [DomName("width")]
-        UInt32 DisplayWidth { get; set; }
+        Int32 DisplayWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the displayed width of the image element.
         /// </summary>
         [DomName("height")]
-        UInt32 DisplayHeight { get; set; }
+        Int32 DisplayHeight { get; set; }
 
         /// <summary>
         /// Gets the width of the image.
         /// </summary>
         [DomName("naturalWidth")]
-        UInt32 OriginalWidth { get; }
+        Int32 OriginalWidth { get; }
 
         /// <summary>
         /// Gets the height of the image.
         /// </summary>
         [DomName("naturalHeight")]
-        UInt32 OriginalHeight { get; }
+        Int32 OriginalHeight { get; }
 
         /// <summary>
         /// Gets if the image is completely available.

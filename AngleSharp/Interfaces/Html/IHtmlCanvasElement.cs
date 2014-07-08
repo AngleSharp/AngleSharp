@@ -12,13 +12,13 @@
         /// Gets or sets the displayed width of the canvas element.
         /// </summary>
         [DomName("width")]
-        UInt32 Width { get; set; }
+        Int32 Width { get; set; }
 
         /// <summary>
         /// Gets or sets the displayed height of the canvas element.
         /// </summary>
         [DomName("height")]
-        UInt32 Height { get; set; }
+        Int32 Height { get; set; }
 
         /// <summary>
         /// Returns a Data URI with the bitmap data of the context.

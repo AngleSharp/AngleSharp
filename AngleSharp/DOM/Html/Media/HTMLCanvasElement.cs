@@ -86,18 +86,18 @@
         /// <summary>
         /// Gets or sets the displayed width of the canvas element.
         /// </summary>
-        public UInt32 Width
+        public Int32 Width
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Width), 300u); }
+            get { return ToInteger(GetAttribute(AttributeNames.Width), 300); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the displayed height of the canvas element.
         /// </summary>
-        public UInt32 Height
+        public Int32 Height
         {
-            get { return ToInteger(GetAttribute(AttributeNames.Height), 150u); }
+            get { return ToInteger(GetAttribute(AttributeNames.Height), 150); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 

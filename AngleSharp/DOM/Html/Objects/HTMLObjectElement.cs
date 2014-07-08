@@ -11,8 +11,8 @@
 
         IDocument _contentDocument;
         IWindowProxy _contentWindow;
-        UInt32 _objWidth;
-        UInt32 _objHeight;
+        Int32 _objWidth;
+        Int32 _objHeight;
 
         #endregion
 
@@ -74,7 +74,7 @@
         /// <summary>
         /// Gets or sets the width of the object element.
         /// </summary>
-        public UInt32 DisplayWidth
+        public Int32 DisplayWidth
         {
             get { return ToInteger(GetAttribute(AttributeNames.Width), _objWidth); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
@@ -83,7 +83,7 @@
         /// <summary>
         /// Gets or sets the height of the object element.
         /// </summary>
-        public UInt32 DisplayHeight
+        public Int32 DisplayHeight
         {
             get { return ToInteger(GetAttribute(AttributeNames.Height), _objHeight); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }

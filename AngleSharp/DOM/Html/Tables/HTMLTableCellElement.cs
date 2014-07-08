@@ -86,18 +86,18 @@
         /// <summary>
         /// Gets or sets the number of columns spanned by cell. 
         /// </summary>
-        public UInt32 ColSpan
+        public Int32 ColumnSpan
         {
-            get { return ToInteger(GetAttribute(AttributeNames.ColSpan), 0u); }
+            get { return ToInteger(GetAttribute(AttributeNames.ColSpan), 0); }
             set { SetAttribute(AttributeNames.ColSpan, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the number of rows spanned by cell. 
         /// </summary>
-        public UInt32 RowSpan
+        public Int32 RowSpan
         {
-            get { return ToInteger(GetAttribute(AttributeNames.RowSpan), 0u); }
+            get { return ToInteger(GetAttribute(AttributeNames.RowSpan), 0); }
             set { SetAttribute(AttributeNames.RowSpan, value.ToString()); }
         }
 
