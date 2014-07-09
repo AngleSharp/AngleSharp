@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML isindex element.
     /// </summary>
-    [DomName("HTMLIsIndexElement")]
-    public sealed class HTMLIsIndexElement : HTMLElement
+    sealed class HTMLIsIndexElement : HTMLElement
     {
         #region ctor
 
@@ -25,7 +24,6 @@
         /// <summary>
         /// Gets the form element containing this control or null if this control is not within the context of a form.
         /// </summary>
-        [DomName("form")]
         public IHtmlFormElement Form
         {
             get;
@@ -35,7 +33,6 @@
         /// <summary>
         /// Gets or sets the prompt message.
         /// </summary>
-        [DomName("prompt")]
         public String Prompt
         {
             get { return GetAttribute(AttributeNames.Prompt); }
