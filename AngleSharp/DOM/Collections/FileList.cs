@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Collections
 {
+    using AngleSharp.DOM.Io;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -8,8 +9,7 @@
     /// Represents a container for file entries captured by the file
     /// upload field.
     /// </summary>
-    [DomName("FileList")]
-    public class FileList : IEnumerable<FileEntry>, ICollection<FileEntry>
+    sealed class FileList : IEnumerable<FileEntry>, ICollection<FileEntry>, IFileList
     {
         #region Fields
 
@@ -29,9 +29,27 @@
         #region Properties
 
         /// <summary>
+        /// Gets the entry at the specified position.
+        /// </summary>
+        /// <param name="index">The index of the entry.</param>
+        /// <returns>The file object.</returns>
+        public IFile this[Int32 index]
+        {
+            get { return _entries[index]; }
+        }
+
+        /// <summary>
         /// Gets the number of contained files.
         /// </summary>
         public Int32 Count
+        {
+            get { return _entries.Count; }
+        }
+
+        /// <summary>
+        /// Gets the number of contained files.
+        /// </summary>
+        public Int32 Length
         {
             get { return _entries.Count; }
         }
