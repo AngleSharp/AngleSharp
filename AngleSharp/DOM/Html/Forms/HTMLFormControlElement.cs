@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the base class for all HTML form control elements.
     /// </summary>
-    public abstract class HTMLFormControlElement : HTMLElement, ILabelabelElement, IValidation
+    abstract class HTMLFormControlElement : HTMLElement, ILabelabelElement, IValidation
     {
         #region Fields
 

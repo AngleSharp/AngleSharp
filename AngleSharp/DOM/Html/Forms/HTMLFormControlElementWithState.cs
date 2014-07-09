@@ -5,7 +5,7 @@ namespace AngleSharp.DOM.Html
     /// <summary>
     /// Represents the base class for all HTML form controls that contain a state.
     /// </summary>
-    public abstract class HTMLFormControlElementWithState : HTMLFormControlElement
+    abstract class HTMLFormControlElementWithState : HTMLFormControlElement
     {
         #region ctor
 
