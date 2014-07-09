@@ -1,5 +1,6 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
+using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Html;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -77,7 +78,7 @@ namespace UnitTests.Library
                 name.Value = "Test";
                 number.Value = "1";
                 isactive.IsChecked = true;
-                file.Files.Add(GenerateFile());
+                (file.Files as FileList).Add(GenerateFile());
                 form.Submit();
                 form.PlannedNavigation.Wait();
                 Assert.AreEqual("okay", html.Body.TextContent);
@@ -135,7 +136,7 @@ namespace UnitTests.Library
                 name.Value = "Test";
                 number.Value = "1";
                 isactive.IsChecked = true;
-                file.Files.Add(GenerateFile());
+                (file.Files as FileList).Add(GenerateFile());
                 form.Submit();
                 form.PlannedNavigation.Wait();
                 Assert.AreEqual("okay", html.Body.TextContent);
@@ -169,7 +170,7 @@ namespace UnitTests.Library
                 isactive.IsChecked = true;
 
                 for (int i = 0; i < 5; i++)
-                    files.Files.Add(GenerateFile(i));
+                    (files.Files as FileList).Add(GenerateFile(i));
 
                 form.Submit();
                 form.PlannedNavigation.Wait();
