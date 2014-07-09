@@ -1774,6 +1774,15 @@
     <Compile Include="..\AngleSharp\Interfaces\INodeList.cs">
       <Link>Interfaces\INodeList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Io\IBlob.cs">
+      <Link>Interfaces\Io\IBlob.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Io\IFile.cs">
+      <Link>Interfaces\Io\IFile.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Io\IFileList.cs">
+      <Link>Interfaces\Io\IFileList.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IParentNode.cs">
       <Link>Interfaces\IParentNode.cs</Link>
     </Compile>

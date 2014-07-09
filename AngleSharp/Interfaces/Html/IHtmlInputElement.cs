@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Io;
     using System;
 
     /// <summary>
@@ -55,7 +55,7 @@
         /// Gets a list of selected files.
         /// </summary>
         [DomName("files")]
-        FileList Files { get; }
+        IFileList Files { get; }
 
         /// <summary>
         /// Gets or sets the name of the element.

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Io;
     using System;
     using System.Globalization;
 
@@ -222,7 +223,7 @@
         /// <summary>
         /// Gets a list of selected files.
         /// </summary>
-        public FileList Files
+        public IFileList Files
         {
             get { return _files; }
         }

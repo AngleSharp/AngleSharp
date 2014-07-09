@@ -360,6 +360,9 @@
     <Compile Include="Interfaces\IMutationObserverInit.cs" />
     <Compile Include="Interfaces\IMutationRecord.cs" />
     <Compile Include="Interfaces\INamedNodeMap.cs" />
+    <Compile Include="Interfaces\Io\IBlob.cs" />
+    <Compile Include="Interfaces\Io\IFile.cs" />
+    <Compile Include="Interfaces\Io\IFileList.cs" />
     <Compile Include="Interfaces\IWindowEventHandlers.cs" />
     <Compile Include="Interfaces\IWindowProxy.cs" />
     <Compile Include="Interfaces\Navigator\INavigator.cs" />
