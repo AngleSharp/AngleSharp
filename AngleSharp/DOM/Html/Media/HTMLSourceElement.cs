@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML source element.
     /// </summary>
-    [DomName("HTMLSourceElement")]
-    public sealed class HTMLSourceElement : HTMLElement
+    sealed class HTMLSourceElement : HTMLElement, IHtmlSourceElement
     {
         #region ctor
 
@@ -25,28 +24,28 @@
         /// <summary>
         /// Gets or sets the URL for the media resource.
         /// </summary>
-        public string Src
+        public String Source
         {
-            get { return GetAttribute("src"); }
-            set { SetAttribute("src", value); }
+            get { return GetAttribute(AttributeNames.Src); }
+            set { SetAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
         /// Gets or sets the intended type of the media resource.
         /// </summary>
-        public string Media
+        public String Media
         {
-            get { return GetAttribute("media"); }
-            set { SetAttribute("media", value); }
+            get { return GetAttribute(AttributeNames.Media); }
+            set { SetAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
         /// Gets or sets the type of the media source.
         /// </summary>
-        public string Type
+        public String Type
         {
-            get { return GetAttribute("type"); }
-            set { SetAttribute("type", value); }
+            get { return GetAttribute(AttributeNames.Type); }
+            set { SetAttribute(AttributeNames.Type, value); }
         }
 
         #endregion
@@ -56,7 +55,7 @@
         /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        protected internal override bool IsSpecial
+        protected internal override Boolean IsSpecial
         {
             get { return true; }
         }
