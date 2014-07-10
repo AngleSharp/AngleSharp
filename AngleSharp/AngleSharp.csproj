@@ -341,6 +341,7 @@
     <Compile Include="Interfaces\Html\IHtmlUnorderedListElement.cs" />
     <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
     <Compile Include="Interfaces\Html\Media\IAudioTrack.cs" />
+    <Compile Include="Interfaces\Html\Media\ITimeRanges.cs" />
     <Compile Include="Interfaces\Html\Media\IVideoTrack.cs" />
     <Compile Include="Interfaces\IAttr.cs" />
     <Compile Include="Interfaces\ICharacterData.cs" />
