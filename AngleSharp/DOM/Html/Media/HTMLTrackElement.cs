@@ -117,29 +117,6 @@
         #region Enumeration
 
         /// <summary>
-        /// An enumeration with track ready state values.
-        /// </summary>
-        public enum TrackReadyState : ushort
-        {
-            /// <summary>
-            /// Not initialized yet.
-            /// </summary>
-            None,
-            /// <summary>
-            /// Currently loading.
-            /// </summary>
-            Loading,
-            /// <summary>
-            /// Loading finished.
-            /// </summary>
-            Loaded,
-            /// <summary>
-            /// An error occured.
-            /// </summary>
-            Error
-        }
-
-        /// <summary>
         /// An enumeration with various track kinds.
         /// </summary>
         public enum TrackKind : ushort

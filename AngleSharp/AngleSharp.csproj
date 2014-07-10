@@ -48,6 +48,7 @@
     <Compile Include="DOM\Constants\FilterResult.cs" />
     <Compile Include="DOM\Constants\FilterSetting.cs" />
     <Compile Include="DOM\Constants\SimpleChoice.cs" />
+    <Compile Include="DOM\Constants\TrackReadyState.cs" />
     <Compile Include="DOM\Constants\Visibility.cs" />
     <Compile Include="DOM\Css\Constants\AnimationDirection.cs" />
     <Compile Include="DOM\Css\Constants\AnimationFillStyle.cs" />
@@ -334,6 +335,7 @@
     <Compile Include="Interfaces\Html\IHtmlTextAreaElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTimeElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTitleElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlTrackElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlUnknownElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlUnorderedListElement.cs" />
     <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
