@@ -229,6 +229,12 @@
     <Compile Include="..\AngleSharp\DOM\Constants\SimpleChoice.cs">
       <Link>DOM\Constants\SimpleChoice.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\TextTrackMode.cs">
+      <Link>DOM\Constants\TextTrackMode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\TrackReadyState.cs">
+      <Link>DOM\Constants\TrackReadyState.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\VerticalAlignment.cs">
       <Link>DOM\Constants\VerticalAlignment.cs</Link>
     </Compile>
@@ -1651,6 +1657,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlSelectElement.cs">
       <Link>Interfaces\Html\IHtmlSelectElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlSourceElement.cs">
+      <Link>Interfaces\Html\IHtmlSourceElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlSpanElement.cs">
       <Link>Interfaces\Html\IHtmlSpanElement.cs</Link>
     </Compile>
@@ -1690,6 +1699,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTitleElement.cs">
       <Link>Interfaces\Html\IHtmlTitleElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTrackElement.cs">
+      <Link>Interfaces\Html\IHtmlTrackElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlUnknownElement.cs">
       <Link>Interfaces\Html\IHtmlUnknownElement.cs</Link>
     </Compile>
@@ -1698,6 +1710,15 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IRadioNodeList.cs">
       <Link>Interfaces\Html\IRadioNodeList.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\Media\IAudioTrack.cs">
+      <Link>Interfaces\Html\Media\IAudioTrack.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\Media\ITimeRanges.cs">
+      <Link>Interfaces\Html\Media\ITimeRanges.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\Media\IVideoTrack.cs">
+      <Link>Interfaces\Html\Media\IVideoTrack.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IAttr.cs">
       <Link>Interfaces\IAttr.cs</Link>
