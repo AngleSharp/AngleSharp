@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML track element.
     /// </summary>
-    [DomName("HTMLTrackElement")]
-    public sealed class HTMLTrackElement : HTMLElement
+    sealed class HTMLTrackElement : HTMLElement, IHtmlTrackElement
     {
         #region Fields
 
@@ -22,8 +21,6 @@
         internal HTMLTrackElement()
         {
             _name = Tags.Track;
-
-            //TODO
             _ready = TrackReadyState.None;
         }
 
@@ -34,70 +31,54 @@
         /// <summary>
         /// Gets or sets the kind of the track.
         /// </summary>
-        [DomName("kind")]
-        public TrackKind Kind
+        public String Kind
         {
-            get { return GetAttribute("kind").ToEnum(TrackKind.Subtitles); }
-            set { SetAttribute("kind", value.ToString()); }
+            get { return GetAttribute(AttributeNames.Kind); }
+            set { SetAttribute(AttributeNames.Kind, value); }
         }
 
         /// <summary>
         /// Gets or sets the media source.
         /// </summary>
-        [DomName("src")]
-        public String Src
+        public String Source
         {
-            get { return GetAttribute("src"); }
-            set { SetAttribute("src", value); }
+            get { return GetAttribute(AttributeNames.Src); }
+            set { SetAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
         /// Gets or sets the language of the source.
         /// </summary>
-        [DomName("srclang")]
-        public String Srclang
+        public String Language
         {
-            get { return GetAttribute("srclang"); }
-            set { SetAttribute("srclang", value); }
+            get { return GetAttribute(AttributeNames.SrcLang); }
+            set { SetAttribute(AttributeNames.SrcLang, value); }
         }
 
         /// <summary>
         /// Gets or sets the label text.
         /// </summary>
-        [DomName("label")]
         public String Label
         {
-            get { return GetAttribute("label"); }
-            set { SetAttribute("label", value); }
+            get { return GetAttribute(AttributeNames.Label); }
+            set { SetAttribute(AttributeNames.Label, value); }
         }
 
         /// <summary>
         /// Gets or sets if given track is the default track.
         /// </summary>
-        [DomName("default")]
-        public Boolean Default
+        public Boolean IsDefault
         {
-            get { return GetAttribute("default") != null; }
-            set { SetAttribute("default", value ? string.Empty : null); }
+            get { return GetAttribute(AttributeNames.Default) != null; }
+            set { SetAttribute(AttributeNames.Default, value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets the ready state of the given track.
         /// </summary>
-        [DomName("readyState")]
         public TrackReadyState ReadyState
         {
             get { return _ready; }
-        }
-
-        /// <summary>
-        /// Gets the text of the given track.
-        /// </summary>
-        [DomName("track")]
-        public String Track
-        {
-            //TODO should return TextTrack
-            get { return string.Empty; }
         }
 
         #endregion

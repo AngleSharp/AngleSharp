@@ -551,5 +551,20 @@
         /// The checked attribute.
         /// </summary>
         public static readonly String Checked = "checked";
+
+        /// <summary>
+        /// The kind attribute.
+        /// </summary>
+        public static readonly String Kind = "kind";
+
+        /// <summary>
+        /// The srclang attribute.
+        /// </summary>
+        public static readonly String SrcLang = "srclang";
+
+        /// <summary>
+        /// The default attribute.
+        /// </summary>
+        public static readonly String Default = "default";
     }
 }
