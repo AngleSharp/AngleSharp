@@ -48,6 +48,7 @@
     <Compile Include="DOM\Constants\FilterResult.cs" />
     <Compile Include="DOM\Constants\FilterSetting.cs" />
     <Compile Include="DOM\Constants\SimpleChoice.cs" />
+    <Compile Include="DOM\Constants\TextTrackMode.cs" />
     <Compile Include="DOM\Constants\TrackReadyState.cs" />
     <Compile Include="DOM\Constants\Visibility.cs" />
     <Compile Include="DOM\Css\Constants\AnimationDirection.cs" />
