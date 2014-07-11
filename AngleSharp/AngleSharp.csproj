@@ -346,6 +346,7 @@
     <Compile Include="Interfaces\Html\Media\IMediaError.cs" />
     <Compile Include="Interfaces\Html\Media\ITimeRanges.cs" />
     <Compile Include="Interfaces\Html\Media\IVideoTrack.cs" />
+    <Compile Include="Interfaces\Html\Media\IVideoTrackList.cs" />
     <Compile Include="Interfaces\IAttr.cs" />
     <Compile Include="Interfaces\ICharacterData.cs" />
     <Compile Include="Interfaces\IChildNode.cs" />
