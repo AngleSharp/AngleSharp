@@ -211,6 +211,9 @@
     <Compile Include="..\AngleSharp\DOM\Constants\HorizontalAlignment.cs">
       <Link>DOM\Constants\HorizontalAlignment.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\MediaErrorCode.cs">
+      <Link>DOM\Constants\MediaErrorCode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\NodeType.cs">
       <Link>DOM\Constants\NodeType.cs</Link>
     </Compile>
@@ -1714,11 +1717,20 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\Media\IAudioTrack.cs">
       <Link>Interfaces\Html\Media\IAudioTrack.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\Media\IAudioTrackList.cs">
+      <Link>Interfaces\Html\Media\IAudioTrackList.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\Media\IMediaError.cs">
+      <Link>Interfaces\Html\Media\IMediaError.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\Media\ITimeRanges.cs">
       <Link>Interfaces\Html\Media\ITimeRanges.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\Media\IVideoTrack.cs">
       <Link>Interfaces\Html\Media\IVideoTrack.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\Media\IVideoTrackList.cs">
+      <Link>Interfaces\Html\Media\IVideoTrackList.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IAttr.cs">
       <Link>Interfaces\IAttr.cs</Link>
