@@ -47,6 +47,7 @@
     <Compile Include="DOM\Collections\SettableTokenList.cs" />
     <Compile Include="DOM\Constants\FilterResult.cs" />
     <Compile Include="DOM\Constants\FilterSetting.cs" />
+    <Compile Include="DOM\Constants\MediaErrorCode.cs" />
     <Compile Include="DOM\Constants\SimpleChoice.cs" />
     <Compile Include="DOM\Constants\TextTrackMode.cs" />
     <Compile Include="DOM\Constants\TrackReadyState.cs" />
@@ -341,6 +342,7 @@
     <Compile Include="Interfaces\Html\IHtmlUnorderedListElement.cs" />
     <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
     <Compile Include="Interfaces\Html\Media\IAudioTrack.cs" />
+    <Compile Include="Interfaces\Html\Media\IMediaError.cs" />
     <Compile Include="Interfaces\Html\Media\ITimeRanges.cs" />
     <Compile Include="Interfaces\Html\Media\IVideoTrack.cs" />
     <Compile Include="Interfaces\IAttr.cs" />
