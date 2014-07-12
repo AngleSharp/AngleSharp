@@ -47,7 +47,10 @@
     <Compile Include="DOM\Collections\SettableTokenList.cs" />
     <Compile Include="DOM\Constants\FilterResult.cs" />
     <Compile Include="DOM\Constants\FilterSetting.cs" />
+    <Compile Include="DOM\Constants\MediaControllerPlaybackState.cs" />
     <Compile Include="DOM\Constants\MediaErrorCode.cs" />
+    <Compile Include="DOM\Constants\MediaNetworkState.cs" />
+    <Compile Include="DOM\Constants\MediaReadyState.cs" />
     <Compile Include="DOM\Constants\SimpleChoice.cs" />
     <Compile Include="DOM\Constants\TextTrackMode.cs" />
     <Compile Include="DOM\Constants\TrackReadyState.cs" />
