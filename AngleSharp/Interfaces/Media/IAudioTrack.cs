@@ -1,21 +1,21 @@
-﻿namespace AngleSharp.DOM.Html.Media
+﻿namespace AngleSharp.DOM.Media
 {
     using System;
 
     /// <summary>
-    /// Represents an video track.
+    /// Represents an audio track.
     /// </summary>
-    [DomName("VideoTrack")]
-    public interface IVideoTrack
+    [DomName("AudioTrack")]
+    public interface IAudioTrack
     {
         /// <summary>
-        /// Gets the id of the video track.
+        /// Gets the id of the audio track.
         /// </summary>
         [DomName("id")]
         String Id { get; }
 
         /// <summary>
-        /// Gets the kind of video track.
+        /// Gets the kind of audio track.
         /// </summary>
         [DomName("kind")]
         String Kind { get; }
@@ -33,9 +33,9 @@
         String Language { get; }
 
         /// <summary>
-        /// Gets or sets if the track is selected.
+        /// Gets or sets if the track is enabled.
         /// </summary>
-        [DomName("selected")]
-        Boolean IsSelected { get; set; }
+        [DomName("enabled")]
+        Boolean IsEnabled { get; set; }
     }
 }

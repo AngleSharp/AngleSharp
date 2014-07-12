@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Html.Media
+﻿namespace AngleSharp.DOM.Media
 {
     /// <summary>
     /// Enumeration with the various media error codes.

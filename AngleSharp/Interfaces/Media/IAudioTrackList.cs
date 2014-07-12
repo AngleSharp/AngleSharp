@@ -1,12 +1,12 @@
-﻿namespace AngleSharp.DOM.Html.Media
+﻿namespace AngleSharp.DOM.Media
 {
     using System;
 
     /// <summary>
-    /// Represents a list of video tracks.
+    /// Represents a list of audio tracks.
     /// </summary>
-    [DomName("VideoTrackList")]
-    public interface IVideoTrackList : IEventTarget
+    [DomName("AudioTrackList")]
+    public interface IAudioTrackList : IEventTarget
     {
         /// <summary>
         /// Gets the number of tracks.
@@ -15,17 +15,11 @@
         Int32 Length { get; }
 
         /// <summary>
-        /// Gets the currently selected index.
-        /// </summary>
-        [DomName("selectedIndex")]
-        Int32 SelectedIndex { get; }
-
-        /// <summary>
         /// Gets the track at the given index.
         /// </summary>
         /// <param name="index">The 0-based track index.</param>
         /// <returns>The track at the position.</returns>
-        IVideoTrack this[Int32 index] { get; }
+        IAudioTrack this[Int32 index] { get; }
 
         /// <summary>
         /// Gets the track with the specified id.
@@ -33,7 +27,7 @@
         /// <param name="id">The HTML id of the track.</param>
         /// <returns>The track with the given id, if any.</returns>
         [DomName("getTrackById")]
-        IVideoTrack GetTrackById(String id);
+        IAudioTrack GetTrackById(String id);
 
         /// <summary>
         /// Event triggered after changing contents.
