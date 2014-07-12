@@ -81,6 +81,18 @@
         void Pause();
 
         /// <summary>
+        /// Gets the current ready state of the media.
+        /// </summary>
+        [DomName("readyState")]
+        MediaReadyState ReadyState { get; }
+
+        /// <summary>
+        /// Gets the current playback state of the contained media.
+        /// </summary>
+        [DomName("playbackState")]
+        MediaControllerPlaybackState PlaybackState { get; }
+
+        /// <summary>
         /// Event triggered after being emptied.
         /// </summary>
         [DomName("onemptied")]
