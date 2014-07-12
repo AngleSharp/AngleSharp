@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.DOM.Media
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Contains a list of text tracks.
     /// </summary>
     [DomName("TextTrackCueList")]
-    public interface ITextTrackCueList
+    public interface ITextTrackCueList : IEnumerable<ITextTrackCue>
     {
         /// <summary>
         /// Gets the number of tracks.

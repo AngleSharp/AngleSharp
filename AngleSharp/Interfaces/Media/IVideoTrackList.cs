@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.DOM.Media
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a list of video tracks.
     /// </summary>
     [DomName("VideoTrackList")]
-    public interface IVideoTrackList : IEventTarget
+    public interface IVideoTrackList : IEventTarget, IEnumerable<IVideoTrack>
     {
         /// <summary>
         /// Gets the number of tracks.
