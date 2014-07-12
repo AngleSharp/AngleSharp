@@ -6,7 +6,7 @@
     /// Represents a media time range.
     /// </summary>
     [DomName("TimeRanges")]
-    interface ITimeRanges
+    public interface ITimeRanges
     {
         /// <summary>
         /// Gets the length of the range in frames.
