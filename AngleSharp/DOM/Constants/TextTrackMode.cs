@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Media
 {
     /// <summary>
     /// The modes of a text track.
