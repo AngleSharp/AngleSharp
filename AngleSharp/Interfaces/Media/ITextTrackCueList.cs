@@ -4,22 +4,22 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// Contains a list of text tracks.
+    /// Contains a list of text cues.
     /// </summary>
     [DomName("TextTrackCueList")]
     public interface ITextTrackCueList : IEnumerable<ITextTrackCue>
     {
         /// <summary>
-        /// Gets the number of tracks.
+        /// Gets the number of cues.
         /// </summary>
         [DomName("length")]
         Int32 Length { get; }
 
         /// <summary>
-        /// Gets the track at the given index.
+        /// Gets the cue at the given index.
         /// </summary>
-        /// <param name="index">The 0-based track index.</param>
-        /// <returns>The track at the position.</returns>
+        /// <param name="index">The 0-based cue index.</param>
+        /// <returns>The cue at the position.</returns>
         ITextTrackCue this[Int32 index] { get; }
 
         /// <summary>
