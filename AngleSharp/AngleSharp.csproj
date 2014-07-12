@@ -344,6 +344,7 @@
     <Compile Include="Interfaces\Media\IAudioTrack.cs" />
     <Compile Include="Interfaces\Media\IAudioTrackList.cs" />
     <Compile Include="Interfaces\Media\IMediaError.cs" />
+    <Compile Include="Interfaces\Media\ITextTrackCue.cs" />
     <Compile Include="Interfaces\Media\ITimeRanges.cs" />
     <Compile Include="Interfaces\Media\IVideoTrack.cs" />
     <Compile Include="Interfaces\Media\IVideoTrackList.cs" />
