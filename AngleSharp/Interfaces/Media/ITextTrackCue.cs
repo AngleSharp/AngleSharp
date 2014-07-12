@@ -15,6 +15,12 @@
         String Id { get; set; }
 
         /// <summary>
+        /// Gets the assigned track for this cue.
+        /// </summary>
+        [DomName("track")]
+        ITextTrack Track { get; }
+
+        /// <summary>
         /// Gets or sets the text track cue start time, in seconds.
         /// </summary>
         [DomName("startTime")]
