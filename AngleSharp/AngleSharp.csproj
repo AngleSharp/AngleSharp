@@ -283,6 +283,7 @@
     <Compile Include="Interfaces\Html\IGlobalEventHandlers.cs" />
     <Compile Include="Interfaces\Html\IHtmlAnchorElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlAreaElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlAudioElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlBaseElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlBodyElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlBreakRowElement.cs" />
@@ -346,6 +347,7 @@
     <Compile Include="Interfaces\Html\IHtmlTrackElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlUnknownElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlUnorderedListElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlVideoElement.cs" />
     <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
     <Compile Include="Interfaces\Media\IAudioTrack.cs" />
     <Compile Include="Interfaces\Media\IAudioTrackList.cs" />
