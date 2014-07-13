@@ -311,6 +311,7 @@
     <Compile Include="Interfaces\Html\IHtmlLinkElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlListItemElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlMapElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlMediaElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlMenuElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlMetaElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlMeterElement.cs" />
