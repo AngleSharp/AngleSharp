@@ -95,7 +95,7 @@
         /// <summary>
         /// Gets or sets the media source.
         /// </summary>
-        public String Src
+        public String Source
         {
             get { return GetAttribute(AttributeNames.Src); }
             set { SetAttribute(AttributeNames.Src, value); }
@@ -138,7 +138,7 @@
         /// <summary>
         /// Gets if seeking is currently active.
         /// </summary>
-        public Boolean Seeking
+        public Boolean IsSeeking
         {
             get { return _seeking; }
         }
@@ -146,7 +146,7 @@
         /// <summary>
         /// Gets the current media source.
         /// </summary>
-        public String CurrentSrc
+        public String CurrentSource
         {
             get { return _source; }
         }

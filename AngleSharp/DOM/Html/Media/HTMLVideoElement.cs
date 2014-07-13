@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets or sets the displayed width of the video element.
         /// </summary>
-        public Int32 Width
+        public Int32 DisplayWidth
         {
             get { return GetAttribute(AttributeNames.Width).ToInteger(_videoWidth); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets or sets the displayed height of the video element.
         /// </summary>
-        public Int32 Height
+        public Int32 DisplayHeight
         {
             get { return GetAttribute(AttributeNames.Height).ToInteger(_videoHeight); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
@@ -53,7 +53,7 @@
         /// <summary>
         /// Gets the width of the video.
         /// </summary>
-        public Int32 VideoWidth
+        public Int32 OriginalWidth
         {
             get { return _videoWidth; }
         }
@@ -61,7 +61,7 @@
         /// <summary>
         /// Gets the height of the video.
         /// </summary>
-        public Int32 VideoHeight
+        public Int32 OriginalHeight
         {
             get { return _videoHeight; }
         }

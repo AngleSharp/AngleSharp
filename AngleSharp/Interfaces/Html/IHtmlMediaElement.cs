@@ -13,7 +13,7 @@
         /// Gets or sets the media source.
         /// </summary>
         [DomName("src")]
-        String Src { get; set; }
+        String Source { get; set; }
 
         /// <summary>
         /// Gets or sets the cross-origin attribute.
@@ -43,13 +43,13 @@
         /// Gets if seeking is currently active.
         /// </summary>
         [DomName("seeking")]
-        Boolean Seeking { get; }
+        Boolean IsSeeking { get; }
 
         /// <summary>
         /// Gets the current media source.
         /// </summary>
         [DomName("currentSrc")]
-        String CurrentSrc { get; }
+        String CurrentSource { get; }
 
         /// <summary>
         /// Gets the current media error, if any.
