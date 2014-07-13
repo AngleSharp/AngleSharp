@@ -312,6 +312,7 @@
     <Compile Include="Interfaces\Html\IHtmlMapElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlMenuElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlMetaElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlMeterElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlModElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlObjectElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlOptionElement.cs" />
