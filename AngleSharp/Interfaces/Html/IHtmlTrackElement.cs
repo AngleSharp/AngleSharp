@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Media;
     using System;
 
     /// <summary>
@@ -43,5 +44,11 @@
         /// </summary>
         [DomName("readyState")]
         TrackReadyState ReadyState { get; }
+
+        /// <summary>
+        /// Gets the associated text track.
+        /// </summary>
+        [DomName("track")]
+        ITextTrack Track { get; }
     }
 }

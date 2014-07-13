@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Media;
     using System;
 
     /// <summary>
@@ -79,6 +80,11 @@
         public TrackReadyState ReadyState
         {
             get { return _ready; }
+        }
+
+        public ITextTrack Track
+        {
+            get { return null; }
         }
 
         #endregion
