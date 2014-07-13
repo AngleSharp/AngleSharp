@@ -566,5 +566,35 @@
         /// The default attribute.
         /// </summary>
         public static readonly String Default = "default";
+
+        /// <summary>
+        /// The autoplay attribute.
+        /// </summary>
+        public static readonly String Autoplay = "autoplay";
+
+        /// <summary>
+        /// The preload attribute.
+        /// </summary>
+        public static readonly String Preload = "preload";
+
+        /// <summary>
+        /// The loop attribute.
+        /// </summary>
+        public static readonly String Loop = "loop";
+
+        /// <summary>
+        /// The controls attribute.
+        /// </summary>
+        public static readonly String Controls = "controls";
+
+        /// <summary>
+        /// The muted attribute.
+        /// </summary>
+        public static readonly String Muted = "muted";
+
+        /// <summary>
+        /// The mediagroup attribute.
+        /// </summary>
+        public static readonly String MediaGroup = "mediagroup";
     }
 }

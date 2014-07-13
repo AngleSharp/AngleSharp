@@ -7,6 +7,11 @@
     /// </summary>
     sealed class Event : IEvent
     {
+        /// <summary>
+        /// Gets a dummy placeholder event.
+        /// </summary>
+        public static readonly Event Empty = new Event();
+
         #region Properties
 
         /// <summary>
