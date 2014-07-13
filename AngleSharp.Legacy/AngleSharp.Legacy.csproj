@@ -1537,6 +1537,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlAreaElement.cs">
       <Link>Interfaces\Html\IHtmlAreaElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlAudioElement.cs">
+      <Link>Interfaces\Html\IHtmlAudioElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlBaseElement.cs">
       <Link>Interfaces\Html\IHtmlBaseElement.cs</Link>
     </Compile>
@@ -1551,6 +1554,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlCanvasElement.cs">
       <Link>Interfaces\Html\IHtmlCanvasElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlCommandElement.cs">
+      <Link>Interfaces\Html\IHtmlCommandElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDataListElement.cs">
       <Link>Interfaces\Html\IHtmlDataListElement.cs</Link>
@@ -1621,11 +1627,17 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMapElement.cs">
       <Link>Interfaces\Html\IHtmlMapElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMediaElement.cs">
+      <Link>Interfaces\Html\IHtmlMediaElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMenuElement.cs">
       <Link>Interfaces\Html\IHtmlMenuElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMetaElement.cs">
       <Link>Interfaces\Html\IHtmlMetaElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMeterElement.cs">
+      <Link>Interfaces\Html\IHtmlMeterElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlModElement.cs">
       <Link>Interfaces\Html\IHtmlModElement.cs</Link>
@@ -1719,6 +1731,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlUnorderedListElement.cs">
       <Link>Interfaces\Html\IHtmlUnorderedListElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlVideoElement.cs">
+      <Link>Interfaces\Html\IHtmlVideoElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IRadioNodeList.cs">
       <Link>Interfaces\Html\IRadioNodeList.cs</Link>
