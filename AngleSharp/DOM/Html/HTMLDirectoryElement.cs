@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML dir element.
     /// </summary>
-    [DomName("HTMLDirectoryElement")]
-    public sealed class HTMLDirectoryElement : HTMLElement
+    sealed class HTMLDirectoryElement : HTMLElement
     {
         #region ctor
 

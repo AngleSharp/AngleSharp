@@ -601,5 +601,15 @@
         /// The poster attribute.
         /// </summary>
         public static readonly String Poster = "poster";
+
+        /// <summary>
+        /// The color attribute.
+        /// </summary>
+        public static readonly String Color = "color";
+
+        /// <summary>
+        /// The face attribute.
+        /// </summary>
+        public static readonly String Face = "face";
     }
 }

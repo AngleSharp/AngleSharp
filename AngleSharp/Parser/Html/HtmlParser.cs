@@ -3299,7 +3299,7 @@
                     case Tags.Font:
                         for (var i = 0; i != tag.Attributes.Count; i++)
                         {
-                            if (tag.Attributes[i].Key.IsOneOf(HTMLFontElement.AttrColor, HTMLFontElement.AttrFace, HTMLFontElement.AttrSize))
+                            if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
                             {
                                 ForeignNormalTag(token);
                                 return;

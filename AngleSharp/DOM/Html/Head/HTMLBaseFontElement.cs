@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents an HTML basefont element.
     /// </summary>
-    [DomName("HTMLBaseFontElement")]
-    public sealed class HTMLBaseFontElement : HTMLElement
+    sealed class HTMLBaseFontElement : HTMLElement
     {
         internal HTMLBaseFontElement()
         {
