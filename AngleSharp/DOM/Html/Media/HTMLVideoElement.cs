@@ -5,13 +5,12 @@
     /// <summary>
     /// Represents the HTML video element.
     /// </summary>
-    [DomName("HTMLVideoElement")]
-    public sealed class HTMLVideoElement : HTMLMediaElement
+    sealed class HTMLVideoElement : HTMLMediaElement, IHtmlVideoElement
     {
         #region Fields
 
-        UInt32 _videoWidth;
-        UInt32 _videoHeight;
+        Int32 _videoWidth;
+        Int32 _videoHeight;
 
         #endregion
 
@@ -36,28 +35,25 @@
         /// <summary>
         /// Gets or sets the displayed width of the video element.
         /// </summary>
-        [DomName("width")]
-        public UInt32 Width
+        public Int32 Width
         {
-            get { return GetAttribute("width").ToInteger(_videoWidth); }
-            set { SetAttribute("width", value.ToString()); }
+            get { return GetAttribute(AttributeNames.Width).ToInteger(_videoWidth); }
+            set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the displayed height of the video element.
         /// </summary>
-        [DomName("height")]
-        public UInt32 Height
+        public Int32 Height
         {
-            get { return GetAttribute("height").ToInteger(_videoHeight); }
-            set { SetAttribute("height", value.ToString()); }
+            get { return GetAttribute(AttributeNames.Height).ToInteger(_videoHeight); }
+            set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 
         /// <summary>
         /// Gets the width of the video.
         /// </summary>
-        [DomName("videoWidth")]
-        public UInt32 VideoWidth
+        public Int32 VideoWidth
         {
             get { return _videoWidth; }
         }
@@ -65,8 +61,7 @@
         /// <summary>
         /// Gets the height of the video.
         /// </summary>
-        [DomName("videoHeight")]
-        public UInt32 VideoHeight
+        public Int32 VideoHeight
         {
             get { return _videoHeight; }
         }
@@ -74,11 +69,10 @@
         /// <summary>
         /// Gets or sets the URL to a preview image.
         /// </summary>
-        [DomName("poster")]
         public String Poster
         {
-            get { return GetAttribute("poster"); }
-            set { SetAttribute("poster", value); }
+            get { return GetAttribute(AttributeNames.Poster); }
+            set { SetAttribute(AttributeNames.Poster, value); }
         }
 
         #endregion

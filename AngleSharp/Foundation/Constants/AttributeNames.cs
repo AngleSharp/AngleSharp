@@ -596,5 +596,10 @@
         /// The mediagroup attribute.
         /// </summary>
         public static readonly String MediaGroup = "mediagroup";
+
+        /// <summary>
+        /// The poster attribute.
+        /// </summary>
+        public static readonly String Poster = "poster";
     }
 }
