@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Html
 {
     sealed class HTMLCodeElement : HTMLElement, IFormatting
     {
