@@ -626,5 +626,10 @@
         /// The radiogroup attribute.
         /// </summary>
         public static readonly String Radiogroup = "radiogroup";
+
+        /// <summary>
+        /// The cite attribute.
+        /// </summary>
+        public static readonly String Cite = "cite";
     }
 }

@@ -5,8 +5,7 @@
     /// <summary>
     /// Rperesents the HTML quote element.
     /// </summary>
-    [DomName("HTMLQuoteElement")]
-    public sealed class HTMLQuoteElement : HTMLElement
+    sealed class HTMLQuoteElement : HTMLElement, IHtmlQuoteElement
     {
         internal HTMLQuoteElement()
         { }
@@ -17,6 +16,12 @@
         protected internal override Boolean IsSpecial
         {
             get { return _name.Equals(Tags.BlockQuote); }
+        }
+
+        public String Citation
+        {
+            get { return GetAttribute(AttributeNames.Cite); }
+            set { SetAttribute(AttributeNames.Cite, value); }
         }
     }
 }
