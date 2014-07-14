@@ -1894,6 +1894,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Media\ITimeRanges.cs">
       <Link>Interfaces\Media\ITimeRanges.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Media\ITrackEvent.cs">
+      <Link>Interfaces\Media\ITrackEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Media\IVideoTrack.cs">
       <Link>Interfaces\Media\IVideoTrack.cs</Link>
     </Compile>
