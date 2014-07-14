@@ -5,6 +5,7 @@
     /// <summary>
     /// Represents the HTML marquee element.
     /// </summary>
+    [DomHistorical]
     [DomName("HTMLMarqueeElement")]
     public sealed class HTMLMarqueeElement : HTMLElement, IScopeElement
     {

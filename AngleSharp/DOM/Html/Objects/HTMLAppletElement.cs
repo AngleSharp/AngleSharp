@@ -5,6 +5,7 @@
     /// <summary>
     /// Represents the HTML applet element.
     /// </summary>
+    [DomHistorical]
     sealed class HTMLAppletElement : HTMLElement, IScopeElement
     {
         internal HTMLAppletElement()
