@@ -4,9 +4,10 @@
 
     /// <summary>
     /// Represents the HTML frameset element.
+    /// Obsolete since HTML 4.01.
     /// </summary>
-    [DomName("HTMLFrameSetElement")]
-    public sealed class HTMLFrameSetElement : HTMLElement
+    [DomHistorical]
+    sealed class HTMLFrameSetElement : HTMLElement
     {
         #region ctor
 
@@ -22,20 +23,18 @@
         /// <summary>
         /// Gets or sets the number of columns of frames in the frameset. .
         /// </summary>
-        [DomName("cols")]
-        public UInt32 Cols
+        public Int32 Columns
         {
-            get { return GetAttribute(AttributeNames.Cols).ToInteger(1u); }
+            get { return GetAttribute(AttributeNames.Cols).ToInteger(1); }
             set { SetAttribute(AttributeNames.Cols, value.ToString()); }
         }
 
         /// <summary>
         /// Gets or sets the number of rows of frames in the frameset.
         /// </summary>
-        [DomName("rows")]
-        public UInt32 Rows
+        public Int32 Rows
         {
-            get { return GetAttribute(AttributeNames.Rows).ToInteger(1u); }
+            get { return GetAttribute(AttributeNames.Rows).ToInteger(1); }
             set { SetAttribute(AttributeNames.Rows, value.ToString()); }
         }
 
