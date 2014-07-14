@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the template element.
     /// </summary>
-    [DomName("HTMLTemplateElement")]
-    public sealed class HTMLTemplateElement : HTMLElement, IScopeElement, ITableScopeElement
+    sealed class HTMLTemplateElement : HTMLElement, IScopeElement, ITableScopeElement, IHtmlTemplateElement
     {
         #region Fields
 
@@ -28,7 +27,6 @@
         /// <summary>
         /// Gets the contents of this HTML template.
         /// </summary>
-        [DomName("content")]
         public IDocumentFragment Content
         {
             get { return Container; }
@@ -60,7 +58,6 @@
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
-        [DomName("appendChild")]
         public override INode AppendChild(INode child)
         {
             Content.AppendChild(child);
@@ -73,7 +70,6 @@
         /// <param name="deep">Optional value: true if the children of the node should also be
         /// cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DomName("cloneNode")]
         public override INode Clone(Boolean deep = true)
         {
             var clone = new HTMLTemplateElement();
