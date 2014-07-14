@@ -1633,6 +1633,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMenuElement.cs">
       <Link>Interfaces\Html\IHtmlMenuElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMenuItemElement.cs">
+      <Link>Interfaces\Html\IHtmlMenuItemElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlMetaElement.cs">
       <Link>Interfaces\Html\IHtmlMetaElement.cs</Link>
     </Compile>
@@ -1713,6 +1716,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTableSectionElement.cs">
       <Link>Interfaces\Html\IHtmlTableSectionElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTemplateElement.cs">
+      <Link>Interfaces\Html\IHtmlTemplateElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlTextAreaElement.cs">
       <Link>Interfaces\Html\IHtmlTextAreaElement.cs</Link>
