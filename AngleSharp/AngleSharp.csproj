@@ -342,6 +342,7 @@
     <Compile Include="Interfaces\Html\IHtmlTableHeaderCellElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTableRowElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTableSectionElement.cs" />
+    <Compile Include="Interfaces\Html\IHtmlTemplateElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTextAreaElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTimeElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlTitleElement.cs" />
