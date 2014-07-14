@@ -611,5 +611,20 @@
         /// The face attribute.
         /// </summary>
         public static readonly String Face = "face";
+
+        /// <summary>
+        /// The command attribute.
+        /// </summary>
+        public static readonly String Command = "command";
+
+        /// <summary>
+        /// The icon attribute.
+        /// </summary>
+        public static readonly String Icon = "icon";
+
+        /// <summary>
+        /// The radiogroup attribute.
+        /// </summary>
+        public static readonly String Radiogroup = "radiogroup";
     }
 }

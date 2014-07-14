@@ -980,9 +980,11 @@
 						}
 						else if (el is HTMLMenuItemElement)
 						{
-							var mi = (HTMLMenuItemElement)el;
-							return (mi.Type == HTMLMenuItemElement.ItemType.Checkbox || mi.Type == HTMLMenuItemElement.ItemType.Radio)
-								&& mi.Checked;
+                            var mi = (HTMLMenuItemElement)el;
+                            var type = mi.Type.ToEnum(HTMLMenuItemElement.ItemType.Command);
+
+							return (type == HTMLMenuItemElement.ItemType.Checkbox || type == HTMLMenuItemElement.ItemType.Radio)
+								&& mi.IsChecked;
 						}
 						else if (el is HTMLOptionElement)
 							return ((HTMLOptionElement)el).IsSelected;
@@ -1016,9 +1018,11 @@
 						}
 						else if (el is HTMLMenuItemElement)
 						{
-							var mi = (HTMLMenuItemElement)el;
-							return (mi.Type == HTMLMenuItemElement.ItemType.Checkbox || mi.Type == HTMLMenuItemElement.ItemType.Radio)
-								&& !mi.Checked;
+                            var mi = (HTMLMenuItemElement)el;
+                            var type = mi.Type.ToEnum(HTMLMenuItemElement.ItemType.Command);
+
+							return (type == HTMLMenuItemElement.ItemType.Checkbox || type == HTMLMenuItemElement.ItemType.Radio)
+								&& !mi.IsChecked;
 						}
 						else if (el is HTMLOptionElement)
 							return !((HTMLOptionElement)el).IsSelected;

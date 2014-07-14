@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the HTML menuitem element.
     /// </summary>
-    [DomName("HTMLMenuItemElement")]
-    public sealed class HTMLMenuItemElement : HTMLElement
+    sealed class HTMLMenuItemElement : HTMLElement, IHtmlMenuItemElement
     {
         #region ctor
 
@@ -47,15 +46,14 @@
         /// <summary>
         /// Gets the assigned master command, if any.
         /// </summary>
-        [DomName("command")]
-        public IElement Command
+        public IHtmlElement Command
         {
             get
             {
-                var id = GetAttribute("command");
+                var id = GetAttribute(AttributeNames.Command);
 
                 if (!String.IsNullOrEmpty(id) && _owner != null)
-                    return _owner.GetElementById(id);
+                    return _owner.GetElementById(id) as IHtmlElement;
 
                 return null;
             }
@@ -64,72 +62,65 @@
         /// <summary>
         /// Gets or sets the type of command.
         /// </summary>
-        [DomName("type")]
-        public ItemType Type
+        public String Type
         {
-            get { return GetAttribute("type").ToEnum(ItemType.Command); }
-            set { SetAttribute("type", value.ToString()); }
+            get { return GetAttribute(AttributeNames.Type); }
+            set { SetAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
         /// Gets or sets the user-visible label.
         /// </summary>
-        [DomName("label")]
         public String Label
         {
-            get { return GetAttribute("label"); }
-            set { SetAttribute("label", value); }
+            get { return GetAttribute(AttributeNames.Label); }
+            set { SetAttribute(AttributeNames.Label, value); }
         }
 
         /// <summary>
         /// Gets or sets the icon for the command.
         /// </summary>
-        [DomName("icon")]
         public String Icon
         {
-            get { return GetAttribute("icon"); }
-            set { SetAttribute("icon", value); }
+            get { return GetAttribute(AttributeNames.Icon); }
+            set { SetAttribute(AttributeNames.Icon, value); }
         }
 
         /// <summary>
         /// Gets or sets if the menuitem element is enabled or disabled.
         /// </summary>
-        [DomName("disabled")]
-        public Boolean Disabled
+        public Boolean IsDisabled
         {
-            get { return GetAttribute("disabled") != null; }
-            set { SetAttribute("disabled", value ? string.Empty : null); }
+            get { return GetAttribute(AttributeNames.Disabled) != null; }
+            set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets or sets if the menuitem element is checked or not.
         /// </summary>
-        [DomName("checked")]
-        public Boolean Checked
+        public Boolean IsChecked
         {
-            get { return GetAttribute("checked") != null; }
-            set { SetAttribute("checked", value ? string.Empty : null); }
+            get { return GetAttribute(AttributeNames.Checked) != null; }
+            set { SetAttribute(AttributeNames.Checked, value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets or sets if the menuitem element is the default command.
         /// </summary>
-        [DomName("default")]
-        public Boolean Default
+        public Boolean IsDefault
         {
-            get { return GetAttribute("default") != null; }
-            set { SetAttribute("default", value ? string.Empty : null); }
+            get { return GetAttribute(AttributeNames.Default) != null; }
+            set { SetAttribute(AttributeNames.Default, value ? String.Empty : null); }
         }
 
         /// <summary>
         /// Gets or sets the name of group of commands to
         /// treat as a radio button group.
         /// </summary>
-        [DomName("radiogroup")]
-        public String Radiogroup
+        public String RadioGroup
         {
-            get { return GetAttribute("radiogroup"); }
-            set { SetAttribute("radiogroup", value); }
+            get { return GetAttribute(AttributeNames.Radiogroup); }
+            set { SetAttribute(AttributeNames.Radiogroup, value); }
         }
 
         #endregion
