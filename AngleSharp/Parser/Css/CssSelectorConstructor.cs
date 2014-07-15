@@ -572,13 +572,13 @@
 					case pseudoClassFunctionDir:
                     {
                         var code = String.Concat(pseudoClassFunctionDir, "(", attrValue, ")");
-                        Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Dir.Equals(attrValue, StringComparison.OrdinalIgnoreCase), code));
+                        Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Direction.Equals(attrValue, StringComparison.OrdinalIgnoreCase), code));
                         return true;
 					}
 					case pseudoClassFunctionLang:
                     {
                         var code = String.Concat(pseudoClassFunctionLang, "(", attrValue, ")");
-                        Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Lang.StartsWith(attrValue, StringComparison.OrdinalIgnoreCase), code));
+                        Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(attrValue, StringComparison.OrdinalIgnoreCase), code));
                         return true;
 					}
 					case pseudoClassFunctionContains:

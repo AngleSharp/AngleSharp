@@ -15,10 +15,11 @@
         String Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the value of the http-equiv attribute of the meta element.
+        /// Gets or sets the value of the equivalent in a meta element, which
+        /// is effective if the server doesn't send a corresponding real header.
         /// </summary>
         [DomName("httpEquiv")]
-        String HttpEquiv { get; set; }
+        String HttpEquivalent { get; set; }
 
         /// <summary>
         /// Gets or sets the value of the content attribute of the meta element.

@@ -9,13 +9,13 @@
     public interface IHtmlCanvasElement : IHtmlElement
     {
         /// <summary>
-        /// Gets or sets the displayed width of the canvas element.
+        /// Gets or sets the pixel width of the canvas element.
         /// </summary>
         [DomName("width")]
         Int32 Width { get; set; }
 
         /// <summary>
-        /// Gets or sets the displayed height of the canvas element.
+        /// Gets or sets the pixel height of the canvas element.
         /// </summary>
         [DomName("height")]
         Int32 Height { get; set; }
@@ -26,7 +26,7 @@
         /// <param name="type">The type of image e.g image/png.</param>
         /// <returns>A data URI with the data if any.</returns>
         [DomName("toDataURL")]
-        String ToDataURL(String type = null);
+        String ToDataUrl(String type = null);
 
         /// <summary>
         /// Creates a BLOB out of the canvas pixel data and passes it

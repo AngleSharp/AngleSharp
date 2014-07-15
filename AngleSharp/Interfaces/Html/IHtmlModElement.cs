@@ -13,7 +13,7 @@
         /// resource explaining the change.
         /// </summary>
         [DomName("cite")]
-        String Cite { get; set; }
+        String Citation { get; set; }
 
         /// <summary>
         /// Gets the datetime HTML attribute, containing a date-and-time
