@@ -15,7 +15,6 @@
         internal HTMLScriptElement()
         {
             _name = Tags.Script;
-            IsAsync = true;
         }
 
         #endregion
@@ -50,21 +49,12 @@
         }
 
         /// <summary>
-        /// Gets or sets if script should execute asynchronously.
+        /// Gets or sets the text in the script element.
         /// </summary>
-        public Boolean IsAsync
+        public String Text
         {
-            get { return GetAttribute(AttributeNames.Async) != null; }
-            set { SetAttribute(AttributeNames.Async, value ? String.Empty : null); }
-        }
-
-        /// <summary>
-        /// Gets or sets if the script should be deferred.
-        /// </summary>
-        public Boolean IsDeferred
-        {
-            get { return GetAttribute(AttributeNames.Defer) != null; }
-            set { SetAttribute(AttributeNames.Defer, value ? String.Empty : null); }
+            get { return TextContent; }
+            set { TextContent = value; }
         }
 
         /// <summary>
@@ -77,12 +67,21 @@
         }
 
         /// <summary>
-        /// Gets or sets the text in the script element.
+        /// Gets or sets if the script should be deferred.
         /// </summary>
-        public String Text
+        public Boolean IsDeferred
         {
-            get { return TextContent; }
-            set { TextContent = value; }
+            get { return GetAttribute(AttributeNames.Defer) != null; }
+            set { SetAttribute(AttributeNames.Defer, value ? String.Empty : null); }
+        }
+
+        /// <summary>
+        /// Gets or sets if script should execute asynchronously.
+        /// </summary>
+        public Boolean IsAsync
+        {
+            get { return GetAttribute(AttributeNames.Async) != null; }
+            set { SetAttribute(AttributeNames.Async, value ? String.Empty : null); }
         }
 
         #endregion
