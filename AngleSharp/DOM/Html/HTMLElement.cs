@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a standard HTML element in the node tree.
     /// </summary>
-    public class HTMLElement : Element, IHtmlElement
+    class HTMLElement : Element, IHtmlElement
     {
         #region Fields
 
