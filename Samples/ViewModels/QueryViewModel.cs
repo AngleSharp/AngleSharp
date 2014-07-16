@@ -16,7 +16,7 @@ namespace Samples.ViewModels
     {
         ObservableCollection<Element> source;
         String query;
-        HTMLDocument document;
+        Document document;
         Brush state;
         Int32 result;
         Int64 time;
@@ -74,7 +74,7 @@ namespace Samples.ViewModels
             get { return source; }
         }
 
-        protected override async Task Use(Uri url, HTMLDocument document, CancellationToken cancel)
+        protected override async Task Use(Uri url, Document document, CancellationToken cancel)
         {
             State = Brushes.LightGray;
             this.document = document;

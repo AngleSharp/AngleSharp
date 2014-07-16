@@ -1,4 +1,5 @@
 ﻿using AngleSharp;
+using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace Samples.ViewModels
             }
         }
 
-        protected override async Task Use(Uri url, HTMLDocument document, CancellationToken cancel)
+        protected override async Task Use(Uri url, Document document, CancellationToken cancel)
         {
             Status = "Constructing the DOM ...";
             Root = new DOMNodeViewModel(document);

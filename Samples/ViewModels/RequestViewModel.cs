@@ -1,4 +1,5 @@
 ﻿using AngleSharp;
+using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Samples.ViewModels
         static Uri recentUrl;
         static String recentAddress;
         static Int32 recentState;
-        static HTMLDocument recentDocument;
+        static Document recentDocument;
 
         #endregion
 
@@ -114,7 +115,7 @@ namespace Samples.ViewModels
             Status = "Displaying: " + url;
         }
 
-        void UpdateRecent(HTMLDocument document, String url, Uri uri)
+        void UpdateRecent(Document document, String url, Uri uri)
         {
             recentAddress = url;
             SettingsViewModel.Instance.AddUrl(url);
@@ -124,7 +125,7 @@ namespace Samples.ViewModels
             state = recentState;
         }
 
-        protected abstract Task Use(Uri url, HTMLDocument document, CancellationToken cancel);
+        protected abstract Task Use(Uri url, Document document, CancellationToken cancel);
 
         #endregion
     }

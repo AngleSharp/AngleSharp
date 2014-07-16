@@ -69,7 +69,7 @@ namespace Samples.ViewModels
             }
         }
 
-        protected override async Task Use(Uri url, HTMLDocument document, CancellationToken cancel)
+        protected override async Task Use(Uri url, Document document, CancellationToken cancel)
         {
             var elements = new Dictionary<String, Int32>();
             var attributes = new Dictionary<String, Int32>();
@@ -79,7 +79,6 @@ namespace Samples.ViewModels
 
             Status = "Gathering statistics ...";
 
-            various.Add("Links", document.Anchors.Length);
             various.Add("Images", document.Images.Length);
             various.Add("Scripts", document.Scripts.Length);
             various.Add("Stylesheets", document.StyleSheets.Length);

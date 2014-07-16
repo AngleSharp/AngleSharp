@@ -19,7 +19,7 @@ namespace Samples.ViewModels
             nodes = new ObservableCollection<TreeNodeViewModel>();
         }
 
-        protected override async Task Use(Uri url, HTMLDocument document, CancellationToken cancel)
+        protected override async Task Use(Uri url, Document document, CancellationToken cancel)
         {
             nodes.Clear();
             Status = "Constructing tree ...";

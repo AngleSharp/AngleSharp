@@ -33,7 +33,7 @@ namespace Samples.ViewModels
             get { return root; }
         }
 
-        protected override async Task Use(Uri url, HTMLDocument document, CancellationToken cancel)
+        protected override async Task Use(Uri url, Document document, CancellationToken cancel)
         {
             this.url = url;
             Status = "Rendering ...";

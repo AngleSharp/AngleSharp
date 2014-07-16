@@ -85,7 +85,7 @@ namespace Samples.ViewModels
             }
         }
 
-        protected override async Task Use(Uri url, HTMLDocument document, CancellationToken cancel)
+        protected override async Task Use(Uri url, Document document, CancellationToken cancel)
         {
             local = url;
             Selected = null;
