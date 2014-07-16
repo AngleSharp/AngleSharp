@@ -19,10 +19,15 @@
         DOMImplementation _implementation;
         IConfiguration _options;
         String _encoding;
-        String _originalEncoding;
         DOMStringList _styles;
         StyleSheetList _styleSheets;
         String _referrer;
+        String _cookie;
+        HTMLCollection<IHtmlFormElement> _forms;
+        HTMLCollection<HTMLScriptElement> _scripts;
+        HTMLCollection<IHtmlImageElement> _images;
+        HTMLCollection _embeds;
+        HTMLCollection _links;
         
         /// <summary>
         /// The content type of the MIME type from the header.
@@ -37,10 +42,123 @@
 
         #region Events
 
-        /// <summary>
-        /// This event is fired when the ready state of the document changes.
-        /// </summary>
-        public event EventHandler OnReadyStateChange;
+        public event EventListener ReadyStateChanged;
+
+        public event EventListener Aborted;
+
+        public event EventListener Blurred;
+
+        public event EventListener Cancelled;
+
+        public event EventListener CanPlay;
+
+        public event EventListener CanPlayThrough;
+
+        public event EventListener Changed;
+
+        public event EventListener Clicked;
+
+        public event EventListener CueChanged;
+
+        public event EventListener DoubleClick;
+
+        public event EventListener Drag;
+
+        public event EventListener DragEnd;
+
+        public event EventListener DragEnter;
+
+        public event EventListener DragExit;
+
+        public event EventListener DragLeave;
+
+        public event EventListener DragOver;
+
+        public event EventListener DragStart;
+
+        public event EventListener Dropped;
+
+        public event EventListener DurationChanged;
+
+        public event EventListener Emptied;
+
+        public event EventListener Ended;
+
+        public event ErrorEventListener Error;
+
+        public event EventListener Focused;
+
+        public event EventListener Input;
+
+        public event EventListener Invalid;
+
+        public event EventListener KeyDown;
+
+        public event EventListener KeyPress;
+
+        public event EventListener KeyUp;
+
+        public event EventListener Loaded;
+
+        public event EventListener LoadedData;
+
+        public event EventListener LoadedMetadata;
+
+        public event EventListener Loading;
+
+        public event EventListener MouseDown;
+
+        public event EventListener MouseEnter;
+
+        public event EventListener MouseLeave;
+
+        public event EventListener MouseMove;
+
+        public event EventListener MouseOut;
+
+        public event EventListener MouseOver;
+
+        public event EventListener MouseUp;
+
+        public event EventListener MouseWheel;
+
+        public event EventListener Paused;
+
+        public event EventListener Played;
+
+        public event EventListener Playing;
+
+        public event EventListener Progress;
+
+        public event EventListener RateChanged;
+
+        public event EventListener Resetted;
+
+        public event EventListener Resized;
+
+        public event EventListener Scrolled;
+
+        public event EventListener Seeked;
+
+        public event EventListener Seeking;
+
+        public event EventListener Selected;
+
+        public event EventListener Shown;
+
+        public event EventListener Stalled;
+
+        public event EventListener Submitted;
+
+        public event EventListener Suspended;
+
+        public event EventListener TimeUpdated;
+
+        public event EventListener Toggled;
+
+        public event EventListener VolumeChanged;
+
+        public event EventListener Waiting;
 
         #endregion
 
@@ -54,7 +172,8 @@
             _owner = this;
             _type = NodeType.Document;
             Async = true;
-            _referrer = string.Empty;
+            _encoding = DocumentEncoding.Suggest(System.Globalization.CultureInfo.CurrentCulture.Name).WebName;
+            _referrer = String.Empty;
             _ready = DocumentReadyState.Complete;
             _name = "#document";
             _styleSheets = new StyleSheetList(this);
@@ -122,7 +241,6 @@
         /// <summary>
         /// Gets an indicator if loading the document should be asynchronous or synchronous.
         /// </summary>
-        [DomName("async")]
         public Boolean Async
         {
             get;
@@ -172,8 +290,8 @@
             {
                 _ready = value;
 
-                if (OnReadyStateChange != null)
-                    OnReadyStateChange(this, EventArgs.Empty);
+                if (ReadyStateChanged != null)
+                    ReadyStateChanged(Event.Empty);
             }
         }
 
@@ -198,7 +316,6 @@
         /// <summary>
         /// Gets the URI of the page that linked to this page.
         /// </summary>
-        [DomName("referrer")]
         public String Referrer
         {
             get { return _referrer; }
@@ -226,8 +343,7 @@
         /// <summary>
         /// Gets the window object associated with the document or null if none available.
         /// </summary>
-        [DomName("defaultView")]
-        public IWindow DefaultView 
+        public IWindowProxy DefaultView 
         {
             get; //TODO
             internal set; 
@@ -239,7 +355,7 @@
         [DomName("parentWindow")]
         public IWindow ParentWindow
         {
-            get { return DefaultView; }
+            get { return DefaultView as IWindow; }
         }
 
         /// <summary>
@@ -247,24 +363,8 @@
         /// </summary>
         public String CharacterSet
         {
-            get { return _encoding ?? _originalEncoding; }
+            get { return _encoding; }
             internal set { _encoding = value; }
-        }
-
-        /// <summary>
-        /// Gets the encoding that was used when the document was parsed.
-        /// </summary>
-        [DomName("inputEncoding")]
-        public String InputEncoding
-        {
-            get { return _originalEncoding; }
-            internal set 
-            { 
-                _originalEncoding = value;
-
-                if (_encoding != null)
-                    _encoding = value; 
-            }
         }
 
         /// <summary>
@@ -278,7 +378,6 @@
         /// <summary>
         /// Gets the currently focused element, that is, the element that will get keystroke events if the user types any.
         /// </summary>
-        [DomName("activeElement")]
         public IElement ActiveElement 
         {
             get;
@@ -300,6 +399,125 @@
         public String Url
         {
             get { return DocumentUri; }
+        }
+
+        /// <summary>
+        /// Gets the forms in the document.
+        /// </summary>
+        public IHtmlCollection Forms
+        {
+            get { return _forms ?? (_forms = new HTMLCollection<IHtmlFormElement>(this)); }
+        }
+
+        /// <summary>
+        /// Gets the images in the document.
+        /// </summary>
+        public IHtmlCollection Images
+        {
+            get { return _images ?? (_images = new HTMLCollection<IHtmlImageElement>(this)); }
+        }
+
+        /// <summary>
+        /// Gets the scripts in the document.
+        /// </summary>
+        public IHtmlCollection Scripts
+        {
+            get { return _scripts ?? (_scripts = new HTMLCollection<HTMLScriptElement>(this)); }
+        }
+
+        /// <summary>
+        /// Gets a list of the embedded OBJECTS within the current document.
+        /// </summary>
+        public IHtmlCollection Embeds
+        {
+            get { return _embeds ?? (_embeds = new HTMLCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement)); }
+        }
+
+        /// <summary>
+        /// Gets a collection of all AREA elements and anchor elements in a document with a value for the href attribute.
+        /// </summary>
+        public IHtmlCollection Links
+        {
+            get { return _links ?? (_links = new HTMLCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href))); }
+        }
+
+        /// <summary>
+        /// Gets or sets the title of the document.
+        /// </summary>
+        public String Title
+        {
+            get
+            {
+                var _title = FindChild<IHtmlTitleElement>(Head);
+
+                if (_title != null)
+                    return _title.Text;
+
+                return String.Empty;
+            }
+            set
+            {
+                var _title = FindChild<IHtmlTitleElement>(Head);
+
+                if (_title == null)
+                {
+                    var _documentElement = DocumentElement;
+
+                    if (_documentElement == null)
+                    {
+                        _documentElement = new HTMLHtmlElement();
+                        AppendChild(_documentElement);
+                    }
+
+                    var _head = Head;
+
+                    if (_head == null)
+                    {
+                        _head = new HTMLHeadElement();
+                        _documentElement.AppendChild(_head);
+                    }
+
+                    _title = new HTMLTitleElement();
+                    _head.AppendChild(_title);
+                }
+
+                _title.Text = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the head element.
+        /// </summary>
+        public IHtmlHeadElement Head
+        {
+            get { return FindChild<IHtmlHeadElement>(DocumentElement); }
+        }
+
+        /// <summary>
+        /// Gets the body element.
+        /// </summary>
+        public IHtmlElement Body
+        {
+            get { return FindChild<IHtmlBodyElement>(DocumentElement); }
+            set { if (Body != null) Body.Replace(value); else DocumentElement.AppendChild(value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the document cookie.
+        /// </summary>
+        public String Cookie
+        {
+            get { return _cookie; }
+            set { _cookie = value; }
+        }
+
+        /// <summary>
+        /// Gets the domain portion of the origin of the current document.
+        /// </summary>
+        public String Domain
+        {
+            get { return String.IsNullOrEmpty(DocumentUri) ? String.Empty : new Uri(DocumentUri).Host; }
+            set { if (_location == null) return; _location.Host = value; }
         }
 
         #endregion

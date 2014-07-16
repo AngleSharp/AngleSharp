@@ -3689,7 +3689,7 @@
 
             if (enc != null)
             {
-                doc.InputEncoding = enc.WebName;
+                doc.CharacterSet = enc.WebName;
                 tokenizer.Stream.Encoding = enc;
             }
         }

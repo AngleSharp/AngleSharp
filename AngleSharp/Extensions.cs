@@ -190,7 +190,7 @@
         /// <param name="uri">The source of the HTML content.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The HTML document.</returns>
-        public static HTMLDocument GetHtml(this Uri uri, IConfiguration configuration = null)
+        public static Document GetHtml(this Uri uri, IConfiguration configuration = null)
         {
             return DocumentBuilder.Html(uri, configuration);
         }
@@ -214,7 +214,7 @@
         /// <param name="uri">The source of the HTML content.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The HTML document.</returns>
-        public static Task<HTMLDocument> GetHtmlAsync(this Uri uri, IConfiguration configuration = null)
+        public static Task<Document> GetHtmlAsync(this Uri uri, IConfiguration configuration = null)
         {
             return DocumentBuilder.HtmlAsync(uri, configuration);
         }
@@ -227,7 +227,7 @@
         /// <param name="cancel">The cancellation token for aborting the download.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The HTML document.</returns>
-        public static Task<HTMLDocument> GetHtmlAsync(this Uri uri, CancellationToken cancel, IConfiguration configuration = null)
+        public static Task<Document> GetHtmlAsync(this Uri uri, CancellationToken cancel, IConfiguration configuration = null)
         {
             return DocumentBuilder.HtmlAsync(uri, cancel, configuration);
         }

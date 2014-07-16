@@ -11,17 +11,7 @@
     public interface IHtmlDocument : IDocument
     {
         IHtmlCollection Anchors { get; }
-        IHtmlBodyElement Body { get; }
-        Cookie Cookie { get; set; }
-        String Domain { get; }
-        IHtmlCollection Embeds { get; }
-        IHtmlCollection Forms { get; }
-        IHtmlHeadElement Head { get; }
-        IHtmlCollection Images { get; }
-        IHtmlCollection Links { get; }
         void Load(String url);
-        IHtmlCollection Scripts { get; }
-        String Title { get; set; }
         void Open();
         void Close();
         void Write(String content);

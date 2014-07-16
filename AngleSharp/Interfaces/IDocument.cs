@@ -1,13 +1,14 @@
 ﻿namespace AngleSharp.DOM
 {
     using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Html;
     using System;
 
     /// <summary>
     /// The Document interface serves as an entry point to the web page's content.
     /// </summary>
     [DomName("Document")]
-    public interface IDocument : INode, IParentNode
+    public interface IDocument : INode, IParentNode, IGlobalEventHandlers
     {
         /// <summary>
         /// Gets the DOM implementation associated with the current document.
@@ -215,12 +216,92 @@
         [DomName("location")]
         ILocation Location { get; }
 
-        IWindow DefaultView { get; }
-        IWindow ParentWindow { get; }
-        String InputEncoding { get; }
-        event EventHandler OnReadyStateChange;
+        /// <summary>
+        /// Gets the forms in the document.
+        /// </summary>
+        [DomName("forms")]
+        IHtmlCollection Forms { get; }
+
+        /// <summary>
+        /// Gets the images in the document.
+        /// </summary>
+        [DomName("images")]
+        IHtmlCollection Images { get; }
+
+        /// <summary>
+        /// Gets the scripts in the document.
+        /// </summary>
+        [DomName("scripts")]
+        IHtmlCollection Scripts { get; }
+
+        /// <summary>
+        /// Gets a list of the embedded OBJECTS within the current document.
+        /// </summary>
+        [DomName("embeds")]
+        IHtmlCollection Embeds { get; }
+
+        /// <summary>
+        /// Gets a collection of all AREA elements and anchor elements in a document with a value for the href attribute.
+        /// </summary>
+        [DomName("links")]
+        IHtmlCollection Links { get; }
+
+        /// <summary>
+        /// Gets or sets the title of the document.
+        /// </summary>
+        [DomName("title")]
+        String Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the head element.
+        /// </summary>
+        [DomName("head")]
+        IHtmlHeadElement Head { get; }
+
+        /// <summary>
+        /// Gets the body element.
+        /// </summary>
+        [DomName("body")]
+        IHtmlElement Body { get; set; }
+
+        /// <summary>
+        /// Gets or sets the document cookie.
+        /// </summary>
+        [DomName("cookie")]
+        String Cookie { get; set; }
+
+        /// <summary>
+        /// Gets or sets the domain portion of the origin of the current document.
+        /// </summary>
+        [DomName("domain")]
+        String Domain { get; set; }
+
+        /// <summary>
+        /// Gets the referer to that pointed to the current document.
+        /// </summary>
+        [DomName("referrer")]
         String Referrer { get; }
-        DOMStringList StyleSheetSets { get; }
+
+        /// <summary>
+        /// Event triggered after the ready state changed.
+        /// </summary>
+        [DomName("onreadystatechange")]
+        event EventListener ReadyStateChanged;
+
+        /// <summary>
+        /// Gets the currently focused element, that is, the element that will get
+        /// keystroke events if the user types any.
+        /// </summary>
+        [DomName("activeElement")]
         IElement ActiveElement { get; }
+
+        /// <summary>
+        /// Gets the window object associated with the document or null if none available.
+        /// </summary>
+        [DomName("defaultView")]
+        IWindowProxy DefaultView { get; }
+
+        IWindow ParentWindow { get; }
+        DOMStringList StyleSheetSets { get; }
     }
 }

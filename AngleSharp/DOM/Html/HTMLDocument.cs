@@ -17,15 +17,9 @@
     {
         #region Fields
 
-        Cookie _cookie;
         Task _queue;
         HTMLCollection _all;
-        HTMLCollection<IHtmlFormElement> _forms;
-        HTMLCollection<HTMLScriptElement> _scripts;
-        HTMLCollection<IHtmlImageElement> _images;
         HTMLCollection<IHtmlAnchorElement> _anchors;
-        HTMLCollection _embeds;
-        HTMLCollection _links;
 
         #endregion
 
@@ -198,133 +192,6 @@
             get { return _anchors ?? (_anchors = new HTMLCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name))); }
         }
 
-        /// <summary>
-        /// Gets the forms in the document.
-        /// </summary>
-        [DomName("forms")]
-        public IHtmlCollection Forms
-        {
-            get { return _forms ?? (_forms = new HTMLCollection<IHtmlFormElement>(this)); }
-        }
-
-        /// <summary>
-        /// Gets the images in the document.
-        /// </summary>
-        [DomName("images")]
-        public IHtmlCollection Images
-        {
-            get { return _images ?? (_images = new HTMLCollection<IHtmlImageElement>(this)); }
-        }
-
-        /// <summary>
-        /// Gets the scripts in the document.
-        /// </summary>
-        [DomName("scripts")]
-        public IHtmlCollection Scripts
-        {
-            get { return _scripts ?? (_scripts = new HTMLCollection<HTMLScriptElement>(this)); }
-        }
-
-        /// <summary>
-        /// Gets a list of the embedded OBJECTS within the current document.
-        /// </summary>
-        [DomName("embeds")]
-        public IHtmlCollection Embeds
-        {
-            get { return _embeds ?? (_embeds = new HTMLCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement)); }
-        }
-
-        /// <summary>
-        /// Gets a collection of all AREA elements and anchor elements in a document with a value for the href attribute.
-        /// </summary>
-        [DomName("links")]
-        public IHtmlCollection Links
-        {
-            get { return _links ?? (_links = new HTMLCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href))); }
-        }
-
-        /// <summary>
-        /// Gets or sets the title of the document.
-        /// </summary>
-        [DomName("title")]
-        public String Title
-        {
-            get
-            {
-                var _title = FindChild<IHtmlTitleElement>(Head);
-
-                if (_title != null)
-                    return _title.Text;
-
-                return String.Empty;
-            }
-            set
-            {
-                var _title = FindChild<IHtmlTitleElement>(Head);
-
-                if (_title == null)
-                {
-                    var _documentElement = DocumentElement;
-
-                    if (_documentElement == null)
-                    {
-                        _documentElement = new HTMLHtmlElement();
-                        AppendChild(_documentElement);
-                    }
-
-                    var _head = Head;
-
-                    if (_head == null)
-                    {
-                        _head = new HTMLHeadElement();
-                        _documentElement.AppendChild(_head);
-                    }
-
-                    _title = new HTMLTitleElement();
-                    _head.AppendChild(_title);
-                }
-
-                _title.Text = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the head element.
-        /// </summary>
-        [DomName("head")]
-        public IHtmlHeadElement Head
-        {
-            get { return FindChild<IHtmlHeadElement>(DocumentElement); }
-        }
-
-        /// <summary>
-        /// Gets the body element.
-        /// </summary>
-        [DomName("body")]
-        public IHtmlBodyElement Body
-        {
-            get { return FindChild<IHtmlBodyElement>(DocumentElement); }
-        }
-
-        /// <summary>
-        /// Gets or sets the document cookie.
-        /// </summary>
-        [DomName("cookie")]
-        public Cookie Cookie
-        { 
-            get { return _cookie; }
-            set { _cookie = value; }
-        }
-
-        /// <summary>
-        /// Gets the domain portion of the origin of the current document.
-        /// </summary>
-        [DomName("domain")]
-        public String Domain
-        {
-            get { return String.IsNullOrEmpty(DocumentUri) ? String.Empty : new Uri(DocumentUri).Host; }
-        }
-
         #endregion
 
         #region Static Helpers
@@ -366,7 +233,7 @@
         {
             Uri uri;
             _location.Href = url;
-            Cookie = new Cookie();
+            Cookie = String.Empty;
             
             if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
                 throw new ArgumentException("The given URL is not valid as an absolute URL.");
