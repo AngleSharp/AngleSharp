@@ -227,19 +227,16 @@
             get { return _children.ToHtml(); }
             set
             {
-                var n = _children.Length - 1;
-
-                for (int i = n; i >= 0; i--)
+                for (int i = _children.Length - 1; i >= 0; i--)
                     RemoveChild(_children[i]);
 
                 var nodes = DocumentBuilder.HtmlFragment(value, this);
-                n = nodes.Length;
 
-                for (int i = 0; i < n; i++)
+                while (nodes.Length != 0)
                 {
-                    nodes[i].Owner = null;
-                    nodes[i].Parent = null;
-                    AppendChild(nodes[i]);
+                    var node = nodes[0];
+                    node.Parent.RemoveChild(node);
+                    AppendChild(node);
                 }
             }
         }
@@ -265,8 +262,7 @@
 
                     for (int i = 0; i < n; i++)
                     {
-                        nodes[i].Owner = null;
-                        nodes[i].Parent = null;
+                        nodes[i].Owner.RemoveChild(nodes[i]);
                         _parent.InsertChild(pos++, nodes[i]);
                     }
 
@@ -856,7 +852,7 @@
         public void insertAdjacentHTML(AdjacentPosition position, String html)
         {
             var nodeParent = position == AdjacentPosition.BeforeBegin || position == AdjacentPosition.AfterEnd ? this : _parent;
-            var nodes = new DocumentFragment(DocumentBuilder.HtmlFragment(html, nodeParent));
+            var nodes = new DocumentFragment(DocumentBuilder.HtmlFragment(html, nodeParent) as NodeList);//TODO remove cast ASAP
 
             switch (position)
             {
