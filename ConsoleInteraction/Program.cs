@@ -71,7 +71,7 @@ namespace ConsoleInteraction
             var response = await httpClient.GetStreamAsync(new Uri("http://trade.500.com/bjdc/?expect=140107"));
 
             //string pageSource = Encoding.GetEncoding("gb2312").GetString(response, 0, (int)response.Length - 1);
-            HTMLDocument document = DocumentBuilder.Html(response);
+            var document = DocumentBuilder.Html(response);
 
             var ls = document.GetElementsByClassName("vs_lines");
             var ls2 = document.GetElementsByClassName("vs_lines even");
@@ -200,7 +200,7 @@ namespace ConsoleInteraction
         static NodeList TestHtmlFragment(String source)
         {
             var sw = Stopwatch.StartNew();
-            var nodes = DocumentBuilder.HtmlFragment(source);
+            var nodes = DocumentBuilder.HtmlFragment(source) as NodeList;
             sw.Stop();
             Console.WriteLine(">>> START");
             Console.WriteLine(nodes.ToHtml());

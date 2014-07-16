@@ -1,4 +1,5 @@
 ﻿using AngleSharp;
+using AngleSharp.DOM;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
 using AngleSharp.Parser.Css;
@@ -46,7 +47,7 @@ namespace ConsoleInteraction
             var result = client.GetAsync(url).Result;
             var source = result.Content.ReadAsStreamAsync().Result;
 
-            HTMLDocument html = null;
+            Document html = null;
 
             try { html = DocumentBuilder.Html(source); }
             catch { Console.WriteLine("error!!!"); return; }

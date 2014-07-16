@@ -1,4 +1,5 @@
 ﻿using AngleSharp;
+using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 using ConsoleInteraction.Assets;
 using System;
@@ -17,7 +18,7 @@ namespace ConsoleInteraction
     class CssSelectorTest
     {
         String _url;
-        HTMLDocument _doc;
+        Document _doc;
         List<String> _tests;
         Int32 n;
 
@@ -50,7 +51,7 @@ namespace ConsoleInteraction
         /// A valid URL e.g. http://www.w3.org/TR/2001/CR-css3-selectors-20011113/.
         /// </param>
         /// <returns>The current instance.</returns>
-        public CssSelectorTest LoadFromUrl(string url)
+        public CssSelectorTest LoadFromUrl(String url)
         {
             Console.Write("Loading ");
             Console.Write(url);

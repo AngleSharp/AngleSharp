@@ -1,4 +1,5 @@
 ﻿using AngleSharp;
+using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 using System;
 using System.Collections.Generic;
@@ -113,7 +114,7 @@ namespace ConsoleInteraction
         /// Generates the unit tests from the given overview document.
         /// </summary>
         /// <param name="document">The document to inspect.</param>
-        public static XMLConfTest GenerateFromHtml(HTMLDocument document)
+        public static XMLConfTest GenerateFromHtml(Document document)
         {
             var body = document.Body;
             var mode = Mode.None;
