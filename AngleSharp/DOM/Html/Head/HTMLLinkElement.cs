@@ -80,7 +80,7 @@
         /// <summary>
         /// Gets or sets the language code for the linked resource.
         /// </summary>
-        public String Hreflang
+        public String TargetLanguage
         {
             get { return GetAttribute(AttributeNames.HrefLang); }
             set { SetAttribute(AttributeNames.HrefLang, value); }
@@ -98,7 +98,7 @@
         /// <summary>
         /// Gets or sets the forward relationship of the linked resource from the document to the resource.
         /// </summary>
-        public String Rel
+        public String Relation
         {
             get { return GetAttribute(AttributeNames.Rel); }
             set { SetAttribute(AttributeNames.Rel, value); }
@@ -107,7 +107,7 @@
         /// <summary>
         /// Gets the list of relations contained in the rel attribute.
         /// </summary>
-        public ITokenList RelList
+        public ITokenList RelationList
         {
             get { return _relList ?? (_relList = new TokenList(this, AttributeNames.Rel)); }
         }
@@ -132,7 +132,7 @@
         /// <summary>
         /// Gets or sets if the stylesheet is enabled or disabled.
         /// </summary>
-        public Boolean Disabled
+        public Boolean IsDisabled
         {
             get { return Sheet.Disabled; }
             set { Sheet.Disabled = value; }
@@ -170,7 +170,7 @@
         /// </summary>
         public StyleSheet Sheet
         {
-            get { return RelList.Contains("stylesheet") ? _sheet : null; }
+            get { return RelationList.Contains("stylesheet") ? _sheet : null; }
         }
 
         #endregion

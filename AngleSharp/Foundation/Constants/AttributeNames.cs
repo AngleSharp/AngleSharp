@@ -631,5 +631,15 @@
         /// The cite attribute.
         /// </summary>
         public static readonly String Cite = "cite";
+
+        /// <summary>
+        /// The async attribute.
+        /// </summary>
+        public static readonly String Async = "async";
+
+        /// <summary>
+        /// The defer attribute.
+        /// </summary>
+        public static readonly String Defer = "defer";
     }
 }

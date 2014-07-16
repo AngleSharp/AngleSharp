@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a standard HTML element in the node tree.
     /// </summary>
-    public class HTMLElement : Element, IHtmlElement
+    class HTMLElement : Element, IHtmlElement
     {
         #region Fields
 
@@ -117,9 +117,9 @@
         /// <summary>
         /// Gets or sets the value of the lang attribute.
         /// </summary>
-        public String Lang
+        public String Language
         {
-            get { return GetAttribute(AttributeNames.Lang) ?? (ParentElement as IHtmlElement != null ? (ParentElement as IHtmlElement).Lang : _owner.Options.Language); }
+            get { return GetAttribute(AttributeNames.Lang) ?? (ParentElement as IHtmlElement != null ? (ParentElement as IHtmlElement).Language : _owner.Options.Language); }
             set { SetAttribute(AttributeNames.Lang, value); }
         }
 
@@ -135,7 +135,7 @@
         /// <summary>
         /// Gets or sets the value of the dir attribute.
         /// </summary>
-        public String Dir
+        public String Direction
         {
             get { return GetAttribute(AttributeNames.Dir); }
             set { SetAttribute(AttributeNames.Dir, value); }

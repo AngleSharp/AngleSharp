@@ -22,7 +22,7 @@
         /// Gets or sets the value that contains a URI of a resource
         /// explaining the change.
         /// </summary>
-        public String Cite
+        public String Citation
         {
             get { return GetAttribute("cite"); }
             set { SetAttribute("cite", value); }

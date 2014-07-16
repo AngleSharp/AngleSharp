@@ -14,7 +14,7 @@
         /// Gets or sets the value of the lang attribute.
         /// </summary>
         [DomName("lang")]
-        String Lang { get; set; }
+        String Language { get; set; }
 
         /// <summary>
         /// Gets or sets the value of the title attribute.
@@ -26,7 +26,7 @@
         /// Gets or sets the value of the dir attribute.
         /// </summary>
         [DomName("dir")]
-        String Dir { get; set; }
+        String Direction { get; set; }
 
         /// <summary>
         /// Gets access to all the custom data attributes (data-*) set on the element. It is a map of DOMString,

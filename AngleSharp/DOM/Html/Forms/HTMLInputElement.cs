@@ -569,7 +569,7 @@
                         if (String.IsNullOrEmpty(dirname))
                             break;
 
-                        dataSet.Append(dirname, Dir.ToString().ToLower(), "Direction");
+                        dataSet.Append(dirname, Direction.ToString().ToLower(), "Direction");
                     }
 
                     break;

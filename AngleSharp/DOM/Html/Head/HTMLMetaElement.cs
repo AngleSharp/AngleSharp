@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets or sets the HTTP response header name.
         /// </summary>
-        public String HttpEquiv
+        public String HttpEquivalent
         {
             get { return GetAttribute(AttributeNames.HttpEquiv); }
             set { SetAttribute(AttributeNames.HttpEquiv, value); }

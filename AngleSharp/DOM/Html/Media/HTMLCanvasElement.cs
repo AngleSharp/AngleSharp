@@ -62,7 +62,7 @@
         /// </summary>
         /// <param name="type">The type of image e.g image/png.</param>
         /// <returns>A data URI with the data if any.</returns>
-        public String ToDataURL(String type = null)
+        public String ToDataUrl(String type = null)
         {
             //TODO
             return String.Empty;

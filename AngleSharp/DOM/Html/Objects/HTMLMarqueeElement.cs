@@ -6,8 +6,7 @@
     /// Represents the HTML marquee element.
     /// </summary>
     [DomHistorical]
-    [DomName("HTMLMarqueeElement")]
-    public sealed class HTMLMarqueeElement : HTMLElement, IScopeElement
+    sealed class HTMLMarqueeElement : HTMLElement, IScopeElement
     {
         #region ctor
 
@@ -23,7 +22,6 @@
         /// <summary>
         /// Gets the minimum delay in ms.
         /// </summary>
-        [DomName("minimumDelay")]
         public Int32 MinimumDelay
         {
             get;
@@ -33,7 +31,6 @@
         /// <summary>
         /// Gets or sets the amount of scrolling in pixels.
         /// </summary>
-        [DomName("scrollAmount")]
         public Int32 ScrollAmount
         {
             get;
@@ -43,7 +40,6 @@
         /// <summary>
         /// Gets or sets the delay of scrolling in ms.
         /// </summary>
-        [DomName("scrollDelay")]
         public Int32 ScrollDelay
         {
             get;
@@ -53,7 +49,6 @@
         /// <summary>
         /// Gets or sets the loop number.
         /// </summary>
-        [DomName("loop")]
         public Int32 Loop
         {
             get;
@@ -67,7 +62,6 @@
         /// <summary>
         /// Starts the marquee loop.
         /// </summary>
-        [DomName("start")]
         public void Start()
         {
             //TODO
@@ -76,7 +70,6 @@
         /// <summary>
         /// Stops the marquee loop.
         /// </summary>
-        [DomName("stop")]
         public void Stop()
         {
             //TODO

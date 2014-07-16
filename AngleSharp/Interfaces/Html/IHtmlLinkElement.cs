@@ -12,7 +12,7 @@
         /// Gets or sets if the stylesheet is enabled or disabled.
         /// </summary>
         [DomName("disabled")]
-        Boolean Disabled { get; set; }
+        Boolean IsDisabled { get; set; }
 
         /// <summary>
         /// Gets or sets the URI for the target resource.
@@ -24,13 +24,13 @@
         /// Gets or sets the forward relationship of the linked resource from the document to the resource.
         /// </summary>
         [DomName("rel")]
-        String Rel { get; set; }
+        String Relation { get; set; }
 
         /// <summary>
         /// Gets the list of relations contained in the rel attribute.
         /// </summary>
         [DomName("relList")]
-        ITokenList RelList { get; }
+        ITokenList RelationList { get; }
 
         /// <summary>
         /// Gets or sets the use with one or more target media.
@@ -42,7 +42,7 @@
         /// Gets or sets the language code for the linked resource.
         /// </summary>
         [DomName("hreflang")]
-        String Hreflang { get; set; }
+        String TargetLanguage { get; set; }
 
         /// <summary>
         /// Gets or sets the content type of the style sheet language.

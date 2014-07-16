@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents an HTML script element.
     /// </summary>
-    [DomName("HTMLScriptElement")]
-    public sealed class HTMLScriptElement : HTMLElement
+    sealed class HTMLScriptElement : HTMLElement, IHtmlScriptElement
     {
         #region ctor
 
@@ -16,7 +15,6 @@
         internal HTMLScriptElement()
         {
             _name = Tags.Script;
-            Async = true;
         }
 
         #endregion
@@ -26,71 +24,64 @@
         /// <summary>
         /// Gets or sets athe address of the resource.
         /// </summary>
-        [DomName("src")]
-        public String Src
+        public String Source
         {
-            get;
-            set;
+            get { return GetAttribute(AttributeNames.Src); }
+            set { SetAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
         /// Gets or sets the type of an embedded resource.
         /// </summary>
-        [DomName("type")]
         public String Type
         {
-            get;
-            set;
+            get { return GetAttribute(AttributeNames.Type); }
+            set { SetAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
         /// Gets or sets the character encoding of the external script resource.
         /// </summary>
-        [DomName("charset")]
-        public String Charset
+        public String CharacterSet
         {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets if script should execute asynchronously.
-        /// </summary>
-        [DomName("async")]
-        public Boolean Async
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets if the script should be deferred.
-        /// </summary>
-        [DomName("defer")]
-        public Boolean Defer
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets how the element handles crossorigin requests.
-        /// </summary>
-        [DomName("crossOrigin")]
-        public CORSSettings CrossOrigin
-        {
-            get;
-            set;
+            get { return GetAttribute(AttributeNames.Charset); }
+            set { SetAttribute(AttributeNames.Charset, value); }
         }
 
         /// <summary>
         /// Gets or sets the text in the script element.
         /// </summary>
-        [DomName("text")]
         public String Text
         {
             get { return TextContent; }
             set { TextContent = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets how the element handles crossorigin requests.
+        /// </summary>
+        public String CrossOrigin
+        {
+            get { return GetAttribute(AttributeNames.CrossOrigin); }
+            set { SetAttribute(AttributeNames.CrossOrigin, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets if the script should be deferred.
+        /// </summary>
+        public Boolean IsDeferred
+        {
+            get { return GetAttribute(AttributeNames.Defer) != null; }
+            set { SetAttribute(AttributeNames.Defer, value ? String.Empty : null); }
+        }
+
+        /// <summary>
+        /// Gets or sets if script should execute asynchronously.
+        /// </summary>
+        public Boolean IsAsync
+        {
+            get { return GetAttribute(AttributeNames.Async) != null; }
+            set { SetAttribute(AttributeNames.Async, value ? String.Empty : null); }
         }
 
         #endregion
