@@ -495,7 +495,8 @@
 
             if (childNode != null && _children.Contains(childNode))
             {
-                childNode._parent = null;
+                childNode.Owner = null;
+                childNode.Parent = null;
                 _children.Remove(childNode);
             }
 
