@@ -105,7 +105,7 @@
         /// <returns>The style declaration describing the element.</returns>
         public CSSStyleDeclaration GetComputedStyle(IElement element, String pseudo = null)
         {
-            var document = Document as HTMLDocument;
+            var document = Document as Document;
 
             if (document == null)
                 throw new ArgumentException("A valid HTML document is required for computing the style of an element.");

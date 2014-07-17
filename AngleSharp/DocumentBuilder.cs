@@ -159,7 +159,7 @@
         /// <param name="source">The code manager.</param>
         /// <param name="document">The document to fill.</param>
         /// <param name="configuration">Options to use for the document generation.</param>
-        static HtmlParser Construct(SourceManager source, HTMLDocument document, IConfiguration configuration)
+        static HtmlParser Construct(SourceManager source, Document document, IConfiguration configuration)
         {
             var parser = new HtmlParser(document, source);
             parser.ParseError += (s, e) => configuration.ReportError(e);
@@ -189,13 +189,13 @@
         /// <param name="sourceCode">The string to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static HTMLDocument Html(String sourceCode, IConfiguration configuration = null)
+        public static Document Html(String sourceCode, IConfiguration configuration = null)
         {
             if (configuration == null)
                 configuration = GlobalConfig.Default;
 
             var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
-            var doc = new HTMLDocument { Options = configuration };
+            var doc = new Document { Options = configuration };
             var parser = Construct(source, doc, configuration);
             return parser.Result;
         }

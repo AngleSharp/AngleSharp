@@ -21,7 +21,7 @@
         #region Fields
 
         HtmlTokenizer tokenizer;
-        HTMLDocument doc;
+        Document doc;
         HtmlTreeMode insert;
         HtmlTreeMode originalInsert;
         List<Element> open;
@@ -57,7 +57,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public HtmlParser(String source, IConfiguration configuration = null)
-            : this(new HTMLDocument { Options = configuration }, new SourceManager(source, configuration.DefaultEncoding()))
+            : this(new Document { Options = configuration }, new SourceManager(source, configuration.DefaultEncoding()))
         {
         }
 
@@ -68,7 +68,7 @@
         /// <param name="stream">The stream to use as source.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public HtmlParser(Stream stream, IConfiguration configuration = null)
-            : this(new HTMLDocument { Options = configuration }, new SourceManager(stream, configuration.DefaultEncoding()))
+            : this(new Document { Options = configuration }, new SourceManager(stream, configuration.DefaultEncoding()))
         {
         }
 
@@ -78,7 +78,7 @@
         /// </summary>
         /// <param name="document">The document instance to be constructed.</param>
         /// <param name="source">The source code as a string.</param>
-        public HtmlParser(HTMLDocument document, String source)
+        public HtmlParser(Document document, String source)
             : this(document, new SourceManager(source, document.Options.DefaultEncoding()))
         {
         }
@@ -89,7 +89,7 @@
         /// </summary>
         /// <param name="document">The document instance to be constructed.</param>
         /// <param name="stream">The stream to use as source.</param>
-        public HtmlParser(HTMLDocument document, Stream stream)
+        public HtmlParser(Document document, Stream stream)
             : this(document, new SourceManager(stream, document.Options.DefaultEncoding()))
         {
         }
@@ -100,7 +100,7 @@
         /// </summary>
         /// <param name="document">The document instance to be constructed.</param>
         /// <param name="source">The source to use.</param>
-        internal HtmlParser(HTMLDocument document, SourceManager source)
+        internal HtmlParser(Document document, SourceManager source)
         {
             tokenizer = new HtmlTokenizer(source);
 
@@ -127,7 +127,7 @@
         /// <summary>
         /// Gets the (maybe intermediate) result of the parsing process.
         /// </summary>
-        public HTMLDocument Result
+        public Document Result
         {
             get 
             {
