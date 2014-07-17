@@ -1183,9 +1183,6 @@
     <Compile Include="..\AngleSharp\DOM\Html\HTMLDirectoryElement.cs">
       <Link>DOM\Html\HTMLDirectoryElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLDocument.cs">
-      <Link>DOM\Html\HTMLDocument.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\HTMLElement.cs">
       <Link>DOM\Html\HTMLElement.cs</Link>
     </Compile>
@@ -1569,9 +1566,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDivElement.cs">
       <Link>Interfaces\Html\IHtmlDivElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlDocument.cs">
-      <Link>Interfaces\Html\IHtmlDocument.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlElement.cs">
       <Link>Interfaces\Html\IHtmlElement.cs</Link>
