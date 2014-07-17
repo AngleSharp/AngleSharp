@@ -48,6 +48,32 @@
         String ContentType { get; }
 
         /// <summary>
+        /// Opens a document stream for writing.
+        /// </summary>
+        [DomName("open")]
+        IDocument OpenNew(String type = "text/html", String replace = null);
+
+        /// <summary>
+        /// Finishes writing to a document.
+        /// </summary>
+        [DomName("close")]
+        void CloseCurrent();
+
+        /// <summary>
+        /// Writes text to a document.
+        /// </summary>
+        /// <param name="content">The text to be written on the document.</param>
+        [DomName("write")]
+        void Write(String content);
+
+        /// <summary>
+        /// Writes a line of text to a document.
+        /// </summary>
+        /// <param name="content">The text to be written on the document.</param>
+        [DomName("writeln")]
+        void WriteLine(String content);
+
+        /// <summary>
         /// Gets the document type.
         /// </summary>
         [DomName("doctype")]

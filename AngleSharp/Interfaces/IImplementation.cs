@@ -27,7 +27,7 @@
         /// <param name="title">The title to give the new HTML document.</param>
         /// <returns>A new document.</returns>
         [DomName("createHTMLDocument")]
-        IHtmlDocument CreateHtmlDocument(String title);
+        IDocument CreateHtmlDocument(String title);
 
         /// <summary>
         /// Creates and returns a DocumentType.

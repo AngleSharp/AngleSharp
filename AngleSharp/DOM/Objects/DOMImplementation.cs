@@ -87,9 +87,9 @@
         /// </summary>
         /// <param name="title">The title of the HTML document.</param>
         /// <returns>A new Document object with its document element.</returns>
-        public IHtmlDocument CreateHtmlDocument(String title)
+        public IDocument CreateHtmlDocument(String title)
         {
-            var doc = new HTMLDocument();
+            var doc = new Document();
             doc.Title = title;
             return doc;
         }

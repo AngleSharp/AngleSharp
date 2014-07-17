@@ -575,6 +575,45 @@
         #region Methods
 
         /// <summary>
+        /// Opens a document stream for writing.
+        /// </summary>
+        [DomName("open")]
+        public IDocument OpenNew(String type = "text/html", String replace = null)
+        {
+            //TODO
+            return new Document();
+        }
+
+        /// <summary>
+        /// Finishes writing to a document.
+        /// </summary>
+        [DomName("close")]
+        public void CloseCurrent()
+        {
+            //TODO
+        }
+
+        /// <summary>
+        /// Writes text to a document.
+        /// </summary>
+        /// <param name="content">The text to be written on the document.</param>
+        [DomName("write")]
+        public void Write(String content)
+        {
+            //TODO
+        }
+
+        /// <summary>
+        /// Writes a line of text to a document.
+        /// </summary>
+        /// <param name="content">The text to be written on the document.</param>
+        [DomName("writeln")]
+        public void WriteLine(String content)
+        {
+            Write(content + Specification.LineFeed);
+        }
+
+        /// <summary>
         /// Returns a list of elements with a given name in the HTML document.
         /// </summary>
         /// <param name="name">The value of the name attribute of the element.</param>

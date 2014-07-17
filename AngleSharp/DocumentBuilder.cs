@@ -61,7 +61,7 @@
         public Document FromHtml(String sourceCode)
         {
             var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
-            var doc = new HTMLDocument { Options = configuration };
+            var doc = new Document { Options = configuration };
             var parser = Construct(source, doc, configuration);
             return parser.Result;
         }
@@ -96,7 +96,7 @@
         {
             var stream = await configuration.LoadAsync(url, cancel, force: true);
             var source = new SourceManager(stream, configuration.DefaultEncoding());
-            var doc = new HTMLDocument { Options = configuration };
+            var doc = new Document { Options = configuration };
             var parser = Construct(source, doc, configuration);
             return parser.Result;
         }
@@ -236,7 +236,7 @@
 
             var stream = await configuration.LoadAsync(url, cancel, force: true);
             var source = new SourceManager(stream, configuration.DefaultEncoding());
-            var doc = new HTMLDocument { Options = configuration, DocumentUri = url.OriginalString };
+            var doc = new Document { Options = configuration, DocumentUri = url.OriginalString };
             var parser = Construct(source, doc, configuration);
             await parser.ParseAsync();
             return parser.Result;
@@ -254,7 +254,7 @@
                 configuration = GlobalConfig.Default;
 
             var source = new SourceManager(stream, configuration.DefaultEncoding());
-            var doc = new HTMLDocument { Options = configuration };
+            var doc = new Document { Options = configuration };
             var parser = Construct(source, doc, configuration);
             return parser.Result;
         }
@@ -272,7 +272,7 @@
                 configuration = GlobalConfig.Default;
 
             var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
-            var doc = new HTMLDocument { Options = configuration };
+            var doc = new Document { Options = configuration };
 
             //Disable scripting for HTML fragments (security reasons)
             configuration.IsScripting = false;

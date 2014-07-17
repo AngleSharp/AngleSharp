@@ -443,10 +443,9 @@
             }
 
             var stream = await _owner.Options.SendAsync(action, body, mime, method, _cancel.Token);
-            var html = _owner as HTMLDocument;
 
-            if (html != null)
-                html.Load(stream);
+            if (_owner != null)
+                _owner.Load(stream);
         }
 
         /// <summary>
