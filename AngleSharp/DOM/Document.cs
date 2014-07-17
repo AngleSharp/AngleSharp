@@ -4,8 +4,13 @@
     using AngleSharp.DOM.Html;
     using AngleSharp.DOM.Mathml;
     using AngleSharp.DOM.Svg;
+    using AngleSharp.Parser;
+    using AngleSharp.Parser.Html;
     using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node.
@@ -14,6 +19,7 @@
     {
         #region Fields
 
+        Task _queue;
         QuirksMode _quirksMode;
         DocumentReadyState _ready;
         DOMImplementation _implementation;
@@ -23,6 +29,8 @@
         StyleSheetList _styleSheets;
         String _referrer;
         String _cookie;
+        HTMLCollection _all;
+        HTMLCollection<IHtmlAnchorElement> _anchors;
         HTMLCollection<IHtmlFormElement> _forms;
         HTMLCollection<HTMLScriptElement> _scripts;
         HTMLCollection<IHtmlImageElement> _images;
@@ -180,11 +188,31 @@
             _quirksMode = QuirksMode.Off;
             _location = new Location("file://localhost/");
             _options = Configuration.Default;
+            _all = new HTMLCollection(this);
+            _queue = new Task(() => { });
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets a list of all elements in the document.
+        /// </summary>
+        [DomName("all")]
+        public IHtmlCollection All
+        {
+            get { return _all; }
+        }
+
+        /// <summary>
+        /// Gets a list of all of the anchors in the document.
+        /// </summary>
+        [DomName("anchors")]
+        public IHtmlCollection Anchors
+        {
+            get { return _anchors ?? (_anchors = new HTMLCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name))); }
+        }
 
         /// <summary>
         /// Gets the number of child elements.
@@ -547,6 +575,41 @@
         #region Methods
 
         /// <summary>
+        /// Returns a list of elements with a given name in the HTML document.
+        /// </summary>
+        /// <param name="name">The value of the name attribute of the element.</param>
+        /// <returns>A collection of HTML elements.</returns>
+        public IHtmlCollection GetElementsByName(String name)
+        {
+            var result = new List<Element>();
+            _children.GetElementsByName(name, result);
+            return new HTMLCollection(result);
+        }
+
+        /// <summary>
+        /// Loads the document content from the given URL.
+        /// </summary>
+        /// <param name="url">The URL that hosts the HTML content.</param>
+        [DomName("load")]
+        public void Load(String url)
+        {
+            Uri uri;
+            _location.Href = url;
+            Cookie = String.Empty;
+
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
+                throw new ArgumentException("The given URL is not valid as an absolute URL.");
+
+            var task = Options.LoadAsync(uri);
+
+            task.ContinueWith(m =>
+            {
+                if (m.IsCompleted && !m.IsFaulted)
+                    Load(m.Result);
+            });
+        }
+
+        /// <summary>
         /// Creates a copy of a node from an external document that can be inserted into the current document.
         /// </summary>
         /// <param name="externalNode">The node from another document to be imported.</param>
@@ -556,10 +619,9 @@
         /// since it has not yet been inserted into the document tree.</returns>
         public INode Import(INode externalNode, Boolean deep = true)
         {
-            //TODO
             var clone = externalNode.Clone(deep);
-            //externalNode.Owner = this;
-            return externalNode;
+            AppendChild(clone);
+            return clone;
         }
 
         /// <summary>
@@ -570,8 +632,10 @@
         /// since it has not yet been inserted into the document tree.</returns>
         public INode Adopt(INode externalNode)
         {
-            //TODO
-            //node.Owner = this;
+            if (externalNode.Parent != null)
+                externalNode.Parent.RemoveChild(externalNode);
+
+            AppendChild(externalNode);
             return externalNode;
         }
 
@@ -655,7 +719,7 @@
         /// <returns>The created element object.</returns>
         public virtual IElement CreateElement(String tagName)
         {
-            return new Element { NodeName = tagName, Owner = this };
+            return HtmlElementFactory.Create(tagName, this);
         }
 
         /// <summary>
@@ -860,6 +924,34 @@
 
         #endregion
 
+        #region Static Helpers
+
+        /// <summary>
+        /// Loads a HTML document from the given URL.
+        /// </summary>
+        /// <param name="url">The URL that hosts the HTML content.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <returns>The document with the parsed content.</returns>
+        public static Document LoadFromUrl(String url, IConfiguration configuration = null)
+        {
+            var doc = new Document { Options = configuration ?? Configuration.Default };
+            doc.Load(url);
+            return doc;
+        }
+
+        /// <summary>
+        /// Loads a HTML document from the given URL.
+        /// </summary>
+        /// <param name="source">The source code with the HTML content.</param>
+        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <returns>The document with the parsed content.</returns>
+        public static Document LoadFromSource(String source, IConfiguration configuration = null)
+        {
+            return DocumentBuilder.Html(source, configuration);
+        }
+
+        #endregion
+
         #region Internal methods
 
         internal virtual DocumentFragment Fragment(String value)
@@ -882,15 +974,161 @@
 
         #endregion
 
+        #region Internal connection to parser
+
+        /// <summary>
+        /// Firing a simple event named e means that a trusted event with the name e,
+        /// which does not bubble (except where otherwise stated) and is not cancelable
+        /// (except where otherwise stated), and which uses the Event interface, must
+        /// be created and dispatched at the given target.
+        /// </summary>
+        /// <param name="eventName">The name of the event to be fired.</param>
+        void FireSimpleEvent(String eventName)
+        {
+            //TODO
+            //http://www.w3.org/html/wg/drafts/html/master/webappapis.html#fire-a-simple-event
+        }
+
+        internal Int32 ScriptsWaiting
+        {
+            get { return 0; }
+        }
+
+        internal Int32 ScriptsAsSoonAsPossible
+        {
+            get { return 0; }
+        }
+
+        internal void RunNextScript()
+        {
+            WaitForReady();
+            //TODO Run first script that should be executed when the document is finished parsing
+        }
+
+        internal Boolean IsLoadingDelayed
+        {
+            get { return false; }
+        }
+
+        internal Boolean IsInBrowsingContext
+        {
+            get { return false; }
+        }
+
+        internal Boolean IsToBePrinted
+        {
+            get;
+            set;
+        }
+
+        internal void PerformMicrotaskCheckpoint()
+        {
+            //TODO
+            //IF RUNNING MUTATION OBSERVERS == false
+            //1. Let the running mutation observers flag be true.
+            //2. Sort the tables with pending sorts.
+            //3. Invoke MutationObserver objects for the unit of related similar-origin browsing contexts to which the script's browsing context belongs.
+            //   ( Note: This will typically invoke scripted callbacks, which calls the jump to a code entry-point algorithm, which calls this perform a )
+            //   ( microtask checkpoint algorithm again, which is why we use the running mutation observers flag to avoid reentrancy.                    )
+            //4. Let the running mutation observers flag be false.
+        }
+
+        internal void ProvideStableState()
+        {
+            //TODO
+            //When the user agent is to provide a stable state, if any asynchronously-running algorithms are awaiting a stable state, then
+            //the user agent must run their synchronous section and then resume running their asynchronous algorithm (if appropriate).
+        }
+
+        internal void WaitForReady()
+        {
+            //TODO
+            //If the parser's Document has a style sheet that is blocking scripts or the script's "ready to be parser-executed"
+            //flag is not set: spin the event loop until the parser's Document has no style sheet that is blocking scripts and
+            //the script's "ready to be parser-executed" flag is set.
+        }
+
+        internal void RaiseDomContentLoaded()
+        {
+            FireSimpleEvent(EventNames.DomContentLoaded);
+        }
+
+        internal void RaiseLoadedEvent()
+        {
+            ReadyState = DocumentReadyState.Complete;
+            FireSimpleEvent(EventNames.Load);
+        }
+
+        internal void QueueTask(Action action)
+        {
+            _queue = _queue.ContinueWith(_ => action());
+        }
+
+        internal void Print()
+        {
+            //TODO
+            //Run the printing steps.
+        }
+
+        internal void ShowPage()
+        {
+            //TODO
+            //1. If the Document's page showing flag is true, then abort this task (i.e. don't fire the event below).
+            //2. Set the Document's page showing flag to true.
+            //3. Fire a trusted event with the name pageshow at the Window object of the Document, but with its target set to the Document object (and the currentTarget set
+            //   to the Window object), using the PageTransitionEvent interface, with the persisted attribute initialized to false. This event must not bubble, must not be
+            //   cancelable, and has no default action.
+        }
+
+        internal void EmptyAppCache()
+        {
+            //TODO
+            //If the Document has any pending application cache download process tasks, then queue each such task in the order they were added to the list of pending
+            //application cache download process tasks, and then empty the list of pending application cache download process tasks. The task source for these tasks is
+            //the networking task source.
+        }
+
+        internal void FinishLoading()
+        {
+            //TODO
+            //The Document is now ready for post-load tasks.
+            //Mark the Document as completely loaded.
+        }
+
+        #endregion
+
         #region Helpers
+
+        /// <summary>
+        /// Destroys the generated DOM, leaving only the document behind.
+        /// </summary>
+        void Destroy()
+        {
+            for (int i = _children.Length - 1; i >= 0; i--)
+                RemoveChild(_children[i]);
+        }
+
+        /// <summary>
+        /// Loads the document content from the given stream.
+        /// </summary>
+        /// <param name="stream">The stream that contains the HTML content.</param>
+        internal void Load(Stream stream)
+        {
+            ReadyState = DocumentReadyState.Loading;
+            var source = new SourceManager(stream, Options.DefaultEncoding());
+            Destroy();
+            var parser = new HtmlParser(this, source);
+            parser.Parse();
+        }
 
         /// <summary>
         /// Reloads the document witht he given location.
         /// </summary>
         /// <param name="url">The value for reloading.</param>
-        protected virtual void ReLoad(ILocation url)
+        protected void ReLoad(ILocation url)
         {
             _location = url;
+            Load(url.Href);
         }
 
         /// <summary>
