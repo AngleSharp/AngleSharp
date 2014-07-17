@@ -166,7 +166,7 @@
         /// <param name="content">The string to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The HTML document.</returns>
-        public static HTMLDocument ParseHtml(this String content, IConfiguration configuration = null)
+        public static IDocument ParseHtml(this String content, IConfiguration configuration = null)
         {
             return DocumentBuilder.Html(content, configuration);
         }
