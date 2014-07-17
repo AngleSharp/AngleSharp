@@ -2820,7 +2820,7 @@ namespace UnitTests
         [TestMethod]
         public void ScriptNoScriptWithClosedCommentThatContainsAnotherClosedNoScriptElement()
         {
-            var doc = new HTMLDocument();
+            var doc = new Document();
             var parser = new HtmlParser(doc, "<!doctype html><noscript><!--<noscript></noscript>--></noscript>");
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
@@ -2868,7 +2868,7 @@ namespace UnitTests
         [TestMethod]
         public void ScriptNoScriptWithCommentStartAndTextInsideBeforeClosing()
         {
-            var doc = new HTMLDocument();
+            var doc = new Document();
             var parser = new HtmlParser(doc, "<!doctype html><noscript><!--</noscript>X<noscript>--></noscript>");
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
@@ -2926,7 +2926,7 @@ namespace UnitTests
         [TestMethod]
         public void ScriptNoScriptAfterDoctypeWithIFrameContentAndTextAfter()
         {
-            var doc = new HTMLDocument();
+            var doc = new Document();
             var parser = new HtmlParser(doc, "<!doctype html><noscript><iframe></noscript>X");
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();

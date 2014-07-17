@@ -113,7 +113,7 @@ namespace UnitTests
         [TestMethod]
         public void HtmlCustomTitleGeneration()
         {
-            var doc = new HTMLDocument();
+            var doc = new Document();
             var title = "My Title";
             doc.Title = title;
             Assert.AreEqual(title, doc.Title);
@@ -122,7 +122,7 @@ namespace UnitTests
         [TestMethod]
         public void HtmlHasRightHeadElement()
         {
-            var doc = new HTMLDocument();
+            var doc = new Document();
             var root = new HTMLHtmlElement();
             doc.AppendChild(root);
             var head = new HTMLHeadElement();
@@ -133,7 +133,7 @@ namespace UnitTests
         [TestMethod]
         public void HtmlHasRightBodyElement()
         {
-            var doc = new HTMLDocument();
+            var doc = new Document();
             var root = new HTMLHtmlElement();
             doc.AppendChild(root);
             var body = new HTMLBodyElement();

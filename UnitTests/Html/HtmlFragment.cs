@@ -16,7 +16,7 @@ namespace UnitTests
     {
         HTMLElement Create(string tagName)
         {
-            var doc = new HTMLDocument();
+            var doc = new Document();
             return HtmlElementFactory.Create(tagName, doc);
         }
 

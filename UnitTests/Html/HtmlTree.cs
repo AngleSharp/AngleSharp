@@ -2893,7 +2893,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
         [TestMethod]
         public void TreeParagraphWithTightAttributesAndNoScriptTagScriptingEnabled()
         {
-            var doc = new HTMLDocument();
+            var doc = new Document();
             var parser = new HtmlParser(doc, @"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>");
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
@@ -4991,7 +4991,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
         [TestMethod]
         public void TreeNoScriptWithNoScriptCommentInside()
         {
-            var doc = new HTMLDocument();
+            var doc = new Document();
             var parser = new HtmlParser(doc, @"<noscript><!--<noscript></noscript>--></noscript>");
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
@@ -5032,7 +5032,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
         [TestMethod]
         public void TreeNoScriptWithCommentAndClosingNoScriptInside()
         {
-            var doc = new HTMLDocument();
+            var doc = new Document();
             var parser = new HtmlParser(doc, @"<noscript><!--</noscript>X<noscript>--></noscript>");
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
@@ -5083,7 +5083,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
         [TestMethod]
         public void TreeNoScriptWithIFrameInside()
         {
-            var doc = new HTMLDocument();
+            var doc = new Document();
             var parser = new HtmlParser(doc, @"<noscript><iframe></noscript>X");
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
