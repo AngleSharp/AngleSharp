@@ -60,6 +60,14 @@
         IElement DocumentElement { get; }
 
         /// <summary>
+        /// Returns a list of elements with a given name in the HTML document.
+        /// </summary>
+        /// <param name="name">The value of the name attribute of the element.</param>
+        /// <returns>A collection of HTML elements.</returns>
+        [DomName("getElementsByName")]
+        IHtmlCollection GetElementsByName(String name);
+
+        /// <summary>
         /// Returns a set of elements which have all the given class names.
         /// </summary>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
