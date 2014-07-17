@@ -8,7 +8,7 @@ namespace UnitTests
     [TestClass]
     public class CssSelectorTests
     {
-        HTMLDocument document;
+        Document document;
 
         [TestInitialize]
         public void Setup()

@@ -8,7 +8,7 @@ namespace UnitTests
     public class AnalysisWindowTests
     {
         [TestMethod]
-        public void Bla()
+        public void GetComputedStyleTrivialInitialScenario()
         {
             var sourceCode = "<!doctype html><head><style>p > span { color: blue; } span.bold { font-weight: bold; }</style></head><body><div><p><span class='bold'>Bold text";
             var window = new AnalysisWindow();

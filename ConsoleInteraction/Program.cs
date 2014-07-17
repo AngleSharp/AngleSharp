@@ -1,4 +1,5 @@
 ﻿using AngleSharp;
+using AngleSharp.DOM;
 using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
@@ -188,7 +189,7 @@ namespace ConsoleInteraction
             }
         }
 
-        static HTMLDocument TestHtml(String source, String title = "HTML document")
+        static Document TestHtml(String source, String title = "HTML document")
         {
             var sw = Stopwatch.StartNew();
             var html = DocumentBuilder.Html(source);

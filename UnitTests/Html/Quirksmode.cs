@@ -12,7 +12,7 @@ namespace UnitTests
     [TestClass]
     public class QuirksmodeTests
     {
-        HTMLDocument document;
+        Document document;
 
         [TestInitialize]
         public void Setup()
