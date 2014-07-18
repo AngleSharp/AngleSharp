@@ -52,6 +52,11 @@
         CultureInfo Culture { get; set; }
 
         /// <summary>
+        /// Gets or sets the user-agent information.
+        /// </summary>
+        IInfo UserAgentInfo { get; set; }
+
+        /// <summary>
         /// Creates a new request object that might be passed to a requester.
         /// </summary>
         /// <returns>The created request object.</returns>

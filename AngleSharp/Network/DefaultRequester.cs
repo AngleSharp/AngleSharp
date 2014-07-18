@@ -41,15 +41,6 @@
         }
 
         /// <summary>
-        /// Constructs a default HTTP requester with the
-        /// default information (placed in the dependency resolver).
-        /// </summary>
-        public DefaultRequester()
-            : this(DependencyResolver.Current.GetService<IInfo>() ?? new DefaultInfo())
-        {
-        }
-
-        /// <summary>
         /// Constructs a default HTTP requester with the information
         /// presented in the info object.
         /// </summary>

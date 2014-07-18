@@ -24,8 +24,17 @@
         Boolean _embedded;
         Boolean _quirks;
         Boolean _requests;
+        IInfo _info;
 
+        /// <summary>
+        /// A fixed configuration that cannot be changed.
+        /// </summary>
         static readonly Configuration defaultConfiguration = new Configuration();
+
+        /// <summary>
+        /// A custom configuration that is user-defined.
+        /// </summary>
+        static IConfiguration customConfiguration;
 
         #endregion
 
@@ -42,6 +51,7 @@
             _embedded = false;
             _requests = false;
             _culture = CultureInfo.CurrentUICulture;
+            _info = new DefaultInfo();
         }
 
         #endregion
@@ -65,7 +75,22 @@
         /// </summary>
         internal static IConfiguration Default
         {
-            get { return DependencyResolver.Current.GetService<IConfiguration>() ?? defaultConfiguration; }
+            get { return customConfiguration ?? defaultConfiguration; }
+        }
+
+        /// <summary>
+        /// Gets or sets the user-agent information.
+        /// </summary>
+        public IInfo UserAgentInfo
+        {
+            get { return _info; }
+            set 
+            {
+                if (_info == null)
+                    throw new ArgumentException("The user-agent information cannot be omitted by passing a null reference.");
+                    
+                _info = value; 
+            }
         }
 
         /// <summary>
@@ -135,6 +160,16 @@
         #region Methods
 
         /// <summary>
+        /// Sets the default configuration to use, when the configuration
+        /// is omitted.
+        /// </summary>
+        /// <param name="configuration">The configuration to set.</param>
+        public static void SetDefault(IConfiguration configuration)
+        {
+            customConfiguration = configuration;
+        }
+
+        /// <summary>
         /// Creates a requester for performing HTTP / web requests.
         /// This method is using the default requester set over the
         /// dependency resolver. If nothing is found the default
@@ -143,8 +178,7 @@
         /// <returns>The constructed requester.</returns>
         public virtual IRequester GetRequester()
         {
-            return DependencyResolver.Current.GetService<IRequester>()
-                ?? new DefaultRequester();
+            return new DefaultRequester(_info);
         }
 
         /// <summary>
@@ -156,8 +190,7 @@
         /// <returns>The constructed request object.</returns>
         public virtual IRequest CreateRequest()
         {
-            return DependencyResolver.Current.GetService<IRequest>()
-                ?? new DefaultRequest();
+            return new DefaultRequest();
         }
 
         /// <summary>
