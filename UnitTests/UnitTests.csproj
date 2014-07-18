@@ -81,7 +81,6 @@
     <Compile Include="Css\CssSelector.cs" />
     <Compile Include="Css\CssW3CSelector.cs" />
     <Compile Include="Library\AnalysisWindow.cs" />
-    <Compile Include="Library\DependencyResolver.cs" />
     <Compile Include="Html\DOM.cs" />
     <Compile Include="Html\HtmlComment.cs" />
     <Compile Include="Html\ScriptData.cs" />
@@ -101,7 +100,6 @@
     <Compile Include="Mocks\DtdRequester.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
-    <Compile Include="Mocks\MockReflectionResolver.cs" />
     <Compile Include="Mocks\MockResolver.cs" />
     <Compile Include="Mocks\MockService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,7 +107,6 @@
     <Compile Include="Html\HtmlTokenization.cs" />
     <Compile Include="Html\HtmlTree.cs" />
     <Compile Include="Html\Quirksmode.cs" />
-    <Compile Include="Library\ReflectionResolver.cs" />
     <Compile Include="Html\GumboParser.cs" />
     <Compile Include="Html\Html5TestCom.cs" />
     <Compile Include="Html\Tricky.cs" />

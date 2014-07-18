@@ -12,8 +12,6 @@ namespace UnitTests
         [TestMethod]
         public void DefaultGetHttpRequester()
         {
-            var requ = DependencyResolver.Current.GetService<IRequester>();
-            Assert.IsNull(requ);
             Assert.IsFalse(Configuration.Default.AllowRequests);
             Assert.IsInstanceOfType(Configuration.Default.GetRequester(), typeof(DefaultRequester));
         }
