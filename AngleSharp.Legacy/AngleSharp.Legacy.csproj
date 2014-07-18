@@ -1516,6 +1516,12 @@
     <Compile Include="..\AngleSharp\IInfo.cs">
       <Link>IInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IScriptEngine.cs">
+      <Link>Infrastructure\IScriptEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IStyleEngine.cs">
+      <Link>Infrastructure\IStyleEngine.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssStyleDeclaration.cs">
       <Link>Interfaces\Css\ICssStyleDeclaration.cs</Link>
     </Compile>
