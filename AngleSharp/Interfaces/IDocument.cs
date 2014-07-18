@@ -347,6 +347,10 @@
         [DomName("defaultView")]
         IWindowProxy DefaultView { get; }
 
-        DOMStringList StyleSheetSets { get; }
+        /// <summary>
+        /// Gets a live list of all of the currently-available style sheet sets.
+        /// </summary>
+        [DomName("styleSheetSets")]
+        IStringList StyleSheetSets { get; }
     }
 }

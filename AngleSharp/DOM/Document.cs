@@ -333,8 +333,7 @@
         /// <summary>
         /// Gets a live list of all of the currently-available style sheet sets.
         /// </summary>
-        [DomName("styleSheetSets")]
-        public DOMStringList StyleSheetSets
+        public IStringList StyleSheetSets
         {
             get { return _styles ?? (_styles = new DOMStringList(_styleSheets.Select(m => m.Title))); }
         }
