@@ -1834,6 +1834,9 @@
     <Compile Include="..\AngleSharp\Interfaces\ISettableTokenList.cs">
       <Link>Interfaces\ISettableTokenList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IStringList.cs">
+      <Link>Interfaces\IStringList.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IStringMap.cs">
       <Link>Interfaces\IStringMap.cs</Link>
     </Compile>
