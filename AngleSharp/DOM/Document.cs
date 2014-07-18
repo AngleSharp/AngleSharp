@@ -559,6 +559,32 @@
             set { _quirksMode = value; }
         }
 
+        internal Int32 ScriptsWaiting
+        {
+            get { return 0; }
+        }
+
+        internal Int32 ScriptsAsSoonAsPossible
+        {
+            get { return 0; }
+        }
+
+        internal Boolean IsLoadingDelayed
+        {
+            get { return false; }
+        }
+
+        internal Boolean IsInBrowsingContext
+        {
+            get { return false; }
+        }
+
+        internal Boolean IsToBePrinted
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Methods
@@ -980,15 +1006,6 @@
 
         #endregion
 
-        #region Internal methods
-
-        internal virtual DocumentFragment Fragment(String value)
-        {
-            return new DocumentFragment();
-        }
-
-        #endregion
-
         #region String representation
 
         /// <summary>
@@ -1002,7 +1019,7 @@
 
         #endregion
 
-        #region Internal connection to parser
+        #region Internal methods
 
         /// <summary>
         /// Firing a simple event named e means that a trusted event with the name e,
@@ -1017,36 +1034,10 @@
             //http://www.w3.org/html/wg/drafts/html/master/webappapis.html#fire-a-simple-event
         }
 
-        internal Int32 ScriptsWaiting
-        {
-            get { return 0; }
-        }
-
-        internal Int32 ScriptsAsSoonAsPossible
-        {
-            get { return 0; }
-        }
-
         internal void RunNextScript()
         {
             WaitForReady();
             //TODO Run first script that should be executed when the document is finished parsing
-        }
-
-        internal Boolean IsLoadingDelayed
-        {
-            get { return false; }
-        }
-
-        internal Boolean IsInBrowsingContext
-        {
-            get { return false; }
-        }
-
-        internal Boolean IsToBePrinted
-        {
-            get;
-            set;
         }
 
         internal void PerformMicrotaskCheckpoint()
