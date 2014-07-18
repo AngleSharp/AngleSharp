@@ -278,6 +278,8 @@
     <Compile Include="Foundation\IdlExtensions.cs" />
     <Compile Include="Foundation\LocationExtensions.cs" />
     <Compile Include="Foundation\StyleExtensions.cs" />
+    <Compile Include="Infrastructure\IScriptEngine.cs" />
+    <Compile Include="Infrastructure\IStyleEngine.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
     <Compile Include="Interfaces\Html\IGlobalEventHandlers.cs" />
     <Compile Include="Interfaces\Html\IHtmlAnchorElement.cs" />

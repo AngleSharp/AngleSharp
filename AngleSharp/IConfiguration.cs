@@ -1,9 +1,11 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Network;
-    using AngleSharp.Parser;
-    using System;
-    using System.Globalization;
+    using AngleSharp.Infrastructure;
+using AngleSharp.Network;
+using AngleSharp.Parser;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 
     /// <summary>
     /// Represents the interface for a general setup of AngleSharp
@@ -55,6 +57,18 @@
         /// Gets or sets the user-agent information.
         /// </summary>
         IInfo UserAgentInfo { get; set; }
+
+        /// <summary>
+        /// Gets an enumeration over the available script engines.
+        /// By default no script engine is integrated.
+        /// </summary>
+        IEnumerable<IScriptEngine> ScriptEngines { get; }
+
+        /// <summary>
+        /// Gets an enumeration over the available style engines,
+        /// besides the default CSS engine.
+        /// </summary>
+        IEnumerable<IStyleEngine> StyleEngines { get; }
 
         /// <summary>
         /// Creates a new request object that might be passed to a requester.
