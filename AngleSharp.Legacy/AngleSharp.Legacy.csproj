@@ -1474,9 +1474,6 @@
     <Compile Include="..\AngleSharp\Foundation\IdlExtensions.cs">
       <Link>Foundation\IdlExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\LightInject.cs">
-      <Link>Foundation\LightInject.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\LocationExtensions.cs">
       <Link>Foundation\LocationExtensions.cs</Link>
     </Compile>
