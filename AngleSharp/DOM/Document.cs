@@ -179,7 +179,7 @@
         {
             _owner = this;
             _type = NodeType.Document;
-            Async = true;
+            IsAsync = true;
             _encoding = DocumentEncoding.Suggest(System.Globalization.CultureInfo.CurrentCulture.Name).WebName;
             _referrer = String.Empty;
             _ready = DocumentReadyState.Complete;
@@ -199,7 +199,6 @@
         /// <summary>
         /// Gets a list of all elements in the document.
         /// </summary>
-        [DomName("all")]
         public IHtmlCollection All
         {
             get { return _all; }
@@ -208,7 +207,6 @@
         /// <summary>
         /// Gets a list of all of the anchors in the document.
         /// </summary>
-        [DomName("anchors")]
         public IHtmlCollection Anchors
         {
             get { return _anchors ?? (_anchors = new HTMLCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name))); }
@@ -269,7 +267,7 @@
         /// <summary>
         /// Gets an indicator if loading the document should be asynchronous or synchronous.
         /// </summary>
-        public Boolean Async
+        public Boolean IsAsync
         {
             get;
             internal set;
@@ -375,15 +373,6 @@
         {
             get; //TODO
             internal set; 
-        }
-
-        /// <summary>
-        /// Gets the parent window object if any.
-        /// </summary>
-        [DomName("parentWindow")]
-        public IWindow ParentWindow
-        {
-            get { return DefaultView as IWindow; }
         }
 
         /// <summary>

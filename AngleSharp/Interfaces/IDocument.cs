@@ -11,6 +11,18 @@
     public interface IDocument : INode, IParentNode, IGlobalEventHandlers
     {
         /// <summary>
+        /// Gets a list of all elements in the document.
+        /// </summary>
+        [DomName("all")]
+        IHtmlCollection All { get; }
+
+        /// <summary>
+        /// Gets a list of all of the anchors in the document.
+        /// </summary>
+        [DomName("anchors")]
+        IHtmlCollection Anchors { get; }
+
+        /// <summary>
         /// Gets the DOM implementation associated with the current document.
         /// </summary>
         [DomName("implementation")]
@@ -335,7 +347,6 @@
         [DomName("defaultView")]
         IWindowProxy DefaultView { get; }
 
-        IWindow ParentWindow { get; }
         DOMStringList StyleSheetSets { get; }
     }
 }
