@@ -88,9 +88,6 @@
     <Compile Include="..\AngleSharp\Delegates\UnloadEventListener.cs">
       <Link>Delegates\UnloadEventListener.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DependencyResolver.cs">
-      <Link>DependencyResolver.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DocumentBuilder.cs">
       <Link>DocumentBuilder.cs</Link>
     </Compile>
