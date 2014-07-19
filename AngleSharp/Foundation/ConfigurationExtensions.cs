@@ -52,12 +52,12 @@
             var requester = configuration.GetRequester();
 
             if (requester == null)
-                throw new NullReferenceException("No HTTP requester has been set up. Configure one by adding an entry to the current DependencyResolver.");
+                throw new NullReferenceException("No HTTP requester has been set up in the configuration.");
 
             var request = configuration.CreateRequest();
 
             if (request == null)
-                throw new NullReferenceException("Unable to create instance of IRequest. Configure one by adding an entry to the current DependencyResolver.");
+                throw new NullReferenceException("Unable to create instance of IRequest. Try changing the provided configuration.");
 
             request.Address = url;
             request.Method = HttpMethod.Get;
@@ -98,12 +98,12 @@
             var requester = configuration.GetRequester();
 
             if (requester == null)
-                throw new NullReferenceException("No requester has been set up. Configure one by adding an entry to the current DependencyResolver.");
+                throw new NullReferenceException("No HTTP requester has been set up in the configuration.");
 
             var request = configuration.CreateRequest();
 
             if (request == null)
-                throw new NullReferenceException("Unable to create instance of IRequest. Configure one by adding an entry to the current DependencyResolver.");
+                throw new NullReferenceException("Unable to create instance of IRequest. Try changing the provided configuration.");
 
             request.Address = url;
             request.Content = content;
