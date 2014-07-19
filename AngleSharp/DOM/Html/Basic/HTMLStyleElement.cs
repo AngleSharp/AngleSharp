@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using AngleSharp.DOM.Css;
     using System;
 
     /// <summary>
@@ -10,7 +9,7 @@
     {
         #region Fields
 
-        readonly CSSStyleSheet _sheet;
+        StyleSheet _sheet;
 
         #endregion
 
@@ -22,8 +21,6 @@
         internal HTMLStyleElement()
         {
             _name = Tags.Style;
-            _sheet = new CSSStyleSheet();
-            _sheet.OwnerNode = this;
             _children.ElementsChanged += OnChildrenChanged;
         }
 
@@ -53,8 +50,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return Sheet.Disabled; }
-            set { Sheet.Disabled = value; }
+            get { if (_sheet != null) return _sheet.Disabled; else return false; }
+            set { if (_sheet != null) _sheet.Disabled = value; }
         }
 
         /// <summary>
@@ -106,7 +103,13 @@
 
         void OnChildrenChanged(Object sender, EventArgs e)
         {
-            _sheet.ReevaluateFromSource(TextContent);
+            if (_owner == null)
+                return;
+
+            _sheet = _owner.Options.ParseStyling(TextContent);
+
+            if (_sheet != null)
+                _sheet.OwnerNode = this;
         }
 
         /// <summary>
@@ -116,7 +119,10 @@
         internal override void OnAttributeChanged(String name)
         {
             if (name.Equals(AttributeNames.Media, StringComparison.Ordinal))
-                _sheet.Media.MediaText = Media;
+            {
+                if (_sheet != null)
+                    _sheet.Media.MediaText = Media;
+            }
             else
                 base.OnAttributeChanged(name);
         }
