@@ -114,7 +114,7 @@ namespace ConsoleInteraction
         /// Generates the unit tests from the given overview document.
         /// </summary>
         /// <param name="document">The document to inspect.</param>
-        public static XMLConfTest GenerateFromHtml(Document document)
+        public static XMLConfTest GenerateFromHtml(IDocument document)
         {
             var body = document.Body;
             var mode = Mode.None;

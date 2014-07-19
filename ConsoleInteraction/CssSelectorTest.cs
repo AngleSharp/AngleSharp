@@ -1,14 +1,11 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
-using AngleSharp.DOM.Html;
 using ConsoleInteraction.Assets;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleInteraction
 {
@@ -18,7 +15,7 @@ namespace ConsoleInteraction
     class CssSelectorTest
     {
         String _url;
-        Document _doc;
+        IDocument _doc;
         List<String> _tests;
         Int32 n;
 

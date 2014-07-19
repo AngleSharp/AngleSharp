@@ -189,7 +189,7 @@ namespace ConsoleInteraction
             }
         }
 
-        static Document TestHtml(String source, String title = "HTML document")
+        static IDocument TestHtml(String source, String title = "HTML document")
         {
             var sw = Stopwatch.StartNew();
             var html = DocumentBuilder.Html(source);

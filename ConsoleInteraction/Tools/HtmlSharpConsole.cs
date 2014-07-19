@@ -2,25 +2,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleInteraction
 {
     class HtmlSharpConsole
     {
-        Node current;
-        string[] methods;
-        string[] properties;
-        Stack<Node> previous;
+        INode current;
+        String[] methods;
+        String[] properties;
+        Stack<INode> previous;
 
-        public HtmlSharpConsole(Node current)
+        public HtmlSharpConsole(INode current)
         {
-            previous = new Stack<Node>();
+            previous = new Stack<INode>();
             Current = current;
         }
 
-        public Node Current
+        public INode Current
         {
             get { return current; }
             private set
@@ -42,7 +40,7 @@ namespace ConsoleInteraction
 
                 if (input.Equals("exit"))
                     break;
-                else if (string.IsNullOrEmpty(input))
+                else if (String.IsNullOrEmpty(input))
                     continue;
                 else if (input.Equals("cls"))
                 {
@@ -116,12 +114,13 @@ namespace ConsoleInteraction
             }
         }
 
-        private void Output(object value)
+        private void Output(Object value)
         {
-            if (value is Node)
+            var node = value as INode;
+
+            if (node != null)
             {
-                var node = (Node)value;
-                previous.Push(current);
+                previous.Push(node);
                 Current = node;
             }
 
@@ -149,9 +148,9 @@ namespace ConsoleInteraction
             }
         }
 
-        private object[] GetArgs(string args)
+        private Object[] GetArgs(String args)
         {
-            var list = new List<object>();
+            var list = new List<Object>();
             var index = 0;
             var str = false;
 
@@ -195,7 +194,7 @@ namespace ConsoleInteraction
             return list.ToArray();
         }
 
-        private object GetArg(string arg)
+        private Object GetArg(String arg)
         {
             int integer;
             double floating;
