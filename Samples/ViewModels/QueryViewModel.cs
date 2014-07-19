@@ -1,11 +1,7 @@
 ﻿using AngleSharp.DOM;
-using AngleSharp.DOM.Html;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -16,7 +12,7 @@ namespace Samples.ViewModels
     {
         ObservableCollection<Element> source;
         String query;
-        Document document;
+        IDocument document;
         Brush state;
         Int32 result;
         Int64 time;
@@ -74,7 +70,7 @@ namespace Samples.ViewModels
             get { return source; }
         }
 
-        protected override async Task Use(Uri url, Document document, CancellationToken cancel)
+        protected override async Task Use(Uri url, IDocument document, CancellationToken cancel)
         {
             State = Brushes.LightGray;
             this.document = document;

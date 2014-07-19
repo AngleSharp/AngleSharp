@@ -1,11 +1,10 @@
-﻿using AngleSharp.DOM.Html;
+﻿using AngleSharp.DOM;
 using System;
-using System.Linq;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AngleSharp.DOM;
 
 namespace Samples.ViewModels
 {
@@ -28,7 +27,7 @@ namespace Samples.ViewModels
             get { return _data ?? (_data = new ProfilerViewModel()); }
         }
 
-        protected override async Task Use(Uri url, Document document, CancellationToken cancel)
+        protected override async Task Use(Uri url, IDocument document, CancellationToken cancel)
         {
             await Task.Yield();
         }

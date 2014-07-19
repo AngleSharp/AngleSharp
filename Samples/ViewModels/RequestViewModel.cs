@@ -1,13 +1,8 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
-using AngleSharp.DOM.Html;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,7 +10,7 @@ namespace Samples.ViewModels
 {
     public abstract class RequestViewModel : BaseViewModel
     {
-        #region Members
+        #region Fields
 
         Task current;
         CancellationTokenSource cts;
@@ -29,7 +24,7 @@ namespace Samples.ViewModels
         static Uri recentUrl;
         static String recentAddress;
         static Int32 recentState;
-        static Document recentDocument;
+        static IDocument recentDocument;
 
         #endregion
 
@@ -115,7 +110,7 @@ namespace Samples.ViewModels
             Status = "Displaying: " + url;
         }
 
-        void UpdateRecent(Document document, String url, Uri uri)
+        void UpdateRecent(IDocument document, String url, Uri uri)
         {
             recentAddress = url;
             SettingsViewModel.Instance.AddUrl(url);
@@ -125,7 +120,7 @@ namespace Samples.ViewModels
             state = recentState;
         }
 
-        protected abstract Task Use(Uri url, Document document, CancellationToken cancel);
+        protected abstract Task Use(Uri url, IDocument document, CancellationToken cancel);
 
         #endregion
     }

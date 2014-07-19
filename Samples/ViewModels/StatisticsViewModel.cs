@@ -1,11 +1,9 @@
 ﻿using AngleSharp.DOM;
-using AngleSharp.DOM.Html;
 using OxyPlot;
 using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -69,7 +67,7 @@ namespace Samples.ViewModels
             }
         }
 
-        protected override async Task Use(Uri url, Document document, CancellationToken cancel)
+        protected override async Task Use(Uri url, IDocument document, CancellationToken cancel)
         {
             var elements = new Dictionary<String, Int32>();
             var attributes = new Dictionary<String, Int32>();

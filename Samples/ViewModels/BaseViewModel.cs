@@ -1,16 +1,7 @@
-﻿using AngleSharp;
-using AngleSharp.DOM;
-using AngleSharp.DOM.Html;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Samples.ViewModels
 {

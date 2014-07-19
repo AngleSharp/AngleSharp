@@ -1,6 +1,5 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
-using AngleSharp.DOM.Html;
 using System;
 using System.Collections.ObjectModel;
 using System.Net.Http;
@@ -85,7 +84,7 @@ namespace Samples.ViewModels
             }
         }
 
-        protected override async Task Use(Uri url, Document document, CancellationToken cancel)
+        protected override async Task Use(Uri url, IDocument document, CancellationToken cancel)
         {
             local = url;
             Selected = null;
