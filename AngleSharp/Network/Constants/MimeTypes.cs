@@ -495,6 +495,11 @@
         public static readonly String Xml = "text/xml";
 
         /// <summary>
+        /// Gets the mime-type for a cascading style sheet: text/css.
+        /// </summary>
+        public static readonly String Css = "text/css";
+
+        /// <summary>
         /// Gets the mime-type for XML applications, application/xml.
         /// </summary>
         public static readonly String ApplicationXml = "application/xml";

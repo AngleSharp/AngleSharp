@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Css;
     using System;
 
     /// <summary>
     /// Represents a style HTML element.
     /// </summary>
     [DomName("HTMLStyleElement")]
-    public interface IHtmlStyleElement : IHtmlElement
+    public interface IHtmlStyleElement : IHtmlElement, ILinkStyle
     {
         /// <summary>
         /// Gets or sets if the style is enabled or disabled.
