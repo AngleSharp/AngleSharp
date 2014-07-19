@@ -918,7 +918,7 @@ namespace UnitTests
         [TestMethod]
         public void GumboDoctype()
         {
-            var html = DocumentBuilder.Html(@"<!doctype html>Test");
+            var html = DocumentBuilder.Html(@"<!doctype html>Test") as Document;
             Assert.AreEqual(AngleSharp.DOM.QuirksMode.Off, html.QuirksMode);
             Assert.AreEqual(2, html.ChildNodes.Length);
 
@@ -931,7 +931,7 @@ namespace UnitTests
         [TestMethod]
         public void GumboInvalidDoctype()
         {
-            var html = DocumentBuilder.Html(@"Test<!doctype root_element SYSTEM ""DTD_location"">");
+            var html = DocumentBuilder.Html(@"Test<!doctype root_element SYSTEM ""DTD_location"">") as Document;
             Assert.AreEqual(AngleSharp.DOM.QuirksMode.On, html.QuirksMode);
             Assert.AreEqual(1, html.ChildNodes.Length);
 
