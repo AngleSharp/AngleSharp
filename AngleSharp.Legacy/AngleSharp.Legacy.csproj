@@ -67,12 +67,6 @@
     <Compile Include="..\AngleSharp\Attributes\DomNameAttribute.cs">
       <Link>Attributes\DomNameAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Configuration.cs">
-      <Link>Configuration.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DefaultInfo.cs">
-      <Link>DefaultInfo.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Delegates\ErrorEventListener.cs">
       <Link>Delegates\ErrorEventListener.cs</Link>
     </Compile>
@@ -1489,6 +1483,15 @@
     <Compile Include="..\AngleSharp\Foundation\Pool.cs">
       <Link>Foundation\Pool.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Setup\Configuration.cs">
+      <Link>Foundation\Setup\Configuration.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Setup\CopyConfiguration.cs">
+      <Link>Foundation\Setup\CopyConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Setup\IConfiguration.cs">
+      <Link>Foundation\Setup\IConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\StringExtensions.cs">
       <Link>Foundation\StringExtensions.cs</Link>
     </Compile>
@@ -1503,12 +1506,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\XmlExtensions.cs">
       <Link>Foundation\XmlExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\IConfiguration.cs">
-      <Link>IConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\IInfo.cs">
-      <Link>IInfo.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IScriptEngine.cs">
       <Link>Infrastructure\IScriptEngine.cs</Link>
@@ -1930,11 +1927,17 @@
     <Compile Include="..\AngleSharp\Network\Constants\MimeTypes.cs">
       <Link>Network\Constants\MimeTypes.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\DefaultInfo.cs">
+      <Link>Network\DefaultInfo.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultRequest.cs">
       <Link>Network\DefaultRequest.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultResponse.cs">
       <Link>Network\DefaultResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\IInfo.cs">
+      <Link>Network\IInfo.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\IRequest.cs">
       <Link>Network\IRequest.cs</Link>
