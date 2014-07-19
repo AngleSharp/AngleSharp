@@ -352,5 +352,11 @@
         /// </summary>
         [DomName("styleSheetSets")]
         IStringList StyleSheetSets { get; }
+
+        /// <summary>
+        /// Gets a list of stylesheet objects for stylesheets explicitly linked into or embedded in a document.
+        /// </summary>
+        [DomName("styleSheets")]
+        StyleSheetList StyleSheets { get; } 
     }
 }

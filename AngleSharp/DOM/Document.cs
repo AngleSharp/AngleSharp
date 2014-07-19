@@ -324,7 +324,6 @@
         /// <summary>
         /// Gets a list of stylesheet objects for stylesheets explicitly linked into or embedded in a document.
         /// </summary>
-        [DomName("styleSheets")]
         public StyleSheetList StyleSheets
         {
             get { return _styleSheets; }
@@ -591,7 +590,6 @@
         /// <summary>
         /// Opens a document stream for writing.
         /// </summary>
-        [DomName("open")]
         public IDocument OpenNew(String type = "text/html", String replace = null)
         {
             //TODO
@@ -601,7 +599,6 @@
         /// <summary>
         /// Finishes writing to a document.
         /// </summary>
-        [DomName("close")]
         public void CloseCurrent()
         {
             //TODO
@@ -611,7 +608,6 @@
         /// Writes text to a document.
         /// </summary>
         /// <param name="content">The text to be written on the document.</param>
-        [DomName("write")]
         public void Write(String content)
         {
             //TODO
@@ -621,7 +617,6 @@
         /// Writes a line of text to a document.
         /// </summary>
         /// <param name="content">The text to be written on the document.</param>
-        [DomName("writeln")]
         public void WriteLine(String content)
         {
             Write(content + Specification.LineFeed);
@@ -985,7 +980,7 @@
         /// <param name="url">The URL that hosts the HTML content.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The document with the parsed content.</returns>
-        public static Document LoadFromUrl(String url, IConfiguration configuration = null)
+        public static IDocument LoadFromUrl(String url, IConfiguration configuration = null)
         {
             var doc = new Document { Options = configuration ?? Configuration.Default };
             doc.Load(url);
@@ -998,7 +993,7 @@
         /// <param name="source">The source code with the HTML content.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The document with the parsed content.</returns>
-        public static Document LoadFromSource(String source, IConfiguration configuration = null)
+        public static IDocument LoadFromSource(String source, IConfiguration configuration = null)
         {
             return DocumentBuilder.Html(source, configuration);
         }
