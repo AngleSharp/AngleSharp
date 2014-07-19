@@ -356,8 +356,10 @@
     <Compile Include="Interfaces\IStringList.cs" />
     <Compile Include="Interfaces\Media\IAudioTrack.cs" />
     <Compile Include="Interfaces\Media\IAudioTrackList.cs" />
+    <Compile Include="Interfaces\Media\ICanvasRenderingContext2D.cs" />
     <Compile Include="Interfaces\Media\IMediaController.cs" />
     <Compile Include="Interfaces\Media\IMediaError.cs" />
+    <Compile Include="Interfaces\Media\IRenderingContext.cs" />
     <Compile Include="Interfaces\Media\ITextTrack.cs" />
     <Compile Include="Interfaces\Media\ITextTrackCue.cs" />
     <Compile Include="Interfaces\Media\ITextTrackCueList.cs" />
@@ -538,7 +540,6 @@
     <Compile Include="DOM\Html\HTMLWbrElement.cs" />
     <Compile Include="DOM\Annotations\ICssObject.cs" />
     <Compile Include="DOM\Annotations\IHtmlObject.cs" />
-    <Compile Include="DOM\Objects\RenderingContext.cs" />
     <Compile Include="DOM\Objects\ValidityState.cs" />
     <Compile Include="DOM\Objects\Event.cs" />
     <Compile Include="DOM\Objects\EventTarget.cs" />

@@ -1,9 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Media;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents the HTML canvas element.
+    /// See: http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
+    /// Alternative: http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-canvas-element
     /// </summary>
     sealed class HTMLCanvasElement : HTMLElement, IHtmlCanvasElement
     {
@@ -21,17 +25,12 @@
 
         #region Methods
 
-        //TODO
-        //http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-canvas-element
-
-        //http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
-
         /// <summary>
         /// Gets the drawing context.
         /// </summary>
         /// <param name="contextId">A context id like 2d.</param>
         /// <returns>An object that defines the drawing context.</returns>
-        public RenderingContext GetContext(String contextId)
+        public IRenderingContext GetContext(String contextId)
         {
             //TODO
             return null;
@@ -42,7 +41,7 @@
         /// </summary>
         /// <param name="contextId">A context id like 2d.</param>
         /// <returns>True if the context is supported, otherwise false.</returns>
-        public Boolean SupportsContext(String contextId)
+        public Boolean IsSupportingContext(String contextId)
         {
             //TODO
             return false;
@@ -52,7 +51,7 @@
         /// Changes the context the element is related to the given one.
         /// </summary>
         /// <param name="context">The new context.</param>
-        public void SetContext(RenderingContext context)
+        public void SetContext(IRenderingContext context)
         {
             //TODO
         }
@@ -74,7 +73,7 @@
         /// </summary>
         /// <param name="callback">The callback function.</param>
         /// <param name="type">The type of object to create.</param>
-        public void ToBlob(Action<Object> callback, String type = null)
+        public void ToBlob(Action<Stream> callback, String type = null)
         {
             //TODO
         }

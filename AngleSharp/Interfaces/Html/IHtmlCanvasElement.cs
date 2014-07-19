@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Media;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents the canvas HTML element.
@@ -35,7 +37,7 @@
         /// <param name="callback">The callback function.</param>
         /// <param name="type">The type of object to create.</param>
         [DomName("toBlob")]
-        void ToBlob(Action<Object> callback, String type = null);
+        void ToBlob(Action<Stream> callback, String type = null);
 
         /// <summary>
         /// Gets the drawing context.
@@ -43,6 +45,21 @@
         /// <param name="contextId">A context id like 2d.</param>
         /// <returns>An object that defines the drawing context.</returns>
         [DomName("getContext")]
-        RenderingContext GetContext(String contextId);
+        IRenderingContext GetContext(String contextId);
+
+        /// <summary>
+        /// Changes the context the element is related to the given one.
+        /// </summary>
+        /// <param name="context">The new context.</param>
+        [DomName("setContext")]
+        void SetContext(IRenderingContext context);
+        
+        /// <summary>
+        /// Gets an indicator if a context with the given parameters could be created.
+        /// </summary>
+        /// <param name="contextId">A context id like 2d.</param>
+        /// <returns>True if the context is supported, otherwise false.</returns>
+        [DomName("probablySupportsContext")]
+        Boolean IsSupportingContext(String contextId);
     }
 }
