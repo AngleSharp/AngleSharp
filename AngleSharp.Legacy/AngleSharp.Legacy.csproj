@@ -1489,9 +1489,6 @@
     <Compile Include="..\AngleSharp\Foundation\Pool.cs">
       <Link>Foundation\Pool.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\ResolverExtensions.cs">
-      <Link>Foundation\ResolverExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\StringExtensions.cs">
       <Link>Foundation\StringExtensions.cs</Link>
     </Compile>
@@ -1509,9 +1506,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\IDependencyResolver.cs">
-      <Link>IDependencyResolver.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IInfo.cs">
       <Link>IInfo.cs</Link>
