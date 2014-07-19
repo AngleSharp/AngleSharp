@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.DOM;
-    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
-    using AngleSharp.DOM.Html;
     using AngleSharp.Parser;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
@@ -58,7 +56,7 @@
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
         /// <returns>The constructed HTML document.</returns>
-        public Document FromHtml(String sourceCode)
+        public IDocument FromHtml(String sourceCode)
         {
             var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
             var doc = new Document { Options = configuration };
@@ -71,7 +69,7 @@
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <returns>The constructed HTML document.</returns>
-        public Document FromHtml(Uri url)
+        public IDocument FromHtml(Uri url)
         {
             return HtmlAsync(url).Result;
         }
@@ -81,7 +79,7 @@
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <returns>The task that constructs the HTML document.</returns>
-        public Task<Document> FromHtmlAsync(Uri url)
+        public Task<IDocument> FromHtmlAsync(Uri url)
         {
             return HtmlAsync(url, CancellationToken.None);
         }
@@ -92,7 +90,7 @@
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
         /// <returns>The task that constructs the HTML document.</returns>
-        public async Task<Document> FromHtmlAsync(Uri url, CancellationToken cancel)
+        public async Task<IDocument> FromHtmlAsync(Uri url, CancellationToken cancel)
         {
             var stream = await configuration.LoadAsync(url, cancel, force: true);
             var source = new SourceManager(stream, configuration.DefaultEncoding());
@@ -189,7 +187,7 @@
         /// <param name="sourceCode">The string to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static Document Html(String sourceCode, IConfiguration configuration = null)
+        public static IDocument Html(String sourceCode, IConfiguration configuration = null)
         {
             if (configuration == null)
                 configuration = GlobalConfig.Default;
@@ -206,7 +204,7 @@
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static Document Html(Uri url, IConfiguration configuration = null)
+        public static IDocument Html(Uri url, IConfiguration configuration = null)
         {
             return HtmlAsync(url, configuration).Result;
         }
@@ -217,7 +215,7 @@
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The task that constructs the HTML document.</returns>
-        public static Task<Document> HtmlAsync(Uri url, IConfiguration configuration = null)
+        public static Task<IDocument> HtmlAsync(Uri url, IConfiguration configuration = null)
         {
             return HtmlAsync(url, CancellationToken.None, configuration);
         }
@@ -229,7 +227,7 @@
         /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The task that constructs the HTML document.</returns>
-        public static async Task<Document> HtmlAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
+        public static async Task<IDocument> HtmlAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
         {
             if (configuration == null)
                 configuration = GlobalConfig.Default;
@@ -248,7 +246,7 @@
         /// <param name="stream">The stream of chars to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static Document Html(Stream stream, IConfiguration configuration = null)
+        public static IDocument Html(Stream stream, IConfiguration configuration = null)
         {
             if (configuration == null)
                 configuration = GlobalConfig.Default;
@@ -269,13 +267,15 @@
         public static INodeList HtmlFragment(String sourceCode, Node context = null, IConfiguration configuration = null)
         {
             if (configuration == null)
-                configuration = GlobalConfig.Default;
-
-            var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
-            var doc = new Document { Options = configuration };
+                configuration = new Configuration();
+            else
+                configuration = GlobalConfig.Clone(configuration);
 
             //Disable scripting for HTML fragments (security reasons)
             configuration.IsScripting = false;
+
+            var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
+            var doc = new Document { Options = configuration };
 
             var parser = Construct(source, doc, configuration);
 

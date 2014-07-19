@@ -551,8 +551,6 @@
     <Compile Include="DOM\Constants\RangePosition.cs" />
     <Compile Include="DOM\Constants\RangeType.cs" />
     <Compile Include="Foundation\ConfigurationExtensions.cs" />
-    <Compile Include="Foundation\ResolverExtensions.cs" />
-    <Compile Include="IDependencyResolver.cs" />
     <Compile Include="Parser\IParser.cs" />
     <Compile Include="Network\Constants\MimeTypes.cs" />
     <Compile Include="Delegates\MutationCallback.cs" />

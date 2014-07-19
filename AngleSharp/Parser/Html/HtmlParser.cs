@@ -78,7 +78,7 @@
         /// </summary>
         /// <param name="document">The document instance to be constructed.</param>
         /// <param name="source">The source code as a string.</param>
-        public HtmlParser(Document document, String source)
+        internal HtmlParser(Document document, String source)
             : this(document, new SourceManager(source, document.Options.DefaultEncoding()))
         {
         }
@@ -89,7 +89,7 @@
         /// </summary>
         /// <param name="document">The document instance to be constructed.</param>
         /// <param name="stream">The stream to use as source.</param>
-        public HtmlParser(Document document, Stream stream)
+        internal HtmlParser(Document document, Stream stream)
             : this(document, new SourceManager(stream, document.Options.DefaultEncoding()))
         {
         }
@@ -127,7 +127,7 @@
         /// <summary>
         /// Gets the (maybe intermediate) result of the parsing process.
         /// </summary>
-        public Document Result
+        public IDocument Result
         {
             get 
             {
@@ -218,7 +218,7 @@
 				}
 			}
 
-			if(run)
+			if (run)
 				Kernel();
         }
 
