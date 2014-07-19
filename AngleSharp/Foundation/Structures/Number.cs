@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a float value.
     /// </summary>
-    struct Number : IEquatable<Number>, ICssObject
+    public struct Number : IEquatable<Number>, ICssObject
     {
         #region Fields
 

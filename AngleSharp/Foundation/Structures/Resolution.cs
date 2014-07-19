@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a resolution value.
     /// </summary>
-    struct Resolution : IEquatable<Resolution>, ICssObject
+    public struct Resolution : IEquatable<Resolution>, ICssObject
     {
         #region Fields
 

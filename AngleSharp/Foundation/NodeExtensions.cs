@@ -29,6 +29,7 @@
         /// <param name="children">The list to investigate.</param>
         /// <param name="name">The name attribute's value.</param>
         /// <param name="result">The result collection.</param>
+        [DebuggerStepThrough]
         public static void GetElementsByName(this NodeList children, String name, List<Element> result)
         {
             for (int i = 0; i < children.Length; i++)

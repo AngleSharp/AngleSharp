@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a time value.
     /// </summary>
-    struct Frequency : IEquatable<Frequency>, ICssObject
+    public struct Frequency : IEquatable<Frequency>, ICssObject
     {
         #region Fields
 

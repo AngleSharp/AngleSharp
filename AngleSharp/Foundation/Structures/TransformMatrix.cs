@@ -1,6 +1,5 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.DOM
 {
-    using AngleSharp.DOM;
     using System;
     using System.Globalization;
 

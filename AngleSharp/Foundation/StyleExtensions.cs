@@ -2,7 +2,6 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
-    using System;
 
     static class StyleExtensions
     {
