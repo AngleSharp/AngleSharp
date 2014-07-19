@@ -58,6 +58,7 @@
             _info = new DefaultInfo();
             _scripts = new List<IScriptEngine>();
             _styles = new List<IStyleEngine>();
+            Register(new CssStyleEngine());
         }
 
         #endregion

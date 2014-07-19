@@ -1,5 +1,9 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.DOM;
+    using AngleSharp.DOM.Css;
+    using AngleSharp.Infrastructure;
+    using AngleSharp.Parser.Css;
     using System;
     using System.IO;
     using System.Text;
@@ -12,6 +16,8 @@
     /// </summary>
     static class ConfigurationExtensions
     {
+        #region Encoding
+
         /// <summary>
         /// Gets the default encoding for the given configuration.
         /// </summary>
@@ -24,6 +30,10 @@
 
             return DocumentEncoding.Suggest(configuration.Language);
         }
+
+        #endregion
+
+        #region Loading
 
         /// <summary>
         /// Loads the given URI by using an asynchronous GET request.
@@ -64,6 +74,10 @@
             var response = await requester.RequestAsync(request, cancel);
             return response.Content;
         }
+
+        #endregion
+
+        #region Sending
 
         /// <summary>
         /// Loads the given URI by using an asynchronous request with the given method and body.
@@ -115,5 +129,70 @@
             var response = await requester.RequestAsync(request, cancel);
             return response.Content;
         }
+
+        #endregion
+
+        #region Parsing Styles
+
+        /// <summary>
+        /// Tries to resolve a style engine for the given type name.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="type">The mime-type of the source code.</param>
+        /// <returns>The style engine or null, if the type if unknown.</returns>
+        public static IStyleEngine GetStyleEngine(this IConfiguration configuration, String type)
+        {
+            foreach (var styleEngine in configuration.StyleEngines)
+            {
+                if (styleEngine.Type.Equals(type, StringComparison.OrdinalIgnoreCase))
+                    return styleEngine;
+            }
+
+            return null;
+        }
+        
+        /// <summary>
+        /// Parses the given source code by using the supplied type name (otherwise it is text/css) and
+        /// returns the created stylesheet.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="source">The source code of the style sheet.</param>
+        /// <param name="type">The optional mime-type of the source code.</param>
+        /// <returns>A freshly created stylesheet, if any.</returns>
+        public static StyleSheet ParseStyling(this IConfiguration configuration, String source, String type = null)
+        {
+            if (configuration.IsStyling)
+            {
+                var engine = configuration.GetStyleEngine(type ?? MimeTypes.Css);
+
+                if (engine != null)
+                    return engine.CreateStyleSheetFor(source);
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        #region Styling Styles
+
+        /// <summary>
+        /// Tries to resolve a script engine for the given type name.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="type">The mime-type of the source code.</param>
+        /// <returns>The script engine or null, if the type if unknown.</returns>
+        public static IScriptEngine GetScriptEngine(this IConfiguration configuration, String type)
+        {
+            foreach (var scriptEngine in configuration.ScriptEngines)
+            {
+                if (scriptEngine.Type.Equals(type, StringComparison.OrdinalIgnoreCase))
+                    return scriptEngine;
+            }
+
+            return null;
+        }
+
+        #endregion
     }
 }
