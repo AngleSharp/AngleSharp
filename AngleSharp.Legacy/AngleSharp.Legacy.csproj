@@ -1504,6 +1504,9 @@
     <Compile Include="..\AngleSharp\Foundation\XmlExtensions.cs">
       <Link>Foundation\XmlExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\CssStyleEngine.cs">
+      <Link>Infrastructure\CssStyleEngine.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IScriptEngine.cs">
       <Link>Infrastructure\IScriptEngine.cs</Link>
     </Compile>
@@ -1512,6 +1515,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssStyleDeclaration.cs">
       <Link>Interfaces\Css\ICssStyleDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ILinkStyle.cs">
+      <Link>Interfaces\Css\ILinkStyle.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IGlobalEventHandlers.cs">
       <Link>Interfaces\Html\IGlobalEventHandlers.cs</Link>
