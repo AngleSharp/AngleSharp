@@ -1348,33 +1348,6 @@
     <Compile Include="..\AngleSharp\DOM\Objects\ValidityState.cs">
       <Link>DOM\Objects\ValidityState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Primitives\Angle.cs">
-      <Link>DOM\Primitives\Angle.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Primitives\Color.cs">
-      <Link>DOM\Primitives\Color.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Primitives\Frequency.cs">
-      <Link>DOM\Primitives\Frequency.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Primitives\Length.cs">
-      <Link>DOM\Primitives\Length.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Primitives\Location.cs">
-      <Link>DOM\Primitives\Location.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Primitives\Number.cs">
-      <Link>DOM\Primitives\Number.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Primitives\Percent.cs">
-      <Link>DOM\Primitives\Percent.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Primitives\Resolution.cs">
-      <Link>DOM\Primitives\Resolution.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Primitives\Time.cs">
-      <Link>DOM\Primitives\Time.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\ProcessingInstruction.cs">
       <Link>DOM\ProcessingInstruction.cs</Link>
     </Compile>
@@ -1495,11 +1468,38 @@
     <Compile Include="..\AngleSharp\Foundation\StringExtensions.cs">
       <Link>Foundation\StringExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Angle.cs">
+      <Link>Foundation\Structures\Angle.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Color.cs">
+      <Link>Foundation\Structures\Color.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Frequency.cs">
+      <Link>Foundation\Structures\Frequency.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Length.cs">
+      <Link>Foundation\Structures\Length.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Location.cs">
+      <Link>Foundation\Structures\Location.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Number.cs">
+      <Link>Foundation\Structures\Number.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Percent.cs">
+      <Link>Foundation\Structures\Percent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Resolution.cs">
+      <Link>Foundation\Structures\Resolution.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Time.cs">
+      <Link>Foundation\Structures\Time.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\TransformMatrix.cs">
+      <Link>Foundation\Structures\TransformMatrix.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\StyleExtensions.cs">
       <Link>Foundation\StyleExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\TransformMatrix.cs">
-      <Link>Foundation\TransformMatrix.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\ValueExtensions.cs">
       <Link>Foundation\ValueExtensions.cs</Link>
