@@ -194,6 +194,17 @@
         }
 
         /// <summary>
+        /// Creates a clone of the given configuration. The clone may be used to
+        /// change settings without affecting the originally provided configuration.
+        /// </summary>
+        /// <param name="configuration">The configuration to copy.</param>
+        /// <returns>The copied configuration.</returns>
+        internal static IConfiguration Clone(IConfiguration configuration)
+        {
+            return new CopyConfiguration(configuration);
+        }
+
+        /// <summary>
         /// Creates a requester for performing HTTP / web requests.
         /// This method is using the default requester set over the
         /// dependency resolver. If nothing is found the default
@@ -271,17 +282,5 @@
         }
 
         #endregion
-
-        /// <summary>
-        /// Creates a clone of the given configuration. The clone may be used to
-        /// change settings without affecting the originally provided configuration.
-        /// </summary>
-        /// <param name="configuration">The configuration to copy.</param>
-        /// <returns>The copied configuration.</returns>
-        internal static IConfiguration Clone(IConfiguration configuration)
-        {
-            //TODO
-            return null;
-        }
     }
 }

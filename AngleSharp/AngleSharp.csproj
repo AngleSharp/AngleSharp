@@ -38,7 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
-    <Compile Include="Configuration.cs" />
+    <Compile Include="Foundation\Setup\Configuration.cs" />
     <Compile Include="Delegates\ErrorEventListener.cs" />
     <Compile Include="Delegates\NodeFilter.cs" />
     <Compile Include="Delegates\UnloadEventListener.cs" />
@@ -277,6 +277,7 @@
     <Compile Include="Foundation\Constants\FeatureNames.cs" />
     <Compile Include="Foundation\IdlExtensions.cs" />
     <Compile Include="Foundation\LocationExtensions.cs" />
+    <Compile Include="Foundation\Setup\CopyConfiguration.cs" />
     <Compile Include="Foundation\StyleExtensions.cs" />
     <Compile Include="Infrastructure\IScriptEngine.cs" />
     <Compile Include="Infrastructure\IStyleEngine.cs" />
@@ -450,13 +451,13 @@
     <Compile Include="DOM\Objects\FormDataSet.cs" />
     <Compile Include="Parser\Html\HtmlHelpers.cs" />
     <Compile Include="Foundation\StringExtensions.cs" />
-    <Compile Include="IInfo.cs" />
-    <Compile Include="DefaultInfo.cs" />
+    <Compile Include="Network\IInfo.cs" />
+    <Compile Include="Network\DefaultInfo.cs" />
     <Compile Include="Foundation\Pool.cs" />
     <Compile Include="Network\DefaultRequest.cs" />
     <Compile Include="Network\DefaultRequester.cs" />
     <Compile Include="Network\DefaultResponse.cs" />
-    <Compile Include="IConfiguration.cs" />
+    <Compile Include="Foundation\Setup\IConfiguration.cs" />
     <Compile Include="Network\IRequest.cs" />
     <Compile Include="Network\IRequester.cs" />
     <Compile Include="DOM\Annotations\IFormatting.cs" />

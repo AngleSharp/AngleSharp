@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Network
 {
     using System;
     using System.Reflection;

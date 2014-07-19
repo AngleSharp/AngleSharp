@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Infrastructure;
-using AngleSharp.Network;
-using AngleSharp.Parser;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
+    using AngleSharp.Network;
+    using AngleSharp.Parser;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
 
     /// <summary>
     /// Represents the interface for a general setup of AngleSharp
