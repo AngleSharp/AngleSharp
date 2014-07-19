@@ -1339,9 +1339,6 @@
     <Compile Include="..\AngleSharp\DOM\Objects\Point2d.cs">
       <Link>DOM\Objects\Point2d.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\RenderingContext.cs">
-      <Link>DOM\Objects\RenderingContext.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Objects\Shadow.cs">
       <Link>DOM\Objects\Shadow.cs</Link>
     </Compile>
@@ -1867,11 +1864,17 @@
     <Compile Include="..\AngleSharp\Interfaces\Media\IAudioTrackList.cs">
       <Link>Interfaces\Media\IAudioTrackList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Media\ICanvasRenderingContext2D.cs">
+      <Link>Interfaces\Media\ICanvasRenderingContext2D.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Media\IMediaController.cs">
       <Link>Interfaces\Media\IMediaController.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Media\IMediaError.cs">
       <Link>Interfaces\Media\IMediaError.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Media\IRenderingContext.cs">
+      <Link>Interfaces\Media\IRenderingContext.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Media\ITextTrack.cs">
       <Link>Interfaces\Media\ITextTrack.cs</Link>
