@@ -212,7 +212,7 @@ namespace ConsoleInteraction
             return nodes;
         }
 
-        static CSSStyleSheet TestCSS(String source, String title = "CSS document")
+        static ICssStyleSheet TestCSS(String source, String title = "CSS document")
         {
             var parser = new CssParser(source);
             var sw = Stopwatch.StartNew();
