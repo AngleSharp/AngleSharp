@@ -15,9 +15,9 @@ namespace UnitTests.Css
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("screen", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
@@ -31,7 +31,7 @@ namespace UnitTests.Css
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.CssRules.Length);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [TestMethod]
@@ -39,9 +39,9 @@ namespace UnitTests.Css
         {
             var source = @"@media screen; h1 { color: green }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var h1 = (CSSStyleRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var h1 = (CSSStyleRule)sheet.Rules[0];
             Assert.AreEqual("h1", h1.SelectorText);
             var style = h1.Style;
             Assert.AreEqual("green", style.Color);
@@ -54,9 +54,9 @@ namespace UnitTests.Css
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("screen, tv", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(2, list.Length);
@@ -70,9 +70,9 @@ namespace UnitTests.Css
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("screen, tv", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(2, list.Length);
@@ -86,9 +86,9 @@ namespace UnitTests.Css
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("only screen, tv", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(2, list.Length);
@@ -102,9 +102,9 @@ namespace UnitTests.Css
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("not screen, tv", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(2, list.Length);
@@ -118,9 +118,9 @@ namespace UnitTests.Css
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("(min-width: 30px)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
@@ -134,9 +134,9 @@ namespace UnitTests.Css
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("only (width: 640px)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
@@ -150,9 +150,9 @@ namespace UnitTests.Css
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("not (device-width: 640px)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
@@ -166,7 +166,7 @@ namespace UnitTests.Css
     h1 { color: red }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.CssRules.Length);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [TestMethod]
@@ -176,7 +176,7 @@ namespace UnitTests.Css
     h1 { color: red }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.CssRules.Length);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [TestMethod]
@@ -186,7 +186,7 @@ namespace UnitTests.Css
     h1 { color: red }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.CssRules.Length);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [TestMethod]
@@ -196,7 +196,7 @@ namespace UnitTests.Css
     h1 { color: red }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.CssRules.Length);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [TestMethod]
@@ -207,7 +207,7 @@ namespace UnitTests.Css
 }";
 
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.CssRules.Length);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [TestMethod]
@@ -218,9 +218,9 @@ namespace UnitTests.Css
 }
 h1 { color: green }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var style = (CSSStyleRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var style = (CSSStyleRule)sheet.Rules[0];
             Assert.AreEqual("green", style.Style.Color);
             Assert.AreEqual("h1", style.SelectorText);
         }
@@ -232,7 +232,7 @@ h1 { color: green }";
     h1 { color: red }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.CssRules.Length);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [TestMethod]
@@ -242,7 +242,7 @@ h1 { color: green }";
     h1 { color: red }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.CssRules.Length);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [TestMethod]
@@ -252,9 +252,9 @@ h1 { color: green }";
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("all and (max-width: 30px)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
@@ -268,9 +268,9 @@ h1 { color: green }";
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("(aspect-ratio: 16 / 9)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
@@ -284,9 +284,9 @@ h1 { color: green }";
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("print and (max-width: 30px) and (min-device-width: 100px)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
@@ -300,9 +300,9 @@ h1 { color: green }";
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("all and (min-width: 0) and (min-device-width: 100px), screen", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(2, list.Length);
@@ -316,9 +316,9 @@ h1 { color: green }";
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("(resolution: 72dpi)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
@@ -332,9 +332,9 @@ h1 { color: green }";
     h1 { color: green }
 }";
             var sheet = CssParser.ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = (CSSMediaRule)sheet.CssRules[0];
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = (CSSMediaRule)sheet.Rules[0];
             Assert.AreEqual("(min-resolution: 72dpi) and (max-resolution: 140dpi)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);

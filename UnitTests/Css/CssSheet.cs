@@ -15,9 +15,9 @@ namespace UnitTests
 h1 {
  color: red;
  font-weight: bold");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var h1 = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var h1 = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual("red", h1.Style.Color);
             Assert.AreEqual("bold", h1.Style.FontWeight);
@@ -32,9 +32,9 @@ h1 {
         color: red;
         color: green;
       }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var p = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var p = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual("color", p.Style[0]);
@@ -47,9 +47,9 @@ h1 {
             var sheet = CssParser.ParseStyleSheet(@"
 #something {
  content: 'hi there");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var id = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var id = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("#something", id.SelectorText);
             Assert.AreEqual("'hi there'", id.Style.Content);
         }
@@ -59,9 +59,9 @@ h1 {
         {
             var sheet = CssParser.ParseStyleSheet(@"  @media screen {
     p:before { content: 'Hello");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSMediaRule));
-            var media = sheet.CssRules[0] as CSSMediaRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            var media = sheet.Rules[0] as CSSMediaRule;
             Assert.AreEqual("screen", media.ConditionText);
             Assert.AreEqual(1, media.CssRules.Length);
             Assert.IsInstanceOfType(media.CssRules[0], typeof(CSSStyleRule));
@@ -74,9 +74,9 @@ h1 {
         public void CssSheetIgnoreUnknownProperty()
         {
             var sheet = CssParser.ParseStyleSheet(@"h1 { color: red; rotation: 70minutes }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var h1 = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var h1 = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual(1, h1.Style.Length);
             Assert.AreEqual("color", h1.Style[0]);
@@ -87,28 +87,28 @@ h1 {
         public void CssSheetInvalidStatementRulesetUnexpectedAtKeyword()
         {
             var sheet = CssParser.ParseStyleSheet(@"p @here {color: red}");
-            Assert.AreEqual(0, sheet.CssRules.Length);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [TestMethod]
         public void CssSheetInvalidStatementAtRuleUnexpectedAtKeyword()
         {
             var sheet = CssParser.ParseStyleSheet(@"@foo @bar;");
-            Assert.AreEqual(0, sheet.CssRules.Length);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [TestMethod]
         public void CssSheetInvalidStatementRulesetUnexpectedRightBrace()
         {
             var sheet = CssParser.ParseStyleSheet(@"}} {{ - }}");
-            Assert.AreEqual(0, sheet.CssRules.Length);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [TestMethod]
         public void CssSheetInvalidStatementRulesetUnexpectedRightParenthesis()
         {
             var sheet = CssParser.ParseStyleSheet(@") ( {} ) p {color: red }");
-            Assert.AreEqual(0, sheet.CssRules.Length);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [TestMethod]
@@ -122,9 +122,9 @@ h1 {
   h1 { color: red }
 }
 h1 { color: blue }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var h1 = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var h1 = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual(1, h1.Style.Length);
             Assert.AreEqual("color", h1.Style[0]);
@@ -135,9 +135,9 @@ h1 { color: blue }");
         public void CssSheetKeepValidValueFloat()
         {
             var sheet = CssParser.ParseStyleSheet(@"img { float: left }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var img = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var img = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(1, img.Style.Length);
             Assert.AreEqual("float", img.Style[0]);
@@ -148,9 +148,9 @@ h1 { color: blue }");
         public void CssSheetIgnoreInvalidValueFloat()
         {
             var sheet = CssParser.ParseStyleSheet(@"img { float: left here }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var img = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var img = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(0, img.Style.Length);
         }
@@ -159,9 +159,9 @@ h1 { color: blue }");
         public void CssSheetIgnoreInvalidValueBackground()
         {
             var sheet = CssParser.ParseStyleSheet(@"img { background: ""red"" }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var img = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var img = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(0, img.Style.Length);
         }
@@ -170,9 +170,9 @@ h1 { color: blue }");
         public void CssSheetIgnoreInvalidValueBorderWidth()
         {
             var sheet = CssParser.ParseStyleSheet(@"img { border-width: 3 }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var img = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var img = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(0, img.Style.Length);
         }
@@ -181,9 +181,9 @@ h1 { color: blue }");
         public void CssSheetWellformedDeclaration()
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:green; }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var p = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var p = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
@@ -194,9 +194,9 @@ h1 { color: blue }");
         public void CssSheetMalformedDeclarationMissingColon()
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:green; color }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var p = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var p = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
@@ -207,9 +207,9 @@ h1 { color: blue }");
         public void CssSheetMalformedDeclarationMissingColonWithRecovery()
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:red;   color; color:green }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var p = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var p = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
@@ -220,9 +220,9 @@ h1 { color: blue }");
         public void CssSheetMalformedDeclarationMissingValue()
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:green; color: }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var p = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var p = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
@@ -233,9 +233,9 @@ h1 { color: blue }");
         public void CssSheetMalformedDeclarationUnexpectedTokens()
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:green; color{;color:maroon} }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var p = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var p = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
@@ -246,9 +246,9 @@ h1 { color: blue }");
         public void CssSheetMalformedDeclarationUnexpectedTokensWithRecovery()
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:red;   color{;color:maroon}; color:green }");
-            Assert.AreEqual(1, sheet.CssRules.Length);
-            Assert.IsInstanceOfType(sheet.CssRules[0], typeof(CSSStyleRule));
-            var p = sheet.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            var p = sheet.Rules[0] as CSSStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);

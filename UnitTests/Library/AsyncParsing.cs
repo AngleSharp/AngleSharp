@@ -20,7 +20,7 @@ namespace UnitTests
             task.Wait();
             Assert.IsTrue(task.IsCompleted);
             Assert.IsNotNull(parser.Result);
-            Assert.AreEqual(4, parser.Result.CssRules.Length);
+            Assert.AreEqual(4, parser.Result.Rules.Length);
         }
 
         [TestMethod]
