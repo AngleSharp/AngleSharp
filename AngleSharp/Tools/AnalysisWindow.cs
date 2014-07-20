@@ -126,7 +126,7 @@
                 }
             }
 
-            //style.InheritFrom(element);
+            style.InheritFrom(element, this);
             return style;
         }
 

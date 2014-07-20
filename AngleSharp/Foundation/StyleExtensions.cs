@@ -2,6 +2,8 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Css;
+    using System;
 
     static class StyleExtensions
     {
@@ -22,9 +24,16 @@
         /// </summary>
         /// <param name="style">The declaration to be modified.</param>
         /// <param name="element">The element that has unresolved properties.</param>
-        public static void InheritFrom(this CSSStyleDeclaration style, Element element)
+        /// <param name="window">The associated window object.</param>
+        public static void InheritFrom(this CSSStyleDeclaration style, IElement element, IWindow window)
         {
-            //TODO
+            var parent = element.Parent as IElement;
+
+            if (parent != null)
+            {
+                var parentStyle = window.GetComputedStyle(parent);
+                //TODO
+            }
         }
     }
 }
