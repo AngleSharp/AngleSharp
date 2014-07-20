@@ -51,6 +51,35 @@
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
         /// <param name="url">The url that yields the path to the desired action.</param>
+        /// <returns>The task which will eventually return the stream.</returns>
+        public static Task<Stream> LoadAsync(this IConfiguration configuration, String url)
+        {
+            return configuration.LoadAsync(url, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Loads the given URI by using an asynchronous GET request.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="url">The url that yields the path to the desired action.</param>
+        /// <param name="cancel">The token which can be used to cancel the request.</param>
+        /// <param name="force">[Optional] True if the request will be considered despite no allowed external request.</param>
+        /// <returns>The task which will eventually return the stream.</returns>
+        public static Task<Stream> LoadAsync(this IConfiguration configuration, String url, CancellationToken cancel, Boolean force = false)
+        {
+            Uri uri;
+
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
+                throw new ArgumentException("The given URL does not represent a valid absolute URL.");
+
+            return configuration.LoadAsync(uri, cancel, force);
+        }
+
+        /// <summary>
+        /// Loads the given URI by using an asynchronous GET request.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="url">The url that yields the path to the desired action.</param>
         /// <param name="cancel">The token which can be used to cancel the request.</param>
         /// <param name="force">[Optional] True if the request will be considered despite no allowed external request.</param>
         /// <returns>The task which will eventually return the stream.</returns>
@@ -160,6 +189,27 @@
         /// <param name="type">The optional mime-type of the source code.</param>
         /// <returns>A freshly created stylesheet, if any.</returns>
         public static IStyleSheet ParseStyling(this IConfiguration configuration, String source, String type = null)
+        {
+            if (configuration.IsStyling)
+            {
+                var engine = configuration.GetStyleEngine(type ?? MimeTypes.Css);
+
+                if (engine != null)
+                    return engine.CreateStyleSheetFor(source);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Parses the given source code by using the supplied type name (otherwise it is text/css) and
+        /// returns the created stylesheet.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="source">The source code of the style sheet.</param>
+        /// <param name="type">The optional mime-type of the source code.</param>
+        /// <returns>A freshly created stylesheet, if any.</returns>
+        public static IStyleSheet ParseStyling(this IConfiguration configuration, Stream source, String type = null)
         {
             if (configuration.IsStyling)
             {

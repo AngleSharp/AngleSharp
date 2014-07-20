@@ -1,8 +1,9 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.DOM.Collections;
-    using AngleSharp.DOM.Css;
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML link element.
@@ -11,10 +12,12 @@
     {
         #region Fields
 
-        readonly CSSStyleSheet _sheet;
+        IStyleSheet _sheet;
         String _buffer;
         ITokenList _relList;
         ISettableTokenList _sizes;
+        Task _current;
+        CancellationTokenSource _cts;
 
         #endregion
 
@@ -26,8 +29,7 @@
         internal HTMLLinkElement()
         {
             _name = Tags.Link;
-            _sheet = new CSSStyleSheet();
-            _sheet.OwnerNode = this;
+            _cts = new CancellationTokenSource();
         }
 
         #endregion
@@ -134,8 +136,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return Sheet.Disabled; }
-            set { Sheet.Disabled = value; }
+            get { return Sheet.IsDisabled; }
+            set { Sheet.IsDisabled = value; }
         }
 
         /// <summary>
@@ -184,19 +186,36 @@
         internal override void OnAttributeChanged(String name)
         {
             if (name.Equals(AttributeNames.Media, StringComparison.Ordinal))
-                _sheet.Media.MediaText = Media;
+            {
+                if (_sheet != null)
+                    _sheet.Media.MediaText = Media;
+            }
             else if (name.Equals(AttributeNames.Href, StringComparison.Ordinal) || name.Equals(AttributeNames.Rel, StringComparison.Ordinal))
             {
                 var href = Href;
 
-                if (href != null && Sheet != null && _buffer != href)
+                if (href != null && _buffer != href && _owner != null)
                 {
                     _buffer = href;
-                    _sheet.ReevaluateFromUrl(href);
+                    TryCancelCurrent();
+                    _current = _owner.Options.LoadAsync(href, _cts.Token).ContinueWith(task =>
+                    {
+                        if (task.IsCompleted && !task.IsFaulted)
+                            _sheet = _owner.Options.ParseStyling(task.Result, Type);
+                    });
                 }
             }
             else
                 base.OnAttributeChanged(name);
+        }
+
+        void TryCancelCurrent()
+        {
+            if (_current != null && !_current.IsCompleted)
+            {
+                _cts.Cancel();
+                _cts = new CancellationTokenSource();
+            }
         }
 
         #endregion

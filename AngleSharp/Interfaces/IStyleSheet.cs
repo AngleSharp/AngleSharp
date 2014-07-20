@@ -34,7 +34,7 @@
         /// concept of style sheet inclusion.
         /// </summary>
         [DomName("parentStyleSheet")]
-        IStyleSheet ParentStyleSheet { get; }
+        IStyleSheet Parent { get; }
 
         /// <summary>
         /// Gets the advisory title. The title is often specified in the ownerNode.
@@ -55,6 +55,6 @@
         /// doesn't apply to the current user agent, the disabled attribute is ignored.
         /// </summary>
         [DomName("disabled")]
-        Boolean Disabled { get; set; }
+        Boolean IsDisabled { get; set; }
     }
 }

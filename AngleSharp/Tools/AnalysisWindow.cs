@@ -119,9 +119,9 @@
 
             foreach (var stylesheet in document.StyleSheets)
             {
-                if (!stylesheet.Disabled && stylesheet.Media.Validate(this) && stylesheet is CSSStyleSheet)
+                if (!stylesheet.IsDisabled && stylesheet.Media.Validate(this) && stylesheet is CSSStyleSheet)
                 {
-                    foreach (var rule in ((CSSStyleSheet)stylesheet).CssRules)
+                    foreach (var rule in ((CSSStyleSheet)stylesheet).Rules)
                         rule.ComputeStyle(style, this, element);
                 }
             }

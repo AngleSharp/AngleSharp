@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Defines the API of an available engine for computing
@@ -20,5 +21,12 @@
         /// <param name="source">The source code describing the style sheet.</param>
         /// <returns>The created style sheet.</returns>
         IStyleSheet CreateStyleSheetFor(String source);
+
+        /// <summary>
+        /// Creates a style sheet for the given stream.
+        /// </summary>
+        /// <param name="source">The stream with the source describing the style sheet.</param>
+        /// <returns>The created style sheet.</returns>
+        IStyleSheet CreateStyleSheetFor(Stream source);
     }
 }

@@ -18,7 +18,7 @@
         /// Gets a CSSRuleList of the CSS rules in the style sheet.
         /// </summary>
         [DomName("cssRules")]
-        CSSRuleList CssRules { get; }
+        CSSRuleList Rules { get; }
 
         /// <summary>
         /// Inserts a new style rule into the current style sheet.
@@ -27,13 +27,13 @@
         /// <param name="index">The index representing the position to be inserted.</param>
         /// <returns>The index of insertation.</returns>
         [DomName("insertRule")]
-        Int32 InsertRule(String rule, Int32 index);
+        Int32 Insert(String rule, Int32 index);
 
         /// <summary>
         /// Removes a style rule from the current style sheet object.
         /// </summary>
         /// <param name="index">The index representing the position to be removed.</param>
         [DomName("deleteRule")]
-        void DeleteRule(Int32 index);
+        void RemoveAt(Int32 index);
     }
 }

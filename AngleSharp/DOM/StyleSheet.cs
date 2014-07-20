@@ -54,7 +54,7 @@
         /// Gets or sets if the stylesheet is applied to the document. Modifying this attribute may cause a new resolution
         /// of style for the document. If the media doesn't apply to the current user agent, the disabled attribute is ignored.
         /// </summary>
-        public Boolean Disabled
+        public Boolean IsDisabled
         {
             get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Disabled) != null) : false; }
             set { if (_owner != null) _owner.SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
@@ -72,7 +72,7 @@
         /// <summary>
         /// Gets the parent stylesheet for style sheet languages that support the concept of style sheet inclusion.
         /// </summary>
-        public IStyleSheet ParentStyleSheet
+        public IStyleSheet Parent
         {
             get { return _parent; }
         }

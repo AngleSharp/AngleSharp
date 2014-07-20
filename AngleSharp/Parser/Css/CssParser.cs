@@ -995,7 +995,7 @@
                     continue;
 
                 rule.ParentStyleSheet = sheet;
-                sheet.CssRules.Add(rule);
+                sheet.Rules.Add(rule);
             }
         }
 
@@ -1342,10 +1342,10 @@
             var parser = new CssParser(rule, configuration ?? Configuration.Default);
             parser.Parse();
 
-            if (parser.sheet.CssRules.Length == 0)
+            if (parser.sheet.Rules.Length == 0)
                 return null;
 
-            return parser.sheet.CssRules[0];
+            return parser.sheet.Rules[0];
         }
 
         /// <summary>

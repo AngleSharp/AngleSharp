@@ -50,8 +50,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { if (_sheet != null) return _sheet.Disabled; else return false; }
-            set { if (_sheet != null) _sheet.Disabled = value; }
+            get { if (_sheet != null) return _sheet.IsDisabled; else return false; }
+            set { if (_sheet != null) _sheet.IsDisabled = value; }
         }
 
         /// <summary>
