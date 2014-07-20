@@ -3,14 +3,14 @@
     using AngleSharp.Parser.Css;
     using System;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a CSS Stylesheet.
     /// </summary>
-    [DomName("CSSStyleSheet")]
-    public sealed class CSSStyleSheet : StyleSheet, ICssObject
+    sealed class CSSStyleSheet : StyleSheet, ICssStyleSheet, ICssObject
     {
         #region Fields
 
@@ -18,6 +18,7 @@
         CSSRule _ownerRule;
         Task _current;
         CancellationTokenSource _cts;
+        IConfiguration _options;
 
         #endregion
 
@@ -39,7 +40,6 @@
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the style sheet.
         /// </summary>
-        [DomName("cssRules")]
         public CSSRuleList CssRules
         {
             get { return _cssRules; }
@@ -48,7 +48,6 @@
         /// <summary>
         /// Gets the @import rule if the stylesheet was importated otherwise it returns null.
         /// </summary>
-        [DomName("ownerRule")]
         public CSSRule OwnerRule
         {
             get { return _ownerRule; }
@@ -64,13 +63,10 @@
         /// </summary>
         /// <param name="index">The index representing the position to be removed.</param>
         /// <returns>The current stylesheet.</returns>
-        [DomName("deleteRule")]
-        public CSSStyleSheet DeleteRule(Int32 index)
+        public void DeleteRule(Int32 index)
         {
             if (index >= 0 && index < _cssRules.Length)
                 _cssRules.RemoveAt(index);
-
-            return this;
         }
 
         /// <summary>
@@ -79,16 +75,22 @@
         /// <param name="rule">A string containing the rule to be inserted (selector and declaration).</param>
         /// <param name="index">The index representing the position to be inserted.</param>
         /// <returns>The current stylesheet.</returns>
-        [DomName("insertRule")]
-        public CSSStyleSheet InsertRule(String rule, Int32 index)
+        public Int32 InsertRule(String rule, Int32 index)
         {
             if (index >= 0 && index <= _cssRules.Length)
             {
                 var value = CssParser.ParseRule(rule);
-                _cssRules.InsertAt(index, value);
-            }
 
-            return this;
+                if (value is CSSCharsetRule)
+                    throw new DomException(ErrorCode.Syntax);
+                else if (value is CSSNamespaceRule && _cssRules.Any(m => (m is CSSImportRule || m is CSSCharsetRule || m is CSSNamespaceRule) == false))
+                    throw new DomException(ErrorCode.InvalidState);
+
+                _cssRules.InsertAt(index, value);
+                return index;
+            }
+            
+            throw new DomException(ErrorCode.IndexSizeError);
         }
 
         #endregion
@@ -107,6 +109,16 @@
                 sb.AppendLine(rule.ToCss());
 
             return sb.ToPool();
+        }
+
+        #endregion
+
+        #region Internal Properties
+
+        internal IConfiguration Options
+        {
+            get { return _options ?? Configuration.Default; }
+            set { _options = value; }
         }
 
         #endregion

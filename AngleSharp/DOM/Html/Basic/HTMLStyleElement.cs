@@ -5,11 +5,11 @@
     /// <summary>
     /// Represents the HTML style element.
     /// </summary>
-    sealed class HTMLStyleElement : HTMLElement, IStyleSheet, IHtmlStyleElement
+    sealed class HTMLStyleElement : HTMLElement, IHtmlStyleElement
     {
         #region Fields
 
-        StyleSheet _sheet;
+        IStyleSheet _sheet;
 
         #endregion
 
@@ -40,7 +40,7 @@
         /// <summary>
         /// Gets the associated style sheet.
         /// </summary>
-        public StyleSheet Sheet
+        public IStyleSheet Sheet
         {
             get { return _sheet; }
         }
@@ -107,9 +107,10 @@
                 return;
 
             _sheet = _owner.Options.ParseStyling(TextContent);
+            var styleSheet = _sheet as StyleSheet;
 
-            if (_sheet != null)
-                _sheet.OwnerNode = this;
+            if (styleSheet != null)
+                styleSheet.OwnerNode = this;
         }
 
         /// <summary>

@@ -178,7 +178,7 @@
         /// <param name="content">The string to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The CSS stylesheet.</returns>
-        public static CSSStyleSheet ParseCss(this String content, IConfiguration configuration = null)
+        public static ICssStyleSheet ParseCss(this String content, IConfiguration configuration = null)
         {
             return DocumentBuilder.Css(content, configuration);
         }
@@ -202,7 +202,7 @@
         /// <param name="uri">The source of the CSS content.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The CSS stylesheet.</returns>
-        public static CSSStyleSheet GetCss(this Uri uri, IConfiguration configuration = null)
+        public static ICssStyleSheet GetCss(this Uri uri, IConfiguration configuration = null)
         {
             return DocumentBuilder.Css(uri, configuration);
         }
@@ -239,7 +239,7 @@
         /// <param name="uri">The source of the CSS content.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The CSS stylesheet.</returns>
-        public static Task<CSSStyleSheet> GetCssAsync(this Uri uri, IConfiguration configuration = null)
+        public static Task<ICssStyleSheet> GetCssAsync(this Uri uri, IConfiguration configuration = null)
         {
             return DocumentBuilder.CssAsync(uri, configuration);
         }
@@ -252,7 +252,7 @@
         /// <param name="cancel">The cancellation token for aborting the download.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The CSS stylesheet.</returns>
-        public static Task<CSSStyleSheet> GetCssAsync(this Uri uri, CancellationToken cancel, IConfiguration configuration = null)
+        public static Task<ICssStyleSheet> GetCssAsync(this Uri uri, CancellationToken cancel, IConfiguration configuration = null)
         {
             return DocumentBuilder.CssAsync(uri, cancel, configuration);
         }

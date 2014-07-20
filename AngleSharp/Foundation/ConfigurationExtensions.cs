@@ -159,7 +159,7 @@
         /// <param name="source">The source code of the style sheet.</param>
         /// <param name="type">The optional mime-type of the source code.</param>
         /// <returns>A freshly created stylesheet, if any.</returns>
-        public static StyleSheet ParseStyling(this IConfiguration configuration, String source, String type = null)
+        public static IStyleSheet ParseStyling(this IConfiguration configuration, String source, String type = null)
         {
             if (configuration.IsStyling)
             {

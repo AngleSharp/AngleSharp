@@ -1,15 +1,15 @@
 ﻿namespace AngleSharp.DOM.Collections
 {
+    using AngleSharp.DOM.Css;
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using AngleSharp.DOM.Css;
 
     /// <summary>
     /// A collection of CSS elements.
     /// </summary>
     [DomName("StyleSheetList")]
-    public sealed class StyleSheetList : IEnumerable<StyleSheet>
+    public sealed class StyleSheetList : IEnumerable<IStyleSheet>
     {
         #region Fields
 
@@ -40,7 +40,7 @@
         /// <param name="index">The index of the element.</param>
         /// <returns>The stylesheet.</returns>
         [DomName("item")]
-        public StyleSheet this[Int32 index]
+        public IStyleSheet this[Int32 index]
         {
             get
             {
@@ -85,22 +85,24 @@
 
         #region Internal methods
 
-        static IEnumerable<StyleSheet> GetStyleSheets(Node parent)
+        static IEnumerable<IStyleSheet> GetStyleSheets(Node parent)
         {
             foreach (var child in parent.ChildNodes)
             {
                 if (child is Element)
                 {
-                    if (child is IStyleSheet)
+                    var linkStyle = child as ILinkStyle;
+
+                    if (linkStyle != null)
                     {
-                        var sheet = ((IStyleSheet)child).Sheet;
+                        var sheet = linkStyle.Sheet;
 
                         if (sheet != null)
                             yield return sheet;
                     }
                     else
                     {
-                        foreach(var sheet in GetStyleSheets(child))
+                        foreach (var sheet in GetStyleSheets(child))
                             yield return sheet;
                     }
                 }
@@ -115,7 +117,7 @@
         /// Returns an enumerator that iterates through the stylesheets.
         /// </summary>
         /// <returns>The enumerator.</returns>
-        public IEnumerator<StyleSheet> GetEnumerator()
+        public IEnumerator<IStyleSheet> GetEnumerator()
         {
             return GetStyleSheets(_parent).GetEnumerator();
         }

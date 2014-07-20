@@ -13,7 +13,7 @@
 
         String _href;
         MediaList _media;
-        CSSStyleSheet _styleSheet;
+        ICssStyleSheet _styleSheet;
 
         #endregion
 
@@ -56,7 +56,7 @@
         /// Gets the style sheet referred to by this rule, if it has been loaded. 
         /// </summary>
         [DomName("styleSheet")]
-        public CSSStyleSheet StyleSheet
+        public ICssStyleSheet StyleSheet
         {
             get { return _styleSheet; }
             internal set { _styleSheet = value; }

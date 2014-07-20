@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML link element.
     /// </summary>
-    sealed class HTMLLinkElement : HTMLElement, IStyleSheet, IHtmlLinkElement
+    sealed class HTMLLinkElement : HTMLElement, IHtmlLinkElement
     {
         #region Fields
 
@@ -168,7 +168,7 @@
         /// <summary>
         /// Gets the associated stylesheet.
         /// </summary>
-        public StyleSheet Sheet
+        public IStyleSheet Sheet
         {
             get { return RelationList.Contains("stylesheet") ? _sheet : null; }
         }

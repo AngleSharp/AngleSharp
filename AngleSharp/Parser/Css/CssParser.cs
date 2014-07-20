@@ -69,7 +69,7 @@
         /// </summary>
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
         /// <param name="source">The source code as a string.</param>
-        public CssParser(CSSStyleSheet stylesheet, String source)
+        internal CssParser(CSSStyleSheet stylesheet, String source)
             : this(stylesheet, new SourceManager(source, stylesheet.Options.DefaultEncoding()))
         { }
 
@@ -79,7 +79,7 @@
         /// </summary>
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
         /// <param name="stream">The stream to use as source.</param>
-        public CssParser(CSSStyleSheet stylesheet, Stream stream)
+        internal CssParser(CSSStyleSheet stylesheet, Stream stream)
             : this(stylesheet, new SourceManager(stream, stylesheet.Options.DefaultEncoding()))
         { }
 
@@ -124,7 +124,7 @@
         /// <summary>
         /// Gets the resulting stylesheet of the parsing.
         /// </summary>
-        public CSSStyleSheet Result
+        public ICssStyleSheet Result
         {
             get
             {
@@ -1325,7 +1325,7 @@
         /// <param name="stylesheet">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSStyleSheet object.</returns>
-        public static CSSStyleSheet ParseStyleSheet(String stylesheet, IConfiguration configuration = null)
+        public static ICssStyleSheet ParseStyleSheet(String stylesheet, IConfiguration configuration = null)
         {
             var parser = new CssParser(stylesheet, configuration ?? Configuration.Default);
             return parser.Result;

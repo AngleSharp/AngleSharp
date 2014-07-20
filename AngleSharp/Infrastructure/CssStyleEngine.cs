@@ -23,7 +23,7 @@
         /// </summary>
         /// <param name="source">The source code describing the style sheet.</param>
         /// <returns>The created style sheet.</returns>
-        public StyleSheet CreateStyleSheetFor(String source)
+        public IStyleSheet CreateStyleSheetFor(String source)
         {
             var style = new CSSStyleSheet();
             var parser = new CssParser(style, source);

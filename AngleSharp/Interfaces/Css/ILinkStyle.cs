@@ -11,6 +11,6 @@
         /// or null if there is none.
         /// </summary>
         [DomName("sheet")]
-        StyleSheet Sheet { get; }
+        IStyleSheet Sheet { get; }
     }
 }

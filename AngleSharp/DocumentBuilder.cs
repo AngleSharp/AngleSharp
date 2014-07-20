@@ -104,7 +104,7 @@
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
-        public CSSStyleSheet FromCss(String sourceCode)
+        public ICssStyleSheet FromCss(String sourceCode)
         {
             var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
             var doc = new CSSStyleSheet { Options = configuration };
@@ -117,7 +117,7 @@
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
-        public CSSStyleSheet FromCss(Uri url)
+        public ICssStyleSheet FromCss(Uri url)
         {
             return CssAsync(url).Result;
         }
@@ -127,7 +127,7 @@
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public Task<CSSStyleSheet> FromCssAsync(Uri url)
+        public Task<ICssStyleSheet> FromCssAsync(Uri url)
         {
             return CssAsync(url, CancellationToken.None);
         }
@@ -138,7 +138,7 @@
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public async Task<CSSStyleSheet> FromCssAsync(Uri url, CancellationToken cancel)
+        public async Task<ICssStyleSheet> FromCssAsync(Uri url, CancellationToken cancel)
         {
             var stream = await configuration.LoadAsync(url, cancel, force: true);
             var source = new SourceManager(stream, configuration.DefaultEncoding());
@@ -301,7 +301,7 @@
         /// <param name="sourceCode">The string to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
-        public static CSSStyleSheet Css(String sourceCode, IConfiguration configuration = null)
+        public static ICssStyleSheet Css(String sourceCode, IConfiguration configuration = null)
         {
             if (configuration == null)
                 configuration = GlobalConfig.Default;
@@ -318,7 +318,7 @@
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
-        public static CSSStyleSheet Css(Uri url, IConfiguration configuration = null)
+        public static ICssStyleSheet Css(Uri url, IConfiguration configuration = null)
         {
             return CssAsync(url, configuration).Result;
         }
@@ -329,7 +329,7 @@
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public static Task<CSSStyleSheet> CssAsync(Uri url, IConfiguration configuration = null)
+        public static Task<ICssStyleSheet> CssAsync(Uri url, IConfiguration configuration = null)
         {
             return CssAsync(url, CancellationToken.None, configuration);
         }
@@ -341,7 +341,7 @@
         /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public static async Task<CSSStyleSheet> CssAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
+        public static async Task<ICssStyleSheet> CssAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
         {
             if (configuration == null)
                 configuration = GlobalConfig.Default;
@@ -360,7 +360,7 @@
         /// <param name="stream">The stream of chars to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
-        public static CSSStyleSheet Css(Stream stream, IConfiguration configuration = null)
+        public static ICssStyleSheet Css(Stream stream, IConfiguration configuration = null)
         {
             if (configuration == null)
                 configuration = GlobalConfig.Default;

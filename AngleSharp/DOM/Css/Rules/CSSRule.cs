@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.DOM.Collections;
-    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -19,7 +18,7 @@
         /// <summary>
         /// The parent stylesheet.
         /// </summary>
-        protected CSSStyleSheet _parent;
+        protected ICssStyleSheet _parent;
         /// <summary>
         /// The parent rule.
         /// </summary>
@@ -64,7 +63,7 @@
         /// Gets the CSSStyleSheet object for the style sheet that contains this rule.
         /// </summary>
         [DomName("parentStyleSheet")]
-        public CSSStyleSheet ParentStyleSheet
+        public ICssStyleSheet ParentStyleSheet
         {
             get { return _parent; }
             internal set { _parent = value; }
