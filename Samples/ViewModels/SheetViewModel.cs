@@ -10,8 +10,8 @@ namespace Samples.ViewModels
 {
     public class SheetViewModel : RequestViewModel
     {
-        ObservableCollection<StyleSheet> source;
-        StyleSheet selected;
+        ObservableCollection<IStyleSheet> source;
+        IStyleSheet selected;
         Uri local;
         ObservableCollection<CssRuleViewModel> tree;
         CancellationTokenSource cts;
@@ -20,11 +20,11 @@ namespace Samples.ViewModels
         public SheetViewModel()
 	    {
             Status = "Nothing to display ...";
-            source = new ObservableCollection<StyleSheet>();
+            source = new ObservableCollection<IStyleSheet>();
             tree = new ObservableCollection<CssRuleViewModel>();
 	    }
 
-        public ObservableCollection<StyleSheet> Source
+        public ObservableCollection<IStyleSheet> Source
         {
             get { return source; }
         }
@@ -34,7 +34,7 @@ namespace Samples.ViewModels
             get { return tree; }
         }
 
-        public StyleSheet Selected
+        public IStyleSheet Selected
         {
             get { return selected; }
             set 
