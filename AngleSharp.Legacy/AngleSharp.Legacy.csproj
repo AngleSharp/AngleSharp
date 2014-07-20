@@ -1516,6 +1516,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssStyleDeclaration.cs">
       <Link>Interfaces\Css\ICssStyleDeclaration.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICSSStyleSheet.cs">
+      <Link>Interfaces\Css\ICSSStyleSheet.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ILinkStyle.cs">
       <Link>Interfaces\Css\ILinkStyle.cs</Link>
     </Compile>
