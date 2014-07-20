@@ -72,9 +72,9 @@ namespace Samples.ViewModels
             var css = DocumentBuilder.Css(content);
             ProfilerViewModel.Data.Stop();
 
-            for (int i = 0, j = 0; i < css.CssRules.Length; i++, j++)
+            for (int i = 0, j = 0; i < css.Rules.Length; i++, j++)
             {
-                tree.Add(new CssRuleViewModel(css.CssRules[i]));
+                tree.Add(new CssRuleViewModel(css.Rules[i]));
 
                 if (j == 80)
                 {

@@ -69,7 +69,7 @@ namespace ConsoleInteraction
                 title += ltr.ToString();
             }
 
-            foreach (var rule in sheet.CssRules)
+            foreach (var rule in sheet.Rules)
             {
                 if (rule is CSSStyleRule)
                 {
