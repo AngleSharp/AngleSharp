@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Network
 {
     /// <summary>
     /// Represents the usable methods for transmitting HTTP forms.

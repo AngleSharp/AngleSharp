@@ -135,7 +135,7 @@
                 var attachment = new CSSValueList();
                 var origin = new CSSValueList();
                 var clip = new CSSValueList();
-                var color = new CSSPrimitiveValue<Color>(AngleSharp.DOM.Color.Transparent);
+                var color = new CSSPrimitiveValue<Color>(Color.Transparent);
                 var list = values.ToList();
 
                 for (int i = 0; i < list.Count; i++)

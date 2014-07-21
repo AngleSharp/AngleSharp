@@ -530,7 +530,7 @@
     <Compile Include="DOM\Svg\SVGForeignObjectElement.cs" />
     <Compile Include="DOM\Svg\SVGSVGElement.cs" />
     <Compile Include="DOM\Svg\SVGTitleElement.cs" />
-    <Compile Include="Foundation\Constants\HttpMethod.cs" />
+    <Compile Include="Network\Constants\HttpMethod.cs" />
     <Compile Include="DOM\Html\Forms\HTMLFormControlElement.cs" />
     <Compile Include="DOM\Html\Forms\HTMLFormControlElementWithState.cs" />
     <Compile Include="DOM\Html\Forms\HTMLOutputElement.cs" />
@@ -543,8 +543,8 @@
     <Compile Include="DOM\Html\HTMLMenuItemElement.cs" />
     <Compile Include="DOM\Html\Forms\HTMLProgressElement.cs" />
     <Compile Include="DOM\Html\HTMLWbrElement.cs" />
-    <Compile Include="DOM\Annotations\ICssObject.cs" />
-    <Compile Include="DOM\Annotations\IHtmlObject.cs" />
+    <Compile Include="ICssObject.cs" />
+    <Compile Include="IHtmlObject.cs" />
     <Compile Include="DOM\Objects\ValidityState.cs" />
     <Compile Include="DOM\Objects\Event.cs" />
     <Compile Include="DOM\Objects\EventTarget.cs" />

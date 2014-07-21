@@ -81,7 +81,7 @@
 
         internal override Boolean TrySetDefaultValue()
         {
-            _res = new Resolution(72f, DOM.Resolution.Unit.Dpi);
+            _res = new Resolution(72f, Resolution.Unit.Dpi);
             return true;
         }
 

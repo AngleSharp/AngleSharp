@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp
 {
+    using AngleSharp.DOM;
     using System;
     using System.Collections.Generic;
 
@@ -200,7 +201,7 @@
         /// <returns>The CSS value string.</returns>
         public String ToCss()
         {
-            return LocationExtensions.ToCss(this);
+            return FunctionNames.Build(FunctionNames.Url, String.Concat("'", ToString(), "'"));
         }
 
         /// <summary>

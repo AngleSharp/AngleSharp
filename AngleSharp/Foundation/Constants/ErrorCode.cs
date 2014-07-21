@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+
     /// <summary>
     /// A collection of error codes.
     /// </summary>
