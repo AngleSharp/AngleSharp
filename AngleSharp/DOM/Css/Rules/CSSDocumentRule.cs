@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Contains the rules specified by a
     /// @document { /* ... */ } rule.
@@ -11,7 +10,7 @@ namespace AngleSharp.DOM.Css
     [DomName("CSSDocumentRule")]
     public sealed class CSSDocumentRule : CSSGroupingRule
     {
-        #region Members
+        #region Fields
 
         List<Tuple<DocumentFunction, String>> _conditions;
 

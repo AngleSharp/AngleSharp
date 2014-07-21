@@ -11,7 +11,8 @@
     {
         #region Fields
 
-        CSSRuleList _cssRules;
+        readonly CSSRuleList _cssRules;
+
         CSSRule _ownerRule;
         IConfiguration _options;
 
@@ -34,7 +35,7 @@
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the style sheet.
         /// </summary>
-        public CSSRuleList Rules
+        public ICssRuleList Rules
         {
             get { return _cssRules; }
         }
@@ -103,6 +104,15 @@
                 sb.AppendLine(rule.ToCss());
 
             return sb.ToPool();
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal void AddRule(CSSRule rule)
+        {
+            _cssRules.Add(rule);
         }
 
         #endregion

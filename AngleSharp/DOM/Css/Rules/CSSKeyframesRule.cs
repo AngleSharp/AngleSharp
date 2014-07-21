@@ -11,7 +11,8 @@
     {
         #region Fields
 
-        CSSRuleList _cssRules;
+        readonly CSSRuleList _cssRules;
+
         String _name;
 
         #endregion
@@ -45,7 +46,7 @@
         /// Gets a CSSRuleList of the CSS rules in the media rule.
         /// </summary>
         [DomName("cssRules")]
-        public CSSRuleList CssRules
+        public ICssRuleList CssRules
         {
             get { return _cssRules; }
         }
@@ -106,6 +107,15 @@
             }
 
             return null;
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal void AddRule(CSSKeyframeRule rule)
+        {
+            _cssRules.Add(rule);
         }
 
         #endregion

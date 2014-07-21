@@ -7,7 +7,7 @@
     /// Represents a list of CSS rules.
     /// </summary>
     [DomName("CSSRuleList")]
-    interface ICssRuleList : IEnumerable<CSSRule>
+    public interface ICssRuleList : IEnumerable<CSSRule>
     {
         /// <summary>
         /// Gets a CSS rule at the specified index.

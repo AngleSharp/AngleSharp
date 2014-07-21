@@ -2,6 +2,6 @@
 {
 	interface ICssRules
 	{
-		CSSRuleList CssRules { get; }
+		ICssRuleList CssRules { get; }
 	}
 }

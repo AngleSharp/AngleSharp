@@ -995,7 +995,7 @@
                     continue;
 
                 rule.ParentStyleSheet = sheet;
-                sheet.Rules.Add(rule);
+                sheet.AddRule(rule);
             }
         }
 
@@ -1018,7 +1018,7 @@
 
                 rule.ParentStyleSheet = sheet;
                 rule.ParentRule = parentRule;
-                parentRule.CssRules.Add(rule);
+                parentRule.AddRule(rule);
             }
         }
 
@@ -1041,7 +1041,7 @@
 
                 rule.ParentStyleSheet = sheet;
                 rule.ParentRule = parentRule;
-                parentRule.CssRules.Add(rule);
+                parentRule.AddRule(rule);
             }
         }
 

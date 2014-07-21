@@ -18,7 +18,7 @@
         /// Gets a CSSRuleList of the CSS rules in the style sheet.
         /// </summary>
         [DomName("cssRules")]
-        CSSRuleList Rules { get; }
+        ICssRuleList Rules { get; }
 
         /// <summary>
         /// Inserts a new style rule into the current style sheet.

@@ -6,7 +6,7 @@
     /// <summary>
     /// Useful helpers for the XML parser.
     /// </summary>
-    static class XmlHelpers
+    static class XmlExtensions
     {
         /// <summary>
         /// Determines if the given character is a legal character for the public id field:

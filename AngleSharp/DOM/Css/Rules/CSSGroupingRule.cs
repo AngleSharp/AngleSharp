@@ -33,7 +33,7 @@
         /// Gets a list of all CSS rules contained within the grouping block.
         /// </summary>
         [DomName("cssRules")]
-        public CSSRuleList CssRules
+        public ICssRuleList CssRules
         {
             get { return _cssRules; }
         }
@@ -41,6 +41,11 @@
         #endregion
 
         #region Internal Methods
+
+        internal void AddRule(CSSRule rule)
+        {
+            _cssRules.Add(rule);
+        }
 
         internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, IElement element)
         {
@@ -83,5 +88,5 @@
         }
 
         #endregion
-	}
+    }
 }

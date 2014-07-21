@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents an array like structure containing CSS rules.
     /// </summary>
-    public sealed class CSSRuleList : ICssRuleList, ICssObject
+    sealed class CSSRuleList : ICssRuleList, ICssObject
     {
         #region Fields
 
