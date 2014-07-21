@@ -705,7 +705,7 @@
         /// <param name="settings">Indicates which nodes to iterate over.</param>
         /// <param name="filter">An optional callback function for filtering.</param>
         /// <returns>The created node NodeIterator.</returns>
-        public INodeIterator CreateNodeIterator(INode root, FilterSetting settings = FilterSetting.All, NodeFilter filter = null)
+        public INodeIterator CreateNodeIterator(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null)
         {
             //TODO
             throw new NotImplementedException();
@@ -718,7 +718,7 @@
         /// <param name="settings">Indicates which nodes to iterate over.</param>
         /// <param name="filter">An optional callback function for filtering.</param>
         /// <returns>The created node TreeWalker.</returns>
-        public ITreeWalker CreateTreeWalker(INode root, FilterSetting settings = FilterSetting.All, NodeFilter filter = null)
+        public ITreeWalker CreateTreeWalker(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null)
         {
             //TODO
             throw new NotImplementedException();

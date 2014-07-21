@@ -520,17 +520,17 @@
         /// </summary>
         /// <param name="otherNode">The node that's being compared against.</param>
         /// <returns>The relationship that otherNode has with node, given in a bitmask.</returns>
-        public virtual DocumentPosition CompareDocumentPosition(INode otherNode)
+        public virtual DocumentPositions CompareDocumentPosition(INode otherNode)
         {
             if (this == otherNode)
-                return DocumentPosition.Same;
+                return DocumentPositions.Same;
 
             if(this.Owner != otherNode.Owner)
-                return DocumentPosition.Disconnected | DocumentPosition.ImplementationSpecific | (otherNode.GetHashCode() > GetHashCode() ? DocumentPosition.Following : DocumentPosition.Preceding);
+                return DocumentPositions.Disconnected | DocumentPositions.ImplementationSpecific | (otherNode.GetHashCode() > GetHashCode() ? DocumentPositions.Following : DocumentPositions.Preceding);
             else if (Contains(otherNode))
-                return DocumentPosition.ContainedBy | DocumentPosition.Following;
+                return DocumentPositions.ContainedBy | DocumentPositions.Following;
             else if (otherNode.Contains(this))
-                return DocumentPosition.Contains | DocumentPosition.Preceding;
+                return DocumentPositions.Contains | DocumentPositions.Preceding;
             
             return CompareRelativePositionInNodeList(_owner.ChildNodes, this, otherNode);
         }
@@ -684,7 +684,7 @@
         /// <param name="nodeA">The first node.</param>
         /// <param name="nodeB">The other node.</param>
         /// <returns>The position.</returns>
-        static DocumentPosition CompareRelativePositionInNodeList(NodeList list, INode nodeA, INode nodeB)
+        static DocumentPositions CompareRelativePositionInNodeList(NodeList list, INode nodeA, INode nodeB)
         {
             var aPos = -1;
             var bPos = -1;
@@ -699,13 +699,13 @@
             }
 
             if (aPos < bPos)
-                return DocumentPosition.Preceding;
+                return DocumentPositions.Preceding;
             else if (bPos < aPos)
-                return DocumentPosition.Following;
+                return DocumentPositions.Following;
             else if (aPos != -1 && bPos != -1)
                 return CompareRelativePositionInNodeList(list[aPos].ChildNodes, nodeA, nodeB);
 
-            return DocumentPosition.Disconnected;
+            return DocumentPositions.Disconnected;
         }
 
         /// <summary>

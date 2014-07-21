@@ -6,7 +6,7 @@
     /// The enumeration with the flags for setting the NodeIterator.
     /// </summary>
     [Flags]
-    public enum FilterSetting : ulong
+    public enum FilterSettings : ulong
     {
         /// <summary>
         /// All nodes will be considered.

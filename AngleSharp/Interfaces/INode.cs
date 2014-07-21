@@ -54,7 +54,7 @@
         /// <param name="otherNode">The node to be compared to the reference node, which is the node executing the method.</param>
         /// <returns>The relation between the two nodes.</returns>
         [DomName("compareDocumentPosition")]
-        DocumentPosition CompareDocumentPosition(INode otherNode);
+        DocumentPositions CompareDocumentPosition(INode otherNode);
 
         /// <summary>
         /// Cleans up all the text nodes under this element, i.e. merges

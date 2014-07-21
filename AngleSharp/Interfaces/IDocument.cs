@@ -210,7 +210,7 @@
         /// <param name="filter">An optional callback function for filtering.</param>
         /// <returns>The created node NodeIterator.</returns>
         [DomName("createNodeIterator")]
-        INodeIterator CreateNodeIterator(INode root, FilterSetting settings = FilterSetting.All, NodeFilter filter = null);
+        INodeIterator CreateNodeIterator(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null);
 
         /// <summary>
         /// Creates a new TreeWalker object.
@@ -220,7 +220,7 @@
         /// <param name="filter">An optional callback function for filtering.</param>
         /// <returns>The created node TreeWalker.</returns>
         [DomName("createTreeWalker")]
-        ITreeWalker CreateTreeWalker(INode root, FilterSetting settings = FilterSetting.All, NodeFilter filter = null);
+        ITreeWalker CreateTreeWalker(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null);
 
         /// <summary>
         /// Creates a copy of a node from an external document that can be inserted into the current document.

@@ -46,7 +46,7 @@
     <Compile Include="DOM\Collections\OptionsCollection.cs" />
     <Compile Include="DOM\Collections\SettableTokenList.cs" />
     <Compile Include="DOM\Constants\FilterResult.cs" />
-    <Compile Include="DOM\Constants\FilterSetting.cs" />
+    <Compile Include="DOM\Constants\FilterSettings.cs" />
     <Compile Include="DOM\Constants\MediaControllerPlaybackState.cs" />
     <Compile Include="DOM\Constants\MediaErrorCode.cs" />
     <Compile Include="DOM\Constants\MediaNetworkState.cs" />
@@ -554,7 +554,6 @@
     <Compile Include="Foundation\Constants\Colors.cs" />
     <Compile Include="Parser\Css\CssCombinator.cs" />
     <Compile Include="DOM\Constants\EventPhase.cs" />
-    <Compile Include="DOM\Constants\PowerState.cs" />
     <Compile Include="DOM\Constants\RangePosition.cs" />
     <Compile Include="DOM\Constants\RangeType.cs" />
     <Compile Include="Foundation\ConfigurationExtensions.cs" />
@@ -595,8 +594,7 @@
     <Compile Include="DOM\Constants\CssRuleType.cs" />
     <Compile Include="DOM\Css\CssValueType.cs" />
     <Compile Include="Foundation\Constants\Entities.cs" />
-    <Compile Include="DOM\Constants\CorsSettings.cs" />
-    <Compile Include="DOM\Constants\DocumentPosition.cs" />
+    <Compile Include="DOM\Constants\DocumentPositions.cs" />
     <Compile Include="Foundation\Constants\ErrorCode.cs" />
     <Compile Include="DOM\Constants\NodeType.cs" />
     <Compile Include="DOM\Constants\QuirksMode.cs" />

@@ -6,7 +6,7 @@
     /// Enumeration of possible document position values.
     /// </summary>
     [Flags]
-    public enum DocumentPosition : ushort
+    public enum DocumentPositions : ushort
     {
         /// <summary>
         /// It is the same node.

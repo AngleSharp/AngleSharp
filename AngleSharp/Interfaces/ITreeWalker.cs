@@ -25,7 +25,7 @@
         /// skipped, but their children may be included, if relevant.
         /// </summary>
         [DomName("whatToShow")]
-        FilterSetting Settings { get; }
+        FilterSettings Settings { get; }
 
         /// <summary>
         /// Gets the NodeFilter used to select the relevant nodes.
