@@ -12,7 +12,7 @@
         /// Gets the @import rule if the stylesheet was importated otherwise it returns null.
         /// </summary>
         [DomName("ownerRule")]
-        CSSRule OwnerRule { get; }
+        ICssRule OwnerRule { get; }
 
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the style sheet.

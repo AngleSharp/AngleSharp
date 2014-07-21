@@ -21,15 +21,15 @@
         String CssText { get; set; }
 
         /// <summary>
-        /// Gets the containing rule, if any.
+        /// Gets the containing (parent) rule, if any.
         /// </summary>
         [DomName("parentRule")]
-        ICssRule ParentRule { get; }
+        ICssRule Parent { get; }
 
         /// <summary>
-        /// Gets the CSSStyleSheet object that contains this rule, if any.
+        /// Gets the CSSStyleSheet object that owns this rule, if any.
         /// </summary>
         [DomName("parentStyleSheet")]
-        ICssStyleSheet ParentStyleSheet { get; }
+        ICssStyleSheet Owner { get; }
     }
 }

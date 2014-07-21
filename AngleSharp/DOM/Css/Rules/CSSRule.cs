@@ -61,7 +61,7 @@
         /// <summary>
         /// Gets the containing rule, otherwise null.
         /// </summary>
-        public ICssRule ParentRule
+        public ICssRule Parent
         {
             get { return _parentRule; }
             internal set { _parentRule = value; }
@@ -70,7 +70,7 @@
         /// <summary>
         /// Gets the CSSStyleSheet object for the style sheet that contains this rule.
         /// </summary>
-        public ICssStyleSheet ParentStyleSheet
+        public ICssStyleSheet Owner
         {
             get { return _parent; }
             internal set { _parent = value; }

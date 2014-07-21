@@ -68,8 +68,8 @@
             if (obj == null)
                 throw new DomException(ErrorCode.Syntax);
 
-            obj.ParentStyleSheet = _parent;
-            obj.ParentRule = this;
+            obj.Owner = _parent;
+            obj.Parent = this;
             _rules.List.Insert(_rules.Length, obj);
             return this;
         }

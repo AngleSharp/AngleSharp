@@ -994,7 +994,7 @@
                 if (rule == null)
                     continue;
 
-                rule.ParentStyleSheet = sheet;
+                rule.Owner = sheet;
                 sheet.AddRule(rule);
             }
         }
@@ -1016,8 +1016,8 @@
                 if (rule == null)
                     continue;
 
-                rule.ParentStyleSheet = sheet;
-                rule.ParentRule = parentRule;
+                rule.Owner = sheet;
+                rule.Parent = parentRule;
                 parentRule.AddRule(rule);
             }
         }
@@ -1039,8 +1039,8 @@
                 if (rule == null)
                     continue;
 
-                rule.ParentStyleSheet = sheet;
-                rule.ParentRule = parentRule;
+                rule.Owner = sheet;
+                rule.Parent = parentRule;
                 parentRule.AddRule(rule);
             }
         }

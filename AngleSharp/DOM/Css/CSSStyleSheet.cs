@@ -13,7 +13,7 @@
 
         readonly CSSRuleList _rules;
 
-        CSSRule _ownerRule;
+        ICssRule _ownerRule;
         IConfiguration _options;
 
         #endregion
@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets the @import rule if the stylesheet was importated otherwise it returns null.
         /// </summary>
-        public CSSRule OwnerRule
+        public ICssRule OwnerRule
         {
             get { return _ownerRule; }
             internal set { _ownerRule = value; }
