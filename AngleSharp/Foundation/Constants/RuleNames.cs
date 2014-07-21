@@ -10,46 +10,46 @@
         /// <summary>
         /// The @supports rule.
         /// </summary>
-        public const String Supports = "supports";
+        public static readonly String Supports = "supports";
 
         /// <summary>
         /// The @charset rule.
         /// </summary>
-        public const String Charset = "charset";
+        public static readonly String Charset = "charset";
 
         /// <summary>
         /// The @document rule.
         /// </summary>
-        public const String Document = "document";
+        public static readonly String Document = "document";
 
         /// <summary>
         /// The @font-face rule.
         /// </summary>
-        public const String FontFace = "font-face";
+        public static readonly String FontFace = "font-face";
 
         /// <summary>
         /// The @import rule.
         /// </summary>
-        public const String Import = "import";
+        public static readonly String Import = "import";
 
         /// <summary>
         /// The @keyframes rule.
         /// </summary>
-        public const String Keyframes = "keyframes";
+        public static readonly String Keyframes = "keyframes";
 
         /// <summary>
         /// The @media rule.
         /// </summary>
-        public const String Media = "media";
+        public static readonly String Media = "media";
 
         /// <summary>
         /// The @namespace rule.
         /// </summary>
-        public const String Namespace = "namespace";
+        public static readonly String Namespace = "namespace";
 
         /// <summary>
         /// The @page rule.
         /// </summary>
-        public const String Page = "page";
+        public static readonly String Page = "page";
     }
 }
