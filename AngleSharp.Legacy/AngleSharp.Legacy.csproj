@@ -181,6 +181,9 @@
     <Compile Include="..\AngleSharp\DOM\Constants\CorsSettings.cs">
       <Link>DOM\Constants\CorsSettings.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\CssRuleType.cs">
+      <Link>DOM\Constants\CssRuleType.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\DirectionMode.cs">
       <Link>DOM\Constants\DirectionMode.cs</Link>
     </Compile>
@@ -324,9 +327,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSProperty.cs">
       <Link>DOM\Css\CSSProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\CssRuleType.cs">
-      <Link>DOM\Css\CssRuleType.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSStyleSheet.cs">
       <Link>DOM\Css\CSSStyleSheet.cs</Link>
@@ -1512,6 +1512,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IStyleEngine.cs">
       <Link>Infrastructure\IStyleEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssRule.cs">
+      <Link>Interfaces\Css\ICssRule.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssRuleList.cs">
       <Link>Interfaces\Css\ICssRuleList.cs</Link>
