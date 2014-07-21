@@ -1,0 +1,35 @@
+﻿namespace AngleSharp.DOM.Css
+{
+    using System;
+
+    /// <summary>
+    /// Represents the base interface for a CSS rule.
+    /// </summary>
+    [DomName("CSSRule")]
+    public interface ICssRule
+    {
+        /// <summary>
+        /// Gets the type constant indicating the type of CSS rule.
+        /// </summary>
+        [DomName("type")]
+        CssRuleType Type { get; }
+
+        /// <summary>
+        /// Gets the textual representation of the rule.
+        /// </summary>
+        [DomName("cssText")]
+        String CssText { get; set; }
+
+        /// <summary>
+        /// Gets the containing rule, if any.
+        /// </summary>
+        [DomName("parentRule")]
+        ICssRule ParentRule { get; }
+
+        /// <summary>
+        /// Gets the CSSStyleSheet object that contains this rule, if any.
+        /// </summary>
+        [DomName("parentStyleSheet")]
+        ICssStyleSheet ParentStyleSheet { get; }
+    }
+}

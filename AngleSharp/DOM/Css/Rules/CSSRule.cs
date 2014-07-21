@@ -6,8 +6,7 @@
     /// <summary>
     /// Represents a CSS rule.
     /// </summary>
-    [DomName("CSSRule")]
-    public abstract class CSSRule : ICssObject
+    public abstract class CSSRule : ICssRule, ICssObject
     {
         #region Fields
 
@@ -22,7 +21,7 @@
         /// <summary>
         /// The parent rule.
         /// </summary>
-        protected CSSRule _parentRule;
+        protected ICssRule _parentRule;
 
         #endregion
 
@@ -43,17 +42,26 @@
         /// <summary>
         /// Gets the textual representation of the rule.
         /// </summary>
-        [DomName("cssText")]
         public String CssText
         {
             get { return ToCss(); }
+            set
+            {
+                var rule = AngleSharp.Parser.Css.CssParser.ParseRule(value);
+
+                if (rule == null)
+                    throw new DomException(ErrorCode.Syntax);
+                else if (rule.Type != _type)
+                    throw new DomException(ErrorCode.InvalidModification);
+
+                //TODO Replace current object with new value
+            }
         }
 
         /// <summary>
         /// Gets the containing rule, otherwise null.
         /// </summary>
-        [DomName("parentRule")]
-        public CSSRule ParentRule
+        public ICssRule ParentRule
         {
             get { return _parentRule; }
             internal set { _parentRule = value; }
@@ -62,7 +70,6 @@
         /// <summary>
         /// Gets the CSSStyleSheet object for the style sheet that contains this rule.
         /// </summary>
-        [DomName("parentStyleSheet")]
         public ICssStyleSheet ParentStyleSheet
         {
             get { return _parent; }
@@ -73,7 +80,6 @@
         /// <summary>
         /// Gets the type constant indicating the type of CSS rule.
         /// </summary>
-        [DomName("type")]
         public CssRuleType Type
         {
             get { return _type; }

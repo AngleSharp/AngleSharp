@@ -282,6 +282,7 @@
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
     <Compile Include="Infrastructure\IScriptEngine.cs" />
     <Compile Include="Infrastructure\IStyleEngine.cs" />
+    <Compile Include="Interfaces\Css\ICssRule.cs" />
     <Compile Include="Interfaces\Css\ICssRuleList.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
     <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
@@ -591,7 +592,7 @@
     <Compile Include="DOM\Html\Semantic\HTMLSemanticElement.cs" />
     <Compile Include="Foundation\Constants\Tags.cs" />
     <Compile Include="Parser\Html\HtmlParseMode.cs" />
-    <Compile Include="DOM\Css\CssRuleType.cs" />
+    <Compile Include="DOM\Constants\CssRuleType.cs" />
     <Compile Include="DOM\Css\CssValueType.cs" />
     <Compile Include="Foundation\Constants\Entities.cs" />
     <Compile Include="DOM\Constants\CorsSettings.cs" />

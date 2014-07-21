@@ -12,38 +12,47 @@
         /// <summary>
         /// A standard style rule.
         /// </summary>
+        [DomName("STYLE_RULE")]
         Style = 1,
         /// <summary>
         /// Defines a @charset rule.
         /// </summary>
+        [DomName("CHARSET_RULE")]
         Charset = 2,
         /// <summary>
         /// The @import rule.
         /// </summary>
+        [DomName("IMPORT_RULE")]
         Import = 3,
         /// <summary>
         /// An @media rule.
         /// </summary>
+        [DomName("MEDIA_RULE")]
         Media = 4,
         /// <summary>
         /// This is for definining @font-face rule.
         /// </summary>
+        [DomName("FONT_FACE_RULE")]
         FontFace = 5,
         /// <summary>
         /// In printing we require the @page rule.
         /// </summary>
+        [DomName("PAGE_RULE")]
         Page = 6,
         /// <summary>
         /// For animations @keyframes is very important.
         /// </summary>
+        [DomName("KEYFRAMES_RULE")]
         Keyframes = 7,
         /// <summary>
         /// Keyframes require one or more @keyframe rule(s) to be used.
         /// </summary>
+        [DomName("KEYFRAME_RULE")]
         Keyframe = 8,
         /// <summary>
         /// Declaring namespaces is possible @namespace.
         /// </summary>
+        [DomName("NAMESPACE_RULE")]
         Namespace = 10,
         /// <summary>
         /// The @counter-style rule for styling counters.
