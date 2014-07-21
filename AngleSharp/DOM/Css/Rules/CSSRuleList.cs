@@ -7,12 +7,11 @@
     /// <summary>
     /// Represents an array like structure containing CSS rules.
     /// </summary>
-    [DomName("CSSRuleList")]
-    public sealed class CSSRuleList : IEnumerable<CSSRule>, ICssObject
+    public sealed class CSSRuleList : ICssRuleList, ICssObject
     {
         #region Fields
 
-        List<CSSRule> _rules;
+        readonly List<CSSRule> _rules;
 
         #endregion
 
@@ -33,7 +32,6 @@
         /// <summary>
         /// Gets the number of rules stored.
         /// </summary>
-        [DomName("length")]
         public Int32 Length
         {
             get { return _rules.Count; }
@@ -44,7 +42,6 @@
         /// </summary>
         /// <param name="index">The index of the rule.</param>
         /// <returns>The CSS rule or null, if the index has been invalid.</returns>
-        [DomName("item")]
         public CSSRule this[Int32 index]
         {
             get { return index >= 0 && index < _rules.Count ? _rules[index] : null; }

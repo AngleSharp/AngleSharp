@@ -282,6 +282,7 @@
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
     <Compile Include="Infrastructure\IScriptEngine.cs" />
     <Compile Include="Infrastructure\IStyleEngine.cs" />
+    <Compile Include="Interfaces\Css\ICssRuleList.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
     <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
     <Compile Include="Interfaces\Css\ILinkStyle.cs" />
