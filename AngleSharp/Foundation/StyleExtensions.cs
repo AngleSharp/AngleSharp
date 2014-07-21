@@ -2,7 +2,6 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
-    using AngleSharp.DOM.Css;
     using System;
 
     static class StyleExtensions
@@ -13,10 +12,28 @@
         /// </summary>
         /// <param name="style">The declaration to be modified.</param>
         /// <param name="styling">The styling properties to use.</param>
-        public static void ExtendWith(this CSSStyleDeclaration style, CSSStyleDeclaration styling)
+        /// <param name="inherit">True if styling is from parent element.</param>
+        public static void ExtendWith(this CSSStyleDeclaration style, CSSStyleDeclaration styling, Boolean inherit = false)
         {
             foreach (var property in styling)
-                style.Set(property);
+            {
+                var styleProperty = style.Get(property.Name);
+
+                // Check if property should be inherited and if set yet.
+                if (inherit) 
+                {
+                    var newProperty = property.Clone();
+
+                    if (styleProperty == null || ((!styleProperty.Important || newProperty.Important) && !styleProperty.IsInherited))
+                        style.Set(newProperty);
+
+                    continue;
+                }
+
+                // property of style is not set or not important, or property is important
+                if (styleProperty == null || !styleProperty.Important || property.Important)
+                    style.Set(property);
+            }
         }
 
         /// <summary>
@@ -27,13 +44,10 @@
         /// <param name="window">The associated window object.</param>
         public static void InheritFrom(this CSSStyleDeclaration style, IElement element, IWindow window)
         {
-            var parent = element.Parent as IElement;
+            var parent = element.ParentElement;
 
             if (parent != null)
-            {
-                var parentStyle = window.GetComputedStyle(parent);
-                //TODO
-            }
+                style.ExtendWith(window.GetComputedStyle(parent), true);
         }
     }
 }

@@ -114,7 +114,7 @@
             // if pseudo is :before OR ::before then use the corresponding pseudo-element
             // else if pseudo is :after OR ::after then use the corresponding pseudo-element
 
-            var style = new CSSStyleDeclaration { IsReadOnly = true };
+            var style = new CSSStyleDeclaration();
 
             foreach (var stylesheet in document.StyleSheets)
             {
@@ -130,6 +130,7 @@
             }
 
             style.InheritFrom(element, this);
+            style.IsReadOnly = true;
             return style;
         }
 
