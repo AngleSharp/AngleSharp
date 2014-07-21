@@ -117,5 +117,35 @@ namespace UnitTests
             var computePrioOneStyle = window.GetComputedStyle(prioOne);
             Assert.AreEqual("black", computePrioOneStyle.Color);
         }
+
+        [TestMethod]
+        public void GetComputedUseAndPreferInlineStyle()
+        {
+            var source = new StringBuilder("<!doctype html> ");
+
+            var styles = new StringBuilder("<head><style>");
+            styles.Append("p > span { color: blue; }");
+            styles.Append("</style></head>");
+
+            var body = new StringBuilder("<body>");
+            body.Append("<div><p><span style='color: red'>Bold text</span></p></div>");
+            body.Append("</body>");
+
+            source.Append(styles);
+            source.Append(body);
+
+            var document = DocumentBuilder.Html(source.ToString());
+            Assert.IsNotNull(document);
+            window.Document = document;
+
+            // checks for element with text bold text
+            var element = document.QuerySelector("p > span");
+            Assert.IsNotNull(element);
+            Assert.AreEqual("span", element.TagName);
+
+            var computedStyle = window.GetComputedStyle(element);
+            Assert.AreEqual("red", computedStyle.Color);
+            Assert.AreEqual(1, computedStyle.Length);
+        }
     }
 }
