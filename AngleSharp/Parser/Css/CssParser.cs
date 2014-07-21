@@ -1337,7 +1337,7 @@
         /// <param name="rule">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSRule object.</returns>
-        public static CSSRule ParseRule(String rule, IConfiguration configuration = null)
+        public static ICssRule ParseRule(String rule, IConfiguration configuration = null)
         {
             var parser = new CssParser(rule, configuration ?? Configuration.Default);
             parser.Parse();
@@ -1354,7 +1354,7 @@
         /// <param name="declarations">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSStyleDeclaration object.</returns>
-        public static CSSStyleDeclaration ParseDeclarations(String declarations, IConfiguration configuration = null)
+        internal static CSSStyleDeclaration ParseDeclarations(String declarations, IConfiguration configuration = null)
         {
             var decl = new CSSStyleDeclaration();
             AppendDeclarations(decl, declarations, configuration);

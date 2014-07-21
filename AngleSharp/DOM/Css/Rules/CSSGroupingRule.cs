@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly CSSRuleList _cssRules;
+        readonly CSSRuleList _rules;
 
         #endregion
 
@@ -22,7 +22,7 @@
         /// </summary>
         internal CSSGroupingRule()
         {
-            _cssRules = new CSSRuleList();
+            _rules = new CSSRuleList();
         }
 
         #endregion
@@ -35,7 +35,7 @@
         [DomName("cssRules")]
         public ICssRuleList CssRules
         {
-            get { return _cssRules; }
+            get { return _rules; }
         }
 
         #endregion
@@ -44,12 +44,12 @@
 
         internal void AddRule(CSSRule rule)
         {
-            _cssRules.Add(rule);
+            _rules.List.Add(rule);
         }
 
         internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, IElement element)
         {
-            foreach (var rule in _cssRules)
+            foreach (var rule in _rules.List)
                 rule.ComputeStyle(style, window, element);
         }
 
@@ -66,10 +66,14 @@
         [DomName("insertRule")]
         public Int32 InsertRule(String rule, Int32 index)
         {
-            var obj = CssParser.ParseRule(rule);
+            var obj = CssParser.ParseRule(rule) as CSSRule;
+
+            if (obj == null)
+                throw new DomException(ErrorCode.Syntax);
+
             obj.ParentStyleSheet = _parent;
             obj.ParentRule = this;
-            _cssRules.InsertAt(index, obj);
+            _rules.List.Insert(index, obj);
             return index;
         }
 
@@ -81,8 +85,8 @@
         [DomName("deleteRule")]
         public CSSGroupingRule DeleteRule(Int32 index)
         {
-            if(index >= 0 && index < _cssRules.Length)
-                _cssRules.RemoveAt(index);
+            if(index >= 0 && index < _rules.Length)
+                _rules.List.RemoveAt(index);
 
             return this;
         }

@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly CSSRuleList _cssRules;
+        readonly CSSRuleList _rules;
 
         CSSRule _ownerRule;
         IConfiguration _options;
@@ -25,7 +25,7 @@
         /// </summary>
         internal CSSStyleSheet()
         {
-            _cssRules = new CSSRuleList();
+            _rules = new CSSRuleList();
         }
 
         #endregion
@@ -37,7 +37,7 @@
         /// </summary>
         public ICssRuleList Rules
         {
-            get { return _cssRules; }
+            get { return _rules; }
         }
 
         /// <summary>
@@ -60,8 +60,8 @@
         /// <returns>The current stylesheet.</returns>
         public void RemoveAt(Int32 index)
         {
-            if (index >= 0 && index < _cssRules.Length)
-                _cssRules.RemoveAt(index);
+            if (index >= 0 && index < _rules.Length)
+                _rules.List.RemoveAt(index);
         }
 
         /// <summary>
@@ -72,16 +72,16 @@
         /// <returns>The current stylesheet.</returns>
         public Int32 Insert(String rule, Int32 index)
         {
-            if (index >= 0 && index <= _cssRules.Length)
+            if (index >= 0 && index <= _rules.Length)
             {
-                var value = CssParser.ParseRule(rule);
+                var value = CssParser.ParseRule(rule) as CSSRule;
 
                 if (value is CSSCharsetRule)
                     throw new DomException(ErrorCode.Syntax);
-                else if (value is CSSNamespaceRule && _cssRules.Any(m => (m is CSSImportRule || m is CSSCharsetRule || m is CSSNamespaceRule) == false))
+                else if (value is CSSNamespaceRule && _rules.Any(m => (m is CSSImportRule || m is CSSCharsetRule || m is CSSNamespaceRule) == false))
                     throw new DomException(ErrorCode.InvalidState);
 
-                _cssRules.InsertAt(index, value);
+                _rules.List.Insert(index, value);
                 return index;
             }
             
@@ -100,7 +100,7 @@
         {
             var sb = Pool.NewStringBuilder();
 
-            foreach (var rule in _cssRules)
+            foreach (var rule in _rules)
                 sb.AppendLine(rule.ToCss());
 
             return sb.ToPool();
@@ -112,7 +112,7 @@
 
         internal void AddRule(CSSRule rule)
         {
-            _cssRules.Add(rule);
+            _rules.List.Add(rule);
         }
 
         #endregion

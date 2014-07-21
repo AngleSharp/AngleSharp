@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly CSSRuleList _cssRules;
+        readonly CSSRuleList _rules;
 
         String _name;
 
@@ -24,7 +24,7 @@
         /// </summary>
         internal CSSKeyframesRule()
         {
-            _cssRules = new CSSRuleList();
+            _rules = new CSSRuleList();
             _type = CssRuleType.Keyframes;
         }
 
@@ -48,7 +48,7 @@
         [DomName("cssRules")]
         public ICssRuleList CssRules
         {
-            get { return _cssRules; }
+            get { return _rules; }
         }
 
         #endregion
@@ -64,9 +64,13 @@
         public CSSKeyframesRule AppendRule(String rule)
         {
             var obj = CssParser.ParseKeyframeRule(rule);
+
+            if (obj == null)
+                throw new DomException(ErrorCode.Syntax);
+
             obj.ParentStyleSheet = _parent;
             obj.ParentRule = this;
-            _cssRules.InsertAt(_cssRules.Length, obj);
+            _rules.List.Insert(_rules.Length, obj);
             return this;
         }
 
@@ -78,11 +82,11 @@
         [DomName("deleteRule")]
         public CSSKeyframesRule DeleteRule(String key)
         {
-            for (int i = 0; i < _cssRules.Length; i++)
+            for (int i = 0; i < _rules.Length; i++)
             {
-                if ((_cssRules[i] as CSSKeyframeRule).KeyText.Equals(key, StringComparison.OrdinalIgnoreCase))
+                if ((_rules[i] as CSSKeyframeRule).KeyText.Equals(key, StringComparison.OrdinalIgnoreCase))
                 {
-                    _cssRules.RemoveAt(i);
+                    _rules.List.RemoveAt(i);
                     break;
                 }
             }
@@ -98,9 +102,9 @@
         [DomName("findRule")]
         public CSSKeyframeRule FindRule(String key)
         {
-            for (int i = 0; i < _cssRules.Length; i++)
+            for (int i = 0; i < _rules.Length; i++)
             {
-                var rule = _cssRules[i] as CSSKeyframeRule;
+                var rule = _rules[i] as CSSKeyframeRule;
 
                 if (rule.KeyText.Equals(key, StringComparison.OrdinalIgnoreCase))
                     return rule;
@@ -115,7 +119,7 @@
 
         internal void AddRule(CSSKeyframeRule rule)
         {
-            _cssRules.Add(rule);
+            _rules.List.Add(rule);
         }
 
         #endregion
@@ -128,7 +132,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Format("@keyframes {0} {{{1}{2}}}", _name, Environment.NewLine, _cssRules.ToCss());
+            return String.Format("@keyframes {0} {{{1}{2}}}", _name, Environment.NewLine, _rules.ToCss());
         }
 
         #endregion

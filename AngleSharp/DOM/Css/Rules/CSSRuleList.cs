@@ -42,49 +42,18 @@
         /// </summary>
         /// <param name="index">The index of the rule.</param>
         /// <returns>The CSS rule or null, if the index has been invalid.</returns>
-        public CSSRule this[Int32 index]
+        public ICssRule this[Int32 index]
         {
             get { return index >= 0 && index < _rules.Count ? _rules[index] : null; }
         }
 
         #endregion
 
-        #region Internal Methods
+        #region Internal Properties
 
-        /// <summary>
-        /// Clears the rules.
-        /// </summary>
-        internal void Clear()
+        internal List<CSSRule> List
         {
-            _rules.Clear();
-        }
-
-        /// <summary>
-        /// Adds a rule to the list of rules.
-        /// </summary>
-        /// <param name="rule">The rule to be added.</param>
-        internal void Add(CSSRule rule)
-        {
-            _rules.Add(rule);
-        }
-
-        /// <summary>
-        /// Removes the rule at the given index.
-        /// </summary>
-        /// <param name="index">The specified index.</param>
-        internal void RemoveAt(Int32 index)
-        {
-            _rules.RemoveAt(index);
-        }
-
-        /// <summary>
-        /// Inserts a rule at the specified index.
-        /// </summary>
-        /// <param name="index">The index where to insert.</param>
-        /// <param name="rule">The rule that should be inserted.</param>
-        internal void InsertAt(Int32 index, CSSRule rule)
-        {
-            _rules.Insert(index, rule);
+            get { return _rules; }
         }
 
         #endregion
@@ -95,7 +64,7 @@
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
-        public IEnumerator<CSSRule> GetEnumerator()
+        public IEnumerator<ICssRule> GetEnumerator()
         {
             foreach (var entry in _rules)
                 yield return entry;

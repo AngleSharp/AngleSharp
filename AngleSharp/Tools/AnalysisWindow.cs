@@ -3,7 +3,6 @@
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
-    using AngleSharp.DOM.Html;
     using System;
 
     /// <summary>
@@ -119,9 +118,13 @@
 
             foreach (var stylesheet in document.StyleSheets)
             {
-                if (!stylesheet.IsDisabled && stylesheet.Media.Validate(this) && stylesheet is CSSStyleSheet)
+                var sheet = stylesheet as CSSStyleSheet;
+
+                if (sheet != null && !stylesheet.IsDisabled && stylesheet.Media.Validate(this))
                 {
-                    foreach (var rule in ((CSSStyleSheet)stylesheet).Rules)
+                    var rules = sheet.Rules as CSSRuleList;
+
+                    foreach (var rule in rules.List)
                         rule.ComputeStyle(style, this, element);
                 }
             }
