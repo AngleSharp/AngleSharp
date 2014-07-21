@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Contains a list of common namespaces.
     /// </summary>
     static class Namespaces
     {
-        #region Members
+        #region Fields
 
         static readonly Dictionary<String, String> _namespaces;
 
