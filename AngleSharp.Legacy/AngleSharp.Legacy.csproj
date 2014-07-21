@@ -85,9 +85,6 @@
     <Compile Include="..\AngleSharp\DocumentBuilder.cs">
       <Link>DocumentBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\ICssObject.cs">
-      <Link>DOM\Annotations\ICssObject.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\ICssPrimitive.cs">
       <Link>DOM\Annotations\ICssPrimitive.cs</Link>
     </Compile>
@@ -96,9 +93,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\IFormatting.cs">
       <Link>DOM\Annotations\IFormatting.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\IHtmlObject.cs">
-      <Link>DOM\Annotations\IHtmlObject.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\IImplClosed.cs">
       <Link>DOM\Annotations\IImplClosed.cs</Link>
@@ -1408,9 +1402,6 @@
     <Compile Include="..\AngleSharp\Foundation\Constants\FunctionNames.cs">
       <Link>Foundation\Constants\FunctionNames.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\HttpMethod.cs">
-      <Link>Foundation\Constants\HttpMethod.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\Namespaces.cs">
       <Link>Foundation\Constants\Namespaces.cs</Link>
     </Compile>
@@ -1503,6 +1494,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\XmlExtensions.cs">
       <Link>Foundation\XmlExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\ICssObject.cs">
+      <Link>ICssObject.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\IHtmlObject.cs">
+      <Link>IHtmlObject.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\CssStyleEngine.cs">
       <Link>Infrastructure\CssStyleEngine.cs</Link>
@@ -1938,6 +1935,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Network\Constants\HeaderNames.cs">
       <Link>Network\Constants\HeaderNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\Constants\HttpMethod.cs">
+      <Link>Network\Constants\HttpMethod.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Constants\KnownProtocols.cs">
       <Link>Network\Constants\KnownProtocols.cs</Link>
