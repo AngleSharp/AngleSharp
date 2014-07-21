@@ -24,8 +24,15 @@
 
         #region Fields
 
-        static readonly String important = "important";
-        static readonly String inherit = "inherit";
+        /// <summary>
+        /// The important keyword.
+        /// </summary>
+        internal static readonly String Important = "important";
+
+        /// <summary>
+        /// The inherit keyword.
+        /// </summary>
+        internal static readonly String Inherit = "inherit";
 
         CssSelectorConstructor selector;
         CssValueBuilder value;
@@ -556,7 +563,7 @@
         Boolean IsImportant(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
-            return token.Type == CssTokenType.Ident && ((CssKeywordToken)token).Data == important;
+            return token.Type == CssTokenType.Ident && ((CssKeywordToken)token).Data == Important;
         }
 
         #endregion
@@ -1282,7 +1289,7 @@
         /// <returns>The created value.</returns>
         static CSSValue ToIdentifier(String identifier)
         {
-            if (identifier == inherit)
+            if (identifier == Inherit)
                 return CSSValue.Inherit;
 
             return new CSSIdentifierValue(identifier);

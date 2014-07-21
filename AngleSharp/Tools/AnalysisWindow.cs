@@ -3,6 +3,7 @@
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
+    using AngleSharp.DOM.Html;
     using System;
 
     /// <summary>
@@ -109,8 +110,6 @@
             if (document == null)
                 throw new ArgumentException("A valid HTML document is required for computing the style of an element.");
 
-            var obj = element;
-
             // if pseudo is :before OR ::before then use the corresponding pseudo-element
             // else if pseudo is :after OR ::after then use the corresponding pseudo-element
 
@@ -128,6 +127,11 @@
                         rule.ComputeStyle(style, this, element);
                 }
             }
+
+            var htmlElement = element as IHtmlElement;
+
+            if (htmlElement != null)
+                style.ExtendWith(htmlElement.Style, CSSProperty.InlinePriority);
 
             style.InheritFrom(element, this);
             style.IsReadOnly = true;

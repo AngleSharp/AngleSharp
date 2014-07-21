@@ -23,6 +23,21 @@
         Boolean _important;
         CSSStyleDeclaration _rule;
 
+        /// <summary>
+        /// Gets the priority used for custom rules.
+        /// </summary>
+        public static Int32 CustomPriority = Int32.MaxValue;
+
+        /// <summary>
+        /// Gets the priority used for important rules.
+        /// </summary>
+        public static Int32 ImportantPriority = Int32.MaxValue - 1;
+
+        /// <summary>
+        /// Gets the priority used for inline rules.
+        /// </summary>
+        public static Int32 InlinePriority = 10000;
+
         #endregion
 
         #region ctor

@@ -94,7 +94,7 @@
         internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, IElement element)
         {
             if (_selector.Match(element as Element))//TODO remove cast ASAP
-                style.ExtendWith(_style);
+                style.ExtendWith(_style, priority: _selector.Specifity);
         }
 
         #endregion

@@ -5,6 +5,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a single CSS declaration block.
@@ -14,7 +15,13 @@
     {
         #region Fields
 
-        readonly Dictionary<String, CSSProperty> _rules;
+        struct CssPriorityProperty
+        {
+            public Int32 Priority;
+            public CSSProperty Property;
+        }
+
+        readonly Dictionary<String, CssPriorityProperty> _rules;
         readonly Func<String> _getter;
         readonly Action<String> _setter;
         CSSRule _parent;
@@ -34,7 +41,7 @@
             var text = String.Empty;
             _getter = () => text;
             _setter = value => text = value;
-            _rules = new Dictionary<String, CSSProperty>(StringComparer.OrdinalIgnoreCase);
+            _rules = new Dictionary<String, CssPriorityProperty>(StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -46,7 +53,7 @@
         {
             _getter = () => (host.Owner == null || host.Owner.Options.IsStyling) ? host.GetAttribute(AttributeNames.Style) : String.Empty;
             _setter = value => host.SetAttribute(AttributeNames.Style, value);
-            _rules = new Dictionary<String, CSSProperty>(StringComparer.OrdinalIgnoreCase);
+            _rules = new Dictionary<String, CssPriorityProperty>(StringComparer.OrdinalIgnoreCase);
         }
 
         #endregion
@@ -2489,13 +2496,13 @@
             if (_readonly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
-            CSSProperty property;
+            CssPriorityProperty property;
 
             if (_rules.TryGetValue(propertyName, out property))
             {
                 _rules.Remove(propertyName);
                 Propagate();
-                return property.Value.CssText;
+                return property.Property.Value.CssText;
             }
 
             return null;
@@ -2509,10 +2516,10 @@
         [DomName("getPropertyPriority")]
         public String GetPropertyPriority(String propertyName)
         {
-            CSSProperty property;
+            CssPriorityProperty property;
 
-            if (_rules.TryGetValue(propertyName, out property) && property.Important)
-                return "important";
+            if (_rules.TryGetValue(propertyName, out property) && property.Property.Important)
+                return CssParser.Important;
 
             return null;
         }
@@ -2525,10 +2532,10 @@
         [DomName("getPropertyValue")]
         public String GetPropertyValue(String propertyName)
         {
-            CSSProperty property;
+            CssPriorityProperty property;
 
             if (_rules.TryGetValue(propertyName, out property))
-                return property.Value.CssText;
+                return property.Property.Value.CssText;
 
             return null;
         }
@@ -2549,7 +2556,8 @@
 
             if (decl != null)
             {
-                _rules[propertyName] = decl;
+                // We give user defined properties the highest order.
+                _rules[propertyName] = new CssPriorityProperty { Priority = CSSProperty.CustomPriority, Property = decl };
                 Propagate();
             }
 
@@ -2572,7 +2580,7 @@
             foreach (var rule in _rules)
             {
                 if (i++ == index)
-                    return rule.Value;
+                    return rule.Value.Property;
             }
 
             return null;
@@ -2585,22 +2593,44 @@
         /// <returns>The property with the specified name or null.</returns>
         internal CSSProperty Get(String name)
         {
-            CSSProperty prop;
+            CssPriorityProperty prop;
 
             if (_rules.TryGetValue(name, out prop))
-                return prop;
+                return prop.Property;
 
             return null;
         }
 
         /// <summary>
-        /// Sets the given CSS property.
+        /// Gets the priority of the given CSS property.
+        /// </summary>
+        /// <param name="name">The name of the property to get.</param>
+        /// <returns>The priority of the property or -1, if no such priority exists.</returns>
+        internal Int32 GetPriority(String name)
+        {
+            CssPriorityProperty prop;
+
+            if (_rules.TryGetValue(name, out prop))
+                return prop.Priority;
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Sets the given CSS property, if the property is equal or higher.
         /// </summary>
         /// <param name="property">The property to set.</param>
-        internal void Set(CSSProperty property)
+        /// <param name="priority">The optional prioprity to use.</param>
+        internal void Set(CSSProperty property, Int32 priority = 0)
         {
             if (property != null)
-                _rules[property.Name] = property;
+            {
+                if (property.Important)
+                    priority = CSSProperty.ImportantPriority;
+
+                if (priority >= GetPriority(property.Name))
+                    _rules[property.Name] = new CssPriorityProperty { Priority = priority, Property = property };
+            }
         }
 
         /// <summary>
@@ -2655,7 +2685,7 @@
         /// <returns>The iterator.</returns>
         public IEnumerator<CSSProperty> GetEnumerator()
         {
-            return _rules.Values.GetEnumerator();
+            return _rules.Values.Select(m => m.Property).GetEnumerator();
         }
 
         /// <summary>
