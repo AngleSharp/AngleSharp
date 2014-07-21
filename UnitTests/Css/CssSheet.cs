@@ -1,4 +1,4 @@
-﻿using AngleSharp.DOM;
+﻿using AngleSharp;
 using AngleSharp.DOM.Css;
 using AngleSharp.Parser.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
