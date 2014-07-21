@@ -41,7 +41,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void GetComputedStyleTrivialInitialScenarioTwo()
+        public void GetComputedStyleImportantHigherNoInheritance()
         {
             var source = new StringBuilder("<!doctype html> ");
 
@@ -78,6 +78,35 @@ namespace UnitTests
             Assert.AreEqual("red", computedStyle.Color);
             Assert.AreEqual("bold", computedStyle.FontWeight);
             Assert.AreEqual(3, computedStyle.Length);
+        }
+
+        [TestMethod]
+        public void GetComputedStyleHigherMatchingPrio()
+        {
+            var source = new StringBuilder("<!doctype html> ");
+
+            var styles = new StringBuilder("<head><style>");
+            styles.Append("p {text-align: center;}");
+            styles.Append("p > span { color: blue; }");
+            styles.Append("p > span { color: red; }");
+            styles.Append("span.bold { font-weight: bold !important; }");
+            styles.Append("span.bold { font-weight: lighter; }");
+
+            styles.Append("#prioOne { color: black; }");
+            styles.Append("div {color: green; }");
+            styles.Append("</style></head>");
+
+            var body = new StringBuilder("<body>");
+            body.Append("<div><p><span class='bold'>Bold text</span></p></div>");
+            body.Append("<div id='prioOne'>prioOne</div>");
+            body.Append("</body>");
+
+            source.Append(styles);
+            source.Append(body);
+
+            var document = DocumentBuilder.Html(source.ToString());
+            Assert.IsNotNull(document);
+            window.Document = document;
 
             // checks for element with text prioOne
             var prioOne = document.QuerySelector("#prioOne");
@@ -86,7 +115,7 @@ namespace UnitTests
             Assert.AreEqual("prioOne", prioOne.Id);
 
             var computePrioOneStyle = window.GetComputedStyle(prioOne);
-            //Assert.AreEqual("black", computePrioOneStyle.Color); // TODO this test is red (as expected). Priority of styles needs to be implemented.
+            Assert.AreEqual("black", computePrioOneStyle.Color);
         }
     }
 }
