@@ -3,7 +3,7 @@
     /// <summary>
     /// This enumeration controls whether error information will be exposed for cross origins.
     /// </summary>
-    public enum CORSSettings : ushort
+    enum CORSSettings : ushort
     {
         /// <summary>
         /// Cross-origin CORS requests for the element will have the omit credentials flag set.

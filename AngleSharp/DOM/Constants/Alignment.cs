@@ -3,7 +3,7 @@
     /// <summary>
     /// The list of possible horizontal alignments.
     /// </summary>
-    public enum Alignment
+    enum Alignment
     {
         /// <summary>
         /// The bottom of the object should be vertically aligned with

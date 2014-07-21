@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with two known power states: on and off.
     /// </summary>
-    public enum PowerState : ushort
+    enum PowerState : ushort
     {
         /// <summary>
         /// The field is active.
