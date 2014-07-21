@@ -94,7 +94,7 @@ namespace Samples.ViewModels
                 children.Add(new CssRuleViewModel(declaration));
         }
 
-        void Populate(CSSRuleList rules)
+        void Populate(ICssRuleList rules)
         {
             foreach (var rule in rules)
                 children.Add(new CssRuleViewModel(rule));
