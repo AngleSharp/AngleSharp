@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        List<Tuple<DocumentFunction, String>> _conditions;
+        readonly List<Tuple<DocumentFunction, String>> _conditions;
 
         #endregion
 
@@ -82,6 +82,18 @@
         internal List<Tuple<DocumentFunction, String>> Conditions
         {
             get { return _conditions; }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            base.ReplaceWith(rule);
+            var newRule = rule as CSSDocumentRule;
+            _conditions.Clear();
+            _conditions.AddRange(newRule._conditions);
         }
 
         #endregion

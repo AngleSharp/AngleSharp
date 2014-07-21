@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using System;
     using AngleSharp.DOM.Collections;
     using AngleSharp.Parser.Css;
+    using System;
 
     /// <summary>
     /// Represents a CSS style rule.
@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        readonly CSSStyleDeclaration _style;
+        CSSStyleDeclaration _style;
         String _selectorText;
         Selector _selector;
 
@@ -82,6 +82,14 @@
         #endregion
 
         #region Internal Methods
+
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            var newRule = rule as CSSStyleRule;
+            _style = newRule._style;
+            _selectorText = newRule._selectorText;
+            _selector = newRule._selector;
+        }
 
         internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, IElement element)
         {

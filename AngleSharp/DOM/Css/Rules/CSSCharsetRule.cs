@@ -1,8 +1,7 @@
-﻿using System;
-using System.Text;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+
     /// <summary>
     /// Represents the CSS @charset rule.
     /// </summary>
@@ -28,6 +27,16 @@ namespace AngleSharp.DOM.Css
         {
             get;
             internal set;
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            var newRule = rule as CSSCharsetRule;
+            Encoding = newRule.Encoding;
         }
 
         #endregion

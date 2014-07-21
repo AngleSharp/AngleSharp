@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.DOM.Collections;
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -17,7 +18,7 @@
         /// <summary>
         /// The parent stylesheet.
         /// </summary>
-        protected ICssStyleSheet _parent;
+        protected ICssStyleSheet _ownerSheet;
         /// <summary>
         /// The parent rule.
         /// </summary>
@@ -47,14 +48,14 @@
             get { return ToCss(); }
             set
             {
-                var rule = AngleSharp.Parser.Css.CssParser.ParseRule(value);
+                var rule = CssParser.ParseRule(value);
 
                 if (rule == null)
                     throw new DomException(ErrorCode.Syntax);
                 else if (rule.Type != _type)
                     throw new DomException(ErrorCode.InvalidModification);
 
-                //TODO Replace current object with new value
+                ReplaceWith(rule);
             }
         }
 
@@ -72,8 +73,8 @@
         /// </summary>
         public ICssStyleSheet Owner
         {
-            get { return _parent; }
-            internal set { _parent = value; }
+            get { return _ownerSheet; }
+            internal set { _ownerSheet = value; }
         }
 
 
@@ -88,6 +89,13 @@
         #endregion
 
         #region Internal Methods
+
+        /// <summary>
+        /// Replaces the current object with the given rule.
+        /// The types are equal.
+        /// </summary>
+        /// <param name="rule">The new rule.</param>
+        protected abstract void ReplaceWith(ICssRule rule);
 
         /// <summary>
         /// Computes the style for the given element within the specified window

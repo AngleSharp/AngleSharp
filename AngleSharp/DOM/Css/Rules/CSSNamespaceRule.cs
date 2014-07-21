@@ -1,14 +1,14 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+
     /// <summary>
     /// Represents an @namespace rule.
     /// </summary>
     [DomName("CSSNamespaceRule")]
     public sealed class CSSNamespaceRule : CSSRule
     {
-        #region Members
+        #region Fields
 
         String _namespaceURI;
         String _prefix;
@@ -47,6 +47,17 @@ namespace AngleSharp.DOM.Css
         {
             get { return _prefix; }
             internal set { _prefix = value; }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            var newRule = rule as CSSNamespaceRule;
+            _namespaceURI = newRule._namespaceURI;
+            _prefix = newRule._prefix;
         }
 
         #endregion

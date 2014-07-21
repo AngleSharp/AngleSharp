@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        CSSStyleDeclaration _cssRules;
+        CSSStyleDeclaration _style;
 
         #endregion
 
@@ -22,13 +22,19 @@
         /// </summary>
         internal CSSFontFaceRule()
         {
-            _cssRules = new CSSStyleDeclaration();
+            _style = new CSSStyleDeclaration();
             _type = CssRuleType.FontFace;
         }
 
         #endregion
 
         #region Internal methods
+
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            var newRule = rule as CSSFontFaceRule;
+            _style = newRule._style;
+        }
 
         /// <summary>
         /// Appends the given rule to the list of rules.
@@ -37,7 +43,7 @@
         /// <returns>The current font-face rule.</returns>
         internal CSSFontFaceRule AppendRule(CSSProperty rule)
         {
-            _cssRules.Set(rule);
+            _style.Set(rule);
             return this;
         }
 
@@ -51,7 +57,7 @@
         [DomName("cssRules")]
         public CSSStyleDeclaration CssRules
         {
-            get { return _cssRules; }
+            get { return _style; }
         }
 
         /// <summary>
@@ -60,8 +66,8 @@
         [DomName("family")]
         public String Family
         {
-            get { return _cssRules.GetPropertyValue("font-family"); }
-            set { _cssRules.SetProperty("font-family", value); }
+            get { return _style.GetPropertyValue("font-family"); }
+            set { _style.SetProperty("font-family", value); }
         }
 
         /// <summary>
@@ -70,8 +76,8 @@
         [DomName("src")]
         public String Src
         {
-            get { return _cssRules.GetPropertyValue("src"); }
-            set { _cssRules.SetProperty("src", value); }
+            get { return _style.GetPropertyValue("src"); }
+            set { _style.SetProperty("src", value); }
         }
 
         /// <summary>
@@ -80,8 +86,8 @@
         [DomName("style")]
         public String Style
         {
-            get { return _cssRules.GetPropertyValue("font-style"); }
-            set { _cssRules.SetProperty("font-style", value); }
+            get { return _style.GetPropertyValue("font-style"); }
+            set { _style.SetProperty("font-style", value); }
         }
 
         /// <summary>
@@ -90,8 +96,8 @@
         [DomName("weight")]
         public String Weight
         {
-            get { return _cssRules.GetPropertyValue("font-weight"); }
-            set { _cssRules.SetProperty("font-weight", value); }
+            get { return _style.GetPropertyValue("font-weight"); }
+            set { _style.SetProperty("font-weight", value); }
         }
 
         /// <summary>
@@ -100,8 +106,8 @@
         [DomName("stretch")]
         public String Stretch
         {
-            get { return _cssRules.GetPropertyValue("stretch"); }
-            set { _cssRules.SetProperty("stretch", value); }
+            get { return _style.GetPropertyValue("stretch"); }
+            set { _style.SetProperty("stretch", value); }
         }
 
         /// <summary>
@@ -110,8 +116,8 @@
         [DomName("unicodeRange")]
         public String UnicodeRange
         {
-            get { return _cssRules.GetPropertyValue("unicode-range"); }
-            set { _cssRules.SetProperty("unicode-range", value); }
+            get { return _style.GetPropertyValue("unicode-range"); }
+            set { _style.SetProperty("unicode-range", value); }
         }
 
         /// <summary>
@@ -120,8 +126,8 @@
         [DomName("variant")]
         public String Variant
         {
-            get { return _cssRules.GetPropertyValue("font-variant"); }
-            set { _cssRules.SetProperty("font-variant", value); }
+            get { return _style.GetPropertyValue("font-variant"); }
+            set { _style.SetProperty("font-variant", value); }
         }
 
         /// <summary>
@@ -130,8 +136,8 @@
         [DomName("featureSettings")]
         public String FeatureSettings
         {
-            get { return _cssRules.GetPropertyValue("font-feature-settings"); }
-            set { _cssRules.SetProperty("font-feature-settings", value); }
+            get { return _style.GetPropertyValue("font-feature-settings"); }
+            set { _style.SetProperty("font-feature-settings", value); }
         }
 
         #endregion
@@ -144,7 +150,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return "@font-face {" + Environment.NewLine + _cssRules.ToCss() + "}";
+            return "@font-face {" + Environment.NewLine + _style.ToCss() + "}";
         }
 
         #endregion
@@ -156,7 +162,7 @@
 		/// </summary>
 		public CSSStyleDeclaration Styles
 		{
-			get { return _cssRules; }
+			get { return _style; }
 		}
 
 		#endregion

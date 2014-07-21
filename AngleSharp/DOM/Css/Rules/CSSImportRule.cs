@@ -64,6 +64,18 @@
 
         #endregion
 
+        #region Internal Methods
+
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            var newRule = rule as CSSImportRule;
+            _href = newRule._href;
+            _media = newRule._media;
+            _styleSheet = newRule._styleSheet;
+        }
+
+        #endregion
+
         #region String representation
 
         /// <summary>

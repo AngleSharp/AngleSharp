@@ -51,6 +51,17 @@
 
         #endregion
 
+        #region Internal Methods
+
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            var newRule = rule as CSSKeyframeRule;
+            _keyText = newRule._keyText;
+            _style = newRule._style;
+        }
+
+        #endregion
+
         #region String representation
 
         /// <summary>

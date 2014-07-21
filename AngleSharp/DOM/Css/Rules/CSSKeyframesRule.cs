@@ -68,7 +68,7 @@
             if (obj == null)
                 throw new DomException(ErrorCode.Syntax);
 
-            obj.Owner = _parent;
+            obj.Owner = _ownerSheet;
             obj.Parent = this;
             _rules.List.Insert(_rules.Length, obj);
             return this;
@@ -116,6 +116,14 @@
         #endregion
 
         #region Internal Methods
+
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            var newRule = rule as CSSKeyframesRule;
+            _name = newRule._name;
+            _rules.List.Clear();
+            _rules.List.AddRange(newRule._rules.List);
+        }
 
         internal void AddRule(CSSKeyframeRule rule)
         {

@@ -42,6 +42,13 @@
 
         #region Internal Methods
 
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            var newRule = rule as CSSGroupingRule;
+            _rules.List.Clear();
+            _rules.List.AddRange(newRule._rules.List);
+        }
+
         internal void AddRule(CSSRule rule)
         {
             _rules.List.Add(rule);
@@ -71,7 +78,7 @@
             if (obj == null)
                 throw new DomException(ErrorCode.Syntax);
 
-            obj.Owner = _parent;
+            obj.Owner = _ownerSheet;
             obj.Parent = this;
             _rules.List.Insert(index, obj);
             return index;

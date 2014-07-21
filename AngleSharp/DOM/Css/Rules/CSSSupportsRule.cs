@@ -52,6 +52,14 @@
 
         #region Internal Methods
 
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            base.ReplaceWith(rule);
+            var newRule = rule as CSSSupportsRule;
+            _condition = newRule._condition;
+            _used = newRule._used;
+        }
+
         internal override Boolean IsValid(IWindow window)
         {
             //TODO

@@ -54,6 +54,13 @@
 
         #region Internal Methods
 
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            base.ReplaceWith(rule);
+            var newRule = rule as CSSMediaRule;
+            _media = newRule._media;
+        }
+
         internal override Boolean IsValid(IWindow window)
         {
             //TODO

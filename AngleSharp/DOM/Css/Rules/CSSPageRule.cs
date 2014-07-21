@@ -33,6 +33,14 @@
 
         #region Internal Methods
 
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            var newRule = rule as CSSPageRule;
+            _style = newRule._style;
+            _selector = newRule._selector;
+            _selectorText = newRule._selectorText;
+        }
+
         /// <summary>
         /// Appends the given rule to the list of rules.
         /// </summary>
