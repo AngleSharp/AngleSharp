@@ -15,7 +15,7 @@ namespace Samples.ViewModels
         String name;
         String typeName;
 
-        public CssRuleViewModel(CSSRule rule)
+        public CssRuleViewModel(ICssRule rule)
         {
             Init(rule);
 
