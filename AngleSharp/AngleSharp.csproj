@@ -278,6 +278,7 @@
     <Compile Include="Foundation\IdlExtensions.cs" />
     <Compile Include="Foundation\LocationExtensions.cs" />
     <Compile Include="Foundation\Setup\CopyConfiguration.cs" />
+    <Compile Include="Foundation\Structures\Priority.cs" />
     <Compile Include="Foundation\StyleExtensions.cs" />
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
     <Compile Include="Infrastructure\IScriptEngine.cs" />
