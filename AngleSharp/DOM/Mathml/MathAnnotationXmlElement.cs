@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Mathml
+﻿namespace AngleSharp.DOM.Mathml
 {
+    using System;
+
     sealed class MathAnnotationXmlElement : MathElement, IScopeElement
     {
         internal MathAnnotationXmlElement()
@@ -16,7 +16,7 @@ namespace AngleSharp.DOM.Mathml
         {
             get
             {
-                var value = GetAttribute("encoding");
+                var value = GetAttribute(AttributeNames.Encoding);
 
                 if (!String.IsNullOrEmpty(value))
                 {

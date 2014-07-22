@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Mathml
+﻿namespace AngleSharp.DOM.Mathml
 {
+    using System;
+
     sealed class MathIdentifierElement : MathElement, IScopeElement
     {
         internal MathIdentifierElement ()
