@@ -72,7 +72,7 @@
         /// </summary>
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
-        public override Boolean Match(Element element)
+        public override Boolean Match(IElement element)
         {
             var last = selectors.Count - 1;
 
@@ -114,7 +114,7 @@
             if (IsReady)
                 return this;
 
-            Func<Element, IEnumerable<Element>> transform = null;
+            Func<IElement, IEnumerable<IElement>> transform = null;
             char delim;
 
             switch (combinator)
@@ -128,7 +128,7 @@
                 case CssCombinator.AdjacentSibling:
                 {
                     delim = Specification.Plus;
-                    transform = el => Single(el.PreviousElementSibling as Element);//TODO remove cast ASAP
+                    transform = el => Single(el.PreviousElementSibling);
                     break;
                 }
                 case CssCombinator.Descendent:
@@ -136,10 +136,10 @@
                     delim = Specification.Space;
                     transform = el =>
                     {
-                        var parents = new List<Element>();
+                        var parents = new List<IElement>();
                         var parent = el.ParentElement;
 
-                        while(parent != null)
+                        while (parent != null)
                         {
                             parents.Add(parent);
                             parent = parent.ParentElement;
@@ -157,10 +157,10 @@
                         var parent = el.ParentElement;
 
                         if (parent == null)
-                            return new Element[0];
+                            return new IElement[0];
 
                         var kids = parent.Children;
-                        var siblings = new List<Element>();
+                        var siblings = new List<IElement>();
 
                         foreach (var kid in kids)
                         {
@@ -206,7 +206,7 @@
 
         #region Helpers
 
-        Boolean MatchCascade(int pos, Element element)
+        Boolean MatchCascade(int pos, IElement element)
         {
             var elements = selectors[pos].transform(element);
 
@@ -222,7 +222,7 @@
             return false;
         }
 
-        static IEnumerable<Element> Single(Element element)
+        static IEnumerable<IElement> Single(IElement element)
         {
             if (element == null)
                 yield break;
@@ -237,7 +237,7 @@
         struct CombinatorSelector
         {
             public Char delimiter;
-            public Func<Element, IEnumerable<Element>> transform;
+            public Func<IElement, IEnumerable<IElement>> transform;
             public Selector selector;
         }
 

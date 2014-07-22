@@ -7,7 +7,7 @@
     /// Chain of simple selectors which are not separated by
     /// a combinator.
     /// </summary>
-    internal class CompoundSelector : Selectors
+    sealed class CompoundSelector : Selectors
     {
         #region ctor
 
@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
-        public override Boolean Match(Element element)
+        public override Boolean Match(IElement element)
         {
             for (int i = 0; i < selectors.Count; i++)
             {

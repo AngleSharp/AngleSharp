@@ -7,13 +7,13 @@
     /// universal selector, attribute selector, class selector,
     /// id selector or pseudo-class).
     /// </summary>
-    internal class SimpleSelector : Selector
+    class SimpleSelector : Selector
     {
         #region Fields
 
         static readonly SimpleSelector _all = new SimpleSelector();
 
-        readonly Predicate<Element> _matches;
+        readonly Predicate<IElement> _matches;
         readonly Priority _specifity;
         readonly String _code;
 
@@ -48,7 +48,7 @@
         /// <param name="matches">The predicate to use.</param>
         /// <param name="specifify">The specifify to use.</param>
         /// <param name="code">The CSS code of the selector.</param>
-        public SimpleSelector(Predicate<Element> matches, Priority specifify, String code)
+        public SimpleSelector(Predicate<IElement> matches, Priority specifify, String code)
         {
             _matches = matches;
             _specifity = specifify;
@@ -85,7 +85,7 @@
         /// <param name="action">The action for the pseudo element selector.</param>
         /// <param name="pseudoElement">The pseudo element.</param>
         /// <returns>The new selector.</returns>
-        public static SimpleSelector PseudoElement(Predicate<Element> action, String pseudoElement)
+        public static SimpleSelector PseudoElement(Predicate<IElement> action, String pseudoElement)
         {
             return new SimpleSelector(action, Priority.OneTag, "::" + pseudoElement);
         }
@@ -96,7 +96,7 @@
         /// <param name="action">The action for the pseudo class selector.</param>
         /// <param name="pseudoClass">The pseudo class.</param>
         /// <returns>The new selector.</returns>
-        public static SimpleSelector PseudoClass(Predicate<Element> action, String pseudoClass)
+        public static SimpleSelector PseudoClass(Predicate<IElement> action, String pseudoClass)
         {
             return new SimpleSelector(action, Priority.OneClass, ":" + pseudoClass);
         }
@@ -291,7 +291,7 @@
         /// </summary>
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
-        public override Boolean Match(Element element)
+        public override Boolean Match(IElement element)
         {
             return _matches(element);
         }

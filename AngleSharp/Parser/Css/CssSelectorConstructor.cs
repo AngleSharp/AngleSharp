@@ -886,10 +886,10 @@
 					}, pseudoClassActive);
 
 				case pseudoClassHover:
-					return SimpleSelector.PseudoClass(el => el.IsHovered, pseudoClassHover);
+					return SimpleSelector.PseudoClass(el => false, pseudoClassHover);//TODO IsHovered
 
 				case pseudoClassFocus:
-					return SimpleSelector.PseudoClass(el => el.IsFocused, pseudoClassFocus);
+					return SimpleSelector.PseudoClass(el => false, pseudoClassFocus);//TODO IsFocused
 
 				case pseudoClassTarget:
 					return SimpleSelector.PseudoClass(el => el.Owner != null && el.Id == el.Owner.Location.Hash, pseudoClassTarget);
@@ -1175,7 +1175,7 @@
         /// </summary>
         /// <param name="element">The element to match.</param>
         /// <returns>An indicator if the match has been successful.</returns>
-        static Boolean MatchBefore(Element element)
+        static Boolean MatchBefore(IElement element)
         {
             //TODO
             return true;
@@ -1186,7 +1186,7 @@
         /// </summary>
         /// <param name="element">The element to match.</param>
         /// <returns>An indicator if the match has been successful.</returns>
-        static Boolean MatchAfter(Element element)
+        static Boolean MatchAfter(IElement element)
         {
             //TODO
             return true;
@@ -1197,7 +1197,7 @@
         /// </summary>
         /// <param name="element">The element to match.</param>
         /// <returns>An indicator if the match has been successful.</returns>
-        static Boolean MatchFirstLine(Element element)
+        static Boolean MatchFirstLine(IElement element)
         {
             //TODO
             return true;
@@ -1208,7 +1208,7 @@
         /// </summary>
         /// <param name="element">The element to match.</param>
         /// <returns>An indicator if the match has been successful.</returns>
-        static Boolean MatchFirstLetter(Element element)
+        static Boolean MatchFirstLetter(IElement element)
         {
             //TODO
             return true;
@@ -1237,7 +1237,7 @@
 		/// </summary>
         sealed class NthFirstChildSelector : NthChildSelector
         {
-			public override Boolean Match(Element element)
+			public override Boolean Match(IElement element)
             {
                 var parent = element.Parent;
 
@@ -1250,7 +1250,7 @@
                 {
                     if (parent.ChildNodes[i] == element)
                         return step == 0 ? n == offset : (n - offset) % step == 0;
-                    else if (parent.ChildNodes[i] is Element)
+                    else if (parent.ChildNodes[i] is IElement)
                         n++;
                 }
 
@@ -1268,7 +1268,7 @@
 		/// </summary>
 		sealed class NthLastChildSelector : NthChildSelector
         {
-            public override Boolean Match(Element element)
+            public override Boolean Match(IElement element)
             {
                 var parent = element.ParentElement;
 
@@ -1281,7 +1281,7 @@
                 {
                     if (parent.ChildNodes[i] == element)
                         return step == 0 ? n == offset : (n - offset) % step == 0;
-                    else if (parent.ChildNodes[i] is Element)
+                    else if (parent.ChildNodes[i] is IElement)
                         n++;
                 }
 
@@ -1314,7 +1314,7 @@
                 get { return Priority.OneClass; }
             }
 
-			public override Boolean Match(Element element)
+			public override Boolean Match(IElement element)
             {
                 var parent = element.Parent;
 
@@ -1325,7 +1325,7 @@
                 {
                     if (parent.ChildNodes[i] == element)
                         return true;
-                    else if (parent.ChildNodes[i] is Element)
+                    else if (parent.ChildNodes[i] is IElement)
                         return false;
                 }
 
@@ -1358,7 +1358,7 @@
                 get { return Priority.OneClass; }
             }
 
-			public override Boolean Match(Element element)
+			public override Boolean Match(IElement element)
             {
                 var parent = element.ParentElement;
 
@@ -1369,7 +1369,7 @@
                 {
                     if (parent.ChildNodes[i] == element)
                         return true;
-                    else if (parent.ChildNodes[i] is Element)
+                    else if (parent.ChildNodes[i] is IElement)
                         return false;
                 }
 

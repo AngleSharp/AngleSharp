@@ -28,7 +28,7 @@
         /// </summary>
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
-        public abstract Boolean Match(Element element);
+        public abstract Boolean Match(IElement element);
 
         #endregion
 
