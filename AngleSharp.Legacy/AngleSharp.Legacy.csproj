@@ -1924,6 +1924,24 @@
     <Compile Include="..\AngleSharp\Interfaces\Navigator\INavigatorStorageUtilities.cs">
       <Link>Interfaces\Navigator\INavigatorStorageUtilities.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Svg\ISvgCircleElement.cs">
+      <Link>Interfaces\Svg\ISvgCircleElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Svg\ISvgDescriptionElement.cs">
+      <Link>Interfaces\Svg\ISvgDescriptionElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Svg\ISvgElement.cs">
+      <Link>Interfaces\Svg\ISvgElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Svg\ISvgForeignObjectElement.cs">
+      <Link>Interfaces\Svg\ISvgForeignObjectElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Svg\ISvgSvgElement.cs">
+      <Link>Interfaces\Svg\ISvgSvgElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Svg\ISvgTitleElement.cs">
+      <Link>Interfaces\Svg\ISvgTitleElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Xml\IXmlDocument.cs">
       <Link>Interfaces\Xml\IXmlDocument.cs</Link>
     </Compile>
