@@ -2,7 +2,6 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
-    using System;
 
     static class StyleExtensions
     {
@@ -13,7 +12,7 @@
         /// <param name="style">The declaration to be modified.</param>
         /// <param name="styling">The styling properties to use.</param>
         /// <param name="priority">Sets the priority of the new properties.</param>
-        public static void ExtendWith(this CSSStyleDeclaration style, CSSStyleDeclaration styling, Int32 priority = 0)
+        public static void ExtendWith(this CSSStyleDeclaration style, CSSStyleDeclaration styling, Priority priority)
         {
             foreach (var property in styling)
             {

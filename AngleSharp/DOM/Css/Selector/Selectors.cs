@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     /// <summary>
     /// A list of selectors, which is the basis for CompoundSelector and SelectorGroup.
     /// </summary>
     abstract class Selectors : Selector, IEnumerable<Selector>
     {
-        #region Members
+        #region Fields
 
-        protected List<Selector> selectors;
+        protected readonly List<Selector> selectors;
 
         #endregion
 
@@ -32,11 +32,11 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the specifity index for this chain of selectors.
         /// </summary>
-        public override Int32 Specifity
+        public override Priority Specifity
         {
             get 
             {
-                int sum = 0;
+                var sum = new Priority();
 
                 for (int i = 0; i < selectors.Count; i++)
                     sum += selectors[i].Specifity;

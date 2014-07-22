@@ -17,7 +17,7 @@
 
         struct CssPriorityProperty
         {
-            public Int32 Priority;
+            public Priority Priority;
             public CSSProperty Property;
         }
 
@@ -2557,7 +2557,7 @@
             if (decl != null)
             {
                 // We give user defined properties the highest order.
-                _rules[propertyName] = new CssPriorityProperty { Priority = CSSProperty.CustomPriority, Property = decl };
+                _rules[propertyName] = new CssPriorityProperty { Priority = Priority.Custom, Property = decl };
                 Propagate();
             }
 
@@ -2603,30 +2603,40 @@
 
         /// <summary>
         /// Gets the priority of the given CSS property.
+        /// Also returns the lowest priority if the given property does not exist.
         /// </summary>
         /// <param name="name">The name of the property to get.</param>
-        /// <returns>The priority of the property or -1, if no such priority exists.</returns>
-        internal Int32 GetPriority(String name)
+        /// <returns>The priority of the property.</returns>
+        internal Priority GetPriority(String name)
         {
             CssPriorityProperty prop;
 
             if (_rules.TryGetValue(name, out prop))
                 return prop.Priority;
 
-            return -1;
+            return Priority.Zero;
         }
 
         /// <summary>
         /// Sets the given CSS property, if the property is equal or higher.
         /// </summary>
         /// <param name="property">The property to set.</param>
-        /// <param name="priority">The optional prioprity to use.</param>
-        internal void Set(CSSProperty property, Int32 priority = 0)
+        internal void Set(CSSProperty property)
+        {
+            Set(property, Priority.Zero);
+        }
+
+        /// <summary>
+        /// Sets the given CSS property, if the property is equal or higher.
+        /// </summary>
+        /// <param name="property">The property to set.</param>
+        /// <param name="priority">The priority to use.</param>
+        internal void Set(CSSProperty property, Priority priority)
         {
             if (property != null)
             {
                 if (property.Important)
-                    priority = CSSProperty.ImportantPriority;
+                    priority = Priority.Important;
 
                 if (priority >= GetPriority(property.Name))
                     _rules[property.Name] = new CssPriorityProperty { Priority = priority, Property = property };

@@ -131,7 +131,7 @@
             var htmlElement = element as IHtmlElement;
 
             if (htmlElement != null)
-                style.ExtendWith(htmlElement.Style, CSSProperty.InlinePriority);
+                style.ExtendWith(htmlElement.Style, Priority.Inline);
 
             style.InheritFrom(element, this);
             style.IsReadOnly = true;

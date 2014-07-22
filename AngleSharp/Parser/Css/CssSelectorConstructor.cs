@@ -1226,9 +1226,9 @@
 			public Int32 step;
 			public Int32 offset;
 
-			public override Int32 Specifity
+			public override Priority Specifity
 			{
-				get { return 10; }
+				get { return Priority.OneClass; }
 			}
 		}
 
@@ -1309,9 +1309,9 @@
                 get { return instance ?? (instance = new FirstChildSelector()); }
             }
 
-            public override Int32 Specifity
+            public override Priority Specifity
             {
-                get { return 10; }
+                get { return Priority.OneClass; }
             }
 
 			public override Boolean Match(Element element)
@@ -1353,9 +1353,9 @@
                 get { return instance ?? (instance = new LastChildSelector()); }
             }
 
-            public override Int32 Specifity
+            public override Priority Specifity
             {
-                get { return 10; }
+                get { return Priority.OneClass; }
             }
 
 			public override Boolean Match(Element element)

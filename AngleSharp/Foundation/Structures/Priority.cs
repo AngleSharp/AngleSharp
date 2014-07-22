@@ -36,6 +36,31 @@
         /// </summary>
         public static readonly Priority Important = new Priority(Byte.MaxValue - 1, Byte.MaxValue, Byte.MaxValue, Byte.MaxValue);
 
+        /// <summary>
+        /// Gets the lowest (zero) priority.
+        /// </summary>
+        public static readonly Priority Zero = new Priority(0u);
+
+        /// <summary>
+        /// Gets the priority for having a single tag.
+        /// </summary>
+        public static readonly Priority OneTag = new Priority(0, 0, 0, 1);
+
+        /// <summary>
+        /// Gets the priority for having a single class.
+        /// </summary>
+        public static readonly Priority OneClass = new Priority(0, 0, 1, 0);
+
+        /// <summary>
+        /// Gets the priority for having a single Id.
+        /// </summary>
+        public static readonly Priority OneId = new Priority(0, 1, 0, 0);
+
+        /// <summary>
+        /// Gets the priority for having an inline element.
+        /// </summary>
+        public static readonly Priority Inline = new Priority(1, 0, 0, 0);
+
         #endregion
 
         #region ctor
@@ -53,6 +78,21 @@
             this.ids = ids;
             this.classes = classes;
             this.tags = tags;
+        }
+
+        #endregion
+
+        #region Operators
+
+        /// <summary>
+        /// Adds the two given priorities.
+        /// </summary>
+        /// <param name="a">The first priority.</param>
+        /// <param name="b">The second priority.</param>
+        /// <returns>The result of adding the two priorities.</returns>
+        public static Priority operator +(Priority a, Priority b)
+        {
+            return new Priority(a.priority + b.priority);
         }
 
         #endregion

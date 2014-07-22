@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+
     /// <summary>
     /// Represents a group of selectors.
     /// Zero or more selectors separated by commas.

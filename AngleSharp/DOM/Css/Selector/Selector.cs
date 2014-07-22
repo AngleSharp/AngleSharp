@@ -14,7 +14,7 @@
         /// <summary>
         /// Gets the specifity of the given selector.
         /// </summary>
-        public abstract Int32 Specifity
+        public abstract Priority Specifity
         {
             get;
         }

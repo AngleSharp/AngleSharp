@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
-    using AngleSharp.Parser.Css;
 
     /// <summary>
     /// Represents a complex selector.
@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        List<CombinatorSelector> selectors;
+        readonly List<CombinatorSelector> selectors;
 
         #endregion
 
@@ -33,11 +33,11 @@
         /// <summary>
         /// Gets the specifity index for this chain of selectors.
         /// </summary>
-        public override Int32 Specifity
+        public override Priority Specifity
         {
             get
             {
-                int sum = 0;
+                var sum = new Priority();
 
                 for (int i = 0; i < selectors.Count; i++)
                     sum += selectors[i].selector.Specifity;

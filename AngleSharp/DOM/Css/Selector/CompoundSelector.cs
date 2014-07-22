@@ -1,10 +1,7 @@
-﻿using System;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+
     /// <summary>
     /// Represents a compound selector.
     /// Chain of simple selectors which are not separated by

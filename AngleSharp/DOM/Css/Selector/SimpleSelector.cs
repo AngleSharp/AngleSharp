@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+
     /// <summary>
     /// Represents a simple selector (either a type selector,
     /// universal selector, attribute selector, class selector,
@@ -9,13 +9,13 @@ namespace AngleSharp.DOM.Css
     /// </summary>
     internal class SimpleSelector : Selector
     {
-        #region Members
+        #region Fields
 
         static readonly SimpleSelector _all = new SimpleSelector();
 
-        Predicate<Element> _matches;
-        Int32 _specifity;
-        String _code;
+        readonly Predicate<Element> _matches;
+        readonly Priority _specifity;
+        readonly String _code;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace AngleSharp.DOM.Css
         {
             _matches = _ => true;
             _code = "*";
-            _specifity = 0;
+            _specifity = Priority.Zero;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace AngleSharp.DOM.Css
         public SimpleSelector(String match)
         {
             _matches = _ => _.TagName.Equals(match, StringComparison.OrdinalIgnoreCase);
-            _specifity = 1;
+            _specifity = Priority.OneTag;
             _code = match;
         }
 
@@ -48,7 +48,7 @@ namespace AngleSharp.DOM.Css
         /// <param name="matches">The predicate to use.</param>
         /// <param name="specifify">The specifify to use.</param>
         /// <param name="code">The CSS code of the selector.</param>
-        public SimpleSelector(Predicate<Element> matches, Int32 specifify, String code)
+        public SimpleSelector(Predicate<Element> matches, Priority specifify, String code)
         {
             _matches = matches;
             _specifity = specifify;
@@ -70,7 +70,7 @@ namespace AngleSharp.DOM.Css
         /// <summary>
         /// Gets the specifity of the given selector.
         /// </summary>
-        public override Int32 Specifity
+        public override Priority Specifity
         {
             get { return _specifity; }
         }
@@ -87,7 +87,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>The new selector.</returns>
         public static SimpleSelector PseudoElement(Predicate<Element> action, String pseudoElement)
         {
-            return new SimpleSelector(action, 1, "::" + pseudoElement);
+            return new SimpleSelector(action, Priority.OneTag, "::" + pseudoElement);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>The new selector.</returns>
         public static SimpleSelector PseudoClass(Predicate<Element> action, String pseudoClass)
         {
-            return new SimpleSelector(action, 10, ":" + pseudoClass);
+            return new SimpleSelector(action, Priority.OneClass, ":" + pseudoClass);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>The new selector.</returns>
         public static SimpleSelector Class(String match)
         {
-            return new SimpleSelector(_ => _.ClassList.Contains(match), 10, "." + match);
+            return new SimpleSelector(_ => _.ClassList.Contains(match), Priority.OneClass, "." + match);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>The new selector.</returns>
         public static SimpleSelector Id(String match)
         {
-            return new SimpleSelector(_ => _.Id == match, 100, "#" + match);
+            return new SimpleSelector(_ => _.Id == match, Priority.OneId, "#" + match);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace AngleSharp.DOM.Css
         /// <returns>The new selector.</returns>
         public static SimpleSelector AttrAvailable(String match)
         {
-            return new SimpleSelector(_ => _.HasAttribute(match) ,10, "[" + match + "]");
+            return new SimpleSelector(_ => _.HasAttribute(match), Priority.OneClass, "[" + match + "]");
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace AngleSharp.DOM.Css
         public static SimpleSelector AttrMatch(String match, String value)
         {
             var code = String.Format("[{0}={1}]", match, GetValueAsString(value));
-            return new SimpleSelector(_ => _.GetAttribute(match) == value, 10, code);
+            return new SimpleSelector(_ => _.GetAttribute(match) == value, Priority.OneClass, code);
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace AngleSharp.DOM.Css
         public static SimpleSelector AttrNotMatch(String match, String value)
         {
             var code = String.Format("[{0}!={1}]", match, GetValueAsString(value));
-            return new SimpleSelector(_ => _.GetAttribute(match) != value, 10, code);
+            return new SimpleSelector(_ => _.GetAttribute(match) != value, Priority.OneClass, code);
         }
 
         /// <summary>
@@ -175,9 +175,9 @@ namespace AngleSharp.DOM.Css
             var code = String.Format("[{0}~={1}]", match, GetValueAsString(value));
 
             if (String.IsNullOrEmpty(value))
-                return new SimpleSelector(_ => false, 10, code);
+                return new SimpleSelector(_ => false, Priority.OneClass, code);
 
-            return new SimpleSelector(_ => (_.GetAttribute(match) ?? String.Empty).SplitSpaces().Contains(value), 10, code);
+            return new SimpleSelector(_ => (_.GetAttribute(match) ?? String.Empty).SplitSpaces().Contains(value), Priority.OneClass, code);
         }
 
         /// <summary>
@@ -191,9 +191,9 @@ namespace AngleSharp.DOM.Css
             var code = String.Format("[{0}^={1}]", match, GetValueAsString(value));
 
             if (String.IsNullOrEmpty(value))
-                return new SimpleSelector(_ => false, 10, code);
+                return new SimpleSelector(_ => false, Priority.OneClass, code);
 
-            return new SimpleSelector(_ => (_.GetAttribute(match) ?? String.Empty).StartsWith(value), 10, code);
+            return new SimpleSelector(_ => (_.GetAttribute(match) ?? String.Empty).StartsWith(value), Priority.OneClass, code);
         }
 
         /// <summary>
@@ -207,9 +207,9 @@ namespace AngleSharp.DOM.Css
             var code = String.Format("[{0}$={1}]", match, GetValueAsString(value));
 
             if (String.IsNullOrEmpty(value))
-                return new SimpleSelector(_ => false, 10, code);
+                return new SimpleSelector(_ => false, Priority.OneClass, code);
 
-            return new SimpleSelector(_ => (_.GetAttribute(match) ?? String.Empty).EndsWith(value), 10, code);
+            return new SimpleSelector(_ => (_.GetAttribute(match) ?? String.Empty).EndsWith(value), Priority.OneClass, code);
         }
 
         /// <summary>
@@ -223,9 +223,9 @@ namespace AngleSharp.DOM.Css
             var code = String.Format("[{0}*={1}]", match, GetValueAsString(value));
 
             if (String.IsNullOrEmpty(value))
-                return new SimpleSelector(_ => false, 10, code);
+                return new SimpleSelector(_ => false, Priority.OneClass, code);
 
-            return new SimpleSelector(_ => (_.GetAttribute(match) ?? String.Empty).Contains(value), 10, code);
+            return new SimpleSelector(_ => (_.GetAttribute(match) ?? String.Empty).Contains(value), Priority.OneClass, code);
         }
 
         /// <summary>
@@ -239,9 +239,9 @@ namespace AngleSharp.DOM.Css
             var code = String.Format("[{0}|={1}]", match, GetValueAsString(value));
 
             if (String.IsNullOrEmpty(value))
-                return new SimpleSelector(_ => false, 10, code);
+                return new SimpleSelector(_ => false, Priority.OneClass, code);
 
-            return new SimpleSelector(_ => (_.GetAttribute(match) ?? String.Empty).SplitHyphens().Contains(value), 10, code);
+            return new SimpleSelector(_ => (_.GetAttribute(match) ?? String.Empty).SplitHyphens().Contains(value), Priority.OneClass, code);
         }
 
         /// <summary>
