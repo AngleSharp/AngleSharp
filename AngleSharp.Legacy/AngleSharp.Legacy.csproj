@@ -898,9 +898,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Selector\ListSelector.cs">
       <Link>DOM\Css\Selector\ListSelector.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Selector\Selector.cs">
-      <Link>DOM\Css\Selector\Selector.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Selector\Selectors.cs">
       <Link>DOM\Css\Selector\Selectors.cs</Link>
     </Compile>
@@ -1521,6 +1518,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ILinkStyle.cs">
       <Link>Interfaces\Css\ILinkStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ISelector.cs">
+      <Link>Interfaces\Css\ISelector.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IGlobalEventHandlers.cs">
       <Link>Interfaces\Html\IGlobalEventHandlers.cs</Link>
