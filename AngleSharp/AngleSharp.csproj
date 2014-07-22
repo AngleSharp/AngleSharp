@@ -423,6 +423,12 @@
     <Compile Include="Interfaces\Navigator\INavigatorId.cs" />
     <Compile Include="Interfaces\Navigator\INavigatorOnline.cs" />
     <Compile Include="Interfaces\Navigator\INavigatorStorageUtilities.cs" />
+    <Compile Include="Interfaces\Svg\ISvgCircleElement.cs" />
+    <Compile Include="Interfaces\Svg\ISvgDescriptionElement.cs" />
+    <Compile Include="Interfaces\Svg\ISvgElement.cs" />
+    <Compile Include="Interfaces\Svg\ISvgForeignObjectElement.cs" />
+    <Compile Include="Interfaces\Svg\ISvgSvgElement.cs" />
+    <Compile Include="Interfaces\Svg\ISvgTitleElement.cs" />
     <Compile Include="Interfaces\Xml\IXmlDocument.cs" />
     <Compile Include="Network\Constants\DefaultPorts.cs" />
     <Compile Include="Network\Constants\KnownProtocols.cs" />

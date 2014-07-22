@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Svg
+﻿namespace AngleSharp.DOM.Svg
 {
     /// <summary>
     /// Represents the circle element of the SVG DOM.
     /// </summary>
-    [DomName("SVGCircleElement")]
-    public class SVGCircleElement : SVGElement
+    sealed class SVGCircleElement : SVGElement
     {
         internal SVGCircleElement()
         {

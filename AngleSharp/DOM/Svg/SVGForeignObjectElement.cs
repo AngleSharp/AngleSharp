@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the foreign object element of the SVG DOM.
     /// </summary>
-    [DomName("SVGForeignObjectElement")]
-    public sealed class SVGForeignObjectElement : SVGElement, IScopeElement
+    sealed class SVGForeignObjectElement : SVGElement, IScopeElement
     {
         internal SVGForeignObjectElement()
         {

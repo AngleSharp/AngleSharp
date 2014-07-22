@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Svg
+﻿namespace AngleSharp.DOM.Svg
 {
     /// <summary>
     /// Represents the svg element of the SVG DOM.
     /// </summary>
-    [DomName("SVGSVGElement")]
-    public class SVGSVGElement : SVGElement
+    sealed class SVGSVGElement : SVGElement
     {
         internal SVGSVGElement()
         {

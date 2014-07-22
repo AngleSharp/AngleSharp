@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Svg
+﻿namespace AngleSharp.DOM.Svg
 {
+    using System;
+
     /// <summary>
     /// Represents the desc element of the SVG DOM.
     /// </summary>
-    [DomName("SVGDescElement")]
-    public sealed class SVGDescElement : SVGElement, IScopeElement
+    sealed class SVGDescElement : SVGElement, IScopeElement
     {
         internal SVGDescElement()
         {

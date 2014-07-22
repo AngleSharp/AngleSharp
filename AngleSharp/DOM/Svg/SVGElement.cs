@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents an element of the SVG DOM.
     /// </summary>
-    [DomName("SVGElement")]
-    public class SVGElement : Element
+    class SVGElement : Element, ISvgElement
     {
         #region ctor
 
@@ -39,7 +38,6 @@
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
         /// <returns>The duplicate node.</returns>
-        [DomName("cloneNode")]
         public override INode Clone(Boolean deep = true)
         {
             var node = SvgElementFactory.Create(_name, _owner);

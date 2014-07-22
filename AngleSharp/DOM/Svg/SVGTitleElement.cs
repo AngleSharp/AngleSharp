@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace AngleSharp.DOM.Svg
+﻿namespace AngleSharp.DOM.Svg
 {
+    using System;
+
     /// <summary>
     /// Represents the title element of the SVG DOM.
     /// </summary>
-    [DomName("SVGTitleElement")]
-    public sealed class SVGTitleElement : SVGElement, IScopeElement
+    sealed class SVGTitleElement : SVGElement, IScopeElement
     {
         internal SVGTitleElement()
         {
