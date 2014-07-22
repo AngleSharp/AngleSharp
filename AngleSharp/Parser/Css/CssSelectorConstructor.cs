@@ -66,7 +66,7 @@
         #region Fields
 
 		State state;
-        Selector temp;
+        ISelector temp;
 		ListSelector group;
 		ComplexSelector complex;
         Boolean hasCombinator;
@@ -95,7 +95,7 @@
         /// <summary>
         /// Gets the currently formed selector.
         /// </summary>
-        public Selector Result
+        public ISelector Result
         {
             get
             {
@@ -112,7 +112,7 @@
                 
 				if (temp != null)
                 {
-                    group.AppendSelector(temp);
+                    group.Add(temp);
                     temp = null;
                 }
 
@@ -612,11 +612,11 @@
                 if (complex != null)
                 {
                     complex.ConcludeSelector(temp);
-                    group.AppendSelector(complex);
+                    group.Add(complex);
                     complex = null;
                 }
                 else
-                    group.AppendSelector(temp);
+                    group.Add(temp);
 
                 temp = null;
             }
@@ -626,7 +626,7 @@
         /// Inserts the given selector.
         /// </summary>
         /// <param name="selector">The selector to insert.</param>
-        void Insert(Selector selector)
+        void Insert(ISelector selector)
         {
             if (temp != null)
             {
@@ -637,10 +637,10 @@
                     if (compound == null)
                     {
                         compound = new CompoundSelector();
-                        compound.AppendSelector(temp);
+                        compound.Add(temp);
                     }
 
-                    compound.AppendSelector(selector);
+                    compound.Add(selector);
                     temp = compound;
                 }
                 else
@@ -719,7 +719,8 @@
         /// Takes string and transforms it into the arguments for the nth-child function.
         /// </summary>
         /// <returns>The function.</returns>
-        SimpleSelector GetChildSelector<T>() where T : NthChildSelector, new()
+        ISelector GetChildSelector<T>() 
+            where T : NthChildSelector, ISelector, new()
         {
 			var b = new NthFirstChildSelector();
             var selector = new T();
@@ -766,7 +767,7 @@
 		/// Invoked once a colon with an identifier has been found in the token enumerator.
 		/// </summary>
 		/// <returns>The created selector.</returns>
-		SimpleSelector GetPseudoSelector(CssToken token)
+		ISelector GetPseudoSelector(CssToken token)
 		{
 			switch (((CssKeywordToken)token).Data)
 			{
@@ -1218,26 +1219,23 @@
 
 		#region Nested
 
-		/// <summary>
-		/// The abstract basis for nth-child and nth-lastchild selector.
-		/// </summary>
-		abstract class NthChildSelector : SimpleSelector
-		{
-			public Int32 step;
-			public Int32 offset;
+        abstract class NthChildSelector
+        {
+            public Int32 step;
+            public Int32 offset;
 
-			public override Priority Specifity
-			{
-				get { return Priority.OneClass; }
-			}
-		}
+            public Priority Specifity
+            {
+                get { return Priority.OneClass; }
+            }
+        }
 
 		/// <summary>
 		/// The nth-child selector.
 		/// </summary>
-        sealed class NthFirstChildSelector : NthChildSelector
+        sealed class NthFirstChildSelector : NthChildSelector, ISelector, ICssObject
         {
-			public override Boolean Match(IElement element)
+			public Boolean Match(IElement element)
             {
                 var parent = element.Parent;
 
@@ -1257,7 +1255,7 @@
                 return true;
             }
 
-            public override String ToCss()
+            public String ToCss()
             {
                 return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthChild, step, offset);
             }
@@ -1266,9 +1264,9 @@
 		/// <summary>
 		/// The nth-lastchild selector.
 		/// </summary>
-		sealed class NthLastChildSelector : NthChildSelector
+        sealed class NthLastChildSelector : NthChildSelector, ISelector, ICssObject
         {
-            public override Boolean Match(IElement element)
+            public Boolean Match(IElement element)
             {
                 var parent = element.ParentElement;
 
@@ -1288,7 +1286,7 @@
                 return true;
             }
 
-            public override String ToCss()
+            public String ToCss()
             {
                 return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthLastChild, step, offset);
             }
@@ -1297,7 +1295,7 @@
 		/// <summary>
 		/// The first child selector.
 		/// </summary>
-        sealed class FirstChildSelector : SimpleSelector
+        sealed class FirstChildSelector : ISelector, ICssObject
         {
             FirstChildSelector()
             { }
@@ -1309,12 +1307,12 @@
                 get { return instance ?? (instance = new FirstChildSelector()); }
             }
 
-            public override Priority Specifity
+            public Priority Specifity
             {
                 get { return Priority.OneClass; }
             }
 
-			public override Boolean Match(IElement element)
+			public Boolean Match(IElement element)
             {
                 var parent = element.Parent;
 
@@ -1332,7 +1330,7 @@
                 return false;
             }
 
-            public override String ToCss()
+            public String ToCss()
             {
                 return ":" + CssSelectorConstructor.pseudoClassFirstChild;
             }
@@ -1341,7 +1339,7 @@
 		/// <summary>
 		/// The last child selector.
 		/// </summary>
-        sealed class LastChildSelector : SimpleSelector
+        sealed class LastChildSelector : ISelector, ICssObject
         {
             LastChildSelector()
             { }
@@ -1353,12 +1351,12 @@
                 get { return instance ?? (instance = new LastChildSelector()); }
             }
 
-            public override Priority Specifity
+            public Priority Specifity
             {
                 get { return Priority.OneClass; }
             }
 
-			public override Boolean Match(IElement element)
+			public Boolean Match(IElement element)
             {
                 var parent = element.ParentElement;
 
@@ -1376,7 +1374,7 @@
                 return false;
             }
 
-            public override String ToCss()
+            public String ToCss()
             {
                 return ":" + CssSelectorConstructor.pseudoClassLastChild;
             }

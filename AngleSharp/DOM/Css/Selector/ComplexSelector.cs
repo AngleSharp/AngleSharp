@@ -8,7 +8,7 @@
     /// Represents a complex selector.
     /// One or more compound selectors separated by combinators.
     /// </summary>
-    internal class ComplexSelector : Selector
+    sealed class ComplexSelector : ISelector, ICssObject
     {
         #region Fields
 
@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets the specifity index for this chain of selectors.
         /// </summary>
-        public override Priority Specifity
+        public Priority Specifity
         {
             get
             {
@@ -72,7 +72,7 @@
         /// </summary>
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
-        public override Boolean Match(IElement element)
+        public Boolean Match(IElement element)
         {
             var last = selectors.Count - 1;
 
@@ -92,7 +92,7 @@
         /// </summary>
         /// <param name="selector">The (final) selector to append.</param>
         /// <returns>The current complex selector.</returns>
-        public ComplexSelector ConcludeSelector(Selector selector)
+        public ComplexSelector ConcludeSelector(ISelector selector)
         {
             if (!IsReady)
             {
@@ -109,7 +109,7 @@
         /// <param name="selector">The selector to append.</param>
         /// <param name="combinator">The combinator to use.</param>
         /// <returns>The current complex selector.</returns>
-        public ComplexSelector AppendSelector(Selector selector, CssCombinator combinator)
+        public ComplexSelector AppendSelector(ISelector selector, CssCombinator combinator)
         {
             if (IsReady)
                 return this;
@@ -238,7 +238,7 @@
         {
             public Char delimiter;
             public Func<IElement, IEnumerable<IElement>> transform;
-            public Selector selector;
+            public ISelector selector;
         }
 
         #endregion
@@ -249,7 +249,7 @@
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        public override String ToCss()
+        public String ToCss()
         {
             var sb = Pool.NewStringBuilder();
 

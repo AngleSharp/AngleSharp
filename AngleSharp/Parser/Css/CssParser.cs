@@ -487,7 +487,7 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated selector.</returns>
-        Selector InSelector(IEnumerator<CssToken> tokens)
+        ISelector InSelector(IEnumerator<CssToken> tokens)
         {
             tokenizer.IgnoreWhitespace = false;
             selector.Reset();
@@ -1318,7 +1318,7 @@
         /// <param name="selector">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The Selector object.</returns>
-        public static Selector ParseSelector(String selector, IConfiguration configuration = null)
+        public static ISelector ParseSelector(String selector, IConfiguration configuration = null)
         {
             var tokenizer = new CssTokenizer(new SourceManager(selector, configuration.DefaultEncoding()));
             tokenizer.IgnoreComments = true;

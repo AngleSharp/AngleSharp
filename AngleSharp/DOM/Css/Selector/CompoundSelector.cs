@@ -7,7 +7,7 @@
     /// Chain of simple selectors which are not separated by
     /// a combinator.
     /// </summary>
-    sealed class CompoundSelector : Selectors
+    sealed class CompoundSelector : Selectors, ISelector, ICssObject
     {
         #region ctor
 
@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
-        public override Boolean Match(IElement element)
+        public Boolean Match(IElement element)
         {
             for (int i = 0; i < selectors.Count; i++)
             {
@@ -61,7 +61,7 @@
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        public override String ToCss()
+        public String ToCss()
         {
             var sb = Pool.NewStringBuilder();
 

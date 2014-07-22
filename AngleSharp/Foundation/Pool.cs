@@ -86,7 +86,7 @@
 		/// </summary>
         /// <param name="ctor">The constructor to recycle.</param>
         /// <returns>The Selector that is contained in the constructor.</returns>
-		public static Selector ToPool(this CssSelectorConstructor ctor)
+		public static ISelector ToPool(this CssSelectorConstructor ctor)
         {
             var result = ctor.Result;
 

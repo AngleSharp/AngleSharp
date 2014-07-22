@@ -13,7 +13,7 @@
         #region Fields
 
         CSSStyleDeclaration _style;
-        Selector _selector;
+        ISelector _selector;
         String _selectorText;
 
         #endregion
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets the selector for matching pages.
         /// </summary>
-        public Selector Selector
+        public ISelector Selector
         {
             get { return _selector; }
             internal set

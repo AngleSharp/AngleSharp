@@ -7,7 +7,7 @@
     /// universal selector, attribute selector, class selector,
     /// id selector or pseudo-class).
     /// </summary>
-    class SimpleSelector : Selector
+    class SimpleSelector : ISelector, ICssObject
     {
         #region Fields
 
@@ -62,7 +62,7 @@
         /// <summary>
         /// Gets a selector that matches all elements.
         /// </summary>
-        public static Selector All
+        public static ISelector All
         {
             get { return _all; }
         }
@@ -70,7 +70,7 @@
         /// <summary>
         /// Gets the specifity of the given selector.
         /// </summary>
-        public override Priority Specifity
+        public Priority Specifity
         {
             get { return _specifity; }
         }
@@ -291,7 +291,7 @@
         /// </summary>
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
-        public override Boolean Match(IElement element)
+        public Boolean Match(IElement element)
         {
             return _matches(element);
         }
@@ -304,7 +304,7 @@
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        public override String ToCss()
+        public String ToCss()
         {
             return _code;
         }

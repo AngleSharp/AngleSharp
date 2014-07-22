@@ -288,6 +288,7 @@
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
     <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
     <Compile Include="Interfaces\Css\ILinkStyle.cs" />
+    <Compile Include="Interfaces\Css\ISelector.cs" />
     <Compile Include="Interfaces\Html\IGlobalEventHandlers.cs" />
     <Compile Include="Interfaces\Html\IHtmlAnchorElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlAreaElement.cs" />
@@ -577,7 +578,6 @@
     <Compile Include="DOM\Css\Rules\CSSRuleList.cs" />
     <Compile Include="DOM\Css\Rules\CSSImportRule.cs" />
     <Compile Include="DOM\Css\Rules\CSSRule.cs" />
-    <Compile Include="DOM\Css\Selector\Selector.cs" />
     <Compile Include="DOM\Css\Selector\ListSelector.cs" />
     <Compile Include="DOM\Css\Selector\SimpleSelector.cs" />
     <Compile Include="DOM\DocumentFragment.cs" />

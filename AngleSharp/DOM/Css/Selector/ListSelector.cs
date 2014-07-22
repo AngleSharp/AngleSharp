@@ -6,7 +6,7 @@
     /// Represents a group of selectors.
     /// Zero or more selectors separated by commas.
     /// </summary>
-    sealed class ListSelector : Selectors
+    sealed class ListSelector : Selectors, ISelector, ICssObject
     {
         #region ctor
 
@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="selectors">The selectors.</param>
         /// <returns>The created list selector.</returns>
-        internal static ListSelector Create(params Selector[] selectors)
+        internal static ListSelector Create(params ISelector[] selectors)
         {
             var list = new ListSelector();
 
@@ -54,7 +54,7 @@
         /// </summary>
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
-        public override Boolean Match(IElement element)
+        public Boolean Match(IElement element)
         {
             for (int i = 0; i < selectors.Count; i++)
             {
@@ -73,7 +73,7 @@
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        public override String ToCss()
+        public String ToCss()
         {
             var sb = Pool.NewStringBuilder();
 

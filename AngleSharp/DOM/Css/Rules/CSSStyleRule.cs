@@ -14,7 +14,7 @@
 
         CSSStyleDeclaration _style;
         String _selectorText;
-        Selector _selector;
+        ISelector _selector;
 
         #endregion
 
@@ -46,7 +46,7 @@
         /// <summary>
         /// Gets the selector for matching elements.
         /// </summary>
-        public Selector Selector
+        public ISelector Selector
         {
             get { return _selector; }
             internal set

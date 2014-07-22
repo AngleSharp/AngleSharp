@@ -7,11 +7,11 @@
     /// <summary>
     /// A list of selectors, which is the basis for CompoundSelector and SelectorGroup.
     /// </summary>
-    abstract class Selectors : Selector, IEnumerable<Selector>
+    abstract class Selectors : IEnumerable<ISelector>
     {
         #region Fields
 
-        protected readonly List<Selector> selectors;
+        protected readonly List<ISelector> selectors;
 
         #endregion
 
@@ -22,7 +22,7 @@
         /// </summary>
         public Selectors()
         {
-            selectors = new List<Selector>();
+            selectors = new List<ISelector>();
         }
 
         #endregion
@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets the specifity index for this chain of selectors.
         /// </summary>
-        public override Priority Specifity
+        public Priority Specifity
         {
             get 
             {
@@ -58,7 +58,7 @@
         /// </summary>
         /// <param name="index">The index of the selector.</param>
         /// <returns>The selector at the given index.</returns>
-        public Selector this[Int32 index]
+        public ISelector this[Int32 index]
         {
             get { return selectors[index]; }
             set { selectors[index] = value; }
@@ -72,11 +72,9 @@
         /// Appends a selector to the group of selectors.
         /// </summary>
         /// <param name="selector">The selector to append.</param>
-        /// <returns>The current group.</returns>
-        public Selectors AppendSelector(Selector selector)
+        public void Add(ISelector selector)
         {
             selectors.Add(selector);
-            return this;
         }
 
         /// <summary>
@@ -84,20 +82,18 @@
         /// </summary>
         /// <param name="selector">The selector to remove.</param>
         /// <returns>The current group.</returns>
-        public Selectors RemoveSelector(Selector selector)
+        public void Remove(ISelector selector)
         {
             selectors.Remove(selector);
-            return this;
         }
 
         /// <summary>
         /// Clears the list of selectors.
         /// </summary>
         /// <returns>The current group of selectors.</returns>
-        public Selectors ClearSelectors()
+        public void Clear()
         {
             selectors.Clear();
-            return this;
         }
 
         #endregion
@@ -108,7 +104,7 @@
         /// Gets the enumerator of selectors.
         /// </summary>
         /// <returns>The specific enumerator.</returns>
-        public IEnumerator<Selector> GetEnumerator()
+        public IEnumerator<ISelector> GetEnumerator()
         {
             return selectors.GetEnumerator();
         }
@@ -119,7 +115,7 @@
         /// <returns>The ocmmon enumerator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)selectors).GetEnumerator();
+            return GetEnumerator();
         }
 
         #endregion

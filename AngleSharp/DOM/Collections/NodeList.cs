@@ -44,7 +44,7 @@
         /// </summary>
         /// <param name="selectors">A selector object.</param>
         /// <returns>An element object.</returns>
-        internal Element QuerySelector(Selector selectors)
+        internal Element QuerySelector(ISelector selectors)
         {
             return QuerySelector(this, selectors);
         }
@@ -55,7 +55,7 @@
         /// </summary>
         /// <param name="selectors">A selector object.</param>
         /// <returns>An element object.</returns>
-        internal T QuerySelector<T>(Selector selectors) 
+        internal T QuerySelector<T>(ISelector selectors) 
             where T : class, IElement
         {
             return QuerySelector(this, selectors) as T;
@@ -81,7 +81,7 @@
         /// </summary>
         /// <param name="selector">A selector object.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        internal HTMLCollection QuerySelectorAll(Selector selector)
+        internal HTMLCollection QuerySelectorAll(ISelector selector)
         {
             var result = new List<Element>();
             QuerySelectorAll(this, selector, result);
@@ -135,7 +135,7 @@
 
         #region Helpers
 
-        static Element QuerySelector(NodeList elements, Selector selector)
+        static Element QuerySelector(NodeList elements, ISelector selector)
         {
             for (int i = 0; i < elements.Length; i++)
             {
@@ -159,7 +159,7 @@
             return null;
         }
 
-        static void QuerySelectorAll(NodeList elements, Selector selector, List<Element> result)
+        static void QuerySelectorAll(NodeList elements, ISelector selector, List<Element> result)
         {
             for (int i = 0; i < elements.Length; i++)
             {
