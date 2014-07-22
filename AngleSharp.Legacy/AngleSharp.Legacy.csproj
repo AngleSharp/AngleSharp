@@ -1471,6 +1471,9 @@
     <Compile Include="..\AngleSharp\Foundation\Structures\Percent.cs">
       <Link>Foundation\Structures\Percent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Priority.cs">
+      <Link>Foundation\Structures\Priority.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Resolution.cs">
       <Link>Foundation\Structures\Resolution.cs</Link>
     </Compile>
