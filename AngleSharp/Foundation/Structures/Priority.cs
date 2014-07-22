@@ -12,13 +12,13 @@
         #region Fields
 
         [FieldOffset(0)]
-        Byte inlines;
-        [FieldOffset(1)]
-        Byte ids;
-        [FieldOffset(2)]
-        Byte classes;
-        [FieldOffset(3)]
         Byte tags;
+        [FieldOffset(1)]
+        Byte classes;
+        [FieldOffset(2)]
+        Byte ids;
+        [FieldOffset(3)]
+        Byte inlines;
         [FieldOffset(0)]
         UInt32 priority;
 
@@ -78,6 +78,42 @@
             this.ids = ids;
             this.classes = classes;
             this.tags = tags;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the number of tags for this priority.
+        /// </summary>
+        public Byte Tags
+        {
+            get { return tags; }
+        }
+
+        /// <summary>
+        /// Gets the number of classes for this priority.
+        /// </summary>
+        public Byte Classes
+        {
+            get { return classes; }
+        }
+
+        /// <summary>
+        /// Gets the number of ids for this priority.
+        /// </summary>
+        public Byte Ids
+        {
+            get { return ids; }
+        }
+
+        /// <summary>
+        /// Gets the number of inlines for this priority.
+        /// </summary>
+        public Byte Inlines
+        {
+            get { return inlines; }
         }
 
         #endregion
