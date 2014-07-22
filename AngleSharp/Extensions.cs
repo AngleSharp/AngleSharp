@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.DOM;
-    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
     using AngleSharp.Parser.Css;
@@ -127,7 +126,7 @@
         /// <param name="document">The document to use as starting point.</param>
         /// <param name="xpath">A string containing a valid XPath query.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static IHtmlCollection QueryXpath(this Document document, String xpath)
+        public static IHtmlCollection QueryXpath(this IDocument document, String xpath)
         {
             return document.ChildNodes.QueryXpath(xpath);
         }
@@ -139,7 +138,7 @@
         /// <param name="element">The element to use as starting point.</param>
         /// <param name="xpath">A string containing a valid XPath query.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static IHtmlCollection QueryXpath(this Element element, String xpath)
+        public static IHtmlCollection QueryXpath(this IElement element, String xpath)
         {
             return element.ChildNodes.QueryXpath(xpath);
         }
@@ -150,7 +149,7 @@
         /// <param name="nodes">The nodes to search in (first order children).</param>
         /// <param name="xpath">A string containing a valid XPath query.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static IHtmlCollection QueryXpath(this NodeList nodes, String xpath)
+        public static IHtmlCollection QueryXpath(this INodeList nodes, String xpath)
         {
             throw new NotImplementedException("XPath queries will be supported in the future (maybe in v0.7!). Stay tuned!");
         }

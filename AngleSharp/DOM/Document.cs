@@ -1172,15 +1172,15 @@
         /// <param name="children">The nodelist to investigate.</param>
         /// <param name="id">The id to find.</param>
         /// <returns>The element or NULL.</returns>
-        static protected Element GetElementById(NodeList children, String id)
+        static protected IElement GetElementById(NodeList children, String id)
         {
             for (int i = 0; i < children.Length; i++)
             {
-                var element = children[i] as Element;
+                var element = children[i] as IElement;
 
                 if (element != null)
                 {
-                    if (element.GetAttribute("id") == id)
+                    if (element.Id == id)
                         return element;
 
                     element = GetElementById(element.ChildNodes, id);
