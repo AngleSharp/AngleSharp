@@ -500,6 +500,11 @@
         public static readonly String Css = "text/css";
 
         /// <summary>
+        /// Gets the default mime-type for JavaScript scripts: text/javascript.
+        /// </summary>
+        public static readonly String DefaultJavaScript = "text/javascript";
+
+        /// <summary>
         /// Gets the mime-type for XML applications, application/xml.
         /// </summary>
         public static readonly String ApplicationXml = "application/xml";
@@ -546,6 +551,22 @@
             "text/x-ecmascript",
             "text/x-javascript"
         };
+
+        /// <summary>
+        /// Checks if the given mime-type is one of the JavaScript variants.
+        /// </summary>
+        /// <param name="type">The type to check for.</param>
+        /// <returns>True if it is a JavaScript mime-type, otherwise false.</returns>
+        public static Boolean IsJavaScript(String type)
+        {
+            foreach (var js in JavaScript)
+            {
+                if (type.Equals(js, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+
+            return false;
+        }
 
         #endregion
     }
