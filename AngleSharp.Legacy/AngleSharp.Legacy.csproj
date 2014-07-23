@@ -58,6 +58,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AngleSharp\Attributes\Accessors.cs">
+      <Link>Attributes\Accessors.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Attributes\DomAccessorAttribute.cs">
+      <Link>Attributes\DomAccessorAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Attributes\DomDescriptionAttribute.cs">
       <Link>Attributes\DomDescriptionAttribute.cs</Link>
     </Compile>
@@ -1767,6 +1773,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IElement.cs">
       <Link>Interfaces\IElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IElementMap.cs">
+      <Link>Interfaces\IElementMap.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IEvent.cs">
       <Link>Interfaces\IEvent.cs</Link>
