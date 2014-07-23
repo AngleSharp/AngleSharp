@@ -14,7 +14,14 @@
         /// </summary>
         /// <param name="name">The name of the item to get or set.</param>
         /// <returns>The item with the associated name.</returns>
-        [DomName("item")]
-        String this [String name] { get; set; }
+        [DomAccessor(Accessors.Getter | Accessors.Setter)]
+        String this[String name] { get; set; }
+
+        /// <summary>
+        /// Deletes the string with the given name from the map.
+        /// </summary>
+        /// <param name="name">The name of the string to remove.</param>
+        [DomAccessor(Accessors.Deleter)]
+        void Remove(String name);
     }
 }

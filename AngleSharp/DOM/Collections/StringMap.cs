@@ -47,43 +47,23 @@
         #region Methods
 
         /// <summary>
-        /// Gets the value for a specified property.
+        /// Removes the given property from the list of attributes.
         /// </summary>
         /// <param name="prop">The name of the property.</param>
-        /// <returns>The value for the specified property name.</returns>
-        public String GetDataAttr(String prop)
+        public void Remove(String name)
         {
-            return _parent.GetAttribute(_prefix + Check(prop));
+            if (Contains(name))
+                this[name] = null;
         }
 
         /// <summary>
         /// Checks if the specified property has been set.
         /// </summary>
-        /// <param name="prop">The name of the property.</param>
+        /// <param name="name">The name of the property.</param>
         /// <returns>True if the property is set, otherwise false.</returns>
-        public Boolean HasDataAttr(String prop)
+        public Boolean Contains(String name)
         {
-            return _parent.HasAttribute(_prefix + Check(prop));
-        }
-
-        /// <summary>
-        /// Removes the given property from the list of attributes.
-        /// </summary>
-        /// <param name="prop">The name of the property.</param>
-        public void RemoveDataAttr(String prop)
-        {
-            if(HasDataAttr(prop))
-                this[prop] = null;
-        }
-
-        /// <summary>
-        /// Sets the value of the specified property.
-        /// </summary>
-        /// <param name="prop">The name of the property.</param>
-        /// <param name="value">The value of the property.</param>
-        public void SetDataAttr(String prop, String value)
-        {
-            _parent.SetAttribute(_prefix + Check(prop), value);
+            return _parent.HasAttribute(_prefix + Check(name));
         }
 
         #endregion

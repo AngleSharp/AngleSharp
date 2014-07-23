@@ -13,6 +13,7 @@
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The option at the given position.</returns>
+        [DomAccessor(Accessors.Getter | Accessors.Setter)]
         IHtmlOptionElement this[UInt32 index] { get; set; }
 
         /// <summary>

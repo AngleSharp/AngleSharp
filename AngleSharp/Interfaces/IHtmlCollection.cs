@@ -23,6 +23,7 @@
         /// <param name="index">The zero-based index.</param>
         /// <returns>Returns null if the index is out of range.</returns>
         [DomName("item")]
+        [DomAccessor(Accessors.Getter)]
         Element this[Int32 index] { get; }
   
         /// <summary>
@@ -33,6 +34,7 @@
         /// <param name="name">The id or name to match.</param>
         /// <returns>Returns null if no node exists by the given name.</returns>
         [DomName("namedItem")]
+        [DomAccessor(Accessors.Getter)]
         Element this[String name] { get; }
     }
 }
