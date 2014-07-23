@@ -14,16 +14,17 @@
     {
         #region Fields
 
+        readonly Stack<Int32> _collengths;
+        readonly StringBuilder _buffer;
+
         Int32 _column;
         Int32 _row;
         Int32 _insertion;
-        Stack<Int32> _collengths;
         Char _current;
-        TextReader _reader;
-        StringBuilder _buffer;
         Boolean _ended;
         Boolean _lwcr;
         Encoding _encoding;
+        TextReader _reader;
 
         #endregion
 
