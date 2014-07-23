@@ -8,6 +8,7 @@
     using AngleSharp.Parser.Html;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
@@ -180,7 +181,7 @@
             _owner = this;
             _type = NodeType.Document;
             IsAsync = true;
-            _encoding = DocumentEncoding.Suggest(System.Globalization.CultureInfo.CurrentCulture.Name).WebName;
+            _encoding = DocumentEncoding.Suggest(CultureInfo.CurrentCulture.Name).WebName;
             _referrer = String.Empty;
             _ready = DocumentReadyState.Complete;
             _name = "#document";
