@@ -16,6 +16,7 @@
 
         readonly Stack<Int32> _collengths;
         readonly StringBuilder _buffer;
+        readonly TextStream _reader;
 
         Int32 _column;
         Int32 _row;
@@ -23,8 +24,6 @@
         Char _current;
         Boolean _ended;
         Boolean _lwcr;
-        Encoding _encoding;
-        TextReader _reader;
 
         #endregion
 
@@ -33,10 +32,8 @@
         /// <summary>
         /// Prepares everything.
         /// </summary>
-        /// <param name="encoding">The default encoding to use.</param>
-        SourceManager(Encoding encoding = null)
+        SourceManager()
         {
-            _encoding = encoding ?? Encoding.UTF8;
             _buffer = new StringBuilder();
             _collengths = new Stack<Int32>();
             _column = 1;
@@ -49,9 +46,9 @@
         /// <param name="source">The source code string to manage.</param>
         /// <param name="encoding">The default encoding to use.</param>
         public SourceManager(String source, Encoding encoding = null)
-            : this(encoding)
+            : this()
         {
-            _reader = new StringReader(source);
+            _reader = new TextStream(source, encoding);
             ReadCurrent();
         }
 
@@ -61,9 +58,9 @@
         /// <param name="stream">The source code stream to manage.</param>
         /// <param name="encoding">The default encoding to use.</param>
         public SourceManager(Stream stream, Encoding encoding = null)
-            : this(encoding)
+            : this()
         {
-            _reader = new StreamReader(stream, true);
+            _reader = new TextStream(stream, encoding);
             ReadCurrent();
         }
 
@@ -84,23 +81,8 @@
         /// </summary>
         public Encoding Encoding
         {
-            get { return _encoding; }
-            set
-            {
-                _encoding = value;
-                var reader = _reader as StreamReader;
-
-                if (reader != null && reader.CurrentEncoding != value)
-                {
-                    var chars = _buffer.Length;
-                    var stream = reader.BaseStream;
-                    _insertion = 0;
-                    stream.Position = 0;
-                    _buffer.Clear();
-                    _reader = new StreamReader(stream, value);
-                    Advance(chars);
-                }
-            }
+            get { return _reader.CurrentEncoding; }
+            set { _reader.CurrentEncoding = value; }
         }
 
         /// <summary>
@@ -190,18 +172,6 @@
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Copies the given string from the buffer.
-        /// </summary>
-        /// <param name="start">The inclusive insertation point to start.</param>
-        /// <param name="end">The exclusive insertation point to end.</param>
-        /// <returns>The copied string.</returns>
-        [DebuggerStepThrough]
-        public String Copy(Int32 start, Int32 end)
-        {
-            return _buffer.ToString(start, end - start);
-        }
 
         /// <summary>
         /// Resets the insertion point to the end of the buffer.
@@ -315,8 +285,7 @@
                     return;
                 }
 
-                var tmp = _reader.Read();
-                _current = tmp == -1 ? Specification.EndOfFile : (Char)tmp;
+                _current = _reader.Read();
 
                 if (_current == Specification.CarriageReturn)
                 {
@@ -392,8 +361,7 @@
         /// </summary>
         public void Dispose()
         {
-            if(_reader != null)
-                _reader.Dispose();
+            _reader.Dispose();
         }
 
         #endregion

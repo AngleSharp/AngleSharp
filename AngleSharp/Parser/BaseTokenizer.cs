@@ -10,7 +10,7 @@
     [DebuggerStepThrough]
     abstract class BaseTokenizer
     {
-        #region Members
+        #region Fields
 
         protected StringBuilder _stringBuffer;
         protected SourceManager _src;
@@ -51,17 +51,6 @@
                 pck.Column = _src.Column;
                 ErrorOccurred(this, pck);
             }
-        }
-
-        /// <summary>
-        /// Fires an error occurred event (usually originated by another tokenizer).
-        /// </summary>
-        /// <param name="sender">The original sender.</param>
-        /// <param name="eventArgs">The arguments of the event.</param>
-        protected void RaiseErrorOccurred(Object sender, ParseErrorEventArgs eventArgs)
-        {
-            if (ErrorOccurred != null)
-                ErrorOccurred(sender, eventArgs);
         }
 
         #endregion

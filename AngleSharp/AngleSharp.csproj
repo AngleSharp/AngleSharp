@@ -282,6 +282,8 @@
     <Compile Include="Foundation\Setup\CopyConfiguration.cs" />
     <Compile Include="Foundation\Structures\Priority.cs" />
     <Compile Include="Foundation\StyleExtensions.cs" />
+    <Compile Include="Foundation\TextStream.cs" />
+    <Compile Include="Foundation\TextStreamAsync.cs" />
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
     <Compile Include="Infrastructure\IScriptEngine.cs" />
     <Compile Include="Infrastructure\IStyleEngine.cs" />
