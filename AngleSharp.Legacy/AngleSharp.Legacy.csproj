@@ -1489,6 +1489,9 @@
     <Compile Include="..\AngleSharp\Foundation\StyleExtensions.cs">
       <Link>Foundation\StyleExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\TextStream.cs">
+      <Link>Foundation\TextStream.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\ValueExtensions.cs">
       <Link>Foundation\ValueExtensions.cs</Link>
     </Compile>
@@ -2113,6 +2116,7 @@
     <Compile Include="..\AngleSharp\Tools\AnalysisWindow.cs">
       <Link>Tools\AnalysisWindow.cs</Link>
     </Compile>
+    <Compile Include="Foundation\TextStreamAsync.cs" />
     <Compile Include="LegacyExtensions.cs" />
     <Compile Include="Network\DefaultRequester.cs" />
   </ItemGroup>
