@@ -17,6 +17,17 @@ namespace UnitTests
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.EOF, token.Type);
         }
+
+        [TestMethod]
+        public void TokenizationLongerCharacterReference()
+        {
+            var content = "&abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTV;";
+            var s = new SourceManager(content);
+            var t = new HtmlTokenizer(s);
+            var token = t.Get();
+            Assert.AreEqual(HtmlTokenType.Character, token.Type);
+            Assert.AreEqual(content, ((HtmlCharacterToken)token).Data);
+        }
         
         [TestMethod]
         public void TokenizationStartTagDetection()
