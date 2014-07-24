@@ -37,19 +37,19 @@
         /// Gets if the event is actually bubbling.
         /// </summary>
         [DomName("bubbles")]
-        Boolean Bubbles { get; }
+        Boolean IsBubbling { get; }
 
         /// <summary>
         /// Gets if the event is cancelable.
         /// </summary>
         [DomName("cancelable")]
-        Boolean Cancelable { get; }
+        Boolean IsCancelable { get; }
 
         /// <summary>
         /// Gets if the default behavior has been prevented.
         /// </summary>
         [DomName("defaultPrevented")]
-        Boolean DefaultPrevented { get; }
+        Boolean IsDefaultPrevented { get; }
 
         /// <summary>
         /// Gets if the event is trusted.
@@ -79,7 +79,7 @@
         /// Prevents the default behavior.
         /// </summary>
         [DomName("preventDefault")]
-        void PreventDefault();
+        void Cancel();
 
         /// <summary>
         /// Initializes the event.

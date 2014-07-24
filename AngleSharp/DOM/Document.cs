@@ -25,17 +25,9 @@
         DocumentReadyState _ready;
         IConfiguration _options;
         String _encoding;
-        DOMStringList _styles;
         StyleSheetList _styleSheets;
         String _referrer;
         String _cookie;
-        HTMLCollection _all;
-        HTMLCollection<IHtmlAnchorElement> _anchors;
-        HTMLCollection<IHtmlFormElement> _forms;
-        HTMLCollection<HTMLScriptElement> _scripts;
-        HTMLCollection<IHtmlImageElement> _images;
-        HTMLCollection _embeds;
-        HTMLCollection _links;
         
         /// <summary>
         /// The content type of the MIME type from the header.
@@ -188,7 +180,6 @@
             _quirksMode = QuirksMode.Off;
             _location = new Location("file://localhost/");
             _options = Configuration.Default;
-            _all = new HTMLCollection(this);
             _queue = new Task(() => { });
         }
 
@@ -201,7 +192,7 @@
         /// </summary>
         public IHtmlCollection All
         {
-            get { return _all; }
+            get { return new HTMLCollection(this); }
         }
 
         /// <summary>
@@ -209,7 +200,7 @@
         /// </summary>
         public IHtmlCollection Anchors
         {
-            get { return _anchors ?? (_anchors = new HTMLCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name))); }
+            get { return new HTMLCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name)); }
         }
 
         /// <summary>
@@ -334,7 +325,7 @@
         /// </summary>
         public IStringList StyleSheetSets
         {
-            get { return _styles ?? (_styles = new DOMStringList(_styleSheets.Select(m => m.Title))); }
+            get { return new DOMStringList(_styleSheets.Select(m => m.Title)); }
         }
 
         /// <summary>
@@ -421,7 +412,7 @@
         /// </summary>
         public IHtmlCollection Forms
         {
-            get { return _forms ?? (_forms = new HTMLCollection<IHtmlFormElement>(this)); }
+            get { return new HTMLCollection<IHtmlFormElement>(this); }
         }
 
         /// <summary>
@@ -429,7 +420,7 @@
         /// </summary>
         public IHtmlCollection Images
         {
-            get { return _images ?? (_images = new HTMLCollection<IHtmlImageElement>(this)); }
+            get { return new HTMLCollection<IHtmlImageElement>(this); }
         }
 
         /// <summary>
@@ -437,7 +428,7 @@
         /// </summary>
         public IHtmlCollection Scripts
         {
-            get { return _scripts ?? (_scripts = new HTMLCollection<HTMLScriptElement>(this)); }
+            get { return new HTMLCollection<HTMLScriptElement>(this); }
         }
 
         /// <summary>
@@ -445,7 +436,7 @@
         /// </summary>
         public IHtmlCollection Embeds
         {
-            get { return _embeds ?? (_embeds = new HTMLCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement)); }
+            get { return new HTMLCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement); }
         }
 
         /// <summary>
@@ -453,7 +444,7 @@
         /// </summary>
         public IHtmlCollection Links
         {
-            get { return _links ?? (_links = new HTMLCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href))); }
+            get { return new HTMLCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href)); }
         }
 
         /// <summary>

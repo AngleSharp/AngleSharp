@@ -21,5 +21,20 @@
         /// The DOMContentLoaded event.
         /// </summary>
         public static readonly String DomContentLoaded = "DOMContentLoaded";
+
+        /// <summary>
+        /// The error event.
+        /// </summary>
+        public static readonly String Error = "error";
+
+        /// <summary>
+        /// The beforescriptexecute event.
+        /// </summary>
+        public static readonly String BeforeScriptExecute = "beforescriptexecute";
+
+        /// <summary>
+        /// The afterscriptexecute event.
+        /// </summary>
+        public static readonly String AfterScriptExecute = "afterscriptexecute";
     }
 }

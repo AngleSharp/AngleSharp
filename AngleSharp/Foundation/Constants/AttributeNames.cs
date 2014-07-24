@@ -641,5 +641,15 @@
         /// The defer attribute.
         /// </summary>
         public static readonly String Defer = "defer";
+
+        /// <summary>
+        /// The language attribute.
+        /// </summary>
+        public static readonly String Language = "language";
+
+        /// <summary>
+        /// The event attribute.
+        /// </summary>
+        public static readonly String Event = "event";
     }
 }

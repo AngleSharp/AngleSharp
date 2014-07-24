@@ -49,7 +49,7 @@
         /// <summary>
         /// Gets if the event is actually bubbling.
         /// </summary>
-        public Boolean Bubbles
+        public Boolean IsBubbling
         {
             get { throw new NotImplementedException(); }
         }
@@ -57,7 +57,7 @@
         /// <summary>
         /// Gets if the event is cancelable.
         /// </summary>
-        public Boolean Cancelable
+        public Boolean IsCancelable
         {
             get { throw new NotImplementedException(); }
         }
@@ -65,7 +65,7 @@
         /// <summary>
         /// Gets if the default behavior has been prevented.
         /// </summary>
-        public Boolean DefaultPrevented
+        public Boolean IsDefaultPrevented
         {
             get { throw new NotImplementedException(); }
         }
@@ -109,7 +109,7 @@
         /// <summary>
         /// Prevents the default behavior.
         /// </summary>
-        public void PreventDefault()
+        public void Cancel()
         {
             throw new NotImplementedException();
         }

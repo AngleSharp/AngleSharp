@@ -928,10 +928,14 @@
         /// be created and dispatched at the given target.
         /// </summary>
         /// <param name="eventName">The name of the event to be fired.</param>
-        protected void FireSimpleEvent(String eventName)
+        /// <param name="bubble">Optional parameter to enable bubbling.</param>
+        /// <param name="cancelable">Optional parameter to make it cancelable.</param>
+        /// <returns>True if the element was cancelled, otherwise false.</returns>
+        protected Boolean FireSimpleEvent(String eventName, Boolean bubble = false, Boolean cancelable = false)
         {
             //TODO
             //http://www.w3.org/html/wg/drafts/html/master/webappapis.html#fire-a-simple-event
+            return false;
         }
 
         /// <summary>
