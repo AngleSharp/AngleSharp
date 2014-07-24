@@ -2820,8 +2820,8 @@ namespace UnitTests
         [TestMethod]
         public void ScriptNoScriptWithClosedCommentThatContainsAnotherClosedNoScriptElement()
         {
-            var doc = new Document();
-            var parser = new HtmlParser(doc, "<!doctype html><noscript><!--<noscript></noscript>--></noscript>");
+            var doc = new Document("<!doctype html><noscript><!--<noscript></noscript>--></noscript>");
+            var parser = new HtmlParser(doc);
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
       
@@ -2861,15 +2861,13 @@ namespace UnitTests
             var dochtml1body1Text0 = dochtml1body1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1Text0.NodeType);
             Assert.AreEqual("-->", dochtml1body1Text0.TextContent);
-    
-
         }
  
         [TestMethod]
         public void ScriptNoScriptWithCommentStartAndTextInsideBeforeClosing()
         {
-            var doc = new Document();
-            var parser = new HtmlParser(doc, "<!doctype html><noscript><!--</noscript>X<noscript>--></noscript>");
+            var doc = new Document("<!doctype html><noscript><!--</noscript>X<noscript>--></noscript>");
+            var parser = new HtmlParser(doc);
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
       
@@ -2919,15 +2917,13 @@ namespace UnitTests
             var dochtml1body1noscript1Text0 = dochtml1body1noscript1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1noscript1Text0.NodeType);
             Assert.AreEqual("-->", dochtml1body1noscript1Text0.TextContent);
-    
-
         }
  
         [TestMethod]
         public void ScriptNoScriptAfterDoctypeWithIFrameContentAndTextAfter()
         {
-            var doc = new Document();
-            var parser = new HtmlParser(doc, "<!doctype html><noscript><iframe></noscript>X");
+            var doc = new Document("<!doctype html><noscript><iframe></noscript>X");
+            var parser = new HtmlParser(doc);
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
       
@@ -2967,8 +2963,6 @@ namespace UnitTests
             var dochtml1body1Text0 = dochtml1body1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1Text0.NodeType);
             Assert.AreEqual("X", dochtml1body1Text0.TextContent);
-    
-
         }
  
         [TestMethod]

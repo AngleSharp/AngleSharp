@@ -2893,8 +2893,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         [TestMethod]
         public void TreeParagraphWithTightAttributesAndNoScriptTagScriptingEnabled()
         {
-            var doc = new Document();
-            var parser = new HtmlParser(doc, @"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>");
+            var doc = new Document(@"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>");
+            var parser = new HtmlParser(doc);
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
 
@@ -4991,8 +4991,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         [TestMethod]
         public void TreeNoScriptWithNoScriptCommentInside()
         {
-            var doc = new Document();
-            var parser = new HtmlParser(doc, @"<noscript><!--<noscript></noscript>--></noscript>");
+            var doc = new Document(@"<noscript><!--<noscript></noscript>--></noscript>");
+            var parser = new HtmlParser(doc);
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
 
@@ -5032,8 +5032,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         [TestMethod]
         public void TreeNoScriptWithCommentAndClosingNoScriptInside()
         {
-            var doc = new Document();
-            var parser = new HtmlParser(doc, @"<noscript><!--</noscript>X<noscript>--></noscript>");
+            var doc = new Document(@"<noscript><!--</noscript>X<noscript>--></noscript>");
+            var parser = new HtmlParser(doc);
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
 
@@ -5083,8 +5083,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         [TestMethod]
         public void TreeNoScriptWithIFrameInside()
         {
-            var doc = new Document();
-            var parser = new HtmlParser(doc, @"<noscript><iframe></noscript>X");
+            var doc = new Document(@"<noscript><iframe></noscript>X");
+            var parser = new HtmlParser(doc);
             doc.Options = new Configuration { IsScripting = true };
             parser.Parse();
 
