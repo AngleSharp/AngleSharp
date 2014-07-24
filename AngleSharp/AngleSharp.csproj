@@ -584,7 +584,7 @@
     <Compile Include="DOM\Css\Selector\ListSelector.cs" />
     <Compile Include="DOM\Css\Selector\SimpleSelector.cs" />
     <Compile Include="DOM\DocumentFragment.cs" />
-    <Compile Include="DOM\Objects\DOMImplementation.cs" />
+    <Compile Include="DOM\Objects\DomImplementation.cs" />
     <Compile Include="DOM\EntityReference.cs" />
     <Compile Include="Foundation\Structures\Location.cs" />
     <Compile Include="DOM\ProcessingInstruction.cs" />

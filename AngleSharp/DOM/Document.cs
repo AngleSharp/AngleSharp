@@ -23,7 +23,6 @@
         Task _queue;
         QuirksMode _quirksMode;
         DocumentReadyState _ready;
-        DOMImplementation _implementation;
         IConfiguration _options;
         String _encoding;
         DOMStringList _styles;
@@ -279,7 +278,7 @@
         /// </summary>
         public IImplementation Implementation
         {
-            get { return _implementation ?? (_implementation = new DOMImplementation()); }
+            get { return DomImplementation.Instance; }
         }
 
         /// <summary>
@@ -1205,7 +1204,6 @@
             target._ready = source._ready;
             target._referrer = source._referrer;
             target._location.Href = source._location.Href;
-            target._implementation = source._implementation;
             target._quirksMode = source._quirksMode;
             target._options = source._options;
         }

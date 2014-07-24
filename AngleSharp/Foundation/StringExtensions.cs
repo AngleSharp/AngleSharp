@@ -230,13 +230,16 @@
         /// </summary>
         /// <param name="list">The list of strings.</param>
         /// <param name="element">The element to search for.</param>
+        /// <param name="comparison">The default comparison to use.</param>
         /// <returns>The status of the check.</returns>
         [DebuggerStepThrough]
-        public static Boolean Contains(this String[] list, String element)
+        public static Boolean Contains(this String[] list, String element, StringComparison comparison = StringComparison.Ordinal)
         {
             for (int i = 0; i < list.Length; i++)
-                if (list[i] == element)
+            {
+                if (list[i].Equals(element, comparison))
                     return true;
+            }
 
             return false;
         }
@@ -251,8 +254,10 @@
         public static Boolean IsOneOf(this String element, params String[] elements)
         {
             for (var i = 0; i != elements.Length; i++)
+            {
                 if (element.Equals(elements[i]))
                     return true;
+            }
 
             return false;
         }
