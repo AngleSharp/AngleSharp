@@ -542,7 +542,7 @@
             }
             else
             {
-                var last = String.Empty;
+                String last = null;
                 var consumed = 0;
                 var start = _src.InsertionPoint - 1;
                 var reference = new Char[31];
@@ -566,7 +566,7 @@
                         last = value;
                     }
                 }
-                while (!_src.IsEnded);
+                while (!_src.IsEnded && index < 31);
 
                 _src.Back(consumed);
                 chr = _src.Current;
