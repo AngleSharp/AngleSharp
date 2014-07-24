@@ -2,7 +2,6 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
-    using AngleSharp.Parser;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using System;
@@ -58,9 +57,9 @@
         /// <returns>The constructed HTML document.</returns>
         public IDocument FromHtml(String sourceCode)
         {
-            var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
-            var doc = new Document { Options = configuration };
-            var parser = Construct(source, doc, configuration);
+            var stream = new TextStream(sourceCode, configuration.DefaultEncoding());
+            var doc = new Document(stream) { Options = configuration };
+            var parser = Construct(doc, configuration);
             return parser.Result;
         }
 
@@ -92,10 +91,10 @@
         /// <returns>The task that constructs the HTML document.</returns>
         public async Task<IDocument> FromHtmlAsync(Uri url, CancellationToken cancel)
         {
-            var stream = await configuration.LoadAsync(url, cancel, force: true);
-            var source = new SourceManager(stream, configuration.DefaultEncoding());
-            var doc = new Document { Options = configuration };
-            var parser = Construct(source, doc, configuration);
+            var content = await configuration.LoadAsync(url, cancel, force: true);
+            var stream = new TextStream(content, configuration.DefaultEncoding());
+            var doc = new Document(stream) { Options = configuration };
+            var parser = Construct(doc, configuration);
             return parser.Result;
         }
 
@@ -106,9 +105,9 @@
         /// <returns>The constructed CSS stylesheet.</returns>
         public ICssStyleSheet FromCss(String sourceCode)
         {
-            var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
+            var stream = new TextStream(sourceCode, configuration.DefaultEncoding());
             var doc = new CSSStyleSheet { Options = configuration };
-            var parser = Construct(source, doc, configuration);
+            var parser = Construct(stream, doc, configuration);
             return parser.Result;
         }
 
@@ -141,7 +140,7 @@
         public async Task<ICssStyleSheet> FromCssAsync(Uri url, CancellationToken cancel)
         {
             var stream = await configuration.LoadAsync(url, cancel, force: true);
-            var source = new SourceManager(stream, configuration.DefaultEncoding());
+            var source = new TextStream(stream, configuration.DefaultEncoding());
             var doc = new CSSStyleSheet { Options = configuration };
             var parser = Construct(source, doc, configuration);
             return parser.Result;
@@ -154,12 +153,11 @@
         /// <summary>
         /// Creates a new parser with the specified source.
         /// </summary>
-        /// <param name="source">The code manager.</param>
         /// <param name="document">The document to fill.</param>
         /// <param name="configuration">Options to use for the document generation.</param>
-        static HtmlParser Construct(SourceManager source, Document document, IConfiguration configuration)
+        static HtmlParser Construct(Document document, IConfiguration configuration)
         {
-            var parser = new HtmlParser(document, source);
+            var parser = new HtmlParser(document);
             parser.ParseError += (s, e) => configuration.ReportError(e);
             return parser;
         }
@@ -167,12 +165,12 @@
         /// <summary>
         /// Creates a new parser with the specified source.
         /// </summary>
-        /// <param name="source">The code manager.</param>
+        /// <param name="stream">The stream to the source.</param>
         /// <param name="sheet">The document to fill.</param>
         /// <param name="configuration">Options to use for the document generation.</param>
-        static CssParser Construct(SourceManager source, CSSStyleSheet sheet, IConfiguration configuration)
+        static CssParser Construct(TextStream stream, CSSStyleSheet sheet, IConfiguration configuration)
         {
-            var parser = new CssParser(sheet, source);
+            var parser = new CssParser(sheet, stream);
             parser.ParseError += (s, e) => configuration.ReportError(e);
             return parser;
         }
@@ -192,9 +190,9 @@
             if (configuration == null)
                 configuration = GlobalConfig.Default;
 
-            var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
-            var doc = new Document { Options = configuration };
-            var parser = Construct(source, doc, configuration);
+            var stream = new TextStream(sourceCode, configuration.DefaultEncoding());
+            var doc = new Document(stream) { Options = configuration };
+            var parser = Construct(doc, configuration);
             return parser.Result;
         }
 
@@ -232,10 +230,10 @@
             if (configuration == null)
                 configuration = GlobalConfig.Default;
 
-            var stream = await configuration.LoadAsync(url, cancel, force: true);
-            var source = new SourceManager(stream, configuration.DefaultEncoding());
-            var doc = new Document { Options = configuration, DocumentUri = url.OriginalString };
-            var parser = Construct(source, doc, configuration);
+            var content = await configuration.LoadAsync(url, cancel, force: true);
+            var stream = new TextStream(content, configuration.DefaultEncoding());
+            var doc = new Document(stream) { Options = configuration, DocumentUri = url.OriginalString };
+            var parser = Construct(doc, configuration);
             await parser.ParseAsync();
             return parser.Result;
         }
@@ -243,17 +241,17 @@
         /// <summary>
         /// Builds a new HTMLDocument with the given (network) stream.
         /// </summary>
-        /// <param name="stream">The stream of chars to use as source code.</param>
+        /// <param name="content">The stream of chars to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static IDocument Html(Stream stream, IConfiguration configuration = null)
+        public static IDocument Html(Stream content, IConfiguration configuration = null)
         {
             if (configuration == null)
                 configuration = GlobalConfig.Default;
 
-            var source = new SourceManager(stream, configuration.DefaultEncoding());
-            var doc = new Document { Options = configuration };
-            var parser = Construct(source, doc, configuration);
+            var stream = new TextStream(content, configuration.DefaultEncoding());
+            var doc = new Document(stream) { Options = configuration };
+            var parser = Construct(doc, configuration);
             return parser.Result;
         }
 
@@ -274,10 +272,10 @@
             //Disable scripting for HTML fragments (security reasons)
             configuration.IsScripting = false;
 
-            var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
-            var doc = new Document { Options = configuration };
+            var stream = new TextStream(sourceCode, configuration.DefaultEncoding());
+            var doc = new Document(stream) { Options = configuration };
 
-            var parser = Construct(source, doc, configuration);
+            var parser = Construct(doc, configuration);
 
             if (context != null)
             {
@@ -306,9 +304,9 @@
             if (configuration == null)
                 configuration = GlobalConfig.Default;
 
-            var source = new SourceManager(sourceCode, configuration.DefaultEncoding());
+            var stream = new TextStream(sourceCode, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet { Options = configuration };
-            var parser = Construct(source, sheet, configuration);
+            var parser = Construct(stream, sheet, configuration);
             return parser.Result;
         }
 
@@ -347,7 +345,7 @@
                 configuration = GlobalConfig.Default;
 
             var stream = await configuration.LoadAsync(url, cancel, force: true);
-            var source = new SourceManager(stream, configuration.DefaultEncoding());
+            var source = new TextStream(stream, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet { Href = url.OriginalString, Options = configuration };
             var parser = Construct(source, sheet, configuration);
             await parser.ParseAsync();
@@ -365,7 +363,7 @@
             if (configuration == null)
                 configuration = GlobalConfig.Default;
 
-            var source = new SourceManager(stream, configuration.DefaultEncoding());
+            var source = new TextStream(stream, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet { Options = configuration };
             var parser = Construct(source, sheet, configuration);
             return parser.Result;

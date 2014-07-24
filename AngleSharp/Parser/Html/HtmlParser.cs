@@ -57,7 +57,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public HtmlParser(String source, IConfiguration configuration = null)
-            : this(new Document { Options = configuration }, new SourceManager(source, configuration.DefaultEncoding()))
+            : this(new Document(new TextStream(source, configuration.DefaultEncoding())) { Options = configuration })
         {
         }
 
@@ -68,29 +68,7 @@
         /// <param name="stream">The stream to use as source.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public HtmlParser(Stream stream, IConfiguration configuration = null)
-            : this(new Document { Options = configuration }, new SourceManager(stream, configuration.DefaultEncoding()))
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the HTML parser with the specified document
-        /// based on the given source.
-        /// </summary>
-        /// <param name="document">The document instance to be constructed.</param>
-        /// <param name="source">The source code as a string.</param>
-        internal HtmlParser(Document document, String source)
-            : this(document, new SourceManager(source, document.Options.DefaultEncoding()))
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the HTML parser with the specified document
-        /// based on the given stream.
-        /// </summary>
-        /// <param name="document">The document instance to be constructed.</param>
-        /// <param name="stream">The stream to use as source.</param>
-        internal HtmlParser(Document document, Stream stream)
-            : this(document, new SourceManager(stream, document.Options.DefaultEncoding()))
+            : this(new Document(new TextStream(stream, configuration.DefaultEncoding())) { Options = configuration })
         {
         }
 
@@ -99,9 +77,9 @@
         /// based on the given source manager.
         /// </summary>
         /// <param name="document">The document instance to be constructed.</param>
-        /// <param name="source">The source to use.</param>
-        internal HtmlParser(Document document, SourceManager source)
+        internal HtmlParser(Document document)
         {
+            var source = new SourceManager(document.Source);
             tokenizer = new HtmlTokenizer(source);
 
             tokenizer.ErrorOccurred += (s, ev) =>
@@ -3685,10 +3663,7 @@
             var enc = DocumentEncoding.Resolve(charset);
 
             if (enc != null)
-            {
-                doc.CharacterSet = enc.WebName;
-                tokenizer.Stream.Encoding = enc;
-            }
+                doc.Source.CurrentEncoding = enc;
         }
 
         /// <summary>

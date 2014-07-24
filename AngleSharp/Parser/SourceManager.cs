@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.IO;
     using System.Text;
 
     /// <summary>
@@ -43,25 +42,21 @@
         /// <summary>
         /// Constructs a new instance of the source code manager.
         /// </summary>
-        /// <param name="source">The source code string to manage.</param>
-        /// <param name="encoding">The default encoding to use.</param>
-        public SourceManager(String source, Encoding encoding = null)
+        /// <param name="reader">The underlying text stream to read.</param>
+        public SourceManager(TextStream reader)
             : this()
         {
-            _reader = new TextStream(source, encoding);
+            _reader = reader;
             ReadCurrent();
         }
 
         /// <summary>
         /// Constructs a new instance of the source code manager.
         /// </summary>
-        /// <param name="stream">The source code stream to manage.</param>
-        /// <param name="encoding">The default encoding to use.</param>
-        public SourceManager(Stream stream, Encoding encoding = null)
-            : this()
+        /// <param name="source">The source code to manage.</param>
+        internal SourceManager(String source)
+            : this(new TextStream(source))
         {
-            _reader = new TextStream(stream, encoding);
-            ReadCurrent();
         }
 
         #endregion
@@ -74,15 +69,6 @@
         public Boolean IsBeginning 
         { 
             get { return _insertion < 2; } 
-        }
-
-        /// <summary>
-        /// Gets or sets the encoding to use.
-        /// </summary>
-        public Encoding Encoding
-        {
-            get { return _reader.CurrentEncoding; }
-            set { _reader.CurrentEncoding = value; }
         }
 
         /// <summary>

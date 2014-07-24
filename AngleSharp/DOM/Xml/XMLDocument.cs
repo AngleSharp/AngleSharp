@@ -7,9 +7,15 @@
     /// </summary>
     sealed class XmlDocument : Document, IXmlDocument
     {
-        internal XmlDocument()
+        internal XmlDocument(TextStream source)
+            : base(source)
         {
             _contentType = MimeTypes.Xml;
+        }
+
+        internal XmlDocument()
+            : this(new TextStream(String.Empty))
+        {
         }
 
         Boolean IXmlDocument.Load(String url)

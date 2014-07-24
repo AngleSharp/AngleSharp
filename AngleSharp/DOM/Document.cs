@@ -4,11 +4,9 @@
     using AngleSharp.DOM.Html;
     using AngleSharp.DOM.Mathml;
     using AngleSharp.DOM.Svg;
-    using AngleSharp.Parser;
     using AngleSharp.Parser.Html;
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
@@ -24,7 +22,7 @@
         QuirksMode _quirksMode;
         DocumentReadyState _ready;
         IConfiguration _options;
-        String _encoding;
+        TextStream _source;
         StyleSheetList _styleSheets;
         String _referrer;
         String _cookie;
@@ -168,11 +166,25 @@
         /// Creates a new document node.
         /// </summary>
         internal Document()
+            : this(String.Empty)
         {
+        }
+
+        internal Document(String source)
+            : this(new TextStream(source))
+        {
+        }
+
+        /// <summary>
+        /// Creates a new document node.
+        /// </summary>
+        /// <param name="source">The underlying source.</param>
+        internal Document(TextStream source)
+        {
+            _source = source;
             _owner = this;
             _type = NodeType.Document;
             IsAsync = true;
-            _encoding = DocumentEncoding.Suggest(CultureInfo.CurrentCulture.Name).WebName;
             _referrer = String.Empty;
             _ready = DocumentReadyState.Complete;
             _name = "#document";
@@ -369,8 +381,7 @@
         /// </summary>
         public String CharacterSet
         {
-            get { return _encoding; }
-            internal set { _encoding = value; }
+            get { return _source.CurrentEncoding.WebName; }
         }
 
         /// <summary>
@@ -531,6 +542,14 @@
         #region Internal properties
 
         /// <summary>
+        /// Gets the text stream source.
+        /// </summary>
+        internal TextStream Source
+        {
+            get { return _source; }
+        }
+
+        /// <summary>
         /// Gets or sets the options to use.
         /// </summary>
         internal IConfiguration Options
@@ -583,7 +602,7 @@
         public IDocument OpenNew(String type = "text/html", String replace = null)
         {
             //TODO
-            return new Document();
+            return new Document(String.Empty);
         }
 
         /// <summary>
@@ -916,7 +935,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new Document();
+            var node = new Document(String.Empty);//TODO
             CopyProperties(this, node, deep);
             CopyDocumentProperties(this, node, deep);
             return node;
@@ -989,10 +1008,18 @@
         /// <param name="url">The URL that hosts the HTML content.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>The document with the parsed content.</returns>
-        public static IDocument LoadFromUrl(String url, IConfiguration configuration = null)
+        public static async Task<IDocument> LoadFromUrl(String url, IConfiguration configuration = null)
         {
-            var doc = new Document { Options = configuration ?? Configuration.Default };
-            doc.Load(url);
+            Uri uri;
+
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
+                throw new ArgumentException("The given URL is not valid as an absolute URL.");
+
+            var options = configuration ?? Configuration.Default;
+            var stream = await options.LoadAsync(uri);
+            var doc = new Document(new TextStream(stream)) { Options = options };
+            var parser = new HtmlParser(doc);
+            await parser.ParseAsync();
             return doc;
         }
 
@@ -1124,9 +1151,9 @@
         internal void Load(Stream stream)
         {
             ReadyState = DocumentReadyState.Loading;
-            var source = new SourceManager(stream, Options.DefaultEncoding());
+            _source = new TextStream(stream, Options.DefaultEncoding());
             Destroy();
-            var parser = new HtmlParser(this, source);
+            var parser = new HtmlParser(this);
             parser.Parse();
         }
 
