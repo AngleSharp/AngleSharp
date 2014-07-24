@@ -5,7 +5,7 @@
     /// until the browsing context is navigated.
     /// </summary>
     [DomName("WindowProxy")]
-    public interface IWindowProxy
+    public interface IWindowProxy : IWindow
     {
     }
 }

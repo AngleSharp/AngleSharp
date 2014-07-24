@@ -2,13 +2,15 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Navigator;
     using System;
 
     /// <summary>
     /// The interface for a browsing window element.
     /// https://developer.mozilla.org/en-US/docs/Web/API/Window
     /// </summary>
-    public interface IWindow
+    [DomName("Window")]
+    public interface IWindow : IEventTarget
     {
         /// <summary>
         /// Gives the values of all the CSS properties of an element after
@@ -58,5 +60,19 @@
         /// </summary>
         [DomName("screenY")]
         Int32 ScreenY { get; }
+
+        /// <summary>
+        /// Gets the proxy to the current browsing context.
+        /// </summary>
+        [DomName("window")]
+        [DomName("frames")]
+        [DomName("self")]
+        IWindowProxy Proxy { get; }
+
+        /// <summary>
+        /// Gets the user-agent information.
+        /// </summary>
+        [DomName("navigator")]
+        INavigator Navigator { get; }
     }
 }
