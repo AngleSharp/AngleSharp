@@ -548,30 +548,29 @@
             set { _quirksMode = value; }
         }
 
-        internal Int32 ScriptsWaiting
+        Int32 ScriptsWaiting
         {
             get { return 0; }
         }
 
-        internal Int32 ScriptsAsSoonAsPossible
+        Int32 ScriptsAsSoonAsPossible
         {
             get { return 0; }
         }
 
-        internal Boolean IsLoadingDelayed
+        Boolean IsLoadingDelayed
         {
             get { return false; }
         }
 
-        internal Boolean IsInBrowsingContext
+        Boolean IsInBrowsingContext
         {
             get { return false; }
         }
 
-        internal Boolean IsToBePrinted
+        Boolean IsToBePrinted
         {
-            get;
-            set;
+            get { return false; }
         }
 
         #endregion
@@ -592,7 +591,26 @@
         /// </summary>
         public void CloseCurrent()
         {
-            //TODO
+            if (ReadyState != DocumentReadyState.Loading)
+                return;
+
+            ReadyState = DocumentReadyState.Interactive;
+
+            while (ScriptsWaiting != 0)
+                RunNextScript();
+
+            QueueTask(RaiseDomContentLoaded);
+            QueueTask(RaiseLoadedEvent);
+
+            if (IsInBrowsingContext)
+                QueueTask(ShowPage);
+
+            QueueTask(EmptyAppCache);
+
+            if (IsToBePrinted)
+                Print();
+
+            QueueTask(FinishLoading);
         }
 
         /// <summary>
@@ -1006,20 +1024,7 @@
 
         #region Internal methods
 
-        /// <summary>
-        /// Firing a simple event named e means that a trusted event with the name e,
-        /// which does not bubble (except where otherwise stated) and is not cancelable
-        /// (except where otherwise stated), and which uses the Event interface, must
-        /// be created and dispatched at the given target.
-        /// </summary>
-        /// <param name="eventName">The name of the event to be fired.</param>
-        void FireSimpleEvent(String eventName)
-        {
-            //TODO
-            //http://www.w3.org/html/wg/drafts/html/master/webappapis.html#fire-a-simple-event
-        }
-
-        internal void RunNextScript()
+        void RunNextScript()
         {
             WaitForReady();
             //TODO Run first script that should be executed when the document is finished parsing
@@ -1052,12 +1057,12 @@
             //the script's "ready to be parser-executed" flag is set.
         }
 
-        internal void RaiseDomContentLoaded()
+        void RaiseDomContentLoaded()
         {
             FireSimpleEvent(EventNames.DomContentLoaded);
         }
 
-        internal void RaiseLoadedEvent()
+        void RaiseLoadedEvent()
         {
             ReadyState = DocumentReadyState.Complete;
             FireSimpleEvent(EventNames.Load);
@@ -1068,13 +1073,13 @@
             _queue = _queue.ContinueWith(_ => action());
         }
 
-        internal void Print()
+        void Print()
         {
             //TODO
             //Run the printing steps.
         }
 
-        internal void ShowPage()
+        void ShowPage()
         {
             //TODO
             //1. If the Document's page showing flag is true, then abort this task (i.e. don't fire the event below).
@@ -1084,7 +1089,7 @@
             //   cancelable, and has no default action.
         }
 
-        internal void EmptyAppCache()
+        void EmptyAppCache()
         {
             //TODO
             //If the Document has any pending application cache download process tasks, then queue each such task in the order they were added to the list of pending
@@ -1092,7 +1097,7 @@
             //the networking task source.
         }
 
-        internal void FinishLoading()
+        void FinishLoading()
         {
             //TODO
             //The Document is now ready for post-load tasks.

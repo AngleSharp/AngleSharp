@@ -3604,11 +3604,9 @@
             var script = (HTMLScriptElement)CurrentNode;
             CloseCurrentNode();
             insert = originalInsert;
-            var oldInsertion = tokenizer.Stream.InsertionPoint;
             nesting++;
             script.Prepare();
             nesting--;
-            tokenizer.Stream.InsertionPoint = oldInsertion;
 
             if (pendingParsingBlock != null)
             {
@@ -3623,7 +3621,6 @@
                     script = pendingParsingBlock;
                     pendingParsingBlock = null;
                     doc.WaitForReady();
-                    oldInsertion = tokenizer.Stream.InsertionPoint;
                     nesting++;
                     script.Run();
                     nesting--;
@@ -3699,26 +3696,10 @@
         /// </summary>
         void End()
         {
-            doc.ReadyState = DocumentReadyState.Interactive;
-
             while (open.Count != 0)
                 CloseCurrentNode();
 
-            while (doc.ScriptsWaiting != 0)
-                doc.RunNextScript();
-
-            doc.QueueTask(doc.RaiseDomContentLoaded);
-            doc.QueueTask(doc.RaiseLoadedEvent);
-
-            if (doc.IsInBrowsingContext)
-                doc.QueueTask(doc.ShowPage);
-
-            doc.QueueTask(doc.EmptyAppCache);
-
-            if (doc.IsToBePrinted)
-                doc.Print();
-
-            doc.QueueTask(doc.FinishLoading);
+            doc.CloseCurrent();
         }
 
         #endregion

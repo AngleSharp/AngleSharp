@@ -16,7 +16,6 @@
 
         readonly Stack<Int32> _collengths;
         readonly StringBuilder _buffer;
-        readonly Queue<String> _insertions;
 
         Int32 _column;
         Int32 _row;
@@ -37,7 +36,6 @@
         /// <param name="encoding">The default encoding to use.</param>
         SourceManager(Encoding encoding = null)
         {
-            _insertions = new Queue<String>();
             _encoding = encoding ?? Encoding.UTF8;
             _buffer = new StringBuilder();
             _collengths = new Stack<Int32>();
