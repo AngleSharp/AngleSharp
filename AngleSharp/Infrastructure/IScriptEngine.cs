@@ -15,17 +15,17 @@
         String Type { get; }
 
         /// <summary>
-        /// Evaluates the given source in the specified context.
+        /// Evaluates the given source with the specified options.
         /// </summary>
         /// <param name="source">The source code of the script.</param>
-        /// <param name="context">The context in which the script should be invoked.</param>
-        void Evaluate(String source, IWindow context);
+        /// <param name="options">The options with the parameters for invoking the script.</param>
+        void Evaluate(String source, ScriptOptions options);
 
         /// <summary>
-        /// Evaluates the given stream in the specified context.
+        /// Evaluates the given stream with the specified options.
         /// </summary>
         /// <param name="source">The stream with the source of the script.</param>
-        /// <param name="context">The context in which the script should be invoked.</param>
-        void Evaluate(Stream source, IWindow context);
+        /// <param name="options">The options with the parameters for invoking the script.</param>
+        void Evaluate(Stream source, ScriptOptions options);
     }
 }

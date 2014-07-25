@@ -287,6 +287,7 @@
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
     <Compile Include="Infrastructure\IScriptEngine.cs" />
     <Compile Include="Infrastructure\IStyleEngine.cs" />
+    <Compile Include="Infrastructure\ScriptOptions.cs" />
     <Compile Include="Interfaces\Css\ICssRule.cs" />
     <Compile Include="Interfaces\Css\ICssRuleList.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />

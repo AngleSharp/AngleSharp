@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Infrastructure;
     using System;
     using System.IO;
     using System.Threading.Tasks;
@@ -147,7 +148,7 @@
             if (FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true))
                 return;
 
-            Owner.Options.RunScript(_load.Result, null, ScriptLanguage);//TODO Window
+            Owner.Options.RunScript(_load.Result, CreateOptions(), ScriptLanguage);
             FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
 
             if (Source != null)
@@ -182,9 +183,7 @@
             if ((String.IsNullOrEmpty(Source) && String.IsNullOrEmpty(Text)) || Owner == null)
                 return;
 
-            var engine = _owner.Options.GetScriptEngine(ScriptLanguage);
-
-            if (engine == null)
+            if (_owner.Options.GetScriptEngine(ScriptLanguage) == null)
                 return;
 
             if (_wasParserInserted)
@@ -264,8 +263,18 @@
             }
             else
             {
-                engine.Evaluate(Text, new AngleSharp.Tools.AnalysisWindow(Owner));//TODO Window
+                Owner.Options.RunScript(Text, CreateOptions(), ScriptLanguage);
             }
+        }
+
+        ScriptOptions CreateOptions()
+        {
+            return new ScriptOptions
+            {
+                Context = null, //TODO
+                Document = Owner,
+                Element = this
+            };
         }
 
         void PlaceNetworkTask(String url)
