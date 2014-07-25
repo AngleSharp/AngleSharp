@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Svg
 {
+    using AngleSharp.DOM.Css;
     using System;
 
     /// <summary>
@@ -7,6 +8,12 @@
     /// </summary>
     class SVGElement : Element, ISvgElement
     {
+        #region Fields
+
+        CSSStyleDeclaration _style;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -27,6 +34,18 @@
         internal protected override Boolean IsInSvg
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets an object representing the declarations of an element's style attributes.
+        /// </summary>
+        public CSSStyleDeclaration Style
+        {
+            get { return _style ?? (_style = new CSSStyleDeclaration(this)); }
         }
 
         #endregion

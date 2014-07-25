@@ -8,7 +8,7 @@
     /// implement this interface, other implement it via an interface that inherit it.
     /// </summary>
     [DomName("HTMLElement")]
-    public interface IHtmlElement : IElement
+    public interface IHtmlElement : IElement, IElementCssInlineStyle
     {
         /// <summary>
         /// Gets or sets the value of the lang attribute.
@@ -40,12 +40,6 @@
         /// </summary>
         [DomName("translate")]
         Boolean IsTranslated { get; set; }
-
-        /// <summary>
-        /// Gets an object representing the declarations of an element's style attributes.
-        /// </summary>
-        [DomName("style")]
-        CSSStyleDeclaration Style { get; }
 
         /// <summary>
         /// Gets or sets the position of the element in the tabbing order.
