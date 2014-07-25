@@ -1423,6 +1423,9 @@
     <Compile Include="..\AngleSharp\Foundation\IdlExtensions.cs">
       <Link>Foundation\IdlExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\ITextSource.cs">
+      <Link>Foundation\ITextSource.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\LocationExtensions.cs">
       <Link>Foundation\LocationExtensions.cs</Link>
     </Compile>
@@ -1489,8 +1492,8 @@
     <Compile Include="..\AngleSharp\Foundation\StyleExtensions.cs">
       <Link>Foundation\StyleExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\TextStream.cs">
-      <Link>Foundation\TextStream.cs</Link>
+    <Compile Include="..\AngleSharp\Foundation\TextSource.cs">
+      <Link>Foundation\TextSource.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\ValueExtensions.cs">
       <Link>Foundation\ValueExtensions.cs</Link>
