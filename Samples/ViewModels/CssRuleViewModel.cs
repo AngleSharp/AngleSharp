@@ -52,7 +52,7 @@ namespace Samples.ViewModels
                     break;
 
                 case CssRuleType.Style:
-                    var style = (CSSStyleRule)rule;
+                    var style = (ICssStyleRule)rule;
                     name = style.SelectorText;
                     Populate(style.Style);
                     break;

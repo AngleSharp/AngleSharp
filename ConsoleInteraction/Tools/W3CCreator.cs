@@ -71,12 +71,12 @@ namespace ConsoleInteraction
 
             foreach (var rule in sheet.Rules)
             {
-                if (rule is CSSStyleRule)
+                if (rule is ICssStyleRule)
                 {
                     selectors.Append(@"
 	        var selectorINDEX = doc.QuerySelectorAll(""SELECTOR"");
 	        Assert.AreEqual(0, selectorINDEX.Length);"
-                .Replace("SELECTOR", ((CSSStyleRule)rule).SelectorText)
+                .Replace("SELECTOR", ((ICssStyleRule)rule).SelectorText)
                 .Replace("INDEX", i.ToString()));
                     i++;
                 }
