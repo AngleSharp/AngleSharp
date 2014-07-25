@@ -133,9 +133,6 @@
     <Compile Include="..\AngleSharp\DOM\Collections\BaseCollection.cs">
       <Link>DOM\Collections\BaseCollection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\CSSStyleDeclaration.cs">
-      <Link>DOM\Collections\CSSStyleDeclaration.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\DOMStringList.cs">
       <Link>DOM\Collections\DOMStringList.cs</Link>
     </Compile>
@@ -327,6 +324,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSProperty.cs">
       <Link>DOM\Css\CSSProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\CSSStyleDeclaration.cs">
+      <Link>DOM\Css\CSSStyleDeclaration.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSStyleSheet.cs">
       <Link>DOM\Css\CSSStyleSheet.cs</Link>
@@ -1525,6 +1525,12 @@
     <Compile Include="..\AngleSharp\Infrastructure\ScriptOptions.cs">
       <Link>Infrastructure\ScriptOptions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssCharsetRule.cs">
+      <Link>Interfaces\Css\ICssCharsetRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssImportRule.cs">
+      <Link>Interfaces\Css\ICssImportRule.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssRule.cs">
       <Link>Interfaces\Css\ICssRule.cs</Link>
     </Compile>
@@ -1534,11 +1540,17 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssStyleDeclaration.cs">
       <Link>Interfaces\Css\ICssStyleDeclaration.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssStyleRule.cs">
+      <Link>Interfaces\Css\ICssStyleRule.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICSSStyleSheet.cs">
       <Link>Interfaces\Css\ICSSStyleSheet.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ILinkStyle.cs">
       <Link>Interfaces\Css\ILinkStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\IMediaList.cs">
+      <Link>Interfaces\Css\IMediaList.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ISelector.cs">
       <Link>Interfaces\Css\ISelector.cs</Link>
