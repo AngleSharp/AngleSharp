@@ -13,76 +13,162 @@
 
         static readonly Dictionary<String, Encoding> encodings = new Dictionary<String, Encoding>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Gets the UTF-8 encoding.
+        /// </summary>
+        public static readonly Encoding UTF8 = Encoding.UTF8;
+
+        /// <summary>
+        /// Gets the UTF-16 (Big Endian) encoding.
+        /// </summary>
+        public static readonly Encoding UTF16BE = Encoding.BigEndianUnicode;
+
+        /// <summary>
+        /// Gets the UTF-16 (Little Endian) encoding.
+        /// </summary>
+        public static readonly Encoding UTF16LE = Encoding.Unicode;
+
+        /// <summary>
+        /// Gets the UTF-32 (Little Endian) encoding.
+        /// </summary>
+        public static readonly Encoding UTF32LE = GetEncoding("UTF-32LE");
+
+        /// <summary>
+        /// Gets the UTF-32 (Little Endian) encoding.
+        /// </summary>
+        public static readonly Encoding UTF32BE = GetEncoding("UTF-32BE");
+
+        /// <summary>
+        /// Gets the Windows-874 encoding.
+        /// </summary>
+        public static readonly Encoding Windows874 = GetEncoding("windows-874");
+
+        /// <summary>
+        /// Gets the Windows-1250 encoding.
+        /// </summary>
+        public static readonly Encoding Windows1250 = GetEncoding("windows-1250");
+
+        /// <summary>
+        /// Gets the Windows-1251 encoding.
+        /// </summary>
+        public static readonly Encoding Windows1251 = GetEncoding("windows-1251");
+
+        /// <summary>
+        /// Gets the Windows-1252 encoding.
+        /// </summary>
+        public static readonly Encoding Windows1252 = GetEncoding("windows-1252");
+
+        /// <summary>
+        /// Gets the Windows-1253 encoding.
+        /// </summary>
+        public static readonly Encoding Windows1253 = GetEncoding("windows-1253");
+
+        /// <summary>
+        /// Gets the Windows-1254 encoding.
+        /// </summary>
+        public static readonly Encoding Windows1254 = GetEncoding("windows-1254");
+
+        /// <summary>
+        /// Gets the Windows-1255 encoding.
+        /// </summary>
+        public static readonly Encoding Windows1255 = GetEncoding("windows-1255");
+
+        /// <summary>
+        /// Gets the Windows-1256 encoding.
+        /// </summary>
+        public static readonly Encoding Windows1256 = GetEncoding("windows-1256");
+
+        /// <summary>
+        /// Gets the Windows-1257 encoding.
+        /// </summary>
+        public static readonly Encoding Windows1257 = GetEncoding("windows-1257");
+
+        /// <summary>
+        /// Gets the chinese government standard encoding.
+        /// </summary>
+        public static readonly Encoding GB18030 = GetEncoding("GB18030");
+
+        /// <summary>
+        /// Gets the Big5 encoding.
+        /// </summary>
+        public static readonly Encoding Big5 = GetEncoding("big5");
+
+        /// <summary>
+        /// Gets the iso-8859-5 encoding.
+        /// </summary>
+        public static readonly Encoding Latin5 = GetEncoding("iso-8859-5");
+
+        /// <summary>
+        /// Gets the iso-8859-2 encoding.
+        /// </summary>
+        public static readonly Encoding Latin2 = GetEncoding("iso-8859-2");
+
+        /// <summary>
+        /// Gets the iso-8859-13 encoding.
+        /// </summary>
+        public static readonly Encoding Latin13 = GetEncoding("iso-8859-13");
+
         static DocumentEncoding()
         {
-            encodings.Add("unicode-1-1-utf-8", Encoding.UTF8);
-            encodings.Add("utf-8", Encoding.UTF8);
-            encodings.Add("utf8", Encoding.UTF8);
-            encodings.Add("utf-16be", Encoding.BigEndianUnicode);
-            encodings.Add("utf-16", Encoding.Unicode);
-            encodings.Add("utf-16le", Encoding.Unicode);
-            var w874 = GetEncoding("windows-874");
-            encodings.Add("dos-874", w874);
-            encodings.Add("iso-8859-11", w874);
-            encodings.Add("iso8859-11", w874);
-            encodings.Add("iso885911", w874);
-            encodings.Add("tis-620", w874);
-            encodings.Add("windows-874", w874);
-            var w1250 = GetEncoding("windows-1250");
-            encodings.Add("cp1250", w1250);
-            encodings.Add("windows-1250", w1250);
-            encodings.Add("x-cp1250", w1250);
-            var w1251 = GetEncoding("windows-1251");
-            encodings.Add("cp1251", w1251);
-            encodings.Add("windows-1251", w1251);
-            encodings.Add("x-cp1251", w1251);
-            var w1252 = GetEncoding("windows-1252");
-            encodings.Add("ansi_x3.4-1968", w1252);
-            encodings.Add("ascii", w1252);
-            encodings.Add("cp1252", w1252);
-            encodings.Add("cp819", w1252);
-            encodings.Add("csisolatin1", w1252);
-            encodings.Add("ibm819", w1252);
-            encodings.Add("iso-8859-1", w1252);
-            encodings.Add("iso-ir-100", w1252);
-            encodings.Add("iso8859-1", w1252);
-            encodings.Add("iso88591", w1252);
-            encodings.Add("iso_8859-1", w1252);
-            encodings.Add("iso_8859-1, Encoding.UTF8);1987", w1252);
-            encodings.Add("l1", w1252);
-            encodings.Add("latin1", w1252);
-            encodings.Add("us-ascii", w1252);
-            encodings.Add("windows-1252", w1252);
-            encodings.Add("x-cp1252", w1252);
-            var w1253 = GetEncoding("windows-1253");
-            encodings.Add("cp1253", w1253);
-            encodings.Add("windows-1253", w1253);
-            encodings.Add("x-cp1253", w1253);
-            var w1254 = GetEncoding("windows-1254");
-            encodings.Add("cp1254", w1254);
-            encodings.Add("csisolatin5", w1254);
-            encodings.Add("iso-8859-9", w1254);
-            encodings.Add("iso-ir-148", w1254);
-            encodings.Add("iso8859-9", w1254);
-            encodings.Add("iso88599", w1254);
-            encodings.Add("iso_8859-9", w1254);
-            encodings.Add("iso_8859-9, w1254);1989", w1254);
-            encodings.Add("l5", w1254);
-            encodings.Add("latin5", w1254);
-            encodings.Add("windows-1254", w1254);
-            encodings.Add("x-cp1254", w1254);
-            var w1255 = GetEncoding("windows-1255");
-            encodings.Add("cp1255", w1255);
-            encodings.Add("windows-1255", w1255);
-            encodings.Add("x-cp1255", w1255);
-            var w1256 = GetEncoding("windows-1256");
-            encodings.Add("cp1256", w1256);
-            encodings.Add("windows-1256", w1256);
-            encodings.Add("x-cp1256", w1256);
-            var w1257 = GetEncoding("windows-1257");
-            encodings.Add("cp1257", w1257);
-            encodings.Add("windows-1257", w1257);
-            encodings.Add("x-cp1257", w1257);
+            encodings.Add("unicode-1-1-utf-8", UTF8);
+            encodings.Add("utf-8", UTF8);
+            encodings.Add("utf8", UTF8);
+            encodings.Add("utf-16be", UTF16BE);
+            encodings.Add("utf-16", UTF16LE);
+            encodings.Add("utf-16le", UTF16LE);
+            encodings.Add("dos-874", Windows874);
+            encodings.Add("iso-8859-11", Windows874);
+            encodings.Add("iso8859-11", Windows874);
+            encodings.Add("iso885911", Windows874);
+            encodings.Add("tis-620", Windows874);
+            encodings.Add("windows-874", Windows874);
+            encodings.Add("cp1250", Windows1250);
+            encodings.Add("windows-1250", Windows1250);
+            encodings.Add("x-cp1250", Windows1250);
+            encodings.Add("cp1251", Windows1251);
+            encodings.Add("windows-1251", Windows1251);
+            encodings.Add("x-cp1251", Windows1251);
+            encodings.Add("ansi_x3.4-1968", Windows1252);
+            encodings.Add("ascii", Windows1252);
+            encodings.Add("cp1252", Windows1252);
+            encodings.Add("cp819", Windows1252);
+            encodings.Add("csisolatin1", Windows1252);
+            encodings.Add("ibm819", Windows1252);
+            encodings.Add("iso-8859-1", Windows1252);
+            encodings.Add("iso-ir-100", Windows1252);
+            encodings.Add("iso8859-1", Windows1252);
+            encodings.Add("iso88591", Windows1252);
+            encodings.Add("iso_8859-1", Windows1252);
+            encodings.Add("iso_8859-1:1987", Windows1252);
+            encodings.Add("l1", Windows1252);
+            encodings.Add("latin1", Windows1252);
+            encodings.Add("us-ascii", Windows1252);
+            encodings.Add("windows-1252", Windows1252);
+            encodings.Add("x-cp1252", Windows1252);
+            encodings.Add("cp1253", Windows1253);
+            encodings.Add("windows-1253", Windows1253);
+            encodings.Add("x-cp1253", Windows1253);
+            encodings.Add("cp1254", Windows1254);
+            encodings.Add("csisolatin5", Windows1254);
+            encodings.Add("iso-8859-9", Windows1254);
+            encodings.Add("iso-ir-148", Windows1254);
+            encodings.Add("iso8859-9", Windows1254);
+            encodings.Add("iso88599", Windows1254);
+            encodings.Add("iso_8859-9", Windows1254);
+            encodings.Add("iso_8859-9:1989", Windows1254);
+            encodings.Add("l5", Windows1254);
+            encodings.Add("latin5", Windows1254);
+            encodings.Add("windows-1254", Windows1254);
+            encodings.Add("x-cp1254", Windows1254);
+            encodings.Add("cp1255", Windows1255);
+            encodings.Add("windows-1255", Windows1255);
+            encodings.Add("x-cp1255", Windows1255);
+            encodings.Add("cp1256", Windows1256);
+            encodings.Add("windows-1256", Windows1256);
+            encodings.Add("x-cp1256", Windows1256);
+            encodings.Add("cp1257", Windows1257);
+            encodings.Add("windows-1257", Windows1257);
+            encodings.Add("x-cp1257", Windows1257);
             var w1258 = GetEncoding("windows-1258");
             encodings.Add("cp1258", w1258);
             encodings.Add("windows-1258", w1258);
@@ -100,16 +186,15 @@
             encodings.Add("cp866", i866);
             encodings.Add("csibm866", i866);
             encodings.Add("ibm866", i866);
-            var latin2 = GetEncoding("iso-8859-2");
-            encodings.Add("csisolatin2", latin2);
-            encodings.Add("iso-8859-2", latin2);
-            encodings.Add("iso-ir-101", latin2);
-            encodings.Add("iso8859-2", latin2);
-            encodings.Add("iso88592", latin2);
-            encodings.Add("iso_8859-2", latin2);
-            encodings.Add("iso_8859-2, latin2);1987", latin2);
-            encodings.Add("l2", latin2);
-            encodings.Add("latin2", latin2);
+            encodings.Add("csisolatin2", Latin2);
+            encodings.Add("iso-8859-2", Latin2);
+            encodings.Add("iso-ir-101", Latin2);
+            encodings.Add("iso8859-2", Latin2);
+            encodings.Add("iso88592", Latin2);
+            encodings.Add("iso_8859-2", Latin2);
+            encodings.Add("iso_8859-2:1987", Latin2);
+            encodings.Add("l2", Latin2);
+            encodings.Add("latin2", Latin2);
             var latin3 = GetEncoding("iso-8859-3");
             encodings.Add("csisolatin3", latin3);
             encodings.Add("iso-8859-3", latin3);
@@ -117,7 +202,7 @@
             encodings.Add("iso8859-3", latin3);
             encodings.Add("iso88593", latin3);
             encodings.Add("iso_8859-3", latin3);
-            encodings.Add("iso_8859-3, latin3);1988", latin3);
+            encodings.Add("iso_8859-3:1988", latin3);
             encodings.Add("l3", latin3);
             encodings.Add("latin3", latin3);
             var latin4 = GetEncoding("iso-8859-4");
@@ -127,18 +212,17 @@
             encodings.Add("iso8859-4", latin4);
             encodings.Add("iso88594", latin4);
             encodings.Add("iso_8859-4", latin4);
-            encodings.Add("iso_8859-4, latin4);1988", latin4);
+            encodings.Add("iso_8859-4:1988", latin4);
             encodings.Add("l4", latin4);
             encodings.Add("latin4", latin4);
-            var latin5 = GetEncoding("iso-8859-5");
-            encodings.Add("csisolatincyrillic", latin5);
-            encodings.Add("cyrillic", latin5);
-            encodings.Add("iso-8859-5", latin5);
-            encodings.Add("iso-ir-144", latin5);
-            encodings.Add("iso8859-5", latin5);
-            encodings.Add("iso88595", latin5);
-            encodings.Add("iso_8859-5", latin5);
-            encodings.Add("iso_8859-5, latin5);1988", latin5);
+            encodings.Add("csisolatincyrillic", Latin5);
+            encodings.Add("cyrillic", Latin5);
+            encodings.Add("iso-8859-5", Latin5);
+            encodings.Add("iso-ir-144", Latin5);
+            encodings.Add("iso8859-5", Latin5);
+            encodings.Add("iso88595", Latin5);
+            encodings.Add("iso_8859-5", Latin5);
+            encodings.Add("iso_8859-5:1988", Latin5);
             var latin6 = GetEncoding("iso-8859-6");
             encodings.Add("arabic", latin6);
             encodings.Add("asmo-708", latin6);
@@ -153,7 +237,7 @@
             encodings.Add("iso8859-6", latin6);
             encodings.Add("iso88596", latin6);
             encodings.Add("iso_8859-6", latin6);
-            encodings.Add("iso_8859-6, latin6);1987", latin6);
+            encodings.Add("iso_8859-6:1987", latin6);
             var latin7 = GetEncoding("iso-8859-7");
             encodings.Add("csisolatingreek", latin7);
             encodings.Add("ecma-118", latin7);
@@ -165,7 +249,7 @@
             encodings.Add("iso8859-7", latin7);
             encodings.Add("iso88597", latin7);
             encodings.Add("iso_8859-7", latin7);
-            encodings.Add("iso_8859-7, latin7);1987", latin7);
+            encodings.Add("iso_8859-7:1987", latin7);
             encodings.Add("sun_eu_greek", latin7);
             var latin8 = GetEncoding("iso-8859-8");
             encodings.Add("csiso88598e", latin8);
@@ -177,16 +261,15 @@
             encodings.Add("iso8859-8", latin8);
             encodings.Add("iso88598", latin8);
             encodings.Add("iso_8859-8", latin8);
-            encodings.Add("iso_8859-8, latin8);1988", latin8);
+            encodings.Add("iso_8859-8:1988", latin8);
             encodings.Add("visual", latin8);
             var latini = GetEncoding("iso-8859-8-i");
             encodings.Add("csiso88598i", latini);
             encodings.Add("iso-8859-8-i", latini);
             encodings.Add("logical", latini);
-            var latin13 = GetEncoding("iso-8859-13");
-            encodings.Add("iso-8859-13", latin13);
-            encodings.Add("iso8859-13", latin13);
-            encodings.Add("iso885913", latin13);
+            encodings.Add("iso-8859-13", Latin13);
+            encodings.Add("iso8859-13", Latin13);
+            encodings.Add("iso885913", Latin13);
             var latin15 = GetEncoding("iso-8859-15");
             encodings.Add("csisolatin9", latin15);
             encodings.Add("iso-8859-15", latin15);
@@ -212,7 +295,7 @@
             encodings.Add("iso-ir-58", chinese);
             encodings.Add("x-gbk", chinese);
             encodings.Add("hz-gb-2312", GetEncoding("hz-gb-2312"));
-            encodings.Add("gb18030", GetEncoding("GB18030"));
+            encodings.Add("gb18030", GB18030);
             var big5 = GetEncoding("big5");
             encodings.Add("big5", big5);
             encodings.Add("big5-hkscs", big5);
@@ -365,55 +448,55 @@
                     case "ro":
                     case "sr":
                     case "vi":
-                        return Encoding.UTF8;
+                        return UTF8;
 
                     case "be":
-                        return GetEncoding("iso-8859-5");
+                        return Latin5;
 
                     case "bg":
                     case "ru":
                     case "uk":
-                        return GetEncoding("windows-1251");
+                        return Windows1251;
 
                     case "cs":
                     case "hu":
                     case "pl":
                     case "sl":
-                        return GetEncoding("iso-8859-2");
+                        return Latin2;
 
                     case "tr":
                     case "ku":
-                        return GetEncoding("windows-1254");
+                        return Windows1254;
 
                     case "he":
-                        return GetEncoding("windows-1255");
+                        return Windows1255;
 
                     case "lv":
-                        return GetEncoding("iso-8859-13");
+                        return Latin13;
 
                     case "ja"://  Windows-31J ???? Replaced by something better anyway
-                        return Encoding.UTF8;
+                        return UTF8;
 
                     case "ko":
                         return GetEncoding("ks_c_5601-1987");
 
                     case "lt":
-                        return GetEncoding("windows-1257");
+                        return Windows1257;
 
                     case "sk":
-                        return GetEncoding("windows-1250");
+                        return Windows1250;
 
                     case "th":
-                        return GetEncoding("windows-874");
+                        return Windows874;
                 }
 
                 if (local.Equals("zh-cn", StringComparison.OrdinalIgnoreCase))
-                    return GetEncoding("GB18030");
+                    return GB18030;
                 else if (local.Equals("zh-tw", StringComparison.OrdinalIgnoreCase))
-                    return GetEncoding("big5");
+                    return Big5;
             }
 
-            return GetEncoding("windows-1252");
+            return Windows1252;
         }
 
         /// <summary>
