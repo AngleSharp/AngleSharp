@@ -1,14 +1,12 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.DOM.Collections;
     using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
     /// Represents a CSS style rule.
     /// </summary>
-    [DomName("CSSStyleRule")]
-	public sealed class CSSStyleRule : CSSRule
+	sealed class CSSStyleRule : CSSRule, ICssStyleRule
     {
         #region Fields
 
@@ -59,7 +57,6 @@
         /// <summary>
         /// Gets or sets the textual representation of the selector for this rule, e.g. "h1,h2".
         /// </summary>
-        [DomName("selectorText")]
         public String SelectorText
         {
             get { return _selectorText; }
@@ -73,7 +70,6 @@
         /// <summary>
         /// Gets the CSSStyleDeclaration object for the rule.
         /// </summary>
-        [DomName("style")]
         public CSSStyleDeclaration Style
         {
             get { return _style; }
