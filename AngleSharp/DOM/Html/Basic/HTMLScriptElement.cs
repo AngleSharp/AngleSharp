@@ -264,7 +264,7 @@
             }
             else
             {
-                engine.Evaluate(Text, null);//TODO Window
+                engine.Evaluate(Text, new AngleSharp.Tools.AnalysisWindow(Owner));//TODO Window
             }
         }
 

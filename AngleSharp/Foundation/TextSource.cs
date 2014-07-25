@@ -160,7 +160,10 @@
         /// <param name="content">The content to insert.</param>
         public void InsertText(String content)
         {
-            _content.Insert(_index, content);
+            if (_index < _content.Length)
+                _content.Insert(_index, content);
+            else
+                _content.Append(content);
         }
 
         #endregion
