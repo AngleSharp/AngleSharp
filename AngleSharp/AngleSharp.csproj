@@ -293,6 +293,7 @@
     <Compile Include="Interfaces\Css\ICssRule.cs" />
     <Compile Include="Interfaces\Css\ICssRuleList.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
+    <Compile Include="Interfaces\Css\ICssStyleRule.cs" />
     <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
     <Compile Include="Interfaces\Css\ILinkStyle.cs" />
     <Compile Include="Interfaces\Css\ISelector.cs" />
@@ -490,7 +491,7 @@
     <Compile Include="DOM\Annotations\ISelectScopeElement.cs" />
     <Compile Include="DOM\Annotations\ITableScopeElement.cs" />
     <Compile Include="DOM\Annotations\ITableSectionScopeElement.cs" />
-    <Compile Include="DOM\Collections\CSSStyleDeclaration.cs" />
+    <Compile Include="DOM\Css\CSSStyleDeclaration.cs" />
     <Compile Include="DOM\Collections\StringMap.cs" />
     <Compile Include="DOM\Collections\FileList.cs" />
     <Compile Include="DOM\Constants\ContentEditableMode.cs" />

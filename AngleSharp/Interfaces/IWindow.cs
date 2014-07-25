@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.DOM;
-    using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Navigator;
     using System;
 
