@@ -36,7 +36,7 @@
         /// <param name="parent">The parent of this collection.</param>
         /// <param name="deep">[Optional] Determines if recursive search is activated.</param>
         /// <param name="predicate">[Optional] The predicate function for picking elements.</param>
-        internal HTMLCollection(Node parent, Boolean deep = true, Predicate<T> predicate = null)
+        internal HTMLCollection(INode parent, Boolean deep = true, Predicate<T> predicate = null)
             : this(GetElements(parent, deep, predicate))
         {
         }
@@ -107,7 +107,7 @@
 
         #region Live
 
-        static IEnumerable<T> GetElements(Node parent, Boolean deep, Predicate<T> predicate)
+        static IEnumerable<T> GetElements(INode parent, Boolean deep, Predicate<T> predicate)
         {
             var items = deep ? GetElementsOf(parent) : GetOnlyElementsOf(parent);
 
@@ -117,7 +117,7 @@
             return items;
         }
 
-        static IEnumerable<T> GetElementsOf(Node parent)
+        static IEnumerable<T> GetElementsOf(INode parent)
         {
             for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
@@ -129,7 +129,7 @@
             }
         }
 
-        static IEnumerable<T> GetOnlyElementsOf(Node parent)
+        static IEnumerable<T> GetOnlyElementsOf(INode parent)
         {
             for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
@@ -200,7 +200,7 @@
         /// <param name="parent">The parent of this collection.</param>
         /// <param name="deep">[Optional] Determines if recursive search is activated.</param>
         /// <param name="predicate">[Optional] The predicate function for picking elements.</param>
-        internal HTMLCollection(Node parent, Boolean deep = true, Predicate<Element> predicate = null)
+        internal HTMLCollection(INode parent, Boolean deep = true, Predicate<Element> predicate = null)
             : base(parent, deep, predicate)
         {
         }

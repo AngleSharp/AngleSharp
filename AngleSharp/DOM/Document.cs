@@ -735,8 +735,7 @@
         /// <returns>The created node NodeIterator.</returns>
         public INodeIterator CreateNodeIterator(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null)
         {
-            //TODO
-            throw new NotImplementedException();
+            return new NodeIterator(root, settings, filter);
         }
 
         /// <summary>
