@@ -1528,8 +1528,23 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssCharsetRule.cs">
       <Link>Interfaces\Css\ICssCharsetRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssGroupingRule.cs">
+      <Link>Interfaces\Css\ICssGroupingRule.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssImportRule.cs">
       <Link>Interfaces\Css\ICssImportRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssMarginRule.cs">
+      <Link>Interfaces\Css\ICssMarginRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssMediaRule.cs">
+      <Link>Interfaces\Css\ICssMediaRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssNamespaceRule.cs">
+      <Link>Interfaces\Css\ICssNamespaceRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssPageRule.cs">
+      <Link>Interfaces\Css\ICssPageRule.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssRule.cs">
       <Link>Interfaces\Css\ICssRule.cs</Link>
@@ -1545,6 +1560,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICSSStyleSheet.cs">
       <Link>Interfaces\Css\ICSSStyleSheet.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\IElementCssInlineStyle.cs">
+      <Link>Interfaces\Css\IElementCssInlineStyle.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ILinkStyle.cs">
       <Link>Interfaces\Css\ILinkStyle.cs</Link>
