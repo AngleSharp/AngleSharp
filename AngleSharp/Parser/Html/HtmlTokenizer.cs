@@ -747,7 +747,7 @@
                 Advance(6);
                 return Doctype(Next);
             }
-            else if (_acceptsCharacterData && ContinuesWith("[CDATA[", false))
+            else if (_acceptsCharacterData && ContinuesWith("[CDATA[", ignoreCase: false))
             {
                 Advance(6);
                 return CData(Next);

@@ -184,33 +184,15 @@
         /// Looks if the current character / next characters match a certain string.
         /// </summary>
         /// <param name="s">The string to compare to.</param>
-        /// <param name="ignoreCase">Optional flag to unignore the case sensitivity.</param>
+        /// <param name="ignoreCase">Optional flag to set the case sensitivity.</param>
         /// <returns>The status of the check.</returns>
         public Boolean ContinuesWith(String s, Boolean ignoreCase = true)
         {
-            for (var index = 0; index < s.Length; index++)
-            {
-                var chr = _current;
-
-                if (ignoreCase)
-                {
-                    if (chr.IsUppercaseAscii() && s[index].IsLowercaseAscii())
-                        chr = Char.ToLower(chr);
-                    else if (chr.IsLowercaseAscii() && s[index].IsUppercaseAscii())
-                        chr = Char.ToUpper(chr);
-                }
-
-                if (s[index] != chr)
-                {
-                    Back(index);
-                    return false;
-                }
-
-                Advance();
-            }
-
-            Back(s.Length);
-            return true;
+            var mark = _reader.Index;
+            _reader.Index--;
+            var content = _reader.ReadCharacters(s.Length);
+            _reader.Index = mark;
+            return content.Length == s.Length && content.Equals(s, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
         }
 
         #endregion

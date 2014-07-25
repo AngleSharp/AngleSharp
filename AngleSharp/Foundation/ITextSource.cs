@@ -32,7 +32,7 @@
         Char ReadCharacter();
 
         /// <summary>
-        /// Reads the next character from the buffer or underlying stream asynchronously, if any.
+        /// Reads the next character from the buffer or underlying stream asynchronously.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token</param>
         /// <returns>The task resulting in the next character.</returns>
@@ -51,5 +51,20 @@
         /// <param name="index">The index of the character.</param>
         /// <returns>The character.</returns>
         Char this[Int32 index] { get; }
+
+        /// <summary>
+        /// Reads the upcoming numbers of characters from the buffer or underlying stream, if any.
+        /// </summary>
+        /// <param name="characters">The number of characters to read.</param>
+        /// <returns>The string with the next characters.</returns>
+        String ReadCharacters(Int32 characters);
+
+        /// <summary>
+        /// Reads the upcoming numbers of characters from the buffer or underlying stream asynchronously.
+        /// </summary>
+        /// <param name="characters">The number of characters to read.</param>
+        /// <param name="cancellationToken">The cancellation token</param>
+        /// <returns>The string with the next characters.</returns>
+        Task<String> ReadCharacters(Int32 characters, CancellationToken cancellationToken);
     }
 }

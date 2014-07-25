@@ -139,6 +139,28 @@
         }
 
         /// <summary>
+        /// Reads the upcoming numbers of characters from the buffer or underlying stream, if any.
+        /// </summary>
+        /// <param name="characters">The number of characters to read.</param>
+        /// <returns>The string with the next characters.</returns>
+        public String ReadCharacters(Int32 characters)
+        {
+            var start = _index;
+            var end = start + characters;
+
+            if (end <= _content.Length)
+            {
+                _index += characters;
+                return _content.ToString(start, characters);
+            }
+
+            ExpandBuffer(Math.Max(BufferSize, characters));
+            _index += characters;
+            characters = Math.Min(characters, _content.Length - start);
+            return _content.ToString(start, characters);
+        }
+
+        /// <summary>
         /// Reads the next character from the buffer or underlying stream asynchronously, if any.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token</param>
@@ -151,6 +173,29 @@
             await ExpandBufferAsync(BufferSize, cancellationToken);
             var index = _index++;
             return index < _content.Length ? _content[index] : Specification.EndOfFile;
+        }
+
+        /// <summary>
+        /// Reads the upcoming numbers of characters from the buffer or underlying stream asynchronously.
+        /// </summary>
+        /// <param name="characters">The number of characters to read.</param>
+        /// <param name="cancellationToken">The cancellation token</param>
+        /// <returns>The string with the next characters.</returns>
+        public async Task<String> ReadCharacters(Int32 characters, CancellationToken cancellationToken)
+        {
+            var start = _index;
+            var end = start + characters;
+
+            if (end <= _content.Length)
+            {
+                _index += characters;
+                return _content.ToString(start, characters);
+            }
+
+            await ExpandBufferAsync(Math.Max(BufferSize, characters), cancellationToken);
+            _index += characters;
+            characters = Math.Min(characters, _content.Length - start);
+            return _content.ToString(start, characters);
         }
 
         /// <summary>
