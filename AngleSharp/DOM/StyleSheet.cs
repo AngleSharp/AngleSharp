@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
     using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Css;
     using System;
 
     /// <summary>
@@ -98,7 +99,7 @@
         /// Gets the intended destination media for style information. The media is often specified in the ownerNode. If no
         /// media has been specified, the MediaList is empty.
         /// </summary>
-        public MediaList Media
+        public IMediaList Media
         {
             get { return _media; }
         }

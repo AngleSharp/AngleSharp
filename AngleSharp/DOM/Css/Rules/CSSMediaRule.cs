@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        MediaList _media;
+        IMediaList _media;
 
         #endregion
 
@@ -44,7 +44,7 @@
         /// Gets a list of media types for this rule.
         /// </summary>
         [DomName("media")]
-        public MediaList Media
+        public IMediaList Media
         {
             get { return _media; }
             internal set { _media = value; }

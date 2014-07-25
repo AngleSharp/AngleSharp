@@ -47,7 +47,7 @@
         /// specified in the ownerNode. If no media has been specified, the MediaList is empty.
         /// </summary>
         [DomName("media")]
-        MediaList Media { get; }
+        IMediaList Media { get; }
 
         /// <summary>
         /// Gets or sets if the stylesheet is applied to the document. Modifying this

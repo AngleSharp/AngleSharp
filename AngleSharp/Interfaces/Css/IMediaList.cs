@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// A collection of media queries.
     /// </summary>
     [DomName("MediaList")]
-    public interface IMediaList
+    public interface IMediaList : IEnumerable<String>
     {
         /// <summary>
         /// Gets or sets the parsable textual representation of the media list.

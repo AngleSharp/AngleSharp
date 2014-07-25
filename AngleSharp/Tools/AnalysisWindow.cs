@@ -120,7 +120,7 @@
             {
                 var sheet = stylesheet as CSSStyleSheet;
 
-                if (sheet != null && !stylesheet.IsDisabled && stylesheet.Media.Validate(this))
+                if (sheet != null && !stylesheet.IsDisabled && ((MediaList)stylesheet.Media).Validate(this))//TODO remove cast ASAP
                 {
                     var rules = sheet.Rules as CSSRuleList;
 

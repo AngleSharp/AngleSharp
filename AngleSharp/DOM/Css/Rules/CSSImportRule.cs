@@ -12,7 +12,7 @@
         #region Fields
 
         String _href;
-        MediaList _media;
+        IMediaList _media;
         ICssStyleSheet _styleSheet;
 
         #endregion
@@ -46,7 +46,7 @@
         /// Gets a list of media types for which this style sheet may be used.
         /// </summary>
         [DomName("media")]
-        public MediaList Media
+        public IMediaList Media
         {
             get { return _media; }
             internal set { _media = value; }
