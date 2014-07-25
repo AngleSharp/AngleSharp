@@ -22,13 +22,13 @@ namespace UnitTests.Library
         }
 
         [TestMethod]
-        void DocumentWriteDynamicallyWithCustomScriptEngine()
+        public void DocumentWriteDynamicallyWithCustomScriptEngine()
         {
             scripting.Callback = window =>
             {
                 window.Document.Write("<b>Dynamically written</b>");
             };
-            var doc = DocumentBuilder.Html("<title>Some title</title><body><script type='c-sharp'>//...</script></body>", configuration);
+            var doc = DocumentBuilder.Html("<title>Some title</title><body><script type='c-sharp'>//...</script>", configuration);
             Assert.IsNotNull(doc);
             Assert.IsNotNull(doc.Body.TextContent);
             Assert.AreEqual("//...Dynamically written", doc.Body.TextContent);
