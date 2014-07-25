@@ -106,7 +106,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return "@document " + ConditionText + " {" + Environment.NewLine + CssRules.ToCss() + "}";
+            return "@document " + ConditionText + " {" + Environment.NewLine + Rules.ToCss() + "}";
         }
 
         #endregion

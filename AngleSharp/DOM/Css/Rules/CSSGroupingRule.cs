@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the CSSGroupingRule interface.
     /// </summary>
-    public abstract class CSSGroupingRule : CSSRule, ICssRules
+    public abstract class CSSGroupingRule : CSSRule, ICssRules, ICssGroupingRule
     {
         #region Fields
 
@@ -32,8 +32,7 @@
         /// <summary>
         /// Gets a list of all CSS rules contained within the grouping block.
         /// </summary>
-        [DomName("cssRules")]
-        public ICssRuleList CssRules
+        public ICssRuleList Rules
         {
             get { return _rules; }
         }
@@ -70,8 +69,7 @@
         /// <param name="rule">The parsable text representing the rule. For rule sets this contains both the selector and the style declaration. For at-rules, this specifies both the at-identifier and the rule content.</param>
         /// <param name="index">The index within the media block's rule collection of the rule before which to insert the specified rule.</param>
         /// <returns>The index within the media block's rule collection of the newly inserted rule.</returns>
-        [DomName("insertRule")]
-        public Int32 InsertRule(String rule, Int32 index)
+        public Int32 Insert(String rule, Int32 index)
         {
             var obj = CssParser.ParseRule(rule) as CSSRule;
 
@@ -88,14 +86,10 @@
         /// Used to delete a rule from the media block.
         /// </summary>
         /// <param name="index">The index within the media block's rule collection of the rule to remove.</param>
-        /// <returns>The current instance.</returns>
-        [DomName("deleteRule")]
-        public CSSGroupingRule DeleteRule(Int32 index)
+        public void RemoveAt(Int32 index)
         {
-            if(index >= 0 && index < _rules.Length)
+            if (index >= 0 && index < _rules.Length)
                 _rules.List.RemoveAt(index);
-
-            return this;
         }
 
         #endregion

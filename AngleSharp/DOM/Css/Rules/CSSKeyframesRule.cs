@@ -46,7 +46,7 @@
         /// Gets a CSSRuleList of the CSS rules in the media rule.
         /// </summary>
         [DomName("cssRules")]
-        public ICssRuleList CssRules
+        public ICssRuleList Rules
         {
             get { return _rules; }
         }

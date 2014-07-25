@@ -36,13 +36,13 @@ namespace Samples.ViewModels
                 case CssRuleType.Keyframes:
                     var keyframes = (CSSKeyframesRule)rule;
                     name = "@keyframes " + keyframes.Name;
-                    Populate(keyframes.CssRules);
+                    Populate(keyframes.Rules);
                     break;
 
                 case CssRuleType.Media:
                     var media = (CSSMediaRule)rule;
                     name = "@media " + media.ConditionText;
-                    Populate(media.CssRules);
+                    Populate(media.Rules);
                     break;
 
                 case CssRuleType.Page:
@@ -60,7 +60,7 @@ namespace Samples.ViewModels
                 case CssRuleType.Supports:
                     var support = (CSSSupportsRule)rule;
                     name = "@supports " + support.ConditionText;
-                    Populate(support.CssRules);
+                    Populate(support.Rules);
                     break;
 
                 default:

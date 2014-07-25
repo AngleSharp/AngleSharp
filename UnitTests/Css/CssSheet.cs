@@ -63,9 +63,9 @@ h1 {
             Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
             var media = sheet.Rules[0] as CSSMediaRule;
             Assert.AreEqual("screen", media.ConditionText);
-            Assert.AreEqual(1, media.CssRules.Length);
-            Assert.IsInstanceOfType(media.CssRules[0], typeof(CSSStyleRule));
-            var p = media.CssRules[0] as CSSStyleRule;
+            Assert.AreEqual(1, media.Rules.Length);
+            Assert.IsInstanceOfType(media.Rules[0], typeof(CSSStyleRule));
+            var p = media.Rules[0] as CSSStyleRule;
             Assert.AreEqual("p:before", p.SelectorText);
             Assert.AreEqual("'Hello'", p.Style.Content);
         }

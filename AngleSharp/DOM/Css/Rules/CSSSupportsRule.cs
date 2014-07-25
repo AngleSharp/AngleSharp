@@ -76,7 +76,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Format("@supports {0} {{{1}{2}}}", _condition, Environment.NewLine, CssRules.ToCss());
+            return String.Format("@supports {0} {{{1}{2}}}", _condition, Environment.NewLine, Rules.ToCss());
         }
 
         #endregion

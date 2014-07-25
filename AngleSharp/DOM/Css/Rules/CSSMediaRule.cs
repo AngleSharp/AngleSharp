@@ -77,7 +77,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Format("@media {0} {{{1}{2}}}", _media.MediaText, Environment.NewLine, CssRules.ToCss());
+            return String.Format("@media {0} {{{1}{2}}}", _media.MediaText, Environment.NewLine, Rules.ToCss());
         }
 
         #endregion

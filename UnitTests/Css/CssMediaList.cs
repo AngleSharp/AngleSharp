@@ -21,7 +21,7 @@ namespace UnitTests.Css
             Assert.AreEqual("screen", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace UnitTests.Css
             Assert.AreEqual("screen, tv", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(2, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace UnitTests.Css
             Assert.AreEqual("screen, tv", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(2, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace UnitTests.Css
             Assert.AreEqual("only screen, tv", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(2, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -108,7 +108,7 @@ namespace UnitTests.Css
             Assert.AreEqual("not screen, tv", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(2, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -124,7 +124,7 @@ namespace UnitTests.Css
             Assert.AreEqual("(min-width: 30px)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -140,7 +140,7 @@ namespace UnitTests.Css
             Assert.AreEqual("only (width: 640px)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -156,7 +156,7 @@ namespace UnitTests.Css
             Assert.AreEqual("not (device-width: 640px)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -258,7 +258,7 @@ h1 { color: green }";
             Assert.AreEqual("all and (max-width: 30px)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -274,7 +274,7 @@ h1 { color: green }";
             Assert.AreEqual("(aspect-ratio: 16 / 9)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -290,7 +290,7 @@ h1 { color: green }";
             Assert.AreEqual("print and (max-width: 30px) and (min-device-width: 100px)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -306,7 +306,7 @@ h1 { color: green }";
             Assert.AreEqual("all and (min-width: 0) and (min-device-width: 100px), screen", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(2, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -322,7 +322,7 @@ h1 { color: green }";
             Assert.AreEqual("(resolution: 72dpi)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [TestMethod]
@@ -338,7 +338,7 @@ h1 { color: green }";
             Assert.AreEqual("(min-resolution: 72dpi) and (max-resolution: 140dpi)", media.ConditionText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
-            Assert.AreEqual(1, media.CssRules.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
     }
 }
