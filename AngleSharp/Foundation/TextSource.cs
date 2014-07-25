@@ -62,6 +62,7 @@
         {
             _baseStream = baseStream;
             _content = new StringBuilder();
+            DetectBOM();
         }
 
         #endregion
@@ -118,6 +119,16 @@
         public Int32 Length
         {
             get { return _content.Length; }
+        }
+
+        #endregion
+
+        #region Disposable
+
+        public void Dispose()
+        {
+            if (_baseStream != null)
+                _baseStream.Dispose();
         }
 
         #endregion
@@ -215,12 +226,43 @@
 
         #region Helpers
 
-        public void Dispose()
+        void DetectBOM()
         {
-            if (_baseStream != null)
-                _baseStream.Dispose();
+            var count = _baseStream.Read(_buffer, 0, BufferSize);
+            var offset = 0;
 
-            _content.Clear();
+            if (count > 2 && _buffer[0] == 0xef && _buffer[1] == 0xbb && _buffer[2] == 0xbf)
+            {
+                _encoding = DocumentEncoding.UTF8;
+                offset = 3;
+            }
+            else if (count > 3 && _buffer[0] == 0xff && _buffer[1] == 0xfe && _buffer[2] == 0x0 && _buffer[3] == 0x0)
+            {
+                _encoding = DocumentEncoding.UTF32LE;
+                offset = 4;
+            }
+            else if (count > 3 && _buffer[0] == 0x0 && _buffer[1] == 0x0 && _buffer[2] == 0xfe && _buffer[3] == 0xff)
+            {
+                _encoding = DocumentEncoding.UTF32BE;
+                offset = 4;
+            }
+            else if (count > 1 && _buffer[0] == 0xfe && _buffer[1] == 0xff)
+            {
+                _encoding = DocumentEncoding.UTF16BE;
+                offset = 2;
+            }
+            else if (count > 1 && _buffer[0] == 0xff && _buffer[1] == 0xfe)
+            {
+                _encoding = DocumentEncoding.UTF16LE;
+                offset = 2;
+            }
+            else if (count > 3 && _buffer[0] == 0x84 && _buffer[1] == 0x31 && _buffer[2] == 0x95 && _buffer[3] == 0x33)
+            {
+                _encoding = DocumentEncoding.GB18030;
+                offset = 4;
+            }
+
+            AppendContentFromBuffer(count, offset);
         }
 
         async Task ExpandBufferAsync(Int64 size, CancellationToken cancellationToken)
@@ -247,16 +289,16 @@
             AppendContentFromBuffer(returned);
         }
 
-        void AppendContentFromBuffer(Int32 size)
+        void AppendContentFromBuffer(Int32 size, Int32 offset = 0)
         {
             _finished = size == 0;
-            var charLength = _encoding.GetChars(_buffer, 0, size, _chars, 0);
+            var charLength = _encoding.GetChars(_buffer, offset, size, _chars, 0);
 
             for (int i = 0, n = charLength - 1; i < n; ++i)
             {
                 if (_chars[i] == Specification.CarriageReturn && _chars[i + 1] == Specification.LineFeed)
                 {
-                    for (int j = i; j < n;  ++j)
+                    for (int j = i; j < n; ++j)
                         _chars[j] = _chars[j + 1];
 
                     charLength--;
