@@ -21,32 +21,32 @@ namespace Samples.ViewModels
 
             switch (rule.Type)
             {
-                case CssRuleType.FontFace:
-                    var font = (CSSFontFaceRule)rule;
-                    name = "@font-face";
-                    Populate(font.CssRules);
-                    break;
+                //case CssRuleType.FontFace:
+                //    var font = (CSSFontFaceRule)rule;
+                //    name = "@font-face";
+                //    Populate(font.CssRules);
+                //    break;
 
-                case CssRuleType.Keyframe:
-                    var keyframe = (CSSKeyframeRule)rule;
-                    name = keyframe.KeyText;
-                    Populate(keyframe.Style);
-                    break;
+                //case CssRuleType.Keyframe:
+                //    var keyframe = (CSSKeyframeRule)rule;
+                //    name = keyframe.KeyText;
+                //    Populate(keyframe.Style);
+                //    break;
 
-                case CssRuleType.Keyframes:
-                    var keyframes = (CSSKeyframesRule)rule;
-                    name = "@keyframes " + keyframes.Name;
-                    Populate(keyframes.Rules);
-                    break;
+                //case CssRuleType.Keyframes:
+                //    var keyframes = (CSSKeyframesRule)rule;
+                //    name = "@keyframes " + keyframes.Name;
+                //    Populate(keyframes.Rules);
+                //    break;
 
                 case CssRuleType.Media:
-                    var media = (CSSMediaRule)rule;
-                    name = "@media " + media.ConditionText;
+                    var media = (ICssMediaRule)rule;
+                    name = "@media " + media.Media.MediaText;
                     Populate(media.Rules);
                     break;
 
                 case CssRuleType.Page:
-                    var page = (CSSPageRule)rule;
+                    var page = (ICssPageRule)rule;
                     name = "@page " + page.SelectorText;
                     Populate(page.Style);
                     break;
@@ -57,11 +57,11 @@ namespace Samples.ViewModels
                     Populate(style.Style);
                     break;
 
-                case CssRuleType.Supports:
-                    var support = (CSSSupportsRule)rule;
-                    name = "@supports " + support.ConditionText;
-                    Populate(support.Rules);
-                    break;
+                //case CssRuleType.Supports:
+                //    var support = (CSSSupportsRule)rule;
+                //    name = "@supports " + support.ConditionText;
+                //    Populate(support.Rules);
+                //    break;
 
                 default:
                     name = rule.CssText;
