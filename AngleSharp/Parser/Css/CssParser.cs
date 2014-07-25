@@ -372,7 +372,7 @@
 
                 if (token.Type == CssTokenType.String)
                 {
-                    rule.Encoding = ((CssStringToken)token).Data;
+                    rule.CharacterSet = ((CssStringToken)token).Data;
                     tokens.MoveNext();
                 }
 

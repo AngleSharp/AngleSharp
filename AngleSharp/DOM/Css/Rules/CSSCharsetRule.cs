@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents the CSS @charset rule.
     /// </summary>
-    [DomName("CSSCharsetRule")]
-    public sealed class CSSCharsetRule : CSSRule
+    sealed class CSSCharsetRule : CSSRule, ICssCharsetRule
     {
         #region ctor
 
@@ -22,11 +21,10 @@
         /// <summary>
         /// Gets the encoding information set by this rule.
         /// </summary>
-        [DomName("encoding")]
-        public String Encoding
+        public String CharacterSet
         {
             get;
-            internal set;
+            set;
         }
 
         #endregion
@@ -36,7 +34,7 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = rule as CSSCharsetRule;
-            Encoding = newRule.Encoding;
+            CharacterSet = newRule.CharacterSet;
         }
 
         #endregion
@@ -49,7 +47,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Format("@charset '{0}';", Encoding);
+            return String.Format("@charset '{0}';", CharacterSet);
         }
 
         #endregion
