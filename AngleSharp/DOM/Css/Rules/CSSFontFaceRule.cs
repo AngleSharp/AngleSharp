@@ -1,13 +1,12 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.DOM.Collections;
     using System;
 
     /// <summary>
     /// Represents the @font-face rule.
     /// </summary>
     [DomName("CSSFontFaceRule")]
-	public sealed class CSSFontFaceRule : CSSRule
+	sealed class CSSFontFaceRule : CSSRule
     {
         #region Fields
 

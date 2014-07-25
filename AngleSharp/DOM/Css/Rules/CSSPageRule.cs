@@ -1,14 +1,12 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.DOM.Collections;
     using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
     /// Represents the @page rule.
     /// </summary>
-    [DomName("CSSPageRule")]
-	public sealed class CSSPageRule : CSSRule
+    sealed class CSSPageRule : CSSGroupingRule, ICssPageRule
     {
         #region Fields
 
@@ -35,6 +33,7 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
+            base.ReplaceWith(rule);
             var newRule = rule as CSSPageRule;
             _style = newRule._style;
             _selector = newRule._selector;
@@ -72,7 +71,6 @@
         /// <summary>
         /// Gets the parsable textual representation of the page selector for the rule.
         /// </summary>
-        [DomName("selectorText")]
         public String SelectorText
         {
             get { return _selectorText; }
@@ -86,7 +84,6 @@
         /// <summary>
         /// Gets the  declaration-block of this rule.
         /// </summary>
-        [DomName("style")]
         public CSSStyleDeclaration Style
         {
             get { return _style; }

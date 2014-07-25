@@ -1,13 +1,12 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.DOM.Collections;
     using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
     /// Represents a CSS rule.
     /// </summary>
-    public abstract class CSSRule : ICssRule, ICssObject
+    abstract class CSSRule : ICssRule, ICssObject
     {
         #region Fields
 

@@ -1,13 +1,12 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.DOM.Collections;
     using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
     /// Represents the CSSGroupingRule interface.
     /// </summary>
-    public abstract class CSSGroupingRule : CSSRule, ICssRules, ICssGroupingRule
+    abstract class CSSGroupingRule : CSSRule, ICssRules, ICssGroupingRule
     {
         #region Fields
 

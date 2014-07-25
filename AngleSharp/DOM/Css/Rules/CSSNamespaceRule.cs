@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents an @namespace rule.
     /// </summary>
-    [DomName("CSSNamespaceRule")]
-    public sealed class CSSNamespaceRule : CSSRule
+    sealed class CSSNamespaceRule : CSSRule, ICssNamespaceRule
     {
         #region Fields
 
@@ -30,23 +29,24 @@
         #region Properties
 
         /// <summary>
-        /// Gets a string containing the text of the URI of the given namespace.
+        /// Gets or sets a string containing the text of the
+        /// URI of the given namespace.
         /// </summary>
-        [DomName("namespaceURI")]
-        public String NamespaceURI
+        public String NamespaceUri
         {
             get { return _namespaceURI; }
-            internal set { _namespaceURI = value; }
+            set { _namespaceURI = value; }
         }
 
         /// <summary>
-        /// Gets a string with the name of the prefix associated to this namespace. If there is no such prefix, returns null.
+        /// Gets or sets a string with the name of the prefix
+        /// associated to this namespace. If there is no such
+        /// prefix, returns null.
         /// </summary>
-        [DomName("prefix")]
         public String Prefix
         {
             get { return _prefix; }
-            internal set { _prefix = value; }
+            set { _prefix = value; }
         }
 
         #endregion

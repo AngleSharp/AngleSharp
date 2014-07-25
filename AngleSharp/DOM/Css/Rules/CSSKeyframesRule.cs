@@ -7,7 +7,7 @@
     /// Represents an @keyframes rule.
     /// </summary>
     [DomName("CSSKeyframesRule")]
-    public sealed class CSSKeyframesRule : CSSRule, ICssRules
+    sealed class CSSKeyframesRule : CSSRule, ICssRules
     {
         #region Fields
 

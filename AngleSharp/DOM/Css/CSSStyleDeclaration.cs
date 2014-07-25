@@ -23,7 +23,7 @@
         readonly Dictionary<String, CssPriorityProperty> _rules;
         readonly Func<String> _getter;
         readonly Action<String> _setter;
-        CSSRule _parent;
+        ICssRule _parent;
         Boolean _blocking;
         Boolean _readonly;
 
@@ -98,7 +98,7 @@
         /// Gets the containing CSSRule.
         /// </summary>
         [DomName("parentRule")]
-        public CSSRule ParentRule
+        public ICssRule ParentRule
         {
             get { return _parent; }
             internal set { _parent = value; }

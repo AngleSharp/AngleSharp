@@ -1,13 +1,12 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.DOM.Collections;
     using System;
 
     /// <summary>
     /// Represents a CSS @keyframe rule.
     /// </summary>
     [DomName("CSSKeyframeRule")]
-    public sealed class CSSKeyframeRule : CSSRule
+    sealed class CSSKeyframeRule : CSSRule
     {
         #region Fields
 

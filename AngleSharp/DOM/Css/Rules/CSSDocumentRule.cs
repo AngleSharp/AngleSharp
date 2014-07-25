@@ -8,7 +8,7 @@
     /// @document { /* ... */ } rule.
     /// </summary>
     [DomName("CSSDocumentRule")]
-    public sealed class CSSDocumentRule : CSSGroupingRule
+    sealed class CSSDocumentRule : CSSGroupingRule
     {
         #region Fields
 

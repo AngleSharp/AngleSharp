@@ -6,8 +6,7 @@
     /// <summary>
     /// Represents a CSS @media rule.
     /// </summary>
-    [DomName("CSSMediaRule")]
-    public sealed class CSSMediaRule : CSSConditionRule
+    sealed class CSSMediaRule : CSSConditionRule, ICssMediaRule
     {
         #region Fields
 
@@ -29,16 +28,6 @@
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the text of the media condition.
-        /// </summary>
-        [DomName("conditionText")]
-        public override String ConditionText
-        {
-            get { return _media.MediaText; }
-            set { _media.MediaText = value; }
-        }
 
         /// <summary>
         /// Gets a list of media types for this rule.

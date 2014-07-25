@@ -348,7 +348,7 @@
                         token = tokens.Current;
 
                     if (token.Type == CssTokenType.String)
-                        rule.NamespaceURI = ((CssStringToken)token).Data;
+                        rule.NamespaceUri = ((CssStringToken)token).Data;
                 }
 
                 JumpToNextSemicolon(tokens);
