@@ -62,7 +62,7 @@ h1 {
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
             var media = sheet.Rules[0] as CSSMediaRule;
-            Assert.AreEqual("screen", media.ConditionText);
+            Assert.AreEqual("screen", media.Media.MediaText);
             Assert.AreEqual(1, media.Rules.Length);
             Assert.IsInstanceOfType(media.Rules[0], typeof(CSSStyleRule));
             var p = media.Rules[0] as CSSStyleRule;
