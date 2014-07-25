@@ -8,12 +8,11 @@
     /// Common methods and variables of all tokenizers.
     /// </summary>
     [DebuggerStepThrough]
-    abstract class BaseTokenizer
+    abstract class BaseTokenizer : SourceManager
     {
         #region Fields
 
         protected StringBuilder _stringBuffer;
-        protected SourceManager _src;
 
         #endregion
 
@@ -28,9 +27,9 @@
 
         #region ctor
 
-        public BaseTokenizer(SourceManager source)
+        public BaseTokenizer(ITextSource source)
+            : base(source)
         {
-            _src = source;
             _stringBuffer = new StringBuilder();
         }
 
@@ -47,8 +46,8 @@
             if (ErrorOccurred != null)
             {
                 var pck = new ParseErrorEventArgs((Int32)code, code.GetErrorMessage());
-                pck.Line = _src.Line;
-                pck.Column = _src.Column;
+                pck.Line = Line;
+                pck.Column = Column;
                 ErrorOccurred(this, pck);
             }
         }

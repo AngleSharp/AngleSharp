@@ -8,7 +8,7 @@
     /// Represents the source code manager.
     /// </summary>
     [DebuggerStepThrough]
-    sealed class SourceManager : IDisposable
+    abstract class SourceManager : IDisposable
     {
         #region Fields
 

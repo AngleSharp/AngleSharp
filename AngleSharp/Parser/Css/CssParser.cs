@@ -121,9 +121,8 @@
         /// </summary>
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
         /// <param name="source">The source to use.</param>
-        internal CssParser(CSSStyleSheet stylesheet, TextSource stream)
+        internal CssParser(CSSStyleSheet stylesheet, TextSource source)
         {
-            var source = new SourceManager(stream);
             selector = Pool.NewSelectorConstructor();
             value = new CssValueBuilder();
             sync = new Object();
@@ -1321,8 +1320,7 @@
         /// <returns>The Selector object.</returns>
         public static ISelector ParseSelector(String selector, IConfiguration configuration = null)
         {
-            var stream = new TextSource(selector, configuration.DefaultEncoding());
-            var source = new SourceManager(stream);
+            var source = new TextSource(selector, configuration.DefaultEncoding());
             var tokenizer = new CssTokenizer(source);
             tokenizer.IgnoreComments = true;
             var tokens = tokenizer.Tokens;
@@ -1566,8 +1564,8 @@
             if (ParseError != null)
             {
                 var pck = new ParseErrorEventArgs((Int32)code, code.GetErrorMessage());
-                pck.Line = tokenizer.Stream.Line;
-                pck.Column = tokenizer.Stream.Column;
+                pck.Line = tokenizer.Line;
+                pck.Column = tokenizer.Column;
                 ParseError(this, pck);
             }
         }

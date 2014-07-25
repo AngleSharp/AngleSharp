@@ -28,7 +28,7 @@
         /// See 8.2.4 Tokenization
         /// </summary>
         /// <param name="source">The source code manager.</param>
-        public HtmlTokenizer(SourceManager source)
+        public HtmlTokenizer(ITextSource source)
             : base(source)
         {
             _model = HtmlParseMode.PCData;
@@ -49,14 +49,6 @@
             set { _acceptsCharacterData = value; }
         }
 
-        /// <summary>
-        /// Gets the underlying stream.
-        /// </summary>
-        public SourceManager Stream
-        {
-            get { return _src; }
-        }
-
         #endregion
 
         #region Methods
@@ -75,9 +67,9 @@
                 return token;
             }
 
-            var current = _src.Next;
+            var current = Next;
 
-            if (_src.IsEnded) 
+            if (IsEnded) 
                 return HtmlToken.EOF;
 
             switch (_model)
@@ -150,7 +142,7 @@
                         break;
                 }
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -165,7 +157,7 @@
                 switch (c)
                 {
                     case Specification.Ampersand:
-                        var value = CharacterReference(_src.Next);
+                        var value = CharacterReference(Next);
 
                         if (value == null)
                             _buffer.Append(Specification.Ampersand);
@@ -174,11 +166,11 @@
                         break;
 
                     case Specification.LessThan:
-                        return TagOpen(_src.Next);
+                        return TagOpen(Next);
 
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
-                        return Data(_src.Next);
+                        return Data(Next);
 
                     case Specification.EndOfFile:
                         return HtmlToken.EOF;
@@ -188,7 +180,7 @@
                         break;
                 }
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -207,7 +199,7 @@
                 switch (c)
                 {
                     case Specification.Ampersand:
-                        var value = CharacterReference(_src.Next);
+                        var value = CharacterReference(Next);
 
                         if (value == null)
                             _buffer.Append(Specification.Ampersand);
@@ -216,7 +208,7 @@
                         break;
 
                     case Specification.LessThan:
-                        return RCDataLT(_src.Next);
+                        return RCDataLT(Next);
 
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
@@ -231,7 +223,7 @@
                         break;
                 }
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -244,7 +236,7 @@
             if (c == Specification.Solidus)
             {
                 _stringBuffer.Clear();
-                return RCDataEndTag(_src.Next);
+                return RCDataEndTag(Next);
             }
 
             _buffer.Append(Specification.LessThan);
@@ -262,13 +254,13 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return RCDataNameEndTag(_src.Next, HtmlToken.CloseTag());
+                return RCDataNameEndTag(Next, HtmlToken.CloseTag());
             }
             else if (c.IsLowercaseAscii())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return RCDataNameEndTag(_src.Next, HtmlToken.CloseTag());
+                return RCDataNameEndTag(Next, HtmlToken.CloseTag());
             }
 
             _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
@@ -289,12 +281,12 @@
             if (appropriateTag && c.IsSpaceCharacter())
             {
                 tag.Name = name;
-                return AttributeBeforeName(_src.Next, tag);
+                return AttributeBeforeName(Next, tag);
             }
             else if (appropriateTag && c == Specification.Solidus)
             {
                 tag.Name = name;
-                return TagSelfClosing(_src.Next, tag);
+                return TagSelfClosing(Next, tag);
             }
             else if (appropriateTag && c == Specification.GreaterThan)
             {
@@ -304,12 +296,12 @@
             else if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Append(Char.ToLower(c));
-                return RCDataNameEndTag(_src.Next, tag);
+                return RCDataNameEndTag(Next, tag);
             }
             else if (c.IsLowercaseAscii())
             {
                 _stringBuffer.Append(c);
-                return RCDataNameEndTag(_src.Next, tag);
+                return RCDataNameEndTag(Next, tag);
             }
 
             _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
@@ -332,7 +324,7 @@
                 switch (c)
                 {
                     case Specification.LessThan:
-                        return RawtextLT(_src.Next);
+                        return RawtextLT(Next);
 
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
@@ -347,7 +339,7 @@
                         break;
                 }
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -360,7 +352,7 @@
             if (c == Specification.Solidus)
             {
                 _stringBuffer.Clear();
-                return RawtextEndTag(_src.Next);
+                return RawtextEndTag(Next);
             }
 
             _buffer.Append(Specification.LessThan);
@@ -377,13 +369,13 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return RawtextNameEndTag(_src.Next, HtmlToken.CloseTag());
+                return RawtextNameEndTag(Next, HtmlToken.CloseTag());
             }
             else if (c.IsLowercaseAscii())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return RawtextNameEndTag(_src.Next, HtmlToken.CloseTag());
+                return RawtextNameEndTag(Next, HtmlToken.CloseTag());
             }
 
             _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
@@ -404,12 +396,12 @@
             if (appropriateTag && c.IsSpaceCharacter())
             {
                 tag.Name = name;
-                return AttributeBeforeName(_src.Next, tag);
+                return AttributeBeforeName(Next, tag);
             }
             else if (appropriateTag && c == Specification.Solidus)
             {
                 tag.Name = name;
-                return TagSelfClosing(_src.Next, tag);
+                return TagSelfClosing(Next, tag);
             }
             else if (appropriateTag && c == Specification.GreaterThan)
             {
@@ -419,12 +411,12 @@
             else if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Append(Char.ToLower(c));
-                return RawtextNameEndTag(_src.Next, tag);
+                return RawtextNameEndTag(Next, tag);
             }
             else if (c.IsLowercaseAscii())
             {
                 _stringBuffer.Append(c);
-                return RawtextNameEndTag(_src.Next, tag);
+                return RawtextNameEndTag(Next, tag);
             }
 
             _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
@@ -447,17 +439,17 @@
             {
                 if (c == Specification.EndOfFile)
                 {
-                    _src.Back();
+                    Back();
                     break;
                 }
-                else if (c == Specification.SquareBracketClose && _src.ContinuesWith("]]>"))
+                else if (c == Specification.SquareBracketClose && ContinuesWith("]]>"))
                 {
-                    _src.Advance(2);
+                    Advance(2);
                     break;
                 }
 
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = Next;
             }
 
             return HtmlToken.Character(_stringBuffer.ToString());
@@ -472,7 +464,7 @@
         {
             if (c.IsSpaceCharacter() || c == Specification.LessThan || c == Specification.EndOfFile || c == Specification.Ampersand || c == allowedCharacter)
             {
-                _src.Back();
+                Back();
                 return null;
             }
 
@@ -482,14 +474,14 @@
                 var basis = 1;
                 var num = 0;
                 var nums = new List<Int32>();
-                c = _src.Next;
+                c = Next;
                 var isHex = c == 'x' || c == 'X';
 
                 if (isHex)
                 {
                     exp = 16;
 
-                    while ((c = _src.Next).IsHex())
+                    while ((c = Next).IsHex())
                         nums.Add(c.FromHex());
                 }
                 else
@@ -497,7 +489,7 @@
                     while (c.IsDigit())
                     {
                         nums.Add(c.FromHex());
-                        c = _src.Next;
+                        c = Next;
                     }
                 }
 
@@ -509,10 +501,10 @@
 
                 if (nums.Count == 0)
                 {
-                    _src.Back(2);
+                    Back(2);
 
                     if (isHex)
-                        _src.Back();
+                        Back();
 
                     RaiseErrorOccurred(ErrorCode.CharacterReferenceWrongNumber);
                     return null;
@@ -521,7 +513,7 @@
                 if (c != Specification.Semicolon)
                 {
                     RaiseErrorOccurred(ErrorCode.CharacterReferenceSemicolonMissing);
-                    _src.Back();
+                    Back();
                 }
 
                 if (Entities.IsInCharacterTable(num))
@@ -545,10 +537,10 @@
             {
                 String last = null;
                 var consumed = 0;
-                var start = _src.InsertionPoint - 1;
+                var start = InsertionPoint - 1;
                 var reference = new Char[31];
                 var index = 0;
-                var chr = _src.Current;
+                var chr = Current;
 
                 do
                 {
@@ -557,7 +549,7 @@
 
                     reference[index++] = chr;
                     var value = new String(reference, 0, index);
-                    chr = _src.Next;
+                    chr = Next;
                     consumed++;
                     value = chr == Specification.Semicolon ? Entities.GetSymbol(value) : Entities.GetSymbolWithoutSemicolon(value);
 
@@ -567,10 +559,10 @@
                         last = value;
                     }
                 }
-                while (!_src.IsEnded && index < 31);
+                while (!IsEnded && index < 31);
 
-                _src.Back(consumed);
-                chr = _src.Current;
+                Back(consumed);
+                chr = Current;
 
                 if (chr != Specification.Semicolon)
                 {
@@ -579,11 +571,11 @@
                         if (chr == Specification.Equality)
                             RaiseErrorOccurred(ErrorCode.CharacterReferenceAttributeEqualsFound);
 
-                        _src.InsertionPoint = start;
+                        InsertionPoint = start;
                         return null;
                     }
 
-                    _src.Back();
+                    Back();
                     RaiseErrorOccurred(ErrorCode.CharacterReferenceNotTerminated);
                 }
 
@@ -603,23 +595,23 @@
         {
             if (c == Specification.ExclamationMark)
             {
-                return MarkupDeclaration(_src.Next);
+                return MarkupDeclaration(Next);
             }
             else if (c == Specification.Solidus)
             {
-                return TagEnd(_src.Next);
+                return TagEnd(Next);
             }
             else if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return TagName(_src.Next, HtmlToken.OpenTag());
+                return TagName(Next, HtmlToken.OpenTag());
             }
             else if (c.IsLowercaseAscii())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return TagName(_src.Next, HtmlToken.OpenTag());
+                return TagName(Next, HtmlToken.OpenTag());
             }
             else if (c == Specification.QuestionMark)
             {
@@ -643,23 +635,23 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return TagName(_src.Next, HtmlToken.CloseTag());
+                return TagName(Next, HtmlToken.CloseTag());
             }
             else if (c.IsLowercaseAscii())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return TagName(_src.Next, HtmlToken.CloseTag());
+                return TagName(Next, HtmlToken.CloseTag());
             }
             else if (c == Specification.GreaterThan)
             {
                 _model = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return Data(_src.Next);
+                return Data(Next);
             }
             else if (c == Specification.EndOfFile)
             {
-                _src.Back();
+                Back();
                 RaiseErrorOccurred(ErrorCode.EOF);
                 _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
                 return HtmlToken.EOF;
@@ -684,12 +676,12 @@
                 if (c.IsSpaceCharacter())
                 {
                     tag.Name = _stringBuffer.ToString();
-                    return AttributeBeforeName(_src.Next, tag);
+                    return AttributeBeforeName(Next, tag);
                 }
                 else if (c == Specification.Solidus)
                 {
                     tag.Name = _stringBuffer.ToString();
-                    return TagSelfClosing(_src.Next, tag);
+                    return TagSelfClosing(Next, tag);
                 }
                 else if (c == Specification.GreaterThan)
                 {
@@ -711,7 +703,7 @@
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -745,20 +737,20 @@
         /// </summary>
         HtmlToken MarkupDeclaration(Char c)
         {
-            if (_src.ContinuesWith("--"))
+            if (ContinuesWith("--"))
             {
-                _src.Advance();
-                return CommentStart(_src.Next);
+                Advance();
+                return CommentStart(Next);
             }
-            else if (_src.ContinuesWith(Tags.Doctype))
+            else if (ContinuesWith(Tags.Doctype))
             {
-                _src.Advance(6);
-                return Doctype(_src.Next);
+                Advance(6);
+                return Doctype(Next);
             }
-            else if (_acceptsCharacterData && _src.ContinuesWith("[CDATA[", false))
+            else if (_acceptsCharacterData && ContinuesWith("[CDATA[", false))
             {
-                _src.Advance(6);
-                return CData(_src.Next);
+                Advance(6);
+                return CData(Next);
             }
             else
             {
@@ -785,7 +777,7 @@
                     break;
                 else if (c == Specification.EndOfFile)
                 {
-                    _src.Back();
+                    Back();
                     break;
                 }
                 else if (c == Specification.Null)
@@ -793,7 +785,7 @@
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = Next;
             }
 
             _model = HtmlParseMode.PCData;
@@ -809,12 +801,12 @@
             _stringBuffer.Clear();
 
             if (c == Specification.Minus)
-                return CommentDashStart(_src.Next);
+                return CommentDashStart(Next);
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Append(Specification.Replacement);
-                return Comment(_src.Next);
+                return Comment(Next);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -825,13 +817,13 @@
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
+                Back();
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
             else
             {
                 _stringBuffer.Append(c);
-                return Comment(_src.Next);
+                return Comment(Next);
             }
         }
 
@@ -842,13 +834,13 @@
         HtmlCommentToken CommentDashStart(Char c)
         {
             if (c == Specification.Minus)
-                return CommentEnd(_src.Next);
+                return CommentEnd(Next);
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Append(Specification.Minus);
                 _stringBuffer.Append(Specification.Replacement);
-                return Comment(_src.Next);
+                return Comment(Next);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -859,13 +851,13 @@
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
+                Back();
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
 
             _stringBuffer.Append(Specification.Minus);
             _stringBuffer.Append(c);
-            return Comment(_src.Next);
+            return Comment(Next);
         }
 
         /// <summary>
@@ -878,7 +870,7 @@
             {
                 if (c == Specification.Minus)
                 {
-                    var result = CommentDashEnd(_src.Next);
+                    var result = CommentDashEnd(Next);
 
                     if (result != null)
                         return result;
@@ -886,7 +878,7 @@
                 else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
+                    Back();
                     return HtmlToken.Comment(_stringBuffer.ToString());
                 }
                 else if (c == Specification.Null)
@@ -898,7 +890,7 @@
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -909,11 +901,11 @@
         HtmlCommentToken CommentDashEnd(Char c)
         {
             if (c == Specification.Minus)
-                return CommentEnd(_src.Next);
+                return CommentEnd(Next);
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
+                Back();
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
             else if (c == Specification.Null)
@@ -950,19 +942,19 @@
                 else if (c == Specification.ExclamationMark)
                 {
                     RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
-                    return CommentBangEnd(_src.Next);
+                    return CommentBangEnd(Next);
                 }
                 else if (c == Specification.Minus)
                 {
                     RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
                     _stringBuffer.Append(Specification.Minus);
-                    c = _src.Next;
+                    c = Next;
                     continue;
                 }
                 else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
+                    Back();
                     return HtmlToken.Comment(_stringBuffer.ToString());
                 }
 
@@ -985,7 +977,7 @@
                 _stringBuffer.Append(Specification.Minus);
                 _stringBuffer.Append(Specification.Minus);
                 _stringBuffer.Append(Specification.ExclamationMark);
-                return CommentDashEnd(_src.Next);
+                return CommentDashEnd(Next);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1004,7 +996,7 @@
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
+                Back();
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
 
@@ -1026,11 +1018,11 @@
         HtmlToken Doctype(Char c)
         {
             if (c.IsSpaceCharacter())
-                return DoctypeNameBefore(_src.Next);
+                return DoctypeNameBefore(Next);
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
+                Back();
                 return HtmlToken.Doctype(true);
             }
 
@@ -1045,20 +1037,20 @@
         HtmlToken DoctypeNameBefore(Char c)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = Next;
 
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return DoctypeName(_src.Next, HtmlToken.Doctype(false));
+                return DoctypeName(Next, HtmlToken.Doctype(false));
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Specification.Replacement);
-                return DoctypeName(_src.Next, HtmlToken.Doctype(false));
+                return DoctypeName(Next, HtmlToken.Doctype(false));
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1069,13 +1061,13 @@
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
+                Back();
                 return HtmlToken.Doctype(true);
             }
 
             _stringBuffer.Clear();
             _stringBuffer.Append(c);
-            return DoctypeName(_src.Next, HtmlToken.Doctype(false));
+            return DoctypeName(Next, HtmlToken.Doctype(false));
         }
 
         /// <summary>
@@ -1092,7 +1084,7 @@
                 {
                     doctype.Name = _stringBuffer.ToString();
                     _stringBuffer.Clear();
-                    return DoctypeNameAfter(_src.Next, doctype);
+                    return DoctypeNameAfter(Next, doctype);
                 }
                 else if (c == Specification.GreaterThan)
                 {
@@ -1110,7 +1102,7 @@
                 else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
+                    Back();
                     doctype.IsQuirksForced = true;
                     doctype.Name = _stringBuffer.ToString();
                     return doctype;
@@ -1118,7 +1110,7 @@
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -1131,7 +1123,7 @@
         HtmlToken DoctypeNameAfter(Char c, HtmlDoctypeToken doctype)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = Next;
 
             if (c == Specification.GreaterThan)
             {
@@ -1141,24 +1133,24 @@
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _src.Back();
+                Back();
                 doctype.IsQuirksForced = true;
                 return doctype;
             }
-            else if (_src.ContinuesWith("public"))
+            else if (ContinuesWith("public"))
             {
-                _src.Advance(5);
-                return DoctypePublic(_src.Next, doctype);
+                Advance(5);
+                return DoctypePublic(Next, doctype);
             }
-            else if (_src.ContinuesWith("system"))
+            else if (ContinuesWith("system"))
             {
-                _src.Advance(5);
-                return DoctypeSystem(_src.Next, doctype);
+                Advance(5);
+                return DoctypeSystem(Next, doctype);
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeUnexpectedAfterName);
             doctype.IsQuirksForced = true;
-            return BogusDoctype(_src.Next, doctype);
+            return BogusDoctype(Next, doctype);
         }
 
         /// <summary>
@@ -1171,19 +1163,19 @@
         {
             if (c.IsSpaceCharacter())
             {
-                return DoctypePublicIdentifierBefore(_src.Next, doctype);
+                return DoctypePublicIdentifierBefore(Next, doctype);
             }
             else if (c == Specification.DoubleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
                 doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierDoubleQuoted(_src.Next, doctype);
+                return DoctypePublicIdentifierDoubleQuoted(Next, doctype);
             }
             else if (c == Specification.SingleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
                 doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierSingleQuoted(_src.Next, doctype);
+                return DoctypePublicIdentifierSingleQuoted(Next, doctype);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1196,13 +1188,13 @@
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                _src.Back();
+                Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
             doctype.IsQuirksForced = true;
-            return BogusDoctype(_src.Next, doctype);
+            return BogusDoctype(Next, doctype);
         }
 
         /// <summary>
@@ -1214,19 +1206,19 @@
         HtmlToken DoctypePublicIdentifierBefore(Char c, HtmlDoctypeToken doctype)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = Next;
 
             if (c == Specification.DoubleQuote)
             {
                 _stringBuffer.Clear();
                 doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierDoubleQuoted(_src.Next, doctype);
+                return DoctypePublicIdentifierDoubleQuoted(Next, doctype);
             }
             else if (c == Specification.SingleQuote)
             {
                 _stringBuffer.Clear();
                 doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierSingleQuoted(_src.Next, doctype);
+                return DoctypePublicIdentifierSingleQuoted(Next, doctype);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1239,13 +1231,13 @@
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                _src.Back();
+                Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
             doctype.IsQuirksForced = true;
-            return BogusDoctype(_src.Next, doctype);
+            return BogusDoctype(Next, doctype);
         }
 
         /// <summary>
@@ -1262,7 +1254,7 @@
                 {
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     _stringBuffer.Clear();
-                    return DoctypePublicIdentifierAfter(_src.Next, doctype); ;
+                    return DoctypePublicIdentifierAfter(Next, doctype); ;
                 }
                 else if (c == Specification.Null)
                 {
@@ -1280,7 +1272,7 @@
                 else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    _src.Back();
+                    Back();
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     return doctype;
@@ -1288,7 +1280,7 @@
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -1306,7 +1298,7 @@
                 {
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     _stringBuffer.Clear();
-                    return DoctypePublicIdentifierAfter(_src.Next, doctype);
+                    return DoctypePublicIdentifierAfter(Next, doctype);
                 }
                 else if (c == Specification.Null)
                 {
@@ -1326,13 +1318,13 @@
                     RaiseErrorOccurred(ErrorCode.EOF);
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
-                    _src.Back();
+                    Back();
                     return doctype;
                 }
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -1347,7 +1339,7 @@
             if (c.IsSpaceCharacter())
             {
                 _stringBuffer.Clear();
-                return DoctypeBetween(_src.Next, doctype);
+                return DoctypeBetween(Next, doctype);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1358,25 +1350,25 @@
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(_src.Next, doctype);
+                return DoctypeSystemIdentifierDoubleQuoted(Next, doctype);
             }
             else if (c == Specification.SingleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(_src.Next, doctype);
+                return DoctypeSystemIdentifierSingleQuoted(Next, doctype);
             }
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                _src.Back();
+                Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
             doctype.IsQuirksForced = true;
-            return BogusDoctype(_src.Next, doctype);
+            return BogusDoctype(Next, doctype);
         }
 
         /// <summary>
@@ -1388,7 +1380,7 @@
         HtmlToken DoctypeBetween(Char c, HtmlDoctypeToken doctype)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = Next;
 
             if (c == Specification.GreaterThan)
             {
@@ -1398,24 +1390,24 @@
             else if (c == Specification.DoubleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(_src.Next, doctype);
+                return DoctypeSystemIdentifierDoubleQuoted(Next, doctype);
             }
             else if (c == Specification.SingleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(_src.Next, doctype);
+                return DoctypeSystemIdentifierSingleQuoted(Next, doctype);
             }
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                _src.Back();
+                Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
             doctype.IsQuirksForced = true;
-            return BogusDoctype(_src.Next, doctype);
+            return BogusDoctype(Next, doctype);
         }
 
         /// <summary>
@@ -1429,19 +1421,19 @@
             if (c.IsSpaceCharacter())
             {
                 _model = HtmlParseMode.PCData;
-                return DoctypeSystemIdentifierBefore(_src.Next, doctype);
+                return DoctypeSystemIdentifierBefore(Next, doctype);
             }
             else if (c == Specification.DoubleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = string.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(_src.Next, doctype);
+                return DoctypeSystemIdentifierDoubleQuoted(Next, doctype);
             }
             else if (c == Specification.SingleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = string.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(_src.Next, doctype);
+                return DoctypeSystemIdentifierSingleQuoted(Next, doctype);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1454,13 +1446,13 @@
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                _src.Back();
+                Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeSystemInvalid);
             doctype.IsQuirksForced = true;
-            return BogusDoctype(_src.Next, doctype);
+            return BogusDoctype(Next, doctype);
         }
 
         /// <summary>
@@ -1472,17 +1464,17 @@
         HtmlToken DoctypeSystemIdentifierBefore(Char c, HtmlDoctypeToken doctype)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = Next;
 
             if (c == Specification.DoubleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(_src.Next, doctype);
+                return DoctypeSystemIdentifierDoubleQuoted(Next, doctype);
             }
             else if (c == Specification.SingleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(_src.Next, doctype);
+                return DoctypeSystemIdentifierSingleQuoted(Next, doctype);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1497,13 +1489,13 @@
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = _stringBuffer.ToString();
-                _src.Back();
+                Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
             doctype.IsQuirksForced = true;
-            return BogusDoctype(_src.Next, doctype);
+            return BogusDoctype(Next, doctype);
         }
 
         /// <summary>
@@ -1520,7 +1512,7 @@
                 {
                     doctype.SystemIdentifier = _stringBuffer.ToString();
                     _stringBuffer.Clear();
-                    return DoctypeSystemIdentifierAfter(_src.Next, doctype);
+                    return DoctypeSystemIdentifierAfter(Next, doctype);
                 }
                 else if (c == Specification.Null)
                 {
@@ -1540,13 +1532,13 @@
                     RaiseErrorOccurred(ErrorCode.EOF);
                     doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = _stringBuffer.ToString();
-                    _src.Back();
+                    Back();
                     return doctype;
                 }
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -1564,7 +1556,7 @@
                 {
                     doctype.SystemIdentifier = _stringBuffer.ToString();
                     _stringBuffer.Clear();
-                    return DoctypeSystemIdentifierAfter(_src.Next, doctype);
+                    return DoctypeSystemIdentifierAfter(Next, doctype);
                 }
                 else if (c == Specification.Null)
                 {
@@ -1584,13 +1576,13 @@
                     RaiseErrorOccurred(ErrorCode.EOF);
                     doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = _stringBuffer.ToString();
-                    _src.Back();
+                    Back();
                     return doctype;
                 }
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -1603,7 +1595,7 @@
         HtmlToken DoctypeSystemIdentifierAfter(Char c, HtmlDoctypeToken doctype)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = Next;
 
             if (c == Specification.GreaterThan)
             {
@@ -1614,12 +1606,12 @@
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
-                _src.Back();
+                Back();
                 return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-            return BogusDoctype(_src.Next, doctype);
+            return BogusDoctype(Next, doctype);
         }
 
         /// <summary>
@@ -1634,7 +1626,7 @@
             {
                 if (c == Specification.EndOfFile)
                 {
-                    _src.Back();
+                    Back();
                     return doctype;
                 }
                 else if (c == Specification.GreaterThan)
@@ -1643,7 +1635,7 @@
                     return doctype;
                 }
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -1660,11 +1652,11 @@
         HtmlToken AttributeBeforeName(Char c, HtmlTagToken tag)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = Next;
 
             if (c == Specification.Solidus)
             {
-                return TagSelfClosing(_src.Next, tag);
+                return TagSelfClosing(Next, tag);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1674,21 +1666,21 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return AttributeName(_src.Next, tag);
+                return AttributeName(Next, tag);
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Specification.Replacement);
-                return AttributeName(_src.Next, tag);
+                return AttributeName(Next, tag);
             }
             else if (c == Specification.SingleQuote || c == Specification.DoubleQuote || c == Specification.Equality || c == Specification.LessThan)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return AttributeName(_src.Next, tag);
+                return AttributeName(Next, tag);
             }
             else if (c == Specification.EndOfFile)
             {
@@ -1698,7 +1690,7 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return AttributeName(_src.Next, tag);
+                return AttributeName(Next, tag);
             }
         }
 
@@ -1715,17 +1707,17 @@
                 if (c.IsSpaceCharacter())
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
-                    return AttributeAfterName(_src.Next, tag);
+                    return AttributeAfterName(Next, tag);
                 }
                 else if (c == Specification.Solidus)
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
-                    return TagSelfClosing(_src.Next, tag);
+                    return TagSelfClosing(Next, tag);
                 }
                 else if (c == Specification.Equality)
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
-                    return AttributeBeforeValue(_src.Next, tag);
+                    return AttributeBeforeValue(Next, tag);
                 }
                 else if (c == Specification.GreaterThan)
                 {
@@ -1749,7 +1741,7 @@
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -1762,15 +1754,15 @@
         HtmlToken AttributeAfterName(Char c, HtmlTagToken tag)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = Next;
 
             if (c == Specification.Solidus)
             {
-                return TagSelfClosing(_src.Next, tag);
+                return TagSelfClosing(Next, tag);
             }
             else if (c == Specification.Equality)
             {
-                return AttributeBeforeValue(_src.Next, tag);
+                return AttributeBeforeValue(Next, tag);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1780,21 +1772,21 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return AttributeName(_src.Next, tag);
+                return AttributeName(Next, tag);
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Specification.Replacement);
-                return AttributeName(_src.Next, tag);
+                return AttributeName(Next, tag);
             }
             else if (c == Specification.DoubleQuote || c == Specification.SingleQuote || c == Specification.LessThan)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return AttributeName(_src.Next, tag);
+                return AttributeName(Next, tag);
             }
             else if (c == Specification.EndOfFile)
             {
@@ -1804,7 +1796,7 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return AttributeName(_src.Next, tag);
+                return AttributeName(Next, tag);
             }
         }
 
@@ -1817,12 +1809,12 @@
         HtmlToken AttributeBeforeValue(Char c, HtmlTagToken tag)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = Next;
 
             if (c == Specification.DoubleQuote)
             {
                 _stringBuffer.Clear();
-                return AttributeDoubleQuotedValue(_src.Next, tag);
+                return AttributeDoubleQuotedValue(Next, tag);
             }
             else if (c == Specification.Ampersand)
             {
@@ -1832,13 +1824,13 @@
             else if (c == Specification.SingleQuote)
             {
                 _stringBuffer.Clear();
-                return AttributeSingleQuotedValue(_src.Next, tag);
+                return AttributeSingleQuotedValue(Next, tag);
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Append(Specification.Replacement);
-                return AttributeUnquotedValue(_src.Next, tag);
+                return AttributeUnquotedValue(Next, tag);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1849,7 +1841,7 @@
             {
                 RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
                 _stringBuffer.Clear().Append(c);
-                return AttributeUnquotedValue(_src.Next, tag);
+                return AttributeUnquotedValue(Next, tag);
             }
             else if (c == Specification.EndOfFile)
             {
@@ -1858,7 +1850,7 @@
             else
             {
                 _stringBuffer.Clear().Append(c);
-                return AttributeUnquotedValue(_src.Next, tag);
+                return AttributeUnquotedValue(Next, tag);
             }
         }
 
@@ -1875,11 +1867,11 @@
                 if (c == Specification.DoubleQuote)
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
-                    return AttributeAfterValue(_src.Next, tag);
+                    return AttributeAfterValue(Next, tag);
                 }
                 else if (c == Specification.Ampersand)
                 {
-                    var value = CharacterReference(_src.Next, Specification.DoubleQuote);
+                    var value = CharacterReference(Next, Specification.DoubleQuote);
 
                     if (value == null)
                         _stringBuffer.Append(Specification.Ampersand);
@@ -1896,7 +1888,7 @@
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -1913,11 +1905,11 @@
                 if (c == Specification.SingleQuote)
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
-                    return AttributeAfterValue(_src.Next, tag);
+                    return AttributeAfterValue(Next, tag);
                 }
                 else if (c == Specification.Ampersand)
                 {
-                    var value = CharacterReference(_src.Next, Specification.SingleQuote);
+                    var value = CharacterReference(Next, Specification.SingleQuote);
 
                     if (value == null)
                         _stringBuffer.Append(Specification.Ampersand);
@@ -1934,7 +1926,7 @@
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -1951,11 +1943,11 @@
                 if (c.IsSpaceCharacter())
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
-                    return AttributeBeforeName(_src.Next, tag);
+                    return AttributeBeforeName(Next, tag);
                 }
                 else if (c == Specification.Ampersand)
                 {
-                    var value = CharacterReference(_src.Next, Specification.GreaterThan);
+                    var value = CharacterReference(Next, Specification.GreaterThan);
 
                     if (value == null)
                         _stringBuffer.Append(Specification.Ampersand);
@@ -1982,7 +1974,7 @@
                 else
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = Next;
             }
         }
 
@@ -1995,9 +1987,9 @@
         HtmlToken AttributeAfterValue(Char c, HtmlTagToken tag)
         {
             if (c.IsSpaceCharacter())
-                return AttributeBeforeName(_src.Next, tag);
+                return AttributeBeforeName(Next, tag);
             else if (c == Specification.Solidus)
-                return TagSelfClosing(_src.Next, tag);
+                return TagSelfClosing(Next, tag);
             else if (c == Specification.GreaterThan)
                 return EmitTag(tag);
             else if (c == Specification.EndOfFile)
@@ -2022,7 +2014,7 @@
                 switch (c)
                 {
                     case Specification.LessThan:
-                        return ScriptDataLT(_src.Next);
+                        return ScriptDataLT(Next);
 
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
@@ -2037,7 +2029,7 @@
                         break;
                 }
 
-                c = _src.Next;
+                c = Next;
             }
         }
         
@@ -2049,12 +2041,12 @@
         {
             if (c == Specification.Solidus)
             {
-                return ScriptDataEndTag(_src.Next);
+                return ScriptDataEndTag(Next);
             }
             else if (c == Specification.ExclamationMark)
             {
                 _buffer.Append(Specification.LessThan).Append(Specification.ExclamationMark);
-                return ScriptDataStartEscape(_src.Next);
+                return ScriptDataStartEscape(Next);
             }
 
             _buffer.Append(Specification.LessThan);
@@ -2071,7 +2063,7 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return ScriptDataNameEndTag(_src.Next, HtmlToken.CloseTag());
+                return ScriptDataNameEndTag(Next, HtmlToken.CloseTag());
             }
 
             _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
@@ -2092,12 +2084,12 @@
             if (appropriateEndTag && c.IsSpaceCharacter())
             {
                 tag.Name = name;
-                return AttributeBeforeName(_src.Next, tag);
+                return AttributeBeforeName(Next, tag);
             }
             else if (appropriateEndTag && c == Specification.Solidus)
             {
                 tag.Name = name;
-                return TagSelfClosing(_src.Next, tag);
+                return TagSelfClosing(Next, tag);
             }
             else if (appropriateEndTag && c == Specification.GreaterThan)
             {
@@ -2107,7 +2099,7 @@
             else if (c.IsLetter())
             {
                 _stringBuffer.Append(c);
-                return ScriptDataNameEndTag(_src.Next, tag);
+                return ScriptDataNameEndTag(Next, tag);
             }
 
             _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
@@ -2124,7 +2116,7 @@
             if (c == Specification.Minus)
             {
                 _buffer.Append(Specification.Minus);
-                return ScriptDataStartEscapeDash(_src.Next);
+                return ScriptDataStartEscapeDash(Next);
             }
 
             return ScriptData(c);
@@ -2139,17 +2131,17 @@
             if (c == Specification.Minus)
             {
                 _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDash(_src.Next);
+                return ScriptDataEscapedDash(Next);
             }
             else if (c == Specification.LessThan)
             {
-                return ScriptDataEscapedLT(_src.Next);
+                return ScriptDataEscapedLT(Next);
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _buffer.Append(Specification.Replacement);
-                return ScriptDataEscaped(_src.Next);
+                return ScriptDataEscaped(Next);
             }
             else if (c == Specification.EndOfFile)
             {
@@ -2168,7 +2160,7 @@
             if (c == Specification.Minus)
             {
                 _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDashDash(_src.Next);
+                return ScriptDataEscapedDashDash(Next);
             }
 
             return ScriptData(c);
@@ -2183,17 +2175,17 @@
             if (c == Specification.Minus)
             {
                 _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDashDash(_src.Next);
+                return ScriptDataEscapedDashDash(Next);
             }
             else if (c == Specification.LessThan)
             {
-                return ScriptDataEscapedLT(_src.Next);
+                return ScriptDataEscapedLT(Next);
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _buffer.Append(Specification.Replacement);
-                return ScriptDataEscaped(_src.Next);
+                return ScriptDataEscaped(Next);
             }
             else if (c == Specification.EndOfFile)
             {
@@ -2201,7 +2193,7 @@
             }
 
             _buffer.Append(c);
-            return ScriptDataEscaped(_src.Next);
+            return ScriptDataEscaped(Next);
         }
 
         /// <summary>
@@ -2213,22 +2205,22 @@
             if (c == Specification.Minus)
             {
                 _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDashDash(_src.Next);
+                return ScriptDataEscapedDashDash(Next);
             }
             else if (c == Specification.LessThan)
             {
-                return ScriptDataEscapedLT(_src.Next);
+                return ScriptDataEscapedLT(Next);
             }
             else if (c == Specification.GreaterThan)
             {
                 _buffer.Append(Specification.GreaterThan);
-                return ScriptData(_src.Next);
+                return ScriptData(Next);
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _buffer.Append(Specification.Replacement);
-                return ScriptDataEscaped(_src.Next);
+                return ScriptDataEscaped(Next);
             }
             else if (c == Specification.EndOfFile)
             {
@@ -2236,7 +2228,7 @@
             }
 
             _buffer.Append(c);
-            return ScriptDataEscaped(_src.Next);
+            return ScriptDataEscaped(Next);
         }
 
         /// <summary>
@@ -2247,7 +2239,7 @@
         {
             if (c == Specification.Solidus)
             {
-                return ScriptDataEndTag(_src.Next);
+                return ScriptDataEndTag(Next);
             }
             else if (c.IsLetter())
             {
@@ -2255,7 +2247,7 @@
                 _stringBuffer.Append(c);
                 _buffer.Append(Specification.LessThan);
                 _buffer.Append(c);
-                return ScriptDataStartDoubleEscape(_src.Next);
+                return ScriptDataStartDoubleEscape(Next);
             }
 
             _buffer.Append(Specification.LessThan);
@@ -2274,7 +2266,7 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return ScriptDataEscapedEndTag(_src.Next, tag);
+                return ScriptDataEscapedEndTag(Next, tag);
             }
 
             _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
@@ -2295,12 +2287,12 @@
             if (appropriateEndTag && c.IsSpaceCharacter())
             {
                 tag.Name = name;
-                return AttributeBeforeName(_src.Next, tag);
+                return AttributeBeforeName(Next, tag);
             }
             else if (appropriateEndTag && c == Specification.Solidus)
             {
                 tag.Name = name;
-                return TagSelfClosing(_src.Next, tag);
+                return TagSelfClosing(Next, tag);
             }
             else if (appropriateEndTag && c == Specification.GreaterThan)
             {
@@ -2310,7 +2302,7 @@
             else if (c.IsLetter())
             {
                 _stringBuffer.Append(c);
-                return ScriptDataEscapedNameTag(_src.Next, tag);
+                return ScriptDataEscapedNameTag(Next, tag);
             }
 
             _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
@@ -2329,15 +2321,15 @@
                 _buffer.Append(c);
 
                 if (String.Compare(_stringBuffer.ToString(), Tags.Script, StringComparison.OrdinalIgnoreCase) == 0)
-                    return ScriptDataEscapedDouble(_src.Next);
+                    return ScriptDataEscapedDouble(Next);
 
-                return ScriptDataEscaped(_src.Next);
+                return ScriptDataEscaped(Next);
             }
             else if (c.IsLetter())
             {
                 _stringBuffer.Append(c);
                 _buffer.Append(c);
-                return ScriptDataStartDoubleEscape(_src.Next);
+                return ScriptDataStartDoubleEscape(Next);
             }
 
             return ScriptDataEscaped(c);
@@ -2352,12 +2344,12 @@
             if (c == Specification.Minus)
             {
                 _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDoubleDash(_src.Next);
+                return ScriptDataEscapedDoubleDash(Next);
             }
             else if (c == Specification.LessThan)
             {
                 _buffer.Append(Specification.LessThan);
-                return ScriptDataEscapedDoubleLT(_src.Next);
+                return ScriptDataEscapedDoubleLT(Next);
             }
             else if (c == Specification.Null)
             {
@@ -2371,7 +2363,7 @@
             }
 
             _buffer.Append(c);
-            return ScriptDataEscapedDouble(_src.Next);
+            return ScriptDataEscapedDouble(Next);
         }
 
         /// <summary>
@@ -2383,18 +2375,18 @@
             if (c == Specification.Minus)
             {
                 _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDoubleDashDash(_src.Next);
+                return ScriptDataEscapedDoubleDashDash(Next);
             }
             else if (c == Specification.LessThan)
             {
                 _buffer.Append(Specification.LessThan);
-                return ScriptDataEscapedDoubleLT(_src.Next);
+                return ScriptDataEscapedDoubleLT(Next);
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _buffer.Append(Specification.Replacement);
-                return ScriptDataEscapedDouble(_src.Next);
+                return ScriptDataEscapedDouble(Next);
             }
             else if (c == Specification.EndOfFile)
             {
@@ -2403,7 +2395,7 @@
             }
 
             _buffer.Append(c);
-            return ScriptDataEscapedDouble(_src.Next);
+            return ScriptDataEscapedDouble(Next);
         }
 
         /// <summary>
@@ -2415,23 +2407,23 @@
             if (c == Specification.Minus)
             {
                 _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDoubleDashDash(_src.Next);
+                return ScriptDataEscapedDoubleDashDash(Next);
             }
             else if (c == Specification.LessThan)
             {
                 _buffer.Append(Specification.LessThan);
-                return ScriptDataEscapedDoubleLT(_src.Next);
+                return ScriptDataEscapedDoubleLT(Next);
             }
             else if (c == Specification.GreaterThan)
             {
                 _buffer.Append(Specification.GreaterThan);
-                return ScriptData(_src.Next);
+                return ScriptData(Next);
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _buffer.Append(Specification.Replacement);
-                return ScriptDataEscapedDouble(_src.Next);
+                return ScriptDataEscapedDouble(Next);
             }
             else if (c == Specification.EndOfFile)
             {
@@ -2440,7 +2432,7 @@
             }
 
             _buffer.Append(c);
-            return ScriptDataEscapedDouble(_src.Next);
+            return ScriptDataEscapedDouble(Next);
         }
 
         /// <summary>
@@ -2453,7 +2445,7 @@
             {
                 _stringBuffer.Clear();
                 _buffer.Append(Specification.Solidus);
-                return ScriptDataEndDoubleEscape(_src.Next);
+                return ScriptDataEndDoubleEscape(Next);
             }
 
             return ScriptDataEscapedDouble(c);
@@ -2470,15 +2462,15 @@
                 _buffer.Append(c);
 
                 if (String.Compare(_stringBuffer.ToString(), Tags.Script, StringComparison.OrdinalIgnoreCase) == 0)
-                    return ScriptDataEscaped(_src.Next);
+                    return ScriptDataEscaped(Next);
 
-                return ScriptDataEscapedDouble(_src.Next);
+                return ScriptDataEscapedDouble(Next);
             }
             else if (c.IsLetter())
             {
                 _stringBuffer.Append(c);
                 _buffer.Append(c);
-                return ScriptDataEndDoubleEscape(_src.Next);
+                return ScriptDataEndDoubleEscape(Next);
             }
 
             return ScriptDataEscapedDouble(c);

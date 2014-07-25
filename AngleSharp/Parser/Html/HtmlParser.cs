@@ -79,8 +79,7 @@
         /// <param name="document">The document instance to be constructed.</param>
         internal HtmlParser(Document document)
         {
-            var source = new SourceManager(document.Source);
-            tokenizer = new HtmlTokenizer(source);
+            tokenizer = new HtmlTokenizer(document.Source);
 
             tokenizer.ErrorOccurred += (s, ev) =>
             {
@@ -3602,7 +3601,7 @@
                     nesting++;
                     script.Run();
                     nesting--;
-                    tokenizer.Stream.ResetInsertionPoint();
+                    tokenizer.ResetInsertionPoint();
                 }
                 while (pendingParsingBlock != null);
             }
@@ -4057,9 +4056,9 @@
         {
             if (ParseError != null)
             {
-                var pck = new ParseErrorEventArgs((int)code, code.GetErrorMessage());
-                pck.Line = tokenizer.Stream.Line;
-                pck.Column = tokenizer.Stream.Column;
+                var pck = new ParseErrorEventArgs((Int32)code, code.GetErrorMessage());
+                pck.Line = tokenizer.Line;
+                pck.Column = tokenizer.Column;
                 ParseError(this, pck);
             }
         }
