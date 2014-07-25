@@ -747,8 +747,7 @@
         /// <returns>The created node TreeWalker.</returns>
         public ITreeWalker CreateTreeWalker(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null)
         {
-            //TODO
-            throw new NotImplementedException();
+            return new TreeWalker(root, settings, filter);
         }
 
         /// <summary>

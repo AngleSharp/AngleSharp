@@ -41,6 +41,7 @@
     <Compile Include="Attributes\DomAccessorAttribute.cs" />
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
     <Compile Include="DOM\Collections\NodeIterator.cs" />
+    <Compile Include="DOM\Collections\TreeWalker.cs" />
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="Foundation\Setup\Configuration.cs" />
     <Compile Include="Delegates\ErrorEventListener.cs" />
