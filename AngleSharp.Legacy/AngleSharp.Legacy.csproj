@@ -169,6 +169,9 @@
     <Compile Include="..\AngleSharp\DOM\Collections\TokenList.cs">
       <Link>DOM\Collections\TokenList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\TreeWalker.cs">
+      <Link>DOM\Collections\TreeWalker.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Comment.cs">
       <Link>DOM\Comment.cs</Link>
     </Compile>
