@@ -137,70 +137,70 @@
                     return CssToken.Delim(_src.Previous);
 
                 case Specification.Plus:
+                {
+                    var c1 = _src.Next;
+
+                    if (c1 == Specification.EndOfFile)
                     {
-                        var c1 = _src.Next;
-
-                        if (c1 == Specification.EndOfFile)
-                        {
-                            _src.Back();
-                        }
-                        else
-                        {
-                            var c2 = _src.Next;
-                            _src.Back(2);
-
-                            if (c1.IsDigit() || (c1 == Specification.Dot && c2.IsDigit()))
-                                return NumberStart(current);
-                        }
-                        
-                        return CssToken.Delim(current);
+                        _src.Back();
                     }
+                    else
+                    {
+                        var c2 = _src.Next;
+                        _src.Back(2);
+
+                        if (c1.IsDigit() || (c1 == Specification.Dot && c2.IsDigit()))
+                            return NumberStart(current);
+                    }
+                        
+                    return CssToken.Delim(current);
+                }
 
                 case Specification.Comma:
                     return CssSpecialCharacter.Comma;
 
                 case Specification.Dot:
-                    {
-                        var c = _src.Next;
+                {
+                    var c = _src.Next;
 
-                        if (c.IsDigit())
-                            return NumberStart(_src.Previous);
+                    if (c.IsDigit())
+                        return NumberStart(_src.Previous);
                         
-                        return CssToken.Delim(_src.Previous);
-                    }
+                    return CssToken.Delim(_src.Previous);
+                }
 
                 case Specification.Minus:
+                {
+                    var c1 = _src.Next;
+
+                    if (c1 == Specification.EndOfFile)
                     {
-                        var c1 = _src.Next;
-
-                        if (c1 == Specification.EndOfFile)
-                        {
-                            _src.Back();
-                        }
-                        else
-                        {
-                            var c2 = _src.Next;
-                            _src.Back(2);
-
-                            if (c1.IsDigit() || (c1 == Specification.Dot && c2.IsDigit()))
-                                return NumberStart(current);
-                            else if (c1.IsNameStart())
-                                return IdentStart(current);
-                            else if (c1 == Specification.ReverseSolidus && !c2.IsLineBreak() && c2 != Specification.EndOfFile)
-                                return IdentStart(current);
-                            else if (c1 == Specification.Minus && c2 == Specification.GreaterThan)
-                            {
-                                _src.Advance(2);
-
-								if (_ignoreCs)
-									return Data(_src.Next);
-
-                                return CssCommentToken.Close;
-                            }
-                        }
-                        
-                        return CssToken.Delim(current);
+                        _src.Back();
                     }
+                    else
+                    {
+                        var c2 = _src.Next;
+                        _src.Back(2);
+
+                        if (c1.IsDigit() || (c1 == Specification.Dot && c2.IsDigit()))
+                            return NumberStart(current);
+                        else if (c1.IsNameStart())
+                            return IdentStart(current);
+                        else if (c1 == Specification.ReverseSolidus && !c2.IsLineBreak() && c2 != Specification.EndOfFile)
+                            return IdentStart(current);
+                        else if (c1 == Specification.Minus && c2 == Specification.GreaterThan)
+                        {
+                            _src.Advance(2);
+
+							if (_ignoreCs)
+								return Data(_src.Next);
+
+                            return CssCommentToken.Close;
+                        }
+                    }
+                        
+                    return CssToken.Delim(current);
+                }
 
                 case Specification.Solidus:
                     current = _src.Next;

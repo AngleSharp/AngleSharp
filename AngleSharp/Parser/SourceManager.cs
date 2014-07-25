@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents the source code manager.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     sealed class SourceManager : IDisposable
     {
         #region Fields
@@ -22,7 +22,6 @@
         Int32 _insertion;
         Char _current;
         Boolean _ended;
-        Boolean _lwcr;
 
         #endregion
 
@@ -77,22 +76,20 @@
         public Int32 InsertionPoint
         {
             get { return _insertion; }
-            set 
+            set
             {
-                if (value >= 0 && value <= _buffer.Length)
-                {
-                    var delta = _insertion - value;
+                var delta = _insertion - value;
 
-                    if (delta > 0)
-                    {
-                        while (_insertion != value)
-                            BackUnsafe();
-                    }
-                    else if (delta < 0)
-                    {
-                        while (_insertion != value)
-                            AdvanceUnsafe();
-                    }
+                while (delta > 0)
+                {
+                    BackUnsafe();
+                    delta--;
+                }
+
+                while (delta < 0)
+                {
+                    AdvanceUnsafe();
+                    delta++;
                 }
             }
         }
@@ -262,34 +259,17 @@
         [DebuggerStepThrough]
         void ReadCurrent()
         {
-            while (true)
+            if (_insertion < _buffer.Length)
             {
-                if (_insertion < _buffer.Length)
-                {
-                    _current = _buffer[_insertion];
-                    _insertion++;
-                    return;
-                }
-
-                _current = _reader.Read();
-
-                if (_current == Specification.CarriageReturn)
-                {
-                    _current = Specification.LineFeed;
-                    _lwcr = true;
-                }
-                else if (_lwcr)
-                {
-                    _lwcr = false;
-
-                    if (_current == Specification.LineFeed)
-                        continue;
-                }
-
-                _buffer.Append(_current);
-                _insertion++;
-                return;
+                _current = _buffer[_insertion];
             }
+            else
+            {
+                _current = _reader.Read();
+                _buffer.Append(_current);
+            }
+
+            _insertion++;
         }
 
         /// <summary>

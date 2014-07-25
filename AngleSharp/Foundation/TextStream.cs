@@ -9,21 +9,20 @@
     /// <summary>
     /// A stream abstraction to handle encoding and more.
     /// </summary>
-    sealed partial class TextStream : Stream
+    sealed partial class TextStream : IDisposable
     {
         #region Fields
 
         const Int32 BufferSize = 4096;
 
         readonly Stream _baseStream;
-        readonly MemoryStream _content;
+        readonly StringBuilder _content;
         readonly Byte[] _buffer;
         readonly Char[] _chars;
 
         Boolean _finished;
         Encoding _encoding;
-        Int32 _charIndex;
-        Int32 _charLength;
+        Int32 _index;
 
         #endregion
 
@@ -33,8 +32,7 @@
         {
             _buffer = new Byte[BufferSize];
             _chars = new Char[BufferSize];
-            _charIndex = 0;
-            _charLength = 0;
+            _index = 0;
             _encoding = encoding ?? Encoding.UTF8;
         }
 
@@ -42,27 +40,45 @@
             : this(encoding)
         {
             _finished = true;
-            var content = _encoding.GetBytes(source);
-            _content = new MemoryStream();
-            _content.Write(content, 0, content.Length);
-            _content.Position = 0;
+            _content = new StringBuilder(source.Replace("\r\n", "\n"));
         }
 
         public TextStream(Stream baseStream, Encoding encoding = null)
             : this(encoding)
         {
             _baseStream = baseStream;
-            _content = new MemoryStream();
+            _content = new StringBuilder();
         }
 
         #endregion
 
         #region Properties
 
+        public Char this[Int32 index]
+        {
+            get { return _content[index]; }
+        }
+
         public Encoding CurrentEncoding
         {
             get { return _encoding; }
-            set { _encoding = value; }
+            set 
+            {
+                if (value != _encoding)
+                {
+                    //Get previous interpretation of rest
+                    var length = _content.Length - _index;
+                    var rest = _content.ToString(_index, length);
+                    //Get raw bytes from old encoding
+                    var raw = _encoding.GetBytes(rest);
+                    //Set new encoding
+                    _encoding = value;
+                    //Remove former rest
+                    _content.Remove(_index, length);
+                    //Add former rest re-interpreted with new encoding
+                    _content.Append(_encoding.GetString(raw, 0, raw.Length));
+                }
+            }
         }
 
         public Boolean IsFinished
@@ -70,36 +86,15 @@
             get { return _finished; }
         }
 
-        public override Boolean CanRead
+        public Int32 Index
         {
-            get { return true; }
+            get { return _index; }
+            set { _index = value; }
         }
 
-        public override Boolean CanSeek
-        {
-            get { return _finished || _baseStream.CanSeek; }
-        }
-
-        public override Boolean CanWrite
-        {
-            get { return true; }
-        }
-
-        public override Int64 Length
+        public Int32 Length
         {
             get { return _content.Length; }
-        }
-
-        public override Int64 Position
-        {
-            get { return _content.Position; }
-            set 
-            {
-                ExpandBuffer(value + 1);
-                _content.Position = value;
-                _charIndex = 0;
-                _charLength = 0;
-            }
         }
 
         #endregion
@@ -108,112 +103,79 @@
 
         public Char Read()
         {
-            if (_charIndex < _charLength)
-                return _chars[_charIndex++];
+            if (_index < _content.Length)
+                return _content[_index++];
 
-            var contentLength = Read(_buffer, 0, BufferSize);
-            _charLength = _encoding.GetChars(_buffer, 0, contentLength, _chars, 0);
-            _charIndex = 1;
-            return _charIndex > _charLength ? Specification.EndOfFile : _chars[0];
+            ExpandBuffer(BufferSize);
+            return _index >= _content.Length ? Specification.EndOfFile : _content[_index++];
         }
 
         public async Task<Char> ReadAsync(CancellationToken cancellationToken)
         {
-            if (_charIndex < _charLength)
-                return _chars[_charIndex++];
+            if (_index < _content.Length)
+                return _content[_index++];
 
-            var contentLength = await ReadAsync(_buffer, 0, BufferSize, cancellationToken);
-            _charLength = _encoding.GetChars(_buffer, 0, contentLength, _chars, 0);
-            _charIndex = 1;
-
-            return _charIndex > _charLength ? Specification.EndOfFile : _chars[0];
-        }
-
-        #endregion
-
-        #region Stream Methods
-
-        public override void Flush()
-        {
-            if (!_finished)
-                _baseStream.Flush();
-        }
-
-        public override Int32 Read(Byte[] buffer, Int32 offset, Int32 count)
-        {
-            ExpandBuffer(Position + count);
-            return _content.Read(buffer, offset, count);
-        }
-
-        public override Int64 Seek(Int64 offset, SeekOrigin origin)
-        {
-            var position = origin == SeekOrigin.Current ? Position + offset : (origin == SeekOrigin.Begin ? offset : Length + offset);
-            Position = position;
-            return position;
-        }
-
-        public override void SetLength(Int64 value)
-        {
-            _content.SetLength(value);
-        }
-
-        public override void Write(Byte[] buffer, Int32 offset, Int32 count)
-        {
-            _content.Write(buffer, offset, count);
+            await ExpandBufferAsync(BufferSize, cancellationToken);
+            return _index >= _content.Length ? Specification.EndOfFile : _content[_index++];
         }
 
         #endregion
 
         #region Helpers
 
-        protected override void Dispose(Boolean disposing)
+        public void Dispose()
         {
             if (_baseStream != null)
                 _baseStream.Dispose();
 
-            _content.Dispose();
+            _content.Clear();
         }
 
-        async Task ExpandBufferAsync(Int64 minimumSize, CancellationToken cancellationToken)
+        async Task ExpandBufferAsync(Int64 size, CancellationToken cancellationToken)
         {
-            while (minimumSize > _content.Length && !_finished)
+            while (size + _index > _content.Length && !_finished)
                 await ReadIntoBufferAsync(cancellationToken);
         }
 
         async Task ReadIntoBufferAsync(CancellationToken cancellationToken)
         {
-            if (_finished)
-                return;
-
             var returned = await _baseStream.ReadAsync(_buffer, 0, BufferSize, cancellationToken);
-
-            if (_finished = returned == 0)
-                return;
-
-            var position = _content.Position;
-            await _content.WriteAsync(_buffer, 0, returned);
-            _content.Position = position;
+            AppendContentFromBuffer(returned);
         }
 
-        void ExpandBuffer(Int64 minimumSize)
+        void ExpandBuffer(Int64 size)
         {
-            while (minimumSize > _content.Length && !_finished)
+            while (size + _index > _content.Length && !_finished)
                 ReadIntoBuffer();
         }
 
         void ReadIntoBuffer()
         {
-            if (_finished)
-                return;
-
             var returned = _baseStream.ReadAsync(_buffer, 0, BufferSize).Result;
+            AppendContentFromBuffer(returned);
+        }
 
-            if (_finished = returned == 0)
-                return;
+        void AppendContentFromBuffer(Int32 size)
+        {
+            _finished = size == 0;
+            var charLength = _encoding.GetChars(_buffer, 0, size, _chars, 0);
 
-            var position = _content.Position;
-            _content.Write(_buffer, 0, returned);
-            _content.Position = position;
+            for (int i = 0, n = charLength - 1; i < n; ++i)
+            {
+                if (_chars[i] == Specification.CarriageReturn && _chars[i + 1] == Specification.LineFeed)
+                {
+                    for (int j = i; j < n;  ++j)
+                        _chars[j] = _chars[j + 1];
+
+                    charLength--;
+                    n--;
+                }
+            }
+
+            if (charLength > 0 && _chars[charLength - 1] == Specification.CarriageReturn)
+                charLength--;
+
+            _content.Insert(_index, _chars, 0, charLength);
         }
 
         #endregion
