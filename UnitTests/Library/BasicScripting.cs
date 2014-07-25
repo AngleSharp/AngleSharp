@@ -24,9 +24,9 @@ namespace UnitTests.Library
         [TestMethod]
         public void DocumentWriteDynamicallyWithCustomScriptEngine()
         {
-            scripting.Callback = window =>
+            scripting.Callback = options =>
             {
-                window.Document.Write("<b>Dynamically written</b>");
+                options.Document.Write("<b>Dynamically written</b>");
             };
             var doc = DocumentBuilder.Html("<title>Some title</title><body><script type='c-sharp'>//...</script>", configuration);
             Assert.IsNotNull(doc);
@@ -44,22 +44,22 @@ namespace UnitTests.Library
                 get { return "c-sharp"; }
             }
 
-            public Action<IWindow> Callback
+            public Action<ScriptOptions> Callback
             {
                 get;
                 set;
             }
 
-            public void Evaluate(String source, IWindow context)
+            public void Evaluate(String source, ScriptOptions options)
             {
                 if (Callback != null)
-                    Callback(context);
+                    Callback(options);
             }
 
-            public void Evaluate(Stream source, IWindow context)
+            public void Evaluate(Stream source, ScriptOptions options)
             {
                 if (Callback != null)
-                    Callback(context);
+                    Callback(options);
             }
         }
     }
