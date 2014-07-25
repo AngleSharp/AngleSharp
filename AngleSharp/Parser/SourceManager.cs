@@ -18,7 +18,6 @@
         Int32 _column;
         Int32 _row;
         Char _current;
-        Boolean _ended;
 
         #endregion
 
@@ -103,14 +102,6 @@
         /// </summary>
         public Boolean IsEnded
         {
-            get { return _ended; }
-        }
-
-        /// <summary>
-        /// Gets the status of reading the source code, is the EOF currently given?
-        /// </summary>
-        public Boolean IsEnding
-        {
             get { return _current == Specification.EndOfFile; }
         }
 
@@ -156,10 +147,8 @@
         /// <returns>The current source manager.</returns>
         public void Advance()
         {
-            if (!IsEnding)
+            if (!IsEnded)
                 AdvanceUnsafe();
-            else
-                _ended = true;
         }
 
         /// <summary>
@@ -168,7 +157,7 @@
         /// <param name="n">The number of characters to advance.</param>
         public void Advance(Int32 n)
         {
-            while (n-- > 0 && !IsEnding)
+            while (n-- > 0 && !IsEnded)
                 AdvanceUnsafe();
         }
 
@@ -177,8 +166,6 @@
         /// </summary>
         public void Back()
         {
-            _ended = false;
-
             if (InsertionPoint > 0)
                 BackUnsafe();
         }
@@ -189,8 +176,6 @@
         /// <param name="n">The number of characters to rewind.</param>
         public void Back(Int32 n)
         {
-            _ended = false;
-
             while (n-- > 0 && InsertionPoint > 0)
                 BackUnsafe();
         }
