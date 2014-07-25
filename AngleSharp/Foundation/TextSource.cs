@@ -11,7 +11,7 @@
     /// A stream abstraction to handle encoding and more.
     /// </summary>
     [DebuggerStepThrough]
-    sealed partial class TextStream : IDisposable
+    sealed class TextSource : ITextSource, IDisposable
     {
         #region Fields
 
@@ -30,7 +30,7 @@
 
         #region ctor
 
-        TextStream(Encoding encoding)
+        TextSource(Encoding encoding)
         {
             _buffer = new Byte[BufferSize];
             _chars = new Char[BufferSize];
@@ -38,14 +38,14 @@
             _encoding = encoding ?? Encoding.UTF8;
         }
 
-        public TextStream(String source, Encoding encoding = null)
+        public TextSource(String source, Encoding encoding = null)
             : this(encoding)
         {
             _finished = true;
             _content = new StringBuilder(source.Replace("\r\n", "\n"));
         }
 
-        public TextStream(Stream baseStream, Encoding encoding = null)
+        public TextSource(Stream baseStream, Encoding encoding = null)
             : this(encoding)
         {
             _baseStream = baseStream;

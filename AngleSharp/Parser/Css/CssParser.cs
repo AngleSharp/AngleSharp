@@ -82,7 +82,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public CssParser(String source, IConfiguration configuration = null)
-            : this(new CSSStyleSheet { Options = configuration }, new TextStream(source, configuration.DefaultEncoding()))
+            : this(new CSSStyleSheet { Options = configuration }, new TextSource(source, configuration.DefaultEncoding()))
         { }
 
         /// <summary>
@@ -92,7 +92,7 @@
         /// <param name="stream">The stream to use as source.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public CssParser(Stream stream, IConfiguration configuration = null)
-            : this(new CSSStyleSheet { Options = configuration }, new TextStream(stream, configuration.DefaultEncoding()))
+            : this(new CSSStyleSheet { Options = configuration }, new TextSource(stream, configuration.DefaultEncoding()))
         { }
 
         /// <summary>
@@ -102,7 +102,7 @@
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
         /// <param name="source">The source code as a string.</param>
         internal CssParser(CSSStyleSheet stylesheet, String source)
-            : this(stylesheet, new TextStream(source, stylesheet.Options.DefaultEncoding()))
+            : this(stylesheet, new TextSource(source, stylesheet.Options.DefaultEncoding()))
         { }
 
         /// <summary>
@@ -112,7 +112,7 @@
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
         /// <param name="stream">The stream to use as source.</param>
         internal CssParser(CSSStyleSheet stylesheet, Stream stream)
-            : this(stylesheet, new TextStream(stream, stylesheet.Options.DefaultEncoding()))
+            : this(stylesheet, new TextSource(stream, stylesheet.Options.DefaultEncoding()))
         { }
 
         /// <summary>
@@ -121,7 +121,7 @@
         /// </summary>
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
         /// <param name="source">The source to use.</param>
-        internal CssParser(CSSStyleSheet stylesheet, TextStream stream)
+        internal CssParser(CSSStyleSheet stylesheet, TextSource stream)
         {
             var source = new SourceManager(stream);
             selector = Pool.NewSelectorConstructor();
@@ -1321,7 +1321,7 @@
         /// <returns>The Selector object.</returns>
         public static ISelector ParseSelector(String selector, IConfiguration configuration = null)
         {
-            var stream = new TextStream(selector, configuration.DefaultEncoding());
+            var stream = new TextSource(selector, configuration.DefaultEncoding());
             var source = new SourceManager(stream);
             var tokenizer = new CssTokenizer(source);
             tokenizer.IgnoreComments = true;

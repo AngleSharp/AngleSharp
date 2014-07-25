@@ -22,7 +22,7 @@
         QuirksMode _quirksMode;
         DocumentReadyState _ready;
         IConfiguration _options;
-        TextStream _source;
+        TextSource _source;
         StyleSheetList _styleSheets;
         String _referrer;
         String _cookie;
@@ -171,7 +171,7 @@
         }
 
         internal Document(String source)
-            : this(new TextStream(source))
+            : this(new TextSource(source))
         {
         }
 
@@ -179,7 +179,7 @@
         /// Creates a new document node.
         /// </summary>
         /// <param name="source">The underlying source.</param>
-        internal Document(TextStream source)
+        internal Document(TextSource source)
         {
             _source = source;
             _owner = this;
@@ -544,7 +544,7 @@
         /// <summary>
         /// Gets the text stream source.
         /// </summary>
-        internal TextStream Source
+        internal TextSource Source
         {
             get { return _source; }
         }
@@ -1017,7 +1017,7 @@
 
             var options = configuration ?? Configuration.Default;
             var stream = await options.LoadAsync(uri);
-            var doc = new Document(new TextStream(stream)) { Options = options };
+            var doc = new Document(new TextSource(stream)) { Options = options };
             var parser = new HtmlParser(doc);
             await parser.ParseAsync();
             return doc;
@@ -1151,7 +1151,7 @@
         internal void Load(Stream stream)
         {
             ReadyState = DocumentReadyState.Loading;
-            _source = new TextStream(stream, Options.DefaultEncoding());
+            _source = new TextSource(stream, Options.DefaultEncoding());
             Destroy();
             var parser = new HtmlParser(this);
             parser.Parse();

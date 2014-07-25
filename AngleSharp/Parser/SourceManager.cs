@@ -13,7 +13,7 @@
         #region Fields
 
         readonly Stack<Int32> _collengths;
-        readonly TextStream _reader;
+        readonly ITextSource _reader;
 
         Int32 _column;
         Int32 _row;
@@ -38,7 +38,7 @@
         /// Constructs a new instance of the source code manager.
         /// </summary>
         /// <param name="reader">The underlying text stream to read.</param>
-        public SourceManager(TextStream reader)
+        public SourceManager(ITextSource reader)
             : this()
         {
             _reader = reader;
@@ -50,7 +50,7 @@
         /// </summary>
         /// <param name="source">The source code to manage.</param>
         internal SourceManager(String source)
-            : this(new TextStream(source))
+            : this(new TextSource(source))
         {
         }
 
@@ -174,7 +174,6 @@
         /// Advances n characters in the source code.
         /// </summary>
         /// <param name="n">The number of characters to advance.</param>
-        [DebuggerStepThrough]
         public void Advance(Int32 n)
         {
             while (n-- > 0 && !IsEnding)
@@ -294,7 +293,10 @@
         /// </summary>
         public void Dispose()
         {
-            _reader.Dispose();
+            var disposable = _reader as IDisposable;
+
+            if (disposable != null)
+                disposable.Dispose();
         }
 
         #endregion
