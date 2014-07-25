@@ -28,8 +28,9 @@
         /// </summary>
         SourceManager()
         {
+            _current = Specification.Null;
             _collengths = new Stack<Int32>();
-            _column = 1;
+            _column = 0;
             _row = 1;
         }
 
@@ -41,7 +42,6 @@
             : this()
         {
             _reader = reader;
-            _current = _reader.ReadCharacter();
         }
 
         /// <summary>

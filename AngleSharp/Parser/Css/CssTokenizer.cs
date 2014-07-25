@@ -70,12 +70,12 @@
 
                 while (true)
                 {
-                    token = Data(_src.Current);
+                    var current = _src.Next;
+                    token = Data(current);
 
                     if (token == null)
                         yield break;
 
-                    _src.Advance();
                     yield return token;
                 }
             }

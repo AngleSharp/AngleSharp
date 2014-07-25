@@ -75,29 +75,31 @@
                 return token;
             }
 
+            var current = _src.Next;
+
             if (_src.IsEnded) 
                 return HtmlToken.EOF;
 
             switch (_model)
             {
                 case HtmlParseMode.PCData:
-                    token = Data(_src.Current);
+                    token = Data(current);
                     break;
 
                 case HtmlParseMode.RCData:
-                    token = RCData(_src.Current);
+                    token = RCData(current);
                     break;
 
                 case HtmlParseMode.Plaintext:
-                    token = Plaintext(_src.Current);
+                    token = Plaintext(current);
                     break;
 
                 case HtmlParseMode.Rawtext:
-                    token = Rawtext(_src.Current);
+                    token = Rawtext(current);
                     break;
 
                 case HtmlParseMode.Script:
-                    token = ScriptData(_src.Current);
+                    token = ScriptData(current);
                     break;
             }
 
@@ -108,7 +110,6 @@
                 _buffer.Clear();
             }
 
-            _src.Advance();
             return token;
         }
 
