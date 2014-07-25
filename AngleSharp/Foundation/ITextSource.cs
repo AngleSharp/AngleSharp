@@ -39,6 +39,13 @@
         Task<Char> ReadCharacterAsync(CancellationToken cancellationToken);
 
         /// <summary>
+        /// Inserts the given content at the current insertation mark.
+        /// The insertation mark won't be changed.
+        /// </summary>
+        /// <param name="content">The content to insert.</param>
+        void InsertText(String content);
+
+        /// <summary>
         /// Gets the character at the given position in the text buffer.
         /// </summary>
         /// <param name="index">The index of the character.</param>

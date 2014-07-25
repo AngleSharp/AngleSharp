@@ -22,7 +22,7 @@
         QuirksMode _quirksMode;
         DocumentReadyState _ready;
         IConfiguration _options;
-        TextSource _source;
+        ITextSource _source;
         StyleSheetList _styleSheets;
         String _referrer;
         String _cookie;
@@ -179,7 +179,7 @@
         /// Creates a new document node.
         /// </summary>
         /// <param name="source">The underlying source.</param>
-        internal Document(TextSource source)
+        internal Document(ITextSource source)
         {
             _source = source;
             _owner = this;
@@ -544,7 +544,7 @@
         /// <summary>
         /// Gets the text stream source.
         /// </summary>
-        internal TextSource Source
+        internal ITextSource Source
         {
             get { return _source; }
         }
@@ -638,7 +638,7 @@
         /// <param name="content">The text to be written on the document.</param>
         public void Write(String content)
         {
-            //TODO
+            _source.InsertText(content);
         }
 
         /// <summary>

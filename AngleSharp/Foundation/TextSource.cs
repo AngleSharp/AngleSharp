@@ -153,6 +153,16 @@
             return index < _content.Length ? _content[index] : Specification.EndOfFile;
         }
 
+        /// <summary>
+        /// Inserts the given content at the current insertation mark.
+        /// The insertation mark won't be changed.
+        /// </summary>
+        /// <param name="content">The content to insert.</param>
+        public void InsertText(String content)
+        {
+            _content.Insert(_index, content);
+        }
+
         #endregion
 
         #region Helpers

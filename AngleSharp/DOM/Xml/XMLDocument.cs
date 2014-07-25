@@ -7,14 +7,19 @@
     /// </summary>
     sealed class XmlDocument : Document, IXmlDocument
     {
-        internal XmlDocument(TextSource source)
+        internal XmlDocument(ITextSource source)
             : base(source)
         {
             _contentType = MimeTypes.Xml;
         }
 
+        internal XmlDocument(String source)
+            : this(new TextSource(source))
+        {
+        }
+
         internal XmlDocument()
-            : this(new TextSource(String.Empty))
+            : this(String.Empty)
         {
         }
 
