@@ -293,6 +293,8 @@
     <Compile Include="Interfaces\Css\ICssCharsetRule.cs" />
     <Compile Include="Interfaces\Css\ICssGroupingRule.cs" />
     <Compile Include="Interfaces\Css\ICssImportRule.cs" />
+    <Compile Include="Interfaces\Css\ICssMediaRule.cs" />
+    <Compile Include="Interfaces\Css\ICssPageRule.cs" />
     <Compile Include="Interfaces\Css\ICssRule.cs" />
     <Compile Include="Interfaces\Css\ICssRuleList.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
