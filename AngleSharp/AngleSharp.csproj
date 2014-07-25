@@ -291,6 +291,7 @@
     <Compile Include="Infrastructure\IStyleEngine.cs" />
     <Compile Include="Infrastructure\ScriptOptions.cs" />
     <Compile Include="Interfaces\Css\ICssCharsetRule.cs" />
+    <Compile Include="Interfaces\Css\ICssGroupingRule.cs" />
     <Compile Include="Interfaces\Css\ICssImportRule.cs" />
     <Compile Include="Interfaces\Css\ICssRule.cs" />
     <Compile Include="Interfaces\Css\ICssRuleList.cs" />
