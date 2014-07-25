@@ -22,7 +22,7 @@
         {
             _root = root;
             _settings = settings;
-            _filter = filter;
+            _filter = filter ?? (m => FilterResult.Accept);
             _reference = _root;
             _beforeNode = false;
             _iterator = new HTMLCollection(_root);//TODO Use with Filter Settings
@@ -84,10 +84,10 @@
 
                     _reference = node;
 
-                    if (node != null && _filter != null)
-                        result = _filter(_reference);
+                    if (node == null)
+                        break;
 
-                    //TODO What about reject?
+                    result = _filter(_reference);
                 }
                 while (result != FilterResult.Accept);
             }
@@ -116,10 +116,10 @@
 
                     _reference = node;
 
-                    if (node != null && _filter != null)
-                        result = _filter(_reference);
+                    if (node == null)
+                        break;
 
-                    //TODO What about reject?
+                    result = _filter(_reference);
                 }
                 while (result != FilterResult.Accept);
             }
