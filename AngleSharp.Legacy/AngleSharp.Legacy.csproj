@@ -148,6 +148,9 @@
     <Compile Include="..\AngleSharp\DOM\Collections\MediaList.cs">
       <Link>DOM\Collections\MediaList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\NodeIterator.cs">
+      <Link>DOM\Collections\NodeIterator.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\NodeList.cs">
       <Link>DOM\Collections\NodeList.cs</Link>
     </Compile>
