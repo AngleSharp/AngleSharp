@@ -98,6 +98,7 @@
     <Compile Include="Library\OptimizationPool.cs" />
     <Compile Include="Library\FormSubmit.cs" />
     <Compile Include="Library\Priority.cs" />
+    <Compile Include="Library\BasicScripting.cs" />
     <Compile Include="Mocks\DtdRequester.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
