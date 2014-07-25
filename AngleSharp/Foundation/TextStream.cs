@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Text;
     using System.Threading;
@@ -9,6 +10,7 @@
     /// <summary>
     /// A stream abstraction to handle encoding and more.
     /// </summary>
+    [DebuggerStepThrough]
     sealed partial class TextStream : IDisposable
     {
         #region Fields
@@ -107,7 +109,12 @@
                 return _content[_index++];
 
             ExpandBuffer(BufferSize);
-            return _index >= _content.Length ? Specification.EndOfFile : _content[_index++];
+
+            if (_index < _content.Length)
+                return _content[_index++];
+
+            _index++;
+            return Specification.EndOfFile;
         }
 
         public async Task<Char> ReadAsync(CancellationToken cancellationToken)
