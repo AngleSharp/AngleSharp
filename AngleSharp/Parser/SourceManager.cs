@@ -42,7 +42,7 @@
             : this()
         {
             _reader = reader;
-            _current = _reader.Read();
+            _current = _reader.ReadCharacter();
         }
 
         /// <summary>
@@ -57,14 +57,6 @@
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets if the position is at the moment at the beginning.
-        /// </summary>
-        public Boolean IsBeginning 
-        { 
-            get { return _reader.Index == 0; } 
-        }
 
         /// <summary>
         /// Gets or sets the insertion point.
@@ -187,7 +179,7 @@
         {
             _ended = false;
 
-            if (!IsBeginning)
+            if (InsertionPoint > 0)
                 BackUnsafe();
         }
 
@@ -199,7 +191,7 @@
         {
             _ended = false;
 
-            while (n-- > 0 && !IsBeginning)
+            while (n-- > 0 && InsertionPoint > 0)
                 BackUnsafe();
         }
 
@@ -255,7 +247,7 @@
             else
                 _column++;
 
-            _current = _reader.Read();
+            _current = _reader.ReadCharacter();
         }
 
         /// <summary>
