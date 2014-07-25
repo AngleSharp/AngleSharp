@@ -1,4 +1,5 @@
-﻿using AngleSharp.Parser;
+﻿using AngleSharp;
+using AngleSharp.Parser;
 using AngleSharp.Parser.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,7 +12,7 @@ namespace UnitTests
         public void CssParserIdentifier()
         {
             var teststring = "h1 { background: blue; }";
-            var parser = new CssTokenizer(new SourceManager(teststring));
+            var parser = new CssTokenizer(new TextSource(teststring));
             var list = parser.Tokens;
             CssToken token = null;
 
@@ -28,7 +29,7 @@ namespace UnitTests
         public void CssParserAtRule()
         {
             var teststring = "@media { background: blue; }";
-            var parser = new CssTokenizer(new SourceManager(teststring));
+            var parser = new CssTokenizer(new TextSource(teststring));
             var list = parser.Tokens;
             CssToken token = null;
 
@@ -46,7 +47,7 @@ namespace UnitTests
         {
             var url = "http://someurl";
             var teststring = "url(" + url + ")";
-            var parser = new CssTokenizer(new SourceManager(teststring));
+            var parser = new CssTokenizer(new TextSource(teststring));
             var list = parser.Tokens;
             CssStringToken token = null;
 
@@ -64,7 +65,7 @@ namespace UnitTests
         {
             var url = "http://someurl";
             var teststring = "url(\"" + url + "\")";
-            var parser = new CssTokenizer(new SourceManager(teststring));
+            var parser = new CssTokenizer(new TextSource(teststring));
             var list = parser.Tokens;
             CssStringToken token = null;
 
@@ -82,7 +83,7 @@ namespace UnitTests
         {
             var url = "http://someurl";
             var teststring = "url('" + url + "')";
-            var parser = new CssTokenizer(new SourceManager(teststring));
+            var parser = new CssTokenizer(new TextSource(teststring));
             var list = parser.Tokens;
             CssStringToken token = null;
 

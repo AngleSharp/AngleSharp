@@ -1,4 +1,5 @@
-﻿using AngleSharp.Parser;
+﻿using AngleSharp;
+using AngleSharp.Parser;
 using AngleSharp.Parser.Html;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -12,7 +13,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationFinalEOF()
         {
-            var s = new SourceManager("");
+            var s = new TextSource("");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.EOF, token.Type);
@@ -22,7 +23,7 @@ namespace UnitTests
         public void TokenizationLongerCharacterReference()
         {
             var content = "&abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTV;";
-            var s = new SourceManager(content);
+            var s = new TextSource(content);
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, token.Type);
@@ -32,7 +33,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationStartTagDetection()
         {
-            var s = new SourceManager("<p>");
+            var s = new TextSource("<p>");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.StartTag, token.Type);
@@ -42,7 +43,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationBogusCommentEmpty()
         {
-            var s = new SourceManager("<!>");
+            var s = new TextSource("<!>");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
@@ -52,7 +53,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationBogusCommentQuestionMark()
         {
-            var s = new SourceManager("<?>");
+            var s = new TextSource("<?>");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
@@ -62,7 +63,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationBogusCommentClosingTag()
         {
-            var s = new SourceManager("</ >");
+            var s = new TextSource("</ >");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
@@ -72,7 +73,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationTagNameDetection()
         {
-            var s = new SourceManager("<span>");
+            var s = new TextSource("<span>");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual("span", ((HtmlTagToken)token).Name);
@@ -81,7 +82,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationTagSelfClosingDetected()
         {
-            var s = new SourceManager("<img />");
+            var s = new TextSource("<img />");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(true, ((HtmlTagToken)token).IsSelfClosing);
@@ -90,7 +91,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationAttributesDetected()
         {
-            var s = new SourceManager("<a target='_blank' href='http://whatever' title='ho'>");
+            var s = new TextSource("<a target='_blank' href='http://whatever' title='ho'>");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(3, ((HtmlTagToken)token).Attributes.Count);
@@ -99,7 +100,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationAttributeNameDetection()
         {
-            var s = new SourceManager("<input required>");
+            var s = new TextSource("<input required>");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual("required", ((HtmlTagToken)token).Attributes[0].Key);
@@ -108,7 +109,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationTagMixedCaseHandling()
         {
-            var s = new SourceManager("<InpUT>");
+            var s = new TextSource("<InpUT>");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual("input", ((HtmlTagToken)token).Name);
@@ -117,7 +118,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationTagSpacesBehind()
         {
-            var s = new SourceManager("<i   >");
+            var s = new TextSource("<i   >");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual("i", ((HtmlTagToken)token).Name);
@@ -128,7 +129,7 @@ namespace UnitTests
         {
             var str = string.Empty;
             var src = "I'm &notin; I tell you";
-            var s = new SourceManager(src);
+            var s = new TextSource(src);
             var t = new HtmlTokenizer(s);
             HtmlToken token;
 
@@ -149,7 +150,7 @@ namespace UnitTests
         {
             var str = string.Empty;
             var src = "I'm &notit; I tell you";
-            var s = new SourceManager(src);
+            var s = new TextSource(src);
             var t = new HtmlTokenizer(s);
             HtmlToken token;
 
@@ -168,7 +169,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationDoctypeDetected()
         {
-            var s = new SourceManager("<!doctype html>");
+            var s = new TextSource("<!doctype html>");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.DOCTYPE, token.Type);
@@ -177,7 +178,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationCommentDetected()
         {
-            var s = new SourceManager("<!-- hi my friend -->");
+            var s = new TextSource("<!-- hi my friend -->");
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
@@ -186,7 +187,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationCDataDetected()
         {
-            var s = new SourceManager("<![CDATA[hi mum how <!-- are you doing />]]>");
+            var s = new TextSource("<![CDATA[hi mum how <!-- are you doing />]]>");
             var t = new HtmlTokenizer(s);
             t.AcceptsCharacterData = true;
             var token = t.Get();
@@ -197,7 +198,7 @@ namespace UnitTests
         public void TokenizationCDataCorrectCharacters()
         {
             StringBuilder sb = new StringBuilder();
-            var s = new SourceManager("<![CDATA[hi mum how <!-- are you doing />]]>");
+            var s = new TextSource("<![CDATA[hi mum how <!-- are you doing />]]>");
             var t = new HtmlTokenizer(s);
             t.AcceptsCharacterData = true;
             HtmlToken token;
@@ -217,7 +218,7 @@ namespace UnitTests
         [TestMethod]
         public void TokenizationUnusualDoctype()
         {
-            var s = new SourceManager("<!DOCTYPE root_element SYSTEM \"DTD_location\">");
+            var s = new TextSource("<!DOCTYPE root_element SYSTEM \"DTD_location\">");
             var t = new HtmlTokenizer(s);
             var e = t.Get();
             Assert.AreEqual(HtmlTokenType.DOCTYPE, e.Type);
