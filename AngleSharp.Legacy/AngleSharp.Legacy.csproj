@@ -139,6 +139,9 @@
     <Compile Include="..\AngleSharp\DOM\Collections\HTMLCollection.cs">
       <Link>DOM\Collections\HTMLCollection.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\HtmlFormControlsCollection.cs">
+      <Link>DOM\Collections\HtmlFormControlsCollection.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\MediaList.cs">
       <Link>DOM\Collections\MediaList.cs</Link>
     </Compile>
