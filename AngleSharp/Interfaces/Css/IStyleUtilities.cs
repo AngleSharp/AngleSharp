@@ -1,0 +1,30 @@
+﻿namespace AngleSharp.DOM.Css
+{
+    /// <summary>
+    /// A set of useful methods for retrieving style information.
+    /// </summary>
+    [DomName("GetStyleUtils")]
+    public interface IStyleUtilities
+    {
+        /// <summary>
+        /// Gets a live CSS declaration block with properties
+        /// that have a cascaded value for the context object.
+        /// </summary>
+        [DomName("cascadedStyle")]
+        CSSStyleDeclaration CascadedStyle { get; }
+
+        /// <summary>
+        /// Gets a live CSS declaration block with properties
+        /// that represent the value computed for the context object.
+        /// </summary>
+        [DomName("rawComputedStyle")]
+        CSSStyleDeclaration RawComputedStyle { get; }
+
+        /// <summary>
+        /// Gets a live CSS declaration block with properties,
+        /// whcih are the used values computed for the context object.
+        /// </summary>
+        [DomName("UsedStyle")]
+        CSSStyleDeclaration UsedStyle { get; }
+    }
+}

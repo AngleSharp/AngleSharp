@@ -313,6 +313,7 @@
     <Compile Include="Interfaces\Css\ILinkStyle.cs" />
     <Compile Include="Interfaces\Css\IMediaList.cs" />
     <Compile Include="Interfaces\Css\ISelector.cs" />
+    <Compile Include="Interfaces\Css\IStyleUtilities.cs" />
     <Compile Include="Interfaces\Html\IGlobalEventHandlers.cs" />
     <Compile Include="Interfaces\Html\IHtmlAnchorElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlAreaElement.cs" />
