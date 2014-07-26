@@ -291,6 +291,7 @@
     <Compile Include="Infrastructure\IStyleEngine.cs" />
     <Compile Include="Infrastructure\ScriptOptions.cs" />
     <Compile Include="Interfaces\Css\ICssCharsetRule.cs" />
+    <Compile Include="Interfaces\Css\ICssConditionRule.cs" />
     <Compile Include="Interfaces\Css\ICssGroupingRule.cs" />
     <Compile Include="Interfaces\Css\ICssImportRule.cs" />
     <Compile Include="Interfaces\Css\ICssMarginRule.cs" />
@@ -302,6 +303,7 @@
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
     <Compile Include="Interfaces\Css\ICssStyleRule.cs" />
     <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
+    <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
     <Compile Include="Interfaces\Css\ILinkStyle.cs" />
     <Compile Include="Interfaces\Css\IMediaList.cs" />

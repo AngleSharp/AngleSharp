@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents an @supports rule.
     /// </summary>
-    [DomName("CSSSupportsRule")]
-    sealed class CSSSupportsRule : CSSConditionRule
+    sealed class CSSSupportsRule : CSSConditionRule, ICssSupportsRule
     {
         #region Fields
 
@@ -31,7 +30,6 @@
         /// <summary>
         /// Gets or sets the text of the condition of the support rule.
         /// </summary>
-        [DomName("conditionText")]
         public String ConditionText
         {
             get { return _condition; }
@@ -41,11 +39,10 @@
         /// <summary>
         /// Gets if the rule is used.
         /// </summary>
-        [DomName("isSupported")]
         public Boolean IsSupported
         {
             get { return _used; }
-            internal set { _used = value; }
+            set { _used = value; }
         }
 
         #endregion

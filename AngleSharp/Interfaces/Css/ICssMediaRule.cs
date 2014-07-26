@@ -4,7 +4,7 @@
     /// Represents a @media CSS rule.
     /// </summary>
     [DomName("CSSMediaRule")]
-    public interface ICssMediaRule : ICssGroupingRule
+    public interface ICssMediaRule : ICssConditionRule
     {
         /// <summary>
         /// Gets a list of media types for this rule.

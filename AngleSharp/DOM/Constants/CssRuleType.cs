@@ -61,6 +61,7 @@
         /// <summary>
         /// Checking for CSS support using @support.
         /// </summary>
+        [DomName("SUPPORTS_RULE")]
         Supports = 12,
         /// <summary>
         /// Changing document (location) specific rules with @document.

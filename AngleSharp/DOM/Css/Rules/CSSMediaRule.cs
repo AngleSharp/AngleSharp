@@ -30,9 +30,17 @@
         #region Properties
 
         /// <summary>
+        /// Gets or sets the media condition.
+        /// </summary>
+        public String ConditionText
+        {
+            get { return _media.MediaText; }
+            set { _media.MediaText = value; }
+        }
+
+        /// <summary>
         /// Gets a list of media types for this rule.
         /// </summary>
-        [DomName("media")]
         public IMediaList Media
         {
             get { return _media; }
