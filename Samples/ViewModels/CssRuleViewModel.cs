@@ -1,11 +1,6 @@
-﻿using AngleSharp.DOM.Collections;
-using AngleSharp.DOM.Css;
+﻿using AngleSharp.DOM.Css;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Samples.ViewModels
 {
@@ -21,23 +16,23 @@ namespace Samples.ViewModels
 
             switch (rule.Type)
             {
-                //case CssRuleType.FontFace:
-                //    var font = (CSSFontFaceRule)rule;
-                //    name = "@font-face";
-                //    Populate(font.CssRules);
-                //    break;
+                case CssRuleType.FontFace:
+                    var font = (ICssFontFaceRule)rule;
+                    name = "@font-face";
+                    //How to populate ?
+                    break;
 
-                //case CssRuleType.Keyframe:
-                //    var keyframe = (CSSKeyframeRule)rule;
-                //    name = keyframe.KeyText;
-                //    Populate(keyframe.Style);
-                //    break;
+                case CssRuleType.Keyframe:
+                    var keyframe = (ICssKeyframeRule)rule;
+                    name = keyframe.KeyText;
+                    Populate(keyframe.Style);
+                    break;
 
-                //case CssRuleType.Keyframes:
-                //    var keyframes = (CSSKeyframesRule)rule;
-                //    name = "@keyframes " + keyframes.Name;
-                //    Populate(keyframes.Rules);
-                //    break;
+                case CssRuleType.Keyframes:
+                    var keyframes = (ICssKeyframesRule)rule;
+                    name = "@keyframes " + keyframes.Name;
+                    Populate(keyframes.Rules);
+                    break;
 
                 case CssRuleType.Media:
                     var media = (ICssMediaRule)rule;
@@ -57,11 +52,11 @@ namespace Samples.ViewModels
                     Populate(style.Style);
                     break;
 
-                //case CssRuleType.Supports:
-                //    var support = (CSSSupportsRule)rule;
-                //    name = "@supports " + support.ConditionText;
-                //    Populate(support.Rules);
-                //    break;
+                case CssRuleType.Supports:
+                    var support = (ICssSupportsRule)rule;
+                    name = "@supports " + support.ConditionText;
+                    Populate(support.Rules);
+                    break;
 
                 default:
                     name = rule.CssText;
