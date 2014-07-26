@@ -292,6 +292,7 @@
     <Compile Include="Infrastructure\ScriptOptions.cs" />
     <Compile Include="Interfaces\Css\ICssCharsetRule.cs" />
     <Compile Include="Interfaces\Css\ICssConditionRule.cs" />
+    <Compile Include="Interfaces\Css\ICssCounterStyleRule.cs" />
     <Compile Include="Interfaces\Css\ICssFontFaceRule.cs" />
     <Compile Include="Interfaces\Css\ICssFontFeatureValuesRule.cs" />
     <Compile Include="Interfaces\Css\ICssGroupingRule.cs" />
