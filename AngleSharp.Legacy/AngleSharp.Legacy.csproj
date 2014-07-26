@@ -133,6 +133,12 @@
     <Compile Include="..\AngleSharp\DOM\Collections\BaseCollection.cs">
       <Link>DOM\Collections\BaseCollection.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\CollectionExtensions.cs">
+      <Link>DOM\Collections\CollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\HtmlAllCollection.cs">
+      <Link>DOM\Collections\HtmlAllCollection.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\HTMLCollection.cs">
       <Link>DOM\Collections\HTMLCollection.cs</Link>
     </Compile>
@@ -1857,6 +1863,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IHistory.cs">
       <Link>Interfaces\IHistory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IHtmlAllCollection.cs">
+      <Link>Interfaces\IHtmlAllCollection.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IHtmlCollection.cs">
       <Link>Interfaces\IHtmlCollection.cs</Link>
