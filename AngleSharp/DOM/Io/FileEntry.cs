@@ -1,6 +1,5 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM.Io
 {
-    using AngleSharp.DOM.Io;
     using System;
     using System.IO;
 

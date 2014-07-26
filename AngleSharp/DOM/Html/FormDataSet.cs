@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Io;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -14,8 +15,8 @@
     {
         #region Fields
 
+        readonly List<FormDataSetEntry> _entries;
         String _boundary;
-        List<FormDataSetEntry> _entries;
 
         #endregion
 

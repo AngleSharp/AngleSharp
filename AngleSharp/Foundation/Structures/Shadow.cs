@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp
 {
     using System;
 

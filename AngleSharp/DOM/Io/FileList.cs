@@ -1,6 +1,5 @@
-﻿namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM.Io
 {
-    using AngleSharp.DOM.Io;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -13,7 +12,7 @@
     {
         #region Fields
 
-        List<FileEntry> _entries;
+        readonly List<FileEntry> _entries;
 
         #endregion
 

@@ -268,12 +268,12 @@
     <Compile Include="DOM\Html\Semantic\HTMLTimeElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableDataCellElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableHeaderCellElement.cs" />
-    <Compile Include="DOM\Objects\Point2d.cs" />
+    <Compile Include="DOM\Css\Values\Point2d.cs" />
     <Compile Include="DOM\Css\Values\CSSStringValue.cs" />
     <Compile Include="DOM\Css\Values\CSSTimingValue.cs" />
     <Compile Include="DOM\Css\Values\CSSTransformValue.cs" />
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
-    <Compile Include="DOM\Objects\Shadow.cs" />
+    <Compile Include="Foundation\Structures\Shadow.cs" />
     <Compile Include="Attributes\DomHistoricalAttribute.cs" />
     <Compile Include="DOM\Xml\XmlDocument.cs" />
     <Compile Include="DOM\Xml\XmlElement.cs" />
@@ -477,7 +477,7 @@
     <Compile Include="DOM\Constants\AdjacentPosition.cs" />
     <Compile Include="DOM\Factories\HtmlElementFactory.cs" />
     <Compile Include="DOM\Factories\MathElementFactory.cs" />
-    <Compile Include="DOM\Objects\FileEntry.cs" />
+    <Compile Include="DOM\Io\FileEntry.cs" />
     <Compile Include="DOM\Factories\SvgElementFactory.cs" />
     <Compile Include="Parser\Html\HtmlParserExtensions.cs" />
     <Compile Include="Parser\ParseErrorEventArgs.cs" />
@@ -489,7 +489,7 @@
     <Compile Include="Foundation\Constants\PropertyNames.cs" />
     <Compile Include="Foundation\Constants\RuleNames.cs" />
     <Compile Include="Foundation\XmlExtensions.cs" />
-    <Compile Include="DOM\Objects\FormDataSet.cs" />
+    <Compile Include="DOM\Html\FormDataSet.cs" />
     <Compile Include="Parser\Html\HtmlHelpers.cs" />
     <Compile Include="Foundation\StringExtensions.cs" />
     <Compile Include="Network\IInfo.cs" />
@@ -510,7 +510,7 @@
     <Compile Include="DOM\Annotations\ITableSectionScopeElement.cs" />
     <Compile Include="DOM\Css\CSSStyleDeclaration.cs" />
     <Compile Include="DOM\Collections\StringMap.cs" />
-    <Compile Include="DOM\Collections\FileList.cs" />
+    <Compile Include="DOM\Io\FileList.cs" />
     <Compile Include="DOM\Constants\ContentEditableMode.cs" />
     <Compile Include="DOM\Css\CSSProperty.cs" />
     <Compile Include="DOM\Css\Rules\CSSCharsetRule.cs" />
@@ -579,9 +579,9 @@
     <Compile Include="DOM\Html\HTMLWbrElement.cs" />
     <Compile Include="ICssObject.cs" />
     <Compile Include="IHtmlObject.cs" />
-    <Compile Include="DOM\Objects\ValidityState.cs" />
-    <Compile Include="DOM\Objects\Event.cs" />
-    <Compile Include="DOM\Objects\EventTarget.cs" />
+    <Compile Include="DOM\Html\ValidityState.cs" />
+    <Compile Include="DOM\Event.cs" />
+    <Compile Include="DOM\EventTarget.cs" />
     <Compile Include="DOM\FormControlState.cs" />
     <Compile Include="Attributes\DomNameAttribute.cs" />
     <Compile Include="Parser\BaseTokenizer.cs" />
@@ -607,7 +607,7 @@
     <Compile Include="DOM\Css\Selector\ListSelector.cs" />
     <Compile Include="DOM\Css\Selector\SimpleSelector.cs" />
     <Compile Include="DOM\DocumentFragment.cs" />
-    <Compile Include="DOM\Objects\DomImplementation.cs" />
+    <Compile Include="DOM\DomImplementation.cs" />
     <Compile Include="DOM\EntityReference.cs" />
     <Compile Include="Foundation\Structures\Location.cs" />
     <Compile Include="DOM\ProcessingInstruction.cs" />
