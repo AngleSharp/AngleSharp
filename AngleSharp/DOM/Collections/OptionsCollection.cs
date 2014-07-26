@@ -31,16 +31,16 @@
             set { _parent.ReplaceChild(value, this[index]); }
         }
 
-        public Element this[Int32 index]
+        public IElement this[Int32 index]
         {
-            get { return _parent.ChildNodes.OfType<Element>().Skip(index).FirstOrDefault(); }
+            get { return _parent.ChildNodes.OfType<IElement>().Skip(index).FirstOrDefault(); }
         }
 
-        public Element this[String name]
+        public IElement this[String name]
         {
             get 
             {
-                foreach (var element in _parent.ChildNodes.OfType<Element>())
+                foreach (var element in _parent.ChildNodes.OfType<IElement>())
                 {
                     if (element.Id == name)
                         return element;
@@ -113,9 +113,9 @@
 
         #region Enumerator
 
-        public IEnumerator<Element> GetEnumerator()
+        public IEnumerator<IElement> GetEnumerator()
         {
-            return _parent.ChildNodes.OfType<Element>().GetEnumerator();
+            return _parent.ChildNodes.OfType<IElement>().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -9,7 +9,7 @@
     /// from the list.
     /// </summary>
     [DomName("HTMLCollection")]
-    public interface IHtmlCollection : IEnumerable<Element>
+    public interface IHtmlCollection : IEnumerable<IElement>
     {
         /// <summary>
         /// Gets the number of items in the collection.
@@ -24,7 +24,7 @@
         /// <returns>Returns null if the index is out of range.</returns>
         [DomName("item")]
         [DomAccessor(Accessors.Getter)]
-        Element this[Int32 index] { get; }
+        IElement this[Int32 index] { get; }
   
         /// <summary>
         /// Gets the specific node whose ID or, as a fallback, name matches the
@@ -35,6 +35,6 @@
         /// <returns>Returns null if no node exists by the given name.</returns>
         [DomName("namedItem")]
         [DomAccessor(Accessors.Getter)]
-        Element this[String name] { get; }
+        IElement this[String name] { get; }
     }
 }

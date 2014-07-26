@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents an element node.
     /// </summary>
-    public class Element : Node, IElement
+    class Element : Node, IElement
     {
         #region Fields
 

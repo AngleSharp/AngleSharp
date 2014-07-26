@@ -206,9 +206,9 @@
         /// <summary>
         /// Gets or sets the parent element of this node.
         /// </summary>
-        public Element ParentElement
+        public IElement ParentElement
         {
-            get { return _parent as Element; }
+            get { return _parent as IElement; }
         }
 
         /// <summary>

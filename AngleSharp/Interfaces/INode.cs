@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
-    using System;
     using AngleSharp.DOM.Collections;
+    using System;
 
     /// <summary>
     /// A Node is an interface from which a number of DOM types inherit, 
@@ -76,7 +76,7 @@
         /// returns null.
         /// </summary>
         [DomName("parentElement")]
-        Element ParentElement { get; }
+        IElement ParentElement { get; }
 
         /// <summary>
         /// Gets a Node that is the parent of this node. If there is no such node,

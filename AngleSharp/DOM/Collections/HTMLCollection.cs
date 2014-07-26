@@ -156,23 +156,23 @@
             return GetEnumerator();
         }
 
-        IEnumerator<Element> IEnumerable<Element>.GetEnumerator()
+        IEnumerator<IElement> IEnumerable<IElement>.GetEnumerator()
         {
-            return _elements.OfType<Element>().GetEnumerator();
+            return _elements.OfType<IElement>().GetEnumerator();
         }
 
         #endregion
 
         #region IHtmlCollection
 
-        Element IHtmlCollection.this[int index]
+        IElement IHtmlCollection.this[Int32 index]
         {
-            get { return this[index] as Element; }
+            get { return this[index] as IElement; }
         }
 
-        Element IHtmlCollection.this[String name]
+        IElement IHtmlCollection.this[String name]
         {
-            get { return this[name] as Element; }
+            get { return this[name] as IElement; }
         }
 
         #endregion
@@ -234,17 +234,17 @@
             get { return Length; }
         }
 
-        Element IHtmlCollection.this[Int32 index]
+        IElement IHtmlCollection.this[Int32 index]
         {
             get { return this[index]; }
         }
 
-        Element IHtmlCollection.this[String name]
+        IElement IHtmlCollection.this[String name]
         {
             get { return this[name]; }
         }
 
-        IEnumerator<Element> IEnumerable<Element>.GetEnumerator()
+        IEnumerator<IElement> IEnumerable<IElement>.GetEnumerator()
         {
             var enumerator = base.GetEnumerator();
 
