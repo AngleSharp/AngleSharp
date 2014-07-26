@@ -136,9 +136,6 @@
     <Compile Include="..\AngleSharp\DOM\Collections\DOMStringList.cs">
       <Link>DOM\Collections\DOMStringList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\FileList.cs">
-      <Link>DOM\Collections\FileList.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\HTMLCollection.cs">
       <Link>DOM\Collections\HTMLCollection.cs</Link>
     </Compile>
@@ -955,6 +952,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSValueList.cs">
       <Link>DOM\Css\Values\CSSValueList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Point2d.cs">
+      <Link>DOM\Css\Values\Point2d.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Document.cs">
       <Link>DOM\Document.cs</Link>
     </Compile>
@@ -967,6 +967,9 @@
     <Compile Include="..\AngleSharp\DOM\DOMException.cs">
       <Link>DOM\DOMException.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\DOMImplementation.cs">
+      <Link>DOM\DOMImplementation.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Element.cs">
       <Link>DOM\Element.cs</Link>
     </Compile>
@@ -975,6 +978,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\EntityReference.cs">
       <Link>DOM\EntityReference.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Event.cs">
+      <Link>DOM\Event.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\EventTarget.cs">
+      <Link>DOM\EventTarget.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Factories\CssPropertyFactory.cs">
       <Link>DOM\Factories\CssPropertyFactory.cs</Link>
@@ -1068,6 +1077,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLUnderlineElement.cs">
       <Link>DOM\Html\Formatting\HTMLUnderlineElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\FormDataSet.cs">
+      <Link>DOM\Html\FormDataSet.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLButtonElement.cs">
       <Link>DOM\Html\Forms\HTMLButtonElement.cs</Link>
@@ -1291,6 +1303,15 @@
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableSectionElement.cs">
       <Link>DOM\Html\Tables\HTMLTableSectionElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\ValidityState.cs">
+      <Link>DOM\Html\ValidityState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Io\FileEntry.cs">
+      <Link>DOM\Io\FileEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Io\FileList.cs">
+      <Link>DOM\Io\FileList.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Mathml\MathAnnotationXmlElement.cs">
       <Link>DOM\Mathml\MathAnnotationXmlElement.cs</Link>
     </Compile>
@@ -1317,30 +1338,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Notation.cs">
       <Link>DOM\Notation.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\DOMImplementation.cs">
-      <Link>DOM\Objects\DOMImplementation.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\Event.cs">
-      <Link>DOM\Objects\Event.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\EventTarget.cs">
-      <Link>DOM\Objects\EventTarget.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\FileEntry.cs">
-      <Link>DOM\Objects\FileEntry.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\FormDataSet.cs">
-      <Link>DOM\Objects\FormDataSet.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\Point2d.cs">
-      <Link>DOM\Objects\Point2d.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\Shadow.cs">
-      <Link>DOM\Objects\Shadow.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Objects\ValidityState.cs">
-      <Link>DOM\Objects\ValidityState.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\ProcessingInstruction.cs">
       <Link>DOM\ProcessingInstruction.cs</Link>
@@ -1488,6 +1485,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Resolution.cs">
       <Link>Foundation\Structures\Resolution.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Shadow.cs">
+      <Link>Foundation\Structures\Shadow.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Time.cs">
       <Link>Foundation\Structures\Time.cs</Link>
