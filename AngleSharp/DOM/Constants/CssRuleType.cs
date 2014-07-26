@@ -57,6 +57,7 @@
         /// <summary>
         /// The @counter-style rule for styling counters.
         /// </summary>
+        [DomName("COUNTER_STYLE_RULE")]
         CounterStyle = 11,
         /// <summary>
         /// Checking for CSS support using @support.
@@ -71,14 +72,17 @@
         /// <summary>
         /// This @font-feature-values is still very complicated.
         /// </summary>
+        [DomName("FONT_FEATURE_VALUES_RULE")]
         FontFeatureValues = 14,
         /// <summary>
         /// Defines the @viewport rule for responsive design.
         /// </summary>
+        [DomName("VIEWPORT_RULE")]
         Viewport = 15,
         /// <summary>
         /// Creating a CSS region with @region.
         /// </summary>
+        [DomName("REGION_STYLE_RULE")]
         RegionStyle = 16
     }
 }
