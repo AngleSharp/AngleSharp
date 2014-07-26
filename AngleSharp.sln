@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp", "AngleSharp\AngleSharp.csproj", "{91F78C48-287E-41B5-9E49-44D6E1E31290}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleInteraction", "ConsoleInteraction\ConsoleInteraction.csproj", "{7214C939-0434-4880-972A-9E1BC2E6E025}"
@@ -10,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples", "Samples\Samples.csproj", "{DA318620-F6B5-4DFA-B012-38F06141A2DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Legacy", "AngleSharp.Legacy\AngleSharp.Legacy.csproj", "{24FE559B-6557-4078-9B66-75B300BA1CDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Performance", "Performance\Performance.csproj", "{5F4173C4-55EE-4C28-BE96-B71C6AACC9EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +41,10 @@ Global
 		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F4173C4-55EE-4C28-BE96-B71C6AACC9EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F4173C4-55EE-4C28-BE96-B71C6AACC9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F4173C4-55EE-4C28-BE96-B71C6AACC9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F4173C4-55EE-4C28-BE96-B71C6AACC9EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
