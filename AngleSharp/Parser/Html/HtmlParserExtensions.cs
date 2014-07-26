@@ -31,7 +31,6 @@
             return false;
         }
 
-
         /// <summary>
         /// Checks for each attribute on the token if the attribute is already present on the node.
         /// If it is not, the attribute and its corresponding value is added to the node.

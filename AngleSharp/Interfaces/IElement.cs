@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
-    using AngleSharp.DOM.Collections;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The Element interface represents an object within a DOM document. 
@@ -31,7 +31,7 @@
         /// Gets the sequence of associated attributes.
         /// </summary>
         [DomName("attributes")]
-        AttrContainer Attributes { get; }
+        IEnumerable<IAttr> Attributes { get; }
 
         /// <summary>
         /// Gets the list of class names.

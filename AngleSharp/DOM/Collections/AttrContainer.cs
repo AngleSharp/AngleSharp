@@ -8,7 +8,7 @@
     /// <summary>
     /// The container for the attributes.
     /// </summary>
-    public sealed class AttrContainer : IEnumerable<IAttr>
+    sealed class AttrContainer : IEnumerable<IAttr>
     {
         #region Fields
 

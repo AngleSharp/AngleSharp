@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM.Collections;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -278,7 +279,15 @@
         /// <summary>
         /// Gets the sequence of associated attributes.
         /// </summary>
-        public AttrContainer Attributes
+        IEnumerable<IAttr> IElement.Attributes
+        {
+            get { return _attributes; }
+        }
+
+        /// <summary>
+        /// Gets the associated attribute container.
+        /// </summary>
+        internal AttrContainer Attributes
         {
             get { return _attributes; }
         }
@@ -785,7 +794,7 @@
                 if (this.NamespaceUri != otherElement.NamespaceUri)
                     return false;
 
-                if (Attributes.Count != otherElement.Attributes.Count)
+                if (_attributes.Count != otherElement.Attributes.Count())
                     return false;
 
                 for (int i = 0; i < _attributes.Count; i++)
