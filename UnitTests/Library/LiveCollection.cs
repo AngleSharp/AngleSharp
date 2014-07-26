@@ -52,7 +52,7 @@ namespace UnitTests.Library
             {
                 Assert.AreEqual("p", child.NodeName);
                 Assert.AreEqual(0, child.ChildNodes.Length);
-                Assert.AreEqual(0, child.Attributes.Count);
+                Assert.AreEqual(0, child.Attributes.Count());
                 Assert.AreEqual(NodeType.Element, child.NodeType);
                 Assert.AreEqual("", child.TextContent);
             }
@@ -68,7 +68,7 @@ namespace UnitTests.Library
             {
                 Assert.AreEqual("p", child.NodeName);
                 Assert.AreEqual(1, child.ChildNodes.Length);
-                Assert.AreEqual(0, child.Attributes.Count);
+                Assert.AreEqual(0, child.Attributes.Count());
                 Assert.AreEqual(NodeType.Element, child.NodeType);
                 Assert.AreEqual(str[i++], child.TextContent);
             }
@@ -90,7 +90,7 @@ namespace UnitTests.Library
             {
                 Assert.AreEqual("p", child.NodeName);
                 Assert.AreEqual(0, child.ChildNodes.Length);
-                Assert.AreEqual(0, child.Attributes.Count);
+                Assert.AreEqual(0, child.Attributes.Count());
                 Assert.AreEqual(NodeType.Element, child.NodeType);
                 Assert.AreEqual("", child.TextContent);
             }
