@@ -8,12 +8,6 @@
     /// </summary>
     sealed class HTMLFieldSetElement : HTMLFormControlElement, IHtmlFieldSetElement
     {
-        #region Fields
-
-        HTMLFormControlsCollection _elements;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -41,7 +35,7 @@
         /// </summary>
         public IHtmlFormControlsCollection Elements
         {
-            get { return _elements ?? (_elements = new HTMLFormControlsCollection(this)); }
+            get { return new HtmlFormControlsCollection(this); }
         }
 
         #endregion

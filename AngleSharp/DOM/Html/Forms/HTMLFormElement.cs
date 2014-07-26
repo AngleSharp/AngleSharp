@@ -15,9 +15,10 @@
     {
         #region Fields
 
+        readonly HtmlFormControlsCollection _elements;
+
         Task _plannedNavigation;
         CancellationTokenSource _cancel;
-        HTMLFormControlsCollection _elements;
 
         #endregion
 
@@ -30,7 +31,7 @@
         {
             _cancel = new CancellationTokenSource();
             _name = Tags.Form;
-            _elements = new HTMLFormControlsCollection(this);
+            _elements = new HtmlFormControlsCollection(this);
         }
 
         #endregion
