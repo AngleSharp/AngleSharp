@@ -44,6 +44,11 @@
 
         #region Casts
 
+        /// <summary>
+        /// Converts the frequency to a single floating point.
+        /// </summary>
+        /// <param name="frequency">The frequency.</param>
+        /// <returns>The float value.</returns>
         public static explicit operator Single(Frequency frequency)
         {
             return frequency.Value;
@@ -53,6 +58,11 @@
 
         #region Methods
 
+        /// <summary>
+        /// Checks for equality with the other frequency.
+        /// </summary>
+        /// <param name="other">The frequency to compare to.</param>
+        /// <returns>True if both frequencies are equal, otherwise false.</returns>
         public Boolean Equals(Frequency other)
         {
             return _value == other._value && _unit == other._unit;
@@ -62,6 +72,9 @@
 
         #region Units
 
+        /// <summary>
+        /// The various frequency units.
+        /// </summary>
         public enum Unit
         {
             /// <summary>

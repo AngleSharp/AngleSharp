@@ -44,6 +44,11 @@
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current resolution equals the given one.
+        /// </summary>
+        /// <param name="other">The given resolution to check for equality.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(Resolution other)
         {
             return _value == other._value && _unit == other._unit;
@@ -53,6 +58,9 @@
 
         #region Units
 
+        /// <summary>
+        /// The various resolution units.
+        /// </summary>
         public enum Unit
         {
             /// <summary>

@@ -50,7 +50,7 @@
         /// <summary>
         /// Gets or sets the language of the source.
         /// </summary>
-        public String Language
+        public String SourceLanguage
         {
             get { return GetAttribute(AttributeNames.SrcLang); }
             set { SetAttribute(AttributeNames.SrcLang, value); }

@@ -154,10 +154,22 @@
         [DomName("matches")]
         Boolean Matches(String selectors);
 
-        String InnerHTML { get; set; }
+        /// <summary>
+        /// Gets or sets the inner HTML (excluding the current element) of the element.
+        /// </summary>
+        [DomName("innerHTML")]
+        String InnerHtml { get; set; }
 
-        String OuterHTML { get; set; }
+        /// <summary>
+        /// Gets or sets the outer HTML (including the current element) of the element.
+        /// </summary>
+        [DomName("outerHTML")]
+        String OuterHtml { get; set; }
 
+        /// <summary>
+        /// Gets the name of the tag that represents the current element.
+        /// </summary>
+        [DomName("tagName")]
         String TagName { get; }
     }
 }

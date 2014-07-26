@@ -49,7 +49,7 @@
         /// <summary>
         /// Removes the given property from the list of attributes.
         /// </summary>
-        /// <param name="prop">The name of the property.</param>
+        /// <param name="name">The name of the property.</param>
         public void Remove(String name)
         {
             if (Contains(name))

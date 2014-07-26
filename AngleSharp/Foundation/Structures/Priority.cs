@@ -65,12 +65,23 @@
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new priority with the given hashcode.
+        /// </summary>
+        /// <param name="priority">The hashcode to use.</param>
         public Priority(UInt32 priority)
         {
             this.inlines = this.ids = this.classes = this.tags = 0;
             this.priority = priority;
         }
 
+        /// <summary>
+        /// Creates a new priority with the given values.
+        /// </summary>
+        /// <param name="inlines">The number of inlines.</param>
+        /// <param name="ids">The number of ids.</param>
+        /// <param name="classes">The number of classes.</param>
+        /// <param name="tags">The number of tags.</param>
         public Priority(Byte inlines, Byte ids, Byte classes, Byte tags)
         {
             this.priority = 0;

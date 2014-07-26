@@ -9,7 +9,13 @@
     [DomName("StringList")]
     public interface IStringList : IEnumerable<String>
     {
+        /// <summary>
+        /// Gets the value at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the value.</param>
+        /// <returns>The string value at the given index.</returns>
         [DomName("item")]
+        [DomAccessor(Accessors.Getter)]
         String this[Int32 index] { get; }
         
         /// <summary>

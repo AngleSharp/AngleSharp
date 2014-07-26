@@ -224,6 +224,7 @@
         /// <summary>
         /// Called before a medialist has been created.
         /// </summary>
+        /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created media rule.</returns>
         static CSSMediaRule CreateMediaRule(CssParser parser, IEnumerator<CssToken> tokens)
@@ -243,6 +244,7 @@
         /// <summary>
         /// Called before a page selector has been found.
         /// </summary>
+        /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created page rule.</returns>
         static CSSPageRule CreatePageRule(CssParser parser, IEnumerator<CssToken> tokens)
@@ -261,6 +263,7 @@
         /// <summary>
         /// Called before the body of the font-face rule.
         /// </summary>
+        /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created font-face rule.</returns>
         static CSSFontFaceRule CreateFontFaceRule(CssParser parser, IEnumerator<CssToken> tokens)
@@ -276,6 +279,7 @@
         /// <summary>
         /// Called before a supports condition has been found.
         /// </summary>
+        /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created supports rule.</returns>
         static CSSSupportsRule CreateSupportsRule(CssParser parser, IEnumerator<CssToken> tokens)
@@ -294,6 +298,7 @@
         /// <summary>
         /// Called before a document function has been found.
         /// </summary>
+        /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated document rule.</returns>
         static CSSDocumentRule CreateDocumentRule(CssParser parser, IEnumerator<CssToken> tokens)
@@ -312,6 +317,7 @@
         /// <summary>
         /// Called before a keyframes identifier has been found.
         /// </summary>
+        /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated keyframes rule.</returns>
         static CSSKeyframesRule CreateKeyframesRule(CssParser parser, IEnumerator<CssToken> tokens)
@@ -330,6 +336,7 @@
         /// <summary>
         /// Called before a prefix has been found for the namespace rule.
         /// </summary>
+        /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated namespace rule.</returns>
         static CSSNamespaceRule CreateNamespaceRule(CssParser parser, IEnumerator<CssToken> tokens)
@@ -360,6 +367,7 @@
         /// <summary>
         /// Before a charset string has been found.
         /// </summary>
+        /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated rule.</returns>
         static CSSCharsetRule CreateCharsetRule(CssParser parser, IEnumerator<CssToken> tokens)
@@ -385,6 +393,7 @@
         /// <summary>
         /// Before an URL has been found for the import rule.
         /// </summary>
+        /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created rule.</returns>
         static CSSImportRule CreateImportRule(CssParser parser, IEnumerator<CssToken> tokens)

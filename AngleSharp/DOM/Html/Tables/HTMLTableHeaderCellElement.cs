@@ -15,19 +15,5 @@
         }
 
         #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the value of the scope attribute. The allowed
-        /// values are col, row, colgroup or rowgroup.
-        /// </summary>
-        public String Scope 
-        {
-            get { return GetAttribute(AttributeNames.Scope); }
-            set { SetAttribute(AttributeNames.Scope, value); } 
-        }
-
-        #endregion
     }
 }

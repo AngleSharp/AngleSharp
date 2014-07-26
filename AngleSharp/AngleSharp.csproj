@@ -277,7 +277,6 @@
     <Compile Include="Attributes\DomHistoricalAttribute.cs" />
     <Compile Include="DOM\Xml\XmlDocument.cs" />
     <Compile Include="DOM\Xml\XmlElement.cs" />
-    <Compile Include="Foundation\ConcurrentDictionary.cs" />
     <Compile Include="Foundation\Structures\Angle.cs" />
     <Compile Include="Foundation\Constants\FeatureNames.cs" />
     <Compile Include="Foundation\IdlExtensions.cs" />

@@ -4,13 +4,23 @@
 
     sealed class ScanMediaFeature : MediaFeature
     {
+        #region Fields
+
         Boolean _progressive;
         Boolean _interlace;
+
+        #endregion
+
+        #region ctor
 
         public ScanMediaFeature()
             : base(FeatureNames.Scan)
         {
         }
+
+        #endregion
+
+        #region Methods
 
         internal override Boolean TrySetDefaultValue()
         {
@@ -43,5 +53,7 @@
         {
             return true;
         }
+
+        #endregion
     }
 }

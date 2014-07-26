@@ -214,7 +214,7 @@
         /// <summary>
         /// Appends some data to the character data.
         /// </summary>
-        /// <param name="data">The data to append.</param>
+        /// <param name="value">The data to append.</param>
         public void Append(String value)
         {
             _content += value;

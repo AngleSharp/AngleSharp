@@ -25,7 +25,7 @@
         /// Gets or sets the language of the source.
         /// </summary>
         [DomName("srclang")]
-        String Language { get; set; }
+        String SourceLanguage { get; set; }
 
         /// <summary>
         /// Gets or sets the label text.

@@ -223,7 +223,7 @@
         /// <summary>
         /// Gets or sets the HTML syntax describing the element's descendants.
         /// </summary>
-        public String InnerHTML
+        public String InnerHtml
         {
             get { return _children.ToHtml(); }
             set
@@ -245,7 +245,7 @@
         /// <summary>
         /// Gets or sets the HTML syntax describing the element including its descendants. 
         /// </summary>
-        public String OuterHTML
+        public String OuterHtml
         {
             get { return this.ToHtml(); }
             set

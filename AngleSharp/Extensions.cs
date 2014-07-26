@@ -71,7 +71,7 @@
             where T : IEnumerable<IElement>
         {
             foreach (var element in elements)
-                element.InnerHTML = html;
+                element.InnerHtml = html;
 
             return elements;
         }
@@ -267,7 +267,7 @@
         /// <returns>The HTML code of the element and its children.</returns>
         public static String ToHtml(this IElement element)
         {
-            return element.OuterHTML;
+            return element.OuterHtml;
         }
 
         /// <summary>
