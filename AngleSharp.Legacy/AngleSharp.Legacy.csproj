@@ -130,9 +130,6 @@
     <Compile Include="..\AngleSharp\DOM\Collections\AttrContainer.cs">
       <Link>DOM\Collections\AttrContainer.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\BaseCollection.cs">
-      <Link>DOM\Collections\BaseCollection.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\CollectionExtensions.cs">
       <Link>DOM\Collections\CollectionExtensions.cs</Link>
     </Compile>
@@ -153,6 +150,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\OptionsCollection.cs">
       <Link>DOM\Collections\OptionsCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\QueryExtensions.cs">
+      <Link>DOM\Collections\QueryExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\SettableTokenList.cs">
       <Link>DOM\Collections\SettableTokenList.cs</Link>
