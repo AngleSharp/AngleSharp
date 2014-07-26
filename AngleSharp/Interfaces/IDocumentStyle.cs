@@ -1,9 +1,15 @@
 ﻿namespace AngleSharp.DOM
 {
-    using AngleSharp.DOM.Collections;
-
-    interface IDocumentStyle
+    /// <summary>
+    /// Extends the document with further properties for styling.
+    /// </summary>
+    [DomName("DocumentStyle")]
+    public interface IDocumentStyle
     {
-        StyleSheetList StyleSheets { get; }
+        /// <summary>
+        /// Gets a list of stylesheet objects for stylesheets explicitly linked into or embedded in a document.
+        /// </summary>
+        [DomName("styleSheets")]
+        IStyleSheetList StyleSheets { get; } 
     }
 }

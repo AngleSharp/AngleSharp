@@ -1,6 +1,5 @@
-﻿namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM
 {
-    using AngleSharp.DOM.Css;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -8,8 +7,7 @@
     /// <summary>
     /// A collection of CSS elements.
     /// </summary>
-    [DomName("StyleSheetList")]
-    public sealed class StyleSheetList : IEnumerable<IStyleSheet>
+    sealed class StyleSheetList : IStyleSheetList
     {
         #region Fields
 
@@ -39,7 +37,6 @@
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The stylesheet.</returns>
-        [DomName("item")]
         public IStyleSheet this[Int32 index]
         {
             get
@@ -66,7 +63,6 @@
         /// <summary>
         /// Gets the number of elements in the list of stylesheets.
         /// </summary>
-        [DomName("length")]
         public Int32 Length
         {
             get

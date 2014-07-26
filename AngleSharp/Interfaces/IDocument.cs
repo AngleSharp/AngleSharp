@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM
 {
-    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Html;
     using System;
 
@@ -8,7 +7,7 @@
     /// The Document interface serves as an entry point to the web page's content.
     /// </summary>
     [DomName("Document")]
-    public interface IDocument : INode, IParentNode, IGlobalEventHandlers
+    public interface IDocument : INode, IParentNode, IGlobalEventHandlers, IDocumentStyle
     {
         /// <summary>
         /// Gets a list of all elements in the document.
@@ -352,11 +351,5 @@
         /// </summary>
         [DomName("styleSheetSets")]
         IStringList StyleSheetSets { get; }
-
-        /// <summary>
-        /// Gets a list of stylesheet objects for stylesheets explicitly linked into or embedded in a document.
-        /// </summary>
-        [DomName("styleSheets")]
-        StyleSheetList StyleSheets { get; } 
     }
 }

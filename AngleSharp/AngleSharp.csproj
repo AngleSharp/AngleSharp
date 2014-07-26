@@ -310,9 +310,10 @@
     <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
     <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
-    <Compile Include="Interfaces\Css\ILinkStyle.cs" />
+    <Compile Include="Interfaces\ILinkStyle.cs" />
     <Compile Include="Interfaces\Css\IMediaList.cs" />
     <Compile Include="Interfaces\Css\ISelector.cs" />
+    <Compile Include="Interfaces\IStyleSheetList.cs" />
     <Compile Include="Interfaces\Css\IStyleUtilities.cs" />
     <Compile Include="Interfaces\Html\IGlobalEventHandlers.cs" />
     <Compile Include="Interfaces\Html\IHtmlAnchorElement.cs" />
@@ -613,7 +614,7 @@
     <Compile Include="DOM\StyleSheet.cs" />
     <Compile Include="DOM\Collections\TokenList.cs" />
     <Compile Include="DOM\Collections\MediaList.cs" />
-    <Compile Include="DOM\Collections\DOMStringList.cs" />
+    <Compile Include="DOM\Collections\StringList.cs" />
     <Compile Include="DOM\DomException.cs" />
     <Compile Include="DOM\Attr.cs" />
     <Compile Include="DOM\Css\CSSStyleSheet.cs" />
@@ -652,7 +653,7 @@
     <Compile Include="Parser\Html\Helpers\MathMLHelpers.cs" />
     <Compile Include="DOM\Collections\BaseCollection.cs" />
     <Compile Include="DOM\Collections\HTMLCollection.cs" />
-    <Compile Include="DOM\Collections\StyleSheetList.cs" />
+    <Compile Include="DOM\StyleSheetList.cs" />
     <Compile Include="DOM\Element.cs" />
     <Compile Include="DOM\Entity.cs" />
     <Compile Include="DOM\CharacterData.cs" />

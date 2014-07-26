@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM
 {
     /// <summary>
     /// Implemented by elements that may expose stylesheets.

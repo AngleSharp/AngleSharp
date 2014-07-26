@@ -14,7 +14,7 @@
     /// <summary>
     /// Represents a document node.
     /// </summary>
-    class Document : Node, IDocument, IDocumentStyle
+    class Document : Node, IDocument
     {
         #region Fields
 
@@ -327,7 +327,7 @@
         /// <summary>
         /// Gets a list of stylesheet objects for stylesheets explicitly linked into or embedded in a document.
         /// </summary>
-        public StyleSheetList StyleSheets
+        public IStyleSheetList StyleSheets
         {
             get { return _styleSheets; }
         }
@@ -337,7 +337,7 @@
         /// </summary>
         public IStringList StyleSheetSets
         {
-            get { return new DOMStringList(_styleSheets.Select(m => m.Title)); }
+            get { return new StringList(_styleSheets.Select(m => m.Title)); }
         }
 
         /// <summary>

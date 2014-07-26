@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using AngleSharp.DOM.Css;
     using System;
 
     /// <summary>

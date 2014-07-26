@@ -3,22 +3,22 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics;
+    using System.Linq;
 
     /// <summary>
     /// Represents a string list.
     /// </summary>
-    public sealed class DOMStringList : IStringList
+    sealed class StringList : IStringList
     {
         #region Fields
 
-        IEnumerable<String> _list;
+        readonly IEnumerable<String> _list;
 
         #endregion
 
         #region ctor
 
-        internal DOMStringList(IEnumerable<String> list)
+        internal StringList(IEnumerable<String> list)
         {
             _list = list;
         }
@@ -34,18 +34,7 @@
         /// <returns>The element or null.</returns>
         public String this[Int32 index]
         {
-            get
-            {
-                var count = 0;
-
-                foreach (var element in _list)
-                {
-                    if (count == index)
-                        return element;
-                }
-
-                return null;
-            }
+            get { return _list.Skip(index).FirstOrDefault(); }
         }
 
         #endregion
@@ -57,15 +46,7 @@
         /// </summary>
         public Int32 Length
         {
-            get 
-            {
-                var count = 0;
-
-                foreach (var element in _list)
-                    count++;
-
-                return count;
-            }
+            get { return _list.Count(); }
         }
 
         #endregion
@@ -79,11 +60,7 @@
         /// <returns>True if the element is available, otherwise false.</returns>
         public Boolean Contains(String entry)
         {
-            foreach (var _entry in _list)
-                if (_entry == entry)
-                    return true;
-
-            return false;
+            return _list.Contains(entry);
         }
 
         #endregion
@@ -105,7 +82,7 @@
         /// <returns>An iterator over all stylesheet titles.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return _list.GetEnumerator();
         }
 
         #endregion
