@@ -229,10 +229,8 @@
         /// <returns>The created media rule.</returns>
         static CSSMediaRule CreateMediaRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSMediaRule();
-
-            if (tokens.MoveNext())
-                rule.Media = parser.InMediaList(tokens);
+            var list = tokens.MoveNext() ? parser.InMediaList(tokens) : new MediaList();
+            var rule = new CSSMediaRule(list);
 
             if (tokens.Current.Type != CssTokenType.CurlyBracketOpen)
                 return null;

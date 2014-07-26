@@ -2,7 +2,7 @@
 {
     using System;
 
-    class SettableTokenList : TokenList, ISettableTokenList
+    sealed class SettableTokenList : TokenList, ISettableTokenList
     {
         #region ctor
 

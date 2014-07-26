@@ -10,8 +10,8 @@
     {
         #region Fields
 
+        MediaList _media;
         String _href;
-        IMediaList _media;
         ICssStyleSheet _styleSheet;
 
         #endregion
@@ -23,7 +23,6 @@
         /// </summary>
         internal CSSImportRule()
         {
-            _media = MediaList.Empty;
             _type = CssRuleType.Import;
         }
 
@@ -37,16 +36,21 @@
         public String Href
         {
             get { return _href; }
-            internal set { _href = value; }
+            set { _href = value; }
         }
 
         /// <summary>
         /// Gets a list of media types for which this style sheet may be used.
         /// </summary>
-        public IMediaList Media
+        IMediaList ICssImportRule.Media
+        {
+            get { return _media ?? (_media = new MediaList()); }
+        }
+
+        public MediaList Media
         {
             get { return _media; }
-            internal set { _media = value; }
+            set { _media = value; }
         }
 
         /// <summary>
@@ -55,7 +59,7 @@
         public ICssStyleSheet Sheet
         {
             get { return _styleSheet; }
-            internal set { _styleSheet = value; }
+            set { _styleSheet = value; }
         }
 
         #endregion
@@ -66,7 +70,7 @@
         {
             var newRule = rule as CSSImportRule;
             _href = newRule._href;
-            _media = newRule._media;
+            _media.Import(newRule._media);
             _styleSheet = newRule._styleSheet;
         }
 

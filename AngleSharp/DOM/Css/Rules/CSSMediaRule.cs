@@ -10,18 +10,28 @@
     {
         #region Fields
 
-        IMediaList _media;
+        readonly MediaList _media;
 
         #endregion
 
         #region ctor
 
         /// <summary>
-        /// Creates a new CSS @media rule.
+        /// Creates a new CSS @media rule with a new media list.
         /// </summary>
         internal CSSMediaRule()
         {
-            _media = MediaList.Empty;
+            _media = new MediaList();
+            _type = CssRuleType.Media;
+        }
+
+        /// <summary>
+        /// Creates a new CSS @media rule with the given media list.
+        /// </summary>
+        /// <param name="media">The media list.</param>
+        internal CSSMediaRule(MediaList media)
+        {
+            _media = media;
             _type = CssRuleType.Media;
         }
 
@@ -44,7 +54,6 @@
         public IMediaList Media
         {
             get { return _media; }
-            internal set { _media = value; }
         }
 
         #endregion
@@ -55,7 +64,7 @@
         {
             base.ReplaceWith(rule);
             var newRule = rule as CSSMediaRule;
-            _media = newRule._media;
+            _media.Import(newRule._media);
         }
 
         internal override Boolean IsValid(IWindow window)

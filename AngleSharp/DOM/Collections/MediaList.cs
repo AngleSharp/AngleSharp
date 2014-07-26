@@ -13,12 +13,7 @@
     {
         #region Fields
 
-        /// <summary>
-        /// Represents an empty media list.
-        /// </summary>
-        public static readonly MediaList Empty = new MediaList();
-
-        List<CSSMedium> _media;
+        readonly List<CSSMedium> _media;
 
         #endregion
 
@@ -141,6 +136,17 @@
         internal void Add(CSSMedium medium)
         {
             _media.Add(medium);
+        }
+
+        /// <summary>
+        /// Imports the media from the given list.
+        /// Clears the existing media.
+        /// </summary>
+        /// <param name="list">The list to import.</param>
+        internal void Import(MediaList list)
+        {
+            _media.Clear();
+            _media.AddRange(list._media);
         }
 
         /// <summary>
