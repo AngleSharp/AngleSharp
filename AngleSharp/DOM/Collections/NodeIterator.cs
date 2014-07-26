@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Collections
 {
     using System;
-    using System.Linq;
 
     sealed class NodeIterator : INodeIterator
     {
@@ -25,7 +24,7 @@
             _filter = filter ?? (m => FilterResult.Accept);
             _reference = _root;
             _beforeNode = false;
-            _iterator = new HtmlElementCollection(_root);//TODO Use with Filter Settings
+            _iterator = new HtmlElementCollection(_root.GetElements<IElement>(settings));
         }
 
         #endregion
