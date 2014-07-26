@@ -71,9 +71,11 @@
             {
                 var sb = Pool.NewStringBuilder();
 
-                for (int i = 0; i < _children.Length; i++)
-                    if (_children[i].NodeType != NodeType.Comment && _children[i].NodeType != NodeType.ProcessingInstruction)
-                        sb.Append(_children[i].TextContent);
+                foreach (var child in ChildNodes)
+                {
+                    if (child.NodeType != NodeType.Comment && child.NodeType != NodeType.ProcessingInstruction)
+                        sb.Append(child.TextContent);
+                }
 
                 return sb.ToPool();
             }
@@ -192,12 +194,15 @@
         {
             get 
             {
-                var n = _children.Length;
+                var children = ChildNodes;
+                var n = children.Length;
 
                 for (int i = 0; i < n; i++)
                 {
-                    if (_children[i] is Element)
-                        return (Element)_children[i];
+                    var child = children[i] as IElement;
+
+                    if (child != null)
+                        return child;
                 }
 
                 return null;
@@ -211,10 +216,14 @@
         {
             get
             {
-                for (int i = _children.Length - 1; i >= 0; i--)
+                var children = ChildNodes;
+
+                for (int i = children.Length - 1; i >= 0; i--)
                 {
-                    if (_children[i] is Element)
-                        return (Element)_children[i];
+                    var child = children[i] as IElement;
+
+                    if (child != null)
+                        return child;
                 }
 
                 return null;
@@ -226,11 +235,13 @@
         /// </summary>
         public String InnerHtml
         {
-            get { return _children.ToHtml(); }
+            get { return ChildNodes.ToHtml(); }
             set
             {
-                for (int i = _children.Length - 1; i >= 0; i--)
-                    RemoveChild(_children[i]);
+                var children = ChildNodes;
+
+                for (int i = children.Length - 1; i >= 0; i--)
+                    RemoveChild(children[i]);
 
                 var nodes = DocumentBuilder.HtmlFragment(value, this);
 
@@ -458,7 +469,7 @@
         /// <returns>An element object.</returns>
         public IElement QuerySelector(String selectors)
         {
-            return _children.QuerySelector(selectors);
+            return ChildNodes.QuerySelector(selectors);
         }
 
         /// <summary>
@@ -469,7 +480,7 @@
         /// <returns>A collection of HTML elements.</returns>
         public IHtmlCollection QuerySelectorAll(String selectors)
         {
-            return _children.QuerySelectorAll(selectors);
+            return ChildNodes.QuerySelectorAll(selectors);
         }
 
         /// <summary>
@@ -479,7 +490,7 @@
         /// <returns>A collection of HTML elements.</returns>
         public IHtmlCollection GetElementsByClassName(String classNames)
         {
-            return _children.GetElementsByClassName(classNames);
+            return ChildNodes.GetElementsByClassName(classNames);
         }
 
         /// <summary>
@@ -489,7 +500,7 @@
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
         public IHtmlCollection GetElementsByTagName(String tagName)
         {
-            return _children.GetElementsByTagName(tagName);
+            return ChildNodes.GetElementsByTagName(tagName);
         }
 
         /// <summary>
@@ -501,7 +512,7 @@
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
         public IHtmlCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
-            return _children.GetElementsByTagNameNS(namespaceURI, tagName);
+            return ChildNodes.GetElementsByTagNameNS(namespaceURI, tagName);
         }
 
         public Boolean Matches(String selectors)
@@ -917,7 +928,7 @@
 
             sb.Append(Specification.GreaterThan);
 
-            foreach (var child in _children)
+            foreach (var child in ChildNodes)
                 sb.Append(child.ToHtml());
 
             sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(_name);

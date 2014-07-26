@@ -29,7 +29,7 @@
         /// the Node change, the NodeList object is automatically updated.
         /// </summary>
         [DomName("childNodes")]
-        NodeList ChildNodes { get; }
+        INodeList ChildNodes { get; }
 
         /// <summary>
         /// Clones the Node, and optionally, all of its contents.

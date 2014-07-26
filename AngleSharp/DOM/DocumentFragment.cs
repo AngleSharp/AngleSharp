@@ -28,7 +28,7 @@
         internal DocumentFragment(NodeList list)
             : this()
         {
-            _children = list;
+            ChildNodes = list;
         }
 
         #endregion
@@ -40,7 +40,7 @@
         /// </summary>
         public Int32 ChildElementCount
         {
-            get { return _children.OfType<Element>().Count(); }
+            get { return ChildNodes.OfType<Element>().Count(); }
         }
 
         /// <summary>
@@ -48,7 +48,7 @@
         /// </summary>
         public IHtmlCollection Children
         {
-            get { return new HtmlElementCollection(_children.OfType<Element>()); }
+            get { return new HtmlElementCollection(ChildNodes.OfType<Element>()); }
         }
 
         /// <summary>
@@ -58,12 +58,15 @@
         {
             get
             {
-                var n = _children.Length;
+                var children = ChildNodes;
+                var n = children.Length;
 
                 for (int i = 0; i < n; i++)
                 {
-                    if (_children[i] is Element)
-                        return (Element)_children[i];
+                    var child = children[i] as IElement;
+
+                    if (child != null)
+                        return child;
                 }
 
                 return null;
@@ -77,10 +80,14 @@
         {
             get
             {
-                for (int i = _children.Length - 1; i >= 0; i--)
+                var children = ChildNodes;
+
+                for (int i = children.Length - 1; i >= 0; i--)
                 {
-                    if (_children[i] is Element)
-                        return (Element)_children[i];
+                    var child = children[i] as IElement;
+
+                    if (child != null)
+                        return child;
                 }
 
                 return null;
@@ -125,7 +132,7 @@
         /// <returns>An element object.</returns>
         public IElement QuerySelector(String selectors)
         {
-            return _children.QuerySelector(selectors);
+            return ChildNodes.QuerySelector(selectors);
         }
 
         /// <summary>
@@ -136,7 +143,7 @@
         /// <returns>An element object.</returns>
         public IHtmlCollection QuerySelectorAll(String selectors)
         {
-            return _children.QuerySelectorAll(selectors);
+            return ChildNodes.QuerySelectorAll(selectors);
         }
 
         /// <summary>
@@ -146,7 +153,7 @@
         /// <returns>A collection of HTML elements.</returns>
         public IHtmlCollection GetElementsByClassName(String classNames)
         {
-            return _children.GetElementsByClassName(classNames);
+            return ChildNodes.GetElementsByClassName(classNames);
         }
 
         /// <summary>
@@ -156,7 +163,7 @@
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
         public IHtmlCollection GetElementsByTagName(String tagName)
         {
-            return _children.GetElementsByTagName(tagName);
+            return ChildNodes.GetElementsByTagName(tagName);
         }
 
         /// <summary>
@@ -168,7 +175,7 @@
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
         public IHtmlCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
-            return _children.GetElementsByTagNameNS(namespaceURI, tagName);
+            return ChildNodes.GetElementsByTagNameNS(namespaceURI, tagName);
         }
 
         #endregion

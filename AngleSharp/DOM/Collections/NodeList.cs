@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a list of Node instances or nodes.
     /// </summary>
-    public sealed class NodeList : IHtmlObject, INodeList, IEnumerable<Node>
+    sealed class NodeList : IHtmlObject, INodeList, IEnumerable<Node>
     {
         #region Fields
 

@@ -16,7 +16,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
-        public static IElement QuerySelector(this NodeList elements, String selectors)
+        public static IElement QuerySelector(this INodeList elements, String selectors)
         {
             var sg = CssParser.ParseSelector(selectors);
             return elements.QuerySelector(sg);
@@ -29,7 +29,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static HtmlElementCollection QuerySelectorAll(this NodeList elements, String selectors)
+        public static HtmlElementCollection QuerySelectorAll(this INodeList elements, String selectors)
         {
             var sg = CssParser.ParseSelector(selectors);
             var result = new List<IElement>();
@@ -44,7 +44,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selector">A selector object.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static HtmlElementCollection QuerySelectorAll(this NodeList elements, ISelector selector)
+        public static HtmlElementCollection QuerySelectorAll(this INodeList elements, ISelector selector)
         {
             var result = new List<IElement>();
             elements.QuerySelectorAll(selector, result);
@@ -57,7 +57,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of HTML elements.</returns>
-        public static HtmlElementCollection GetElementsByClassName(this NodeList elements, String classNames)
+        public static HtmlElementCollection GetElementsByClassName(this INodeList elements, String classNames)
         {
             var result = new List<IElement>();
             var names = classNames.SplitSpaces();
@@ -74,7 +74,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public static HtmlElementCollection GetElementsByTagName(this NodeList elements, String tagName)
+        public static HtmlElementCollection GetElementsByTagName(this INodeList elements, String tagName)
         {
             var result = new List<IElement>();
             elements.GetElementsByTagName(tagName != "*" ? tagName : null, result);
@@ -89,7 +89,7 @@
         /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
         /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public static HtmlElementCollection GetElementsByTagNameNS(this NodeList elements, String namespaceUri, String localName)
+        public static HtmlElementCollection GetElementsByTagNameNS(this INodeList elements, String namespaceUri, String localName)
         {
             var result = new List<IElement>();
             elements.GetElementsByTagNameNS(namespaceUri, localName != "*" ? localName : null, result);
@@ -107,7 +107,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selectors">A selector object.</param>
         /// <returns>An element object.</returns>
-        public static T QuerySelector<T>(this NodeList elements, ISelector selectors)
+        public static T QuerySelector<T>(this INodeList elements, ISelector selectors)
             where T : class, IElement
         {
             return elements.QuerySelector(selectors) as T;
@@ -120,7 +120,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selector">A selector object.</param>
         /// <returns>An element object.</returns>
-        public static IElement QuerySelector(this NodeList elements, ISelector selector)
+        public static IElement QuerySelector(this INodeList elements, ISelector selector)
         {
             for (int i = 0; i < elements.Length; i++)
             {
@@ -151,7 +151,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selector">A selector object.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        public static void QuerySelectorAll(this NodeList elements, ISelector selector, List<IElement> result)
+        public static void QuerySelectorAll(this INodeList elements, ISelector selector, List<IElement> result)
         {
             for (int i = 0; i < elements.Length; i++)
             {
@@ -174,7 +174,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="classNames">An array with class names to consider.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        public static void GetElementsByClassName(this NodeList elements, String[] classNames, List<IElement> result)
+        public static void GetElementsByClassName(this INodeList elements, String[] classNames, List<IElement> result)
         {
             for (int i = 0; i < elements.Length; i++)
             {
@@ -197,7 +197,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        public static void GetElementsByTagName(this NodeList elements, String tagName, List<IElement> result)
+        public static void GetElementsByTagName(this INodeList elements, String tagName, List<IElement> result)
         {
             for (int i = 0; i < elements.Length; i++)
             {
@@ -222,7 +222,7 @@
         /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
         /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        public static void GetElementsByTagNameNS(this NodeList elements, String namespaceUri, String localName, List<IElement> result)
+        public static void GetElementsByTagNameNS(this INodeList elements, String namespaceUri, String localName, List<IElement> result)
         {
             for (int i = 0; i < elements.Length; i++)
             {

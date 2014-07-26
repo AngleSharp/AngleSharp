@@ -14,6 +14,7 @@
         Document _owner;
         String _baseUri;
         Node _parent;
+        NodeList _children;
 
         /// <summary>
         /// The node's name.
@@ -23,10 +24,6 @@
         /// The type of the node.
         /// </summary>
         protected NodeType _type;
-        /// <summary>
-        /// The children of the node.
-        /// </summary>
-        protected NodeList _children;
 
         #endregion
 
@@ -222,9 +219,18 @@
         /// <summary>
         /// Gets the children of this node.
         /// </summary>
-        public NodeList ChildNodes
+        INodeList INode.ChildNodes
         {
             get { return _children; }
+        }
+
+        /// <summary>
+        /// Gets or sets the children of this node.
+        /// </summary>
+        internal NodeList ChildNodes
+        {
+            get { return _children; }
+            set { _children = value; }
         }
 
         /// <summary>

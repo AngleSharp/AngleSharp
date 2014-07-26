@@ -34,7 +34,7 @@
         /// </summary>
         public IHtmlTableCaptionElement Caption
         {
-            get { return _children.QuerySelector<IHtmlTableCaptionElement>(SimpleSelector.Type(Tags.Caption)); }
+            get { return ChildNodes.QuerySelector<IHtmlTableCaptionElement>(SimpleSelector.Type(Tags.Caption)); }
             set { DeleteCaption(); AppendChild(value); }
         }
 
@@ -43,7 +43,7 @@
         /// </summary>
         public IHtmlTableSectionElement Head
         {
-            get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Thead)); }
+            get { return ChildNodes.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Thead)); }
             set { DeleteHead(); AppendChild(value); }
         }
 
@@ -60,7 +60,7 @@
         /// </summary>
         public IHtmlTableSectionElement Foot
         {
-            get { return _children.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Tfoot)); }
+            get { return ChildNodes.QuerySelector<HTMLTableSectionElement>(SimpleSelector.Type(Tags.Tfoot)); }
             set { DeleteFoot(); AppendChild(value); }
         }
 
