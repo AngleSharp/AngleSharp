@@ -864,8 +864,7 @@
         /// </summary>
         /// <param name="position">The relation to the current element.</param>
         /// <param name="html">The HTML code to generate elements for.</param>
-        [DomName("insertAdjacentHTML")]
-        public void insertAdjacentHTML(AdjacentPosition position, String html)
+        public void Insert(AdjacentPosition position, String html)
         {
             var nodeParent = position == AdjacentPosition.BeforeBegin || position == AdjacentPosition.AfterEnd ? this : Parent;
             var nodes = new DocumentFragment(DocumentBuilder.HtmlFragment(html, nodeParent) as NodeList);//TODO remove cast ASAP

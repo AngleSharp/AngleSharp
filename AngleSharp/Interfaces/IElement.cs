@@ -52,6 +52,15 @@
         String Id { get; set; }
 
         /// <summary>
+        /// Inserts new HTML elements specified by the given HTML string at
+        /// a position relative to the current element specified by the position.
+        /// </summary>
+        /// <param name="position">The relation to the current element.</param>
+        /// <param name="html">The HTML code to generate elements for.</param>
+        [DomName("insertAdjacentHTML")]
+        void Insert(AdjacentPosition position, String html);
+
+        /// <summary>
         /// Returns a boolean value indicating whether the specified element has the specified attribute or not.
         /// </summary>
         /// <param name="name">The attributes name.</param>
