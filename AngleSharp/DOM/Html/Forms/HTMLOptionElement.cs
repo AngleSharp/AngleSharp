@@ -69,9 +69,9 @@
         {
             get
             {
-                var group = _parent as HTMLOptGroupElement;
+                var group = Parent as HTMLOptGroupElement;
 
-                if(group != null)
+                if (group != null)
                 {
                     int i = 0;
 

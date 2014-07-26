@@ -113,7 +113,7 @@
         {
             var element = new TextNode(Data.Substring(offset));
             Data = Data.Substring(0, offset);
-            _parent.InsertBefore(element, NextSibling);
+            Parent.InsertBefore(element, NextSibling);
             return element;
         }
 

@@ -68,7 +68,7 @@
         /// is associated with it, returns null.
         /// </summary>
         [DomName("ownerDocument")]
-        Document Owner { get; }
+        IDocument Owner { get; }
 
         /// <summary>
         /// Gets an Element that is the parent of this node. If the node has
@@ -84,7 +84,7 @@
         /// a tree, this property returns null.
         /// </summary>
         [DomName("parentNode")]
-        Node Parent { get; }
+        INode Parent { get; }
 
         /// <summary>
         /// Returns true if other is an inclusive descendant of the context object,

@@ -194,14 +194,14 @@
             {
                 var href = Href;
 
-                if (href != null && _buffer != href && _owner != null)
+                if (href != null && _buffer != href && Owner != null)
                 {
                     _buffer = href;
                     TryCancelCurrent();
-                    _current = _owner.Options.LoadAsync(href, _cts.Token).ContinueWith(task =>
+                    _current = Owner.Options.LoadAsync(href, _cts.Token).ContinueWith(task =>
                     {
                         if (task.IsCompleted && !task.IsFaulted)
-                            _sheet = _owner.Options.ParseStyling(task.Result, Type);
+                            _sheet = Owner.Options.ParseStyling(task.Result, Type);
                     });
                 }
             }

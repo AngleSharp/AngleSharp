@@ -14,7 +14,7 @@
     /// <summary>
     /// Represents a document node.
     /// </summary>
-    public class Document : Node, IDocument, IDocumentStyle
+    class Document : Node, IDocument, IDocumentStyle
     {
         #region Fields
 
@@ -182,7 +182,7 @@
         internal Document(ITextSource source)
         {
             _source = source;
-            _owner = this;
+            Owner = this;
             _type = NodeType.Document;
             IsAsync = true;
             _referrer = String.Empty;
@@ -766,7 +766,7 @@
         /// <param name="nodes">The nodes to prepend.</param>
         public void Prepend(params INode[] nodes)
         {
-            if (_parent != null && nodes.Length > 0)
+            if (Parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 InsertChild(0, node);
@@ -779,7 +779,7 @@
         /// <param name="nodes">The nodes to append.</param>
         public void Append(params INode[] nodes)
         {
-            if (_parent != null && nodes.Length > 0)
+            if (Parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 AppendChild(node);

@@ -52,8 +52,8 @@
             {
                 var id = GetAttribute(AttributeNames.Command);
 
-                if (!String.IsNullOrEmpty(id) && _owner != null)
-                    return _owner.GetElementById(id) as IHtmlElement;
+                if (!String.IsNullOrEmpty(id) && Owner != null)
+                    return Owner.GetElementById(id) as IHtmlElement;
 
                 return null;
             }

@@ -436,17 +436,18 @@
         /// <param name="mime">The MIME type of the entity body.</param>
         async Task NavigateTo(Uri action, HttpMethod method, Stream body = null, String mime = null)
         {
-            if (_plannedNavigation != null)
+            if (Owner != null)
             {
-                _cancel.Cancel();
-                _plannedNavigation = null;
-                _cancel = new CancellationTokenSource();
+                if (_plannedNavigation != null)
+                {
+                    _cancel.Cancel();
+                    _plannedNavigation = null;
+                    _cancel = new CancellationTokenSource();
+                }
+
+                var stream = await Owner.Options.SendAsync(action, body, mime, method, _cancel.Token);
+                Owner.Load(stream);
             }
-
-            var stream = await _owner.Options.SendAsync(action, body, mime, method, _cancel.Token);
-
-            if (_owner != null)
-                _owner.Load(stream);
         }
 
         /// <summary>

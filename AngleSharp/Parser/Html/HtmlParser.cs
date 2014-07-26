@@ -203,7 +203,7 @@
         /// Switches to the fragment algorithm with the specified context element.
         /// </summary>
         /// <param name="context">The context element where the algorithm is applied to.</param>
-        public void SwitchToFragment(Node context)
+        internal void SwitchToFragment(Node context)
         {
             if (started)
                 throw new InvalidOperationException("Fragment mode has to be activated before running the parser!");

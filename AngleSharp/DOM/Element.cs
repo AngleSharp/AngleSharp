@@ -3,7 +3,6 @@
     using AngleSharp.DOM.Collections;
     using System;
     using System.Linq;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents an element node.
@@ -109,7 +108,6 @@
         /// <summary>
         /// Gets the tagname of the element.
         /// </summary>
-        [DomName("tagName")]
         public String TagName
         {
             get { return _name; }
@@ -123,17 +121,19 @@
         {
             get
             {
-                if (_parent == null)
-                    return null;
+                var parent = Parent;
 
-                var found = false;
-
-                for (int i = _parent.ChildNodes.Length - 1; i >= 0; i--)
+                if (parent != null)
                 {
-                    if (_parent.ChildNodes[i] == this)
-                        found = true;
-                    else if (found && _parent.ChildNodes[i] is IElement)
-                        return (IElement)_parent.ChildNodes[i];
+                    var found = false;
+
+                    for (int i = parent.ChildNodes.Length - 1; i >= 0; i--)
+                    {
+                        if (parent.ChildNodes[i] == this)
+                            found = true;
+                        else if (found && parent.ChildNodes[i] is IElement)
+                            return (IElement)parent.ChildNodes[i];
+                    }
                 }
 
                 return null;
@@ -148,18 +148,20 @@
         {
             get
             {
-                if (_parent == null)
-                    return null;
+                var parent = Parent;
 
-                var n = _parent.ChildNodes.Length;
-                var found = false;
-
-                for (int i = 0; i < n; i++)
+                if (parent != null)
                 {
-                    if (_parent.ChildNodes[i] == this)
-                        found = true;
-                    else if(found && _parent.ChildNodes[i] is IElement)
-                        return (IElement)_parent.ChildNodes[i];
+                    var n = parent.ChildNodes.Length;
+                    var found = false;
+
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (parent.ChildNodes[i] == this)
+                            found = true;
+                        else if (found && parent.ChildNodes[i] is IElement)
+                            return (IElement)parent.ChildNodes[i];
+                    }
                 }
 
                 return null;
@@ -221,7 +223,6 @@
         /// <summary>
         /// Gets or sets the HTML syntax describing the element's descendants.
         /// </summary>
-        [DomName("innerHTML")]
         public String InnerHTML
         {
             get { return _children.ToHtml(); }
@@ -244,18 +245,19 @@
         /// <summary>
         /// Gets or sets the HTML syntax describing the element including its descendants. 
         /// </summary>
-        [DomName("outerHTML")]
         public String OuterHTML
         {
             get { return this.ToHtml(); }
             set
             {
-                if (_parent != null)
+                var parent = Parent;
+
+                if (parent != null)
                 {
-                    if (_owner != null && _owner.DocumentElement == this)
+                    if (Owner != null && Owner.DocumentElement == this)
                         throw new DomException(ErrorCode.NoModificationAllowed);
 
-                    var pos = _parent.IndexOf(this);
+                    var pos = parent.IndexOf(this);
 
                     var nodes = DocumentBuilder.HtmlFragment(value, this);
                     var n = nodes.Length;
@@ -263,10 +265,10 @@
                     for (int i = 0; i < n; i++)
                     {
                         nodes[i].Owner.RemoveChild(nodes[i]);
-                        _parent.InsertChild(pos++, nodes[i]);
+                        parent.InsertChild(pos++, nodes[i]);
                     }
 
-                    _parent.RemoveChild(this);
+                    parent.RemoveChild(this);
                 }
                 else
                     throw new DomException(ErrorCode.NotSupported);
@@ -535,8 +537,10 @@
                 }
             }
 
-            if (_parent != null)
-                _parent.LookupNamespaceUri(prefix);
+            var parent = Parent;
+
+            if (parent != null)
+                parent.LookupNamespaceUri(prefix);
 
             return null;
         }
@@ -555,11 +559,13 @@
 
             var ns = GetAttribute(Namespaces.Declaration);
 
-             if (!String.IsNullOrEmpty(ns))
-                 return ns == namespaceURI;
+            if (!String.IsNullOrEmpty(ns))
+                return ns == namespaceURI;
 
-             if (_parent != null)
-                  return _parent.IsDefaultNamespace(namespaceURI);
+            var parent = Parent;
+
+            if (parent != null)
+                return parent.IsDefaultNamespace(namespaceURI);
 
             return false;
         }
@@ -736,8 +742,10 @@
             if (!String.IsNullOrEmpty(_namespace) && !String.IsNullOrEmpty(_prefix) && _namespace == namespaceURI && LookupNamespaceUri(Prefix) == namespaceURI)
                 return Prefix;
 
-            if (_parent != null)
-                return _parent.LookupPrefix(namespaceURI);
+            var parent = Parent;
+
+            if (parent != null)
+                return parent.LookupPrefix(namespaceURI);
 
             return null;
         }
@@ -748,7 +756,7 @@
         /// <param name="nodes">The nodes to prepend.</param>
         public void Prepend(params INode[] nodes)
         {
-            if (_parent != null && nodes.Length > 0)
+            if (Parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 InsertChild(0, node);
@@ -761,7 +769,7 @@
         /// <param name="nodes">The nodes to append.</param>
         public void Append(params INode[] nodes)
         {
-            if (_parent != null && nodes.Length > 0)
+            if (Parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
                 AppendChild(node);
@@ -799,10 +807,12 @@
         /// <returns>The current element.</returns>
         public void Before(params INode[] nodes)
         {
-            if (_parent != null && nodes.Length > 0)
+            var parent = Parent;
+
+            if (parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
-                _parent.InsertBefore(node, this);
+                parent.InsertBefore(node, this);
             }
         }
 
@@ -813,10 +823,12 @@
         /// <returns>The current element.</returns>
         public void After(params INode[] nodes)
         {
-            if (_parent != null && nodes.Length > 0)
+            var parent = Parent;
+
+            if (parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
-                _parent.InsertBefore(node, NextSibling);
+                parent.InsertBefore(node, NextSibling);
             }
         }
 
@@ -826,10 +838,12 @@
         /// <param name="nodes">The nodes to replace.</param>
         public void Replace(params INode[] nodes)
         {
-            if (_parent != null && nodes.Length > 0)
+            var parent = Parent;
+
+            if (parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
-                _parent.ReplaceChild(node, this);
+                parent.ReplaceChild(node, this);
             }
         }
 
@@ -838,8 +852,10 @@
         /// </summary>
         public void Remove()
         {
-            if (_parent != null)
-                _parent.RemoveChild(this);
+            var parent = Parent;
+
+            if (parent != null)
+                parent.RemoveChild(this);
         }
 
         /// <summary>
@@ -851,7 +867,7 @@
         [DomName("insertAdjacentHTML")]
         public void insertAdjacentHTML(AdjacentPosition position, String html)
         {
-            var nodeParent = position == AdjacentPosition.BeforeBegin || position == AdjacentPosition.AfterEnd ? this : _parent;
+            var nodeParent = position == AdjacentPosition.BeforeBegin || position == AdjacentPosition.AfterEnd ? this : Parent;
             var nodes = new DocumentFragment(DocumentBuilder.HtmlFragment(html, nodeParent) as NodeList);//TODO remove cast ASAP
 
             switch (position)

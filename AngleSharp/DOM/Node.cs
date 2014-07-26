@@ -11,30 +11,22 @@
     {
         #region Fields
 
-        /// <summary>
-        /// The responsible document.
-        /// </summary>
-        protected Document _owner;
-        /// <summary>
-        /// The lower node.
-        /// </summary>
-        protected Node _parent;
-        /// <summary>
-        /// The upper nodes.
-        /// </summary>
-        protected NodeList _children;
+        Document _owner;
+        String _baseUri;
+        Node _parent;
+
         /// <summary>
         /// The node's name.
         /// </summary>
         protected String _name;
         /// <summary>
-        /// The node's baseURI.
-        /// </summary>
-        protected String _baseURI;
-        /// <summary>
         /// The type of the node.
         /// </summary>
         protected NodeType _type;
+        /// <summary>
+        /// The children of the node.
+        /// </summary>
+        protected NodeList _children;
 
         #endregion
 
@@ -54,7 +46,8 @@
         #region Public Properties
 
         /// <summary>
-        /// Gets a boolean value indicating whether the current Node has child nodes or not.
+        /// Gets a boolean value indicating whether the current Node 
+        /// has child nodes or not.
         /// </summary>
         public Boolean HasChilds
         {
@@ -62,14 +55,15 @@
         }
 
         /// <summary>
-        /// Gets or sets the absolute base URI of a node or null if unable to obtain an absolute URI.
+        /// Gets or sets the absolute base URI of a node or null if
+        /// unable to obtain an absolute URI.
         /// </summary>
         public String BaseUri
         {
             get 
             {
-                if (_baseURI != null)
-                    return _baseURI;
+                if (_baseUri != null)
+                    return _baseUri;
                 else if (_parent != null)
                     return _parent.BaseUri;
                 else if (Owner != null)
@@ -77,7 +71,7 @@
 
                 return String.Empty;
             }
-            set { _baseURI = value; }
+            set { _baseUri = value; }
         }
 
         /// <summary>
@@ -174,13 +168,18 @@
             }
         }
 
+        IDocument INode.Owner
+        {
+            get { return _owner; }
+        }
+
         /// <summary>
         /// Gets the owner document of the node.
         /// </summary>
-        public Document Owner 
+        internal Document Owner 
         {
             get { return _owner; }
-            internal set 
+            set 
             {
                 if (_owner == value)
                     return;
@@ -195,12 +194,21 @@
         }
 
         /// <summary>
-        /// Gets the parent node of this node, which is either an Element node, a Document node, or a DocumentFragment node.
+        /// Gets the parent node.
         /// </summary>
-        public Node Parent
+        INode INode.Parent
         {
             get { return _parent; }
-            internal set { _parent = value; } 
+        }
+
+        /// <summary>
+        /// Gets the parent node of this node, which is either an Element node,
+        /// a Document node, or a DocumentFragment node.
+        /// </summary>
+        internal Node Parent
+        {
+            get { return _parent; }
+            set { _parent = value; } 
         }
 
         /// <summary>
@@ -748,7 +756,7 @@
         /// <param name="deep">Is a deep-copy required?</param>
         static protected void CopyProperties(Node source, Node target, Boolean deep)
         {
-            target._baseURI = source._baseURI;
+            target._baseUri = source._baseUri;
             target._name = source._name;
             target._type = source.NodeType;
 

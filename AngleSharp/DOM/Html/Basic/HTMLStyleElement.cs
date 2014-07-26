@@ -103,10 +103,12 @@
 
         void OnChildrenChanged(Object sender, EventArgs e)
         {
-            if (_owner == null)
+            var owner = Owner;
+
+            if (owner == null)
                 return;
 
-            _sheet = _owner.Options.ParseStyling(TextContent);
+            _sheet = owner.Options.ParseStyling(TextContent);
             var styleSheet = _sheet as StyleSheet;
 
             if (styleSheet != null)

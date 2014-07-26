@@ -27,7 +27,7 @@
         /// Creates a new analysis window starting with the given document.
         /// </summary>
         /// <param name="document">The document to use.</param>
-        public AnalysisWindow(Document document)
+        public AnalysisWindow(IDocument document)
         {
             Document = document;
         }

@@ -247,7 +247,15 @@
         /// </summary>
         public IHtmlElement List
         {
-            get { return _owner.GetElementById(GetAttribute(AttributeNames.List)) as IHtmlElement; }
+            get 
+            {
+                var owner = Owner;
+
+                if (owner != null)
+                    return owner.GetElementById(GetAttribute(AttributeNames.List)) as IHtmlElement; 
+
+                return null;
+            }
         }
 
         /// <summary>

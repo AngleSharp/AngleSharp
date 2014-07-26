@@ -37,7 +37,7 @@
         {
             get 
             {
-                var fieldset = _parent as HTMLFieldSetElement;
+                var fieldset = Parent as HTMLFieldSetElement;
 
                 if (fieldset != null)
                     return fieldset.Form;

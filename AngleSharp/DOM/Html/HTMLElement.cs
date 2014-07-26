@@ -73,7 +73,7 @@
                     var id = GetAttribute(AttributeNames.ContextMenu);
 
                     if (!String.IsNullOrEmpty(id))
-                        return _owner.GetElementById(id) as IHtmlMenuElement;
+                        return Owner.GetElementById(id) as IHtmlMenuElement;
                 }
 
                 return _menu;
@@ -120,7 +120,7 @@
         /// </summary>
         public String Language
         {
-            get { return GetAttribute(AttributeNames.Lang) ?? (ParentElement as IHtmlElement != null ? (ParentElement as IHtmlElement).Language : _owner.Options.Language); }
+            get { return GetAttribute(AttributeNames.Lang) ?? (ParentElement as IHtmlElement != null ? (ParentElement as IHtmlElement).Language : Owner.Options.Language); }
             set { SetAttribute(AttributeNames.Lang, value); }
         }
 
@@ -248,7 +248,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = HtmlElementFactory.Create(_name, _owner);
+            var node = HtmlElementFactory.Create(_name, Owner);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;
@@ -264,30 +264,30 @@
         /// <returns>The parent form OR assigned form if any.</returns>
         protected IHtmlFormElement GetAssignedForm()
         {
-            var par = _parent as INode;
+            var parent = Parent as INode;
 
-            while (!(par is IHtmlFormElement))
+            while (!(parent is IHtmlFormElement))
             {
-                if (par == null)
+                if (parent == null)
                     break;
 
-                par = par.ParentElement;
+                parent = parent.ParentElement;
             }
 
-            if (par == null && _owner == null)
+            if (parent == null && Owner == null)
                 return null;
             
-            if (par == null)
+            if (parent == null)
             {
                 var formid = GetAttribute(AttributeNames.Form);
 
-                if (par == null && !String.IsNullOrEmpty(formid))
-                    par = _owner.GetElementById(formid) as IHtmlFormElement;
+                if (parent == null && !String.IsNullOrEmpty(formid))
+                    parent = Owner.GetElementById(formid) as IHtmlFormElement;
                 else
                     return null;
             }
 
-            return par as IHtmlFormElement;
+            return parent as IHtmlFormElement;
         }
 
         internal override void OnAttributeChanged(String name)

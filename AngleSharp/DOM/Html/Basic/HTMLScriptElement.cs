@@ -183,7 +183,7 @@
             if ((String.IsNullOrEmpty(Source) && String.IsNullOrEmpty(Text)) || Owner == null)
                 return;
 
-            if (_owner.Options.GetScriptEngine(ScriptLanguage) == null)
+            if (Owner.Options.GetScriptEngine(ScriptLanguage) == null)
                 return;
 
             if (_wasParserInserted)
@@ -194,7 +194,7 @@
 
             _started = true;
 
-            if (!_owner.Options.IsScripting)
+            if (!Owner.Options.IsScripting)
                 return;
 
             var @event = GetAttribute(AttributeNames.Event);

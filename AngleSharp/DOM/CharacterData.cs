@@ -35,17 +35,19 @@
         {
             get
             {
-                if (_parent == null)
+                var parent = Parent;
+                
+                if (parent == null)
                     return null;
 
                 var found = false;
 
-                for (int i = _parent.ChildNodes.Length - 1; i >= 0; i--)
+                for (int i = parent.ChildNodes.Length - 1; i >= 0; i--)
                 {
-                    if (_parent.ChildNodes[i] == this)
+                    if (parent.ChildNodes[i] == this)
                         found = true;
-                    else if (found && _parent.ChildNodes[i] is IElement)
-                        return (IElement)_parent.ChildNodes[i];
+                    else if (found && parent.ChildNodes[i] is IElement)
+                        return (IElement)parent.ChildNodes[i];
                 }
 
                 return null;
@@ -60,18 +62,20 @@
         {
             get
             {
-                if (_parent == null)
+                var parent = Parent;
+                
+                if (parent == null)
                     return null;
 
-                var n = _parent.ChildNodes.Length;
+                var n = parent.ChildNodes.Length;
                 var found = false;
 
                 for (int i = 0; i < n; i++)
                 {
-                    if (_parent.ChildNodes[i] == this)
+                    if (parent.ChildNodes[i] == this)
                         found = true;
-                    else if (found && _parent.ChildNodes[i] is IElement)
-                        return (IElement)_parent.ChildNodes[i];
+                    else if (found && parent.ChildNodes[i] is IElement)
+                        return (IElement)parent.ChildNodes[i];
                 }
 
                 return null;
@@ -295,6 +299,8 @@
         /// <returns>The current element.</returns>
         public void Before(params INode[] nodes)
         {
+            var _parent = Parent;
+
             if (_parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
@@ -309,10 +315,12 @@
         /// <returns>The current element.</returns>
         public void After(params INode[] nodes)
         {
-            if (_parent != null && nodes.Length > 0)
+            var parent = Parent;
+
+            if (parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
-                _parent.InsertBefore(node, NextSibling);
+                parent.InsertBefore(node, NextSibling);
             }
         }
 
@@ -322,10 +330,12 @@
         /// <param name="nodes">The nodes to replace.</param>
         public void Replace(params INode[] nodes)
         {
-            if (_parent != null && nodes.Length > 0)
+            var parent = Parent;
+
+            if (parent != null && nodes.Length > 0)
             {
                 var node = MutationMacro(nodes);
-                _parent.ReplaceChild(node, this);
+                parent.ReplaceChild(node, this);
             }
         }
 
@@ -334,8 +344,10 @@
         /// </summary>
         public void Remove()
         {
-            if (_parent != null)
-                _parent.RemoveChild(this);
+            var parent = Parent;
+
+            if (parent != null)
+                parent.RemoveChild(this);
         }
 
         #endregion

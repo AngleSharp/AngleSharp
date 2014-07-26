@@ -41,7 +41,7 @@
 
                 if (!String.IsNullOrEmpty(controlId))
                 {
-                    var control = _owner.GetElementById(controlId) as IHtmlElement;
+                    var control = Owner.GetElementById(controlId) as IHtmlElement;
 
                     if (control is ILabelabelElement)
                         return control;
