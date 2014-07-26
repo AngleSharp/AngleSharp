@@ -2,6 +2,7 @@
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace UnitTests
 {
@@ -16,9 +17,9 @@ namespace UnitTests
             document = DocumentBuilder.Html(Assets.selectors);
         }
 
-        string GetAttributeValue(Node node, string attrName)
+        string GetAttributeValue(INode node, String attrName)
         {
-            var element = node as Element;
+            var element = node as IElement;
 
             if (element != null)
                 return element.GetAttribute(attrName);
@@ -26,7 +27,7 @@ namespace UnitTests
             return null;
         }
 
-        IHtmlCollection RunQuery(string query)
+        IHtmlCollection RunQuery(String query)
         {
             return document.QuerySelectorAll(query);
         }
