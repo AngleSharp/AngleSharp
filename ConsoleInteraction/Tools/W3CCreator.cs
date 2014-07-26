@@ -31,8 +31,7 @@ namespace ConsoleInteraction
             var client = new HttpClient();
             var result = client.GetAsync(url).Result;
             var source = result.Content.ReadAsStreamAsync().Result;
-            var doc = DocumentBuilder.Html(source) as Document;//TODO remove cast ASAP
-            doc.BaseUri = url;
+            var doc = DocumentBuilder.Html(source, url: url);
             var links = doc.QuerySelectorAll("body > ul > li > a");
             var methods = new List<String>();
 
