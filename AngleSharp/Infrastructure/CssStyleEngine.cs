@@ -23,10 +23,11 @@
         /// Creates a style sheet for the given source.
         /// </summary>
         /// <param name="source">The source code describing the style sheet.</param>
+        /// <param name="owner">The owner of the style sheet, if any.</param>
         /// <returns>The created style sheet.</returns>
-        public IStyleSheet CreateStyleSheetFor(String source)
+        public IStyleSheet CreateStyleSheetFor(String source, IElement owner = null)
         {
-            var style = new CSSStyleSheet();
+            var style = new CSSStyleSheet { OwnerNode = owner };
             var parser = new CssParser(style, source);
             parser.Parse();
             return style;
@@ -36,10 +37,11 @@
         /// Creates a style sheet for the given stream.
         /// </summary>
         /// <param name="source">The stream with the source describing the style sheet.</param>
+        /// <param name="owner">The owner of the style sheet, if any.</param>
         /// <returns>The created style sheet.</returns>
-        public IStyleSheet CreateStyleSheetFor(Stream source)
+        public IStyleSheet CreateStyleSheetFor(Stream source, IElement owner = null)
         {
-            var style = new CSSStyleSheet();
+            var style = new CSSStyleSheet { OwnerNode = owner };
             var parser = new CssParser(style, source);
             parser.Parse();
             return style;

@@ -301,27 +301,12 @@
         #region Internal Methods
 
         /// <summary>
-        /// Appends the given character to the node.
-        /// </summary>
-        /// <param name="c">The character to append.</param>
-        /// <returns>The node which contains the text.</returns>
-        internal void AppendText(Char c)
-        {
-            var lastChild = LastChild as TextNode;
-
-            if (lastChild == null)
-                AppendChild(new TextNode(c));
-            else
-                lastChild.Append(c);
-        }
-
-        /// <summary>
         /// Appends the given characters to the node.
         /// </summary>
         /// <param name="s">The characters to append.</param>
         internal void AppendText(String s)
         {
-            var lastChild = LastChild as TextNode;
+            var lastChild = LastChild as IText;
 
             if (lastChild == null)
                 AppendChild(new TextNode(s));
@@ -336,14 +321,14 @@
         /// <param name="s">The characters to append.</param>
         internal void InsertText(Int32 index, String s)
         {
-            if (index > 0 && index <= _children.Length && _children[index - 1] is TextNode)
+            if (index > 0 && index <= _children.Length && _children[index - 1] is IText)
             {
-                var node = (TextNode)_children[index - 1];
+                var node = (IText)_children[index - 1];
                 node.Append(s);
             }
-            else if (index >= 0 && index < _children.Length && _children[index] is TextNode)
+            else if (index >= 0 && index < _children.Length && _children[index] is IText)
             {
-                var node = (TextNode)_children[index];
+                var node = (IText)_children[index];
                 node.Insert(0, s);
             }
             else
@@ -379,14 +364,14 @@
         /// <returns>The added child.</returns>
         public virtual INode AppendChild(INode child)
         {
-            if (child is DocumentFragment)
+            if (child is IDocumentFragment)
             {
                 var childs = child.ChildNodes;
 
                 for (int i = 0; i < childs.Length; i++)
                     AppendChild(childs[i]);
             }
-            else if (child is Document || child.Contains(this))
+            else if (child is IDocument || child.Contains(this))
             {
                 throw new DomException(ErrorCode.HierarchyRequest);
             }
@@ -395,11 +380,14 @@
                 if (child.Parent != null)
                     throw new DomException(ErrorCode.InUse);
 
-                var childNode = child as Node;//TODO remove cast ASAP
+                var childNode = child as Node;
 
-                childNode._parent = this;
-                childNode.Owner = _owner ?? (this as Document);
-                _children.Add(childNode);
+                if (childNode != null)
+                {
+                    childNode._parent = this;
+                    childNode.Owner = _owner ?? (this as Document);
+                    _children.Add(childNode);
+                }
             }
 
             return child;
@@ -413,14 +401,14 @@
         /// <returns>The inserted child.</returns>
         public virtual INode InsertChild(Int32 index, INode child)
         {
-            if (child is DocumentFragment)
+            if (child is IDocumentFragment)
             {
                 var childs = child.ChildNodes;
 
                 for (int i = 0; i < childs.Length; i++)
                     InsertChild(index + i, childs[i]);
             }
-            else if (child is Document || child.Contains(this))
+            else if (child is IDocument || child.Contains(this))
             {
                 throw new DomException(ErrorCode.HierarchyRequest);
             }
@@ -429,11 +417,14 @@
                 if (child.Parent != null)
                     throw new DomException(ErrorCode.InUse);
 
-                var childNode = child as Node;//TODO remove cast ASAP
+                var childNode = child as Node;
 
-                childNode._parent = this;
-                childNode.Owner = _owner ?? (this as Document);
-                _children.Insert(index, childNode);
+                if (childNode != null)
+                {
+                    childNode._parent = this;
+                    childNode.Owner = _owner ?? (this as Document);
+                    _children.Insert(index, childNode);
+                }
             }
 
             return child;
@@ -448,7 +439,7 @@
         /// <returns>The inserted node.</returns>
         public virtual INode InsertBefore(INode newElement, INode referenceElement)
         {
-            if (newElement is Document || newElement.Contains(this))
+            if (newElement is IDocument || newElement.Contains(this))
                 throw new DomException(ErrorCode.HierarchyRequest);
 
             var n = _children.Length;
@@ -470,7 +461,7 @@
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
         public virtual INode ReplaceChild(INode newChild, INode oldChild)
         {
-            if (newChild is Document || newChild.Contains(this))
+            if (newChild is IDocument || newChild.Contains(this))
                 throw new DomException(ErrorCode.HierarchyRequest);
             else if (newChild == oldChild)
                 return oldChild;
@@ -499,7 +490,7 @@
         /// <returns>The removed child.</returns>
         public virtual INode RemoveChild(INode child)
         {
-            var childNode = child as Node; //TODO remove cast ASAP
+            var childNode = child as Node;
 
             if (childNode != null && _children.Contains(childNode))
             {
@@ -533,7 +524,7 @@
             if (this == otherNode)
                 return DocumentPositions.Same;
 
-            if(this.Owner != otherNode.Owner)
+            if (_owner != otherNode.Owner)
                 return DocumentPositions.Disconnected | DocumentPositions.ImplementationSpecific | (otherNode.GetHashCode() > GetHashCode() ? DocumentPositions.Following : DocumentPositions.Preceding);
             else if (Contains(otherNode))
                 return DocumentPositions.ContainedBy | DocumentPositions.Following;
@@ -570,10 +561,10 @@
         {
             for (int i = 0; i < _children.Length; i++)
             {
-                if (_children[i] is TextNode)
-                {
-                    var text = (TextNode)_children[i];
+                var text = _children[i] as IText;
 
+                if (text != null)
+                {
                     if (text.Length == 0)
                     {
                         RemoveChild(text);
@@ -581,15 +572,15 @@
                     }
                     else
                     {
-                        while (text.NextSibling is TextNode)
+                        while (text.NextSibling is IText)
                         {
-                            var t = (TextNode)text.NextSibling;
+                            var t = (IText)text.NextSibling;
                             text.Append(t.Data);
                             RemoveChild(t);
                         }
                     }
                 }
-                else if(_children[i].ChildNodes.Length != 0)
+                else if (_children[i].ChildNodes.Length != 0)
                     _children[i].Normalize();
             }
         }
@@ -702,7 +693,7 @@
         /// </summary>
         /// <param name="nodes">The nodes array to add.</param>
         /// <returns>A (single) node.</returns>
-        protected Node MutationMacro(INode[] nodes)
+        protected INode MutationMacro(INode[] nodes)
         {
             if (nodes.Length > 1)
             {
@@ -714,7 +705,7 @@
                 return node;
             }
 
-            return nodes[0] as Node;
+            return nodes[0];
         }
 
         /// <summary>
@@ -771,9 +762,9 @@
         /// Checks if the given namespace name and URI are valid.
         /// </summary>
         /// <param name="namespaceName">The localName of the attribute.</param>
-        /// <param name="namespaceURI">The value of the attribute.</param>
+        /// <param name="namespaceUri">The value of the attribute.</param>
         /// <returns>Returns the result of the check.</returns>
-        static protected bool IsValidNamespaceDeclaration(String namespaceName, String namespaceURI)
+        static protected Boolean IsValidNamespaceDeclaration(String namespaceName, String namespaceUri)
         {
             if (namespaceName == Namespaces.Declaration)
                 return false;

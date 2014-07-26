@@ -351,5 +351,13 @@
         /// </summary>
         [DomName("styleSheetSets")]
         IStringList StyleSheetSets { get; }
+
+        /// <summary>
+        /// Loads the document content from the given URL and replaces the current content.
+        /// </summary>
+        /// <param name="url">The URL that hosts the HTML content.</param>
+        /// <returns>True if the URL could be loaded successfully, otherwise false.</returns>
+        [DomName("load")]
+        Boolean Load(String url);
     }
 }

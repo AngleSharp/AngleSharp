@@ -666,8 +666,7 @@
         /// Loads the document content from the given URL.
         /// </summary>
         /// <param name="url">The URL that hosts the HTML content.</param>
-        [DomName("load")]
-        public void Load(String url)
+        public Boolean Load(String url)
         {
             Uri uri;
             _location.Href = url;
@@ -678,11 +677,19 @@
 
             var task = Options.LoadAsync(uri);
 
-            task.ContinueWith(m =>
+            var result = task.ContinueWith(m =>
             {
                 if (m.IsCompleted && !m.IsFaulted)
+                {
                     Load(m.Result);
+                    return true;
+                }
+
+                return false;
             });
+
+            result.Wait();
+            return result.Result;
         }
 
         /// <summary>

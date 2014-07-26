@@ -43,6 +43,7 @@
     <Compile Include="DOM\Collections\CollectionExtensions.cs" />
     <Compile Include="DOM\Collections\HtmlAllCollection.cs" />
     <Compile Include="DOM\Collections\NodeIterator.cs" />
+    <Compile Include="DOM\Collections\QueryExtensions.cs" />
     <Compile Include="DOM\Collections\TreeWalker.cs" />
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="Foundation\Setup\Configuration.cs" />
@@ -654,7 +655,6 @@
     <Compile Include="Parser\Html\HtmlTreeMode.cs" />
     <Compile Include="Foundation\DocumentEncoding.cs" />
     <Compile Include="Parser\Html\Helpers\MathMLHelpers.cs" />
-    <Compile Include="DOM\Collections\BaseCollection.cs" />
     <Compile Include="DOM\Collections\HTMLCollection.cs" />
     <Compile Include="DOM\StyleSheetList.cs" />
     <Compile Include="DOM\Element.cs" />

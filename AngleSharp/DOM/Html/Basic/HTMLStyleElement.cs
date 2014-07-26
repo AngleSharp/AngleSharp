@@ -21,7 +21,6 @@
         internal HTMLStyleElement()
         {
             _name = Tags.Style;
-            _children.ElementsChanged += OnChildrenChanged;
         }
 
         #endregion
@@ -76,6 +75,41 @@
 
         #region Methods
 
+        public override INode AppendChild(INode child)
+        {
+            var node = base.AppendChild(child);
+            OnChildrenChanged();
+            return node;
+        }
+
+        public override INode InsertBefore(INode newElement, INode referenceElement)
+        {
+            var node = base.InsertBefore(newElement, referenceElement);
+            OnChildrenChanged();
+            return node;
+        }
+
+        public override INode InsertChild(int index, INode child)
+        {
+            var node = base.InsertChild(index, child);
+            OnChildrenChanged();
+            return node;
+        }
+
+        public override INode RemoveChild(INode child)
+        {
+            var node = base.RemoveChild(child);
+            OnChildrenChanged();
+            return node;
+        }
+
+        public override INode ReplaceChild(INode newChild, INode oldChild)
+        {
+            var node = base.ReplaceChild(newChild, oldChild);
+            OnChildrenChanged();
+            return node;
+        }
+
         /// <summary>
         /// Returns a special textual representation of the node.
         /// </summary>
@@ -101,18 +135,14 @@
 
         #region Internal methods
 
-        void OnChildrenChanged(Object sender, EventArgs e)
+        void OnChildrenChanged()
         {
             var owner = Owner;
 
             if (owner == null)
                 return;
 
-            _sheet = owner.Options.ParseStyling(TextContent);
-            var styleSheet = _sheet as StyleSheet;
-
-            if (styleSheet != null)
-                styleSheet.OwnerNode = this;
+            _sheet = owner.Options.ParseStyling(source: TextContent, owner: this, type: Type);
         }
 
         /// <summary>

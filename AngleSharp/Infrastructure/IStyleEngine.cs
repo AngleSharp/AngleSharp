@@ -19,14 +19,16 @@
         /// Creates a style sheet for the given source.
         /// </summary>
         /// <param name="source">The source code describing the style sheet.</param>
+        /// <param name="owner">The owner of the style sheet, if any.</param>
         /// <returns>The created style sheet.</returns>
-        IStyleSheet CreateStyleSheetFor(String source);
+        IStyleSheet CreateStyleSheetFor(String source, IElement owner);
 
         /// <summary>
         /// Creates a style sheet for the given stream.
         /// </summary>
         /// <param name="source">The stream with the source describing the style sheet.</param>
+        /// <param name="owner">The owner of the style sheet, if any.</param>
         /// <returns>The created style sheet.</returns>
-        IStyleSheet CreateStyleSheetFor(Stream source);
+        IStyleSheet CreateStyleSheetFor(Stream source, IElement owner);
     }
 }

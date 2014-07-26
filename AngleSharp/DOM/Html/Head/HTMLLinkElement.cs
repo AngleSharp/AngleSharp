@@ -201,7 +201,7 @@
                     _current = Owner.Options.LoadAsync(href, _cts.Token).ContinueWith(task =>
                     {
                         if (task.IsCompleted && !task.IsFaulted)
-                            _sheet = Owner.Options.ParseStyling(task.Result, Type);
+                            _sheet = Owner.Options.ParseStyling(source: task.Result, owner: this, type: Type);
                     });
                 }
             }

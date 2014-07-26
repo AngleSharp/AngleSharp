@@ -185,16 +185,17 @@
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
         /// <param name="source">The source code of the style sheet.</param>
+        /// <param name="owner">The optional owner of the stylesheet, if any.</param>
         /// <param name="type">The optional mime-type of the source code.</param>
         /// <returns>A freshly created stylesheet, if any.</returns>
-        public static IStyleSheet ParseStyling(this IConfiguration configuration, String source, String type = null)
+        public static IStyleSheet ParseStyling(this IConfiguration configuration, String source, IElement owner = null, String type = null)
         {
             if (configuration.IsStyling)
             {
                 var engine = configuration.GetStyleEngine(type ?? MimeTypes.Css);
 
                 if (engine != null)
-                    return engine.CreateStyleSheetFor(source);
+                    return engine.CreateStyleSheetFor(source, owner);
             }
 
             return null;
@@ -206,16 +207,17 @@
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
         /// <param name="source">The source code of the style sheet.</param>
+        /// <param name="owner">The optional owner of the stylesheet, if any.</param>
         /// <param name="type">The optional mime-type of the source code.</param>
         /// <returns>A freshly created stylesheet, if any.</returns>
-        public static IStyleSheet ParseStyling(this IConfiguration configuration, Stream source, String type = null)
+        public static IStyleSheet ParseStyling(this IConfiguration configuration, Stream source, IElement owner = null, String type = null)
         {
             if (configuration.IsStyling)
             {
                 var engine = configuration.GetStyleEngine(type ?? MimeTypes.Css);
 
                 if (engine != null)
-                    return engine.CreateStyleSheetFor(source);
+                    return engine.CreateStyleSheetFor(source, owner);
             }
 
             return null;
