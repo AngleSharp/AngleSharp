@@ -184,8 +184,9 @@
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="url">[Optional] The base URL of the document.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static IDocument Html(String sourceCode, IConfiguration configuration = null)
+        public static IDocument Html(String sourceCode, IConfiguration configuration = null, String url = null)
         {
             if (configuration == null)
                 configuration = GlobalConfig.Default;
@@ -193,6 +194,10 @@
             var stream = new TextSource(sourceCode, configuration.DefaultEncoding());
             var doc = new Document(stream) { Options = configuration };
             var parser = Construct(doc, configuration);
+
+            if (url != null)
+                doc.BaseUri = url;
+
             return parser.Result;
         }
 
@@ -243,14 +248,19 @@
         /// </summary>
         /// <param name="content">The stream of chars to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="url">[Optional] The base URL of the document.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static IDocument Html(Stream content, IConfiguration configuration = null)
+        public static IDocument Html(Stream content, IConfiguration configuration = null, String url = null)
         {
             if (configuration == null)
                 configuration = GlobalConfig.Default;
 
             var stream = new TextSource(content, configuration.DefaultEncoding());
             var doc = new Document(stream) { Options = configuration };
+
+            if (url != null)
+                doc.BaseUri = url;
+
             var parser = Construct(doc, configuration);
             return parser.Result;
         }
@@ -262,7 +272,7 @@
         /// <param name="context">[Optional] The context node to use.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>A list of parsed nodes.</returns>
-        public static INodeList HtmlFragment(String sourceCode, Node context = null, IConfiguration configuration = null)
+        public static INodeList HtmlFragment(String sourceCode, INode context = null, IConfiguration configuration = null)
         {
             if (configuration == null)
                 configuration = new Configuration();
@@ -274,15 +284,15 @@
 
             var stream = new TextSource(sourceCode, configuration.DefaultEncoding());
             var doc = new Document(stream) { Options = configuration };
-
+            var node = context as Node;
             var parser = Construct(doc, configuration);
 
-            if (context != null)
+            if (node != null)
             {
-                if (context.Owner != null && context.Owner.QuirksMode != QuirksMode.Off)
-                    doc.QuirksMode = context.Owner.QuirksMode;
+                if (node.Owner != null && node.Owner.QuirksMode != QuirksMode.Off)
+                    doc.QuirksMode = node.Owner.QuirksMode;
 
-                parser.SwitchToFragment(context);
+                parser.SwitchToFragment(node);
                 return parser.Result.DocumentElement.ChildNodes;
             }
 
