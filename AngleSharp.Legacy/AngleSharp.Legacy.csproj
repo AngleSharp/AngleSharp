@@ -1531,6 +1531,18 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssConditionRule.cs">
       <Link>Interfaces\Css\ICssConditionRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssCounterStyleRule.cs">
+      <Link>Interfaces\Css\ICssCounterStyleRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssDocumentRule.cs">
+      <Link>Interfaces\Css\ICssDocumentRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontFaceRule.cs">
+      <Link>Interfaces\Css\ICssFontFaceRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontFeatureValuesRule.cs">
+      <Link>Interfaces\Css\ICssFontFeatureValuesRule.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssGroupingRule.cs">
       <Link>Interfaces\Css\ICssGroupingRule.cs</Link>
     </Compile>
@@ -1567,8 +1579,8 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssStyleRule.cs">
       <Link>Interfaces\Css\ICssStyleRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICSSStyleSheet.cs">
-      <Link>Interfaces\Css\ICSSStyleSheet.cs</Link>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssStyleSheet.cs">
+      <Link>Interfaces\Css\ICssStyleSheet.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssSupportsRule.cs">
       <Link>Interfaces\Css\ICssSupportsRule.cs</Link>
