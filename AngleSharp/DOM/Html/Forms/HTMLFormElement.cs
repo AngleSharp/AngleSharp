@@ -52,7 +52,7 @@
         /// </summary>
         /// <param name="name">The name or id of the element.</param>
         /// <returns>A collection with elements, an element or null.</returns>
-        public Object this[String name]
+        public IElement this[String name]
         {
             get { return _elements[name]; }
         }

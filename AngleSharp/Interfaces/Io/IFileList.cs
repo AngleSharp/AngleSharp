@@ -15,6 +15,7 @@
         /// <param name="index">The index of the file.</param>
         /// <returns>The file at the provided index.</returns>
         [DomName("item")]
+        [DomAccessor(Accessors.Getter)]
         IFile this[Int32 index] { get; }
 
         /// <summary>

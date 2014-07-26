@@ -36,10 +36,10 @@
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The option at the given index.</returns>
-        public IHtmlOptionElement this[UInt32 index]
+        public IHtmlOptionElement this[Int32 index]
         {
-            get { return _options[index]; }
-            set { _options[index] = value; }
+            get { return _options.GetOptionAt(index); }
+            set { _options.SetOptionAt(index, value); }
         }
 
         #endregion
@@ -73,10 +73,12 @@
             {
                 var result = new List<IHtmlOptionElement>();
 
-                for (uint i = 0; i < _options.Length; i++)
+                for (int i = 0; i < _options.Length; i++)
                 {
-                    if (_options[i].IsSelected)
-                        result.Add(_options[i]);
+                    var option = _options.GetOptionAt(i);
+
+                    if (option.IsSelected)
+                        result.Add(option);
                 }
 
                 return new HTMLCollection<IHtmlOptionElement>(result);
@@ -98,19 +100,21 @@
         {
             get
             {
-                for (uint i = 0; i < _options.Length; i++)
+                for (int i = 0; i < _options.Length; i++)
                 {
-                    if (_options[i].IsSelected)
-                        return _options[i].Value;
+                    var option = _options.GetOptionAt(i);
+
+                    if (option.IsSelected)
+                        return option.Value;
                 }
 
                 return null;
             }
             set
             {
-                for (uint i = 0; i < _options.Length; i++)
+                for (int i = 0; i < _options.Length; i++)
                 {
-                    var option = _options[i];
+                    var option = _options.GetOptionAt(i);
 
                     if (option.IsSelected)
                         option.IsSelected = option.Value == value;
@@ -221,9 +225,9 @@
 
         internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
         {
-            for (uint i = 0; i < _options.Length; i++)
+            for (int i = 0; i < _options.Length; i++)
             {
-                var option = _options[i];
+                var option = _options.GetOptionAt(i);
 
                 if (option.IsSelected && !option.IsDisabled)
                     dataSet.Append(Name, option.Value, Type);
@@ -247,9 +251,9 @@
         /// </summary>
         internal override void Reset()
         {
-            for (uint i = 0; i < _options.Length; i++)
+            for (int i = 0; i < _options.Length; i++)
             {
-                var option = _options[i];
+                var option = _options.GetOptionAt(i);
                 option.IsSelected = option.IsDefaultSelected;
             }
         }

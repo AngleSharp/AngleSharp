@@ -423,7 +423,6 @@
     <Compile Include="Interfaces\IMutationObserver.cs" />
     <Compile Include="Interfaces\IMutationObserverInit.cs" />
     <Compile Include="Interfaces\IMutationRecord.cs" />
-    <Compile Include="Interfaces\INamedNodeMap.cs" />
     <Compile Include="Interfaces\Io\IBlob.cs" />
     <Compile Include="Interfaces\Io\IFile.cs" />
     <Compile Include="Interfaces\Io\IFileList.cs" />
@@ -443,8 +442,8 @@
     <Compile Include="Interfaces\ITokenList.cs" />
     <Compile Include="Interfaces\ITreeWalker.cs" />
     <Compile Include="Interfaces\IUrlUtilities.cs" />
-    <Compile Include="Interfaces\IValidation.cs" />
-    <Compile Include="Interfaces\IValidityState.cs" />
+    <Compile Include="Interfaces\Html\IValidation.cs" />
+    <Compile Include="Interfaces\Html\IValidityState.cs" />
     <Compile Include="Interfaces\IWindow.cs" />
     <Compile Include="Interfaces\Navigator\INavigatorContentUtilities.cs" />
     <Compile Include="Interfaces\Navigator\INavigatorId.cs" />

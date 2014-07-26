@@ -85,7 +85,7 @@
         /// </summary>
         public String ValidationMessage
         {
-            get { return _vstate.CustomError ? _error : String.Empty; }
+            get { return _vstate.IsCustomError ? _error : String.Empty; }
         }
 
         /// <summary>
@@ -116,7 +116,7 @@
         public Boolean CheckValidity()
         {
             Check(_vstate);
-            return _vstate.Valid;
+            return _vstate.IsValid;
         }
 
         /// <summary>
@@ -126,7 +126,7 @@
         /// <param name="error"></param>
         public void SetCustomValidity(String error)
         {
-            _vstate.CustomError = !String.IsNullOrEmpty(error);
+            _vstate.IsCustomError = !String.IsNullOrEmpty(error);
             this._error = error;
         }
 

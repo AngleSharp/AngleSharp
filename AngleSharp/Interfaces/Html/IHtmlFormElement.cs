@@ -107,6 +107,7 @@
         /// </summary>
         /// <param name="index">The index in the elements collection.</param>
         /// <returns>The element or null.</returns>
+        [DomAccessor(Accessors.Getter)]
         IElement this[Int32 index] { get; }
 
         /// <summary>
@@ -114,7 +115,8 @@
         /// </summary>
         /// <param name="name">The name or id of the element.</param>
         /// <returns>A collection with elements, an element or null.</returns>
-        Object this[String name] { get; }
+        [DomAccessor(Accessors.Getter)]
+        IElement this[String name] { get; }
 
         /// <summary>
         /// Requests the input fields to be automatically filled with previous entries.

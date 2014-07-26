@@ -15,6 +15,7 @@
         /// <param name="index">The 0-based index.</param>
         /// <returns>The element if it exists, otherwise false.</returns>
         [DomName("item")]
+        [DomAccessor(Accessors.Getter)]
         INode this[Int32 index] { get; }
 
         /// <summary>

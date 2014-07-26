@@ -9,12 +9,20 @@
     public interface IHtmlOptionsCollection : IHtmlCollection
     {
         /// <summary>
-        /// Gets or sets an HTML option element at the specified index.
+        /// Gets an HTML option element at the specified index.
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The option at the given position.</returns>
-        [DomAccessor(Accessors.Getter | Accessors.Setter)]
-        IHtmlOptionElement this[UInt32 index] { get; set; }
+        [DomAccessor(Accessors.Getter)]
+        IHtmlOptionElement GetOptionAt(Int32 index);
+
+        /// <summary>
+        /// Sets an HTML option element at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the element.</param>
+        /// <param name="option">The option to set at the given position.</param>
+        [DomAccessor(Accessors.Setter)]
+        void SetOptionAt(Int32 index, IHtmlOptionElement option);
 
         /// <summary>
         /// Adds an option element to the collection.

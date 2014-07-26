@@ -26,6 +26,7 @@
         /// </summary>
         /// <param name="index">The 0-based track index.</param>
         /// <returns>The track at the position.</returns>
+        [DomAccessor(Accessors.Getter)]
         IVideoTrack this[Int32 index] { get; }
 
         /// <summary>

@@ -21,6 +21,7 @@
         /// <param name="index">The index of the item.</param>
         /// <returns>The item at the specified index.</returns>
 		[DomName("item")]
+        [DomAccessor(Accessors.Getter)]
 		String this[Int32 index] { get; }
 
         /// <summary>

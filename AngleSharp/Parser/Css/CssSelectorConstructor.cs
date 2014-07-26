@@ -1098,7 +1098,7 @@
 						if (el is IValidation)
 						{
 							var state = ((IValidation)el).Validity;
-							return !state.RangeOverflow && !state.RangeUnderflow;
+							return !state.IsRangeOverflow && !state.IsRangeUnderflow;
 						}
 
 						return false;
@@ -1110,7 +1110,7 @@
 						if (el is IValidation)
 						{
 							var state = ((IValidation)el).Validity;
-							return state.RangeOverflow || state.RangeUnderflow;
+							return state.IsRangeOverflow || state.IsRangeUnderflow;
 						}
 
 						return false;

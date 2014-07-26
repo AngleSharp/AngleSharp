@@ -25,12 +25,6 @@
 
         #region Index
 
-        public IHtmlOptionElement this[UInt32 index]
-        {
-            get { return _parent.ChildNodes.OfType<IHtmlOptionElement>().Skip((int)index).FirstOrDefault(); }
-            set { _parent.ReplaceChild(value, this[index]); }
-        }
-
         public IElement this[Int32 index]
         {
             get { return _parent.ChildNodes.OfType<IElement>().Skip(index).FirstOrDefault(); }
@@ -93,6 +87,16 @@
 
         #region Methods
 
+        public IHtmlOptionElement GetOptionAt(Int32 index)
+        {
+            return _parent.ChildNodes.OfType<IHtmlOptionElement>().Skip((Int32)index).FirstOrDefault();
+        }
+
+        public void SetOptionAt(Int32 index, IHtmlOptionElement value)
+        {
+            _parent.ReplaceChild(value, GetOptionAt(index));
+        }
+
         public void Add(IHtmlOptionElement element, IHtmlElement before = null)
         {
             _parent.InsertBefore(element, before);
@@ -105,7 +109,7 @@
 
         public void Remove(Int32 index)
         {
-            var child = this[(uint)index];
+            var child = GetOptionAt(index);
             _parent.RemoveChild(child);
         }
 

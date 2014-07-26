@@ -98,7 +98,8 @@
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The option at the given position.</returns>
-        IHtmlOptionElement this[UInt32 index] { get; set; }
+        [DomAccessor(Accessors.Getter | Accessors.Setter)]
+        IHtmlOptionElement this[Int32 index] { get; set; }
 
         /// <summary>
         /// Adds an option element to the options collection.
