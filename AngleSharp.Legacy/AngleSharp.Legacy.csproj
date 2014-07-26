@@ -1810,6 +1810,12 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IRadioNodeList.cs">
       <Link>Interfaces\Html\IRadioNodeList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IValidation.cs">
+      <Link>Interfaces\Html\IValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IValidityState.cs">
+      <Link>Interfaces\Html\IValidityState.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IAttr.cs">
       <Link>Interfaces\IAttr.cs</Link>
     </Compile>
@@ -1876,9 +1882,6 @@
     <Compile Include="..\AngleSharp\Interfaces\IMutationRecord.cs">
       <Link>Interfaces\IMutationRecord.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\INamedNodeMap.cs">
-      <Link>Interfaces\INamedNodeMap.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\INode.cs">
       <Link>Interfaces\INode.cs</Link>
     </Compile>
@@ -1929,12 +1932,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IUrlUtilities.cs">
       <Link>Interfaces\IUrlUtilities.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IValidation.cs">
-      <Link>Interfaces\IValidation.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IValidityState.cs">
-      <Link>Interfaces\IValidityState.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IWindow.cs">
       <Link>Interfaces\IWindow.cs</Link>
