@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents a CSS @keyframe rule.
     /// </summary>
-    [DomName("CSSKeyframeRule")]
-    sealed class CSSKeyframeRule : CSSRule
+    sealed class CSSKeyframeRule : CSSRule, ICssKeyframeRule
     {
         #region Fields
 
@@ -30,19 +29,22 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the key of the keyframe, like '10%', '75%'. The from keyword maps to '0%' and the to keyword maps to '100%'.
+        /// Gets or sets the key of the keyframe, like '10%', '75%'. 
+        /// The from keyword maps to '0%' and the to keyword maps to '100%'.
         /// </summary>
-        [DomName("keyText")]
         public String KeyText
         {
             get { return _keyText; }
-            set { _keyText = value; }
+            set
+            { 
+                //If keyText is updated with an invalid keyframe selector, a SyntaxError exception must be thrown.
+                _keyText = value; 
+            }
         }
 
         /// <summary>
         /// Gets a CSSStyleDeclaration of the CSS style associated with the key from.
         /// </summary>
-        [DomName("style")]
         public CSSStyleDeclaration Style
         {
             get { return _style; }

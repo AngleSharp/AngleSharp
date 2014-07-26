@@ -6,8 +6,7 @@
     /// <summary>
     /// Represents an @keyframes rule.
     /// </summary>
-    [DomName("CSSKeyframesRule")]
-    sealed class CSSKeyframesRule : CSSRule, ICssRules
+    sealed class CSSKeyframesRule : CSSRule, ICssRules, ICssKeyframesRule
     {
         #region Fields
 
@@ -35,7 +34,6 @@
         /// <summary>
         /// Gets or sets the name of the animation, used by the animation-name property.
         /// </summary>
-        [DomName("name")]
         public String Name
         {
             get { return _name; }
@@ -45,7 +43,6 @@
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the media rule.
         /// </summary>
-        [DomName("cssRules")]
         public ICssRuleList Rules
         {
             get { return _rules; }
@@ -59,9 +56,7 @@
         /// Inserts a new keyframe rule into the current CSSKeyframesRule.
         /// </summary>
         /// <param name="rule">A string containing a keyframe in the same format as an entry of a @keyframes at-rule.</param>
-        /// <returns>The current @keyframes rule.</returns>
-        [DomName("appendRule")]
-        public CSSKeyframesRule AppendRule(String rule)
+        public void Add(String rule)
         {
             var obj = CssParser.ParseKeyframeRule(rule);
 
@@ -71,16 +66,13 @@
             obj.Owner = _ownerSheet;
             obj.Parent = this;
             _rules.List.Insert(_rules.Length, obj);
-            return this;
         }
 
         /// <summary>
         /// Deletes a keyframe rule from the current CSSKeyframesRule. 
         /// </summary>
         /// <param name="key">The index of the keyframe to be deleted, expressed as a string resolving as a number between 0 and 1.</param>
-        /// <returns>The current @keyframes rule.</returns>
-        [DomName("deleteRule")]
-        public CSSKeyframesRule DeleteRule(String key)
+        public void Remove(String key)
         {
             for (int i = 0; i < _rules.Length; i++)
             {
@@ -90,8 +82,6 @@
                     break;
                 }
             }
-
-            return this;
         }
 
         /// <summary>
@@ -99,12 +89,11 @@
         /// </summary>
         /// <param name="key">A string containing an index of the keyframe to be returned, resolving to a number between 0 and 1.</param>
         /// <returns>The keyframe or null.</returns>
-        [DomName("findRule")]
-        public CSSKeyframeRule FindRule(String key)
+        public ICssKeyframeRule Find(String key)
         {
             for (int i = 0; i < _rules.Length; i++)
             {
-                var rule = _rules[i] as CSSKeyframeRule;
+                var rule = _rules[i] as ICssKeyframeRule;
 
                 if (rule.KeyText.Equals(key, StringComparison.OrdinalIgnoreCase))
                     return rule;

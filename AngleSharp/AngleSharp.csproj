@@ -294,6 +294,8 @@
     <Compile Include="Interfaces\Css\ICssConditionRule.cs" />
     <Compile Include="Interfaces\Css\ICssGroupingRule.cs" />
     <Compile Include="Interfaces\Css\ICssImportRule.cs" />
+    <Compile Include="Interfaces\Css\ICssKeyframeRule.cs" />
+    <Compile Include="Interfaces\Css\ICssKeyframesRule.cs" />
     <Compile Include="Interfaces\Css\ICssMarginRule.cs" />
     <Compile Include="Interfaces\Css\ICssMediaRule.cs" />
     <Compile Include="Interfaces\Css\ICssNamespaceRule.cs" />

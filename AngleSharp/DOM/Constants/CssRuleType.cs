@@ -66,6 +66,7 @@
         /// <summary>
         /// Changing document (location) specific rules with @document.
         /// </summary>
+        [DomName("DOCUMENT_RULE")]
         Document = 13,
         /// <summary>
         /// This @font-feature-values is still very complicated.
