@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        IEnumerable<T> _elements;
+        readonly IEnumerable<T> _elements;
 
         #endregion
 
@@ -37,7 +37,7 @@
         /// <param name="deep">[Optional] Determines if recursive search is activated.</param>
         /// <param name="predicate">[Optional] The predicate function for picking elements.</param>
         internal HTMLCollection(INode parent, Boolean deep = true, Predicate<T> predicate = null)
-            : this(GetElements(parent, deep, predicate))
+            : this(parent.GetElements(deep, predicate))
         {
         }
 
@@ -52,7 +52,6 @@
         /// </summary>
         /// <param name="index">The 0-based index of the element.</param>
         /// <returns>The element at the specified index.</returns>
-        [DomName("item")]
         public T this[Int32 index]
         {
             get { return _elements.Skip(index).FirstOrDefault(); }
@@ -65,10 +64,9 @@
         /// </summary>
         /// <param name="id">The id of the element.</param>
         /// <returns>The element with the specified identifier.</returns>
-        [DomName("namedItem")]
         public T this[String id]
         {
-            get { return _elements.FirstOrDefault(m => m.Id == id) ?? _elements.FirstOrDefault(m => m.GetAttribute("name") == id); }
+            get { return _elements.GetElementById(id); }
         }
 
         #endregion
@@ -78,7 +76,6 @@
         /// <summary>
         /// Gets the number of nodes in the list.
         /// </summary>
-        [DomName("length")]
         public Int32 Length
         {
             get { return _elements.Count(); }
@@ -101,41 +98,6 @@
             }
 
             return -1;
-        }
-
-        #endregion
-
-        #region Live
-
-        static IEnumerable<T> GetElements(INode parent, Boolean deep, Predicate<T> predicate)
-        {
-            var items = deep ? GetElementsOf(parent) : GetOnlyElementsOf(parent);
-
-            if (predicate != null)
-                return items.Where(m => predicate(m));
-
-            return items;
-        }
-
-        static IEnumerable<T> GetElementsOf(INode parent)
-        {
-            for (int i = 0; i < parent.ChildNodes.Length; i++)
-            {
-                if (parent.ChildNodes[i] is T)
-                    yield return parent.ChildNodes[i] as T;
-
-                foreach (var element in GetElementsOf(parent.ChildNodes[i]))
-                    yield return element;
-            }
-        }
-
-        static IEnumerable<T> GetOnlyElementsOf(INode parent)
-        {
-            for (int i = 0; i < parent.ChildNodes.Length; i++)
-            {
-                if (parent.ChildNodes[i] is T)
-                    yield return parent.ChildNodes[i] as T;
-            }
         }
 
         #endregion

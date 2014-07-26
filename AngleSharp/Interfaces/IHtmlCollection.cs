@@ -31,10 +31,10 @@
         /// string specified by name. Matching by name is only done as a last resort,
         /// only in HTML, and only if the referenced element supports the name attribute.
         /// </summary>
-        /// <param name="name">The id or name to match.</param>
+        /// <param name="id">The id or name to match.</param>
         /// <returns>Returns null if no node exists by the given name.</returns>
         [DomName("namedItem")]
         [DomAccessor(Accessors.Getter)]
-        IElement this[String name] { get; }
+        IElement this[String id] { get; }
     }
 }

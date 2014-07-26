@@ -13,7 +13,7 @@
         /// Gets a list of all elements in the document.
         /// </summary>
         [DomName("all")]
-        IHtmlCollection All { get; }
+        IHtmlAllCollection All { get; }
 
         /// <summary>
         /// Gets a list of all of the anchors in the document.

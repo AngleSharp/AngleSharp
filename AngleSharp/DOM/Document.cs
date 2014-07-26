@@ -202,9 +202,9 @@
         /// <summary>
         /// Gets a list of all elements in the document.
         /// </summary>
-        public IHtmlCollection All
+        public IHtmlAllCollection All
         {
-            get { return new HTMLCollection(this); }
+            get { return new HtmlAllCollection(this); }
         }
 
         /// <summary>
