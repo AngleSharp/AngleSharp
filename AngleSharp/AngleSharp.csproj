@@ -657,7 +657,7 @@
     <Compile Include="Parser\Html\HtmlTreeMode.cs" />
     <Compile Include="Foundation\DocumentEncoding.cs" />
     <Compile Include="Parser\Html\Helpers\MathMLHelpers.cs" />
-    <Compile Include="DOM\Collections\HTMLCollection.cs" />
+    <Compile Include="DOM\Collections\HtmlCollection.cs" />
     <Compile Include="DOM\StyleSheetList.cs" />
     <Compile Include="DOM\Element.cs" />
     <Compile Include="DOM\Entity.cs" />

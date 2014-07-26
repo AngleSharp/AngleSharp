@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        readonly HTMLCollection<IHtmlTableRowElement> _rows;
+        readonly HtmlCollection<IHtmlTableRowElement> _rows;
 
         #endregion
 
@@ -19,7 +19,7 @@
         internal HTMLTableSectionElement()
         {
             _name = Tags.Tbody;
-            _rows = new HTMLCollection<IHtmlTableRowElement>(this);
+            _rows = new HtmlCollection<IHtmlTableRowElement>(this);
         }
 
         #endregion

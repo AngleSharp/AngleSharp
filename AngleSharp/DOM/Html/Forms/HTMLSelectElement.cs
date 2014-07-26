@@ -81,7 +81,7 @@
                         result.Add(option);
                 }
 
-                return new HTMLCollection<IHtmlOptionElement>(result);
+                return new HtmlCollection<IHtmlOptionElement>(result);
             }
         }
 

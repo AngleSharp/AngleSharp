@@ -9,7 +9,7 @@
     {
         #region Fields
 
-        readonly HTMLCollection<HTMLOptionElement> _options;
+        readonly HtmlCollection<HTMLOptionElement> _options;
 
         #endregion
 
@@ -21,7 +21,7 @@
         internal HTMLDataListElement()
         {
             _name = Tags.Datalist;
-            _options = new HTMLCollection<HTMLOptionElement>(this);
+            _options = new HtmlCollection<HTMLOptionElement>(this);
         }
 
         #endregion

@@ -6,6 +6,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// A specialized collection containing elements of type HTMLFormControlElement.
+    /// </summary>
     sealed class HtmlFormControlsCollection : IHtmlFormControlsCollection
     {
         #region Fields

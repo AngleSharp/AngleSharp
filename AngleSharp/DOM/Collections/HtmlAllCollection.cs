@@ -5,6 +5,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// A general collection for all elements of type IElement.
+    /// </summary>
     sealed class HtmlAllCollection : IHtmlAllCollection
     {
         #region Fields
@@ -15,6 +18,10 @@
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new live collection for the given document.
+        /// </summary>
+        /// <param name="document">The parent of this collection.</param>
         public HtmlAllCollection(IDocument document)
         {
             _elements = document.GetElements<IElement>();

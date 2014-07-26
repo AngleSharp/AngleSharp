@@ -212,7 +212,7 @@
         /// </summary>
         public IHtmlCollection Anchors
         {
-            get { return new HTMLCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name)); }
+            get { return new HtmlCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name)); }
         }
 
         /// <summary>
@@ -423,7 +423,7 @@
         /// </summary>
         public IHtmlCollection Forms
         {
-            get { return new HTMLCollection<IHtmlFormElement>(this); }
+            get { return new HtmlCollection<IHtmlFormElement>(this); }
         }
 
         /// <summary>
@@ -431,7 +431,7 @@
         /// </summary>
         public IHtmlCollection Images
         {
-            get { return new HTMLCollection<IHtmlImageElement>(this); }
+            get { return new HtmlCollection<IHtmlImageElement>(this); }
         }
 
         /// <summary>
@@ -439,7 +439,7 @@
         /// </summary>
         public IHtmlCollection Scripts
         {
-            get { return new HTMLCollection<HTMLScriptElement>(this); }
+            get { return new HtmlCollection<HTMLScriptElement>(this); }
         }
 
         /// <summary>

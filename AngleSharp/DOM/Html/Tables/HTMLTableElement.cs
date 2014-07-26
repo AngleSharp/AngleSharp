@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        readonly HTMLCollection<IHtmlTableSectionElement> _bodies;
-        readonly HTMLCollection<IHtmlTableRowElement> _rows;
+        readonly HtmlCollection<IHtmlTableSectionElement> _bodies;
+        readonly HtmlCollection<IHtmlTableRowElement> _rows;
 
         #endregion
 
@@ -21,8 +21,8 @@
         internal HTMLTableElement()
         {
             _name = Tags.Table;
-            _rows = new HTMLCollection<IHtmlTableRowElement>(this);
-            _bodies = new HTMLCollection<IHtmlTableSectionElement>(this);
+            _rows = new HtmlCollection<IHtmlTableRowElement>(this);
+            _bodies = new HtmlCollection<IHtmlTableSectionElement>(this);
         }
 
         #endregion
