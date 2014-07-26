@@ -1146,5 +1146,10 @@
         /// The zoom style.
         /// </summary>
         public static readonly String Zoom = "zoom";
+
+        /// <summary>
+        /// The unicode-range style.
+        /// </summary>
+        public static readonly String UnicodeRange = "unicode-range";
     }
 }
