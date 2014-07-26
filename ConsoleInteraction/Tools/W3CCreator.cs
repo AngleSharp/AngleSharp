@@ -52,7 +52,7 @@ namespace ConsoleInteraction
             catch { Console.WriteLine("error!!!"); return; }
 
             var title = Sanatize(html.GetElementsByTagName("title")[0].TextContent);
-            var content = html.GetElementsByTagName("content")[0].InnerHTML.Trim().Replace("\"", "\"\"");
+            var content = html.GetElementsByTagName("content")[0].InnerHtml.Trim().Replace("\"", "\"\"");
             var css = html.GetElementsByTagName("css")[0].TextContent;
             var sheet = CssParser.ParseStyleSheet(css);
             var selectors = new StringBuilder();

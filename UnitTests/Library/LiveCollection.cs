@@ -57,7 +57,7 @@ namespace UnitTests.Library
                 Assert.AreEqual("", child.TextContent);
             }
 
-            body.InnerHTML = "<p>First<p>Second<p>Third";
+            body.InnerHtml = "<p>First<p>Second<p>Third";
             Assert.AreEqual(3, body.ChildNodes.Length);
             Assert.AreEqual(3, live.Length);
 
@@ -95,11 +95,11 @@ namespace UnitTests.Library
                 Assert.AreEqual("", child.TextContent);
             }
 
-            body.InnerHTML = "This is pure text!";
+            body.InnerHtml = "This is pure text!";
             Assert.AreEqual(1, body.ChildNodes.Length);
             Assert.AreEqual(0, live.Length);
 
-            body.InnerHTML = "<b>Proof that we still have live view</b>";
+            body.InnerHtml = "<b>Proof that we still have live view</b>";
             Assert.AreEqual(1, body.ChildNodes.Length);
             Assert.AreEqual(1, live.Length);
         }

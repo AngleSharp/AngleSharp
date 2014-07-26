@@ -20,7 +20,7 @@ namespace ConsoleInteraction
             //Do something with document like the following
 
             Console.WriteLine("Serializing the (original) document:");
-            Console.WriteLine(document.DocumentElement.OuterHTML);
+            Console.WriteLine(document.DocumentElement.OuterHtml);
 
             var p = document.CreateElement("p");
             p.TextContent = "This is another paragraph.";
@@ -29,7 +29,7 @@ namespace ConsoleInteraction
             document.Body.AppendChild(p);
 
             Console.WriteLine("Serializing the document again:");
-            Console.WriteLine(document.DocumentElement.OuterHTML);
+            Console.WriteLine(document.DocumentElement.OuterHtml);
         }
 
         static void UsingLinq()
@@ -72,8 +72,8 @@ namespace ConsoleInteraction
             Console.WriteLine();
             Console.WriteLine("From the DOM:");
             Console.WriteLine();
-            Console.WriteLine(emphasize.InnerHTML);  // bold <u>and</u> italic
-            Console.WriteLine(emphasize.OuterHTML);  //<em> bold <u>and</u> italic </em>
+            Console.WriteLine(emphasize.InnerHtml);  // bold <u>and</u> italic
+            Console.WriteLine(emphasize.OuterHtml);  //<em> bold <u>and</u> italic </em>
             Console.WriteLine(emphasize.TextContent);// bold and italic 
         }
     }

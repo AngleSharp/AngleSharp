@@ -41,7 +41,7 @@ namespace UnitTests
 
             Assert.AreEqual(0, testEl.Children.Length);
             testEl.AppendChild(test as TextNode);
-            Assert.AreEqual(text, testEl.InnerHTML);
+            Assert.AreEqual(text, testEl.InnerHtml);
             Assert.AreEqual(document, test.Owner);
         }
 
