@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// A collection of CSS elements.
@@ -11,7 +12,7 @@
     {
         #region Fields
 
-        Node _parent;
+        readonly INode _parent;
 
         #endregion
 
@@ -21,7 +22,7 @@
         /// Creates a new stylesheet class.
         /// </summary>
         /// <param name="parent">The parent responsible for this list.</param>
-        internal StyleSheetList(Node parent)
+        internal StyleSheetList(INode parent)
         {
             _parent = parent;
         }
@@ -39,21 +40,7 @@
         /// <returns>The stylesheet.</returns>
         public IStyleSheet this[Int32 index]
         {
-            get
-            {
-                var it = GetEnumerator();
-                var i = 0;
-
-                while (it.MoveNext())
-                {
-                    if (i == index)
-                        return it.Current;
-
-                    i++;
-                }
-
-                return null;
-            }
+            get { return GetStyleSheets(_parent).Skip(index).FirstOrDefault(); }
         }
 
         #endregion
@@ -65,44 +52,7 @@
         /// </summary>
         public Int32 Length
         {
-            get
-            {
-                var it = GetEnumerator();
-                var count = 0;
-
-                while (it.MoveNext())
-                    count++;
-
-                return count;
-            }
-        }
-
-        #endregion
-
-        #region Internal methods
-
-        static IEnumerable<IStyleSheet> GetStyleSheets(Node parent)
-        {
-            foreach (var child in parent.ChildNodes)
-            {
-                if (child is Element)
-                {
-                    var linkStyle = child as ILinkStyle;
-
-                    if (linkStyle != null)
-                    {
-                        var sheet = linkStyle.Sheet;
-
-                        if (sheet != null)
-                            yield return sheet;
-                    }
-                    else
-                    {
-                        foreach (var sheet in GetStyleSheets(child))
-                            yield return sheet;
-                    }
-                }
-            }
+            get { return GetStyleSheets(_parent).Count(); }
         }
 
         #endregion
@@ -125,6 +75,34 @@
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static IEnumerable<IStyleSheet> GetStyleSheets(INode parent)
+        {
+            foreach (var child in parent.ChildNodes)
+            {
+                if (child is IElement)
+                {
+                    var linkStyle = child as ILinkStyle;
+
+                    if (linkStyle != null)
+                    {
+                        var sheet = linkStyle.Sheet;
+
+                        if (sheet != null)
+                            yield return sheet;
+                    }
+                    else
+                    {
+                        foreach (var sheet in GetStyleSheets(child))
+                            yield return sheet;
+                    }
+                }
+            }
         }
 
         #endregion
