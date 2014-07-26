@@ -15,7 +15,7 @@
         String _prefix;
         String _namespace;
         TokenList _classList;
-        readonly HTMLCollection _elements;
+        readonly HtmlElementCollection _elements;
         readonly AttrContainer _attributes;
 
         #endregion
@@ -28,7 +28,7 @@
         internal Element()
         {
             _type = NodeType.Element;
-            _elements = new HTMLCollection(this, deep: false);
+            _elements = new HtmlElementCollection(this, deep: false);
             _attributes = new AttrContainer();
         }
 

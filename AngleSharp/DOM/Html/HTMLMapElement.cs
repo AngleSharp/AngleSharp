@@ -20,8 +20,8 @@
 
         #region Fields
 
-        List<Element> _areas;
-        List<Element> _images;
+        readonly List<Element> _areas;
+        readonly List<Element> _images;
 
         #endregion
 
@@ -32,8 +32,6 @@
             _name = Tag;
             _areas = new List<Element>();
             _images = new List<Element>();
-            Areas = new HTMLCollection(_areas);
-            Images = new HTMLCollection(_images);
         }
 
         #endregion
@@ -55,8 +53,7 @@
         /// </summary>
         public IHtmlCollection Areas
         {
-            get;
-            private set;
+            get { return new HtmlElementCollection(_areas); }
         }
 
         /// <summary>
@@ -65,32 +62,7 @@
         /// </summary>
         public IHtmlCollection Images
         {
-            get;
-            private set;
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        internal void RegisterArea(Element area)
-        {
-            _areas.Add(area);
-        }
-
-        internal void UnregisterArea(Element area)
-        {
-            _areas.Remove(area);
-        }
-
-        internal void RegisterImage(Element imageOrObject)
-        {
-            _images.Add(imageOrObject);
-        }
-
-        internal void UnregisterImage(Element imageOrObject)
-        {
-            _images.Remove(imageOrObject);
+            get { return new HtmlElementCollection(_images); }
         }
 
         #endregion

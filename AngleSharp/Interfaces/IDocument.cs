@@ -358,6 +358,6 @@
         /// <param name="url">The URL that hosts the HTML content.</param>
         /// <returns>True if the URL could be loaded successfully, otherwise false.</returns>
         [DomName("load")]
-        Boolean Load(String url);
+        Boolean LoadHtml(String url);
     }
 }

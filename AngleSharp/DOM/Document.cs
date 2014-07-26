@@ -228,7 +228,7 @@
         /// </summary>
         public IHtmlCollection Children
         {
-            get { return new HTMLCollection(_children.OfType<Element>()); }
+            get { return new HtmlElementCollection(_children.OfType<Element>()); }
         }
 
         /// <summary>
@@ -447,7 +447,7 @@
         /// </summary>
         public IHtmlCollection Embeds
         {
-            get { return new HTMLCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement); }
+            get { return new HtmlElementCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement); }
         }
 
         /// <summary>
@@ -455,7 +455,7 @@
         /// </summary>
         public IHtmlCollection Links
         {
-            get { return new HTMLCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href)); }
+            get { return new HtmlElementCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href)); }
         }
 
         /// <summary>
@@ -659,14 +659,14 @@
         {
             var result = new List<Element>();
             _children.GetElementsByName(name, result);
-            return new HTMLCollection(result);
+            return new HtmlElementCollection(result);
         }
 
         /// <summary>
         /// Loads the document content from the given URL.
         /// </summary>
         /// <param name="url">The URL that hosts the HTML content.</param>
-        public Boolean Load(String url)
+        public Boolean LoadHtml(String url)
         {
             Uri uri;
             _location.Href = url;
@@ -1169,7 +1169,7 @@
         protected void ReLoad(ILocation url)
         {
             _location = url;
-            Load(url.Href);
+            LoadHtml(url.Href);
         }
 
         /// <summary>

@@ -23,7 +23,7 @@
         {
         }
 
-        Boolean IXmlDocument.Load(String url)
+        Boolean IXmlDocument.LoadXml(String url)
         {
             Uri uri;
             _location.Href = url;

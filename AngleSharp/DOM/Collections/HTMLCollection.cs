@@ -139,34 +139,4 @@
 
         #endregion
     }
-
-    /// <summary>
-    /// A collection of HTML nodes.
-    /// </summary>
-    sealed class HTMLCollection : HTMLCollection<IElement>
-    {
-        #region ctor
-
-        /// <summary>
-        /// Creates a new list of HTML elements.
-        /// </summary>
-        /// <param name="elements">The elements to use.</param>
-        internal HTMLCollection(IEnumerable<IElement> elements)
-            : base(elements)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new live collection for the given parent.
-        /// </summary>
-        /// <param name="parent">The parent of this collection.</param>
-        /// <param name="deep">[Optional] Determines if recursive search is activated.</param>
-        /// <param name="predicate">[Optional] The predicate function for picking elements.</param>
-        internal HTMLCollection(INode parent, Boolean deep = true, Predicate<IElement> predicate = null)
-            : base(parent, deep, predicate)
-        {
-        }
-
-        #endregion
-    }
 }

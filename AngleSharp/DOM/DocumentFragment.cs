@@ -48,7 +48,7 @@
         /// </summary>
         public IHtmlCollection Children
         {
-            get { return new HTMLCollection(_children.OfType<Element>()); }
+            get { return new HtmlElementCollection(_children.OfType<Element>()); }
         }
 
         /// <summary>

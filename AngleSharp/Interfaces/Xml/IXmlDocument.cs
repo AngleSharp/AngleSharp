@@ -18,6 +18,6 @@
         /// <param name="url">The URL to get the new DOM from.</param>
         /// <returns>True if the URL could be loaded successfully, otherwise false.</returns>
         [DomName("load")]
-        Boolean Load(String url);
+        Boolean LoadXml(String url);
     }
 }

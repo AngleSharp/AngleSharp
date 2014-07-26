@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM.Collections
 {
-    using AngleSharp.DOM.Css;
-    using AngleSharp.Parser.Css;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -140,91 +138,6 @@
                 sb.Append(entry.ToHtml());
 
             return sb.ToPool();
-        }
-
-        #endregion
-
-        #region Internal methods
-
-        /// <summary>
-        /// Returns the first element within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that matches the specified group of selectors.
-        /// </summary>
-        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
-        /// <returns>An element object.</returns>
-        internal IElement QuerySelector(String selectors)
-        {
-            var sg = CssParser.ParseSelector(selectors);
-            return this.QuerySelector(sg);
-        }
-
-        /// <summary>
-        /// Returns a list of the elements within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that match the specified group of selectors.
-        /// </summary>
-        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
-        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        internal HTMLCollection QuerySelectorAll(String selectors)
-        {
-            var sg = CssParser.ParseSelector(selectors);
-            var result = new List<IElement>();
-            this.QuerySelectorAll(sg, result);
-            return new HTMLCollection(result);
-        }
-
-        /// <summary>
-        /// Returns a list of the elements within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that matches the selector.
-        /// </summary>
-        /// <param name="selector">A selector object.</param>
-        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        internal HTMLCollection QuerySelectorAll(ISelector selector)
-        {
-            var result = new List<IElement>();
-            this.QuerySelectorAll(selector, result);
-            return new HTMLCollection(result);
-        }
-
-        /// <summary>
-        /// Returns a set of elements which have all the given class names.
-        /// </summary>
-        /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
-        /// <returns>A collection of HTML elements.</returns>
-        internal HTMLCollection GetElementsByClassName(String classNames)
-        {
-            var result = new List<IElement>();
-            var names = classNames.SplitSpaces();
-
-            if (names.Length > 0)
-                this.GetElementsByClassName(names, result);
-
-            return new HTMLCollection(result);
-        }
-
-        /// <summary>
-        /// Returns a NodeList of elements with the given tag name. The complete document is searched, including the root node.
-        /// </summary>
-        /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
-        /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        internal HTMLCollection GetElementsByTagName(String tagName)
-        {
-            var result = new List<IElement>();
-            this.GetElementsByTagName(tagName != "*" ? tagName : null, result);
-            return new HTMLCollection(result);
-        }
-
-        /// <summary>
-        /// Returns a list of elements with the given tag name belonging to the given namespace.
-        /// The complete document is searched, including the root node.
-        /// </summary>
-        /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
-        /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
-        /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        internal HTMLCollection GetElementsByTagNameNS(String namespaceUri, String localName)
-        {
-            var result = new List<IElement>();
-            this.GetElementsByTagNameNS(namespaceUri, localName != "*" ? localName : null, result);
-            return new HTMLCollection(result);
         }
 
         #endregion

@@ -10,7 +10,7 @@
         readonly INode _root;
         readonly FilterSettings _settings;
         readonly NodeFilter _filter;
-        HTMLCollection _iterator;
+        readonly HtmlElementCollection _iterator;
         INode _reference;
         Boolean _beforeNode;
 
@@ -25,7 +25,7 @@
             _filter = filter ?? (m => FilterResult.Accept);
             _reference = _root;
             _beforeNode = false;
-            _iterator = new HTMLCollection(_root);//TODO Use with Filter Settings
+            _iterator = new HtmlElementCollection(_root);//TODO Use with Filter Settings
         }
 
         #endregion
