@@ -133,9 +133,6 @@
     <Compile Include="..\AngleSharp\DOM\Collections\BaseCollection.cs">
       <Link>DOM\Collections\BaseCollection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\DOMStringList.cs">
-      <Link>DOM\Collections\DOMStringList.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\HTMLCollection.cs">
       <Link>DOM\Collections\HTMLCollection.cs</Link>
     </Compile>
@@ -154,11 +151,11 @@
     <Compile Include="..\AngleSharp\DOM\Collections\SettableTokenList.cs">
       <Link>DOM\Collections\SettableTokenList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\StringList.cs">
+      <Link>DOM\Collections\StringList.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\StringMap.cs">
       <Link>DOM\Collections\StringMap.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\StyleSheetList.cs">
-      <Link>DOM\Collections\StyleSheetList.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\TokenList.cs">
       <Link>DOM\Collections\TokenList.cs</Link>
@@ -1345,6 +1342,9 @@
     <Compile Include="..\AngleSharp\DOM\StyleSheet.cs">
       <Link>DOM\StyleSheet.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\StyleSheetList.cs">
+      <Link>DOM\StyleSheetList.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Svg\SVGCircleElement.cs">
       <Link>DOM\Svg\SVGCircleElement.cs</Link>
     </Compile>
@@ -1587,9 +1587,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IElementCssInlineStyle.cs">
       <Link>Interfaces\Css\IElementCssInlineStyle.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ILinkStyle.cs">
-      <Link>Interfaces\Css\ILinkStyle.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IMediaList.cs">
       <Link>Interfaces\Css\IMediaList.cs</Link>
@@ -1870,6 +1867,9 @@
     <Compile Include="..\AngleSharp\Interfaces\ILabelabelElement.cs">
       <Link>Interfaces\ILabelabelElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\ILinkStyle.cs">
+      <Link>Interfaces\ILinkStyle.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ILocation.cs">
       <Link>Interfaces\ILocation.cs</Link>
     </Compile>
@@ -1920,6 +1920,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IStyleSheet.cs">
       <Link>Interfaces\IStyleSheet.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IStyleSheetList.cs">
+      <Link>Interfaces\IStyleSheetList.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IText.cs">
       <Link>Interfaces\IText.cs</Link>
