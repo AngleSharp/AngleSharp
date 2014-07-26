@@ -10,7 +10,7 @@ namespace Samples.ViewModels
 {
     public class QueryViewModel : RequestViewModel
     {
-        ObservableCollection<Element> source;
+        ObservableCollection<IElement> source;
         String query;
         IDocument document;
         Brush state;
@@ -20,7 +20,7 @@ namespace Samples.ViewModels
         public QueryViewModel()
         {
             state = Brushes.LightGray;
-            source = new ObservableCollection<Element>();
+            source = new ObservableCollection<IElement>();
             query = "*";
         }
 
@@ -65,7 +65,7 @@ namespace Samples.ViewModels
             }
         }
 
-        public ObservableCollection<Element> Source
+        public ObservableCollection<IElement> Source
         {
             get { return source; }
         }

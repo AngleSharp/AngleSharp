@@ -80,7 +80,7 @@ namespace Samples.ViewModels
                         break;
 
                     case NodeType.Element:
-                        var node = (Element)child;
+                        var node = (IElement)child;
 
                         switch (node.TagName)
                         {

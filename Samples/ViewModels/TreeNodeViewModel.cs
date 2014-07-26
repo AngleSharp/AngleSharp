@@ -92,8 +92,8 @@ namespace Samples.ViewModels
                 return new TreeNodeViewModel { Value = Comment(((IComment)node).Data), Foreground = Brushes.Gray };
             else if (node is IDocumentType)
                 return new TreeNodeViewModel { Value = node.ToHtml(), Foreground = Brushes.DarkGray };
-            else if(node is Element)
-                return Create((Element)node);
+            else if(node is IElement)
+                return Create((IElement)node);
 
             return null;
         }
@@ -111,7 +111,7 @@ namespace Samples.ViewModels
             return new TreeNodeViewModel { Value = String.Join(" ", data), Foreground = Brushes.SteelBlue };
         }
 
-        static TreeNodeViewModel Create(Element node)
+        static TreeNodeViewModel Create(IElement node)
         {
             var vm = new TreeNodeViewModel { Value = OpenTag(node) };
 
@@ -166,13 +166,13 @@ namespace Samples.ViewModels
             return ReleaseString();
         }
 
-        static String OpenTag(Element element)
+        static String OpenTag(IElement element)
         {
             StartString('<').Append(element.TagName).Append(String.Join(" ", element.Attributes.Select(m => m.ToString()))).Append('>');
             return ReleaseString();
         }
 
-        static String CloseTag(Element element)
+        static String CloseTag(IElement element)
         {
             StartString("</").Append(element.TagName).Append('>');
             return ReleaseString();
