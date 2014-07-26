@@ -7,8 +7,7 @@
     /// Contains the rules specified by a
     /// @document { /* ... */ } rule.
     /// </summary>
-    [DomName("CSSDocumentRule")]
-    sealed class CSSDocumentRule : CSSGroupingRule
+    sealed class CSSDocumentRule : CSSGroupingRule, ICssDocumentRule
     {
         #region Fields
 
@@ -31,7 +30,6 @@
         /// <summary>
         /// Gets the condition text.
         /// </summary>
-        [DomName("conditionText")]
         public String ConditionText
         {
             get 
@@ -69,6 +67,10 @@
                 }
 
                 return sb.ToPool(); 
+            }
+            set
+            {
+                //TODO How to parse?
             }
         }
 
