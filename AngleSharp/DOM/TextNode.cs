@@ -122,18 +122,6 @@
         #region String representation
 
         /// <summary>
-        /// Returns a special textual representation of the node.
-        /// </summary>
-        /// <returns>A string containing only (rendered) text.</returns>
-        public override String ToText()
-        {
-            if (IsEmpty && Length > 0)
-                return " ";
-
-            return Data.Trim();
-        }
-
-        /// <summary>
         /// Returns a string containing the text in quotation mark.
         /// </summary>
         /// <returns>A string containing the text content.</returns>

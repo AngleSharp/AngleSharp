@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a list of Node instances or nodes.
     /// </summary>
-    sealed class NodeList : IHtmlObject, INodeList, IEnumerable<Node>
+    sealed class NodeList : IHtmlObject, INodeList
     {
         #region Fields
 
@@ -41,6 +41,16 @@
         {
             get { return index >= 0 && index < _entries.Count ? _entries[index] : null; }
             set { _entries[index] = value; }
+        }
+
+        /// <summary>
+        /// Gets a node within the list of nodes.
+        /// </summary>
+        /// <param name="index">The 0-based index of the node.</param>
+        /// <returns>The node at the specified index.</returns>
+        INode INodeList.this[Int32 index]
+        {
+            get { return this[index]; }
         }
 
         #endregion
@@ -108,7 +118,7 @@
         /// Returns an enumerator that iterates through the list.
         /// </summary>
         /// <returns>An IEnumerator for NodeList.</returns>
-        public IEnumerator<Node> GetEnumerator()
+        public IEnumerator<INode> GetEnumerator()
         {
             return _entries.GetEnumerator();
         }
@@ -138,28 +148,6 @@
                 sb.Append(entry.ToHtml());
 
             return sb.ToPool();
-        }
-
-        #endregion
-
-        #region INodeList
-
-        INode INodeList.this[Int32 index]
-        {
-            get { return this[index]; }
-        }
-
-        Int32 INodeList.Length
-        {
-            get { return Length; }
-        }
-
-        IEnumerator<INode> IEnumerable<INode>.GetEnumerator()
-        {
-            var enumerator = GetEnumerator();
-
-            while (enumerator.MoveNext())
-                yield return enumerator.Current;
         }
 
         #endregion

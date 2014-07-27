@@ -284,18 +284,5 @@
         }
 
         #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Returns a special textual representation of the node.
-        /// </summary>
-        /// <returns>A string containing only (rendered) text.</returns>
-        public override String ToText()
-        {
-            return String.Empty;
-        }
-
-        #endregion
     }
 }

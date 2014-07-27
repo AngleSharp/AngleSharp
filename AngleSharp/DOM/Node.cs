@@ -806,20 +806,6 @@
         }
 
         /// <summary>
-        /// Returns a special textual representation of the node.
-        /// </summary>
-        /// <returns>A string containing only (rendered) text.</returns>
-        public virtual String ToText()
-        {
-            var sb = Pool.NewStringBuilder();
-
-            foreach (var child in _children)
-                sb.Append(child.ToText());
-
-            return sb.ToPool();
-        }
-
-        /// <summary>
         /// Returns a (string) tree representation of the node and all sub-nodes.
         /// </summary>
         /// <param name="indent">The optional indentation level.</param>
@@ -829,16 +815,13 @@
             var sb = Pool.NewStringBuilder();
             var content = ToString();
 
-            if (indent == 0)
-                sb.AppendLine(content);
-            else
-            {
+            if (indent != 0)
                 sb.Append(String.Empty.PadRight(2 * indent, ' '));
-                sb.AppendLine(content);
-            }
+            
+            sb.AppendLine(content);
 
-            foreach (var child in _children)
-                sb.Append(child.ToTree(indent + 1));
+            for (int i = 0; i < _children.Length; i++)
+                sb.Append(_children[i].ToTree(indent + 1));
 
             return sb.ToPool();
         }
