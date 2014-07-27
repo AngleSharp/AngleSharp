@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.DOM.Collections
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     sealed class NodeIterator : INodeIterator
     {
@@ -9,7 +11,7 @@
         readonly INode _root;
         readonly FilterSettings _settings;
         readonly NodeFilter _filter;
-        readonly HtmlElementCollection _iterator;
+        readonly IEnumerable<INode> _iterator;
         INode _reference;
         Boolean _beforeNode;
 
@@ -22,9 +24,9 @@
             _root = root;
             _settings = settings;
             _filter = filter ?? (m => FilterResult.Accept);
-            _reference = _root;
-            _beforeNode = false;
-            _iterator = new HtmlElementCollection(_root.GetElements<IElement>(settings));
+            _beforeNode = true;
+            _iterator = _root.GetElements<INode>(settings);
+            _reference = _iterator.First();
         }
 
         #endregion
@@ -62,69 +64,46 @@
 
         public INode Next()
         {
-            if (!_beforeNode)
-            {
-                var result = FilterResult.Accept;
-
-                do
-                {
-                    INode node = null;
-                    var match = false;
-
-                    foreach (var item in _iterator)
-                    {
-                        node = item;
-
-                        if (match == true)
-                            break;
-
-                        match = item == _reference;
-                    }
-
-                    _reference = node;
-
-                    if (node == null)
-                        break;
-
-                    result = _filter(_reference);
-                }
-                while (result != FilterResult.Accept);
-            }
+            var node = _reference;
+            var beforeNode = _beforeNode;
             
-            _beforeNode = false;
-            return _reference;
+            do
+            {
+                if (!beforeNode)
+                    node = _iterator.SkipWhile(m => m != node).Skip(1).FirstOrDefault();
+
+                if (node == null)
+                    return null;
+
+                beforeNode = false;
+            }
+            while (_filter(node) != FilterResult.Accept);
+
+            _beforeNode = beforeNode;
+            _reference = node;
+            return node;
         }
 
         public INode Previous()
         {
-            if (_beforeNode)
+            var node = _reference;
+            var beforeNode = _beforeNode;
+
+            do
             {
-                var result = FilterResult.Accept;
+                if (beforeNode)
+                    node = _iterator.TakeWhile(m => m != node).LastOrDefault();
 
-                do
-                {
-                    INode node = null;
+                if (node == null)
+                    return null;
 
-                    foreach (var item in _iterator)
-                    {
-                        if (item == _reference)
-                            break;
-
-                        node = item;
-                    }
-
-                    _reference = node;
-
-                    if (node == null)
-                        break;
-
-                    result = _filter(_reference);
-                }
-                while (result != FilterResult.Accept);
+                beforeNode = true;
             }
+            while (_filter(node) != FilterResult.Accept);
 
-            _beforeNode = true;
-            return _reference;
+            _beforeNode = beforeNode;
+            _reference = node;
+            return node;
         }
 
         #endregion

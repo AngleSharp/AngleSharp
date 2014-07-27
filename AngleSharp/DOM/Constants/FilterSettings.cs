@@ -6,6 +6,7 @@
     /// The enumeration with the flags for setting the NodeIterator.
     /// </summary>
     [Flags]
+    [DomName("NodeFilter")]
     public enum FilterSettings : ulong
     {
         /// <summary>

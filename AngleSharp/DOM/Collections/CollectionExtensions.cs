@@ -6,7 +6,7 @@
     static class CollectionExtensions
     {
         public static IEnumerable<T> GetElements<T>(this INode parent, Boolean deep = true, Predicate<T> predicate = null)
-            where T : class, IElement
+            where T : class, INode
         {
             predicate = predicate ?? (m => true);
 
@@ -50,7 +50,7 @@
         }
 
         public static IEnumerable<T> GetElements<T>(this INode parent, FilterSettings filter)
-            where T : class, IElement
+            where T : class, INode
         {
             return parent.GetElements<T>(predicate: (node => filter.Accepts(node)));
         }
@@ -74,7 +74,7 @@
         }
 
         static IEnumerable<T> GetAllElementsOf<T>(INode parent, Predicate<T> predicate)
-            where T : class, IElement
+            where T : class, INode
         {
             for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
@@ -89,7 +89,7 @@
         }
 
         static IEnumerable<T> GetOnlyElementsOf<T>(INode parent, Predicate<T> predicate)
-            where T : class, IElement
+            where T : class, INode
         {
             for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
