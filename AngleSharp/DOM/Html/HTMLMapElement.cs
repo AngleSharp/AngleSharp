@@ -2,36 +2,17 @@
 {
     using AngleSharp.DOM.Collections;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the HTML map element.
     /// </summary>
     sealed class HTMLMapElement : HTMLElement, IHtmlMapElement
     {
-        #region Constant
-
-        /// <summary>
-        /// The map tag.
-        /// </summary>
-        internal const String Tag = "map";
-
-        #endregion
-
-        #region Fields
-
-        readonly List<Element> _areas;
-        readonly List<Element> _images;
-
-        #endregion
-
         #region ctor
 
         internal HTMLMapElement()
         {
-            _name = Tag;
-            _areas = new List<Element>();
-            _images = new List<Element>();
+            _name = Tags.Map;
         }
 
         #endregion
@@ -53,7 +34,7 @@
         /// </summary>
         public IHtmlCollection Areas
         {
-            get { return new HtmlElementCollection(_areas); }
+            get { return new HtmlCollection<IHtmlAreaElement>(this, false); }
         }
 
         /// <summary>
@@ -62,7 +43,24 @@
         /// </summary>
         public IHtmlCollection Images
         {
-            get { return new HtmlElementCollection(_images); }
+            get { return new HtmlCollection<IHtmlImageElement>(Owner.DocumentElement, predicate: IsAssociatedImage); }
+        }
+
+        #endregion
+
+        #region Helper
+
+        Boolean IsAssociatedImage(IHtmlImageElement image)
+        {
+            var usemap = image.UseMap;
+
+            if (!String.IsNullOrEmpty(usemap))
+            {
+                var name = usemap[0] == '#' ? '#' + Name : Name;
+                return usemap == name;
+            }
+
+            return false;
         }
 
         #endregion

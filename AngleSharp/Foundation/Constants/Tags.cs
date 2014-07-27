@@ -633,6 +633,11 @@
         /// </summary>
         public static readonly String Output = "output";
 
+        /// <summary>
+        /// The map tag.
+        /// </summary>
+        public static readonly String Map = "map";
+
         #endregion
 
         #region MathML Tags

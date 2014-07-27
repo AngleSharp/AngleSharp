@@ -125,6 +125,7 @@
             creators.Add(Tags.Time, () => new HTMLTimeElement());
             creators.Add(Tags.Progress, () => new HTMLProgressElement());
             creators.Add(Tags.Output, () => new HTMLOutputElement());
+            creators.Add(Tags.Map, () => new HTMLMapElement());
         }
 
         protected override HTMLElement CreateDefault(String name, Document document)
