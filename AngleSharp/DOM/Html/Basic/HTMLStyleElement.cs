@@ -73,45 +73,6 @@
 
         #endregion
 
-        #region Methods
-
-        public override INode AppendChild(INode child)
-        {
-            var node = base.AppendChild(child);
-            OnChildrenChanged();
-            return node;
-        }
-
-        public override INode InsertBefore(INode newElement, INode referenceElement)
-        {
-            var node = base.InsertBefore(newElement, referenceElement);
-            OnChildrenChanged();
-            return node;
-        }
-
-        public override INode InsertChild(int index, INode child)
-        {
-            var node = base.InsertChild(index, child);
-            OnChildrenChanged();
-            return node;
-        }
-
-        public override INode RemoveChild(INode child)
-        {
-            var node = base.RemoveChild(child);
-            OnChildrenChanged();
-            return node;
-        }
-
-        public override INode ReplaceChild(INode newChild, INode oldChild)
-        {
-            var node = base.ReplaceChild(newChild, oldChild);
-            OnChildrenChanged();
-            return node;
-        }
-
-        #endregion
-
         #region Internal properties
 
         /// <summary>
@@ -126,7 +87,10 @@
 
         #region Internal methods
 
-        void OnChildrenChanged()
+        /// <summary>
+        /// Called if the children structure changed (due to add, insert, replace or remove).
+        /// </summary>
+        protected override void OnChildrenChanged()
         {
             var owner = Owner;
 

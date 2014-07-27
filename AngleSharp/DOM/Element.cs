@@ -462,6 +462,70 @@
         #region Methods
 
         /// <summary>
+        /// Adds a child to the collection of children.
+        /// </summary>
+        /// <param name="child">The child to add.</param>
+        /// <returns>The added child.</returns>
+        public override INode AppendChild(INode child)
+        {
+            var node = DefaultAppendChild(child);
+            OnChildrenChanged();
+            return node;
+        }
+
+        /// <summary>
+        /// Inserts a child to the collection of children at the specified index.
+        /// </summary>
+        /// <param name="index">The index where to insert.</param>
+        /// <param name="child">The child to insert.</param>
+        /// <returns>The inserted child.</returns>
+        public override INode InsertChild(Int32 index, INode child)
+        {
+            var node = DefaultInsertChild(index, child);
+            OnChildrenChanged();
+            return node;
+        }
+
+        /// <summary>
+        /// Inserts the specified node before a reference element as a child of the current node.
+        /// </summary>
+        /// <param name="newElement">The node to insert.</param>
+        /// <param name="referenceElement">The node before which newElement is inserted. If
+        /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
+        /// <returns>The inserted node.</returns>
+        public override INode InsertBefore(INode newElement, INode referenceElement)
+        {
+            var node = DefaultInsertBefore(newElement, referenceElement);
+            OnChildrenChanged();
+            return node;
+        }
+
+        /// <summary>
+        /// Replaces one child node of the specified element with another.
+        /// </summary>
+        /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
+        /// <param name="oldChild">The existing child to be replaced.</param>
+        /// <returns>The replaced node. This is the same node as oldChild.</returns>
+        public override INode ReplaceChild(INode newChild, INode oldChild)
+        {
+            var node = DefaultReplaceChild(newChild, oldChild);
+            OnChildrenChanged();
+            return node;
+        }
+
+        /// <summary>
+        /// Removes a child from the collection of children.
+        /// </summary>
+        /// <param name="child">The child to remove.</param>
+        /// <returns>The removed child.</returns>
+        public override INode RemoveChild(INode child)
+        {
+            var node = DefaultRemoveChild(child);
+            OnChildrenChanged();
+            return node;
+        }
+
+        /// <summary>
         /// Returns the first element within the document (using depth-first pre-order traversal
         /// of the document's nodes) that matches the specified group of selectors.
         /// </summary>
@@ -962,7 +1026,7 @@
         }
 
         /// <summary>
-        /// Entry point for attributes to notify about a change (modified, added, removed).
+        /// Called if an attribute changed, has been added or removed.
         /// </summary>
         /// <param name="name">The name of the attribute that has been changed.</param>
         protected virtual void OnAttributeChanged(String name)
@@ -972,6 +1036,13 @@
                 if (_classList != null)
                     _classList.Update(ClassName);
             }
+        }
+
+        /// <summary>
+        /// Called if the children structure changed (due to add, insert, replace or remove).
+        /// </summary>
+        protected virtual void OnChildrenChanged()
+        {
         }
 
         #endregion

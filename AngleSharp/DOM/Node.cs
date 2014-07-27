@@ -370,33 +370,7 @@
         /// <returns>The added child.</returns>
         public virtual INode AppendChild(INode child)
         {
-            if (child is IDocumentFragment)
-            {
-                var childs = child.ChildNodes;
-
-                for (int i = 0; i < childs.Length; i++)
-                    AppendChild(childs[i]);
-            }
-            else if (child is IDocument || child.Contains(this))
-            {
-                throw new DomException(ErrorCode.HierarchyRequest);
-            }
-            else
-            {
-                if (child.Parent != null)
-                    throw new DomException(ErrorCode.InUse);
-
-                var childNode = child as Node;
-
-                if (childNode != null)
-                {
-                    childNode._parent = this;
-                    childNode.Owner = _owner ?? (this as Document);
-                    _children.Add(childNode);
-                }
-            }
-
-            return child;
+            return DefaultAppendChild(child);
         }
 
         /// <summary>
@@ -407,33 +381,7 @@
         /// <returns>The inserted child.</returns>
         public virtual INode InsertChild(Int32 index, INode child)
         {
-            if (child is IDocumentFragment)
-            {
-                var childs = child.ChildNodes;
-
-                for (int i = 0; i < childs.Length; i++)
-                    InsertChild(index + i, childs[i]);
-            }
-            else if (child is IDocument || child.Contains(this))
-            {
-                throw new DomException(ErrorCode.HierarchyRequest);
-            }
-            else
-            {
-                if (child.Parent != null)
-                    throw new DomException(ErrorCode.InUse);
-
-                var childNode = child as Node;
-
-                if (childNode != null)
-                {
-                    childNode._parent = this;
-                    childNode.Owner = _owner ?? (this as Document);
-                    _children.Insert(index, childNode);
-                }
-            }
-
-            return child;
+            return DefaultInsertChild(index, child);
         }
 
         /// <summary>
@@ -445,18 +393,7 @@
         /// <returns>The inserted node.</returns>
         public virtual INode InsertBefore(INode newElement, INode referenceElement)
         {
-            if (newElement is IDocument || newElement.Contains(this))
-                throw new DomException(ErrorCode.HierarchyRequest);
-
-            var n = _children.Length;
-
-            for (int i = 0; i < n; i++)
-            {
-                if (_children[i] == referenceElement)
-                    return InsertChild(i, newElement);
-            }
-
-            return AppendChild(newElement);
+            return DefaultInsertBefore(newElement, referenceElement);
         }
 
         /// <summary>
@@ -467,26 +404,7 @@
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
         public virtual INode ReplaceChild(INode newChild, INode oldChild)
         {
-            if (newChild is IDocument || newChild.Contains(this))
-                throw new DomException(ErrorCode.HierarchyRequest);
-            else if (newChild == oldChild)
-                return oldChild;
-            else if (newChild.Parent != null)
-                throw new DomException(ErrorCode.InUse);
-
-            var n = _children.Length;
-
-            for (int i = 0; i < n; i++)
-            {
-                if (_children[i] == oldChild)
-                {
-                    RemoveChild(oldChild);
-                    InsertChild(i, newChild);
-                    return oldChild;
-                }
-            }
-
-            return null;
+            return DefaultReplaceChild(newChild, oldChild);
         }
 
         /// <summary>
@@ -496,16 +414,7 @@
         /// <returns>The removed child.</returns>
         public virtual INode RemoveChild(INode child)
         {
-            var childNode = child as Node;
-
-            if (childNode != null && _children.Contains(childNode))
-            {
-                childNode.Owner = null;
-                childNode.Parent = null;
-                _children.Remove(childNode);
-            }
-
-            return child;
+            return DefaultRemoveChild(child);
         }
 
         /// <summary>
@@ -660,6 +569,151 @@
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Adds a child to the collection of children.
+        /// </summary>
+        /// <param name="child">The child to add.</param>
+        /// <returns>The added child.</returns>
+        protected INode DefaultAppendChild(INode child)
+        {
+            if (child is IDocumentFragment)
+            {
+                var childs = child.ChildNodes;
+
+                for (int i = 0; i < childs.Length; i++)
+                    DefaultAppendChild(childs[i]);
+            }
+            else if (child is IDocument || child.Contains(this))
+            {
+                throw new DomException(ErrorCode.HierarchyRequest);
+            }
+            else
+            {
+                if (child.Parent != null)
+                    throw new DomException(ErrorCode.InUse);
+
+                var childNode = child as Node;
+
+                if (childNode != null)
+                {
+                    childNode._parent = this;
+                    childNode.Owner = _owner ?? (this as Document);
+                    _children.Add(childNode);
+                }
+            }
+
+            return child;
+        }
+
+        /// <summary>
+        /// Inserts a child to the collection of children at the specified index.
+        /// </summary>
+        /// <param name="index">The index where to insert.</param>
+        /// <param name="child">The child to insert.</param>
+        /// <returns>The inserted child.</returns>
+        protected INode DefaultInsertChild(Int32 index, INode child)
+        {
+            if (child is IDocumentFragment)
+            {
+                var childs = child.ChildNodes;
+
+                for (int i = 0; i < childs.Length; i++)
+                    DefaultInsertChild(index + i, childs[i]);
+            }
+            else if (child is IDocument || child.Contains(this))
+            {
+                throw new DomException(ErrorCode.HierarchyRequest);
+            }
+            else
+            {
+                if (child.Parent != null)
+                    throw new DomException(ErrorCode.InUse);
+
+                var childNode = child as Node;
+
+                if (childNode != null)
+                {
+                    childNode._parent = this;
+                    childNode.Owner = _owner ?? (this as Document);
+                    _children.Insert(index, childNode);
+                }
+            }
+
+            return child;
+        }
+
+        /// <summary>
+        /// Inserts the specified node before a reference element as a child of the current node.
+        /// </summary>
+        /// <param name="newElement">The node to insert.</param>
+        /// <param name="referenceElement">The node before which newElement is inserted. If
+        /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
+        /// <returns>The inserted node.</returns>
+        protected INode DefaultInsertBefore(INode newElement, INode referenceElement)
+        {
+            if (newElement is IDocument || newElement.Contains(this))
+                throw new DomException(ErrorCode.HierarchyRequest);
+
+            var n = _children.Length;
+
+            for (int i = 0; i < n; i++)
+            {
+                if (_children[i] == referenceElement)
+                    return DefaultInsertChild(i, newElement);
+            }
+
+            return DefaultAppendChild(newElement);
+        }
+
+        /// <summary>
+        /// Replaces one child node of the specified element with another.
+        /// </summary>
+        /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
+        /// <param name="oldChild">The existing child to be replaced.</param>
+        /// <returns>The replaced node. This is the same node as oldChild.</returns>
+        protected INode DefaultReplaceChild(INode newChild, INode oldChild)
+        {
+            if (newChild is IDocument || newChild.Contains(this))
+                throw new DomException(ErrorCode.HierarchyRequest);
+            else if (newChild == oldChild)
+                return oldChild;
+            else if (newChild.Parent != null)
+                throw new DomException(ErrorCode.InUse);
+
+            var n = _children.Length;
+
+            for (int i = 0; i < n; i++)
+            {
+                if (_children[i] == oldChild)
+                {
+                    DefaultRemoveChild(oldChild);
+                    DefaultInsertChild(i, newChild);
+                    return oldChild;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Removes a child from the collection of children.
+        /// </summary>
+        /// <param name="child">The child to remove.</param>
+        /// <returns>The removed child.</returns>
+        protected INode DefaultRemoveChild(INode child)
+        {
+            var childNode = child as Node;
+
+            if (childNode != null && _children.Contains(childNode))
+            {
+                childNode.Owner = null;
+                childNode.Parent = null;
+                _children.Remove(childNode);
+            }
+
+            return child;
+        }
 
         /// <summary>
         /// Firing a simple event named e means that a trusted event with the name e,
