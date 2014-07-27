@@ -1,6 +1,5 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.DOM
 {
-    using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Navigator;
     using System;
