@@ -11,8 +11,8 @@
 
         readonly String _name;
         readonly String _ns;
+        readonly Action<String> _changed;
         String _value;
-        Element _parent;
 
         #endregion
 
@@ -22,8 +22,9 @@
         /// Creates a new NodeAttribute with empty value.
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
-        internal Attr(String name)
-            : this(name, String.Empty, null)
+        /// <param name="changed">The handler to call on changed.</param>
+        internal Attr(String name, Action<String> changed)
+            : this(name, String.Empty, null, changed)
         {
         }
 
@@ -32,8 +33,9 @@
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        internal Attr(String name, String value)
-            : this(name, value, null)
+        /// <param name="changed">The handler to call on changed.</param>
+        internal Attr(String name, String value, Action<String> changed)
+            : this(name, value, null, changed)
         {
         }
 
@@ -43,25 +45,18 @@
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
         /// <param name="ns">The namespace of the attribute.</param>
-        internal Attr(String name, String value, String ns)
+        /// <param name="changed">The handler to call on changed.</param>
+        internal Attr(String name, String value, String ns, Action<String> changed)
         {
             _name = name;
             _value = value;
             _ns = ns ?? String.Empty;
+            _changed = changed ?? (_ => { });
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the parent element.
-        /// </summary>
-        internal Element Parent
-        {
-            get { return _parent; }
-            set { _parent = value; }
-        }
 
         /// <summary>
         /// Gets the namespace prefix of the specified node, or null if no prefix is specified.
@@ -84,7 +79,7 @@
         /// </summary>
         public Boolean IsId
         {
-            get { return _name.Equals("id", StringComparison.OrdinalIgnoreCase); }
+            get { return _name.Equals(AttributeNames.Id, StringComparison.OrdinalIgnoreCase); }
         }
 
         /// <summary>
@@ -109,7 +104,7 @@
         public String Value
         {
             get { return _value; }
-            set { _value = value; RaiseChanged(); }
+            set { _value = value; _changed(_name); }
         }
 
         /// <summary>
@@ -134,16 +129,6 @@
         public String NamespaceUri
         {
             get { return _ns; }
-        }
-
-        #endregion
-
-        #region Helpers
-
-        void RaiseChanged()
-        {
-            if (_parent != null)
-                _parent.OnAttributeChanged(_name);
         }
 
         #endregion

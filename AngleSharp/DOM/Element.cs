@@ -597,13 +597,7 @@
         /// <returns>The return value of true or false.</returns>
         public Boolean HasAttribute(String name)
         {
-            for (int i = 0; i < _attributes.Count; i++)
-            {
-                if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-                    return true;
-            }
-
-            return false;
+            return _attributes.Has(name);
         }
 
         /// <summary>
@@ -657,11 +651,22 @@
         }
 
         /// <summary>
+        /// Adds a new attribute if the attribute is not yet created.
+        /// Does not fire the changed event.
+        /// </summary>
+        /// <param name="name">The name of the attribute as a string.</param>
+        /// <param name="value">The desired new value of the attribute.</param>
+        internal void AddAttribute(String name, String value)
+        {
+            if (!_attributes.Has(name))
+                _attributes.Add(new Attr(name, value, OnAttributeChanged));
+        }
+
+        /// <summary>
         /// Adds a new attribute or changes the value of an existing attribute on the specified element.
         /// </summary>
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
-        /// <returns>The current element.</returns>
         public void SetAttribute(String name, String value)
         {
             if (value == null)
@@ -679,7 +684,7 @@
                 }
             }
 
-            _attributes.Add(new Attr(name, value) { Parent = this });
+            _attributes.Add(new Attr(name, value, OnAttributeChanged));
             OnAttributeChanged(name);
         }
 
@@ -706,7 +711,7 @@
                 }
             }
 
-            _attributes.Add(new Attr(name, value, namespaceUri) { Parent = this });
+            _attributes.Add(new Attr(name, value, namespaceUri, OnAttributeChanged));
             OnAttributeChanged(name);
         }
 
@@ -960,7 +965,7 @@
         /// Entry point for attributes to notify about a change (modified, added, removed).
         /// </summary>
         /// <param name="name">The name of the attribute that has been changed.</param>
-        internal virtual void OnAttributeChanged(String name)
+        protected virtual void OnAttributeChanged(String name)
         {
             if (name.Equals(AttributeNames.Class, StringComparison.Ordinal))
             {

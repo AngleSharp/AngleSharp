@@ -290,7 +290,7 @@
             return parent as IHtmlFormElement;
         }
 
-        internal override void OnAttributeChanged(String name)
+        protected override void OnAttributeChanged(String name)
         {
             if (name.Equals(AttributeNames.Style, StringComparison.Ordinal))
                 Style.Update(GetAttribute(AttributeNames.Style));

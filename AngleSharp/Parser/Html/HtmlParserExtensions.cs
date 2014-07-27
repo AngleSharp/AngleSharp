@@ -40,10 +40,7 @@
         public static void AppendAttributes(this Element element, HtmlTagToken tag)
         {
             foreach (var attr in tag.Attributes)
-            {
-                if (!element.HasAttribute(attr.Key))
-                    element.Attributes.Add(new Attr(attr.Key, attr.Value) { Parent = element });
-            }
+                element.AddAttribute(attr.Key, attr.Value);
         }
     }
 }

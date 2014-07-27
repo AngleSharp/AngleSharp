@@ -52,7 +52,7 @@
         /// <returns>The attribute with the given name.</returns>
         public IAttr this[String name]
         {
-            get { return _attributes.Where(m => m.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault(); }
+            get { return _attributes.FirstOrDefault(m => m.Name.Equals(name, StringComparison.OrdinalIgnoreCase)); }
         }
 
         #endregion
@@ -62,6 +62,17 @@
         internal void Add(IAttr attribute)
         {
             _attributes.Add(attribute);
+        }
+
+        internal Boolean Has(String name)
+        {
+            for (int i = 0; i < _attributes.Count; i++)
+            {
+                if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+
+            return false;
         }
 
         internal void RemoveAt(Int32 index)

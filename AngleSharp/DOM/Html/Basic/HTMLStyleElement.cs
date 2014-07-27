@@ -140,7 +140,7 @@
         /// Entry point for attributes to notify about a change (modified, added, removed).
         /// </summary>
         /// <param name="name">The name of the attribute that has been changed.</param>
-        internal override void OnAttributeChanged(String name)
+        protected override void OnAttributeChanged(String name)
         {
             if (name.Equals(AttributeNames.Media, StringComparison.Ordinal))
             {

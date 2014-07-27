@@ -181,7 +181,7 @@
             if (_index < _content.Length)
                 return _content[_index++];
 
-            await ExpandBufferAsync(BufferSize, cancellationToken);
+            await ExpandBufferAsync(BufferSize, cancellationToken).ConfigureAwait(false);
             var index = _index++;
             return index < _content.Length ? _content[index] : Specification.EndOfFile;
         }
@@ -203,7 +203,7 @@
                 return _content.ToString(start, characters);
             }
 
-            await ExpandBufferAsync(Math.Max(BufferSize, characters), cancellationToken);
+            await ExpandBufferAsync(Math.Max(BufferSize, characters), cancellationToken).ConfigureAwait(false);
             _index += characters;
             characters = Math.Min(characters, _content.Length - start);
             return _content.ToString(start, characters);
@@ -273,7 +273,7 @@
 
         async Task ReadIntoBufferAsync(CancellationToken cancellationToken)
         {
-            var returned = await _baseStream.ReadAsync(_buffer, 0, BufferSize, cancellationToken);
+            var returned = await _baseStream.ReadAsync(_buffer, 0, BufferSize, cancellationToken).ConfigureAwait(false);
             AppendContentFromBuffer(returned);
         }
 
