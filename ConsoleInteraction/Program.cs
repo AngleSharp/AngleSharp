@@ -31,11 +31,11 @@ namespace ConsoleInteraction
   
             CssSelectorTest.Slickspeed();
 
-            //TestCSSFrom("http://www.facebook.com");
+            TestCSSFrom("http://www.facebook.com");
 
-            //TestCSSFrom("http://www.tumblr.com");
+            TestCSSFrom("http://www.tumblr.com");
 
-            //TestCSSFrom("http://www.flickr.com");
+            TestCSSFrom("http://www.flickr.com");
 
             TestCSS(Stylesheets.rsi, "a sample stylesheet");
 
@@ -87,10 +87,10 @@ namespace ConsoleInteraction
         static async Task TestAsync()
         {
             Console.WriteLine("Starting async!");
-            var sw = Stopwatch.StartNew();
             var parser = new HtmlParser(HtmlFiles.W3C);
 
             var task = parser.ParseAsync();
+            var sw = Stopwatch.StartNew();
 
             while (!task.IsCompleted)
             {
