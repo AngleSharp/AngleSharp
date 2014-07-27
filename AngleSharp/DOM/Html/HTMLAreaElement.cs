@@ -319,7 +319,7 @@
         #region Helpers
 
         /// <summary>
-        /// Entry point for attributes to notify about a change (modified, added, removed).
+        /// Called if an attribute changed, has been added or removed.
         /// </summary>
         /// <param name="name">The name of the attribute that has been changed.</param>
         protected override void OnAttributeChanged(String name)

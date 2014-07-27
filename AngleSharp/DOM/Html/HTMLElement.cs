@@ -290,6 +290,10 @@
             return parent as IHtmlFormElement;
         }
 
+        /// <summary>
+        /// Called if an attribute changed, has been added or removed.
+        /// </summary>
+        /// <param name="name">The name of the attribute that has been changed.</param>
         protected override void OnAttributeChanged(String name)
         {
             if (name.Equals(AttributeNames.Style, StringComparison.Ordinal))
