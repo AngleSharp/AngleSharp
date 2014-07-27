@@ -8,10 +8,10 @@ using AngleSharp.DOM.Html;
 namespace UnitTests.Library
 {
     [TestClass]
-    public class TreeWalkerTests
+    public class NodeIteratorTests
     {
         [TestMethod]
-        public void TreeWalkerJavaScriptKitDivision()
+        public void NodeIteratorJavaScriptKitDivision()
         {
             var source = @"<div id=contentarea>
 <p>Some <span>text</span></p>
@@ -23,26 +23,31 @@ namespace UnitTests.Library
             var rootnode = doc.GetElementById("contentarea");
             Assert.IsNotNull(rootnode);
 
-            var walker = doc.CreateTreeWalker(rootnode, FilterSettings.Element);
-            Assert.IsNotNull(walker);
-            Assert.AreEqual(rootnode, walker.Current);
+            var iterator = doc.CreateNodeIterator(rootnode, FilterSettings.Element);
+            Assert.IsNotNull(iterator);
+            Assert.AreEqual(rootnode, iterator.Root);
+            Assert.IsTrue(iterator.IsBeforeReference);
 
             var results = new List<INode>();
 
-            while (walker.ToNext() != null)
-                results.Add(walker.Current);
+            while (iterator.Next() != null)
+                results.Add(iterator.Reference);
 
+            Assert.IsFalse(iterator.IsBeforeReference);
             Assert.AreEqual(3, results.Count);
             Assert.IsInstanceOfType(results[0], typeof(HTMLParagraphElement));
             Assert.IsInstanceOfType(results[1], typeof(HTMLSpanElement));
             Assert.IsInstanceOfType(results[2], typeof(HTMLBoldElement));
 
-            walker.Current = rootnode;
-            Assert.IsInstanceOfType(walker.ToFirst(), typeof(HTMLParagraphElement));
+            do
+                results.Remove(iterator.Reference);
+            while (iterator.Previous() != null);
+
+            Assert.IsTrue(iterator.IsBeforeReference);
         }
 
         [TestMethod]
-        public void TreeWalkerJavaScriptKitParagraph()
+        public void NodeIteratorJavaScriptKitParagraph()
         {
             var source = @"<p id=essay>George<span> loves </span><b>JavaScript!</b></p>";
             var doc = DocumentBuilder.Html(source);
@@ -51,22 +56,23 @@ namespace UnitTests.Library
             var rootnode = doc.GetElementById("essay");
             Assert.IsNotNull(rootnode);
 
-            var walker = doc.CreateTreeWalker(rootnode, FilterSettings.Text);
-            Assert.IsNotNull(walker);
-            Assert.AreEqual(rootnode, walker.Current);
+            var iterator = doc.CreateNodeIterator(rootnode, FilterSettings.Text);
+            Assert.IsNotNull(iterator);
+            Assert.AreEqual(rootnode, iterator.Root);
+            Assert.IsTrue(iterator.IsBeforeReference);
 
-            Assert.AreEqual("George", walker.ToFirst().TextContent);
+            Assert.AreEqual("George", iterator.Next().TextContent);
 
-            var paratext = walker.Current.TextContent;
+            var paratext = iterator.Reference.TextContent;
 
-            while (walker.ToNextSibling() != null)
-                paratext += walker.Current.TextContent;
+            while (iterator.Next() != null)
+                paratext += iterator.Reference.TextContent;
 
             Assert.AreEqual("George loves JavaScript!", paratext);
         }
 
         [TestMethod]
-        public void TreeWalkerJavaScriptKitList()
+        public void NodeIteratorJavaScriptKitList()
         {
             var source = @"<ul id=mylist>
 <li class='item'>List 1</li>
@@ -79,7 +85,7 @@ namespace UnitTests.Library
             var rootnode = doc.GetElementById("mylist");
             Assert.IsNotNull(rootnode);
 
-            var walker = doc.CreateTreeWalker(rootnode, FilterSettings.Element, node =>
+            var iterator = doc.CreateNodeIterator(rootnode, FilterSettings.Element, node =>
             {
                 var element = node as IHtmlListItemElement;
 
@@ -89,13 +95,13 @@ namespace UnitTests.Library
                 return FilterResult.Reject;
             });
 
-            Assert.IsNotNull(walker);
-            Assert.AreEqual(rootnode, walker.Current);
+            Assert.IsNotNull(iterator);
+            Assert.AreEqual(rootnode, iterator.Root);
 
             var results = new List<INode>();
 
-            while (walker.ToNext() != null)
-                results.Add(walker.Current);
+            while (iterator.Next() != null)
+                results.Add(iterator.Reference);
 
             Assert.AreEqual(7, rootnode.ChildNodes.Length);
             Assert.AreEqual(3, rootnode.Children.Length);
@@ -112,7 +118,7 @@ namespace UnitTests.Library
         }
 
         [TestMethod]
-        public void TreeWalkerDotteroSpans()
+        public void NodeIteratorDotteroSpans()
         {
             var source = @"<div id=""content"">
         <span>
@@ -131,12 +137,12 @@ namespace UnitTests.Library
             var rootnode = doc.GetElementById("content");
             Assert.IsNotNull(rootnode);
 
-            var walker = doc.CreateTreeWalker(rootnode, FilterSettings.Element, 
+            var iterator = doc.CreateNodeIterator(rootnode, FilterSettings.Element,
                 m => m.NodeName == "span" ? FilterResult.Accept : FilterResult.Skip);
-            Assert.IsNotNull(walker);
-            Assert.AreEqual(rootnode, walker.Current);
+            Assert.IsNotNull(iterator);
+            Assert.AreEqual(rootnode, iterator.Root);
 
-            var node = walker.ToFirst();
+            var node = iterator.Next();
             var sections = 0;
             Assert.IsNotNull(node);
 
@@ -144,10 +150,10 @@ namespace UnitTests.Library
             {
                 Assert.AreEqual("span", node.NodeName);
                 sections++;
-                node = walker.ToNextSibling();
+                node = iterator.Next();
             }
 
-            Assert.AreEqual(2, sections);
+            Assert.AreEqual(3, sections);
         }
     }
 }
