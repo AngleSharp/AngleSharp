@@ -59,10 +59,10 @@
 
             while (node != null)
             {
-                while (result != FilterResult.Accept && node.HasChilds)
+                while (result != FilterResult.Reject && node.HasChilds)
                 {
                     node = node.FirstChild;
-                    result = _filter(node);
+                    result = Check(node);
 
                     if (result == FilterResult.Accept)
                     {
@@ -71,15 +71,23 @@
                     }
                 }
 
+                while (node != _root)
+                {
+                    var sibling = node.NextSibling;
+
+                    if (sibling != null)
+                    {
+                        node = sibling;
+                        break;
+                    }
+
+                    node = node.Parent;
+                }
+
                 if (node == _root)
                     break;
 
-                node = node.NextSibling;
-
-                if (node == null)
-                    break;
-
-                result = _filter(node);
+                result = Check(node);
 
                 if (result == FilterResult.Accept)
                 {
@@ -102,12 +110,12 @@
                 while (sibling != null)
                 {
                     node = sibling;
-                    var result = _filter(node);
+                    var result = Check(node);
 
                     while (result != FilterResult.Reject && node.HasChilds)
                     {
                         node = node.LastChild;
-                        result = _filter(node);
+                        result = Check(node);
 
                         if (result == FilterResult.Accept)
                         {
@@ -125,7 +133,7 @@
                 if (parent == null)
                     break;
 
-                if (_filter(node) == FilterResult.Accept)
+                if (Check(node) == FilterResult.Accept)
                 {
                     _current = node;
                     return node;
@@ -143,7 +151,7 @@
             {
                 node = node.Parent;
 
-                if (node != null && _filter(node) == FilterResult.Accept)
+                if (node != null && Check(node) == FilterResult.Accept)
                 {
                     _current = node;
                     return node;
@@ -159,7 +167,7 @@
 
             while (node != null)
             {
-                var result = _filter(node);
+                var result = Check(node);
 
                 if (result == FilterResult.Accept)
                 {
@@ -205,7 +213,7 @@
 
             while (node != null)
             {
-                var result = _filter(node);
+                var result = Check(node);
 
                 if (result == FilterResult.Accept)
                 {
@@ -259,7 +267,7 @@
                 while (sibling != null)
                 {
                     node = sibling;
-                    var result = _filter(node);
+                    var result = Check(node);
 
                     if (result == FilterResult.Accept)
                     {
@@ -275,7 +283,7 @@
 
                 node = node.Parent;
 
-                if (node == null || node == _root || _filter(node) == FilterResult.Accept)
+                if (node == null || node == _root || Check(node) == FilterResult.Accept)
                     break;
             }
 
@@ -296,7 +304,7 @@
                 while (sibling != null)
                 {
                     node = sibling;
-                    var result = _filter(node);
+                    var result = Check(node);
 
                     if (result == FilterResult.Accept)
                     {
@@ -312,11 +320,23 @@
 
                 node = node.Parent;
 
-                if (node == null || node == _root || _filter(node) == FilterResult.Accept)
+                if (node == null || node == _root || Check(node) == FilterResult.Accept)
                     break;
             }
 
             return null;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        FilterResult Check(INode node)
+        {
+            if (!_settings.Accepts(node))
+                return FilterResult.Skip;
+
+            return _filter(node);
         }
 
         #endregion

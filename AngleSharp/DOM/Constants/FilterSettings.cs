@@ -77,6 +77,6 @@
         /// </summary>
         [DomName("SHOW_NOTATION")]
         [DomHistorical]
-        ShowNotation = 0x800
+        Notation = 0x800
     }
 }

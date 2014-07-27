@@ -16,41 +16,43 @@
                 return GetOnlyElementsOf<T>(parent, predicate);
         }
 
+        public static Boolean Accepts(this FilterSettings filter, INode node)
+        {
+            switch (node.NodeType)
+            {
+                case NodeType.Attribute:
+                    return filter.HasFlag(FilterSettings.Attribute);
+                case NodeType.CharacterData:
+                    return filter.HasFlag(FilterSettings.CharacterData);
+                case NodeType.Comment:
+                    return filter.HasFlag(FilterSettings.Comment);
+                case NodeType.Document:
+                    return filter.HasFlag(FilterSettings.Document);
+                case NodeType.DocumentFragment:
+                    return filter.HasFlag(FilterSettings.DocumentFragment);
+                case NodeType.DocumentType:
+                    return filter.HasFlag(FilterSettings.DocumentType);
+                case NodeType.Element:
+                    return filter.HasFlag(FilterSettings.Element);
+                case NodeType.Entity:
+                    return filter.HasFlag(FilterSettings.Entity);
+                case NodeType.EntityReference:
+                    return filter.HasFlag(FilterSettings.EntityReference);
+                case NodeType.ProcessingInstruction:
+                    return filter.HasFlag(FilterSettings.ProcessingInstruction);
+                case NodeType.Notation:
+                    return filter.HasFlag(FilterSettings.Notation);
+                case NodeType.Text:
+                    return filter.HasFlag(FilterSettings.Text);
+            }
+
+            return filter == FilterSettings.All;
+        }
+
         public static IEnumerable<T> GetElements<T>(this INode parent, FilterSettings filter)
             where T : class, IElement
         {
-            return parent.GetElements<T>(predicate: (node =>
-            {
-                switch (node.NodeType)
-                {
-                    case NodeType.Attribute:
-                        return filter.HasFlag(FilterSettings.Attribute);
-                    case NodeType.CharacterData:
-                        return filter.HasFlag(FilterSettings.CharacterData);
-                    case NodeType.Comment:
-                        return filter.HasFlag(FilterSettings.Comment);
-                    case NodeType.Document:
-                        return filter.HasFlag(FilterSettings.Document);
-                    case NodeType.DocumentFragment:
-                        return filter.HasFlag(FilterSettings.DocumentFragment);
-                    case NodeType.DocumentType:
-                        return filter.HasFlag(FilterSettings.DocumentType);
-                    case NodeType.Element:
-                        return filter.HasFlag(FilterSettings.Element);
-                    case NodeType.Entity:
-                        return filter.HasFlag(FilterSettings.Entity);
-                    case NodeType.EntityReference:
-                        return filter.HasFlag(FilterSettings.EntityReference);
-                    case NodeType.ProcessingInstruction:
-                        return filter.HasFlag(FilterSettings.ProcessingInstruction);
-                    case NodeType.Notation:
-                        return filter.HasFlag(FilterSettings.ShowNotation);
-                    case NodeType.Text:
-                        return filter.HasFlag(FilterSettings.Text);
-                }
-
-                return filter == FilterSettings.All;
-            }));
+            return parent.GetElements<T>(predicate: (node => filter.Accepts(node)));
         }
 
         public static T GetElementById<T>(this IEnumerable<T> elements, String id)
