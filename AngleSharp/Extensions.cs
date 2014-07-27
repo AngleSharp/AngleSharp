@@ -271,6 +271,20 @@
         }
 
         /// <summary>
+        /// Returns the HTML code representation of the given document type.
+        /// </summary>
+        /// <param name="doctype">The doctype to stringify.</param>
+        /// <returns>A string containing the HTML code.</returns>
+        public static String ToHtml(this IDocumentType doctype)
+        {
+            var name = doctype.Name;
+            var system = String.IsNullOrEmpty(doctype.PublicIdentifier) ? " SYSTEM" : "";
+            var publicId = String.IsNullOrEmpty(doctype.PublicIdentifier) ? "" : " PUBLIC \"" + doctype.PublicIdentifier + "\"";
+            var systemId = String.IsNullOrEmpty(doctype.SystemIdentifier) ? "" : system + " \"" + doctype.SystemIdentifier + "\"";
+            return String.Format("<!DOCTYPE {0}{1}{2}>", name, publicId, systemId);
+        }
+
+        /// <summary>
         /// Returns the content text of the given DOM element.
         /// </summary>
         /// <param name="element">The element to stringify.</param>

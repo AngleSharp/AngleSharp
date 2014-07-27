@@ -304,10 +304,7 @@
         /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml()
         {
-            return String.Format("<!DOCTYPE {0}{1}{2}>",
-                Name,
-                String.IsNullOrEmpty(PublicIdentifier) ? "" : " PUBLIC \"" + PublicIdentifier + "\"", 
-                String.IsNullOrEmpty(SystemIdentifier) ? "" : (String.IsNullOrEmpty(PublicIdentifier) ? " SYSTEM" : "") + " \"" + SystemIdentifier + "\"");
+            return Extensions.ToHtml(this);
         }
 
         #endregion
