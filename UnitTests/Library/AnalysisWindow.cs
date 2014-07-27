@@ -119,7 +119,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void GetComputedUseAndPreferInlineStyle()
+        public void GetComputedStyleUseAndPreferInlineStyle()
         {
             var source = new StringBuilder("<!doctype html> ");
 
@@ -146,6 +146,50 @@ namespace UnitTests
             var computedStyle = window.GetComputedStyle(element);
             Assert.AreEqual("red", computedStyle.Color);
             Assert.AreEqual(1, computedStyle.Length);
+        }
+
+        [TestMethod]
+        public void GetComputedStyleComplexScenario()
+        {
+            var sourceCode = @"<!doctype html>
+<head>
+<style>
+p > span { color: blue; } 
+span.bold { font-weight: bold; }
+</style>
+<style>
+p { font-size: 20px; }
+em { font-style: italic !important; }
+.red { margin: 5px; }
+</style>
+<style>
+#text { font-style: normal; margin: 0; }
+</style>
+</head>
+<body>
+<div><p><span class=bold>Bold <em style='color: red' class=red id=text>text</em>";
+
+            var document = DocumentBuilder.Html(sourceCode);
+            Assert.IsNotNull(document);
+            window.Document = document;
+
+            var element = document.QuerySelector("#text");
+            Assert.IsNotNull(element);
+
+            Assert.AreEqual("em", element.TagName);
+            Assert.AreEqual("red", element.ClassName);
+            Assert.IsNotNull(element.GetAttribute("style"));
+            Assert.AreEqual("text", element.TextContent);
+
+            var style = window.GetComputedStyle(element);
+            Assert.IsNotNull(style);
+            Assert.AreEqual(5, style.Length);
+
+            Assert.AreEqual("0", style.Margin);
+            Assert.AreEqual("red", style.Color);
+            Assert.AreEqual("bold", style.FontWeight);
+            Assert.AreEqual("italic", style.FontStyle);
+            Assert.AreEqual("20px", style.FontSize);
         }
     }
 }
