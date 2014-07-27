@@ -80,13 +80,14 @@ namespace Performance
 
                         sw.Stop();
                         var time = sw.ElapsedMilliseconds / repeats;
+                        var compare = sw.ElapsedTicks;
                         Console.Write((time + "ms").Center(widthPerColumn));
                         sw.Reset();
 
-                        if (time < fastest)
+                        if (compare < fastest)
                         {
                             winners[test] = parser;
-                            fastest = time;
+                            fastest = compare;
                         }
                     }
 
