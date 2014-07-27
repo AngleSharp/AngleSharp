@@ -27,12 +27,12 @@
             AddFeature("StyleSheets", "2.0");
             AddFeature("CSS", "2.0");
             AddFeature("CSS2", "2.0");
+            AddFeature("Traversal", "2.0");
             //Events 2.0
             //UIEvents 2.0
             //MutationEvents 2.0
             //HTMLEvents 2.0
             //Range 2.0
-            //Traversal 2.0
         }
 
         void AddFeature(String feature, params String[] versions)
