@@ -13,21 +13,39 @@ Documentation
 Documentation is available in form of the public Wiki here at GitHub. 
 * [Wiki Home](https://github.com/FlorianRappl/AngleSharp/wiki)
 * [Documentation](https://github.com/FlorianRappl/AngleSharp/wiki/Documentation)
+* [API](https://github.com/FlorianRappl/AngleSharp/wiki/Api)
 * [Examples](https://github.com/FlorianRappl/AngleSharp/wiki/Examples)
+* [Performance](https://github.com/FlorianRappl/AngleSharp/wiki/Performance)
 
-More information is also available by following some of the hyper references mentioned in the Wiki.
+More information is also available by following some of the hyper references mentioned in the Wiki. In-depth articles will be published on the CodeProject, with links being placed in the Wiki at GitHub.
 
 Current status
 --------------
 
 The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML, XML and CSS to the CLR, written in C#. The idea is that you can can basically do everything with the DOM in C# that you can do in JavaScript.
 
-The naming convention has been changing from camelCase to PascalCase (upper camel case). This is intentional to fit the .NET naming conventions. Nevertheless all W3C defined IDL properties and methods are or will be decorated with an attribute called `DOM`, which contains the original name. This automates the process of separating W3C defined properties and methods from custom helpers / additions.
+Most parts of the DOM are included, even though some may still miss their (right) implementation. The goal for v1.0 is to have almost everything implemented according to the official W3C specification (with useful extensions by the WHATWG).
+
+The API is close to the DOM4 specification, however, the naming has been adjusted to apply with .NET conventions. Nevertheless, to make AngleSharp really useful for, e.g., a JavaScript engine, attributes have been placed on the corresponding interfaces (and methods, properties, ...) to indicate the status of the field in the official specification. This allows automatic generation of DOM objects with the official API.
 
 This is a long-term project which will eventually result in a state of the art parser for the most important angle bracket based hyper-texts (and related description languages like CSS).
 
+**Update** With version v0.6.0 the new API has been published. This API seems to be much cleaner and more extensible than the previous one. It also separates the implementation from the specification, which is important for working with the API, as new changes are less likely to break existing code (API usage). Most API changes have also been included to mainly reflect DOM4, with some (obsolete) parts being removed.
+
 Change log
 ----------
+
+**0.6.0:**
+- Implemented parsing of CSS media queries
+- Improved URL parsing according to RFC 3986
+- 100% finished HTML5 parser
+- 98% finished CSS3 parser
+- CSS properties and values defined and implemented
+- CSS model implemented (i.e. *getComputedStyle* works)
+- Tree traversal included (`NodeIterator` and `TreeWalker`)
+- Configuration model changed
+- API changed (now interface driven)
+- New source management for better handling and performance
 
 **0.5.0:**
 - Major API changes (DI is now the only singleton)
@@ -68,25 +86,21 @@ The roadmap presents a draft on what is about to be implemented, and when. The p
 
 The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
 
-(May 2014) **0.6.0**
-- CSS model implemented (e.g. *getComputedStyle* works)
+(September 2014) **0.7.0**
 - Draft interfaces for optional resource and rendering defined
-- Most important parts of HTML DOM implemented
-
-(July 2014) **0.7.0**
 - MathML DOM finished
 - SVG document included
 - SVG DOM skeleton implemented
 
-(September 2014) **0.8.0**
+(December 2014) **0.8.0**
 - Full HTML DOM implemented
 - CSS computation works with everything
 
-(November 2014) **0.9.0**
+(February 2015) **0.9.0**
 - Most important SVG elements implemented
 - HTML5 parser at 100% with complete DOM, MathML and SVG
 
-(January 2015) **1.0.0**
+(July 2016) **1.0.0**
 - Final release of the first version
 
 Use-cases
@@ -97,6 +111,7 @@ Use-cases
 - Minifying CSS, HTML
 - Querying document elements
 - Crawling information
+- HTML / DOM Unit Tests
 - ...
 
 Participating in the project
