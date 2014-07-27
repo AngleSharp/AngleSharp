@@ -1,6 +1,5 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
-using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
 using AngleSharp.Parser.Css;
@@ -70,8 +69,6 @@ namespace ConsoleInteraction
 
             var httpClient = new HttpClient();
             var response = await httpClient.GetStreamAsync(new Uri("http://trade.500.com/bjdc/?expect=140107"));
-
-            //string pageSource = Encoding.GetEncoding("gb2312").GetString(response, 0, (int)response.Length - 1);
             var document = DocumentBuilder.Html(response);
 
             var ls = document.GetElementsByClassName("vs_lines");
@@ -198,13 +195,16 @@ namespace ConsoleInteraction
             return html;
         }
 
-        static NodeList TestHtmlFragment(String source)
+        static INodeList TestHtmlFragment(String source)
         {
             var sw = Stopwatch.StartNew();
-            var nodes = DocumentBuilder.HtmlFragment(source) as NodeList;
+            var nodes = DocumentBuilder.HtmlFragment(source);
             sw.Stop();
             Console.WriteLine(">>> START");
-            Console.WriteLine(nodes.ToHtml());
+
+            foreach (var element in nodes.OfType<IElement>())
+                Console.WriteLine(element.ToHtml());
+
             Console.WriteLine(">>> END");
             Console.WriteLine();
             Console.WriteLine("... " + sw.ElapsedMilliseconds + "ms");

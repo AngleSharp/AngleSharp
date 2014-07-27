@@ -1,4 +1,5 @@
-﻿using AngleSharp.DOM;
+﻿using AngleSharp;
+using AngleSharp.DOM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -84,14 +85,14 @@ namespace Samples.ViewModels
             get { return children; }
         }
 
-        public static TreeNodeViewModel Create(Node node)
+        public static TreeNodeViewModel Create(INode node)
         {
             if (node is IText)
                 return Create((IText)node);
             else if (node is IComment)
                 return new TreeNodeViewModel { Value = Comment(((IComment)node).Data), Foreground = Brushes.Gray };
             else if (node is IDocumentType)
-                return new TreeNodeViewModel { Value = node.ToHtml(), Foreground = Brushes.DarkGray };
+                return new TreeNodeViewModel { Value = ((IDocumentType)node).ToHtml(), Foreground = Brushes.DarkGray };
             else if(node is IElement)
                 return Create((IElement)node);
 
@@ -127,7 +128,7 @@ namespace Samples.ViewModels
             return vm;
         }
 
-        public static IEnumerable<TreeNodeViewModel> SelectFrom(IEnumerable<Node> nodes)
+        public static IEnumerable<TreeNodeViewModel> SelectFrom(IEnumerable<INode> nodes)
         {
             foreach (var node in nodes)
             {
