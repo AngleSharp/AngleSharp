@@ -160,6 +160,9 @@
     <Compile Include="..\AngleSharp\DOM\Collections\QueryExtensions.cs">
       <Link>DOM\Collections\QueryExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\Range.cs">
+      <Link>DOM\Collections\Range.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\SettableTokenList.cs">
       <Link>DOM\Collections\SettableTokenList.cs</Link>
     </Compile>
