@@ -577,6 +577,9 @@
         /// <returns>The added child.</returns>
         protected INode DefaultAppendChild(INode child)
         {
+            if (child == null)
+                return null;
+
             if (child is IDocumentFragment)
             {
                 var childs = child.ChildNodes;
@@ -614,6 +617,9 @@
         /// <returns>The inserted child.</returns>
         protected INode DefaultInsertChild(Int32 index, INode child)
         {
+            if (child == null)
+                return null;
+
             if (child is IDocumentFragment)
             {
                 var childs = child.ChildNodes;
@@ -652,6 +658,9 @@
         /// <returns>The inserted node.</returns>
         protected INode DefaultInsertBefore(INode newElement, INode referenceElement)
         {
+            if (newElement == null || referenceElement == null)
+                return null;
+
             if (newElement is IDocument || newElement.Contains(this))
                 throw new DomException(ErrorCode.HierarchyRequest);
 
@@ -674,6 +683,9 @@
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
         protected INode DefaultReplaceChild(INode newChild, INode oldChild)
         {
+            if (oldChild == null || newChild == null)
+                return null;
+
             if (newChild is IDocument || newChild.Contains(this))
                 throw new DomException(ErrorCode.HierarchyRequest);
             else if (newChild == oldChild)
