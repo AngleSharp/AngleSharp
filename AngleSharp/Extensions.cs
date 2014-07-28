@@ -100,7 +100,7 @@
         /// <param name="item">The item to search for.</param>
         /// <returns>The index of the item or -1 if not found.</returns>
         public static Int32 Index<T>(this IEnumerable<T> elements, T item)
-            where T : IElement
+            where T : INode
         {
             int i = 0;
 
