@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.DOM.Collections
 {
     using System;
-    using System.Linq;
+using System.Collections.Generic;
+using System.Linq;
 
     /// <summary>
     /// A DOM range to gather DOM tree information.
@@ -32,6 +33,16 @@
         #endregion
 
         #region Properties
+
+        public INode Root
+        {
+            get { return _start.Node.GetRoot(); }
+        }
+
+        public IEnumerable<INode> Nodes
+        {
+            get { return CommonAncestor.GetElements<INode>(predicate: Intersects); }
+        }
 
         public INode Head
         {
@@ -84,7 +95,7 @@
 
             var bp = new Boundary { Node = refNode, Offset = offset };
 
-            if (bp > _end || _start.Node.Owner != refNode.Owner)
+            if (bp > _end || Root != refNode.GetRoot())
                 _start = bp;
         }
 
@@ -97,7 +108,7 @@
 
             var bp = new Boundary { Node = refNode, Offset = offset };
 
-            if (bp < _start || _start.Node.Owner != refNode.Owner)
+            if (bp < _start || Root != refNode.GetRoot())
                 _end = bp;
         }
 
@@ -173,36 +184,60 @@
 
         public void Clear()
         {
+            //TODO
+
             if (_start.Equals(_end))
                 return;
 
+            var newBoundary = new Boundary();
             var originalStart = _start;
             var originalEnd = _end;
 
             if (originalEnd.Node == originalStart.Node && originalStart.Node is ICharacterData)
             {
-                //Replace data with node original start node, offset original start offset, count original end offset minus original start offset,
-                //and data the empty string, and then terminate these steps. 
+                //Replace data with node original start node, offset original start offset, 
+                //count original end offset minus original start offset, and data the empty
+                //string, and then terminate these steps. 
+                return;
             }
 
-            /*
-4. Let nodes to remove be a list of all the nodes that are contained in the context object, in tree order, omitting any node whose parent is also contained in the context object. 
-5. If original start node is an inclusive ancestor of original end node, set new node to original start node and new offset to original start offset. 
-6. Otherwise: 
-  1. Let reference node equal original start node. 
-  2. While reference node's parent is not null and is not an inclusive ancestor of original end node, set reference node to its parent. 
-  3. Set new node to the parent of reference node, and new offset to one plus the index of reference node. 
-  (Note:
-  If reference node's parent were null, it would be the root of the context object, so would be an inclusive ancestor of original end node, and we could not reach this point.)
-7. If original start node is a Text, ProcessingInstruction, or Comment node, replace data with node original start node, offset original start offset, count original start node's length minus original start offset, data the empty string. 
-8. For each node in nodes to remove, in tree order, remove node from its parent. 
-9. If original end node is a Text, ProcessingInstruction, or Comment node, replace data with node original end node, offset 0, count original end offset and data the empty string. 
-10. Set start and end to (new node, new offset).
-             */
+            var nodesToRemove = Nodes.Where(m => !Intersects(m.Parent)).ToArray();
+
+            if (!originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node))
+            {
+                var referenceNode = originalStart.Node;
+
+                while (referenceNode.Parent != null && referenceNode.Parent.IsInclusiveAncestorOf(originalEnd.Node))
+                    referenceNode = referenceNode.Parent;
+
+                newBoundary = new Boundary { Node = referenceNode.Parent, Offset = referenceNode.Parent.ChildNodes.Index(referenceNode) + 1 };
+            }
+            else
+                newBoundary = originalStart;
+
+            if (originalStart.Node is ICharacterData)
+            {
+                //Replace data with node original start node, offset original start offset, 
+                //count original start node's length minus original start offset, data the empty
+                //string. 
+            }
+
+            foreach (var node in nodesToRemove)
+                node.Parent.RemoveChild(node);
+
+            if (originalEnd.Node is ICharacterData)
+            {
+                //Replace data with node original end node, offset 0, count original end offset 
+                //and data the empty string. 
+            }
+
+            _start = newBoundary;
+            _end = newBoundary;
         }
 
         public IDocumentFragment Flush()
         {
+            //TODO
             /*
 1. Let fragment be a new DocumentFragment node whose node document is range's start node's node document. 
 2. If range's start equals its end, return fragment. 
@@ -267,6 +302,7 @@
 
         public IDocumentFragment Copy()
         {
+            //TODO
             /*
 1. Let fragment be a new DocumentFragment node whose node document is range's start node's node document. 
 2. If range's start equals its end, return fragment. 
@@ -322,34 +358,49 @@
 
         public void Insert(INode node)
         {
-            /*
-1. If range's start node is either a ProcessingInstruction or Comment node, or a Text node whose parent is null, throw an "HierarchyRequestError" exception. 
-2. Let referenceNode be null. 
-3. If range's start node is a Text node, set referenceNode to that Text node. 
-4. Otherwise, set referenceNode to the child of start node whose index is start offset, and null if there is no such child. 
-5. Let parent be range's start node if referenceNode is null, and referenceNode's parent otherwise. 
-6. Ensure pre-insertion validity of node into parent before referenceNode. 
-7. If range's start node is a Text node, split it with offset range's start offset, set referenceNode to the result, and set parent to referenceNode's parent. 
-8. If node equals referenceNode, set referenceNode to its next sibling. 
-9. If node's parent is not null, remove node from its parent. 
-10. Let newOffset be parent's length if referenceNode is null, and referenceNode's index otherwise. 
-11. Increase newOffset by node's length if node is a DocumentFragment node, and one otherwise. 
-12. Pre-insert node into parent before referenceNode. 
-13. If range's start and end are the same, set range's end to (parent, newOffset).
-             */
+            if (_start.Node is IProcessingInstruction || _start.Node is IComment || (_start.Node is IText) && _start.Node.Parent == null)
+                throw new DomException(ErrorCode.HierarchyRequest);
+
+            var referenceNode = _start.Node is IText ? _start.Node : _start.ChildAtOffset;
+            var parent = referenceNode == null ? _start.Node : referenceNode.Parent;
+            parent.EnsurePreInsertionValidity(node, referenceNode);
+            
+            if (_start.Node is IText)
+            {
+                referenceNode = ((IText)_start.Node).Split(_start.Offset);
+                parent = referenceNode.Parent;
+            }
+
+            if (node == referenceNode)
+                referenceNode = referenceNode.NextSibling;
+
+            if (node.Parent != null)
+                node.Parent.RemoveChild(node);
+
+            var newOffset = referenceNode == null ? parent.ChildNodes.Length : parent.ChildNodes.Index(referenceNode);
+            newOffset += node is IDocumentFragment ? node.ChildNodes.Length : 1;
+            parent.PreInsert(node, referenceNode);
+
+            if (_start.Equals(_end))
+                _end = new Boundary { Node = parent, Offset = newOffset };
         }
 
         public void Surround(INode newParent)
         {
-            /*
-1. If a non-Text node is partially contained in the context object, throw an "InvalidStateError" exception. 
-2. If newParent is a Document, DocumentType, or DocumentFragment node, throw an "InvalidNodeTypeError" exception. 
-3. Let fragment be the result of extracting context object. 
-4. If newParent has children, replace all with null within newParent. 
-5. Insert newParent into context object. 
-6. Append fragment to newParent. 
-7. Select newParent within context object.
-             */
+            if (Nodes.Any(m => m is IText == false && IsPartiallyContained(m)))
+                throw new DomException(ErrorCode.InvalidState);
+
+            if (newParent is IDocument || newParent is IDocumentType || newParent is IDocumentFragment)
+                throw new DomException(ErrorCode.InvalidNodeType);
+
+            var fragment = Flush();
+
+            while (newParent.HasChilds)
+                newParent.RemoveChild(newParent.FirstChild);
+
+            Insert(newParent);
+            newParent.PreInsert(fragment, null);
+            Select(newParent);
         }
 
         public IRange Clone()
@@ -364,12 +415,21 @@
 
         public Boolean Contains(INode node, Int32 offset)
         {
-            throw new NotImplementedException();
+            if (node.GetRoot() != Root)
+                return false;
+            else if (node is IDocumentType)
+                throw new DomException(ErrorCode.InvalidNodeType);
+            else if (offset > node.ChildNodes.Length)
+                throw new DomException(ErrorCode.IndexSizeError);
+            else if (_start > new Boundary { Node = node, Offset = offset } || _end < new Boundary { Node = node, Offset = offset })
+                return false;
+
+            return true;
         }
 
         public RangePosition CompareBoundaryTo(RangeType how, IRange sourceRange)
         {
-            if (Head.Owner != sourceRange.Head.Owner)
+            if (Root != sourceRange.Head.GetRoot())
                 throw new DomException(ErrorCode.WrongDocument);
 
             Boundary thisPoint;
@@ -402,7 +462,7 @@
 
         public RangePosition CompareTo(INode node, Int32 offset)
         {
-            if (node.Owner != _start.Node.Owner)
+            if (Root != _start.Node.GetRoot())
                 throw new DomException(ErrorCode.WrongDocument);
             else if (node is IDocumentType)
                 throw new DomException(ErrorCode.InvalidNodeType);
@@ -419,7 +479,7 @@
 
         public Boolean Intersects(INode node)
         {
-            if (node.Owner != _start.Node.Owner)
+            if (Root != node.GetRoot())
                 return false;
 
             var parent = node.Parent;
@@ -429,6 +489,18 @@
 
             var offset = parent.ChildNodes.Index(node);
             return (_end > new Boundary { Node = parent, Offset = offset } && _start < new Boundary { Node = parent, Offset = offset + 1 });
+        }
+
+        #endregion
+
+        #region Helpers
+
+        Boolean IsPartiallyContained(INode node)
+        {
+            var startAncestor = node.IsInclusiveAncestorOf(_start.Node);
+            var endAncestor = node.IsInclusiveAncestorOf(_end.Node);
+
+            return (startAncestor && !endAncestor) || (!startAncestor && endAncestor);
         }
 
         #endregion
@@ -463,6 +535,11 @@
                     return RangePosition.After;
 
                 return RangePosition.Equal;
+            }
+
+            public INode ChildAtOffset
+            {
+                get { return Node.ChildNodes.Length > Offset ? Node.ChildNodes[Offset] : null; }
             }
         }
 
