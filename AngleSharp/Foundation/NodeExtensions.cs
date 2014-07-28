@@ -62,12 +62,24 @@
             return node.Parent.GetRoot();
         }
 
+        /// <summary>
+        /// Checks if the parent is an ancestor of the given node.
+        /// </summary>
+        /// <param name="parent">The possible parent to use.</param>
+        /// <param name="node">The node to check for being descendent.</param>
+        /// <returns>True if the given parent is actually an ancestor of the provided node.</returns>
         [DebuggerStepThrough]
         public static Boolean IsAncestorOf(this INode parent, INode node)
         {
             return node.IsDescendentOf(parent);
         }
 
+        /// <summary>
+        /// Checks if the parent is an inclusive ancestor of the given node.
+        /// </summary>
+        /// <param name="parent">The possible parent to use.</param>
+        /// <param name="node">The node to check for being descendent.</param>
+        /// <returns>True if the given parent is actually an inclusive ancestor of the provided node.</returns>
         [DebuggerStepThrough]
         public static Boolean IsInclusiveAncestorOf(this INode parent, INode node)
         {
@@ -96,6 +108,12 @@
             return false;
         }
 
+        /// <summary>
+        /// Checks if the node is an descendent of the given parent.
+        /// </summary>
+        /// <param name="node">The descendent node to use.</param>
+        /// <param name="parent">The possible parent to use.</param>
+        /// <returns>True if the given parent is actually an ancestor of the provided node.</returns>
         [DebuggerStepThrough]
         public static Boolean IsDescendentOf(this INode node, INode parent)
         {
@@ -111,6 +129,12 @@
             return false;
         }
 
+        /// <summary>
+        /// Checks if the node is an inclusive descendent of the given parent.
+        /// </summary>
+        /// <param name="node">The descendent node to use.</param>
+        /// <param name="parent">The possible parent to use.</param>
+        /// <returns>True if the given parent is actually an inclusive ancestor of the provided node.</returns>
         [DebuggerStepThrough]
         public static Boolean IsInclusiveDescendentOf(this INode node, INode parent)
         {
