@@ -86,6 +86,11 @@
             return node == parent || node.IsDescendentOf(parent);
         }
 
+        /// <summary>
+        /// Gets the associated host object, if any. This is mostly interesting for the HTML5 template tag.
+        /// </summary>
+        /// <param name="node">The node that probably has an host object</param>
+        /// <returns>The host object or null.</returns>
         public static INode GetAssociatedHost(this INode node)
         {
             if (node is IDocumentFragment && node.Owner != null)
@@ -94,6 +99,12 @@
             return null;
         }
 
+        /// <summary>
+        /// Checks for an inclusive ancestor relationship or if the host (if any) has such a relationship.
+        /// </summary>
+        /// <param name="parent">The possible parent to use.</param>
+        /// <param name="node">The node to check for being descendent.</param>
+        /// <returns>True if the given parent is actually an inclusive ancestor (including the host) of the provided node.</returns>
         [DebuggerStepThrough]
         public static Boolean IsHostIncludingInclusiveAncestor(this INode parent, INode node)
         {
@@ -141,6 +152,13 @@
             return node == parent || node.IsDescendentOf(parent);
         }
 
+        /// <summary>
+        /// Pre-inserts the given node at the parent before the provided child.
+        /// </summary>
+        /// <param name="parent">The origin that will be mutated.</param>
+        /// <param name="node">The node to be inserted.</param>
+        /// <param name="child">The reference node of the insertation.</param>
+        /// <returns>The inserted node, which is node.</returns>
         [DebuggerStepThrough]
         public static INode PreInsert(this INode parent, INode node, INode child)
         {
@@ -155,6 +173,13 @@
             return node;
         }
 
+        /// <summary>
+        /// Ensures the validity for inserting the given node at parent before the
+        /// provided child. Throws an error is the insertation is invalid.
+        /// </summary>
+        /// <param name="parent">The origin that will be mutated.</param>
+        /// <param name="node">The node to be inserted.</param>
+        /// <param name="child">The reference node of the insertation.</param>
         [DebuggerStepThrough]
         public static void EnsurePreInsertionValidity(this INode parent, INode node, INode child)
         {
