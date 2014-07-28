@@ -765,13 +765,12 @@
         }
 
         /// <summary>
-        /// Returns a new Range object. (NOT IMPLEMENTED YET)
+        /// Returns a new Range object.
         /// </summary>
         /// <returns>The created range object.</returns>
         public IRange CreateRange()
         {
-            //TODO
-            throw new NotImplementedException();
+            return new Range(this);
         }
 
         /// <summary>

@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// The treewalker for walking through the DOM tree.
+    /// </summary>
     sealed class TreeWalker : ITreeWalker
     {
         #region Fields

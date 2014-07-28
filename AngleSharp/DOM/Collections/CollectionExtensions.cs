@@ -3,6 +3,9 @@
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// A bunch of methods for getting DOM elements.
+    /// </summary>
     static class CollectionExtensions
     {
         public static IEnumerable<T> GetElements<T>(this INode parent, Boolean deep = true, Predicate<T> predicate = null)

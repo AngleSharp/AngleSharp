@@ -5,6 +5,9 @@
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Extensions for performing QuerySelector operations.
+    /// </summary>
     static class QueryExtensions
     {
         #region Text Selector

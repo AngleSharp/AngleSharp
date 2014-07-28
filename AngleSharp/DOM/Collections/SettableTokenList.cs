@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// A list of tokens that can be modified.
+    /// </summary>
     sealed class SettableTokenList : TokenList, ISettableTokenList
     {
         #region ctor

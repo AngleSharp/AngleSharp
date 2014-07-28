@@ -6,6 +6,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// A collection specialized on IHtmlOptionElement elements.
+    /// </summary>
     sealed class OptionsCollection : IHtmlOptionsCollection
     {
         #region Fields

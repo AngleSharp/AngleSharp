@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// The iterator through a collection of DOM nodes.
+    /// </summary>
     sealed class NodeIterator : INodeIterator
     {
         #region Fields

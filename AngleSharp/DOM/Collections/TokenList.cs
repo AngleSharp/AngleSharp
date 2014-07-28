@@ -5,6 +5,9 @@
     using System.Collections.Generic;
     using System.Diagnostics;
 
+    /// <summary>
+    /// A simple list of tokens that is immutable.
+    /// </summary>
     class TokenList : ITokenList
     {
         #region Fields
