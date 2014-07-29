@@ -19,7 +19,7 @@
 
         protected override MathElement CreateDefault(String name, Document document)
         {
-            return new MathElement { NodeName = name, Owner = document };
+            return new MathElement(name) { Owner = document };
         }
 
         /// <summary>

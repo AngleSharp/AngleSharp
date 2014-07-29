@@ -20,9 +20,8 @@
         /// Creates a new HTML video element.
         /// </summary>
         internal HTMLVideoElement()
+            : base(Tags.Video)
         {
-            _name = Tags.Video;
-
             //TODO
             _videoHeight = 0;
             _videoWidth = 0;
@@ -73,18 +72,6 @@
         {
             get { return GetAttribute(AttributeNames.Poster); }
             set { SetAttribute(AttributeNames.Poster, value); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return false; }
         }
 
         #endregion

@@ -12,11 +12,12 @@
     {
         #region Fields
 
+        readonly HtmlElementCollection _elements;
+        readonly AttrContainer _attributes;
+
         String _prefix;
         String _namespace;
         TokenList _classList;
-        readonly HtmlElementCollection _elements;
-        readonly AttrContainer _attributes;
 
         #endregion
 
@@ -25,9 +26,9 @@
         /// <summary>
         /// Creates a new element node.
         /// </summary>
-        internal Element()
+        internal Element(String name, NodeFlags flags = NodeFlags.None)
+            : base(name, NodeType.Element, flags)
         {
-            _type = NodeType.Element;
             _elements = new HtmlElementCollection(this, deep: false);
             _attributes = new AttrContainer();
         }
@@ -50,7 +51,7 @@
         /// </summary>
         public String LocalName
         {
-            get { return _name; }
+            get { return NodeName; }
         }
 
         /// <summary>
@@ -113,7 +114,7 @@
         /// </summary>
         public String TagName
         {
-            get { return _name; }
+            get { return NodeName; }
         }
 
         /// <summary>
@@ -591,7 +592,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new Element();
+            var node = new Element(NodeName, Flags);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;
@@ -990,18 +991,21 @@
         {
             var sb = Pool.NewStringBuilder();
 
-            sb.Append(Specification.LessThan).Append(_name);
+            sb.Append(Specification.LessThan).Append(TagName);
 
             foreach (var attribute in _attributes)
                 sb.Append(Specification.Space).Append(attribute.ToString());
 
             sb.Append(Specification.GreaterThan);
 
-            foreach (var child in ChildNodes)
-                sb.Append(child.ToHtml());
+            if (!Flags.HasFlag(NodeFlags.SelfClosing))
+            {
+                foreach (var child in ChildNodes)
+                    sb.Append(child.ToHtml());
 
-            sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(_name);
-            sb.Append(Specification.GreaterThan);
+                sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(TagName);
+                sb.Append(Specification.GreaterThan);
+            }
 
             return sb.ToPool();
         }

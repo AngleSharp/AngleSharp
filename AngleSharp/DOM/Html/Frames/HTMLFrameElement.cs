@@ -10,8 +10,8 @@
         #region ctor
 
         internal HTMLFrameElement()
+            : base(Tags.Frame)
         {
-            _name = Tags.Frame;
         }
 
         #endregion
@@ -25,18 +25,6 @@
         {
             get { return GetAttribute(AttributeNames.NoResize).ToBoolean(false); }
             set { SetAttribute(AttributeNames.NoResize, value.ToString()); }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

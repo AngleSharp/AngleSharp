@@ -22,10 +22,8 @@
         /// </summary>
         /// <param name="text">The text to set.</param>
         internal TextNode(String text)
-            : base(text)
+            : base("#text", NodeType.Text, text)
         {
-            _type = NodeType.Text;
-            _name = "#text";
         }
 
         /// <summary>

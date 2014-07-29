@@ -12,7 +12,8 @@
         /// <summary>
         /// Creates a new XML element.
         /// </summary>
-        internal XmlElement()
+        internal XmlElement(String name)
+            : base(name)
         {
             NamespaceUri = Namespaces.Xml;
         }
@@ -24,7 +25,7 @@
         /// <returns>The specialized SVGElement instance.</returns>
         internal static XmlElement Create(String tagName)
         {
-            return new XmlElement { _name = tagName };
+            return new XmlElement(tagName);
         }
 
         #endregion
@@ -51,7 +52,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = Create(_name);
+            var node = Create(NodeName);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             node.IdAttribute = IdAttribute;

@@ -12,20 +12,9 @@
         /// <summary>
         /// Creates a new item tag.
         /// </summary>
-        internal HTMLLIElement()
+        internal HTMLLIElement(String name)
+            : base(name, NodeFlags.Special)
         {
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

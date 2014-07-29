@@ -13,8 +13,8 @@
         /// Creates a new HTML optgroup element.
         /// </summary>
         internal HTMLOptGroupElement()
+            : base(Tags.Optgroup)
         {
-            _name = Tags.Optgroup;
         }
 
         #endregion
@@ -37,18 +37,6 @@
         {
             get { return GetAttribute(AttributeNames.Disabled) != null; }
             set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return false; }
         }
 
         #endregion

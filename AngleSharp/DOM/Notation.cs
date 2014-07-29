@@ -13,8 +13,8 @@
         /// Creates a new notation node.
         /// </summary>
         internal Notation()
+            : base("#notation", NodeType.Notation)
         {
-            _type = NodeType.Notation;
         }
 
         #endregion

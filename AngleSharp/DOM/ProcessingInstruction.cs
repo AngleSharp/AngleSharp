@@ -13,9 +13,8 @@
         /// Creates a new processing instruction node.
         /// </summary>
         internal ProcessingInstruction(String name)
+            : base(name, NodeType.ProcessingInstruction)
         {
-            _type = NodeType.ProcessingInstruction;
-            _name = name;
         }
 
         #endregion
@@ -27,7 +26,7 @@
         /// </summary>
         public String Target
         {
-            get { return _name; }
+            get { return NodeName; }
         }
 
         #endregion

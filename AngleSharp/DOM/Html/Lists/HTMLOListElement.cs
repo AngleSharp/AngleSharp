@@ -10,20 +10,8 @@
         #region ctor
 
         internal HTMLOListElement()
+            : base(Tags.Ol, NodeFlags.Special)
         {
-            _name = Tags.Ol;
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

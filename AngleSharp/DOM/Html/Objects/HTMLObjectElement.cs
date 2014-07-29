@@ -19,8 +19,8 @@
         #region ctor
 
         internal HTMLObjectElement()
+            : base(Tags.Object)
         {
-            _name = Tags.Object;
             _contentDocument = null;
             _contentWindow = null;
 
@@ -104,18 +104,6 @@
         public IWindowProxy ContentWindow //TODO Object is WindowProxy (or IWindow to be more specific)
         {
             get { return _contentWindow; }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

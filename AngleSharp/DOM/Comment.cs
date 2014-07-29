@@ -13,9 +13,8 @@
         /// Creates a new comment node.
         /// </summary>
         internal Comment()
+            : this(String.Empty)
         {
-            _type = NodeType.Comment;
-            _name = "#comment";
         }
 
         /// <summary>
@@ -23,9 +22,8 @@
         /// </summary>
         /// <param name="data">The data to be initially set.</param>
         internal Comment(String data)
-            : this()
+            : base("#comment", NodeType.Comment, data)
         {
-            Append(data);
         }
 
         #endregion

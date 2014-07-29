@@ -18,8 +18,8 @@
         #region ctor
 
         internal HTMLTableRowElement()
+            : base(Tags.Tr, NodeFlags.Special)
         {
-            _name = Tags.Tr;
             _cells = new HtmlCollection<HTMLTableCellElement>(this);
         }
 
@@ -102,18 +102,6 @@
 
                 return 0; 
             }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

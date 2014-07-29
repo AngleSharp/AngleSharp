@@ -18,7 +18,7 @@
 
         protected override SVGElement CreateDefault(String name, Document document)
         {
-            return new SVGElement { NodeName = name, Owner = document };
+            return new SVGElement(name) { Owner = document };
         }
 
         /// <summary>

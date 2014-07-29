@@ -13,8 +13,8 @@
         /// Creates a new entity node.
         /// </summary>
         internal EntityReference()
+            : this(String.Empty)
         {
-            _type = NodeType.EntityReference;
         }
 
         /// <summary>
@@ -22,9 +22,8 @@
         /// </summary>
         /// <param name="name">Name of the entity reference.</param>
         internal EntityReference(String name)
-            : this()
+            : base(name, NodeType.EntityReference)
         {
-            _name = name;
         }
         #endregion
     }

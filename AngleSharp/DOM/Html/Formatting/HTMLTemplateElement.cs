@@ -16,8 +16,8 @@
         #region ctor
 
         internal HTMLTemplateElement()
+            : base(Tags.Template, NodeFlags.Special)
         {
-            _name = Tags.Template;
         }
 
         #endregion
@@ -35,14 +35,6 @@
         #endregion
 
         #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
-        }
 
         internal DocumentFragment Container
         {
@@ -97,7 +89,7 @@
         {
             var sb = Pool.NewStringBuilder();
 
-            sb.Append(Specification.LessThan).Append(_name);
+            sb.Append(Specification.LessThan).Append(NodeName);
 
             foreach (var attribute in Attributes)
                 sb.Append(Specification.Space).Append(attribute.ToString());
@@ -107,7 +99,7 @@
             foreach (var child in Content.ChildNodes)
                 sb.Append(child.ToHtml());
 
-            sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(_name);
+            sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(NodeName);
             sb.Append(Specification.GreaterThan);
 
             return sb.ToPool();

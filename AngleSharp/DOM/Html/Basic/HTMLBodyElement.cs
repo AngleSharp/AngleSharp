@@ -13,8 +13,8 @@
         /// Creates a HTML body element.
         /// </summary>
         internal HTMLBodyElement()
+            : base(Tags.Body, NodeFlags.Special)
         {
-            _name = Tags.Body;
         }
 
         #endregion
@@ -73,18 +73,6 @@
         {
             get { return GetAttribute(AttributeNames.Vlink); }
             set { SetAttribute(AttributeNames.Vlink, value); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

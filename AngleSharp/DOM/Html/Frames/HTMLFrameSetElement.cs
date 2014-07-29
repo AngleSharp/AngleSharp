@@ -12,8 +12,8 @@
         #region ctor
 
         internal HTMLFrameSetElement()
+            : base(Tags.Frameset, NodeFlags.Special)
         {
-            _name = Tags.Frameset;
         }
 
         #endregion
@@ -36,18 +36,6 @@
         {
             get { return GetAttribute(AttributeNames.Rows).ToInteger(1); }
             set { SetAttribute(AttributeNames.Rows, value.ToString()); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

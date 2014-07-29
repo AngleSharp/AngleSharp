@@ -11,8 +11,8 @@
         #region ctor
 
         internal HTMLMapElement()
+            : base(Tags.Map)
         {
-            _name = Tags.Map;
         }
 
         #endregion

@@ -9,20 +9,9 @@
     {
         #region ctor
 
-        internal HTMLNoElement()
+        internal HTMLNoElement(String name)
+            : base(name, NodeFlags.Special)
         { }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override bool IsSpecial
-        {
-            get { return true; }
-        }
 
         #endregion
     }

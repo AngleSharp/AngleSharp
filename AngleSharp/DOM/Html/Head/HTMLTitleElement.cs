@@ -11,8 +11,8 @@
         /// Creates a new HTML title element.
         /// </summary>
         internal HTMLTitleElement()
+            : base(Tags.Title, NodeFlags.Special)
         {
-            _name = Tags.Title;
         }
 
         /// <summary>
@@ -22,14 +22,6 @@
         {
             get { return TextContent; }
             set { TextContent = value; }
-        }
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
     }
 }

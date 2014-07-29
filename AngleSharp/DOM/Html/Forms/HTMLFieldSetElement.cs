@@ -14,8 +14,8 @@
         /// Creates a new HTML fieldset element.
         /// </summary>
         internal HTMLFieldSetElement()
+            : base(Tags.Fieldset)
         {
-            _name = Tags.Fieldset;
         }
 
         #endregion
@@ -27,7 +27,7 @@
         /// </summary>
         public String Type
         {
-            get { return _name; }
+            get { return NodeName; }
         }
 
         /// <summary>
@@ -36,18 +36,6 @@
         public IHtmlFormControlsCollection Elements
         {
             get { return new HtmlFormControlsCollection(this); }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

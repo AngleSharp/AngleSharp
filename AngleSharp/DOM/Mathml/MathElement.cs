@@ -12,22 +12,10 @@
         /// <summary>
         /// Creates a new MathML element.
         /// </summary>
-        internal MathElement()
+        internal MathElement(String name, NodeFlags flags = NodeFlags.None)
+            : base(name, flags | NodeFlags.MathMember)
         {
-            _name = Tags.Math;
             NamespaceUri = Namespaces.MathML;
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets the status if this node is the MathML namespace.
-        /// </summary>
-        internal protected override Boolean IsInMathML
-        {
-            get { return true; }
         }
 
         #endregion
@@ -41,7 +29,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = MathElementFactory.Create(_name, Owner);
+            var node = MathElementFactory.Create(NodeName, Owner);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;

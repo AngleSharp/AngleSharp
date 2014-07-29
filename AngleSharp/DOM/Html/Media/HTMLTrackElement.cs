@@ -20,8 +20,8 @@
         /// Creates a new HTML track element.
         /// </summary>
         internal HTMLTrackElement()
+            : base(Tags.Track, NodeFlags.Special)
         {
-            _name = Tags.Track;
             _ready = TrackReadyState.None;
         }
 
@@ -85,18 +85,6 @@
         public ITextTrack Track
         {
             get { return null; }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

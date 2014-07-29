@@ -13,8 +13,8 @@
         /// Creates a new isindex element.
         /// </summary>
         internal HTMLIsIndexElement()
+            : base(Tags.IsIndex, NodeFlags.Special)
         {
-            _name = Tags.IsIndex;
         }
 
         #endregion
@@ -37,18 +37,6 @@
         {
             get { return GetAttribute(AttributeNames.Prompt); }
             set { SetAttribute(AttributeNames.Prompt, value); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

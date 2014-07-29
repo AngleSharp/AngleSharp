@@ -19,8 +19,8 @@
         /// Creates a new HTML option element.
         /// </summary>
         internal HTMLOptionElement()
+            : base(Tags.Option)
         {
-            _name = Tags.Option;
         }
 
         #endregion           
@@ -113,18 +113,6 @@
         {
             get { return _selected.HasValue ? _selected.Value : IsDefaultSelected; }
             set { _selected = value; }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return false; }
         }
 
         #endregion

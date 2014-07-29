@@ -180,14 +180,13 @@
         /// </summary>
         /// <param name="source">The underlying source.</param>
         internal Document(ITextSource source)
+            : base("#document", NodeType.Document)
         {
             _source = source;
             Owner = this;
-            _type = NodeType.Document;
             IsAsync = true;
             _referrer = String.Empty;
             _ready = DocumentReadyState.Complete;
-            _name = "#document";
             _styleSheets = new StyleSheetList(this);
             _quirksMode = QuirksMode.Off;
             _location = new Location("file://localhost/");
@@ -833,7 +832,7 @@
             else if (namespaceUri == Namespaces.MathML)
                 element = MathElementFactory.Create(tagName, this);
             else
-                element = new Element { NamespaceUri = namespaceUri, NodeName = tagName, Owner = this };
+                element = new Element(tagName) { NamespaceUri = namespaceUri, Owner = this };
 
             return element;
         }

@@ -14,9 +14,9 @@
         /// <summary>
         /// Creates a new document type node.
         /// </summary>
-        internal DocumentType()
+        internal DocumentType(String name)
+            : base(name, NodeType.DocumentType)
         {
-            _type = NodeType.DocumentType;
         }
 
         #endregion
@@ -99,8 +99,7 @@
         /// </summary>
         public String Name 
         {
-            get { return _name; }
-            set { _name = value; }
+            get { return NodeName; }
         }
 
         /// <summary>
@@ -195,9 +194,8 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new DocumentType();
+            var node = new DocumentType(Name);
             CopyProperties(this, node, deep);
-            node.Name = this.Name;
             node.PublicIdentifier = this.PublicIdentifier;
             node.SystemIdentifier = this.SystemIdentifier;
             node.InternalSubset = this.InternalSubset;

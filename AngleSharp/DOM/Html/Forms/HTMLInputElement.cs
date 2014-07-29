@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Io;
     using System;
     using System.Globalization;
@@ -25,8 +24,8 @@
         /// Creates a new HTML input element.
         /// </summary>
         internal HTMLInputElement()
+            : base(Tags.Input, NodeFlags.SelfClosing)
         {
-            _name = Tags.Input;
             WillValidate = true;
             _files = new FileList();
         }
@@ -397,14 +396,6 @@
         internal Boolean IsMutable 
         {
             get { return !IsDisabled && !IsReadOnly; }
-        }
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

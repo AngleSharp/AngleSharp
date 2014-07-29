@@ -27,8 +27,8 @@
         /// Creates a new HTML script element.
         /// </summary>
         internal HTMLScriptElement()
+            : base(Tags.Script, NodeFlags.Special)
         {
-            _name = Tags.Script;
         }
 
         #endregion
@@ -112,18 +112,6 @@
         {
             get { return GetAttribute(AttributeNames.Async) != null; }
             set { SetAttribute(AttributeNames.Async, value ? String.Empty : null); }
-        }
-
-        #endregion
-
-        #region Protected properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

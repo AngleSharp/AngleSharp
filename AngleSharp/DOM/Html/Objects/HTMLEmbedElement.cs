@@ -13,20 +13,8 @@
         /// Creates a new Embed element.
         /// </summary>
         internal HTMLEmbedElement()
+            : base(Tags.Embed, NodeFlags.Special)
         {
-            _name = Tags.Embed;
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

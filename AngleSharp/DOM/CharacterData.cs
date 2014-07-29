@@ -18,8 +18,10 @@
         /// <summary>
         /// Creates a new instance of character data.
         /// </summary>
-        internal CharacterData()
-            : this(String.Empty)
+        /// <param name="name">The name of the node.</param>
+        /// <param name="type">The exact type of the node.</param>
+        internal CharacterData(String name, NodeType type)
+            : this(name, type, String.Empty)
         {
         }
 
@@ -27,8 +29,11 @@
         /// Creates a new instance of character data with the
         /// provided initial content.
         /// </summary>
+        /// <param name="name">The name of the node.</param>
+        /// <param name="type">The exact type of the node.</param>
         /// <param name="content">The content to set.</param>
-        internal CharacterData(String content)
+        internal CharacterData(String name, NodeType type, String content)
+            : base(name, type)
         {
             _content = content;
         }

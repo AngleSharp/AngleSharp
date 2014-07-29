@@ -56,7 +56,7 @@
         /// <returns>A new DocumentType node with the owner document set to null.</returns>
         public IDocumentType CreateDocumentType(String qualifiedName, String publicId, String systemId)
         {
-            return new DocumentType { PublicIdentifier = publicId, SystemIdentifier = systemId, NodeName = qualifiedName };
+            return new DocumentType(qualifiedName) { PublicIdentifier = publicId, SystemIdentifier = systemId };
         }
 
         /// <summary>
@@ -73,7 +73,7 @@
             if (doctype != null)
                 doc.AppendChild(doctype as Node);
 
-            doc.NodeName = qualifiedName ?? doc.NodeName;
+            //doc.NodeName = qualifiedName ?? doc.NodeName;
             return doc;
         }
 

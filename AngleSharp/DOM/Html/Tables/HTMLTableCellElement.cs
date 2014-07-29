@@ -14,6 +14,15 @@
 
         #endregion
 
+        #region ctor
+
+        internal HTMLTableCellElement(String name)
+            : base(name, NodeFlags.Special)
+        {
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -143,18 +152,6 @@
         {
             get { return GetAttribute(AttributeNames.Axis); }
             set { SetAttribute(AttributeNames.Axis, value); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

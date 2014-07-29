@@ -9,7 +9,8 @@
     {
         #region ctor
 
-        internal HTMLFormControlElementWithState()
+        internal HTMLFormControlElementWithState(String name, NodeFlags flags = NodeFlags.None)
+            : base(name, flags)
         {
             CanContainRangeEndpoint = false;
         }

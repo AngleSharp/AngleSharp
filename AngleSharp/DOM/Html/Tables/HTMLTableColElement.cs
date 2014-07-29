@@ -9,9 +9,9 @@
     {
         #region ctor
 
-        internal HTMLTableColElement()
+        internal HTMLTableColElement(String name)
+            : base(name, NodeFlags.Special)
         {
-            _name = Tags.Col;
         }
 
         #endregion
@@ -52,18 +52,6 @@
         {
             get { return GetAttribute(AttributeNames.Width); }
             set { SetAttribute(AttributeNames.Width, value); }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

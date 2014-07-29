@@ -19,8 +19,8 @@
         /// Creates a new datalist element.
         /// </summary>
         internal HTMLDataListElement()
+            : base(Tags.Datalist)
         {
-            _name = Tags.Datalist;
             _options = new HtmlCollection<HTMLOptionElement>(this);
         }
 

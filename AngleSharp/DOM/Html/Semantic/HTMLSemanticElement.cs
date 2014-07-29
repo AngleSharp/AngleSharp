@@ -9,20 +9,9 @@
     {
         #region ctor
 
-        internal HTMLSemanticElement()
+        internal HTMLSemanticElement(String name)
+            : base(name, NodeFlags.Special)
         { }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
-        }
 
         #endregion
     }

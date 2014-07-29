@@ -15,9 +15,8 @@
         /// Creates a new document fragment.
         /// </summary>
         internal DocumentFragment()
+            : base("#document-fragment", NodeType.DocumentFragment)
         {
-            _type = NodeType.DocumentFragment;
-            _name = "#document-fragment";
         }
 
         /// <summary>

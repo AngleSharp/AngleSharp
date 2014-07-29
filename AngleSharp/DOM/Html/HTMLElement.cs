@@ -23,29 +23,10 @@
         /// <summary>
         /// Creates a standard HTML element.
         /// </summary>
-        internal HTMLElement()
+        internal HTMLElement(String name, NodeFlags flags = NodeFlags.None)
+            : base(name, flags | NodeFlags.HtmlMember)
         {
             NamespaceUri = Namespaces.Html; 
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets the status if this node is in the HTML namespace.
-        /// </summary>
-        internal protected override Boolean IsInHtml
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return false; }
         }
 
         #endregion
@@ -248,7 +229,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = HtmlElementFactory.Create(_name, Owner);
+            var node = HtmlElementFactory.Create(NodeName, Owner);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;

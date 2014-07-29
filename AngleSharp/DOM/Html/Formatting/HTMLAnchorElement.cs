@@ -21,8 +21,8 @@
         /// Creates a new anchor element.
         /// </summary>
         internal HTMLAnchorElement()
+            : base(Tags.A)
         {
-            _name = Tags.A;
         }
 
         #endregion

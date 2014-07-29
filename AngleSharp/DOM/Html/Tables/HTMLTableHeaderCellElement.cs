@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using System;
-
     /// <summary>
     /// Represents the object for HTML th elements.
     /// </summary>
@@ -10,8 +8,8 @@
         #region ctor
 
         internal HTMLTableHeaderCellElement()
+            : base(Tags.Th)
         {
-            _name = Tags.Th;
         }
 
         #endregion

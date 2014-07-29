@@ -10,8 +10,8 @@
         #region ctor
 
         internal HTMLTableCaptionElement()
+            : base(Tags.Caption, NodeFlags.Special)
         {
-            _name = Tags.Caption;
         }
 
         #endregion
@@ -25,18 +25,6 @@
         {
             get { return GetAttribute(AttributeNames.Align).ToEnum(CaptionAlignment.Top); }
             set { SetAttribute(AttributeNames.Align, value.ToString()); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

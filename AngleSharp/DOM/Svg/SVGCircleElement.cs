@@ -6,8 +6,8 @@
     sealed class SVGCircleElement : SVGElement
     {
         internal SVGCircleElement()
+            : base(Tags.Circle)
         {
-            _name = Tags.Circle;
         }
     }
 }

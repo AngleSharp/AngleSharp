@@ -21,9 +21,9 @@
         /// Creates a new image element.
         /// </summary>
         internal HTMLImageElement()
+            : base(Tags.Img, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _loaded = true;
-            _name = Tags.Img;
 
             //TODO
             _imageHeight = 0;
@@ -121,18 +121,6 @@
         {
             get { return GetAttribute(AttributeNames.IsMap) != null; }
             set { SetAttribute(AttributeNames.IsMap, value ? String.Empty : null); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

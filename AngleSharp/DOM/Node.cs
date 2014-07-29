@@ -11,19 +11,14 @@
     {
         #region Fields
 
+        readonly NodeType _type;
+        readonly String _name;
+        readonly NodeFlags _flags;
+
         Document _owner;
         String _baseUri;
         Node _parent;
         NodeList _children;
-
-        /// <summary>
-        /// The node's name.
-        /// </summary>
-        protected String _name;
-        /// <summary>
-        /// The type of the node.
-        /// </summary>
-        protected NodeType _type;
 
         #endregion
 
@@ -32,10 +27,12 @@
         /// <summary>
         /// Constructs a new node.
         /// </summary>
-        internal Node()
+        internal Node(String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
         {
-            _name = String.Empty;
+            _name = name ?? String.Empty;
+            _type = type;
             _children = new NodeList();
+            _flags = flags;
         }
 
         #endregion
@@ -239,7 +236,6 @@
         public String NodeName
         {
             get { return _name; }
-            internal set {  _name = value; }
         }
 
         #endregion
@@ -247,27 +243,35 @@
         #region Internal Properties
 
         /// <summary>
+        /// Gets the flags of this node.
+        /// </summary>
+        internal NodeFlags Flags
+        {
+            get { return _flags; }
+        }
+
+        /// <summary>
         /// Gets if the node is in the special category.
         /// </summary>
-        internal protected virtual Boolean IsSpecial
+        internal Boolean IsSpecial
         {
-            get { return false; }
+            get { return _flags.HasFlag(NodeFlags.Special); }
         }
 
         /// <summary>
         /// Gets the status if this node is in the HTML namespace.
         /// </summary>
-        internal protected virtual Boolean IsInHtml
+        internal Boolean IsInHtml
         {
-            get { return false; }
+            get { return _flags.HasFlag(NodeFlags.HtmlMember); }
         }
 
         /// <summary>
         /// Gets the status if this node is the MathML namespace.
         /// </summary>
-        internal protected virtual Boolean IsInMathML
+        internal Boolean IsInMathML
         {
-            get { return false; }
+            get { return _flags.HasFlag(NodeFlags.MathMember); }
         }
 
         /// <summary>
@@ -281,25 +285,25 @@
         /// <summary>
         /// Gets the status if the current node is in the MathML namespace.
         /// </summary>
-        internal protected virtual Boolean IsInSvg
+        internal Boolean IsInSvg
         {
-            get { return false; }
+            get { return _flags.HasFlag(NodeFlags.SvgMember); }
         }
 
         /// <summary>
         /// Gets the status if the node is a MathML text integration point.
         /// </summary>
-        internal protected virtual Boolean IsMathMLTIP
+        internal Boolean IsMathMLTIP
         {
-            get { return false; }
+            get { return _flags.HasFlag(NodeFlags.MathTip); }
         }
 
         /// <summary>
         /// Gets the status if the node is an HTML text integration point.
         /// </summary>
-        internal protected virtual Boolean IsHtmlTIP
+        internal Boolean IsHtmlTIP
         {
-            get { return false; }
+            get { return _flags.HasFlag(NodeFlags.HtmlTip); }
         }
 
         #endregion
@@ -424,7 +428,7 @@
         /// <returns>The duplicate node.</returns>
         public virtual INode Clone(Boolean deep = true)
         {
-            var node = new Node();
+            var node = new Node(_name, _type, _flags);
             CopyProperties(this, node, deep);
             return node;
         }
@@ -820,8 +824,6 @@
         static protected void CopyProperties(Node source, Node target, Boolean deep)
         {
             target._baseUri = source._baseUri;
-            target._name = source._name;
-            target._type = source.NodeType;
 
             if (deep)
             {

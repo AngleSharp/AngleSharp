@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using System;
-
     /// <summary>
     /// Represents the HTML html element.
     /// </summary>
@@ -13,20 +11,8 @@
         /// Creates a new HTML html tag.
         /// </summary>
         internal HTMLHtmlElement()
+            : base(Tags.Html, NodeFlags.Special)
         {
-            _name = Tags.Html;
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

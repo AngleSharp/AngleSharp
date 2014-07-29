@@ -20,8 +20,8 @@
         /// Creates a new HTML progress element.
         /// </summary>
         internal HTMLProgressElement()
+            : base(Tags.Progress)
         {
-            _name = Tags.Progress;
             labels = new NodeList();
         }
 
@@ -78,18 +78,6 @@
         public Double Position
         {
             get { return IsDeterminate ? Math.Max(Math.Min(Value / Max, 1.0), 0.0) : -1.0; }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return false; }
         }
 
         #endregion

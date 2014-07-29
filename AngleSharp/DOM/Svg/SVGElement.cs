@@ -19,21 +19,10 @@
         /// <summary>
         /// Creates a new SVG element.
         /// </summary>
-        internal SVGElement()
+        internal SVGElement(String name, NodeFlags flags = NodeFlags.None)
+            : base(name, flags | NodeFlags.SvgMember)
         {
             NamespaceUri = Namespaces.Svg;
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets the status if the current node is in the SVG namespace.
-        /// </summary>
-        internal protected override Boolean IsInSvg
-        {
-            get { return true; }
         }
 
         #endregion
@@ -59,7 +48,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = SvgElementFactory.Create(_name, Owner);
+            var node = SvgElementFactory.Create(NodeName, Owner);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;

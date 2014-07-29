@@ -19,8 +19,8 @@
         /// Creates a new HTML button element.
         /// </summary>
         internal HTMLButtonElement()
+            : base(Tags.Button)
         {
-            _name = Tags.Button;
         }
 
         #endregion
@@ -115,18 +115,6 @@
         {
             get;
             set;
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

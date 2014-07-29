@@ -13,8 +13,8 @@
         /// Creates a new HTML menu element.
         /// </summary>
         internal HTMLMenuElement()
+            : base(Tags.Menu, NodeFlags.Special)
         {
-            _name = Tags.Menu;
         }
 
         #endregion
@@ -37,18 +37,6 @@
         {
             get { return GetAttribute(AttributeNames.Label); }
             set { SetAttribute(AttributeNames.Label, value); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

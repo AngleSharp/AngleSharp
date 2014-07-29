@@ -8,8 +8,8 @@
     sealed class HTMLFontElement : HTMLElement, IFormatting
     {
         internal HTMLFontElement()
+            : base(Tags.Font)
         {
-            _name = Tags.Font;
         }
     }
 }

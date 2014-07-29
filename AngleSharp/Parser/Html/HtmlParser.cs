@@ -362,7 +362,7 @@
         /// <param name="token">The token to consume.</param>
         void Consume(HtmlToken token)
         {
-            var node = AdjustedCurrentNode;
+            var node = AdjustedCurrentNode as Element;
 
             if (node == null || node.IsInHtml || token.IsEof || (node.IsHtmlTIP && token.IsHtmlCompatible) ||
                 (node.IsMathMLTIP && token.IsMathCompatible) || (node.IsInMathMLSVGReady && token.IsSvg))
@@ -991,7 +991,7 @@
                             CloseCurrentNode();
                         }
 
-                        var element = new HTMLHeadingElement();
+                        var element = new HTMLHeadingElement(tag.Name);
                         AddElement(element, tag);
                         break;
                     }
@@ -1001,7 +1001,7 @@
                         if (IsInButtonScope())
                             InBodyEndTagParagraph();
 
-                        var element = new HTMLPreElement();
+                        var element = new HTMLPreElement(tag.Name);
                         AddElement(element, tag);
                         frameset = false;
                         PreventNewLine();
@@ -1322,8 +1322,7 @@
                     }
                     case Tags.Math:
                     {
-                        var element = new MathElement();
-                        element.NodeName = tag.Name;
+                        var element = new MathElement(tag.Name);
                         ReconstructFormatting();
 
                         for (int i = 0; i < tag.Attributes.Count; i++)
@@ -1342,8 +1341,7 @@
                     }
                     case Tags.Svg:
                     {
-                        var element = new SVGElement();
-                        element.NodeName = tag.Name;
+                        var element = new SVGElement(tag.Name);
                         ReconstructFormatting();
 
                         for (int i = 0; i < tag.Attributes.Count; i++)
@@ -1639,7 +1637,7 @@
                     case Tags.Colgroup:
                     {
                         ClearStackBackTo<HTMLTableElement>();
-                        var element = new HTMLTableColElement();
+                        var element = new HTMLTableColElement(Tags.Colgroup);
                         AddElement(element, tag);
                         insert = HtmlTreeMode.InColumnGroup;
                         break;
@@ -1655,7 +1653,7 @@
                     case Tags.Tfoot:
                     {
                         ClearStackBackTo<HTMLTableElement>();
-                        var element = new HTMLTableSectionElement();
+                        var element = new HTMLTableSectionElement(tag.Name);
                         AddElement(element, tag);
                         insert = HtmlTreeMode.InTableBody;
                         break;
@@ -1892,7 +1890,7 @@
                 InBody(token);
             else if (token.IsStartTag(Tags.Col))
             {
-                var element = new HTMLTableColElement();
+                var element = new HTMLTableColElement(Tags.Col);
                 AddElement(element, token.AsTag(), true);
                 CloseCurrentNode();
             }
@@ -3397,6 +3395,17 @@
             do
             {
                 CloseCurrentNode();
+
+                if (CurrentNode is MathAnnotationXmlElement)
+                {
+                    var value = CurrentNode.GetAttribute(AttributeNames.Encoding);
+
+                    if (!String.IsNullOrEmpty(value))
+                    {
+                        if (value.Equals(MimeTypes.Html, StringComparison.OrdinalIgnoreCase) || value.Equals(MimeTypes.ApplicationXHtml, StringComparison.OrdinalIgnoreCase))
+                            break;
+                    }
+                }
             }
             while (!CurrentNode.IsHtmlTIP && !CurrentNode.IsMathMLTIP && !CurrentNode.IsInHtml);
 
@@ -3686,10 +3695,9 @@
         /// <param name="doctypeToken">The doctypen token.</param>
         void AddDoctype(HtmlDoctypeToken doctypeToken)
         {
-            var node = new DocumentType();
+            var node = new DocumentType(doctypeToken.Name);
             node.SystemIdentifier = doctypeToken.SystemIdentifier;
             node.PublicIdentifier = doctypeToken.PublicIdentifier;
-            node.Name = doctypeToken.Name;
             doc.AppendChild(node);
         }
 
@@ -3752,8 +3760,6 @@
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         void SetupElement(Element element, HtmlTagToken tag, Boolean acknowledgeSelfClosing)
         {
-            element.NodeName = tag.Name;
-
             if (tag.IsSelfClosing && !acknowledgeSelfClosing)
                 RaiseErrorOccurred(ErrorCode.TagCannotBeSelfClosed);
 

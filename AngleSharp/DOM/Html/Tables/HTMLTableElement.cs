@@ -19,8 +19,8 @@
         #region ctor
 
         internal HTMLTableElement()
+            : base(Tags.Table, NodeFlags.Special)
         {
-            _name = Tags.Table;
             _rows = new HtmlCollection<IHtmlTableRowElement>(this);
             _bodies = new HtmlCollection<IHtmlTableSectionElement>(this);
         }
@@ -151,18 +151,6 @@
         {
             get { return GetAttribute(AttributeNames.Width); }
             set { SetAttribute(AttributeNames.Width, value); }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

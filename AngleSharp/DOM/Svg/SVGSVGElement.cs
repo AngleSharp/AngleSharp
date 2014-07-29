@@ -6,8 +6,8 @@
     sealed class SVGSVGElement : SVGElement
     {
         internal SVGSVGElement()
+            : base(Tags.Svg)
         {
-            _name = Tags.Svg;
         }
     }
 }

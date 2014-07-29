@@ -15,8 +15,8 @@
         #region ctor
 
         internal HTMLIFrameElement()
+            : base(Tags.Iframe)
         {
-            _name = Tags.Iframe;
         }
 
         #endregion
@@ -70,18 +70,6 @@
         public IWindowProxy ContentWindow
         {
             get { return null; }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion
