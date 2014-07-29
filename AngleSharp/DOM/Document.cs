@@ -722,10 +722,17 @@
         /// since it has not yet been inserted into the document tree.</returns>
         public INode Adopt(INode externalNode)
         {
+            if (externalNode is IDocument)
+                throw new DomException(ErrorCode.NotSupported);
+
             if (externalNode.Parent != null)
                 externalNode.Parent.RemoveChild(externalNode);
 
-            AppendChild(externalNode);
+            var node = externalNode as Node;
+
+            if (node != null)
+                node.Owner = this;
+
             return externalNode;
         }
 
