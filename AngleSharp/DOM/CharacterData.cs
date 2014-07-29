@@ -266,7 +266,8 @@
         /// <param name="data">The data to insert at the replacement.</param>
         public void Replace(Int32 offset, Int32 count, String data)
         {
-            //TODO (impl. Mutation algorithm)
+            //TODO Mutation implemented
+            //TODO Range connected ...
             var length = _content.Length;
 
             if (offset > length)
