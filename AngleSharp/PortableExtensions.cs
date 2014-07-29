@@ -12,6 +12,11 @@
             return type.GetTypeInfo().DeclaredConstructors.First();
         }
 
+        public static Boolean Implements<T>(this Type type)
+        {
+            return type.GetTypeInfo().ImplementedInterfaces.Contains(typeof(T));
+        }
+
         public static ConstructorInfo[] GetDeclaredConstructors(this Type type)
         {
             return type.GetTypeInfo().DeclaredConstructors.ToArray();
@@ -137,10 +142,14 @@
             return type.GetTypeInfo().Assembly;
         }
 
+        public static ConstructorInfo GetConstructor(this Type type)
+        {
+            return type.GetTypeInfo().DeclaredConstructors.Where(c => !c.IsStatic && c.GetParameters().Length == 0).FirstOrDefault();
+        }
+
         public static ConstructorInfo GetConstructor(this Type type, Type[] types)
         {
-            return
-                GetConstructors(type).FirstOrDefault(c => c.GetParameters().Select(p => p.ParameterType).SequenceEqual(types));
+            return GetConstructors(type).FirstOrDefault(c => c.GetParameters().Select(p => p.ParameterType).SequenceEqual(types));
         }
 
         public static Boolean IsEnumerableOfT(this Type serviceType)

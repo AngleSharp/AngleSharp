@@ -7,6 +7,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -15,6 +16,40 @@
     /// </summary>
     public static class Extensions
     {
+        #region Generic extensions
+
+        /// <summary>
+        /// Creates an element of the given type or returns null, if there is
+        /// no such type.
+        /// </summary>
+        /// <typeparam name="TElement">The type of element to create.</typeparam>
+        /// <param name="document">The responsible document.</param>
+        /// <returns>The new element, if available.</returns>
+        public static TElement CreateElement<TElement>(this IDocument document)
+            where TElement : IElement
+        {
+            var type = typeof(Extensions).GetAssembly().GetTypes()
+                .Where(m => m.Implements<TElement>())
+                .FirstOrDefault(m => !m.IsAbstractClass());
+
+            if (type == null)
+                return default(TElement);
+
+            var ctor = type.GetConstructor();
+
+            if (ctor == null)
+                return default(TElement);
+
+            var element = (TElement)ctor.Invoke(null);
+
+            if (element != null)
+                document.Adopt(element);
+
+            return element;
+        }
+
+        #endregion
+
         #region jQuery like
 
         /// <summary>
@@ -156,7 +191,7 @@
 
         #endregion
 
-        #region Construction Helpers
+        #region Construction helpers
 
         /// <summary>
         /// Interprets the string as HTML source code and returns new HTMLDocument
@@ -258,7 +293,7 @@
 
         #endregion
 
-        #region String Representation
+        #region String representation
 
         /// <summary>
         /// Returns the HTML code representation of the given DOM element.
