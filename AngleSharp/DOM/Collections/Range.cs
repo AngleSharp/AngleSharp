@@ -238,66 +238,85 @@ using System.Linq;
         public IDocumentFragment Flush()
         {
             //TODO
-            /*
-1. Let fragment be a new DocumentFragment node whose node document is range's start node's node document. 
-2. If range's start equals its end, return fragment. 
-3. Let original start node, original start offset, original end node, and original end offset be range's start node, start offset, end node, and end offset, respectively. 
-4. If original start node equals original end node, and they are a Text, ProcessingInstruction, or Comment node: 
-  1. Let clone be a clone of original start node. 
-  2. Set the data of clone to the result of substringing data with node original start node, offset original start offset, and count original end offset minus original start offset. 
-  3. Append clone to fragment. 
-  4. Replace data with node original start node, offset original start offset, count original end offset minus original start offset, and data the empty string. 
-  5. Return fragment. 
-5. Let common ancestor be original start node. 
-6. While common ancestor is not an inclusive ancestor of original end node, set common ancestor to its own parent. 
-7. Let first partially contained child be null. 
-8. If original start node is not an inclusive ancestor of original end node, set first partially contained child to the first child of common ancestor that is partially contained in range. 
-9. Let last partially contained child be null. 
-10. If original end node is not an inclusive ancestor of original start node, set last partially contained child to the last child of common ancestor that is partially contained in range. 
-  (Note:
-  These variable assignments do actually always make sense. For instance, if original start node is not an inclusive ancestor of original end node, original start node is itself partially contained in range, and so are all its ancestors up until a child of common ancestor. common ancestor cannot be original start node, because it has to be an inclusive ancestor of original end node. The other case is similar. Also, notice that the two children will never be equal if both are defined.)
-11. Let contained children be a list of all children of common ancestor that are contained in range, in tree order. 
-12. If any member of contained children is a doctype, throw a "HierarchyRequestError" exception. 
-  (Note:
-  We do not have to worry about the first or last partially contained node, because a doctype can never be partially contained. It cannot be a boundary point of a range, and it cannot be the ancestor of anything.)
-13. If original start node is an inclusive ancestor of original end node, set new node to original start node and new offset to original start offset. 
-14. Otherwise: 
-  1. Let reference node equal original start node. 
-  2. While reference node's parent is not null and is not an inclusive ancestor of original end node, set reference node to its parent. 
-  3. Set new node to the parent of reference node, and new offset to one plus reference node's index. 
-    (Note:
-    If reference node's parent is null, it would be the root of range, so would be an inclusive ancestor of original end node, and we could not reach this point.)
-15. If first partially contained child is a Text, ProcessingInstruction, or Comment node: 
-  (Note:
-  In this case, first partially contained child is original start node.)
-  1. Let clone be a clone of original start node. 
-  2. Set the data of clone to the result of substringing data with node original start node, offset original start offset, and count original start node's length minus original start offset. 
-  3. Append clone to fragment. 
-  4. Replace data with node original start node, offset original start offset, count original start node's length minus original start offset, and data the empty string. 
-16. Otherwise, if first partially contained child is not null: 
-  1. Let clone be a clone of first partially contained child. 
-  2. Append clone to fragment. 
-  3. Let subrange be a new range whose start is (original start node, original start offset) and whose end is (first partially contained child, first partially contained child's length). 
-  4. Let subfragment be the result of extracting subrange. 
-  5. Append subfragment to fragment. 
-17. For each contained child in contained children, append contained child to fragment. 
-18. If last partially contained child is a Text, ProcessingInstruction, or Comment node: 
-  (Note:
-  In this case, last partially contained child is original end node.)
-  1. Let clone be a clone of original end node. 
-  2. Set the data of clone to the result of substringing data with node original end node, offset 0, and count original end offset. 
-  3. Append clone to fragment. 
-  4. Replace data with node original end node, offset 0, count original end offset, and data the empty string. 
-19. Otherwise, if last partially contained child is not null: 
-  1. Let clone be a clone of last partially contained child. 
-  2. Append clone to fragment. 
-  3. Let subrange be a new range whose start is (last partially contained child, 0) and whose end is (original end node, original end offset). 
-  4. Let subfragment be the result of extracting subrange. 
-  5. Append subfragment to fragment. 
-20. Set range's start and end to (new node, new offset). 
-21. Return fragment.
-             */
-            throw new NotImplementedException();
+            var fragment = new DocumentFragment { Owner = _start.Node.Owner as Document };
+
+            if (_start.Equals(_end))
+                return fragment;
+
+            var newBoundary = _start;
+            var originalStart = _start;
+            var originalEnd = _end;
+
+            if (originalStart.Node == originalEnd.Node && _start.Node is ICharacterData)
+            {
+                //1. Let clone be a clone of original start node. 
+                //2. Set the data of clone to the result of substringing data with node original start node, offset original start offset, and count original end offset minus original start offset. 
+                //3. Append clone to fragment. 
+                //4. Replace data with node original start node, offset original start offset, count original end offset minus original start offset, and data the empty string. 
+                return fragment;
+            }
+
+            var commonAncestor = originalStart.Node;
+
+            while (!commonAncestor.IsInclusiveAncestorOf(originalEnd.Node))
+                commonAncestor = commonAncestor.Parent;
+
+            var firstPartiallyContainedChild = !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node) ? 
+                commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).FirstOrDefault() : null;
+            var lastPartiallyContainedchild = !originalEnd.Node.IsInclusiveAncestorOf(originalStart.Node) ? 
+                commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).LastOrDefault() : null;
+            var containedChildren = commonAncestor.GetElements<INode>(predicate: Intersects).ToList();
+
+            if (containedChildren.OfType<IDocumentType>().Any())
+                throw new DomException(ErrorCode.HierarchyRequest);
+
+            if (!originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node))
+            {
+                //1. Let reference node equal original start node. 
+                //2. While reference node's parent is not null and is not an inclusive ancestor of original end node, set reference node to its parent. 
+                //3. Set new node to the parent of reference node, and new offset to one plus reference node's index. 
+                //  (Note:
+                //  If reference node's parent is null, it would be the root of range, so would be an inclusive ancestor of original end node, and we could not reach this point.)
+            }
+
+            if (firstPartiallyContainedChild is ICharacterData)
+            {
+                //1. Let clone be a clone of original start node. 
+                //2. Set the data of clone to the result of substringing data with node original start node, offset original start offset, and count original start node's length minus original start offset. 
+                //3. Append clone to fragment. 
+                //4. Replace data with node original start node, offset original start offset, count original start node's length minus original start offset, and data the empty string. 
+            }
+            else if (firstPartiallyContainedChild != null)
+            {
+                //1. Let clone be a clone of first partially contained child. 
+                //2. Append clone to fragment. 
+                //3. Let subrange be a new range whose start is (original start node, original start offset) and whose end is (first partially contained child, first partially contained child's length). 
+                //4. Let subfragment be the result of extracting subrange. 
+                //5. Append subfragment to fragment. 
+            }
+
+            foreach (var child in containedChildren)
+                fragment.AppendChild(child);
+
+            if (lastPartiallyContainedchild is ICharacterData)
+            {
+                //1. Let clone be a clone of original end node. 
+                //2. Set the data of clone to the result of substringing data with node original end node, offset 0, and count original end offset. 
+                //3. Append clone to fragment. 
+                //4. Replace data with node original end node, offset 0, count original end offset, and data the empty string. 
+            }
+            else if (lastPartiallyContainedchild != null)
+            {
+                //1. Let clone be a clone of last partially contained child. 
+                //2. Append clone to fragment. 
+                //3. Let subrange be a new range whose start is (last partially contained child, 0) and whose end is (original end node, original end offset). 
+                //4. Let subfragment be the result of extracting subrange. 
+                //5. Append subfragment to fragment. 
+            }
+
+            _start = newBoundary;
+            _end = newBoundary;
+            return fragment;
         }
 
         public IDocumentFragment Copy()
