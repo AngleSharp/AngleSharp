@@ -156,14 +156,14 @@
         NodeType NodeType { get; }
 
         /// <summary>
-        /// Gets a string representing the value of an object. For most Node
+        /// Gets or sets a string representing the value of an object. For most Node
         /// type, this returns null and any set operation is ignored.
         /// </summary>
         [DomName("nodeValue")]
         String NodeValue { get; set; }
 
         /// <summary>
-        /// Gets a string representing the textual content of an element and
+        /// Gets or sets a string representing the textual content of an element and
         /// all its descendants.
         /// </summary>
         [DomName("textContent")]

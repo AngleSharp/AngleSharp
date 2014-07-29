@@ -187,7 +187,7 @@
                 throw new DomException(ErrorCode.HierarchyRequest);
 
             if (child != null && child.Parent != parent)
-                throw new DomException(ErrorCode.NotFoundError);
+                throw new DomException(ErrorCode.NotFound);
 
             if (node is IDocumentType == false && node is IDocumentFragment == false && node is IElement == false && node is ICharacterData == false)
                 throw new DomException(ErrorCode.HierarchyRequest);
