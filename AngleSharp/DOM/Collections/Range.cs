@@ -172,7 +172,7 @@
             _end = new Boundary { Node = parent, Offset = index + 1 };
         }
 
-        public void SelectContents(INode refNode)
+        public void SelectContent(INode refNode)
         {
             if (refNode is IDocumentType)
                 throw new DomException(ErrorCode.InvalidNodeType);
@@ -182,7 +182,7 @@
             _end = new Boundary { Node = refNode, Offset = length };
         }
 
-        public void Clear()
+        public void ClearContent()
         {
             if (_start.Equals(_end))
                 return;
@@ -237,9 +237,8 @@
             _end = newBoundary;
         }
 
-        public IDocumentFragment Flush()
+        public IDocumentFragment ExtractContent()
         {
-            //TODO
             var fragment = new DocumentFragment { Owner = _start.Node.Owner as Document };
 
             if (_start.Equals(_end))
@@ -251,14 +250,13 @@
 
             if (originalStart.Node == originalEnd.Node && _start.Node is ICharacterData)
             {
-                var clone = originalStart.Node.Clone();
-
-                //1. Let clone be a clone of original start node. 
-                //2. Set the data of clone to the result of substringing data with node original start node, offset original
-                //   start offset, and count original end offset minus original start offset. 
-                //3. Append clone to fragment. 
-                //4. Replace data with node original start node, offset original start offset, count original end offset minus
-                //   original start offset, and data the empty string. 
+                var text = (ICharacterData)originalStart.Node;
+                var strt = originalStart.Offset;
+                var span = originalEnd.Offset - originalStart.Offset;
+                var clone = (ICharacterData)text.Clone();
+                clone.Data = text.Substring(strt, span);
+                fragment.AppendChild(clone);
+                text.Replace(strt, span, String.Empty);
                 return fragment;
             }
 
@@ -278,28 +276,31 @@
 
             if (!originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node))
             {
-                //1. Let reference node equal original start node. 
-                //2. While reference node's parent is not null and is not an inclusive ancestor of original end node, set reference node to its parent. 
-                //3. Set new node to the parent of reference node, and new offset to one plus reference node's index. 
+                var referenceNode = originalStart.Node;
+
+                while (referenceNode.Parent != null && !referenceNode.IsInclusiveAncestorOf(originalEnd.Node))
+                    referenceNode = referenceNode.Parent;
+
+                newBoundary = new Boundary { Node = referenceNode, Offset = referenceNode.Parent.ChildNodes.Index(referenceNode) + 1 };
             }
 
             if (firstPartiallyContainedChild is ICharacterData)
             {
-                //1. Let clone be a clone of original start node. 
-                //2. Set the data of clone to the result of substringing data with node original start node, offset original start
-                //   offset, and count original start node's length minus original start offset. 
-                //3. Append clone to fragment. 
-                //4. Replace data with node original start node, offset original start offset, count original start node's length
-                //   minus original start offset, and data the empty string. 
+                var text = (ICharacterData)originalStart.Node;
+                var strt = originalStart.Offset;
+                var span = text.Length - originalStart.Offset;
+                var clone = (ICharacterData)text.Clone();
+                clone.Data = text.Substring(strt, span);
+                fragment.AppendChild(clone);
+                text.Replace(strt, span, String.Empty);
             }
             else if (firstPartiallyContainedChild != null)
             {
-                //1. Let clone be a clone of first partially contained child. 
-                //2. Append clone to fragment. 
-                //3. Let subrange be a new range whose start is (original start node, original start offset) and whose end is
-                //   (first partially contained child, first partially contained child's length). 
-                //4. Let subfragment be the result of extracting subrange. 
-                //5. Append subfragment to fragment. 
+                var clone = firstPartiallyContainedChild.Clone();
+                fragment.AppendChild(clone);
+                var subrange = new Range(originalStart, new Boundary { Node = firstPartiallyContainedChild, Offset = firstPartiallyContainedChild.ChildNodes.Length });
+                var subfragment = subrange.ExtractContent();
+                fragment.AppendChild(subfragment); 
             }
 
             foreach (var child in containedChildren)
@@ -307,19 +308,19 @@
 
             if (lastPartiallyContainedchild is ICharacterData)
             {
-                //1. Let clone be a clone of original end node. 
-                //2. Set the data of clone to the result of substringing data with node original end node, offset 0, and count original end offset. 
-                //3. Append clone to fragment. 
-                //4. Replace data with node original end node, offset 0, count original end offset, and data the empty string. 
+                var text = (ICharacterData)originalEnd.Node;
+                var clone = (ICharacterData)text.Clone();
+                clone.Data = text.Substring(0, originalEnd.Offset);
+                fragment.AppendChild(clone);
+                text.Replace(0, originalEnd.Offset, String.Empty);
             }
             else if (lastPartiallyContainedchild != null)
             {
-                //1. Let clone be a clone of last partially contained child. 
-                //2. Append clone to fragment. 
-                //3. Let subrange be a new range whose start is (last partially contained child, 0) and whose end is
-                //   (original end node, original end offset). 
-                //4. Let subfragment be the result of extracting subrange. 
-                //5. Append subfragment to fragment. 
+                var clone = lastPartiallyContainedchild.Clone();
+                fragment.AppendChild(clone);
+                var subrange = new Range(new Boundary { Node = lastPartiallyContainedchild, Offset = 0 }, originalEnd);
+                var subfragment = subrange.ExtractContent();
+                fragment.AppendChild(subfragment);
             }
 
             _start = newBoundary;
@@ -327,9 +328,8 @@
             return fragment;
         }
 
-        public IDocumentFragment Copy()
+        public IDocumentFragment CopyContent()
         {
-            //TODO
             var fragment = new DocumentFragment { Owner = _start.Node.Owner as Document };
 
             if (_start.Equals(_end))
@@ -340,10 +340,12 @@
 
             if (originalStart.Node == originalEnd.Node && _start.Node is ICharacterData)
             {
-                //1. Let clone be a clone of original start node. 
-                //2. Set the data of clone to the result of substringing data with node original start node, offset original start offset,
-                //   and count original end offset minus original start offset. 
-                //3. Append clone to fragment. 
+                var text = (ICharacterData)originalStart.Node;
+                var strt = originalStart.Offset;
+                var span = originalEnd.Offset - originalStart.Offset;
+                var clone = (ICharacterData)text.Clone();
+                clone.Data = text.Substring(strt, span);
+                fragment.AppendChild(clone);
                 return fragment;
             }
 
@@ -363,19 +365,20 @@
 
             if (firstPartiallyContainedChild is ICharacterData)
             {
-                //1. Let clone be a clone of original start node. 
-                //2. Set the data of clone to the result of substringing data with node original start node, offset original start offset, 
-                //   and count original start node's length minus original start offset. 
-                //3. Append clone to fragment. 
+                var text = (ICharacterData)originalStart.Node;
+                var strt = originalStart.Offset;
+                var span = text.Length - originalStart.Offset;
+                var clone = (ICharacterData)text.Clone();
+                clone.Data = text.Substring(strt, span);
+                fragment.AppendChild(clone);
             }
             else if (firstPartiallyContainedChild != null)
             {
-                //1. Let clone be a clone of first partially contained child. 
-                //2. Append clone to fragment. 
-                //3. Let subrange be a new range whose start is (original start node, original start offset) and whose end is (first partially
-                //   contained child, first partially contained child's length). 
-                //4. Let subfragment be the result of cloning subrange. 
-                //5. Append subfragment to fragment. 
+                var clone = firstPartiallyContainedChild.Clone();
+                fragment.AppendChild(clone);
+                var subrange = new Range(originalStart, new Boundary { Node = firstPartiallyContainedChild, Offset = firstPartiallyContainedChild.ChildNodes.Length });
+                var subfragment = subrange.CopyContent();
+                fragment.AppendChild(subfragment);
             }
 
             foreach (var child in containedChildren)
@@ -383,17 +386,18 @@
 
             if (lastPartiallyContainedchild is ICharacterData)
             {
-                //1. Let clone be a clone of original end node. 
-                //2. Set the data of clone to the result of substringing data with node original end node, offset 0, and count original end offset. 
-                //3. Append clone to fragment. 
+                var text = (ICharacterData)originalEnd.Node;
+                var clone = (ICharacterData)text.Clone();
+                clone.Data = text.Substring(0, originalEnd.Offset);
+                fragment.AppendChild(clone);
             }
             else if (lastPartiallyContainedchild != null)
             {
-                //1. Let clone be a clone of last partially contained child. 
-                //2. Append clone to fragment. 
-                //3. Let subrange be a new range whose start is (last partially contained child, 0) and whose end is (original end node, original end offset). 
-                //4. Let subfragment be the result of cloning subrange. 
-                //5. Append subfragment to fragment. 
+                var clone = lastPartiallyContainedchild.Clone();
+                fragment.AppendChild(clone);
+                var subrange = new Range(new Boundary { Node = lastPartiallyContainedchild, Offset = 0 }, originalEnd);
+                var subfragment = subrange.CopyContent();
+                fragment.AppendChild(subfragment);
             }
 
             return fragment;
@@ -436,7 +440,7 @@
             if (newParent is IDocument || newParent is IDocumentType || newParent is IDocumentFragment)
                 throw new DomException(ErrorCode.InvalidNodeType);
 
-            var fragment = Flush();
+            var fragment = ExtractContent();
 
             while (newParent.HasChilds)
                 newParent.RemoveChild(newParent.FirstChild);
