@@ -26,8 +26,8 @@
         /// </summary>
         public String ALink
         {
-            get { return GetAttribute("alink"); }
-            set { SetAttribute("alink", value); }
+            get { return GetAttribute(AttributeNames.Alink); }
+            set { SetAttribute(AttributeNames.Alink, value); }
         }
 
         /// <summary>
@@ -35,8 +35,8 @@
         /// </summary>
         public String Background
         {
-            get { return GetAttribute("background"); }
-            set { SetAttribute("background", value); }
+            get { return GetAttribute(AttributeNames.Background); }
+            set { SetAttribute(AttributeNames.Background, value); }
         }
 
         /// <summary>
@@ -44,8 +44,8 @@
         /// </summary>
         public String BgColor
         {
-            get { return GetAttribute("bgcolor"); }
-            set { SetAttribute("bgcolor", value); }
+            get { return GetAttribute(AttributeNames.BgColor); }
+            set { SetAttribute(AttributeNames.BgColor, value); }
         }
 
         /// <summary>
@@ -53,8 +53,8 @@
         /// </summary>
         public String Link
         {
-            get { return GetAttribute("link"); }
-            set { SetAttribute("link", value); }
+            get { return GetAttribute(AttributeNames.Link); }
+            set { SetAttribute(AttributeNames.Link, value); }
         }
 
         /// <summary>
@@ -62,8 +62,8 @@
         /// </summary>
         public String Text
         {
-            get { return GetAttribute("text"); }
-            set { SetAttribute("text", value); }
+            get { return GetAttribute(AttributeNames.Text); }
+            set { SetAttribute(AttributeNames.Text, value); }
         }
 
         /// <summary>
@@ -71,8 +71,8 @@
         /// </summary>
         public String VLink
         {
-            get { return GetAttribute("vlink"); }
-            set { SetAttribute("vlink", value); }
+            get { return GetAttribute(AttributeNames.Vlink); }
+            set { SetAttribute(AttributeNames.Vlink, value); }
         }
 
         #endregion
