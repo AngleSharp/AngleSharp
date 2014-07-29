@@ -1420,6 +1420,9 @@
     <Compile Include="..\AngleSharp\Foundation\Constants\Namespaces.cs">
       <Link>Foundation\Constants\Namespaces.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Constants\NodeFlags.cs">
+      <Link>Foundation\Constants\NodeFlags.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\PropertyNames.cs">
       <Link>Foundation\Constants\PropertyNames.cs</Link>
     </Compile>
