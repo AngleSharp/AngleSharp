@@ -182,9 +182,9 @@
         internal Document(ITextSource source)
             : base("#document", NodeType.Document)
         {
-            _source = source;
             Owner = this;
             IsAsync = true;
+            _source = source;
             _referrer = String.Empty;
             _ready = DocumentReadyState.Complete;
             _styleSheets = new StyleSheetList(this);

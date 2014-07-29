@@ -239,19 +239,10 @@
             get { return ChildNodes.ToHtml(); }
             set
             {
-                var children = ChildNodes;
+                while (HasChilds)
+                    RemoveChild(FirstChild);
 
-                for (int i = children.Length - 1; i >= 0; i--)
-                    RemoveChild(children[i]);
-
-                var nodes = DocumentBuilder.HtmlFragment(value, this);
-
-                while (nodes.Length != 0)
-                {
-                    var node = nodes[0];
-                    node.Parent.RemoveChild(node);
-                    AppendChild(node);
-                }
+                AppendChild(new DocumentFragment(value, this));
             }
         }
 
@@ -260,7 +251,7 @@
         /// </summary>
         public String OuterHtml
         {
-            get { return this.ToHtml(); }
+            get { return ToHtml(); }
             set
             {
                 var parent = Parent;
@@ -270,17 +261,7 @@
                     if (Owner != null && Owner.DocumentElement == this)
                         throw new DomException(ErrorCode.NoModificationAllowed);
 
-                    var pos = parent.IndexOf(this);
-
-                    var nodes = DocumentBuilder.HtmlFragment(value, this);
-                    var n = nodes.Length;
-
-                    for (int i = 0; i < n; i++)
-                    {
-                        nodes[i].Owner.RemoveChild(nodes[i]);
-                        parent.InsertChild(pos++, nodes[i]);
-                    }
-
+                    parent.InsertChild(parent.IndexOf(this), new DocumentFragment(value, this));
                     parent.RemoveChild(this);
                 }
                 else
@@ -957,7 +938,7 @@
         public void Insert(AdjacentPosition position, String html)
         {
             var nodeParent = position == AdjacentPosition.BeforeBegin || position == AdjacentPosition.AfterEnd ? this : Parent;
-            var nodes = new DocumentFragment(DocumentBuilder.HtmlFragment(html, nodeParent) as NodeList);//TODO remove cast ASAP
+            var nodes = new DocumentFragment(html, nodeParent);
 
             switch (position)
             {

@@ -2,7 +2,6 @@
 {
     using AngleSharp.DOM.Collections;
     using System;
-    using System.Reflection;
 
     /// <summary>
     /// Represents a node in the generated tree.
@@ -60,8 +59,8 @@
                     return _baseUri;
                 else if (_parent != null)
                     return _parent.BaseUri;
-                else if (Owner != null)
-                    return Owner.DocumentUri;
+                else if (_owner != null)
+                    return _owner.DocumentUri;
 
                 return String.Empty;
             }
@@ -164,7 +163,7 @@
 
         IDocument INode.Owner
         {
-            get { return _owner; }
+            get { return Owner; }
         }
 
         /// <summary>
@@ -172,13 +171,11 @@
         /// </summary>
         internal Document Owner 
         {
-            get { return _owner; }
+            get { return _type != NodeType.Document ? _owner : null; }
             set 
             {
                 if (_owner == value)
                     return;
-                else if (_owner != null && value != null)
-                    throw new DomException(ErrorCode.InUse);
 
                 _owner = value;
 
@@ -586,10 +583,8 @@
 
             if (child is IDocumentFragment)
             {
-                var childs = child.ChildNodes;
-
-                for (int i = 0; i < childs.Length; i++)
-                    DefaultAppendChild(childs[i]);
+                while (child.HasChilds) 
+                    DefaultAppendChild(child.RemoveChild(child.FirstChild));
             }
             else if (child is IDocument || child.Contains(this))
             {
@@ -604,7 +599,7 @@
 
                 if (childNode != null)
                 {
-                    childNode._parent = this;
+                    childNode.Parent = this;
                     childNode.Owner = _owner ?? (this as Document);
                     _children.Add(childNode);
                 }
@@ -626,10 +621,8 @@
 
             if (child is IDocumentFragment)
             {
-                var childs = child.ChildNodes;
-
-                for (int i = 0; i < childs.Length; i++)
-                    DefaultInsertChild(index + i, childs[i]);
+                while (child.HasChilds)
+                    DefaultInsertChild(index++, child.RemoveChild(child.FirstChild));
             }
             else if (child is IDocument || child.Contains(this))
             {
@@ -644,7 +637,7 @@
 
                 if (childNode != null)
                 {
-                    childNode._parent = this;
+                    childNode.Parent = this;
                     childNode.Owner = _owner ?? (this as Document);
                     _children.Insert(index, childNode);
                 }
@@ -849,20 +842,6 @@
         #endregion
 
         #region String representation
-
-        /// <summary>
-        /// Returns a string representation of the node.
-        /// </summary>
-        /// <returns>A string containing some information about the node.</returns>
-        public override String ToString()
-        {
-            var attr = GetType().GetTypeInfo().GetCustomAttribute<DomNameAttribute>(true);
-
-            if (attr != null)
-                return attr.OfficialName;
-
-            return "Object";
-        }
 
         /// <summary>
         /// Returns an HTML-code representation of the node.
