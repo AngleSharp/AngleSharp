@@ -196,7 +196,7 @@
                 var strt = originalStart.Offset;
                 var text = (ICharacterData)originalStart.Node;
                 var span = originalEnd.Offset - originalStart.Offset;
-                text.ReplaceData(strt, span, String.Empty);
+                text.Replace(strt, span, String.Empty);
                 return;
             }
 
@@ -219,7 +219,7 @@
                 var strt = originalStart.Offset;
                 var text = (ICharacterData)originalStart.Node;
                 var span = originalEnd.Offset - originalStart.Offset;
-                text.ReplaceData(strt, span, String.Empty);
+                text.Replace(strt, span, String.Empty);
             }
 
             foreach (var node in nodesToRemove)
@@ -230,7 +230,7 @@
                 var strt = 0;
                 var text = (ICharacterData)originalEnd.Node;
                 var span = originalEnd.Offset;
-                text.ReplaceData(strt, span, String.Empty);
+                text.Replace(strt, span, String.Empty);
             }
 
             _start = newBoundary;
@@ -251,6 +251,8 @@
 
             if (originalStart.Node == originalEnd.Node && _start.Node is ICharacterData)
             {
+                var clone = originalStart.Node.Clone();
+
                 //1. Let clone be a clone of original start node. 
                 //2. Set the data of clone to the result of substringing data with node original start node, offset original
                 //   start offset, and count original end offset minus original start offset. 

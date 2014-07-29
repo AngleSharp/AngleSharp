@@ -19,8 +19,18 @@
         /// Creates a new instance of character data.
         /// </summary>
         internal CharacterData()
+            : this(String.Empty)
         {
-            _content = String.Empty;
+        }
+
+        /// <summary>
+        /// Creates a new instance of character data with the
+        /// provided initial content.
+        /// </summary>
+        /// <param name="content">The content to set.</param>
+        internal CharacterData(String content)
+        {
+            _content = content;
         }
 
         #endregion
@@ -208,6 +218,14 @@
         /// <param name="count">The number of characters.</param>
         public String Substring(Int32 offset, Int32 count)
         {
+            var length = _content.Length;
+
+            if (offset > length)
+                throw new DomException(ErrorCode.IndexSizeError);
+
+            if (offset + count > length)
+                return _content.Substring(offset);
+
             return _content.Substring(offset, count);
         }
 
@@ -217,16 +235,7 @@
         /// <param name="value">The data to append.</param>
         public void Append(String value)
         {
-            _content += value;
-        }
-
-        /// <summary>
-        /// Appends some data to the character data.
-        /// </summary>
-        /// <param name="data">The data to append.</param>
-        public void Append(Char data)
-        {
-            _content += data.ToString();
+            Replace(_content.Length, 0, value);
         }
 
         /// <summary>
@@ -236,17 +245,7 @@
         /// <param name="data">The data to insert.</param>
         public void Insert(Int32 offset, String data)
         {
-            _content.Insert(offset, data);
-        }
-
-        /// <summary>
-        /// Inserts some data starting at the given offset.
-        /// </summary>
-        /// <param name="offset">The start index.</param>
-        /// <param name="data">The data to insert.</param>
-        public void InsertData(Int32 offset, Char data)
-        {
-            _content.Insert(offset, data.ToString());
+            Replace(offset, 0, data);
         }
 
         /// <summary>
@@ -256,7 +255,7 @@
         /// <param name="count">The length of the deletion.</param>
         public void Delete(Int32 offset, Int32 count)
         {
-            _content.Remove(offset, count);
+            Replace(offset, count, String.Empty);
         }
 
         /// <summary>
@@ -267,7 +266,24 @@
         /// <param name="data">The data to insert at the replacement.</param>
         public void Replace(Int32 offset, Int32 count, String data)
         {
-            _content.Remove(offset, count).Insert(offset, data);
+            //TODO (impl. Mutation algorithm)
+            var length = _content.Length;
+
+            if (offset > length)
+                throw new DomException(ErrorCode.IndexSizeError);
+
+            if (offset + count > length)
+                count = length - offset;
+
+            //Queue a mutation record of "characterData" for node with oldValue node's data.
+
+            var deleteOffset = offset + data.Length;
+            _content = _content.Insert(offset, data).Remove(deleteOffset, count);
+
+            //For each range whose start node is node and start offset is greater than offset but less than or equal to offset plus count, set its start offset to offset. 
+            //For each range whose end node is node and end offset is greater than offset but less than or equal to offset plus count, set its end offset to offset. 
+            //For each range whose start node is node and start offset is greater than offset plus count, increase its start offset by the number of code units in data, then decrease it by count. 
+            //For each range whose end node is node and end offset is greater than offset plus count, increase its end offset by the number of code units in data, then decrease it by count.
         }
 
         /// <summary>

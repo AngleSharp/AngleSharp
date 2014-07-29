@@ -13,9 +13,8 @@
         /// Creates a new empty text node.
         /// </summary>
         internal TextNode()
+            : this(String.Empty)
         {
-            _type = NodeType.Text;
-            _name = "#text";
         }
 
         /// <summary>
@@ -23,9 +22,10 @@
         /// </summary>
         /// <param name="text">The text to set.</param>
         internal TextNode(String text)
-            : this()
+            : base(text)
         {
-            Append(text);
+            _type = NodeType.Text;
+            _name = "#text";
         }
 
         /// <summary>
@@ -33,9 +33,8 @@
         /// </summary>
         /// <param name="c">The character to set.</param>
         internal TextNode(Char c)
-            : this()
+            : this(c.ToString())
         {
-            Append(c);
         }
 
         #endregion

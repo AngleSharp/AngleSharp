@@ -75,36 +75,6 @@
         }
 
         /// <summary>
-        /// Replaces the data of the given text node.
-        /// </summary>
-        /// <param name="node">The node to be mutated.</param>
-        /// <param name="offset">The offset of the data to replace.</param>
-        /// <param name="count">The length of the data to replace.</param>
-        /// <param name="data">The new data to insert.</param>
-        [DebuggerStepThrough]
-        public static void ReplaceData(this ICharacterData node, Int32 offset, Int32 count, String data)
-        {
-            //TODO (impl. Mutation algorithm)
-            var length = node.Length;
-
-            if (offset > length)
-                throw new DomException(ErrorCode.IndexSizeError);
-
-            if (offset + count > length)
-                count = length - offset;
-
-            //Queue a mutation record of "characterData" for node with oldValue node's data.
-
-            var deleteOffset = offset + data.Length;
-            node.Data = node.Data.Insert(offset, data).Remove(deleteOffset, count);
-
-            //For each range whose start node is node and start offset is greater than offset but less than or equal to offset plus count, set its start offset to offset. 
-            //For each range whose end node is node and end offset is greater than offset but less than or equal to offset plus count, set its end offset to offset. 
-            //For each range whose start node is node and start offset is greater than offset plus count, increase its start offset by the number of code units in data, then decrease it by count. 
-            //For each range whose end node is node and end offset is greater than offset plus count, increase its end offset by the number of code units in data, then decrease it by count.
-        }
-
-        /// <summary>
         /// Checks if the parent is an inclusive ancestor of the given node.
         /// </summary>
         /// <param name="parent">The possible parent to use.</param>
