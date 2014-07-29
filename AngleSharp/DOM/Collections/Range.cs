@@ -184,8 +184,6 @@
 
         public void Clear()
         {
-            //TODO
-
             if (_start.Equals(_end))
                 return;
 
@@ -195,9 +193,10 @@
 
             if (originalEnd.Node == originalStart.Node && originalStart.Node is ICharacterData)
             {
-                //Replace data with node original start node, offset original start offset, 
-                //count original end offset minus original start offset, and data the empty
-                //string, and then terminate these steps. 
+                var strt = originalStart.Offset;
+                var text = (ICharacterData)originalStart.Node;
+                var span = originalEnd.Offset - originalStart.Offset;
+                text.ReplaceData(strt, span, String.Empty);
                 return;
             }
 
@@ -217,9 +216,10 @@
 
             if (originalStart.Node is ICharacterData)
             {
-                //Replace data with node original start node, offset original start offset, 
-                //count original start node's length minus original start offset, data the empty
-                //string. 
+                var strt = originalStart.Offset;
+                var text = (ICharacterData)originalStart.Node;
+                var span = originalEnd.Offset - originalStart.Offset;
+                text.ReplaceData(strt, span, String.Empty);
             }
 
             foreach (var node in nodesToRemove)
@@ -227,8 +227,10 @@
 
             if (originalEnd.Node is ICharacterData)
             {
-                //Replace data with node original end node, offset 0, count original end offset 
-                //and data the empty string. 
+                var strt = 0;
+                var text = (ICharacterData)originalEnd.Node;
+                var span = originalEnd.Offset;
+                text.ReplaceData(strt, span, String.Empty);
             }
 
             _start = newBoundary;
