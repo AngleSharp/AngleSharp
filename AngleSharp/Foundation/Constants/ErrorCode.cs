@@ -61,13 +61,13 @@
         /// </summary>
         [DomDescription("The object can not be found here.")]
         [DomName("NOT_FOUND_ERR")]
-        NotFoundError = 0x8,
+        NotFound = 0x8,
         /// <summary>
         /// The operation is not supported.
         /// </summary>
         [DomDescription("The operation is not supported.")]
         [DomName("NOT_SUPPORTED_ERR")]
-        NotSupportedError = 0x9,
+        NotSupported = 0x9,
         /// <summary>
         /// The element is already in-use.
         /// </summary>
@@ -581,11 +581,6 @@
         /// </summary>
         [DomDescription("NULL character replaced by repl. character.")]
         Null = 0x100,
-        /// <summary>
-        /// The action is not supported in the current context.
-        /// </summary>
-        [DomDescription("The action is not supported in the current context.")]
-        NotSupported = 0x101,
         /// <summary>
         /// (0x200) Missing root element.
         /// </summary>
