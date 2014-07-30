@@ -3,14 +3,14 @@
     using System;
 
     /// <summary>
-    /// Represents the HTML column element.
+    /// Represents the HTML column group element.
     /// </summary>
-    sealed class HTMLTableColElement : HTMLElement, IHtmlTableColumnElement
+    sealed class HTMLTableColgroupElement : HTMLElement, IHtmlTableColumnElement
     {
         #region ctor
 
-        internal HTMLTableColElement()
-            : base(Tags.Col, NodeFlags.Special | NodeFlags.SelfClosing)
+        internal HTMLTableColgroupElement()
+            : base(Tags.Colgroup, NodeFlags.Special)
         {
         }
 

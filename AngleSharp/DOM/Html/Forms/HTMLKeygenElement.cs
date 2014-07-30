@@ -13,7 +13,7 @@
         /// Creates a new HTML keygen element.
         /// </summary>
         internal HTMLKeygenElement()
-            : base(Tags.Keygen)
+            : base(Tags.Keygen, NodeFlags.SelfClosing)
         {
         }
 

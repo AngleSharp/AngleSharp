@@ -13,7 +13,7 @@
         /// Creates a new HTML source element.
         /// </summary>
         internal HTMLSourceElement()
-            : base(Tags.Source, NodeFlags.Special)
+            : base(Tags.Source, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

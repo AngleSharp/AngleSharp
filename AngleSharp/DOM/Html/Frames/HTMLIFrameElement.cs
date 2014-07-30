@@ -15,7 +15,7 @@
         #region ctor
 
         internal HTMLIFrameElement()
-            : base(Tags.Iframe)
+            : base(Tags.Iframe, NodeFlags.LiteralText)
         {
         }
 

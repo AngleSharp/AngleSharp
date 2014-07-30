@@ -13,7 +13,7 @@
         /// Creates a new HTML menuitem element.
         /// </summary>
         internal HTMLMenuItemElement()
-            : base(Tags.MenuItem, NodeFlags.Special)
+            : base(Tags.MenuItem, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

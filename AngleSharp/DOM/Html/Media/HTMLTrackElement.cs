@@ -20,7 +20,7 @@
         /// Creates a new HTML track element.
         /// </summary>
         internal HTMLTrackElement()
-            : base(Tags.Track, NodeFlags.Special)
+            : base(Tags.Track, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _ready = TrackReadyState.None;
         }

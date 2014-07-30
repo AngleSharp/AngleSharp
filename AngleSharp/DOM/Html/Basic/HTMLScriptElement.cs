@@ -28,7 +28,7 @@
         /// Creates a new HTML script element.
         /// </summary>
         internal HTMLScriptElement()
-            : base(Tags.Script, NodeFlags.Special)
+            : base(Tags.Script, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
 

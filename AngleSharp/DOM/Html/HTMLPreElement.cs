@@ -10,7 +10,7 @@
         #region ctor
 
         internal HTMLPreElement(String name = null)
-            : base(name ?? Tags.Pre, NodeFlags.Special)
+            : base(name ?? Tags.Pre, NodeFlags.Special | NodeFlags.LineTolerance)
         {
         }
 

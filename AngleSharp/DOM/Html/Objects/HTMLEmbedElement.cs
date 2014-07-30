@@ -13,7 +13,7 @@
         /// Creates a new Embed element.
         /// </summary>
         internal HTMLEmbedElement()
-            : base(Tags.Embed, NodeFlags.Special)
+            : base(Tags.Embed, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

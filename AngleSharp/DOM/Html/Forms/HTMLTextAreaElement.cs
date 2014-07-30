@@ -13,7 +13,7 @@
         /// Creates a new HTML textarea element.
         /// </summary>
         internal HTMLTextAreaElement()
-            : base(Tags.Textarea)
+            : base(Tags.Textarea, NodeFlags.LineTolerance)
         {
             WillValidate = true;
         }

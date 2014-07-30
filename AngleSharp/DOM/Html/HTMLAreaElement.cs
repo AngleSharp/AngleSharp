@@ -21,7 +21,7 @@
         /// Creates a new area element.
         /// </summary>
         internal HTMLAreaElement()
-            : base(Tags.Area, NodeFlags.Special)
+            : base(Tags.Area, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

@@ -13,7 +13,7 @@
         /// Creates a new HTML param element.
         /// </summary>
         internal HTMLParamElement()
-            : base(Tags.Param, NodeFlags.Special)
+            : base(Tags.Param, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

@@ -100,9 +100,8 @@
                 sb.Append(child.ToHtml());
 
             sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(NodeName);
-            sb.Append(Specification.GreaterThan);
 
-            return sb.ToPool();
+            return sb.Append(Specification.GreaterThan).ToPool();
         }
 
         #endregion

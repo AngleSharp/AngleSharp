@@ -19,7 +19,7 @@
         /// Creates an HTML style element.
         /// </summary>
         internal HTMLStyleElement()
-            : base(Tags.Style, NodeFlags.Special)
+            : base(Tags.Style, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
 

@@ -10,7 +10,7 @@
         #region ctor
 
         internal HTMLFrameElement()
-            : base(Tags.Frame)
+            : base(Tags.Frame, NodeFlags.SelfClosing)
         {
         }
 
