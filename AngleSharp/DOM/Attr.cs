@@ -158,12 +158,41 @@
         /// <returns>A string containing the HTML code.</returns>
         public override String ToString()
         {
-            if (_value.IndexOf(Specification.DoubleQuote) >= 0)
-                _value = _value.Replace(Specification.DoubleQuote.ToString(), "&quot;");
+            var temp = Pool.NewStringBuilder();
 
-            return String.Format("{0}={2}{1}{2}", _name, _value, Specification.DoubleQuote);
+            if (String.IsNullOrEmpty(_ns))
+                temp.Append(LocalName);
+            else if (_ns == Namespaces.Xml)
+                temp.Append("xml:").Append(LocalName);
+            else if (_ns == Namespaces.XLink)
+                temp.Append("xlink:").Append(LocalName);
+            else if (_ns == Namespaces.XmlNS)
+            {
+                if (LocalName != "xmlns")
+                    temp.Append("xmlns:");
+
+                temp.Append(LocalName);
+            }
+            else
+                temp.Append(_name);
+
+            temp.Append(Specification.Equality).Append(Specification.DoubleQuote);
+
+            for (int i = 0; i < _value.Length; i++)
+            {
+                switch (_value[i])
+                {
+                    case Specification.Ampersand: temp.Append("&amp;"); break;
+                    case Specification.NoBreakSpace: temp.Append("&nbsp;"); break;
+                    case Specification.DoubleQuote: temp.Append("&quot;"); break;
+                    default: temp.Append(_value[i]); break;
+                }
+            }
+
+            return temp.Append(Specification.DoubleQuote).ToPool();
         }
 
         #endregion
     }
 }
+;
