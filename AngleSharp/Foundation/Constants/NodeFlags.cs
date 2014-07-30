@@ -23,6 +23,14 @@
         /// </summary>
         Special = 0x2,
         /// <summary>
+        /// The element has literal text.
+        /// </summary>
+        LiteralText = 0x4,
+        /// <summary>
+        /// The element may start with an additional free line.
+        /// </summary>
+        LineTolerance = 0x8,
+        /// <summary>
         /// The element is part of the HTML namespace.
         /// </summary>
         HtmlMember = 0x10,
