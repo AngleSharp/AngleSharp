@@ -1637,7 +1637,7 @@
                     case Tags.Colgroup:
                     {
                         ClearStackBackTo<HTMLTableElement>();
-                        var element = new HTMLTableColElement(Tags.Colgroup);
+                        var element = new HTMLTableColgroupElement();
                         AddElement(element, tag);
                         insert = HtmlTreeMode.InColumnGroup;
                         break;
@@ -1890,7 +1890,7 @@
                 InBody(token);
             else if (token.IsStartTag(Tags.Col))
             {
-                var element = new HTMLTableColElement(Tags.Col);
+                var element = new HTMLTableColElement();
                 AddElement(element, token.AsTag(), true);
                 CloseCurrentNode();
             }
