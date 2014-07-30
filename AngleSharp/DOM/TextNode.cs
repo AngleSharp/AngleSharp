@@ -144,21 +144,15 @@
         #region String representation
 
         /// <summary>
-        /// Returns a string containing the text in quotation mark.
-        /// </summary>
-        /// <returns>A string containing the text content.</returns>
-        public override String ToString()
-        {
-            return '"' + Data + '"';
-        }
-
-        /// <summary>
         /// Returns an HTML-code representation of the node.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml()
         {
-            return Data;
+            if (Parent != null && Parent.Flags.HasFlag(NodeFlags.LiteralText))
+                return Data;
+
+            return base.ToHtml();
         }
 
         #endregion
