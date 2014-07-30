@@ -1030,8 +1030,8 @@
     <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLImageElement.cs">
       <Link>DOM\Html\Basic\HTMLImageElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLNoElement.cs">
-      <Link>DOM\Html\Basic\HTMLNoElement.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLNoScriptElement.cs">
+      <Link>DOM\Html\Basic\HTMLNoScriptElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLParagraphElement.cs">
       <Link>DOM\Html\Basic\HTMLParagraphElement.cs</Link>
@@ -1162,6 +1162,9 @@
     <Compile Include="..\AngleSharp\DOM\Html\Frames\HTMLIFrameElement.cs">
       <Link>DOM\Html\Frames\HTMLIFrameElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Frames\HTMLNoFramesElement.cs">
+      <Link>DOM\Html\Frames\HTMLNoFramesElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Head\HTMLBaseElement.cs">
       <Link>DOM\Html\Head\HTMLBaseElement.cs</Link>
     </Compile>
@@ -1258,6 +1261,9 @@
     <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLMarqueeElement.cs">
       <Link>DOM\Html\Objects\HTMLMarqueeElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLNoEmbedElement.cs">
+      <Link>DOM\Html\Objects\HTMLNoEmbedElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLObjectElement.cs">
       <Link>DOM\Html\Objects\HTMLObjectElement.cs</Link>
     </Compile>
@@ -1272,6 +1278,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLHeadingElement.cs">
       <Link>DOM\Html\Semantic\HTMLHeadingElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLPlaintextElement.cs">
+      <Link>DOM\Html\Semantic\HTMLPlaintextElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLQuoteElement.cs">
       <Link>DOM\Html\Semantic\HTMLQuoteElement.cs</Link>
@@ -1291,6 +1300,9 @@
     <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLTimeElement.cs">
       <Link>DOM\Html\Semantic\HTMLTimeElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLXmpElement.cs">
+      <Link>DOM\Html\Semantic\HTMLXmpElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableCaptionElement.cs">
       <Link>DOM\Html\Tables\HTMLTableCaptionElement.cs</Link>
     </Compile>
@@ -1299,6 +1311,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableColElement.cs">
       <Link>DOM\Html\Tables\HTMLTableColElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableColgroupElement.cs">
+      <Link>DOM\Html\Tables\HTMLTableColgroupElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableDataCellElement.cs">
       <Link>DOM\Html\Tables\HTMLTableDataCellElement.cs</Link>
