@@ -1,8 +1,8 @@
-﻿using System;
-using HtmlAgilityPack;
-
-namespace Performance
+﻿namespace Performance
 {
+    using HtmlAgilityPack;
+    using System;
+
     class AgilityPackParser : IHtmlParser
     {
         public String Name

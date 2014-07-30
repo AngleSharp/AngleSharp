@@ -1,8 +1,8 @@
-﻿using Majestic13;
-using System;
-
-namespace Performance
+﻿namespace Performance
 {
+    using Majestic13;
+    using System;
+
     class MajesticParser : IHtmlParser
     {
         public String Name

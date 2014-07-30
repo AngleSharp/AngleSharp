@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-
-namespace Performance
+﻿namespace Performance
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+
     class TestSuite
     {
+        readonly Dictionary<ITest, IHtmlParser> winners;
+
         IEnumerable<ITest> tests;
         IEnumerable<IHtmlParser> parsers;
-        Dictionary<ITest, IHtmlParser> winners;
         Int32 repeats;
         Int32 reruns;
 
@@ -64,6 +65,9 @@ namespace Performance
 
             foreach (var test in tests)
             {
+                if (test == null)
+                    continue;
+
                 var source = test.Source;
                 var fastest = Int64.MaxValue;
 

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Performance
+﻿namespace Performance
 {
+    using System;
+
     interface ITest
     {
-        String Name { get; set; }
+        String Name { get; }
 
         String Source { get; }
     }

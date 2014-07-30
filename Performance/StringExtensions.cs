@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Performance
+﻿namespace Performance
 {
+    using System;
+
     static class StringExtensions
     {
         public static String Center(this String str, Int32 width)
