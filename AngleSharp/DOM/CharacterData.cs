@@ -304,10 +304,11 @@
             {
                 switch (_content[i])
                 {
-                    case '&': temp.Append("&amp;");     break;
-                    case '<': temp.Append("&lt;");      break;
-                    case '>': temp.Append("&gt;");      break;
-                    default : temp.Append(_content[i]); break;
+                    case Specification.Ampersand: temp.Append("&amp;"); break;
+                    case Specification.NoBreakSpace: temp.Append("&nbsp;"); break;
+                    case Specification.GreaterThan: temp.Append("&lt;"); break;
+                    case Specification.LessThan: temp.Append("&gt;"); break;
+                    default: temp.Append(_content[i]); break;
                 }
             }
             
