@@ -51,8 +51,8 @@
             creators.Add(Tags.Tfoot, () => new HTMLTableSectionElement(Tags.Tfoot));
             creators.Add(Tags.Thead, () => new HTMLTableSectionElement(Tags.Thead));
             creators.Add(Tags.Table, () => new HTMLTableElement ());
-            creators.Add(Tags.Colgroup, () => new HTMLTableColElement(Tags.Colgroup));
-            creators.Add(Tags.Col, () => new HTMLTableColElement(Tags.Col));
+            creators.Add(Tags.Colgroup, () => new HTMLTableColgroupElement());
+            creators.Add(Tags.Col, () => new HTMLTableColElement());
             creators.Add(Tags.Del, () => new HTMLModElement(Tags.Del));
             creators.Add(Tags.Ins, () => new HTMLModElement(Tags.Ins));
             creators.Add(Tags.Legend, () => new HTMLLegendElement ());
@@ -114,9 +114,9 @@
             creators.Add(Tags.Plaintext, () => new HTMLSemanticElement(Tags.Plaintext));
             creators.Add(Tags.Bgsound, () => new HTMLBgsoundElement ());
             creators.Add(Tags.Marquee, () => new HTMLMarqueeElement ());
-            creators.Add(Tags.NoEmbed, () => new HTMLNoElement(Tags.NoEmbed));
-            creators.Add(Tags.NoFrames, () => new HTMLNoElement(Tags.NoFrames));
-            creators.Add(Tags.NoScript, () => new HTMLNoElement(Tags.NoScript));
+            creators.Add(Tags.NoEmbed, () => new HTMLNoEmbedElement());
+            creators.Add(Tags.NoFrames, () => new HTMLNoFramesElement());
+            creators.Add(Tags.NoScript, () => new HTMLNoScriptElement());
             creators.Add(Tags.MenuItem, () => new HTMLMenuItemElement ());
             creators.Add(Tags.Cite, () => new HTMLElement(Tags.Cite));
             creators.Add(Tags.Ruby, () => new HTMLRubyElement ());
