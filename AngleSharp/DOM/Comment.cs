@@ -52,16 +52,7 @@
         /// <returns>A string containing the HTML content.</returns>
         public override String ToHtml()
         {
-            return "<!--" + Data + "-->";
-        }
-
-        /// <summary>
-        /// Returns a string representing the comment.
-        /// </summary>
-        /// <returns>A string containing the content.</returns>
-        public override String ToString()
-        {
-            return "//" + Data;
+            return String.Concat("<!--", Data, "-->");
         }
 
         #endregion

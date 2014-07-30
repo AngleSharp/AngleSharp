@@ -30,5 +30,14 @@
         }
 
         #endregion
+
+        #region String Representation
+
+        public override string ToHtml()
+        {
+            return String.Format("<?{0} {1}>", Target, Data);
+        }
+
+        #endregion
     }
 }
