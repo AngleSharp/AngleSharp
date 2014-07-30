@@ -465,6 +465,7 @@
     <Compile Include="Interfaces\Svg\ISvgSvgElement.cs" />
     <Compile Include="Interfaces\Svg\ISvgTitleElement.cs" />
     <Compile Include="Interfaces\Xml\IXmlDocument.cs" />
+    <Compile Include="Network\Constants\CorsSetting.cs" />
     <Compile Include="Network\Constants\DefaultPorts.cs" />
     <Compile Include="Network\Constants\KnownProtocols.cs" />
     <Compile Include="Foundation\Structures\Frequency.cs" />
@@ -476,6 +477,7 @@
     <Compile Include="Foundation\NodeExtensions.cs" />
     <Compile Include="Foundation\Structures\TransformMatrix.cs" />
     <Compile Include="Foundation\ValueExtensions.cs" />
+    <Compile Include="Network\Constants\OriginBehavior.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
     <Compile Include="DocumentBuilder.cs" />

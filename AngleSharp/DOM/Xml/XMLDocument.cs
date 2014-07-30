@@ -10,7 +10,7 @@
         internal XmlDocument(ITextSource source)
             : base(source)
         {
-            _contentType = MimeTypes.Xml;
+            ContentType = MimeTypes.Xml;
         }
 
         internal XmlDocument(String source)
@@ -26,7 +26,8 @@
         Boolean IXmlDocument.LoadXml(String url)
         {
             Uri uri;
-            _location.Href = url;
+
+            Location.Href = url;
             Cookie = String.Empty;
 
             if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
