@@ -7,7 +7,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -300,23 +299,16 @@
         /// </summary>
         /// <param name="element">The element to stringify.</param>
         /// <returns>The HTML code of the element and its children.</returns>
-        public static String ToHtml(this IElement element)
+        public static String ToHtml(this INode element)
         {
-            return element.OuterHtml;
-        }
+            var htmlObject = element as IHtmlObject;
 
-        /// <summary>
-        /// Returns the HTML code representation of the given document type.
-        /// </summary>
-        /// <param name="doctype">The doctype to stringify.</param>
-        /// <returns>A string containing the HTML code.</returns>
-        public static String ToHtml(this IDocumentType doctype)
-        {
-            var name = doctype.Name;
-            var system = String.IsNullOrEmpty(doctype.PublicIdentifier) ? " SYSTEM" : "";
-            var publicId = String.IsNullOrEmpty(doctype.PublicIdentifier) ? "" : " PUBLIC \"" + doctype.PublicIdentifier + "\"";
-            var systemId = String.IsNullOrEmpty(doctype.SystemIdentifier) ? "" : system + " \"" + doctype.SystemIdentifier + "\"";
-            return String.Format("<!DOCTYPE {0}{1}{2}>", name, publicId, systemId);
+            if (htmlObject != null)
+                return htmlObject.ToHtml();
+            else if (element is IElement)
+                return ((IElement)element).OuterHtml;
+
+            return element.TextContent;
         }
 
         /// <summary>
@@ -324,7 +316,7 @@
         /// </summary>
         /// <param name="element">The element to stringify.</param>
         /// <returns>The text of the element and its children.</returns>
-        public static String ToText(this IElement element)
+        public static String ToText(this INode element)
         {
             return element.TextContent;
         }

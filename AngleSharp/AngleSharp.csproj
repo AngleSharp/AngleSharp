@@ -48,6 +48,11 @@
     <Compile Include="DOM\Collections\QueryExtensions.cs" />
     <Compile Include="DOM\Collections\Range.cs" />
     <Compile Include="DOM\Collections\TreeWalker.cs" />
+    <Compile Include="DOM\Html\Frames\HTMLNoFramesElement.cs" />
+    <Compile Include="DOM\Html\Basic\HTMLNoScriptElement.cs" />
+    <Compile Include="DOM\Html\Semantic\HTMLPlaintextElement.cs" />
+    <Compile Include="DOM\Html\Semantic\HTMLXmpElement.cs" />
+    <Compile Include="DOM\Html\Tables\HTMLTableColgroupElement.cs" />
     <Compile Include="Foundation\Constants\NodeFlags.cs" />
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="Foundation\Setup\Configuration.cs" />
@@ -630,7 +635,7 @@
     <Compile Include="DOM\Css\CSSStyleSheet.cs" />
     <Compile Include="DOM\Document.cs" />
     <Compile Include="DOM\Html\Objects\HTMLMarqueeElement.cs" />
-    <Compile Include="DOM\Html\Basic\HTMLNoElement.cs" />
+    <Compile Include="DOM\Html\Objects\HTMLNoEmbedElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLSemanticElement.cs" />
     <Compile Include="Foundation\Constants\Tags.cs" />
     <Compile Include="Parser\Html\HtmlParseMode.cs" />
