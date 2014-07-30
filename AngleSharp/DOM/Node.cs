@@ -852,27 +852,6 @@
             return TextContent;
         }
 
-        /// <summary>
-        /// Returns a (string) tree representation of the node and all sub-nodes.
-        /// </summary>
-        /// <param name="indent">The optional indentation level.</param>
-        /// <returns></returns>
-        public String ToTree(Int32 indent = 0)
-        {
-            var sb = Pool.NewStringBuilder();
-            var content = ToString();
-
-            if (indent != 0)
-                sb.Append(String.Empty.PadRight(2 * indent, ' '));
-            
-            sb.AppendLine(content);
-
-            for (int i = 0; i < _children.Length; i++)
-                sb.Append(_children[i].ToTree(indent + 1));
-
-            return sb.ToPool();
-        }
-
         #endregion
 
         #region Events

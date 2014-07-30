@@ -971,8 +971,9 @@
         public override String ToHtml()
         {
             var sb = Pool.NewStringBuilder();
+            var tagName = IsInHtml || IsInMathML || IsInSvg ? LocalName : NodeName;
 
-            sb.Append(Specification.LessThan).Append(TagName);
+            sb.Append(Specification.LessThan).Append(tagName);
 
             foreach (var attribute in _attributes)
                 sb.Append(Specification.Space).Append(attribute.ToString());
@@ -981,10 +982,18 @@
 
             if (!Flags.HasFlag(NodeFlags.SelfClosing))
             {
+                if (Flags.HasFlag(NodeFlags.LineTolerance) && FirstChild is IText)
+                {
+                    var text = (IText)FirstChild;
+
+                    if (text.Data.Length > 0 && text.Data[0] == Specification.LineFeed)
+                        sb.Append(Specification.LineFeed);
+                }
+
                 foreach (var child in ChildNodes)
                     sb.Append(child.ToHtml());
 
-                sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(TagName);
+                sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(tagName);
                 sb.Append(Specification.GreaterThan);
             }
 
