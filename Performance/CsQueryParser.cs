@@ -1,8 +1,8 @@
-﻿using System;
-using CsQuery;
-
-namespace Performance
+﻿namespace Performance
 {
+    using CsQuery;
+    using System;
+
     class CsQueryParser : IHtmlParser
     {
         public String Name

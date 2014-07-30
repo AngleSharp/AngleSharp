@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Performance
+﻿namespace Performance
 {
+    using System;
+
     interface IHtmlParser
     {
         String Name { get; }

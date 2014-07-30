@@ -1,30 +1,18 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
-
-namespace Performance
+﻿namespace Performance
 {
+    using System;
+    using System.IO;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+
     sealed class UrlTest : ITest
     {
         static readonly HttpClient http = new HttpClient();
 
-        public UrlTest(Uri source)
+        private UrlTest(String name, String source)
         {
-            Name = source.Host.Replace("www.", "").Replace(".com", "").Replace(".de", "").Replace(".org", "");
-            var fileName = Name + ".html";
-
-            if (!UseBuffer || !File.Exists(fileName))
-            {
-                Debug.Write("Download page from " + source + " ... ");
-                Source = http.GetStringAsync(source).Result;
-                Debug.WriteLine("done!");
-
-                if (UseBuffer)
-                    File.WriteAllText(fileName, Source);
-            }
-            else
-                Source = File.ReadAllText(fileName);
+            Name = name;
+            Source = source;
         }
 
         public static Boolean UseBuffer
@@ -33,15 +21,38 @@ namespace Performance
             set;
         }
 
-        internal static UrlTest For(String url)
+        internal static async Task<UrlTest> For(String url)
         {
-            return new UrlTest(new Uri(url));
+            try
+            {
+                var source = String.Empty;
+                var uri = new Uri(url);
+                var name = uri.Host.Replace("www.", "").Replace(".com", "").Replace(".de", "").Replace(".org", "");
+                var fileName = name + ".html";
+
+                if (!UseBuffer || !File.Exists(fileName))
+                {
+                    source = await http.GetStringAsync(uri);
+
+                    if (UseBuffer)
+                        File.WriteAllText(fileName, source);
+                }
+                else
+                    source = File.ReadAllText(fileName);
+
+                return new UrlTest(name, source);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public String Name
         {
             get;
-            set;
+            private set;
         }
 
         public String Source

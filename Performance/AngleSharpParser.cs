@@ -1,9 +1,9 @@
-﻿using System;
-using AngleSharp;
-using AngleSharp.Parser.Html;
-
-namespace Performance
+﻿namespace Performance
 {
+    using AngleSharp;
+    using AngleSharp.Parser.Html;
+    using System;
+
     class AngleSharpParser : IHtmlParser
     {
         static readonly IConfiguration configuration = new Configuration { AllowRequests = false, IsStyling = false, IsScripting = false };
