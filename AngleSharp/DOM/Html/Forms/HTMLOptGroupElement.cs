@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML optgroup element.
     /// </summary>
-    sealed class HTMLOptGroupElement : HTMLElement, ISelectScopeElement, IHtmlOptionsGroupElement
+    sealed class HTMLOptGroupElement : HTMLElement, IHtmlOptionsGroupElement
     {
         #region ctor
 
@@ -13,7 +13,7 @@
         /// Creates a new HTML optgroup element.
         /// </summary>
         internal HTMLOptGroupElement()
-            : base(Tags.Optgroup, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
+            : base(Tags.Optgroup, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
         }
 

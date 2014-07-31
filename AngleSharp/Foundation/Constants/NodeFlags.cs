@@ -63,6 +63,10 @@
         /// </summary>
         HtmlListScoped = 0x1000,
         /// <summary>
+        /// The element is opening a select scope.
+        /// </summary>
+        HtmlSelectScoped = 0x2000,
+        /// <summary>
         /// The element is part of the MathML namespace.
         /// </summary>
         MathMember = 0x10000,

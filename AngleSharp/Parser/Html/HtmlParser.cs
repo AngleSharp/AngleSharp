@@ -3552,7 +3552,7 @@
                 if (node.NodeName == tagName)
                     return true;
 
-                if (node is ISelectScopeElement)
+                if (node.Flags.HasFlag(NodeFlags.HtmlSelectScoped))
                     continue;
 
                 return false;

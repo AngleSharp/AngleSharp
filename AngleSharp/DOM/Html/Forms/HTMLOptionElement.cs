@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML option element.
     /// </summary>
-    sealed class HTMLOptionElement : HTMLElement, ISelectScopeElement, IHtmlOptionElement
+    sealed class HTMLOptionElement : HTMLElement, IHtmlOptionElement
     {
         #region Fields
 
@@ -19,7 +19,7 @@
         /// Creates a new HTML option element.
         /// </summary>
         internal HTMLOptionElement()
-            : base(Tags.Option, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
+            : base(Tags.Option, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
         }
 
