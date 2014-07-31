@@ -2,7 +2,6 @@
 {
     using AngleSharp.DOM;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// A location object with information about a URL.
@@ -13,16 +12,7 @@
     {
         #region Fields
 
-        Boolean _relative;
-        String _username;
-        String _password;
-        String _scheme;
-        String _schemeData;
-        String _host;
-        String _port;
-        String _path;
-        String _query;
-        String _fragment;
+        readonly Url _url;
 
         #endregion
 
@@ -42,17 +32,7 @@
         /// <param name="url">The URL to represent.</param>
         internal Location(String url)
         {
-            _relative = false;
-            _username = null;
-            _password = null;
-            _scheme = String.Empty;
-            _schemeData = String.Empty;
-            _host = String.Empty;
-            _port = String.Empty;
-            _path = String.Empty;
-            _query = null;
-            _fragment = null;
-            ChangeTo(url ?? String.Empty);
+            _url = new Url(url);
         }
 
         #endregion
@@ -61,7 +41,7 @@
 
         public String Origin
         {
-            get { return Href; }
+            get { return _url.Href; }
         }
 
         /// <summary>
@@ -70,7 +50,7 @@
         /// </summary>
         public Boolean IsRelative
         {
-            get { return _relative && String.IsNullOrEmpty(_scheme); }
+            get { return _url.IsRelative; }
         }
 
         /// <summary>
@@ -78,8 +58,8 @@
         /// </summary>
         public String UserName
         {
-            get { return _username; }
-            set { _username = value; }
+            get { return _url.UserName; }
+            set { _url.UserName = value; }
         }
 
         /// <summary>
@@ -87,8 +67,8 @@
         /// </summary>
         public String Password
         {
-            get { return _password; }
-            set { _password = value; }
+            get { return _url.Password; }
+            set { _url.Password = value; }
         }
 
         /// <summary>
@@ -97,7 +77,7 @@
         /// </summary>
         public String Data
         {
-            get { return _schemeData; }
+            get { return _url.Data; }
         }
 
         /// <summary>
@@ -105,8 +85,8 @@
         /// </summary>
         public String Hash
         {
-            get { return NonEmpty(_fragment, "#"); }
-            set { ParseFragment(value ?? String.Empty, 0); }
+            get { return NonEmptyPrefix(_url.Fragment, "#"); }
+            set { _url.Fragment = value; }
         }
 
         /// <summary>
@@ -114,8 +94,8 @@
         /// </summary>
         public String Host
         {
-            get { return HostName + NonEmpty(_port, ":"); }
-            set { ParseHostName(value ?? String.Empty, 0, false, true); }
+            get { return _url.Host; }
+            set { _url.Host = value; }
         }
 
         /// <summary>
@@ -123,8 +103,8 @@
         /// </summary>
         public String HostName
         {
-            get { return _host; }
-            set { ParseHostName(value ?? String.Empty, 0, true); }
+            get { return _url.HostName; }
+            set { _url.HostName = value; }
         }
 
         /// <summary>
@@ -132,8 +112,8 @@
         /// </summary>
         public String Href
         {
-            get { return ToString(); }
-            set { ChangeTo(value ?? String.Empty); }
+            get { return _url.Href; }
+            set { _url.Href = value; }
         }
 
         /// <summary>
@@ -141,8 +121,8 @@
         /// </summary>
         public String PathName
         {
-            get { return "/" + _path; }
-            set { ParsePath(value ?? String.Empty, 0, true); }
+            get { return "/" + _url.Path; }
+            set { _url.Path = value; }
         }
 
         /// <summary>
@@ -150,8 +130,8 @@
         /// </summary>
         public String Port
         {
-            get { return _port; }
-            set { ParsePort(value ?? String.Empty, 0, true); }
+            get { return _url.Port; }
+            set { _url.Port = value; }
         }
 
         /// <summary>
@@ -159,8 +139,8 @@
         /// </summary>
         public String Protocol
         {
-            get { return NonEmpty(_scheme, postfix : ":"); }
-            set { ParseScheme(value ?? String.Empty, true); }
+            get { return NonEmptyPostfix(_url.Scheme, ":"); }
+            set { _url.Scheme = value; }
         }
 
         /// <summary>
@@ -168,8 +148,8 @@
         /// </summary>
         public String Search
         {
-            get { return NonEmpty(_query, "?"); }
-            set { ParseQuery(value ?? String.Empty, 0, true); }
+            get { return NonEmptyPrefix(_url.Query, "?"); }
+            set { _url.Query = value; }
         }
 
         #endregion
@@ -178,17 +158,17 @@
 
         public void Assign(String url)
         {
-            Href = url;
+            _url.Href = url;
         }
 
         public void Replace(String url)
         {
-            Href = url;
+            _url.Href = url;
         }
 
         public void Reload()
         {
-            Href = Href;
+            _url.Href = Href;
         }
 
         #endregion
@@ -201,7 +181,7 @@
         /// <returns>The CSS value string.</returns>
         public String ToCss()
         {
-            return FunctionNames.Build(FunctionNames.Url, String.Concat("'", ToString(), "'"));
+            return FunctionNames.Build(FunctionNames.Url, String.Concat("'", _url.Href, "'"));
         }
 
         /// <summary>
@@ -210,517 +190,27 @@
         /// <returns>The string that equals the hyper reference.</returns>
         public override String ToString()
         {
-            var output = Pool.NewStringBuilder();
-
-            if (!String.IsNullOrEmpty(_scheme))
-                output.Append(_scheme).Append(Specification.Colon);
-
-            if (_relative)
-            {
-                if (!String.IsNullOrEmpty(_host) || !String.IsNullOrEmpty(_scheme))
-                {
-                    output.Append(Specification.Solidus).Append(Specification.Solidus);
-
-                    if (!String.IsNullOrEmpty(_username))
-                        output.Append(_username);
-
-                    if (!String.IsNullOrEmpty(_password))
-                        output.Append(Specification.Colon).Append(_password);
-
-                    if (!String.IsNullOrEmpty(_username) || !String.IsNullOrEmpty(_password))
-                        output.Append(Specification.At);
-
-                    output.Append(_host);
-
-                    if (!String.IsNullOrEmpty(_port))
-                        output.Append(Specification.Colon).Append(_port);
-
-                    output.Append(Specification.Solidus);
-                }
-
-                output.Append(_path);
-            }
-            else
-                output.Append(_schemeData);
-
-            if (!String.IsNullOrEmpty(_query))
-                output.Append(Specification.QuestionMark).Append(_query);
-
-            if (!String.IsNullOrEmpty(_fragment))
-                output.Append(Specification.Num).Append(_fragment);
-
-            return output.ToPool();
+            return _url.Href;
         }
 
         #endregion
 
         #region Helpers
 
-        static String NonEmpty(String check, String prefix = null, String postfix = null)
+        static String NonEmptyPrefix(String check, String prefix)
         {
             if (String.IsNullOrEmpty(check))
                 return String.Empty;
 
-            return String.Concat(prefix ?? String.Empty, check, postfix ?? String.Empty);
+            return String.Concat(prefix, check);
         }
 
-        /// <summary>
-        /// This tries to match the specification of RFC 3986
-        /// http://tools.ietf.org/html/rfc3986
-        /// </summary>
-        /// <param name="url">The url to parse.</param>
-        void ChangeTo(String url)
+        static String NonEmptyPostfix(String check, String postfix)
         {
-            url = url.Trim();
-            ParseScheme(url.Trim());
-        }
+            if (String.IsNullOrEmpty(check))
+                return String.Empty;
 
-        #endregion
-
-        #region Parsing
-
-        void ParseUrl(String input, Location baseUrl = null)
-        {
-            input = input.Trim();
-
-            if (baseUrl != null)
-            {
-                _scheme = baseUrl._scheme;
-                _host = baseUrl._host;
-                _path = baseUrl._path;
-                _port = baseUrl._port;
-            }
-
-            ParseScheme(input.Trim());
-        }
-
-        Boolean ParseScheme(String input, Boolean onlyScheme = false)
-        {
-            if (input.Length > 0 && input[0].IsLetter())
-            {
-                var index = 1;
-
-                while (index < input.Length)
-                {
-                    var c = input[index];
-
-                    if (c.IsAlphanumericAscii() || c == Specification.Plus || c == Specification.Minus || c == Specification.Dot)
-                        index++;
-                    else if (c == Specification.Colon)
-                    {
-                        var originalScheme = _scheme;
-                        _scheme = input.Substring(0, index).ToLower();
-
-                        if (onlyScheme)
-                            return true;
-
-                        _relative = KnownProtocols.IsRelative(_scheme);
-
-                        if (_scheme == KnownProtocols.File)
-                            return RelativeState(input, index + 1);
-                        else if (!_relative)
-                            return ParseSchemeData(input, index + 1);
-                        else if (originalScheme == _scheme)
-                        {
-                            c = input[++index];
-
-                            if (c == Specification.Solidus && index + 2 < input.Length && input[index + 1] == Specification.Solidus)
-                                return IgnoreSlashesState(input, index + 2);
-
-                            return RelativeState(input, index);
-                        }
-
-                        if (input[++index] == Specification.Solidus && ++index < input.Length && input[index] == Specification.Solidus)
-                            return IgnoreSlashesState(input, index + 1);
-
-                        return IgnoreSlashesState(input, index);
-                    }
-                    else
-                        break;
-                }
-            }
-
-            if (onlyScheme)
-                return false;
-
-            return RelativeState(input, 0);
-        }
-
-        Boolean ParseSchemeData(String input, Int32 index)
-        {
-            var buffer = Pool.NewStringBuilder();
-
-            while (index < input.Length)
-            {
-                var c = input[index];
-
-                if (c == Specification.QuestionMark)
-                {
-                    _schemeData = buffer.ToPool();
-                    return ParseQuery(input, index + 1);
-                }
-                else if (c == Specification.Num)
-                {
-                    _schemeData = buffer.ToPool();
-                    return ParseFragment(input, index + 1);
-                }
-                else if (c == Specification.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
-                {
-                    buffer.Append(input[index++]);
-                    buffer.Append(input[index++]);
-                    buffer.Append(input[index]);
-                }
-                else if (c.IsInRange(0x20, 0x7e))
-                    buffer.Append(c);
-                else
-                    buffer.Append(Specification.Percent).Append(((Byte)input[index]).ToString("X2"));
-
-                index++;
-            }
-
-            _schemeData = buffer.ToPool();
-            return true;
-        }
-
-        Boolean RelativeState(String input, Int32 index)
-        {
-            _relative = true;
-
-            if (index == input.Length)
-                return true;
-
-            switch (input[index])
-            {
-                case Specification.QuestionMark:
-                    return ParseQuery(input, index + 1);
-            
-                case Specification.Num:
-                    return ParseFragment(input, index + 1);
-
-                case Specification.Solidus:
-                case Specification.ReverseSolidus:
-                    if (index == input.Length - 1)
-                        return ParsePath(input, index);
-
-                    var c = input[++index];
-
-                    if (c == Specification.Solidus || c == Specification.ReverseSolidus)
-                    {
-                        if (_scheme == KnownProtocols.File)
-                            return ParseFileHost(input, index + 1);
-
-                        return IgnoreSlashesState(input, index + 1);
-                    }
-                    else if (_scheme == KnownProtocols.File)
-                    {
-                        _host = String.Empty;
-                        _port = String.Empty;
-                    }
-
-                    return ParsePath(input, index);
-            }
-
-            if (input[index].IsLetter() && _scheme == "file" && index + 1 < input.Length && (input[index + 1] == Specification.Colon || input[index + 1] == Specification.Solidus) &&
-                (index + 2 >= input.Length || input[index + 2] == Specification.Solidus || input[index + 2] == Specification.ReverseSolidus || input[index + 2] == Specification.Num || input[index + 2] == Specification.QuestionMark))
-            {
-                _host = String.Empty;
-                _path = String.Empty;
-                _port = String.Empty;
-            }
-
-            return ParsePath(input, index);
-        }
-
-        Boolean IgnoreSlashesState(String input, Int32 index)
-        {
-            while (index < input.Length)
-            {
-                if (input[index] != Specification.ReverseSolidus && input[index] != Specification.Solidus)
-                    return ParseAuthority(input, index);
-
-                index++;
-            }
-
-            return false;
-        }
-
-        Boolean ParseAuthority(String input, Int32 index)
-        {
-            var start = index;
-            var buffer = Pool.NewStringBuilder();
-            String user = null;
-            String pass = null;
-
-            while (index < input.Length)
-            {
-                var c = input[index];
-
-                if (c == Specification.At)
-                {
-                    if (user == null)
-                    {
-                        user = buffer.ToString();
-                        buffer.Clear();
-                    }
-                    
-                    pass = buffer.ToString();
-                    start = index + 1;
-                    _username = user;
-                    _password = pass;
-                    break;
-                }
-                else if (c == Specification.Colon)
-                {
-                    user = buffer.ToString();
-                    pass = String.Empty;
-                    buffer.Clear();
-                }
-                else if (c == Specification.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
-                    buffer.Append(input[index++]).Append(input[index++]).Append(input[index]);
-                else if (c == Specification.Solidus || c == Specification.ReverseSolidus || c == Specification.Num || c == Specification.QuestionMark)
-                    break;
-                else if (c.IsInRange(0x20, 0x7e) && c != Specification.Space && c != Specification.DoubleQuote && c != Specification.CurvedQuote && c != Specification.LessThan && c != Specification.GreaterThan)
-                    buffer.Append(c);
-                else
-                    buffer.Append(Specification.Percent).Append(((Byte)c).ToString("X2"));
-
-                index++;
-            }
-
-            buffer.ToPool();
-            return ParseHostName(input, start);
-        }
-
-        Boolean ParseFileHost(String input, Int32 index)
-        {
-            var start = index;
-
-            while (index < input.Length)
-            {
-                var c = input[index];
-
-                if (c == Specification.Solidus || c == Specification.ReverseSolidus || c == Specification.Num || c == Specification.QuestionMark)
-                    break;
-
-                index++;
-            }
-
-            var length = index - start;
-
-            if (length == 2 && input[index - 2].IsLetter() && (input[index - 1] == Specification.Pipe || input[index - 1] == Specification.Colon))
-                return ParsePath(input, index);
-            else if (length != 0)
-                _host = input.Substring(start, length);
-
-            return ParsePath(input, index);
-        }
-
-        Boolean ParseHostName(String input, Int32 index, Boolean onlyHost = false, Boolean onlyPort = false)
-        {
-            var inBracket = false;
-            var start = index;
-
-            while (index < input.Length)
-            {
-                var c = input[index];
-
-                switch (c)
-                {
-                    case Specification.SquareBracketClose:
-                        inBracket = false;
-                        break;
-
-                    case Specification.SquareBracketOpen:
-                        inBracket = true;
-                        break;
-
-                    case Specification.Colon:
-                        if (inBracket)
-                            break;
-
-                        _host = input.Substring(start, index - start);
-
-                        if (onlyHost)
-                            return true;
-
-                        return ParsePort(input, index + 1, onlyPort);
-
-                    case Specification.Solidus:
-                    case Specification.ReverseSolidus:
-                    case Specification.Num:
-                    case Specification.QuestionMark:
-                        _host = input.Substring(start, index - start);
-
-                        if (onlyHost)
-                            return true;
-
-                        return ParsePath(input, index);
-                }
-
-                index++;
-            }
-
-            _host = input.Substring(start, index - start);
-
-            if (!onlyHost)
-            {
-                _query = String.Empty;
-                _path = String.Empty;
-                _fragment = String.Empty;
-            }
-
-            return true;
-        }
-
-        Boolean ParsePort(String input, Int32 index, Boolean onlyPort = false)
-        {
-            var start = index;
-
-            while (index < input.Length)
-            {
-                var c = input[index];
-
-                if (c == Specification.QuestionMark || c == Specification.Solidus || c == Specification.ReverseSolidus || c == Specification.Num)
-                    break;
-                else if (!c.IsDigit())
-                    return false;
-
-                index++;
-            }
-
-            _port = input.Substring(start, index - start).TrimStart(new[] { '0' });
-
-            if (DefaultPorts.GetDefaultPort(_scheme) == _port)
-                _port = String.Empty;
-
-            if (onlyPort)
-                return true;
-
-            return ParsePath(input, index);
-        }
-
-        Boolean ParsePath(String input, Int32 index, Boolean onlyPath = false)
-        {
-            while (index < input.Length && (input[index] == Specification.Solidus || input[index] == Specification.ReverseSolidus))
-                index++;
-
-            var paths = new List<String>();
-            var buffer = Pool.NewStringBuilder();
-
-            while (index <= input.Length)
-            {
-                var c = index == input.Length ? Specification.EndOfFile : input[index];
-                var breakNow = !onlyPath && (c == Specification.Num || c == Specification.QuestionMark);
-
-                if (c == Specification.EndOfFile || c == Specification.Solidus || c == Specification.ReverseSolidus || breakNow)
-                {
-                    var path = buffer.ToString();
-                    buffer.Clear();
-
-                    if (path.Equals("%2e", StringComparison.OrdinalIgnoreCase))
-                        path = ".";
-                    else if (path.Equals(".%2e", StringComparison.OrdinalIgnoreCase) || path.Equals("%2e.", StringComparison.OrdinalIgnoreCase) || path.Equals("%2e%2e", StringComparison.OrdinalIgnoreCase))
-                        path = "..";
-
-                    if (path.Equals(".."))
-                    {
-                        if (paths.Count > 0)
-                            paths.RemoveAt(paths.Count - 1);
-                    }
-                    else if (!path.Equals("."))
-                    {
-                        if (_scheme == KnownProtocols.File && paths.Count == 0 && path.Length == 2 && path[0].IsLetter() && path[1] == Specification.Pipe)
-                            path = path.Replace(Specification.Pipe, Specification.Colon);
-
-                        paths.Add(path);
-                    }
-
-                    if (breakNow)
-                        break;
-                }
-                else if (c == Specification.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
-                {
-                    buffer.Append(input[index++]);
-                    buffer.Append(input[index++]);
-                    buffer.Append(input[index]);
-                }
-                else if (c.IsInRange(0x20, 0x7e) && c != Specification.Space && c != Specification.DoubleQuote && c != Specification.CurvedQuote &&
-                    c != Specification.Num && c != Specification.LessThan && c != Specification.GreaterThan && c != Specification.QuestionMark)
-                    buffer.Append(c);
-                else
-                    buffer.Append(Specification.Percent).Append(((Byte)c).ToString("X2"));
-
-                index++;
-            }
-
-            buffer.ToPool();
-            _path = String.Join("/", paths);
-
-            if (index < input.Length)
-            {
-                if (input[index] == Specification.QuestionMark)
-                    return ParseQuery(input, index + 1);
-
-                return ParseFragment(input, index + 1);
-            }
-
-            return true;
-        }
-
-        Boolean ParseQuery(String input, Int32 index, Boolean onlyQuery = false)
-        {
-            var buffer = Pool.NewStringBuilder();
-
-            while (index < input.Length)
-            {
-                var c = input[index];
-
-                if (!onlyQuery && input[index] == Specification.Num)
-                    break;
-
-                if (c.IsInRange(0x21, 0x7e) && c != Specification.DoubleQuote && c != Specification.Num && c != Specification.LessThan && c != Specification.GreaterThan && c != Specification.CurvedQuote)
-                    buffer.Append(c);
-                else
-                    buffer.Append(Specification.Percent).Append(((Byte)c).ToString("X2"));
-
-                index++;
-            }
-
-            _query = buffer.ToPool();
-
-            if (onlyQuery)
-                return true;
-
-            return ParseFragment(input, index + 1);
-        }
-
-        Boolean ParseFragment(String input, Int32 index)
-        {
-            var buffer = Pool.NewStringBuilder();
-
-            while (index < input.Length)
-            {
-                var c = input[index];
-
-                if (c == Specification.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
-                {
-                    buffer.Append(input[index++]);
-                    buffer.Append(input[index++]);
-                    buffer.Append(input[index]);
-                }
-                else if (c.IsUrlCodePoint())
-                {
-                    if (c.IsInRange(0x20, 0x7e))
-                        buffer.Append(c);
-                    else
-                        buffer.Append(Specification.Percent).Append(((Byte)c).ToString("X2"));
-                }
-
-                index++;
-            }
-
-            _fragment = buffer.ToPool();
-            return true;
+            return String.Concat(check, postfix);
         }
 
         #endregion
