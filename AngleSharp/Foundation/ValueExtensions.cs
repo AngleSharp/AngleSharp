@@ -214,10 +214,10 @@
             return false;
         }
 
-        public static Location ToUri(this CSSValue value)
+        public static Url ToUri(this CSSValue value)
         {
-            if (value is CSSPrimitiveValue<Location>)
-                return ((CSSPrimitiveValue<Location>)value).Value;
+            if (value is CSSPrimitiveValue<Url>)
+                return ((CSSPrimitiveValue<Url>)value).Value;
 
             return null;
         }
@@ -303,8 +303,8 @@
         {
             if (value is CSSImageValue)
                 return (CSSImageValue)value;
-            else if (value is CSSPrimitiveValue<Location>)
-                return CSSImageValue.FromUrl(((CSSPrimitiveValue<Location>)value).Value);
+            else if (value is CSSPrimitiveValue<Url>)
+                return CSSImageValue.FromUrl(((CSSPrimitiveValue<Url>)value).Value);
             else if (value.Is("none"))
                 return CSSImageValue.None;
 

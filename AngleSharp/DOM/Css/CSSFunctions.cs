@@ -206,7 +206,7 @@
             if (arguments.Count == 0)
                 return null;
 
-            var imageList = new List<Location>();
+            var imageList = new List<Url>();
 
             foreach (var argument in arguments)
             {
@@ -215,7 +215,7 @@
                 if (uri == null)
                 {
                     if (argument is CSSStringValue)
-                        uri = new Location(((CSSStringValue)argument).Value);
+                        uri = new Url(((CSSStringValue)argument).Value);
                     else
                         return null;
                 }

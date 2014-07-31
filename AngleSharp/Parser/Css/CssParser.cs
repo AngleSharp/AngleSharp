@@ -875,7 +875,7 @@
                     value.AddValue(new CSSStringValue(((CssStringToken)token).Data));
                     return tokens.MoveNext();
                 case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                    value.AddValue(new CSSPrimitiveValue<Location>(new Location(((CssStringToken)token).Data)));
+                    value.AddValue(new CSSPrimitiveValue<Url>(new Url(((CssStringToken)token).Data)));
                     return tokens.MoveNext();
                 case CssTokenType.Number: // e.g. "173"
                     value.AddValue(ToNumber((CssNumberToken)token));

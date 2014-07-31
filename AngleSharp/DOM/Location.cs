@@ -5,7 +5,7 @@
     /// <summary>
     /// A location object with information about a Url.
     /// </summary>
-    sealed class Location : ILocation, ICssObject
+    sealed class Location : ILocation
     {
         #region Fields
 
@@ -171,15 +171,6 @@
         #endregion
 
         #region String representation
-
-        /// <summary>
-        /// Returns the CSS representation of the given URL.
-        /// </summary>
-        /// <returns>The CSS value string.</returns>
-        public String ToCss()
-        {
-            return FunctionNames.Build(FunctionNames.Url, String.Concat("'", _url.Href, "'"));
-        }
 
         /// <summary>
         /// Returns the string representation of the current location.
