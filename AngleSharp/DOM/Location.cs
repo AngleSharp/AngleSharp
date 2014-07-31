@@ -1,12 +1,9 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.DOM
 {
-    using AngleSharp.DOM;
     using System;
 
     /// <summary>
-    /// A location object with information about a URL.
-    /// More information is available at:
-    /// http://url.spec.whatwg.org/
+    /// A location object with information about a Url.
     /// </summary>
     sealed class Location : ILocation, ICssObject
     {

@@ -617,7 +617,7 @@
     <Compile Include="DOM\DocumentFragment.cs" />
     <Compile Include="DOM\DomImplementation.cs" />
     <Compile Include="DOM\EntityReference.cs" />
-    <Compile Include="Foundation\Structures\Location.cs" />
+    <Compile Include="DOM\Location.cs" />
     <Compile Include="DOM\ProcessingInstruction.cs" />
     <Compile Include="DOM\StyleSheet.cs" />
     <Compile Include="DOM\Collections\TokenList.cs" />
