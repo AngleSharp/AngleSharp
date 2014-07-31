@@ -446,11 +446,19 @@
         }
 
         /// <summary>
-        /// Gets a list of the embedded OBJECTS within the current document.
+        /// Gets a list of the embed, applet and object elements within the current document.
         /// </summary>
         public IHtmlCollection Embeds
         {
             get { return new HtmlElementCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement); }
+        }
+
+        /// <summary>
+        /// Gets a list of the plugin elements within the current document.
+        /// </summary>
+        public IHtmlCollection Plugins
+        {
+            get { return new HtmlCollection<HTMLEmbedElement>(this); }
         }
 
         /// <summary>
