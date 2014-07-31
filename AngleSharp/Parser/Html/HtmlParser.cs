@@ -3470,7 +3470,7 @@
                 if (node is HTMLLIElement)
                     return true;
 
-                if (node is IListScopeElement)
+                if (node.Flags.HasFlag(NodeFlags.HtmlListScoped))
                     return false;
             }
 

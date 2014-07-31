@@ -59,6 +59,10 @@
         /// </summary>
         HtmlFormatting = 0x800,
         /// <summary>
+        /// The element is opening a list scope.
+        /// </summary>
+        HtmlListScoped = 0x1000,
+        /// <summary>
         /// The element is part of the MathML namespace.
         /// </summary>
         MathMember = 0x10000,

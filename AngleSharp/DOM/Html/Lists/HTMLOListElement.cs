@@ -5,12 +5,12 @@
     /// <summary>
     /// Represents the HTML ordered list (ol) element.
     /// </summary>
-    sealed class HTMLOListElement : HTMLElement, IListScopeElement, IHtmlOrderedListElement
+    sealed class HTMLOListElement : HTMLElement, IHtmlOrderedListElement
     {
         #region ctor
 
         internal HTMLOListElement()
-            : base(Tags.Ol, NodeFlags.Special)
+            : base(Tags.Ol, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
         }
 
