@@ -1501,6 +1501,9 @@
     <Compile Include="..\AngleSharp\Foundation\Structures\TransformMatrix.cs">
       <Link>Foundation\Structures\TransformMatrix.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Url.cs">
+      <Link>Foundation\Structures\Url.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\StyleExtensions.cs">
       <Link>Foundation\StyleExtensions.cs</Link>
     </Compile>
