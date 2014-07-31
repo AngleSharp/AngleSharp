@@ -380,6 +380,15 @@
         }
 
         /// <summary>
+        /// Gets or sets the value of the dir attribute.
+        /// </summary>
+        public String Direction
+        {
+            get { return (DocumentElement as IHtmlElement ?? new HTMLHtmlElement()).Direction; }
+            set { (DocumentElement as IHtmlElement ?? new HTMLHtmlElement()).Direction = value; }
+        }
+
+        /// <summary>
         /// Gets the character encoding of the current document.
         /// </summary>
         public String CharacterSet
@@ -442,7 +451,7 @@
         /// </summary>
         public IHtmlCollection Scripts
         {
-            get { return new HtmlCollection<HTMLScriptElement>(this); }
+            get { return new HtmlCollection<IHtmlScriptElement>(this); }
         }
 
         /// <summary>
@@ -458,7 +467,15 @@
         /// </summary>
         public IHtmlCollection Plugins
         {
-            get { return new HtmlCollection<HTMLEmbedElement>(this); }
+            get { return new HtmlCollection<IHtmlEmbedElement>(this); }
+        }
+
+        /// <summary>
+        /// Gets a list of the commands (menu item, button, and link elements) within the current document.
+        /// </summary>
+        public IHtmlCollection Commands
+        {
+            get { return new HtmlElementCollection(this, predicate: element => element is HTMLMenuItemElement || element is HTMLButtonElement || element is HTMLAnchorElement); }
         }
 
         /// <summary>

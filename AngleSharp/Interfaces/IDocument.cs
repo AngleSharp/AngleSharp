@@ -28,6 +28,12 @@
         IImplementation Implementation { get; }
 
         /// <summary>
+        /// Gets or sets the value of the dir attribute.
+        /// </summary>
+        [DomName("dir")]
+        String Direction { get; set; }
+
+        /// <summary>
         /// Gets the URI of the current document.
         /// </summary>
         [DomName("documentURI")]
@@ -292,7 +298,13 @@
         IHtmlCollection Plugins { get; }
 
         /// <summary>
-        /// Gets a collection of all AREA elements and anchor elements in a document with a value for the href attribute.
+        /// Gets a list of the commands (menu item, button, and link elements) within the current document.
+        /// </summary>
+        [DomName("commands")]
+        IHtmlCollection Commands { get; }
+
+        /// <summary>
+        /// Gets a collection of all area and anchor elements in a document with a value for the href attribute.
         /// </summary>
         [DomName("links")]
         IHtmlCollection Links { get; }
