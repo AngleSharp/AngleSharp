@@ -7,7 +7,7 @@
     /// </summary>
     sealed class HtmlCharacterToken : HtmlToken
     {
-        #region Members
+        #region Fields
 
         String _data;
 
@@ -70,7 +70,6 @@
         public String Data
         {
             get { return _data; }
-            set { _data = value; }
         }
 
         /// <summary>

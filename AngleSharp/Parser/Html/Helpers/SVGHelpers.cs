@@ -1,12 +1,125 @@
 ﻿namespace AngleSharp.Parser.Html
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// A collection of useful helpers when working with SVG.
     /// </summary>
     static class SvgHelpers
     {
+        #region Fields and Initialization
+
+        static readonly Dictionary<String, String> tagNames = new Dictionary<String, String>();
+        static readonly Dictionary<String, String> attributeNames = new Dictionary<String, String>();
+
+        static SvgHelpers()
+        {
+            tagNames.Add("altglyph", "altGlyph");
+            tagNames.Add("altglyphdef", "altGlyphDef");
+            tagNames.Add("altglyphitem", "altGlyphItem");
+            tagNames.Add("animatecolor", "animateColor");
+            tagNames.Add("animatemotion", "animateMotion");
+            tagNames.Add("animatetransform", "animateTransform");
+            tagNames.Add("clippath", "clipPath");
+            tagNames.Add("feblend", "feBlend");
+            tagNames.Add("fecolormatrix", "feColorMatrix");
+            tagNames.Add("fecomponenttransfer", "feComponentTransfer");
+            tagNames.Add("fecomposite", "feComposite");
+            tagNames.Add("feconvolvematrix", "feConvolveMatrix");
+            tagNames.Add("fediffuselighting", "feDiffuseLighting");
+            tagNames.Add("fedisplacementmap", "feDisplacementMap");
+            tagNames.Add("fedistantlight", "feDistantLight");
+            tagNames.Add("feflood", "feFlood");
+            tagNames.Add("fefunca", "feFuncA");
+            tagNames.Add("fefuncb", "feFuncB");
+            tagNames.Add("fefuncg", "feFuncG");
+            tagNames.Add("fefuncr", "feFuncR");
+            tagNames.Add("fegaussianblur", "feGaussianBlur");
+            tagNames.Add("feimage", "feImage");
+            tagNames.Add("femerge", "feMerge");
+            tagNames.Add("femergenode", "feMergeNode");
+            tagNames.Add("femorphology", "feMorphology");
+            tagNames.Add("feoffset", "feOffset");
+            tagNames.Add("fepointlight", "fePointLight");
+            tagNames.Add("fespecularlighting", "feSpecularLighting");
+            tagNames.Add("fespotlight", "feSpotLight");
+            tagNames.Add("fetile", "feTile");
+            tagNames.Add("feturbulence", "feTurbulence");
+            tagNames.Add("foreignobject", "foreignObject");
+            tagNames.Add("glyphref", "glyphRef");
+            tagNames.Add("lineargradient", "linearGradient");
+            tagNames.Add("radialgradient", "radialGradient");
+            tagNames.Add("textpath", "textPath");
+            
+            attributeNames.Add("attributename", "attributeName");
+            attributeNames.Add("attributetype", "attributeType");
+            attributeNames.Add("basefrequency", "baseFrequency");
+            attributeNames.Add("baseprofile", "baseProfile");
+            attributeNames.Add("calcmode", "calcMode");
+            attributeNames.Add("clippathunits", "clipPathUnits");
+            attributeNames.Add("contentscripttype", "contentScriptType");
+            attributeNames.Add("contentstyletype", "contentStyleType");
+            attributeNames.Add("diffuseconstant", "diffuseConstant");
+            attributeNames.Add("edgemode", "edgeMode");
+            attributeNames.Add("externalresourcesrequired", "externalResourcesRequired");
+            attributeNames.Add("filterres", "filterRes");
+            attributeNames.Add("filterunits", "filterUnits");
+            attributeNames.Add("glyphref", "glyphRef");
+            attributeNames.Add("gradienttransform", "gradientTransform");
+            attributeNames.Add("gradientunits", "gradientUnits");
+            attributeNames.Add("kernelmatrix", "kernelMatrix");
+            attributeNames.Add("kernelunitlength", "kernelUnitLength");
+            attributeNames.Add("keypoints", "keyPoints");
+            attributeNames.Add("keysplines", "keySplines");
+            attributeNames.Add("keytimes", "keyTimes");
+            attributeNames.Add("lengthadjust", "lengthAdjust");
+            attributeNames.Add("limitingconeangle", "limitingConeAngle");
+            attributeNames.Add("markerheight", "markerHeight");
+            attributeNames.Add("markerunits", "markerUnits");
+            attributeNames.Add("markerwidth", "markerWidth");
+            attributeNames.Add("maskcontentunits", "maskContentUnits");
+            attributeNames.Add("maskunits", "maskUnits");
+            attributeNames.Add("numoctaves", "numOctaves");
+            attributeNames.Add("pathlength", "pathLength");
+            attributeNames.Add("patterncontentunits", "patternContentUnits");
+            attributeNames.Add("patterntransform", "patternTransform");
+            attributeNames.Add("patternunits", "patternUnits");
+            attributeNames.Add("pointsatx", "pointsAtX");
+            attributeNames.Add("pointsaty", "pointsAtY");
+            attributeNames.Add("pointsatz", "pointsAtZ");
+            attributeNames.Add("preservealpha", "preserveAlpha");
+            attributeNames.Add("preserveaspectratio", "preserveAspectRatio");
+            attributeNames.Add("primitiveunits", "primitiveUnits");
+            attributeNames.Add("refx", "refX");
+            attributeNames.Add("refy", "refY");
+            attributeNames.Add("repeatcount", "repeatCount");
+            attributeNames.Add("repeatdur", "repeatDur");
+            attributeNames.Add("requiredextensions", "requiredExtensions");
+            attributeNames.Add("requiredfeatures", "requiredFeatures");
+            attributeNames.Add("specularconstant", "specularConstant");
+            attributeNames.Add("specularexponent", "specularExponent");
+            attributeNames.Add("spreadmethod", "spreadMethod");
+            attributeNames.Add("startoffset", "startOffset");
+            attributeNames.Add("stddeviation", "stdDeviation");
+            attributeNames.Add("stitchtiles", "stitchTiles");
+            attributeNames.Add("surfacescale", "surfaceScale");
+            attributeNames.Add("systemlanguage", "systemLanguage");
+            attributeNames.Add("tablevalues", "tableValues");
+            attributeNames.Add("targetx", "targetX");
+            attributeNames.Add("targety", "targetY");
+            attributeNames.Add("textlength", "textLength");
+            attributeNames.Add("viewbox", "viewBox");
+            attributeNames.Add("viewtarget", "viewTarget");
+            attributeNames.Add("xchannelselector", "xChannelSelector");
+            attributeNames.Add("ychannelselector", "yChannelSelector");
+            attributeNames.Add("zoomandpan", "zoomAndPan");
+        }
+
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Adjusts the tag name to the correct capitalization.
         /// </summary>
@@ -14,46 +127,12 @@
         /// <returns>The name with the correct capitalization.</returns>
         public static String AdjustSvgTagName(this String tagName)
         {
-            switch (tagName)
-            {
-                case "altglyph": return "altGlyph";
-                case "altglyphdef": return "altGlyphDef";
-                case "altglyphitem": return "altGlyphItem";
-                case "animatecolor": return "animateColor";
-                case "animatemotion": return "animateMotion";
-                case "animatetransform": return "animateTransform";
-                case "clippath": return "clipPath";
-                case "feblend": return "feBlend";
-                case "fecolormatrix": return "feColorMatrix";
-                case "fecomponenttransfer": return "feComponentTransfer";
-                case "fecomposite": return "feComposite";
-                case "feconvolvematrix": return "feConvolveMatrix";
-                case "fediffuselighting": return "feDiffuseLighting";
-                case "fedisplacementmap": return "feDisplacementMap";
-                case "fedistantlight": return "feDistantLight";
-                case "feflood": return "feFlood";
-                case "fefunca": return "feFuncA";
-                case "fefuncb": return "feFuncB";
-                case "fefuncg": return "feFuncG";
-                case "fefuncr": return "feFuncR";
-                case "fegaussianblur": return "feGaussianBlur";
-                case "feimage": return "feImage";
-                case "femerge": return "feMerge";
-                case "femergenode": return "feMergeNode";
-                case "femorphology": return "feMorphology";
-                case "feoffset": return "feOffset";
-                case "fepointlight": return "fePointLight";
-                case "fespecularlighting": return "feSpecularLighting";
-                case "fespotlight": return "feSpotLight";
-                case "fetile": return "feTile";
-                case "feturbulence": return "feTurbulence";
-                case "foreignobject": return "foreignObject";
-                case "glyphref": return "glyphRef";
-                case "lineargradient": return "linearGradient";
-                case "radialgradient": return "radialGradient";
-                case "textpath": return "textPath";
-                default: return tagName;
-            }
+            String adjustedTagName;
+
+            if (tagNames.TryGetValue(tagName, out adjustedTagName))
+                return adjustedTagName;
+
+            return tagName;
         }
 
         /// <summary>
@@ -63,72 +142,14 @@
         /// <returns>The name with the correct capitalization.</returns>
         public static String AdjustSvgAttributeName(this String attributeName)
         {
-            switch (attributeName)
-            {
-                case "attributename": return "attributeName";
-                case "attributetype": return "attributeType";
-                case "basefrequency": return "baseFrequency";
-                case "baseprofile": return "baseProfile";
-                case "calcmode": return "calcMode";
-                case "clippathunits": return "clipPathUnits";
-                case "contentscripttype": return "contentScriptType";
-                case "contentstyletype": return "contentStyleType";
-                case "diffuseconstant": return "diffuseConstant";
-                case "edgemode": return "edgeMode";
-                case "externalresourcesrequired": return "externalResourcesRequired";
-                case "filterres": return "filterRes";
-                case "filterunits": return "filterUnits";
-                case "glyphref": return "glyphRef";
-                case "gradienttransform": return "gradientTransform";
-                case "gradientunits": return "gradientUnits";
-                case "kernelmatrix": return "kernelMatrix";
-                case "kernelunitlength": return "kernelUnitLength";
-                case "keypoints": return "keyPoints";
-                case "keysplines": return "keySplines";
-                case "keytimes": return "keyTimes";
-                case "lengthadjust": return "lengthAdjust";
-                case "limitingconeangle": return "limitingConeAngle";
-                case "markerheight": return "markerHeight";
-                case "markerunits": return "markerUnits";
-                case "markerwidth": return "markerWidth";
-                case "maskcontentunits": return "maskContentUnits";
-                case "maskunits": return "maskUnits";
-                case "numoctaves": return "numOctaves";
-                case "pathlength": return "pathLength";
-                case "patterncontentunits": return "patternContentUnits";
-                case "patterntransform": return "patternTransform";
-                case "patternunits": return "patternUnits";
-                case "pointsatx": return "pointsAtX";
-                case "pointsaty": return "pointsAtY";
-                case "pointsatz": return "pointsAtZ";
-                case "preservealpha": return "preserveAlpha";
-                case "preserveaspectratio": return "preserveAspectRatio";
-                case "primitiveunits": return "primitiveUnits";
-                case "refx": return "refX";
-                case "refy": return "refY";
-                case "repeatcount": return "repeatCount";
-                case "repeatdur": return "repeatDur";
-                case "requiredextensions": return "requiredExtensions";
-                case "requiredfeatures": return "requiredFeatures";
-                case "specularconstant": return "specularConstant";
-                case "specularexponent": return "specularExponent";
-                case "spreadmethod": return "spreadMethod";
-                case "startoffset": return "startOffset";
-                case "stddeviation": return "stdDeviation";
-                case "stitchtiles": return "stitchTiles";
-                case "surfacescale": return "surfaceScale";
-                case "systemlanguage": return "systemLanguage";
-                case "tablevalues": return "tableValues";
-                case "targetx": return "targetX";
-                case "targety": return "targetY";
-                case "textlength": return "textLength";
-                case "viewbox": return "viewBox";
-                case "viewtarget": return "viewTarget";
-                case "xchannelselector": return "xChannelSelector";
-                case "ychannelselector": return "yChannelSelector";
-                case "zoomandpan": return "zoomAndPan";
-                default: return attributeName;
-            }
+            String adjustedAttributeName;
+
+            if (attributeNames.TryGetValue(attributeName, out adjustedAttributeName))
+                return adjustedAttributeName;
+
+            return attributeName;
         }
+
+        #endregion
     }
 }

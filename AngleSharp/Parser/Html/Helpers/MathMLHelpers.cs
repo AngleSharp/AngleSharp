@@ -14,11 +14,10 @@
         /// <returns>The name with the correct capitalization.</returns>
         public static String AdjustMathMLAttributeName(this String attributeName)
         {
-            switch (attributeName)
-            {
-                case "definitionurl": return "definitionURL";
-                default: return attributeName;
-            }
+            if (attributeName.Equals("definitionurl"))
+                return "definitionURL";
+
+            return attributeName;
         }
     }
 }
