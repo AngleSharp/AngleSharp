@@ -5,12 +5,12 @@
     /// <summary>
     /// Represents the HTML caption element.
     /// </summary>
-    sealed class HTMLTableCaptionElement : HTMLElement, IScopeElement, IHtmlTableCaptionElement
+    sealed class HTMLTableCaptionElement : HTMLElement, IHtmlTableCaptionElement
     {
         #region ctor
 
         internal HTMLTableCaptionElement()
-            : base(Tags.Caption, NodeFlags.Special)
+            : base(Tags.Caption, NodeFlags.Special | NodeFlags.Scoped)
         {
         }
 

@@ -43,6 +43,10 @@
         /// </summary>
         ImpliedEnd = 0x20,
         /// <summary>
+        /// The element is opening a scope.
+        /// </summary>
+        Scoped = 0x40,
+        /// <summary>
         /// The element is part of the HTML namespace.
         /// </summary>
         HtmlMember = 0x100,

@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML object element.
     /// </summary>
-    sealed class HTMLObjectElement : HTMLFormControlElement, IScopeElement, IHtmlObjectElement
+    sealed class HTMLObjectElement : HTMLFormControlElement, IHtmlObjectElement
     {
         #region Fields
 
@@ -19,7 +19,7 @@
         #region ctor
 
         internal HTMLObjectElement()
-            : base(Tags.Object)
+            : base(Tags.Object, NodeFlags.Scoped)
         {
             _contentDocument = null;
             _contentWindow = null;

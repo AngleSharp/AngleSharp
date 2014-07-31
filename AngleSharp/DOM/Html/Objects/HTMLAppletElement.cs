@@ -4,10 +4,10 @@
     /// Represents the HTML applet element.
     /// </summary>
     [DomHistorical]
-    sealed class HTMLAppletElement : HTMLElement, IScopeElement
+    sealed class HTMLAppletElement : HTMLElement
     {
         internal HTMLAppletElement()
-            : base(Tags.Applet, NodeFlags.Special)
+            : base(Tags.Applet, NodeFlags.Special | NodeFlags.Scoped)
         {
         }
     }

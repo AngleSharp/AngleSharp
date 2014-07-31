@@ -3430,7 +3430,7 @@
                 if (node.NodeName == tagName)
                     return true;
 
-                if (node is IScopeElement)
+                if (node.Flags.HasFlag(NodeFlags.Scoped))
                     return false;
             }
 
@@ -3450,7 +3450,7 @@
                 if (node is T)
                     return true;
 
-                if (node is IScopeElement)
+                if (node.Flags.HasFlag(NodeFlags.Scoped))
                     return false;
             }
 
@@ -3490,7 +3490,7 @@
                 if (node is HTMLParagraphElement)
                     return true;
 
-                if (node is IScopeElement || node is HTMLButtonElement)
+                if (node.Flags.HasFlag(NodeFlags.Scoped) || node is HTMLButtonElement)
                     return false;
             }
 

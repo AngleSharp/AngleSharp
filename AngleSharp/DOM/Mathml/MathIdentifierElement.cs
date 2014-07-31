@@ -3,10 +3,10 @@
     /// <summary>
     /// The mi math element.
     /// </summary>
-    sealed class MathIdentifierElement : MathElement, IScopeElement
+    sealed class MathIdentifierElement : MathElement
     {
         internal MathIdentifierElement ()
-            : base(Tags.Mi, NodeFlags.Special | NodeFlags.MathTip)
+            : base(Tags.Mi, NodeFlags.Special | NodeFlags.MathTip | NodeFlags.Scoped)
 	    {
 	    }
     }

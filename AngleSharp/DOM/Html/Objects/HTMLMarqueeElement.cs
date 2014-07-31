@@ -6,12 +6,12 @@
     /// Represents the HTML marquee element.
     /// </summary>
     [DomHistorical]
-    sealed class HTMLMarqueeElement : HTMLElement, IScopeElement
+    sealed class HTMLMarqueeElement : HTMLElement
     {
         #region ctor
 
         internal HTMLMarqueeElement()
-            : base(Tags.Marquee, NodeFlags.Special)
+            : base(Tags.Marquee, NodeFlags.Special | NodeFlags.Scoped)
         {
         }
 

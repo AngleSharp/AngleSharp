@@ -486,7 +486,6 @@
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
     <Compile Include="DocumentBuilder.cs" />
-    <Compile Include="DOM\Annotations\ICssPrimitive.cs" />
     <Compile Include="DOM\Annotations\ICssRules.cs" />
     <Compile Include="DOM\Css\Rules\CSSDocumentRule.cs" />
     <Compile Include="DOM\Constants\AdjacentPosition.cs" />
@@ -561,7 +560,6 @@
     <Compile Include="DOM\Html\Formatting\HTMLTemplateElement.cs" />
     <Compile Include="DOM\Html\Formatting\HTMLUnderlineElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLAddressElement.cs" />
-    <Compile Include="DOM\Annotations\IScopeElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLRPElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLRTElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLRubyElement.cs" />

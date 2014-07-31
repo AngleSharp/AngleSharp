@@ -3,10 +3,10 @@
     /// <summary>
     /// The math string element.
     /// </summary>
-    sealed class MathStringElement : MathElement, IScopeElement
+    sealed class MathStringElement : MathElement
     {
         internal MathStringElement()
-            : base(Tags.Ms, NodeFlags.MathTip | NodeFlags.Special)
+            : base(Tags.Ms, NodeFlags.MathTip | NodeFlags.Special | NodeFlags.Scoped)
 	    {
 	    }
     }

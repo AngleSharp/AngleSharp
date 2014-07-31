@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the object for HTML table cell elements.
     /// </summary>
-    abstract class HTMLTableCellElement : HTMLElement, IScopeElement, IHtmlTableCellElement
+    abstract class HTMLTableCellElement : HTMLElement, IHtmlTableCellElement
     {
         #region Fields
 
@@ -17,7 +17,7 @@
         #region ctor
 
         internal HTMLTableCellElement(String name)
-            : base(name, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
+            : base(name, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped)
         {
         }
 

@@ -3,10 +3,10 @@
     /// <summary>
     /// Represents the desc element of the SVG DOM.
     /// </summary>
-    sealed class SVGDescElement : SVGElement, IScopeElement
+    sealed class SVGDescElement : SVGElement
     {
         internal SVGDescElement()
-            : base(Tags.Desc, NodeFlags.HtmlTip | NodeFlags.Special)
+            : base(Tags.Desc, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }
     }

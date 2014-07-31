@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML table element.
     /// </summary>
-    sealed class HTMLTableElement : HTMLElement, IScopeElement, ITableScopeElement, IHtmlTableElement
+    sealed class HTMLTableElement : HTMLElement, ITableScopeElement, IHtmlTableElement
     {
         #region Fields
 
@@ -19,7 +19,7 @@
         #region ctor
 
         internal HTMLTableElement()
-            : base(Tags.Table, NodeFlags.Special)
+            : base(Tags.Table, NodeFlags.Special | NodeFlags.Scoped)
         {
             _rows = new HtmlCollection<IHtmlTableRowElement>(this);
             _bodies = new HtmlCollection<IHtmlTableSectionElement>(this);
