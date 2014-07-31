@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <Folder Include="DOM\Annotations\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\Accessors.cs" />
@@ -486,7 +487,7 @@
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
     <Compile Include="DocumentBuilder.cs" />
-    <Compile Include="DOM\Annotations\ICssRules.cs" />
+    <Compile Include="DOM\Css\ICssRules.cs" />
     <Compile Include="DOM\Css\Rules\CSSDocumentRule.cs" />
     <Compile Include="DOM\Constants\AdjacentPosition.cs" />
     <Compile Include="DOM\Factories\HtmlElementFactory.cs" />
