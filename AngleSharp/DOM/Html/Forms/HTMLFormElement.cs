@@ -244,13 +244,7 @@
                 }
             }
 
-            var action = Action;
-
-            if (String.IsNullOrEmpty(action))
-                action = formDocument.DocumentUri;
-
-            if (!Location.IsAbsolute(action))
-                action = Location.MakeAbsolute(from.BaseUri, action);
+            var action = String.IsNullOrEmpty(Action) ? new Url(formDocument.DocumentUri) : new Url(new Url(from.BaseUri), Action);
 
             //TODO
             //If the user indicated a specific browsing context to use when submitting
@@ -266,42 +260,41 @@
             //if the form document has not yet completely loaded and the submitted from
             //submit() method is set, then let replace be true. Otherwise, let it be false
 
-            var location = new Location(action);
-            var scheme = location.Protocol.TrimEnd(new[] { ':' });
+            var scheme = action.Scheme;
             var method = Method.ToEnum(HttpMethod.Get);
 
             if (scheme == KnownProtocols.Http || scheme == KnownProtocols.Https)
             {
                 if (method == HttpMethod.Get)
-                    MutateActionUrl(location);
+                    MutateActionUrl(action);
                 else if (method == HttpMethod.Post)
-                    SubmitAsEntityBody(location);
+                    SubmitAsEntityBody(action);
             }
             else if (scheme == KnownProtocols.Data)
             {
                 if (method == HttpMethod.Get)
-                    GetActionUrl(location);
+                    GetActionUrl(action);
                 else if (method == HttpMethod.Post)
-                    PostToData(location);
+                    PostToData(action);
             }
             else if (scheme == KnownProtocols.Mailto)
             {
                 if (method == HttpMethod.Get)
-                    MailWithHeaders(location);
+                    MailWithHeaders(action);
                 else if (method == HttpMethod.Post)
-                    MailAsBody(location);
+                    MailAsBody(action);
             }
             else if (scheme == KnownProtocols.Ftp || scheme == KnownProtocols.JavaScript)
-                GetActionUrl(location);
+                GetActionUrl(action);
             else
-                MutateActionUrl(location);
+                MutateActionUrl(action);
         }
 
         /// <summary>
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-data-post
         /// </summary>
-        void PostToData(Location action)
+        void PostToData(Url action)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
@@ -335,14 +328,14 @@
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
-            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.Get);
+            _plannedNavigation = NavigateTo(action, HttpMethod.Get);
         }
 
         /// <summary>
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-headers
         /// </summary>
-        void MailWithHeaders(Location action)
+        void MailWithHeaders(Url action)
         {
             var formDataSet = ConstructDataSet();
             var result = formDataSet.AsUrlEncoded(System.Text.Encoding.GetEncoding("us-ascii"));
@@ -351,7 +344,7 @@
             using (var sr = new StreamReader(result))
                 headers = sr.ReadToEnd();
 
-            action.Search = headers.Replace("+", "%20");
+            action.Query = headers.Replace("+", "%20");
             GetActionUrl(action);
         }
 
@@ -359,7 +352,7 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-body
         /// </summary>
-        void MailAsBody(Location action)
+        void MailAsBody(Url action)
         {
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
@@ -382,7 +375,7 @@
                     body = sr.ReadToEnd();
             }
 
-            action.Search = "body=" + body.UrlEncode(encoding);
+            action.Query = "body=" + body.UrlEncode(encoding);
             GetActionUrl(action);
         }
 
@@ -390,16 +383,16 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-get-action
         /// </summary>
-        void GetActionUrl(Location action)
+        void GetActionUrl(Url action)
         {
-            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.Get);
+            _plannedNavigation = NavigateTo(action, HttpMethod.Get);
         }
 
         /// <summary>
         /// Submits the body of the form.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-body
         /// </summary>
-        void SubmitAsEntityBody(Location action)
+        void SubmitAsEntityBody(Url action)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
@@ -423,7 +416,7 @@
                 mimeType = MimeTypes.Plain;
             }
 
-            _plannedNavigation = NavigateTo(action.ToUri(), HttpMethod.Post, result, mimeType);
+            _plannedNavigation = NavigateTo(action, HttpMethod.Post, result, mimeType);
         }
 
         /// <summary>
@@ -435,7 +428,7 @@
         /// <param name="method">The HTTP method.</param>
         /// <param name="body">The entity body of the request.</param>
         /// <param name="mime">The MIME type of the entity body.</param>
-        async Task NavigateTo(Uri action, HttpMethod method, Stream body = null, String mime = null)
+        async Task NavigateTo(Url action, HttpMethod method, Stream body = null, String mime = null)
         {
             if (Owner != null)
             {
@@ -455,14 +448,14 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mutate-action
         /// </summary>
-        void MutateActionUrl(Location action)
+        void MutateActionUrl(Url action)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
             var result = formDataSet.AsUrlEncoded(DocumentEncoding.Resolve(encoding));
 
             using (var sr = new StreamReader(result))
-                action.Search = sr.ReadToEnd();
+                action.Query = sr.ReadToEnd();
 
             GetActionUrl(action);
         }

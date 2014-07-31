@@ -26,11 +26,7 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new Url from the given string.
-        /// </summary>
-        /// <param name="address">The address to represent.</param>
-        public Url(String address)
+        private Url()
         {
             _relative = false;
             _scheme = String.Empty;
@@ -38,8 +34,27 @@
             _host = String.Empty;
             _port = String.Empty;
             _path = String.Empty;
+        }
 
+        /// <summary>
+        /// Creates a new Url from the given string.
+        /// </summary>
+        /// <param name="address">The address to represent.</param>
+        public Url(String address)
+            : this()
+        {
             ParseUrl(address);
+        }
+
+        /// <summary>
+        /// Creates a new absolute Url from the relative Url with the given base address.
+        /// </summary>
+        /// <param name="baseAddress">The base address to use.</param>
+        /// <param name="relativeAddress">The relative address to represent.</param>
+        public Url(Url baseAddress, String relativeAddress)
+            : this()
+        {
+            ParseUrl(relativeAddress, baseAddress);
         }
 
         /// <summary>
@@ -186,6 +201,20 @@
         {
             get { return _query; }
             set { ParseQuery(value ?? String.Empty, 0, true); }
+        }
+
+        #endregion
+
+        #region Conversion
+
+        /// <summary>
+        /// Converts the given Url to an Uri.
+        /// </summary>
+        /// <param name="value">The Url to convert.</param>
+        /// <returns>The Uri instance.</returns>
+        public static implicit operator Uri(Url value)
+        {
+            return new Uri(value.Serialize(), value.IsRelative ? UriKind.Relative : UriKind.Absolute);
         }
 
         #endregion

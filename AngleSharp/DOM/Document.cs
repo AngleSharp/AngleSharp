@@ -709,14 +709,9 @@
         /// <param name="url">The URL that hosts the HTML content.</param>
         public Boolean LoadHtml(String url)
         {
-            Uri uri;
             _location.Href = url;
             Cookie = String.Empty;
-
-            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
-                throw new ArgumentException("The given URL is not valid as an absolute URL.");
-
-            var task = Options.LoadAsync(uri);
+            var task = Options.LoadAsync(new Url(url));
 
             var result = task.ContinueWith(m =>
             {
@@ -1065,13 +1060,8 @@
         /// <returns>The document with the parsed content.</returns>
         public static async Task<IDocument> LoadFromUrl(String url, IConfiguration configuration = null)
         {
-            Uri uri;
-
-            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
-                throw new ArgumentException("The given URL is not valid as an absolute URL.");
-
             var options = configuration ?? Configuration.Default;
-            var stream = await options.LoadAsync(uri);
+            var stream = await options.LoadAsync(new Url(url));
             var doc = new Document(new TextSource(stream)) { Options = options };
             var parser = new HtmlParser(doc);
             await parser.ParseAsync();

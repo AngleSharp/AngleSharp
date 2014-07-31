@@ -63,7 +63,7 @@
         /// </summary>
         public String Href
         {
-            get { return HyperRef(GetAttribute(AttributeNames.Href)); }
+            get { return HyperRef(GetAttribute(AttributeNames.Href)).Href; }
             set { SetAttribute(AttributeNames.Href, value); }
         }
 
@@ -186,7 +186,8 @@
                 {
                     _buffer = href;
                     TryCancelCurrent();
-                    _current = Owner.Options.LoadAsync(href, _cts.Token).ContinueWith(task =>
+
+                    _current = Owner.Options.LoadAsync(new Url(href), _cts.Token).ContinueWith(task =>
                     {
                         if (task.IsCompleted && !task.IsFaulted)
                             _sheet = Owner.Options.ParseStyling(source: task.Result, owner: this, type: Type);

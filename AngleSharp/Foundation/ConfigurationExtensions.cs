@@ -40,18 +40,7 @@
         /// <param name="configuration">The configuration to use.</param>
         /// <param name="url">The url that yields the path to the desired action.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<Stream> LoadAsync(this IConfiguration configuration, Uri url)
-        {
-            return configuration.LoadAsync(url, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Loads the given URI by using an asynchronous GET request.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="url">The url that yields the path to the desired action.</param>
-        /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<Stream> LoadAsync(this IConfiguration configuration, String url)
+        public static Task<Stream> LoadAsync(this IConfiguration configuration, Url url)
         {
             return configuration.LoadAsync(url, CancellationToken.None);
         }
@@ -64,25 +53,7 @@
         /// <param name="cancel">The token which can be used to cancel the request.</param>
         /// <param name="force">[Optional] True if the request will be considered despite no allowed external request.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<Stream> LoadAsync(this IConfiguration configuration, String url, CancellationToken cancel, Boolean force = false)
-        {
-            Uri uri;
-
-            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
-                throw new ArgumentException("The given URL does not represent a valid absolute URL.");
-
-            return configuration.LoadAsync(uri, cancel, force);
-        }
-
-        /// <summary>
-        /// Loads the given URI by using an asynchronous GET request.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="url">The url that yields the path to the desired action.</param>
-        /// <param name="cancel">The token which can be used to cancel the request.</param>
-        /// <param name="force">[Optional] True if the request will be considered despite no allowed external request.</param>
-        /// <returns>The task which will eventually return the stream.</returns>
-        public static async Task<Stream> LoadAsync(this IConfiguration configuration, Uri url, CancellationToken cancel, Boolean force = false)
+        public static async Task<Stream> LoadAsync(this IConfiguration configuration, Url url, CancellationToken cancel, Boolean force = false)
         {
             if (!configuration.AllowRequests && !force)
                 return Stream.Null;
@@ -116,21 +87,7 @@
         /// <param name="origin">The origin of the page that requests the loading.</param>
         /// <param name="defaultBehavior">The default behavior in case it is undefined.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<Stream> LoadWithCorsAsync(this IConfiguration configuration, Uri url, CorsSetting cors, String origin, OriginBehavior defaultBehavior)
-        {
-            return configuration.LoadWithCorsAsync(url, cors, origin, defaultBehavior, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Performs a potentially CORS-enabled fetch from the given URI by using an asynchronous GET request.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="url">The url that yields the path to the desired action.</param>
-        /// <param name="cors">The cross origin settings to use.</param>
-        /// <param name="origin">The origin of the page that requests the loading.</param>
-        /// <param name="defaultBehavior">The default behavior in case it is undefined.</param>
-        /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<Stream> LoadWithCorsAsync(this IConfiguration configuration, String url, CorsSetting cors, String origin, OriginBehavior defaultBehavior)
+        public static Task<Stream> LoadWithCorsAsync(this IConfiguration configuration, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior)
         {
             return configuration.LoadWithCorsAsync(url, cors, origin, defaultBehavior, CancellationToken.None);
         }
@@ -145,27 +102,7 @@
         /// <param name="defaultBehavior">The default behavior in case it is undefined.</param>
         /// <param name="cancel">The token which can be used to cancel the request.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<Stream> LoadWithCorsAsync(this IConfiguration configuration, String url, CorsSetting cors, String origin, OriginBehavior defaultBehavior, CancellationToken cancel)
-        {
-            Uri uri;
-
-            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
-                throw new ArgumentException("The given URL does not represent a valid absolute URL.");
-
-            return configuration.LoadWithCorsAsync(uri, cors, origin, defaultBehavior, cancel);
-        }
-
-        /// <summary>
-        /// Performs a potentially CORS-enabled fetch from the given URI by using an asynchronous GET request.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="url">The url that yields the path to the desired action.</param>
-        /// <param name="cors">The cross origin settings to use.</param>
-        /// <param name="origin">The origin of the page that requests the loading.</param>
-        /// <param name="defaultBehavior">The default behavior in case it is undefined.</param>
-        /// <param name="cancel">The token which can be used to cancel the request.</param>
-        /// <returns>The task which will eventually return the stream.</returns>
-        public static async Task<Stream> LoadWithCorsAsync(this IConfiguration configuration, Uri url, CorsSetting cors, String origin, OriginBehavior defaultBehavior, CancellationToken cancel)
+        public static async Task<Stream> LoadWithCorsAsync(this IConfiguration configuration, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior, CancellationToken cancel)
         {
             if (!configuration.AllowRequests)
                 return Stream.Null;
@@ -201,7 +138,7 @@
         /// <param name="mimeType">The mime-type of the request.</param>
         /// <param name="method">The method that is used for sending the request asynchronously.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<Stream> SendAsync(this IConfiguration configuration, Uri url, Stream content = null, String mimeType = null, HttpMethod method = HttpMethod.Post)
+        public static Task<Stream> SendAsync(this IConfiguration configuration, Url url, Stream content = null, String mimeType = null, HttpMethod method = HttpMethod.Post)
         {
             return configuration.SendAsync(url, content, mimeType, method, CancellationToken.None);
         }
@@ -217,7 +154,7 @@
         /// <param name="cancel">The token which can be used to cancel the request.</param>
         /// <param name="force">[Optional] True if the request will be considered despite no allowed external request.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static async Task<Stream> SendAsync(this IConfiguration configuration, Uri url, Stream content, String mimeType, HttpMethod method, CancellationToken cancel, Boolean force = false)
+        public static async Task<Stream> SendAsync(this IConfiguration configuration, Url url, Stream content, String mimeType, HttpMethod method, CancellationToken cancel, Boolean force = false)
         {
             if (!configuration.AllowRequests && !force)
                 return Stream.Null;
