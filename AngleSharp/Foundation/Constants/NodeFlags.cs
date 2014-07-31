@@ -67,6 +67,14 @@
         /// </summary>
         HtmlSelectScoped = 0x2000,
         /// <summary>
+        /// The element is opening a table section scope.
+        /// </summary>
+        HtmlTableSectionScoped = 0x4000,
+        /// <summary>
+        /// The element is opening a table scope.
+        /// </summary>
+        HtmlTableScoped = 0x8000,
+        /// <summary>
         /// The element is part of the MathML namespace.
         /// </summary>
         MathMember = 0x10000,

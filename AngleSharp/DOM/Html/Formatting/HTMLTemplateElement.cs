@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the template element.
     /// </summary>
-    sealed class HTMLTemplateElement : HTMLElement, ITableScopeElement, IHtmlTemplateElement
+    sealed class HTMLTemplateElement : HTMLElement, IHtmlTemplateElement
     {
         #region Fields
 
@@ -16,7 +16,7 @@
         #region ctor
 
         internal HTMLTemplateElement()
-            : base(Tags.Template, NodeFlags.Special | NodeFlags.Scoped)
+            : base(Tags.Template, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
         }
 

@@ -515,8 +515,6 @@
     <Compile Include="Foundation\Setup\IConfiguration.cs" />
     <Compile Include="Network\IRequest.cs" />
     <Compile Include="Network\IRequester.cs" />
-    <Compile Include="DOM\Annotations\ITableScopeElement.cs" />
-    <Compile Include="DOM\Annotations\ITableSectionScopeElement.cs" />
     <Compile Include="DOM\Css\CSSStyleDeclaration.cs" />
     <Compile Include="DOM\Collections\StringMap.cs" />
     <Compile Include="DOM\Io\FileList.cs" />

@@ -3510,7 +3510,7 @@
                 if (node is T)
                     return true;
 
-                if (node is ITableScopeElement)
+                if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
                     return false;
             }
 
@@ -3531,7 +3531,7 @@
                 if (node.NodeName == tagName)
                     return true;
 
-                if (node is ITableScopeElement)
+                if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
                     return false;
             }
 
