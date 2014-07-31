@@ -94,9 +94,6 @@
     <Compile Include="..\AngleSharp\DOM\Annotations\ICssRules.cs">
       <Link>DOM\Annotations\ICssRules.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\ISelectScopeElement.cs">
-      <Link>DOM\Annotations\ISelectScopeElement.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\ITableScopeElement.cs">
       <Link>DOM\Annotations\ITableScopeElement.cs</Link>
     </Compile>
