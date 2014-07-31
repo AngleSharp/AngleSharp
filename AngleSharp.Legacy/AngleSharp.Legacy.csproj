@@ -100,9 +100,6 @@
     <Compile Include="..\AngleSharp\DOM\Annotations\IImplClosed.cs">
       <Link>DOM\Annotations\IImplClosed.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\IImpliedEnd.cs">
-      <Link>DOM\Annotations\IImpliedEnd.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\IListScopeElement.cs">
       <Link>DOM\Annotations\IListScopeElement.cs</Link>
     </Compile>
