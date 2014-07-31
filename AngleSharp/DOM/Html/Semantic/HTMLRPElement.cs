@@ -3,10 +3,10 @@
     /// <summary>
     /// The rp HTML element.
     /// </summary>
-    sealed class HTMLRPElement : HTMLElement, IImpliedEnd
+    sealed class HTMLRPElement : HTMLElement
     {
         internal HTMLRPElement()
-            : base(Tags.Rp)
+            : base(Tags.Rp, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }
     }

@@ -3,10 +3,10 @@
     /// <summary>
     /// The rt element.
     /// </summary>
-    sealed class HTMLRTElement : HTMLElement, IImpliedEnd
+    sealed class HTMLRTElement : HTMLElement
     {
         internal HTMLRTElement()
-            : base(Tags.Rt)
+            : base(Tags.Rt, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }
     }

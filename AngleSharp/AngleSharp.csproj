@@ -517,7 +517,6 @@
     <Compile Include="Network\IRequest.cs" />
     <Compile Include="Network\IRequester.cs" />
     <Compile Include="DOM\Annotations\IImplClosed.cs" />
-    <Compile Include="DOM\Annotations\IImpliedEnd.cs" />
     <Compile Include="DOM\Annotations\IListScopeElement.cs" />
     <Compile Include="DOM\Annotations\ISelectScopeElement.cs" />
     <Compile Include="DOM\Annotations\ITableScopeElement.cs" />

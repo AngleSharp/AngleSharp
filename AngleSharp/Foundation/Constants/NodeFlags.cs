@@ -6,6 +6,10 @@
     /// Defines some properties of a node.
     /// Exclusive maximum is 0x100000000.
     /// Inclusive maximum is 0x0FFFFFFFF.
+    /// General range: 0x1 to 0x80
+    /// HTML range   : 0x100 to 0x8000
+    /// MathML range : 0x10000 to 0x800000
+    /// SVG range    : 0x1000000 to 0x80000000
     /// </summary>
     [Flags]
     enum NodeFlags : uint
@@ -31,32 +35,40 @@
         /// </summary>
         LineTolerance = 0x8,
         /// <summary>
+        /// The element is implicitely closed.
+        /// </summary>
+        ImplicitelyClosed = 0x10,
+        /// <summary>
+        /// The end of the element is implied.
+        /// </summary>
+        ImpliedEnd = 0x20,
+        /// <summary>
         /// The element is part of the HTML namespace.
         /// </summary>
-        HtmlMember = 0x10,
+        HtmlMember = 0x100,
         /// <summary>
         /// The element is an HTML text integration point.
         /// </summary>
-        HtmlTip = 0x20,
+        HtmlTip = 0x200,
         /// <summary>
         /// The element is an HTML formatting element.
         /// </summary>
-        HtmlFormatting = 0x80,
+        HtmlFormatting = 0x800,
         /// <summary>
         /// The element is part of the MathML namespace.
         /// </summary>
-        MathMember = 0x100,
+        MathMember = 0x10000,
         /// <summary>
         /// The element is an MathML text integration point.
         /// </summary>
-        MathTip = 0x200,
+        MathTip = 0x20000,
         /// <summary>
         /// The element is part of the SVG namespace.
         /// </summary>
-        SvgMember = 0x1000,
+        SvgMember = 0x1000000,
         /// <summary>
         /// The element is an SVG text integration point.
         /// </summary>
-        SvgTip = 0x2000,
+        SvgTip = 0x2000000,
     }
 }

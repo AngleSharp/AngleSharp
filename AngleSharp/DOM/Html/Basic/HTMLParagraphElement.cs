@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the HTML paragraph element.
     /// </summary>
-    sealed class HTMLParagraphElement : HTMLElement, IImpliedEnd, IHtmlParagraphElement
+    sealed class HTMLParagraphElement : HTMLElement, IHtmlParagraphElement
     {
         #region ctor
 
@@ -11,7 +11,7 @@
         /// Creates a new HTML paragraph element.
         /// </summary>
         internal HTMLParagraphElement()
-            : base(Tags.P, NodeFlags.Special)
+            : base(Tags.P, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }
 

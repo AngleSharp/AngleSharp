@@ -3950,7 +3950,7 @@
         /// <param name="tagName">The tag that will be excluded.</param>
         void GenerateImpliedEndTagsExceptFor(String tagName)
         {
-            while (CurrentNode is IImpliedEnd && CurrentNode.NodeName != tagName)
+            while (CurrentNode.Flags.HasFlag(NodeFlags.ImpliedEnd) && CurrentNode.NodeName != tagName)
                 CloseCurrentNode();
         }
 
@@ -3959,7 +3959,7 @@
         /// </summary>
         void GenerateImpliedEndTags()
         {
-            while (CurrentNode is IImpliedEnd)
+            while (CurrentNode.Flags.HasFlag(NodeFlags.ImpliedEnd))
                 CloseCurrentNode();
         }
 
