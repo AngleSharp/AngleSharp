@@ -1,20 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using System;
-
+    /// <summary>
+    /// The address HTML element.
+    /// </summary>
     sealed class HTMLAddressElement : HTMLElement
     {
         internal HTMLAddressElement()
+            : base(Tags.Address, NodeFlags.Special)
         {
-            _name = Tags.Address;
-        }
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
     }
 }

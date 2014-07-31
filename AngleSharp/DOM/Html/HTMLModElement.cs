@@ -9,9 +9,9 @@
     {
         #region ctor
 
-        internal HTMLModElement()
+        internal HTMLModElement(String name)
+            : base(name)
         {
-            _name = Tags.Ins;
         }
 
         #endregion
@@ -36,18 +36,6 @@
         {
             get { return GetAttribute("datetime"); }
             set { SetAttribute("datetime", value); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return false; }
         }
 
         #endregion

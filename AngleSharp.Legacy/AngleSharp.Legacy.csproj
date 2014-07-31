@@ -91,36 +91,6 @@
     <Compile Include="..\AngleSharp\DocumentBuilder.cs">
       <Link>DocumentBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\ICssPrimitive.cs">
-      <Link>DOM\Annotations\ICssPrimitive.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\ICssRules.cs">
-      <Link>DOM\Annotations\ICssRules.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\IFormatting.cs">
-      <Link>DOM\Annotations\IFormatting.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\IImplClosed.cs">
-      <Link>DOM\Annotations\IImplClosed.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\IImpliedEnd.cs">
-      <Link>DOM\Annotations\IImpliedEnd.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\IListScopeElement.cs">
-      <Link>DOM\Annotations\IListScopeElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\IScopeElement.cs">
-      <Link>DOM\Annotations\IScopeElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\ISelectScopeElement.cs">
-      <Link>DOM\Annotations\ISelectScopeElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\ITableScopeElement.cs">
-      <Link>DOM\Annotations\ITableScopeElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\ITableSectionScopeElement.cs">
-      <Link>DOM\Annotations\ITableSectionScopeElement.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Attr.cs">
       <Link>DOM\Attr.cs</Link>
     </Compile>
@@ -342,6 +312,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
       <Link>DOM\Css\CssValueType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\ICssRules.cs">
+      <Link>DOM\Css\ICssRules.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Media\AspectRatioMediaFeature.cs">
       <Link>DOM\Css\Media\AspectRatioMediaFeature.cs</Link>
@@ -1030,8 +1003,8 @@
     <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLImageElement.cs">
       <Link>DOM\Html\Basic\HTMLImageElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLNoElement.cs">
-      <Link>DOM\Html\Basic\HTMLNoElement.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLNoScriptElement.cs">
+      <Link>DOM\Html\Basic\HTMLNoScriptElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLParagraphElement.cs">
       <Link>DOM\Html\Basic\HTMLParagraphElement.cs</Link>
@@ -1162,6 +1135,9 @@
     <Compile Include="..\AngleSharp\DOM\Html\Frames\HTMLIFrameElement.cs">
       <Link>DOM\Html\Frames\HTMLIFrameElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Frames\HTMLNoFramesElement.cs">
+      <Link>DOM\Html\Frames\HTMLNoFramesElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Head\HTMLBaseElement.cs">
       <Link>DOM\Html\Head\HTMLBaseElement.cs</Link>
     </Compile>
@@ -1258,6 +1234,9 @@
     <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLMarqueeElement.cs">
       <Link>DOM\Html\Objects\HTMLMarqueeElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLNoEmbedElement.cs">
+      <Link>DOM\Html\Objects\HTMLNoEmbedElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLObjectElement.cs">
       <Link>DOM\Html\Objects\HTMLObjectElement.cs</Link>
     </Compile>
@@ -1272,6 +1251,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLHeadingElement.cs">
       <Link>DOM\Html\Semantic\HTMLHeadingElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLPlaintextElement.cs">
+      <Link>DOM\Html\Semantic\HTMLPlaintextElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLQuoteElement.cs">
       <Link>DOM\Html\Semantic\HTMLQuoteElement.cs</Link>
@@ -1291,6 +1273,9 @@
     <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLTimeElement.cs">
       <Link>DOM\Html\Semantic\HTMLTimeElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLXmpElement.cs">
+      <Link>DOM\Html\Semantic\HTMLXmpElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableCaptionElement.cs">
       <Link>DOM\Html\Tables\HTMLTableCaptionElement.cs</Link>
     </Compile>
@@ -1299,6 +1284,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableColElement.cs">
       <Link>DOM\Html\Tables\HTMLTableColElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableColgroupElement.cs">
+      <Link>DOM\Html\Tables\HTMLTableColgroupElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableDataCellElement.cs">
       <Link>DOM\Html\Tables\HTMLTableDataCellElement.cs</Link>
@@ -1419,6 +1407,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\Namespaces.cs">
       <Link>Foundation\Constants\Namespaces.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Constants\NodeFlags.cs">
+      <Link>Foundation\Constants\NodeFlags.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\PropertyNames.cs">
       <Link>Foundation\Constants\PropertyNames.cs</Link>
@@ -2041,6 +2032,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Xml\IXmlDocument.cs">
       <Link>Interfaces\Xml\IXmlDocument.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\Constants\CorsSetting.cs">
+      <Link>Network\Constants\CorsSetting.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\Constants\DefaultPorts.cs">
       <Link>Network\Constants\DefaultPorts.cs</Link>
     </Compile>
@@ -2055,6 +2049,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Network\Constants\MimeTypes.cs">
       <Link>Network\Constants\MimeTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\Constants\OriginBehavior.cs">
+      <Link>Network\Constants\OriginBehavior.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultInfo.cs">
       <Link>Network\DefaultInfo.cs</Link>

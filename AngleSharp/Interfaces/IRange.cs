@@ -115,13 +115,13 @@
         /// </summary>
         /// <param name="refNode">The reference node.</param>
         [DomName("selectNodeContents")]
-        void SelectContents(INode refNode);
+        void SelectContent(INode refNode);
 
         /// <summary>
         /// Clears the contained nodes.
         /// </summary>
         [DomName("deleteContents")]
-        void Clear();
+        void ClearContent();
 
         /// <summary>
         /// Clears the node representation and returns a document fragment
@@ -129,14 +129,14 @@
         /// </summary>
         /// <returns>The document fragment containing the nodes.</returns>
         [DomName("extractContents")]
-        IDocumentFragment Flush();
+        IDocumentFragment ExtractContent();
 
         /// <summary>
         /// Creates a document fragement of the contained nodes.
         /// </summary>
         /// <returns>The created document fragment.</returns>
         [DomName("cloneContents")]
-        IDocumentFragment Copy();
+        IDocumentFragment CopyContent();
 
         /// <summary>
         /// Inserts a node into the range.

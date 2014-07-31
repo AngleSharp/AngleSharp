@@ -14,9 +14,9 @@
         /// <summary>
         /// Creates a new document type node.
         /// </summary>
-        internal DocumentType()
+        internal DocumentType(String name)
+            : base(name, NodeType.DocumentType)
         {
-            _type = NodeType.DocumentType;
         }
 
         #endregion
@@ -99,8 +99,7 @@
         /// </summary>
         public String Name 
         {
-            get { return _name; }
-            set { _name = value; }
+            get { return NodeName; }
         }
 
         /// <summary>
@@ -195,9 +194,8 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new DocumentType();
+            var node = new DocumentType(Name);
             CopyProperties(this, node, deep);
-            node.Name = this.Name;
             node.PublicIdentifier = this.PublicIdentifier;
             node.SystemIdentifier = this.SystemIdentifier;
             node.InternalSubset = this.InternalSubset;
@@ -304,7 +302,27 @@
         /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml()
         {
-            return Extensions.ToHtml(this);
+            var name = Name;
+            var publicId = PublicIdentifier;
+            var systemId = SystemIdentifier;
+            var ids = GetIds(publicId, systemId);
+            return String.Format("<!DOCTYPE {0} {1}>", name, ids);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static String GetIds(String publicId, String systemId)
+        {
+            if (String.IsNullOrEmpty(publicId) && String.IsNullOrEmpty(systemId))
+                return String.Empty;
+            else if (String.IsNullOrEmpty(systemId))
+                return String.Format("PUBLIC \"{0}\"", publicId);
+            else if (String.IsNullOrEmpty(publicId))
+                return String.Format("SYSTEM \"{0}\"", systemId);
+
+            return String.Format("PUBLIC \"{0}\" \"{1}\"", publicId, systemId);
         }
 
         #endregion

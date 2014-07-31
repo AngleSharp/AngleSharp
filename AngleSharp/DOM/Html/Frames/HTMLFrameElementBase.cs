@@ -9,7 +9,8 @@
     {
         #region ctor
 
-        internal HTMLFrameElementBase()
+        internal HTMLFrameElementBase(String name, NodeFlags flags = NodeFlags.None)
+            : base(name, flags | NodeFlags.Special)
         {
         }
 

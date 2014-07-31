@@ -1,10 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    sealed class HTMLBoldElement : HTMLElement, IFormatting
+    /// <summary>
+    /// The bold HTML element.
+    /// </summary>
+    sealed class HTMLBoldElement : HTMLElement
     {
         internal HTMLBoldElement()
+            : base(Tags.B, NodeFlags.HtmlFormatting)
         {
-            _name = Tags.B;
         }
     }
 }

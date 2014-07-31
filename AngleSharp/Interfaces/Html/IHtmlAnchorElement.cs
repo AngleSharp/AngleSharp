@@ -54,7 +54,7 @@
         String Type { get; }
 
         /// <summary>
-        /// Gets or sets the text of the anchor tag (same as TextContent).
+        /// Gets the text of the anchor tag (same as TextContent).
         /// </summary>
         [DomName("text")]
         String Text { get; }

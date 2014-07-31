@@ -2,25 +2,16 @@
 {
     using System;
 
+    /// <summary>
+    /// The time HTML element.
+    /// </summary>
     sealed class HTMLTimeElement : HTMLElement, IHtmlTimeElement
     {
         #region ctor
 
         internal HTMLTimeElement()
+            : base(Tags.Time, NodeFlags.Special)
         {
-            _name = Tags.Time;
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

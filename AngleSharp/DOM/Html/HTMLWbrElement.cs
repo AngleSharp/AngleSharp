@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using System;
-
     /// <summary>
     /// Represents the HTML wbr (word-break-opportunity) element.
     /// This element is used to indicate that the position is a good
@@ -15,20 +13,8 @@
         /// Creates a new HTML wbr element.
         /// </summary>
         internal HTMLWbrElement()
+            : base(Tags.Wbr, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _name = Tags.Wbr;
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

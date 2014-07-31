@@ -16,20 +16,8 @@
         #region ctor
 
         internal HTMLDialogElement()
+            : base(Tags.Dialog)
         {
-            _name = Tags.Dialog;
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return false; }
         }
 
         #endregion

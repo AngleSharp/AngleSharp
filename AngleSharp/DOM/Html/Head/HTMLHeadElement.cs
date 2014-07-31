@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using System;
-
     /// <summary>
     /// Represents the HTML head element.
     /// </summary>
@@ -10,20 +8,8 @@
         #region ctor
 
         internal HTMLHeadElement()
+            : base(Tags.Head, NodeFlags.Special)
         {
-            _name = Tags.Head;
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

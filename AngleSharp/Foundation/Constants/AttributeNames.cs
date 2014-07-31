@@ -651,5 +651,30 @@
         /// The event attribute.
         /// </summary>
         public static readonly String Event = "event";
+
+        /// <summary>
+        /// The alink attribute.
+        /// </summary>
+        public static readonly String Alink = "alink";
+
+        /// <summary>
+        /// The background attribute.
+        /// </summary>
+        public static readonly String Background = "background";
+
+        /// <summary>
+        /// The link attribute.
+        /// </summary>
+        public static readonly String Link = "link";
+
+        /// <summary>
+        /// The text attribute.
+        /// </summary>
+        public static readonly String Text = "text";
+
+        /// <summary>
+        /// THe vlink attribute.
+        /// </summary>
+        public static readonly String Vlink = "vlink";
     }
 }

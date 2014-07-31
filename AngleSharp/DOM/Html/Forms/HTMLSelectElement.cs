@@ -21,8 +21,8 @@
         /// Creates a new HTML select element.
         /// </summary>
         internal HTMLSelectElement()
+            : base(Tags.Select)
         {
-            _name = Tags.Select;
             _options = new OptionsCollection(this);
             WillValidate = true;
         }
@@ -153,18 +153,6 @@
         public String Type
         {
             get { return IsMultiple ? "select-multiple" : "select-one"; }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

@@ -8,7 +8,6 @@
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
-    using GlobalConfig = AngleSharp.Configuration;
 
     /// <summary>
     /// A handy helper to construct various kinds of documents
@@ -31,7 +30,7 @@
         /// is not specified, then the default configuration will be used.</param>
         public DocumentBuilder(IConfiguration defaultConfiguration = null)
         {
-            configuration = defaultConfiguration ?? GlobalConfig.Default;
+            configuration = defaultConfiguration ?? AngleSharp.Configuration.Default;
         }
 
         #endregion
@@ -189,7 +188,7 @@
         public static IDocument Html(String sourceCode, IConfiguration configuration = null, String url = null)
         {
             if (configuration == null)
-                configuration = GlobalConfig.Default;
+                configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(sourceCode, configuration.DefaultEncoding());
             var doc = new Document(stream) { Options = configuration };
@@ -233,7 +232,7 @@
         public static async Task<IDocument> HtmlAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
         {
             if (configuration == null)
-                configuration = GlobalConfig.Default;
+                configuration = AngleSharp.Configuration.Default;
 
             var content = await configuration.LoadAsync(url, cancel, force: true);
             var stream = new TextSource(content, configuration.DefaultEncoding());
@@ -253,7 +252,7 @@
         public static IDocument Html(Stream content, IConfiguration configuration = null, String url = null)
         {
             if (configuration == null)
-                configuration = GlobalConfig.Default;
+                configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(content, configuration.DefaultEncoding());
             var doc = new Document(stream) { Options = configuration };
@@ -277,12 +276,12 @@
             if (configuration == null)
                 configuration = new Configuration();
             else
-                configuration = GlobalConfig.Clone(configuration);
+                configuration = AngleSharp.Configuration.Clone(configuration);
 
             //Disable scripting for HTML fragments (security reasons)
             configuration.IsScripting = false;
 
-            var stream = new TextSource(sourceCode, configuration.DefaultEncoding());
+            var stream = new TextSource(sourceCode);
             var doc = new Document(stream) { Options = configuration };
             var node = context as Node;
             var parser = Construct(doc, configuration);
@@ -312,7 +311,7 @@
         public static ICssStyleSheet Css(String sourceCode, IConfiguration configuration = null)
         {
             if (configuration == null)
-                configuration = GlobalConfig.Default;
+                configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(sourceCode, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet { Options = configuration };
@@ -352,7 +351,7 @@
         public static async Task<ICssStyleSheet> CssAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
         {
             if (configuration == null)
-                configuration = GlobalConfig.Default;
+                configuration = AngleSharp.Configuration.Default;
 
             var stream = await configuration.LoadAsync(url, cancel, force: true);
             var source = new TextSource(stream, configuration.DefaultEncoding());
@@ -371,7 +370,7 @@
         public static ICssStyleSheet Css(Stream stream, IConfiguration configuration = null)
         {
             if (configuration == null)
-                configuration = GlobalConfig.Default;
+                configuration = AngleSharp.Configuration.Default;
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet { Options = configuration };

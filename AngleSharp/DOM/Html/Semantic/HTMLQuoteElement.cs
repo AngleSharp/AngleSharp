@@ -7,21 +7,25 @@
     /// </summary>
     sealed class HTMLQuoteElement : HTMLElement, IHtmlQuoteElement
     {
-        internal HTMLQuoteElement()
+        #region ctor
+
+        internal HTMLQuoteElement(String name)
+            : base(name, name.Equals(Tags.BlockQuote) ? NodeFlags.Special : NodeFlags.None)
         { }
 
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return _name.Equals(Tags.BlockQuote); }
-        }
+        #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the citation.
+        /// </summary>
         public String Citation
         {
             get { return GetAttribute(AttributeNames.Cite); }
             set { SetAttribute(AttributeNames.Cite, value); }
         }
+
+        #endregion
     }
 }

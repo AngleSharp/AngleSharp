@@ -5,13 +5,13 @@
     /// <summary>
     /// Represents the HTML caption element.
     /// </summary>
-    sealed class HTMLTableCaptionElement : HTMLElement, IScopeElement, IHtmlTableCaptionElement
+    sealed class HTMLTableCaptionElement : HTMLElement, IHtmlTableCaptionElement
     {
         #region ctor
 
         internal HTMLTableCaptionElement()
+            : base(Tags.Caption, NodeFlags.Special | NodeFlags.Scoped)
         {
-            _name = Tags.Caption;
         }
 
         #endregion
@@ -25,18 +25,6 @@
         {
             get { return GetAttribute(AttributeNames.Align).ToEnum(CaptionAlignment.Top); }
             set { SetAttribute(AttributeNames.Align, value.ToString()); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

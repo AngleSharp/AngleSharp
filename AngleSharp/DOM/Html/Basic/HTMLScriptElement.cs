@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.Infrastructure;
+    using AngleSharp.Network;
     using System;
     using System.IO;
     using System.Threading.Tasks;
@@ -27,8 +28,8 @@
         /// Creates a new HTML script element.
         /// </summary>
         internal HTMLScriptElement()
+            : base(Tags.Script, NodeFlags.Special | NodeFlags.LiteralText)
         {
-            _name = Tags.Script;
         }
 
         #endregion
@@ -116,18 +117,6 @@
 
         #endregion
 
-        #region Protected properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
-        }
-
-        #endregion
-
         #region Internal Methods
 
         /// <summary>
@@ -159,19 +148,12 @@
 
         /// <summary>
         /// More information available at:
-        /// http://www.w3.org/TR/html5/webappapis.html#create-a-script
-        /// </summary>
-        void CreateScript()
-        {
-            //TODO
-        }
-
-        /// <summary>
-        /// More information available at:
         /// http://www.w3.org/TR/html5/scripting-1.html#prepare-a-script
         /// </summary>
         internal void Prepare()
         {
+            var options = Owner.Options ?? Configuration.Default;
+
             if (_started)
                 return;
 
@@ -183,7 +165,7 @@
             if ((String.IsNullOrEmpty(Source) && String.IsNullOrEmpty(Text)) || Owner == null)
                 return;
 
-            if (Owner.Options.GetScriptEngine(ScriptLanguage) == null)
+            if (options.GetScriptEngine(ScriptLanguage) == null)
                 return;
 
             if (_wasParserInserted)
@@ -223,47 +205,38 @@
                 }
 
                 src = HyperRef(src);
-
-                //TODO
-                //Do a potentially CORS-enabled fetch of the resulting absolute URL, with the mode being the current state
-                //of the element's crossorigin content attribute, the origin being the origin of the script element's Document,
-                //and the default origin behaviour set to taint.
+                _load = options.LoadWithCorsAsync(src, CrossOrigin.ToEnum(CorsSetting.None), Owner.Origin, OriginBehavior.Taint);
 
                 if (_parserInserted && !IsAsync)
                 {
                     if (IsDeferred)
-                    {
-                        //The element must be added to the end of the list of scripts that will execute when the document has finished
-                        //parsing associated with the Document of the parser that created the element.
-                    }
-                    else
-                    {
-                        //The element is the pending parsing-blocking script of the Document of the parser that created the element.
-                        //(There can only be one such script per Document at a time.)
-                    }
+                        Owner.AddScript(this);
 
-                    PlaceNetworkTask(src);
+                    _load.ContinueWith(task => _readyToBeExecuted = true);
                 }
                 else if (!IsAsync && !_forceAsync)
                 {
                     //The element must be added to the end of the list of scripts that will execute in order as soon as possible associated
                     //with the Document of the script element at the time the prepare a script algorithm started.
+                    Owner.AddScript(this);
                 }
                 else
                 {
                     //The element must be added to the set of scripts that will execute as soon as possible of the Document of the
                     //script element at the time the prepare a script algorithm started.
+                    Owner.AddScript(this);
                 }
             }
-            else if (_parserInserted) //and either the parser that created the script is an XML parser or it's an HTML parser whose script nesting level is not greater than one, and the Document of the HTML parser or XML parser that created the script element has a style sheet that is blocking scripts
+            else if (_parserInserted)
             {
-                //The element is the pending parsing-blocking script of the Document of the parser that created the element.
-                //(There can only be one such script per Document at a time.)
+                //and either the parser that created the script is an XML parser or it's an HTML parser whose script nesting level is
+                //not greater than one, and the Document of the HTML parser or XML parser that created the script element has a styl
+                //sheet that is blocking scripts
                 _readyToBeExecuted = true;
             }
             else
             {
-                Owner.Options.RunScript(Text, CreateOptions(), ScriptLanguage);
+                options.RunScript(Text, CreateOptions(), ScriptLanguage);
             }
         }
 
@@ -275,12 +248,6 @@
                 Document = Owner,
                 Element = this
             };
-        }
-
-        void PlaceNetworkTask(String url)
-        {
-            //The task that the networking task source places on the task queue once the fetching algorithm has completed must
-            //set the element's "ready to be parser-executed" flag. The parser will handle executing the script.
         }
 
         #endregion

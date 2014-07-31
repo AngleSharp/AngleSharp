@@ -149,6 +149,11 @@
         public const Char Solidus = (Char)0x2f;
 
         /// <summary>
+        /// The no break space character.
+        /// </summary>
+        public const Char NoBreakSpace = (Char)0xa0;
+
+        /// <summary>
         /// The backslash ( reverse-solidus, \ ) character.
         /// </summary>
         public const Char ReverseSolidus = (Char)0x5c;

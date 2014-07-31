@@ -1,29 +1,15 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using System;
-
     /// <summary>
     /// The DOM Object representing the unordered list.
     /// </summary>
-    sealed class HTMLUListElement : HTMLElement, IListScopeElement, IHtmlUnorderedListElement
+    sealed class HTMLUListElement : HTMLElement, IHtmlUnorderedListElement
     {
         #region ctor
 
         internal HTMLUListElement()
+            : base(Tags.Ul, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
-            _name = Tags.Ul;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

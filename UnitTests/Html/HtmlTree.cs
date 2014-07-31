@@ -222,7 +222,7 @@ namespace UnitTests
                 .AppendChild(new HTMLBodyElement())
                     .AppendChild(new TextNode("ABCD")).Parent
                     .AppendChild(new HTMLTableElement())
-                        .AppendChild(new HTMLTableSectionElement())
+                        .AppendChild(new HTMLTableSectionElement("tbody"))
                             .AppendChild(new HTMLTableRowElement()).Parent.Parent.Parent.Parent;
 
             Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.ToHtml());
@@ -239,7 +239,7 @@ namespace UnitTests
                 .AppendChild(new HTMLBodyElement())
                     .AppendChild(new TextNode("A B C")).Parent
                     .AppendChild(new HTMLTableElement())
-                        .AppendChild(new HTMLTableSectionElement())
+                        .AppendChild(new HTMLTableSectionElement("tbody"))
                             .AppendChild(new HTMLTableRowElement()).Parent.Parent.Parent.Parent;
 
             Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.ToHtml());
@@ -256,7 +256,7 @@ namespace UnitTests
                 .AppendChild(new HTMLBodyElement())
                     .AppendChild(new TextNode("A BC")).Parent
                     .AppendChild(new HTMLTableElement())
-                        .AppendChild(new HTMLTableSectionElement())
+                        .AppendChild(new HTMLTableSectionElement("tbody"))
                             .AppendChild(new HTMLTableRowElement()).Parent
                             .AppendChild(new TextNode(" ")).Parent.Parent.Parent.Parent;
 
@@ -272,15 +272,15 @@ namespace UnitTests
             var tree = new HTMLHtmlElement()
                 .AppendChild(new HTMLHeadElement()).Parent
                 .AppendChild(new HTMLBodyElement())
-                    .AppendChild(new HTMLElement() { NodeName = "b" }).Parent
-                    .AppendChild(new HTMLElement() { NodeName = "b" })
+                    .AppendChild(new HTMLElement("b")).Parent
+                    .AppendChild(new HTMLElement("b"))
                         .AppendChild(new TextNode("bbb")).Parent.Parent
                     .AppendChild(new HTMLTableElement())
-                        .AppendChild(new HTMLTableSectionElement())
+                        .AppendChild(new HTMLTableSectionElement("tbody"))
                             .AppendChild(new HTMLTableRowElement())
                                 .AppendChild(new HTMLTableDataCellElement())
                                     .AppendChild(new TextNode("aaa")).Parent.Parent.Parent.Parent.Parent
-                    .AppendChild(new HTMLElement() { NodeName = "b" })
+                    .AppendChild(new HTMLElement("b"))
                         .AppendChild(new TextNode("ccc")).Parent.Parent.Parent;
 
             Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.ToHtml());
@@ -297,11 +297,11 @@ namespace UnitTests
                 .AppendChild(new HTMLBodyElement())
                     .AppendChild(new HTMLParagraphElement())
                         .AppendChild(new TextNode("1")).Parent
-                        .AppendChild(new HTMLElement() { NodeName = "b" })
+                        .AppendChild(new HTMLElement("b"))
                             .AppendChild(new TextNode("2")).Parent
-                            .AppendChild(new HTMLElement() { NodeName = "i" })
+                            .AppendChild(new HTMLElement("i"))
                                 .AppendChild(new TextNode("3")).Parent.Parent.Parent
-                        .AppendChild(new HTMLElement() { NodeName = "i" })
+                        .AppendChild(new HTMLElement("i"))
                             .AppendChild(new TextNode("4")).Parent.Parent
                         .AppendChild(new TextNode("5")).Parent.Parent.Parent;
 
@@ -317,10 +317,10 @@ namespace UnitTests
             var tree = new HTMLHtmlElement()
                 .AppendChild(new HTMLHeadElement()).Parent
                 .AppendChild(new HTMLBodyElement())
-                    .AppendChild(new HTMLElement() { NodeName = "b" })
+                    .AppendChild(new HTMLElement("b"))
                         .AppendChild(new TextNode("1")).Parent.Parent
                     .AppendChild(new HTMLParagraphElement())
-                        .AppendChild(new HTMLElement() { NodeName = "b" })
+                        .AppendChild(new HTMLElement("b"))
                             .AppendChild(new TextNode("2")).Parent.Parent
                         .AppendChild(new TextNode("3")).Parent.Parent.Parent;
 
@@ -333,17 +333,17 @@ namespace UnitTests
             //8.2.8.6 Unclosed formatting elements
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html>
 <p><b class=x><b class=x><b><b class=x><b class=x><b>X<p>X<p><b><b class=x><b>X<p></b></b></b></b></b></b>X");
-            var b1 = new HTMLElement() { NodeName = "b" }; b1.SetAttribute("class", "x");
-            var b2 = new HTMLElement() { NodeName = "b" }; b2.SetAttribute("class", "x");
-            var b3 = new HTMLElement() { NodeName = "b" }; b3.SetAttribute("class", "x");
-            var b4 = new HTMLElement() { NodeName = "b" }; b4.SetAttribute("class", "x");
-            var b5 = new HTMLElement() { NodeName = "b" }; b5.SetAttribute("class", "x");
-            var b6 = new HTMLElement() { NodeName = "b" }; b6.SetAttribute("class", "x");
-            var b7 = new HTMLElement() { NodeName = "b" }; b7.SetAttribute("class", "x");
-            var b8 = new HTMLElement() { NodeName = "b" }; b8.SetAttribute("class", "x");
-            var b9 = new HTMLElement() { NodeName = "b" }; b9.SetAttribute("class", "x");
-            var b10 = new HTMLElement() { NodeName = "b" }; b10.SetAttribute("class", "x");
-            var b11 = new HTMLElement() { NodeName = "b" }; b11.SetAttribute("class", "x");
+            var b1 = new HTMLElement("b"); b1.SetAttribute("class", "x");
+            var b2 = new HTMLElement("b"); b2.SetAttribute("class", "x");
+            var b3 = new HTMLElement("b"); b3.SetAttribute("class", "x");
+            var b4 = new HTMLElement("b"); b4.SetAttribute("class", "x");
+            var b5 = new HTMLElement("b"); b5.SetAttribute("class", "x");
+            var b6 = new HTMLElement("b"); b6.SetAttribute("class", "x");
+            var b7 = new HTMLElement("b"); b7.SetAttribute("class", "x");
+            var b8 = new HTMLElement("b"); b8.SetAttribute("class", "x");
+            var b9 = new HTMLElement("b"); b9.SetAttribute("class", "x");
+            var b10 = new HTMLElement("b"); b10.SetAttribute("class", "x");
+            var b11 = new HTMLElement("b"); b11.SetAttribute("class", "x");
 
             var tree = new HTMLHtmlElement()
                 .AppendChild(new HTMLHeadElement()).Parent
@@ -351,27 +351,27 @@ namespace UnitTests
                     .AppendChild(new HTMLParagraphElement())
                         .AppendChild(b1)
                             .AppendChild(b2)
-                                .AppendChild(new HTMLElement() { NodeName = "b" })
+                                .AppendChild(new HTMLElement("b"))
                                     .AppendChild(b3)
                                         .AppendChild(b4)
-                                            .AppendChild(new HTMLElement() { NodeName = "b" })
+                                            .AppendChild(new HTMLElement("b"))
                                                 .AppendChild(new TextNode("X")).Parent.Parent.Parent.Parent.Parent.Parent.Parent.Parent
                     .AppendChild(new HTMLParagraphElement())
                         .AppendChild(b5)
-                            .AppendChild(new HTMLElement() { NodeName = "b" })
+                            .AppendChild(new HTMLElement("b"))
                                 .AppendChild(b6)
                                     .AppendChild(b7)
-                                        .AppendChild(new HTMLElement() { NodeName = "b" })
+                                        .AppendChild(new HTMLElement("b"))
                                             .AppendChild(new TextNode("X")).Parent.Parent.Parent.Parent.Parent.Parent.Parent
                     .AppendChild(new HTMLParagraphElement())
                         .AppendChild(b8)
-                            .AppendChild(new HTMLElement() { NodeName = "b" })
+                            .AppendChild(new HTMLElement("b"))
                                 .AppendChild(b9)
                                     .AppendChild(b10)
-                                        .AppendChild(new HTMLElement() { NodeName = "b" })
-                                            .AppendChild(new HTMLElement() { NodeName = "b" })
+                                        .AppendChild(new HTMLElement("b"))
+                                            .AppendChild(new HTMLElement("b"))
                                                 .AppendChild(b11)
-                                                    .AppendChild(new HTMLElement() { NodeName = "b" })
+                                                    .AppendChild(new HTMLElement("b"))
                                                         .AppendChild(new TextNode("X")).Parent.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Parent
                     .AppendChild(new HTMLParagraphElement())
                         .AppendChild(new TextNode("X")).Parent.Parent.Parent;

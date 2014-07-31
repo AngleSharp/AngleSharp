@@ -5,11 +5,11 @@
     /// See (19) obsolete features of [WHATWG].
     /// </summary>
     [DomHistorical]
-    sealed class HTMLFontElement : HTMLElement, IFormatting
+    sealed class HTMLFontElement : HTMLElement
     {
         internal HTMLFontElement()
+            : base(Tags.Font, NodeFlags.HtmlFormatting)
         {
-            _name = Tags.Font;
         }
     }
 }

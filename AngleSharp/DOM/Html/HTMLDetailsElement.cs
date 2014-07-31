@@ -13,8 +13,8 @@
         /// Creates a new HTML details element.
         /// </summary>
         internal HTMLDetailsElement()
+            : base(Tags.Details, NodeFlags.Special)
         {
-            _name = Tags.Details;
         }
 
         #endregion
@@ -28,18 +28,6 @@
         {
             get { return GetAttribute(AttributeNames.Open) != null; }
             set { SetAttribute(AttributeNames.Open, value ? String.Empty : null); }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

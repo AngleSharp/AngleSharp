@@ -28,9 +28,9 @@
         /// Creates a new HTML form element.
         /// </summary>
         internal HTMLFormElement()
+            : base(Tags.Form, NodeFlags.Special)
         {
             _cancel = new CancellationTokenSource();
-            _name = Tags.Form;
             _elements = new HtmlFormControlsCollection(this);
         }
 
@@ -501,18 +501,6 @@
                 return encType;
 
             return MimeTypes.StandardForm;
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

@@ -156,14 +156,14 @@
         NodeType NodeType { get; }
 
         /// <summary>
-        /// Gets a string representing the value of an object. For most Node
+        /// Gets or sets a string representing the value of an object. For most Node
         /// type, this returns null and any set operation is ignored.
         /// </summary>
         [DomName("nodeValue")]
         String NodeValue { get; set; }
 
         /// <summary>
-        /// Gets a string representing the textual content of an element and
+        /// Gets or sets a string representing the textual content of an element and
         /// all its descendants.
         /// </summary>
         [DomName("textContent")]
@@ -179,7 +179,7 @@
         /// Inserts a Node as the last child node of this element.
         /// </summary>
         /// <param name="child">The Node to be appended.</param>
-        /// <returns>The current Node.</returns>
+        /// <returns>The appended Node.</returns>
         [DomName("appendChild")]
         INode AppendChild(INode child);
 
@@ -189,7 +189,7 @@
         /// </summary>
         /// <param name="newElement">The Node to be inserted.</param>
         /// <param name="referenceElement">The element that will succeed the new element.</param>
-        /// <returns>The current Node.</returns>
+        /// <returns>The inserted Node.</returns>
         [DomName("insertBefore")]
         INode InsertBefore(INode newElement, INode referenceElement);
 
@@ -198,7 +198,7 @@
         /// be a child of the current node.
         /// </summary>
         /// <param name="child">The child to be removed.</param>
-        /// <returns>The current Node.</returns>
+        /// <returns>The removed Node.</returns>
         [DomName("removeChild")]
         INode RemoveChild(INode child);
 
@@ -208,7 +208,7 @@
         /// </summary>
         /// <param name="newChild">The child to be inserted.</param>
         /// <param name="oldChild">The child to be removed.</param>
-        /// <returns>The current Node.</returns>
+        /// <returns>The old Node, if any.</returns>
         [DomName("replaceChild")]
         INode ReplaceChild(INode newChild, INode oldChild);
     }

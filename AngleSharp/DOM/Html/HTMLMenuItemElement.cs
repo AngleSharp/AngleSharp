@@ -13,8 +13,8 @@
         /// Creates a new HTML menuitem element.
         /// </summary>
         internal HTMLMenuItemElement()
+            : base(Tags.MenuItem, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _name = Tags.MenuItem;
         }
 
         #endregion
@@ -121,18 +121,6 @@
         {
             get { return GetAttribute(AttributeNames.Radiogroup); }
             set { SetAttribute(AttributeNames.Radiogroup, value); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

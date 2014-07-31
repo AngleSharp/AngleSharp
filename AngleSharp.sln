@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Legacy", "AngleS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Performance", "Performance\Performance.csproj", "{5F4173C4-55EE-4C28-BE96-B71C6AACC9EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Jurassic", "AngleSharp.Jurassic\AngleSharp.Jurassic.csproj", "{4ED5A0B3-AE7A-40B6-BBAC-FF408D6C6BC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{5F4173C4-55EE-4C28-BE96-B71C6AACC9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F4173C4-55EE-4C28-BE96-B71C6AACC9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F4173C4-55EE-4C28-BE96-B71C6AACC9EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ED5A0B3-AE7A-40B6-BBAC-FF408D6C6BC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ED5A0B3-AE7A-40B6-BBAC-FF408D6C6BC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ED5A0B3-AE7A-40B6-BBAC-FF408D6C6BC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ED5A0B3-AE7A-40B6-BBAC-FF408D6C6BC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

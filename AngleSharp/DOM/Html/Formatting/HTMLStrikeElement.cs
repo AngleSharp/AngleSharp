@@ -1,10 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    sealed class HTMLStrikeElement : HTMLElement, IFormatting
+    /// <summary>
+    /// The strike HTML element.
+    /// </summary>
+    sealed class HTMLStrikeElement : HTMLElement
     {
         internal HTMLStrikeElement()
+            : base(Tags.Strike, NodeFlags.HtmlFormatting)
         {
-            _name = Tags.Strike;
         }
     }
 }

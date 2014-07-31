@@ -13,8 +13,8 @@
         /// Creates a new HTML keygen element.
         /// </summary>
         internal HTMLKeygenElement()
+            : base(Tags.Keygen, NodeFlags.SelfClosing)
         {
-            _name = Tags.Keygen;
         }
 
         #endregion
@@ -44,19 +44,7 @@
         /// </summary>
         public String Type
         {
-            get { return _name; }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
+            get { return NodeName; }
         }
 
         #endregion

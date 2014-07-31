@@ -13,8 +13,8 @@
         /// Creates a new HTML source element.
         /// </summary>
         internal HTMLSourceElement()
+            : base(Tags.Source, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _name = Tags.Source;
         }
 
         #endregion
@@ -46,18 +46,6 @@
         {
             get { return GetAttribute(AttributeNames.Type); }
             set { SetAttribute(AttributeNames.Type, value); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

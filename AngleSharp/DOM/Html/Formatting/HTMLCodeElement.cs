@@ -1,10 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    sealed class HTMLCodeElement : HTMLElement, IFormatting
+    /// <summary>
+    /// The code HTML element.
+    /// </summary>
+    sealed class HTMLCodeElement : HTMLElement
     {
         internal HTMLCodeElement()
+            : base(Tags.Code, NodeFlags.HtmlFormatting)
         {
-            _name = Tags.Code;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
     using AngleSharp.DOM.Collections;
+    using AngleSharp.Parser.Html;
     using System;
     using System.Linq;
 
@@ -15,20 +16,34 @@
         /// Creates a new document fragment.
         /// </summary>
         internal DocumentFragment()
+            : base("#document-fragment", NodeType.DocumentFragment)
         {
-            _type = NodeType.DocumentFragment;
-            _name = "#document-fragment";
         }
 
         /// <summary>
         /// Creates a new document fragment with the given nodelist as
         /// children.
         /// </summary>
-        /// <param name="list">The list to contain.</param>
-        internal DocumentFragment(NodeList list)
+        /// <param name="html">The HTML source to use.</param>
+        /// <param name="context">The context for the fragment mode.</param>
+        internal DocumentFragment(String html, Node context)
             : this()
         {
-            ChildNodes = list;
+            var owner = context.Owner;
+            var configuration = Configuration.Clone(owner != null ? owner.Options : Configuration.Default);
+            configuration.IsScripting = false;
+            configuration.UseQuirksMode = context.Owner != null && context.Owner.QuirksMode != QuirksMode.Off;
+            var parser = new HtmlParser(html, configuration);
+            parser.SwitchToFragment(context);
+            parser.Parse();
+            var root = parser.Result.DocumentElement;
+
+            while (root.HasChilds)
+            {
+                var child = root.FirstChild;
+                root.RemoveChild(child);
+                DefaultAppendChild(child);
+            }
         }
 
         #endregion

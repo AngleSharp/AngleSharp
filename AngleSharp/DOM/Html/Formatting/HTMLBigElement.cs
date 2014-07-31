@@ -1,10 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    sealed class HTMLBigElement : HTMLElement, IFormatting
+    /// <summary>
+    /// The big HTML element.
+    /// </summary>
+    sealed class HTMLBigElement : HTMLElement
     {
         internal HTMLBigElement()
+            : base(Tags.Big, NodeFlags.HtmlFormatting)
         {
-            _name = Tags.Big;
         }
     }
 }

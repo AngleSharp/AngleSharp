@@ -1,10 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    sealed class HTMLUnderlineElement : HTMLElement, IFormatting
+    /// <summary>
+    /// The u HTML element.
+    /// </summary>
+    sealed class HTMLUnderlineElement : HTMLElement
     {
         internal HTMLUnderlineElement()
+            : base(Tags.U, NodeFlags.HtmlFormatting)
         {
-            _name = Tags.U;
         }
     }
 }

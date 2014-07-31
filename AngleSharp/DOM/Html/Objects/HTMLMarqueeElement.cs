@@ -6,13 +6,13 @@
     /// Represents the HTML marquee element.
     /// </summary>
     [DomHistorical]
-    sealed class HTMLMarqueeElement : HTMLElement, IScopeElement
+    sealed class HTMLMarqueeElement : HTMLElement
     {
         #region ctor
 
         internal HTMLMarqueeElement()
+            : base(Tags.Marquee, NodeFlags.Special | NodeFlags.Scoped)
         {
-            _name = Tags.Marquee;
         }
 
         #endregion
@@ -73,18 +73,6 @@
         public void Stop()
         {
             //TODO
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override bool IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

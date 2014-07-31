@@ -1,10 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    sealed class HTMLNoNewlineElement : HTMLElement, IFormatting
+    /// <summary>
+    /// The nobr HTML element.
+    /// </summary>
+    sealed class HTMLNoNewlineElement : HTMLElement
     {
         internal HTMLNoNewlineElement()
+            : base(Tags.NoBr, NodeFlags.HtmlFormatting)
         {
-            _name = Tags.NoBr;
         }
     }
 }

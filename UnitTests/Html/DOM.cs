@@ -1,6 +1,5 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
-using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -353,7 +352,7 @@ namespace UnitTests
         [TestMethod]
         public void CSSStyleDeclarationBoundOutboundDirectionIndirect()
         {
-            var element = new HTMLElement();
+            var element = new HTMLSpanElement();
             var text = "background: red; color: black";
             element.SetAttribute("style", text);
             Assert.AreEqual(text, element.Style.CssText);
@@ -363,7 +362,7 @@ namespace UnitTests
         [TestMethod]
         public void CSSStyleDeclarationBoundOutboundDirectionDirect()
         {
-            var element = new HTMLElement();
+            var element = new HTMLSpanElement();
             var text = "background: red; color: black";
             element.SetAttribute("style", String.Empty);
             Assert.AreEqual(String.Empty, element.Style.CssText);
@@ -375,7 +374,7 @@ namespace UnitTests
         [TestMethod]
         public void CSSStyleDeclarationBoundInboundDirection()
         {
-            var element = new HTMLElement();
+            var element = new HTMLSpanElement();
             var text = "background: red; color: black";
             element.Style.CssText = text;
             Assert.AreEqual(text, element.GetAttribute("style"));

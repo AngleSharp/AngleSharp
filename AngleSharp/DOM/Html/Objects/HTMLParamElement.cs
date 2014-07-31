@@ -13,8 +13,8 @@
         /// Creates a new HTML param element.
         /// </summary>
         internal HTMLParamElement()
+            : base(Tags.Param, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _name = Tags.Param;
         }
 
         #endregion
@@ -37,18 +37,6 @@
         {
             get { return GetAttribute(AttributeNames.Name); }
             set { SetAttribute(AttributeNames.Name, value); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

@@ -6,11 +6,20 @@
     /// <summary>
     /// Represents the object for HTML table cell elements.
     /// </summary>
-    abstract class HTMLTableCellElement : HTMLElement, IScopeElement, IImplClosed, IHtmlTableCellElement
+    abstract class HTMLTableCellElement : HTMLElement, IHtmlTableCellElement
     {
         #region Fields
 
         SettableTokenList _headers;
+
+        #endregion
+
+        #region ctor
+
+        internal HTMLTableCellElement(String name)
+            : base(name, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped)
+        {
+        }
 
         #endregion
 
@@ -143,18 +152,6 @@
         {
             get { return GetAttribute(AttributeNames.Axis); }
             set { SetAttribute(AttributeNames.Axis, value); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

@@ -83,7 +83,8 @@
 
         #region ctor
 
-        internal HTMLMediaElement()
+        internal HTMLMediaElement(String name)
+            : base(name)
         {
             _volume = 1.0;
         }

@@ -15,6 +15,40 @@
     /// </summary>
     public static class Extensions
     {
+        #region Generic extensions
+
+        /// <summary>
+        /// Creates an element of the given type or returns null, if there is
+        /// no such type.
+        /// </summary>
+        /// <typeparam name="TElement">The type of element to create.</typeparam>
+        /// <param name="document">The responsible document.</param>
+        /// <returns>The new element, if available.</returns>
+        public static TElement CreateElement<TElement>(this IDocument document)
+            where TElement : IElement
+        {
+            var type = typeof(Extensions).GetAssembly().GetTypes()
+                .Where(m => m.Implements<TElement>())
+                .FirstOrDefault(m => !m.IsAbstractClass());
+
+            if (type == null)
+                return default(TElement);
+
+            var ctor = type.GetConstructor();
+
+            if (ctor == null)
+                return default(TElement);
+
+            var element = (TElement)ctor.Invoke(null);
+
+            if (element != null)
+                document.Adopt(element);
+
+            return element;
+        }
+
+        #endregion
+
         #region jQuery like
 
         /// <summary>
@@ -156,7 +190,7 @@
 
         #endregion
 
-        #region Construction Helpers
+        #region Construction helpers
 
         /// <summary>
         /// Interprets the string as HTML source code and returns new HTMLDocument
@@ -258,30 +292,23 @@
 
         #endregion
 
-        #region String Representation
+        #region String representation
 
         /// <summary>
         /// Returns the HTML code representation of the given DOM element.
         /// </summary>
         /// <param name="element">The element to stringify.</param>
         /// <returns>The HTML code of the element and its children.</returns>
-        public static String ToHtml(this IElement element)
+        public static String ToHtml(this INode element)
         {
-            return element.OuterHtml;
-        }
+            var htmlObject = element as IHtmlObject;
 
-        /// <summary>
-        /// Returns the HTML code representation of the given document type.
-        /// </summary>
-        /// <param name="doctype">The doctype to stringify.</param>
-        /// <returns>A string containing the HTML code.</returns>
-        public static String ToHtml(this IDocumentType doctype)
-        {
-            var name = doctype.Name;
-            var system = String.IsNullOrEmpty(doctype.PublicIdentifier) ? " SYSTEM" : "";
-            var publicId = String.IsNullOrEmpty(doctype.PublicIdentifier) ? "" : " PUBLIC \"" + doctype.PublicIdentifier + "\"";
-            var systemId = String.IsNullOrEmpty(doctype.SystemIdentifier) ? "" : system + " \"" + doctype.SystemIdentifier + "\"";
-            return String.Format("<!DOCTYPE {0}{1}{2}>", name, publicId, systemId);
+            if (htmlObject != null)
+                return htmlObject.ToHtml();
+            else if (element is IElement)
+                return ((IElement)element).OuterHtml;
+
+            return element.TextContent;
         }
 
         /// <summary>
@@ -289,7 +316,7 @@
         /// </summary>
         /// <param name="element">The element to stringify.</param>
         /// <returns>The text of the element and its children.</returns>
-        public static String ToText(this IElement element)
+        public static String ToText(this INode element)
         {
             return element.TextContent;
         }

@@ -1,10 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    sealed class HTMLStrongElement : HTMLElement, IFormatting
+    /// <summary>
+    /// The strong HTML element.
+    /// </summary>
+    sealed class HTMLStrongElement : HTMLElement
     {
         internal HTMLStrongElement()
+            : base(Tags.Strong, NodeFlags.HtmlFormatting)
         {
-            _name = Tags.Strong;
         }
     }
 }

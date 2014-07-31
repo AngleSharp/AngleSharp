@@ -1,10 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    sealed class HTMLTeletypeTextElement : HTMLElement, IFormatting
+    /// <summary>
+    /// The tt HTML element.
+    /// </summary>
+    sealed class HTMLTeletypeTextElement : HTMLElement
     {
         internal HTMLTeletypeTextElement()
+            : base(Tags.Tt, NodeFlags.HtmlFormatting)
         {
-            _name = Tags.Tt;
         }
     }
 }

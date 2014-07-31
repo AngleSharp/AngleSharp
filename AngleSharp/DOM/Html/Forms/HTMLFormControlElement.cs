@@ -18,7 +18,8 @@
 
         #region ctor
 
-        internal HTMLFormControlElement()
+        internal HTMLFormControlElement(String name, NodeFlags flags = NodeFlags.None)
+            : base(name, flags | NodeFlags.Special)
         {
             _vstate = new ValidityState();
             _labels = new NodeList();

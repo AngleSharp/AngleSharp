@@ -21,8 +21,8 @@
         /// Creates a new area element.
         /// </summary>
         internal HTMLAreaElement()
+            : base(Tags.Area, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _name = Tags.Area;
         }
 
         #endregion
@@ -300,18 +300,6 @@
         {
             get;
             set;
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

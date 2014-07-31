@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using System;
-
+    /// <summary>
+    /// The ruby HTML element.
+    /// </summary>
     sealed class HTMLRubyElement : HTMLElement
     {
         internal HTMLRubyElement()
+            : base(Tags.Ruby)
         {
-            _name = Tags.Ruby;
         }
     }
 }

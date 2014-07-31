@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using System;
-
-    sealed class HTMLRPElement : HTMLElement, IImpliedEnd
+    /// <summary>
+    /// The rp HTML element.
+    /// </summary>
+    sealed class HTMLRPElement : HTMLElement
     {
         internal HTMLRPElement()
+            : base(Tags.Rp, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
-            _name = Tags.Rp;
         }
     }
 }

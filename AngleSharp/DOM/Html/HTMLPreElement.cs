@@ -9,21 +9,9 @@
     {
         #region ctor
 
-        internal HTMLPreElement()
+        internal HTMLPreElement(String name = null)
+            : base(name ?? Tags.Pre, NodeFlags.Special | NodeFlags.LineTolerance)
         {
-            _name = Tags.Pre;
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

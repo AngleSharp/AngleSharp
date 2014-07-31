@@ -19,8 +19,8 @@
         /// Creates an HTML style element.
         /// </summary>
         internal HTMLStyleElement()
+            : base(Tags.Style, NodeFlags.Special | NodeFlags.LiteralText)
         {
-            _name = Tags.Style;
         }
 
         #endregion
@@ -69,18 +69,6 @@
         {
             get { return GetAttribute(AttributeNames.Type); }
             set { SetAttribute(AttributeNames.Type, value); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

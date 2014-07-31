@@ -18,7 +18,8 @@
 
         #region ctor
 
-        internal HTMLTextFormControlElement()
+        internal HTMLTextFormControlElement(String name, NodeFlags flags = NodeFlags.None)
+            : base(name, flags)
         {
         }
 

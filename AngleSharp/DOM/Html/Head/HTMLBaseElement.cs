@@ -13,8 +13,8 @@
         /// Creates a HTML base element.
         /// </summary>
         internal HTMLBaseElement()
+            : base(Tags.Base, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _name = Tags.Base;
         }
 
         #endregion
@@ -39,17 +39,6 @@
             set { SetAttribute(AttributeNames.Target, value); }
         }
 
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
-        }
         #endregion
     }
 }

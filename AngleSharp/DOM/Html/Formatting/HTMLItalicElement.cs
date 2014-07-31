@@ -1,10 +1,13 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    sealed class HTMLItalicElement : HTMLElement, IFormatting
+    /// <summary>
+    /// The i HTML element.
+    /// </summary>
+    sealed class HTMLItalicElement : HTMLElement
     {
         internal HTMLItalicElement()
+            : base(Tags.I, NodeFlags.HtmlFormatting)
         {
-            _name = Tags.I;
         }
     }
 }

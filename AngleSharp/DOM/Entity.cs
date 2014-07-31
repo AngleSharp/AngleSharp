@@ -25,8 +25,8 @@
         /// Creates a new entity node.
         /// </summary>
         internal Entity()
+            : this(String.Empty)
         {
-            _type = NodeType.Entity;
         }
 
         /// <summary>
@@ -34,9 +34,8 @@
         /// </summary>
         /// <param name="name">Name of the entity.</param>
         internal Entity(String name)
-            : this()
+            : base(name, NodeType.Entity)
         {
-            _name = name;
         }
 
         #endregion

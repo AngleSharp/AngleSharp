@@ -17,8 +17,8 @@
         /// Creates a new HTML canvas element.
         /// </summary>
         internal HTMLCanvasElement()
+            : base(Tags.Canvas)
         {
-            _name = Tags.Canvas;
         }
 
         #endregion
@@ -98,18 +98,6 @@
         {
             get { return GetAttribute(AttributeNames.Height).ToInteger(150); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return false; }
         }
 
         #endregion

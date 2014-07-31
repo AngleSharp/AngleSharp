@@ -3,15 +3,15 @@
     using System;
 
     /// <summary>
-    /// Represents the HTML column (col / colgroup) element.
+    /// Represents the HTML column element.
     /// </summary>
     sealed class HTMLTableColElement : HTMLElement, IHtmlTableColumnElement
     {
         #region ctor
 
         internal HTMLTableColElement()
+            : base(Tags.Col, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _name = Tags.Col;
         }
 
         #endregion
@@ -52,18 +52,6 @@
         {
             get { return GetAttribute(AttributeNames.Width); }
             set { SetAttribute(AttributeNames.Width, value); }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

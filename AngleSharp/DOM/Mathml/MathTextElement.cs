@@ -1,28 +1,13 @@
 ﻿namespace AngleSharp.DOM.Mathml
 {
-    using System;
-
-    sealed class MathTextElement : MathElement, IScopeElement
+    /// <summary>
+    /// The mtext math element.
+    /// </summary>
+    sealed class MathTextElement : MathElement
     {
         internal MathTextElement()
+            : base(Tags.Mtext, NodeFlags.MathTip | NodeFlags.Special | NodeFlags.Scoped)
 	    {
-            _name = Tags.Mtext;
 	    }
-
-        /// <summary>
-        /// Gets the status if the node is a MathML text integration point.
-        /// </summary>
-        protected internal override Boolean IsMathMLTIP
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
-        }
     }
 }

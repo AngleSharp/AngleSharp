@@ -5,25 +5,13 @@
     /// <summary>
     /// Represents the HTML ordered list (ol) element.
     /// </summary>
-    sealed class HTMLOListElement : HTMLElement, IListScopeElement, IHtmlOrderedListElement
+    sealed class HTMLOListElement : HTMLElement, IHtmlOrderedListElement
     {
         #region ctor
 
         internal HTMLOListElement()
+            : base(Tags.Ol, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
-            _name = Tags.Ol;
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

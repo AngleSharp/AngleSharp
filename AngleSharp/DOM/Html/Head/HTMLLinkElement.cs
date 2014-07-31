@@ -27,21 +27,9 @@
         /// Creates a new HTML link element.
         /// </summary>
         internal HTMLLinkElement()
+            : base(Tags.Link, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _name = Tags.Link;
             _cts = new CancellationTokenSource();
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

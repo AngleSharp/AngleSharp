@@ -19,8 +19,8 @@
         #region ctor
 
         internal HTMLOutputElement()
+            : base(Tags.Output)
         {
-            _name = Tags.Output;
             isDefaultValue = true;
         }
 

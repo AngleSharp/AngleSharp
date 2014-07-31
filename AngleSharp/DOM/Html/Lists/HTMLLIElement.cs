@@ -5,27 +5,16 @@
     /// <summary>
     /// Represents an HTML li, dd or dt tag.
     /// </summary>
-    sealed class HTMLLIElement : HTMLElement, IImpliedEnd, IHtmlListItemElement
+    sealed class HTMLLIElement : HTMLElement, IHtmlListItemElement
     {
         #region ctor
 
         /// <summary>
         /// Creates a new item tag.
         /// </summary>
-        internal HTMLLIElement()
+        internal HTMLLIElement(String name)
+            : base(name, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

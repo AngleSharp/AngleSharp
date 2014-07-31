@@ -316,6 +316,12 @@
         String Cookie { get; set; }
 
         /// <summary>
+        /// Gets the Unicode serialization of document's origin.
+        /// </summary>
+        [DomName("origin")]
+        String Origin { get; }
+
+        /// <summary>
         /// Gets or sets the domain portion of the origin of the current document.
         /// </summary>
         [DomName("domain")]

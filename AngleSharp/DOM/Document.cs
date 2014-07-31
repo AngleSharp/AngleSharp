@@ -18,23 +18,18 @@
     {
         #region Fields
 
+        readonly StyleSheetList _styleSheets;
+        readonly List<HTMLScriptElement> _scripts;
+
         Task _queue;
         QuirksMode _quirksMode;
         DocumentReadyState _ready;
         IConfiguration _options;
         ITextSource _source;
-        StyleSheetList _styleSheets;
         String _referrer;
         String _cookie;
-        
-        /// <summary>
-        /// The content type of the MIME type from the header.
-        /// </summary>
-        protected String _contentType;
-        /// <summary>
-        /// The location of the document.
-        /// </summary>
-        protected ILocation _location;
+        String _contentType;
+        ILocation _location;
 
         #endregion
 
@@ -180,15 +175,15 @@
         /// </summary>
         /// <param name="source">The underlying source.</param>
         internal Document(ITextSource source)
+            : base("#document", NodeType.Document)
         {
-            _source = source;
             Owner = this;
-            _type = NodeType.Document;
             IsAsync = true;
+            _source = source;
             _referrer = String.Empty;
             _ready = DocumentReadyState.Complete;
-            _name = "#document";
             _styleSheets = new StyleSheetList(this);
+            _scripts = new List<HTMLScriptElement>();
             _quirksMode = QuirksMode.Off;
             _location = new Location("file://localhost/");
             _options = Configuration.Default;
@@ -314,6 +309,7 @@
         public String ContentType
         {
             get { return _contentType; }
+            protected set { _contentType = value; }
         }
 
         /// <summary>
@@ -544,6 +540,14 @@
             set { if (_location == null) return; _location.Host = value; }
         }
 
+        /// <summary>
+        /// Gets the origin of the document.
+        /// </summary>
+        public String Origin
+        {
+            get { return _location.Origin; }
+        }
+
         #endregion
 
         #region Internal properties
@@ -574,9 +578,14 @@
             set { _quirksMode = value; }
         }
 
+        internal void AddScript(HTMLScriptElement script)
+        {
+            _scripts.Add(script);
+        }
+
         Int32 ScriptsWaiting
         {
-            get { return 0; }
+            get { return _scripts.Count; }
         }
 
         Int32 ScriptsAsSoonAsPossible
@@ -722,10 +731,17 @@
         /// since it has not yet been inserted into the document tree.</returns>
         public INode Adopt(INode externalNode)
         {
+            if (externalNode is IDocument)
+                throw new DomException(ErrorCode.NotSupported);
+
             if (externalNode.Parent != null)
                 externalNode.Parent.RemoveChild(externalNode);
 
-            AppendChild(externalNode);
+            var node = externalNode as Node;
+
+            if (node != null)
+                node.Owner = this;
+
             return externalNode;
         }
 
@@ -737,6 +753,7 @@
         public IEvent CreateEvent(String type)
         {
             //TODO
+            //http://dom.spec.whatwg.org/#dom-document-createevent
             throw new NotImplementedException();
         }
 
@@ -826,7 +843,7 @@
             else if (namespaceUri == Namespaces.MathML)
                 element = MathElementFactory.Create(tagName, this);
             else
-                element = new Element { NamespaceUri = namespaceUri, NodeName = tagName, Owner = this };
+                element = new Element(tagName) { NamespaceUri = namespaceUri, Owner = this };
 
             return element;
         }

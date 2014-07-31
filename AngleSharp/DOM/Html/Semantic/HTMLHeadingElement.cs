@@ -7,15 +7,8 @@
     /// </summary>
     sealed class HTMLHeadingElement : HTMLElement, IHtmlHeadingElement
     {
-        internal HTMLHeadingElement()
+        internal HTMLHeadingElement(String name)
+            : base(name, NodeFlags.Special)
         { }
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
-        }
     }
 }

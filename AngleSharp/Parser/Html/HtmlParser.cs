@@ -254,7 +254,7 @@
             Reset(context);
 
             fragmentContext = context;
-            tokenizer.AcceptsCharacterData = !AdjustedCurrentNode.IsInHtml;
+            tokenizer.AcceptsCharacterData = !AdjustedCurrentNode.Flags.HasFlag(NodeFlags.HtmlMember);
 
             do
             {
@@ -362,10 +362,12 @@
         /// <param name="token">The token to consume.</param>
         void Consume(HtmlToken token)
         {
-            var node = AdjustedCurrentNode;
+            var node = AdjustedCurrentNode as Element;
 
-            if (node == null || node.IsInHtml || token.IsEof || (node.IsHtmlTIP && token.IsHtmlCompatible) ||
-                (node.IsMathMLTIP && token.IsMathCompatible) || (node.IsInMathMLSVGReady && token.IsSvg))
+            if (node == null || token.IsEof || node.Flags.HasFlag(NodeFlags.HtmlMember) || 
+                (node.Flags.HasFlag(NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
+                (node.Flags.HasFlag(NodeFlags.MathTip) && token.IsMathCompatible) || 
+                (node.Flags.HasFlag(NodeFlags.MathMember) && token.IsSvg && node.NodeName == Tags.AnnotationXml))
                 Home(token);
             else
                 Foreign(token);
@@ -991,7 +993,7 @@
                             CloseCurrentNode();
                         }
 
-                        var element = new HTMLHeadingElement();
+                        var element = new HTMLHeadingElement(tag.Name);
                         AddElement(element, tag);
                         break;
                     }
@@ -1001,7 +1003,7 @@
                         if (IsInButtonScope())
                             InBodyEndTagParagraph();
 
-                        var element = new HTMLPreElement();
+                        var element = new HTMLPreElement(tag.Name);
                         AddElement(element, tag);
                         frameset = false;
                         PreventNewLine();
@@ -1322,8 +1324,7 @@
                     }
                     case Tags.Math:
                     {
-                        var element = new MathElement();
-                        element.NodeName = tag.Name;
+                        var element = new MathElement(tag.Name);
                         ReconstructFormatting();
 
                         for (int i = 0; i < tag.Attributes.Count; i++)
@@ -1342,8 +1343,7 @@
                     }
                     case Tags.Svg:
                     {
-                        var element = new SVGElement();
-                        element.NodeName = tag.Name;
+                        var element = new SVGElement(tag.Name);
                         ReconstructFormatting();
 
                         for (int i = 0; i < tag.Attributes.Count; i++)
@@ -1639,7 +1639,7 @@
                     case Tags.Colgroup:
                     {
                         ClearStackBackTo<HTMLTableElement>();
-                        var element = new HTMLTableColElement();
+                        var element = new HTMLTableColgroupElement();
                         AddElement(element, tag);
                         insert = HtmlTreeMode.InColumnGroup;
                         break;
@@ -1655,7 +1655,7 @@
                     case Tags.Tfoot:
                     {
                         ClearStackBackTo<HTMLTableElement>();
-                        var element = new HTMLTableSectionElement();
+                        var element = new HTMLTableSectionElement(tag.Name);
                         AddElement(element, tag);
                         insert = HtmlTreeMode.InTableBody;
                         break;
@@ -2747,7 +2747,7 @@
                     break;
                 }
 
-                if (node is HTMLAddressElement == false && node is HTMLDivElement == false && node is HTMLParagraphElement == false && node.IsSpecial)
+                if (node is HTMLAddressElement == false && node is HTMLDivElement == false && node is HTMLParagraphElement == false && node.Flags.HasFlag(NodeFlags.Special))
                     break;
                 
                 node = open[--index];
@@ -2778,7 +2778,7 @@
                     break;
                 }
 
-                if (node is HTMLAddressElement == false && node is HTMLDivElement == false && node is HTMLParagraphElement == false && node.IsSpecial)
+                if (node is HTMLAddressElement == false && node is HTMLDivElement == false && node is HTMLParagraphElement == false && node.Flags.HasFlag(NodeFlags.Special))
                     break;
 
                 node = open[--index];
@@ -2881,7 +2881,7 @@
 
                 for (var j = openIndex + 1; j < open.Count; j++)
                 {
-                    if (open[j].IsSpecial)
+                    if (open[j].Flags.HasFlag(NodeFlags.Special))
                     {
                         index = j;
                         furthestBlock = open[j];
@@ -3021,7 +3021,7 @@
 
                     break;
                 }
-                else if (node.IsSpecial)
+                else if (node.Flags.HasFlag(NodeFlags.Special))
                 {
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                     break;
@@ -3317,7 +3317,7 @@
 
                         node = open[i - 1];
 
-                        if (node.IsInHtml)
+                        if (node.Flags.HasFlag(NodeFlags.HtmlMember))
                         {
                             Home(token);
                             break;
@@ -3356,7 +3356,7 @@
         /// <returns>The element or NULL if it is no MathML or SVG element.</returns>
         Element CreateForeignElementFrom(HtmlTagToken tag)
         {
-            if (AdjustedCurrentNode.IsInMathML)
+            if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.MathMember))
             {
                 var node = MathElementFactory.Create(tag.Name, doc);
 
@@ -3369,7 +3369,7 @@
 
                 return node;
             }
-            else if (AdjustedCurrentNode.IsInSvg)
+            else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
                 var node = SvgElementFactory.Create(tag.Name.AdjustSvgTagName(), doc);
 
@@ -3397,8 +3397,19 @@
             do
             {
                 CloseCurrentNode();
+
+                if (CurrentNode is MathAnnotationXmlElement)
+                {
+                    var value = CurrentNode.GetAttribute(AttributeNames.Encoding);
+
+                    if (!String.IsNullOrEmpty(value))
+                    {
+                        if (value.Equals(MimeTypes.Html, StringComparison.OrdinalIgnoreCase) || value.Equals(MimeTypes.ApplicationXHtml, StringComparison.OrdinalIgnoreCase))
+                            break;
+                    }
+                }
             }
-            while (!CurrentNode.IsHtmlTIP && !CurrentNode.IsMathMLTIP && !CurrentNode.IsInHtml);
+            while ((CurrentNode.Flags & (NodeFlags.HtmlTip | NodeFlags.MathTip | NodeFlags.HtmlMember)) == NodeFlags.None);
 
             Consume(token);
         }
@@ -3421,7 +3432,7 @@
                 if (node.NodeName == tagName)
                     return true;
 
-                if (node is IScopeElement)
+                if (node.Flags.HasFlag(NodeFlags.Scoped))
                     return false;
             }
 
@@ -3441,7 +3452,7 @@
                 if (node is T)
                     return true;
 
-                if (node is IScopeElement)
+                if (node.Flags.HasFlag(NodeFlags.Scoped))
                     return false;
             }
 
@@ -3461,7 +3472,7 @@
                 if (node is HTMLLIElement)
                     return true;
 
-                if (node is IListScopeElement)
+                if (node.Flags.HasFlag(NodeFlags.HtmlListScoped))
                     return false;
             }
 
@@ -3481,7 +3492,7 @@
                 if (node is HTMLParagraphElement)
                     return true;
 
-                if (node is IScopeElement || node is HTMLButtonElement)
+                if (node.Flags.HasFlag(NodeFlags.Scoped) || node is HTMLButtonElement)
                     return false;
             }
 
@@ -3501,7 +3512,7 @@
                 if (node is T)
                     return true;
 
-                if (node is ITableScopeElement)
+                if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
                     return false;
             }
 
@@ -3522,7 +3533,7 @@
                 if (node.NodeName == tagName)
                     return true;
 
-                if (node is ITableScopeElement)
+                if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
                     return false;
             }
 
@@ -3543,7 +3554,7 @@
                 if (node.NodeName == tagName)
                     return true;
 
-                if (node is ISelectScopeElement)
+                if (node.Flags.HasFlag(NodeFlags.HtmlSelectScoped))
                     continue;
 
                 return false;
@@ -3616,7 +3627,7 @@
         {
             for (var i = 0; i < open.Count; i++)
             {
-                if (open[i] is IImplClosed == false)
+                if (!open[i].Flags.HasFlag(NodeFlags.ImplicitelyClosed))
                 {
                     RaiseErrorOccurred(ErrorCode.BodyClosedWrong);
                     break;
@@ -3686,10 +3697,9 @@
         /// <param name="doctypeToken">The doctypen token.</param>
         void AddDoctype(HtmlDoctypeToken doctypeToken)
         {
-            var node = new DocumentType();
+            var node = new DocumentType(doctypeToken.Name);
             node.SystemIdentifier = doctypeToken.SystemIdentifier;
             node.PublicIdentifier = doctypeToken.PublicIdentifier;
-            node.Name = doctypeToken.Name;
             doc.AppendChild(node);
         }
 
@@ -3739,7 +3749,7 @@
             {
                 open.RemoveAt(open.Count - 1);
                 var node = AdjustedCurrentNode;
-                tokenizer.AcceptsCharacterData = node != null && !node.IsInHtml;
+                tokenizer.AcceptsCharacterData = node != null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
             }
         }
 
@@ -3752,8 +3762,6 @@
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         void SetupElement(Element element, HtmlTagToken tag, Boolean acknowledgeSelfClosing)
         {
-            element.NodeName = tag.Name;
-
             if (tag.IsSelfClosing && !acknowledgeSelfClosing)
                 RaiseErrorOccurred(ErrorCode.TagCannotBeSelfClosed);
 
@@ -3803,7 +3811,7 @@
                 node.AppendChild(element);
 
             open.Add(element);
-            tokenizer.AcceptsCharacterData = !element.IsInHtml;
+            tokenizer.AcceptsCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
         }
 
         /// <summary>
@@ -3944,7 +3952,7 @@
         /// <param name="tagName">The tag that will be excluded.</param>
         void GenerateImpliedEndTagsExceptFor(String tagName)
         {
-            while (CurrentNode is IImpliedEnd && CurrentNode.NodeName != tagName)
+            while (CurrentNode.Flags.HasFlag(NodeFlags.ImpliedEnd) && CurrentNode.NodeName != tagName)
                 CloseCurrentNode();
         }
 
@@ -3953,7 +3961,7 @@
         /// </summary>
         void GenerateImpliedEndTags()
         {
-            while (CurrentNode is IImpliedEnd)
+            while (CurrentNode.Flags.HasFlag(NodeFlags.ImpliedEnd))
                 CloseCurrentNode();
         }
 

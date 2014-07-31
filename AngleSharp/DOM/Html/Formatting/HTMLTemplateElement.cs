@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the template element.
     /// </summary>
-    sealed class HTMLTemplateElement : HTMLElement, IScopeElement, ITableScopeElement, IHtmlTemplateElement
+    sealed class HTMLTemplateElement : HTMLElement, IHtmlTemplateElement
     {
         #region Fields
 
@@ -16,8 +16,8 @@
         #region ctor
 
         internal HTMLTemplateElement()
+            : base(Tags.Template, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
-            _name = Tags.Template;
         }
 
         #endregion
@@ -35,14 +35,6 @@
         #endregion
 
         #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
-        }
 
         internal DocumentFragment Container
         {
@@ -97,7 +89,7 @@
         {
             var sb = Pool.NewStringBuilder();
 
-            sb.Append(Specification.LessThan).Append(_name);
+            sb.Append(Specification.LessThan).Append(NodeName);
 
             foreach (var attribute in Attributes)
                 sb.Append(Specification.Space).Append(attribute.ToString());
@@ -107,10 +99,9 @@
             foreach (var child in Content.ChildNodes)
                 sb.Append(child.ToHtml());
 
-            sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(_name);
-            sb.Append(Specification.GreaterThan);
+            sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(NodeName);
 
-            return sb.ToPool();
+            return sb.Append(Specification.GreaterThan).ToPool();
         }
 
         #endregion

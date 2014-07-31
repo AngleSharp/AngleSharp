@@ -17,6 +17,16 @@
             return type;
         }
 
+        public static Boolean Implements<T>(this Type type)
+        {
+            return type.GetInterfaces().Contains(typeof(T));
+        }
+
+        public static ConstructorInfo GetConstructor(this Type type)
+        {
+            return type.GetConstructors(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).Where(m => m.GetParameters().Length == 0).FirstOrDefault();
+        }
+
         public static ConstructorInfo GetDeclaredConstructor(this Type type)
         {
             return type.GetConstructors().First();

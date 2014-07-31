@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML object element.
     /// </summary>
-    sealed class HTMLObjectElement : HTMLFormControlElement, IScopeElement, IHtmlObjectElement
+    sealed class HTMLObjectElement : HTMLFormControlElement, IHtmlObjectElement
     {
         #region Fields
 
@@ -19,8 +19,8 @@
         #region ctor
 
         internal HTMLObjectElement()
+            : base(Tags.Object, NodeFlags.Scoped)
         {
-            _name = Tags.Object;
             _contentDocument = null;
             _contentWindow = null;
 
@@ -104,18 +104,6 @@
         public IWindowProxy ContentWindow //TODO Object is WindowProxy (or IWindow to be more specific)
         {
             get { return _contentWindow; }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

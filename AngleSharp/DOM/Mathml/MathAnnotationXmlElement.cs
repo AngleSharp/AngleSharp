@@ -1,39 +1,13 @@
 ﻿namespace AngleSharp.DOM.Mathml
 {
-    using System;
-
-    sealed class MathAnnotationXmlElement : MathElement, IScopeElement
+    /// <summary>
+    /// The annotation-xml math element.
+    /// </summary>
+    sealed class MathAnnotationXmlElement : MathElement
     {
         internal MathAnnotationXmlElement()
+            : base(Tags.AnnotationXml, NodeFlags.Special | NodeFlags.Scoped)
 	    {
-            _name = Tags.AnnotationXml;
 	    }
-
-        /// <summary>
-        /// Gets the status if the node is an HTML text integration point.
-        /// </summary>
-        protected internal override Boolean IsHtmlTIP
-        {
-            get
-            {
-                var value = GetAttribute(AttributeNames.Encoding);
-
-                if (!String.IsNullOrEmpty(value))
-                {
-                    value = value.ToLower();
-                    return value.Equals(MimeTypes.Html) || value.Equals(MimeTypes.ApplicationXHtml);
-                }
-
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
-        }
     }
 }

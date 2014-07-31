@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using System;
-
     /// <summary>
     /// Represents the HTML br element.
     /// </summary>
@@ -13,20 +11,8 @@
         /// Creates a new HTML br element
         /// </summary>
         internal HTMLBRElement()
+            : base(Tags.Br, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _name = Tags.Br;
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

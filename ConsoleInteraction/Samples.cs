@@ -1,5 +1,5 @@
 ﻿using AngleSharp;
-using AngleSharp.DOM;
+using AngleSharp.DOM.Html;
 using System;
 using System.Linq;
 
@@ -9,12 +9,13 @@ namespace ConsoleInteraction
     {
         public static void RunAll()
         {
-            First();
+            FirstExample();
             UsingLinq();
             SingleElements();
+            Construction();
         }
 
-        static void First() 
+        static void FirstExample() 
         {
             var document = DocumentBuilder.Html("<h1>Some example source</h1><p>This is a paragraph element");
             //Do something with document like the following
@@ -75,6 +76,27 @@ namespace ConsoleInteraction
             Console.WriteLine(emphasize.InnerHtml);  // bold <u>and</u> italic
             Console.WriteLine(emphasize.OuterHtml);  //<em> bold <u>and</u> italic </em>
             Console.WriteLine(emphasize.TextContent);// bold and italic 
+        }
+
+        static void Construction()
+        {
+            var document = DocumentBuilder.Html(String.Empty);
+            document.Title = "My document";
+            var body = document.Body;
+            var p1 = document.CreateElement<IHtmlParagraphElement>();
+            p1.TextContent = "First paragraph";
+            body.AppendChild(p1);
+            var p2 = document.CreateElement<IHtmlParagraphElement>();
+            p2.TextContent = "Second paragraph";
+            body.AppendChild(p2);
+            var a = document.CreateElement<IHtmlAnchorElement>();
+            a.TextContent = "Some hyperlink";
+            a.Href = "http://www.myurl";
+            body.AppendChild(a);
+            var img = document.CreateElement<IHtmlImageElement>();
+            img.Source = "http://www.example.com/link";
+            body.AppendChild(img);
+            Console.WriteLine(document.DocumentElement.OuterHtml);
         }
     }
 }

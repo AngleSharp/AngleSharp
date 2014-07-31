@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the object for HTML table section (thead / tbody / tfoot) elements.
     /// </summary>
-    sealed class HTMLTableSectionElement : HTMLElement, IImplClosed, ITableSectionScopeElement, IHtmlTableSectionElement
+    sealed class HTMLTableSectionElement : HTMLElement, IHtmlTableSectionElement
     {
         #region Fields
 
@@ -16,9 +16,9 @@
 
         #region ctor
 
-        internal HTMLTableSectionElement()
+        internal HTMLTableSectionElement(String name)
+            : base(name, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.HtmlTableSectionScoped)
         {
-            _name = Tags.Tbody;
             _rows = new HtmlCollection<IHtmlTableRowElement>(this);
         }
 
@@ -50,18 +50,6 @@
         {
             get { return GetAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
             set { SetAttribute(AttributeNames.Valign, value.ToString()); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

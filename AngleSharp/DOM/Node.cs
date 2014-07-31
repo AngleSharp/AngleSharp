@@ -2,7 +2,6 @@
 {
     using AngleSharp.DOM.Collections;
     using System;
-    using System.Reflection;
 
     /// <summary>
     /// Represents a node in the generated tree.
@@ -11,19 +10,14 @@
     {
         #region Fields
 
+        readonly NodeType _type;
+        readonly String _name;
+        readonly NodeFlags _flags;
+
         Document _owner;
         String _baseUri;
         Node _parent;
         NodeList _children;
-
-        /// <summary>
-        /// The node's name.
-        /// </summary>
-        protected String _name;
-        /// <summary>
-        /// The type of the node.
-        /// </summary>
-        protected NodeType _type;
 
         #endregion
 
@@ -32,10 +26,12 @@
         /// <summary>
         /// Constructs a new node.
         /// </summary>
-        internal Node()
+        internal Node(String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
         {
-            _name = String.Empty;
+            _name = name ?? String.Empty;
+            _type = type;
             _children = new NodeList();
+            _flags = flags;
         }
 
         #endregion
@@ -63,8 +59,8 @@
                     return _baseUri;
                 else if (_parent != null)
                     return _parent.BaseUri;
-                else if (Owner != null)
-                    return Owner.DocumentUri;
+                else if (_owner != null)
+                    return _owner.DocumentUri;
 
                 return String.Empty;
             }
@@ -167,7 +163,7 @@
 
         IDocument INode.Owner
         {
-            get { return _owner; }
+            get { return Owner; }
         }
 
         /// <summary>
@@ -175,13 +171,11 @@
         /// </summary>
         internal Document Owner 
         {
-            get { return _owner; }
+            get { return _type != NodeType.Document ? _owner : null; }
             set 
             {
                 if (_owner == value)
                     return;
-                else if (_owner != null && value != null)
-                    throw new DomException(ErrorCode.InUse);
 
                 _owner = value;
 
@@ -239,7 +233,6 @@
         public String NodeName
         {
             get { return _name; }
-            internal set {  _name = value; }
         }
 
         #endregion
@@ -247,59 +240,11 @@
         #region Internal Properties
 
         /// <summary>
-        /// Gets if the node is in the special category.
+        /// Gets the flags of this node.
         /// </summary>
-        internal protected virtual Boolean IsSpecial
+        internal NodeFlags Flags
         {
-            get { return false; }
-        }
-
-        /// <summary>
-        /// Gets the status if this node is in the HTML namespace.
-        /// </summary>
-        internal protected virtual Boolean IsInHtml
-        {
-            get { return false; }
-        }
-
-        /// <summary>
-        /// Gets the status if this node is the MathML namespace.
-        /// </summary>
-        internal protected virtual Boolean IsInMathML
-        {
-            get { return false; }
-        }
-
-        /// <summary>
-        /// Gets if the node is in the MathML namespace and of type annotation-xml.
-        /// </summary>
-        internal Boolean IsInMathMLSVGReady
-        {
-            get { return IsInMathML && _name == Tags.AnnotationXml; }
-        }
-
-        /// <summary>
-        /// Gets the status if the current node is in the MathML namespace.
-        /// </summary>
-        internal protected virtual Boolean IsInSvg
-        {
-            get { return false; }
-        }
-
-        /// <summary>
-        /// Gets the status if the node is a MathML text integration point.
-        /// </summary>
-        internal protected virtual Boolean IsMathMLTIP
-        {
-            get { return false; }
-        }
-
-        /// <summary>
-        /// Gets the status if the node is an HTML text integration point.
-        /// </summary>
-        internal protected virtual Boolean IsHtmlTIP
-        {
-            get { return false; }
+            get { return _flags; }
         }
 
         #endregion
@@ -424,7 +369,7 @@
         /// <returns>The duplicate node.</returns>
         public virtual INode Clone(Boolean deep = true)
         {
-            var node = new Node();
+            var node = new Node(_name, _type, _flags);
             CopyProperties(this, node, deep);
             return node;
         }
@@ -582,10 +527,8 @@
 
             if (child is IDocumentFragment)
             {
-                var childs = child.ChildNodes;
-
-                for (int i = 0; i < childs.Length; i++)
-                    DefaultAppendChild(childs[i]);
+                while (child.HasChilds) 
+                    DefaultAppendChild(child.RemoveChild(child.FirstChild));
             }
             else if (child is IDocument || child.Contains(this))
             {
@@ -600,7 +543,7 @@
 
                 if (childNode != null)
                 {
-                    childNode._parent = this;
+                    childNode.Parent = this;
                     childNode.Owner = _owner ?? (this as Document);
                     _children.Add(childNode);
                 }
@@ -622,10 +565,8 @@
 
             if (child is IDocumentFragment)
             {
-                var childs = child.ChildNodes;
-
-                for (int i = 0; i < childs.Length; i++)
-                    DefaultInsertChild(index + i, childs[i]);
+                while (child.HasChilds)
+                    DefaultInsertChild(index++, child.RemoveChild(child.FirstChild));
             }
             else if (child is IDocument || child.Contains(this))
             {
@@ -640,7 +581,7 @@
 
                 if (childNode != null)
                 {
-                    childNode._parent = this;
+                    childNode.Parent = this;
                     childNode.Owner = _owner ?? (this as Document);
                     _children.Insert(index, childNode);
                 }
@@ -820,8 +761,6 @@
         static protected void CopyProperties(Node source, Node target, Boolean deep)
         {
             target._baseUri = source._baseUri;
-            target._name = source._name;
-            target._type = source.NodeType;
 
             if (deep)
             {
@@ -849,47 +788,12 @@
         #region String representation
 
         /// <summary>
-        /// Returns a string representation of the node.
-        /// </summary>
-        /// <returns>A string containing some information about the node.</returns>
-        public override String ToString()
-        {
-            var attr = GetType().GetTypeInfo().GetCustomAttribute<DomNameAttribute>(true);
-
-            if (attr != null)
-                return attr.OfficialName;
-
-            return "Object";
-        }
-
-        /// <summary>
         /// Returns an HTML-code representation of the node.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
         public virtual String ToHtml()
         {
             return TextContent;
-        }
-
-        /// <summary>
-        /// Returns a (string) tree representation of the node and all sub-nodes.
-        /// </summary>
-        /// <param name="indent">The optional indentation level.</param>
-        /// <returns></returns>
-        public String ToTree(Int32 indent = 0)
-        {
-            var sb = Pool.NewStringBuilder();
-            var content = ToString();
-
-            if (indent != 0)
-                sb.Append(String.Empty.PadRight(2 * indent, ' '));
-            
-            sb.AppendLine(content);
-
-            for (int i = 0; i < _children.Length; i++)
-                sb.Append(_children[i].ToTree(indent + 1));
-
-            return sb.ToPool();
         }
 
         #endregion

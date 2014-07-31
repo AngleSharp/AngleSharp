@@ -1,11 +1,9 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using System;
-
     /// <summary>
     /// Represents the HTML paragraph element.
     /// </summary>
-    sealed class HTMLParagraphElement : HTMLElement, IImpliedEnd, IHtmlParagraphElement
+    sealed class HTMLParagraphElement : HTMLElement, IHtmlParagraphElement
     {
         #region ctor
 
@@ -13,8 +11,8 @@
         /// Creates a new HTML paragraph element.
         /// </summary>
         internal HTMLParagraphElement()
+            : base(Tags.P, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
-            _name = Tags.P;
         }
 
         #endregion
@@ -28,18 +26,6 @@
         {
             get { return GetAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
             set { SetAttribute(AttributeNames.Align, value.ToString()); }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
         }
 
         #endregion

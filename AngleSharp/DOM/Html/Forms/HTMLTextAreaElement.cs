@@ -13,8 +13,8 @@
         /// Creates a new HTML textarea element.
         /// </summary>
         internal HTMLTextAreaElement()
+            : base(Tags.Textarea, NodeFlags.LineTolerance)
         {
-            _name = Tags.Textarea;
             WillValidate = true;
         }
 
@@ -73,20 +73,12 @@
         /// </summary>
         public String Type
         {
-            get { return _name; }
+            get { return NodeName; }
         }
 
         #endregion
 
         #region Internal properties
-
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        protected internal override Boolean IsSpecial
-        {
-            get { return true; }
-        }
 
         internal Boolean IsMutable
         {

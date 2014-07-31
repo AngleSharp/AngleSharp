@@ -13,9 +13,8 @@
         /// Creates a new empty text node.
         /// </summary>
         internal TextNode()
+            : this(String.Empty)
         {
-            _type = NodeType.Text;
-            _name = "#text";
         }
 
         /// <summary>
@@ -23,9 +22,8 @@
         /// </summary>
         /// <param name="text">The text to set.</param>
         internal TextNode(String text)
-            : this()
+            : base("#text", NodeType.Text, text)
         {
-            Append(text);
         }
 
         /// <summary>
@@ -33,9 +31,8 @@
         /// </summary>
         /// <param name="c">The character to set.</param>
         internal TextNode(Char c)
-            : this()
+            : this(c.ToString())
         {
-            Append(c);
         }
 
         #endregion
@@ -111,10 +108,35 @@
         /// <returns>The freshly created text node.</returns>
         public IText Split(Int32 offset)
         {
-            var element = new TextNode(Data.Substring(offset));
-            Data = Data.Substring(0, offset);
-            Parent.InsertBefore(element, NextSibling);
-            return element;
+            //TODO Range connected ...
+            var length = Length;
+
+            if (offset > length)
+                throw new DomException(ErrorCode.IndexSizeError);
+
+            var count = length - offset;
+            var newData = Substring(offset, count);
+            var newNode = new TextNode(newData) { Owner = Owner };
+            var parent = Parent;
+
+            if (parent != null)
+            {
+                parent.InsertBefore(newNode, NextSibling);
+                //For each range whose start node is node and start offset is greater than offset, set its start node to new node and decrease its start offset by offset. 
+                //For each range whose end node is node and end offset is greater than offset, set its end node to new node and decrease its end offset by offset. 
+                //For each range whose start node is parent and start offset is equal to the index of node + 1, increase its start offset by one. 
+                //For each range whose end node is parent and end offset is equal to the index of node + 1, increase its end offset by one.
+            }
+
+            Replace(offset, count, String.Empty);
+
+            if (parent != null)
+            {
+                //For each range whose start node is node and start offset is greater than offset, set its start offset to offset. 
+                //For each range whose end node is node and end offset is greater than offset, set its end offset to offset.
+            }
+
+            return newNode;
         }
 
         #endregion
@@ -122,21 +144,15 @@
         #region String representation
 
         /// <summary>
-        /// Returns a string containing the text in quotation mark.
-        /// </summary>
-        /// <returns>A string containing the text content.</returns>
-        public override String ToString()
-        {
-            return '"' + Data + '"';
-        }
-
-        /// <summary>
         /// Returns an HTML-code representation of the node.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml()
         {
-            return Data;
+            if (Parent != null && Parent.Flags.HasFlag(NodeFlags.LiteralText))
+                return Data;
+
+            return base.ToHtml();
         }
 
         #endregion

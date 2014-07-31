@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <Folder Include="DOM\Annotations\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\Accessors.cs" />
@@ -48,6 +49,12 @@
     <Compile Include="DOM\Collections\QueryExtensions.cs" />
     <Compile Include="DOM\Collections\Range.cs" />
     <Compile Include="DOM\Collections\TreeWalker.cs" />
+    <Compile Include="DOM\Html\Frames\HTMLNoFramesElement.cs" />
+    <Compile Include="DOM\Html\Basic\HTMLNoScriptElement.cs" />
+    <Compile Include="DOM\Html\Semantic\HTMLPlaintextElement.cs" />
+    <Compile Include="DOM\Html\Semantic\HTMLXmpElement.cs" />
+    <Compile Include="DOM\Html\Tables\HTMLTableColgroupElement.cs" />
+    <Compile Include="Foundation\Constants\NodeFlags.cs" />
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="Foundation\Setup\Configuration.cs" />
     <Compile Include="Delegates\ErrorEventListener.cs" />
@@ -464,6 +471,7 @@
     <Compile Include="Interfaces\Svg\ISvgSvgElement.cs" />
     <Compile Include="Interfaces\Svg\ISvgTitleElement.cs" />
     <Compile Include="Interfaces\Xml\IXmlDocument.cs" />
+    <Compile Include="Network\Constants\CorsSetting.cs" />
     <Compile Include="Network\Constants\DefaultPorts.cs" />
     <Compile Include="Network\Constants\KnownProtocols.cs" />
     <Compile Include="Foundation\Structures\Frequency.cs" />
@@ -475,11 +483,11 @@
     <Compile Include="Foundation\NodeExtensions.cs" />
     <Compile Include="Foundation\Structures\TransformMatrix.cs" />
     <Compile Include="Foundation\ValueExtensions.cs" />
+    <Compile Include="Network\Constants\OriginBehavior.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
     <Compile Include="DocumentBuilder.cs" />
-    <Compile Include="DOM\Annotations\ICssPrimitive.cs" />
-    <Compile Include="DOM\Annotations\ICssRules.cs" />
+    <Compile Include="DOM\Css\ICssRules.cs" />
     <Compile Include="DOM\Css\Rules\CSSDocumentRule.cs" />
     <Compile Include="DOM\Constants\AdjacentPosition.cs" />
     <Compile Include="DOM\Factories\HtmlElementFactory.cs" />
@@ -508,13 +516,6 @@
     <Compile Include="Foundation\Setup\IConfiguration.cs" />
     <Compile Include="Network\IRequest.cs" />
     <Compile Include="Network\IRequester.cs" />
-    <Compile Include="DOM\Annotations\IFormatting.cs" />
-    <Compile Include="DOM\Annotations\IImplClosed.cs" />
-    <Compile Include="DOM\Annotations\IImpliedEnd.cs" />
-    <Compile Include="DOM\Annotations\IListScopeElement.cs" />
-    <Compile Include="DOM\Annotations\ISelectScopeElement.cs" />
-    <Compile Include="DOM\Annotations\ITableScopeElement.cs" />
-    <Compile Include="DOM\Annotations\ITableSectionScopeElement.cs" />
     <Compile Include="DOM\Css\CSSStyleDeclaration.cs" />
     <Compile Include="DOM\Collections\StringMap.cs" />
     <Compile Include="DOM\Io\FileList.cs" />
@@ -556,7 +557,6 @@
     <Compile Include="DOM\Html\Formatting\HTMLTemplateElement.cs" />
     <Compile Include="DOM\Html\Formatting\HTMLUnderlineElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLAddressElement.cs" />
-    <Compile Include="DOM\Annotations\IScopeElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLRPElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLRTElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLRubyElement.cs" />
@@ -627,7 +627,7 @@
     <Compile Include="DOM\Css\CSSStyleSheet.cs" />
     <Compile Include="DOM\Document.cs" />
     <Compile Include="DOM\Html\Objects\HTMLMarqueeElement.cs" />
-    <Compile Include="DOM\Html\Basic\HTMLNoElement.cs" />
+    <Compile Include="DOM\Html\Objects\HTMLNoEmbedElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLSemanticElement.cs" />
     <Compile Include="Foundation\Constants\Tags.cs" />
     <Compile Include="Parser\Html\HtmlParseMode.cs" />

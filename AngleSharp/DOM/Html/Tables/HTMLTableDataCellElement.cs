@@ -8,8 +8,8 @@
         #region ctor
 
         internal HTMLTableDataCellElement()
+            : base(Tags.Td)
         {
-            _name = Tags.Td;
         }
 
         #endregion
