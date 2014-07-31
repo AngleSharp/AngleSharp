@@ -3,10 +3,10 @@
     /// <summary>
     /// The big HTML element.
     /// </summary>
-    sealed class HTMLBigElement : HTMLElement, IFormatting
+    sealed class HTMLBigElement : HTMLElement
     {
         internal HTMLBigElement()
-            : base(Tags.Big)
+            : base(Tags.Big, NodeFlags.HtmlFormatting)
         {
         }
     }

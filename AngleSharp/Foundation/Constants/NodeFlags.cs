@@ -39,6 +39,10 @@
         /// </summary>
         HtmlTip = 0x20,
         /// <summary>
+        /// The element is an HTML formatting element.
+        /// </summary>
+        HtmlFormatting = 0x80,
+        /// <summary>
         /// The element is part of the MathML namespace.
         /// </summary>
         MathMember = 0x100,

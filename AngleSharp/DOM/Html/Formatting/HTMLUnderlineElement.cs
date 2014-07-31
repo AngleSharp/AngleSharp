@@ -3,10 +3,10 @@
     /// <summary>
     /// The u HTML element.
     /// </summary>
-    sealed class HTMLUnderlineElement : HTMLElement, IFormatting
+    sealed class HTMLUnderlineElement : HTMLElement
     {
         internal HTMLUnderlineElement()
-            : base(Tags.U)
+            : base(Tags.U, NodeFlags.HtmlFormatting)
         {
         }
     }

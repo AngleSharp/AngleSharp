@@ -3,10 +3,10 @@
     /// <summary>
     /// The strike HTML element.
     /// </summary>
-    sealed class HTMLStrikeElement : HTMLElement, IFormatting
+    sealed class HTMLStrikeElement : HTMLElement
     {
         internal HTMLStrikeElement()
-            : base(Tags.Strike)
+            : base(Tags.Strike, NodeFlags.HtmlFormatting)
         {
         }
     }

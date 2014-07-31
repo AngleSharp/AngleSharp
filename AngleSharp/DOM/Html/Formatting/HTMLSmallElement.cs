@@ -3,10 +3,10 @@
     /// <summary>
     /// The small HTML element.
     /// </summary>
-    sealed class HTMLSmallElement : HTMLElement, IFormatting
+    sealed class HTMLSmallElement : HTMLElement
     {
         internal HTMLSmallElement()
-            : base(Tags.Small)
+            : base(Tags.Small, NodeFlags.HtmlFormatting)
         {
         }
     }

@@ -3,10 +3,10 @@
     /// <summary>
     /// The i HTML element.
     /// </summary>
-    sealed class HTMLItalicElement : HTMLElement, IFormatting
+    sealed class HTMLItalicElement : HTMLElement
     {
         internal HTMLItalicElement()
-            : base(Tags.I)
+            : base(Tags.I, NodeFlags.HtmlFormatting)
         {
         }
     }

@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents an anchor element.
     /// </summary>
-    sealed class HTMLAnchorElement : HTMLElement, IFormatting, IHtmlAnchorElement
+    sealed class HTMLAnchorElement : HTMLElement, IHtmlAnchorElement
     {
         #region Fields
 
@@ -21,7 +21,7 @@
         /// Creates a new anchor element.
         /// </summary>
         internal HTMLAnchorElement()
-            : base(Tags.A)
+            : base(Tags.A, NodeFlags.HtmlFormatting)
         {
         }
 

@@ -3,10 +3,10 @@
     /// <summary>
     /// The em HTML element.
     /// </summary>
-    sealed class HTMLEmphasizeElement : HTMLElement, IFormatting
+    sealed class HTMLEmphasizeElement : HTMLElement
     {
         internal HTMLEmphasizeElement()
-            : base(Tags.Em)
+            : base(Tags.Em, NodeFlags.HtmlFormatting)
         {
         }
     }

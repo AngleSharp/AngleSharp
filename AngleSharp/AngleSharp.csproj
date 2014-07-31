@@ -516,7 +516,6 @@
     <Compile Include="Foundation\Setup\IConfiguration.cs" />
     <Compile Include="Network\IRequest.cs" />
     <Compile Include="Network\IRequester.cs" />
-    <Compile Include="DOM\Annotations\IFormatting.cs" />
     <Compile Include="DOM\Annotations\IImplClosed.cs" />
     <Compile Include="DOM\Annotations\IImpliedEnd.cs" />
     <Compile Include="DOM\Annotations\IListScopeElement.cs" />

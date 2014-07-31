@@ -3,10 +3,10 @@
     /// <summary>
     /// The code HTML element.
     /// </summary>
-    sealed class HTMLCodeElement : HTMLElement, IFormatting
+    sealed class HTMLCodeElement : HTMLElement
     {
         internal HTMLCodeElement()
-            : base(Tags.Code)
+            : base(Tags.Code, NodeFlags.HtmlFormatting)
         {
         }
     }

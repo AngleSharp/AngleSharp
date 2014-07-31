@@ -3,10 +3,10 @@
     /// <summary>
     /// The nobr HTML element.
     /// </summary>
-    sealed class HTMLNoNewlineElement : HTMLElement, IFormatting
+    sealed class HTMLNoNewlineElement : HTMLElement
     {
         internal HTMLNoNewlineElement()
-            : base(Tags.NoBr)
+            : base(Tags.NoBr, NodeFlags.HtmlFormatting)
         {
         }
     }
