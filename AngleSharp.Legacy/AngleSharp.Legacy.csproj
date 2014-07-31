@@ -91,17 +91,11 @@
     <Compile Include="..\AngleSharp\DocumentBuilder.cs">
       <Link>DocumentBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\ICssPrimitive.cs">
-      <Link>DOM\Annotations\ICssPrimitive.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\ICssRules.cs">
       <Link>DOM\Annotations\ICssRules.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\IListScopeElement.cs">
       <Link>DOM\Annotations\IListScopeElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\IScopeElement.cs">
-      <Link>DOM\Annotations\IScopeElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\ISelectScopeElement.cs">
       <Link>DOM\Annotations\ISelectScopeElement.cs</Link>
