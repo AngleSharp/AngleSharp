@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML body element.
     /// </summary>
-    sealed class HTMLBodyElement : HTMLElement, IImplClosed, IHtmlBodyElement
+    sealed class HTMLBodyElement : HTMLElement, IHtmlBodyElement
     {
         #region ctor
 
@@ -13,7 +13,7 @@
         /// Creates a HTML body element.
         /// </summary>
         internal HTMLBodyElement()
-            : base(Tags.Body, NodeFlags.Special)
+            : base(Tags.Body, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {
         }
 

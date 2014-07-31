@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the HTML html element.
     /// </summary>
-    sealed class HTMLHtmlElement : HTMLElement, IScopeElement, ITableScopeElement, IImplClosed, IHtmlHtmlElement
+    sealed class HTMLHtmlElement : HTMLElement, IScopeElement, ITableScopeElement, IHtmlHtmlElement
     {
         #region ctor
 
@@ -11,7 +11,7 @@
         /// Creates a new HTML html tag.
         /// </summary>
         internal HTMLHtmlElement()
-            : base(Tags.Html, NodeFlags.Special)
+            : base(Tags.Html, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {
         }
 

@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML tr element.
     /// </summary>
-    sealed class HTMLTableRowElement : HTMLElement, IImplClosed, IHtmlTableRowElement
+    sealed class HTMLTableRowElement : HTMLElement, IHtmlTableRowElement
     {
         #region Fields
 
@@ -18,7 +18,7 @@
         #region ctor
 
         internal HTMLTableRowElement()
-            : base(Tags.Tr, NodeFlags.Special)
+            : base(Tags.Tr, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {
             _cells = new HtmlCollection<HTMLTableCellElement>(this);
         }

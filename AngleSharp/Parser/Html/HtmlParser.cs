@@ -3625,7 +3625,7 @@
         {
             for (var i = 0; i < open.Count; i++)
             {
-                if (open[i] is IImplClosed == false)
+                if (!open[i].Flags.HasFlag(NodeFlags.ImplicitelyClosed))
                 {
                     RaiseErrorOccurred(ErrorCode.BodyClosedWrong);
                     break;

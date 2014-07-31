@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the object for HTML table section (thead / tbody / tfoot) elements.
     /// </summary>
-    sealed class HTMLTableSectionElement : HTMLElement, IImplClosed, ITableSectionScopeElement, IHtmlTableSectionElement
+    sealed class HTMLTableSectionElement : HTMLElement, ITableSectionScopeElement, IHtmlTableSectionElement
     {
         #region Fields
 
@@ -17,7 +17,7 @@
         #region ctor
 
         internal HTMLTableSectionElement(String name)
-            : base(name, NodeFlags.Special)
+            : base(name, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {
             _rows = new HtmlCollection<IHtmlTableRowElement>(this);
         }
