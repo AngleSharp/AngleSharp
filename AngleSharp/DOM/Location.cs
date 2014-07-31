@@ -13,6 +13,15 @@
 
         #endregion
 
+        #region Events
+
+        /// <summary>
+        /// Fired when the location is changed.
+        /// </summary>
+        public event EventHandler Changed;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -83,7 +92,7 @@
         public String Hash
         {
             get { return NonEmptyPrefix(_url.Fragment, "#"); }
-            set { _url.Fragment = value; }
+            set { _url.Fragment = value; RaiseChanged(); }
         }
 
         /// <summary>
@@ -92,7 +101,7 @@
         public String Host
         {
             get { return _url.Host; }
-            set { _url.Host = value; }
+            set { _url.Host = value; RaiseChanged(); }
         }
 
         /// <summary>
@@ -101,7 +110,7 @@
         public String HostName
         {
             get { return _url.HostName; }
-            set { _url.HostName = value; }
+            set { _url.HostName = value; RaiseChanged(); }
         }
 
         /// <summary>
@@ -110,7 +119,7 @@
         public String Href
         {
             get { return _url.Href; }
-            set { _url.Href = value; }
+            set { _url.Href = value; RaiseChanged(); }
         }
 
         /// <summary>
@@ -119,7 +128,7 @@
         public String PathName
         {
             get { return "/" + _url.Path; }
-            set { _url.Path = value; }
+            set { _url.Path = value; RaiseChanged(); }
         }
 
         /// <summary>
@@ -128,7 +137,7 @@
         public String Port
         {
             get { return _url.Port; }
-            set { _url.Port = value; }
+            set { _url.Port = value; RaiseChanged(); }
         }
 
         /// <summary>
@@ -137,7 +146,7 @@
         public String Protocol
         {
             get { return NonEmptyPostfix(_url.Scheme, ":"); }
-            set { _url.Scheme = value; }
+            set { _url.Scheme = value; RaiseChanged(); }
         }
 
         /// <summary>
@@ -146,7 +155,7 @@
         public String Search
         {
             get { return NonEmptyPrefix(_url.Query, "?"); }
-            set { _url.Query = value; }
+            set { _url.Query = value; RaiseChanged(); }
         }
 
         #endregion
@@ -184,6 +193,12 @@
         #endregion
 
         #region Helpers
+
+        void RaiseChanged()
+        {
+            if (Changed != null)
+                Changed(this, EventArgs.Empty);
+        }
 
         static String NonEmptyPrefix(String check, String prefix)
         {
