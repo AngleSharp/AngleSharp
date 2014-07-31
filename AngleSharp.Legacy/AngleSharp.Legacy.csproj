@@ -97,9 +97,6 @@
     <Compile Include="..\AngleSharp\DOM\Annotations\ICssRules.cs">
       <Link>DOM\Annotations\ICssRules.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Annotations\IFormatting.cs">
-      <Link>DOM\Annotations\IFormatting.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Annotations\IImplClosed.cs">
       <Link>DOM\Annotations\IImplClosed.cs</Link>
     </Compile>
