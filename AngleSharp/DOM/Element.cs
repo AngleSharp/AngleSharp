@@ -971,7 +971,7 @@
         public override String ToHtml()
         {
             var sb = Pool.NewStringBuilder();
-            var tagName = IsInHtml || IsInMathML || IsInSvg ? LocalName : NodeName;
+            var tagName = (Flags & (NodeFlags.HtmlMember | NodeFlags.SvgMember | NodeFlags.MathMember)) != NodeFlags.None ? LocalName : NodeName;
 
             sb.Append(Specification.LessThan).Append(tagName);
 

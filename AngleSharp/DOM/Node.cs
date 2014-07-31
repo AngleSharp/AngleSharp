@@ -247,62 +247,6 @@
             get { return _flags; }
         }
 
-        /// <summary>
-        /// Gets if the node is in the special category.
-        /// </summary>
-        internal Boolean IsSpecial
-        {
-            get { return _flags.HasFlag(NodeFlags.Special); }
-        }
-
-        /// <summary>
-        /// Gets the status if this node is in the HTML namespace.
-        /// </summary>
-        internal Boolean IsInHtml
-        {
-            get { return _flags.HasFlag(NodeFlags.HtmlMember); }
-        }
-
-        /// <summary>
-        /// Gets the status if this node is the MathML namespace.
-        /// </summary>
-        internal Boolean IsInMathML
-        {
-            get { return _flags.HasFlag(NodeFlags.MathMember); }
-        }
-
-        /// <summary>
-        /// Gets if the node is in the MathML namespace and of type annotation-xml.
-        /// </summary>
-        internal Boolean IsInMathMLSVGReady
-        {
-            get { return IsInMathML && _name == Tags.AnnotationXml; }
-        }
-
-        /// <summary>
-        /// Gets the status if the current node is in the MathML namespace.
-        /// </summary>
-        internal Boolean IsInSvg
-        {
-            get { return _flags.HasFlag(NodeFlags.SvgMember); }
-        }
-
-        /// <summary>
-        /// Gets the status if the node is a MathML text integration point.
-        /// </summary>
-        internal Boolean IsMathMLTIP
-        {
-            get { return _flags.HasFlag(NodeFlags.MathTip); }
-        }
-
-        /// <summary>
-        /// Gets the status if the node is an HTML text integration point.
-        /// </summary>
-        internal Boolean IsHtmlTIP
-        {
-            get { return _flags.HasFlag(NodeFlags.HtmlTip); }
-        }
-
         #endregion
 
         #region Internal Methods

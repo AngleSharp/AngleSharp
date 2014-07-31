@@ -254,7 +254,7 @@
             Reset(context);
 
             fragmentContext = context;
-            tokenizer.AcceptsCharacterData = !AdjustedCurrentNode.IsInHtml;
+            tokenizer.AcceptsCharacterData = !AdjustedCurrentNode.Flags.HasFlag(NodeFlags.HtmlMember);
 
             do
             {
@@ -364,8 +364,10 @@
         {
             var node = AdjustedCurrentNode as Element;
 
-            if (node == null || node.IsInHtml || token.IsEof || (node.IsHtmlTIP && token.IsHtmlCompatible) ||
-                (node.IsMathMLTIP && token.IsMathCompatible) || (node.IsInMathMLSVGReady && token.IsSvg))
+            if (node == null || token.IsEof || node.Flags.HasFlag(NodeFlags.HtmlMember) || 
+                (node.Flags.HasFlag(NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
+                (node.Flags.HasFlag(NodeFlags.MathTip) && token.IsMathCompatible) || 
+                (node.Flags.HasFlag(NodeFlags.MathMember) && token.IsSvg && node.NodeName == Tags.AnnotationXml))
                 Home(token);
             else
                 Foreign(token);
@@ -2745,7 +2747,7 @@
                     break;
                 }
 
-                if (node is HTMLAddressElement == false && node is HTMLDivElement == false && node is HTMLParagraphElement == false && node.IsSpecial)
+                if (node is HTMLAddressElement == false && node is HTMLDivElement == false && node is HTMLParagraphElement == false && node.Flags.HasFlag(NodeFlags.Special))
                     break;
                 
                 node = open[--index];
@@ -2776,7 +2778,7 @@
                     break;
                 }
 
-                if (node is HTMLAddressElement == false && node is HTMLDivElement == false && node is HTMLParagraphElement == false && node.IsSpecial)
+                if (node is HTMLAddressElement == false && node is HTMLDivElement == false && node is HTMLParagraphElement == false && node.Flags.HasFlag(NodeFlags.Special))
                     break;
 
                 node = open[--index];
@@ -2879,7 +2881,7 @@
 
                 for (var j = openIndex + 1; j < open.Count; j++)
                 {
-                    if (open[j].IsSpecial)
+                    if (open[j].Flags.HasFlag(NodeFlags.Special))
                     {
                         index = j;
                         furthestBlock = open[j];
@@ -3019,7 +3021,7 @@
 
                     break;
                 }
-                else if (node.IsSpecial)
+                else if (node.Flags.HasFlag(NodeFlags.Special))
                 {
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                     break;
@@ -3315,7 +3317,7 @@
 
                         node = open[i - 1];
 
-                        if (node.IsInHtml)
+                        if (node.Flags.HasFlag(NodeFlags.HtmlMember))
                         {
                             Home(token);
                             break;
@@ -3354,7 +3356,7 @@
         /// <returns>The element or NULL if it is no MathML or SVG element.</returns>
         Element CreateForeignElementFrom(HtmlTagToken tag)
         {
-            if (AdjustedCurrentNode.IsInMathML)
+            if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.MathMember))
             {
                 var node = MathElementFactory.Create(tag.Name, doc);
 
@@ -3367,7 +3369,7 @@
 
                 return node;
             }
-            else if (AdjustedCurrentNode.IsInSvg)
+            else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
                 var node = SvgElementFactory.Create(tag.Name.AdjustSvgTagName(), doc);
 
@@ -3407,7 +3409,7 @@
                     }
                 }
             }
-            while (!CurrentNode.IsHtmlTIP && !CurrentNode.IsMathMLTIP && !CurrentNode.IsInHtml);
+            while ((CurrentNode.Flags & (NodeFlags.HtmlTip | NodeFlags.MathTip | NodeFlags.HtmlMember)) == NodeFlags.None);
 
             Consume(token);
         }
@@ -3747,7 +3749,7 @@
             {
                 open.RemoveAt(open.Count - 1);
                 var node = AdjustedCurrentNode;
-                tokenizer.AcceptsCharacterData = node != null && !node.IsInHtml;
+                tokenizer.AcceptsCharacterData = node != null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
             }
         }
 
@@ -3809,7 +3811,7 @@
                 node.AppendChild(element);
 
             open.Add(element);
-            tokenizer.AcceptsCharacterData = !element.IsInHtml;
+            tokenizer.AcceptsCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
         }
 
         /// <summary>
