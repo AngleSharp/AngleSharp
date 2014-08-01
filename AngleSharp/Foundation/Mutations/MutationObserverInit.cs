@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     
     /// <summary>
     /// More information available at:
@@ -15,19 +16,18 @@
             ObserveTargetDescendents = false;
         }
 
+        internal MutationObserverInit(IMutationObserverInit original)
+        {
+            ObserveTargetAttributes = original.ObserveTargetAttributes;
+            AttributeFilters = original.AttributeFilters.ToArray();
+            ObserveTargetChildNodes = original.ObserveTargetChildNodes;
+            ObserveTargetData = original.ObserveTargetData;
+            ObserveTargetDescendents = original.ObserveTargetDescendents;
+            StorePreviousAttributeValue = original.StorePreviousAttributeValue;
+            StorePreviousDataValue = original.StorePreviousDataValue;
+        }
+
         public Boolean ObserveTargetChildNodes
-        {
-            get;
-            set;
-        }
-
-        public Boolean ObserveTargetAttributes
-        {
-            get;
-            set;
-        }
-
-        public Boolean ObserveTargetData
         {
             get;
             set;
@@ -39,13 +39,25 @@
             set;
         }
 
-        public Boolean StorePreviousAttributeValue
+        public Boolean? ObserveTargetAttributes
         {
             get;
             set;
         }
 
-        public Boolean StorePreviousDataValue
+        public Boolean? ObserveTargetData
+        {
+            get;
+            set;
+        }
+
+        public Boolean? StorePreviousAttributeValue
+        {
+            get;
+            set;
+        }
+
+        public Boolean? StorePreviousDataValue
         {
             get;
             set;

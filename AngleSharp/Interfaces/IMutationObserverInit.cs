@@ -17,18 +17,6 @@
         Boolean ObserveTargetChildNodes { get; set; }
 
         /// <summary>
-        /// Gets or sets if mutations to target's attributes are to be observed.
-        /// </summary>
-        [DomName("attributes")]
-        Boolean ObserveTargetAttributes { get; set; }
-
-        /// <summary>
-        /// Gets or sets if mutations to target's data are to be observed.
-        /// </summary>
-        [DomName("characterData")]
-        Boolean ObserveTargetData { get; set; }
-
-        /// <summary>
         /// Gets or sets if mutations to not just target, but also
         /// target's descendants are to be observed.
         /// </summary>
@@ -36,18 +24,30 @@
         Boolean ObserveTargetDescendents { get; set; }
 
         /// <summary>
+        /// Gets or sets if mutations to target's attributes are to be observed.
+        /// </summary>
+        [DomName("attributes")]
+        Boolean? ObserveTargetAttributes { get; set; }
+
+        /// <summary>
+        /// Gets or sets if mutations to target's data are to be observed.
+        /// </summary>
+        [DomName("characterData")]
+        Boolean? ObserveTargetData { get; set; }
+
+        /// <summary>
         /// Gets or sets if attributes is set to true and target's attribute
         /// value before the mutation needs to be recorded.
         /// </summary>
         [DomName("attributeOldValue")]
-        Boolean StorePreviousAttributeValue { get; set; }
+        Boolean? StorePreviousAttributeValue { get; set; }
 
         /// <summary>
         /// Gets or sets if characterData is set to true and target's
         /// data before the mutation needs to be recorded.
         /// </summary>
         [DomName("characterDataOldValue")]
-        Boolean StorePreviousDataValue { get; set; }
+        Boolean? StorePreviousDataValue { get; set; }
 
         /// <summary>
         /// Gets or sets if the attributes to observe. If this is not set,
