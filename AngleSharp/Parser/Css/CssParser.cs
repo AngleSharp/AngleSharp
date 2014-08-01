@@ -247,13 +247,14 @@
         /// <returns>The created page rule.</returns>
         static CSSPageRule CreatePageRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSPageRule();
+            var style = new CSSStyleDeclaration();
+            var rule = new CSSPageRule(style);
 
             if (tokens.MoveNext())
                 rule.Selector = parser.InSelector(tokens);
 
             if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillDeclarations(rule.Style, tokens);
+                parser.FillDeclarations(style, tokens);
 
             return rule;
         }
@@ -266,12 +267,12 @@
         /// <returns>The created font-face rule.</returns>
         static CSSFontFaceRule CreateFontFaceRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSFontFaceRule();
+            var style = new CSSStyleDeclaration();
 
             if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillDeclarations(rule.Styles, tokens);
+                parser.FillDeclarations(style, tokens);
 
-            return rule;
+            return new CSSFontFaceRule(style);
         }
 
         /// <summary>
@@ -454,9 +455,9 @@
                     return null;
                 }
 
-                var rule = new CSSStyleRule { Selector = selector };
-                FillDeclarations(rule.Style, tokens);
-                return rule;
+                var style = new CSSStyleDeclaration();
+                FillDeclarations(style, tokens);
+                return new CSSStyleRule(style) { Selector = selector };
             }
         }
 
@@ -662,9 +663,10 @@
         /// <returns>The generated keyframe data.</returns>
         CSSKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSKeyframeRule();
+            var style = new CSSStyleDeclaration();
+            var rule = new CSSKeyframeRule(style);
             rule.KeyText = InKeyframeText(tokens);
-            FillDeclarations(rule.Style, tokens);
+            FillDeclarations(style, tokens);
             return rule;
         }
 
