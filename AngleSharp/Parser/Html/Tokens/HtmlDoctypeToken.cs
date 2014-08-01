@@ -7,7 +7,7 @@
     /// </summary>
     sealed class HtmlDoctypeToken : HtmlToken
     {
-        #region Members
+        #region Fields
 
         Boolean _quirks;
         String _name;

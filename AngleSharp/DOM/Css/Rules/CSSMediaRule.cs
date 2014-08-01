@@ -20,9 +20,8 @@
         /// Creates a new CSS @media rule with a new media list.
         /// </summary>
         internal CSSMediaRule()
+            : this(new MediaList())
         {
-            _media = new MediaList();
-            _type = CssRuleType.Media;
         }
 
         /// <summary>

@@ -280,8 +280,13 @@
 
             if (offset + count > length)
                 count = length - offset;
-
+            
             //Queue a mutation record of "characterData" for node with oldValue node's data.
+            //var record = new MutationRecord
+            //{
+            //    Target = this,
+            //    PreviousValue = data
+            //};
 
             var deleteOffset = offset + data.Length;
             _content = _content.Insert(offset, data).Remove(deleteOffset, count);

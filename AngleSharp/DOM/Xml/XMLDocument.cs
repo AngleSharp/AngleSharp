@@ -25,15 +25,9 @@
 
         Boolean IXmlDocument.LoadXml(String url)
         {
-            Uri uri;
-
             Location.Href = url;
             Cookie = String.Empty;
-
-            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
-                throw new ArgumentException("The given URL is not valid as an absolute URL.");
-
-            var task = Options.LoadAsync(uri);
+            var task = Options.LoadAsync(new Url(url));
 
             var result = task.ContinueWith(m =>
             {

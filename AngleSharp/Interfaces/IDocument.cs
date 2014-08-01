@@ -7,7 +7,7 @@
     /// The Document interface serves as an entry point to the web page's content.
     /// </summary>
     [DomName("Document")]
-    public interface IDocument : INode, IParentNode, IGlobalEventHandlers, IDocumentStyle
+    public interface IDocument : INode, IParentNode, IGlobalEventHandlers, IDocumentStyle, INonElementParentNode
     {
         /// <summary>
         /// Gets a list of all elements in the document.
@@ -26,6 +26,12 @@
         /// </summary>
         [DomName("implementation")]
         IImplementation Implementation { get; }
+
+        /// <summary>
+        /// Gets or sets the value of the dir attribute.
+        /// </summary>
+        [DomName("dir")]
+        String Direction { get; set; }
 
         /// <summary>
         /// Gets the URI of the current document.
@@ -129,15 +135,6 @@
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
         [DomName("getElementsByTagNameNS")]
         IHtmlCollection GetElementsByTagNameNS(String namespaceUri, String tagName);
-
-        /// <summary>
-        /// Returns the Element whose ID is given by elementId. If no such element exists, returns null.
-        /// The behavior is not defined if more than one element have this ID.
-        /// </summary>
-        /// <param name="elementId">A case-sensitive string representing the unique ID of the element being sought.</param>
-        /// <returns>The matching element.</returns>
-        [DomName("getElementById")]
-        IElement GetElementById(String elementId);
 
         /// <summary>
         /// Creates an event of the type specified. 
@@ -280,13 +277,25 @@
         IHtmlCollection Scripts { get; }
 
         /// <summary>
-        /// Gets a list of the embedded OBJECTS within the current document.
+        /// Gets a list of the embed, applet and object elements within the current document.
         /// </summary>
         [DomName("embeds")]
         IHtmlCollection Embeds { get; }
 
         /// <summary>
-        /// Gets a collection of all AREA elements and anchor elements in a document with a value for the href attribute.
+        /// Gets a list of the embed elements within the current document.
+        /// </summary>
+        [DomName("plugins")]
+        IHtmlCollection Plugins { get; }
+
+        /// <summary>
+        /// Gets a list of the commands (menu item, button, and link elements) within the current document.
+        /// </summary>
+        [DomName("commands")]
+        IHtmlCollection Commands { get; }
+
+        /// <summary>
+        /// Gets a collection of all area and anchor elements in a document with a value for the href attribute.
         /// </summary>
         [DomName("links")]
         IHtmlCollection Links { get; }

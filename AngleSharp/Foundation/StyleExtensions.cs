@@ -12,7 +12,7 @@
         /// <param name="style">The declaration to be modified.</param>
         /// <param name="styling">The styling properties to use.</param>
         /// <param name="priority">Sets the priority of the new properties.</param>
-        public static void ExtendWith(this CSSStyleDeclaration style, CSSStyleDeclaration styling, Priority priority)
+        public static void ExtendWith(this CSSStyleDeclaration style, ICssStyleDeclaration styling, Priority priority)
         {
             foreach (var property in styling)
             {

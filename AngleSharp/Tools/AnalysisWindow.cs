@@ -104,7 +104,7 @@
         /// <param name="element">The element to compute the styles for.</param>
         /// <param name="pseudo">The optional pseudo selector to use.</param>
         /// <returns>The style declaration describing the element.</returns>
-        public CSSStyleDeclaration GetComputedStyle(IElement element, String pseudo = null)
+        public ICssStyleDeclaration GetComputedStyle(IElement element, String pseudo = null)
         {
             var document = Document as Document;
 

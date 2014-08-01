@@ -54,7 +54,7 @@
         /// </summary>
         public String Href
         {
-            get { return HyperRef(GetAttribute(AttributeNames.Href)); }
+            get { return HyperRef(GetAttribute(AttributeNames.Href)).Href; }
             set { SetAttribute(AttributeNames.Href, value); }
         }
 

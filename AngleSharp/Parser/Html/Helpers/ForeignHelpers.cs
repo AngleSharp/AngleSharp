@@ -16,33 +16,36 @@
         /// <param name="value">The value of the attribute.</param>
         public static void SetAdjustedAttribute(this Element element, String name, String value)
         {
-            switch (name)
+            if (name.Length > 6 && String.Compare("xlink:", 0, name, 0, 6) == 0)
             {
-                case "xlink:actuate":
-                case "xlink:arcrole":
-                case "xlink:href":
-                case "xlink:role":
-                case "xlink:show":
-                case "xlink:title":
-                case "xlink:type":
+                if (String.Compare("actuate", 0, name, 6, 7) == 0 ||
+                    String.Compare("arcrole", 0, name, 6, 7) == 0 ||
+                    String.Compare("href", 0, name, 6, 4) == 0 ||
+                    String.Compare("role", 0, name, 6, 4) == 0 ||
+                    String.Compare("show", 0, name, 6, 4) == 0 ||
+                    String.Compare("type", 0, name, 6, 4) == 0 ||
+                    String.Compare("title", 0, name, 6, 5) == 0)
+                {
                     element.SetAttribute(Namespaces.XLink, name.Substring(name.IndexOf(':') + 1), value);
-                    break;
-
-                case "xml:base":
-                case "xml:lang":
-                case "xml:space":
-                    element.SetAttribute(Namespaces.Xml, name, value);
-                    break;
-
-                case "xmlns":
-                case "xmlns:xlink":
-                    element.SetAttribute(Namespaces.XmlNS, name, value);
-                    break;
-
-                default:
-                    element.SetAttribute(name, value);
-                    break;
+                    return;
+                }
             }
+            else if (name.Length > 4)
+            {
+                if (String.Compare("xml:", 0, name, 0, 4) == 0 && (String.Compare("base", 0, name, 4, 4) == 0 ||
+                    String.Compare("lang", 0, name, 4, 4) == 0 || String.Compare("space", 0, name, 4, 5) == 0))
+                {
+                    element.SetAttribute(Namespaces.Xml, name, value);
+                    return;
+                }
+                else if (name.Equals("xmlns") || name.Equals("xmlns:xlink"))
+                {
+                    element.SetAttribute(Namespaces.XmlNS, name, value);
+                    return;
+                }
+            }
+
+            element.SetAttribute(name, value);
         }
     }
 }

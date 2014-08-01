@@ -7,7 +7,7 @@
     /// to the observer's callback.
     /// </summary>
     [DomName("MutationRecord")]
-    interface IMutationRecord
+    public interface IMutationRecord
     {
         /// <summary>
         /// Gets attributes if the mutation was an attribute mutation,
@@ -19,8 +19,8 @@
 
         /// <summary>
         /// Gets the node the mutation affected, depending on the type. For
-        /// attributes, it is the element whose attribute changed. For characterData,
-        /// it is the CharacterData node. For childList, it is the node whose
+        /// attributes, it is the Element whose attribute changed. For CharacterData,
+        /// it is the CharacterData node. For ChildList, it is the node whose
         /// children changed.
         /// </summary>
         [DomName("target")]
@@ -30,13 +30,13 @@
         /// Gets the nodes added, or null.
         /// </summary>
         [DomName("addedNodes")]
-        INodeList AddedNodes { get; }
+        INodeList Added { get; }
 
         /// <summary>
         /// Gets the nodes removed, or null.
         /// </summary>
         [DomName("removedNodes")]
-        INodeList RemovedNodes { get; }
+        INodeList Removed { get; }
 
         /// <summary>
         /// Gets the previous sibling of the added or removed nodes, or null.
@@ -69,6 +69,6 @@
         /// null.
         /// </summary>
         [DomName("oldValue")]
-        String OldValue { get; }
+        String PreviousValue { get; }
     }
 }

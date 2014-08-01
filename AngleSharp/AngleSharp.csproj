@@ -35,7 +35,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="DOM\Annotations\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\Accessors.cs" />
@@ -296,6 +295,7 @@
     <Compile Include="Foundation\LocationExtensions.cs" />
     <Compile Include="Foundation\Setup\CopyConfiguration.cs" />
     <Compile Include="Foundation\Structures\Priority.cs" />
+    <Compile Include="Foundation\Structures\Url.cs" />
     <Compile Include="Foundation\StyleExtensions.cs" />
     <Compile Include="Foundation\TextSource.cs" />
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
@@ -327,6 +327,8 @@
     <Compile Include="Interfaces\ILinkStyle.cs" />
     <Compile Include="Interfaces\Css\IMediaList.cs" />
     <Compile Include="Interfaces\Css\ISelector.cs" />
+    <Compile Include="Interfaces\INonDocumentTypeChildNode.cs" />
+    <Compile Include="Interfaces\INonElementParentNode.cs" />
     <Compile Include="Interfaces\IStyleSheetList.cs" />
     <Compile Include="Interfaces\Css\IStyleUtilities.cs" />
     <Compile Include="Interfaces\Html\IGlobalEventHandlers.cs" />
@@ -588,7 +590,6 @@
     <Compile Include="IHtmlObject.cs" />
     <Compile Include="DOM\Html\ValidityState.cs" />
     <Compile Include="DOM\Event.cs" />
-    <Compile Include="DOM\EventTarget.cs" />
     <Compile Include="DOM\FormControlState.cs" />
     <Compile Include="Attributes\DomNameAttribute.cs" />
     <Compile Include="Parser\BaseTokenizer.cs" />
@@ -616,7 +617,7 @@
     <Compile Include="DOM\DocumentFragment.cs" />
     <Compile Include="DOM\DomImplementation.cs" />
     <Compile Include="DOM\EntityReference.cs" />
-    <Compile Include="Foundation\Structures\Location.cs" />
+    <Compile Include="DOM\Location.cs" />
     <Compile Include="DOM\ProcessingInstruction.cs" />
     <Compile Include="DOM\StyleSheet.cs" />
     <Compile Include="DOM\Collections\TokenList.cs" />

@@ -692,12 +692,10 @@
         /// </summary>
         /// <param name="url">The given URL.</param>
         /// <returns>The absolute URL.</returns>
-        protected String HyperRef(String url)
+        protected Url HyperRef(String url)
         {
-            if (url == null || Location.IsAbsolute(url))
-                return url;
-
-            return Location.MakeAbsolute(BaseUri, url);
+            var baseUrl = new Url(BaseUri);
+            return new Url(baseUrl, url ?? String.Empty);
         }
 
         /// <summary>

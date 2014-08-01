@@ -380,6 +380,15 @@
         }
 
         /// <summary>
+        /// Gets or sets the value of the dir attribute.
+        /// </summary>
+        public String Direction
+        {
+            get { return (DocumentElement as IHtmlElement ?? new HTMLHtmlElement()).Direction; }
+            set { (DocumentElement as IHtmlElement ?? new HTMLHtmlElement()).Direction = value; }
+        }
+
+        /// <summary>
         /// Gets the character encoding of the current document.
         /// </summary>
         public String CharacterSet
@@ -442,15 +451,31 @@
         /// </summary>
         public IHtmlCollection Scripts
         {
-            get { return new HtmlCollection<HTMLScriptElement>(this); }
+            get { return new HtmlCollection<IHtmlScriptElement>(this); }
         }
 
         /// <summary>
-        /// Gets a list of the embedded OBJECTS within the current document.
+        /// Gets a list of the embed, applet and object elements within the current document.
         /// </summary>
         public IHtmlCollection Embeds
         {
             get { return new HtmlElementCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement); }
+        }
+
+        /// <summary>
+        /// Gets a list of the plugin elements within the current document.
+        /// </summary>
+        public IHtmlCollection Plugins
+        {
+            get { return new HtmlCollection<IHtmlEmbedElement>(this); }
+        }
+
+        /// <summary>
+        /// Gets a list of the commands (menu item, button, and link elements) within the current document.
+        /// </summary>
+        public IHtmlCollection Commands
+        {
+            get { return new HtmlElementCollection(this, predicate: element => element is HTMLMenuItemElement || element is HTMLButtonElement || element is HTMLAnchorElement); }
         }
 
         /// <summary>
@@ -684,14 +709,9 @@
         /// <param name="url">The URL that hosts the HTML content.</param>
         public Boolean LoadHtml(String url)
         {
-            Uri uri;
             _location.Href = url;
             Cookie = String.Empty;
-
-            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
-                throw new ArgumentException("The given URL is not valid as an absolute URL.");
-
-            var task = Options.LoadAsync(uri);
+            var task = Options.LoadAsync(new Url(url));
 
             var result = task.ContinueWith(m =>
             {
@@ -899,7 +919,7 @@
         /// <returns>The matching element.</returns>
         public IElement GetElementById(String elementId)
         {
-            return GetElementById(ChildNodes, elementId);
+            return ChildNodes.GetElementById(elementId);
         }
 
         /// <summary>
@@ -1040,13 +1060,8 @@
         /// <returns>The document with the parsed content.</returns>
         public static async Task<IDocument> LoadFromUrl(String url, IConfiguration configuration = null)
         {
-            Uri uri;
-
-            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
-                throw new ArgumentException("The given URL is not valid as an absolute URL.");
-
             var options = configuration ?? Configuration.Default;
-            var stream = await options.LoadAsync(uri);
+            var stream = await options.LoadAsync(new Url(url));
             var doc = new Document(new TextSource(stream)) { Options = options };
             var parser = new HtmlParser(doc);
             await parser.ParseAsync();
@@ -1216,33 +1231,6 @@
 
                 if (child != null)
                     return child;
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Gets an element by its ID.
-        /// </summary>
-        /// <param name="children">The nodelist to investigate.</param>
-        /// <param name="id">The id to find.</param>
-        /// <returns>The element or NULL.</returns>
-        static protected IElement GetElementById(INodeList children, String id)
-        {
-            for (int i = 0; i < children.Length; i++)
-            {
-                var element = children[i] as IElement;
-
-                if (element != null)
-                {
-                    if (element.Id == id)
-                        return element;
-
-                    element = GetElementById(element.ChildNodes, id);
-
-                    if (element != null)
-                        return element;
-                }
             }
 
             return null;

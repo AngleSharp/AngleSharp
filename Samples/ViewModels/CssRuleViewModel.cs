@@ -83,7 +83,7 @@ namespace Samples.ViewModels
             typeName = o.GetType().Name;
         }
 
-        void Populate(CSSStyleDeclaration declarations)
+        void Populate(ICssStyleDeclaration declarations)
         {
             foreach (var declaration in declarations)
                 children.Add(new CssRuleViewModel(declaration));

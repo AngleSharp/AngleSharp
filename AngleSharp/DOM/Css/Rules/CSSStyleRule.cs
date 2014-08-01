@@ -22,9 +22,8 @@
         /// Creates a new CSS style rule.
         /// </summary>
         internal CSSStyleRule()
+            : this(new CSSStyleDeclaration())
         {
-            _type = CssRuleType.Style;
-            _style = new CSSStyleDeclaration();
         }
 
 		/// <summary>
@@ -33,8 +32,9 @@
 		/// <param name="style">The declaration to use.</param>
 		internal CSSStyleRule(CSSStyleDeclaration style)
 		{
-			_type = CssRuleType.Style;
-			_style = style;
+            _style = style;
+            _style.ParentRule = this;
+            _type = CssRuleType.Style;
 		}
 
         #endregion
@@ -47,7 +47,7 @@
         public ISelector Selector
         {
             get { return _selector; }
-            internal set
+            set
             {
                 _selector = value;
                 _selectorText = value.ToCss();
@@ -70,7 +70,7 @@
         /// <summary>
         /// Gets the CSSStyleDeclaration object for the rule.
         /// </summary>
-        public CSSStyleDeclaration Style
+        public ICssStyleDeclaration Style
         {
             get { return _style; }
         }
@@ -103,7 +103,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return _selectorText + " {" + Environment.NewLine + _style.ToCss() + "}";
+            return String.Concat(_selectorText, "{", _style.ToCss(), "}");
         }
 
         #endregion

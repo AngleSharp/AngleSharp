@@ -78,8 +78,8 @@
                 mode = new TextContentMode(((CSSStringValue)value).Value);
             else if (value is CSSCounter)
                 mode = new CounterContentMode((CSSCounter)value);
-            else if (value is CSSPrimitiveValue<Location>)
-                mode = new UrlContentMode(((CSSPrimitiveValue<Location>)value).Value);
+            else if (value is CSSPrimitiveValue<Url>)
+                mode = new UrlContentMode(((CSSPrimitiveValue<Url>)value).Value);
 
             return mode;
         }
@@ -201,9 +201,9 @@
         /// </summary>
         sealed class UrlContentMode : ContentMode
         {
-            Location _url;
+            readonly Url _url;
 
-            public UrlContentMode(Location url)
+            public UrlContentMode(Url url)
             {
                 _url = url;
             }

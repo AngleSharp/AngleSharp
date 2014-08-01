@@ -1,10 +1,12 @@
 ﻿namespace AngleSharp.DOM
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// MutationObserver provides developers a way to react to changes in a DOM.
     /// </summary>
     [DomName("MutationObserver")]
-    interface IMutationObserver
+    public interface IMutationObserver
     {
         /// <summary>
         /// Registers the MutationObserver instance to receive
@@ -29,6 +31,6 @@
         /// </summary>
         /// <returns>Returns an Array of MutationRecords.</returns>
         [DomName("takeRecords")]
-        IMutationRecord[] Flush();
+        IEnumerable<IMutationRecord> Flush();
     }
 }

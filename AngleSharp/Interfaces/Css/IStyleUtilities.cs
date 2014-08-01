@@ -11,20 +11,20 @@
         /// that have a cascaded value for the context object.
         /// </summary>
         [DomName("cascadedStyle")]
-        CSSStyleDeclaration CascadedStyle { get; }
+        ICssStyleDeclaration CascadedStyle { get; }
 
         /// <summary>
         /// Gets a live CSS declaration block with properties
         /// that represent the value computed for the context object.
         /// </summary>
         [DomName("rawComputedStyle")]
-        CSSStyleDeclaration RawComputedStyle { get; }
+        ICssStyleDeclaration RawComputedStyle { get; }
 
         /// <summary>
         /// Gets a live CSS declaration block with properties,
         /// whcih are the used values computed for the context object.
         /// </summary>
         [DomName("UsedStyle")]
-        CSSStyleDeclaration UsedStyle { get; }
+        ICssStyleDeclaration UsedStyle { get; }
     }
 }

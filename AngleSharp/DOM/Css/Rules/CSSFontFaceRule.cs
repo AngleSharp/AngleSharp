@@ -18,9 +18,10 @@
         /// <summary>
         /// Creates a new @font-face rule.
         /// </summary>
-        internal CSSFontFaceRule()
+        internal CSSFontFaceRule(CSSStyleDeclaration style)
         {
-            _style = new CSSStyleDeclaration();
+            _style = style;
+            _style.ParentRule = this;
             _type = CssRuleType.FontFace;
         }
 

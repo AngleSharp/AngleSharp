@@ -1,5 +1,4 @@
 ﻿using AngleSharp.DOM;
-using AngleSharp.DOM.Collections;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Navigator;
 using Jurassic;
@@ -21,7 +20,7 @@ namespace AngleSharp.Jurassic
             get { throw new NotImplementedException(); }
         }
 
-        public CSSStyleDeclaration GetComputedStyle(IElement element, string pseudo = null)
+        public ICssStyleDeclaration GetComputedStyle(IElement element, string pseudo = null)
         {
             throw new NotImplementedException();
         }

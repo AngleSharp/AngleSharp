@@ -20,8 +20,19 @@
         /// Creates a new @keyframe rule.
         /// </summary>
         internal CSSKeyframeRule()
+            : this(new CSSStyleDeclaration())
         {
-            _style = new CSSStyleDeclaration();
+        }
+
+        /// <summary>
+        /// Creates a new @keyframe rule.
+        /// </summary>
+        /// <param name="style">The declaration to use.</param>
+        internal CSSKeyframeRule(CSSStyleDeclaration style)
+        {
+            _style = style;
+            _style.ParentRule = this;
+            _type = CssRuleType.Keyframe;
         }
 
         #endregion
@@ -45,7 +56,7 @@
         /// <summary>
         /// Gets a CSSStyleDeclaration of the CSS style associated with the key from.
         /// </summary>
-        public CSSStyleDeclaration Style
+        public ICssStyleDeclaration Style
         {
             get { return _style; }
         }

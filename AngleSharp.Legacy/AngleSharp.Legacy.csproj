@@ -967,9 +967,6 @@
     <Compile Include="..\AngleSharp\DOM\Event.cs">
       <Link>DOM\Event.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\EventTarget.cs">
-      <Link>DOM\EventTarget.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Factories\CssPropertyFactory.cs">
       <Link>DOM\Factories\CssPropertyFactory.cs</Link>
     </Compile>
@@ -1312,6 +1309,9 @@
     <Compile Include="..\AngleSharp\DOM\Io\FileList.cs">
       <Link>DOM\Io\FileList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Location.cs">
+      <Link>DOM\Location.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Mathml\MathAnnotationXmlElement.cs">
       <Link>DOM\Mathml\MathAnnotationXmlElement.cs</Link>
     </Compile>
@@ -1477,9 +1477,6 @@
     <Compile Include="..\AngleSharp\Foundation\Structures\Length.cs">
       <Link>Foundation\Structures\Length.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\Location.cs">
-      <Link>Foundation\Structures\Location.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Number.cs">
       <Link>Foundation\Structures\Number.cs</Link>
     </Compile>
@@ -1500,6 +1497,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\TransformMatrix.cs">
       <Link>Foundation\Structures\TransformMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Url.cs">
+      <Link>Foundation\Structures\Url.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\StyleExtensions.cs">
       <Link>Foundation\StyleExtensions.cs</Link>
@@ -1899,6 +1899,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\INodeList.cs">
       <Link>Interfaces\INodeList.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\INonDocumentTypeChildNode.cs">
+      <Link>Interfaces\INonDocumentTypeChildNode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\INonElementParentNode.cs">
+      <Link>Interfaces\INonElementParentNode.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Io\IBlob.cs">
       <Link>Interfaces\Io\IBlob.cs</Link>

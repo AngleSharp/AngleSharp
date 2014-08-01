@@ -14,7 +14,8 @@
         /// Constructs a new CSS condition rule.
         /// </summary>
         internal CSSConditionRule ()
-	    { }
+	    { 
+        }
 
         #endregion
 

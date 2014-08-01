@@ -199,11 +199,11 @@
         /// </summary>
         sealed class CustomCursorMode : CursorMode
         {
-            Location _url;
-            Single _x;
-            Single _y;
+            readonly Url _url;
+            readonly Single _x;
+            readonly Single _y;
 
-            public CustomCursorMode(Location url, Single? x = null, Single? y = null)
+            public CustomCursorMode(Url url, Single? x = null, Single? y = null)
             {
                 _url = url;
                 _x = x ?? 0f;
@@ -216,7 +216,7 @@
         /// </summary>
         sealed class MultiCursorMode : CursorMode
         {
-            List<CursorMode> _preferences;
+            readonly List<CursorMode> _preferences;
 
             public MultiCursorMode(List<CursorMode> preferences)
             {
@@ -229,7 +229,7 @@
         /// </summary>
         sealed class SystemCursorMode : CursorMode
         {
-            SystemCursor _cursor;
+            readonly SystemCursor _cursor;
 
             public SystemCursorMode(SystemCursor cursor)
             {

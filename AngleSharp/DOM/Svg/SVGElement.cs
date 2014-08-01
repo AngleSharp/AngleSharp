@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets an object representing the declarations of an element's style attributes.
         /// </summary>
-        public CSSStyleDeclaration Style
+        public ICssStyleDeclaration Style
         {
             get { return _style ?? (_style = new CSSStyleDeclaration(this)); }
         }

@@ -158,6 +158,11 @@
             get { return _style ?? (_style = new CSSStyleDeclaration(this)); }
         }
 
+        ICssStyleDeclaration IElementCssInlineStyle.Style
+        {
+            get { return Style; }
+        }
+
         /// <summary>
         /// Gets or sets whether or not the element is editable. This enumerated
         /// attribute can have the values true, false and inherited.

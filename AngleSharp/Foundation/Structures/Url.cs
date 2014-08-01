@@ -1,76 +1,107 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.DOM;
     using System;
     using System.Collections.Generic;
 
     /// <summary>
-    /// A location object with information about a URL.
-    /// More information is available at:
-    /// http://url.spec.whatwg.org/
+    /// Represents an Url class according to RFC3986.
+    /// This is the base for all internal Url manipulation.
     /// </summary>
-    sealed class Location : ILocation, ICssObject
+    public class Url : ICssObject
     {
         #region Fields
 
-        Boolean _relative;
+        String _fragment;
+        String _query;
+        String _path;
+        String _scheme;
+        String _port;
+        String _host;
         String _username;
         String _password;
-        String _scheme;
+        Boolean _relative;
         String _schemeData;
-        String _host;
-        String _port;
-        String _path;
-        String _query;
-        String _fragment;
 
         #endregion
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new location with no URL.
-        /// </summary>
-        internal Location()
-            : this(String.Empty)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new location based on the given URL.
-        /// </summary>
-        /// <param name="url">The URL to represent.</param>
-        internal Location(String url)
+        private Url()
         {
             _relative = false;
-            _username = null;
-            _password = null;
             _scheme = String.Empty;
             _schemeData = String.Empty;
             _host = String.Empty;
             _port = String.Empty;
             _path = String.Empty;
-            _query = null;
-            _fragment = null;
-            ChangeTo(url ?? String.Empty);
+        }
+
+        /// <summary>
+        /// Creates a new Url from the given string.
+        /// </summary>
+        /// <param name="address">The address to represent.</param>
+        public Url(String address)
+            : this()
+        {
+            ParseUrl(address);
+        }
+
+        /// <summary>
+        /// Creates a new absolute Url from the relative Url with the given base address.
+        /// </summary>
+        /// <param name="baseAddress">The base address to use.</param>
+        /// <param name="relativeAddress">The relative address to represent.</param>
+        public Url(Url baseAddress, String relativeAddress)
+            : this()
+        {
+            ParseUrl(relativeAddress, baseAddress);
+        }
+
+        /// <summary>
+        /// Creates a new Url by copying the other Url.
+        /// </summary>
+        /// <param name="address">The address to copy.</param>
+        public Url(Url address)
+        {
+            _fragment = address._fragment;
+            _query = address._query;
+            _path = address._path;
+            _scheme = address._scheme;
+            _port = address._port;
+            _host = address._host;
+            _username = address._username;
+            _password = address._password;
+             _relative = address._relative;
+            _schemeData = address._schemeData;;
+        }
+
+        /// <summary>
+        /// Creates a new Url using the original string of the given Uri.
+        /// </summary>
+        /// <param name="address">The address to represent.</param>
+        public Url(Uri address)
+            : this(address.OriginalString)
+        {
         }
 
         #endregion
 
         #region Properties
 
-        public String Origin
-        {
-            get { return Href; }
-        }
-
         /// <summary>
-        /// Gets if the stored location is relative and requires
-        /// a base URL.
+        /// Gets if the stored url is relative.
         /// </summary>
         public Boolean IsRelative
         {
             get { return _relative && String.IsNullOrEmpty(_scheme); }
+        }
+
+        /// <summary>
+        /// Gets if the stored url is absolute.
+        /// </summary>
+        public Boolean IsAbsolute
+        {
+            get { return !IsRelative; }
         }
 
         /// <summary>
@@ -101,11 +132,11 @@
         }
 
         /// <summary>
-        /// Gets or sets the hash, e.g.  "#myhash".
+        /// Gets or sets the fragment.
         /// </summary>
-        public String Hash
+        public String Fragment
         {
-            get { return NonEmpty(_fragment, "#"); }
+            get { return _fragment; }
             set { ParseFragment(value ?? String.Empty, 0); }
         }
 
@@ -114,7 +145,7 @@
         /// </summary>
         public String Host
         {
-            get { return HostName + NonEmpty(_port, ":"); }
+            get { return HostName + (String.IsNullOrEmpty(_port) ? String.Empty : ":" + _port); }
             set { ParseHostName(value ?? String.Empty, 0, false, true); }
         }
 
@@ -132,21 +163,21 @@
         /// </summary>
         public String Href
         {
-            get { return ToString(); }
-            set { ChangeTo(value ?? String.Empty); }
+            get { return Serialize(); }
+            set { ParseUrl(value); }
         }
 
         /// <summary>
-        /// Gets or sets the pathname, e.g. "/mypath".
+        /// Gets or sets the pathname, e.g. "mypath".
         /// </summary>
-        public String PathName
+        public String Path
         {
-            get { return "/" + _path; }
+            get { return _path; }
             set { ParsePath(value ?? String.Empty, 0, true); }
         }
 
         /// <summary>
-        /// Gets or sets the port, e.g. "8800"
+        /// Gets or sets the port, e.g. "8800".
         /// </summary>
         public String Port
         {
@@ -157,58 +188,53 @@
         /// <summary>
         /// Gets or sets the protocol, e.g. "http:".
         /// </summary>
-        public String Protocol
+        public String Scheme
         {
-            get { return NonEmpty(_scheme, postfix : ":"); }
+            get { return _scheme; }
             set { ParseScheme(value ?? String.Empty, true); }
         }
 
         /// <summary>
-        /// Gets or sets the query, e.g. "?id=...".
+        /// Gets or sets the query.
         /// </summary>
-        public String Search
+        public String Query
         {
-            get { return NonEmpty(_query, "?"); }
+            get { return _query; }
             set { ParseQuery(value ?? String.Empty, 0, true); }
         }
 
         #endregion
 
-        #region Methods
+        #region Conversion
 
-        public void Assign(String url)
+        /// <summary>
+        /// Converts the given Url to an Uri.
+        /// </summary>
+        /// <param name="value">The Url to convert.</param>
+        /// <returns>The Uri instance.</returns>
+        public static implicit operator Uri(Url value)
         {
-            Href = url;
-        }
-
-        public void Replace(String url)
-        {
-            Href = url;
-        }
-
-        public void Reload()
-        {
-            Href = Href;
+            return new Uri(value.Serialize(), value.IsRelative ? UriKind.Relative : UriKind.Absolute);
         }
 
         #endregion
 
-        #region String representation
+        #region Serialization
 
         /// <summary>
         /// Returns the CSS representation of the given URL.
         /// </summary>
         /// <returns>The CSS value string.</returns>
-        public String ToCss()
+        string ICssObject.ToCss()
         {
-            return FunctionNames.Build(FunctionNames.Url, String.Concat("'", ToString(), "'"));
+            return FunctionNames.Build(FunctionNames.Url, String.Concat("'", Serialize(), "'"));
         }
 
         /// <summary>
         /// Returns the string representation of the current location.
         /// </summary>
         /// <returns>The string that equals the hyper reference.</returns>
-        public override String ToString()
+        String Serialize()
         {
             var output = Pool.NewStringBuilder();
 
@@ -254,35 +280,10 @@
 
         #endregion
 
-        #region Helpers
-
-        static String NonEmpty(String check, String prefix = null, String postfix = null)
-        {
-            if (String.IsNullOrEmpty(check))
-                return String.Empty;
-
-            return String.Concat(prefix ?? String.Empty, check, postfix ?? String.Empty);
-        }
-
-        /// <summary>
-        /// This tries to match the specification of RFC 3986
-        /// http://tools.ietf.org/html/rfc3986
-        /// </summary>
-        /// <param name="url">The url to parse.</param>
-        void ChangeTo(String url)
-        {
-            url = url.Trim();
-            ParseScheme(url.Trim());
-        }
-
-        #endregion
-
         #region Parsing
 
-        void ParseUrl(String input, Location baseUrl = null)
+        void ParseUrl(String input, Url baseUrl = null)
         {
-            input = input.Trim();
-
             if (baseUrl != null)
             {
                 _scheme = baseUrl._scheme;
@@ -393,7 +394,7 @@
             {
                 case Specification.QuestionMark:
                     return ParseQuery(input, index + 1);
-            
+
                 case Specification.Num:
                     return ParseFragment(input, index + 1);
 
@@ -462,7 +463,7 @@
                         user = buffer.ToString();
                         buffer.Clear();
                     }
-                    
+
                     pass = buffer.ToString();
                     start = index + 1;
                     _username = user;
@@ -721,36 +722,6 @@
 
             _fragment = buffer.ToPool();
             return true;
-        }
-
-        #endregion
-
-        #region Internal Helpers
-
-        /// <summary>
-        /// Checks if the given URL is an absolute URI.
-        /// </summary>
-        /// <param name="url">The given URL.</param>
-        /// <returns>True if the url is absolute otherwise false.</returns>
-        internal static Boolean IsAbsolute(String url)
-        {
-            return new Location(url).IsRelative == false;
-        }
-
-        /// <summary>
-        /// Creates an absolute URI out of the given baseURI and (relative) URL.
-        /// </summary>
-        /// <param name="basePath">The baseURI of the page or element.</param>
-        /// <param name="relativePath">The relative path for the URL creation.</param>
-        /// <returns>THe absolute URI created out of the baseURI and pointing to the relative path.</returns>
-        internal static String MakeAbsolute(String basePath, String relativePath)
-        {
-            Uri baseUri;
-            
-            if (Uri.TryCreate(basePath, UriKind.Absolute, out baseUri))
-                return new Uri(baseUri, relativePath).ToString();
-
-            return relativePath;
         }
 
         #endregion

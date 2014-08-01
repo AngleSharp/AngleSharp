@@ -11,6 +11,6 @@
         /// Gets an object representing the declarations of an element's style attributes.
         /// </summary>
         [DomName("style")]
-        CSSStyleDeclaration Style { get; }
+        ICssStyleDeclaration Style { get; }
     }
 }

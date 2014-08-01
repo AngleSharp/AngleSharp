@@ -18,6 +18,6 @@
         /// Gets the style object for the margin at-rule.
         /// </summary>
         [DomName("style")]
-        CSSStyleDeclaration Style { get; }
+        ICssStyleDeclaration Style { get; }
     }
 }

@@ -204,8 +204,8 @@
                     return;
                 }
 
-                src = HyperRef(src);
-                _load = options.LoadWithCorsAsync(src, CrossOrigin.ToEnum(CorsSetting.None), Owner.Origin, OriginBehavior.Taint);
+                var url = HyperRef(src);
+                _load = options.LoadWithCorsAsync(url, CrossOrigin.ToEnum(CorsSetting.None), Owner.Origin, OriginBehavior.Taint);
 
                 if (_parserInserted && !IsAsync)
                 {

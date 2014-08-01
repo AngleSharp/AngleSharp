@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlTagToken : HtmlToken
     {
-        #region Members
+        #region Fields
 
         Boolean _selfClosing;
         List<KeyValuePair<String, String>> _attributes;
