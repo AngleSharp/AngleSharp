@@ -590,7 +590,6 @@
     <Compile Include="IHtmlObject.cs" />
     <Compile Include="DOM\Html\ValidityState.cs" />
     <Compile Include="DOM\Event.cs" />
-    <Compile Include="DOM\EventTarget.cs" />
     <Compile Include="DOM\FormControlState.cs" />
     <Compile Include="Attributes\DomNameAttribute.cs" />
     <Compile Include="Parser\BaseTokenizer.cs" />

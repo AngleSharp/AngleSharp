@@ -967,9 +967,6 @@
     <Compile Include="..\AngleSharp\DOM\Event.cs">
       <Link>DOM\Event.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\EventTarget.cs">
-      <Link>DOM\EventTarget.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Factories\CssPropertyFactory.cs">
       <Link>DOM\Factories\CssPropertyFactory.cs</Link>
     </Compile>
