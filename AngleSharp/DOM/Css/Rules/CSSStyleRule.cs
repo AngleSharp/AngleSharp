@@ -103,7 +103,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return _selectorText + " {" + Environment.NewLine + _style.ToCss() + "}";
+            return String.Concat(_selectorText, "{", _style.ToCss(), "}");
         }
 
         #endregion
