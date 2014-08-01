@@ -18,6 +18,6 @@
         /// Gets the style associated with this keyframe.
         /// </summary>
         [DomName("style")]
-        CSSStyleDeclaration Style { get; }
+        ICssStyleDeclaration Style { get; }
     }
 }

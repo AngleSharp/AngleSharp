@@ -9,8 +9,7 @@
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    [DomName("CSSStyleDeclaration")]
-    public sealed class CSSStyleDeclaration : IEnumerable<CSSProperty>
+    sealed class CSSStyleDeclaration : ICssStyleDeclaration
     {
         #region Fields
 
@@ -62,7 +61,6 @@
         /// <summary>
         /// Gets or sets the textual representation of the declaration block.
         /// </summary>
-        [DomName("cssText")]
         public String CssText
         {
             get { return _getter(); }
@@ -88,7 +86,6 @@
         /// <summary>
         /// Gets the number of properties in the declaration.
         /// </summary>
-        [DomName("length")]
         public Int32 Length
         {
             get { return _rules.Count; }
@@ -97,11 +94,10 @@
         /// <summary>
         /// Gets the containing CSSRule.
         /// </summary>
-        [DomName("parentRule")]
         public ICssRule ParentRule
         {
             get { return _parent; }
-            internal set { _parent = value; }
+            set { _parent = value; }
         }
 
         /// <summary>
@@ -109,7 +105,6 @@
         /// </summary>
         /// <param name="index">The index of the property to retrieve.</param>
         /// <returns>The name of the property at the given index.</returns>
-        [DomName("item")]
         public String this[Int32 index]
         {
             get { return Get(index).Name; }
@@ -124,7 +119,6 @@
         /// is extra space along the axis that is perpendicular to the axis defined by the
         /// flex-direction property.
         /// </summary>
-        [DomName("alignContent")]
         public String AlignContent
         {
             get { return GetPropertyValue(PropertyNames.AlignContent) ?? String.Empty; }
@@ -135,7 +129,6 @@
         /// Gets or sets the alignment value (perpendicular to the layout axis
         /// defined by the flex-direction property) of flex items of the flex container.
         /// </summary>
-        [DomName("alignItems")]
         public String AlignItems
         {
             get { return GetPropertyValue(PropertyNames.AlignItems) ?? String.Empty; }
@@ -147,7 +140,6 @@
         /// axis defined by the flex-direction property) of flex items of
         /// the flex container.
         /// </summary>
-        [DomName("alignSelf")]
         public String AlignSelf
         {
             get { return GetPropertyValue(PropertyNames.AlignSelf) ?? String.Empty; }
@@ -158,7 +150,6 @@
         /// Gets or sets a string that indicates whether the object represents a
         /// keyboard shortcut.
         /// </summary>
-        [DomName("accelerator")]
         public String Accelerator
         {
             get { return GetPropertyValue(PropertyNames.Accelerator) ?? String.Empty; }
@@ -169,7 +160,6 @@
         /// Gets or sets which baseline of this element is to be aligned
         /// with the corresponding baseline of the parent.
         /// </summary>
-        [DomName("alignmentBaseline")]
         public String AlignmentBaseline
         {
             get { return GetPropertyValue(PropertyNames.AlignBaseline) ?? String.Empty; }
@@ -182,7 +172,6 @@
         /// properties identified in the CSS @keyframes at-rule specified by the
         /// animations-name property.
         /// </summary>
-        [DomName("animation")]
         public String Animation
         {
             get { return GetPropertyValue(PropertyNames.Animation) ?? String.Empty; }
@@ -196,7 +185,6 @@
         /// object properties identified in the CSS @keyframes at-rule
         /// specified by the animation-name property.
         /// </summary>
-        [DomName("animationDelay")]
         public String AnimationDelay
         {
             get { return GetPropertyValue(PropertyNames.AnimationDelay) ?? String.Empty; }
@@ -206,7 +194,6 @@
         /// <summary>
         /// Gets or sets the direction of play for an animation cycle.
         /// </summary>
-        [DomName("animationDirection")]
         public String AnimationDirection
         {
             get { return GetPropertyValue(PropertyNames.AnimationDirection) ?? String.Empty; }
@@ -216,7 +203,6 @@
         /// <summary>
         /// Gets or sets the length of time to complete one cycle of the animation.
         /// </summary>
-        [DomName("animationDuration")]
         public String AnimationDuration
         {
             get { return GetPropertyValue(PropertyNames.AnimationDuration) ?? String.Empty; }
@@ -226,7 +212,6 @@
         /// <summary>
         /// Gets or sets whether the effects of an animation are visible before or after it plays.
         /// </summary>
-        [DomName("animationFillMode")]
         public String AnimationFillMode
         {
             get { return GetPropertyValue(PropertyNames.AnimationFillMode) ?? String.Empty; }
@@ -236,7 +221,6 @@
         /// <summary>
         /// Gets or sets the number of times an animation cycle is played.
         /// </summary>
-        [DomName("animationIterationCount")]
         public String AnimationIterationCount
         {
             get { return GetPropertyValue(PropertyNames.AnimationIterationCount) ?? String.Empty; }
@@ -247,7 +231,6 @@
         /// Gets or sets one or more animation names. An animation name
         /// selects a CSS @keyframes at-rule.
         /// </summary>
-        [DomName("animationName")]
         public String AnimationName
         {
             get { return GetPropertyValue(PropertyNames.AnimationName) ?? String.Empty; }
@@ -257,7 +240,6 @@
         /// <summary>
         /// Gets or sets whether an animation is playing or paused.
         /// </summary>
-        [DomName("animationPlayState")]
         public String AnimationPlayState
         {
             get { return GetPropertyValue(PropertyNames.AnimationPlayState) ?? String.Empty; }
@@ -270,7 +252,6 @@
         /// properties identified in the CSS @keyframes at-rule specified by
         /// the animation-name property.
         /// </summary>
-        [DomName("animationTimingFunction")]
         public String AnimationTimingFunction
         {
             get { return GetPropertyValue(PropertyNames.AnimationTimingFunction) ?? String.Empty; }
@@ -281,7 +262,6 @@
         /// Gets or sets a value that specifies whether the back face
         /// (reverse side) of an object is visible.
         /// </summary>
-        [DomName("backfaceVisibility")]
         public String BackfaceVisibility
         {
             get { return GetPropertyValue(PropertyNames.BackfaceVisibility) ?? String.Empty; }
@@ -291,7 +271,6 @@
         /// <summary>
         /// Gets or sets up to five separate background properties of an object.
         /// </summary>
-        [DomName("background")]
         public String Background
         {
             get { return GetPropertyValue(PropertyNames.Background) ?? String.Empty; }
@@ -302,7 +281,6 @@
         /// Gets or sets how the background image (or images) is attached
         /// to the object within the document.
         /// </summary>
-        [DomName("backgroundAttachment")]
         public String BackgroundAttachment
         {
             get { return GetPropertyValue(PropertyNames.BackgroundAttachment) ?? String.Empty; }
@@ -313,7 +291,6 @@
         /// Gets or sets the background painting area or areas relative to the
         /// element's bounding boxes.
         /// </summary>
-        [DomName("backgroundClip")]
         public String BackgroundClip
         {
             get { return GetPropertyValue(PropertyNames.BackgroundClip) ?? String.Empty; }
@@ -323,7 +300,6 @@
         /// <summary>
         /// Gets or sets the color behind the content of the object.
         /// </summary>
-        [DomName("backgroundColor")]
         public String BackgroundColor
         {
             get { return GetPropertyValue(PropertyNames.BackgroundColor) ?? String.Empty; }
@@ -333,7 +309,6 @@
         /// <summary>
         /// Gets or sets the background image or images of the object.
         /// </summary>
-        [DomName("backgroundImage")]
         public String BackgroundImage
         {
             get { return GetPropertyValue(PropertyNames.BackgroundImage) ?? String.Empty; }
@@ -343,7 +318,6 @@
         /// <summary>
         /// Gets or sets the positioning area of an element or multiple elements.
         /// </summary>
-        [DomName("backgroundOrigin")]
         public String BackgroundOrigin
         {
             get { return GetPropertyValue(PropertyNames.BackgroundOrigin) ?? String.Empty; }
@@ -353,7 +327,6 @@
         /// <summary>
         /// Gets or sets the position of the background of the object.
         /// </summary>
-        [DomName("backgroundPosition")]
         public String BackgroundPosition
         {
             get { return GetPropertyValue(PropertyNames.BackgroundPosition) ?? String.Empty; }
@@ -363,7 +336,6 @@
         /// <summary>
         /// Gets or sets the x-coordinate of the background-position property.
         /// </summary>
-        [DomName("backgroundPositionX")]
         public String BackgroundPositionX
         {
             get { return GetPropertyValue(PropertyNames.BackgroundPositionX) ?? String.Empty; }
@@ -373,7 +345,6 @@
         /// <summary>
         /// Gets or sets the y-coordinate of the background-position property.
         /// </summary>
-        [DomName("backgroundPositionY")]
         public String BackgroundPositionY
         {
             get { return GetPropertyValue(PropertyNames.BackgroundPositionY) ?? String.Empty; }
@@ -383,7 +354,6 @@
         /// <summary>
         /// Gets or sets whether and how the background image (or images) is tiled.
         /// </summary>
-        [DomName("backgroundRepeat")]
         public String BackgroundRepeat
         {
             get { return GetPropertyValue(PropertyNames.BackgroundRepeat) ?? String.Empty; }
@@ -393,7 +363,6 @@
         /// <summary>
         /// Gets or sets the size of the background images.
         /// </summary>
-        [DomName("backgroundSize")]
         public String BackgroundSize
         {
             get { return GetPropertyValue(PropertyNames.BackgroundSize) ?? String.Empty; }
@@ -405,7 +374,6 @@
         /// should be repositioned relative to the dominant baseline of the
         /// parent text content element.
         /// </summary>
-        [DomName("baselineShift")]
         public String BaselineShift
         {
             get { return GetPropertyValue(PropertyNames.BaselineShift) ?? String.Empty; }
@@ -415,7 +383,6 @@
         /// <summary>
         /// Gets or sets the location of the Dynamic HTML (DHTML) behaviorDHTML Behaviors.
         /// </summary>
-        [DomName("behavior")]
         public String Behavior
         {
             get { return GetPropertyValue(PropertyNames.Behavior) ?? String.Empty; }
@@ -425,7 +392,6 @@
         /// <summary>
         /// Gets or sets the properties of a border drawn around an object.
         /// </summary>
-        [DomName("border")]
         public String Border
         {
             get { return GetPropertyValue(PropertyNames.Border) ?? String.Empty; }
@@ -435,7 +401,6 @@
         /// <summary>
         /// Gets or sets the properties of the bottom border of the object.
         /// </summary>
-        [DomName("borderBottom")]
         public String BorderBottom
         {
             get { return GetPropertyValue(PropertyNames.BorderBottom) ?? String.Empty; }
@@ -445,7 +410,6 @@
         /// <summary>
         /// Gets or sets the foreground color of the bottom border of an object.
         /// </summary>
-        [DomName("borderBottomColor")]
         public String BorderBottomColor
         {
             get { return GetPropertyValue(PropertyNames.BorderBottomColor) ?? String.Empty; }
@@ -456,7 +420,6 @@
         /// Gets or sets the radii of the quarter ellipse that defines
         /// the shape of the lower-left corner for the outer border edge of the current box.
         /// </summary>
-        [DomName("borderBottomLeftRadius")]
         public String BorderBottomLeftRadius
         {
             get { return GetPropertyValue(PropertyNames.BorderBottomLeftRadius) ?? String.Empty; }
@@ -468,7 +431,6 @@
         /// quarter ellipse that defines the shape of the lower-right corner
         /// for the outer border edge of the current box.
         /// </summary>
-        [DomName("borderBottomRightRadius")]
         public String BorderBottomRightRadius
         {
             get { return GetPropertyValue(PropertyNames.BorderBottomRightRadius) ?? String.Empty; }
@@ -478,7 +440,6 @@
         /// <summary>
         /// Gets or sets the style of the bottom border of the object.
         /// </summary>
-        [DomName("borderBottomStyle")]
         public String BorderBottomStyle
         {
             get { return GetPropertyValue(PropertyNames.BorderBottomStyle) ?? String.Empty; }
@@ -488,7 +449,6 @@
         /// <summary>
         /// Gets or sets the thickness of the bottom border of the object.
         /// </summary>
-        [DomName("borderBottomWidth")]
         public String BorderBottomWidth
         {
             get { return GetPropertyValue(PropertyNames.BorderBottomWidth) ?? String.Empty; }
@@ -499,7 +459,6 @@
         /// Gets or sets whether the row and cell borders of a table are joined in a
         /// single border or detached as in standard HTML.
         /// </summary>
-        [DomName("borderCollapse")]
         public String BorderCollapse
         {
             get { return GetPropertyValue(PropertyNames.BorderCollapse) ?? String.Empty; }
@@ -509,7 +468,6 @@
         /// <summary>
         /// Gets or sets the border color of the object.
         /// </summary>
-        [DomName("borderColor")]
         public String BorderColor
         {
             get { return GetPropertyValue(PropertyNames.BorderColor) ?? String.Empty; }
@@ -519,7 +477,6 @@
         /// <summary>
         /// Gets or sets an image to be used in place of the border styles.
         /// </summary>
-        [DomName("borderImage")]
         public String BorderImage
         {
             get { return GetPropertyValue(PropertyNames.BorderImage) ?? String.Empty; }
@@ -529,7 +486,6 @@
         /// <summary>
         /// Gets or sets the amount by which the border image area extends beyond the border box.
         /// </summary>
-        [DomName("borderImageOutset")]
         public String BorderImageOutset
         {
             get { return GetPropertyValue(PropertyNames.BorderImageOutset) ?? String.Empty; }
@@ -539,7 +495,6 @@
         /// <summary>
         /// Gets or sets ow the image is scaled and tiled.
         /// </summary>
-        [DomName("borderImageRepeat")]
         public String BorderImageRepeat
         {
             get { return GetPropertyValue(PropertyNames.BorderImageRepeat) ?? String.Empty; }
@@ -550,7 +505,6 @@
         /// Gets or sets four inward offsets, this property slices the specified
         /// border image into a three by three grid: four corners, four edges, and a central region.
         /// </summary>
-        [DomName("borderImageSlice")]
         public String BorderImageSlice
         {
             get { return GetPropertyValue(PropertyNames.BorderImageSlice) ?? String.Empty; }
@@ -560,7 +514,6 @@
         /// <summary>
         /// Gets or sets the path of the image to be used for the border.
         /// </summary>
-        [DomName("borderImageSource")]
         public String BorderImageSource
         {
             get { return GetPropertyValue(PropertyNames.BorderImageSource) ?? String.Empty; }
@@ -570,7 +523,6 @@
         /// <summary>
         /// Gets or sets the inward offsets from the outer border edge.
         /// </summary>
-        [DomName("borderImageWidth")]
         public String BorderImageWidth
         {
             get { return GetPropertyValue(PropertyNames.BorderImageWidth) ?? String.Empty; }
@@ -580,7 +532,6 @@
         /// <summary>
         /// Gets or sets the properties of the left border of the object.
         /// </summary>
-        [DomName("borderLeft")]
         public String BorderLeft
         {
             get { return GetPropertyValue(PropertyNames.BorderLeft) ?? String.Empty; }
@@ -590,7 +541,6 @@
         /// <summary>
         /// Gets or sets the foreground color of the left border of an object.
         /// </summary>
-        [DomName("borderLeftColor")]
         public String BorderLeftColor
         {
             get { return GetPropertyValue(PropertyNames.BorderLeftColor) ?? String.Empty; }
@@ -600,7 +550,6 @@
         /// <summary>
         /// Gets or sets the style of the left border of the object.
         /// </summary>
-        [DomName("borderLeftStyle")]
         public String BorderLeftStyle
         {
             get { return GetPropertyValue(PropertyNames.BorderLeftStyle) ?? String.Empty; }
@@ -610,7 +559,6 @@
         /// <summary>
         /// Gets or sets the thickness of the left border of the object.
         /// </summary>
-        [DomName("borderLeftWidth")]
         public String BorderLeftWidth
         {
             get { return GetPropertyValue(PropertyNames.BorderLeftWidth) ?? String.Empty; }
@@ -621,7 +569,6 @@
         /// Gets or sets the radii of a quarter ellipse that defines the shape of
         /// the corners for the outer border edge of the current box.
         /// </summary>
-        [DomName("borderRadius")]
         public String BorderRadius
         {
             get { return GetPropertyValue(PropertyNames.BorderRadius) ?? String.Empty; }
@@ -631,7 +578,6 @@
         /// <summary>
         /// Gets or sets the properties of the right border of the object.
         /// </summary>
-        [DomName("borderRight")]
         public String BorderRight
         {
             get { return GetPropertyValue(PropertyNames.BorderRight) ?? String.Empty; }
@@ -641,7 +587,6 @@
         /// <summary>
         /// Gets or sets the foreground color of the right border of an object.
         /// </summary>
-        [DomName("borderRightColor")]
         public String BorderRightColor
         {
             get { return GetPropertyValue(PropertyNames.BorderRightColor) ?? String.Empty; }
@@ -651,7 +596,6 @@
         /// <summary>
         /// Gets or sets the style of the right border of the object.
         /// </summary>
-        [DomName("borderRightStyle")]
         public String BorderRightStyle
         {
             get { return GetPropertyValue(PropertyNames.BorderRightStyle) ?? String.Empty; }
@@ -661,7 +605,6 @@
         /// <summary>
         /// Gets or sets the thickness of the right border of the object.
         /// </summary>
-        [DomName("borderRightWidth")]
         public String BorderRightWidth
         {
             get { return GetPropertyValue(PropertyNames.BorderRightWidth) ?? String.Empty; }
@@ -671,7 +614,6 @@
         /// <summary>
         /// Gets or sets the distance between the borders of adjoining cells in a table.
         /// </summary>
-        [DomName("borderSpacing")]
         public String BorderSpacing
         {
             get { return GetPropertyValue(PropertyNames.BorderSpacing) ?? String.Empty; }
@@ -681,7 +623,6 @@
         /// <summary>
         /// Gets or sets the style of the left, right, top, and bottom borders of the object.
         /// </summary>
-        [DomName("borderStyle")]
         public String BorderStyle
         {
             get { return GetPropertyValue(PropertyNames.BorderStyle) ?? String.Empty; }
@@ -691,7 +632,6 @@
         /// <summary>
         /// Gets or sets the properties of the top border of the object.
         /// </summary>
-        [DomName("borderTop")]
         public String BorderTop
         {
             get { return GetPropertyValue(PropertyNames.BorderTop) ?? String.Empty; }
@@ -701,7 +641,6 @@
         /// <summary>
         /// Gets or sets the foreground color of the top border of an object.
         /// </summary>
-        [DomName("borderTopColor")]
         public String BorderTopColor
         {
             get { return GetPropertyValue(PropertyNames.BorderTopColor) ?? String.Empty; }
@@ -712,7 +651,6 @@
         /// Gets or sets  one or two values that define the radii of the quarter ellipse
         /// that defines the shape of the upper-left corner for the outer border edge of the current box.
         /// </summary>
-        [DomName("borderTopLeftRadius")]
         public String BorderTopLeftRadius
         {
             get { return GetPropertyValue(PropertyNames.BorderTopLeftRadius) ?? String.Empty; }
@@ -724,7 +662,6 @@
         /// quarter ellipse that defines the shape of the upper-right
         /// corner for the outer border edge of the current box.
         /// </summary>
-        [DomName("borderTopRightRadius")]
         public String BorderTopRightRadius
         {
             get { return GetPropertyValue(PropertyNames.BorderTopRightRadius) ?? String.Empty; }
@@ -734,7 +671,6 @@
         /// <summary>
         /// Gets or sets  the style of the top border of the object.
         /// </summary>
-        [DomName("borderTopStyle")]
         public String BorderTopStyle
         {
             get { return GetPropertyValue(PropertyNames.BorderTopStyle) ?? String.Empty; }
@@ -744,7 +680,6 @@
         /// <summary>
         /// Gets or sets the thickness of the top border of the object.
         /// </summary>
-        [DomName("borderTopWidth")]
         public String BorderTopWidth
         {
             get { return GetPropertyValue(PropertyNames.BorderTopWidth) ?? String.Empty; }
@@ -754,7 +689,6 @@
         /// <summary>
         /// Gets or sets the thicknesses of the left, right, top, and bottom borders of an object.
         /// </summary>
-        [DomName("borderWidth")]
         public String BorderWidth
         {
             get { return GetPropertyValue(PropertyNames.BorderWidth) ?? String.Empty; }
@@ -765,7 +699,6 @@
         /// Gets or sets one or more set of shadow values that attaches one or
         /// more drop shadows to the current box.
         /// </summary>
-        [DomName("boxShadow")]
         public String BoxShadow
         {
             get { return GetPropertyValue(PropertyNames.BoxShadow) ?? String.Empty; }
@@ -775,7 +708,6 @@
         /// <summary>
         /// Gets or sets the box model to use for object sizing.
         /// </summary>
-        [DomName("boxSizing")]
         public String BoxSizing
         {
             get { return GetPropertyValue(PropertyNames.BoxSizing) ?? String.Empty; }
@@ -786,7 +718,6 @@
         /// Gets or sets the column-break behavior that follows a content
         /// block in a multi-column element.
         /// </summary>
-        [DomName("breakAfter")]
         public String BreakAfter
         {
             get { return GetPropertyValue(PropertyNames.BreakAfter) ?? String.Empty; }
@@ -797,7 +728,6 @@
         /// Gets or sets the column-break behavior that precedes a content
         /// block in a multi-column element.
         /// </summary>
-        [DomName("breakBefore")]
         public String BreakBefore
         {
             get { return GetPropertyValue(PropertyNames.BreakBefore) ?? String.Empty; }
@@ -808,7 +738,6 @@
         /// Gets or sets the column-break behavior that occurs within a
         /// content block in a multi-column element.
         /// </summary>
-        [DomName("breakInside")]
         public String BreakInside
         {
             get { return GetPropertyValue(PropertyNames.BreakInside) ?? String.Empty; }
@@ -818,7 +747,6 @@
         /// <summary>
         /// Gets or sets where the caption of a table is located.
         /// </summary>
-        [DomName("captionSide")]
         public String CaptionSide
         {
             get { return GetPropertyValue(PropertyNames.CaptionSide) ?? String.Empty; }
@@ -829,7 +757,6 @@
         /// Gets or sets whether the object allows floating objects on its left side,
         /// right side, or both, so that the next text displays past the floating objects.
         /// </summary>
-        [DomName("clear")]
         public String Clear
         {
             get { return GetPropertyValue(PropertyNames.Clear) ?? String.Empty; }
@@ -839,7 +766,6 @@
         /// <summary>
         /// Gets or sets which part of a positioned object is visible.
         /// </summary>
-        [DomName("clip")]
         public String Clip
         {
             get { return GetPropertyValue(PropertyNames.Clip) ?? String.Empty; }
@@ -849,7 +775,6 @@
         /// <summary>
         /// Gets or sets the bottom coordinate of the object clipping region.
         /// </summary>
-        [DomName("clipBottom")]
         public String ClipBottom
         {
             get { return GetPropertyValue(PropertyNames.ClipBottom) ?? String.Empty; }
@@ -859,7 +784,6 @@
         /// <summary>
         /// Gets or sets the left coordinate of the object clipping region.
         /// </summary>
-        [DomName("clipLeft")]
         public String ClipLeft
         {
             get { return GetPropertyValue(PropertyNames.ClipLeft) ?? String.Empty; }
@@ -870,7 +794,6 @@
         /// Gets or sets a reference to the SVG graphical object
         /// that will be used as the clipping path.
         /// </summary>
-        [DomName("clipPath")]
         public String ClipPath
         {
             get { return GetPropertyValue(PropertyNames.ClipPath) ?? String.Empty; }
@@ -880,7 +803,6 @@
         /// <summary>
         /// Gets or sets the right coordinate of the object clipping region.
         /// </summary>
-        [DomName("clipRight")]
         public String ClipRight
         {
             get { return GetPropertyValue(PropertyNames.ClipRight) ?? String.Empty; }
@@ -891,7 +813,6 @@
         /// Gets or sets the algorithm used to determine what parts of the
         /// canvas are affected by the fill operation.
         /// </summary>
-        [DomName("clipRule")]
         public String ClipRule
         {
             get { return GetPropertyValue(PropertyNames.ClipRule) ?? String.Empty; }
@@ -901,7 +822,6 @@
         /// <summary>
         /// Gets or sets the top coordinate of the object clipping region.
         /// </summary>
-        [DomName("clipTop")]
         public String ClipTop
         {
             get { return GetPropertyValue(PropertyNames.ClipTop) ?? String.Empty; }
@@ -911,7 +831,6 @@
         /// <summary>
         /// Gets or sets the foreground color of the text of an object.
         /// </summary>
-        [DomName("color")]
         public String Color
         {
             get { return GetPropertyValue(PropertyNames.Color) ?? String.Empty; }
@@ -921,7 +840,6 @@
         /// <summary>
         /// Gets or sets which color space to use for filter effects.
         /// </summary>
-        [DomName("colorInterpolationFilters")]
         public String ColorInterpolationFilters
         {
             get { return GetPropertyValue(PropertyNames.ColorInterpolationFilters) ?? String.Empty; }
@@ -931,7 +849,6 @@
         /// <summary>
         /// Gets or sets the optimal number of columns in a multi-column element.
         /// </summary>
-        [DomName("columnCount")]
         public String ColumnCount
         {
             get { return GetPropertyValue(PropertyNames.ColumnCount) ?? String.Empty; }
@@ -942,7 +859,6 @@
         /// Gets or sets a value that indicates how the column lengths in a
         /// multi-column element are affected by the content flow.
         /// </summary>
-        [DomName("columnFill")]
         public String ColumnFill
         {
             get { return GetPropertyValue(PropertyNames.ColumnFill) ?? String.Empty; }
@@ -952,7 +868,6 @@
         /// <summary>
         /// Gets or sets the width of the gap between columns in a multi-column element.
         /// </summary>
-        [DomName("columnGap")]
         public String ColumnGap
         {
             get { return GetPropertyValue(PropertyNames.ColumnGap) ?? String.Empty; }
@@ -963,7 +878,6 @@
         /// Gets or sets a shorthand value  that specifies values for the columnRuleWidth, 
         /// columnRuleStyle, and the columnRuleColor of a multi-column element.
         /// </summary>
-        [DomName("columnRule")]
         public String ColumnRule
         {
             get { return GetPropertyValue(PropertyNames.ColumnRule) ?? String.Empty; }
@@ -973,7 +887,6 @@
         /// <summary>
         /// Gets or sets the color for all column rules in a multi-column element.
         /// </summary>
-        [DomName("columnRuleColor")]
         public String ColumnRuleColor
         {
             get { return GetPropertyValue(PropertyNames.ColumnRuleColor) ?? String.Empty; }
@@ -983,7 +896,6 @@
         /// <summary>
         /// Gets or sets the style for all column rules in a multi-column element.
         /// </summary>
-        [DomName("columnRuleStyle")]
         public String ColumnRuleStyle
         {
             get { return GetPropertyValue(PropertyNames.ColumnRuleStyle) ?? String.Empty; }
@@ -993,7 +905,6 @@
         /// <summary>
         /// Gets or sets the width of all column rules in a multi-column element.
         /// </summary>
-        [DomName("columnRuleWidth")]
         public String ColumnRuleWidth
         {
             get { return GetPropertyValue(PropertyNames.ColumnRuleWidth) ?? String.Empty; }
@@ -1004,7 +915,6 @@
         /// Gets or sets a shorthand value that specifies values for the column-width
         /// and the column-count of a multi-column element.
         /// </summary>
-        [DomName("columns")]
         public String Columns
         {
             get { return GetPropertyValue(PropertyNames.Columns) ?? String.Empty; }
@@ -1015,7 +925,6 @@
         /// Gets or sets the number of columns that a content block
         /// spans in a multi-column element.
         /// </summary>
-        [DomName("columnSpan")]
         public String ColumnSpan
         {
             get { return GetPropertyValue(PropertyNames.ColumnSpan) ?? String.Empty; }
@@ -1025,7 +934,6 @@
         /// <summary>
         /// Gets or sets the optimal width of the columns in a multi-column element.
         /// </summary>
-        [DomName("columnWidth")]
         public String ColumnWidth
         {
             get { return GetPropertyValue(PropertyNames.ColumnWidth) ?? String.Empty; }
@@ -1035,7 +943,6 @@
         /// <summary>
         /// Gets or sets generated content to insert before or after an element.
         /// </summary>
-        [DomName("content")]
         public String Content
         {
             get { return GetPropertyValue(PropertyNames.Content) ?? String.Empty; }
@@ -1045,7 +952,6 @@
         /// <summary>
         /// Gets or sets a list of counters to increment.
         /// </summary>
-        [DomName("counterIncrement")]
         public String CounterIncrement
         {
             get { return GetPropertyValue(PropertyNames.CounterIncrement) ?? String.Empty; }
@@ -1055,7 +961,6 @@
         /// <summary>
         /// Gets or sets a list of counters to create or reset to zero.
         /// </summary>
-        [DomName("counterReset")]
         public String CounterReset
         {
             get { return GetPropertyValue(PropertyNames.CounterReset) ?? String.Empty; }
@@ -1066,7 +971,6 @@
         /// Gets or sets a value that specifies whether a box should float
         /// to the left, right, or not at all.
         /// </summary>
-        [DomName("cssFloat")]
         public String Float
         {
             get { return GetPropertyValue(PropertyNames.Float) ?? String.Empty; }
@@ -1077,7 +981,6 @@
         /// Gets or sets the type of cursor to display as the mouse pointer
         /// moves over the object.
         /// </summary>
-        [DomName("cursor")]
         public String Cursor
         {
             get { return GetPropertyValue(PropertyNames.Cursor) ?? String.Empty; }
@@ -1087,7 +990,6 @@
         /// <summary>
         /// Gets or sets the reading order of the object.
         /// </summary>
-        [DomName("direction")]
         public String Direction
         {
             get { return GetPropertyValue(PropertyNames.Direction) ?? String.Empty; }
@@ -1097,7 +999,6 @@
         /// <summary>
         /// Gets or sets a value that indicates whether and how the object is rendered.
         /// </summary>
-        [DomName("display")]
         public String Display
         {
             get { return GetPropertyValue(PropertyNames.Display) ?? String.Empty; }
@@ -1107,7 +1008,6 @@
         /// <summary>
         /// Gets or sets a value that determines or redetermines a scaled-baseline table.
         /// </summary>
-        [DomName("dominantBaseline")]
         public String DominantBaseline
         {
             get { return GetPropertyValue(PropertyNames.DominantBaseline) ?? String.Empty; }
@@ -1117,7 +1017,6 @@
         /// <summary>
         /// Determines whether to show or hide a cell without content.
         /// </summary>
-        [DomName("emptyCells")]
         public String EmptyCells
         {
             get { return GetPropertyValue(PropertyNames.EmptyCells) ?? String.Empty; }
@@ -1127,7 +1026,6 @@
         /// <summary>
         /// Allocate a shared background image all graphic elements within a container.
         /// </summary>
-        [DomName("enableBackground")]
         public String EnableBackground
         {
             get { return GetPropertyValue(PropertyNames.EnableBackground) ?? String.Empty; }
@@ -1138,7 +1036,6 @@
         /// Gets or sets a value that indicates the color to paint the
         /// interior of the given graphical element.
         /// </summary>
-        [DomName("fill")]
         public String Fill
         {
             get { return GetPropertyValue(PropertyNames.Fill) ?? String.Empty; }
@@ -1149,7 +1046,6 @@
         /// Gets or sets a value that specifies the opacity of the painting operation that
         /// is used to paint the interior of the current object.
         /// </summary>
-        [DomName("fillOpacity")]
         public String FillOpacity
         {
             get { return GetPropertyValue(PropertyNames.FillOpacity) ?? String.Empty; }
@@ -1160,7 +1056,6 @@
         /// Gets or sets a value that indicates the algorithm that is to be used to determine
         /// what parts of the canvas are included inside the shape.
         /// </summary>
-        [DomName("fillRule")]
         public String FillRule
         {
             get { return GetPropertyValue(PropertyNames.FillRule) ?? String.Empty; }
@@ -1171,7 +1066,6 @@
         /// The filter property is generally used to apply a previously
         /// define filter to an applicable element.
         /// </summary>
-        [DomName("filter")]
         public String Filter
         {
             get { return GetPropertyValue(PropertyNames.Filter) ?? String.Empty; }
@@ -1182,7 +1076,6 @@
         /// Gets or sets the parameter values of a flexible length, the positive and
         /// negative flexibility, and the preferred size.
         /// </summary>
-        [DomName("flex")]
         public String Flex
         {
             get { return GetPropertyValue(PropertyNames.Flex) ?? String.Empty; }
@@ -1192,7 +1085,6 @@
         /// <summary>
         /// Gets or sets the initial main size of the flex item.
         /// </summary>
-        [DomName("flexBasis")]
         public String FlexBasis
         {
             get { return GetPropertyValue(PropertyNames.FlexBasis) ?? String.Empty; }
@@ -1203,7 +1095,6 @@
         /// Gets or sets the direction of the main axis which specifies how
         /// the flex items are displayed in the flex container.
         /// </summary>
-        [DomName("flexDirection")]
         public String FlexDirection
         {
             get { return GetPropertyValue(PropertyNames.FlexDirection) ?? String.Empty; }
@@ -1214,7 +1105,6 @@
         /// Gets or sets the shorthand property to set both the flex-direction and flex-wrap
         /// properties of a flex container.
         /// </summary>
-        [DomName("flexFlow")]
         public String FlexFlow
         {
             get { return GetPropertyValue(PropertyNames.FlexFlow) ?? String.Empty; }
@@ -1224,7 +1114,6 @@
         /// <summary>
         /// Gets or sets the flex grow factor for the flex item.
         /// </summary>
-        [DomName("flexGrow")]
         public String FlexGrow
         {
             get { return GetPropertyValue(PropertyNames.FlexGrow) ?? String.Empty; }
@@ -1234,7 +1123,6 @@
         /// <summary>
         /// Gets or sets the flex shrink factor for the flex item.
         /// </summary>
-        [DomName("flexShrink")]
         public String FlexShrink
         {
             get { return GetPropertyValue(PropertyNames.FlexShrink) ?? String.Empty; }
@@ -1246,7 +1134,6 @@
         /// wrap onto multiple lines or columns based on the spac
         /// available in the flex container. 
         /// </summary>
-        [DomName("flexWrap")]
         public String FlexWrap
         {
             get { return GetPropertyValue(PropertyNames.FlexWrap) ?? String.Empty; }
@@ -1258,7 +1145,6 @@
         /// object. Alternatively, sets or retrieves one or more of
         /// six user-preference fonts.
         /// </summary>
-        [DomName("font")]
         public String Font
         {
             get { return GetPropertyValue(PropertyNames.Font) ?? String.Empty; }
@@ -1268,7 +1154,6 @@
         /// <summary>
         /// Gets or sets the name of the font used for text in the object.
         /// </summary>
-        [DomName("fontFamily")]
         public String FontFamily
         {
             get { return GetPropertyValue(PropertyNames.FontFamily) ?? String.Empty; }
@@ -1279,7 +1164,6 @@
         /// Gets or sets one or more values that specify glyph substitution and
         /// positioning in fonts that include OpenType layout features.
         /// </summary>
-        [DomName("fontFeatureSettings")]
         public String FontFeatureSettings
         {
             get { return GetPropertyValue(PropertyNames.FontFeatureSettings) ?? String.Empty; }
@@ -1289,7 +1173,6 @@
         /// <summary>
         /// Gets or sets a value that indicates the font size used for text in the object.
         /// </summary>
-        [DomName("fontSize")]
         public String FontSize
         {
             get { return GetPropertyValue(PropertyNames.FontSize) ?? String.Empty; }
@@ -1301,7 +1184,6 @@
         /// will effectively preserve the x-height of the first choice font, whether
         /// it is substituted or not.
         /// </summary>
-        [DomName("fontSizeAdjust")]
         public String FontSizeAdjust
         {
             get { return GetPropertyValue(PropertyNames.FontSizeAdjust) ?? String.Empty; }
@@ -1312,7 +1194,6 @@
         /// Gets or sets a value that indicates a normal, condensed,
         /// or expanded face of a font family.
         /// </summary>
-        [DomName("fontStretch")]
         public String FontStretch
         {
             get { return GetPropertyValue(PropertyNames.FontStretch) ?? String.Empty; }
@@ -1322,7 +1203,6 @@
         /// <summary>
         /// Gets or sets the font style of the object as italic, normal, or oblique.
         /// </summary>
-        [DomName("fontStyle")]
         public String FontStyle
         {
             get { return GetPropertyValue(PropertyNames.FontStyle) ?? String.Empty; }
@@ -1332,7 +1212,6 @@
         /// <summary>
         /// Gets or sets whether the text of the object is in small capital letters.
         /// </summary>
-        [DomName("fontVariant")]
         public String FontVariant
         {
             get { return GetPropertyValue(PropertyNames.FontVariant) ?? String.Empty; }
@@ -1342,7 +1221,6 @@
         /// <summary>
         /// Gets of sets the weight of the font of the object.
         /// </summary>
-        [DomName("fontWeight")]
         public String FontWeight
         {
             get { return GetPropertyValue(PropertyNames.FontWeight) ?? String.Empty; }
@@ -1353,7 +1231,6 @@
         /// Gets or sets a value that alters the orientation of a sequence of characters
         /// relative to an inline-progression-direction of horizontal.
         /// </summary>
-        [DomName("glyphOrientationHorizontal")]
         public String GlyphOrientationHorizontal
         {
             get { return GetPropertyValue(PropertyNames.GlyphOrientationHorizontal) ?? String.Empty; }
@@ -1364,7 +1241,6 @@
         /// Gets or sets a value that alters the orientation of a sequence
         /// of characters relative to an inline-progression-direction of vertical.
         /// </summary>
-        [DomName("glyphOrientationVertical")]
         public String GlyphOrientationVertical
         {
             get { return GetPropertyValue(PropertyNames.GlyphOrientationVertical) ?? String.Empty; }
@@ -1374,7 +1250,6 @@
         /// <summary>
         /// Gets or sets the height of the object.
         /// </summary>
-        [DomName("height")]
         public String Height
         {
             get { return GetPropertyValue(PropertyNames.Height) ?? String.Empty; }
@@ -1384,7 +1259,6 @@
         /// <summary>
         /// Gets or sets the state of an IME.
         /// </summary>
-        [DomName("imeMode")]
         public String ImeMode
         {
             get { return GetPropertyValue(PropertyNames.ImeMode) ?? String.Empty; }
@@ -1395,7 +1269,6 @@
         /// Gets or sets a how flex items are aligned along the main axis of the flex
         /// container after any flexible lengths and auto margins are resolved.
         /// </summary>
-        [DomName("justifyContent")]
         public String JustifyContent
         {
             get { return GetPropertyValue(PropertyNames.JustifyContent) ?? String.Empty; }
@@ -1406,7 +1279,6 @@
         /// Gets or sets the composite document grid properties
         /// that specify the layout of text characters.
         /// </summary>
-        [DomName("layoutGrid")]
         public String LayoutGrid
         {
             get { return GetPropertyValue(PropertyNames.LayoutGrid) ?? String.Empty; }
@@ -1417,7 +1289,6 @@
         /// Gets or sets the size of the character grid used for rendering
         /// the text content of an element.
         /// </summary>
-        [DomName("layoutGridChar")]
         public String LayoutGridChar
         {
             get { return GetPropertyValue(PropertyNames.LayoutGridChar) ?? String.Empty; }
@@ -1428,7 +1299,6 @@
         /// Gets or sets the gridline value used for rendering the
         /// text content of an element.
         /// </summary>
-        [DomName("layoutGridLine")]
         public String LayoutGridLine
         {
             get { return GetPropertyValue(PropertyNames.LayoutGridLine) ?? String.Empty; }
@@ -1438,7 +1308,6 @@
         /// <summary>
         /// Gets or sets whether the text layout grid uses two dimensions.
         /// </summary>
-        [DomName("layoutGridMode")]
         public String LayoutGridMode
         {
             get { return GetPropertyValue(PropertyNames.LayoutGridMode) ?? String.Empty; }
@@ -1449,7 +1318,6 @@
         /// Gets or sets the type of grid used for rendering
         /// the text content of an element.
         /// </summary>
-        [DomName("layoutGridType")]
         public String LayoutGridType
         {
             get { return GetPropertyValue(PropertyNames.LayoutGridType) ?? String.Empty; }
@@ -1460,7 +1328,6 @@
         /// Gets or sets the position of the object relative to the left edge
         /// of the next positioned object in the document hierarchy.
         /// </summary>
-        [DomName("left")]
         public String Left
         {
             get { return GetPropertyValue(PropertyNames.Left) ?? String.Empty; }
@@ -1470,7 +1337,6 @@
         /// <summary>
         /// Gets or sets the amount of additional space between letters in the object.
         /// </summary>
-        [DomName("letterSpacing")]
         public String LetterSpacing
         {
             get { return GetPropertyValue(PropertyNames.LetterSpacing) ?? String.Empty; }
@@ -1480,7 +1346,6 @@
         /// <summary>
         /// Gets or sets the distance between lines in the object.
         /// </summary>
-        [DomName("lineHeight")]
         public String LineHeight
         {
             get { return GetPropertyValue(PropertyNames.LineHeight) ?? String.Empty; }
@@ -1490,7 +1355,6 @@
         /// <summary>
         /// Gets or sets up to three separate list-style properties of the object.
         /// </summary>
-        [DomName("listStyle")]
         public String ListStyle
         {
             get { return GetPropertyValue(PropertyNames.ListStyle) ?? String.Empty; }
@@ -1501,7 +1365,6 @@
         /// Gets or sets a value that indicates which image to use as
         /// a list-item marker for the object.
         /// </summary>
-        [DomName("listStyleImage")]
         public String ListStyleImage
         {
             get { return GetPropertyValue(PropertyNames.ListStyleImage) ?? String.Empty; }
@@ -1512,7 +1375,6 @@
         /// Gets or sets a variable that indicates how the list-item marker
         /// is drawn relative to the content of the object.
         /// </summary>
-        [DomName("listStylePosition")]
         public String ListStylePosition
         {
             get { return GetPropertyValue(PropertyNames.ListStylePosition) ?? String.Empty; }
@@ -1522,7 +1384,6 @@
         /// <summary>
         /// Gets or sets the predefined type of the line-item marker for the object.
         /// </summary>
-        [DomName("listStyleType")]
         public String ListStyleType
         {
             get { return GetPropertyValue(PropertyNames.ListStyleType) ?? String.Empty; }
@@ -1532,7 +1393,6 @@
         /// <summary>
         /// Gets or sets the width of the top, right, bottom, and left margins of the object.
         /// </summary>
-        [DomName("margin")]
         public String Margin
         {
             get { return GetPropertyValue(PropertyNames.Margin) ?? String.Empty; }
@@ -1542,7 +1402,6 @@
         /// <summary>
         /// Gets or sets the height of the bottom margin of the object.
         /// </summary>
-        [DomName("marginBottom")]
         public String MarginBottom
         {
             get { return GetPropertyValue(PropertyNames.MarginBottom) ?? String.Empty; }
@@ -1552,7 +1411,6 @@
         /// <summary>
         /// Gets or sets the width of the left margin of the object.
         /// </summary>
-        [DomName("marginLeft")]
         public String MarginLeft
         {
             get { return GetPropertyValue(PropertyNames.MarginLeft) ?? String.Empty; }
@@ -1562,7 +1420,6 @@
         /// <summary>
         /// Gets or sets the width of the right margin of the object.
         /// </summary>
-        [DomName("marginRight")]
         public String MarginRight
         {
             get { return GetPropertyValue(PropertyNames.MarginRight) ?? String.Empty; }
@@ -1572,7 +1429,6 @@
         /// <summary>
         /// Gets or sets the height of the top margin of the object.
         /// </summary>
-        [DomName("marginTop")]
         public String MarginTop
         {
             get { return GetPropertyValue(PropertyNames.MarginTop) ?? String.Empty; }
@@ -1583,7 +1439,6 @@
         /// Gets or sets a value that specifies the marker symbol that is
         /// used for all vertices on the given path element or basic shape.
         /// </summary>
-        [DomName("marker")]
         public String Marker
         {
             get { return GetPropertyValue(PropertyNames.Marker) ?? String.Empty; }
@@ -1595,7 +1450,6 @@
         /// that is drawn at the final vertex of a given path element or
         /// basic shape.
         /// </summary>
-        [DomName("markerEnd")]
         public String MarkerEnd
         {
             get { return GetPropertyValue(PropertyNames.MarkerEnd) ?? String.Empty; }
@@ -1607,7 +1461,6 @@
         /// is drawn at every other vertex (that is, every vertex except the
         /// first and last) of a given path element or basic shape.
         /// </summary>
-        [DomName("markerMid")]
         public String MarkerMid
         {
             get { return GetPropertyValue(PropertyNames.MarkerMid) ?? String.Empty; }
@@ -1619,7 +1472,6 @@
         /// that is drawn at the first vertex of a given path element or
         /// basic shape.
         /// </summary>
-        [DomName("markerStart")]
         public String MarkerStart
         {
             get { return GetPropertyValue(PropertyNames.MarkerStart) ?? String.Empty; }
@@ -1629,7 +1481,6 @@
         /// <summary>
         /// Gets or sets a value that indicates a SVG mask.
         /// </summary>
-        [DomName("mask")]
         public String Mask
         {
             get { return GetPropertyValue(PropertyNames.Mask) ?? String.Empty; }
@@ -1639,7 +1490,6 @@
         /// <summary>
         /// Gets or sets the maximum height for an element.
         /// </summary>
-        [DomName("maxHeight")]
         public String MaxHeight
         {
             get { return GetPropertyValue(PropertyNames.MaxHeight) ?? String.Empty; }
@@ -1649,7 +1499,6 @@
         /// <summary>
         /// Gets or sets the maximum width for an element.
         /// </summary>
-        [DomName("maxWidth")]
         public String MaxWidth
         {
             get { return GetPropertyValue(PropertyNames.MaxWidth) ?? String.Empty; }
@@ -1659,7 +1508,6 @@
         /// <summary>
         /// Gets or sets the minimum height for an element.
         /// </summary>
-        [DomName("minHeight")]
         public String MinHeight
         {
             get { return GetPropertyValue(PropertyNames.MinHeight) ?? String.Empty; }
@@ -1669,7 +1517,6 @@
         /// <summary>
         /// Gets or sets the minimum width for an element.
         /// </summary>
-        [DomName("minWidth")]
         public String MinWidth
         {
             get { return GetPropertyValue(PropertyNames.MinWidth) ?? String.Empty; }
@@ -1679,7 +1526,6 @@
         /// <summary>
         /// Gets or sets a value that specifies object or group opacity in CSS or SVG.
         /// </summary>
-        [DomName("opacity")]
         public String Opacity
         {
             get { return GetPropertyValue(PropertyNames.Opacity) ?? String.Empty; }
@@ -1692,7 +1538,6 @@
         /// of the order value. Elements with the same order value are laid out in the
         /// order they appear in the source code.
         /// </summary>
-        [DomName("order")]
         public String Order
         {
             get { return GetPropertyValue(PropertyNames.Order) ?? String.Empty; }
@@ -1703,7 +1548,6 @@
         /// Gets or sets the minimum number of lines of a paragraph
         /// that must appear at the bottom of a page.
         /// </summary>
-        [DomName("orphans")]
         public String Orphans
         {
             get { return GetPropertyValue(PropertyNames.Orphans) ?? String.Empty; }
@@ -1713,7 +1557,6 @@
         /// <summary>
         /// Gets or sets the outline frame.
         /// </summary>
-        [DomName("outline")]
         public String Outline
         {
             get { return GetPropertyValue(PropertyNames.Outline) ?? String.Empty; }
@@ -1723,7 +1566,6 @@
         /// <summary>
         /// Gets or sets the color of the outline frame.
         /// </summary>
-        [DomName("outlineColor")]
         public String OutlineColor
         {
             get { return GetPropertyValue(PropertyNames.OutlineColor) ?? String.Empty; }
@@ -1733,7 +1575,6 @@
         /// <summary>
         /// Gets or sets the style of the outline frame.
         /// </summary>
-        [DomName("outlineStyle")]
         public String OutlineStyle
         {
             get { return GetPropertyValue(PropertyNames.OutlineStyle) ?? String.Empty; }
@@ -1743,7 +1584,6 @@
         /// <summary>
         /// Gets or sets the width of the outline frame.
         /// </summary>
-        [DomName("outlineWidth")]
         public String OutlineWidth
         {
             get { return GetPropertyValue(PropertyNames.OutlineWidth) ?? String.Empty; }
@@ -1754,7 +1594,6 @@
         /// Gets or sets a value indicating how to manage the content of the
         /// object when the content exceeds the height or width of the object.
         /// </summary>
-        [DomName("overflow")]
         public String Overflow
         {
             get { return GetPropertyValue(PropertyNames.Overflow) ?? String.Empty; }
@@ -1765,7 +1604,6 @@
         /// Gets or sets how to manage the content of the object when the
         /// content exceeds the width of the object.
         /// </summary>
-        [DomName("overflowX")]
         public String OverflowX
         {
             get { return GetPropertyValue(PropertyNames.OverflowX) ?? String.Empty; }
@@ -1776,7 +1614,6 @@
         /// Gets or sets how to manage the content of the object when
         /// the content exceeds the height of the object.
         /// </summary>
-        [DomName("overflowY")]
         public String OverflowY
         {
             get { return GetPropertyValue(PropertyNames.OverflowY) ?? String.Empty; }
@@ -1787,7 +1624,6 @@
         /// Gets or sets the amount of space to insert between the object and
         /// its margin or, if there is a border, between the object and its border.
         /// </summary>
-        [DomName("padding")]
         public String Padding
         {
             get { return GetPropertyValue(PropertyNames.Padding) ?? String.Empty; }
@@ -1798,7 +1634,6 @@
         /// Gets or sets the amount of space to insert between the bottom
         /// border of the object and the content.
         /// </summary>
-        [DomName("paddingBottom")]
         public String PaddingBottom
         {
             get { return GetPropertyValue(PropertyNames.PaddingBottom) ?? String.Empty; }
@@ -1809,7 +1644,6 @@
         /// Gets or sets the amount of space to insert between the left
         /// border of the object and the content.
         /// </summary>
-        [DomName("paddingLeft")]
         public String PaddingLeft
         {
             get { return GetPropertyValue(PropertyNames.PaddingLeft) ?? String.Empty; }
@@ -1820,7 +1654,6 @@
         /// Gets or sets the amount of space to insert between
         /// the right border of the object and the content.
         /// </summary>
-        [DomName("paddingRight")]
         public String PaddingRight
         {
             get { return GetPropertyValue(PropertyNames.PaddingRight) ?? String.Empty; }
@@ -1831,7 +1664,6 @@
         /// Gets or sets the amount of space to insert between the top
         /// border of the object and the content.
         /// </summary>
-        [DomName("paddingTop")]
         public String PaddingTop
         {
             get { return GetPropertyValue(PropertyNames.PaddingTop) ?? String.Empty; }
@@ -1841,7 +1673,6 @@
         /// <summary>
         /// Gets or sets a value indicating whether a page break occurs after the object.
         /// </summary>
-        [DomName("pageBreakAfter")]
         public String PageBreakAfter
         {
             get { return GetPropertyValue(PropertyNames.PageBreakAfter) ?? String.Empty; }
@@ -1851,7 +1682,6 @@
         /// <summary>
         /// Gets or sets a string indicating whether a page break occurs before the object.
         /// </summary>
-        [DomName("pageBreakBefore")]
         public String PageBreakBefore
         {
             get { return GetPropertyValue(PropertyNames.PageBreakBefore) ?? String.Empty; }
@@ -1862,7 +1692,6 @@
         /// Gets or sets a string indicating whether a page break is
         /// allowed to occur inside the object.
         /// </summary>
-        [DomName("pageBreakInside")]
         public String PageBreakInside
         {
             get { return GetPropertyValue(PropertyNames.PageBreakInside) ?? String.Empty; }
@@ -1873,7 +1702,6 @@
         /// Gets or sets a value that represents the perspective from which all child
         /// elements of the object are viewed.
         /// </summary>
-        [DomName("perspective")]
         public String Perspective
         {
             get { return GetPropertyValue(PropertyNames.Perspective) ?? String.Empty; }
@@ -1885,7 +1713,6 @@
         /// vanishing point for the 3-D space) of an object with an perspective
         /// property declaration.
         /// </summary>
-        [DomName("perspectiveOrigin")]
         public String PerspectiveOrigin
         {
             get { return GetPropertyValue(PropertyNames.PerspectiveOrigin) ?? String.Empty; }
@@ -1896,7 +1723,6 @@
         /// Gets or sets a value that specifies under what circumstances a given graphics
         /// element can be the target element for a pointer event in SVG.
         /// </summary>
-        [DomName("pointerEvents")]
         public String PointerEvents
         {
             get { return GetPropertyValue(PropertyNames.PointerEvents) ?? String.Empty; }
@@ -1906,7 +1732,6 @@
         /// <summary>
         /// Gets or sets the type of positioning used for the object.
         /// </summary>
-        [DomName("position")]
         public String Position
         {
             get { return GetPropertyValue(PropertyNames.Position) ?? String.Empty; }
@@ -1916,7 +1741,6 @@
         /// <summary>
         /// Gets or sets the pairs of strings to be used as quotes in generated content.
         /// </summary>
-        [DomName("quotes")]
         public String Quotes
         {
             get { return GetPropertyValue(PropertyNames.Quotes) ?? String.Empty; }
@@ -1927,7 +1751,6 @@
         /// Gets or sets the position of the object relative to the right edge of
         /// the next positioned object in the document hierarchy.
         /// </summary>
-        [DomName("right")]
         public String Right
         {
             get { return GetPropertyValue(PropertyNames.Right) ?? String.Empty; }
@@ -1937,7 +1760,6 @@
         /// <summary>
         /// Gets or sets a value that indicates how to align the ruby text content.
         /// </summary>
-        [DomName("rubyAlign")]
         public String RubyAlign
         {
             get { return GetPropertyValue(PropertyNames.RubyAlign) ?? String.Empty; }
@@ -1949,7 +1771,6 @@
         /// text is allowed to partially overhang any adjacent text in addition
         /// to its own base, when the ruby text is wider than the ruby base
         /// </summary>
-        [DomName("rubyOverhang")]
         public String RubyOverhang
         {
             get { return GetPropertyValue(PropertyNames.RubyOverhang) ?? String.Empty; }
@@ -1960,7 +1781,6 @@
         /// Gets or sets a value that controls the position of the ruby text
         /// with respect to its base.
         /// </summary>
-        [DomName("rubyPosition")]
         public String RubyPosition
         {
             get { return GetPropertyValue(PropertyNames.RubyPosition) ?? String.Empty; }
@@ -1971,7 +1791,6 @@
         /// Gets or sets the color of the top and left edges of the scroll
         /// box and scroll arrows of a scroll bar.
         /// </summary>
-        [DomName("scrollbar3dLightColor")]
         public String Scrollbar3dLightColor
         {
             get { return GetPropertyValue(PropertyNames.Scrollbar3dLightColor) ?? String.Empty; }
@@ -1981,7 +1800,6 @@
         /// <summary>
         /// Gets or sets the color of the arrow elements of a scroll arrow.
         /// </summary>
-        [DomName("scrollbarArrowColor")]
         public String ScrollbarArrowColor
         {
             get { return GetPropertyValue(PropertyNames.ScrollbarArrowColor) ?? String.Empty; }
@@ -1991,7 +1809,6 @@
         /// <summary>
         /// Gets or sets the color of the gutter of a scroll bar.
         /// </summary>
-        [DomName("scrollbarDarkShadowColor")]
         public String ScrollbarDarkShadowColor
         {
             get { return GetPropertyValue(PropertyNames.ScrollbarDarkShadowColor) ?? String.Empty; }
@@ -2001,7 +1818,6 @@
         /// <summary>
         /// Gets or sets the color of the scroll box and scroll arrows of a scroll bar.
         /// </summary>
-        [DomName("scrollbarFaceColor")]
         public String ScrollbarFaceColor
         {
             get { return GetPropertyValue(PropertyNames.ScrollbarFaceColor) ?? String.Empty; }
@@ -2011,7 +1827,6 @@
         /// <summary>
         /// Gets or sets the color of the top and left edges of the scroll box and scroll arrows of a scroll bar.
         /// </summary>
-        [DomName("scrollbarHighlightColor")]
         public String ScrollbarHighlightColor
         {
             get { return GetPropertyValue(PropertyNames.ScrollbarHighlightColor) ?? String.Empty; }
@@ -2022,7 +1837,6 @@
         /// Gets or sets the color of the bottom and right edges of the
         /// scroll box and scroll arrows of a scroll bar.
         /// </summary>
-        [DomName("scrollbarShadowColor")]
         public String ScrollbarShadowColor
         {
             get { return GetPropertyValue(PropertyNames.ScrollbarShadowColor) ?? String.Empty; }
@@ -2032,7 +1846,6 @@
         /// <summary>
         /// Gets or sets the color of the track element of a scroll bar.
         /// </summary>
-        [DomName("scrollbarTrackColor")]
         public String ScrollbarTrackColor
         {
             get { return GetPropertyValue(PropertyNames.ScrollbarTrackColor) ?? String.Empty; }
@@ -2043,7 +1856,6 @@
         /// Gets or sets a value that indicates the color to paint along
         /// the outline of a given graphical element.
         /// </summary>
-        [DomName("stroke")]
         public String Stroke
         {
             get { return GetPropertyValue(PropertyNames.Stroke) ?? String.Empty; }
@@ -2054,7 +1866,6 @@
         /// Gets or sets one or more values that indicate the pattern of
         /// dashes and gaps used to stroke paths.
         /// </summary>
-        [DomName("strokeDasharray")]
         public String StrokeDasharray
         {
             get { return GetPropertyValue(PropertyNames.StrokeDasharray) ?? String.Empty; }
@@ -2065,7 +1876,6 @@
         /// Gets or sets a value that specifies the distance into the
         /// dash pattern to start the dash.
         /// </summary>
-        [DomName("strokeDashoffset")]
         public String StrokeDashoffset
         {
             get { return GetPropertyValue(PropertyNames.StrokeDashoffset) ?? String.Empty; }
@@ -2076,7 +1886,6 @@
         /// Gets or sets a value that specifies the shape to be used at the
         /// end of open subpaths when they are stroked.
         /// </summary>
-        [DomName("strokeLinecap")]
         public String StrokeLinecap
         {
             get { return GetPropertyValue(PropertyNames.StrokeLinecap) ?? String.Empty; }
@@ -2087,7 +1896,6 @@
         /// Gets or sets a value that specifies the shape to be used at the corners of
         /// paths or basic shapes when they are stroked.
         /// </summary>
-        [DomName("strokeLinejoin")]
         public String StrokeLinejoin
         {
             get { return GetPropertyValue(PropertyNames.StrokeLinejoin) ?? String.Empty; }
@@ -2098,7 +1906,6 @@
         /// Gets or sets a value that indicates the limit on the ratio of the
         /// length of miter joins (as specified in the StrokeLinejoin property).
         /// </summary>
-        [DomName("strokeMiterlimit")]
         public String StrokeMiterlimit
         {
             get { return GetPropertyValue(PropertyNames.StrokeMiterlimit) ?? String.Empty; }
@@ -2109,7 +1916,6 @@
         /// Gets or sets a value that specifies the opacity of the painting operation
         /// that is used to stroke the current object.
         /// </summary>
-        [DomName("strokeOpacity")]
         public String StrokeOpacity
         {
             get { return GetPropertyValue(PropertyNames.StrokeOpacity) ?? String.Empty; }
@@ -2119,7 +1925,6 @@
         /// <summary>
         /// Gets or sets a value that specifies the width of the stroke on the current object.
         /// </summary>
-        [DomName("strokeWidth")]
         public String StrokeWidth
         {
             get { return GetPropertyValue(PropertyNames.StrokeWidth) ?? String.Empty; }
@@ -2129,7 +1934,6 @@
         /// <summary>
         /// Gets or sets a string that indicates whether the table layout is fixed.
         /// </summary>
-        [DomName("tableLayout")]
         public String TableLayout
         {
             get { return GetPropertyValue(PropertyNames.TableLayout) ?? String.Empty; }
@@ -2140,7 +1944,6 @@
         /// Gets or sets whether the text in the object is left-aligned, right-aligned, 
         /// centered, or justified.
         /// </summary>
-        [DomName("textAlign")]
         public String TextAlign
         {
             get { return GetPropertyValue(PropertyNames.TextAlign) ?? String.Empty; }
@@ -2151,7 +1954,6 @@
         /// Gets or sets a value that indicates how to align the last line or only
         /// line of text in the specified object.
         /// </summary>
-        [DomName("textAlignLast")]
         public String TextAlignLast
         {
             get { return GetPropertyValue(PropertyNames.TextAlignLast) ?? String.Empty; }
@@ -2161,7 +1963,6 @@
         /// <summary>
         /// Aligns a string of text relative to the specified point.
         /// </summary>
-        [DomName("textAnchor")]
         public String TextAnchor
         {
             get { return GetPropertyValue(PropertyNames.TextAnchor) ?? String.Empty; }
@@ -2171,7 +1972,6 @@
         /// <summary>
         /// Gets or sets the autospacing and narrow space width adjustment of text.
         /// </summary>
-        [DomName("textAutospace")]
         public String TextAutospace
         {
             get { return GetPropertyValue(PropertyNames.TextAutospace) ?? String.Empty; }
@@ -2182,7 +1982,6 @@
         /// Gets or sets a value that indicates whether the text in the object
         /// has blink, line-through, overline, or underline decorations.
         /// </summary>
-        [DomName("textDecoration")]
         public String TextDecoration
         {
             get { return GetPropertyValue(PropertyNames.TextDecoration) ?? String.Empty; }
@@ -2192,7 +1991,6 @@
         /// <summary>
         /// Gets or sets the indentation of the first line of text in the object.
         /// </summary>
-        [DomName("textIndent")]
         public String TextIndent
         {
             get { return GetPropertyValue(PropertyNames.TextIndent) ?? String.Empty; }
@@ -2202,7 +2000,6 @@
         /// <summary>
         /// Gets or sets the type of alignment used to justify text in the object.
         /// </summary>
-        [DomName("textJustify")]
         public String TextJustify
         {
             get { return GetPropertyValue(PropertyNames.TextJustify) ?? String.Empty; }
@@ -2213,7 +2010,6 @@
         /// Gets or sets a value that indicates whether to render
         /// ellipses (...) to indicate text overflow.
         /// </summary>
-        [DomName("textOverflow")]
         public String TextOverflow
         {
             get { return GetPropertyValue(PropertyNames.TextOverflow) ?? String.Empty; }
@@ -2224,7 +2020,6 @@
         /// Gets or sets a comma-separated list of shadows that attaches one or
         /// more drop shadows to the specified text.
         /// </summary>
-        [DomName("textShadow")]
         public String TextShadow
         {
             get { return GetPropertyValue(PropertyNames.TextShadow) ?? String.Empty; }
@@ -2234,7 +2029,6 @@
         /// <summary>
         /// Gets or sets the rendering of the text in the object.
         /// </summary>
-        [DomName("textTransform")]
         public String TextTransform
         {
             get { return GetPropertyValue(PropertyNames.TextTransform) ?? String.Empty; }
@@ -2245,7 +2039,6 @@
         /// Gets or sets the position of the underline decoration that is set through the
         /// text-decoration property of the object.
         /// </summary>
-        [DomName("textUnderlinePosition")]
         public String TextUnderlinePosition
         {
             get { return GetPropertyValue(PropertyNames.TextUnderlinePosition) ?? String.Empty; }
@@ -2256,7 +2049,6 @@
         /// Gets or sets the position of the object relative to the top of
         /// the next positioned object in the document hierarchy.
         /// </summary>
-        [DomName("top")]
         public String Top
         {
             get { return GetPropertyValue(PropertyNames.Top) ?? String.Empty; }
@@ -2267,7 +2059,6 @@
         /// Gets or sets a list of one or more transform functions that specify how
         /// to translate, rotate, or scale an element in 2-D or 3-D space.
         /// </summary>
-        [DomName("transform")]
         public String Transform
         {
             get { return GetPropertyValue(PropertyNames.Transform) ?? String.Empty; }
@@ -2277,7 +2068,6 @@
         /// <summary>
         /// Gets or sets one or two values that establish the origin of transformation for an element.
         /// </summary>
-        [DomName("transformOrigin")]
         public String TransformOrigin
         {
             get { return GetPropertyValue(PropertyNames.TransformOrigin) ?? String.Empty; }
@@ -2288,7 +2078,6 @@
         /// Gets or sets a value that specifies how child elements of the
         /// object are rendered in 3-D space.
         /// </summary>
-        [DomName("transformStyle")]
         public String TransformStyle
         {
             get { return GetPropertyValue(PropertyNames.TransformStyle) ?? String.Empty; }
@@ -2300,7 +2089,6 @@
         /// for a set of corresponding object properties identified in the transition-property
         /// property.
         /// </summary>
-        [DomName("transition")]
         public String Transition
         {
             get { return GetPropertyValue(PropertyNames.Transition) ?? String.Empty; }
@@ -2313,7 +2101,6 @@
         /// the transition is displayed  for a set of corresponding object properties 
         /// identified in the transition property.
         /// </summary>
-        [DomName("transitionDelay")]
         public String TransitionDelay
         {
             get { return GetPropertyValue(PropertyNames.TransitionDelay) ?? String.Empty; }
@@ -2325,7 +2112,6 @@
         /// a set of corresponding object properties identified in the transition-property
         /// property.
         /// </summary>
-        [DomName("transitionDuration")]
         public String TransitionDuration
         {
             get { return GetPropertyValue(PropertyNames.TransitionDuration) ?? String.Empty; }
@@ -2337,7 +2123,6 @@
         /// the transition effect (defined by the transition-duration, transition-timing-function,
         /// and transition-delay properties) is applied when a new property value is specified.
         /// </summary>
-        [DomName("transitionProperty")]
         public String TransitionProperty
         {
             get { return GetPropertyValue(PropertyNames.TransitionProperty) ?? String.Empty; }
@@ -2349,7 +2134,6 @@
         /// used during a transition on a set of corresponding object properties identified
         /// in the transition-property property.
         /// </summary>
-        [DomName("transitionTimingFunction")]
         public String TransitionTimingFunction
         {
             get { return GetPropertyValue(PropertyNames.TransitionTimingFunction) ?? String.Empty; }
@@ -2359,7 +2143,6 @@
         /// <summary>
         /// Gets or sets the level of embedding with respect to the bidirectional algorithm.
         /// </summary>
-        [DomName("unicodeBidi")]
         public String UnicodeBidi
         {
             get { return GetPropertyValue(PropertyNames.UnicodeBidi) ?? String.Empty; }
@@ -2369,7 +2152,6 @@
         /// <summary>
         /// Gets or sets the vertical alignment of the object.
         /// </summary>
-        [DomName("verticalAlign")]
         public String VerticalAlign
         {
             get { return GetPropertyValue(PropertyNames.VerticalAlign) ?? String.Empty; }
@@ -2379,7 +2161,6 @@
         /// <summary>
         /// Gets or sets whether the content of the object is displayed.
         /// </summary>
-        [DomName("visibility")]
         public String Visibility
         {
             get { return GetPropertyValue(PropertyNames.Visibility) ?? String.Empty; }
@@ -2390,7 +2171,6 @@
         /// Gets or sets a value that indicates whether lines are automatically
         /// broken inside the object.
         /// </summary>
-        [DomName("whiteSpace")]
         public String WhiteSpace
         {
             get { return GetPropertyValue(PropertyNames.WhiteSpace) ?? String.Empty; }
@@ -2401,7 +2181,6 @@
         /// Gets or sets the minimum number of lines of a paragraph that must
         /// appear at the top of a document.
         /// </summary>
-        [DomName("widows")]
         public String Widows
         {
             get { return GetPropertyValue(PropertyNames.Widows) ?? String.Empty; }
@@ -2411,7 +2190,6 @@
         /// <summary>
         /// Gets or sets the width of the object.
         /// </summary>
-        [DomName("width")]
         public String Width
         {
             get { return GetPropertyValue(PropertyNames.Width) ?? String.Empty; }
@@ -2422,7 +2200,6 @@
         /// Gets or sets line-breaking behavior within words, particularly where
         /// multiple languages appear in the object.
         /// </summary>
-        [DomName("wordBreak")]
         public String WordBreak
         {
             get { return GetPropertyValue(PropertyNames.WordBreak) ?? String.Empty; }
@@ -2432,7 +2209,6 @@
         /// <summary>
         /// Gets or sets the amount of additional space between words in the object.
         /// </summary>
-        [DomName("wordSpacing")]
         public String WordSpacing
         {
             get { return GetPropertyValue(PropertyNames.WordSpacing) ?? String.Empty; }
@@ -2443,7 +2219,6 @@
         /// Gets or sets whether to break words when the content exceeds the
         /// boundaries of its container.
         /// </summary>
-        [DomName("wordWrap")]
         public String WordWrap
         {
             get { return GetPropertyValue(PropertyNames.WordWrap) ?? String.Empty; }
@@ -2453,7 +2228,6 @@
         /// <summary>
         /// Gets or sets the direction and flow of the content in the object.
         /// </summary>
-        [DomName("writingMode")]
         public String WritingMode
         {
             get { return GetPropertyValue(PropertyNames.WritingMode) ?? String.Empty; }
@@ -2463,7 +2237,6 @@
         /// <summary>
         /// Gets or sets the stacking order of positioned objects.
         /// </summary>
-        [DomName("zIndex")]
         public String ZIndex
         {
             get { return GetPropertyValue(PropertyNames.ZIndex) ?? String.Empty; }
@@ -2473,7 +2246,6 @@
         /// <summary>
         /// Gets or sets the magnification scale of the object.
         /// </summary>
-        [DomName("zoom")]
         public String Zoom
         {
             get { return GetPropertyValue(PropertyNames.Zoom) ?? String.Empty; }
@@ -2489,7 +2261,6 @@
         /// </summary>
         /// <param name="propertyName">The name of the property to be removed.</param>
         /// <returns>The value of the deleted property.</returns>
-        [DomName("removeProperty")]
         public String RemoveProperty(String propertyName)
         {
             if (_readonly)
@@ -2512,7 +2283,6 @@
         /// </summary>
         /// <param name="propertyName">The name of the property to get the priority of.</param>
         /// <returns>A priority or null.</returns>
-        [DomName("getPropertyPriority")]
         public String GetPropertyPriority(String propertyName)
         {
             CssPriorityProperty property;
@@ -2528,7 +2298,6 @@
         /// </summary>
         /// <param name="propertyName">The name of the property to get the value of.</param>
         /// <returns>A value or null if nothing has been set.</returns>
-        [DomName("getPropertyValue")]
         public String GetPropertyValue(String propertyName)
         {
             CssPriorityProperty property;
@@ -2539,18 +2308,31 @@
             return null;
         }
 
+        public void SetPropertyValue(String propertyName, String propertyValue)
+        {
+            SetProperty(propertyName, propertyValue);
+        }
+
+        public void SetPropertyPriority(String propertyName, String priority)
+        {
+            SetProperty(propertyName, GetPropertyValue(propertyName), priority);
+        }
+
         /// <summary>
         /// Sets a property with the given name and value.
         /// </summary>
         /// <param name="propertyName">The property's name.</param>
         /// <param name="propertyValue">The value of the property.</param>
-        /// <returns>The current style declaration.</returns>
-        [DomName("setProperty")]
-        public CSSStyleDeclaration SetProperty(String propertyName, String propertyValue)
+        /// <param name="priority">The optional priority.</param>
+        public void SetProperty(String propertyName, String propertyValue, String priority = null)
         {
             if (_readonly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
+            if (priority != null && priority.Equals(CssParser.Important, StringComparison.OrdinalIgnoreCase))
+                return;
+
+            propertyName = propertyName.ToLower();
             var decl = CssParser.ParseDeclaration(propertyName + ":" + (propertyValue ?? String.Empty));
 
             if (decl != null)
@@ -2559,8 +2341,6 @@
                 _rules[propertyName] = new CssPriorityProperty { Priority = Priority.Custom, Property = decl };
                 Propagate();
             }
-
-            return this;
         }
 
         #endregion

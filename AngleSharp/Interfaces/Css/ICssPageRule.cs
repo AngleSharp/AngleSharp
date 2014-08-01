@@ -18,6 +18,6 @@
         /// Gets the CSSStyleDeclaration object for the rule.
         /// </summary>
         [DomName("style")]
-        CSSStyleDeclaration Style { get; }
+        ICssStyleDeclaration Style { get; }
     }
 }

@@ -20,7 +20,7 @@
         /// <param name="pseudo">The optional pseudo selector to use.</param>
         /// <returns>The style declaration describing the element.</returns>
         [DomName("getComputedStyle")]
-        CSSStyleDeclaration GetComputedStyle(IElement element, String pseudo = null);
+        ICssStyleDeclaration GetComputedStyle(IElement element, String pseudo = null);
 
         /// <summary>
         /// Gets a reference to the document that the window contains.
