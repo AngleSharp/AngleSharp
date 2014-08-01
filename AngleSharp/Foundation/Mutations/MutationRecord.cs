@@ -16,13 +16,13 @@
             set;
         }
 
-        public INodeList AddedNodes
+        public INodeList Added
         {
             get;
             set;
         }
 
-        public INodeList RemovedNodes
+        public INodeList Removed
         {
             get;
             set;
@@ -52,7 +52,7 @@
             set;
         }
 
-        public String OldValue
+        public String PreviousValue
         {
             get;
             set;

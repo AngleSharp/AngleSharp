@@ -6,7 +6,7 @@
     {
         #region Fields
 
-        List<IMutationRecord> records;
+        readonly Queue<IMutationRecord> records;
 
         #endregion
 
@@ -14,7 +14,7 @@
 
         public MutationObserver()
         {
-            records = new List<IMutationRecord>();
+            records = new Queue<IMutationRecord>();
         }
 
         #endregion
@@ -31,11 +31,10 @@
             //TODO
         }
 
-        public IMutationRecord[] Flush()
+        public IEnumerable<IMutationRecord> Flush()
         {
-            var r = records.ToArray();
-            records.Clear();
-            return r;
+            while (records.Count != 0)
+                yield return records.Dequeue();
         }
 
         #endregion
