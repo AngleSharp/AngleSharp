@@ -328,6 +328,8 @@
     <Compile Include="Interfaces\ILinkStyle.cs" />
     <Compile Include="Interfaces\Css\IMediaList.cs" />
     <Compile Include="Interfaces\Css\ISelector.cs" />
+    <Compile Include="Interfaces\INonDocumentTypeChildNode.cs" />
+    <Compile Include="Interfaces\INonElementParentNode.cs" />
     <Compile Include="Interfaces\IStyleSheetList.cs" />
     <Compile Include="Interfaces\Css\IStyleUtilities.cs" />
     <Compile Include="Interfaces\Html\IGlobalEventHandlers.cs" />

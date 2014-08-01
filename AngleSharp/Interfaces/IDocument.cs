@@ -7,7 +7,7 @@
     /// The Document interface serves as an entry point to the web page's content.
     /// </summary>
     [DomName("Document")]
-    public interface IDocument : INode, IParentNode, IGlobalEventHandlers, IDocumentStyle
+    public interface IDocument : INode, IParentNode, IGlobalEventHandlers, IDocumentStyle, INonElementParentNode
     {
         /// <summary>
         /// Gets a list of all elements in the document.
@@ -135,15 +135,6 @@
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
         [DomName("getElementsByTagNameNS")]
         IHtmlCollection GetElementsByTagNameNS(String namespaceUri, String tagName);
-
-        /// <summary>
-        /// Returns the Element whose ID is given by elementId. If no such element exists, returns null.
-        /// The behavior is not defined if more than one element have this ID.
-        /// </summary>
-        /// <param name="elementId">A case-sensitive string representing the unique ID of the element being sought.</param>
-        /// <returns>The matching element.</returns>
-        [DomName("getElementById")]
-        IElement GetElementById(String elementId);
 
         /// <summary>
         /// Creates an event of the type specified. 

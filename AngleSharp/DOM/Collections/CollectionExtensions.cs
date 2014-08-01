@@ -19,6 +19,33 @@
                 return GetOnlyElementsOf<T>(parent, predicate);
         }
 
+        /// <summary>
+        /// Gets an element by its ID.
+        /// </summary>
+        /// <param name="children">The nodelist to investigate.</param>
+        /// <param name="id">The id to find.</param>
+        /// <returns>The element or NULL.</returns>
+        public static IElement GetElementById(this INodeList children, String id)
+        {
+            for (int i = 0; i < children.Length; i++)
+            {
+                var element = children[i] as IElement;
+
+                if (element != null)
+                {
+                    if (element.Id == id)
+                        return element;
+
+                    element = element.ChildNodes.GetElementById(id);
+
+                    if (element != null)
+                        return element;
+                }
+            }
+
+            return null;
+        }
+
         public static Boolean Accepts(this FilterSettings filter, INode node)
         {
             switch (node.NodeType)

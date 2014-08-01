@@ -919,7 +919,7 @@
         /// <returns>The matching element.</returns>
         public IElement GetElementById(String elementId)
         {
-            return GetElementById(ChildNodes, elementId);
+            return ChildNodes.GetElementById(elementId);
         }
 
         /// <summary>
@@ -1231,33 +1231,6 @@
 
                 if (child != null)
                     return child;
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Gets an element by its ID.
-        /// </summary>
-        /// <param name="children">The nodelist to investigate.</param>
-        /// <param name="id">The id to find.</param>
-        /// <returns>The element or NULL.</returns>
-        static protected IElement GetElementById(INodeList children, String id)
-        {
-            for (int i = 0; i < children.Length; i++)
-            {
-                var element = children[i] as IElement;
-
-                if (element != null)
-                {
-                    if (element.Id == id)
-                        return element;
-
-                    element = GetElementById(element.ChildNodes, id);
-
-                    if (element != null)
-                        return element;
-                }
             }
 
             return null;

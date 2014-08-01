@@ -193,6 +193,16 @@
             return ChildNodes.GetElementsByTagNameNS(namespaceURI, tagName);
         }
 
+        /// <summary>
+        /// Tries to get the an element in the DOM tree given its id.
+        /// </summary>
+        /// <param name="elementId">The id of the element to get.</param>
+        /// <returns>The element with the corresponding ID or null.</returns>
+        public IElement GetElementById(String elementId)
+        {
+            return ChildNodes.GetElementById(elementId);
+        }
+
         #endregion
 
         #region String representation
