@@ -24,6 +24,17 @@ h1 {
         }
 
         [TestMethod]
+        public void CssSheetSimpleStyleRuleStringification()
+        {
+            var css = @"html{font-family:sans-serif;}";
+            var stylesheet = CssParser.ParseStyleSheet(css);
+            Assert.AreEqual(1, stylesheet.Rules.Length);
+            var rule = stylesheet.Rules[0];
+            Assert.IsInstanceOfType(rule, typeof(CSSStyleRule));
+            Assert.AreEqual(css, rule.CssText);
+        }
+
+        [TestMethod]
         public void CssSheetCloseStringsEndOfLine()
         {
             var sheet = CssParser.ParseStyleSheet(@"p {
