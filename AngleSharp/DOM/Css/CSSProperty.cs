@@ -7,7 +7,7 @@
     /// Fore more information about CSS properties
     /// see http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    public class CSSProperty : ICssObject
+    public class CSSProperty : ICssProperty, ICssObject
     {
         #region Fields
 
@@ -74,6 +74,11 @@
         public String Name
         {
             get { return _name; }
+        }
+
+        ICssValue ICssProperty.Value
+        {
+            get { return Value; }
         }
 
         /// <summary>
