@@ -937,7 +937,8 @@
         /// <param name="html">The HTML code to generate elements for.</param>
         public void Insert(AdjacentPosition position, String html)
         {
-            var nodeParent = position == AdjacentPosition.BeforeBegin || position == AdjacentPosition.AfterEnd ? this : Parent;
+            var useThis = position == AdjacentPosition.BeforeBegin || position == AdjacentPosition.AfterEnd;
+            var nodeParent = useThis ? this : Parent as Element;
             var nodes = new DocumentFragment(html, nodeParent);
 
             switch (position)

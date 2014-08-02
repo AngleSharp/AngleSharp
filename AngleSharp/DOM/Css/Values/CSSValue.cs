@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
     /// Represents a CSS value.
 	/// </summary>
-	[DomName("CSSValue")]
-    public class CSSValue : ICssObject
+    public class CSSValue : ICssValue, ICssObject
     {
         #region Fields
 
@@ -49,8 +49,7 @@
         /// <summary>
         /// Gets a code defining the type of the value as defined above.
 		/// </summary>
-		[DomName("cssValueType")]
-        public CssValueType CssValueType
+        public CssValueType Type
         {
             get { return _type; }
         }
@@ -58,7 +57,6 @@
         /// <summary>
         /// Gets or sets a string representation of the current value.
         /// </summary>
-		[DomName("cssText")]
         public String CssText
         {
             get { return ToCss(); }
@@ -74,7 +72,7 @@
         /// <returns>A string that contains the code.</returns>
         public virtual String ToCss()
         {
-            return this == Inherit ? "inherit" : (this == Separator ? "," : (this == Delimiter ? "/" : String.Empty));
+            return this == Inherit ? CssParser.Inherit : (this == Separator ? "," : (this == Delimiter ? "/" : String.Empty));
         }
 
         #endregion

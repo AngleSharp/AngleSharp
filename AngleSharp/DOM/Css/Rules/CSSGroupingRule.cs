@@ -52,7 +52,7 @@
             _rules.List.Add(rule);
         }
 
-        internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, IElement element)
+        internal override void ComputeStyle(CssPropertyBag style, IWindow window, IElement element)
         {
             foreach (var rule in _rules.List)
                 rule.ComputeStyle(style, window, element);

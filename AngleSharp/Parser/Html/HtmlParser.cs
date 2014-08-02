@@ -20,22 +20,23 @@
     {
         #region Fields
 
-        HtmlTokenizer tokenizer;
-        Document doc;
+        readonly HtmlTokenizer tokenizer;
+        readonly Document doc;
+        readonly List<Element> open;
+        readonly List<Element> formatting;
+        readonly Stack<HtmlTreeMode> templateMode;
+        readonly Object sync;
+
         HtmlTreeMode insert;
         HtmlTreeMode originalInsert;
-        List<Element> open;
-        List<Element> formatting;
         HTMLFormElement form;
         Boolean frameset;
-        Node fragmentContext;
+        Element fragmentContext;
         Boolean foster;
         Int32 nesting;
         Boolean started;
         HTMLScriptElement pendingParsingBlock;
-        Stack<HtmlTreeMode> templateMode;
         Task task;
-		Object sync;
 
         #endregion
 
@@ -133,7 +134,7 @@
         /// <summary>
         /// Gets the adjusted current node.
         /// </summary>
-        internal Node AdjustedCurrentNode
+        internal Element AdjustedCurrentNode
         {
             get { return (fragmentContext != null && open.Count == 1) ? fragmentContext : CurrentNode; }
         }
@@ -203,7 +204,7 @@
         /// Switches to the fragment algorithm with the specified context element.
         /// </summary>
         /// <param name="context">The context element where the algorithm is applied to.</param>
-        internal void SwitchToFragment(Node context)
+        internal void SwitchToFragment(Element context)
         {
             if (started)
                 throw new InvalidOperationException("Fragment mode has to be activated before running the parser!");
@@ -213,7 +214,7 @@
                 case Tags.Title:
                 case Tags.Textarea:
                 {
-                    tokenizer.Switch(HtmlParseMode.RCData);
+                    tokenizer.State = HtmlParseMode.RCData;
                     break;
                 }
                 case Tags.Style:
@@ -222,24 +223,24 @@
                 case Tags.NoEmbed:
                 case Tags.NoFrames:
                 {
-                    tokenizer.Switch(HtmlParseMode.Rawtext);
+                    tokenizer.State = HtmlParseMode.Rawtext;
                     break;
                 }
                 case Tags.Script:
                 {
-                    tokenizer.Switch(HtmlParseMode.Script);
+                    tokenizer.State = HtmlParseMode.Script;
                     break;
                 }
                 case Tags.NoScript:
                 {
                     if (doc.Options.IsScripting) 
-                        tokenizer.Switch(HtmlParseMode.Rawtext);
+                        tokenizer.State = HtmlParseMode.Rawtext;
 
                     break;
                 }
                 case Tags.Plaintext:
                 {
-                    tokenizer.Switch(HtmlParseMode.Plaintext);
+                    tokenizer.State = HtmlParseMode.Plaintext;
                     break;
                 }
             }
@@ -254,7 +255,7 @@
             Reset(context);
 
             fragmentContext = context;
-            tokenizer.AcceptsCharacterData = !AdjustedCurrentNode.Flags.HasFlag(NodeFlags.HtmlMember);
+            tokenizer.IsAcceptingCharacterData = !AdjustedCurrentNode.Flags.HasFlag(NodeFlags.HtmlMember);
 
             do
             {
@@ -264,7 +265,7 @@
                     break;
                 }
 
-                context = context.Parent;
+                context = context.ParentElement as Element;
             }
             while (context != null);
         }
@@ -362,7 +363,7 @@
         /// <param name="token">The token to consume.</param>
         void Consume(HtmlToken token)
         {
-            var node = AdjustedCurrentNode as Element;
+            var node = AdjustedCurrentNode;
 
             if (node == null || token.IsEof || node.Flags.HasFlag(NodeFlags.HtmlMember) || 
                 (node.Flags.HasFlag(NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
@@ -652,7 +653,7 @@
                 }
 
                 charset = element.GetAttribute(AttributeNames.HttpEquiv);
-
+                
                 if (charset != null && charset.Equals("Content-Type", StringComparison.OrdinalIgnoreCase))
                 {
                     charset = element.GetAttribute(AttributeNames.Content) ?? String.Empty;
@@ -688,10 +689,13 @@
             }
             else if (token.IsStartTag(Tags.Script))
             {
-                AddElement(token.AsTag());
-                //element.IsParserInserted = true;
-                //element.IsAlreadyStarted = fragment;
-                tokenizer.Switch(HtmlParseMode.Script);
+                var script = new HTMLScriptElement
+                {
+                    IsParserInserted = true,
+                    IsAlreadyStarted = IsFragmentCase
+                };
+                AddElement(script, token.AsTag());
+                tokenizer.State = HtmlParseMode.Script;
                 originalInsert = insert;
                 insert = HtmlTreeMode.Text;
                 return;
@@ -847,7 +851,7 @@
             {
                 RaiseErrorOccurred(ErrorCode.TagMustBeInHead);
                 var index = open.Count;
-                open.Add(doc.Head as Element);//TODO remove cast ASAP
+                open.Add(doc.Head as Element);
                 InHead(token);
                 open.RemoveAt(index);
                 return;
@@ -1042,7 +1046,7 @@
                             InBodyEndTagParagraph();
 
                         AddElement(token.AsTag());
-                        tokenizer.Switch(HtmlParseMode.Plaintext);
+                        tokenizer.State = HtmlParseMode.Plaintext;
                         break;
                     }
                     case Tags.Button:
@@ -1236,7 +1240,7 @@
                     {
                         var element = new HTMLTextAreaElement();
                         AddElement(element, tag);
-                        tokenizer.Switch(HtmlParseMode.RCData);
+                        tokenizer.State = HtmlParseMode.RCData;
                         originalInsert = insert;
                         frameset = false;
                         insert = HtmlTreeMode.Text;
@@ -2713,7 +2717,7 @@
             AddElement(element, tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
-            tokenizer.Switch(HtmlParseMode.Rawtext);
+            tokenizer.State = HtmlParseMode.Rawtext;
         }
 
         /// <summary>
@@ -2726,7 +2730,7 @@
             AddElement(element, tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
-            tokenizer.Switch(HtmlParseMode.RCData);
+            tokenizer.State = HtmlParseMode.RCData;
         }
 
         /// <summary>
@@ -3208,7 +3212,7 @@
                 var chrs = (HtmlCharacterToken)token;
                 AddCharacters(chrs.Data.Replace(Specification.Null, Specification.Replacement));
 
-                if(chrs.HasContent)
+                if (chrs.HasContent)
                     frameset = false;
             }
             else if (token.Type == HtmlTokenType.Comment)
@@ -3225,6 +3229,19 @@
 
                 switch (tag.Name)
                 {
+                    case Tags.Font:
+                        for (var i = 0; i != tag.Attributes.Count; i++)
+                        {
+                            if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
+                            {
+                                ForeignNormalTag(token);
+                                return;
+                            }
+                        }
+
+                        ForeignSpecialTag(tag);
+                        break;
+
                     case Tags.B:
                     case Tags.Big:
                     case Tags.BlockQuote:
@@ -3271,19 +3288,6 @@
                     case Tags.Ul:
                     case Tags.Var:
                         ForeignNormalTag(token);
-                        break;
-
-                    case Tags.Font:
-                        for (var i = 0; i != tag.Attributes.Count; i++)
-                        {
-                            if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
-                            {
-                                ForeignNormalTag(token);
-                                return;
-                            }
-                        }
-
-                        ForeignSpecialTag(tag);
                         break;
 
                     default:
@@ -3342,7 +3346,7 @@
                 if (!tag.IsSelfClosing)
                 {
                     open.Add(node);
-                    tokenizer.AcceptsCharacterData = true;
+                    tokenizer.IsAcceptingCharacterData = true;
                 }
                 else if (tag.Name == Tags.Script)
                     Foreign(HtmlToken.CloseTag(Tags.Script));
@@ -3713,7 +3717,7 @@
             doc.AppendChild(element);
             SetupElement(element, tag, false);
             open.Add(element);
-            tokenizer.AcceptsCharacterData = false;
+            tokenizer.IsAcceptingCharacterData = false;
             element.ApplyManifest();
         }
 
@@ -3749,7 +3753,7 @@
             {
                 open.RemoveAt(open.Count - 1);
                 var node = AdjustedCurrentNode;
-                tokenizer.AcceptsCharacterData = node != null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
+                tokenizer.IsAcceptingCharacterData = node != null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
             }
         }
 
@@ -3811,7 +3815,7 @@
                 node.AppendChild(element);
 
             open.Add(element);
-            tokenizer.AcceptsCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
+            tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
         }
 
         /// <summary>
@@ -3862,7 +3866,7 @@
         /// <param name="element">The node which will be added to the list.</param>
         void AddForeignElement(Element element)
         {
-            element.NamespaceUri = ((Element)AdjustedCurrentNode).NamespaceUri;
+            element.NamespaceUri = AdjustedCurrentNode.NamespaceUri;
             CurrentNode.AppendChild(element);
         }
 

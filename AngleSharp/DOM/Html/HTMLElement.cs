@@ -11,8 +11,8 @@
     {
         #region Fields
 
+        readonly CSSStyleDeclaration _style;
         StringMap _dataset;
-        CSSStyleDeclaration _style;
         IHtmlMenuElement _menu;
         ISettableTokenList _dropZone;
 
@@ -26,7 +26,9 @@
         internal HTMLElement(String name, NodeFlags flags = NodeFlags.None)
             : base(name, flags | NodeFlags.HtmlMember)
         {
-            NamespaceUri = Namespaces.Html; 
+            NamespaceUri = Namespaces.Html;
+            _style = new CSSStyleDeclaration();
+            _style.Changed += (s, ev) => { SetAttribute(AttributeNames.Style, _style.CssText); };
         }
 
         #endregion
@@ -155,7 +157,7 @@
         /// </summary>
         public CSSStyleDeclaration Style
         {
-            get { return _style ?? (_style = new CSSStyleDeclaration(this)); }
+            get { return _style; }
         }
 
         ICssStyleDeclaration IElementCssInlineStyle.Style
@@ -283,7 +285,7 @@
         protected override void OnAttributeChanged(String name)
         {
             if (name.Equals(AttributeNames.Style, StringComparison.Ordinal))
-                Style.Update(GetAttribute(AttributeNames.Style));
+                _style.Update(GetAttribute(AttributeNames.Style));
             else
                 base.OnAttributeChanged(name);
         }

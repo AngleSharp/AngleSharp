@@ -9,49 +9,45 @@
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    sealed class CSSStyleDeclaration : ICssStyleDeclaration
+    sealed class CSSStyleDeclaration : ICssStyleDeclaration, ICssObject
     {
         #region Fields
 
-        struct CssPriorityProperty
-        {
-            public Priority Priority;
-            public CSSProperty Property;
-        }
-
-        readonly Dictionary<String, CssPriorityProperty> _rules;
-        readonly Func<String> _getter;
-        readonly Action<String> _setter;
+        readonly Dictionary<String, CSSProperty> _rules;
+        readonly Boolean _readonly;
         ICssRule _parent;
-        Boolean _blocking;
-        Boolean _readonly;
+        String _text;
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler Changed;
 
         #endregion
 
         #region ctor
 
         /// <summary>
-        /// Creates a new CSS style declaration. Here a local string
-        /// variable is used to cache the text representation.
+        /// Creates a new CSS style declaration.
         /// </summary>
         internal CSSStyleDeclaration()
         {
-            var text = String.Empty;
-            _getter = () => text;
-            _setter = value => text = value;
-            _rules = new Dictionary<String, CssPriorityProperty>(StringComparer.OrdinalIgnoreCase);
+            _readonly = false;
+            _rules = new Dictionary<String, CSSProperty>(StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
-        /// Creates a new CSS style declaration with pre-defined getter
-        /// and setter functions (use-case: HTML element).
+        /// Creates a new read-only CSS style declaration.
         /// </summary>
-        /// <param name="host">The element to host this representation.</param>
-        internal CSSStyleDeclaration(Element host)
+        /// <param name="bag">The bag that indicates the properties to show.</param>
+        internal CSSStyleDeclaration(CssPropertyBag bag)
         {
-            _getter = () => (host.Owner == null || host.Owner.Options.IsStyling) ? host.GetAttribute(AttributeNames.Style) : String.Empty;
-            _setter = value => host.SetAttribute(AttributeNames.Style, value);
-            _rules = new Dictionary<String, CssPriorityProperty>(StringComparer.OrdinalIgnoreCase);
+            _readonly = true;
+            _rules = new Dictionary<String, CSSProperty>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var property in bag)
+                _rules.Add(property.Name, property);
         }
 
         #endregion
@@ -63,14 +59,14 @@
         /// </summary>
         public String CssText
         {
-            get { return _getter(); }
+            get { return _text ?? (_text = String.Join(" ", _rules.Values.Select(m => m.ToCss()))); }
             set
             {
                 if (_readonly)
                     throw new DomException(ErrorCode.NoModificationAllowed);
 
                 Update(value);
-                _setter(value);
+                RaiseChanged();
             }
         }
 
@@ -80,7 +76,6 @@
         public Boolean IsReadOnly
         {
             get { return _readonly; }
-            internal set { _readonly = value; }
         }
 
         /// <summary>
@@ -2266,13 +2261,13 @@
             if (_readonly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
-            CssPriorityProperty property;
+            CSSProperty property;
 
             if (_rules.TryGetValue(propertyName, out property))
             {
                 _rules.Remove(propertyName);
-                Propagate();
-                return property.Property.Value.CssText;
+                RaiseChanged();
+                return property.Value.CssText;
             }
 
             return null;
@@ -2282,30 +2277,30 @@
         /// Returns the optional priority, "important".
         /// </summary>
         /// <param name="propertyName">The name of the property to get the priority of.</param>
-        /// <returns>A priority or null.</returns>
+        /// <returns>A priority or the empty string.</returns>
         public String GetPropertyPriority(String propertyName)
         {
-            CssPriorityProperty property;
+            CSSProperty property;
 
-            if (_rules.TryGetValue(propertyName, out property) && property.Property.Important)
+            if (_rules.TryGetValue(propertyName, out property) && property.IsImportant)
                 return CssParser.Important;
 
-            return null;
+            return String.Empty;
         }
 
         /// <summary>
         /// Returns the value of a property.
         /// </summary>
         /// <param name="propertyName">The name of the property to get the value of.</param>
-        /// <returns>A value or null if nothing has been set.</returns>
+        /// <returns>A value or the empty string if nothing has been set.</returns>
         public String GetPropertyValue(String propertyName)
         {
-            CssPriorityProperty property;
+            CSSProperty property;
 
             if (_rules.TryGetValue(propertyName, out property))
-                return property.Property.Value.CssText;
+                return property.Value.CssText;
 
-            return null;
+            return String.Empty;
         }
 
         public void SetPropertyValue(String propertyName, String propertyValue)
@@ -2329,18 +2324,26 @@
             if (_readonly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
-            if (priority != null && priority.Equals(CssParser.Important, StringComparison.OrdinalIgnoreCase))
+            if (priority != null && !priority.Equals(CssParser.Important, StringComparison.OrdinalIgnoreCase))
                 return;
 
-            propertyName = propertyName.ToLower();
-            var decl = CssParser.ParseDeclaration(propertyName + ":" + (propertyValue ?? String.Empty));
-
-            if (decl != null)
+            if (!String.IsNullOrEmpty(propertyValue))
             {
-                // We give user defined properties the highest order.
-                _rules[propertyName] = new CssPriorityProperty { Priority = Priority.Custom, Property = decl };
-                Propagate();
+                propertyName = propertyName.ToLower();
+
+                var decl = CssParser.ParseDeclaration(String.Concat(propertyName, ": ", propertyValue));
+
+                if (decl != null)
+                {
+                    // We give user defined properties the highest order.
+                    decl.IsImportant = priority != null;
+                    _rules[propertyName] = decl;
+                    RaiseChanged();
+                }
             }
+            else
+                RemoveProperty(propertyName);
+
         }
 
         #endregion
@@ -2359,7 +2362,7 @@
             foreach (var rule in _rules)
             {
                 if (i++ == index)
-                    return rule.Value.Property;
+                    return rule.Value;
             }
 
             return null;
@@ -2372,28 +2375,12 @@
         /// <returns>The property with the specified name or null.</returns>
         internal CSSProperty Get(String name)
         {
-            CssPriorityProperty prop;
+            CSSProperty prop;
 
             if (_rules.TryGetValue(name, out prop))
-                return prop.Property;
+                return prop;
 
             return null;
-        }
-
-        /// <summary>
-        /// Gets the priority of the given CSS property.
-        /// Also returns the lowest priority if the given property does not exist.
-        /// </summary>
-        /// <param name="name">The name of the property to get.</param>
-        /// <returns>The priority of the property.</returns>
-        internal Priority GetPriority(String name)
-        {
-            CssPriorityProperty prop;
-
-            if (_rules.TryGetValue(name, out prop))
-                return prop.Priority;
-
-            return Priority.Zero;
         }
 
         /// <summary>
@@ -2402,24 +2389,14 @@
         /// <param name="property">The property to set.</param>
         internal void Set(CSSProperty property)
         {
-            Set(property, Priority.Zero);
+            if (property != null)
+                _rules[property.Name] = property;
         }
 
-        /// <summary>
-        /// Sets the given CSS property, if the property is equal or higher.
-        /// </summary>
-        /// <param name="property">The property to set.</param>
-        /// <param name="priority">The priority to use.</param>
-        internal void Set(CSSProperty property, Priority priority)
+        void RaiseChanged()
         {
-            if (property != null)
-            {
-                if (property.Important)
-                    priority = Priority.Important;
-
-                if (priority >= GetPriority(property.Name))
-                    _rules[property.Name] = new CssPriorityProperty { Priority = priority, Property = property };
-            }
+            if (Changed != null)
+                Changed(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -2428,22 +2405,12 @@
         /// <param name="value">The new value.</param>
         internal void Update(String value)
         {
-            if (!_blocking)
-            {
-                _rules.Clear();
-                CssParser.AppendDeclarations(this, value ?? String.Empty);
-            }
-        }
+            if (Object.ReferenceEquals(value, _text))
+                return;
 
-        #endregion
-
-        #region Helpers
-
-        void Propagate()
-        {
-            _blocking = true;
-            _setter(ToCss());
-            _blocking = false;
+            _text = null;
+            _rules.Clear();
+            CssParser.AppendDeclarations(this, value ?? String.Empty);
         }
 
         #endregion
@@ -2456,12 +2423,7 @@
         /// <returns>A string containing the CSS code of the declarations.</returns>
         public String ToCss()
         {
-            var sb = Pool.NewStringBuilder();
-
-            foreach (var rule in _rules)
-                sb.Append(rule.Value.Property.ToCss()).Append(Specification.Semicolon);
-
-            return sb.ToPool();
+            return CssText;
         }
 
         #endregion
@@ -2474,7 +2436,7 @@
         /// <returns>The iterator.</returns>
         public IEnumerator<CSSProperty> GetEnumerator()
         {
-            return _rules.Values.Select(m => m.Property).GetEnumerator();
+            return _rules.Values.GetEnumerator();
         }
 
         /// <summary>

@@ -550,7 +550,7 @@
                     if (property != null)
                     {
                         if (property.TrySetValue(InValue(tokens)))
-                            property.Important = IsImportant(tokens);
+                            property.IsImportant = IsImportant(tokens);
                         else if (style != null)
                             property = null;
                     }

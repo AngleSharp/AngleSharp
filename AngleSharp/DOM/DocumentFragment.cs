@@ -26,7 +26,7 @@
         /// </summary>
         /// <param name="html">The HTML source to use.</param>
         /// <param name="context">The context for the fragment mode.</param>
-        internal DocumentFragment(String html, Node context)
+        internal DocumentFragment(String html, Element context)
             : this()
         {
             var owner = context.Owner;

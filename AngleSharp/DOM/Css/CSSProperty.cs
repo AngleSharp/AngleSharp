@@ -1,14 +1,13 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.DOM.Collections;
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
     /// Fore more information about CSS properties
     /// see http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    [DomName("CSSProperty")]
-    public class CSSProperty : ICssObject
+    public class CSSProperty : ICssProperty, ICssObject
     {
         #region Fields
 
@@ -72,16 +71,19 @@
         /// <summary>
         /// Gets the name of the property.
         /// </summary>
-        [DomName("name")]
         public String Name
         {
             get { return _name; }
         }
 
+        ICssValue ICssProperty.Value
+        {
+            get { return Value; }
+        }
+
         /// <summary>
         /// Gets or sets the value of the property.
         /// </summary>
-        [DomName("value")]
         public CSSValue Value
         {
             get { return _value ?? CSSValue.Inherit; }
@@ -95,8 +97,7 @@
         /// <summary>
         /// Gets or sets if the !important flag has been set.
         /// </summary>
-        [DomName("important")]
-        public Boolean Important
+        public Boolean IsImportant
         {
             get { return _important; }
             set { _important = value; }
@@ -183,7 +184,7 @@
         /// <returns>A string that contains the code.</returns>
         public String ToCss()
         {
-            return String.Concat(_name, ":", _value.ToCss(), _important ? "!important" : String.Empty);
+            return String.Concat(_name, ": ", _value.ToCss(), _important ? (" !" + CssParser.Important) : String.Empty, ";");
         }
 
         #endregion

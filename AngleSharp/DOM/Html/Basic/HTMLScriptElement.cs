@@ -34,6 +34,27 @@
 
         #endregion
 
+        #region Internal Properties
+
+        internal Boolean IsReady
+        {
+            get { return _readyToBeExecuted; }
+        }
+
+        internal Boolean IsParserInserted 
+        {
+            get { return _parserInserted; }
+            set { _parserInserted = value; }
+        }
+
+        internal Boolean IsAlreadyStarted
+        {
+            get { return _started; }
+            set { _started = value; }
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -230,9 +251,11 @@
             else if (_parserInserted)
             {
                 //and either the parser that created the script is an XML parser or it's an HTML parser whose script nesting level is
-                //not greater than one, and the Document of the HTML parser or XML parser that created the script element has a styl
+                //not greater than one, and the Document of the HTML parser or XML parser that created the script element has a style
                 //sheet that is blocking scripts
                 _readyToBeExecuted = true;
+                //TODO do not run immediately, i.e. remove the following line
+                options.RunScript(Text, CreateOptions(), ScriptLanguage);
             }
             else
             {
