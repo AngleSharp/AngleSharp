@@ -268,7 +268,7 @@
         /// Builds a list of nodes according with 8.4 Parsing HTML fragments.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
-        /// <param name="context">[Optional] The context node to use.</param>
+        /// <param name="context">[Optional] The context element to use.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
         /// <returns>A list of parsed nodes.</returns>
         public static INodeList HtmlFragment(String sourceCode, IElement context = null, IConfiguration configuration = null)

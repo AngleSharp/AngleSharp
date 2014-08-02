@@ -214,7 +214,7 @@
                 case Tags.Title:
                 case Tags.Textarea:
                 {
-                    tokenizer.Switch(HtmlParseMode.RCData);
+                    tokenizer.State = HtmlParseMode.RCData;
                     break;
                 }
                 case Tags.Style:
@@ -223,24 +223,24 @@
                 case Tags.NoEmbed:
                 case Tags.NoFrames:
                 {
-                    tokenizer.Switch(HtmlParseMode.Rawtext);
+                    tokenizer.State = HtmlParseMode.Rawtext;
                     break;
                 }
                 case Tags.Script:
                 {
-                    tokenizer.Switch(HtmlParseMode.Script);
+                    tokenizer.State = HtmlParseMode.Script;
                     break;
                 }
                 case Tags.NoScript:
                 {
                     if (doc.Options.IsScripting) 
-                        tokenizer.Switch(HtmlParseMode.Rawtext);
+                        tokenizer.State = HtmlParseMode.Rawtext;
 
                     break;
                 }
                 case Tags.Plaintext:
                 {
-                    tokenizer.Switch(HtmlParseMode.Plaintext);
+                    tokenizer.State = HtmlParseMode.Plaintext;
                     break;
                 }
             }
@@ -255,7 +255,7 @@
             Reset(context);
 
             fragmentContext = context;
-            tokenizer.AcceptsCharacterData = !AdjustedCurrentNode.Flags.HasFlag(NodeFlags.HtmlMember);
+            tokenizer.IsAcceptingCharacterData = !AdjustedCurrentNode.Flags.HasFlag(NodeFlags.HtmlMember);
 
             do
             {
@@ -653,7 +653,7 @@
                 }
 
                 charset = element.GetAttribute(AttributeNames.HttpEquiv);
-
+                
                 if (charset != null && charset.Equals("Content-Type", StringComparison.OrdinalIgnoreCase))
                 {
                     charset = element.GetAttribute(AttributeNames.Content) ?? String.Empty;
@@ -689,10 +689,13 @@
             }
             else if (token.IsStartTag(Tags.Script))
             {
-                AddElement(token.AsTag());
-                //element.IsParserInserted = true;
-                //element.IsAlreadyStarted = fragment;
-                tokenizer.Switch(HtmlParseMode.Script);
+                var script = new HTMLScriptElement
+                {
+                    IsParserInserted = true,
+                    IsAlreadyStarted = IsFragmentCase
+                };
+                AddElement(script, token.AsTag());
+                tokenizer.State = HtmlParseMode.Script;
                 originalInsert = insert;
                 insert = HtmlTreeMode.Text;
                 return;
@@ -848,7 +851,7 @@
             {
                 RaiseErrorOccurred(ErrorCode.TagMustBeInHead);
                 var index = open.Count;
-                open.Add(doc.Head as Element);//TODO remove cast ASAP
+                open.Add(doc.Head as Element);
                 InHead(token);
                 open.RemoveAt(index);
                 return;
@@ -1043,7 +1046,7 @@
                             InBodyEndTagParagraph();
 
                         AddElement(token.AsTag());
-                        tokenizer.Switch(HtmlParseMode.Plaintext);
+                        tokenizer.State = HtmlParseMode.Plaintext;
                         break;
                     }
                     case Tags.Button:
@@ -1237,7 +1240,7 @@
                     {
                         var element = new HTMLTextAreaElement();
                         AddElement(element, tag);
-                        tokenizer.Switch(HtmlParseMode.RCData);
+                        tokenizer.State = HtmlParseMode.RCData;
                         originalInsert = insert;
                         frameset = false;
                         insert = HtmlTreeMode.Text;
@@ -2714,7 +2717,7 @@
             AddElement(element, tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
-            tokenizer.Switch(HtmlParseMode.Rawtext);
+            tokenizer.State = HtmlParseMode.Rawtext;
         }
 
         /// <summary>
@@ -2727,7 +2730,7 @@
             AddElement(element, tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
-            tokenizer.Switch(HtmlParseMode.RCData);
+            tokenizer.State = HtmlParseMode.RCData;
         }
 
         /// <summary>
@@ -3343,7 +3346,7 @@
                 if (!tag.IsSelfClosing)
                 {
                     open.Add(node);
-                    tokenizer.AcceptsCharacterData = true;
+                    tokenizer.IsAcceptingCharacterData = true;
                 }
                 else if (tag.Name == Tags.Script)
                     Foreign(HtmlToken.CloseTag(Tags.Script));
@@ -3714,7 +3717,7 @@
             doc.AppendChild(element);
             SetupElement(element, tag, false);
             open.Add(element);
-            tokenizer.AcceptsCharacterData = false;
+            tokenizer.IsAcceptingCharacterData = false;
             element.ApplyManifest();
         }
 
@@ -3750,7 +3753,7 @@
             {
                 open.RemoveAt(open.Count - 1);
                 var node = AdjustedCurrentNode;
-                tokenizer.AcceptsCharacterData = node != null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
+                tokenizer.IsAcceptingCharacterData = node != null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
             }
         }
 
@@ -3812,7 +3815,7 @@
                 node.AppendChild(element);
 
             open.Add(element);
-            tokenizer.AcceptsCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
+            tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
         }
 
         /// <summary>

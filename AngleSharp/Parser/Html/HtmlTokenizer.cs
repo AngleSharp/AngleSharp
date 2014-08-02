@@ -18,7 +18,7 @@
 
         Boolean _acceptsCharacterData;
         String _lastStartTag;
-        HtmlParseMode _model;
+        HtmlParseMode _state;
         HtmlToken _buffered;
 
         #endregion
@@ -32,7 +32,7 @@
         public HtmlTokenizer(ITextSource source)
             : base(source)
         {
-            _model = HtmlParseMode.PCData;
+            _state = HtmlParseMode.PCData;
             _acceptsCharacterData = false;
             _buffer = new StringBuilder();
         }
@@ -44,10 +44,19 @@
         /// <summary>
         /// Gets or sets if CDATA sections are accepted.
         /// </summary>
-        public Boolean AcceptsCharacterData
+        public Boolean IsAcceptingCharacterData
         {
             get { return _acceptsCharacterData; }
             set { _acceptsCharacterData = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the current parse mode.
+        /// </summary>
+        public HtmlParseMode State
+        {
+            get { return _state; }
+            set { _state = value; }
         }
 
         #endregion
@@ -73,7 +82,7 @@
             if (IsEnded) 
                 return HtmlToken.EOF;
 
-            switch (_model)
+            switch (_state)
             {
                 case HtmlParseMode.PCData:
                     token = Data(current);
@@ -104,16 +113,6 @@
             }
 
             return token;
-        }
-
-        /// <summary>
-        /// Switches the current tokenization state
-        /// to the desired content model.
-        /// </summary>
-        /// <param name="state">The new state.</param>
-        public void Switch(HtmlParseMode state)
-        {
-            _model = state;
         }
 
         #endregion
@@ -620,7 +619,7 @@
                 return BogusComment(c);
             }
 
-            _model = HtmlParseMode.PCData;
+            _state = HtmlParseMode.PCData;
             RaiseErrorOccurred(ErrorCode.AmbiguousOpenTag);
             _buffer.Append(Specification.LessThan);
             return Data(c);
@@ -646,7 +645,7 @@
             }
             else if (c == Specification.GreaterThan)
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 return Data(Next);
             }
@@ -789,7 +788,7 @@
                 c = Next;
             }
 
-            _model = HtmlParseMode.PCData;
+            _state = HtmlParseMode.PCData;
             return HtmlToken.Comment(_stringBuffer.ToString());
         }
 
@@ -811,7 +810,7 @@
             }
             else if (c == Specification.GreaterThan)
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
@@ -845,7 +844,7 @@
             }
             else if (c == Specification.GreaterThan)
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
@@ -930,7 +929,7 @@
             {
                 if (c == Specification.GreaterThan)
                 {
-                    _model = HtmlParseMode.PCData;
+                    _state = HtmlParseMode.PCData;
                     return HtmlToken.Comment(_stringBuffer.ToString());
                 }
                 else if (c == Specification.Null)
@@ -982,7 +981,7 @@
             }
             else if (c == Specification.GreaterThan)
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 return HtmlToken.Comment(_stringBuffer.ToString());
             }
             else if (c == Specification.Null)
@@ -1055,7 +1054,7 @@
             }
             else if (c == Specification.GreaterThan)
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 return HtmlToken.Doctype(true);
             }
@@ -1089,7 +1088,7 @@
                 }
                 else if (c == Specification.GreaterThan)
                 {
-                    _model = HtmlParseMode.PCData;
+                    _state = HtmlParseMode.PCData;
                     doctype.Name = _stringBuffer.ToString();
                     return doctype;
                 }
@@ -1128,7 +1127,7 @@
 
             if (c == Specification.GreaterThan)
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 return doctype;
             }
             else if (c == Specification.EndOfFile)
@@ -1180,7 +1179,7 @@
             }
             else if (c == Specification.GreaterThan)
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
                 return doctype;
@@ -1223,7 +1222,7 @@
             }
             else if (c == Specification.GreaterThan)
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
                 return doctype;
@@ -1264,7 +1263,7 @@
                 }
                 else if (c == Specification.GreaterThan)
                 {
-                    _model = HtmlParseMode.PCData;
+                    _state = HtmlParseMode.PCData;
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
@@ -1308,7 +1307,7 @@
                 }
                 else if (c == Specification.GreaterThan)
                 {
-                    _model = HtmlParseMode.PCData;
+                    _state = HtmlParseMode.PCData;
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
@@ -1344,7 +1343,7 @@
             }
             else if (c == Specification.GreaterThan)
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 return doctype;
             }
             else if (c == Specification.DoubleQuote)
@@ -1385,7 +1384,7 @@
 
             if (c == Specification.GreaterThan)
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 return doctype;
             }
             else if (c == Specification.DoubleQuote)
@@ -1421,7 +1420,7 @@
         {
             if (c.IsSpaceCharacter())
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 return DoctypeSystemIdentifierBefore(Next, doctype);
             }
             else if (c == Specification.DoubleQuote)
@@ -1479,7 +1478,7 @@
             }
             else if (c == Specification.GreaterThan)
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = _stringBuffer.ToString();
@@ -1522,7 +1521,7 @@
                 }
                 else if (c == Specification.GreaterThan)
                 {
-                    _model = HtmlParseMode.PCData;
+                    _state = HtmlParseMode.PCData;
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = _stringBuffer.ToString();
@@ -1566,7 +1565,7 @@
                 }
                 else if (c == Specification.GreaterThan)
                 {
-                    _model = HtmlParseMode.PCData;
+                    _state = HtmlParseMode.PCData;
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = _stringBuffer.ToString();
@@ -1600,7 +1599,7 @@
 
             if (c == Specification.GreaterThan)
             {
-                _model = HtmlParseMode.PCData;
+                _state = HtmlParseMode.PCData;
                 return doctype;
             }
             else if (c == Specification.EndOfFile)
@@ -1632,7 +1631,7 @@
                 }
                 else if (c == Specification.GreaterThan)
                 {
-                    _model = HtmlParseMode.PCData;
+                    _state = HtmlParseMode.PCData;
                     return doctype;
                 }
 
@@ -2486,7 +2485,7 @@
         /// </summary>
         HtmlTagToken EmitTag(HtmlTagToken tag)
         {
-            _model = HtmlParseMode.PCData;
+            _state = HtmlParseMode.PCData;
 
             if (tag.Type == HtmlTokenType.StartTag)
             {
