@@ -1573,6 +1573,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssPageRule.cs">
       <Link>Interfaces\Css\ICssPageRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssProperty.cs">
+      <Link>Interfaces\Css\ICssProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssRule.cs">
       <Link>Interfaces\Css\ICssRule.cs</Link>
     </Compile>
@@ -1590,6 +1593,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssSupportsRule.cs">
       <Link>Interfaces\Css\ICssSupportsRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssValue.cs">
+      <Link>Interfaces\Css\ICssValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IElementCssInlineStyle.cs">
       <Link>Interfaces\Css\IElementCssInlineStyle.cs</Link>
