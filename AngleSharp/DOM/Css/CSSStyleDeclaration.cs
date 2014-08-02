@@ -2282,7 +2282,7 @@
         /// Returns the optional priority, "important".
         /// </summary>
         /// <param name="propertyName">The name of the property to get the priority of.</param>
-        /// <returns>A priority or null.</returns>
+        /// <returns>A priority or the empty string.</returns>
         public String GetPropertyPriority(String propertyName)
         {
             CssPriorityProperty property;
@@ -2290,14 +2290,14 @@
             if (_rules.TryGetValue(propertyName, out property) && property.Property.IsImportant)
                 return CssParser.Important;
 
-            return null;
+            return String.Empty;
         }
 
         /// <summary>
         /// Returns the value of a property.
         /// </summary>
         /// <param name="propertyName">The name of the property to get the value of.</param>
-        /// <returns>A value or null if nothing has been set.</returns>
+        /// <returns>A value or the empty string if nothing has been set.</returns>
         public String GetPropertyValue(String propertyName)
         {
             CssPriorityProperty property;
@@ -2305,7 +2305,7 @@
             if (_rules.TryGetValue(propertyName, out property))
                 return property.Property.Value.CssText;
 
-            return null;
+            return String.Empty;
         }
 
         public void SetPropertyValue(String propertyName, String propertyValue)
@@ -2332,15 +2332,22 @@
             if (priority != null && priority.Equals(CssParser.Important, StringComparison.OrdinalIgnoreCase))
                 return;
 
-            propertyName = propertyName.ToLower();
-            var decl = CssParser.ParseDeclaration(propertyName + ":" + (propertyValue ?? String.Empty));
-
-            if (decl != null)
+            if (!String.IsNullOrEmpty(propertyValue))
             {
-                // We give user defined properties the highest order.
-                _rules[propertyName] = new CssPriorityProperty { Priority = Priority.Custom, Property = decl };
-                Propagate();
+                propertyName = propertyName.ToLower();
+
+                var decl = CssParser.ParseDeclaration(propertyName + ":" + propertyValue);
+
+                if (decl != null)
+                {
+                    // We give user defined properties the highest order.
+                    _rules[propertyName] = new CssPriorityProperty { Priority = Priority.Custom, Property = decl };
+                    Propagate();
+                }
             }
+            else
+                RemoveProperty(propertyName);
+
         }
 
         #endregion
