@@ -316,12 +316,14 @@
     <Compile Include="Interfaces\Css\ICssMediaRule.cs" />
     <Compile Include="Interfaces\Css\ICssNamespaceRule.cs" />
     <Compile Include="Interfaces\Css\ICssPageRule.cs" />
+    <Compile Include="Interfaces\Css\ICssProperty.cs" />
     <Compile Include="Interfaces\Css\ICssRule.cs" />
     <Compile Include="Interfaces\Css\ICssRuleList.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
     <Compile Include="Interfaces\Css\ICssStyleRule.cs" />
     <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
     <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
+    <Compile Include="Interfaces\Css\ICssValue.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
     <Compile Include="Interfaces\IHtmlAllCollection.cs" />
     <Compile Include="Interfaces\ILinkStyle.cs" />

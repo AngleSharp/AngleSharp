@@ -2287,7 +2287,7 @@
         {
             CssPriorityProperty property;
 
-            if (_rules.TryGetValue(propertyName, out property) && property.Property.Important)
+            if (_rules.TryGetValue(propertyName, out property) && property.Property.IsImportant)
                 return CssParser.Important;
 
             return null;
@@ -2414,7 +2414,7 @@
         {
             if (property != null)
             {
-                if (property.Important)
+                if (property.IsImportant)
                     priority = Priority.Important;
 
                 if (priority >= GetPriority(property.Name))
