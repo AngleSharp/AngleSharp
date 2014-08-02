@@ -114,7 +114,7 @@
             // if pseudo is :before OR ::before then use the corresponding pseudo-element
             // else if pseudo is :after OR ::after then use the corresponding pseudo-element
 
-            var style = new CSSStyleDeclaration();
+            var bag = new CssPropertyBag();
 
             foreach (var stylesheet in document.StyleSheets)
             {
@@ -125,18 +125,17 @@
                     var rules = sheet.Rules as CSSRuleList;
 
                     foreach (var rule in rules.List)
-                        rule.ComputeStyle(style, this, element);
+                        rule.ComputeStyle(bag, this, element);
                 }
             }
 
             var htmlElement = element as IHtmlElement;
 
             if (htmlElement != null)
-                style.ExtendWith(htmlElement.Style, Priority.Inline);
+                bag.ExtendWith(htmlElement.Style, Priority.Inline);
 
-            style.InheritFrom(element, this);
-            style.IsReadOnly = true;
-            return style;
+            bag.InheritFrom(element, this);
+            return new CSSStyleDeclaration(bag);
         }
 
         #endregion

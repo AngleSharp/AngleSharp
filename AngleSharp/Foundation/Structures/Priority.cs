@@ -27,16 +27,6 @@
         #region Default
 
         /// <summary>
-        /// Gets the priority for a custom set property.
-        /// </summary>
-        public static readonly Priority Custom = new Priority(UInt32.MaxValue);
-
-        /// <summary>
-        /// Gets the priority for an important property.
-        /// </summary>
-        public static readonly Priority Important = new Priority(Byte.MaxValue - 1, Byte.MaxValue, Byte.MaxValue, Byte.MaxValue);
-
-        /// <summary>
         /// Gets the lowest (zero) priority.
         /// </summary>
         public static readonly Priority Zero = new Priority(0u);

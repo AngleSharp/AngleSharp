@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        CSSStyleDeclaration _style;
+        readonly CSSStyleDeclaration _style;
 
         #endregion
 
@@ -23,6 +23,7 @@
             : base(name, flags | NodeFlags.SvgMember)
         {
             NamespaceUri = Namespaces.Svg;
+            _style = new CSSStyleDeclaration();
         }
 
         #endregion
@@ -34,7 +35,7 @@
         /// </summary>
         public ICssStyleDeclaration Style
         {
-            get { return _style ?? (_style = new CSSStyleDeclaration(this)); }
+            get { return _style; }
         }
 
         #endregion

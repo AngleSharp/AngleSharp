@@ -184,7 +184,7 @@
         /// <returns>A string that contains the code.</returns>
         public String ToCss()
         {
-            return String.Concat(_name, ":", _value.ToCss(), _important ? ("!" + CssParser.Important) : String.Empty);
+            return String.Concat(_name, ": ", _value.ToCss(), _important ? (" !" + CssParser.Important) : String.Empty, ";");
         }
 
         #endregion

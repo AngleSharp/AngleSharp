@@ -87,9 +87,9 @@
             _selector = newRule._selector;
         }
 
-        internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, IElement element)
+        internal override void ComputeStyle(CssPropertyBag style, IWindow window, IElement element)
         {
-            if (_selector.Match(element as Element))//TODO remove cast ASAP
+            if (_selector.Match(element))
                 style.ExtendWith(_style, _selector.Specifity);
         }
 
@@ -103,7 +103,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Concat(_selectorText, "{", _style.ToCss(), "}");
+            return String.Concat(_selectorText, " { ", _style.ToCss(), " }");
         }
 
         #endregion

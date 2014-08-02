@@ -21,7 +21,7 @@
 
         #region Internal Methods
 
-        internal override void ComputeStyle(CSSStyleDeclaration style, IWindow window, IElement element)
+        internal override void ComputeStyle(CssPropertyBag style, IWindow window, IElement element)
         {
             if (IsValid(window))
                 base.ComputeStyle(style, window, element);
