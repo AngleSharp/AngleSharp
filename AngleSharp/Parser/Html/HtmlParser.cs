@@ -20,12 +20,15 @@
     {
         #region Fields
 
-        HtmlTokenizer tokenizer;
-        Document doc;
+        readonly HtmlTokenizer tokenizer;
+        readonly Document doc;
+        readonly List<Element> open;
+        readonly List<Element> formatting;
+        readonly Stack<HtmlTreeMode> templateMode;
+        readonly Object sync;
+
         HtmlTreeMode insert;
         HtmlTreeMode originalInsert;
-        List<Element> open;
-        List<Element> formatting;
         HTMLFormElement form;
         Boolean frameset;
         Element fragmentContext;
@@ -33,9 +36,7 @@
         Int32 nesting;
         Boolean started;
         HTMLScriptElement pendingParsingBlock;
-        Stack<HtmlTreeMode> templateMode;
         Task task;
-		Object sync;
 
         #endregion
 

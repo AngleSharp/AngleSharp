@@ -14,10 +14,11 @@
     {
         #region Fields
 
+        readonly StringBuilder _buffer;
+
         Boolean _acceptsCharacterData;
         String _lastStartTag;
         HtmlParseMode _model;
-        StringBuilder _buffer;
         HtmlToken _buffered;
 
         #endregion
