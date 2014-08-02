@@ -28,7 +28,7 @@
         List<Element> formatting;
         HTMLFormElement form;
         Boolean frameset;
-        Node fragmentContext;
+        Element fragmentContext;
         Boolean foster;
         Int32 nesting;
         Boolean started;
@@ -133,7 +133,7 @@
         /// <summary>
         /// Gets the adjusted current node.
         /// </summary>
-        internal Node AdjustedCurrentNode
+        internal Element AdjustedCurrentNode
         {
             get { return (fragmentContext != null && open.Count == 1) ? fragmentContext : CurrentNode; }
         }
@@ -203,7 +203,7 @@
         /// Switches to the fragment algorithm with the specified context element.
         /// </summary>
         /// <param name="context">The context element where the algorithm is applied to.</param>
-        internal void SwitchToFragment(Node context)
+        internal void SwitchToFragment(Element context)
         {
             if (started)
                 throw new InvalidOperationException("Fragment mode has to be activated before running the parser!");
@@ -264,7 +264,7 @@
                     break;
                 }
 
-                context = context.Parent;
+                context = context.ParentElement as Element;
             }
             while (context != null);
         }
@@ -362,7 +362,7 @@
         /// <param name="token">The token to consume.</param>
         void Consume(HtmlToken token)
         {
-            var node = AdjustedCurrentNode as Element;
+            var node = AdjustedCurrentNode;
 
             if (node == null || token.IsEof || node.Flags.HasFlag(NodeFlags.HtmlMember) || 
                 (node.Flags.HasFlag(NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
@@ -3208,7 +3208,7 @@
                 var chrs = (HtmlCharacterToken)token;
                 AddCharacters(chrs.Data.Replace(Specification.Null, Specification.Replacement));
 
-                if(chrs.HasContent)
+                if (chrs.HasContent)
                     frameset = false;
             }
             else if (token.Type == HtmlTokenType.Comment)
@@ -3225,6 +3225,19 @@
 
                 switch (tag.Name)
                 {
+                    case Tags.Font:
+                        for (var i = 0; i != tag.Attributes.Count; i++)
+                        {
+                            if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
+                            {
+                                ForeignNormalTag(token);
+                                return;
+                            }
+                        }
+
+                        ForeignSpecialTag(tag);
+                        break;
+
                     case Tags.B:
                     case Tags.Big:
                     case Tags.BlockQuote:
@@ -3271,19 +3284,6 @@
                     case Tags.Ul:
                     case Tags.Var:
                         ForeignNormalTag(token);
-                        break;
-
-                    case Tags.Font:
-                        for (var i = 0; i != tag.Attributes.Count; i++)
-                        {
-                            if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
-                            {
-                                ForeignNormalTag(token);
-                                return;
-                            }
-                        }
-
-                        ForeignSpecialTag(tag);
                         break;
 
                     default:
@@ -3862,7 +3862,7 @@
         /// <param name="element">The node which will be added to the list.</param>
         void AddForeignElement(Element element)
         {
-            element.NamespaceUri = ((Element)AdjustedCurrentNode).NamespaceUri;
+            element.NamespaceUri = AdjustedCurrentNode.NamespaceUri;
             CurrentNode.AppendChild(element);
         }
 
