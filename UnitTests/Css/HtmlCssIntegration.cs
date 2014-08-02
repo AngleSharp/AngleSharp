@@ -37,7 +37,7 @@ namespace UnitTests
             var decl = style.Style as CSSStyleDeclaration;
             Assert.IsNotNull(decl);
             var rule = decl.Get(0);
-            Assert.IsTrue(rule.Important);
+            Assert.IsTrue(rule.IsImportant);
             Assert.AreEqual("background-color", rule.Name);
             Assert.AreEqual("green", rule.Value.CssText);
         }

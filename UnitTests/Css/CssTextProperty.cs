@@ -16,10 +16,10 @@ namespace UnitTests.Css
             var snippet = "word-spacing: 0";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("word-spacing", property.Name);
-            Assert.IsFalse(property.Important);
+            Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSWordSpacingProperty));
             var concrete = (CSSWordSpacingProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0", concrete.Value.CssText);
@@ -31,10 +31,10 @@ namespace UnitTests.Css
             var snippet = "word-spacing: .3rem ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("word-spacing", property.Name);
-            Assert.IsFalse(property.Important);
+            Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSWordSpacingProperty));
             var concrete = (CSSWordSpacingProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0.3rem", concrete.Value.CssText);
@@ -46,10 +46,10 @@ namespace UnitTests.Css
             var snippet = "word-spacing: 0.3em ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("word-spacing", property.Name);
-            Assert.IsFalse(property.Important);
+            Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSWordSpacingProperty));
             var concrete = (CSSWordSpacingProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0.3em", concrete.Value.CssText);
@@ -61,10 +61,10 @@ namespace UnitTests.Css
             var snippet = "word-spacing: normal ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("word-spacing", property.Name);
-            Assert.IsFalse(property.Important);
+            Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSWordSpacingProperty));
             var concrete = (CSSWordSpacingProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("normal", concrete.Value.CssText);
@@ -77,10 +77,10 @@ namespace UnitTests.Css
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("text-align", property.Name);
             Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.Important);
+            Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTextAlignProperty));
             var concrete = (CSSTextAlignProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("justify", value.CssText);
@@ -94,10 +94,10 @@ namespace UnitTests.Css
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("text-align", property.Name);
             Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.Important);
+            Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTextAlignProperty));
             var concrete = (CSSTextAlignProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("justify", value.CssText);
@@ -117,10 +117,10 @@ namespace UnitTests.Css
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("text-indent", property.Name);
             Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.Important);
+            Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTextIndentProperty));
             var concrete = (CSSTextIndentProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("3em", value.CssText);
@@ -134,10 +134,10 @@ namespace UnitTests.Css
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("text-indent", property.Name);
             Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.Important);
+            Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTextIndentProperty));
             var concrete = (CSSTextIndentProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("0", value.CssText);
@@ -151,10 +151,10 @@ namespace UnitTests.Css
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("text-indent", property.Name);
             Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.Important);
+            Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTextIndentProperty));
             var concrete = (CSSTextIndentProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("10%", value.CssText);
@@ -168,10 +168,10 @@ namespace UnitTests.Css
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("text-indent", property.Name);
             Assert.IsFalse(property.HasValue);
-            Assert.IsFalse(property.Important);
+            Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTextIndentProperty));
             var concrete = (CSSTextIndentProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.CssValueType);
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
         }
     }
 }
