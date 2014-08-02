@@ -304,6 +304,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\CSSProperty.cs">
       <Link>DOM\Css\CSSProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\CssPropertyBag.cs">
+      <Link>DOM\Css\CssPropertyBag.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSStyleDeclaration.cs">
       <Link>DOM\Css\CSSStyleDeclaration.cs</Link>
     </Compile>
