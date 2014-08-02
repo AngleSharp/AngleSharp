@@ -26,7 +26,7 @@ h1 {
         [TestMethod]
         public void CssSheetSimpleStyleRuleStringification()
         {
-            var css = @"html{font-family:sans-serif;}";
+            var css = @"html { font-family: sans-serif; }";
             var stylesheet = CssParser.ParseStyleSheet(css);
             Assert.AreEqual(1, stylesheet.Rules.Length);
             var rule = stylesheet.Rules[0];

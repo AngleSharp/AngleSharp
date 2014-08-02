@@ -1,6 +1,6 @@
-﻿using System;
+﻿using AngleSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AngleSharp;
+using System;
 
 namespace UnitTests.Library
 {
@@ -13,7 +13,7 @@ namespace UnitTests.Library
             var a = Priority.OneId;
             var b = Priority.OneClass;
             var c = Priority.OneTag;
-            var d = Priority.Custom;
+            var d = new Priority(UInt32.MaxValue);
             var e = Priority.Inline;
 
             Assert.IsTrue(a > b);
@@ -37,7 +37,7 @@ namespace UnitTests.Library
             var b = Priority.OneId;
             var c = Priority.OneClass;
             var d = Priority.OneTag;
-            var e = Priority.Custom;
+            var e = new Priority(UInt32.MaxValue);
 
             Assert.IsTrue(a > b);
             Assert.IsTrue(a > c);
@@ -56,38 +56,34 @@ namespace UnitTests.Library
         [TestMethod]
         public void PriorityCustomHigherAll()
         {
-            var a = Priority.Custom;
+            var a = new Priority(UInt32.MaxValue);
             var b = Priority.OneId;
             var c = Priority.OneClass;
             var d = Priority.OneTag;
             var e = Priority.Inline;
-            var f = Priority.Important;
 
             Assert.IsTrue(a > b);
             Assert.IsTrue(a > c);
             Assert.IsTrue(a > d);
             Assert.IsTrue(a > e);
-            Assert.IsTrue(a > f);
 
             Assert.IsTrue(a >= b);
             Assert.IsTrue(a >= c);
             Assert.IsTrue(a >= d);
             Assert.IsTrue(a >= e);
-            Assert.IsTrue(a >= f);
 
-            Assert.IsTrue(a == Priority.Custom);
-            Assert.AreEqual(Priority.Custom, a);
+            Assert.IsTrue(a == new Priority(UInt32.MaxValue));
         }
 
         [TestMethod]
         public void PriorityImportantHigherAllExcludedCustom()
         {
-            var a = Priority.Important;
+            var a = new Priority(UInt32.MaxValue - 1);
             var b = Priority.OneId;
             var c = Priority.OneClass;
             var d = Priority.OneTag;
             var e = Priority.Inline;
-            var f = Priority.Custom;
+            var f = new Priority(UInt32.MaxValue);
 
             Assert.IsTrue(a > b);
             Assert.IsTrue(a > c);
@@ -101,8 +97,7 @@ namespace UnitTests.Library
             Assert.IsTrue(a >= e);
             Assert.IsTrue(a <= f);
 
-            Assert.IsTrue(a == Priority.Important);
-            Assert.AreEqual(Priority.Important, a);
+            Assert.IsTrue(a == new Priority(UInt32.MaxValue - 1));
         }
 
         [TestMethod]
