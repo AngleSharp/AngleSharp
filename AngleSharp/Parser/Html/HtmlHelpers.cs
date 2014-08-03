@@ -16,18 +16,7 @@
         [DebuggerStepThrough]
         public static Boolean IsTableElement(this String tagName)
         {
-            switch (tagName)
-            {
-                case Tags.Table:
-                case Tags.Tbody:
-                case Tags.Tfoot:
-                case Tags.Thead:
-                case Tags.Tr:
-                    return true;
-
-                default:
-                    return false;
-            }
+            return (tagName.Equals(Tags.Tr) || tagName.Equals(Tags.Table) || tagName.IsTableSectionElement());
         }
 
         /// <summary>
@@ -38,7 +27,7 @@
         [DebuggerStepThrough]
         public static Boolean IsTableSectionElement(this String tagName)
         {
-            return (tagName == Tags.Tbody || tagName == Tags.Tfoot || tagName == Tags.Thead);
+            return (tagName.Equals(Tags.Tbody) || tagName.Equals(Tags.Tfoot) || tagName.Equals(Tags.Thead));
         }
 
         /// <summary>
@@ -49,7 +38,7 @@
         [DebuggerStepThrough]
         public static Boolean IsTableCellElement(this String tagName)
         {
-            return (tagName == Tags.Td || tagName == Tags.Th);
+            return (tagName.Equals(Tags.Td) || tagName.Equals(Tags.Th));
         }
 
         /// <summary>
@@ -61,22 +50,12 @@
         [DebuggerStepThrough]
         public static Boolean IsGeneralTableElement(this String tagName, Boolean includeRow = false)
         {
-            switch (tagName)
-            {
-                case Tags.Caption:
-                case Tags.Col:
-                case Tags.Colgroup:
-                case Tags.Tbody:
-                case Tags.Tfoot:
-                case Tags.Thead:
-                    return true;
-
-                case Tags.Tr:
-                    return includeRow;
-
-                default:
-                    return false;
-            }
+            if (tagName.IsTableSectionElement() || tagName.Equals(Tags.Caption) || tagName.Equals(Tags.Col) || tagName.Equals(Tags.Colgroup))
+                return true;
+            else if (tagName.Equals(Tags.Tr))
+                return includeRow;
+            else
+                return false;
         }
 
         /// <summary>
@@ -88,23 +67,12 @@
         [DebuggerStepThrough]
         public static Boolean IsSpecialTableElement(this String tagName, Boolean includeRow = false)
         {
-            switch (tagName)
-            {
-                case Tags.Body:
-                case Tags.Html:
-                case Tags.Colgroup:
-                case Tags.Col:
-                case Tags.Th:
-                case Tags.Td:
-                case Tags.Caption:
-                    return true;
-
-                case Tags.Tr:
-                    return includeRow;
-
-                default:
-                    return false;
-            }
+            if (tagName.IsTableCellElement() || tagName.Equals(Tags.Body) || tagName.Equals(Tags.Html) || tagName.Equals(Tags.Caption) || tagName.Equals(Tags.Col) || tagName.Equals(Tags.Colgroup))
+                return true;
+            else if (tagName.Equals(Tags.Tr))
+                return includeRow;
+            else
+                return false;
         }
     }
 }
