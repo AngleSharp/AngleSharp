@@ -14,9 +14,10 @@
     {
         #region Fields
 
+        readonly Stack<FunctionBuffer> _functions;
+        readonly List<CSSValue> _values;
+
         Boolean _error;
-        Stack<FunctionBuffer> _functions;
-        List<CSSValue> _values;
 
         #endregion
 

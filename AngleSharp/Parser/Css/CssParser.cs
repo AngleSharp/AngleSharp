@@ -34,13 +34,14 @@
         /// </summary>
         internal static readonly String Inherit = "inherit";
 
-        CssSelectorConstructor selector;
-        CssValueBuilder value;
-        CssTokenizer tokenizer;
+        readonly CssSelectorConstructor selector;
+        readonly CssValueBuilder value;
+        readonly CssTokenizer tokenizer;
+        readonly Object sync;
+        readonly CSSStyleSheet sheet;
+
         Boolean started;
         Boolean quirks;
-        CSSStyleSheet sheet;
-        Object sync;
         Task task;
 
         #endregion
@@ -123,19 +124,17 @@
         /// <param name="source">The source to use.</param>
         internal CssParser(CSSStyleSheet stylesheet, TextSource source)
         {
-            selector = Pool.NewSelectorConstructor();
+            selector = new CssSelectorConstructor();
             value = new CssValueBuilder();
             sync = new Object();
             tokenizer = new CssTokenizer(source);
             tokenizer.IgnoreComments = true;
             tokenizer.IgnoreWhitespace = true;
-
             tokenizer.ErrorOccurred += (s, ev) =>
             {
                 if (ParseError != null)
                     ParseError(this, ev);
             };
-
             quirks = stylesheet.Options.UseQuirksMode;
             started = false;
             sheet = stylesheet;
