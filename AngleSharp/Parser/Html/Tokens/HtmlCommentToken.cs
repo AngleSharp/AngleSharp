@@ -7,12 +7,6 @@
     /// </summary>
     sealed class HtmlCommentToken : HtmlToken
     {
-        #region Fields
-
-        String _data;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -20,7 +14,7 @@
         /// </summary>
         public HtmlCommentToken()
         {
-            _data = string.Empty;
+            _name = String.Empty;
             _type = HtmlTokenType.Comment;
         }
 
@@ -31,19 +25,7 @@
         public HtmlCommentToken(String data)
         {
             _type = HtmlTokenType.Comment;
-            _data = data;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the data of the comment token.
-        /// </summary>
-        public String Data
-        {
-            get { return _data; }
+            _name = data;
         }
 
         #endregion

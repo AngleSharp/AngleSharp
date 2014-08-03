@@ -10,7 +10,6 @@
         #region Fields
 
         Boolean _quirks;
-        String _name;
         String _publicIdentifier;
         String _systemIdentifier;
 
@@ -81,15 +80,6 @@
         }
 
         /// <summary>
-        /// Gets or sets the name of the DOCTYPE token.
-        /// </summary>
-        public String Name
-        {
-            get { return _name ?? String.Empty; }
-            set { _name = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the value of the public identifier.
         /// </summary>
         public String PublicIdentifier
@@ -136,7 +126,7 @@
             {
                 if (IsQuirksForced)
                     return true;
-                else if (!Name.Equals("html"))
+                else if (_name == null || !_name.Equals("html"))
                     return true;
                 else if (PublicIdentifier.StartsWith("+//Silmaril//dtd html Pro v0r11 19970101//", StringComparison.OrdinalIgnoreCase))
                     return true;
@@ -272,7 +262,7 @@
         {
             get
             {
-                if (Name.Equals("html"))
+                if (_name != null && _name.Equals("html"))
                 {
                     if(IsPublicIdentifierMissing)
                         return IsSystemIdentifierMissing || SystemIdentifier.Equals("about:legacy-compat");

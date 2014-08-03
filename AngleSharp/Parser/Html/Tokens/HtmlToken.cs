@@ -100,10 +100,55 @@
 
         static HtmlEndOfFileToken eof;
         protected HtmlTokenType _type;
+        protected String _name;
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets if the character data is empty (null or length equal to zero).
+        /// </summary>
+        /// <returns>True if the character data is actually NULL or empty.</returns>
+        public Boolean IsEmpty
+        {
+            get { return String.IsNullOrEmpty(_name); }
+        }
+
+        /// <summary>
+        /// Gets if the character data contains actually a non-space character.
+        /// </summary>
+        /// <returns>True if the character data contains space character.</returns>
+        public Boolean HasContent
+        {
+            get
+            {
+                for (int i = 0; i < _name.Length; i++)
+                {
+                    if (!_name[i].IsSpaceCharacter())
+                        return true;
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the name of a tag token.
+        /// </summary>
+        public String Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        /// <summary>
+        /// Gets the data of the comment or character token.
+        /// </summary>
+        public String Data
+        {
+            get { return _name; }
+        }
 
         /// <summary>
         /// Gets if the token can be used with IsHtmlTIP properties.
@@ -150,6 +195,34 @@
         #region Methods
 
         /// <summary>
+        /// Removes all ignorable characters from the beginning.
+        /// </summary>
+        /// <returns>The trimmed characters.</returns>
+        public String TrimStart()
+        {
+            var i = 0;
+
+            for (i = 0; i < _name.Length; i++)
+            {
+                if (!_name[i].IsSpaceCharacter())
+                    break;
+            }
+
+            var t = _name.Substring(0, i);
+            _name = _name.Substring(i);
+            return t;
+        }
+
+        /// <summary>
+        /// Removes the a new line in the beginning, if any.
+        /// </summary>
+        public void RemoveNewLine()
+        {
+            if (!String.IsNullOrEmpty(_name) && _name[0] == Specification.LineFeed)
+                _name = _name.Substring(1);
+        }
+
+        /// <summary>
         /// Converts the current token to a tag token.
         /// </summary>
         /// <returns>The tag token instance.</returns>
@@ -165,7 +238,7 @@
         /// <returns>True if the token is indeed a start or end tag token with the given name, otherwise false.</returns>
         public Boolean IsTag(String name)
         {
-            return (_type == HtmlTokenType.StartTag || _type == HtmlTokenType.EndTag) && IsTagName(name);
+            return (_type == HtmlTokenType.StartTag || _type == HtmlTokenType.EndTag) && _name.Equals(name);
         }
 
         /// <summary>
@@ -175,7 +248,7 @@
         /// <returns>True if the token is indeed an end tag token with the given name, otherwise false.</returns>
         public Boolean IsEndTag(String name)
         {
-            return _type == HtmlTokenType.EndTag && IsTagName(name);
+            return _type == HtmlTokenType.EndTag && _name.Equals(name);
         }
 
         /// <summary>
@@ -185,7 +258,7 @@
         /// <returns>True if the token is indeed an end tag token and does NOT have the given name, otherwise false.</returns>
         public Boolean IsEndTagInv(String name)
         {
-            return _type == HtmlTokenType.EndTag && !IsTagName(name);
+            return _type == HtmlTokenType.EndTag && !_name.Equals(name);
         }
 
         /// <summary>
@@ -196,7 +269,7 @@
         /// <returns>True if the token is indeed an end tag token with the given name, otherwise false.</returns>
         public Boolean IsEndTag(String nameA, String nameB)
         {
-            return _type == HtmlTokenType.EndTag && (IsTagName(nameA) || IsTagName(nameB));
+            return _type == HtmlTokenType.EndTag && (_name.Equals(nameA) || _name.Equals(nameB));
         }
 
         /// <summary>
@@ -208,7 +281,7 @@
         /// <returns>True if the token is indeed an end tag token with the given name, otherwise false.</returns>
         public Boolean IsEndTag(String nameA, String nameB, String nameC)
         {
-            return _type == HtmlTokenType.EndTag && (IsTagName(nameA) || IsTagName(nameB) || IsTagName(nameC));
+            return _type == HtmlTokenType.EndTag && (_name.Equals(nameA) || _name.Equals(nameB) || _name.Equals(nameC));
         }
 
         /// <summary>
@@ -220,7 +293,7 @@
         /// <returns>True if the token is indeed an end tag token and does NOT have the given name, otherwise false.</returns>
         public Boolean IsEndTagInv(String nameA, String nameB, String nameC)
         {
-            return _type == HtmlTokenType.EndTag && !IsTagName(nameA) && !IsTagName(nameB) && !IsTagName(nameC);
+            return _type == HtmlTokenType.EndTag && !_name.Equals(nameA) && !_name.Equals(nameB) && !_name.Equals(nameC);
         }
 
         /// <summary>
@@ -233,7 +306,7 @@
         /// <returns>True if the token is indeed an end tag token with the given name, otherwise false.</returns>
         public Boolean IsEndTag(String nameA, String nameB, String nameC, String nameD)
         {
-            return _type == HtmlTokenType.EndTag && (IsTagName(nameA) || IsTagName(nameB) || IsTagName(nameC) || IsTagName(nameD));
+            return _type == HtmlTokenType.EndTag && (_name.Equals(nameA) || _name.Equals(nameB) || _name.Equals(nameC) || _name.Equals(nameD));
         }
 
         /// <summary>
@@ -246,7 +319,7 @@
         /// <returns>True if the token is indeed an end tag token and does NOT have the given name, otherwise false.</returns>
         public Boolean IsEndTagInv(String nameA, String nameB, String nameC, String nameD)
         {
-            return _type == HtmlTokenType.EndTag && !IsTagName(nameA) && !IsTagName(nameB) && !IsTagName(nameC) && !IsTagName(nameD);
+            return _type == HtmlTokenType.EndTag && !_name.Equals(nameA) && !_name.Equals(nameB) && !_name.Equals(nameC) && !_name.Equals(nameD);
         }
 
         /// <summary>
@@ -256,7 +329,7 @@
         /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
         public Boolean IsStartTag(String name)
         {
-            return _type == HtmlTokenType.StartTag && IsTagName(name);
+            return _type == HtmlTokenType.StartTag && _name.Equals(name);
         }
 
         /// <summary>
@@ -267,7 +340,7 @@
         /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
         public Boolean IsStartTag(String nameA, String nameB)
         {
-            return _type == HtmlTokenType.StartTag && (IsTagName(nameA) || IsTagName(nameB));
+            return _type == HtmlTokenType.StartTag && (_name.Equals(nameA) || _name.Equals(nameB));
         }
 
         /// <summary>
@@ -279,7 +352,7 @@
         /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
         public Boolean IsStartTag(String nameA, String nameB, String nameC)
         {
-            return _type == HtmlTokenType.StartTag && (IsTagName(nameA) || IsTagName(nameB) || IsTagName(nameC));
+            return _type == HtmlTokenType.StartTag && (_name.Equals(nameA) || _name.Equals(nameB) || _name.Equals(nameC));
         }
 
         /// <summary>
@@ -292,7 +365,7 @@
         /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
         public Boolean IsStartTag(String nameA, String nameB, String nameC, String nameD)
         {
-            return _type == HtmlTokenType.StartTag && (IsTagName(nameA) || IsTagName(nameB) || IsTagName(nameC) || IsTagName(nameD));
+            return _type == HtmlTokenType.StartTag && (_name.Equals(nameA) || _name.Equals(nameB) || _name.Equals(nameC) || _name.Equals(nameD));
         }
 
         /// <summary>
@@ -307,7 +380,7 @@
         /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
         public Boolean IsStartTag(String nameA, String nameB, String nameC, String nameD, String nameE, String nameF)
         {
-            return _type == HtmlTokenType.StartTag && (IsTagName(nameA) || IsTagName(nameB) || IsTagName(nameC) || IsTagName(nameD) || IsTagName(nameE) || IsTagName(nameF));
+            return _type == HtmlTokenType.StartTag && (_name.Equals(nameA) || _name.Equals(nameB) || _name.Equals(nameC) || _name.Equals(nameD) || _name.Equals(nameE) || _name.Equals(nameF));
         }
 
         /// <summary>
@@ -325,16 +398,7 @@
         /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
         public Boolean IsStartTag(String nameA, String nameB, String nameC, String nameD, String nameE, String nameF, String nameG, String nameH, String nameJ)
         {
-            return _type == HtmlTokenType.StartTag && (IsTagName(nameA) || IsTagName(nameB) || IsTagName(nameC) || IsTagName(nameD) || IsTagName(nameE) || IsTagName(nameF) || IsTagName(nameG) || IsTagName(nameH) || IsTagName(nameJ));
-        }
-
-        #endregion
-
-        #region Helpers
-
-        protected virtual Boolean IsTagName(String name)
-        {
-            return false;
+            return _type == HtmlTokenType.StartTag && (_name.Equals(nameA) || _name.Equals(nameB) || _name.Equals(nameC) || _name.Equals(nameD) || _name.Equals(nameE) || _name.Equals(nameF) || _name.Equals(nameG) || _name.Equals(nameH) || _name.Equals(nameJ));
         }
 
         #endregion

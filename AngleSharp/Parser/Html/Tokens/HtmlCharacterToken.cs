@@ -7,12 +7,6 @@
     /// </summary>
     sealed class HtmlCharacterToken : HtmlToken
     {
-        #region Fields
-
-        String _data;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -20,7 +14,7 @@
         /// </summary>
         public HtmlCharacterToken()
         {
-            _data = String.Empty;
+            _name = String.Empty;
             _type = HtmlTokenType.Character;
         }
 
@@ -30,7 +24,7 @@
         /// <param name="data">The character.</param>
         public HtmlCharacterToken(Char data)
         {
-            _data = data.ToString();
+            _name = data.ToString();
             _type = HtmlTokenType.Character;
         }
 
@@ -40,7 +34,7 @@
         /// <param name="data">The characters.</param>
         public HtmlCharacterToken(String data)
         {
-            _data = data;
+            _name = data;
             _type = HtmlTokenType.Character;
         }
 
@@ -62,73 +56,6 @@
         public override Boolean IsMathCompatible
         {
             get { return true; }
-        }
-
-        /// <summary>
-        /// Gets the data of the character token.
-        /// </summary>
-        public String Data
-        {
-            get { return _data; }
-        }
-
-        /// <summary>
-        /// Gets if the character data is empty (null or length equal to zero).
-        /// </summary>
-        /// <returns>True if the character data is actually NULL or empty.</returns>
-        public Boolean IsEmpty
-        {
-            get { return String.IsNullOrEmpty(_data); }
-        }
-
-        /// <summary>
-        /// Gets if the character data contains actually a non-space character.
-        /// </summary>
-        /// <returns>True if the character data contains space character.</returns>
-        public Boolean HasContent
-        {
-            get 
-            {
-                for (int i = 0; i < _data.Length; i++)
-                {
-                    if (!_data[i].IsSpaceCharacter())
-                        return true;
-                }
-
-                return false;
-            }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Removes all ignorable characters from the beginning.
-        /// </summary>
-        /// <returns>The trimmed characters.</returns>
-        public String TrimStart()
-        {
-            var i = 0;
-
-            for (i = 0; i < _data.Length; i++)
-            {
-                if (!_data[i].IsSpaceCharacter())
-                    break;
-            }
-
-            var t = _data.Substring(0, i);
-            _data = _data.Substring(i);
-            return t;
-        }
-
-        /// <summary>
-        /// Removes the a new line in the beginning, if any.
-        /// </summary>
-        public void RemoveNewLine()
-        {
-            if (!String.IsNullOrEmpty(_data) && _data[0] == Specification.LineFeed)
-                _data = _data.Substring(1);
         }
 
         #endregion

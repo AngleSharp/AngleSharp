@@ -10,9 +10,9 @@
     {
         #region Fields
 
+        readonly List<KeyValuePair<String, String>> _attributes;
+
         Boolean _selfClosing;
-        List<KeyValuePair<String, String>> _attributes;
-        String _name;
         
         #endregion
 
@@ -64,15 +64,6 @@
         {
             get { return _selfClosing; }
             set { _selfClosing = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the name of the tag.
-        /// </summary>
-        public String Name
-        {
-            get { return _name; }
-            set { _name = value; }
         }
 
         /// <summary>
@@ -129,15 +120,6 @@
                     return Attributes[i].Value;
 
             return String.Empty;
-        }
-
-        #endregion
-
-        #region Helpers
-
-        protected override Boolean IsTagName(String name)
-        {
-            return _name.Equals(name);
         }
 
         #endregion
