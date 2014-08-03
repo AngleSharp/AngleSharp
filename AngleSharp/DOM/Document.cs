@@ -590,8 +590,8 @@
         /// </summary>
         internal IConfiguration Options
         {
-            get { return _options; }
-            set { _options = value ?? Configuration.Default; }
+            get { return _options ?? Configuration.Default; }
+            set { _options = value; }
         }
 
         /// <summary>
