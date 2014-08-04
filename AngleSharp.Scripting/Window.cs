@@ -1,12 +1,12 @@
-﻿using AngleSharp.DOM;
-using AngleSharp.DOM.Css;
-using AngleSharp.DOM.Navigator;
-using Jurassic;
-using Jurassic.Library;
-using System;
-
-namespace AngleSharp.Jurassic
+﻿namespace AngleSharp.Scripting
 {
+    using AngleSharp.DOM;
+    using AngleSharp.DOM.Css;
+    using AngleSharp.DOM.Navigator;
+    using Jurassic;
+    using Jurassic.Library;
+    using System;
+
     public class Window : ObjectInstance, IWindow
     {
         public Window(ScriptEngine engine)
@@ -20,7 +20,7 @@ namespace AngleSharp.Jurassic
             get { throw new NotImplementedException(); }
         }
 
-        public ICssStyleDeclaration GetComputedStyle(IElement element, string pseudo = null)
+        public ICssStyleDeclaration GetComputedStyle(IElement element, String pseudo = null)
         {
             throw new NotImplementedException();
         }
