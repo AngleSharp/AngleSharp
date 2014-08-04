@@ -509,7 +509,7 @@
                     break;
 
                 case HtmlTokenType.Comment:
-                    AddComment(doc, token);
+                    doc.AddComment(token);
                     return;
             }
 
@@ -540,7 +540,7 @@
                     break;
 
                 case HtmlTokenType.Comment:
-                    AddComment(doc, token);
+                    doc.AddComment(token);
                     return;
 
                 case HtmlTokenType.StartTag:
@@ -606,7 +606,7 @@
                     return;
 
                 case HtmlTokenType.Comment:
-                    AddComment(token);
+                    CurrentNode.AddComment(token);
                     return;
 
                 case HtmlTokenType.DOCTYPE:
@@ -636,7 +636,7 @@
                     break;
 
                 case HtmlTokenType.Comment:
-                    AddComment(token);
+                    CurrentNode.AddComment(token);
                     return;
 
                 case HtmlTokenType.DOCTYPE:
@@ -719,10 +719,11 @@
                     {
                         var element = new HTMLTemplateElement();
                         AddElement(element, token.AsTag());
-                        AddScopeMarker();
+                        formatting.AddScopeMarker();
                         frameset = false;
                         insert = HtmlTreeMode.InTemplate;
                         templateMode.Push(HtmlTreeMode.InTemplate);
+                        return;
                     }
 
                     break;
@@ -841,7 +842,7 @@
                     break;
 
                 case HtmlTokenType.Comment:
-                    AddComment(token);
+                    CurrentNode.AddComment(token);
                     return;
 
                 case HtmlTokenType.DOCTYPE:
@@ -1115,7 +1116,7 @@
                             ReconstructFormatting();
                             var element = new HTMLAnchorElement();
                             AddElement(element, tag);
-                            AddFormattingElement(element);
+                            formatting.AddFormattingElement(element);
                             break;
                         }
                         case Tags.B:
@@ -1134,7 +1135,7 @@
                             ReconstructFormatting();
                             var element = HtmlElementFactory.Create(tag.Name, doc);
                             AddElement(element, tag);
-                            AddFormattingElement(element);
+                            formatting.AddFormattingElement(element);
                             break;
                         }
                         case Tags.NoBr:
@@ -1150,7 +1151,7 @@
 
                             var element = HtmlElementFactory.Create(tag.Name, doc);
                             AddElement(element, tag);
-                            AddFormattingElement(element);
+                            formatting.AddFormattingElement(element);
                             break;
                         }
                         case Tags.Applet:
@@ -1159,7 +1160,7 @@
                         {
                             ReconstructFormatting();
                             AddElement(tag);
-                            AddScopeMarker();
+                            formatting.AddScopeMarker();
                             frameset = false;
                             break;
                         }
@@ -1577,7 +1578,7 @@
 
                                 ClearStackBackTo(tag.Name);
                                 CloseCurrentNode();
-                                ClearFormattingElements();
+                                formatting.ClearFormattingElements();
                             }
                             else
                                 RaiseErrorOccurred(ErrorCode.ObjectNotInScope);
@@ -1600,7 +1601,7 @@
                     break;
                 }
                 case HtmlTokenType.Comment:
-                    AddComment(token);
+                    CurrentNode.AddComment(token);
                     break;
 
                 case HtmlTokenType.DOCTYPE:
@@ -1647,7 +1648,7 @@
                         insert = originalInsert;
                     }
                     else
-                        RunScript();
+                        RunScript(CurrentNode as HTMLScriptElement);
 
                     break;
             }
@@ -1661,7 +1662,7 @@
         {
             if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(token);
+                CurrentNode.AddComment(token);
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
             {
@@ -1676,7 +1677,7 @@
                     case Tags.Caption:
                     {
                         ClearStackBackTo<HTMLTableElement>();
-                        AddScopeMarker();
+                        formatting.AddScopeMarker();
                         var element = new HTMLTableCaptionElement();
                         AddElement(element, tag);
                         insert = HtmlTreeMode.InCaption;
@@ -1931,7 +1932,7 @@
                 AddCharacters(str);
             }
             else if (token.Type == HtmlTokenType.Comment)
-                AddComment(token);
+                CurrentNode.AddComment(token);
             else if (token.Type == HtmlTokenType.DOCTYPE)
                 RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
             else if (token.IsStartTag(Tags.Html))
@@ -2037,7 +2038,7 @@
                     var element = HtmlElementFactory.Create(tag.Name, doc);
                     AddElement(element, token.AsTag());
                     insert = HtmlTreeMode.InCell;
-                    AddScopeMarker();
+                    formatting.AddScopeMarker();
                 }
                 else if (tag.Name.IsGeneralTableElement(true))
                 {
@@ -2144,7 +2145,7 @@
             }
             else if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(token);
+                CurrentNode.AddComment(token);
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
             {
@@ -2400,7 +2401,7 @@
             }
             else if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(open[0], token);
+                open[0].AddComment(token);
                 return;
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
@@ -2447,7 +2448,7 @@
             }
             else if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(token);
+                CurrentNode.AddComment(token);
                 return;
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
@@ -2526,7 +2527,7 @@
             }
             else if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(token);
+                CurrentNode.AddComment(token);
                 return;
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
@@ -2571,7 +2572,7 @@
         {
             if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(doc, token);
+                doc.AddComment(token);
                 return;
             }
             else if (token.Type == HtmlTokenType.Character)
@@ -2608,7 +2609,7 @@
         {
             if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(doc, token);
+                doc.AddComment(token);
                 return;
             }
             else if (token.Type == HtmlTokenType.Character)
@@ -2671,7 +2672,7 @@
                     break;
             }
 
-            ClearFormattingElements();
+            formatting.ClearFormattingElements();
             templateMode.Pop();
             Reset();
         }
@@ -3202,7 +3203,7 @@
 
                 ClearStackBackTo<HTMLTableCaptionElement>();
                 CloseCurrentNode();
-                ClearFormattingElements();
+                formatting.ClearFormattingElements();
                 insert = HtmlTreeMode.InTable;
                 return true;
             }
@@ -3228,7 +3229,7 @@
 
                 ClearStackBackTo<HTMLTableCellElement>();
                 CloseCurrentNode();
-                ClearFormattingElements();
+                formatting.ClearFormattingElements();
                 insert = HtmlTreeMode.InRow;
                 return true;
             }
@@ -3259,7 +3260,7 @@
             }
             else if (token.Type == HtmlTokenType.Comment)
             {
-                AddComment(token);
+                CurrentNode.AddComment(token);
             }
             else if (token.Type == HtmlTokenType.DOCTYPE)
             {
@@ -3340,15 +3341,10 @@
             else if (token.Type == HtmlTokenType.EndTag)
             {
                 var tag = (HtmlTagToken)token;
+                var node = CurrentNode;
 
-                if (CurrentNode is HTMLScriptElement && tag.Name == Tags.Script)
+                if (node is HTMLScriptElement == false || tag.Name != Tags.Script)
                 {
-                    RunScript();
-                }
-                else
-                {
-                    var node = CurrentNode;
-
                     if (node.NodeName != tag.Name)
                         RaiseErrorOccurred(ErrorCode.TagClosingMismatch);
 
@@ -3370,6 +3366,8 @@
                         }
                     }
                 }
+                else
+                    RunScript((HTMLScriptElement)node);
             }
         }
 
@@ -3631,11 +3629,13 @@
         /// <summary>
         /// Runs a script given by the current node.
         /// </summary>
-        void RunScript()
+        void RunScript(HTMLScriptElement script)
         {
+            if (script == null)
+                return;
+
             doc.PerformMicrotaskCheckpoint();
             doc.ProvideStableState();
-            var script = (HTMLScriptElement)CurrentNode;
             CloseCurrentNode();
             insert = originalInsert;
             nesting++;
@@ -3705,7 +3705,7 @@
             var temp = tokenizer.Get();
 
             if (temp.Type == HtmlTokenType.Character)
-                ((HtmlCharacterToken)temp).RemoveNewLine();
+                temp.RemoveNewLine();
 
             Home(temp);
         }
@@ -3761,29 +3761,6 @@
             open.Add(element);
             tokenizer.IsAcceptingCharacterData = false;
             element.ApplyManifest();
-        }
-
-        /// <summary>
-        /// Appends a comment node to the current node.
-        /// </summary>
-        /// <param name="commentToken">The comment token.</param>
-        void AddComment(HtmlToken commentToken)
-        {
-            var tag = (HtmlCommentToken)commentToken;
-            var comment = new Comment { Data = tag.Data };
-            CurrentNode.AppendChild(comment);
-        }
-
-        /// <summary>
-        /// Appends a comment node to the specified node.
-        /// </summary>
-        /// <param name="parent">The node which will contain the comment node.</param>
-        /// <param name="commentToken">The comment token.</param>
-        void AddComment(Node parent, HtmlToken commentToken)
-        {
-            var tag = (HtmlCommentToken)commentToken;
-            var comment = new Comment { Data = tag.Data };
-            parent.AppendChild(comment);
         }
 
         /// <summary>
@@ -3978,8 +3955,13 @@
         /// <param name="tagName">The tag that will be the CurrentNode.</param>
         void ClearStackBackTo(String tagName)
         {
-            while (CurrentNode.NodeName != tagName && !(CurrentNode is HTMLHtmlElement) && !(CurrentNode is HTMLTemplateElement))
+            var node = CurrentNode;
+
+            while (node.NodeName != tagName && node is HTMLHtmlElement == false && node is HTMLTemplateElement == false)
+            {
                 CloseCurrentNode();
+                node = CurrentNode;
+            }
         }
 
         /// <summary>
@@ -3987,8 +3969,13 @@
         /// </summary>
         void ClearStackBackTo<T>()
         {
-            while (!(CurrentNode is T) && !(CurrentNode is HTMLHtmlElement) && !(CurrentNode is HTMLTemplateElement))
+            var node = CurrentNode;
+
+            while (node is T == false && node is HTMLHtmlElement == false && node is HTMLTemplateElement == false)
+            {
                 CloseCurrentNode();
+                node = CurrentNode;
+            }
         }
 
         /// <summary>
@@ -3998,8 +3985,13 @@
         /// <param name="tagName">The tag that will be excluded.</param>
         void GenerateImpliedEndTagsExceptFor(String tagName)
         {
-            while (CurrentNode.Flags.HasFlag(NodeFlags.ImpliedEnd) && CurrentNode.NodeName != tagName)
+            var node = CurrentNode;
+
+            while (node.Flags.HasFlag(NodeFlags.ImpliedEnd) && node.NodeName != tagName)
+            {
                 CloseCurrentNode();
+                node = CurrentNode;
+            }
         }
 
         /// <summary>
@@ -4014,55 +4006,6 @@
         #endregion
 
         #region Formatting
-
-        /// <summary>
-        /// Inserts a scope marker at the end of the list of active formatting elements.
-        /// </summary>
-        void AddScopeMarker()
-        {
-            formatting.Add(null);
-        }
-
-        /// <summary>
-        /// Adds an element to the list of active formatting elements.
-        /// </summary>
-        /// <param name="element">The element to add.</param>
-        void AddFormattingElement(Element element)
-        {
-            var count = 0;
-
-            for (var i = formatting.Count - 1; i >= 0; i--)
-            {
-                var format = formatting[i];
-
-                if (format == null)
-                    break;
-
-                if (format.NodeName == element.NodeName && format.Attributes.IsEqualTo(element.Attributes) && format.NamespaceUri == element.NamespaceUri && ++count == 3)
-                {
-                    formatting.RemoveAt(i);
-                    break;
-                }
-            }
-
-            formatting.Add(element);
-        }
-
-        /// <summary>
-        /// Clear the list of active formatting elements up to the last marker.
-        /// </summary>
-        void ClearFormattingElements()
-        {
-            while (formatting.Count != 0)
-            {
-                var index = formatting.Count - 1;
-                var entry = formatting[index];
-                formatting.RemoveAt(index);
-
-                if (entry == null)
-                    break;
-            }
-        }
 
         /// <summary>
         /// Reconstruct the list of active formatting elements, if any.
