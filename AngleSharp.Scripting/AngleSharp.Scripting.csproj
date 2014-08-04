@@ -7,8 +7,8 @@
     <ProjectGuid>{4ED5A0B3-AE7A-40B6-BBAC-FF408D6C6BC3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AngleSharp.Jurassic</RootNamespace>
-    <AssemblyName>AngleSharp.Jurassic</AssemblyName>
+    <RootNamespace>AngleSharp.Scripting</RootNamespace>
+    <AssemblyName>AngleSharp.Scripting</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
