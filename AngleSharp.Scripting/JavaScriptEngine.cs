@@ -9,7 +9,6 @@
     public class JavaScriptEngine : IScriptEngine
     {
         readonly Engine _engine;
-        readonly Window _window;
 
         public JavaScriptEngine()
         {
@@ -23,8 +22,8 @@
 
         public void Evaluate(String source, ScriptOptions options)
         {
-            SetOptions(options);
-            _engine.EnterExecutionContext(_engine.GlobalEnvironment, _engine.GlobalEnvironment, _window);
+            var context = new DomNode(_engine, options.Context);
+            _engine.EnterExecutionContext(_engine.GlobalEnvironment, _engine.GlobalEnvironment, context);
             _engine.Execute(source);
             _engine.LeaveExecutionContext();
 
@@ -36,12 +35,6 @@
             var content = reader.ReadToEnd();
             reader.Close();
             Evaluate(content, options);
-        }
-
-        void SetOptions(ScriptOptions options)
-        {
-            _window.Document = options.Document;
-            _window.Window = options.Context;
         }
     }
 }

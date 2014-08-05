@@ -42,10 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingPropertyDescriptor.cs" />
     <Compile Include="DomNode.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="JavaScriptEngine.cs" />
-    <Compile Include="Window.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
