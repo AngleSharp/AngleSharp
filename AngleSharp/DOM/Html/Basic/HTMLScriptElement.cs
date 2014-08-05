@@ -267,9 +267,11 @@
         {
             return new ScriptOptions
             {
-                Context = null, //TODO
+                Context = Owner.DefaultView,
                 Document = Owner,
-                Element = this
+                Element = this,
+                BaseUri = BaseUri,
+                Encoding = DocumentEncoding.Resolve(CharacterSet)
             };
         }
 
