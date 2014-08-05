@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jurassic">
-      <HintPath>..\packages\Jurassic.2.1.1\lib\Jurassic.dll</HintPath>
+    <Reference Include="Jint">
+      <HintPath>..\packages\Jint.2.2.0\lib\portable-net40+sl50+win+wp80\Jint.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="DomNode.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="JavaScriptEngine.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
