@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Scripting
 {
     using AngleSharp.Infrastructure;
+    using AngleSharp.Tools;
     using Jint;
+    using Jint.Runtime.Environments;
     using System;
     using System.IO;
     using System.Text;
@@ -22,8 +24,9 @@
 
         public void Evaluate(String source, ScriptOptions options)
         {
-            var context = new DomNode(_engine, options.Context);
-            _engine.EnterExecutionContext(_engine.GlobalEnvironment, _engine.GlobalEnvironment, context);
+            var context = new DomNode(_engine, options.Context ?? new AnalysisWindow(options.Document));
+            var env = LexicalEnvironment.NewObjectEnvironment(_engine, context, _engine.ExecutionContext.LexicalEnvironment, true);
+            _engine.EnterExecutionContext(env, env, context);
             _engine.Execute(source);
             _engine.LeaveExecutionContext();
 

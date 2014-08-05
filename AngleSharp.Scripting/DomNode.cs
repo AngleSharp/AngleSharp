@@ -3,6 +3,7 @@
     using Jint;
     using Jint.Native.Object;
     using System;
+    using System.Linq;
     using System.Reflection;
 
     class DomNode : ObjectInstance
@@ -13,21 +14,44 @@
             : base(engine)
         {
             _value = value;
-            SetProperties();
+            SetMembers(value.GetType());
         }
 
-        void SetProperties()
+        void SetMembers(Type type)
         {
-            var type = _value.GetType();
-
-            foreach (var property in type.GetProperties())
+            if (type.GetCustomAttribute<DomNameAttribute>() == null)
             {
-                var name = property.GetCustomAttribute<DomNameAttribute>();
+                foreach (var contract in type.GetInterfaces())
+                    SetMembers(contract);
+            }
+            else
+            {
+                SetProperties(type.GetProperties());
+                SetMethods(type.GetMethods());
+            }
+        }
 
-                if (name == null)
-                    continue;
+        void SetProperties(PropertyInfo[] properties)
+        {
+            foreach (var property in properties)
+            {
+                var names = property.GetCustomAttributes<DomNameAttribute>();
 
-                DefineOwnProperty(name.OfficialName, new BindingPropertyDescriptor(this, property), true);
+                foreach (var name in names.Select(m => m.OfficialName))
+                    FastSetProperty(name, new BindingPropertyDescriptor(this, property));
+            }
+        }
+
+        void SetMethods(MethodInfo[] methods)
+        {
+            foreach (var method in methods)
+            {
+                var names = method.GetCustomAttributes<DomNameAttribute>();
+
+                foreach (var name in names.Select(m => m.OfficialName))
+                {
+                    //new BindFunctionInstance(Engine)
+                }
             }
         }
 

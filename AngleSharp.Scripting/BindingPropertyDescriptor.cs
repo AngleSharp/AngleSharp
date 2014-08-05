@@ -11,6 +11,7 @@
         readonly DomNode _host;
 
         public BindingPropertyDescriptor(DomNode host, PropertyInfo property)
+            : base(JsValue.True, JsValue.True, false, false)
         {
             _host = host;
             _property = property;
