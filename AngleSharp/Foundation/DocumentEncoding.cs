@@ -419,7 +419,7 @@
         {
             Encoding encoding;
 
-            if (encodings.TryGetValue(charset, out encoding))
+            if (charset != null && encodings.TryGetValue(charset, out encoding))
                 return encoding;
 
             return Encoding.UTF8;
