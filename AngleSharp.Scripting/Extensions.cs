@@ -1,15 +1,16 @@
 ﻿namespace AngleSharp.Scripting
 {
     using Jint;
-using Jint.Native;
-using System;
+    using Jint.Native;
+    using Jint.Runtime;
+    using System;
 
     static class Extensions
     {
-        public static JsValue? ToJsValue(this Object obj, Engine engine)
+        public static JsValue ToJsValue(this Object obj, Engine engine)
         {
             if (obj == null)
-                return JsValue.Null;
+                return JsValue.Undefined;
 
             if (obj is String)
                 return new JsValue((String)obj);
@@ -27,26 +28,35 @@ using System;
             return new DomNode(engine, obj);
         }
 
-        public static Object FromJsValue(this JsValue? value)
+        public static Object FromJsValue(this JsValue val)
         {
-            if (value.HasValue)
+            switch (val.Type)
             {
-                var val = value.Value;
+                case Types.Boolean:
+                    return val.AsBoolean();
+                case Types.Number:
+                    return val.AsNumber();
+                case Types.String:
+                    return val.AsString();
+                case Types.Object:
+                    var obj = val.AsObject();
+                    var node = obj as DomNode;
 
-                switch (val.Type)
-                {
-                    case Jint.Runtime.Types.Boolean:
-                        return val.AsBoolean();
-                    case Jint.Runtime.Types.Number:
-                        return val.AsNumber();
-                    case Jint.Runtime.Types.String:
-                        return val.AsString();
-                    case Jint.Runtime.Types.Object:
-                        return val.AsObject();
-                }
+                    if (node != null)
+                        return node.Value;
+
+                    return obj;
+                case Types.Undefined:
+                case Types.Null:
+                    return null;
             }
 
-            return null;
+            return val.ToObject();
+        }
+
+        public static Object GetDefaultValue(this Type type)
+        {
+            return type.IsValueType ? Activator.CreateInstance(type) : null;
         }
     }
 }

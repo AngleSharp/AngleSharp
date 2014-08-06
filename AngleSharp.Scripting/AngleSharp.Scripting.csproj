@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindingPropertyDescriptor.cs" />
+    <Compile Include="DomFunctionInstance.cs" />
     <Compile Include="DomNode.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Interfaces.cs" />

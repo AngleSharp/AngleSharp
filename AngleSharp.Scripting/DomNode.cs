@@ -2,6 +2,7 @@
 {
     using Jint;
     using Jint.Native.Object;
+    using Jint.Runtime.Descriptors;
     using System;
     using System.Linq;
     using System.Reflection;
@@ -38,7 +39,11 @@
                 var names = property.GetCustomAttributes<DomNameAttribute>();
 
                 foreach (var name in names.Select(m => m.OfficialName))
-                    FastSetProperty(name, new BindingPropertyDescriptor(this, property));
+                {
+                    FastSetProperty(name, new PropertyDescriptor(
+                        new DomFunctionInstance(this, property.GetMethod),
+                        new DomFunctionInstance(this, property.SetMethod), false, false));
+                }
             }
         }
 
@@ -49,9 +54,7 @@
                 var names = method.GetCustomAttributes<DomNameAttribute>();
 
                 foreach (var name in names.Select(m => m.OfficialName))
-                {
-                    //new BindFunctionInstance(Engine)
-                }
+                    FastSetProperty(name, new PropertyDescriptor(new DomFunctionInstance(this, method), false, false, false));
             }
         }
 
