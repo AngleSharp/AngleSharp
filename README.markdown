@@ -22,7 +22,7 @@ More information is also available by following some of the hyper references men
 Current status
 --------------
 
-The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML, XML and CSS to the CLR, written in C#. The idea is that you can can basically do everything with the DOM in C# that you can do in JavaScript.
+The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML and CSS to the CLR, written in C#. The idea is that you can can basically do everything with the DOM in C# that you can do in JavaScript.
 
 Most parts of the DOM are included, even though some may still miss their (right) implementation. The goal for v1.0 is to have almost everything implemented according to the official W3C specification (with useful extensions by the WHATWG).
 
@@ -87,31 +87,49 @@ The roadmap presents a draft on what is about to be implemented, and when. The p
 The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
 
 (September 2014) **0.7.0**
-- Draft interfaces for optional resource and rendering defined
+- Native (callback based) async parsing
+- Interfaces for resource loading defined
+- Browsing context available / creation possible (if demanded)
+- Event model included (`addEventListener`, ...)
+- CSS property / value architecture finalized
+- Sample JavaScript engine based on Jint included
+
+(December 2014) **0.8.0**
+- Interface for rendering defined
+- Full HTML DOM implemented
+- CSS computation works with everything
+- PseudoElement available
+- Mutation records connected
+- MathML support improved
+
+(March 2015) **0.9.0**
+- (Simple?) XPath query support
 - MathML DOM finished
 - SVG document included
 - SVG DOM skeleton implemented
-
-(December 2014) **0.8.0**
-- Full HTML DOM implemented
-- CSS computation works with everything
-
-(February 2015) **0.9.0**
 - Most important SVG elements implemented
-- HTML5 parser at 100% with complete DOM, MathML and SVG
 
-(July 2016) **1.0.0**
+(July 2015) **1.0.0**
 - Final release of the first version
+- MathML and SVG finalized (for HTML)
+- HTML5 parser at 100% with complete DOM
+
+The current schedule seems to be rather defensive, which does not mean the project will be "finished", i.e. released in version 1.0.0, before the given date. If there is time left, more unit tests will be written and the general code quality will be increased.
 
 Use-cases
 ---------
 
-- Parsing HTML (fragments)
-- Constructing HTML (e.g. view-engine)
+- Parsing HTML (incl. fragments)
+- Parsing CSS (incl. selectors, declarations, ...)
+- Constructing HTML (e.g., view-engine)
 - Minifying CSS, HTML
 - Querying document elements
 - Crawling information
+- Gathering statistics
+- Connection to page analytics
 - HTML / DOM Unit Tests
+- Automated JavaScript interaction
+- Testing other script engines
 - ...
 
 Participating in the project
@@ -119,7 +137,9 @@ Participating in the project
 
 If you know some feature that AngleSharp is currently missing, and you are willing to implement the feature, then your contribution is more than welcome! Also if you have a really cool idea - do not be shy, we'd like to hear it.
 
-If you have an idea how to improve the API (or what is missing) then posts / messages are also welcome. There are also ongoing discussions about some styles that are used by AngleSharp (e.g. `HTMLDocument` instead of `HtmlDocument`). If you have a strong opinion about one or the other then participating in those discussions would certainly be helpful.
+If you have an idea how to improve the API (or what is missing) then posts / messages are also welcome. For instance there have been ongoing discussions about some styles that are used by AngleSharp (e.g. `HTMLDocument` instead of `HtmlDocument`). In the end AngleSharp stopped using `HTMLDocument` (at least visible outside of the library). Now AngleSharp uses names like `IHtmlDocument`. This change would not have been possible without fruitful discussions.
+
+The project is always searching for additional contributors. Even if you do not have any code to contribute, but rather an idea for improvement, a bug report or a mistake in the documentation. These are the contributions that keep this project active. 
 
 Some legal stuff
 ----------------
