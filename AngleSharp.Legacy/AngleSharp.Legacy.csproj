@@ -943,6 +943,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\Point2d.cs">
       <Link>DOM\Css\Values\Point2d.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\CustomEvent.cs">
+      <Link>DOM\CustomEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Document.cs">
       <Link>DOM\Document.cs</Link>
     </Compile>
