@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents an event argument.
     /// </summary>
-    sealed class Event : IEvent
+    class Event : IEvent
     {
         #region Empty Event
 

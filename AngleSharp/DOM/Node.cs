@@ -683,9 +683,10 @@
         /// <returns>True if the element was cancelled, otherwise false.</returns>
         protected Boolean FireSimpleEvent(String eventName, Boolean bubble = false, Boolean cancelable = false)
         {
-            //TODO
-            //http://www.w3.org/html/wg/drafts/html/master/webappapis.html#fire-a-simple-event
-            return false;
+            var ev = new Event();
+            ev.Init(eventName, bubble, cancelable);
+            ev.IsTrusted = true;
+            return ev.Dispatch(this);
         }
 
         /// <summary>
