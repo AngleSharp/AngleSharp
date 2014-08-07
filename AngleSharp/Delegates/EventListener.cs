@@ -1,9 +1,12 @@
 ﻿namespace AngleSharp.DOM
 {
+    using System;
+
     /// <summary>
     /// Defines the callback signature for an event.
     /// </summary>
+    /// <param name="sender">The callback this argument.</param>
     /// <param name="ev">The event arguments.</param>
     [DomName("EventHandler")]
-    public delegate void EventListener(IEvent ev);
+    public delegate void EventListener(Object sender, IEvent ev);
 }

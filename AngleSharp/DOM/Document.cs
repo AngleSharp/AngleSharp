@@ -323,7 +323,7 @@
                 _ready = value;
 
                 if (ReadyStateChanged != null)
-                    ReadyStateChanged(Event.Empty);
+                    ReadyStateChanged(this, Event.Empty);
             }
         }
 

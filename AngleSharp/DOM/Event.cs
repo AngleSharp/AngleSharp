@@ -1,16 +1,22 @@
 ﻿namespace AngleSharp.DOM
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents an event argument.
     /// </summary>
     sealed class Event : IEvent
     {
+        #region Empty Event
+
         /// <summary>
         /// Gets a dummy placeholder event.
         /// </summary>
         public static readonly Event Empty = new Event();
+
+        #endregion
 
         #region Fields
 
@@ -18,6 +24,9 @@
         EventPhase _phase;
         IEventTarget _current;
         IEventTarget _target;
+        Boolean _bubbles;
+        Boolean _cancelable;
+        String _type;
 
         #endregion
 
@@ -30,8 +39,6 @@
         {
             _flags = EventFlags.None;
             _phase = EventPhase.None;
-            _current = null;
-            _target = null;
         }
 
         #endregion
@@ -51,8 +58,7 @@
         /// </summary>
         public String Type
         {
-            get;
-            set;
+            get { return _type; }
         }
 
         /// <summary>
@@ -84,8 +90,7 @@
         /// </summary>
         public Boolean IsBubbling
         {
-            get;
-            set;
+            get { return _bubbles; }
         }
 
         /// <summary>
@@ -93,8 +98,7 @@
         /// </summary>
         public Boolean IsCancelable
         {
-            get;
-            set;
+            get { return _cancelable; }
         }
 
         /// <summary>
@@ -102,8 +106,7 @@
         /// </summary>
         public Boolean IsDefaultPrevented
         {
-            get;
-            set;
+            get { return _flags.HasFlag(EventFlags.Canceled); }
         }
 
         /// <summary>
@@ -133,7 +136,7 @@
         /// </summary>
         public void Stop()
         {
-            throw new NotImplementedException();
+            _flags |= EventFlags.StopPropagation;
         }
 
         /// <summary>
@@ -141,7 +144,7 @@
         /// </summary>
         public void StopImmediately()
         {
-            throw new NotImplementedException();
+            _flags |= EventFlags.StopImmediatePropagation;
         }
 
         /// <summary>
@@ -149,7 +152,8 @@
         /// </summary>
         public void Cancel()
         {
-            throw new NotImplementedException();
+            if (_cancelable)
+                _flags |= EventFlags.Canceled;
         }
 
         /// <summary>
@@ -160,20 +164,67 @@
         /// <param name="cancelable">If the event is cancelable.</param>
         public void Init(String type, Boolean bubbles, Boolean cancelable)
         {
-            throw new NotImplementedException();
+            _flags |= EventFlags.Initialized;
+
+            if (_flags.HasFlag(EventFlags.Dispatch))
+                return;
+
+            _flags &= ~(EventFlags.StopPropagation | EventFlags.StopImmediatePropagation | EventFlags.Canceled);
+            IsTrusted = false;
+            _target = null;
+            _type = type;
+            _bubbles = bubbles;
+            _cancelable = cancelable;
         }
 
-        public Boolean Dispatch(IEventTarget target = null)
+        public Boolean Dispatch(Node target)
         {
             _flags |= EventFlags.Dispatch;
             _target = target;
-            
-            //TODO
 
-            _flags ^= EventFlags.Dispatch;
+            var eventPath = new List<Node>();
+            var parent = target.Parent;
+
+            while (parent != null)
+            {
+                eventPath.Add(parent);
+                parent = parent.Parent;
+            }
+
+            _phase = EventPhase.Capturing;
+            DispatchAt(eventPath.Reverse<Node>());
+            _phase = EventPhase.AtTarget;
+
+            if (!_flags.HasFlag(EventFlags.StopPropagation))
+                CallListeners(target);
+
+            if (_bubbles)
+            {
+                _phase = EventPhase.Bubbling;
+                DispatchAt(eventPath);
+            }
+
+            _flags &= ~EventFlags.Dispatch;
             _phase = EventPhase.None;
             _current = null;
             return !_flags.HasFlag(EventFlags.Canceled);
+        }
+
+        void CallListeners(Node target)
+        {
+            _current = target;
+            target.CallEventListener(this);
+        }
+
+        void DispatchAt(IEnumerable<Node> targets)
+        {
+            foreach (var target in targets)
+            {
+                CallListeners(target);
+
+                if (_flags.HasFlag(EventFlags.StopPropagation))
+                    break;
+            }
         }
 
         #endregion

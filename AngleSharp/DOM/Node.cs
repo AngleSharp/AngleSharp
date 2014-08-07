@@ -843,6 +843,24 @@
         }
 
         /// <summary>
+        /// Calls the listener registered for the given event.
+        /// </summary>
+        /// <param name="ev">The event that asks for the listeners.</param>
+        internal void CallEventListener(Event ev)
+        {
+            foreach (var listener in _listeners)
+            {
+                if (ev.Flags.HasFlag(EventFlags.StopImmediatePropagation))
+                    break;
+
+                if (listener.Type != ev.Type || listener.IsCaptured && ev.Phase == EventPhase.Bubbling || !listener.IsCaptured && ev.Phase == EventPhase.Capturing)
+                    continue;
+
+                listener.Callback(ev.CurrentTarget, ev);
+            }
+        }
+
+        /// <summary>
         /// Dispatch an event to this Node.
         /// </summary>
         /// <param name="ev">The event to dispatch.</param>
@@ -855,7 +873,7 @@
                 throw new DomException(ErrorCode.InvalidState);
 
             impl.IsTrusted = false;
-            return impl.Dispatch();
+            return impl.Dispatch(this);
         }
 
         #endregion

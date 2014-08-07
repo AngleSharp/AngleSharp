@@ -176,7 +176,7 @@
                     _currentTime = value;
 
                 if (TimeUpdated != null)
-                    TimeUpdated(Event.Empty);
+                    TimeUpdated(this, Event.Empty);
             }
         }
 
