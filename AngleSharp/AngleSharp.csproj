@@ -53,6 +53,7 @@
     <Compile Include="DOM\Html\Semantic\HTMLPlaintextElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLXmpElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableColgroupElement.cs" />
+    <Compile Include="Foundation\Constants\EventFlags.cs" />
     <Compile Include="Foundation\Constants\NodeFlags.cs" />
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="DOM\Css\CssPropertyBag.cs" />

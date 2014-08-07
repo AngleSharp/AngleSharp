@@ -12,14 +12,47 @@
         /// </summary>
         public static readonly Event Empty = new Event();
 
+        #region Fields
+
+        EventFlags _flags;
+        EventPhase _phase;
+        IEventTarget _current;
+        IEventTarget _target;
+
+        #endregion
+
+        #region ctor
+
+        /// <summary>
+        /// Creates a new event.
+        /// </summary>
+        public Event()
+        {
+            _flags = EventFlags.None;
+            _phase = EventPhase.None;
+            _current = null;
+            _target = null;
+        }
+
+        #endregion
+
         #region Properties
+
+        /// <summary>
+        /// Gets the associated flags.
+        /// </summary>
+        public EventFlags Flags
+        {
+            get { return _flags; }
+        }
 
         /// <summary>
         /// Gets the type of event.
         /// </summary>
         public String Type
         {
-            get { throw new NotImplementedException(); }
+            get;
+            set;
         }
 
         /// <summary>
@@ -27,7 +60,7 @@
         /// </summary>
         public IEventTarget OriginalTarget
         {
-            get { throw new NotImplementedException(); }
+            get { return _target; }
         }
 
         /// <summary>
@@ -35,7 +68,7 @@
         /// </summary>
         public IEventTarget CurrentTarget
         {
-            get { throw new NotImplementedException(); }
+            get { return _current; }
         }
 
         /// <summary>
@@ -43,7 +76,7 @@
         /// </summary>
         public EventPhase Phase
         {
-            get { throw new NotImplementedException(); }
+            get { return _phase; }
         }
 
         /// <summary>
@@ -51,7 +84,8 @@
         /// </summary>
         public Boolean IsBubbling
         {
-            get { throw new NotImplementedException(); }
+            get;
+            set;
         }
 
         /// <summary>
@@ -59,7 +93,8 @@
         /// </summary>
         public Boolean IsCancelable
         {
-            get { throw new NotImplementedException(); }
+            get;
+            set;
         }
 
         /// <summary>
@@ -67,7 +102,8 @@
         /// </summary>
         public Boolean IsDefaultPrevented
         {
-            get { throw new NotImplementedException(); }
+            get;
+            set;
         }
 
         /// <summary>
@@ -75,7 +111,8 @@
         /// </summary>
         public Boolean IsTrusted
         {
-            get { throw new NotImplementedException(); }
+            get;
+            set;
         }
 
         /// <summary>
@@ -83,7 +120,8 @@
         /// </summary>
         public DateTime Time
         {
-            get { throw new NotImplementedException(); }
+            get;
+            set;
         }
 
         #endregion
@@ -123,6 +161,19 @@
         public void Init(String type, Boolean bubbles, Boolean cancelable)
         {
             throw new NotImplementedException();
+        }
+
+        public Boolean Dispatch(IEventTarget target = null)
+        {
+            _flags |= EventFlags.Dispatch;
+            _target = target;
+            
+            //TODO
+
+            _flags ^= EventFlags.Dispatch;
+            _phase = EventPhase.None;
+            _current = null;
+            return !_flags.HasFlag(EventFlags.Canceled);
         }
 
         #endregion

@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM.Collections;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a node in the generated tree.
@@ -13,6 +14,7 @@
         readonly NodeType _type;
         readonly String _name;
         readonly NodeFlags _flags;
+        readonly List<RegisteredEventListener> _listeners;
 
         Document _owner;
         String _baseUri;
@@ -28,6 +30,7 @@
         /// </summary>
         internal Node(String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
         {
+            _listeners = new List<RegisteredEventListener>();
             _name = name ?? String.Empty;
             _type = type;
             _children = new NodeList();
@@ -809,7 +812,15 @@
         /// will not trigger a listener designated to use capture.</param>
         public void AddEventListener(String type, EventListener callback = null, Boolean capture = false)
         {
-            throw new NotImplementedException();
+            if (callback != null)
+                return;
+
+            _listeners.Add(new RegisteredEventListener
+            {
+                Type = type,
+                Callback = callback,
+                IsCaptured = capture
+            });
         }
 
         /// <summary>
@@ -820,7 +831,15 @@
         /// <param name="capture">Specifies whether the EventListener being removed was registered as a capturing listener or not.</param>
         public void RemoveEventListener(String type, EventListener callback = null, Boolean capture = false)
         {
-            throw new NotImplementedException();
+            if (callback == null)
+                return;
+
+            _listeners.Remove(new RegisteredEventListener
+            {
+                Type = type,
+                Callback = callback,
+                IsCaptured = capture
+            });
         }
 
         /// <summary>
@@ -830,7 +849,24 @@
         /// <returns>False if at least one of the event handlers, which handled this event called preventDefault(). Otherwise true.</returns>
         public Boolean Dispatch(IEvent ev)
         {
-            throw new NotImplementedException();
+            var impl = ev as Event;
+
+            if (impl == null || impl.Flags.HasFlag(EventFlags.Dispatch) || !impl.Flags.HasFlag(EventFlags.Initialized))
+                throw new DomException(ErrorCode.InvalidState);
+
+            impl.IsTrusted = false;
+            return impl.Dispatch();
+        }
+
+        #endregion
+
+        #region Event Listener Structure
+
+        struct RegisteredEventListener
+        {
+            public String Type;
+            public EventListener Callback;
+            public Boolean IsCaptured;
         }
 
         #endregion
