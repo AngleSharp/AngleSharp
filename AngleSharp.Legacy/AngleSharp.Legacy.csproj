@@ -1399,6 +1399,9 @@
     <Compile Include="..\AngleSharp\Foundation\Constants\ErrorCode.cs">
       <Link>Foundation\Constants\ErrorCode.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Constants\EventFlags.cs">
+      <Link>Foundation\Constants\EventFlags.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\EventNames.cs">
       <Link>Foundation\Constants\EventNames.cs</Link>
     </Compile>
