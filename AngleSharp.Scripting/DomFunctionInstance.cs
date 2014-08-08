@@ -35,7 +35,6 @@
         Object[] BuildArgs(JsValue[] arguments)
         {
             var parameters = _method.GetParameters();
-            var min = parameters.Count(m => !m.IsOptional);
             var max = parameters.Length;
             var args = new Object[max];
 
