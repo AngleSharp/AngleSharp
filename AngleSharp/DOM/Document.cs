@@ -143,25 +143,65 @@
             remove { RemoveEventListener(EventNames.Drop, value); }
         }
 
-        public event EventListener DurationChanged;
+        public event EventListener DurationChanged
+        {
+            add { AddEventListener(EventNames.DurationChange, value); }
+            remove { RemoveEventListener(EventNames.DurationChange, value); }
+        }
 
-        public event EventListener Emptied;
+        public event EventListener Emptied
+        {
+            add { AddEventListener(EventNames.Emptied, value); }
+            remove { RemoveEventListener(EventNames.Emptied, value); }
+        }
 
-        public event EventListener Ended;
+        public event EventListener Ended
+        {
+            add { AddEventListener(EventNames.Ended, value); }
+            remove { RemoveEventListener(EventNames.Ended, value); }
+        }
 
-        public event ErrorEventListener Error;
+        public event EventListener Error
+        {
+            add { AddEventListener(EventNames.Error, value); }
+            remove { RemoveEventListener(EventNames.Error, value); }
+        }
 
-        public event EventListener Focused;
+        public event EventListener Focused
+        {
+            add { AddEventListener(EventNames.Focus, value); }
+            remove { RemoveEventListener(EventNames.Focus, value); }
+        }
 
-        public event EventListener Input;
+        public event EventListener Input
+        {
+            add { AddEventListener(EventNames.Input, value); }
+            remove { RemoveEventListener(EventNames.Input, value); }
+        }
 
-        public event EventListener Invalid;
+        public event EventListener Invalid
+        {
+            add { AddEventListener(EventNames.Invalid, value); }
+            remove { RemoveEventListener(EventNames.Invalid, value); }
+        }
 
-        public event EventListener KeyDown;
+        public event EventListener KeyDown
+        {
+            add { AddEventListener(EventNames.Keydown, value); }
+            remove { RemoveEventListener(EventNames.Keydown, value); }
+        }
 
-        public event EventListener KeyPress;
+        public event EventListener KeyPress
+        {
+            add { AddEventListener(EventNames.Keypress, value); }
+            remove { RemoveEventListener(EventNames.Keypress, value); }
+        }
 
-        public event EventListener KeyUp;
+        public event EventListener KeyUp
+        {
+            add { AddEventListener(EventNames.Keyup, value); }
+            remove { RemoveEventListener(EventNames.Keyup, value); }
+        }
 
         public event EventListener Loaded;
 

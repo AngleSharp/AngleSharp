@@ -130,7 +130,7 @@
         /// Event triggered after an error occurred.
         /// </summary>
         [DomName("onerror")]
-        event ErrorEventListener Error;
+        event EventListener Error;
 
         /// <summary>
         /// Event triggered after receiving focus.

@@ -181,5 +181,10 @@
         /// The keyup event.
         /// </summary>
         public static readonly String Keyup = "keyup";
+
+        /// <summary>
+        /// The ended event.
+        /// </summary>
+        public static readonly String Ended = "ended";
     }
 }
