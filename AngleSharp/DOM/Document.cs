@@ -89,23 +89,59 @@
             remove { RemoveEventListener(EventNames.CueChange, value); }
         }
 
-        public event EventListener DoubleClick;
+        public event EventListener DoubleClick
+        {
+            add { AddEventListener(EventNames.DblClick, value); }
+            remove { RemoveEventListener(EventNames.DblClick, value); }
+        }
 
-        public event EventListener Drag;
+        public event EventListener Drag
+        {
+            add { AddEventListener(EventNames.Drag, value); }
+            remove { RemoveEventListener(EventNames.Drag, value); }
+        }
 
-        public event EventListener DragEnd;
+        public event EventListener DragEnd
+        {
+            add { AddEventListener(EventNames.DragEnd, value); }
+            remove { RemoveEventListener(EventNames.DragEnd, value); }
+        }
 
-        public event EventListener DragEnter;
+        public event EventListener DragEnter
+        {
+            add { AddEventListener(EventNames.DragEnter, value); }
+            remove { RemoveEventListener(EventNames.DragEnter, value); }
+        }
 
-        public event EventListener DragExit;
+        public event EventListener DragExit
+        {
+            add { AddEventListener(EventNames.DragExit, value); }
+            remove { RemoveEventListener(EventNames.DragExit, value); }
+        }
 
-        public event EventListener DragLeave;
+        public event EventListener DragLeave
+        {
+            add { AddEventListener(EventNames.DragLeave, value); }
+            remove { RemoveEventListener(EventNames.DragLeave, value); }
+        }
 
-        public event EventListener DragOver;
+        public event EventListener DragOver
+        {
+            add { AddEventListener(EventNames.DragOver, value); }
+            remove { RemoveEventListener(EventNames.DragOver, value); }
+        }
 
-        public event EventListener DragStart;
+        public event EventListener DragStart
+        {
+            add { AddEventListener(EventNames.DragStart, value); }
+            remove { RemoveEventListener(EventNames.DragStart, value); }
+        }
 
-        public event EventListener Dropped;
+        public event EventListener Dropped
+        {
+            add { AddEventListener(EventNames.Drop, value); }
+            remove { RemoveEventListener(EventNames.Drop, value); }
+        }
 
         public event EventListener DurationChanged;
 

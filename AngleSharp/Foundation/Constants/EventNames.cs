@@ -81,5 +81,50 @@
         /// The cuechange event.
         /// </summary>
         public static readonly String CueChange = "cuechange";
+
+        /// <summary>
+        /// The dblclick event.
+        /// </summary>
+        public static readonly String DblClick = "dblclick";
+
+        /// <summary>
+        /// The drag event.
+        /// </summary>
+        public static readonly String Drag = "drag";
+
+        /// <summary>
+        /// The dragend event.
+        /// </summary>
+        public static readonly String DragEnd = "dragend";
+
+        /// <summary>
+        /// The dragenter event.
+        /// </summary>
+        public static readonly String DragEnter = "dragenter";
+
+        /// <summary>
+        /// The dragexit event.
+        /// </summary>
+        public static readonly String DragExit = "dragexit";
+
+        /// <summary>
+        /// The dragleave event.
+        /// </summary>
+        public static readonly String DragLeave = "dragleave";
+
+        /// <summary>
+        /// The dragover event.
+        /// </summary>
+        public static readonly String DragOver = "dragover";
+
+        /// <summary>
+        /// The dragstart event.
+        /// </summary>
+        public static readonly String DragStart = "dragstart";
+
+        /// <summary>
+        /// The drop event.
+        /// </summary>
+        public static readonly String Drop = "drop";
     }
 }
