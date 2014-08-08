@@ -1,7 +1,7 @@
 ﻿using AngleSharp.DOM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests
+namespace UnitTests.Library
 {
     [TestClass]
     public class LocationTests

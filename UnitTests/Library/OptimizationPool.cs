@@ -1,6 +1,6 @@
-﻿using System;
+﻿using AngleSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AngleSharp;
+using System;
 
 namespace UnitTests.Library
 {

@@ -3,7 +3,7 @@ using AngleSharp.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text;
 
-namespace UnitTests
+namespace UnitTests.Library
 {
     [TestClass]
     public class AnalysisWindowTests

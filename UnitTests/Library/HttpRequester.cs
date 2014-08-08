@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 
-namespace UnitTests
+namespace UnitTests.Library
 {
     [TestClass]
     public class HttpRequesterTests

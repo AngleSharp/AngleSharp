@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AngleSharp;
+﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
-namespace UnitTests
+namespace UnitTests.Library
 {
     [TestClass]
     public class DOMExtensionsTests
