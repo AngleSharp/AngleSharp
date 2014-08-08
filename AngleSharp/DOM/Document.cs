@@ -35,23 +35,59 @@
 
         #region Events
 
-        public event EventListener ReadyStateChanged;
+        public event EventListener ReadyStateChanged
+        {
+            add { AddEventListener(EventNames.ReadyStateChanged, value); }
+            remove { RemoveEventListener(EventNames.ReadyStateChanged, value); }
+        }
 
-        public event EventListener Aborted;
+        public event EventListener Aborted
+        {
+            add { AddEventListener(EventNames.Abort, value); }
+            remove { RemoveEventListener(EventNames.Abort, value); }
+        }
 
-        public event EventListener Blurred;
+        public event EventListener Blurred
+        {
+            add { AddEventListener(EventNames.Blur, value); }
+            remove { RemoveEventListener(EventNames.Blur, value); }
+        }
 
-        public event EventListener Cancelled;
+        public event EventListener Cancelled
+        {
+            add { AddEventListener(EventNames.Cancel, value); }
+            remove { RemoveEventListener(EventNames.Cancel, value); }
+        }
 
-        public event EventListener CanPlay;
+        public event EventListener CanPlay
+        {
+            add { AddEventListener(EventNames.CanPlay, value); }
+            remove { RemoveEventListener(EventNames.CanPlay, value); }
+        }
 
-        public event EventListener CanPlayThrough;
+        public event EventListener CanPlayThrough
+        {
+            add { AddEventListener(EventNames.CanPlayThrough, value); }
+            remove { RemoveEventListener(EventNames.CanPlayThrough, value); }
+        }
 
-        public event EventListener Changed;
+        public event EventListener Changed
+        {
+            add { AddEventListener(EventNames.Change, value); }
+            remove { RemoveEventListener(EventNames.Change, value); }
+        }
 
-        public event EventListener Clicked;
+        public event EventListener Clicked
+        {
+            add { AddEventListener(EventNames.Click, value); }
+            remove { RemoveEventListener(EventNames.Click, value); }
+        }
 
-        public event EventListener CueChanged;
+        public event EventListener CueChanged
+        {
+            add { AddEventListener(EventNames.CueChange, value); }
+            remove { RemoveEventListener(EventNames.CueChange, value); }
+        }
 
         public event EventListener DoubleClick;
 
@@ -321,9 +357,7 @@
             internal set
             {
                 _ready = value;
-
-                if (ReadyStateChanged != null)
-                    ReadyStateChanged(this, Event.Empty);
+                FireSimpleEvent(EventNames.ReadyStateChanged);
             }
         }
 
