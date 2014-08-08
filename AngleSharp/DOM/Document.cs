@@ -275,15 +275,35 @@
             remove { RemoveEventListener(EventNames.Wheel, value); }
         }
 
-        public event EventListener Paused;
+        public event EventListener Paused
+        {
+            add { AddEventListener(EventNames.Pause, value); }
+            remove { RemoveEventListener(EventNames.Pause, value); }
+        }
 
-        public event EventListener Played;
+        public event EventListener Played
+        {
+            add { AddEventListener(EventNames.Play, value); }
+            remove { RemoveEventListener(EventNames.Play, value); }
+        }
 
-        public event EventListener Playing;
+        public event EventListener Playing
+        {
+            add { AddEventListener(EventNames.Playing, value); }
+            remove { RemoveEventListener(EventNames.Playing, value); }
+        }
 
-        public event EventListener Progress;
+        public event EventListener Progress
+        {
+            add { AddEventListener(EventNames.Progress, value); }
+            remove { RemoveEventListener(EventNames.Progress, value); }
+        }
 
-        public event EventListener RateChanged;
+        public event EventListener RateChanged
+        {
+            add { AddEventListener(EventNames.RateChange, value); }
+            remove { RemoveEventListener(EventNames.RateChange, value); }
+        }
 
         public event EventListener Resetted;
 

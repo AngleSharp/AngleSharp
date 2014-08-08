@@ -246,5 +246,30 @@
         /// The mousedown event.
         /// </summary>
         public static readonly String Mousedown = "mousedown";
+
+        /// <summary>
+        /// The pause event.
+        /// </summary>
+        public static readonly String Pause = "pause";
+
+        /// <summary>
+        /// The play event.
+        /// </summary>
+        public static readonly String Play = "play";
+
+        /// <summary>
+        /// The playing event.
+        /// </summary>
+        public static readonly String Playing = "playing";
+
+        /// <summary>
+        /// The progress event.
+        /// </summary>
+        public static readonly String Progress = "progress";
+
+        /// <summary>
+        /// The ratechange event.
+        /// </summary>
+        public static readonly String RateChange = "ratechange";
     }
 }
