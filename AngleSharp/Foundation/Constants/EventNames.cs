@@ -271,5 +271,75 @@
         /// The ratechange event.
         /// </summary>
         public static readonly String RateChange = "ratechange";
+
+        /// <summary>
+        /// The waiting event.
+        /// </summary>
+        public static readonly String Waiting = "waiting";
+
+        /// <summary>
+        /// The volumechange event.
+        /// </summary>
+        public static readonly String VolumeChange = "volumechange";
+
+        /// <summary>
+        /// The toggle event.
+        /// </summary>
+        public static readonly String Toggle = "toggle";
+
+        /// <summary>
+        /// The timeupdate event.
+        /// </summary>
+        public static readonly String TimeUpdate = "timeupdate";
+
+        /// <summary>
+        /// The suspend event.
+        /// </summary>
+        public static readonly String Suspend = "suspend";
+
+        /// <summary>
+        /// The submit event.
+        /// </summary>
+        public static readonly String Submit = "submit";
+
+        /// <summary>
+        /// The stalled event.
+        /// </summary>
+        public static readonly String Stalled = "stalled";
+
+        /// <summary>
+        /// The show event.
+        /// </summary>
+        public static readonly String Show = "show";
+
+        /// <summary>
+        /// The select event.
+        /// </summary>
+        public static readonly String Select = "select";
+
+        /// <summary>
+        /// The seeking event.
+        /// </summary>
+        public static readonly String Seeking = "seeking";
+
+        /// <summary>
+        /// The seeked event.
+        /// </summary>
+        public static readonly String Seeked = "seeked";
+
+        /// <summary>
+        /// The scroll event.
+        /// </summary>
+        public static readonly String Scroll = "scroll";
+
+        /// <summary>
+        /// The resize event.
+        /// </summary>
+        public static readonly String Resize = "resize";
+
+        /// <summary>
+        /// The reset event.
+        /// </summary>
+        public static readonly String Reset = "reset";
     }
 }

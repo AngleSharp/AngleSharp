@@ -305,33 +305,89 @@
             remove { RemoveEventListener(EventNames.RateChange, value); }
         }
 
-        public event EventListener Resetted;
+        public event EventListener Resetted
+        {
+            add { AddEventListener(EventNames.Reset, value); }
+            remove { RemoveEventListener(EventNames.Reset, value); }
+        }
 
-        public event EventListener Resized;
+        public event EventListener Resized
+        {
+            add { AddEventListener(EventNames.Resize, value); }
+            remove { RemoveEventListener(EventNames.Resize, value); }
+        }
 
-        public event EventListener Scrolled;
+        public event EventListener Scrolled
+        {
+            add { AddEventListener(EventNames.Scroll, value); }
+            remove { RemoveEventListener(EventNames.Scroll, value); }
+        }
 
-        public event EventListener Seeked;
+        public event EventListener Seeked
+        {
+            add { AddEventListener(EventNames.Seeked, value); }
+            remove { RemoveEventListener(EventNames.Seeked, value); }
+        }
 
-        public event EventListener Seeking;
+        public event EventListener Seeking
+        {
+            add { AddEventListener(EventNames.Seeking, value); }
+            remove { RemoveEventListener(EventNames.Seeking, value); }
+        }
 
-        public event EventListener Selected;
+        public event EventListener Selected
+        {
+            add { AddEventListener(EventNames.Select, value); }
+            remove { RemoveEventListener(EventNames.Select, value); }
+        }
 
-        public event EventListener Shown;
+        public event EventListener Shown
+        {
+            add { AddEventListener(EventNames.Show, value); }
+            remove { RemoveEventListener(EventNames.Show, value); }
+        }
 
-        public event EventListener Stalled;
+        public event EventListener Stalled
+        {
+            add { AddEventListener(EventNames.Stalled, value); }
+            remove { RemoveEventListener(EventNames.Stalled, value); }
+        }
 
-        public event EventListener Submitted;
+        public event EventListener Submitted
+        {
+            add { AddEventListener(EventNames.Submit, value); }
+            remove { RemoveEventListener(EventNames.Submit, value); }
+        }
 
-        public event EventListener Suspended;
+        public event EventListener Suspended
+        {
+            add { AddEventListener(EventNames.Suspend, value); }
+            remove { RemoveEventListener(EventNames.Suspend, value); }
+        }
 
-        public event EventListener TimeUpdated;
+        public event EventListener TimeUpdated
+        {
+            add { AddEventListener(EventNames.TimeUpdate, value); }
+            remove { RemoveEventListener(EventNames.TimeUpdate, value); }
+        }
 
-        public event EventListener Toggled;
+        public event EventListener Toggled
+        {
+            add { AddEventListener(EventNames.Toggle, value); }
+            remove { RemoveEventListener(EventNames.Toggle, value); }
+        }
 
-        public event EventListener VolumeChanged;
+        public event EventListener VolumeChanged
+        {
+            add { AddEventListener(EventNames.VolumeChange, value); }
+            remove { RemoveEventListener(EventNames.VolumeChange, value); }
+        }
 
-        public event EventListener Waiting;
+        public event EventListener Waiting
+        {
+            add { AddEventListener(EventNames.Waiting, value); }
+            remove { RemoveEventListener(EventNames.Waiting, value); }
+        }
 
         #endregion
 
