@@ -186,5 +186,65 @@
         /// The ended event.
         /// </summary>
         public static readonly String Ended = "ended";
+
+        /// <summary>
+        /// The loadeddata event.
+        /// </summary>
+        public static readonly String LoadedData = "loadeddata";
+
+        /// <summary>
+        /// The loadedmetadata event.
+        /// </summary>
+        public static readonly String LoadedMetaData = "loadedmetadata";
+
+        /// <summary>
+        /// The loadend event.
+        /// </summary>
+        public static readonly String LoadEnd = "loadend";
+
+        /// <summary>
+        /// The loadstart event.
+        /// </summary>
+        public static readonly String LoadStart = "loadstart";
+
+        /// <summary>
+        /// The wheel event.
+        /// </summary>
+        public static readonly String Wheel = "wheel";
+
+        /// <summary>
+        /// The mouseup event.
+        /// </summary>
+        public static readonly String Mouseup = "mouseup";
+
+        /// <summary>
+        /// The mouseover event.
+        /// </summary>
+        public static readonly String Mouseover = "mouseover";
+
+        /// <summary>
+        /// The mouseout event.
+        /// </summary>
+        public static readonly String Mouseout = "mouseout";
+
+        /// <summary>
+        /// The mousemove event.
+        /// </summary>
+        public static readonly String Mousemove = "mousemove";
+
+        /// <summary>
+        /// The mouseleave event.
+        /// </summary>
+        public static readonly String Mouseleave = "mouseleave";
+
+        /// <summary>
+        /// The mouseenter event.
+        /// </summary>
+        public static readonly String Mouseenter = "mouseenter";
+
+        /// <summary>
+        /// The mousedown event.
+        /// </summary>
+        public static readonly String Mousedown = "mousedown";
     }
 }

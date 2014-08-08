@@ -203,29 +203,77 @@
             remove { RemoveEventListener(EventNames.Keyup, value); }
         }
 
-        public event EventListener Loaded;
+        public event EventListener Loaded
+        {
+            add { AddEventListener(EventNames.Load, value); }
+            remove { RemoveEventListener(EventNames.Load, value); }
+        }
 
-        public event EventListener LoadedData;
+        public event EventListener LoadedData
+        {
+            add { AddEventListener(EventNames.LoadedData, value); }
+            remove { RemoveEventListener(EventNames.LoadedData, value); }
+        }
 
-        public event EventListener LoadedMetadata;
+        public event EventListener LoadedMetadata
+        {
+            add { AddEventListener(EventNames.LoadedMetaData, value); }
+            remove { RemoveEventListener(EventNames.LoadedMetaData, value); }
+        }
 
-        public event EventListener Loading;
+        public event EventListener Loading
+        {
+            add { AddEventListener(EventNames.LoadStart, value); }
+            remove { RemoveEventListener(EventNames.LoadStart, value); }
+        }
 
-        public event EventListener MouseDown;
+        public event EventListener MouseDown
+        {
+            add { AddEventListener(EventNames.Mousedown, value); }
+            remove { RemoveEventListener(EventNames.Mousedown, value); }
+        }
 
-        public event EventListener MouseEnter;
+        public event EventListener MouseEnter
+        {
+            add { AddEventListener(EventNames.Mouseenter, value); }
+            remove { RemoveEventListener(EventNames.Mouseenter, value); }
+        }
 
-        public event EventListener MouseLeave;
+        public event EventListener MouseLeave
+        {
+            add { AddEventListener(EventNames.Mouseleave, value); }
+            remove { RemoveEventListener(EventNames.Mouseleave, value); }
+        }
 
-        public event EventListener MouseMove;
+        public event EventListener MouseMove
+        {
+            add { AddEventListener(EventNames.Mousemove, value); }
+            remove { RemoveEventListener(EventNames.Mousemove, value); }
+        }
 
-        public event EventListener MouseOut;
+        public event EventListener MouseOut
+        {
+            add { AddEventListener(EventNames.Mouseout, value); }
+            remove { RemoveEventListener(EventNames.Mouseout, value); }
+        }
 
-        public event EventListener MouseOver;
+        public event EventListener MouseOver
+        {
+            add { AddEventListener(EventNames.Mouseover, value); }
+            remove { RemoveEventListener(EventNames.Mouseover, value); }
+        }
 
-        public event EventListener MouseUp;
+        public event EventListener MouseUp
+        {
+            add { AddEventListener(EventNames.Mouseup, value); }
+            remove { RemoveEventListener(EventNames.Mouseup, value); }
+        }
 
-        public event EventListener MouseWheel;
+        public event EventListener MouseWheel
+        {
+            add { AddEventListener(EventNames.Wheel, value); }
+            remove { RemoveEventListener(EventNames.Wheel, value); }
+        }
 
         public event EventListener Paused;
 
