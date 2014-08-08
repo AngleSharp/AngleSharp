@@ -126,5 +126,60 @@
         /// The drop event.
         /// </summary>
         public static readonly String Drop = "drop";
+
+        /// <summary>
+        /// The durationchange event.
+        /// </summary>
+        public static readonly String DurationChange = "durationchange";
+
+        /// <summary>
+        /// The emptied event.
+        /// </summary>
+        public static readonly String Emptied = "emptied";
+
+        /// <summary>
+        /// The focus event.
+        /// </summary>
+        public static readonly String Focus = "focus";
+
+        /// <summary>
+        /// The fullscreenchange event.
+        /// </summary>
+        public static readonly String FullscreenChange = "fullscreenchange";
+
+        /// <summary>
+        /// The fullscreenerror event.
+        /// </summary>
+        public static readonly String FullscreenError = "fullscreenerror";
+
+        /// <summary>
+        /// The hashchange event.
+        /// </summary>
+        public static readonly String HashChange = "hashchange";
+
+        /// <summary>
+        /// The input event.
+        /// </summary>
+        public static readonly String Input = "input";
+
+        /// <summary>
+        /// The message event.
+        /// </summary>
+        public static readonly String Message = "message";
+
+        /// <summary>
+        /// The keydown event.
+        /// </summary>
+        public static readonly String Keydown = "keydown";
+
+        /// <summary>
+        /// The keypress event.
+        /// </summary>
+        public static readonly String Keypress = "keypress";
+
+        /// <summary>
+        /// The keyup event.
+        /// </summary>
+        public static readonly String Keyup = "keyup";
     }
 }
