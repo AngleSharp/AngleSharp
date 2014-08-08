@@ -930,9 +930,32 @@
         /// <returns>The created Event object.</returns>
         public IEvent CreateEvent(String type)
         {
-            //TODO
-            //http://dom.spec.whatwg.org/#dom-document-createevent
-            throw new NotImplementedException();
+            switch (type)
+            {
+                case "customevent":
+                    return new CustomEvent<Object>();
+
+                case "event":
+                case "events":
+                case "htmlevents":
+                    return new Event();
+
+                case "keyboardevent":
+                case "keyevents":
+                    //TODO KeyboardEvent
+                case "messageevent":
+                    //TODO MessageEvent
+                case "mouseevent":
+                case "mouseevents":
+                    //TODO MouseEvent
+                case "touchevent":
+                    //TODO TouchEvent
+                case "uievent":
+                case "uievents":
+                    //TODO UIEvent
+                default:
+                    throw new DomException(ErrorCode.NotSupported);
+            }
         }
 
         /// <summary>

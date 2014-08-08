@@ -27,6 +27,7 @@
         Boolean _bubbles;
         Boolean _cancelable;
         String _type;
+        DateTime _time;
 
         #endregion
 
@@ -39,6 +40,7 @@
         {
             _flags = EventFlags.None;
             _phase = EventPhase.None;
+            _time = DateTime.Now;
         }
 
         #endregion
@@ -123,8 +125,7 @@
         /// </summary>
         public DateTime Time
         {
-            get;
-            set;
+            get { return _time; }
         }
 
         #endregion

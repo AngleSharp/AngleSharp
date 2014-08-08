@@ -813,7 +813,7 @@
         /// will not trigger a listener designated to use capture.</param>
         public void AddEventListener(String type, EventListener callback = null, Boolean capture = false)
         {
-            if (callback != null)
+            if (callback == null)
                 return;
 
             _listeners.Add(new RegisteredEventListener
