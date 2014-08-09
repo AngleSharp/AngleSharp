@@ -51,33 +51,89 @@
 
         #region Events
 
-        public event EventListener Emptied;
+        public event EventListener Emptied
+        {
+            add { AddEventListener(EventNames.Emptied, value); }
+            remove { RemoveEventListener(EventNames.Emptied, value); }
+        }
 
-        public event EventListener LoadedMetadata;
+        public event EventListener LoadedMetadata
+        {
+            add { AddEventListener(EventNames.LoadedMetaData, value); }
+            remove { RemoveEventListener(EventNames.LoadedMetaData, value); }
+        }
 
-        public event EventListener LoadedData;
+        public event EventListener LoadedData
+        {
+            add { AddEventListener(EventNames.LoadedData, value); }
+            remove { RemoveEventListener(EventNames.LoadedData, value); }
+        }
 
-        public event EventListener CanPlay;
+        public event EventListener CanPlay
+        {
+            add { AddEventListener(EventNames.CanPlay, value); }
+            remove { RemoveEventListener(EventNames.CanPlay, value); }
+        }
 
-        public event EventListener CanPlayThrough;
+        public event EventListener CanPlayThrough
+        {
+            add { AddEventListener(EventNames.CanPlayThrough, value); }
+            remove { RemoveEventListener(EventNames.CanPlayThrough, value); }
+        }
 
-        public event EventListener Ended;
+        public event EventListener Ended
+        {
+            add { AddEventListener(EventNames.Ended, value); }
+            remove { RemoveEventListener(EventNames.Ended, value); }
+        }
 
-        public event EventListener Waiting;
+        public event EventListener Waiting
+        {
+            add { AddEventListener(EventNames.Waiting, value); }
+            remove { RemoveEventListener(EventNames.Waiting, value); }
+        }
 
-        public event EventListener DurationChanged;
+        public event EventListener DurationChanged
+        {
+            add { AddEventListener(EventNames.DurationChange, value); }
+            remove { RemoveEventListener(EventNames.DurationChange, value); }
+        }
 
-        public event EventListener TimeUpdated;
+        public event EventListener TimeUpdated
+        {
+            add { AddEventListener(EventNames.TimeUpdate, value); }
+            remove { RemoveEventListener(EventNames.TimeUpdate, value); }
+        }
 
-        public event EventListener Paused;
+        public event EventListener Paused
+        {
+            add { AddEventListener(EventNames.Pause, value); }
+            remove { RemoveEventListener(EventNames.Pause, value); }
+        }
 
-        public event EventListener Played;
+        public event EventListener Played
+        {
+            add { AddEventListener(EventNames.Play, value); }
+            remove { RemoveEventListener(EventNames.Play, value); }
+        }
 
-        public event EventListener Playing;
+        public event EventListener Playing
+        {
+            add { AddEventListener(EventNames.Playing, value); }
+            remove { RemoveEventListener(EventNames.Playing, value); }
+        }
 
-        public event EventListener RateChanged;
+        public event EventListener RateChanged
+        {
+            add { AddEventListener(EventNames.RateChange, value); }
+            remove { RemoveEventListener(EventNames.RateChange, value); }
+        }
 
-        public event EventListener VolumeChanged;
+        public event EventListener VolumeChanged
+        {
+            add { AddEventListener(EventNames.VolumeChange, value); }
+            remove { RemoveEventListener(EventNames.VolumeChange, value); }
+        }
 
         #endregion
 
@@ -175,8 +231,7 @@
                 else
                     _currentTime = value;
 
-                if (TimeUpdated != null)
-                    TimeUpdated(this, Event.Empty);
+                Dispatch(Event.Empty);
             }
         }
 
