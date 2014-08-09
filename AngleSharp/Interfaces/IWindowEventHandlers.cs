@@ -22,7 +22,7 @@
         /// Event triggered before closing the document.
         /// </summary>
         [DomName("onbeforeunload")]
-        event UnloadEventListener Unloading;
+        event EventListener Unloading;
 
         /// <summary>
         /// Event triggered when the hash has been changed.

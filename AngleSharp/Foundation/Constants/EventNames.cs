@@ -341,5 +341,55 @@
         /// The reset event.
         /// </summary>
         public static readonly String Reset = "reset";
+
+        /// <summary>
+        /// The afterprint event.
+        /// </summary>
+        public static readonly String AfterPrint = "afterprint";
+
+        /// <summary>
+        /// The beforeprint event.
+        /// </summary>
+        public static readonly String BeforePrint = "beforeprint";
+
+        /// <summary>
+        /// The unloading event.
+        /// </summary>
+        public static readonly String Unloading = "unloading";
+
+        /// <summary>
+        /// The offline event.
+        /// </summary>
+        public static readonly String Offline = "offline";
+
+        /// <summary>
+        /// The online event.
+        /// </summary>
+        public static readonly String Online = "online";
+
+        /// <summary>
+        /// The pagehide event.
+        /// </summary>
+        public static readonly String PageHide = "pagehide";
+
+        /// <summary>
+        /// The pageshow event.
+        /// </summary>
+        public static readonly String PageShow = "pageshow";
+
+        /// <summary>
+        /// The popstate event.
+        /// </summary>
+        public static readonly String PopState = "popstate";
+
+        /// <summary>
+        /// The unload event.
+        /// </summary>
+        public static readonly String Unload = "unload";
+
+        /// <summary>
+        /// The storage event.
+        /// </summary>
+        public static readonly String Storage = "storage";
     }
 }
