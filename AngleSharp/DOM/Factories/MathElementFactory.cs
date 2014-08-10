@@ -3,6 +3,9 @@
     using AngleSharp.DOM.Factories;
     using System;
 
+    /// <summary>
+    /// Provides string to MathElement instance creation mappings.
+    /// </summary>
     sealed class MathElementFactory : ElementFactory<MathElement>
     {
         static readonly MathElementFactory Instance = new MathElementFactory();

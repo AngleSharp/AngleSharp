@@ -5,7 +5,10 @@
     using System;
     using System.Collections.Generic;
 
-    sealed class CssPropertyFactory
+    /// <summary>
+    /// Provides string to CSSProperty instance creation mappings.
+    /// </summary>
+    static class CssPropertyFactory
     {
         static readonly Dictionary<String, Func<CSSProperty>> properties = new Dictionary<String, Func<CSSProperty>>(StringComparer.OrdinalIgnoreCase);
 

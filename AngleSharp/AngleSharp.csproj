@@ -49,6 +49,7 @@
     <Compile Include="DOM\Collections\Range.cs" />
     <Compile Include="DOM\Collections\TreeWalker.cs" />
     <Compile Include="DOM\CustomEvent.cs" />
+    <Compile Include="DOM\Factories\EventFactory.cs" />
     <Compile Include="DOM\Html\Frames\HTMLNoFramesElement.cs" />
     <Compile Include="DOM\Html\Basic\HTMLNoScriptElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLPlaintextElement.cs" />

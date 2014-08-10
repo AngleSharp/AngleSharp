@@ -1029,6 +1029,9 @@
                 case "uievent":
                 case "uievents":
                     //TODO UIEvent
+                case "mutationevent":
+                case "mutationevents":
+                    //TODO 	MutationEvent
                 default:
                     throw new DomException(ErrorCode.NotSupported);
             }

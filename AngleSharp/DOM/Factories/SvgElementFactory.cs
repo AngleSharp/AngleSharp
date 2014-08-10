@@ -3,6 +3,9 @@
     using AngleSharp.DOM.Factories;
     using System;
 
+    /// <summary>
+    /// Provides string to SVGElement instance creation mappings.
+    /// </summary>
     internal class SvgElementFactory : ElementFactory<SVGElement>
     {
         static readonly SvgElementFactory Instance = new SvgElementFactory();

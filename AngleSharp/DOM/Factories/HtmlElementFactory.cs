@@ -3,6 +3,9 @@
     using AngleSharp.DOM.Factories;
     using System;
 
+    /// <summary>
+    /// Provides string to HTMLElement instance creation mappings.
+    /// </summary>
     sealed class HtmlElementFactory : ElementFactory<HTMLElement>
     {
         static readonly HtmlElementFactory Instance = new HtmlElementFactory();
