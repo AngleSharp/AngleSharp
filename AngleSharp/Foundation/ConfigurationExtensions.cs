@@ -70,7 +70,7 @@
 
             request.Address = url;
             request.Method = HttpMethod.Get;
-            var response = await requester.RequestAsync(request, cancel);
+            var response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
             return response.Content;
         }
 
@@ -121,7 +121,7 @@
             request.Method = HttpMethod.Get;
             //TODO
             //http://www.w3.org/TR/html5/infrastructure.html#potentially-cors-enabled-fetch
-            var response = await requester.RequestAsync(request, cancel);
+            var response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
             return response.Content;
         }
 
@@ -176,7 +176,7 @@
                 request.Headers[HeaderNames.ContentType] = mimeType;
 
             request.Method = method;
-            var response = await requester.RequestAsync(request, cancel);
+            var response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
             return response.Content;
         }
 
