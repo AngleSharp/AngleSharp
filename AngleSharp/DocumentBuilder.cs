@@ -90,7 +90,7 @@
         /// <returns>The task that constructs the HTML document.</returns>
         public async Task<IDocument> FromHtmlAsync(Uri url, CancellationToken cancel)
         {
-            var content = await configuration.LoadAsync(new Url(url), cancel, force: true);
+            var content = await configuration.LoadAsync(new Url(url), cancel, force: true).ConfigureAwait(false);
             var stream = new TextSource(content, configuration.DefaultEncoding());
             var doc = new Document(stream) { Options = configuration };
             var parser = Construct(doc, configuration);
@@ -138,7 +138,7 @@
         /// <returns>The task which constructs the CSS stylesheet.</returns>
         public async Task<ICssStyleSheet> FromCssAsync(Uri url, CancellationToken cancel)
         {
-            var stream = await configuration.LoadAsync(new Url(url), cancel, force: true);
+            var stream = await configuration.LoadAsync(new Url(url), cancel, force: true).ConfigureAwait(false);
             var source = new TextSource(stream, configuration.DefaultEncoding());
             var doc = new CSSStyleSheet { Options = configuration };
             var parser = Construct(source, doc, configuration);
@@ -234,11 +234,11 @@
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
-            var content = await configuration.LoadAsync(new Url(url), cancel, force: true);
+            var content = await configuration.LoadAsync(new Url(url), cancel, force: true).ConfigureAwait(false);
             var stream = new TextSource(content, configuration.DefaultEncoding());
             var doc = new Document(stream) { Options = configuration, DocumentUri = url.OriginalString };
             var parser = Construct(doc, configuration);
-            await parser.ParseAsync();
+            await parser.ParseAsync().ConfigureAwait(false);
             return parser.Result;
         }
 
@@ -353,11 +353,11 @@
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
-            var stream = await configuration.LoadAsync(new Url(url), cancel, force: true);
+            var stream = await configuration.LoadAsync(new Url(url), cancel, force: true).ConfigureAwait(false);
             var source = new TextSource(stream, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet { Href = url.OriginalString, Options = configuration };
             var parser = Construct(source, sheet, configuration);
-            await parser.ParseAsync();
+            await parser.ParseAsync().ConfigureAwait(false);
             return parser.Result;
         }
 

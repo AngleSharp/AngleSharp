@@ -1294,10 +1294,10 @@
         public static async Task<IDocument> LoadFromUrl(String url, IConfiguration configuration = null)
         {
             var options = configuration ?? Configuration.Default;
-            var stream = await options.LoadAsync(new Url(url));
+            var stream = await options.LoadAsync(new Url(url)).ConfigureAwait(false);
             var doc = new Document(new TextSource(stream)) { Options = options };
             var parser = new HtmlParser(doc);
-            await parser.ParseAsync();
+            await parser.ParseAsync().ConfigureAwait(false);
             return doc;
         }
 
