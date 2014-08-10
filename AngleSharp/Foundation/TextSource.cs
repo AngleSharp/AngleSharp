@@ -281,6 +281,9 @@
 
         void ExpandBuffer(Int64 size)
         {
+            if (!_finished && _content.Length == 0)
+                DetectByteOrderMarkAsync(CancellationToken.None).Wait();
+
             while (size + _index > _content.Length && !_finished)
                 ReadIntoBuffer();
         }
