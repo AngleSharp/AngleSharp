@@ -193,6 +193,12 @@
     <Compile Include="..\AngleSharp\DOM\Constants\MediaReadyState.cs">
       <Link>DOM\Constants\MediaReadyState.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\MouseButton.cs">
+      <Link>DOM\Constants\MouseButton.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\MouseButtons.cs">
+      <Link>DOM\Constants\MouseButtons.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\NodeType.cs">
       <Link>DOM\Constants\NodeType.cs</Link>
     </Compile>
@@ -219,6 +225,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\Visibility.cs">
       <Link>DOM\Constants\Visibility.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\WheelMode.cs">
+      <Link>DOM\Constants\WheelMode.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\AnimationDirection.cs">
       <Link>DOM\Css\Constants\AnimationDirection.cs</Link>
@@ -1618,6 +1627,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ISelector.cs">
       <Link>Interfaces\Css\ISelector.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\ICompositionEvent.cs">
+      <Link>Interfaces\Events\ICompositionEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Events\ICustomEvent.cs">
       <Link>Interfaces\Events\ICustomEvent.cs</Link>
     </Compile>
@@ -1630,11 +1642,17 @@
     <Compile Include="..\AngleSharp\Interfaces\Events\IMessageEvent.cs">
       <Link>Interfaces\Events\IMessageEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\IMouseEvent.cs">
+      <Link>Interfaces\Events\IMouseEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Events\ITrackEvent.cs">
       <Link>Interfaces\Events\ITrackEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Events\IUiEvent.cs">
       <Link>Interfaces\Events\IUiEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\IWheelEvent.cs">
+      <Link>Interfaces\Events\IWheelEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IGlobalEventHandlers.cs">
       <Link>Interfaces\Html\IGlobalEventHandlers.cs</Link>
