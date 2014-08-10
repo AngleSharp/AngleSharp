@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
@@ -80,6 +82,59 @@
             var current = Next;
 
             if (IsEnded) 
+                return HtmlToken.EOF;
+
+            switch (_state)
+            {
+                case HtmlParseMode.PCData:
+                    token = Data(current);
+                    break;
+
+                case HtmlParseMode.RCData:
+                    token = RCData(current);
+                    break;
+
+                case HtmlParseMode.Plaintext:
+                    token = Plaintext(current);
+                    break;
+
+                case HtmlParseMode.Rawtext:
+                    token = Rawtext(current);
+                    break;
+
+                case HtmlParseMode.Script:
+                    token = ScriptData(current);
+                    break;
+            }
+
+            if (_buffer.Length > 0)
+            {
+                _buffered = token;
+                token = HtmlToken.Character(_buffer.ToString());
+                _buffer.Clear();
+            }
+
+            return token;
+        }
+
+        /// <summary>
+        /// Gets the next available token.
+        /// </summary>
+        /// <param name="cancelToken">The cancellation token.</param>
+        /// <returns>The next available token.</returns>
+        public async Task<HtmlToken> GetAsync(CancellationToken cancelToken)
+        {
+            var token = _buffered;
+
+            if (token != null)
+            {
+                _buffered = null;
+                return token;
+            }
+
+            var current = Next;
+
+            if (IsEnded)
                 return HtmlToken.EOF;
 
             switch (_state)

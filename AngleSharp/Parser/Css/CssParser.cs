@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -182,18 +183,26 @@
         /// <returns>The task which could be awaited or continued differently.</returns>
         public Task ParseAsync()
         {
+            return ParseAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Parses the given source asynchronously and creates the stylesheet.
+        /// </summary>
+        /// <param name="cancelToken">The cancellation token to use.</param>
+        /// <returns>The task which could be awaited or continued differently.</returns>
+        public Task ParseAsync(CancellationToken cancelToken)
+        {
             lock (sync)
             {
                 if (!started)
                 {
                     started = true;
-                    task = Task.Factory.StartNew(() => Kernel());
+                    task = KernelAsync(cancelToken);
                 }
-                else if (task == null)
-                    throw new InvalidOperationException("The parser has already run synchronously.");
-
-                return task;
             }
+
+            return task;
         }
 
         /// <summary>
@@ -1007,6 +1016,25 @@
         /// The kernel that is pulling the tokens into the parser.
         /// </summary>
         void Kernel()
+        {
+            var tokens = tokenizer.Tokens.GetEnumerator();
+
+            while (tokens.MoveNext())
+            {
+                var rule = CreateRule(tokens);
+
+                if (rule == null)
+                    continue;
+
+                rule.Owner = sheet;
+                sheet.AddRule(rule);
+            }
+        }
+
+        /// <summary>
+        /// The kernel that is pulling the tokens into the parser.
+        /// </summary>
+        async Task KernelAsync(CancellationToken cancelToken)
         {
             var tokens = tokenizer.Tokens.GetEnumerator();
 

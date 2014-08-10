@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the source code manager.
@@ -144,7 +146,6 @@
         /// <summary>
         /// Advances one character in the source code.
         /// </summary>
-        /// <returns>The current source manager.</returns>
         public void Advance()
         {
             if (!IsEnded)
@@ -159,6 +160,29 @@
         {
             while (n-- > 0 && !IsEnded)
                 AdvanceUnsafe();
+        }
+
+        /// <summary>
+        /// Advances one character in the source code.
+        /// </summary>
+        /// <param name="cancelToken">The cancellation token to use.</param>
+        /// <returns>The task to await.</returns>
+        public async Task Advance(CancellationToken cancelToken)
+        {
+            if (!IsEnded)
+                await AdvanceUnsafeAsync(cancelToken);
+        }
+
+        /// <summary>
+        /// Advances n characters in the source code.
+        /// </summary>
+        /// <param name="n">The number of characters to advance.</param>
+        /// <param name="cancelToken">The cancellation token to use.</param>
+        /// <returns>The task to await.</returns>
+        public async Task Advance(Int32 n, CancellationToken cancelToken)
+        {
+            while (n-- > 0 && !IsEnded)
+                await AdvanceUnsafeAsync(cancelToken);
         }
 
         /// <summary>
@@ -195,6 +219,22 @@
             return content.Length == s.Length && content.Equals(s, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
         }
 
+        /// <summary>
+        /// Looks if the current character / next characters match a certain string.
+        /// </summary>
+        /// <param name="s">The string to compare to.</param>
+        /// <param name="cancelToken">The cancellation token to use.</param>
+        /// <param name="ignoreCase">Optional flag to set the case sensitivity.</param>
+        /// <returns>A task that results in the status of the check.</returns>
+        public async Task<Boolean> ContinuesWithAsync(String s, CancellationToken cancelToken, Boolean ignoreCase = true)
+        {
+            var mark = _reader.Index;
+            _reader.Index--;
+            var content = await _reader.ReadCharactersAsync(s.Length, cancelToken);
+            _reader.Index = mark;
+            return content.Length == s.Length && content.Equals(s, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+        }
+
         #endregion
 
         #region Helpers
@@ -215,6 +255,26 @@
                 _column++;
 
             _current = _reader.ReadCharacter();
+        }
+
+        /// <summary>
+        /// Just advances one character without checking
+        /// if the end is already reached.
+        /// </summary>
+        /// <param name="cancelToken">The cancellation token to use.</param>
+        /// <returns>The task to await.</returns>
+        async Task AdvanceUnsafeAsync(CancellationToken cancelToken)
+        {
+            if (_current.IsLineBreak())
+            {
+                _collengths.Push(_column);
+                _column = 1;
+                _row++;
+            }
+            else
+                _column++;
+
+            _current = await _reader.ReadCharacterAsync(cancelToken);
         }
 
         /// <summary>

@@ -8,6 +8,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -166,18 +167,26 @@
         /// <returns>The task which could be awaited or continued differently.</returns>
         public Task ParseAsync()
         {
+            return ParseAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Parses the given source asynchronously and creates the document.
+        /// </summary>
+        /// <param name="cancelToken">The cancellation token to use.</param>
+        /// <returns>The task which could be awaited or continued differently.</returns>
+        public Task ParseAsync(CancellationToken cancelToken)
+        {
 			lock (sync)
 			{
 				if (!started)
 				{
 					started = true;
-					task = Task.Factory.StartNew(() => Kernel());
+                    task = KernelAsync(cancelToken);
 				}
-				else if (task == null)
-					throw new InvalidOperationException("The parser has already run synchronously.");
+            }
 
-				return task;
-			}
+            return task;
         }
 
         /// <summary>
@@ -3621,6 +3630,23 @@
             do
             {
                 token = tokenizer.Get();
+                Consume(token);
+            }
+            while (token.Type != HtmlTokenType.EOF);
+        }
+
+        /// <summary>
+        /// The kernel that is pulling the tokens into the parser.
+        /// </summary>
+        /// <param name="cancelToken">The cancellation token to consider.</param>
+        /// <returns>The task to await.</returns>
+        async Task KernelAsync(CancellationToken cancelToken)
+        {
+            HtmlToken token;
+
+            do
+            {
+                token = await tokenizer.GetAsync(cancelToken).ConfigureAwait(false);
                 Consume(token);
             }
             while (token.Type != HtmlTokenType.EOF);

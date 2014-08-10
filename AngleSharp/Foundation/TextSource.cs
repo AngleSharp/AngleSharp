@@ -192,7 +192,7 @@
         /// <param name="characters">The number of characters to read.</param>
         /// <param name="cancellationToken">The cancellation token</param>
         /// <returns>The string with the next characters.</returns>
-        public async Task<String> ReadCharacters(Int32 characters, CancellationToken cancellationToken)
+        public async Task<String> ReadCharactersAsync(Int32 characters, CancellationToken cancellationToken)
         {
             var start = _index;
             var end = start + characters;

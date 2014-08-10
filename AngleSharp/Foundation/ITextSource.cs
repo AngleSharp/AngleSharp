@@ -65,6 +65,6 @@
         /// <param name="characters">The number of characters to read.</param>
         /// <param name="cancellationToken">The cancellation token</param>
         /// <returns>The string with the next characters.</returns>
-        Task<String> ReadCharacters(Int32 characters, CancellationToken cancellationToken);
+        Task<String> ReadCharactersAsync(Int32 characters, CancellationToken cancellationToken);
     }
 }
