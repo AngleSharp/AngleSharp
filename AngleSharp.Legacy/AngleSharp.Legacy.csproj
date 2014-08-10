@@ -1624,8 +1624,17 @@
     <Compile Include="..\AngleSharp\Interfaces\Events\IEvent.cs">
       <Link>Interfaces\Events\IEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\IFocusEvent.cs">
+      <Link>Interfaces\Events\IFocusEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\IMessageEvent.cs">
+      <Link>Interfaces\Events\IMessageEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Events\ITrackEvent.cs">
       <Link>Interfaces\Events\ITrackEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\IUiEvent.cs">
+      <Link>Interfaces\Events\IUiEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IGlobalEventHandlers.cs">
       <Link>Interfaces\Html\IGlobalEventHandlers.cs</Link>
