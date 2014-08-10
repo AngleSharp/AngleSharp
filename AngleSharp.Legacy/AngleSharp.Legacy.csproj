@@ -85,9 +85,6 @@
     <Compile Include="..\AngleSharp\Delegates\NodeFilter.cs">
       <Link>Delegates\NodeFilter.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Delegates\UnloadEventListener.cs">
-      <Link>Delegates\UnloadEventListener.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DocumentBuilder.cs">
       <Link>DocumentBuilder.cs</Link>
     </Compile>
@@ -943,9 +940,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\Point2d.cs">
       <Link>DOM\Css\Values\Point2d.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\CustomEvent.cs">
-      <Link>DOM\CustomEvent.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Document.cs">
       <Link>DOM\Document.cs</Link>
     </Compile>
@@ -970,8 +964,11 @@
     <Compile Include="..\AngleSharp\DOM\EntityReference.cs">
       <Link>DOM\EntityReference.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Event.cs">
-      <Link>DOM\Event.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Events\CustomEvent.cs">
+      <Link>DOM\Events\CustomEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Events\Event.cs">
+      <Link>DOM\Events\Event.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Factories\CssPropertyFactory.cs">
       <Link>DOM\Factories\CssPropertyFactory.cs</Link>
@@ -1618,6 +1615,15 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ISelector.cs">
       <Link>Interfaces\Css\ISelector.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\ICustomEvent.cs">
+      <Link>Interfaces\Events\ICustomEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\IEvent.cs">
+      <Link>Interfaces\Events\IEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\ITrackEvent.cs">
+      <Link>Interfaces\Events\ITrackEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IGlobalEventHandlers.cs">
       <Link>Interfaces\Html\IGlobalEventHandlers.cs</Link>
     </Compile>
@@ -1849,9 +1855,6 @@
     <Compile Include="..\AngleSharp\Interfaces\IComment.cs">
       <Link>Interfaces\IComment.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\ICustomEvent.cs">
-      <Link>Interfaces\ICustomEvent.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IDocument.cs">
       <Link>Interfaces\IDocument.cs</Link>
     </Compile>
@@ -1872,9 +1875,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IElementMap.cs">
       <Link>Interfaces\IElementMap.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IEvent.cs">
-      <Link>Interfaces\IEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IEventTarget.cs">
       <Link>Interfaces\IEventTarget.cs</Link>
@@ -2010,9 +2010,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Media\ITimeRanges.cs">
       <Link>Interfaces\Media\ITimeRanges.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Media\ITrackEvent.cs">
-      <Link>Interfaces\Media\ITrackEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Media\IVideoTrack.cs">
       <Link>Interfaces\Media\IVideoTrack.cs</Link>
