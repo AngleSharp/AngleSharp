@@ -48,7 +48,7 @@
     <Compile Include="DOM\Collections\QueryExtensions.cs" />
     <Compile Include="DOM\Collections\Range.cs" />
     <Compile Include="DOM\Collections\TreeWalker.cs" />
-    <Compile Include="DOM\CustomEvent.cs" />
+    <Compile Include="DOM\Events\CustomEvent.cs" />
     <Compile Include="DOM\Factories\EventFactory.cs" />
     <Compile Include="DOM\Html\Frames\HTMLNoFramesElement.cs" />
     <Compile Include="DOM\Html\Basic\HTMLNoScriptElement.cs" />
@@ -594,7 +594,7 @@
     <Compile Include="ICssObject.cs" />
     <Compile Include="IHtmlObject.cs" />
     <Compile Include="DOM\Html\ValidityState.cs" />
-    <Compile Include="DOM\Event.cs" />
+    <Compile Include="DOM\Events\Event.cs" />
     <Compile Include="DOM\FormControlState.cs" />
     <Compile Include="Attributes\DomNameAttribute.cs" />
     <Compile Include="Parser\BaseTokenizer.cs" />
