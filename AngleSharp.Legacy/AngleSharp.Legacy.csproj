@@ -979,6 +979,9 @@
     <Compile Include="..\AngleSharp\DOM\Factories\ElementFactory.cs">
       <Link>DOM\Factories\ElementFactory.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Factories\EventFactory.cs">
+      <Link>DOM\Factories\EventFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Factories\HtmlElementFactory.cs">
       <Link>DOM\Factories\HtmlElementFactory.cs</Link>
     </Compile>
