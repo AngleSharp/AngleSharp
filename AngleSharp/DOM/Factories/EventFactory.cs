@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM.Events
 {
     using System;
     using System.Collections.Generic;
@@ -25,7 +25,7 @@
             events.Add("uievents", () => new Event());//TODO UIEvent
             events.Add("mutationevent", () => new Event());//TODO MutationEvent
             events.Add("mutationevents", () => new Event());//TODO MutationEvent
-            events.Add("customevent", () => new CustomEvent<Object>());
+            events.Add("customevent", () => new CustomEvent());
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM.Events
 {
     using System;
     using System.Collections.Generic;

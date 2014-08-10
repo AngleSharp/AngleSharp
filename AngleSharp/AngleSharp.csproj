@@ -62,7 +62,6 @@
     <Compile Include="Foundation\Setup\Configuration.cs" />
     <Compile Include="Delegates\ErrorEventListener.cs" />
     <Compile Include="Delegates\NodeFilter.cs" />
-    <Compile Include="Delegates\UnloadEventListener.cs" />
     <Compile Include="DOM\Collections\AttrContainer.cs" />
     <Compile Include="DOM\Collections\OptionsCollection.cs" />
     <Compile Include="DOM\Collections\SettableTokenList.cs" />
@@ -421,14 +420,14 @@
     <Compile Include="Interfaces\Media\ITextTrackCueList.cs" />
     <Compile Include="Interfaces\Media\ITextTrackList.cs" />
     <Compile Include="Interfaces\Media\ITimeRanges.cs" />
-    <Compile Include="Interfaces\Media\ITrackEvent.cs" />
+    <Compile Include="Interfaces\Events\ITrackEvent.cs" />
     <Compile Include="Interfaces\Media\IVideoTrack.cs" />
     <Compile Include="Interfaces\Media\IVideoTrackList.cs" />
     <Compile Include="Interfaces\IAttr.cs" />
     <Compile Include="Interfaces\ICharacterData.cs" />
     <Compile Include="Interfaces\IChildNode.cs" />
     <Compile Include="Interfaces\IComment.cs" />
-    <Compile Include="Interfaces\ICustomEvent.cs" />
+    <Compile Include="Interfaces\Events\ICustomEvent.cs" />
     <Compile Include="Interfaces\IDocument.cs" />
     <Compile Include="Interfaces\IDocumentFragment.cs" />
     <Compile Include="Interfaces\IDocumentStyle.cs" />
@@ -437,7 +436,7 @@
     <Compile Include="Interfaces\IHistory.cs" />
     <Compile Include="Interfaces\IImplementation.cs" />
     <Compile Include="Interfaces\IElement.cs" />
-    <Compile Include="Interfaces\IEvent.cs" />
+    <Compile Include="Interfaces\Events\IEvent.cs" />
     <Compile Include="Delegates\EventListener.cs" />
     <Compile Include="Interfaces\IEventTarget.cs" />
     <Compile Include="Interfaces\IHtmlCollection.cs" />

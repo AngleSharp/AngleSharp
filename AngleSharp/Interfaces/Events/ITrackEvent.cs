@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Media
+﻿namespace AngleSharp.DOM.Events
 {
     using System;
 

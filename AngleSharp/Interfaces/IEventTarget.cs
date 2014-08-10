@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.DOM.Events;
     using System;
 
     /// <summary>

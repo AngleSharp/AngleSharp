@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.DOM.Events;
     using AngleSharp.DOM.Html;
     using System;
 
@@ -139,7 +140,7 @@
         /// <summary>
         /// Creates an event of the type specified. 
         /// </summary>
-        /// <param name="type">Represents the type of event to be created.</param>
+        /// <param name="type">Represents the type of event (e.g., uievent, event, customevent, ...) to be created.</param>
         [DomName("createEvent")]
         IEvent CreateEvent(String type);
 

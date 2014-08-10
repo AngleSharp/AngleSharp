@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM.Events
 {
     using System;
 
@@ -6,17 +6,17 @@
     /// Represents a custom event that provides an additional details property.
     /// </summary>
     /// <typeparam name="T">The type of the details.</typeparam>
-    sealed class CustomEvent<T> : Event, ICustomEvent<T>
+    sealed class CustomEvent : Event, ICustomEvent
     {
         #region Fields
 
-        T _details;
+        Object _details;
 
         #endregion
 
         #region Properties
 
-        public T Details
+        public Object Details
         {
             get { return _details; }
         }
@@ -25,7 +25,7 @@
 
         #region Methods
 
-        public void Init(String type, Boolean bubbles, Boolean cancelable, T details)
+        public void Init(String type, Boolean bubbles, Boolean cancelable, Object details)
         {
             _details = details;
             Init(type, bubbles, cancelable);
