@@ -1006,35 +1006,7 @@
         /// <returns>The created Event object.</returns>
         public IEvent CreateEvent(String type)
         {
-            switch (type)
-            {
-                case "customevent":
-                    return new CustomEvent<Object>();
-
-                case "event":
-                case "events":
-                case "htmlevents":
-                    return new Event();
-
-                case "keyboardevent":
-                case "keyevents":
-                    //TODO KeyboardEvent
-                case "messageevent":
-                    //TODO MessageEvent
-                case "mouseevent":
-                case "mouseevents":
-                    //TODO MouseEvent
-                case "touchevent":
-                    //TODO TouchEvent
-                case "uievent":
-                case "uievents":
-                    //TODO UIEvent
-                case "mutationevent":
-                case "mutationevents":
-                    //TODO 	MutationEvent
-                default:
-                    throw new DomException(ErrorCode.NotSupported);
-            }
+            return EventFactory.Create(type);
         }
 
         /// <summary>
