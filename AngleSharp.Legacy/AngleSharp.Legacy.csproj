@@ -181,6 +181,9 @@
     <Compile Include="..\AngleSharp\DOM\Constants\HorizontalAlignment.cs">
       <Link>DOM\Constants\HorizontalAlignment.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\KeyboardLocation.cs">
+      <Link>DOM\Constants\KeyboardLocation.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\MediaControllerPlaybackState.cs">
       <Link>DOM\Constants\MediaControllerPlaybackState.cs</Link>
     </Compile>
@@ -1638,6 +1641,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Events\IFocusEvent.cs">
       <Link>Interfaces\Events\IFocusEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\IKeyboardEvent.cs">
+      <Link>Interfaces\Events\IKeyboardEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Events\IMessageEvent.cs">
       <Link>Interfaces\Events\IMessageEvent.cs</Link>
