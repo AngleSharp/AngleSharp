@@ -23,8 +23,6 @@
             events.Add("touchevent", () => new Event());//TODO TouchEvent
             events.Add("uievent", () => new Event());//TODO UIEvent
             events.Add("uievents", () => new Event());//TODO UIEvent
-            events.Add("mutationevent", () => new Event());//TODO MutationEvent
-            events.Add("mutationevents", () => new Event());//TODO MutationEvent
             events.Add("customevent", () => new CustomEvent());
         }
 
