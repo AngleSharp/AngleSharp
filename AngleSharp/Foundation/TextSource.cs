@@ -62,7 +62,6 @@
         {
             _baseStream = baseStream;
             _content = new StringBuilder();
-            DetectBOM();
         }
 
         #endregion
@@ -226,9 +225,9 @@
 
         #region Helpers
 
-        void DetectBOM()
+        async Task DetectByteOrderMarkAsync(CancellationToken cancellationToken)
         {
-            var count = _baseStream.Read(_buffer, 0, BufferSize);
+            var count = await _baseStream.ReadAsync(_buffer, 0, BufferSize);
             var offset = 0;
 
             if (count > 2 && _buffer[0] == 0xef && _buffer[1] == 0xbb && _buffer[2] == 0xbf)
@@ -267,8 +266,11 @@
 
         async Task ExpandBufferAsync(Int64 size, CancellationToken cancellationToken)
         {
+            if (!_finished && _content.Length == 0)
+                await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
+
             while (size + _index > _content.Length && !_finished)
-                await ReadIntoBufferAsync(cancellationToken);
+                await ReadIntoBufferAsync(cancellationToken).ConfigureAwait(false);
         }
 
         async Task ReadIntoBufferAsync(CancellationToken cancellationToken)
