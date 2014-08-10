@@ -75,8 +75,10 @@
         IEventTarget Target { get; }
 
         /// <summary>
-        /// Gets the modifier state for the given key.
+        /// Returns the current state of the specified modifier key.
         /// </summary>
+        /// <param name="key">The modifier key to lookup.</param>
+        /// <returns>True if the key is currently pressed, otherwise false.</returns>
         [DomName("getModifierState")]
         Boolean GetModifierState(String key);
 

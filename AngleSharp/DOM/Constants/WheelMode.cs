@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.DOM.Events
 {
     /// <summary>
     /// Enumeration with the various mouse wheel modes.
