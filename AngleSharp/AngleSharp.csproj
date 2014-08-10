@@ -48,6 +48,9 @@
     <Compile Include="DOM\Collections\QueryExtensions.cs" />
     <Compile Include="DOM\Collections\Range.cs" />
     <Compile Include="DOM\Collections\TreeWalker.cs" />
+    <Compile Include="DOM\Constants\MouseButton.cs" />
+    <Compile Include="DOM\Constants\MouseButtons.cs" />
+    <Compile Include="DOM\Constants\WheelMode.cs" />
     <Compile Include="DOM\Events\CustomEvent.cs" />
     <Compile Include="DOM\Events\TrackEvent.cs" />
     <Compile Include="DOM\Factories\EventFactory.cs" />
@@ -329,9 +332,12 @@
     <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
     <Compile Include="Interfaces\Css\ICssValue.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
+    <Compile Include="Interfaces\Events\ICompositionEvent.cs" />
     <Compile Include="Interfaces\Events\IFocusEvent.cs" />
     <Compile Include="Interfaces\Events\IMessageEvent.cs" />
+    <Compile Include="Interfaces\Events\IMouseEvent.cs" />
     <Compile Include="Interfaces\Events\IUiEvent.cs" />
+    <Compile Include="Interfaces\Events\IWheelEvent.cs" />
     <Compile Include="Interfaces\IHtmlAllCollection.cs" />
     <Compile Include="Interfaces\ILinkStyle.cs" />
     <Compile Include="Interfaces\Css\IMediaList.cs" />
