@@ -6,7 +6,7 @@
     /// Represents the event arguments when receiving a message.
     /// </summary>
     [DomName("MessageEvent")]
-    public interface IMessageEvent
+    public interface IMessageEvent : IEvent
     {
         /// <summary>
         /// Gets the data that is carried by the message.

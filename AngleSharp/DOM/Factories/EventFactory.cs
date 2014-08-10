@@ -27,6 +27,7 @@
             AddEventAlias("htmlevents", "event");
             AddEventAlias("uievents", "uievent");
             AddEventAlias("keyevents", "keyboardevent");
+            AddEventAlias("mouseevents", "mouseevent");
         }
 
         static void AddEventConstructor(String name, Func<Event> constructor)
