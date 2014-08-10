@@ -329,6 +329,7 @@
     <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
     <Compile Include="Interfaces\Css\ICssValue.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
+    <Compile Include="Interfaces\Events\IMessageEvent.cs" />
     <Compile Include="Interfaces\IHtmlAllCollection.cs" />
     <Compile Include="Interfaces\ILinkStyle.cs" />
     <Compile Include="Interfaces\Css\IMediaList.cs" />

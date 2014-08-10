@@ -12,18 +12,31 @@
 
         static EventFactory()
         {
-            events.Add("event", () => new Event());
-            events.Add("events", () => new Event());
-            events.Add("htmlevents", () => new Event());
-            events.Add("keyboardevent", () => new Event());//TODO KeyboardEvent
-            events.Add("keyevents", () => new Event());//TODO KeyboardEvent
-            events.Add("messageevent", () => new Event());//TODO MessageEvent
-            events.Add("mouseevent", () => new Event());//TODO MouseEvent
-            events.Add("mouseevents", () => new Event());//TODO MouseEvent
-            events.Add("touchevent", () => new Event());//TODO TouchEvent
-            events.Add("uievent", () => new Event());//TODO UIEvent
-            events.Add("uievents", () => new Event());//TODO UIEvent
-            events.Add("customevent", () => new CustomEvent());
+            //The real deal
+            AddEventConstructor("event", () => new Event());
+            AddEventConstructor("keyboardevent", () => new Event());//TODO KeyboardEvent
+            AddEventConstructor("messageevent", () => new Event());//TODO MessageEvent
+            AddEventConstructor("mouseevent", () => new Event());//TODO MouseEvent
+            AddEventConstructor("touchevent", () => new Event());//TODO TouchEvent
+            AddEventConstructor("uievent", () => new Event());//TODO UIEvent
+            AddEventConstructor("messageevent", () => new Event());//TODO MessageEvent
+            AddEventConstructor("customevent", () => new CustomEvent());
+
+            //Alias
+            AddEventAlias("events", "event");
+            AddEventAlias("htmlevents", "event");
+            AddEventAlias("uievents", "uievent");
+            AddEventAlias("keyevents", "keyboardevent");
+        }
+
+        static void AddEventConstructor(String name, Func<Event> constructor)
+        {
+            events.Add(name, constructor);
+        }
+
+        static void AddEventAlias(String aliasName, String aliasFor)
+        {
+            events.Add(aliasName, events[aliasFor]);
         }
 
         /// <summary>
