@@ -888,7 +888,7 @@
         /// <summary>
         /// Finishes writing to a document.
         /// </summary>
-        internal void CloseCurrent()
+        public void CloseCurrent()
         {
             if (ReadyState != DocumentReadyState.Loading)
                 return;
