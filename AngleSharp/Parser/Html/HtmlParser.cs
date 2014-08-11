@@ -194,19 +194,11 @@
         /// </summary>
         public void Parse()
         {
-			var run = false;
-
-			lock (sync)
-			{
-				if (!started)
-				{
-					started = true;
-					run = true;
-				}
-			}
-
-			if (run)
+            if (!started)
+            {
+                started = true;
 				Kernel();
+            }
         }
 
         /// <summary>
@@ -3640,16 +3632,19 @@
         /// </summary>
         /// <param name="cancelToken">The cancellation token to consider.</param>
         /// <returns>The task to await.</returns>
-        async Task KernelAsync(CancellationToken cancelToken)
+        Task KernelAsync(CancellationToken cancelToken)
         {
-            HtmlToken token;
-
-            do
+            return Task.Factory.StartNew(() =>
             {
-                token = await tokenizer.GetAsync(cancelToken).ConfigureAwait(false);
-                Consume(token);
-            }
-            while (token.Type != HtmlTokenType.EOF);
+                HtmlToken token;
+
+                do
+                {
+                    token = tokenizer.Get();
+                    Consume(token);
+                }
+                while (token.Type != HtmlTokenType.EOF);
+            }, cancelToken);
         }
 
         /// <summary>

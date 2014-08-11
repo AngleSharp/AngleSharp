@@ -210,19 +210,11 @@
         /// </summary>
         public void Parse()
         {
-            var run = false;
-
-            lock (sync)
+            if (!started)
             {
-                if (!started)
-                {
-                    started = true;
-                    run = true;
-                }
-            }
-
-            if (run)
+                started = true;
                 Kernel();
+            }
         }
 
         #endregion
@@ -1034,20 +1026,23 @@
         /// <summary>
         /// The kernel that is pulling the tokens into the parser.
         /// </summary>
-        async Task KernelAsync(CancellationToken cancelToken)
+        Task KernelAsync(CancellationToken cancelToken)
         {
-            var tokens = tokenizer.Tokens.GetEnumerator();
-
-            while (tokens.MoveNext())
+            return Task.Factory.StartNew(() =>
             {
-                var rule = CreateRule(tokens);
+                var tokens = tokenizer.Tokens.GetEnumerator();
 
-                if (rule == null)
-                    continue;
+                while (tokens.MoveNext())
+                {
+                    var rule = CreateRule(tokens);
 
-                rule.Owner = sheet;
-                sheet.AddRule(rule);
-            }
+                    if (rule == null)
+                        continue;
+
+                    rule.Owner = sheet;
+                    sheet.AddRule(rule);
+                }
+            });
         }
 
         /// <summary>

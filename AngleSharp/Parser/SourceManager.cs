@@ -110,7 +110,7 @@
         /// <summary>
         /// Gets the current character.
         /// </summary>
-        public Char Current
+        protected Char Current
         {
             get { return _current; }
         }
@@ -118,7 +118,7 @@
         /// <summary>
         /// Gets the next character (by advancing and returning the current character).
         /// </summary>
-        public Char Next
+        protected Char Next
         {
             get { Advance(); return _current; }
         }
@@ -126,7 +126,7 @@
         /// <summary>
         /// Gets the previous character (by rewinding and returning the current character).
         /// </summary>
-        public Char Previous
+        protected Char Previous
         {
             get { Back(); return _current; }
         }
@@ -146,7 +146,7 @@
         /// <summary>
         /// Advances one character in the source code.
         /// </summary>
-        public void Advance()
+        protected void Advance()
         {
             if (!IsEnded)
                 AdvanceUnsafe();
@@ -156,7 +156,7 @@
         /// Advances n characters in the source code.
         /// </summary>
         /// <param name="n">The number of characters to advance.</param>
-        public void Advance(Int32 n)
+        protected void Advance(Int32 n)
         {
             while (n-- > 0 && !IsEnded)
                 AdvanceUnsafe();
@@ -167,10 +167,10 @@
         /// </summary>
         /// <param name="cancelToken">The cancellation token to use.</param>
         /// <returns>The task to await.</returns>
-        public async Task Advance(CancellationToken cancelToken)
+        protected async Task Advance(CancellationToken cancelToken)
         {
             if (!IsEnded)
-                await AdvanceUnsafeAsync(cancelToken);
+                await AdvanceUnsafeAsync(cancelToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -179,16 +179,16 @@
         /// <param name="n">The number of characters to advance.</param>
         /// <param name="cancelToken">The cancellation token to use.</param>
         /// <returns>The task to await.</returns>
-        public async Task Advance(Int32 n, CancellationToken cancelToken)
+        protected async Task Advance(Int32 n, CancellationToken cancelToken)
         {
             while (n-- > 0 && !IsEnded)
-                await AdvanceUnsafeAsync(cancelToken);
+                await AdvanceUnsafeAsync(cancelToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Moves back one character in the source code.
         /// </summary>
-        public void Back()
+        protected void Back()
         {
             if (InsertionPoint > 0)
                 BackUnsafe();
@@ -198,7 +198,7 @@
         /// Moves back n characters in the source code.
         /// </summary>
         /// <param name="n">The number of characters to rewind.</param>
-        public void Back(Int32 n)
+        protected void Back(Int32 n)
         {
             while (n-- > 0 && InsertionPoint > 0)
                 BackUnsafe();
@@ -210,7 +210,7 @@
         /// <param name="s">The string to compare to.</param>
         /// <param name="ignoreCase">Optional flag to set the case sensitivity.</param>
         /// <returns>The status of the check.</returns>
-        public Boolean ContinuesWith(String s, Boolean ignoreCase = true)
+        protected Boolean ContinuesWith(String s, Boolean ignoreCase = true)
         {
             var mark = _reader.Index;
             _reader.Index--;
@@ -226,11 +226,11 @@
         /// <param name="cancelToken">The cancellation token to use.</param>
         /// <param name="ignoreCase">Optional flag to set the case sensitivity.</param>
         /// <returns>A task that results in the status of the check.</returns>
-        public async Task<Boolean> ContinuesWithAsync(String s, CancellationToken cancelToken, Boolean ignoreCase = true)
+        protected async Task<Boolean> ContinuesWithAsync(String s, CancellationToken cancelToken, Boolean ignoreCase = true)
         {
             var mark = _reader.Index;
             _reader.Index--;
-            var content = await _reader.ReadCharactersAsync(s.Length, cancelToken);
+            var content = await _reader.ReadCharactersAsync(s.Length, cancelToken).ConfigureAwait(false);
             _reader.Index = mark;
             return content.Length == s.Length && content.Equals(s, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
         }
@@ -274,7 +274,7 @@
             else
                 _column++;
 
-            _current = await _reader.ReadCharacterAsync(cancelToken);
+            _current = await _reader.ReadCharacterAsync(cancelToken).ConfigureAwait(false);
         }
 
         /// <summary>
