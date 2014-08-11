@@ -422,13 +422,13 @@
             IsAsync = true;
             _source = source;
             _referrer = String.Empty;
-            _ready = DocumentReadyState.Complete;
+            _ready = DocumentReadyState.Loading;
             _styleSheets = new StyleSheetList(this);
             _scripts = new List<HTMLScriptElement>();
             _quirksMode = QuirksMode.Off;
             _location = new Location("file://localhost/");
             _options = Configuration.Default;
-            _queue = new Task(() => { });
+            _queue = Task.Factory.StartNew(() => { });
         }
 
         #endregion
