@@ -164,7 +164,7 @@
         public String Href
         {
             get { return Serialize(); }
-            set { ParseUrl(value); }
+            set { ParseUrl(value ?? String.Empty); }
         }
 
         /// <summary>
