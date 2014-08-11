@@ -92,7 +92,7 @@
         {
             var content = await configuration.LoadAsync(new Url(url), cancel, force: true).ConfigureAwait(false);
             var stream = new TextSource(content, configuration.DefaultEncoding());
-            var doc = new Document(stream) { Options = configuration };
+            var doc = new Document(stream) { DocumentUri = url.ToString(), Options = configuration };
             var parser = Construct(doc, configuration);
             return parser.Result;
         }
@@ -191,12 +191,8 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(sourceCode, configuration.DefaultEncoding());
-            var doc = new Document(stream) { Options = configuration };
+            var doc = new Document(stream) { Options = configuration, DocumentUri = url };
             var parser = Construct(doc, configuration);
-
-            if (url != null)
-                doc.BaseUri = url;
-
             return parser.Result;
         }
 
@@ -255,11 +251,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(content, configuration.DefaultEncoding());
-            var doc = new Document(stream) { Options = configuration };
-
-            if (url != null)
-                doc.BaseUri = url;
-
+            var doc = new Document(stream) { Options = configuration, DocumentUri = url };
             var parser = Construct(doc, configuration);
             return parser.Result;
         }
