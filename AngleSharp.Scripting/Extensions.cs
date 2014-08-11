@@ -2,8 +2,11 @@
 {
     using Jint;
     using Jint.Native;
+    using Jint.Native.Function;
     using Jint.Runtime;
     using System;
+    using System.Linq;
+    using System.Linq.Expressions;
 
     static class Extensions
     {
@@ -25,7 +28,7 @@
             else if (obj is Boolean)
                 return new JsValue((Boolean)obj);
 
-            return new DomNode(engine, obj);
+            return new DomNodeInstance(engine, obj);
         }
 
         public static Object FromJsValue(this JsValue val)
@@ -40,7 +43,7 @@
                     return val.AsString();
                 case Types.Object:
                     var obj = val.AsObject();
-                    var node = obj as DomNode;
+                    var node = obj as DomNodeInstance;
 
                     if (node != null)
                         return node.Value;
@@ -54,9 +57,63 @@
             return val.ToObject();
         }
 
+        public static Object As(this Object value, Type targetType)
+        {
+            if (value == null)
+                return value;
+
+            var sourceType = value.GetType();
+
+            if (sourceType == targetType || sourceType.IsSubclassOf(targetType) || targetType.IsInstanceOfType(value) || targetType.IsAssignableFrom(sourceType))
+                return value;
+
+            if (targetType.IsSubclassOf(typeof(Delegate)) && sourceType.IsSubclassOf(typeof(FunctionInstance)))
+                return targetType.WrapDelegateFor(value);
+
+            if (sourceType.CanConvert(targetType))
+                return Expression.Convert(Expression.Parameter(sourceType, null), targetType).Method.Invoke(value, null);
+
+            throw new JavaScriptException("The provided parameter is invalid.");
+        }
+
         public static Object GetDefaultValue(this Type type)
         {
             return type.IsValueType ? Activator.CreateInstance(type) : null;
+        }
+
+        public static Boolean CanConvert(this Type fromType, Type toType)
+        {
+            try
+            {
+                // Throws an exception if there is no conversion from fromType to toType
+                Expression.Convert(Expression.Parameter(fromType, null), toType);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static Delegate WrapDelegateFor(this Type type, Object function)
+        {
+            var methodInfo = type.GetMethod("Invoke");
+            var convert = typeof(Extensions).GetMethod("ToJsValue");
+            var mps = methodInfo.GetParameters();
+            var parameters = new ParameterExpression[mps.Length];
+
+            for (var i = 0; i < mps.Length; i++)
+                parameters[i] = Expression.Parameter(mps[i].ParameterType, mps[i].Name);
+
+            var obj = Expression.Constant(function);
+            var engine = Expression.Property(obj, "Engine");
+            var call = Expression.Call(obj, "Call", new Type[0], new Expression[]
+            {
+                Expression.Call(convert, parameters[0], engine),
+                Expression.NewArrayInit(typeof(JsValue), parameters.Skip(1).Select(m => Expression.Call(convert, m, engine)).ToArray())
+            });
+            var method = Expression.Lambda(type, call, parameters);
+            return method.Compile();
         }
     }
 }

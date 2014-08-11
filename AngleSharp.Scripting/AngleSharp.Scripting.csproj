@@ -42,10 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleInstance.cs" />
     <Compile Include="DomFunctionInstance.cs" />
-    <Compile Include="DomNode.cs" />
+    <Compile Include="DomNodeInstance.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Interfaces.cs" />
     <Compile Include="JavaScriptEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

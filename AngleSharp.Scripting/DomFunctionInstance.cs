@@ -10,9 +10,9 @@
     sealed class DomFunctionInstance : FunctionInstance
     {
         readonly MethodInfo _method;
-        readonly DomNode _host;
+        readonly DomNodeInstance _host;
 
-        public DomFunctionInstance(DomNode host, MethodInfo method)
+        public DomFunctionInstance(DomNodeInstance host, MethodInfo method)
             : base(host.Engine, GetParameters(method), null, false)
         {
             _host = host;
@@ -23,7 +23,7 @@
         {
             if (_method != null && thisObject.Type == Types.Object)
             {
-                var node = thisObject.AsObject() as DomNode;
+                var node = thisObject.AsObject() as DomNodeInstance;
 
                 if (node != null)
                     return _method.Invoke(node.Value, BuildArgs(arguments)).ToJsValue(Engine);
@@ -44,7 +44,7 @@
             var n = Math.Min(arguments.Length, max);
 
             for (int i = 0; i < n; i++)
-                args[i] = arguments[i].FromJsValue();
+                args[i] = arguments[i].FromJsValue().As(parameters[i].ParameterType);
 
             for (int i = n; i < max; i++)
                 args[i] = parameters[i].IsOptional ? parameters[i].DefaultValue : parameters[i].ParameterType.GetDefaultValue();

@@ -7,11 +7,11 @@
     using System.Linq;
     using System.Reflection;
 
-    class DomNode : ObjectInstance
+    sealed class DomNodeInstance : ObjectInstance
     {
         readonly Object _value;
 
-        public DomNode(Engine engine, Object value)
+        public DomNodeInstance(Engine engine, Object value)
             : base(engine)
         {
             _value = value;
@@ -54,7 +54,7 @@
                 var names = method.GetCustomAttributes<DomNameAttribute>();
 
                 foreach (var name in names.Select(m => m.OfficialName))
-                    FastSetProperty(name, new PropertyDescriptor(new DomFunctionInstance(this, method), false, false, false));
+                    FastAddProperty(name, new DomFunctionInstance(this, method), false, false, false);
             }
         }
 
