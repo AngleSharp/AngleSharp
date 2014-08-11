@@ -402,6 +402,10 @@
         {
         }
 
+        /// <summary>
+        /// Creates a new document node.
+        /// </summary>
+        /// <param name="source">The HTML source code.</param>
         internal Document(String source)
             : this(new TextSource(source))
         {
@@ -593,7 +597,7 @@
         public ILocation Location
         {
             get { return _location; }
-            set { ReLoad(value); }
+            set { LoadHtml(value.Href); }
         }
 
         /// <summary>
@@ -602,7 +606,7 @@
         public String DocumentUri
         {
             get { return _location.Href; }
-            internal set { _location.Href = value; }
+            internal set { _location.Href = value; BaseUri = value; }
         }
 
         /// <summary>
@@ -884,7 +888,7 @@
         /// <summary>
         /// Finishes writing to a document.
         /// </summary>
-        public void CloseCurrent()
+        internal void CloseCurrent()
         {
             if (ReadyState != DocumentReadyState.Loading)
                 return;
@@ -944,7 +948,7 @@
         /// <param name="url">The URL that hosts the HTML content.</param>
         public Boolean LoadHtml(String url)
         {
-            _location.Href = url;
+            DocumentUri = url;
             Cookie = String.Empty;
             var task = Options.LoadAsync(new Url(url));
 
@@ -1283,37 +1287,6 @@
 
         #endregion
 
-        #region Static Helpers
-
-        /// <summary>
-        /// Loads a HTML document from the given URL.
-        /// </summary>
-        /// <param name="url">The URL that hosts the HTML content.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
-        /// <returns>The document with the parsed content.</returns>
-        public static async Task<IDocument> LoadFromUrl(String url, IConfiguration configuration = null)
-        {
-            var options = configuration ?? Configuration.Default;
-            var stream = await options.LoadAsync(new Url(url)).ConfigureAwait(false);
-            var doc = new Document(new TextSource(stream)) { Options = options };
-            var parser = new HtmlParser(doc);
-            await parser.ParseAsync().ConfigureAwait(false);
-            return doc;
-        }
-
-        /// <summary>
-        /// Loads a HTML document from the given URL.
-        /// </summary>
-        /// <param name="source">The source code with the HTML content.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
-        /// <returns>The document with the parsed content.</returns>
-        public static IDocument LoadFromSource(String source, IConfiguration configuration = null)
-        {
-            return DocumentBuilder.Html(source, configuration);
-        }
-
-        #endregion
-
         #region String representation
 
         /// <summary>
@@ -1435,16 +1408,6 @@
             Destroy();
             var parser = new HtmlParser(this);
             parser.Parse();
-        }
-
-        /// <summary>
-        /// Reloads the document witht he given location.
-        /// </summary>
-        /// <param name="url">The value for reloading.</param>
-        protected void ReLoad(ILocation url)
-        {
-            _location = url;
-            LoadHtml(url.Href);
         }
 
         /// <summary>
