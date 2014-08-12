@@ -1,9 +1,9 @@
 AngleSharp
 ==========
 
-AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. In the future XML might be included, however, since .NET offers a variety of capable XML parsers there is a discussion about redundancy. An important aspect of AngleSharp is that CSS can also be parsed. The parser is build upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code. Also current features such as `querySelector` or `querySelectorAll` work for tree traversal.
+AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. In the future XML might be included, however, since .NET offers a variety of capable XML parsers there is a discussion about redundancy. An important aspect of AngleSharp is that CSS can also be parsed. The parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code. Also current features such as `querySelector` or `querySelectorAll` work for tree traversal.
 
-The advantage over similar libraries like the HtmlAgilityPack is that e.g. CSS (including selectors) is already build in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. While the HtmlAgilityPack focuses on giving .NET users a nice and easy way to handle HTML documents, this library focuses on giving web developers working with C# all possibilities as they would have in a browser using JavaScript. Hence the DOM is build in a more reliable, standard-conform and faster way than with the other solutions.
+The advantage over similar libraries like the HtmlAgilityPack is that e.g. CSS (including selectors) is already build in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. While the HtmlAgilityPack focuses on giving .NET users a nice and easy way to handle HTML documents, this library focuses on giving web developers working with C# all possibilities as they would have in a browser using JavaScript. Hence the DOM is built in a more reliable, standard-conform and faster way than with the other solutions.
 
 The performance of AngleSharp is quite close to the performance of browsers. Even very large pages can be processed within milliseconds. AngleSharp tries to minimize memory allocations and reuses elements internally to avoid unnecessary object creation.
 
@@ -22,7 +22,7 @@ More information is also available by following some of the hyper references men
 Current status
 --------------
 
-The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML and CSS to the CLR, written in C#. The idea is that you can can basically do everything with the DOM in C# that you can do in JavaScript.
+The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML and CSS to the CLR, written in C#. The idea is that you can basically do everything with the DOM in C# that you can do in JavaScript.
 
 Most parts of the DOM are included, even though some may still miss their (right) implementation. The goal for v1.0 is to have almost everything implemented according to the official W3C specification (with useful extensions by the WHATWG).
 
