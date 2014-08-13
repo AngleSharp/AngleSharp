@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleInstance.cs" />
+    <Compile Include="DomDelegates.cs" />
     <Compile Include="DomFunctionInstance.cs" />
     <Compile Include="DomNodeInstance.cs" />
     <Compile Include="Extensions.cs" />

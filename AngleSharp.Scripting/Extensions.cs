@@ -5,7 +5,6 @@
     using Jint.Native.Function;
     using Jint.Runtime;
     using System;
-    using System.Linq;
     using System.Linq.Expressions;
 
     static class Extensions
@@ -67,8 +66,8 @@
             if (sourceType == targetType || sourceType.IsSubclassOf(targetType) || targetType.IsInstanceOfType(value) || targetType.IsAssignableFrom(sourceType))
                 return value;
 
-            if (targetType.IsSubclassOf(typeof(Delegate)) && sourceType.IsSubclassOf(typeof(FunctionInstance)))
-                return targetType.WrapDelegateFor(value);
+            if (targetType.IsSubclassOf(typeof(Delegate)) && value is FunctionInstance)
+                return targetType.ToDelegate((FunctionInstance)value);
 
             if (sourceType.CanConvert(targetType))
                 return Expression.Convert(Expression.Parameter(sourceType, null), targetType).Method.Invoke(value, null);
@@ -93,27 +92,6 @@
             {
                 return false;
             }
-        }
-
-        public static Delegate WrapDelegateFor(this Type type, Object function)
-        {
-            var methodInfo = type.GetMethod("Invoke");
-            var convert = typeof(Extensions).GetMethod("ToJsValue");
-            var mps = methodInfo.GetParameters();
-            var parameters = new ParameterExpression[mps.Length];
-
-            for (var i = 0; i < mps.Length; i++)
-                parameters[i] = Expression.Parameter(mps[i].ParameterType, mps[i].Name);
-
-            var obj = Expression.Constant(function);
-            var engine = Expression.Property(obj, "Engine");
-            var call = Expression.Call(obj, "Call", new Type[0], new Expression[]
-            {
-                Expression.Call(convert, parameters[0], engine),
-                Expression.NewArrayInit(typeof(JsValue), parameters.Skip(1).Select(m => Expression.Call(convert, m, engine)).ToArray())
-            });
-            var method = Expression.Lambda(type, call, parameters);
-            return method.Compile();
         }
     }
 }
