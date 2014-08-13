@@ -97,9 +97,6 @@
     <Compile Include="..\AngleSharp\DOM\Collections\AttrContainer.cs">
       <Link>DOM\Collections\AttrContainer.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\CollectionExtensions.cs">
-      <Link>DOM\Collections\CollectionExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\HtmlAllCollection.cs">
       <Link>DOM\Collections\HtmlAllCollection.cs</Link>
     </Compile>
@@ -123,9 +120,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\OptionsCollection.cs">
       <Link>DOM\Collections\OptionsCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\QueryExtensions.cs">
-      <Link>DOM\Collections\QueryExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\Range.cs">
       <Link>DOM\Collections\Range.cs</Link>
@@ -1399,12 +1393,6 @@
     <Compile Include="..\AngleSharp\Extensions.cs">
       <Link>Extensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\CharExtensions.cs">
-      <Link>Foundation\CharExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\ConfigurationExtensions.cs">
-      <Link>Foundation\ConfigurationExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\AttributeNames.cs">
       <Link>Foundation\Constants\AttributeNames.cs</Link>
     </Compile>
@@ -1450,17 +1438,41 @@
     <Compile Include="..\AngleSharp\Foundation\DocumentEncoding.cs">
       <Link>Foundation\DocumentEncoding.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\ErrorExtensions.cs">
-      <Link>Foundation\ErrorExtensions.cs</Link>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\CharExtensions.cs">
+      <Link>Foundation\Extensions\CharExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\IdlExtensions.cs">
-      <Link>Foundation\IdlExtensions.cs</Link>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\CollectionExtensions.cs">
+      <Link>Foundation\Extensions\CollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\ConfigurationExtensions.cs">
+      <Link>Foundation\Extensions\ConfigurationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\ErrorExtensions.cs">
+      <Link>Foundation\Extensions\ErrorExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\IdlExtensions.cs">
+      <Link>Foundation\Extensions\IdlExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\NodeExtensions.cs">
+      <Link>Foundation\Extensions\NodeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\QueryExtensions.cs">
+      <Link>Foundation\Extensions\QueryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\StringExtensions.cs">
+      <Link>Foundation\Extensions\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\StyleExtensions.cs">
+      <Link>Foundation\Extensions\StyleExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\ValueExtensions.cs">
+      <Link>Foundation\Extensions\ValueExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\XmlExtensions.cs">
+      <Link>Foundation\Extensions\XmlExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\ITextSource.cs">
       <Link>Foundation\ITextSource.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\LocationExtensions.cs">
-      <Link>Foundation\LocationExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Mutations\MutationObserver.cs">
       <Link>Foundation\Mutations\MutationObserver.cs</Link>
@@ -1470,9 +1482,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Mutations\MutationRecord.cs">
       <Link>Foundation\Mutations\MutationRecord.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\NodeExtensions.cs">
-      <Link>Foundation\NodeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Pool.cs">
       <Link>Foundation\Pool.cs</Link>
@@ -1485,9 +1494,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Setup\IConfiguration.cs">
       <Link>Foundation\Setup\IConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\StringExtensions.cs">
-      <Link>Foundation\StringExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Angle.cs">
       <Link>Foundation\Structures\Angle.cs</Link>
@@ -1525,17 +1531,8 @@
     <Compile Include="..\AngleSharp\Foundation\Structures\Url.cs">
       <Link>Foundation\Structures\Url.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\StyleExtensions.cs">
-      <Link>Foundation\StyleExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\TextSource.cs">
       <Link>Foundation\TextSource.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\ValueExtensions.cs">
-      <Link>Foundation\ValueExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\XmlExtensions.cs">
-      <Link>Foundation\XmlExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\ICssObject.cs">
       <Link>ICssObject.cs</Link>
