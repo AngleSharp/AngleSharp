@@ -195,7 +195,7 @@ div {
             Console.WriteLine(document.DocumentElement.OuterHtml);
         }
 
-        public static void EventScriptingExample()
+        static void EventScriptingExample()
         {
             //We require a custom configuration
             var config = new Configuration();
