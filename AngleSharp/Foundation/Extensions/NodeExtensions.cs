@@ -1,6 +1,5 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.DOM
 {
-    using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Html;
     using System;
@@ -11,49 +10,15 @@
     /// <summary>
     /// Useful methods for node objects.
     /// </summary>
+    [DebuggerStepThrough]
     static class NodeExtensions
     {
-        /// <summary>
-        /// Examines if the given element is one of the table elements (table, tbody, tfoot, thead, tr).
-        /// </summary>
-        /// <param name="node">The node to examine</param>
-        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
-        public static Boolean IsTableElement(this INode node)
-        {
-            return (node is IHtmlTableElement || node is IHtmlTableSectionElement || node is IHtmlTableRowElement);
-        }
-
-        /// <summary>
-        /// Gets a list of HTML elements given by their name attribute.
-        /// </summary>
-        /// <param name="children">The list to investigate.</param>
-        /// <param name="name">The name attribute's value.</param>
-        /// <param name="result">The result collection.</param>
-        [DebuggerStepThrough]
-        public static void GetElementsByName(this NodeList children, String name, List<Element> result)
-        {
-            for (int i = 0; i < children.Length; i++)
-            {
-                if (children[i] is HTMLElement)
-                {
-                    var element = (HTMLElement)children[i];
-
-                    if (element.GetAttribute(AttributeNames.Name) == name)
-                        result.Add(element);
-
-                    element.ChildNodes.GetElementsByName(name, result);
-                }
-            }
-        }
-
         /// <summary>
         /// Gets the root of the given node, which is the node itself, if it has
         /// no parent, or the root of the parent.
         /// </summary>
         /// <param name="node">The node to get the root of.</param>
         /// <returns>The root node.</returns>
-        [DebuggerStepThrough]
         public static INode GetRoot(this INode node)
         {
             if (node.Parent == null)
@@ -68,7 +33,6 @@
         /// <param name="parent">The possible parent to use.</param>
         /// <param name="node">The node to check for being descendent.</param>
         /// <returns>True if the given parent is actually an ancestor of the provided node.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsAncestorOf(this INode parent, INode node)
         {
             return node.IsDescendentOf(parent);
@@ -80,7 +44,6 @@
         /// <param name="parent">The possible parent to use.</param>
         /// <param name="node">The node to check for being descendent.</param>
         /// <returns>True if the given parent is actually an inclusive ancestor of the provided node.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsInclusiveAncestorOf(this INode parent, INode node)
         {
             return node == parent || node.IsDescendentOf(parent);
@@ -105,7 +68,6 @@
         /// <param name="parent">The possible parent to use.</param>
         /// <param name="node">The node to check for being descendent.</param>
         /// <returns>True if the given parent is actually an inclusive ancestor (including the host) of the provided node.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsHostIncludingInclusiveAncestor(this INode parent, INode node)
         {
             if (parent.IsInclusiveAncestorOf(node))
@@ -125,7 +87,6 @@
         /// <param name="node">The descendent node to use.</param>
         /// <param name="parent">The possible parent to use.</param>
         /// <returns>True if the given parent is actually an ancestor of the provided node.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsDescendentOf(this INode node, INode parent)
         {
             if (parent.ChildNodes.Index(node) != -1)
@@ -146,7 +107,6 @@
         /// <param name="node">The descendent node to use.</param>
         /// <param name="parent">The possible parent to use.</param>
         /// <returns>True if the given parent is actually an inclusive ancestor of the provided node.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsInclusiveDescendentOf(this INode node, INode parent)
         {
             return node == parent || node.IsDescendentOf(parent);
@@ -159,7 +119,6 @@
         /// <param name="node">The node to be inserted.</param>
         /// <param name="child">The reference node of the insertation.</param>
         /// <returns>The inserted node, which is node.</returns>
-        [DebuggerStepThrough]
         public static INode PreInsert(this INode parent, INode node, INode child)
         {
             parent.EnsurePreInsertionValidity(node, child);
@@ -180,7 +139,6 @@
         /// <param name="parent">The origin that will be mutated.</param>
         /// <param name="node">The node to be inserted.</param>
         /// <param name="child">The reference node of the insertation.</param>
-        [DebuggerStepThrough]
         public static void EnsurePreInsertionValidity(this INode parent, INode node, INode child)
         {
             if ((parent is IDocument == false && parent is IDocumentFragment == false && parent is IElement == false) || node.IsHostIncludingInclusiveAncestor(parent))
@@ -230,7 +188,6 @@
         /// </summary>
         /// <param name="obj">The object to convert.</param>
         /// <returns>The HTML string representation.</returns>
-        [DebuggerStepThrough]
         public static String ToHtml(this Object obj)
         {
             var html = obj as IHtmlObject;
@@ -247,7 +204,6 @@
         /// </summary>
         /// <param name="obj">The object to convert.</param>
         /// <returns>The CSS string representation.</returns>
-        [DebuggerStepThrough]
         public static String ToCss(this Object obj)
         {
             var css = obj as ICssObject;

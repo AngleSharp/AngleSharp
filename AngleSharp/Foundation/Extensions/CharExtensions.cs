@@ -6,6 +6,7 @@
     /// <summary>
     /// Useful methods for chars.
     /// </summary>
+    [DebuggerStepThrough]
     static class CharExtensions
     {
         /// <summary>
@@ -13,7 +14,6 @@
         /// </summary>
         /// <param name="c">The character to convert.</param>
         /// <returns>The integer value or undefined behavior if invalid.</returns>
-        [DebuggerStepThrough]
         public static Int32 FromHex(this Char c)
         {
             return c.IsDigit() ? c - 0x30 : c - (c.IsLowercaseAscii() ? 0x57 : 0x37);
@@ -24,10 +24,9 @@
         /// </summary>
         /// <param name="num">The number (0-255).</param>
         /// <returns>A 2 digit upper case hexadecimal string.</returns>
-        [DebuggerStepThrough]
         public static String ToHex(this Byte num)
         {
-            Char[] chrs = new Char[2];
+            var chrs = new Char[2];
             var rem = num >> 4;
             chrs[0] = (Char)(rem + (rem < 10 ? 48 : 55));
             rem = num - 16 * rem;
@@ -42,7 +41,6 @@
         /// <param name="lower">The lower bound of the range.</param>
         /// <param name="upper">The upper bound of the range.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsInRange(this Char c, Int32 lower, Int32 upper)
         {
             return c >= lower && c <= upper;
@@ -54,7 +52,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsUppercaseAscii(this Char c)
         {
             return c >= 0x41 && c <= 0x5a;
@@ -66,7 +63,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsLowercaseAscii(this Char c)
         {
             return c >= 0x61 && c <= 0x7a;
@@ -78,7 +74,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsAlphanumericAscii(this Char c)
         {
             return c.IsDigit() || c.IsUppercaseAscii() || c.IsLowercaseAscii();
@@ -90,7 +85,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsHex(this Char c)
         {
             return c.IsDigit() || (c >= 0x41 && c <= 0x46) || (c >= 0x61 && c <= 0x66);
@@ -101,7 +95,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsNonAscii(this Char c)
         {
             return c >= 0x80;
@@ -112,7 +105,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsNonPrintable(this Char c)
         {
             return (c >= 0x0 && c <= 0x8) || (c >= 0xe && c <= 0x1f) || (c >= 0x7f && c <= 0x9f);
@@ -123,7 +115,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsLetter(this Char c)
         {
             return IsUppercaseAscii(c) || IsLowercaseAscii(c);
@@ -134,7 +125,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsName(this Char c)
         {
             return c >= 0x80 || c.IsLetter() || c == Specification.Underscore || c == Specification.Minus || IsDigit(c);
@@ -145,7 +135,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsNameStart(this Char c)
         {
             return c >= 0x80 || IsUppercaseAscii(c) || IsLowercaseAscii(c) || c == Specification.Underscore;
@@ -157,7 +146,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsLineBreak(this Char c)
         {
             //line feed, carriage return
@@ -170,11 +158,10 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsSpaceCharacter(this Char c)
         {
             //white space, tab, line feed, form feed, carriage return
-            return c == Specification.Space || c == Specification.Tab || c == Specification.LineFeed || c == Specification.FormFeed || c == Specification.CarriageReturn;
+            return c == Specification.Space || c == Specification.Tab || c == Specification.LineFeed || c == Specification.CarriageReturn || c == Specification.FormFeed;
         }
 
         /// <summary>
@@ -183,7 +170,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsWhiteSpaceCharacter(this Char c)
         {
             return c.IsInRange(0x0009, 0x000d) || c == 0x0020 || c == 0x0085 || c == 0x00a0 ||
@@ -197,7 +183,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsDigit(this Char c)
         {
             return c >= 0x30 && c <= 0x39;
@@ -209,7 +194,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsUrlCodePoint(this Char c)
         {
             return c.IsAlphanumericAscii() || c == Specification.ExclamationMark || c == Specification.Dollar || c == Specification.Ampersand ||

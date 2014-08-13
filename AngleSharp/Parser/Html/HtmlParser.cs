@@ -927,7 +927,7 @@
                             RaiseErrorOccurred(ErrorCode.HtmlTagMisplaced);
 
                             if (templateMode.Count == 0)
-                                open[0].AppendAttributes(tag);
+                                open[0].SetAttributes(tag);
 
                             break;
                         }
@@ -953,7 +953,7 @@
                             if (templateMode.Count == 0 && open.Count > 1 && open[1] is HTMLBodyElement)
                             {
                                 frameset = false;
-                                open[1].AppendAttributes(tag);
+                                open[1].SetAttributes(tag);
                             }
 
                             break;
@@ -1117,7 +1117,7 @@
                             ReconstructFormatting();
                             var element = new HTMLAnchorElement();
                             AddElement(element, tag);
-                            formatting.AddFormattingElement(element);
+                            formatting.AddFormatting(element);
                             break;
                         }
                         case Tags.B:
@@ -1136,7 +1136,7 @@
                             ReconstructFormatting();
                             var element = HtmlElementFactory.Create(tag.Name, doc);
                             AddElement(element, tag);
-                            formatting.AddFormattingElement(element);
+                            formatting.AddFormatting(element);
                             break;
                         }
                         case Tags.NoBr:
@@ -1152,7 +1152,7 @@
 
                             var element = HtmlElementFactory.Create(tag.Name, doc);
                             AddElement(element, tag);
-                            formatting.AddFormattingElement(element);
+                            formatting.AddFormatting(element);
                             break;
                         }
                         case Tags.Applet:
@@ -1579,7 +1579,7 @@
 
                                 ClearStackBackTo(tag.Name);
                                 CloseCurrentNode();
-                                formatting.ClearFormattingElements();
+                                formatting.ClearFormatting();
                             }
                             else
                                 RaiseErrorOccurred(ErrorCode.ObjectNotInScope);
@@ -2673,7 +2673,7 @@
                     break;
             }
 
-            formatting.ClearFormattingElements();
+            formatting.ClearFormatting();
             templateMode.Pop();
             Reset();
         }
@@ -3204,7 +3204,7 @@
 
                 ClearStackBackTo<HTMLTableCaptionElement>();
                 CloseCurrentNode();
-                formatting.ClearFormattingElements();
+                formatting.ClearFormatting();
                 insert = HtmlTreeMode.InTable;
                 return true;
             }
@@ -3230,7 +3230,7 @@
 
                 ClearStackBackTo<HTMLTableCellElement>();
                 CloseCurrentNode();
-                formatting.ClearFormattingElements();
+                formatting.ClearFormatting();
                 insert = HtmlTreeMode.InRow;
                 return true;
             }

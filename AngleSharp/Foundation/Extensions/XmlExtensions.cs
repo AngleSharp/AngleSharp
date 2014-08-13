@@ -6,6 +6,7 @@
     /// <summary>
     /// Useful helpers for the XML parser.
     /// </summary>
+    [DebuggerStepThrough]
     static class XmlExtensions
     {
         /// <summary>
@@ -14,7 +15,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsPubidChar(this Char c)
         {
             return c.IsAlphanumericAscii() || c == Specification.Minus || c == Specification.SingleQuote || c == Specification.Plus ||
@@ -31,7 +31,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsXmlNameStart(this Char c)
         {
             return c.IsLetter() || c == Specification.Colon || c == Specification.Underscore || c.IsInRange(0xC0, 0xD6) || 
@@ -47,7 +46,6 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsXmlName(this Char c)
         {
             return c.IsXmlNameStart() || c.IsDigit() || c == Specification.Minus || c == Specification.Dot || c == 0xB7 ||
@@ -59,7 +57,6 @@
         /// </summary>
         /// <param name="chr">The char to examine.</param>
         /// <returns>True if the char would indeed be valid.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsXmlChar(this Char chr)
         {
             return chr == 0x9 || chr == 0xA || chr == 0xD || (chr >= 0x20 && chr <= 0xD7FF) ||
@@ -71,7 +68,6 @@
         /// </summary>
         /// <param name="chr">The integer to examine.</param>
         /// <returns>True if the integer would indeed be valid.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsValidAsCharRef(this Int32 chr)
         {
             return  chr == 0x9 || chr == 0xA || chr == 0xD || (chr >= 0x20 && chr <= 0xD7FF) || 

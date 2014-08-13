@@ -1,11 +1,13 @@
-﻿namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.DOM
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>
     /// A bunch of methods for getting DOM elements.
     /// </summary>
+    [DebuggerStepThrough]
     static class CollectionExtensions
     {
         public static IEnumerable<T> GetElements<T>(this INode parent, Boolean deep = true, Predicate<T> predicate = null)
@@ -44,6 +46,28 @@
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Gets a list of HTML elements given by their name attribute.
+        /// </summary>
+        /// <param name="children">The list to investigate.</param>
+        /// <param name="name">The name attribute's value.</param>
+        /// <param name="result">The result collection.</param>
+        public static void GetElementsByName(this INodeList children, String name, List<IElement> result)
+        {
+            for (int i = 0; i < children.Length; i++)
+            {
+                var element = children[i] as IElement;
+
+                if (element != null)
+                {
+                    if (element.GetAttribute(AttributeNames.Name) == name)
+                        result.Add(element);
+
+                    element.ChildNodes.GetElementsByName(name, result);
+                }
+            }
         }
 
         public static Boolean Accepts(this FilterSettings filter, INode node)

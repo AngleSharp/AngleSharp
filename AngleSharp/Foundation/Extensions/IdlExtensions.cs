@@ -2,10 +2,12 @@
 {
     using AngleSharp.DOM;
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// A set of useful extensions for the IDL.
     /// </summary>
+    [DebuggerStepThrough]
     static class IdlExtensions
     {
         /// <summary>

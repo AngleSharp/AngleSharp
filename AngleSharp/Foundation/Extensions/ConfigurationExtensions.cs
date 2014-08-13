@@ -4,6 +4,7 @@
     using AngleSharp.Infrastructure;
     using AngleSharp.Network;
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Text;
     using System.Threading;
@@ -13,6 +14,7 @@
     /// Represents a helper to construct objects with externally
     /// defined classes and libraries.
     /// </summary>
+    [DebuggerStepThrough]
     static class ConfigurationExtensions
     {
         #region Encoding

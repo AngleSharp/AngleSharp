@@ -1,11 +1,13 @@
 ﻿namespace AngleSharp
 {
     using System;
+    using System.Diagnostics;
     using System.Reflection;
 
     /// <summary>
     /// A set of useful helpers concerning errors.
     /// </summary>
+    [DebuggerStepThrough]
     static class ErrorExtensions
     {
         /// <summary>

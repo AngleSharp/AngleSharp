@@ -937,7 +937,7 @@
         /// <returns>A collection of HTML elements.</returns>
         public IHtmlCollection GetElementsByName(String name)
         {
-            var result = new List<Element>();
+            var result = new List<IElement>();
             ChildNodes.GetElementsByName(name, result);
             return new HtmlElementCollection(result);
         }

@@ -2,9 +2,12 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Html;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
+    [DebuggerStepThrough]
     static class HtmlParserExtensions
     {
         /// <summary>
@@ -38,7 +41,7 @@
         /// </summary>
         /// <param name="element">The node with the target attributes.</param>
         /// <param name="tag">The token with the source attributes.</param>
-        public static void AppendAttributes(this Element element, HtmlTagToken tag)
+        public static void SetAttributes(this Element element, HtmlTagToken tag)
         {
             foreach (var attr in tag.Attributes)
                 element.AddAttribute(attr.Key, attr.Value);
@@ -49,7 +52,7 @@
         /// </summary>
         /// <param name="formatting">The list of formatting elements to modify.</param>
         /// <param name="element">The element to add.</param>
-        public static void AddFormattingElement(this List<Element> formatting, Element element)
+        public static void AddFormatting(this List<Element> formatting, Element element)
         {
             var count = 0;
 
@@ -60,7 +63,7 @@
                 if (format == null)
                     break;
 
-                if (format.NodeName == element.NodeName && format.Attributes.IsEqualTo(element.Attributes) && format.NamespaceUri == element.NamespaceUri && ++count == 3)
+                if (format.NodeName == element.NodeName && format.NamespaceUri == element.NamespaceUri && format.Attributes.IsEqualTo(element.Attributes) && ++count == 3)
                 {
                     formatting.RemoveAt(i);
                     break;
@@ -74,7 +77,7 @@
         /// Clear the list of active formatting elements up to the last marker.
         /// </summary>
         /// <param name="formatting">The list of formatting elements to modify.</param>
-        public static void ClearFormattingElements(this List<Element> formatting)
+        public static void ClearFormatting(this List<Element> formatting)
         {
             while (formatting.Count != 0)
             {
@@ -105,6 +108,16 @@
         {
             var comment = new Comment(token.Data);
             parent.AppendChild(comment);
+        }
+
+        /// <summary>
+        /// Examines if the given element is one of the table elements (table, tbody, tfoot, thead, tr).
+        /// </summary>
+        /// <param name="node">The node to examine</param>
+        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        public static Boolean IsTableElement(this INode node)
+        {
+            return (node is IHtmlTableElement || node is IHtmlTableSectionElement || node is IHtmlTableRowElement);
         }
     }
 }

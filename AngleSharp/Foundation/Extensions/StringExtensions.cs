@@ -9,6 +9,7 @@
     /// <summary>
     /// Useful methods for string objects.
     /// </summary>
+    [DebuggerStepThrough]
     static class StringExtensions
     {
         /// <summary>
@@ -17,7 +18,6 @@
         /// <param name="list">The list of characters.</param>
         /// <param name="element">The element to search for.</param>
         /// <returns>The status of the check.</returns>
-        [DebuggerStepThrough]
         public static Boolean Contains(this IEnumerable<Char> list, Char element)
         {
             foreach (var entry in list)
@@ -33,7 +33,6 @@
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted enum value.</returns>
-        [DebuggerStepThrough]
         public static T ToEnum<T>(this String value, T defaultValue) 
             where T : struct, IComparable
         {
@@ -54,7 +53,6 @@
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted double.</returns>
-        [DebuggerStepThrough]
         public static Double ToDouble(this String value, Double defaultValue = 0.0)
         {
             if (String.IsNullOrEmpty(value))
@@ -74,7 +72,6 @@
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted integer.</returns>
-        [DebuggerStepThrough]
         public static Int32 ToInteger(this String value, Int32 defaultValue = 0)
         {
             if (String.IsNullOrEmpty(value))
@@ -94,7 +91,6 @@
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted unsigned integer.</returns>
-        [DebuggerStepThrough]
         public static UInt32 ToInteger(this String value, UInt32 defaultValue = 0)
         {
             if (String.IsNullOrEmpty(value))
@@ -114,7 +110,6 @@
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted boolean.</returns>
-        [DebuggerStepThrough]
         public static Boolean ToBoolean(this String value, Boolean defaultValue = false)
         {
             if (String.IsNullOrEmpty(value))
@@ -135,7 +130,6 @@
         /// <param name="search">The string to search for.</param>
         /// <param name="replace">The one-time replacement string.</param>
         /// <returns>The result of the search-and-replace.</returns>
-        [DebuggerStepThrough]
         public static String ReplaceFirst(this String text, String search, String replace)
         {
             var pos = text.IndexOf(search);
@@ -154,7 +148,6 @@
         /// <param name="str">The string to examine.</param>
         /// <param name="content">The string to seek.</param>
         /// <returns>True if the value parameter occurs within this string, or if value is the empty string.</returns>
-        [DebuggerStepThrough]
         public static Boolean Contains(this String str, String content)
         {
             return str.IndexOf(content) >= 0;
@@ -165,7 +158,6 @@
         /// </summary>
         /// <param name="str">The string to collapse and strip.</param>
         /// <returns>The modified string with collapsed and stripped spaces.</returns>
-        [DebuggerStepThrough]
         public static String CollapseAndStrip(this String str)
         {
             var chars = new List<Char>();
@@ -199,7 +191,6 @@
         /// </summary>
         /// <param name="str">The string to collapse.</param>
         /// <returns>The modified string with collapsed spaces.</returns>
-        [DebuggerStepThrough]
         public static String Collapse(this String str)
         {
             var chars = new List<Char>();
@@ -232,7 +223,6 @@
         /// <param name="element">The element to search for.</param>
         /// <param name="comparison">The default comparison to use.</param>
         /// <returns>The status of the check.</returns>
-        [DebuggerStepThrough]
         public static Boolean Contains(this String[] list, String element, StringComparison comparison = StringComparison.Ordinal)
         {
             for (int i = 0; i < list.Length; i++)
@@ -250,7 +240,6 @@
         /// <param name="element">The element to check for equality.</param>
         /// <param name="elements">The allowed (equal) elements.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsOneOf(this String element, params String[] elements)
         {
             for (var i = 0; i != elements.Length; i++)
@@ -267,7 +256,6 @@
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>A new string, which excludes the line breaks.</returns>
-        [DebuggerStepThrough]
         public static String StripLineBreaks(this String str)
         {
             var array = str.ToCharArray();
@@ -295,7 +283,6 @@
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
-        [DebuggerStepThrough]
         public static String StripLeadingTailingSpaces(this String str)
         {
             return StripLeadingTailingSpaces(str.ToCharArray());
@@ -306,7 +293,6 @@
         /// </summary>
         /// <param name="array">The array of characters to examine.</param>
         /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
-        [DebuggerStepThrough]
         public static String StripLeadingTailingSpaces(this Char[] array)
         {
             var start = 0;
@@ -327,7 +313,6 @@
         /// <param name="str">The string to examine.</param>
         /// <param name="c">The delimiter character.</param>
         /// <returns>The list of tokens.</returns>
-        [DebuggerStepThrough]
         public static String[] SplitWithoutTrimming(this String str, Char c)
         {
             return SplitWithoutTrimming(str.ToCharArray(), c);
@@ -339,7 +324,6 @@
         /// <param name="chars">The char array to examine.</param>
         /// <param name="c">The delimiter character.</param>
         /// <returns>The list of tokens.</returns>
-        [DebuggerStepThrough]
         public static String[] SplitWithoutTrimming(this Char[] chars, Char c)
         {
             var list = new List<String>();
@@ -367,7 +351,6 @@
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>The list of tokens.</returns>
-        [DebuggerStepThrough]
         public static String[] SplitCommas(this String str)
         {
             return str.SplitWithTrimming(',');
@@ -378,7 +361,6 @@
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>The list of tokens.</returns>
-        [DebuggerStepThrough]
         public static String[] SplitHyphens(this String str)
         {
             return SplitWithTrimming(str, Specification.Minus);
@@ -389,7 +371,6 @@
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>The list of tokens.</returns>
-        [DebuggerStepThrough]
         public static String[] SplitSpaces(this String str)
         {
             var list = new List<String>();
@@ -423,7 +404,6 @@
         /// <param name="str">The string to examine.</param>
         /// <param name="c">The delimiter character.</param>
         /// <returns>The list of tokens.</returns>
-        [DebuggerStepThrough]
         public static String[] SplitWithTrimming(this String str, Char c)
         {
             var list = new List<String>();
@@ -457,7 +437,6 @@
         /// </summary>
         /// <param name="s">The characters to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsDigit(this String s)
         {
             for (int i = 0; i < s.Length; i++)
@@ -475,7 +454,6 @@
         /// </summary>
         /// <param name="s">The string to examine.</param>
         /// <returns>The result of the test.</returns>
-        [DebuggerStepThrough]
         public static Boolean IsHex(this String s)
         {
             for (int i = 0; i < s.Length; i++)
@@ -492,7 +470,6 @@
         /// </summary>
         /// <param name="s">The hexadecimal representation.</param>
         /// <returns>The integer number.</returns>
-        [DebuggerStepThrough]
         public static Int32 FromHex(this String s)
         {
             return Int32.Parse(s, NumberStyles.HexNumber);
@@ -503,7 +480,6 @@
         /// </summary>
         /// <param name="s">The decimal representation.</param>
         /// <returns>The integer number.</returns>
-        [DebuggerStepThrough]
         public static Int32 FromDec(this String s)
         {
             return Int32.Parse(s, NumberStyles.Integer);
@@ -516,10 +492,9 @@
         /// <param name="value">The value to sanatize.</param>
         /// <param name="encoding">The encoding to consider.</param>
         /// <returns>The sanatized value.</returns>
-        [DebuggerStepThrough]
         public static String HtmlEncode(this String value, Encoding encoding)
         {
-            //Decide if the encoding is sufficient (How?)
+            //TODO Decide if the encoding is sufficient (How?)
             return value;
         }
 
@@ -533,7 +508,6 @@
         /// <param name="value">The value to encode.</param>
         /// <param name="encoding">The encoding to consider.</param>
         /// <returns>The encoded value.</returns>
-        [DebuggerStepThrough]
         public static String UrlEncode(this String value, Encoding encoding)
         {
             var builder = Pool.NewStringBuilder();
