@@ -1416,7 +1416,8 @@
         /// <param name="parent">The parent that contains the elements.</param>
         /// <typeparam name="T">The node type to find.</typeparam>
         /// <returns>The instance or null.</returns>
-        protected static T FindChild<T>(INode parent) where T : class, INode
+        protected static T FindChild<T>(INode parent)
+            where T : class, INode
         {
             if (parent == null)
                 return null;

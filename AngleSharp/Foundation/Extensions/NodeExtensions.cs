@@ -166,7 +166,7 @@
             var host = node.GetRoot().GetAssociatedHost();
             
             if (host != null)
-                return parent.IsHostIncludingInclusiveAncestor(host);
+                return parent.IsInclusiveAncestorOf(host);
 
             return false;
         }
@@ -202,43 +202,39 @@
         {
             if ((parent is IDocument == false && parent is IDocumentFragment == false && parent is IElement == false) || node.IsHostIncludingInclusiveAncestor(parent))
                 throw new DomException(ErrorCode.HierarchyRequest);
-
-            if (child != null && child.Parent != parent)
+            else if (child != null && child.Parent != parent)
                 throw new DomException(ErrorCode.NotFound);
-
-            if (node is IDocumentType == false && node is IDocumentFragment == false && node is IElement == false && node is ICharacterData == false)
+            else if (node is IElement == false && node is ICharacterData == false && node is IDocumentType == false && node is IDocumentFragment == false)
                 throw new DomException(ErrorCode.HierarchyRequest);
 
-            if (node is IText && parent is IDocument)
+            var document = parent as IDocument;
+
+            if (document != null)
+            {
+                if (node is IElement)
+                {
+                    if (document.DocumentElement != null || child is IDocumentType || child.IsFollowedByDoctype())
+                        throw new DomException(ErrorCode.HierarchyRequest);
+                }
+                else if (node is IDocumentFragment)
+                {
+                    var elementChild = node.ChildNodes.OfType<IElement>().Count();
+
+                    if (elementChild > 1 || node.ChildNodes.OfType<IText>().Any())
+                        throw new DomException(ErrorCode.HierarchyRequest);
+                    else if ((elementChild == 1 && parent.HasElements()) || child is IDocumentType || child.IsFollowedByDoctype())
+                        throw new DomException(ErrorCode.HierarchyRequest);
+                }
+                else if (node is IDocumentType)
+                {
+                    if (document.Doctype != null || (child != null && document.IndexOf(child) > 0) || (child == null && parent.HasElements()))
+                        throw new DomException(ErrorCode.HierarchyRequest);
+                }
+                else if (node is IText)
+                    throw new DomException(ErrorCode.HierarchyRequest);
+            }
+            else if (node is IDocumentType)
                 throw new DomException(ErrorCode.HierarchyRequest);
-
-            if (node is IDocumentFragment)
-            {
-                var elementChild = node.ChildNodes.OfType<IElement>().Count();
-
-                if (elementChild > 1 || node.ChildNodes.OfType<IText>().Any())
-                    throw new DomException(ErrorCode.HierarchyRequest);
-
-                if ((elementChild == 1 && parent.ChildNodes.OfType<IElement>().Any()) ||
-                    child is IDocumentType ||
-                    (child != null && (parent.ChildNodes.OfType<IDocumentType>().SkipWhile(m => m != child).Any())))
-                    throw new DomException(ErrorCode.HierarchyRequest);
-            }
-
-            if (node is IElement)
-            {
-                if (parent.ChildNodes.OfType<IElement>().Any() || child is IDocumentType ||
-                    (child != null && parent.ChildNodes.OfType<IDocumentType>().SkipWhile(m => m != child).Any()))
-                    throw new DomException(ErrorCode.HierarchyRequest);
-            }
-
-            if (node is IDocumentType)
-            {
-                if (parent.ChildNodes.OfType<IDocumentType>().Any() ||
-                    parent.ChildNodes.OfType<IElement>().TakeWhile(m => m == child).Any() ||
-                    (child != null && parent.ChildNodes.OfType<IElement>().Any()))
-                    throw new DomException(ErrorCode.HierarchyRequest);
-            }
         }
 
         /// <summary>
@@ -271,6 +267,33 @@
                 return String.Empty;
 
             return css.ToCss();
+        }
+
+        static Boolean IsFollowedByDoctype(this INode child)
+        {
+            if (child == null)
+                return false;
+
+            var before = true;
+
+            foreach (var node in child.Parent.ChildNodes)
+            {
+                if (before)
+                    before = node != child;
+                else if (node is IDocumentType)
+                    return true;
+            }
+
+            return false;
+        }
+
+        static Boolean HasElements(this INode parent)
+        {
+            foreach (var node in parent.ChildNodes)
+                if (node is IElement)
+                    return true;
+
+            return false;
         }
     }
 }
