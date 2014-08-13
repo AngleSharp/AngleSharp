@@ -28,6 +28,33 @@
         }
 
         /// <summary>
+        /// Checks if the node is an descendent of the given parent.
+        /// </summary>
+        /// <param name="node">The descendent node to use.</param>
+        /// <param name="parent">The possible parent to use.</param>
+        /// <returns>True if the given parent is actually an ancestor of the provided node.</returns>
+        public static Boolean IsDescendentOf(this INode node, INode parent)
+        {
+            if (node.Parent == null)
+                return false;
+            else if (Object.ReferenceEquals(node.Parent, parent))
+                return true;
+
+            return node.Parent.IsDescendentOf(parent);
+        }
+
+        /// <summary>
+        /// Checks if the node is an inclusive descendent of the given parent.
+        /// </summary>
+        /// <param name="node">The descendent node to use.</param>
+        /// <param name="parent">The possible parent to use.</param>
+        /// <returns>True if the given parent is actually an inclusive ancestor of the provided node.</returns>
+        public static Boolean IsInclusiveDescendentOf(this INode node, INode parent)
+        {
+            return node == parent || node.IsDescendentOf(parent);
+        }
+
+        /// <summary>
         /// Checks if the parent is an ancestor of the given node.
         /// </summary>
         /// <param name="parent">The possible parent to use.</param>
@@ -47,6 +74,38 @@
         public static Boolean IsInclusiveAncestorOf(this INode parent, INode node)
         {
             return node == parent || node.IsDescendentOf(parent);
+        }
+
+        /// <summary>
+        /// Checks if the current node is a sibling of the specified element.
+        /// </summary>
+        /// <param name="node">The maybe sibling.</param>
+        /// <param name="element">The node to check for having the same parent.</param>
+        /// <returns>True if the parent is actually non-null and actually the same.</returns>
+        public static Boolean IsSiblingOf(this INode node, INode element)
+        {
+            return node.Parent != null && node.Parent == element.Parent;
+        }
+
+        /// <summary>
+        /// Finds the index of the given node of the provided parent node.
+        /// </summary>
+        /// <param name="parent">The parent of the given node.</param>
+        /// <param name="node">The node which needs to know its index.</param>
+        /// <returns>The index of the node or -1 if the node is not a child of the parent.</returns>
+        public static Int32 IndexOf(this INode parent, INode node)
+        {
+            var i = 0;
+
+            foreach (var child in parent.ChildNodes)
+            {
+                if (Object.ReferenceEquals(child, node))
+                    return i;
+
+                i++;
+            }
+
+            return -1;
         }
 
         /// <summary>
@@ -79,37 +138,6 @@
                 return parent.IsHostIncludingInclusiveAncestor(host);
 
             return false;
-        }
-
-        /// <summary>
-        /// Checks if the node is an descendent of the given parent.
-        /// </summary>
-        /// <param name="node">The descendent node to use.</param>
-        /// <param name="parent">The possible parent to use.</param>
-        /// <returns>True if the given parent is actually an ancestor of the provided node.</returns>
-        public static Boolean IsDescendentOf(this INode node, INode parent)
-        {
-            if (parent.ChildNodes.Index(node) != -1)
-                return true;
-
-            foreach (var child in parent.ChildNodes)
-            {
-                if (node.IsDescendentOf(child))
-                    return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Checks if the node is an inclusive descendent of the given parent.
-        /// </summary>
-        /// <param name="node">The descendent node to use.</param>
-        /// <param name="parent">The possible parent to use.</param>
-        /// <returns>True if the given parent is actually an inclusive ancestor of the provided node.</returns>
-        public static Boolean IsInclusiveDescendentOf(this INode node, INode parent)
-        {
-            return node == parent || node.IsDescendentOf(parent);
         }
 
         /// <summary>

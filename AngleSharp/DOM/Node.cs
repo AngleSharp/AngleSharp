@@ -290,24 +290,6 @@
                 InsertChild(index, new TextNode(s));
         }
 
-        /// <summary>
-        /// Finds the index of the given node.
-        /// </summary>
-        /// <param name="node">The node which needs to know its index.</param>
-        /// <returns>The index of the node or -1 if the node is not a child.</returns>
-        internal Int32 IndexOf(Node node)
-        {
-            var n = _children.Length;
-
-            for (var i = 0; i < n; i++)
-            {
-                if (_children[i] == node)
-                    return i;
-            }
-
-            return -1;
-        }
-
         #endregion
 
         #region Public Methods
