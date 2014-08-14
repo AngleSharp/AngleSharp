@@ -172,26 +172,6 @@
         }
 
         /// <summary>
-        /// Pre-inserts the given node at the parent before the provided child.
-        /// </summary>
-        /// <param name="parent">The origin that will be mutated.</param>
-        /// <param name="node">The node to be inserted.</param>
-        /// <param name="child">The reference node of the insertation.</param>
-        /// <returns>The inserted node, which is node.</returns>
-        public static INode PreInsert(this INode parent, INode node, INode child)
-        {
-            parent.EnsurePreInsertionValidity(node, child);
-            var referenceChild = child;
-
-            if (referenceChild == node)
-                referenceChild = node.NextSibling;
-
-            parent.Owner.Adopt(node);
-            parent.InsertBefore(node, child);
-            return node;
-        }
-
-        /// <summary>
         /// Ensures the validity for inserting the given node at parent before the
         /// provided child. Throws an error is the insertation is invalid.
         /// </summary>
@@ -235,6 +215,47 @@
             }
             else if (node is IDocumentType)
                 throw new DomException(ErrorCode.HierarchyRequest);
+        }
+
+        /// <summary>
+        /// Pre-inserts the given node at the parent before the provided child.
+        /// </summary>
+        /// <param name="parent">The origin that will be mutated.</param>
+        /// <param name="node">The node to be inserted.</param>
+        /// <param name="child">The reference node of the insertation.</param>
+        /// <returns>The inserted node, which is node.</returns>
+        public static INode PreInsert(this INode parent, INode node, INode child)
+        {
+            parent.EnsurePreInsertionValidity(node, child);
+            var referenceChild = child;
+
+            if (referenceChild == node)
+                referenceChild = node.NextSibling;
+
+            parent.Owner.AdoptNode(node);
+            parent.InsertBefore(node, child);
+            return node;
+        }
+
+        /// <summary>
+        /// Adopts the given node for the provided document context.
+        /// </summary>
+        /// <param name="document">The new owner of the node.</param>
+        /// <param name="node">The node to change its owner.</param>
+        public static void AdoptNode(this IDocument document, INode node)
+        {
+            var adopted = node as Node;
+
+            if (adopted == null)
+                return;
+
+            var oldDocument = adopted.Owner;
+
+            if (node.Parent != null)
+                node.Parent.RemoveChild(node);
+
+            adopted.Owner = document as Document;
+            //Run any adopting steps defined for node in other applicable specifications and pass node and oldDocument as parameters.
         }
 
         /// <summary>

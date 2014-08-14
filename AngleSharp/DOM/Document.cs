@@ -993,14 +993,7 @@
             if (externalNode is IDocument)
                 throw new DomException(ErrorCode.NotSupported);
 
-            if (externalNode.Parent != null)
-                externalNode.Parent.RemoveChild(externalNode);
-
-            var node = externalNode as Node;
-
-            if (node != null)
-                node.Owner = this;
-
+            this.AdoptNode(externalNode);
             return externalNode;
         }
 
