@@ -1447,6 +1447,9 @@
     <Compile Include="..\AngleSharp\Foundation\Extensions\ConfigurationExtensions.cs">
       <Link>Foundation\Extensions\ConfigurationExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\ElementExtensions.cs">
+      <Link>Foundation\Extensions\ElementExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Extensions\ErrorExtensions.cs">
       <Link>Foundation\Extensions\ErrorExtensions.cs</Link>
     </Compile>
