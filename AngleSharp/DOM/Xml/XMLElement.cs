@@ -15,7 +15,7 @@
         internal XmlElement(String name)
             : base(name)
         {
-            NamespaceUri = Namespaces.Xml;
+            NamespaceUri = Namespaces.XmlUri;
         }
 
         /// <summary>

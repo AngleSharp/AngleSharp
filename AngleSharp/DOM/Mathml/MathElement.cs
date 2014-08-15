@@ -15,7 +15,7 @@
         internal MathElement(String name, NodeFlags flags = NodeFlags.None)
             : base(name, flags | NodeFlags.MathMember)
         {
-            NamespaceUri = Namespaces.MathML;
+            NamespaceUri = Namespaces.MathMlUri;
         }
 
         #endregion

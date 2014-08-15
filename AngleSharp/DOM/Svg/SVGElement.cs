@@ -22,7 +22,7 @@
         internal SVGElement(String name, NodeFlags flags = NodeFlags.None)
             : base(name, flags | NodeFlags.SvgMember)
         {
-            NamespaceUri = Namespaces.Svg;
+            NamespaceUri = Namespaces.SvgUri;
             _style = new CSSStyleDeclaration();
         }
 
