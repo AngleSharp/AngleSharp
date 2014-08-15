@@ -252,6 +252,11 @@
         /// <returns>The inserted node, which is node.</returns>
         public static INode PreInsert(this INode parent, INode node, INode child)
         {
+            var parentNode = parent as Node;
+
+            if (parentNode == null)
+                throw new DomException(ErrorCode.NotSupported);
+
             parent.EnsurePreInsertionValidity(node, child);
             var referenceChild = child;
 
@@ -259,8 +264,27 @@
                 referenceChild = node.NextSibling;
 
             parent.Owner.AdoptNode(node);
-            parent.InsertBefore(node, child);
+            parentNode.InsertBefore(node, child, false);
             return node;
+        }
+
+        /// <summary>
+        /// Pre-removes the given child of the parent.
+        /// </summary>
+        /// <param name="parent">The origin that will be mutated.</param>
+        /// <param name="child">The node that will be removed.</param>
+        /// <returns>The removed node, which is child.</returns>
+        public static INode PreRemove(this INode parent, INode child)
+        {
+            var parentNode = parent as Node;
+
+            if (parentNode == null)
+                throw new DomException(ErrorCode.NotSupported);
+            else if (child.Parent != parent)
+                throw new DomException(ErrorCode.NotFound);
+
+            parentNode.RemoveChild(child, false);
+            return child;
         }
 
         /// <summary>
@@ -270,18 +294,17 @@
         /// <param name="node">The node to change its owner.</param>
         public static void AdoptNode(this IDocument document, INode node)
         {
-            var adopted = node as Node;
+            var adoptedNode = node as Node;
 
-            if (adopted == null)
-                return;
+            if (adoptedNode == null)
+                throw new DomException(ErrorCode.NotSupported);
 
-            var oldDocument = adopted.Owner;
+            var oldDocument = node.Owner;
 
-            if (node.Parent != null)
-                node.Parent.RemoveChild(node);
+            if (adoptedNode.Parent != null)
+                adoptedNode.Parent.RemoveChild(node, false);
 
-            adopted.Owner = document as Document;
-            //Run any adopting steps defined for node in other applicable specifications and pass node and oldDocument as parameters.
+            adoptedNode.Owner = document as Document;
         }
 
         /// <summary>
@@ -316,6 +339,8 @@
             return css.ToCss();
         }
 
+        #region Helpers
+
         static Boolean IsFollowedByDoctype(this INode child)
         {
             if (child == null)
@@ -342,5 +367,7 @@
 
             return false;
         }
+
+        #endregion
     }
 }
