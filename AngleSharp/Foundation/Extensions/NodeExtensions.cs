@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM
 {
-    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Html;
     using System;
     using System.Collections.Generic;
@@ -44,6 +43,22 @@
         }
 
         /// <summary>
+        /// Gets the descendent nodes of the provided parent, in tree order.
+        /// </summary>
+        /// <param name="parent">The parent of the descendents.</param>
+        /// <returns>An iterator over all descendents.</returns>
+        public static IEnumerable<INode> GetDescendentsOf(this INode parent)
+        {
+            foreach (var child in parent.ChildNodes)
+            {
+                yield return child;
+
+                foreach (var subchild in child.GetDescendentsOf())
+                    yield return subchild;
+            }
+        }
+
+        /// <summary>
         /// Checks if the node is an inclusive descendent of the given parent.
         /// </summary>
         /// <param name="node">The descendent node to use.</param>
@@ -63,6 +78,17 @@
         public static Boolean IsAncestorOf(this INode parent, INode node)
         {
             return node.IsDescendentOf(parent);
+        }
+
+        /// <summary>
+        /// Gets the ancestor nodes of the provided node, in tree order.
+        /// </summary>
+        /// <param name="node">The child of the ancestors.</param>
+        /// <returns>An iterator over all ancestors.</returns>
+        public static IEnumerable<INode> GetAncestorsOf(this INode node)
+        {
+            while ((node = node.Parent) != null)
+                yield return node;
         }
 
         /// <summary>
