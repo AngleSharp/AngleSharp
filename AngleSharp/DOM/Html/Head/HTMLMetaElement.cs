@@ -12,7 +12,7 @@
         /// <summary>
         /// Creates a new HTML meta element.
         /// </summary>
-        internal HTMLMetaElement()
+        public HTMLMetaElement()
             : base(Tags.Meta, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

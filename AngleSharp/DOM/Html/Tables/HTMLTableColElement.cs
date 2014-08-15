@@ -9,7 +9,7 @@
     {
         #region ctor
 
-        internal HTMLTableColElement()
+        public HTMLTableColElement()
             : base(Tags.Col, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

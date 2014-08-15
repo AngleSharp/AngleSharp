@@ -18,7 +18,7 @@
         /// <summary>
         /// Creates a new HTML option element.
         /// </summary>
-        internal HTMLOptionElement()
+        public HTMLOptionElement()
             : base(Tags.Option, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
         }

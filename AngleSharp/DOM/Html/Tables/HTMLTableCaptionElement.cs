@@ -9,7 +9,7 @@
     {
         #region ctor
 
-        internal HTMLTableCaptionElement()
+        public HTMLTableCaptionElement()
             : base(Tags.Caption, NodeFlags.Special | NodeFlags.Scoped)
         {
         }

@@ -7,7 +7,7 @@
     {
         #region ctor
 
-        internal HTMLHeadElement()
+        public HTMLHeadElement()
             : base(Tags.Head, NodeFlags.Special)
         {
         }

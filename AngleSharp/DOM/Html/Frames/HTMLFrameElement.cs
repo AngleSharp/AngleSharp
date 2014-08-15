@@ -9,7 +9,7 @@
     {
         #region ctor
 
-        internal HTMLFrameElement()
+        public HTMLFrameElement()
             : base(Tags.Frame, NodeFlags.SelfClosing)
         {
         }

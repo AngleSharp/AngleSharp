@@ -10,7 +10,7 @@
         /// <summary>
         /// Creates a new hr element.
         /// </summary>
-        internal HTMLHRElement()
+        public HTMLHRElement()
             : base(Tags.Hr, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

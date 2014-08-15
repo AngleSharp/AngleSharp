@@ -26,7 +26,7 @@
         internal HTMLElement(String name, NodeFlags flags = NodeFlags.None)
             : base(name, flags | NodeFlags.HtmlMember)
         {
-            NamespaceUri = Namespaces.Html;
+            NamespaceUri = Namespaces.HtmlUri;
             _style = new CSSStyleDeclaration();
             _style.Changed += (s, ev) => { SetAttribute(AttributeNames.Style, _style.CssText); };
         }

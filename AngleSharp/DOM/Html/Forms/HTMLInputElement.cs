@@ -23,7 +23,7 @@
         /// <summary>
         /// Creates a new HTML input element.
         /// </summary>
-        internal HTMLInputElement()
+        public HTMLInputElement()
             : base(Tags.Input, NodeFlags.SelfClosing)
         {
             WillValidate = true;

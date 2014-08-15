@@ -12,7 +12,7 @@
         /// <summary>
         /// Creates a HTML body element.
         /// </summary>
-        internal HTMLBodyElement()
+        public HTMLBodyElement()
             : base(Tags.Body, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {
         }

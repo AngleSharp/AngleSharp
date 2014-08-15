@@ -18,7 +18,7 @@
 
         #region ctor
 
-        internal HTMLTableElement()
+        public HTMLTableElement()
             : base(Tags.Table, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
             _rows = new HtmlCollection<IHtmlTableRowElement>(this);

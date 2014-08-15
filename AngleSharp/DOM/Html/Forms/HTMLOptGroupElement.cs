@@ -12,7 +12,7 @@
         /// <summary>
         /// Creates a new HTML optgroup element.
         /// </summary>
-        internal HTMLOptGroupElement()
+        public HTMLOptGroupElement()
             : base(Tags.Optgroup, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
         }

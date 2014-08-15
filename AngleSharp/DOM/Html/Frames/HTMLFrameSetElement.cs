@@ -11,7 +11,7 @@
     {
         #region ctor
 
-        internal HTMLFrameSetElement()
+        public HTMLFrameSetElement()
             : base(Tags.Frameset, NodeFlags.Special)
         {
         }

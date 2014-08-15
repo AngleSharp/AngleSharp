@@ -9,7 +9,7 @@
     {
         #region ctor
 
-        internal HTMLTableColgroupElement()
+        public HTMLTableColgroupElement()
             : base(Tags.Colgroup, NodeFlags.Special)
         {
         }

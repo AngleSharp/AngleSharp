@@ -20,7 +20,7 @@
         /// <summary>
         /// Creates a new anchor element.
         /// </summary>
-        internal HTMLAnchorElement()
+        public HTMLAnchorElement()
             : base(Tags.A, NodeFlags.HtmlFormatting)
         {
         }

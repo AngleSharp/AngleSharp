@@ -27,7 +27,7 @@
         /// <summary>
         /// Creates a new HTML form element.
         /// </summary>
-        internal HTMLFormElement()
+        public HTMLFormElement()
             : base(Tags.Form, NodeFlags.Special)
         {
             _cancel = new CancellationTokenSource();

@@ -18,7 +18,7 @@
         /// <summary>
         /// Creates a new HTML button element.
         /// </summary>
-        internal HTMLButtonElement()
+        public HTMLButtonElement()
             : base(Tags.Button)
         {
         }

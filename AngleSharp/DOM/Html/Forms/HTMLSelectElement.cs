@@ -20,7 +20,7 @@
         /// <summary>
         /// Creates a new HTML select element.
         /// </summary>
-        internal HTMLSelectElement()
+        public HTMLSelectElement()
             : base(Tags.Select)
         {
             _options = new OptionsCollection(this);
