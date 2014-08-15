@@ -26,7 +26,7 @@
                     String.Compare("type", 0, name, 6, 4) == 0 ||
                     String.Compare("title", 0, name, 6, 5) == 0)
                 {
-                    element.SetAttribute(Namespaces.XLink, name.Substring(name.IndexOf(':') + 1), value);
+                    element.SetAttribute(Namespaces.XLinkUri, name.Substring(name.IndexOf(':') + 1), value);
                     return;
                 }
             }
@@ -35,12 +35,12 @@
                 if (String.Compare("xml:", 0, name, 0, 4) == 0 && (String.Compare("base", 0, name, 4, 4) == 0 ||
                     String.Compare("lang", 0, name, 4, 4) == 0 || String.Compare("space", 0, name, 4, 5) == 0))
                 {
-                    element.SetAttribute(Namespaces.Xml, name, value);
+                    element.SetAttribute(Namespaces.XmlUri, name, value);
                     return;
                 }
                 else if (name.Equals("xmlns") || name.Equals("xmlns:xlink"))
                 {
-                    element.SetAttribute(Namespaces.XmlNS, name, value);
+                    element.SetAttribute(Namespaces.XmlNsUri, name, value);
                     return;
                 }
             }
