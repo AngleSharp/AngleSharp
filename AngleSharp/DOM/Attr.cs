@@ -162,11 +162,11 @@
 
             if (String.IsNullOrEmpty(_ns))
                 temp.Append(LocalName);
-            else if (_ns == Namespaces.Xml)
+            else if (_ns == Namespaces.XmlUri)
                 temp.Append("xml:").Append(LocalName);
-            else if (_ns == Namespaces.XLink)
+            else if (_ns == Namespaces.XLinkUri)
                 temp.Append("xlink:").Append(LocalName);
-            else if (_ns == Namespaces.XmlNS)
+            else if (_ns == Namespaces.XmlNsUri)
             {
                 if (LocalName != "xmlns")
                     temp.Append("xmlns:");
