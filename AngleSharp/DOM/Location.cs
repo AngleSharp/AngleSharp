@@ -45,9 +45,12 @@
 
         #region Properties
 
+        /// <summary>
+        /// Gets the origin of the url.
+        /// </summary>
         public String Origin
         {
-            get { return _url.Href; }
+            get { return _url.Origin.Href; }
         }
 
         /// <summary>

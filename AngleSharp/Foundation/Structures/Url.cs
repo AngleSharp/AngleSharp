@@ -21,6 +21,7 @@
         String _password;
         Boolean _relative;
         String _schemeData;
+        Boolean _error;
 
         #endregion
 
@@ -34,6 +35,14 @@
             _host = String.Empty;
             _port = String.Empty;
             _path = String.Empty;
+        }
+
+        private Url(String scheme, String host, String port)
+            : this()
+        {
+            _scheme = scheme;
+            _host = host;
+            _port = port;
         }
 
         /// <summary>
@@ -87,6 +96,38 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the origin of the stored url.
+        /// </summary>
+        public Url Origin
+        {
+            get
+            {
+                if (_scheme.Equals(KnownProtocols.Blob))
+                {
+                    var url = new Url(_schemeData);
+
+                    if (!url.IsInvalid)
+                        return url.Origin;
+                }
+                else if (KnownProtocols.IsOriginable(_scheme))
+                {
+                    var port = String.IsNullOrEmpty(_port) ? DefaultPorts.GetDefaultPort(_scheme) : _port;
+                    return new Url(_scheme, _host, port);
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets if the URL parsing resulted in an error.
+        /// </summary>
+        public Boolean IsInvalid
+        {
+            get { return _error; }
+        }
 
         /// <summary>
         /// Gets if the stored url is relative.
@@ -292,7 +333,7 @@
                 _port = baseUrl._port;
             }
 
-            ParseScheme(input.Trim());
+            _error = ParseScheme(input.Trim());
         }
 
         Boolean ParseScheme(String input, Boolean onlyScheme = false)

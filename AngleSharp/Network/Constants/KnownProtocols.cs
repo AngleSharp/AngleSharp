@@ -66,6 +66,11 @@
         /// The legacy gopher protocol.
         /// </summary>
         public static readonly String Gopher = "gopher";
+        
+        /// <summary>
+        /// The binary large object protocol.
+        /// </summary>
+        public static readonly String Blob = "blob";
 
         /// <summary>
         /// Checks if the given protocol (without a colon in the end) is
@@ -75,7 +80,18 @@
         /// <returns>True if the protocol is a relative scheme, otherwise false.</returns>
         public static Boolean IsRelative(String protocol)
         {
-            return protocol.IsOneOf("http", "https", "ftp", "file", "ws", "wss", "gopher");
+            return protocol.IsOneOf(Http, Https, Ftp, File, Ws, Wss, Gopher);
+        }
+
+        /// <summary>
+        /// Checks if the given protocol (without a colon in the end) is
+        /// what is suitable for deriving the origin.
+        /// </summary>
+        /// <param name="protocol">The protocol to examine.</param>
+        /// <returns>True if the protocol is suited for origin, otherwise false.</returns>
+        public static Boolean IsOriginable(String protocol)
+        {
+            return protocol.IsOneOf(Http, Https, Ftp, Ws, Wss, Gopher);
         }
     }
 }
