@@ -136,14 +136,17 @@
         public static Int32 Index<T>(this IEnumerable<T> elements, T item)
             where T : INode
         {
-            int i = 0;
-
-            foreach (var element in elements)
+            if (item != null)
             {
-                if (Object.ReferenceEquals(element, item))
-                    return i;
+                int i = 0;
 
-                i++;
+                foreach (var element in elements)
+                {
+                    if (Object.ReferenceEquals(element, item))
+                        return i;
+
+                    i++;
+                }
             }
 
             return -1;
