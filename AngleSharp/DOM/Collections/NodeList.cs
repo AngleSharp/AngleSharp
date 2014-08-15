@@ -28,6 +28,15 @@
             _entries = new List<Node>();
         }
 
+        /// <summary>
+        /// Creates a copy of the list of existing nodes.
+        /// </summary>
+        /// <param name="existing">The list to copy.</param>
+        internal NodeList(NodeList existing)
+        {
+            _entries = new List<Node>(existing._entries);
+        }
+
         #endregion
 
         #region Index
@@ -73,10 +82,18 @@
         /// Adds a node to the list of nodes.
         /// </summary>
         /// <param name="node">The node to add.</param>
-        /// <returns>The modified collection.</returns>
         internal void Add(Node node)
         {
             _entries.Add(node);
+        }
+
+        /// <summary>
+        /// Adds nodes from a list of nodes.
+        /// </summary>
+        /// <param name="nodeList">The nodes to add.</param>
+        internal void AddRange(NodeList nodeList)
+        {
+            _entries.AddRange(nodeList._entries);
         }
 
         /// <summary>
@@ -84,7 +101,6 @@
         /// </summary>
         /// <param name="index">The zero-based index at which the node should be inserted.</param>
         /// <param name="node">The node to add.</param>
-        /// <returns>The modified collection.</returns>
         internal void Insert(Int32 index, Node node)
         {
             _entries.Insert(index, node);
@@ -94,10 +110,18 @@
         /// Removes the specified node from the list.
         /// </summary>
         /// <param name="node">The node to remove.</param>
-        /// <returns>The modified collection.</returns>
         internal void Remove(Node node)
         {
             _entries.Remove(node);
+        }
+
+        /// <summary>
+        /// Removes the node at the given index.
+        /// </summary>
+        /// <param name="index">The index to remove.</param>
+        internal void RemoveAt(Int32 index)
+        {
+            _entries.RemoveAt(index);
         }
 
         /// <summary>
