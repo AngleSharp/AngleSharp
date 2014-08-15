@@ -53,7 +53,7 @@
             if (events.TryGetValue(name, out eventCreator))
                 return eventCreator();
 
-            throw new DomException(ErrorCode.NotSupported);
+            return null;
         }
     }
 }
