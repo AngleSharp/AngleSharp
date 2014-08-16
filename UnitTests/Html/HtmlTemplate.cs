@@ -3576,7 +3576,7 @@ namespace UnitTests.Html
         }
 
         [TestMethod]
-        public void TemplateNodeInBodyWithIAndMenuAndText()
+        public void TemplateNodeInBodyWithItalicAndMenuAndText()
         {
             var doc = DocumentBuilder.Html(@"<body><template><i><menu>Foo</i>");
 
