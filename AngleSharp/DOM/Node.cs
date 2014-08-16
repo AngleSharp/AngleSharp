@@ -72,68 +72,6 @@
         }
 
         /// <summary>
-        /// Gets the node immediately preceding this node's parent's list of nodes, 
-        /// null if the specified node is the first in that list.
-        /// </summary>
-        public INode PreviousSibling
-        {
-            get
-            {
-                if (_parent == null)
-                    return null;
-
-                var n = _parent._children.Length;
-
-                for (int i = 1; i < n; i++)
-                {
-                    if (_parent._children[i] == this)
-                        return _parent._children[i - 1];
-                }
-
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Gets the node immediately following this node's parent's list of nodes,
-        /// or null if the current node is the last node in that list.
-        /// </summary>
-        public INode NextSibling
-        {
-            get
-            {
-                if (_parent == null)
-                    return null;
-
-                var n = _parent._children.Length - 1;
-
-                for (int i = 0; i < n; i++)
-                {
-                    if (_parent._children[i] == this)
-                        return _parent._children[i + 1];
-                }
-
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Gets the first child node of this node.
-        /// </summary>
-        public INode FirstChild
-        {
-            get { return _children.Length > 0 ? _children[0] : null; }
-        }
-
-        /// <summary>
-        /// Gets the last child node of this node.
-        /// </summary>
-        public INode LastChild
-        {
-            get { return _children.Length > 0 ? _children[_children.Length - 1] : null; }
-        }
-
-        /// <summary>
         /// Gets the type of this node.
         /// </summary>
         public NodeType NodeType 
@@ -159,14 +97,31 @@
             set { }
         }
 
+        INode INode.PreviousSibling
+        {
+            get { return PreviousSibling; }
+        }
+
+        INode INode.NextSibling
+        {
+            get { return NextSibling; }
+        }
+
+        INode INode.FirstChild
+        {
+            get { return FirstChild; }
+        }
+
+        INode INode.LastChild
+        {
+            get { return LastChild; }
+        }
+
         IDocument INode.Owner
         {
             get { return Owner; }
         }
 
-        /// <summary>
-        /// Gets the parent node.
-        /// </summary>
         INode INode.Parent
         {
             get { return _parent; }
@@ -180,9 +135,6 @@
             get { return _parent as IElement; }
         }
 
-        /// <summary>
-        /// Gets the children of this node.
-        /// </summary>
         INodeList INode.ChildNodes
         {
             get { return _children; }
@@ -199,6 +151,68 @@
         #endregion
 
         #region Internal Properties
+
+        /// <summary>
+        /// Gets the node immediately preceding this node's parent's list of nodes, 
+        /// null if the specified node is the first in that list.
+        /// </summary>
+        internal Node PreviousSibling
+        {
+            get
+            {
+                if (_parent == null)
+                    return null;
+
+                var n = _parent._children.Length;
+
+                for (int i = 1; i < n; i++)
+                {
+                    if (_parent._children[i] == this)
+                        return _parent._children[i - 1];
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the node immediately following this node's parent's list of nodes,
+        /// or null if the current node is the last node in that list.
+        /// </summary>
+        internal Node NextSibling
+        {
+            get
+            {
+                if (_parent == null)
+                    return null;
+
+                var n = _parent._children.Length - 1;
+
+                for (int i = 0; i < n; i++)
+                {
+                    if (_parent._children[i] == this)
+                        return _parent._children[i + 1];
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the first child node of this node.
+        /// </summary>
+        internal Node FirstChild
+        {
+            get { return _children.Length > 0 ? _children[0] : null; }
+        }
+
+        /// <summary>
+        /// Gets the last child node of this node.
+        /// </summary>
+        internal Node LastChild
+        {
+            get { return _children.Length > 0 ? _children[_children.Length - 1] : null; }
+        }
 
         /// <summary>
         /// Gets the flags of this node.
@@ -238,10 +252,14 @@
                 if (_owner == value)
                     return;
 
+                var oldDocument = _owner;
                 _owner = value;
 
                 for (int i = 0; i < _children.Length; i++)
                     _children[i].Owner = value;
+
+                if (oldDocument != null)
+                    NodeIsAdopted(oldDocument);
             }
         }
 
@@ -329,7 +347,7 @@
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
         public INode ReplaceChild(INode newChild, INode oldChild)
         {
-            return this.ReplaceChild(newChild, oldChild, false);
+            return this.ReplaceChild(newChild as Node, oldChild as Node, false);
         }
 
         /// <summary>
@@ -394,7 +412,7 @@
         {
             for (int i = 0; i < _children.Length; i++)
             {
-                var text = _children[i] as IText;
+                var text = _children[i] as TextNode;
 
                 if (text != null)
                 {
@@ -411,7 +429,7 @@
                         var sibling = text;
                         var end = i;
 
-                        while ((sibling = sibling.NextSibling as IText) != null)
+                        while ((sibling = sibling.NextSibling as TextNode) != null)
                         {
                             sb.Append(sibling.Data);
                             end++;
@@ -577,11 +595,11 @@
                     addedNodes.Add(node);
             }
 
-            foreach (var child in removedNodes)
-                RemoveChild(child, true);
+            for (int i = 0; i < removedNodes.Length; i++)
+                RemoveChild(removedNodes[i], true);
 
-            foreach (var child in addedNodes)
-                InsertBefore(child, null, true);
+            for (int i = 0; i < addedNodes.Length; i++)
+                InsertBefore(addedNodes[i], null, true);
 
             //TODO
             // Queue a mutation record of "childList" for parent with
@@ -596,7 +614,7 @@
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <param name="suppressObservers">If mutation observers should be surpressed.</param>
         /// <returns>The inserted node.</returns>
-        internal INode InsertBefore(INode newElement, INode referenceElement, Boolean suppressObservers)
+        internal INode InsertBefore(Node newElement, Node referenceElement, Boolean suppressObservers)
         {
             var count = newElement is IDocumentFragment ? newElement.ChildNodes.Length : 1;
 
@@ -614,18 +632,17 @@
 
             if (n == -1)
                 n = _children.Length;
-
-            var fragment = newElement as DocumentFragment;
-
-            if (fragment != null)
+            
+            if (newElement._type == NodeType.DocumentFragment)
             {
                 var start = n;
 
-                while (fragment.HasChilds)
+                while (newElement.HasChilds)
                 {
-                    var child = fragment.FirstChild as Node;
-                    _children.Insert(n++, child);
-                    fragment.RemoveChild(child, true);
+                    var child = newElement.ChildNodes[0];
+                    newElement.RemoveChild(child, true);
+                    AddNode(child);
+                    n++;
                 }
 
                 while (start < n)
@@ -633,7 +650,7 @@
             }
             else
             {
-                InsertNode(n, newElement as Node);
+                InsertNode(n, newElement);
                 NodeIsInserted(newElement);
             }
 
@@ -645,7 +662,7 @@
         /// </summary>
         /// <param name="node">The child to remove.</param>
         /// <param name="suppressObservers">If mutation observers should be surpressed.</param>
-        internal void RemoveChild(INode node, Boolean suppressObservers)
+        internal void RemoveChild(Node node, Boolean suppressObservers)
         {
             var index = _children.Index(node);
 
@@ -655,7 +672,7 @@
             // For each range whose start node is parent and start offset is greater than index, decrease its start offset by one. 
             // For each range whose end node is parent and end offset is greater than index, decrease its end offset by one. 
 
-            var oldPreviousSibling = node.PreviousSibling;
+            var oldPreviousSibling = index > 0 ? _children[index - 1] : null;
 
             if (!suppressObservers)
             {
@@ -667,7 +684,7 @@
                 // options are identical to those of registered and source which is registered to node's list of registered observers. 
             }
 
-            RemoveNode(index, node as Node);
+            RemoveNode(index, node);
             NodeIsRemoved(node, oldPreviousSibling);
         }
 
@@ -678,7 +695,7 @@
         /// <param name="child">The existing child to be replaced.</param>
         /// <param name="suppressObservers">If mutation observers should be surpressed.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
-        internal INode ReplaceChild(INode node, INode child, Boolean suppressObservers)
+        internal INode ReplaceChild(Node node, Node child, Boolean suppressObservers)
         {
             if (_type != NodeType.Document && _type != NodeType.DocumentFragment && _type != NodeType.Element)
                 throw new DomException(ErrorCode.HierarchyRequest);
@@ -714,7 +731,7 @@
 
                 if (newNode != null)
                 {
-                    if (node is IDocumentFragment)
+                    if (node._type == NodeType.DocumentFragment)
                         nodes.AddRange(newNode._children);
                     else
                         nodes.Add(newNode);
@@ -730,17 +747,22 @@
                 throw new DomException(ErrorCode.HierarchyRequest);
         }
 
-        void NodeIsAdopted(IDocument oldDocument)
+        internal virtual void Close()
+        {
+            //Run any closing steps after the parser generated the Node incl. subnodes
+        }
+
+        internal virtual void NodeIsAdopted(Document oldDocument)
         {
             //Run any adopting steps defined for node in other applicable specifications and pass node and oldDocument as parameters.
         }
 
-        void NodeIsInserted(INode newNode)
+        internal virtual void NodeIsInserted(Node newNode)
         {
             //Specifications may define insertion steps for all or some nodes.
         }
 
-        void NodeIsRemoved(INode removedNode, INode oldPreviousSibling)
+        internal virtual void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
         {
             //Specifications may define removing steps for all or some nodes.
         }

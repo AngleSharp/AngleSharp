@@ -75,7 +75,7 @@
 
         #region Internal methods
 
-        public override void Close()
+        internal override void Close()
         {
             _sheet = Owner.Options.ParseStyling(source: TextContent, owner: this, type: Type);
         }

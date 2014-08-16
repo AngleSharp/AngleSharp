@@ -253,18 +253,19 @@
         public static INode PreInsert(this INode parent, INode node, INode child)
         {
             var parentNode = parent as Node;
+            var newNode = node as Node;
 
             if (parentNode == null)
                 throw new DomException(ErrorCode.NotSupported);
 
             parent.EnsurePreInsertionValidity(node, child);
-            var referenceChild = child;
+            var referenceChild = child as Node;
 
             if (referenceChild == node)
-                referenceChild = node.NextSibling;
+                referenceChild = newNode.NextSibling;
 
             parent.Owner.AdoptNode(node);
-            parentNode.InsertBefore(node, child, false);
+            parentNode.InsertBefore(newNode, referenceChild, false);
             return node;
         }
 
@@ -283,7 +284,7 @@
             else if (child.Parent != parent)
                 throw new DomException(ErrorCode.NotFound);
 
-            parentNode.RemoveChild(child, false);
+            parentNode.RemoveChild(child as Node, false);
             return child;
         }
 
@@ -299,13 +300,10 @@
             if (adoptedNode == null)
                 throw new DomException(ErrorCode.NotSupported);
 
-            var oldDocument = node.Owner;
-
             if (adoptedNode.Parent != null)
-                adoptedNode.Parent.RemoveChild(node, false);
+                adoptedNode.Parent.RemoveChild(adoptedNode, false);
 
             adoptedNode.Owner = document as Document;
-            //Run any adopting steps defined for node in other applicable specifications and pass node and oldDocument as parameters.
         }
 
         /// <summary>

@@ -64,7 +64,12 @@
 
         #region Helpers
 
-        public override void Close()
+        internal override void NodeIsAdopted(Document oldDocument)
+        {
+            _content.Owner = oldDocument;
+        }
+
+        internal override void Close()
         {
             while (HasChilds)
             {

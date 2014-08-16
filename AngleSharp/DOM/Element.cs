@@ -608,10 +608,6 @@
             OnAttributeChanged(name);
         }
 
-        public virtual void Close()
-        {
-        }
-
         /// <summary>
         /// Adds a new attribute or changes the value of an existing attribute on the specified element.
         /// </summary>
