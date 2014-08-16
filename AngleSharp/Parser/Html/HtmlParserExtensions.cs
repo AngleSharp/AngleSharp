@@ -40,11 +40,11 @@
         /// If it is not, the attribute and its corresponding value is added to the node.
         /// </summary>
         /// <param name="element">The node with the target attributes.</param>
-        /// <param name="tag">The token with the source attributes.</param>
-        public static void SetAttributes(this Element element, HtmlTagToken tag)
+        /// <param name="attributes">The attributes to set.</param>
+        public static void SetAttributes(this Element element, List<KeyValuePair<String, String>> attributes)
         {
-            foreach (var attr in tag.Attributes)
-                element.AddAttribute(attr.Key, attr.Value);
+            foreach (var attribute in attributes)
+                element.AddAttribute(attribute.Key, attribute.Value);
         }
 
         /// <summary>
@@ -103,10 +103,10 @@
         /// Appends a comment node to the specified node.
         /// </summary>
         /// <param name="parent">The node which will contain the comment node.</param>
-        /// <param name="token">The comment token.</param>
-        public static void AddComment(this Node parent, HtmlToken token)
+        /// <param name="data">The comment.</param>
+        public static void AddComment(this Node parent, String data)
         {
-            parent.AddNode(new Comment(token.Data) { Owner = parent.Owner });
+            parent.AddNode(new Comment(data) { Owner = parent.Owner });
         }
 
         /// <summary>
