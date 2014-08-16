@@ -140,7 +140,7 @@
         /// <param name="before">The context node.</param>
         /// <param name="after">The provided reference node.</param>
         /// <returns>True if the context node is preceeding the reference node in tree order.</returns>
-        public static Boolean IsPreceeding(this INode before, INode after)
+        public static Boolean IsPreceding(this INode before, INode after)
         {
             var parent = before.Parent;
 
@@ -151,7 +151,7 @@
             else if (parent == after.Parent)
                 return parent.IndexOf(before) < parent.IndexOf(after);
 
-            return parent.IsPreceeding(after);
+            return parent.IsPreceding(after);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@
         /// <returns>True if the context node is following the reference node in tree order.</returns>
         public static Boolean IsFollowing(this INode after, INode before)
         {
-            return before.IsPreceeding(after);
+            return before.IsPreceding(after);
         }
 
         /// <summary>
@@ -305,6 +305,7 @@
                 adoptedNode.Parent.RemoveChild(node, false);
 
             adoptedNode.Owner = document as Document;
+            //Run any adopting steps defined for node in other applicable specifications and pass node and oldDocument as parameters.
         }
 
         /// <summary>
