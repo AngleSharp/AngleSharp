@@ -75,17 +75,9 @@
 
         #region Internal methods
 
-        /// <summary>
-        /// Called if the children structure changed (due to add, insert, replace or remove).
-        /// </summary>
-        protected override void OnChildrenChanged()
+        public override void Close()
         {
-            var owner = Owner;
-
-            if (owner == null)
-                return;
-
-            _sheet = owner.Options.ParseStyling(source: TextContent, owner: this, type: Type);
+            _sheet = Owner.Options.ParseStyling(source: TextContent, owner: this, type: Type);
         }
 
         /// <summary>

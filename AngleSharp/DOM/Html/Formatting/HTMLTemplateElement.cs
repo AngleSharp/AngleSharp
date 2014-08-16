@@ -9,15 +9,16 @@
     {
         #region Fields
 
-        DocumentFragment _content;
+        readonly DocumentFragment _content;
 
         #endregion
 
         #region ctor
 
-        internal HTMLTemplateElement()
+        public HTMLTemplateElement()
             : base(Tags.Template, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
+            _content = new DocumentFragment { Owner = Owner };
         }
 
         #endregion
@@ -29,32 +30,12 @@
         /// </summary>
         public IDocumentFragment Content
         {
-            get { return Container; }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        internal DocumentFragment Container
-        {
-            get { return _content ?? (_content = new DocumentFragment { Owner = Owner }); }
+            get { return _content; }
         }
 
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Adds a child to the collection of children.
-        /// </summary>
-        /// <param name="child">The child to add.</param>
-        /// <returns>The added child.</returns>
-        public override INode AppendChild(INode child)
-        {
-            Content.AppendChild(child);
-            return child;
-        }
 
         /// <summary>
         /// Returns a duplicate of the template including the contents if deep is specified.
@@ -68,13 +49,29 @@
             CopyProperties(this, clone, deep);
             CopyAttributes(this, clone);
 
-            if (deep && _content != null)
+            for (int i = 0; i < _content.ChildNodes.Length; i++)
             {
-                clone._content = (DocumentFragment)_content.Clone(true);
-                clone._content.Owner = Owner;
+                var node = _content.ChildNodes[i].Clone(deep) as Node;
+
+                if (node != null)
+                    clone._content.AddNode(node);
             }
 
             return clone;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        public override void Close()
+        {
+            while (HasChilds)
+            {
+                var node = ChildNodes[0];
+                RemoveNode(0, node);
+                _content.AddNode(node);
+            }
         }
 
         #endregion
