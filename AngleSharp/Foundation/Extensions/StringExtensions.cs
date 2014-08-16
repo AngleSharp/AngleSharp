@@ -238,13 +238,38 @@
         /// Examines if the given element is equal to one of the given elements.
         /// </summary>
         /// <param name="element">The element to check for equality.</param>
+        /// <param name="itemA">The first item to compare to.</param>
+        /// <param name="itemB">The second item to compare to.</param>
+        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        public static Boolean IsOneOf(this String element, String itemA, String itemB)
+        {
+            return element == itemA || element == itemB;
+        }
+
+        /// <summary>
+        /// Examines if the given element is equal to one of the given elements.
+        /// </summary>
+        /// <param name="element">The element to check for equality.</param>
+        /// <param name="itemA">The first item to compare to.</param>
+        /// <param name="itemB">The second item to compare to.</param>
+        /// <param name="itemC">The third item to compare to.</param>
+        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        public static Boolean IsOneOf(this String element, String itemA, String itemB, String itemC)
+        {
+            return element == itemA || element == itemB || element == itemC;
+        }
+
+        /// <summary>
+        /// Examines if the given element is equal to one of the given elements.
+        /// </summary>
+        /// <param name="element">The element to check for equality.</param>
         /// <param name="elements">The allowed (equal) elements.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         public static Boolean IsOneOf(this String element, params String[] elements)
         {
             for (var i = 0; i != elements.Length; i++)
             {
-                if (element.Equals(elements[i]))
+                if (element == elements[i])
                     return true;
             }
 
