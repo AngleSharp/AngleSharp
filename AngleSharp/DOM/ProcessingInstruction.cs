@@ -33,7 +33,7 @@
 
         #region String Representation
 
-        public override string ToHtml()
+        public override String ToHtml()
         {
             return String.Format("<?{0} {1}>", Target, Data);
         }

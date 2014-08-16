@@ -96,8 +96,8 @@
         /// </summary>
         public override String TextContent
         {
-            get { return NodeValue; }
-            set { NodeValue = value; }
+            get { return _value; }
+            set { _value = value; }
         }
 
         /// <summary>
@@ -129,38 +129,6 @@
             node._inputEncoding = this._inputEncoding;
             node._notationName = this._notationName;
             return node;
-        }
-
-        /// <summary>
-        /// Returns the prefix for a given namespaceURI if present, and null if not. When multiple prefixes are possible,
-        /// the result is implementation-dependent.
-        /// </summary>
-        /// <param name="namespaceURI">The namespaceURI to lookup.</param>
-        /// <returns>The prefix.</returns>
-        public override String LookupPrefix(String namespaceURI)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Accepts a namespace URI as an argument and returns true if the namespace is the default namespace on the given node or false if not.
-        /// </summary>
-        /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
-        /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        public override Boolean IsDefaultNamespace(String namespaceURI)
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Takes a prefix and returns the namespaceURI associated with it on the given node if found (and null if not).
-        /// Supplying null for the prefix will return the default namespace.
-        /// </summary>
-        /// <param name="prefix">The prefix to look for.</param>
-        /// <returns>The namespace URI.</returns>
-        public override String LookupNamespaceUri(String prefix)
-        {
-            return null;
         }
 
         #endregion
