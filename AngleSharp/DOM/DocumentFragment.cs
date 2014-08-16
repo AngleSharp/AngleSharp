@@ -30,19 +30,22 @@
             : this()
         {
             var owner = context.Owner;
+
             var configuration = Configuration.Clone(owner != null ? owner.Options : Configuration.Default);
             configuration.IsScripting = false;
-            configuration.UseQuirksMode = context.Owner != null && context.Owner.QuirksMode != QuirksMode.Off;
+            configuration.UseQuirksMode = owner != null && owner.QuirksMode != QuirksMode.Off;
+
             var parser = new HtmlParser(html, configuration);
             parser.SwitchToFragment(context);
             parser.Parse();
+
             var root = parser.Result.DocumentElement;
 
             while (root.HasChilds)
             {
                 var child = root.FirstChild;
                 root.RemoveChild(child);
-                DefaultAppendChild(child);
+                this.PreInsert(child, null);
             }
         }
 
@@ -106,6 +109,24 @@
                 }
 
                 return null;
+            }
+        }
+
+        public override String TextContent
+        {
+            get
+            {
+                var sb = Pool.NewStringBuilder();
+
+                foreach (var child in this.GetDescendentsOf().OfType<IText>())
+                    sb.Append(child.Data);
+
+                return sb.ToPool();
+            }
+            set
+            {
+                var node = !String.IsNullOrEmpty(value) ? new TextNode(value) { Owner = Owner } : null;
+                ReplaceAll(node, false);
             }
         }
 

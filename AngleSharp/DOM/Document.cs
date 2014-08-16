@@ -422,11 +422,12 @@
             IsAsync = true;
             _source = source;
             _referrer = String.Empty;
+            _contentType = MimeTypes.ApplicationXml;
             _ready = DocumentReadyState.Loading;
             _styleSheets = new StyleSheetList(this);
             _scripts = new List<HTMLScriptElement>();
             _quirksMode = QuirksMode.Off;
-            _location = new Location("file://localhost/");
+            _location = new Location("about:blank");
             _options = Configuration.Default;
             _queue = Task.Factory.StartNew(() => { });
         }
@@ -666,7 +667,7 @@
         /// </summary>
         public String Url
         {
-            get { return DocumentUri; }
+            get { return _location.Href; }
         }
 
         /// <summary>
@@ -977,9 +978,10 @@
         /// since it has not yet been inserted into the document tree.</returns>
         public INode Import(INode externalNode, Boolean deep = true)
         {
-            var clone = externalNode.Clone(deep);
-            AppendChild(clone);
-            return clone;
+            if (externalNode is IDocument)
+                throw new DomException(ErrorCode.NotSupported);
+
+            return externalNode.Clone(deep);
         }
 
         /// <summary>
@@ -1004,7 +1006,12 @@
         /// <returns>The created Event object.</returns>
         public IEvent CreateEvent(String type)
         {
-            return EventFactory.Create(type);
+            var ev = EventFactory.Create(type);
+
+            if (ev == null)
+                throw new DomException(ErrorCode.NotSupported);
+
+            return ev;
         }
 
         /// <summary>
@@ -1069,32 +1076,55 @@
         /// <summary>
         /// Creates a new element with the given tag name.
         /// </summary>
-        /// <param name="tagName">A string that specifies the type of element to be created.</param>
+        /// <param name="localName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element object.</returns>
-        public virtual IElement CreateElement(String tagName)
+        public virtual IElement CreateElement(String localName)
         {
-            return HtmlElementFactory.Create(tagName, this);
+            if (!localName.IsXmlName())
+                throw new DomException(ErrorCode.InvalidCharacter);
+
+            return HtmlElementFactory.Create(localName, this);
         }
 
         /// <summary>
         /// Creates a new element with the given tag name and namespace URI.
         /// </summary>
         /// <param name="namespaceUri">Specifies the namespace URI to associate with the element.</param>
-        /// <param name="tagName">A string that specifies the type of element to be created.</param>
+        /// <param name="qualifiedName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element.</returns>
-        public IElement CreateElementNS(String namespaceUri, String tagName)
+        public IElement CreateElementNS(String namespaceUri, String qualifiedName)
         {
+            if (String.IsNullOrEmpty(namespaceUri))
+                namespaceUri = null;
+
+            if (!qualifiedName.IsXmlName())
+                throw new DomException(ErrorCode.InvalidCharacter);
+            else if (!qualifiedName.IsQualifiedName())
+                throw new DomException(ErrorCode.Namespace);
+
+            var parts = qualifiedName.Split(':');
+            var prefix = parts.Length == 2 ? parts[0] : null;
+            var localName = parts.Length == 2 ? parts[1] : qualifiedName;
+
+            if (prefix == Namespaces.XmlPrefix && namespaceUri != Namespaces.XmlUri)
+                throw new DomException(ErrorCode.Namespace);
+            else if ((qualifiedName == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri)
+                throw new DomException(ErrorCode.Namespace);
+            else if (namespaceUri == Namespaces.XmlNsUri && (qualifiedName != Namespaces.XmlNsPrefix || prefix != Namespaces.XmlNsPrefix))
+                throw new DomException(ErrorCode.Namespace);
+
             Element element = null;
 
-            if (namespaceUri == Namespaces.Html)
-                element = HtmlElementFactory.Create(tagName, this);
-            else if (namespaceUri == Namespaces.Svg)
-                element = SvgElementFactory.Create(tagName, this);
-            else if (namespaceUri == Namespaces.MathML)
-                element = MathElementFactory.Create(tagName, this);
+            if (namespaceUri == Namespaces.HtmlUri)
+                element = HtmlElementFactory.Create(localName, this);
+            else if (namespaceUri == Namespaces.SvgUri)
+                element = SvgElementFactory.Create(localName, this);
+            else if (namespaceUri == Namespaces.MathMlUri)
+                element = MathElementFactory.Create(localName, this);
             else
-                element = new Element(tagName) { NamespaceUri = namespaceUri, Owner = this };
+                element = new Element(localName) { NamespaceUri = namespaceUri, Owner = this };
 
+            element.Prefix = prefix;
             return element;
         }
 
@@ -1105,9 +1135,6 @@
         /// <returns>The new comment.</returns>
         public IComment CreateComment(String data)
         {
-            if (data.Contains("--"))
-                throw new DomException(ErrorCode.InvalidCharacter);
-
             return new Comment(data) { Owner = this };
         }
 
@@ -1117,7 +1144,7 @@
         /// <returns>A new document fragment.</returns>
         public IDocumentFragment CreateDocumentFragment()
         {
-            return new DocumentFragment() { Owner = this };
+            return new DocumentFragment { Owner = this };
         }
 
         /// <summary>
@@ -1128,6 +1155,9 @@
         /// <returns>A new processing instruction.</returns>
         public IProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
+            if (!target.IsXmlName() || data.Contains("?>"))
+                throw new DomException(ErrorCode.InvalidCharacter);
+
             return new ProcessingInstruction(target) { Data = data, Owner = this };
         }
 
@@ -1217,65 +1247,6 @@
             CopyProperties(this, node, deep);
             CopyDocumentProperties(this, node, deep);
             return node;
-        }
-
-        /// <summary>
-        /// Takes a prefix and returns the namespaceURI associated with it on the given node if found (and null if not).
-        /// Supplying null for the prefix will return the default namespace.
-        /// </summary>
-        /// <param name="prefix">The prefix to look for.</param>
-        /// <returns>The namespace URI.</returns>
-        public override String LookupNamespaceUri(String prefix)
-        {
-            var root = DocumentElement;
-
-            if (root != null)
-                return root.LookupNamespaceUri(prefix);
-
-            return null;
-        }
-
-        /// <summary>
-        /// Returns the prefix for a given namespaceURI if present, and null if not. When multiple prefixes are possible,
-        /// the result is implementation-dependent.
-        /// </summary>
-        /// <param name="namespaceURI">The namespaceURI to lookup.</param>
-        /// <returns>The prefix.</returns>
-        public override String LookupPrefix(String namespaceURI)
-        {
-            var root = DocumentElement;
-
-            if(root != null)
-                return root.LookupPrefix(namespaceURI);
-
-            return null;
-        }
-
-        /// <summary>
-        /// Accepts a namespace URI as an argument and returns true if the namespace is the default namespace on the given node or false if not.
-        /// </summary>
-        /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
-        /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        public override Boolean IsDefaultNamespace(String namespaceURI)
-        {
-            var root = DocumentElement;
-
-            if (root != null)
-                return root.IsDefaultNamespace(namespaceURI);
-
-            return false;
-        }
-
-        /// <summary>
-        /// Acts as if the document was going through a save and load cycle, putting the document in a "normal"
-        /// form. Normalizes all text nodes and fixes namespaces.
-        /// </summary>
-        public override void Normalize()
-        {
-            var children = ChildNodes;
-
-            for (int i = 0; i < children.Length; i++)
-                children[i].Normalize();
         }
 
         #endregion
@@ -1379,15 +1350,24 @@
 
         #region Helpers
 
-        /// <summary>
-        /// Destroys the generated DOM, leaving only the document behind.
-        /// </summary>
-        void Destroy()
+        protected sealed override String LocateNamespace(String prefix)
         {
-            var children = ChildNodes;
+            var root = DocumentElement;
 
-            for (int i = children.Length - 1; i >= 0; i--)
-                RemoveChild(children[i]);
+            if (root != null)
+                return root.LocateNamespace(prefix);
+
+            return null;
+        }
+
+        protected sealed override String LocatePrefix(String namespaceUri)
+        {
+            var root = DocumentElement;
+
+            if (root != null)
+                return root.LocatePrefix(namespaceUri);
+
+            return null;
         }
 
         /// <summary>
@@ -1398,7 +1378,7 @@
         {
             ReadyState = DocumentReadyState.Loading;
             _source = new TextSource(stream, Options.DefaultEncoding());
-            Destroy();
+            ReplaceAll(null, false);
             var parser = new HtmlParser(this);
             parser.Parse();
         }

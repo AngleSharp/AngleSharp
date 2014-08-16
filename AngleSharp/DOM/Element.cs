@@ -66,21 +66,22 @@
         /// <summary>
         /// Gets or sets the text content of a node and its descendants.
         /// </summary>
-        public override String TextContent
+        public sealed override String TextContent
         {
             get
             {
                 var sb = Pool.NewStringBuilder();
 
-                foreach (var child in ChildNodes)
-                {
-                    if (child.NodeType != NodeType.Comment && child.NodeType != NodeType.ProcessingInstruction)
-                        sb.Append(child.TextContent);
-                }
+                foreach (var child in this.GetDescendentsOf().OfType<IText>())
+                    sb.Append(child.Data);
 
                 return sb.ToPool();
             }
-            set { base.TextContent = value; }
+            set
+            {
+                var node = !String.IsNullOrEmpty(value) ? new TextNode(value) { Owner = Owner } : null;
+                ReplaceAll(node, false);
+            }
         }
 
         /// <summary>
@@ -237,13 +238,7 @@
         public String InnerHtml
         {
             get { return ChildNodes.ToHtml(); }
-            set
-            {
-                while (HasChilds)
-                    RemoveChild(FirstChild);
-
-                AppendChild(new DocumentFragment(value, this));
-            }
+            set { ReplaceAll(new DocumentFragment(value, this), false); }
         }
 
         /// <summary>
@@ -444,70 +439,6 @@
         #region Methods
 
         /// <summary>
-        /// Adds a child to the collection of children.
-        /// </summary>
-        /// <param name="child">The child to add.</param>
-        /// <returns>The added child.</returns>
-        public override INode AppendChild(INode child)
-        {
-            var node = DefaultAppendChild(child);
-            OnChildrenChanged();
-            return node;
-        }
-
-        /// <summary>
-        /// Inserts a child to the collection of children at the specified index.
-        /// </summary>
-        /// <param name="index">The index where to insert.</param>
-        /// <param name="child">The child to insert.</param>
-        /// <returns>The inserted child.</returns>
-        public override INode InsertChild(Int32 index, INode child)
-        {
-            var node = DefaultInsertChild(index, child);
-            OnChildrenChanged();
-            return node;
-        }
-
-        /// <summary>
-        /// Inserts the specified node before a reference element as a child of the current node.
-        /// </summary>
-        /// <param name="newElement">The node to insert.</param>
-        /// <param name="referenceElement">The node before which newElement is inserted. If
-        /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
-        /// <returns>The inserted node.</returns>
-        public override INode InsertBefore(INode newElement, INode referenceElement)
-        {
-            var node = DefaultInsertBefore(newElement, referenceElement);
-            OnChildrenChanged();
-            return node;
-        }
-
-        /// <summary>
-        /// Replaces one child node of the specified element with another.
-        /// </summary>
-        /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
-        /// <param name="oldChild">The existing child to be replaced.</param>
-        /// <returns>The replaced node. This is the same node as oldChild.</returns>
-        public override INode ReplaceChild(INode newChild, INode oldChild)
-        {
-            var node = DefaultReplaceChild(newChild, oldChild);
-            OnChildrenChanged();
-            return node;
-        }
-
-        /// <summary>
-        /// Removes a child from the collection of children.
-        /// </summary>
-        /// <param name="child">The child to remove.</param>
-        /// <returns>The removed child.</returns>
-        public override INode RemoveChild(INode child)
-        {
-            var node = DefaultRemoveChild(child);
-            OnChildrenChanged();
-            return node;
-        }
-
-        /// <summary>
         /// Returns the first element within the document (using depth-first pre-order traversal
         /// of the document's nodes) that matches the specified group of selectors.
         /// </summary>
@@ -577,63 +508,6 @@
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;
-        }
-
-        /// <summary>
-        /// Takes a prefix and returns the namespaceURI associated with it on the given node if found (and null if not).
-        /// Supplying null for the prefix will return the default namespace.
-        /// </summary>
-        /// <param name="prefix">The prefix to look for.</param>
-        /// <returns>The namespace URI.</returns>
-        public override String LookupNamespaceUri(String prefix)
-        {
-            if (!String.IsNullOrEmpty(_namespace) && Prefix == prefix)
-                return _namespace;
-
-            for (int i = 0; i < _attributes.Count; i++)
-            {
-                var attr = _attributes[i];
-
-                if ((attr.Prefix == Namespaces.Declaration && attr.LocalName == prefix) || (attr.LocalName == Namespaces.Declaration && prefix == null))
-                {
-                    if (!String.IsNullOrEmpty(attr.Value))
-                        return attr.Value;
-
-                    return null;
-                }
-            }
-
-            var parent = Parent;
-
-            if (parent != null)
-                parent.LookupNamespaceUri(prefix);
-
-            return null;
-        }
-
-        /// <summary>
-        /// Accepts a namespace URI as an argument and returns true if the namespace is the default
-        /// namespace on the given node or false if not.
-        /// </summary>
-        /// <param name="namespaceURI">A string representing the namespace against which the element
-        /// will be checked.</param>
-        /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        public override Boolean IsDefaultNamespace(String namespaceURI)
-        { 
-            if (String.IsNullOrEmpty(Prefix))
-                return _namespace == namespaceURI;
-
-            var ns = GetAttribute(Namespaces.Declaration);
-
-            if (!String.IsNullOrEmpty(ns))
-                return ns == namespaceURI;
-
-            var parent = Parent;
-
-            if (parent != null)
-                return parent.IsDefaultNamespace(namespaceURI);
-
-            return false;
         }
 
         /// <summary>
@@ -734,6 +608,10 @@
             OnAttributeChanged(name);
         }
 
+        public virtual void Close()
+        {
+        }
+
         /// <summary>
         /// Adds a new attribute or changes the value of an existing attribute on the specified element.
         /// </summary>
@@ -797,28 +675,6 @@
                     break;
                 }
             }
-        }
-
-        /// <summary>
-        /// Returns the prefix for a given namespaceURI if present, and null if not. When multiple prefixes are possible,
-        /// the result is implementation-dependent.
-        /// </summary>
-        /// <param name="namespaceURI">The namespaceURI to lookup.</param>
-        /// <returns>The prefix.</returns>
-        public override String LookupPrefix(String namespaceURI)
-        {
-            if (String.IsNullOrEmpty(namespaceURI))
-                return null;
-
-            if (!String.IsNullOrEmpty(_namespace) && !String.IsNullOrEmpty(_prefix) && _namespace == namespaceURI && LookupNamespaceUri(Prefix) == namespaceURI)
-                return Prefix;
-
-            var parent = Parent;
-
-            if (parent != null)
-                return parent.LookupPrefix(namespaceURI);
-
-            return null;
         }
 
         /// <summary>
@@ -1005,6 +861,16 @@
 
         #region Helpers
 
+        protected sealed override String LocateNamespace(String prefix)
+        {
+            return ElementExtensions.LocateNamespace(this, prefix);
+        }
+
+        protected sealed override String LocatePrefix(String namespaceUri)
+        {
+            return ElementExtensions.LocatePrefix(this, namespaceUri);
+        }
+
         /// <summary>
         /// Copies the attributes from the source element to the target element.
         /// Each attribute will be recreated on the target.
@@ -1031,13 +897,6 @@
                 if (_classList != null)
                     _classList.Update(ClassName);
             }
-        }
-
-        /// <summary>
-        /// Called if the children structure changed (due to add, insert, replace or remove).
-        /// </summary>
-        protected virtual void OnChildrenChanged()
-        {
         }
 
         #endregion

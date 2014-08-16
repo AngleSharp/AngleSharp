@@ -156,13 +156,7 @@
         public virtual String TextContent
         {
             get { return null; }
-            set 
-            {
-                for (int i = _children.Length - 1; i != -1; i--)
-                    RemoveChild(_children[i]);
-
-                AppendChild(new TextNode(value));
-            }
+            set { }
         }
 
         IDocument INode.Owner
@@ -171,39 +165,11 @@
         }
 
         /// <summary>
-        /// Gets the owner document of the node.
-        /// </summary>
-        internal Document Owner 
-        {
-            get { return _type != NodeType.Document ? _owner : null; }
-            set 
-            {
-                if (_owner == value)
-                    return;
-
-                _owner = value;
-
-                for (int i = 0; i < _children.Length; i++)
-                    _children[i].Owner = value;
-            }
-        }
-
-        /// <summary>
         /// Gets the parent node.
         /// </summary>
         INode INode.Parent
         {
             get { return _parent; }
-        }
-
-        /// <summary>
-        /// Gets the parent node of this node, which is either an Element node,
-        /// a Document node, or a DocumentFragment node.
-        /// </summary>
-        internal Node Parent
-        {
-            get { return _parent; }
-            set { _parent = value; } 
         }
 
         /// <summary>
@@ -220,15 +186,6 @@
         INodeList INode.ChildNodes
         {
             get { return _children; }
-        }
-
-        /// <summary>
-        /// Gets or sets the children of this node.
-        /// </summary>
-        internal NodeList ChildNodes
-        {
-            get { return _children; }
-            set { _children = value; }
         }
 
         /// <summary>
@@ -251,6 +208,43 @@
             get { return _flags; }
         }
 
+        /// <summary>
+        /// Gets or sets the children of this node.
+        /// </summary>
+        internal NodeList ChildNodes
+        {
+            get { return _children; }
+            set { _children = value; }
+        }
+
+        /// <summary>
+        /// Gets the parent node of this node, which is either an Element node,
+        /// a Document node, or a DocumentFragment node.
+        /// </summary>
+        internal Node Parent
+        {
+            get { return _parent; }
+            set { _parent = value; }
+        }
+
+        /// <summary>
+        /// Gets the owner document of the node.
+        /// </summary>
+        internal Document Owner
+        {
+            get { return _type != NodeType.Document ? _owner : null; }
+            set
+            {
+                if (_owner == value)
+                    return;
+
+                _owner = value;
+
+                for (int i = 0; i < _children.Length; i++)
+                    _children[i].Owner = value;
+            }
+        }
+
         #endregion
 
         #region Internal Methods
@@ -264,7 +258,7 @@
             var lastChild = LastChild as IText;
 
             if (lastChild == null)
-                AppendChild(new TextNode(s));
+                AddNode(new TextNode(s) { Owner = Owner });
             else
                 lastChild.Append(s);
         }
@@ -287,7 +281,7 @@
                 node.Insert(0, s);
             }
             else
-                InsertChild(index, new TextNode(s));
+                InsertNode(index, new TextNode(s) { Owner = Owner });
         }
 
         #endregion
@@ -299,9 +293,9 @@
         /// </summary>
         /// <param name="child">The child to add.</param>
         /// <returns>The added child.</returns>
-        public virtual INode AppendChild(INode child)
+        public INode AppendChild(INode child)
         {
-            return DefaultAppendChild(child);
+            return this.PreInsert(child, null);
         }
 
         /// <summary>
@@ -310,9 +304,9 @@
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
         /// <returns>The inserted child.</returns>
-        public virtual INode InsertChild(Int32 index, INode child)
+        public INode InsertChild(Int32 index, INode child)
         {
-            return DefaultInsertChild(index, child);
+            return this.PreInsert(child, _children[index]);
         }
 
         /// <summary>
@@ -322,9 +316,9 @@
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
         /// <returns>The inserted node.</returns>
-        public virtual INode InsertBefore(INode newElement, INode referenceElement)
+        public INode InsertBefore(INode newElement, INode referenceElement)
         {
-            return DefaultInsertBefore(newElement, referenceElement);
+            return this.PreInsert(newElement, referenceElement);
         }
 
         /// <summary>
@@ -333,9 +327,9 @@
         /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
         /// <param name="oldChild">The existing child to be replaced.</param>
         /// <returns>The replaced node. This is the same node as oldChild.</returns>
-        public virtual INode ReplaceChild(INode newChild, INode oldChild)
+        public INode ReplaceChild(INode newChild, INode oldChild)
         {
-            return DefaultReplaceChild(newChild, oldChild);
+            return this.ReplaceChild(newChild, oldChild, false);
         }
 
         /// <summary>
@@ -343,9 +337,9 @@
         /// </summary>
         /// <param name="child">The child to remove.</param>
         /// <returns>The removed child.</returns>
-        public virtual INode RemoveChild(INode child)
+        public INode RemoveChild(INode child)
         {
-            return DefaultRemoveChild(child);
+            return this.PreRemove(child);
         }
 
         /// <summary>
@@ -365,19 +359,21 @@
         /// </summary>
         /// <param name="otherNode">The node that's being compared against.</param>
         /// <returns>The relationship that otherNode has with node, given in a bitmask.</returns>
-        public virtual DocumentPositions CompareDocumentPosition(INode otherNode)
+        public DocumentPositions CompareDocumentPosition(INode otherNode)
         {
             if (this == otherNode)
                 return DocumentPositions.Same;
 
             if (_owner != otherNode.Owner)
                 return DocumentPositions.Disconnected | DocumentPositions.ImplementationSpecific | (otherNode.GetHashCode() > GetHashCode() ? DocumentPositions.Following : DocumentPositions.Preceding);
-            else if (Contains(otherNode))
-                return DocumentPositions.ContainedBy | DocumentPositions.Following;
-            else if (otherNode.Contains(this))
+            else if (otherNode.IsAncestorOf(this))
                 return DocumentPositions.Contains | DocumentPositions.Preceding;
-            
-            return CompareRelativePositionInNodeList(_owner.ChildNodes, this, otherNode);
+            else if (otherNode.IsDescendentOf(this))
+                return DocumentPositions.ContainedBy | DocumentPositions.Following;
+            else if (otherNode.IsPreceding(this))
+                return DocumentPositions.Preceding;
+
+            return DocumentPositions.Following;
         }
 
         /// <summary>
@@ -385,25 +381,16 @@
         /// </summary>
         /// <param name="otherNode">The node that's being compared against.</param>
         /// <returns>The return value is true if otherNode is a descendent of node, or node itself. Otherwise the return value is false.</returns>
-        public virtual Boolean Contains(INode otherNode)
+        public Boolean Contains(INode otherNode)
         {
-            if (otherNode == this)
-                return true;
-
-            for (int i = 0; i < _children.Length; i++)
-            {
-                if (_children[i] == otherNode || _children[i].Contains(otherNode))
-                    return true;
-            }
-
-            return false;
+            return this.IsInclusiveAncestorOf(otherNode);
         }
 
         /// <summary>
         /// Puts the specified node and all of its subtree into a "normalized" form. In a normalized subtree, no text nodes in the
         /// subtree are empty and there are no adjacent text nodes.
         /// </summary>
-        public virtual void Normalize()
+        public void Normalize()
         {
             for (int i = 0; i < _children.Length; i++)
             {
@@ -411,22 +398,40 @@
 
                 if (text != null)
                 {
-                    if (text.Length == 0)
+                    var length = text.Length;
+
+                    if (length == 0)
                     {
-                        RemoveChild(text);
+                        RemoveChild(text, false);
                         i--;
                     }
                     else
                     {
-                        while (text.NextSibling is IText)
+                        var sb = Pool.NewStringBuilder();
+                        var sibling = text;
+                        var end = i;
+
+                        while ((sibling = sibling.NextSibling as IText) != null)
                         {
-                            var t = (IText)text.NextSibling;
-                            text.Append(t.Data);
-                            RemoveChild(t);
+                            sb.Append(sibling.Data);
+                            end++;
+
+                            //TODO
+                            // For each range whose start node is sibling, add length to its start offset and set its start node to text. 
+                            // For each range whose end node is sibling, add length to its end offset and set its end node to text. 
+                            // For each range whose start node is sibling's parent and start offset is sibling's index, set its start node to text and its start offset to length. 
+                            // For each range whose end node is sibling's parent and end offset is sibling's index, set its end node to node and its end offset to length. 
+
+                            length += sibling.Length;
                         }
+
+                        text.Replace(text.Length, 0, sb.ToPool());
+
+                        for (int j = end; j > i; j--)
+                            RemoveChild(_children[j], false);
                     }
                 }
-                else if (_children[i].ChildNodes.Length != 0)
+                else if (_children[i].HasChilds)
                     _children[i].Normalize();
             }
         }
@@ -437,39 +442,40 @@
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
-        public virtual String LookupNamespaceUri(String prefix)
+        public String LookupNamespaceUri(String prefix)
         {
-            if (_parent != null)
-                _parent.LookupNamespaceUri(prefix);
+            if (String.IsNullOrEmpty(prefix))
+                prefix = null;
 
-            return null;
+            return LocateNamespace(prefix);
         }
 
         /// <summary>
         /// Returns the prefix for a given namespaceURI if present, and null if not. When multiple prefixes are possible,
         /// the result is implementation-dependent.
         /// </summary>
-        /// <param name="namespaceURI">The namespaceURI to lookup.</param>
+        /// <param name="namespaceUri">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
-        public virtual String LookupPrefix(String namespaceURI)
+        public String LookupPrefix(String namespaceUri)
         {
-            if(_parent != null)
-                return _parent.LookupPrefix(namespaceURI); 
+            if (String.IsNullOrEmpty(namespaceUri))
+                return null;
 
-            return null;
+            return LocatePrefix(namespaceUri);
         }
 
         /// <summary>
         /// Accepts a namespace URI as an argument and returns true if the namespace is the default namespace on the given node or false if not.
         /// </summary>
-        /// <param name="namespaceURI">A string representing the namespace against which the element will be checked.</param>
+        /// <param name="namespaceUri">A string representing the namespace against which the element will be checked.</param>
         /// <returns>True if the given namespaceURI is the default namespace.</returns>
-        public virtual Boolean IsDefaultNamespace(String namespaceURI)
+        public Boolean IsDefaultNamespace(String namespaceUri)
         {
-            if (_parent != null)
-                _parent.IsDefaultNamespace(namespaceURI);
+            if (String.IsNullOrEmpty(namespaceUri))
+                namespaceUri = null;
 
-            return false;
+            var defaultNamespace = LocateNamespace(null);
+            return defaultNamespace == namespaceUri;
         }
 
         /// <summary>
@@ -501,79 +507,85 @@
 
         #region Helpers
 
-        /// <summary>
-        /// Adds a child to the collection of children.
-        /// </summary>
-        /// <param name="child">The child to add.</param>
-        /// <returns>The added child.</returns>
-        protected INode DefaultAppendChild(INode child)
+        protected virtual String LocateNamespace(String prefix)
         {
-            if (child == null)
-                return null;
+            if (_parent != null)
+                return _parent.LocateNamespace(prefix);
 
-            if (child is IDocumentFragment)
-            {
-                while (child.HasChilds) 
-                    DefaultAppendChild(child.RemoveChild(child.FirstChild));
-            }
-            else if (child is IDocument || child.Contains(this))
-            {
-                throw new DomException(ErrorCode.HierarchyRequest);
-            }
-            else
-            {
-                if (child.Parent != null)
-                    throw new DomException(ErrorCode.InUse);
+            return null;
+        }
 
-                var childNode = child as Node;
+        protected virtual String LocatePrefix(String namespaceUri)
+        {
+            if (_parent != null)
+                return _parent.LocatePrefix(namespaceUri);
 
-                if (childNode != null)
-                {
-                    childNode.Parent = this;
-                    childNode.Owner = _owner ?? (this as Document);
-                    _children.Add(childNode);
-                }
-            }
-
-            return child;
+            return null;
         }
 
         /// <summary>
-        /// Inserts a child to the collection of children at the specified index.
+        /// Adopts the current node for the provided document.
         /// </summary>
-        /// <param name="index">The index where to insert.</param>
-        /// <param name="child">The child to insert.</param>
-        /// <returns>The inserted child.</returns>
-        protected INode DefaultInsertChild(Int32 index, INode child)
+        /// <param name="document">The new owner of the node.</param>
+        internal void ChangeOwner(Document document)
         {
-            if (child == null)
-                return null;
+            var oldDocument = _owner;
 
-            if (child is IDocumentFragment)
+            if (_parent != null)
+                _parent.RemoveChild(this, false);
+
+            Owner = document;
+            NodeIsAdopted(oldDocument);
+        }
+
+        internal void InsertNode(Int32 index, Node node)
+        {
+            node.Parent = this;
+            _children.Insert(index, node);
+        }
+
+        internal void AddNode(Node node)
+        {
+            node.Parent = this;
+            _children.Add(node);
+        }
+
+        internal void RemoveNode(Int32 index, Node node)
+        {
+            node.Parent = null;
+            _children.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// Replaces all nodes with the given node, if any.
+        /// </summary>
+        /// <param name="node">The node to insert, if any.</param>
+        /// <param name="suppressObservers">If mutation observers should be surpressed.</param>
+        internal void ReplaceAll(Node node, Boolean suppressObservers)
+        {
+            if (node != null)
+                _owner.AdoptNode(node);
+
+            var removedNodes = new NodeList(_children);
+            var addedNodes = new NodeList();
+            
+            if (node != null)
             {
-                while (child.HasChilds)
-                    DefaultInsertChild(index++, child.RemoveChild(child.FirstChild));
-            }
-            else if (child is IDocument || child.Contains(this))
-            {
-                throw new DomException(ErrorCode.HierarchyRequest);
-            }
-            else
-            {
-                if (child.Parent != null)
-                    throw new DomException(ErrorCode.InUse);
-
-                var childNode = child as Node;
-
-                if (childNode != null)
-                {
-                    childNode.Parent = this;
-                    childNode.Owner = _owner ?? (this as Document);
-                    _children.Insert(index, childNode);
-                }
+                if (node is IDocumentFragment)
+                    addedNodes.AddRange(node._children);
+                else
+                    addedNodes.Add(node);
             }
 
-            return child;
+            foreach (var child in removedNodes)
+                RemoveChild(child, true);
+
+            foreach (var child in addedNodes)
+                InsertBefore(child, null, true);
+
+            //TODO
+            // Queue a mutation record of "childList" for parent with
+            // addedNodes and removedNodes.
         }
 
         /// <summary>
@@ -582,76 +594,155 @@
         /// <param name="newElement">The node to insert.</param>
         /// <param name="referenceElement">The node before which newElement is inserted. If
         /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
+        /// <param name="suppressObservers">If mutation observers should be surpressed.</param>
         /// <returns>The inserted node.</returns>
-        protected INode DefaultInsertBefore(INode newElement, INode referenceElement)
+        internal INode InsertBefore(INode newElement, INode referenceElement, Boolean suppressObservers)
         {
-            if (newElement == null || referenceElement == null)
-                return null;
+            var count = newElement is IDocumentFragment ? newElement.ChildNodes.Length : 1;
+
+            if (referenceElement != null)
+            {
+                //TODO
+                // For each range whose start node is parent and start offset is greater than child's index, increase its start offset by count. 
+                // For each range whose end node is parent and end offset is greater than child's index, increase its end offset by count.
+            }
 
             if (newElement is IDocument || newElement.Contains(this))
                 throw new DomException(ErrorCode.HierarchyRequest);
 
-            var n = _children.Length;
+            var n = _children.Index(referenceElement);
 
-            for (int i = 0; i < n; i++)
+            if (n == -1)
+                n = _children.Length;
+
+            var fragment = newElement as DocumentFragment;
+
+            if (fragment != null)
             {
-                if (_children[i] == referenceElement)
-                    return DefaultInsertChild(i, newElement);
-            }
+                var start = n;
 
-            return DefaultAppendChild(newElement);
-        }
-
-        /// <summary>
-        /// Replaces one child node of the specified element with another.
-        /// </summary>
-        /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
-        /// <param name="oldChild">The existing child to be replaced.</param>
-        /// <returns>The replaced node. This is the same node as oldChild.</returns>
-        protected INode DefaultReplaceChild(INode newChild, INode oldChild)
-        {
-            if (oldChild == null || newChild == null)
-                return null;
-
-            if (newChild is IDocument || newChild.Contains(this))
-                throw new DomException(ErrorCode.HierarchyRequest);
-            else if (newChild == oldChild)
-                return oldChild;
-            else if (newChild.Parent != null)
-                throw new DomException(ErrorCode.InUse);
-
-            var n = _children.Length;
-
-            for (int i = 0; i < n; i++)
-            {
-                if (_children[i] == oldChild)
+                while (fragment.HasChilds)
                 {
-                    DefaultRemoveChild(oldChild);
-                    DefaultInsertChild(i, newChild);
-                    return oldChild;
+                    var child = fragment.FirstChild as Node;
+                    _children.Insert(n++, child);
+                    fragment.RemoveChild(child, true);
                 }
+
+                while (start < n)
+                    NodeIsInserted(_children[start++]);
+            }
+            else
+            {
+                InsertNode(n, newElement as Node);
+                NodeIsInserted(newElement);
             }
 
-            return null;
+            return newElement;
         }
 
         /// <summary>
         /// Removes a child from the collection of children.
         /// </summary>
-        /// <param name="child">The child to remove.</param>
-        /// <returns>The removed child.</returns>
-        protected INode DefaultRemoveChild(INode child)
+        /// <param name="node">The child to remove.</param>
+        /// <param name="suppressObservers">If mutation observers should be surpressed.</param>
+        internal void RemoveChild(INode node, Boolean suppressObservers)
         {
-            var childNode = child as Node;
+            var index = _children.Index(node);
 
-            if (childNode != null && _children.Contains(childNode))
+            //TODO
+            // For each range whose start node is an inclusive descendant of node, set its start to (parent, index). 
+            // For each range whose end node is an inclusive descendant of node, set its end to (parent, index). 
+            // For each range whose start node is parent and start offset is greater than index, decrease its start offset by one. 
+            // For each range whose end node is parent and end offset is greater than index, decrease its end offset by one. 
+
+            var oldPreviousSibling = node.PreviousSibling;
+
+            if (!suppressObservers)
             {
-                childNode.Owner = null;
-                childNode.Parent = null;
-                _children.Remove(childNode);
+                //TODO
+                // queue a mutation record of "childList" for parent with removedNodes a list solely containing node, nextSibling node's next sibling, and previousSibling oldPreviousSibling. 
+
+                // For each ancestor ancestor of node, if ancestor has any registered observers whose options's subtree is true,
+                // then for each such registered observer registered, append a transient registered observer whose observer and
+                // options are identical to those of registered and source which is registered to node's list of registered observers. 
             }
 
-            return child;
+            RemoveNode(index, node as Node);
+            NodeIsRemoved(node, oldPreviousSibling);
+        }
+
+        /// <summary>
+        /// Replaces one child node of the specified element with another.
+        /// </summary>
+        /// <param name="node">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
+        /// <param name="child">The existing child to be replaced.</param>
+        /// <param name="suppressObservers">If mutation observers should be surpressed.</param>
+        /// <returns>The replaced node. This is the same node as oldChild.</returns>
+        internal INode ReplaceChild(INode node, INode child, Boolean suppressObservers)
+        {
+            if (_type != NodeType.Document && _type != NodeType.DocumentFragment && _type != NodeType.Element)
+                throw new DomException(ErrorCode.HierarchyRequest);
+            else if (node.IsHostIncludingInclusiveAncestor(this))
+                throw new DomException(ErrorCode.HierarchyRequest);
+            else if (child.Parent != this)
+                throw new DomException(ErrorCode.NotFound);
+
+            if (node is IElement || node is ICharacterData || node is IDocumentFragment || node is IDocumentType)
+            {
+                if (_parent is IDocument)
+                {
+                    //6. If parent is a document, and any of the statements below, switched on node, are true, throw a "HierarchyRequestError". 
+                    //    DocumentFragment node :
+                    //            If node has more than one element child or has a Text node child. 
+                    //            Otherwise, if node has one element child and either parent has an element child that is not child or a doctype is following child. 
+                    //    element :
+                    //            parent has an element child that is not child or a doctype is following child. 
+                    //    doctype :
+                    //            parent has a doctype child that is not child, or an element is preceding child. 
+                }
+
+                var referenceChild = child.NextSibling;
+
+                if (referenceChild == node)
+                    referenceChild = node.NextSibling;
+
+                _owner.AdoptNode(node);
+                RemoveChild(child, true);
+                InsertBefore(node, referenceChild, true);
+                var newNode = node as Node;
+                var nodes = new NodeList();
+
+                if (newNode != null)
+                {
+                    if (node is IDocumentFragment)
+                        nodes.AddRange(newNode._children);
+                    else
+                        nodes.Add(newNode);
+                }
+
+                //TODO
+                // Queue a mutation record of "childList" for target parent with addedNodes nodes, removedNodes a
+                // list solely containing child, nextSibling reference child, and previousSibling child's previous sibling. 
+
+                return child;
+            }
+            else
+                throw new DomException(ErrorCode.HierarchyRequest);
+        }
+
+        void NodeIsAdopted(IDocument oldDocument)
+        {
+            //Run any adopting steps defined for node in other applicable specifications and pass node and oldDocument as parameters.
+        }
+
+        void NodeIsInserted(INode newNode)
+        {
+            //Specifications may define insertion steps for all or some nodes.
+        }
+
+        void NodeIsRemoved(INode removedNode, INode oldPreviousSibling)
+        {
+            //Specifications may define removing steps for all or some nodes.
         }
 
         /// <summary>
@@ -707,37 +798,6 @@
         }
 
         /// <summary>
-        /// Compares the relative position in a node list.
-        /// </summary>
-        /// <param name="list">The node list as a base.</param>
-        /// <param name="nodeA">The first node.</param>
-        /// <param name="nodeB">The other node.</param>
-        /// <returns>The position.</returns>
-        static DocumentPositions CompareRelativePositionInNodeList(NodeList list, INode nodeA, INode nodeB)
-        {
-            var aPos = -1;
-            var bPos = -1;
-
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (aPos == -1 && list[i].Contains(nodeA))
-                    aPos = i;
-
-                if (bPos == -1 && list[i].Contains(nodeB))
-                    bPos = i;
-            }
-
-            if (aPos < bPos)
-                return DocumentPositions.Preceding;
-            else if (bPos < aPos)
-                return DocumentPositions.Following;
-            else if (aPos != -1 && bPos != -1)
-                return CompareRelativePositionInNodeList(list[aPos].ChildNodes, nodeA, nodeB);
-
-            return DocumentPositions.Disconnected;
-        }
-
-        /// <summary>
         /// Copies all (Node) properties of the source to the target.
         /// </summary>
         /// <param name="source">The source node.</param>
@@ -745,27 +805,14 @@
         /// <param name="deep">Is a deep-copy required?</param>
         static protected void CopyProperties(Node source, Node target, Boolean deep)
         {
+            target._owner = source._owner;
             target._baseUri = source._baseUri;
 
             if (deep)
             {
                 for (int i = 0; i < source._children.Length; i++)
-                    target._children.Add(source._children[i].Clone(true) as Node);//TODO remove cast ASAP
+                    target._children.Add((Node)source._children[i].Clone(true));
             }
-        }
-
-        /// <summary>
-        /// Checks if the given namespace name and URI are valid.
-        /// </summary>
-        /// <param name="namespaceName">The localName of the attribute.</param>
-        /// <param name="namespaceUri">The value of the attribute.</param>
-        /// <returns>Returns the result of the check.</returns>
-        static protected Boolean IsValidNamespaceDeclaration(String namespaceName, String namespaceUri)
-        {
-            if (namespaceName == Namespaces.Declaration)
-                return false;
-
-            return true;
         }
 
         #endregion
