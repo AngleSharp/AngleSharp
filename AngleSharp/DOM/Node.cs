@@ -273,7 +273,7 @@
         /// <param name="s">The characters to append.</param>
         internal void AppendText(String s)
         {
-            var lastChild = LastChild as IText;
+            var lastChild = LastChild as TextNode;
 
             if (lastChild == null)
                 AddNode(new TextNode(s) { Owner = Owner });
@@ -706,16 +706,28 @@
 
             if (node is IElement || node is ICharacterData || node is IDocumentFragment || node is IDocumentType)
             {
-                if (_parent is IDocument)
+                var document = _parent as IDocument;
+
+                if (document != null)
                 {
-                    //6. If parent is a document, and any of the statements below, switched on node, are true, throw a "HierarchyRequestError". 
-                    //    DocumentFragment node :
-                    //            If node has more than one element child or has a Text node child. 
-                    //            Otherwise, if node has one element child and either parent has an element child that is not child or a doctype is following child. 
-                    //    element :
-                    //            parent has an element child that is not child or a doctype is following child. 
-                    //    doctype :
-                    //            parent has a doctype child that is not child, or an element is preceding child. 
+                    var forbidden = false;
+
+                    switch (node._type)
+                    {
+                        case NodeType.DocumentType:
+                            forbidden = document.Doctype != child || child.IsPrecededByElement();
+                            break;
+                        case NodeType.Element:
+                            forbidden = document.DocumentElement != child || child.IsFollowedByDoctype();
+                            break;
+                        case NodeType.DocumentFragment:
+                            var elements = node.GetElementCount();
+                            forbidden = elements > 1 || node.HasTextNodes() || (elements == 1 && (document.DocumentElement != child || child.IsFollowedByDoctype()));
+                            break;
+                    }
+
+                    if (forbidden)
+                        throw new DomException(ErrorCode.HierarchyRequest);
                 }
 
                 var referenceChild = child.NextSibling;
@@ -726,16 +738,12 @@
                 _owner.AdoptNode(node);
                 RemoveChild(child, true);
                 InsertBefore(node, referenceChild, true);
-                var newNode = node as Node;
                 var nodes = new NodeList();
 
-                if (newNode != null)
-                {
-                    if (node._type == NodeType.DocumentFragment)
-                        nodes.AddRange(newNode._children);
-                    else
-                        nodes.Add(newNode);
-                }
+                if (node._type == NodeType.DocumentFragment)
+                    nodes.AddRange(node._children);
+                else
+                    nodes.Add(node);
 
                 //TODO
                 // Queue a mutation record of "childList" for target parent with addedNodes nodes, removedNodes a
