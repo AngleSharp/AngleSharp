@@ -238,25 +238,87 @@
         /// Examines if the given element is equal to one of the given elements.
         /// </summary>
         /// <param name="element">The element to check for equality.</param>
-        /// <param name="itemA">The first item to compare to.</param>
-        /// <param name="itemB">The second item to compare to.</param>
+        /// <param name="item1">The first item to compare to.</param>
+        /// <param name="item2">The second item to compare to.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        public static Boolean IsOneOf(this String element, String itemA, String itemB)
+        public static Boolean IsOneOf(this String element, String item1, String item2)
         {
-            return element == itemA || element == itemB;
+            return element == item1 || element == item2;
         }
 
         /// <summary>
         /// Examines if the given element is equal to one of the given elements.
         /// </summary>
         /// <param name="element">The element to check for equality.</param>
-        /// <param name="itemA">The first item to compare to.</param>
-        /// <param name="itemB">The second item to compare to.</param>
-        /// <param name="itemC">The third item to compare to.</param>
+        /// <param name="item1">The first item to compare to.</param>
+        /// <param name="item2">The second item to compare to.</param>
+        /// <param name="item3">The third item to compare to.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        public static Boolean IsOneOf(this String element, String itemA, String itemB, String itemC)
+        public static Boolean IsOneOf(this String element, String item1, String item2, String item3)
         {
-            return element == itemA || element == itemB || element == itemC;
+            return element == item1 || element == item2 || element == item3;
+        }
+
+        /// <summary>
+        /// Examines if the given element is equal to one of the given elements.
+        /// </summary>
+        /// <param name="element">The element to check for equality.</param>
+        /// <param name="item1">The first item to compare to.</param>
+        /// <param name="item2">The second item to compare to.</param>
+        /// <param name="item3">The third item to compare to.</param>
+        /// <param name="item4">The fourth item to compare to.</param>
+        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4)
+        {
+            return element == item1 || element == item2 || element == item3 || element == item4;
+        }
+
+        /// <summary>
+        /// Examines if the given element is equal to one of the given elements.
+        /// </summary>
+        /// <param name="element">The element to check for equality.</param>
+        /// <param name="item1">The first item to compare to.</param>
+        /// <param name="item2">The second item to compare to.</param>
+        /// <param name="item3">The third item to compare to.</param>
+        /// <param name="item4">The fourth item to compare to.</param>
+        /// <param name="item5">The fifth item to compare to.</param>
+        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5)
+        {
+            return element == item1 || element == item2 || element == item3 || element == item4 || element == item5;
+        }
+
+        /// <summary>
+        /// Examines if the given element is equal to one of the given elements.
+        /// </summary>
+        /// <param name="element">The element to check for equality.</param>
+        /// <param name="item1">The first item to compare to.</param>
+        /// <param name="item2">The second item to compare to.</param>
+        /// <param name="item3">The third item to compare to.</param>
+        /// <param name="item4">The fourth item to compare to.</param>
+        /// <param name="item5">The fifth item to compare to.</param>
+        /// <param name="item6">The sixth item to compare to.</param>
+        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5, String item6)
+        {
+            return element == item1 || element == item2 || element == item3 || element == item4 || element == item5 || element == item6;
+        }
+
+        /// <summary>
+        /// Examines if the given element is equal to one of the given elements.
+        /// </summary>
+        /// <param name="element">The element to check for equality.</param>
+        /// <param name="item1">The first item to compare to.</param>
+        /// <param name="item2">The second item to compare to.</param>
+        /// <param name="item3">The third item to compare to.</param>
+        /// <param name="item4">The fourth item to compare to.</param>
+        /// <param name="item5">The fifth item to compare to.</param>
+        /// <param name="item6">The sixth item to compare to.</param>
+        /// <param name="item7">The seventh item to compare to.</param>
+        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5, String item6, String item7)
+        {
+            return element == item1 || element == item2 || element == item3 || element == item4 || element == item5 || element == item6 || element == item7;
         }
 
         /// <summary>
