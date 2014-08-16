@@ -139,7 +139,7 @@
         /// </summary>
         /// <param name="before">The context node.</param>
         /// <param name="after">The provided reference node.</param>
-        /// <returns>True if the context node is preceeding the reference node in tree order.</returns>
+        /// <returns>True if the context node is preceding the reference node in tree order.</returns>
         public static Boolean IsPreceding(this INode before, INode after)
         {
             var parent = before.Parent;
@@ -217,26 +217,26 @@
 
             if (document != null)
             {
-                if (node is IElement)
-                {
-                    if (document.DocumentElement != null || child is IDocumentType || child.IsFollowedByDoctype())
-                        throw new DomException(ErrorCode.HierarchyRequest);
-                }
-                else if (node is IDocumentFragment)
-                {
-                    var elementChild = node.ChildNodes.OfType<IElement>().Count();
+                var forbidden = false;
 
-                    if (elementChild > 1 || node.ChildNodes.OfType<IText>().Any())
-                        throw new DomException(ErrorCode.HierarchyRequest);
-                    else if ((elementChild == 1 && parent.HasElements()) || child is IDocumentType || child.IsFollowedByDoctype())
-                        throw new DomException(ErrorCode.HierarchyRequest);
-                }
-                else if (node is IDocumentType)
+                switch (node.NodeType)
                 {
-                    if (document.Doctype != null || (child != null && document.IndexOf(child) > 0) || (child == null && parent.HasElements()))
-                        throw new DomException(ErrorCode.HierarchyRequest);
+                    case NodeType.Element:
+                        forbidden = document.DocumentElement != null || child is IDocumentType || child.IsFollowedByDoctype();
+                        break;
+                    case NodeType.DocumentFragment:
+                        var elements = node.GetElementCount();
+                        forbidden = elements > 1 || node.HasTextNodes() || (elements == 1 && document.DocumentElement != null) || child is IDocumentType || child.IsFollowedByDoctype();
+                        break;
+                    case NodeType.DocumentType:
+                        forbidden = document.Doctype != null || (child != null && child.IsPrecededByElement()) || (child == null && document.DocumentElement != null);
+                        break;
+                    case NodeType.Text:
+                        forbidden = true;
+                        break;
                 }
-                else if (node is IText)
+
+                if (forbidden)
                     throw new DomException(ErrorCode.HierarchyRequest);
             }
             else if (node is IDocumentType)
@@ -307,6 +307,75 @@
         }
 
         /// <summary>
+        /// Checks if the node has any text node children.
+        /// </summary>
+        /// <param name="node">The parent of the potential text nodes.</param>
+        /// <returns>True if the node has any text nodes, otherwise false.</returns>
+        public static Boolean HasTextNodes(this INode node)
+        {
+            return node.ChildNodes.OfType<IText>().Any();
+        }
+
+        /// <summary>
+        /// Checks if the given child is followed by a document type.
+        /// </summary>
+        /// <param name="child">The child that precedes the doctype.</param>
+        /// <returns>True if a doctype node is following the provided child, otherwise false.</returns>
+        public static Boolean IsFollowedByDoctype(this INode child)
+        {
+            if (child == null)
+                return false;
+
+            var before = true;
+
+            foreach (var node in child.Parent.ChildNodes)
+            {
+                if (before)
+                    before = node != child;
+                else if (node.NodeType == NodeType.DocumentType)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if the given child is preceded by an element node.
+        /// </summary>
+        /// <param name="child">The child that follows any element.</param>
+        /// <returns>True if an element node is preceded the provided child, otherwise false.</returns>
+        public static Boolean IsPrecededByElement(this INode child)
+        {
+            foreach (var node in child.Parent.ChildNodes)
+            {
+                if (node == child)
+                    break;
+                else if (node.NodeType == NodeType.Element)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the element count of the given node.
+        /// </summary>
+        /// <param name="parent">The parent of potential element nodes.</param>
+        /// <returns>The number of element nodes in the parent.</returns>
+        public static Int32 GetElementCount(this INode parent)
+        {
+            int count = 0;
+
+            foreach (var node in parent.ChildNodes)
+            {
+                if (node.NodeType == NodeType.Element)
+                    count++;
+            }
+
+            return count;
+        }
+
+        /// <summary>
         /// Tries to print the HTML representation of the Object, if any.
         /// Otherwise the an empty string is returned.
         /// </summary>
@@ -337,36 +406,5 @@
 
             return css.ToCss();
         }
-
-        #region Helpers
-
-        static Boolean IsFollowedByDoctype(this INode child)
-        {
-            if (child == null)
-                return false;
-
-            var before = true;
-
-            foreach (var node in child.Parent.ChildNodes)
-            {
-                if (before)
-                    before = node != child;
-                else if (node is IDocumentType)
-                    return true;
-            }
-
-            return false;
-        }
-
-        static Boolean HasElements(this INode parent)
-        {
-            foreach (var node in parent.ChildNodes)
-                if (node is IElement)
-                    return true;
-
-            return false;
-        }
-
-        #endregion
     }
 }
