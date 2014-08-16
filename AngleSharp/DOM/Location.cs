@@ -50,7 +50,7 @@
         /// </summary>
         public String Origin
         {
-            get { return _url.Origin.Href; }
+            get { var origin = _url.Origin; return origin != null ? origin.Href : null; }
         }
 
         /// <summary>
