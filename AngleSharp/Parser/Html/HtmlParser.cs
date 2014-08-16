@@ -592,7 +592,7 @@
                     }
                     else if (token.Name == Tags.Head)
                     {
-                        AddElement(new HTMLHeadElement(), token.AsTag());
+                        AddElement<HTMLHeadElement>(token.AsTag());
                         insert = HtmlTreeMode.InHead;
                         return;
                     }
@@ -652,8 +652,7 @@
                     }
                     else if (token.Name == Tags.Meta)
                     {
-                        var element = new HTMLMetaElement();
-                        AddElement(element, token.AsTag(), true);
+                        var element = AddElement<HTMLMetaElement>(token.AsTag(), true);
                         CloseCurrentNode();
 
                         var charset = element.GetAttribute(AttributeNames.Charset);
@@ -700,12 +699,9 @@
                     }
                     else if (token.Name == Tags.Script)
                     {
-                        var script = new HTMLScriptElement
-                        {
-                            IsParserInserted = true,
-                            IsAlreadyStarted = IsFragmentCase
-                        };
-                        AddElement(script, token.AsTag());
+                        var script = AddElement<HTMLScriptElement>(token.AsTag());
+                        script.IsParserInserted = true;
+                        script.IsAlreadyStarted = IsFragmentCase;
                         tokenizer.State = HtmlParseMode.Script;
                         originalInsert = insert;
                         insert = HtmlTreeMode.Text;
@@ -718,8 +714,7 @@
                     }
                     else if (token.Name == Tags.Template)
                     {
-                        var element = new HTMLTemplateElement();
-                        AddElement(element, token.AsTag());
+                        AddElement<HTMLTemplateElement>(token.AsTag());
                         formatting.AddScopeMarker();
                         frameset = false;
                         insert = HtmlTreeMode.InTemplate;
@@ -742,7 +737,7 @@
                         {
                             GenerateImpliedEndTags();
 
-                            if (!(CurrentNode is HTMLTemplateElement))
+                            if (CurrentNode is HTMLTemplateElement == false)
                                 RaiseErrorOccurred(ErrorCode.TagClosingMismatch);
 
                             CloseTemplate();
@@ -863,8 +858,7 @@
                     }
                     else if (token.Name == Tags.Frameset)
                     {
-                        var element = new HTMLFrameSetElement();
-                        AddElement(element, token.AsTag());
+                        AddElement<HTMLFrameSetElement>(token.AsTag());
                         insert = HtmlTreeMode.InFrameset;
                         return;
                     }
@@ -969,8 +963,7 @@
                                 while (open.Count > 1)
                                     CloseCurrentNode();
 
-                                var element = new HTMLFrameSetElement();
-                                AddElement(element, tag);
+                                AddElement<HTMLFrameSetElement>(tag);
                                 insert = HtmlTreeMode.InFrameset;
                             }
 
@@ -1022,8 +1015,7 @@
                                 CloseCurrentNode();
                             }
 
-                            var element = new HTMLHeadingElement(tag.Name);
-                            AddElement(element, tag);
+                            AddElement(new HTMLHeadingElement(tag.Name) { Owner = doc }, tag);
                             break;
                         }
                         case Tags.Pre:
@@ -1032,8 +1024,7 @@
                             if (IsInButtonScope())
                                 InBodyEndTagParagraph();
 
-                            var element = new HTMLPreElement(tag.Name);
-                            AddElement(element, tag);
+                            AddElement(new HTMLPreElement(tag.Name) { Owner = doc }, tag);
                             frameset = false;
                             PreventNewLine();
                             break;
@@ -1045,9 +1036,7 @@
                                 if (IsInButtonScope())
                                     InBodyEndTagParagraph();
 
-                                var element = new HTMLFormElement();
-                                AddElement(element, tag);
-                                form = element;
+                                form = AddElement<HTMLFormElement>(tag);
                             }
                             else
                                 RaiseErrorOccurred(ErrorCode.FormAlreadyOpen);
@@ -1085,8 +1074,7 @@
                             else
                             {
                                 ReconstructFormatting();
-                                var element = new HTMLButtonElement();
-                                AddElement(element, tag);
+                                AddElement<HTMLButtonElement>(tag);
                                 frameset = false;
                             }
                             break;
@@ -1104,10 +1092,10 @@
                                     RaiseErrorOccurred(ErrorCode.AnchorNested);
                                     HeisenbergAlgorithm(HtmlToken.CloseTag(Tags.A));
 
-                                    if(open.Contains(format)) 
+                                    if (open.Contains(format)) 
                                         open.Remove(format);
 
-                                    if(formatting.Contains(format)) 
+                                    if (formatting.Contains(format)) 
                                         formatting.RemoveAt(i);
 
                                     break;
@@ -1115,8 +1103,7 @@
                             }
 
                             ReconstructFormatting();
-                            var element = new HTMLAnchorElement();
-                            AddElement(element, tag);
+                            var element = AddElement<HTMLAnchorElement>(tag);
                             formatting.AddFormatting(element);
                             break;
                         }
@@ -1170,8 +1157,7 @@
                             if (doc.QuirksMode == QuirksMode.Off && IsInButtonScope())
                                 InBodyEndTagParagraph();
 
-                            var element = new HTMLTableElement();
-                            AddElement(element, tag);
+                            AddElement<HTMLTableElement>(tag);
                             frameset = false;
                             insert = HtmlTreeMode.InTable;
                             break;
@@ -1196,8 +1182,7 @@
                         case Tags.Input:
                         {
                             ReconstructFormatting();
-                            var element = new HTMLInputElement();
-                            AddElement(element, tag, true);
+                            AddElement<HTMLInputElement>(tag, true);
                             CloseCurrentNode();
 
                             if (!tag.GetAttribute(AttributeNames.Type).Equals(AttributeNames.Hidden, StringComparison.OrdinalIgnoreCase))
@@ -1218,8 +1203,7 @@
                             if (IsInButtonScope())
                                 InBodyEndTagParagraph();
 
-                            var element = new HTMLHRElement();
-                            AddElement(element, tag, true);
+                            AddElement<HTMLHRElement>(tag, true);
                             CloseCurrentNode();
                             frameset = false;
                             break;
@@ -1263,8 +1247,7 @@
                         }
                         case Tags.Textarea:
                         {
-                            var element = new HTMLTextAreaElement();
-                            AddElement(element, tag);
+                            AddElement<HTMLTextAreaElement>(tag);
                             tokenizer.State = HtmlParseMode.RCData;
                             originalInsert = insert;
                             frameset = false;
@@ -1291,8 +1274,7 @@
                         case Tags.Select:
                         {
                             ReconstructFormatting();
-                            var element = new HTMLSelectElement();
-                            AddElement(element, tag);
+                            AddElement<HTMLSelectElement>(tag);
                             frameset = false;
 
                             switch (insert)
@@ -1327,7 +1309,7 @@
                             {
                                 GenerateImpliedEndTags();
 
-                                if (!(CurrentNode is HTMLRubyElement))
+                                if (CurrentNode is HTMLRubyElement == false)
                                     RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
                             }
                             
@@ -1353,7 +1335,7 @@
                         }
                         case Tags.Math:
                         {
-                            var element = new MathElement(tag.Name);
+                            var element = new MathElement(tag.Name) { Owner = doc };
                             ReconstructFormatting();
 
                             for (int i = 0; i < tag.Attributes.Count; i++)
@@ -1372,7 +1354,7 @@
                         }
                         case Tags.Svg:
                         {
-                            var element = new SVGElement(tag.Name);
+                            var element = new SVGElement(tag.Name) { Owner = doc };
                             ReconstructFormatting();
 
                             for (int i = 0; i < tag.Attributes.Count; i++)
@@ -1497,7 +1479,7 @@
                             {
                                 GenerateImpliedEndTagsExceptFor(tag.Name);
 
-                                if (!(CurrentNode is HTMLLIElement))
+                                if (CurrentNode is HTMLLIElement == false)
                                     RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
 
                                 ClearStackBackTo<HTMLLIElement>();
@@ -1679,16 +1661,14 @@
                     {
                         ClearStackBackTo<HTMLTableElement>();
                         formatting.AddScopeMarker();
-                        var element = new HTMLTableCaptionElement();
-                        AddElement(element, tag);
+                        AddElement<HTMLTableCaptionElement>(tag);
                         insert = HtmlTreeMode.InCaption;
                         break;
                     }
                     case Tags.Colgroup:
                     {
                         ClearStackBackTo<HTMLTableElement>();
-                        var element = new HTMLTableColgroupElement();
-                        AddElement(element, tag);
+                        AddElement<HTMLTableColgroupElement>(tag);
                         insert = HtmlTreeMode.InColumnGroup;
                         break;
                     }
@@ -1703,7 +1683,7 @@
                     case Tags.Tfoot:
                     {
                         ClearStackBackTo<HTMLTableElement>();
-                        var element = new HTMLTableSectionElement(tag.Name);
+                        var element = new HTMLTableSectionElement(tag.Name) { Owner = doc };
                         AddElement(element, tag);
                         insert = HtmlTreeMode.InTableBody;
                         break;
@@ -1737,8 +1717,7 @@
                         if (tag.GetAttribute(AttributeNames.Type).Equals("hidden", StringComparison.OrdinalIgnoreCase))
                         {
                             RaiseErrorOccurred(ErrorCode.InputUnexpected);
-                            var element = new HTMLInputElement();
-                            AddElement(element, tag, true);
+                            AddElement<HTMLInputElement>(tag, true);
                             CloseCurrentNode();
                         }
                         else
@@ -1755,9 +1734,7 @@
 
                         if (form == null)
                         {
-                            var element = new HTMLFormElement();
-                            AddElement(element, tag);
-                            form = element;
+                            form = AddElement<HTMLFormElement>(tag);
                             CloseCurrentNode();
                         }
 
@@ -1810,7 +1787,7 @@
                     }
                 }
             }
-            else if (token.Type == HtmlTokenType.Character && CurrentNode != null && CurrentNode.IsTableElement())
+            else if (token.Type == HtmlTokenType.Character && CurrentNode.IsTableElement())
             {
                 InTableText((HtmlCharacterToken)token);
             }
@@ -1940,8 +1917,7 @@
                 InBody(token);
             else if (token.IsStartTag(Tags.Col))
             {
-                var element = new HTMLTableColElement();
-                AddElement(element, token.AsTag(), true);
+                AddElement<HTMLTableColElement>(token.AsTag(), true);
                 CloseCurrentNode();
             }
             else if (token.IsEndTag(Tags.Colgroup))
@@ -1969,8 +1945,7 @@
                 if (tag.Name == Tags.Tr)
                 {
                     ClearStackBackTo<HTMLTableSectionElement>();
-                    var element = new HTMLTableRowElement();
-                    AddElement(element, token.AsTag());
+                    AddElement<HTMLTableRowElement>(token.AsTag());
                     insert = HtmlTreeMode.InRow;
                 }
                 else if (tag.Name.IsTableCellElement())
@@ -2168,8 +2143,7 @@
                         if (CurrentNode is HTMLOptionElement)
                             InSelectEndTagOption();
 
-                        var element = new HTMLOptionElement();
-                        AddElement(element, token.AsTag());
+                        AddElement<HTMLOptionElement>(token.AsTag());
                         break;
                     }
                     case Tags.Optgroup:
@@ -2180,8 +2154,7 @@
                         if (CurrentNode is HTMLOptGroupElement)
                             InSelectEndTagOptgroup();
 
-                        var element = new HTMLOptGroupElement();
-                        AddElement(element, token.AsTag());
+                        AddElement<HTMLOptGroupElement>(token.AsTag());
                         break;
                     }
                     case Tags.Select:
@@ -2468,14 +2441,12 @@
                 }
                 else if (tag.Name == Tags.Frameset)
                 {
-                    var element = new HTMLFrameSetElement();
-                    AddElement(element, token.AsTag());
+                    AddElement<HTMLFrameSetElement>(token.AsTag());
                     return;
                 }
                 else if (tag.Name == Tags.Frame)
                 {
-                    var element = new HTMLFrameElement();
-                    AddElement(element, token.AsTag(), true);
+                    AddElement<HTMLFrameElement>(token.AsTag(), true);
                     CloseCurrentNode();
                     return;
                 }
@@ -2491,7 +2462,7 @@
                 {
                     CloseCurrentNode();
 
-                    if (!IsFragmentCase && !(CurrentNode is HTMLFrameSetElement))
+                    if (!IsFragmentCase && CurrentNode is HTMLFrameSetElement == false)
                         insert = HtmlTreeMode.AfterFrameset;
                 }
                 else
@@ -2745,8 +2716,7 @@
         /// <param name="token"></param>
         void AfterHeadStartTagBody(HtmlTagToken token)
         {
-            var element = new HTMLBodyElement();
-            AddElement(element, token);
+            AddElement<HTMLBodyElement>(token);
             frameset = false;
             insert = HtmlTreeMode.InBody;
         }
@@ -2875,17 +2845,14 @@
             var bookmark = 0;
             var index = 0;
 
-            Element formattingElement;
-            Element furthestBlock;
-            Element commonAncestor;
-            Element node;
-            Element lastNode;
-
             while (outer < 8)
             {
+                Element formattingElement = null;
+                Element furthestBlock = null;
+
                 outer++;
                 index = 0;
-                formattingElement = null;
+                inner = 0;
 
                 for (var j = formatting.Count - 1; j >= 0; j--)
                 {
@@ -2924,7 +2891,6 @@
                 if (openIndex != open.Count - 1)
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
 
-                furthestBlock = null;
                 bookmark = index;
 
                 for (var j = openIndex + 1; j < open.Count; j++)
@@ -2950,10 +2916,9 @@
                     break;
                 }
 
-                commonAncestor = open[openIndex - 1];
-                inner = 0;
-                node = furthestBlock;
-                lastNode = furthestBlock;
+                var commonAncestor = open[openIndex - 1];
+                var node = furthestBlock;
+                var lastNode = furthestBlock;
 
                 while (true)
                 {
@@ -2973,12 +2938,12 @@
                     }
 
                     var newElement = CopyElement(node);
-                    commonAncestor.AppendChild(newElement);
+                    commonAncestor.AddNode(newElement);
                     open[index] = newElement;
                     
-                    for(var l = 0; l != formatting.Count; l++)
+                    for (var l = 0; l != formatting.Count; l++)
                     {
-                        if(formatting[l] == node)
+                        if (formatting[l] == node)
                         {
                             formatting[l] = newElement;
                             break;
@@ -2993,26 +2958,30 @@
                     if (lastNode.Parent != null)
                         lastNode.Parent.RemoveChild(lastNode);
 
-                    node.AppendChild(lastNode);
+                    node.AddNode(lastNode);
                     lastNode = node;
                 }
 
-                if (commonAncestor.IsTableElement())
-                    AddElementWithFoster(lastNode);
-                else
+                if (!commonAncestor.IsTableElement())
                 {
                     if (lastNode.Parent != null)
                         lastNode.Parent.RemoveChild(lastNode);
 
-                    commonAncestor.AppendChild(lastNode);
+                    commonAncestor.AddNode(lastNode);
                 }
+                else
+                    AddElementWithFoster(lastNode);
 
                 var element = CopyElement(formattingElement);
 
                 while (furthestBlock.ChildNodes.Length > 0)
-                    element.AppendChild(furthestBlock.RemoveChild(furthestBlock.ChildNodes[0]));
+                {
+                    var childNode = furthestBlock.ChildNodes[0];
+                    furthestBlock.RemoveNode(0, childNode);
+                    element.AddNode(childNode);
+                }
 
-                furthestBlock.AppendChild(element);
+                furthestBlock.AddNode(element);
                 formatting.Remove(formattingElement);
                 formatting.Insert(bookmark, element);
                 open.Remove(formattingElement);
@@ -3343,8 +3312,9 @@
             {
                 var tag = (HtmlTagToken)token;
                 var node = CurrentNode;
+                var script = node as HTMLScriptElement;
 
-                if (node is HTMLScriptElement == false || tag.Name != Tags.Script)
+                if (script == null)
                 {
                     if (node.NodeName != tag.Name)
                         RaiseErrorOccurred(ErrorCode.TagClosingMismatch);
@@ -3368,7 +3338,7 @@
                     }
                 }
                 else
-                    RunScript((HTMLScriptElement)node);
+                    RunScript(script);
             }
         }
 
@@ -3764,10 +3734,12 @@
         /// <param name="doctypeToken">The doctypen token.</param>
         void AddDoctype(HtmlDoctypeToken doctypeToken)
         {
-            var node = new DocumentType(doctypeToken.Name ?? String.Empty);
-            node.SystemIdentifier = doctypeToken.SystemIdentifier;
-            node.PublicIdentifier = doctypeToken.PublicIdentifier;
-            doc.AppendChild(node);
+            doc.AddNode(new DocumentType(doctypeToken.Name ?? String.Empty)
+            {
+                Owner = doc,
+                SystemIdentifier = doctypeToken.SystemIdentifier,
+                PublicIdentifier = doctypeToken.PublicIdentifier
+            });
         }
 
         /// <summary>
@@ -3776,8 +3748,8 @@
         /// <param name="tag">The token which started this process.</param>
         void AddRoot(HtmlTagToken tag)
         {
-            var element = new HTMLHtmlElement();
-            doc.AppendChild(element);
+            var element = new HTMLHtmlElement { Owner = doc };
+            doc.AddNode(element);
             SetupElement(element, tag, false);
             open.Add(element);
             tokenizer.IsAcceptingCharacterData = false;
@@ -3791,6 +3763,7 @@
         {
             if (open.Count > 0)
             {
+                open[open.Count - 1].Close();
                 open.RemoveAt(open.Count - 1);
                 var node = AdjustedCurrentNode;
                 tokenizer.IsAcceptingCharacterData = node != null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
@@ -3820,11 +3793,29 @@
         /// </summary>
         /// <param name="tag">The associated tag token.</param>
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
-        void AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
+        Element AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
             var element = HtmlElementFactory.Create(tag.Name, doc);
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
+            return element;
+        }
+
+        /// <summary>
+        /// Appends a node to the current node and
+        /// modifies the node by appending all attributes and
+        /// acknowledging the self-closing flag if set.
+        /// </summary>
+        /// <typeparam name="TElement">The type of element to create.</typeparam>
+        /// <param name="tag">The associated tag token.</param>
+        /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
+        TElement AddElement<TElement>(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
+            where TElement : Element, new()
+        {
+            var element = new TElement { Owner = doc };
+            SetupElement(element, tag, acknowledgeSelfClosing);
+            AddElement(element);
+            return element;
         }
 
         /// <summary>
@@ -3852,7 +3843,7 @@
             if (foster && node.IsTableElement())
                 AddElementWithFoster(element);
             else
-                node.AppendChild(element);
+                node.AddNode(element);
 
             open.Add(element);
             tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
@@ -3872,8 +3863,7 @@
             {
                 if (open[index] is HTMLTemplateElement)
                 {
-                    var template = (HTMLTemplateElement)open[index];
-                    template.Content.AppendChild(element);
+                    open[index].AddNode(element);
                     return;
                 }
                 else if (open[index] is HTMLTableElement)
@@ -3891,13 +3881,13 @@
 			    {
                     if (foster.ChildNodes[i] == open[index])
                     {
-                        foster.InsertChild(i, element);
+                        foster.InsertNode(i, element);
                         break;
                     }
 			    }
             }
             else
-                foster.AppendChild(element);
+                foster.AddNode(element);
         }
 
         /// <summary>
@@ -3907,7 +3897,7 @@
         void AddForeignElement(Element element)
         {
             element.NamespaceUri = AdjustedCurrentNode.NamespaceUri;
-            CurrentNode.AppendChild(element);
+            CurrentNode.AddNode(element);
         }
 
         /// <summary>
@@ -3919,10 +3909,12 @@
             if (String.IsNullOrEmpty(text))
                 return;
 
-            if (foster && CurrentNode.IsTableElement())
+            var node = CurrentNode;
+
+            if (foster && node.IsTableElement())
                 AddCharactersWithFoster(text);
             else
-                CurrentNode.AppendText(text);
+                node.AppendText(text);
         }
 
         /// <summary>
@@ -3938,8 +3930,7 @@
             {
                 if (open[index] is HTMLTemplateElement)
                 {
-                    var template = (HTMLTemplateElement)open[index];
-                    template.Container.AppendText(text);
+                    open[index].AppendText(text);
                     return;
                 }
                 else if (open[index] is HTMLTableElement)
@@ -4057,7 +4048,6 @@
             {
                 var element = CopyElement(formatting[index]);
                 AddElement(element);
-
                 formatting[index] = element;
             }
         }

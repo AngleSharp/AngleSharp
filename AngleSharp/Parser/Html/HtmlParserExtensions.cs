@@ -106,8 +106,7 @@
         /// <param name="token">The comment token.</param>
         public static void AddComment(this Node parent, HtmlToken token)
         {
-            var comment = new Comment(token.Data);
-            parent.AppendChild(comment);
+            parent.AddNode(new Comment(token.Data) { Owner = parent.Owner });
         }
 
         /// <summary>
