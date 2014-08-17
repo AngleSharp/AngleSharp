@@ -197,12 +197,12 @@ namespace UnitTests
             var path = "/some/path";
             var address = protocol + "//" + hostname + path;
             var location = new Location(address);
-            Assert.AreEqual(string.Empty, location.Hash);
+            Assert.AreEqual(String.Empty, location.Hash);
             Assert.AreEqual(hostname, location.Host);
             Assert.AreEqual(hostname, location.HostName);
             Assert.AreEqual(address, location.Href);
             Assert.AreEqual(path, location.PathName);
-            Assert.AreEqual(string.Empty, location.Port);
+            Assert.AreEqual(String.Empty, location.Port);
             Assert.AreEqual(protocol, location.Protocol);
         }
 
@@ -220,7 +220,7 @@ namespace UnitTests
             Assert.AreEqual(hostname, location.HostName);
             Assert.AreEqual(address, location.Href);
             Assert.AreEqual(path, location.PathName);
-            Assert.AreEqual(string.Empty, location.Port);
+            Assert.AreEqual(String.Empty, location.Port);
             Assert.AreEqual(protocol, location.Protocol);
         }
 
@@ -234,7 +234,7 @@ namespace UnitTests
             var host = hostname + ":" + port;
             var address = protocol + "//" + host + path;
             var location = new Location(address);
-            Assert.AreEqual(string.Empty, location.Hash);
+            Assert.AreEqual(String.Empty, location.Hash);
             Assert.AreEqual(host, location.Host);
             Assert.AreEqual(hostname, location.HostName);
             Assert.AreEqual(address, location.Href);
@@ -272,7 +272,7 @@ namespace UnitTests
             var hash = "#myhash";
             var address = protocol + "//" + hostname + path;
             var location = new Location(address);
-            Assert.AreEqual(string.Empty, location.Hash);
+            Assert.AreEqual(String.Empty, location.Hash);
             location.Hash = hash;
             address = protocol + "//" + hostname + path + hash;
             Assert.AreEqual(hash, location.Hash);
@@ -280,7 +280,7 @@ namespace UnitTests
             Assert.AreEqual(hostname, location.HostName);
             Assert.AreEqual(address, location.Href);
             Assert.AreEqual(path, location.PathName);
-            Assert.AreEqual(string.Empty, location.Port);
+            Assert.AreEqual(String.Empty, location.Port);
             Assert.AreEqual(protocol, location.Protocol);
             Assert.AreEqual(address, location.Href);
         }
@@ -298,12 +298,12 @@ namespace UnitTests
             location.Protocol = protocol;
             address = protocol + "//" + hostname + path;
             Assert.AreEqual(protocol, location.Protocol);
-            Assert.AreEqual(string.Empty, location.Hash);
+            Assert.AreEqual(String.Empty, location.Hash);
             Assert.AreEqual(hostname, location.Host);
             Assert.AreEqual(hostname, location.HostName);
             Assert.AreEqual(address, location.Href);
             Assert.AreEqual(path, location.PathName);
-            Assert.AreEqual(string.Empty, location.Port);
+            Assert.AreEqual(String.Empty, location.Port);
             Assert.AreEqual(protocol, location.Protocol);
             Assert.AreEqual(address, location.Href);
         }
@@ -321,12 +321,12 @@ namespace UnitTests
             location.PathName = "";
             address = protocol + "//" + hostname + path;
             Assert.AreEqual(protocol, location.Protocol);
-            Assert.AreEqual(string.Empty, location.Hash);
+            Assert.AreEqual(String.Empty, location.Hash);
             Assert.AreEqual(hostname, location.Host);
             Assert.AreEqual(hostname, location.HostName);
             Assert.AreEqual(address, location.Href);
             Assert.AreEqual(path, location.PathName);
-            Assert.AreEqual(string.Empty, location.Port);
+            Assert.AreEqual(String.Empty, location.Port);
             Assert.AreEqual(protocol, location.Protocol);
             Assert.AreEqual(address, location.Href);
         }
@@ -352,7 +352,8 @@ namespace UnitTests
         [TestMethod]
         public void CSSStyleDeclarationBoundOutboundDirectionIndirect()
         {
-            var element = new HTMLSpanElement();
+            var doc = new Document();
+            var element = doc.CreateElement<IHtmlSpanElement>();
             var text = "background: red; color: black;";
             element.SetAttribute("style", text);
             Assert.AreEqual(text, element.Style.CssText);
@@ -362,7 +363,8 @@ namespace UnitTests
         [TestMethod]
         public void CSSStyleDeclarationBoundOutboundDirectionDirect()
         {
-            var element = new HTMLSpanElement();
+            var doc = new Document();
+            var element = doc.CreateElement<IHtmlSpanElement>();
             var text = "background: red; color: black;";
             element.SetAttribute("style", String.Empty);
             Assert.AreEqual(String.Empty, element.Style.CssText);
