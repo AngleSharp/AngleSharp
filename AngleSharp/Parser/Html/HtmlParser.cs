@@ -2143,40 +2143,50 @@
         /// <param name="token">The passed token.</param>
         void AfterBody(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.Character)
+            switch (token.Type)
             {
-                var str = token.TrimStart();
-                ReconstructFormatting();
-                AddCharacters(str);
+                case HtmlTokenType.Character:
+                {
+                    var str = token.TrimStart();
+                    ReconstructFormatting();
+                    AddCharacters(str);
 
-                if (token.IsEmpty)
+                    if (token.IsEmpty)
+                        return;
+                    
+                    break;
+                }
+                case HtmlTokenType.Comment:
+                    open[0].AddComment(token.Data);
                     return;
-            }
-            else if (token.Type == HtmlTokenType.Comment)
-            {
-                open[0].AddComment(token.Data);
-                return;
-            }
-            else if (token.Type == HtmlTokenType.DOCTYPE)
-            {
-                RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
-                return;
-            }
-            else if(token.IsTag(Tags.Html))
-            {
-                if (token.Type == HtmlTokenType.StartTag)
-                    InBody(token);
-                else if (IsFragmentCase)
-                    RaiseErrorOccurred(ErrorCode.TagInvalidInFragmentMode);
-                else
-                    insert = HtmlTreeMode.AfterAfterBody;
 
-                return;
-            }
-            else if (token.Type == HtmlTokenType.EOF)
-            {
-                End();
-                return;
+                case HtmlTokenType.DOCTYPE:
+                    RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
+                    return;
+
+                case HtmlTokenType.StartTag:
+                    if (token.Name == Tags.Html)
+                    {
+                        InBody(token);
+                        return;
+                    }
+
+                    break;
+                case HtmlTokenType.EndTag:
+                    if (token.Name == Tags.Html)
+                    {
+                        if (IsFragmentCase)
+                            RaiseErrorOccurred(ErrorCode.TagInvalidInFragmentMode);
+                        else
+                            insert = HtmlTreeMode.AfterAfterBody;
+
+                        return;
+                    }
+
+                    break;
+                case HtmlTokenType.EOF:
+                    End();
+                    return;
             }
 
             RaiseErrorOccurred(ErrorCode.TokenNotPossible);
@@ -2190,71 +2200,73 @@
         /// <param name="token">The passed token.</param>
         void InFrameset(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.Character)
+            switch (token.Type)
             {
-                var str = token.TrimStart();
-                AddCharacters(str);
-
-                if (token.IsEmpty)
-                    return;
-            }
-            else if (token.Type == HtmlTokenType.Comment)
-            {
-                CurrentNode.AddComment(token.Data);
-                return;
-            }
-            else if (token.Type == HtmlTokenType.DOCTYPE)
-            {
-                RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
-                return;
-            }
-            else if (token.Type == HtmlTokenType.StartTag)
-            {
-                var tagName = token.Name;
-
-                if (tagName == Tags.Html)
+                case HtmlTokenType.Character:
                 {
-                    InBody(token);
+                    var str = token.TrimStart();
+                    AddCharacters(str);
+
+                    if (token.IsEmpty)
+                        return;
+
+                    break;
+                }
+                case HtmlTokenType.Comment:
+                {
+                    CurrentNode.AddComment(token.Data);
                     return;
                 }
-                else if (tagName == Tags.Frameset)
+                case HtmlTokenType.DOCTYPE:
                 {
-                    AddElement<HTMLFrameSetElement>(token.AsTag());
+                    RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
                     return;
                 }
-                else if (tagName == Tags.Frame)
+                case HtmlTokenType.StartTag:
                 {
-                    AddElement<HTMLFrameElement>(token.AsTag(), true);
-                    CloseCurrentNode();
+                    var tagName = token.Name;
+
+                    if (tagName == Tags.Html)
+                        InBody(token);
+                    else if (tagName == Tags.Frameset)
+                        AddElement<HTMLFrameSetElement>(token.AsTag());
+                    else if (tagName == Tags.Frame)
+                    {
+                        AddElement<HTMLFrameElement>(token.AsTag(), true);
+                        CloseCurrentNode();
+                    }
+                    else if (tagName == Tags.NoFrames)
+                        InHead(token);
+                    else
+                        break;
+
                     return;
                 }
-                else if (tagName == Tags.NoFrames)
+                case HtmlTokenType.EndTag:
                 {
-                    InHead(token);
+                    if (token.Name != Tags.Frameset)
+                        break;
+
+                    if (CurrentNode != open[0])
+                    {
+                        CloseCurrentNode();
+
+                        if (!IsFragmentCase && CurrentNode is HTMLFrameSetElement == false)
+                            insert = HtmlTreeMode.AfterFrameset;
+                    }
+                    else
+                        RaiseErrorOccurred(ErrorCode.CurrentNodeIsRoot);
+
                     return;
                 }
-            }
-            else if (token.IsEndTag(Tags.Frameset))
-            {
-                if (CurrentNode != open[0])
+                case HtmlTokenType.EOF:
                 {
-                    CloseCurrentNode();
+                    if (CurrentNode != doc.DocumentElement)
+                        RaiseErrorOccurred(ErrorCode.CurrentNodeIsNotRoot);
 
-                    if (!IsFragmentCase && CurrentNode is HTMLFrameSetElement == false)
-                        insert = HtmlTreeMode.AfterFrameset;
+                    End();
+                    return;
                 }
-                else
-                    RaiseErrorOccurred(ErrorCode.CurrentNodeIsRoot);
-
-                return;
-            }
-            else if (token.Type == HtmlTokenType.EOF)
-            {
-                if (CurrentNode != doc.DocumentElement)
-                    RaiseErrorOccurred(ErrorCode.CurrentNodeIsNotRoot);
-
-                End();
-                return;
             }
 
             RaiseErrorOccurred(ErrorCode.TokenNotPossible);
@@ -2266,48 +2278,54 @@
         /// <param name="token">The passed token.</param>
         void AfterFrameset(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.Character)
+            switch (token.Type)
             {
-                var str = token.TrimStart();
-                AddCharacters(str);
-
-                if (token.IsEmpty)
-                    return;
-            }
-            else if (token.Type == HtmlTokenType.Comment)
-            {
-                CurrentNode.AddComment(token.Data);
-                return;
-            }
-            else if (token.Type == HtmlTokenType.DOCTYPE)
-            {
-                RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
-                return;
-            }
-            else if (token.Type == HtmlTokenType.StartTag)
-            {
-                var tagName = token.Name;
-
-                if (tagName == Tags.Html)
+                case HtmlTokenType.Character:
                 {
-                    InBody(token);
+                    var str = token.TrimStart();
+                    AddCharacters(str);
+
+                    if (token.IsEmpty)
+                        return;
+
+                    break;
+                }
+                case HtmlTokenType.Comment:
+                {
+                    CurrentNode.AddComment(token.Data);
                     return;
                 }
-                else if (tagName == Tags.NoFrames)
+                case HtmlTokenType.DOCTYPE:
                 {
-                    InHead(token);
+                    RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
                     return;
                 }
-            }
-            else if (token.IsEndTag(Tags.Html))
-            {
-                insert = HtmlTreeMode.AfterAfterFrameset;
-                return;
-            }
-            else if (token.Type == HtmlTokenType.EOF)
-            {
-                End();
-                return;
+                case HtmlTokenType.StartTag:
+                {
+                    var tagName = token.Name;
+
+                    if (tagName == Tags.Html)
+                        InBody(token);
+                    else if (tagName == Tags.NoFrames)
+                        InHead(token);
+                    else
+                        break;
+
+                    return;
+                }
+                case HtmlTokenType.EndTag:
+                {
+                    if (token.Name != Tags.Html)
+                        break;
+
+                    insert = HtmlTreeMode.AfterAfterFrameset;
+                    return;
+                }
+                case HtmlTokenType.EOF:
+                {
+                    End();
+                    return;
+                }
             }
 
             RaiseErrorOccurred(ErrorCode.TokenNotPossible);
@@ -2319,29 +2337,42 @@
         /// <param name="token">The passed token.</param>
         void AfterAfterBody(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.Comment)
+            switch (token.Type)
             {
-                doc.AddComment(token.Data);
-                return;
-            }
-            else if (token.Type == HtmlTokenType.Character)
-            {
-                var str = token.TrimStart();
-                ReconstructFormatting();
-                AddCharacters(str);
-
-                if (token.IsEmpty)
+                case HtmlTokenType.Comment:
+                {
+                    doc.AddComment(token.Data);
                     return;
-            }
-            else if (token.Type == HtmlTokenType.DOCTYPE || token.IsStartTag(Tags.Html))
-            {
-                InBody(token);
-                return;
-            }
-            else if (token.Type == HtmlTokenType.EOF)
-            {
-                End();
-                return;
+                }
+                case HtmlTokenType.Character:
+                {
+                    var str = token.TrimStart();
+                    ReconstructFormatting();
+                    AddCharacters(str);
+
+                    if (token.IsEmpty)
+                        return;
+
+                    break;
+                }
+                case HtmlTokenType.DOCTYPE:
+                {
+                    InBody(token);
+                    return;
+                }
+                case HtmlTokenType.StartTag:
+                {
+                    if (token.Name != Tags.Html)
+                        break;
+
+                    InBody(token);
+                    return;
+                }
+                case HtmlTokenType.EOF:
+                {
+                    End();
+                    return;
+                }
             }
 
             RaiseErrorOccurred(ErrorCode.TokenNotPossible);
@@ -2355,34 +2386,47 @@
         /// <param name="token">The passed token.</param>
         void AfterAfterFrameset(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.Comment)
+            switch (token.Type)
             {
-                doc.AddComment(token.Data);
-                return;
-            }
-            else if (token.Type == HtmlTokenType.Character)
-            {
-                var str = token.TrimStart();
-                ReconstructFormatting();
-                AddCharacters(str);
-
-                if (token.IsEmpty)
+                case HtmlTokenType.Comment:
+                {
+                    doc.AddComment(token.Data);
                     return;
-            }
-            else if (token.Type == HtmlTokenType.DOCTYPE || token.IsStartTag(Tags.Html))
-            {
-                InBody(token);
-                return;
-            }
-            else if (token.IsStartTag(Tags.NoFrames))
-            {
-                InHead(token);
-                return;
-            }
-            else if (token.Type == HtmlTokenType.EOF)
-            {
-                End();
-                return;
+                }
+                case HtmlTokenType.Character:
+                {
+                    var str = token.TrimStart();
+                    ReconstructFormatting();
+                    AddCharacters(str);
+
+                    if (token.IsEmpty)
+                        return;
+
+                    break;
+                }
+                case HtmlTokenType.DOCTYPE:
+                {
+                    InBody(token);
+                    return;
+                }
+                case HtmlTokenType.StartTag:
+                {
+                    var tagName = token.Name;
+
+                    if (tagName == Tags.Html)
+                        InBody(token);
+                    else if (tagName == Tags.NoFrames)
+                        InHead(token);
+                    else
+                        break;
+
+                    return;
+                }
+                case HtmlTokenType.EOF:
+                {
+                    End();
+                    return;
+                }
             }
 
             RaiseErrorOccurred(ErrorCode.TokenNotPossible);
