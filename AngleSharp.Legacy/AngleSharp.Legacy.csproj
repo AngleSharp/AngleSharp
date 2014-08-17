@@ -1459,6 +1459,9 @@
     <Compile Include="..\AngleSharp\Foundation\Extensions\NodeExtensions.cs">
       <Link>Foundation\Extensions\NodeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\ParentNodeExtensions.cs">
+      <Link>Foundation\Extensions\ParentNodeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Extensions\QueryExtensions.cs">
       <Link>Foundation\Extensions\QueryExtensions.cs</Link>
     </Compile>
