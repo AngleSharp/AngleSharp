@@ -663,8 +663,7 @@
         /// <param name="nodes">The nodes to prepend.</param>
         public void Prepend(params INode[] nodes)
         {
-            var node = nodes.MutationMacro();
-            this.PreInsert(node, FirstChild);
+            this.PrependNodes(nodes);
         }
 
         /// <summary>
@@ -673,8 +672,7 @@
         /// <param name="nodes">The nodes to append.</param>
         public void Append(params INode[] nodes)
         {
-            var node = nodes.MutationMacro();
-            this.PreInsert(node, null);
+            this.AppendNodes(nodes);
         }
 
         public override Boolean IsEqualNode(INode otherNode)
@@ -708,13 +706,7 @@
         /// <returns>The current element.</returns>
         public void Before(params INode[] nodes)
         {
-            var parent = Parent;
-
-            if (parent != null && nodes.Length > 0)
-            {
-                var node = nodes.MutationMacro();
-                parent.InsertBefore(node, this);
-            }
+            this.InsertBefore(nodes);
         }
 
         /// <summary>
@@ -724,13 +716,7 @@
         /// <returns>The current element.</returns>
         public void After(params INode[] nodes)
         {
-            var parent = Parent;
-
-            if (parent != null && nodes.Length > 0)
-            {
-                var node = nodes.MutationMacro();
-                parent.InsertBefore(node, NextSibling);
-            }
+            this.InsertAfter(nodes);
         }
 
         /// <summary>
@@ -739,13 +725,7 @@
         /// <param name="nodes">The nodes to replace.</param>
         public void Replace(params INode[] nodes)
         {
-            var parent = Parent;
-
-            if (parent != null && nodes.Length > 0)
-            {
-                var node = nodes.MutationMacro();
-                parent.ReplaceChild(node, this);
-            }
+            this.ReplaceWith(nodes);
         }
 
         /// <summary>
@@ -753,10 +733,7 @@
         /// </summary>
         public void Remove()
         {
-            var parent = Parent;
-
-            if (parent != null)
-                parent.RemoveChild(this);
+            this.RemoveFromParent();
         }
 
         /// <summary>

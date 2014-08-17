@@ -29,5 +29,85 @@
 
             return nodes[0];
         }
+
+        /// <summary>
+        /// Prepends nodes to the parent node.
+        /// </summary>
+        /// <param name="parent">The parent, where to prepend to.</param>
+        /// <param name="nodes">The nodes to prepend.</param>
+        public static void PrependNodes(this INode parent, params INode[] nodes)
+        {
+            var node = nodes.MutationMacro();
+            parent.PreInsert(node, parent.FirstChild);
+        }
+
+        /// <summary>
+        /// Appends nodes to parent node.
+        /// </summary>
+        /// <param name="parent">The parent, where to append to.</param>
+        /// <param name="nodes">The nodes to append.</param>
+        public static void AppendNodes(this INode parent, params INode[] nodes)
+        {
+            var node = nodes.MutationMacro();
+            parent.PreInsert(node, null);
+        }
+
+        /// <summary>
+        /// Inserts nodes before the current node.
+        /// </summary>
+        /// <param name="nodes">The nodes to insert before.</param>
+        /// <returns>The current element.</returns>
+        public static void InsertBefore(this INode child, params INode[] nodes)
+        {
+            var parent = child.Parent;
+
+            if (parent != null && nodes.Length > 0)
+            {
+                var node = nodes.MutationMacro();
+                parent.InsertBefore(node, child);
+            }
+        }
+
+        /// <summary>
+        /// Inserts nodes after the current node.
+        /// </summary>
+        /// <param name="nodes">The nodes to insert after.</param>
+        /// <returns>The current element.</returns>
+        public static void InsertAfter(this INode child, params INode[] nodes)
+        {
+            var parent = child.Parent;
+
+            if (parent != null && nodes.Length > 0)
+            {
+                var node = nodes.MutationMacro();
+                parent.InsertBefore(node, child.NextSibling);
+            }
+        }
+
+        /// <summary>
+        /// Replaces the current node with the nodes.
+        /// </summary>
+        /// <param name="nodes">The nodes to replace.</param>
+        public static void ReplaceWith(this INode child, params INode[] nodes)
+        {
+            var parent = child.Parent;
+
+            if (parent != null && nodes.Length > 0)
+            {
+                var node = nodes.MutationMacro();
+                parent.ReplaceChild(node, child);
+            }
+        }
+
+        /// <summary>
+        /// Removes the current element from the parent.
+        /// </summary>
+        public static void RemoveFromParent(this INode child)
+        {
+            var parent = child.Parent;
+
+            if (parent != null)
+                parent.RemoveChild(child);
+        }
     }
 }
