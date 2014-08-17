@@ -1078,12 +1078,14 @@
         /// </summary>
         /// <param name="localName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element object.</returns>
-        public virtual IElement CreateElement(String localName)
+        public IElement CreateElement(String localName)
         {
             if (!localName.IsXmlName())
                 throw new DomException(ErrorCode.InvalidCharacter);
 
-            return HtmlElementFactory.Create(localName, this);
+            var element = HtmlElementFactory.Create(localName, this);
+            element.Close();
+            return element;
         }
 
         /// <summary>
@@ -1125,6 +1127,7 @@
                 element = new Element(localName) { NamespaceUri = namespaceUri, Owner = this };
 
             element.Prefix = prefix;
+            element.Close();
             return element;
         }
 

@@ -77,22 +77,37 @@
 
         internal override void Close()
         {
-            _sheet = Owner.Options.ParseStyling(source: TextContent, owner: this, type: Type);
-        }
+            base.Close();
 
-        /// <summary>
-        /// Called if an attribute changed, has been added or removed.
-        /// </summary>
-        /// <param name="name">The name of the attribute that has been changed.</param>
-        protected override void OnAttributeChanged(String name)
-        {
-            if (name.Equals(AttributeNames.Media, StringComparison.Ordinal))
+            OnAttributeChanged(AttributeNames.Media, value =>
             {
                 if (_sheet != null)
                     _sheet.Media.MediaText = Media;
-            }
-            else
-                base.OnAttributeChanged(name);
+            });
+
+            UpdateSheet();
+        }
+
+        internal override void NodeIsInserted(Node newNode)
+        {
+            base.NodeIsInserted(newNode);
+            UpdateSheet();
+        }
+
+        internal override void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
+        {
+            base.NodeIsRemoved(removedNode, oldPreviousSibling);
+            UpdateSheet();
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void UpdateSheet()
+        {
+            if (Owner.Options.IsStyling)
+                _sheet = Owner.Options.ParseStyling(source: TextContent, owner: this, type: Type);
         }
 
         #endregion

@@ -167,18 +167,26 @@
 
         #region Internal methods
 
-        /// <summary>
-        /// Called if an attribute changed, has been added or removed.
-        /// </summary>
-        /// <param name="name">The name of the attribute that has been changed.</param>
-        protected override void OnAttributeChanged(String name)
+        internal override void Close()
         {
-            if (name.Equals(AttributeNames.Media, StringComparison.Ordinal))
+            base.Close();
+            OnAttributeChanged(AttributeNames.Media, value =>
             {
                 if (_sheet != null)
-                    _sheet.Media.MediaText = Media;
-            }
-            else if (name.Equals(AttributeNames.Href, StringComparison.Ordinal) || name.Equals(AttributeNames.Rel, StringComparison.Ordinal))
+                    _sheet.Media.MediaText = value;
+            });
+            OnAttributeChanged(AttributeNames.Href, value => TargetChanged());
+            OnAttributeChanged(AttributeNames.Type, value => TargetChanged());
+            TargetChanged();
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void TargetChanged()
+        {
+            if (Owner.Options.IsStyling)
             {
                 var href = Href;
 
@@ -194,8 +202,6 @@
                     });
                 }
             }
-            else
-                base.OnAttributeChanged(name);
         }
 
         void TryCancelCurrent()

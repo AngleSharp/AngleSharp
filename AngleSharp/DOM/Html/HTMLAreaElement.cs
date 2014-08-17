@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        TokenList _rellist;
+        TokenList _relList;
         SettableTokenList _ping;
 
         #endregion
@@ -222,7 +222,7 @@
         /// </summary>
         public ITokenList RelationList
         {
-            get { return _rellist ?? (_rellist = new TokenList(this, AttributeNames.Rel)); }
+            get { return _relList ?? (_relList = new TokenList(this, AttributeNames.Rel)); }
         }
 
         /// <summary>
@@ -306,21 +306,14 @@
 
         #region Helpers
 
-        /// <summary>
-        /// Called if an attribute changed, has been added or removed.
-        /// </summary>
-        /// <param name="name">The name of the attribute that has been changed.</param>
-        protected override void OnAttributeChanged(String name)
+        internal override void Close()
         {
-            if (name.Equals(AttributeNames.Rel, StringComparison.Ordinal))
+            base.Close();
+            OnAttributeChanged(AttributeNames.Rel, value =>
             {
-                if (_rellist != null)
-                    _rellist.Update(Relation);
-
-                return;
-            }
-            
-            base.OnAttributeChanged(name);
+                if (_relList != null)
+                    _relList.Update(value);
+            });
         }
 
         #endregion

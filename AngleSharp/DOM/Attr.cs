@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.DOM.Collections;
     using System;
 
     /// <summary>
@@ -9,9 +10,9 @@
     {
         #region Fields
 
+        readonly AttrContainer _container;
         readonly String _name;
         readonly String _ns;
-        readonly Action<String> _changed;
         String _value;
 
         #endregion
@@ -21,37 +22,37 @@
         /// <summary>
         /// Creates a new NodeAttribute with empty value.
         /// </summary>
+        /// <param name="container">The parent of the attribute.</param>
         /// <param name="name">The name of the attribute.</param>
-        /// <param name="changed">The handler to call on changed.</param>
-        internal Attr(String name, Action<String> changed)
-            : this(name, String.Empty, null, changed)
+        internal Attr(AttrContainer container, String name)
+            : this(container, name, String.Empty, null)
         {
         }
 
         /// <summary>
         /// Creates a new NodeAttribute.
         /// </summary>
+        /// <param name="container">The parent of the attribute.</param>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        /// <param name="changed">The handler to call on changed.</param>
-        internal Attr(String name, String value, Action<String> changed)
-            : this(name, value, null, changed)
+        internal Attr(AttrContainer container, String name, String value)
+            : this(container, name, value, null)
         {
         }
 
         /// <summary>
         /// Creates a new NodeAttribute.
         /// </summary>
+        /// <param name="container">The parent of the attribute.</param>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
         /// <param name="ns">The namespace of the attribute.</param>
-        /// <param name="changed">The handler to call on changed.</param>
-        internal Attr(String name, String value, String ns, Action<String> changed)
+        internal Attr(AttrContainer container, String name, String value, String ns)
         {
+            _container = container;
             _name = name;
             _value = value;
             _ns = ns ?? String.Empty;
-            _changed = changed ?? (_ => { });
         }
 
         #endregion
@@ -65,7 +66,7 @@
         {
             get
             {
-                var index = _name.IndexOf(':');
+                var index = _name.IndexOf(Specification.Colon);
 
                 if (index == -1)
                     return String.Empty;
@@ -104,7 +105,7 @@
         public String Value
         {
             get { return _value; }
-            set { _value = value; _changed(_name); }
+            set { _value = value; _container.RaiseChanged(_name, _value); }
         }
 
         /// <summary>
@@ -114,7 +115,7 @@
         {
             get 
             {
-                var index = _name.IndexOf(':'); 
+                var index = _name.IndexOf(Specification.Colon); 
                 
                 if (index == -1)
                     return _name;
@@ -142,10 +143,7 @@
         /// <returns>True if both attributes are equal, otherwise false.</returns>
         public Boolean Equals(IAttr other)
         {
-            if (other == this)
-                return true;
-
-            return _value == other.Value && _name == other.Name;
+            return other == this || (_value == other.Value && _name == other.Name);
         }
 
         #endregion
@@ -163,16 +161,11 @@
             if (String.IsNullOrEmpty(_ns))
                 temp.Append(LocalName);
             else if (_ns == Namespaces.XmlUri)
-                temp.Append("xml:").Append(LocalName);
+                temp.Append(Namespaces.XmlPrefix).Append(Specification.Colon).Append(LocalName);
             else if (_ns == Namespaces.XLinkUri)
-                temp.Append("xlink:").Append(LocalName);
+                temp.Append(Namespaces.XLinkPrefix).Append(Specification.Colon).Append(LocalName);
             else if (_ns == Namespaces.XmlNsUri)
-            {
-                if (LocalName != "xmlns")
-                    temp.Append("xmlns:");
-
-                temp.Append(LocalName);
-            }
+                temp.Append(XmlNamespaceLocalName());
             else
                 temp.Append(_name);
 
@@ -190,6 +183,14 @@
             }
 
             return temp.Append(Specification.DoubleQuote).ToPool();
+        }
+
+        String XmlNamespaceLocalName()
+        {
+            if (LocalName != Namespaces.XmlNsPrefix)
+                return String.Concat(Namespaces.XmlNsPrefix, ":");
+
+            return LocalName;
         }
 
         #endregion

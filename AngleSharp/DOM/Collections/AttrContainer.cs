@@ -16,6 +16,12 @@
 
         #endregion
 
+        #region Events
+
+        public event EventHandler<AttrChangedEventArgs> Changed;
+
+        #endregion
+
         #region ctor
 
         internal AttrContainer()
@@ -62,6 +68,7 @@
         internal void Add(IAttr attribute)
         {
             _attributes.Add(attribute);
+            RaiseChanged(attribute.Name, attribute.Value);
         }
 
         internal Boolean Has(String name)
@@ -77,7 +84,9 @@
 
         internal void RemoveAt(Int32 index)
         {
+            var name = _attributes[index].Name;
             _attributes.RemoveAt(index);
+            RaiseChanged(name, null);
         }
 
         /// <summary>
@@ -92,6 +101,43 @@
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        internal void RaiseChanged(String name, String value)
+        {
+            if (Changed != null)
+                Changed(this, new AttrChangedEventArgs(name, value));
+        }
+
+        #endregion
+
+        #region Event Arguments
+
+        public sealed class AttrChangedEventArgs : EventArgs
+        {
+            public AttrChangedEventArgs(String name, String value)
+            {
+                Name = name;
+                Value = value;
+            }
+
+            /// <summary>
+            /// Gets the name of the changed attribute.
+            /// </summary>
+            public String Name
+            {
+                get;
+                private set;
+            }
+
+            /// <summary>
+            /// Gets the new value of the changed attribute.
+            /// </summary>
+            public String Value
+            {
+                get;
+                private set;
+            }
         }
 
         #endregion

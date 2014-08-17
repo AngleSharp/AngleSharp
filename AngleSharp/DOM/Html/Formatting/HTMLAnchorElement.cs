@@ -304,19 +304,14 @@
 
         #region Helpers
 
-        /// <summary>
-        /// Entry point for attributes to notify about a change (modified, added, removed).
-        /// </summary>
-        /// <param name="name">The name of the attribute that has been changed.</param>
-        protected override void OnAttributeChanged(String name)
+        internal override void Close()
         {
-            if (name.Equals(AttributeNames.Rel, StringComparison.Ordinal))
+            base.Close();
+            OnAttributeChanged(AttributeNames.Rel, value =>
             {
                 if (_relList != null)
-                    _relList.Update(Relation);
-            }
-            
-            base.OnAttributeChanged(name);
+                    _relList.Update(value);
+            });
         }
 
         #endregion

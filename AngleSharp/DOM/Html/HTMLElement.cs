@@ -278,16 +278,15 @@
             return parent as IHtmlFormElement;
         }
 
-        /// <summary>
-        /// Called if an attribute changed, has been added or removed.
-        /// </summary>
-        /// <param name="name">The name of the attribute that has been changed.</param>
-        protected override void OnAttributeChanged(String name)
+        internal override void Close()
         {
-            if (name.Equals(AttributeNames.Style, StringComparison.Ordinal))
+            base.Close();
+
+            if (Owner.Options.IsStyling)
+            {
+                OnAttributeChanged(AttributeNames.Style, value => _style.Update(value));
                 _style.Update(GetAttribute(AttributeNames.Style));
-            else
-                base.OnAttributeChanged(name);
+            }
         }
 
         #endregion

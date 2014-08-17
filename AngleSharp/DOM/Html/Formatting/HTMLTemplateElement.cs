@@ -71,6 +71,8 @@
 
         internal override void Close()
         {
+            base.Close();
+
             while (HasChilds)
             {
                 var node = ChildNodes[0];

@@ -571,18 +571,6 @@
         }
 
         /// <summary>
-        /// Adds a new attribute if the attribute is not yet created.
-        /// Does not fire the changed event.
-        /// </summary>
-        /// <param name="name">The name of the attribute as a string.</param>
-        /// <param name="value">The desired new value of the attribute.</param>
-        internal void AddAttribute(String name, String value)
-        {
-            if (!_attributes.Has(name))
-                _attributes.Add(new Attr(name, value, OnAttributeChanged));
-        }
-
-        /// <summary>
         /// Adds a new attribute or changes the value of an existing attribute on the specified element.
         /// </summary>
         /// <param name="name">The name of the attribute as a string.</param>
@@ -604,8 +592,7 @@
                 }
             }
 
-            _attributes.Add(new Attr(name, value, OnAttributeChanged));
-            OnAttributeChanged(name);
+            _attributes.Add(new Attr(_attributes, name, value));
         }
 
         /// <summary>
@@ -631,8 +618,7 @@
                 }
             }
 
-            _attributes.Add(new Attr(name, value, namespaceUri, OnAttributeChanged));
-            OnAttributeChanged(name);
+            _attributes.Add(new Attr(_attributes, name, value, namespaceUri));
         }
 
         /// <summary>
@@ -647,7 +633,6 @@
                 if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                 {
                     _attributes.RemoveAt(i);
-                    OnAttributeChanged(name);
                     break;
                 }
             }
@@ -667,7 +652,6 @@
                 {
                     var name = _attributes[i].Name;
                     _attributes.RemoveAt(i);
-                    OnAttributeChanged(name);
                     break;
                 }
             }
@@ -857,6 +841,28 @@
 
         #region Helpers
 
+        internal override void Close()
+        {
+            base.Close();
+            OnAttributeChanged(AttributeNames.Class, value =>
+            {
+                if (_classList != null)
+                    _classList.Update(value);
+            });
+        }
+
+        /// <summary>
+        /// Adds a new attribute if the attribute is not yet created.
+        /// Does not fire the changed event.
+        /// </summary>
+        /// <param name="name">The name of the attribute as a string.</param>
+        /// <param name="value">The desired new value of the attribute.</param>
+        internal void AddAttribute(String name, String value)
+        {
+            if (!_attributes.Has(name))
+                _attributes.Add(new Attr(_attributes, name, value));
+        }
+
         protected sealed override String LocateNamespace(String prefix)
         {
             return ElementExtensions.LocateNamespace(this, prefix);
@@ -882,17 +888,13 @@
                 target.SetAttribute(source._attributes[i].Name, source._attributes[i].Value);
         }
 
-        /// <summary>
-        /// Called if an attribute changed, has been added or removed.
-        /// </summary>
-        /// <param name="name">The name of the attribute that has been changed.</param>
-        protected virtual void OnAttributeChanged(String name)
+        protected void OnAttributeChanged(String name, Action<String> callback)
         {
-            if (name.Equals(AttributeNames.Class, StringComparison.Ordinal))
+            _attributes.Changed += (s, ev) =>
             {
-                if (_classList != null)
-                    _classList.Update(ClassName);
-            }
+                if (ev.Name.Equals(name, StringComparison.Ordinal))
+                    callback(ev.Value);
+            };
         }
 
         #endregion

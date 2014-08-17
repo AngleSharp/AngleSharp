@@ -222,16 +222,11 @@
             }
         }
 
-        /// <summary>
-        /// Called if an attribute changed, has been added or removed.
-        /// </summary>
-        /// <param name="name">The name of the attribute that has been changed.</param>
-        protected override void OnAttributeChanged(String name)
+        internal override void Close()
         {
-            if (name.Equals(AttributeNames.Value, StringComparison.Ordinal))
-                Value = GetAttribute(AttributeNames.Value);
-            else
-                base.OnAttributeChanged(name);
+            base.Close();
+            OnAttributeChanged(AttributeNames.Value, value => Value = value);
+            Value = GetAttribute(AttributeNames.Value);
         }
 
         /// <summary>
