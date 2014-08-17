@@ -1610,7 +1610,7 @@
                 case HtmlTokenType.Character:
                     if (CurrentNode.IsTableElement())
                     {
-                        InTableText((HtmlCharacterToken)token);
+                        InTableText(token);
                         return;
                     }
 
@@ -1625,7 +1625,7 @@
         /// See 8.2.5.4.10 The "in table text" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InTableText(HtmlCharacterToken token)
+        void InTableText(HtmlToken token)
         {
             var anyAreNotSpaceCharacters = token.HasContent;
 
@@ -1702,10 +1702,9 @@
             {
                 case HtmlTokenType.Character:
                 {
-                    var chars = (HtmlCharacterToken)token;
-                    var str = chars.TrimStart();
+                    var str = token.TrimStart();
                     AddCharacters(str);
-                        return;
+                    return;
                 }
                 case HtmlTokenType.Comment:
                     CurrentNode.AddComment(token.Data);
@@ -1720,14 +1719,18 @@
                     var tagName = token.Name;
 
                     if (tagName == Tags.Html)
+                    {
                         InBody(token);
+                    }
                     else if (tagName == Tags.Col)
                     {
                         AddElement<HTMLTableColElement>(token.AsTag(), true);
                         CloseCurrentNode();
                     }
                     else if (tagName == Tags.Template)
+                    {
                         InHead(token);
+                    }
                     else
                         break;
 
@@ -1763,63 +1766,57 @@
         /// <param name="token">The passed token.</param>
         void InTableBody(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.StartTag)
+            switch (token.Type)
             {
-                var tagName = token.Name;
+                case HtmlTokenType.StartTag:
+                {
+                    var tagName = token.Name;
 
-                if (tagName == Tags.Tr)
-                {
-                    ClearStackBackTo<HTMLTableSectionElement>();
-                    AddElement<HTMLTableRowElement>(token.AsTag());
-                    insert = HtmlTreeMode.InRow;
-                }
-                else if (tagName.IsTableCellElement())
-                {
-                    InTableBody(HtmlToken.OpenTag(Tags.Tr));
-                    InRow(token);
-                }
-                else if (tagName.IsGeneralTableElement())
-                {
-                    InTableBodyCloseTable(token.AsTag());
-                }
-                else
-                {
-                    InTable(token);
-                }
-            }
-            else if (token.Type == HtmlTokenType.EndTag)
-            {
-                var tagName = token.Name;
-
-                if (tagName.IsTableSectionElement())
-                {
-                    if (IsInTableScope(((HtmlTagToken)token).Name))
+                    if (tagName == Tags.Tr)
                     {
                         ClearStackBackTo<HTMLTableSectionElement>();
-                        CloseCurrentNode();
-                        insert = HtmlTreeMode.InTable;
+                        AddElement<HTMLTableRowElement>(token.AsTag());
+                        insert = HtmlTreeMode.InRow;
                     }
-                    else
+                    else if (tagName.IsTableCellElement())
                     {
-                        RaiseErrorOccurred(ErrorCode.TableSectionNotInScope);
+                        InTableBody(HtmlToken.OpenTag(Tags.Tr));
+                        InRow(token);
                     }
+                    else if (tagName.IsGeneralTableElement())
+                        InTableBodyCloseTable(token.AsTag());
+                    else
+                        InTable(token);
+
+                    return;
                 }
-                else if (tagName.IsSpecialTableElement(true))
+                case HtmlTokenType.EndTag:
                 {
-                    RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+                    var tagName = token.Name;
+
+                    if (tagName.IsTableSectionElement())
+                    {
+                        if (IsInTableScope(tagName))
+                        {
+                            ClearStackBackTo<HTMLTableSectionElement>();
+                            CloseCurrentNode();
+                            insert = HtmlTreeMode.InTable;
+                        }
+                        else
+                            RaiseErrorOccurred(ErrorCode.TableSectionNotInScope);
+                    }
+                    else if (tagName.IsSpecialTableElement(true))
+                        RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+                    else if (tagName == Tags.Table)
+                        InTableBodyCloseTable(token.AsTag());
+                    else
+                        InTable(token);
+
+                    return;
                 }
-                else if(tagName == Tags.Table)
-                {
-                    InTableBodyCloseTable(token.AsTag());
-                }
-                else
-                {
+                default:
                     InTable(token);
-                }
-            }
-            else
-            {
-                InTable(token);
+                    return;
             }
         }
 
@@ -1829,65 +1826,63 @@
         /// <param name="token">The passed token.</param>
         void InRow(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.StartTag)
+            switch (token.Type)
             {
-                var tag = (HtmlTagToken)token;
+                case HtmlTokenType.StartTag:
+                {
+                    var tagName = token.Name;
 
-                if (tag.Name.IsTableCellElement())
-                {
-                    ClearStackBackTo<HTMLTableRowElement>();
-                    var element = HtmlElementFactory.Create(tag.Name, doc);
-                    AddElement(element, token.AsTag());
-                    insert = HtmlTreeMode.InCell;
-                    formatting.AddScopeMarker();
-                }
-                else if (tag.Name.IsGeneralTableElement(true))
-                {
-                    if (InRowEndTagTablerow())
-                        InTableBody(token);
-                }
-                else
-                {
-                    InTable(token);
-                }
-            }
-            else if (token.Type == HtmlTokenType.EndTag)
-            {
-                var tag = (HtmlTagToken)token;
-
-                if(tag.Name == Tags.Tr)   
-                {
-                    InRowEndTagTablerow();
-                }
-                else if (tag.Name == Tags.Table)
-                {
-                    if (InRowEndTagTablerow())
-                        InTableBody(token);
-                }
-                else if (tag.Name.IsTableSectionElement())
-                {
-                    if (IsInTableScope(tag.Name))
+                    if (tagName.IsTableCellElement())
                     {
-                        InRowEndTagTablerow();
-                        InTableBody(token);
+                        ClearStackBackTo<HTMLTableRowElement>();
+                        var element = HtmlElementFactory.Create(tagName, doc);
+                        AddElement(element, token.AsTag());
+                        insert = HtmlTreeMode.InCell;
+                        formatting.AddScopeMarker();
+                    }
+                    else if (tagName.IsGeneralTableElement(true))
+                    {
+                        if (InRowEndTagTablerow())
+                            InTableBody(token);
                     }
                     else
+                        InTable(token);
+
+                    return;
+                }
+                case HtmlTokenType.EndTag:
+                {
+                    var tagName = token.Name;
+
+                    if (tagName == Tags.Tr)
                     {
-                        RaiseErrorOccurred(ErrorCode.TableSectionNotInScope);
+                        InRowEndTagTablerow();
                     }
+                    else if (tagName == Tags.Table)
+                    {
+                        if (InRowEndTagTablerow())
+                            InTableBody(token);
+                    }
+                    else if (tagName.IsTableSectionElement())
+                    {
+                        if (IsInTableScope(tagName))
+                        {
+                            InRowEndTagTablerow();
+                            InTableBody(token);
+                        }
+                        else
+                            RaiseErrorOccurred(ErrorCode.TableSectionNotInScope);
+                    }
+                    else if (tagName.IsSpecialTableElement())
+                        RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+                    else
+                        InTable(token);
+
+                    return;
                 }
-                else if (tag.Name.IsSpecialTableElement())
-                {
-                    RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
-                }
-                else
-                {
+                default:
                     InTable(token);
-                }
-            }
-            else
-            {
-                InTable(token);
+                    return;
             }
         }
 
@@ -1897,41 +1892,53 @@
         /// <param name="token">The passed token.</param>
         void InCell(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.EndTag)
+            switch (token.Type)
             {
-                var tag = (HtmlTagToken)token;
-
-                if (tag.Name.IsTableCellElement())
-                    InCellEndTagCell();
-                else if (tag.Name.IsSpecialTableElement())
-                    RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
-                else if (tag.Name.IsTableElement())
+                case HtmlTokenType.StartTag:
                 {
-                    if (IsInTableScope(tag.Name))
+                    var tagName = token.Name;
+
+                    if (tagName.IsGeneralTableElement(true) || tagName.IsTableCellElement())
                     {
+                        if (IsInTableScope(Tags.Td) || IsInTableScope(Tags.Th))
+                        {
+                            InCellEndTagCell();
+                            Home(token);
+                        }
+                        else
+                            RaiseErrorOccurred(ErrorCode.TableCellNotInScope);
+
+                        return;
+                    }
+
+                    break;
+                }
+                case HtmlTokenType.EndTag:
+                {
+                    var tagName = token.Name;
+
+                    if (tagName.IsTableCellElement())
                         InCellEndTagCell();
-                        Home(token);
+                    else if (tagName.IsSpecialTableElement())
+                        RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+                    else if (tagName.IsTableElement())
+                    {
+                        if (IsInTableScope(tagName))
+                        {
+                            InCellEndTagCell();
+                            Home(token);
+                        }
+                        else
+                            RaiseErrorOccurred(ErrorCode.TableNotInScope);
                     }
                     else
-                        RaiseErrorOccurred(ErrorCode.TableNotInScope);
-                }
-                else
-                    InBody(token);
-            }
-            else if (token.Type == HtmlTokenType.StartTag && (((HtmlTagToken)token).Name.IsGeneralTableElement(true) || ((HtmlTagToken)token).Name.IsTableCellElement()))
-            {
-                var tag = (HtmlTagToken)token;
+                        InBody(token);
 
-                if (IsInTableScope(Tags.Td) || IsInTableScope(Tags.Th))
-                {
-                    InCellEndTagCell();
-                    Home(token);
+                    return;
                 }
-                else
-                    RaiseErrorOccurred(ErrorCode.TableCellNotInScope);
             }
-            else
-                InBody(token);
+
+            InBody(token);
         }
 
         /// <summary>
@@ -1940,38 +1947,34 @@
         /// <param name="token">The passed token.</param>
         void InSelect(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.Character)
+            switch (token.Type)
             {
-                AddCharacters(((HtmlCharacterToken)token).Data);
-            }
-            else if (token.Type == HtmlTokenType.Comment)
-            {
-                CurrentNode.AddComment(token.Data);
-            }
-            else if (token.Type == HtmlTokenType.DOCTYPE)
-            {
-                RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
-            }
-            else if (token.Type == HtmlTokenType.StartTag)
-            {
-                var tag = (HtmlTagToken)token;
+                case HtmlTokenType.Character:
+                    AddCharacters(token.Data);
+                    return;
 
-                switch (tag.Name)
+                case HtmlTokenType.Comment:
+                    CurrentNode.AddComment(token.Data);
+                    return;
+
+                case HtmlTokenType.DOCTYPE:
+                    RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
+                    return;
+
+                case HtmlTokenType.StartTag:
                 {
-                    case Tags.Html:
-                    {
+                    var tagName = token.Name;
+
+                    if (tagName == Tags.Html)
                         InBody(token);
-                        break;
-                    }
-                    case Tags.Option:
+                    else if (tagName == Tags.Option)
                     {
                         if (CurrentNode is HTMLOptionElement)
                             InSelectEndTagOption();
 
                         AddElement<HTMLOptionElement>(token.AsTag());
-                        break;
                     }
-                    case Tags.Optgroup:
+                    else if (tagName == Tags.Optgroup)
                     {
                         if (CurrentNode is HTMLOptionElement)
                             InSelectEndTagOption();
@@ -1980,17 +1983,13 @@
                             InSelectEndTagOptgroup();
 
                         AddElement<HTMLOptGroupElement>(token.AsTag());
-                        break;
                     }
-                    case Tags.Select:
+                    else if (tagName == Tags.Select)
                     {
                         RaiseErrorOccurred(ErrorCode.SelectNesting);
                         InSelectEndTagSelect();
-                        break;
                     }
-                    case Tags.Input:
-                    case Tags.Keygen:
-                    case Tags.Textarea:
+                    else if (tagName.IsOneOf(Tags.Input, Tags.Keygen, Tags.Textarea))
                     {
                         RaiseErrorOccurred(ErrorCode.IllegalElementInSelectDetected);
 
@@ -1999,66 +1998,43 @@
                             InSelectEndTagSelect();
                             Home(token);
                         }
-
-                        break;
                     }
-                    case Tags.Template:
-                    case Tags.Script:
-                    {
+                    else if (tagName.IsOneOf(Tags.Template, Tags.Script))
                         InHead(token);
-                        break;
-                    }
-                    default:
-                    {
+                    else
                         RaiseErrorOccurred(ErrorCode.IllegalElementInSelectDetected);
-                        break;
-                    }
-                }
-            }
-            else if (token.Type == HtmlTokenType.EndTag)
-            {
-                var tag = (HtmlTagToken)token;
 
-                switch (tag.Name)
+                    return;
+                }
+                case HtmlTokenType.EndTag:
                 {
-                    case Tags.Template:
-                    {
+                    var tagName = token.Name;
+
+                    if (tagName == Tags.Template)
                         InHead(token);
-                        break;
-                    }
-                    case Tags.Optgroup:
-                    {
+                    else if (tagName == Tags.Optgroup)
                         InSelectEndTagOptgroup();
-                        break;
-                    }
-                    case Tags.Option:
-                    {
+                    else if (tagName == Tags.Option)
                         InSelectEndTagOption();
-                        break;
-                    }
-                    case Tags.Select:
+                    else if (tagName == Tags.Select)
                     {
                         if (IsInSelectScope(Tags.Select))
                             InSelectEndTagSelect();
                         else
                             RaiseErrorOccurred(ErrorCode.SelectNotInScope);
-
-                        break;
                     }
-                    default:
-                    {
+                    else
                         RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
-                        break;
-                    }
+
+                    return;
                 }
-            }
-            else if (token.Type == HtmlTokenType.EOF)
-            {
-                InBody(token);
-            }
-            else
-            {
-                RaiseErrorOccurred(ErrorCode.TokenNotPossible);
+                case HtmlTokenType.EOF:
+                    InBody(token);
+                    return;
+
+                default:
+                    RaiseErrorOccurred(ErrorCode.TokenNotPossible);
+                    return;
             }
         }
 
@@ -2068,31 +2044,44 @@
         /// <param name="token">The passed token.</param>
         void InSelectInTable(HtmlToken token)
         {
-            var tag = token as HtmlTagToken;
-
-            if (tag != null && (tag.Name.IsTableCellElement() || tag.Name.IsTableElement() || tag.Name == Tags.Caption))
+            switch (token.Type)
             {
-                if (token.Type == HtmlTokenType.StartTag)
+                case HtmlTokenType.StartTag:
                 {
-                    RaiseErrorOccurred(ErrorCode.IllegalElementInSelectDetected);
-                    InSelectEndTagSelect();
-                    Home(token);
-                }
-                else
-                {
-                    RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+                    var tagName = token.Name;
 
-                    if (IsInTableScope(tag.Name))
+                    if (tagName.IsTableCellElement() || tagName.IsTableElement() || tagName == Tags.Caption)
                     {
+                        RaiseErrorOccurred(ErrorCode.IllegalElementInSelectDetected);
                         InSelectEndTagSelect();
                         Home(token);
+                        return;
                     }
+
+                    break;
+                }
+                case HtmlTokenType.EndTag:
+                {
+                    var tagName = token.Name;
+
+                    if (tagName.IsTableCellElement() || tagName.IsTableElement() || tagName == Tags.Caption)
+                    {
+                        RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+
+                        if (IsInTableScope(tagName))
+                        {
+                            InSelectEndTagSelect();
+                            Home(token);
+                        }
+
+                        return;
+                    }
+
+                    break;
                 }
             }
-            else
-            {
-                InSelect(token);
-            }
+
+            InSelect(token);
         }
 
         /// <summary>
@@ -2103,71 +2092,33 @@
         {
             switch (token.Type)
             {
-                case HtmlTokenType.Character:
-                case HtmlTokenType.Comment:
-                case HtmlTokenType.DOCTYPE:
-                {
-                    InBody(token);
-                    break;
-                }
                 case HtmlTokenType.StartTag:
                 {
-                    var tag = (HtmlTagToken)token;
+                    var tagName = token.Name;
 
-                    switch (tag.Name)
-                    {
-                        case Tags.Base:
-                        case Tags.BaseFont:
-                        case Tags.Link:
-                        case Tags.Meta:
-                        case Tags.Bgsound:
-                        case Tags.NoFrames:
-                        case Tags.Script:
-                        case Tags.Style:
-                        case Tags.Template:
-                        case Tags.Title:
-                            InHead(token);
-                            break;
+                    if (tagName.IsOneOf(Tags.Link, Tags.Meta, Tags.Script, Tags.Style) || tagName.IsOneOf(Tags.Base, Tags.BaseFont, Tags.Bgsound, Tags.NoFrames, Tags.Template, Tags.Title))
+                        InHead(token);
+                    else if (tagName.IsOneOf(Tags.Caption, Tags.Colgroup, Tags.Tbody, Tags.Tfoot, Tags.Thead))
+                        TemplateStep(token, HtmlTreeMode.InTable);
+                    else if (tagName == Tags.Col)
+                        TemplateStep(token, HtmlTreeMode.InColumnGroup);
+                    else if (tagName == Tags.Tr)
+                        TemplateStep(token, HtmlTreeMode.InTableBody);
+                    else if (tagName.IsOneOf(Tags.Td, Tags.Th))
+                        TemplateStep(token, HtmlTreeMode.InRow);
+                    else
+                        TemplateStep(token, HtmlTreeMode.InBody);
 
-                        case Tags.Caption:
-                        case Tags.Colgroup:
-                        case Tags.Tbody:
-                        case Tags.Tfoot:
-                        case Tags.Thead:
-                            TemplateStep(token, HtmlTreeMode.InTable);
-                            break;
-
-                        case Tags.Col:
-                            TemplateStep(token, HtmlTreeMode.InColumnGroup);
-                            break;
-
-                        case Tags.Tr:
-                            TemplateStep(token, HtmlTreeMode.InTableBody);
-                            break;
-
-                        case Tags.Td:
-                        case Tags.Th:
-                            TemplateStep(token, HtmlTreeMode.InRow);
-                            break;
-
-                        default:
-                            TemplateStep(token, HtmlTreeMode.InBody);
-                            break;
-                    }
-
-                    break;
+                    return;
                 }
                 case HtmlTokenType.EndTag:
-                {
-                    var tag = (HtmlTagToken)token;
-
-                    if (tag.Name == Tags.Template)
+                    if (token.Name == Tags.Template)
                         InHead(token);
                     else
                         RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
 
-                    break;
-                }
+                    return;
+
                 case HtmlTokenType.EOF:
                     if (TagCurrentlyOpen(Tags.Template))
                     {
@@ -2178,7 +2129,11 @@
                     }
 
                     End();
-                    break;
+                    return;
+
+                default:
+                    InBody(token);
+                    return;
             }
         }
 
@@ -2190,12 +2145,11 @@
         {
             if (token.Type == HtmlTokenType.Character)
             {
-                var chars = (HtmlCharacterToken)token;
-                var str = chars.TrimStart();
+                var str = token.TrimStart();
                 ReconstructFormatting();
                 AddCharacters(str);
 
-                if (chars.IsEmpty)
+                if (token.IsEmpty)
                     return;
             }
             else if (token.Type == HtmlTokenType.Comment)
@@ -2238,11 +2192,10 @@
         {
             if (token.Type == HtmlTokenType.Character)
             {
-                var chrs = (HtmlCharacterToken)token;
-                var str = chrs.TrimStart();
+                var str = token.TrimStart();
                 AddCharacters(str);
 
-                if (chrs.IsEmpty)
+                if (token.IsEmpty)
                     return;
             }
             else if (token.Type == HtmlTokenType.Comment)
@@ -2257,25 +2210,25 @@
             }
             else if (token.Type == HtmlTokenType.StartTag)
             {
-                var tag = (HtmlTagToken)token;
+                var tagName = token.Name;
 
-                if (tag.Name == Tags.Html)
+                if (tagName == Tags.Html)
                 {
                     InBody(token);
                     return;
                 }
-                else if (tag.Name == Tags.Frameset)
+                else if (tagName == Tags.Frameset)
                 {
                     AddElement<HTMLFrameSetElement>(token.AsTag());
                     return;
                 }
-                else if (tag.Name == Tags.Frame)
+                else if (tagName == Tags.Frame)
                 {
                     AddElement<HTMLFrameElement>(token.AsTag(), true);
                     CloseCurrentNode();
                     return;
                 }
-                else if (tag.Name == Tags.NoFrames)
+                else if (tagName == Tags.NoFrames)
                 {
                     InHead(token);
                     return;
@@ -2315,11 +2268,10 @@
         {
             if (token.Type == HtmlTokenType.Character)
             {
-                var chrs = (HtmlCharacterToken)token;
-                var str = chrs.TrimStart();
+                var str = token.TrimStart();
                 AddCharacters(str);
 
-                if (chrs.IsEmpty)
+                if (token.IsEmpty)
                     return;
             }
             else if (token.Type == HtmlTokenType.Comment)
@@ -2334,14 +2286,14 @@
             }
             else if (token.Type == HtmlTokenType.StartTag)
             {
-                var tag = (HtmlTagToken)token;
+                var tagName = token.Name;
 
-                if (tag.Name == Tags.Html)
+                if (tagName == Tags.Html)
                 {
                     InBody(token);
                     return;
                 }
-                else if (tag.Name == Tags.NoFrames)
+                else if (tagName == Tags.NoFrames)
                 {
                     InHead(token);
                     return;
@@ -2374,12 +2326,11 @@
             }
             else if (token.Type == HtmlTokenType.Character)
             {
-                var chrs = (HtmlCharacterToken)token;
-                var str = chrs.TrimStart();
+                var str = token.TrimStart();
                 ReconstructFormatting();
                 AddCharacters(str);
 
-                if (chrs.IsEmpty)
+                if (token.IsEmpty)
                     return;
             }
             else if (token.Type == HtmlTokenType.DOCTYPE || token.IsStartTag(Tags.Html))
@@ -2411,12 +2362,11 @@
             }
             else if (token.Type == HtmlTokenType.Character)
             {
-                var chrs = (HtmlCharacterToken)token;
-                var str = chrs.TrimStart();
+                var str = token.TrimStart();
                 ReconstructFormatting();
                 AddCharacters(str);
 
-                if (chrs.IsEmpty)
+                if (token.IsEmpty)
                     return;
             }
             else if (token.Type == HtmlTokenType.DOCTYPE || token.IsStartTag(Tags.Html))
@@ -3047,10 +2997,9 @@
         {
             if (token.Type == HtmlTokenType.Character)
             {
-                var chrs = (HtmlCharacterToken)token;
-                AddCharacters(chrs.Data.Replace(Specification.Null, Specification.Replacement));
+                AddCharacters(token.Data.Replace(Specification.Null, Specification.Replacement));
 
-                if (chrs.HasContent)
+                if (token.HasContent)
                     frameset = false;
             }
             else if (token.Type == HtmlTokenType.Comment)
@@ -3063,11 +3012,14 @@
             }
             else if (token.Type == HtmlTokenType.StartTag)
             {
-                var tag = (HtmlTagToken)token;
+                var tagName = token.Name;
 
-                switch (tag.Name)
+                switch (tagName)
                 {
                     case Tags.Font:
+                    {
+                        var tag = token.AsTag();
+
                         for (var i = 0; i != tag.Attributes.Count; i++)
                         {
                             if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
@@ -3079,7 +3031,7 @@
 
                         ForeignSpecialTag(tag);
                         break;
-
+                    }
                     case Tags.B:
                     case Tags.Big:
                     case Tags.BlockQuote:
@@ -3129,24 +3081,24 @@
                         break;
 
                     default:
-                        ForeignSpecialTag(tag);
+                        ForeignSpecialTag(token.AsTag());
                         break;
                 }
             }
             else if (token.Type == HtmlTokenType.EndTag)
             {
-                var tag = (HtmlTagToken)token;
+                var tagName = token.Name;
                 var node = CurrentNode;
                 var script = node as HTMLScriptElement;
 
                 if (script == null)
                 {
-                    if (node.NodeName != tag.Name)
+                    if (node.NodeName != tagName)
                         RaiseErrorOccurred(ErrorCode.TagClosingMismatch);
 
                     for (int i = open.Count - 1; i > 0; i--)
                     {
-                        if (node.NodeName.Equals(tag.Name, StringComparison.OrdinalIgnoreCase))
+                        if (node.NodeName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
                         {
                             open.RemoveRange(i + 1, open.Count - i - 1);
                             CloseCurrentNode();
