@@ -608,10 +608,16 @@
                     if (_attributes[i].Name == name)
                     {
                         _attributes[i].Value = value;
+                        //TODO
+                        // Queue a mutation record of "attributes" for element with name attribute's
+                        // local name, namespace attribute's namespace, and oldValue attribute's value.
                         return;
                     }
                 }
 
+                //TODO
+                // Queue a mutation record of "attributes" for element with name attribute's
+                // local name, namespace attribute's namespace, and oldValue null.
                 _attributes.Add(new Attr(_attributes, name, value));
             }
             else
@@ -655,10 +661,16 @@
                     if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                     {
                         _attributes[i].Value = value;
+                        //TODO
+                        // Queue a mutation record of "attributes" for element with name attribute's
+                        // local name, namespace attribute's namespace, and oldValue attribute's value.
                         return;
                     }
                 }
 
+                //TODO
+                // Queue a mutation record of "attributes" for element with name attribute's
+                // local name, namespace attribute's namespace, and oldValue null.
                 _attributes.Add(new Attr(_attributes, prefix, localName, value, namespaceUri));
             }
             else
@@ -680,6 +692,9 @@
                 if (_attributes[i].Name == name)
                 {
                     _attributes.RemoveAt(i);
+                    //TODO
+                    // Queue a mutation record of "attributes" for element with name attribute's
+                    // local name, namespace attribute's namespace, and oldValue attribute's value.
                     return;
                 }
             }
@@ -700,8 +715,10 @@
             {
                 if (_attributes[i].LocalName == localName && _attributes[i].NamespaceUri == namespaceUri)
                 {
-                    var name = _attributes[i].Name;
                     _attributes.RemoveAt(i);
+                    //TODO
+                    // Queue a mutation record of "attributes" for element with name attribute's
+                    // local name, namespace attribute's namespace, and oldValue attribute's value.
                     return;
                 }
             }
